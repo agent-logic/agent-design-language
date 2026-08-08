@@ -19,5 +19,12 @@ common directory. It is a rebuildable cache, not a new lifecycle record. The
 command never edits tracked cards after merge, opens a closeout PR, or removes a
 worktree.
 
+When publication evidence names a PR repository different from the issue
+record repository, finish treats the record repository as issue authority and
+the publication repository as code/PR authority. It requires the exact
+qualified closing relationship, PR repository, base, head, and head SHA, then
+re-observes the preserved issue as closed before deriving terminal success. A
+merged canonical PR with an open preserved issue remains nonterminal.
+
 Run cleanup separately. Historical terminal records and retained receipts are
 read-only compatibility evidence; finish never rewrites them.

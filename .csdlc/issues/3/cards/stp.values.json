@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 3,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Support canonical PRs closing preserved legacy issues",
+    "slug": "v0-92-csdlc-v2-cross-repository-publication",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Close only the remaining production, regression-proof, schema, documentation, and canary-evidence gaps in issue #3.",
+      "deliverables": [
+        "Exact effective fetch and push remote verification",
+        "Exhaustive unambiguous matching-PR reconciliation",
+        "Focused split-authority regression suite",
+        "Updated typed operator and GitHub-client contracts",
+        "Live canonical-PR to preserved-issue canary evidence"
+      ],
+      "acceptance_criteria": [
+        "Typed publication represents the canonical code/PR repository separately from the preserved issue repository and issue number",
+        "Git fetch and effective push remotes, observed base/head repositories, pushed branch, and PR match the canonical code repository exactly",
+        "Split-authority PR bodies require a valid qualified closing keyword for the preserved tracker issue",
+        "Same-repository publication remains backward compatible and fail-closed",
+        "Cross-repository publication rejects unqualified linkage, tracker mismatch, fork/base/head drift, ambiguous matches, stale exact-head review, and push-URL substitution",
+        "Public schemas, focused tests, typed operator documentation, publication evidence, readiness, and finish validation cover both identities",
+        "Retained live evidence proves canonical Agent Logic PR #5 closed preserved legacy issue #5901 without a legacy code push"
+      ],
+      "dependencies": [
+        "Merged canonical PR #5 / issue #5901 split-authority baseline",
+        "Current canonical Agent Logic main"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/bin/csdlc-publish.rs",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/tests/gate6.rs",
+        "csdlc-v2/tests/gate_finish.rs",
+        ".csdlc/issues/5901/index.json",
+        ".csdlc/evidence/5901/split-authority-validation.json"
+      ],
+      "non_goals": [
+        "Issue-tracker migration or renumbering",
+        "Historical lifecycle rewrite",
+        "Legacy repository code, refs, settings, or pull-request mutation",
+        "AWS, CI policy, or unrelated workflow changes"
+      ]
+    }
+  }
+}

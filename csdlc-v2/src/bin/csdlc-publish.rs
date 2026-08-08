@@ -176,12 +176,15 @@ fn verify_git_remote(
     remote_name: &str,
     intent: &PublicationIntent,
 ) -> csdlc_v2::Result<()> {
-    let url = csdlc_v2::git::run(root, &["remote", "get-url", remote_name])?.stdout;
-    let trimmed = url.trim_end_matches(".git");
-    if !remote_url_matches(trimmed, &intent.repository) {
+    let fetch_urls = csdlc_v2::git::run(root, &["remote", "get-url", "--all", remote_name])?.stdout;
+    let push_urls =
+        csdlc_v2::git::run(root, &["remote", "get-url", "--push", "--all", remote_name])?.stdout;
+    if !remote_urls_match(&fetch_urls, &intent.repository)
+        || !remote_urls_match(&push_urls, &intent.repository)
+    {
         return Err(V2Error::new(
             ErrorCode::UnsafeCheckout,
-            "configured Git remote does not match publication repository",
+            "configured Git fetch or effective push remote does not match publication repository",
         ));
     }
     csdlc_v2::git::run(
@@ -199,6 +202,15 @@ fn verify_git_remote(
         )
     })?;
     Ok(())
+}
+
+fn remote_urls_match(value: &str, repository: &str) -> bool {
+    let mut urls = value.lines().map(str::trim).filter(|url| !url.is_empty());
+    let Some(first) = urls.next() else {
+        return false;
+    };
+    remote_url_matches(first.trim_end_matches(".git"), repository)
+        && urls.all(|url| remote_url_matches(url.trim_end_matches(".git"), repository))
 }
 
 fn remote_url_matches(value: &str, repository: &str) -> bool {
@@ -224,16 +236,25 @@ async fn find_pr(
         .state(State::Open)
         .head(head)
         .base(&intent.base)
+        .per_page(100)
         .send()
         .await
         .map_err(|e| remote(e.to_string()))?;
-    if page.items.len() > 1 {
+    let items = crab
+        .all_pages(page)
+        .await
+        .map_err(|e| remote(e.to_string()))?;
+    select_unique(items)
+}
+
+fn select_unique<T>(mut items: Vec<T>) -> csdlc_v2::Result<Option<T>> {
+    if items.len() > 1 {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
             "multiple matching PRs observed",
         ));
     }
-    Ok(page.items.into_iter().next())
+    Ok(items.pop())
 }
 
 fn normalize(
@@ -377,9 +398,19 @@ fn reconcile_create_observation(send_failed: bool, observed: bool) -> csdlc_v2::
 mod tests {
     use super::{
         existing_pr_matches_governed_mode, reconcile_create_observation, remote_url_matches,
-        validate_observed_repository_identity,
+        remote_urls_match, select_unique, validate_observed_repository_identity, verify_git_remote,
     };
     use csdlc_v2::{PublicationIntent, RemotePullRequest};
+    use std::process::Command;
+
+    fn git(root: &std::path::Path, args: &[&str]) {
+        assert!(Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .status()
+            .expect("run git")
+            .success());
+    }
 
     #[test]
     fn remote_url_requires_exact_github_host_and_repository() {
@@ -400,6 +431,83 @@ mod tests {
             "https://github.com/other/agent-design-language",
             repo
         ));
+    }
+
+    #[test]
+    fn every_effective_fetch_and_push_url_must_match_the_code_repository() {
+        let repo = "agent-logic/agent-design-language";
+        assert!(remote_urls_match(
+            "https://github.com/agent-logic/agent-design-language.git\n",
+            repo
+        ));
+        assert!(remote_urls_match(
+            "git@github.com:agent-logic/agent-design-language.git\nhttps://github.com/agent-logic/agent-design-language.git\n",
+            repo
+        ));
+        assert!(!remote_urls_match("", repo));
+        assert!(!remote_urls_match(
+            "https://github.com/agent-logic/agent-design-language.git\nhttps://github.com/danielbaustin/agent-design-language.git\n",
+            repo
+        ));
+    }
+
+    #[test]
+    fn substituted_pushurl_is_rejected_before_publication_push() {
+        let temp = tempfile::tempdir().expect("temp repo");
+        git(temp.path(), &["init", "-b", "main"]);
+        git(
+            temp.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+        git(temp.path(), &["commit", "--allow-empty", "-m", "base"]);
+        git(
+            temp.path(),
+            &[
+                "remote",
+                "add",
+                "origin",
+                "https://github.com/agent-logic/agent-design-language.git",
+            ],
+        );
+        git(
+            temp.path(),
+            &["update-ref", "refs/remotes/origin/main", "HEAD"],
+        );
+
+        let intent = PublicationIntent {
+            schema: "csdlc.publication_intent.v1".into(),
+            issue: 3,
+            repository: "agent-logic/agent-design-language".into(),
+            issue_repository: "danielbaustin/agent-design-language".into(),
+            base: "main".into(),
+            head: "codex/3".into(),
+            title: "title".into(),
+            body: "Closes danielbaustin/agent-design-language#3".into(),
+            draft: false,
+            revision: "revision".into(),
+            commit_sha: "sha".into(),
+        };
+        assert!(verify_git_remote(temp.path(), "origin", &intent).is_ok());
+
+        git(
+            temp.path(),
+            &[
+                "remote",
+                "set-url",
+                "--push",
+                "origin",
+                "https://github.com/danielbaustin/agent-design-language.git",
+            ],
+        );
+        assert!(verify_git_remote(temp.path(), "origin", &intent).is_err());
+    }
+
+    #[test]
+    fn exhaustive_pr_results_must_be_unique() {
+        assert_eq!(select_unique::<u8>(vec![]).unwrap(), None);
+        assert_eq!(select_unique(vec![7_u8]).unwrap(), Some(7));
+        assert!(select_unique(vec![7_u8, 8_u8]).is_err());
     }
 
     #[test]

@@ -1,0 +1,71 @@
+
+running 7 tests
+test tests::normalization_rejects_fork_or_missing_repository_identity ... ok
+test tests::ambiguous_create_failure_observes_before_deciding_retry ... ok
+test tests::exhaustive_pr_results_must_be_unique ... ok
+test tests::existing_split_authority_pr_requires_qualified_issue_linkage ... ok
+test tests::remote_url_requires_exact_github_host_and_repository ... ok
+test tests::every_effective_fetch_and_push_url_must_match_the_code_repository ... ok
+Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmpiHf2S5/.git/
+[main (root-commit) 9ab3775] base
+test tests::substituted_pushurl_is_rejected_before_publication_push ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+
+running 14 tests
+test missing_incomplete_stale_and_unresolved_review_fail_closed ... ok
+test out_of_scope_finding_must_remain_visible_and_routed ... ok
+test guard_rejects_malformed_fixed_and_accepted_risk_evidence ... ok
+test exact_completed_review_with_resolved_findings_is_publishable ... ok
+test guard_cli_is_read_only_and_returns_typed_truth ... ok
+test non_substantive_exception_is_narrow_and_machine_proven ... ok
+test substantive_revision_honors_review_scope_pathspecs ... ok
+test typed_publication_metadata_commit_does_not_stale_review_but_source_drift_does ... ok
+test dirty_substantive_tree_is_rejected_before_review_assignment ... ok
+test direct_exact_review_records_and_advances_without_assignment ... ok
+test metadata_only_changes_do_not_stale_a_clean_review ... ok
+test assignment_and_recording_update_index_and_srp_without_publication_side_effect ... ok
+test doctor_accepts_committed_typed_metadata_after_review ... ok
+test reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.63s
+
+
+running 6 tests
+test ambiguous_create_outage_is_reconciled_by_observation_before_retry ... ok
+test drifted_mutable_fields_update_same_pr ... ok
+test canonical_code_pr_can_close_a_legacy_issue_with_qualified_linkage ... ok
+test base_head_or_repository_mismatch_fails_closed ... ok
+test publication_body_requires_github_closing_keyword_for_issue ... ok
+test public_schema_keeps_publication_and_drops_merged_reconciliation ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 17 tests
+test open_issue_without_pr_is_not_terminal ... ok
+test historical_finish_rejects_open_or_mismatched_remote_identity ... ok
+test closed_no_pr_requires_canonical_github_approval_label ... ok
+test historical_request_fields_are_disposition_conditional ... ok
+test historical_finish_requires_one_exact_closing_pr_candidate ... ok
+test canonical_code_pr_derives_terminal_for_legacy_issue_authority ... ok
+test historical_non_merged_dispositions_require_explicit_authority ... ok
+test historical_finish_repeat_reuses_stable_terminal_authority ... ok
+test historical_merged_finish_is_exact_and_does_not_invent_publication ... ok
+test finish_uses_the_canonical_issue_authority_lock ... ok
+test published_finish_accepts_matching_git_topology ... ok
+test terminal_cache_rejects_symlinked_git_common_parent ... ok
+test concurrent_identical_finish_retention_converges ... ok
+test closed_no_pr_terminal_cache_is_minimal_rebuildable_and_idempotent ... ok
+test mutable_terminal_cache_is_replaceable_by_a_fresher_live_observation ... ok
+test finish_binary_validates_cached_terminal_without_remote_mutation ... ok
+test publication_accepts_clean_forward_csdlc_metadata_only_head ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running unittests src/bin/csdlc-publish.rs (../adl-builds/csdlc-v2-issue-3/debug/deps/csdlc_publish-a20f62cb1d985268)
+     Running tests/gate5.rs (../adl-builds/csdlc-v2-issue-3/debug/deps/gate5-b91e2044703e0728)
+     Running tests/gate6.rs (../adl-builds/csdlc-v2-issue-3/debug/deps/gate6-60dc8c9a897168db)
+     Running tests/gate_finish.rs (../adl-builds/csdlc-v2-issue-3/debug/deps/gate_finish-9738ea4050a0ec47)
