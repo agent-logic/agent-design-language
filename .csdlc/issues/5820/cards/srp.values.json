@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-03] Runtime launch and resilience consolidation",
     "slug": "v0-92-wp-03-runtime-launch-and-resilience-consolidation",
     "version": "v0.92",
-    "generation": 48
+    "generation": 51
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime/src/guardian.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\nadl/tools/validate_v092_runtime_native_receipts.rb\nadl/tools/run_aws_spot_remote_validation_lane.sh\nadl/tools/test_run_aws_spot_remote_validation_lane.sh\n.csdlc/issues/5820\n.csdlc/evidence/5820\n.csdlc/prepared/issues/5820",
-      "review_revision": "git-blake3:5e878bea79a8247aa9d514b9afb791576624ce8a:69a279cd5d625145934f58c6f701d9f5541a0e53e0587ea8c296956229396cb6",
-      "reviewer": "subagent:Leibniz",
+      "review_scope": "adl-runtime/src/guardian.rs",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is Guardian the only production process owner and is one init file truly authoritative?",
         "Can configuration, provider, network time, certificate, Vector, or Observatory failure kill or deadlock the kernel?",
@@ -24,13 +24,8 @@
         "Are macOS, Linux, and native Windows claims exact and is WP-04/WP-14/WP-18A scope excluded?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Native Windows behavior remains untested and explicitly blocked under AC-7.",
-        "Approximately 80 MB of compressed native proof binaries is retained in Git history.",
-        "Gzip verification has no explicit expansion-size ceiling; future archive replacements require exact review.",
-        "The EBS deletion receipt is repository evidence rather than independently signed AWS attestation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

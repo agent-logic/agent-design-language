@@ -12,18 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/config.rs
-adl-runtime/src/bin/adl-runtime-guardian.rs
-adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
 adl-runtime/src/guardian.rs
-adl-runtime/tests/runtime_guardian_lifecycle.rs
-adl/tools/validate_v092_runtime_guardian_lifecycle.sh
-adl/tools/validate_v092_runtime_native_receipts.rb
-adl/tools/run_aws_spot_remote_validation_lane.sh
-adl/tools/test_run_aws_spot_remote_validation_lane.sh
-.csdlc/issues/5820
-.csdlc/evidence/5820
-.csdlc/prepared/issues/5820
 
 ## Prompts
 
@@ -43,15 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Native Windows behavior remains untested and explicitly blocked under AC-7.
-- Approximately 80 MB of compressed native proof binaries is retained in Git history.
-- Gzip verification has no explicit expansion-size ceiling; future archive replacements require exact review.
-- The EBS deletion receipt is repository evidence rather than independently signed AWS attestation.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:5e878bea79a8247aa9d514b9afb791576624ce8a:69a279cd5d625145934f58c6f701d9f5541a0e53e0587ea8c296956229396cb6")
+Revision: None
 
-Reviewer: Some("subagent:Leibniz")
+Reviewer: None
 
-Result: pass
+Result: pre_review

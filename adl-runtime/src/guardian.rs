@@ -2066,6 +2066,7 @@ fn main() {
     let address = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS").unwrap();
     let token = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_TOKEN").unwrap();
     let counter = std::env::args().nth(1).unwrap();
+    std::thread::sleep(Duration::from_millis(150));
     let mut stream = TcpStream::connect(address).unwrap();
     stream.write_all(token.as_bytes()).unwrap();
     let mut acknowledgement = [0_u8; 2];
