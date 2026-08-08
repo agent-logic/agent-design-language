@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #47 typed Rust selector classification, diagnostics, focused exact/broad/invalid proof, and directly affected active planning guidance.
+csdlc-v2/src/cards.rs
+csdlc-v2/tests/validation_selectors.rs
+csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
+.csdlc/issues/47
 
 ## Prompts
 

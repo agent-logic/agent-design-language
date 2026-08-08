@@ -5,10 +5,20 @@
   "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
   "phase": "implemented",
   "generation": 13,
-  "digest": "055b206d7cd132cff3b442b7ac4f169df29ba4418e6d50edeadb1d6d32e1fc5f",
+  "digest": "9795162037bc558d669adbe526d8faed5d24cd99e97cba3153e5f6d626200e85",
   "branch": "codex/47-exact-rust-test-selectors",
   "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:issue-47-exact-head-review",
+    "assigned_by": "codex:issue-47-implementation",
+    "revision": "git-blake3:ff27b9d25ddeb20b3b4a3781f11af76469b29c91:4929bb9711bc3896e82cbfebb99de87afda86369e64865c07235d9b718ef6ff2",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/validation_selectors.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      ".csdlc/issues/47"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "fd04b2f3ee8380c8e8a845c660ade9709e2dac18d5849d7b261838ee5515b292"
     },
     "srp": {
-      "values_digest": "1def67293fb6d775873eca8dc8bfba427777571edd9d25e2b8159b3e29419397",
-      "rendered_digest": "9f65aa6dd3ff01af9976e0158abcc41ae5bae892b61d7fd21147657e7b9bb94f",
-      "ast_digest": "a93233f2d9a152d5bdbf0519fad35947b7471567d628ce82f3d12583fb2d3964"
+      "values_digest": "191917d63d9914094c402702a1b1ca4847bf1913924d38498401c5948eb0d9f4",
+      "rendered_digest": "2544c3b46d0b0b54dc4dc3e723e60249b13ee30c3076ade2b3af991f955a6d9e",
+      "ast_digest": "f613b6aab0d36660f93e69eb359248bdaf44c5d0220c2e65068827a05298abbe"
     },
     "sor": {
       "values_digest": "4986e3765e93b617237bb4cc091c4fec16a572b82c15a0939cbe41eceb7d104f",
@@ -182,6 +192,13 @@
       "actor": "codex:issue-47-validation-repair",
       "reason": "Replace an abstract proof phrase with the concrete issue-owned test target after implemented-phase validation exposed the stale denominator.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed exact, broad, and invalid Rust selector classification\",\"Planning-time diagnostics for missing, conflicting, or ambiguous target selectors\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/src/cards.rs validator integration\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
