@@ -34,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted integration proof remains deferred to the exact published PR head.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8f78d2d1ca4bf29051e1971ac82986b66230b2a1:0771d7304528a89df4d34165383958f3fdefb07b51d28398be1831cc84124702")
 
-Reviewer: None
+Reviewer: Some("codex:issue-47-exact-head-review")
 
-Result: pre_review
+Result: pass

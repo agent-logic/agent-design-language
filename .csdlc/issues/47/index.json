@@ -3,9 +3,9 @@
   "issue": 47,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "df426d7f0beaa1787ffa8e5ca0332563222625b995ff8e579edf6502bc5523cd",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "7bc6528372791b8b96494055297759c7bb2a9e15c4caa673c80a5c50245c7c93",
   "branch": "codex/47-exact-rust-test-selectors",
   "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
   "review_assignment": {
@@ -18,7 +18,21 @@
       "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:issue-47-exact-head-review",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/validation_selectors.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+    ],
+    "reviewed_revision": "git-blake3:8f78d2d1ca4bf29051e1971ac82986b66230b2a1:0771d7304528a89df4d34165383958f3fdefb07b51d28398be1831cc84124702",
+    "findings": [],
+    "residual_risks": [
+      "Hosted integration proof remains deferred to the exact published PR head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "650327741af98154d4c477595bc659a285eec81da883894c7e498dcdaf7fd82d",
+      "values_digest": "cfc95b2c04f986250d9b89e1bf091883df27fd7ec8f394091c922d89b274d5a2",
       "rendered_digest": "733dcb06dddaa768a73faa1ce4928177e0ce93e8ac263f639b031e7ae19f27a0",
       "ast_digest": "8a86d67f40e75fc0a5c5b396b0986ead341adcbf45cac53f52dec21a089d6842"
     },
     "stp": {
-      "values_digest": "390f0f57d9d5280f65f7f6ee85869e62e949a3c1c58e1144b9f2084d21d2b792",
+      "values_digest": "9276e60a78cc3ee35f0f74633f79dc57edf4549e17435b28366be5019523bcc5",
       "rendered_digest": "9f6504856f62e79caa56903268cba3255da962282736b6383619187da3435e36",
       "ast_digest": "c6286d6fbf8d4bfe0141d8958ce38d4e961782ff7fd66716bc21a3d15ebcd30b"
     },
     "spp": {
-      "values_digest": "cbb1bbaeaefff23862a1c3bb7852e3cace98db7b2036ef5631058de403bda804",
+      "values_digest": "e328d03cd4aa76b9e6336c2cae2da22493d38dd2840cc0c37a3d27d18a8d7592",
       "rendered_digest": "6c7150212c076bd3ea61d52aec3083ef511695402e6fcd8e263f469c0c0c0ae6",
       "ast_digest": "caf3109a1da3e1cf37fbb2800609278752db7034363cb77918856cc4ae0cf9e2"
     },
     "vpp": {
-      "values_digest": "3f2d3e32db42d3c0f253a085e109f5ee59bad217c70cc0242d9bd225499e75e9",
+      "values_digest": "d6abd18bfeb5a9c63abf1e1170a964b3ebb9f119eb94700ed48a50e3bbe86aef",
       "rendered_digest": "32487a992c5e8912313257d2ce77333eee2d5f6680b71a6c4eea824ed52a664e",
       "ast_digest": "841d097fb38eaf4a904ac3b9fd9e4e57df237b22a6c8394d97d487e8f8a5caad"
     },
     "srp": {
-      "values_digest": "05e8fd3751134fc75f1d886329820511cd00a80f1b8c77f0e68e8ac25e04715c",
-      "rendered_digest": "a872ba38be48fb4534d6a996a8aaf9ef0a48e655f1e0d6c6839a5aa469651517",
-      "ast_digest": "793769f9ffb6234253320e91517bdfa7ccadc65dd6aee2b6349331b726b1949f"
+      "values_digest": "cbc34b7caec5e925e5f65da2470af3caef2ff4363f8e5224fe7c13fc16364d7b",
+      "rendered_digest": "f76bfa94ab8f4ab5d2320fa686ecf31e3ccc20b64bb9f176ebfc97a784ace48f",
+      "ast_digest": "4f3d564584195b59655334d9f60425921f5a192715ede2ccd5a39f42af086126"
     },
     "sor": {
-      "values_digest": "6382f7fff567aba74fa06f027a505212ff0d2ff877057a6b082c8bccfdab56e7",
+      "values_digest": "8b8d62846645b1d2441e28e7b9ba9ca01d4a65feb5552cbd78573ffb48d0701c",
       "rendered_digest": "984d37b4ce941d41bcb3e70587008417b818faefed1079510e84a9cd2e09cf8e",
       "ast_digest": "0c1bbabef2abb0232528a89f448b5f26c06c2c0478ca715f922f697844b58bcb"
     }
@@ -84,6 +98,13 @@
       "to": "implemented",
       "actor": "codex:issue-47-implementation",
       "reason": "Advance the bound issue after implementation and focused validation completed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-47-implementation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -303,6 +324,13 @@
       "actor": "codex:issue-47-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:issue-47-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
