@@ -5,10 +5,10 @@
 - Sprint issue: `#5858`
 - Milestone: `v0.92`
 - Execution mode: `hybrid`
-- Status: `closeout_preparation_blocked`
-- Observed: `2026-08-08T02:17:22Z`
+- Status: `closeout_ready`
+- Observed: `2026-08-08T03:18:11Z`
 - Live terminal children: `8/8`
-- Derived terminal envelopes present: `7/8`
+- Derived terminal envelopes present: `8/8`
 - Machine packet: `.csdlc/prepared/issues/5858/sprint-execution-packet.yaml`
 
 ## Sprint Goal
@@ -35,7 +35,7 @@ Out of scope:
 | `#5819` | WP-02 | issue closed; legacy PR `#5889` merged | five copy-only company repository destinations; source repositories preserved | terminal envelope present |
 | `#5812` | supporting | issue closed; legacy PR `#5894` merged | Clippy-clean Freedom Gate defaults with unchanged runtime behavior | terminal envelope present |
 | `#5801` | WP-02A | issue closed; legacy PR `#5893` merged | reliable focused and slow test routing, coverage aggregation, and platform parity | terminal envelope present |
-| `#5853` | WP-02B | issue closed; Agent Logic PR `#11` merged | measured and reversible build acceleration decision | terminal envelope missing |
+| `#5853` | WP-02B | issue closed; Agent Logic PR `#11` merged | measured and reversible build acceleration decision | terminal envelope present; digest `a91044f8...` |
 | `#5822` | WP-05 | issue closed; Agent Logic PR `#12` merged | measured estimation, reconnection, and simplified lifecycle path | terminal envelope present; receipt `cf227a8c...` |
 | `#5823` | WP-06 | issue closed; Agent Logic PR `#15` merged | portable bounded runner with provenance and failover | terminal envelope present |
 | `#5824` | WP-07 | issue closed; Agent Logic PR `#24` merged | historical-delivery audit and proven enum/schema disposition | terminal envelope present |
@@ -126,10 +126,9 @@ Out of scope:
 Current review gate:
 
 - All eight mapped child issues are closed and all eight mapped PRs are merged.
-- Derived terminal envelopes are present for seven children and missing only
-  for `#5853`.
-- The integrated sprint review remains blocked until that envelope is
-  reconciled; the umbrella remains open.
+- Derived terminal envelopes are present for all eight children.
+- The integrated sprint review has no unresolved actionable finding and the
+  umbrella is eligible for publication and terminal closeout.
 
 ## Sprint Closeout Rollup Expectations
 
