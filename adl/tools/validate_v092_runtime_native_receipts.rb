@@ -49,7 +49,6 @@ POST_PROOF_PATH_PREFIXES = [
   ".csdlc/issues/#{REPAIR_ISSUE}/",
   ".csdlc/prepared/issues/#{REPAIR_ISSUE}/"
 ].freeze
-IGNORED_WORKTREE_STATUS_LINES = ["?? .csdlc/locks/#{REPAIR_ISSUE}.lock"].freeze
 
 def same_denominator?(observed, expected)
   observed.sort == expected.sort
@@ -108,6 +107,15 @@ def immutable_manifest_addition?(repository, proof_revision, head_revision, stat
   addition_commits = additions.lines.map(&:strip).reject(&:empty?)
   return false unless addition_commits.length == 1
 
+  touches, touches_status = Open3.capture2(
+    "git", "log", "--format=%H", "--reverse",
+    "#{proof_revision}..#{head_revision}", "--", path,
+    chdir: repository
+  )
+  return false unless touches_status.success?
+  touch_commits = touches.lines.map(&:strip).reject(&:empty?)
+  return false unless touch_commits == addition_commits
+
   initial_blob, initial_status = Open3.capture2(
     "git", "rev-parse", "#{addition_commits.first}:#{path}",
     chdir: repository
@@ -126,9 +134,7 @@ def clean_worktree?(repository)
   )
   return false unless git_status.success?
 
-  status.lines.map(&:strip).reject(&:empty?).all? do |line|
-    IGNORED_WORKTREE_STATUS_LINES.include?(line)
-  end
+  status.empty?
 end
 
 def repository_root
@@ -287,13 +293,19 @@ if ARGV.first == "--self-test-policy"
       repository, verifier, mutated, mutated_status, evidence_path, manifest_paths
     )
 
-    FileUtils.mkdir_p(File.join(repository, ".csdlc/locks"))
-    File.write(File.join(repository, ".csdlc/locks/#{REPAIR_ISSUE}.lock"), "lifecycle lock\n")
-    abort "exact lifecycle lock made validation worktree dirty" unless clean_worktree?(repository)
-
     File.write(File.join(repository, "adl-runtime/src/guardian.rs"), "product-v2\n")
     abort "dirty product worktree was accepted" if clean_worktree?(repository)
     run_git!(repository, "restore", "adl-runtime/src/guardian.rs")
+
+    File.write(File.join(repository, evidence_path), "proof-v1\n")
+    run_git!(repository, "add", evidence_path)
+    run_git!(repository, "commit", "-m", "restore proof evidence")
+    restored = run_git!(repository, "rev-parse", "HEAD")
+    restored_entries = changed_entries_between(repository, verifier, restored)
+    restored_status, = restored_entries.find { |_, path| path == evidence_path }
+    abort "mutate-then-revert proof evidence was accepted" if immutable_manifest_addition?(
+      repository, verifier, restored, restored_status, evidence_path, manifest_paths
+    )
 
     run_git!(repository, "switch", "--detach", proof)
     FileUtils.mkdir_p(File.join(repository, ".csdlc/issues/#{REPAIR_ISSUE}"))
