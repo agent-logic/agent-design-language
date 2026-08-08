@@ -498,6 +498,12 @@ grep -F "unexpected retained volume identity" "$TMP/bad-volume.err" >/dev/null
 test -f "$TMP/summary.json"
 test -f "$TMP/artifacts/events.jsonl"
 test -f "$TMP/artifacts/wrapper-final-summary.json"
+if grep -F '> >(' "$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh" >/dev/null; then
+  echo "paid execution path must not depend on /dev/fd process substitution" >&2
+  exit 1
+fi
+test -f "$TMP/artifacts/runner.stdout.log"
+test -f "$TMP/artifacts/runner.stderr.log"
 python3 - "$TMP/artifacts/wrapper-final-summary.json" <<'PY'
 import json
 import sys
@@ -629,12 +635,13 @@ fi
 
 portable_runner="${ADL_REMOTE_VALIDATION_BIN:?ADL_REMOTE_VALIDATION_BIN is required for portable adapter proof}"
 portable_request="$TMP/portable-aws-request.json"
-python3 - "$portable_request" "$(git -C "$ROOT" rev-parse HEAD)" <<'PY'
+python3 - "$portable_request" "$(git -C "$ROOT" rev-parse HEAD)" \
+  "refs/heads/$(git -C "$ROOT" symbolic-ref --short HEAD)" <<'PY'
 import hashlib
 import json
 import sys
 
-path, revision = sys.argv[1:]
+path, revision, source_ref = sys.argv[1:]
 profile = {
     "argv": ["cargo", "test", "--locked"],
     "working_directory": ".",
@@ -646,7 +653,7 @@ payload = {
     "request_id": "wp-5823-aws-shell-adapter",
     "checkout": ".",
     "revision": revision,
-    "source_ref": "refs/heads/codex/5823-v0-92-wp-06-remote-validation-build-runner",
+    "source_ref": source_ref,
     "command_profile": profile,
     "command_profile_digest": digest,
     "adapter": "aws",

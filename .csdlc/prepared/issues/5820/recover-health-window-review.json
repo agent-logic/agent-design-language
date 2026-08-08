@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 5820,
+  "expected_generation": 48,
+  "expected_digest": "3605063d157984048e181947e03b542c3dee4e4f614a2ec6c3a23de7a4c82c17",
+  "actor": "codex:5820-runtime-resilience",
+  "reason": "Recover stale review and publication after the final healthy-window correction changed adl-runtime/src/guardian.rs."
+}

@@ -1,0 +1,1 @@
+{"platform": "windows", "reason": "native_windows_runner_unavailable", "schema": "adl.runtime_v3.platform_blocker.v1", "source_revision": "2faa7c0ddda8e12e452d7be4b309aeb86c10f69d", "status": "blocked"}

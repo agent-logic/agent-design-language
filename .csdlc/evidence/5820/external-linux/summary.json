@@ -1,0 +1,222 @@
+{
+  "account_identity": {
+    "account_id": {
+      "redacted": true,
+      "sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9"
+    },
+    "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+    "arn": {
+      "redacted": true,
+      "sha256": "272868f4c01d7120d436554d4bc3e45a9951cd70114a5e39ab66375d29e0de62"
+    },
+    "user_id": {
+      "redacted": true,
+      "sha256": "f51eca20d9c0df8567d47828dbd5f5cc9305822517decf930708b406c61df3c1"
+    }
+  },
+  "artifact_dir": "/Volumes/FastWork/adl-aws-runs/5820/adl-wp-5820-linux-exact-final-20260807-2010/artifacts/attempt-0",
+  "attempts": [
+    {
+      "instance_type": "c7a.8xlarge",
+      "message": "spot launch succeeded",
+      "purchase_option": "spot",
+      "status": "launched"
+    }
+  ],
+  "budget_snapshot": null,
+  "cache_volume": {
+    "attachment_state": "attached",
+    "availability_zone": "us-west-2a",
+    "created": false,
+    "device_name": "/dev/sdf",
+    "iops": 3000,
+    "mount_path": "/mnt/adl-cache",
+    "name": "adl-aws-remote-validation-cache-volume",
+    "size_gib": 1000,
+    "throughput_mbps": 125,
+    "volume_id": {
+      "redacted": true,
+      "sha256": "3d04ee35fe27219375aa1de33327d33c3784a1564ba5b2b06dce2f3b2612e093"
+    },
+    "volume_type": "gp3"
+  },
+  "cleanup": {
+    "final_instance_state": "terminated",
+    "termination_attempted": true,
+    "termination_error": null
+  },
+  "command": {
+    "command_id": {
+      "redacted": true,
+      "sha256": "7f555dde7a18b95fae8377151a4d74596f18d247c5ad1c7b5e336fb84903de01"
+    },
+    "output_preview": "ADL_AWS_REMOTE_SUMMARY_BEGIN | {\"status\": \"passed\", \"bootstrap_seconds\": 0, \"command_seconds\": 70, \"interruption_detected\": false, \"interruption_notice\": null, \"resolved_commit\": \"2faa7c0ddda8e12e452d7be4b309aeb86c10f69d\", \"rustc_version\": \"rustc 1.97.0 (2d8144b78 2026-07-07)\", \"cargo_version\": \"cargo 1.97.0 (c980f4866 2026-06-30)\", \"sccache_version\": \"sccache 0.16.0\", \"sccache_degraded\": false, \"sccache_degraded_reason\": null, \"sccache_stats\": {\"raw_excerpt\": [\"Compile requests                      4\", \"Compile requests executed             0\", \"Cache hits                            0\", \"Cache misses                          0\", \"Cache hits rate                       -\", \"Cache timeouts                        0\", \"Cache read errors                     0\", \"Forced recaches                       0\", \"Cache write errors                    0\", \"Cache errors                          0\", \"Compilations                          0\", \"Compilation failures                  0\", \"Non-cacheable compilations            0\", \"Non-cacheable calls                   4\", \"Non-compilation calls                 0\", \"Unsupported compiler calls            0\"]}, \"builder_proof\": {\"builder_image_architecture\": \"amd64\", \"builder_image_digest_sha256\": \"a53b2d503af05ac42835c2fc4b9c478cbb3d27f6fd19bfb2ad81b1e9a92b5ee8\", \"builder_image_immutable\": true, \"cache_free_bytes\": <aws-account-id-redacted>, \"cache_low_space_recovery\": false, \"cache_mount_source_sha256\": \"02438c729561e48c907c7062168cc6811f77b8515cdb4cfaceb06a78f4d75554\", \"cache_mount_verified\": true, \"cache_target_preexisting_bytes\": <aws-account-id-redacted>, \"cache_target_preexisting_entries\": 51380, \"cache_writable\": true, \"host_validation_tools_installed\": false, \"schema\": \"adl.aws_spot_builder_image_validation.v1\", \"source_commit\": \"2faa7c0ddda8e12e452d7be4b309aeb86c10f69d\", \"source_commit_verified\": true, \"status\": \"passed\", \"toolchain_verified\": true, \"validation_exit_code\": 0, \"validation_seconds\": 16}, \"host_validation_tools_installed\": false} | ADL_AWS_REMOTE_SUMMARY_END | vector component unchanged: /cache-root/components/vector-0.56.0/bin/vector | {\"acceptance_eligible\":false,\"anti_rollback_minimum_enforced\":false,\"architecture\":\"x86_64\",\"completed_cycles\":1,\"completed_runs\":1,\"continuity_generation\":1,\"duration_millis\":6483,\"duration_seconds_per_run\":null,\"failure\":null,\"guardian_launch_count\":1,\"guardian_process_count\":1,\"kernel_sha256\":\"4833d3701c0b3afd0aa5bafed5d884fd7881df7425622b51fa5347adceaa15b0\",\"log_audit_ref\":\".adl/runtime-v3/qualification/5820-run.yXAWBq/state/observability/durable/master-log-audit.json\",\"log_audit_sha256\":\"83c370cafa95bbed52fc33b9d5ab58932952c59b79c02fa4bc4d6e3da7d22aea\",\"log_checked_cycles\":1,\"logging_complete\":true,\"master_log_records\":170,\"master_log_ref\":\".adl/runtime-v3/qualification/5820-run.yXAWBq/state/observability/durable/master.log.jsonl\",\"master_log_sha256\":\"866d08a089515f9f86b0419fac6a942676c40314768069e847392594c180e685\",\"master_log_status\":\"clean\",\"minimum_cycles_per_run\":1,\"platform\":\"linux\",\"requested_cycles\":1,\"requested_runs\":1,\"restart_budget_exercised\":true,\"revision\":\"2faa7c0ddda8e12e452d7be4b309aeb86c10f69d\",\"runtime_instance_count\":2,\"runtime_start_count\":2,\"schema\":\"adl.runtime_v3.lifecycle_soak.v1\",\"status\":\"pass\",\"suite\":\"preflight_1x\",\"total_restarts\":1} | PASS: production Guardian lifecycle proof=/workspace/.adl/runtime-v3/qualification/5820-run.yXAWBq/issue-proof.json revision=2faa7c0ddda8e12e452d7be4b309aeb86c10f69d | ADL_SPOT_BUILDER_PROOF={\"builder_image_architecture\":\"amd64\",\"builder_image_digest_sha256\":\"a53b2d503af05ac42835c2fc4b9c478cbb3d27f6fd19bfb2ad81b1e9a92b5ee8\",\"builder_image_immutable\":true,\"cache_free_bytes\":<aws-account-id-redacted>,\"cache_low_space_recovery\":false,\"cache_mount_source_sha256\":\"02438c729561e48c907c7062168cc6811f77b8515cdb4cfaceb06a78f4d75554\",\"cache_mount_verified\":true,\"cache_target_preexisting_bytes\":<aws-account-id-redacted>,\"cache_target_preexisting_entries\":51380,\"cache_writable\":true,\"host_validation_tools_installed\":false,\"schema\":\"adl.aws_spot_builder_image_validation.v1\",\"source_commit\":\"2faa7c0ddda8e12e452d7be4b309aeb86c10f69d\",\"source_commit_verified\":true,\"status\":\"passed\",\"toolchain_verified\":true,\"validation_exit_code\":0,\"validation_seconds\":16}",
+    "response_code": 0,
+    "status": "Success",
+    "stderr_path": "/Volumes/FastWork/adl-aws-runs/5820/adl-wp-5820-linux-exact-final-20260807-2010/artifacts/attempt-0/command-stderr.log",
+    "stderr_preview": "2026-08-07T19:42:06Z stage=ensure_git | 2026-08-07T19:42:37Z stage=ensure_curl | 2026-08-07T19:42:37Z stage=clone_repo | 2026-08-07T19:42:42Z stage=fetch_repo | 2026-08-07T19:42:42Z stage=checkout_ref ref='codex/5820-v092-runtime-launch-resilience' | 2026-08-07T19:42:42Z stage=tracked_remote_runner | 2026-08-07T19:42:46Z stage=ensure_build_toolchain | 2026-08-07T19:42:46Z stage=ensure_rustup",
+    "stdout_path": "/Volumes/FastWork/adl-aws-runs/5820/adl-wp-5820-linux-exact-final-20260807-2010/artifacts/attempt-0/command-stdout.log"
+  },
+  "cost_explorer": {
+    "amount": "0.010388106",
+    "delayed_billing_boundary": true,
+    "end": "2026-08-08T19:45:10.065110+00:00",
+    "note": "Cost Explorer reflects account spend on AWS delay; treat this as supporting cost evidence rather than exact per-run billing.",
+    "service": "Amazon Elastic Compute Cloud - Compute",
+    "start": "2026-08-01T00:00:00+00:00",
+    "unit": "USD"
+  },
+  "event_log_path": "/Volumes/FastWork/adl-aws-runs/5820/adl-wp-5820-linux-exact-final-20260807-2010/artifacts/attempt-0/events.jsonl",
+  "expected_max_cost_usd": null,
+  "failure_reason": null,
+  "finished_at": "2026-08-07T19:45:10.586078+00:00",
+  "issue": 5820,
+  "launch": {
+    "initial_state": "pending",
+    "instance_id": {
+      "redacted": true,
+      "sha256": "361c496c34cd524b60a5228c6356f073e0b1f8e4c6f8637a6c425bdb93206dc4"
+    },
+    "instance_id_sha256": "361c496c34cd524b60a5228c6356f073e0b1f8e4c6f8637a6c425bdb93206dc4",
+    "instance_type": "c7a.8xlarge",
+    "launched_at": "2026-08-07T19:41:48.813451+00:00",
+    "purchase_option": "spot"
+  },
+  "launch_surface": {
+    "ami_id": "ami-0ed2b71371a7efa24",
+    "ami_source": "explicit_input",
+    "availability_zone": "us-west-2a",
+    "instance_profile_created": true,
+    "instance_profile_name": "ADLAwsRemoteValidationProfile-5820-adl-wp-5820-linux-exact-final-20260807-2010",
+    "notes": [
+      "Created temporary security group for disposable builder",
+      "Created temporary IAM role and instance profile with AmazonSSMManagedInstanceCore"
+    ],
+    "provisioning_mode": "ephemeral_aws_surface",
+    "role_name": "ADLAwsRemoteValidationRole-5820-adl-wp-5820-linux-exact-final-20",
+    "security_group_created": true,
+    "security_group_id": {
+      "redacted": true,
+      "sha256": "18e24e670bbec3b4497249f54a11f8cd01cec1de20e6be31f13e995bf10130ab"
+    },
+    "security_group_name": "adl-aws-remote-validation-sg-5820-adl-wp-5820-linux-exact-final-20260807-2010",
+    "ssh_allowed_cidr": "<ip-address-redacted>/32",
+    "ssh_debug_enabled": true,
+    "subnet_id": {
+      "redacted": true,
+      "sha256": "2c6625e70034c46cdf773cb22bcfac4898cb330e1e9f3279eaec1afd4a8d7c93"
+    },
+    "vpc_id": {
+      "redacted": true,
+      "sha256": "d3b6584eba721393ae1bfa9e809867572a9b4d697869e1dbe555a18fb793082b"
+    }
+  },
+  "launch_surface_cleanup": {
+    "instance_profile_deleted": true,
+    "notes": [
+      "Removed role 'ADLAwsRemoteValidationRole-5820-adl-wp-5820-linux-exact-final-20' from instance profile 'ADLAwsRemoteValidationProfile-5820-adl-wp-5820-linux-exact-final-20260807-2010'"
+    ],
+    "role_deleted": true,
+    "security_group_deleted": true
+  },
+  "non_claims": [
+    "This summary does not claim broad CI migration to EC2.",
+    "This summary does not claim Spot savings unless a Spot-backed run retained cost and timing evidence.",
+    "This summary does not claim per-run final AWS billing line items when Cost Explorer data is delayed."
+  ],
+  "profile": "agent-logic-admin",
+  "quota_snapshot": {
+    "notes": [
+      "spot quota 'All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests' not found",
+      "on-demand quota 'Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances' not found"
+    ],
+    "on_demand_vcpu_quota": null,
+    "spot_vcpu_quota": null
+  },
+  "region": "us-west-2",
+  "remote_summary": {
+    "bootstrap_seconds": 0,
+    "cargo_version": "cargo 1.97.0 (c980f4866 2026-06-30)",
+    "command_seconds": 70,
+    "interruption_detected": false,
+    "interruption_notice": null,
+    "resolved_commit": "2faa7c0ddda8e12e452d7be4b309aeb86c10f69d",
+    "rustc_version": "rustc 1.97.0 (2d8144b78 2026-07-07)",
+    "sccache_degraded": false,
+    "sccache_degraded_reason": null,
+    "sccache_stats": {
+      "cache_hits": null,
+      "cache_misses": null,
+      "compile_requests": null,
+      "compile_requests_executed": null,
+      "raw_excerpt": [
+        "Compile requests                      4",
+        "Compile requests executed             0",
+        "Cache hits                            0",
+        "Cache misses                          0",
+        "Cache hits rate                       -",
+        "Cache timeouts                        0",
+        "Cache read errors                     0",
+        "Forced recaches                       0",
+        "Cache write errors                    0",
+        "Cache errors                          0",
+        "Compilations                          0",
+        "Compilation failures                  0",
+        "Non-cacheable compilations            0",
+        "Non-cacheable calls                   4",
+        "Non-compilation calls                 0",
+        "Unsupported compiler calls            0"
+      ]
+    },
+    "sccache_version": "sccache 0.16.0",
+    "status": "passed"
+  },
+  "resilience": {
+    "cleanup_complete": true,
+    "cleanup_recorded": true,
+    "cost_evidence_recorded": true,
+    "disposition": "succeeded",
+    "evidence_refs": [
+      "attempts",
+      "cleanup",
+      "timings",
+      "cost_or_budget",
+      "remote_summary"
+    ],
+    "fault_class": "none",
+    "operator_action": null,
+    "policy": {
+      "cleanup_required": true,
+      "cost_evidence_required": true,
+      "max_launch_attempts": 6,
+      "operator_gated_classes": [
+        "quota_blocked",
+        "auth_permission_failure",
+        "cleanup_partial_failure"
+      ],
+      "policy_id": "adl.aws_remote_validation.resilience.v1",
+      "retryable_classes": [
+        "capacity_unavailable",
+        "transient_network",
+        "ssm_unavailable",
+        "unknown"
+      ],
+      "spot_fallback_enabled": true
+    },
+    "retryable": false,
+    "schema_version": "adl.aws_remote_validation.resilience.v1",
+    "summary": "remote validation completed and cleanup evidence was recorded"
+  },
+  "run_id": "adl-wp-5820-linux-exact-final-20260807-2010",
+  "schema_version": "adl.aws_remote_validation_run.v1",
+  "spot_termination_evidence": null,
+  "started_at": "2026-08-07T19:41:38.851409+00:00",
+  "status": "passed",
+  "timings": {
+    "launch_seconds": 9,
+    "remote_command_seconds": 124,
+    "ssm_ready_seconds": 15,
+    "teardown_seconds": 61,
+    "total_seconds": 211
+  }
+}

@@ -16,7 +16,7 @@ Audit the current Guardian/kernel/init split and active Runtime collisions, free
 
 ## Plan
 
-Revision 12
+Revision 13
 
 ## Steps
 
@@ -29,7 +29,7 @@ Revision 12
       "AC-2",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -39,7 +39,7 @@ Revision 12
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -50,7 +50,7 @@ Revision 12
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -60,7 +60,7 @@ Revision 12
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
@@ -94,7 +94,7 @@ Revision 12
 
 .csdlc/prepared/issues/5820/design.md
 
-Digest: b9838dcfa3966a4f8e3bb7482ef7762db50b7ceafbf1d9f0684227e734fd6200
+Digest: e89f529a22d74acd488d3aa5afc69deb4d7150256fad01d7325af9c5547a3ae6
 
 ## Diagram
 

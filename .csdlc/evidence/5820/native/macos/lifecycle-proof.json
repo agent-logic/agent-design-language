@@ -1,0 +1,33 @@
+{
+  "schema": "adl.runtime_v3.guardian_lifecycle_proof.v1",
+  "status": "pass",
+  "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+  "acceptance_eligible": true,
+  "lifecycle_component_suite": "stress_100x10s",
+  "lifecycle_component_acceptance_eligible": true,
+  "lifecycle_report_path": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience/.adl/runtime-v3/qualification/5820-run.DgjrEa/report.json",
+  "lifecycle_report_sha256": "bedebab7e6a95456f943ad186009f3fb0be40d8a30bacebda703eaf64e9bbb7d",
+  "wss_proof_path": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience/.adl/runtime-v3/qualification/5820-run.DgjrEa/wss-proof.json",
+  "wss_proof_sha256": "f791e4ec276a2f0e6d61792f0fbccf73197c32cd08a13d957cc1d1093ed9e02a",
+  "guardian_binary_path": "/Volumes/FastWork/adl-targets/5820-macos-acceptance/debug/adl-runtime-guardian",
+  "guardian_binary_sha256": "ca9c906ec39b8c5d94306c48ed7a14feb08f9978a9462f3415d29e6f5da19f80",
+  "kernel_binary_path": "/Volumes/FastWork/adl-targets/5820-macos-acceptance/debug/adl-runtime-kernel",
+  "kernel_binary_sha256": "fefa6151e3701ae26290e22ee57ce7c0aa26b29161be110681306b9a9fd9a453",
+  "canonical_init_path": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience/infra/runtime-v3/runtime-init.toml",
+  "canonical_init_sha256": "2c3718a7aa1d0a49c5dbf7c181b6e9ed668a732d2bbea6bb20d393fcbc6634e4",
+  "https_transcript_path": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience/.adl/runtime-v3/qualification/5820-run.DgjrEa/https-transcript.json",
+  "https_transcript_sha256": "cd407be529525153721d68cb6da6557e1c8f530190969663a4827f0f7ca8dc8d",
+  "wss_transcript_path": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience/.adl/runtime-v3/qualification/5820-run.DgjrEa/wss-transcript.json",
+  "wss_transcript_sha256": "2903c95ba21c66212e72929ef6a881a7b1d03447c26dfa3eaf4ba7774a1eb5f0",
+  "assertions": {
+    "guardian_launched": true,
+    "kernel_ready": true,
+    "authenticated_https": true,
+    "authenticated_wss": true,
+    "child_killed": true,
+    "bounded_restart": true,
+    "state_preserved": true,
+    "clean_shutdown": true,
+    "clean_logs": true
+  }
+}

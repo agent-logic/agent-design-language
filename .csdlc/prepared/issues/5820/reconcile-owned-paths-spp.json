@@ -1,0 +1,31 @@
+{
+  "issue": 5820,
+  "card": "spp",
+  "expected_generation": 50,
+  "expected_digest": "1ecf2a20b52e65fd97ee80d42c5fcd2e2a430358f58ee5098387f1fa9814a290",
+  "actor": "codex:5820-review-remediation",
+  "reason": "Reconcile the implemented and validating path set identified by exact-head review.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/shutdown.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/resident_agent.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/src/supervisor.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl/tools/validate_v092_runtime_native_receipts.rb",
+      "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/test_validate_v092_runtime_native_receipts.sh"
+    ]
+  }
+}

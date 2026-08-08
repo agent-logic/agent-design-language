@@ -1,0 +1,8 @@
+{
+  "schema": "adl.runtime_guardian.runner_provenance.v1",
+  "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+  "provider": "local-native",
+  "run_id": "adl-wp-5820-macos-stress-20260807",
+  "os": "macos",
+  "arch": "aarch64"
+}

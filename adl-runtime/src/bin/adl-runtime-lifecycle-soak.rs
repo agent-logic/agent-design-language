@@ -126,6 +126,8 @@ struct Args {
     report: PathBuf,
     revision: String,
     suite: Suite,
+    pre_restart_ready_file: Option<PathBuf>,
+    pre_restart_ack_file: Option<PathBuf>,
 }
 
 struct ProductionFixture {
@@ -574,6 +576,8 @@ impl Args {
         let mut report = None;
         let mut revision = None;
         let mut suite = None;
+        let mut pre_restart_ready_file = None;
+        let mut pre_restart_ack_file = None;
         while let Some(argument) = args.next() {
             let value = |args: &mut dyn Iterator<Item = String>, name: &str| {
                 args.next()
@@ -591,6 +595,14 @@ impl Args {
                 }
                 "--report" => report = Some(PathBuf::from(value(&mut args, "--report")?)),
                 "--revision" => revision = Some(value(&mut args, "--revision")?),
+                "--pre-restart-ready-file" => {
+                    pre_restart_ready_file =
+                        Some(PathBuf::from(value(&mut args, "--pre-restart-ready-file")?))
+                }
+                "--pre-restart-ack-file" => {
+                    pre_restart_ack_file =
+                        Some(PathBuf::from(value(&mut args, "--pre-restart-ack-file")?))
+                }
                 "--suite" => {
                     if suite.is_some() {
                         return Err("--suite accepts exactly one value".to_owned());
@@ -637,6 +649,50 @@ impl Args {
         if !state_root.is_absolute() || !report.is_absolute() {
             return Err("--state-root and --report must be absolute paths".to_owned());
         }
+        if pre_restart_ready_file.is_some() != pre_restart_ack_file.is_some() {
+            return Err(
+                "--pre-restart-ready-file and --pre-restart-ack-file must be provided together"
+                    .to_owned(),
+            );
+        }
+        if pre_restart_ready_file
+            .iter()
+            .chain(pre_restart_ack_file.iter())
+            .any(|path| !path.is_absolute())
+        {
+            return Err("pre-restart synchronization paths must be absolute".to_owned());
+        }
+        if let (Some(ready_file), Some(ack_file)) = (&pre_restart_ready_file, &pre_restart_ack_file)
+        {
+            if ready_file == ack_file {
+                return Err("pre-restart synchronization paths must be distinct".to_owned());
+            }
+            if ready_file.file_name().and_then(|name| name.to_str()) != Some("pre-restart.ready")
+                || ack_file.file_name().and_then(|name| name.to_str()) != Some("pre-restart.ack")
+            {
+                return Err(
+                    "pre-restart synchronization paths must use the fixed ready and ack names"
+                        .to_owned(),
+                );
+            }
+            let report_parent = report
+                .parent()
+                .ok_or_else(|| "--report must have a parent directory".to_owned())?;
+            let canonical_report_parent = report_parent
+                .canonicalize()
+                .map_err(|error| format!("--report parent could not be canonicalized: {error}"))?;
+            if canonical_report_parent != report_parent {
+                return Err("--report parent must not traverse a symlink".to_owned());
+            }
+            if ready_file.parent() != Some(report_parent)
+                || ack_file.parent() != Some(report_parent)
+            {
+                return Err(
+                    "pre-restart synchronization paths must be direct children of the report directory"
+                        .to_owned(),
+                );
+            }
+        }
         let suite = suite.unwrap_or(Suite::Lifecycle {
             cycles: REQUIRED_CYCLES,
         });
@@ -656,6 +712,8 @@ impl Args {
             report,
             revision,
             suite,
+            pre_restart_ready_file,
+            pre_restart_ack_file,
         })
     }
 }
@@ -1078,6 +1136,32 @@ async fn execute_cycle(
     let first_runtime_process_id = runtime_process_id(&first_ready)?;
     let mut runtime_instance_ids = vec![first_runtime_instance_id.clone()];
     if require_restart_proof {
+        let barrier_nonce =
+            format!("{guardian_process_id}:{first_runtime_instance_id}:{first_runtime_process_id}");
+        if let Err(error) =
+            synchronize_pre_restart_probe(args, fixture, &mut guardian, &barrier_nonce).await
+        {
+            let _ = request_native_shutdown(&mut guardian).await;
+            let diagnostic = finish_guardian(
+                &mut guardian,
+                captured,
+                fixture.shutdown_wait,
+                Some(first_runtime_process_id),
+            )
+            .await
+            .map(|output| {
+                format!(
+                    "{error}; guardian_status={}; guardian_stdout={}; guardian_stderr={}",
+                    output.status,
+                    diagnostic_tail(&String::from_utf8_lossy(&output.stdout), &args.state_root),
+                    diagnostic_tail(&String::from_utf8_lossy(&output.stderr), &args.state_root)
+                )
+            })
+            .unwrap_or_else(|diagnostic_error| {
+                format!("{error}; guardian_diagnostic_failed={diagnostic_error}")
+            });
+            return Err(diagnostic);
+        }
         if let Err(error) = force_runtime_exit(first_runtime_process_id) {
             let _ = request_native_shutdown(&mut guardian).await;
             let _ = finish_guardian(
@@ -1178,6 +1262,84 @@ async fn execute_cycle(
         restarts: u64::from(outcome.restarts),
         log_proof,
     })
+}
+
+async fn synchronize_pre_restart_probe(
+    args: &Args,
+    fixture: &ProductionFixture,
+    guardian: &mut Child,
+    nonce: &str,
+) -> Result<(), String> {
+    let (Some(ready_file), Some(ack_file)) = (
+        args.pre_restart_ready_file.as_ref(),
+        args.pre_restart_ack_file.as_ref(),
+    ) else {
+        return Ok(());
+    };
+    if let Some(parent) = ready_file.parent() {
+        std::fs::create_dir_all(parent)
+            .map_err(|error| format!("could not create pre-restart barrier directory: {error}"))?;
+    }
+    for (label, path) in [("readiness", ready_file), ("acknowledgement", ack_file)] {
+        if std::fs::symlink_metadata(path).is_ok_and(|metadata| metadata.file_type().is_symlink()) {
+            return Err(format!("pre-restart {label} path must not be a symlink"));
+        }
+        std::fs::remove_file(path)
+            .or_else(|error| {
+                if error.kind() == std::io::ErrorKind::NotFound {
+                    Ok(())
+                } else {
+                    Err(error)
+                }
+            })
+            .map_err(|error| format!("could not clear stale pre-restart {label}: {error}"))?;
+    }
+    let ready_temporary = ready_file.with_file_name("pre-restart.ready.tmp");
+    if std::fs::symlink_metadata(&ready_temporary)
+        .is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return Err("pre-restart temporary readiness path must not be a symlink".to_owned());
+    }
+    std::fs::remove_file(&ready_temporary)
+        .or_else(|error| {
+            if error.kind() == std::io::ErrorKind::NotFound {
+                Ok(())
+            } else {
+                Err(error)
+            }
+        })
+        .map_err(|error| format!("could not clear temporary pre-restart readiness: {error}"))?;
+    std::fs::write(&ready_temporary, format!("{nonce}\n"))
+        .map_err(|error| format!("could not publish pre-restart readiness: {error}"))?;
+    std::fs::rename(&ready_temporary, ready_file)
+        .map_err(|error| format!("could not atomically publish pre-restart readiness: {error}"))?;
+
+    let deadline = Instant::now() + fixture.readiness_timeout;
+    loop {
+        if ack_file.is_file() {
+            let acknowledgement = std::fs::read_to_string(ack_file)
+                .map_err(|error| format!("could not read pre-restart acknowledgement: {error}"))?;
+            if acknowledgement.trim() == nonce {
+                return Ok(());
+            }
+            return Err("pre-restart acknowledgement nonce did not match readiness".to_owned());
+        }
+        if let Some(status) = guardian
+            .try_wait()
+            .map_err(|error| format!("Guardian pre-restart barrier check failed: {error}"))?
+        {
+            return Err(format!(
+                "Guardian exited before the pre-restart probe acknowledged readiness: {status}"
+            ));
+        }
+        if Instant::now() >= deadline {
+            return Err(format!(
+                "pre-restart probe did not acknowledge authenticated readiness before deadline: {}",
+                ack_file.display()
+            ));
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    }
 }
 
 fn discard_checked_observability(observability_root: &Path) -> Result<(), String> {
@@ -2337,6 +2499,69 @@ mod tests {
                 seconds: ENDURANCE_SECONDS
             }
         ));
+    }
+
+    #[test]
+    fn pre_restart_probe_barrier_requires_paired_absolute_paths() {
+        let root = std::env::current_dir().expect("current directory");
+        let ready = root.join("pre-restart.ready");
+        let ack = root.join("pre-restart.ack");
+        let parsed = Args::parse(
+            arguments(&[
+                "--pre-restart-ready-file",
+                ready.to_str().expect("ready path"),
+                "--pre-restart-ack-file",
+                ack.to_str().expect("ack path"),
+            ])
+            .into_iter(),
+        )
+        .expect("paired absolute barrier paths");
+        assert_eq!(
+            parsed.pre_restart_ready_file.as_deref(),
+            Some(ready.as_path())
+        );
+        assert_eq!(parsed.pre_restart_ack_file.as_deref(), Some(ack.as_path()));
+
+        let error = match Args::parse(
+            arguments(&[
+                "--pre-restart-ready-file",
+                ready.to_str().expect("ready path"),
+            ])
+            .into_iter(),
+        ) {
+            Ok(_) => panic!("unpaired barrier path must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.contains("must be provided together"));
+
+        let alias_error = match Args::parse(
+            arguments(&[
+                "--pre-restart-ready-file",
+                ready.to_str().expect("ready path"),
+                "--pre-restart-ack-file",
+                ready.to_str().expect("ready path"),
+            ])
+            .into_iter(),
+        ) {
+            Ok(_) => panic!("aliased barrier paths must fail closed"),
+            Err(error) => error,
+        };
+        assert!(alias_error.contains("must be distinct"));
+
+        let case_variant = root.join("PRE-RESTART.READY");
+        let case_error = match Args::parse(
+            arguments(&[
+                "--pre-restart-ready-file",
+                case_variant.to_str().expect("case-variant path"),
+                "--pre-restart-ack-file",
+                ack.to_str().expect("ack path"),
+            ])
+            .into_iter(),
+        ) {
+            Ok(_) => panic!("case-variant marker name must fail closed"),
+            Err(error) => error,
+        };
+        assert!(case_error.contains("fixed ready and ack names"));
     }
 
     #[test]
