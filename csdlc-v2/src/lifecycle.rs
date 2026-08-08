@@ -642,13 +642,6 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             }
         }
     }
-    if idempotent_match {
-        return Ok(BindResult {
-            created: false,
-            branch: request.branch,
-            worktree: wanted_text,
-        });
-    }
     if let Some((branch, _)) = listed.iter().find(|(_, path)| path == &wanted_text) {
         if branch != &request.branch {
             return Err(V2Error::new(
@@ -669,6 +662,22 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                 "requested branch belongs to a different worktree",
             ));
         }
+    }
+    if idempotent_match {
+        let live_topology_matches = listed
+            .iter()
+            .any(|(branch, path)| branch == &request.branch && path == &wanted_text);
+        if !live_topology_matches {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "stored bind is not registered at the requested Git topology",
+            ));
+        }
+        return Ok(BindResult {
+            created: false,
+            branch: request.branch,
+            worktree: wanted_text,
+        });
     }
 
     let new_branch = !branch_exists(store.root(), &request.branch);

@@ -1404,6 +1404,77 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     assert!(!later_conflict.status.success());
     assert!(String::from_utf8_lossy(&later_conflict.stdout).contains("reconciliation_required"));
 
+    // A retained exact record is not sufficient for idempotence when Git no
+    // longer registers the stored branch/worktree pair.
+    let stale_repo = temp.path().join("stale-repo");
+    let stale_worktree = temp.path().join("stale-worktree");
+    focused_fixture_repo(&stale_repo);
+    git(
+        &stale_repo,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "stale-42",
+            &stale_worktree.to_string_lossy(),
+            "main",
+        ],
+    );
+    create_focused_issue(&stale_worktree, temp.path(), 42);
+    let stale_bind = temp.path().join("stale-bind.json");
+    fs::write(
+        &stale_bind,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "base_branch": "main",
+            "branch": "stale-42",
+            "worktree": stale_worktree,
+        }))
+        .expect("serialize stale bind"),
+    )
+    .expect("stale bind request");
+    must_succeed(command(
+        &stale_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &stale_worktree.to_string_lossy(),
+            "--request",
+            &stale_bind.to_string_lossy(),
+        ],
+    ));
+    copy_directory(
+        &stale_worktree.join(".csdlc/issues/42"),
+        &stale_repo.join(".csdlc/issues/42"),
+    );
+    fs::create_dir_all(stale_repo.join("design")).expect("stale design directory");
+    fs::copy(
+        stale_worktree.join("design/issue-42.md"),
+        stale_repo.join("design/issue-42.md"),
+    )
+    .expect("retain stale design");
+    git(
+        &stale_repo,
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            &stale_worktree.to_string_lossy(),
+        ],
+    );
+    let stale_result = command(
+        &stale_repo,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &stale_repo.to_string_lossy(),
+            "--request",
+            &stale_bind.to_string_lossy(),
+        ],
+    );
+    assert!(!stale_result.status.success());
+    assert!(String::from_utf8_lossy(&stale_result.stdout).contains("reconciliation_required"));
+
     // Build one valid owner record, retain its projection in an unrelated
     // primary checkout, and unregister its original worktree. Collision
     // decisions must use the stored branch/worktree predicates, not the branch
