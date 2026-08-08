@@ -1329,6 +1329,80 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         ],
     );
     assert!(!corrupt_same_issue.status.success());
+    fs::write(
+        success_worktree.join("design/issue-42.md"),
+        "# Approved design for issue 42\n",
+    )
+    .expect("restore issue design");
+
+    // An exact projection must not short-circuit a later conflicting copy of
+    // the same issue. Build that conflicting projection through the real bind
+    // binary, then place it in a worktree listed after the exact projection.
+    let conflicting_source_repo = temp.path().join("conflicting-source-repo");
+    let conflicting_source_worktree = temp.path().join("conflicting-source-worktree");
+    focused_fixture_repo(&conflicting_source_repo);
+    git(
+        &conflicting_source_repo,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "other-42",
+            &conflicting_source_worktree.to_string_lossy(),
+            "main",
+        ],
+    );
+    create_focused_issue(&conflicting_source_worktree, temp.path(), 42);
+    let conflicting_source_bind = temp.path().join("conflicting-source-bind.json");
+    fs::write(
+        &conflicting_source_bind,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "base_branch": "main",
+            "branch": "other-42",
+            "worktree": conflicting_source_worktree,
+        }))
+        .expect("serialize conflicting source bind"),
+    )
+    .expect("conflicting source bind request");
+    must_succeed(command(
+        &conflicting_source_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &conflicting_source_worktree.to_string_lossy(),
+            "--request",
+            &conflicting_source_bind.to_string_lossy(),
+        ],
+    ));
+    let later_projection = temp.path().join("later-projection");
+    git(
+        &success_repo,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "later-projection",
+            &later_projection.to_string_lossy(),
+            "main",
+        ],
+    );
+    copy_directory(
+        &conflicting_source_worktree.join(".csdlc/issues/42"),
+        &later_projection.join(".csdlc/issues/42"),
+    );
+    let later_conflict = command(
+        &success_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &success_worktree.to_string_lossy(),
+            "--request",
+            &success_bind.to_string_lossy(),
+        ],
+    );
+    assert!(!later_conflict.status.success());
+    assert!(String::from_utf8_lossy(&later_conflict.stdout).contains("reconciliation_required"));
 
     // Build one valid owner record, retain its projection in an unrelated
     // primary checkout, and unregister its original worktree. Collision

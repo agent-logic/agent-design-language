@@ -597,6 +597,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     }
     let listed = git::worktrees(store.root())?;
     let topology_root = canonical_topology_root(store.root(), &listed)?;
+    let mut idempotent_match = false;
     for (_, path) in &listed {
         let path = Path::new(path);
         if !path.exists() {
@@ -625,11 +626,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                     })
                     && record.phase == crate::LifecyclePhase::Bound
                 {
-                    return Ok(BindResult {
-                        created: false,
-                        branch: request.branch,
-                        worktree: wanted_text,
-                    });
+                    idempotent_match = true;
+                    continue;
                 }
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
@@ -643,6 +641,13 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                 ));
             }
         }
+    }
+    if idempotent_match {
+        return Ok(BindResult {
+            created: false,
+            branch: request.branch,
+            worktree: wanted_text,
+        });
     }
     if let Some((branch, _)) = listed.iter().find(|(_, path)| path == &wanted_text) {
         if branch != &request.branch {
