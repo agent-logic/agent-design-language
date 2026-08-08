@@ -5,8 +5,9 @@
   "initialization_digest": "b074920ed80645449927fbe79ead7b0121e5a676d7cb37acfe270a3419c11f44",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "fd7118a254cfe3969da774142e43b9163af56a32e8035fc8d49de0f18a9e1d92",
-  "claim": null,
+  "digest": "a8f90457c98fbcb51b5ad9f31702ec81211614ef0ffa6a57588fdb73f4641ffa",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8dd9-24c7-7b50-96d2-29a7a1c2fdad",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -212,15 +213,8 @@
     "observed_sha": "e392ddb66f01722fb2b40ac0bc9eeae3d56c67b5",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5350.json",
-    "released_branch": "codex/5350-v0918-wp11-shadow-parity",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5350",
-      ".csdlc/issues/5350",
-      ".csdlc/locks/5350.lock",
-      ".csdlc/prepared/issues/5350",
-      "adl-characterization"
-    ]
+    "branch": "codex/5350-v0918-wp11-shadow-parity",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5350/retained/design.md",

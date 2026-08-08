@@ -5,8 +5,9 @@
   "initialization_digest": "73882389d54ae0d12e78152b7d469ed4a25cd70e2c9578946a4040bac99ca733",
   "phase": "closed_out",
   "generation": 18,
-  "digest": "20609203f11408ff9113fcc53ae17e55423109bfa8f373abdd53e65b37284d8e",
-  "claim": null,
+  "digest": "56d0d925fd00a51398f40d313c8dba931c7b5eb340c195ea7167b8d704887f15",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "Popper",
@@ -149,18 +150,8 @@
     "observed_sha": "9dcca3fb3fd8e1fbbc766f62207eb2e0c7af43d9",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5755.json",
-    "released_branch": "codex/5755-runtime-protocol-security",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5755",
-      ".csdlc/issues/5755",
-      ".csdlc/locks/5755.lock",
-      ".csdlc/prepared/issues/5755",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/protocol_adapters.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/protocol_adapters.rs"
-    ]
+    "branch": "codex/5755-runtime-protocol-security",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5755/retained/design.md",

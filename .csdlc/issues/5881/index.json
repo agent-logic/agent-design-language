@@ -1,0 +1,319 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5881,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "6b4cac1985b729f21eaab711dcf00a34a28bc7ee635983a8cee52dac15fca8ea",
+  "phase": "published",
+  "generation": 27,
+  "digest": "b2fcce545a31d6324d6fcfd611159b874c80d9fb23c06519961b7cd15e07506a",
+  "branch": "codex/5881-remove-csdlc-claims",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5881",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:/root/prepare_defect_45",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:88504fcea5b643f3296e8c22ac934401fc3464a4:ea3499887de744f4e201168f4be2662af9e50062862bdf236acf5eb41e0edc8f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5881,
+    "pull_request": 52,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/52",
+    "base": "main",
+    "head": "codex/5881-remove-csdlc-claims",
+    "revision": "git-blake3:33ffc602e4c036c44fd8228789b87c04f8f9b340:3af7f492cb54554035ebb9f0614697e31abcf7c6c9ed5475501b67b04da504f3",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5881/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5881/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5881-readiness-design-review-fix",
+      "revision": "44e67b37265d9143069bf9db75750c7d3c646ed23de6082ee33f43f73a1f90ff"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "62ddc2565e7736841b21b0529b12c2e9485bd9745ee0753da6068b907197d84b",
+      "rendered_digest": "60670c16343546a20bb4e65dacd38d9daca0d00913711015dba889bce3f5b87f",
+      "ast_digest": "8f9be8f8811d192b61590603b141e9d2847bc9a90991e295f3b4361c85f00bec"
+    },
+    "stp": {
+      "values_digest": "24faf4301201fac22e1d2448f3f0842f862bc06209cf1acfb2d33caf11bfbe26",
+      "rendered_digest": "6dc254f2d20ab63c2c85ffb0000e7fa28914b02762002b3871c8aac1ba08a769",
+      "ast_digest": "873ef552b7761cfe06ccea1724eec52d71178697cd39dcf3809836f40d674669"
+    },
+    "spp": {
+      "values_digest": "5fafbcb684c55c8b3f7ed4744da8a16d8245be6accf28a8d0564e53136f17dd5",
+      "rendered_digest": "a06a8ddb70e836c85286e7a749fa7d792ece4b65819c886fc775963ab15bd26d",
+      "ast_digest": "670e2b7cc86cb07d91bdd82fc8a251d3f0583baef79770d65f2ea4899a60d08b"
+    },
+    "vpp": {
+      "values_digest": "a32d406a7b897d7888b4680e117e336118e040ac7b79ada791ed4915a7e81681",
+      "rendered_digest": "3649e37c440a60859ceb3338f7c6f725f7387ee059914bbf075951eb3a1676db",
+      "ast_digest": "0c46b55d57c217aeca29cf63aa7b3d23fa95921786e18d457627c38ad2dab779"
+    },
+    "srp": {
+      "values_digest": "b83ad71c34aa6f3fac8450bd8b69426043199d588230097fcd88b2888b0a3557",
+      "rendered_digest": "2abb088f20aa05e568833ff34cd1385ea2e29e96caabd734897f5b4292fa9289",
+      "ast_digest": "f61247aab94243efeabf5fae972741004069f1006b108f8596b5280187617305"
+    },
+    "sor": {
+      "values_digest": "9cb1fdec58ecb9a9acf65e3279c0c466cd918099bb7348da56681df376491ae7",
+      "rendered_digest": "ee1990bbf67840ce7b6adb6d9e0a5102fbe17f2182ef6195bb37e63f5285e4af",
+      "ast_digest": "b8040b2189254d7c64d5a35ca847bc9b02617c0a83aaafd2e2d072c11a2304a1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5881-implementation",
+      "reason": "Advance after completed implementation and focused validation."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5881-execution",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5881-execution",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5881-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5881-readiness-design-review-fix",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Make claim-specific decoding temporary and require its deletion after verified current-record normalization.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue authority remains danielbaustin/agent-design-language#5881\",\"Code PR publication targets agent-logic/agent-design-language\",\"PR body must use Closes danielbaustin/agent-design-language#5881\",\"This is split issue/code publication authority, not repository cutover or issue migration\",\"Historical evidence remains immutable\",\"Claim-specific decoding is temporary only for verified current-record normalization and must be deleted before completion\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Require temporary normalization retirement and interrupted-bind recovery proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Active-versus-legacy occurrence classification\",\"Claim-free canonical schemas and commands\",\"Verified one-time current-record normalization with claim-specific production logic deleted afterward\",\"Atomic, concurrent, and interrupted-bind recovery proof\",\"Claim-free review through cleanup proof\",\"Corrected current operator guidance\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Require one-time normalization, decoder deletion, and crash-safe topology proof.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Rebase after the two narrow deletion issues, classify claim surfaces, normalize current records once, delete all claim-specific production logic, and prove crash-safe binding plus the full lifecycle from branch/worktree topology.\",\"operation\":\"replan\",\"previous_value\":\"Rebase after the two narrow deletion issues, classify active versus legacy claim surfaces, delete residual active authority, retain only bounded normalization, and prove the full lifecycle from branch/worktree topology.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Add crash recovery and truthful review-to-cleanup proof while requiring final decoder deletion.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: No active request or canonical schema contains claim, claim_id, protected_paths, lease, or heartbeat fields\",\"AC-2: No operator command requires claim acquisition, refresh, recovery, release, revoke, rehome, or amend\",\"AC-3: Existing current issue records normalize without manual claim repair while preserving branch/worktree topology and audit truth, and no claim-specific production decoder remains afterward\",\"AC-4: Concurrent binds for one issue cannot produce two authoritative worktrees\",\"AC-5: Different issues can bind and execute concurrently without path reservations\",\"AC-6: Review, publication, finish, and cleanup pass from bound topology alone\",\"AC-7: Focused Rust tests and owner validation pass\",\"AC-8: Claim-specific active code, schemas, fixtures, docs, and binaries are deleted rather than wrapped\",\"AC-9: An interrupted bind transaction recovers to one valid authoritative topology without claim state or partial records\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Rebase after #5895 and #5883 and classify all claim-related occurrences as active authority, temporary current-record normalization, historical evidence, or unrelated language.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Delete residual active claim fields, operations, gates, schemas, fixtures, skills, and current operator guidance without adding compatibility routes.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Normalize current claim-bearing records through a verified one-time path, preserve topology and audit truth, then delete the claim-specific decoder and structs.\",\"acceptance_ids\":[\"AC-3\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused atomic, idempotent, concurrent, and interrupted-bind validation plus claim-free review, publication, finish, and cleanup proof.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"canonical-schema\",\"proof_role\":\"Prove canonical requests, records, schemas, and CLI surfaces contain no claim lifecycle state.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":1800,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"schema\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"record-normalization-retirement\",\"proof_role\":\"Prove current claim-bearing records normalize once with topology and audit truth preserved, then prove claim-specific production structs and logic are absent.\",\"acceptance_ids\":[\"AC-3\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":420,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"topology_migration\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"bind-concurrency-recovery\",\"proof_role\":\"Prove atomic and idempotent same-issue bind, different-issue concurrency, and interrupted-bind recovery without claims; extend gate2 with the required interrupted-transaction case.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":480,\"budget_tokens\":3600,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"lifecycle\",\"defer_reason\":null},{\"lane\":\"review-to-cleanup\",\"proof_role\":\"Prove exact-head review, qualified cross-repository publication, finish, and cleanup derive authority from bound topology without claim IDs.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\",\"--test\",\"gate_cleanup\"],\"parallel_group\":\"lifecycle\",\"defer_reason\":null},{\"lane\":\"operator-contract\",\"proof_role\":\"Prove current skills, policies, and runbooks use only claim-free binding while historical evidence remains untouched.\",\"acceptance_ids\":[\"AC-2\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1400,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"parallel_group\":\"contracts\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Require reviewers to reject any retained claim-specific production decoder after one-time normalization.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does any public schema, binary, installed skill, or current doc still require lifecycle claim state?\",\"Did verified one-time normalization preserve current-record topology and audit truth, followed by deletion of every claim-specific production decoder, struct, and compatibility path?\",\"Do same-issue, different-issue, and interrupted-bind tests prove the required concurrency and crash-recovery semantics?\",\"Does the full review-to-cleanup path derive authority only from issue topology and live GitHub state?\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Align final review scope with one-time normalization and complete claim-specific production logic deletion.",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Residual claim deletion, verified one-time current-record normalization followed by complete claim-specific production logic deletion, topology concurrency and crash recovery, and claim-free lifecycle proof only.\",\"operation\":\"replan\",\"previous_value\":\"Residual claim deletion, bounded legacy normalization, topology concurrency, and claim-free lifecycle proof only.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Distinguish mutable current legacy-format records from immutable historical evidence.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"No active schema, command, gate, skill, or current operator document requires claim state; current claim-bearing legacy-format records normalize into canonical topology, historical evidence remains immutable, and the full lifecycle works from branch/worktree binding alone.\",\"operation\":\"replan\",\"previous_value\":\"No active schema, command, gate, skill, or current operator document requires claim state; historical records normalize into canonical topology and the full lifecycle works from branch/worktree binding alone.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Clarify that only current legacy-format records normalize while historical evidence remains immutable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Deleting temporary normalization support before current claim-bearing legacy-format records normalize\",\"Failing to delete claim-specific production logic after normalization\",\"Treating ordinary evidence claims as lifecycle claims\",\"Overlapping #5895 or #5883 operator edits\",\"Leaving an installed skill or schema route stale\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:5881-readiness-review-fix",
+      "reason": "Clarify that normalization applies to current legacy-format records, not immutable historical evidence.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A proposed change weakens exact-head review or terminal authority\",\"Current claim-bearing legacy-format records cannot be normalized without destructive rewriting\",\"The issue would require a new compatibility wrapper\",\"Shared #5895 or #5883 changes have not settled\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:5881-readiness-design-review-fix",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:5881-implementation",
+      "reason": "Record the operator-authorized parallel execution plan and completed implementation steps.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Classify all claim-related occurrences as active authority, temporary current-record normalization, historical evidence, or unrelated language while the narrow deletion issues execute independently.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Delete residual active claim fields, operations, gates, schemas, fixtures, skills, and current operator guidance without adding compatibility routes.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Normalize current claim-bearing records through a verified one-time path, preserve topology and audit truth, then delete the claim-specific decoder and structs.\",\"acceptance_ids\":[\"AC-3\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused atomic, idempotent, concurrent, and interrupted-bind validation plus claim-free review, publication, finish, and cleanup proof.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:5881-implementation",
+      "reason": "Mark classified claim surfaces complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:5881-implementation",
+      "reason": "Mark active claim authority deletion complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:5881-implementation",
+      "reason": "Mark one-time current record and receipt normalization complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:5881-implementation",
+      "reason": "Mark focused claim-free lifecycle validation complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:5881-implementation",
+      "reason": "Record bounded claim-lifecycle deletion and one-time normalization.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed active claim lifecycle compatibility, normalized mutable current records and retained receipts once, and made active operator guidance topology-owned.\",\"changes\":[\"Removed LegacyClaim, LegacyIssueRecord, legacy terminal receipt, verification, and normalization production code.\",\"Made bootstrap and bind requests reject unknown claim-era fields.\",\"Normalized 190 tracked current issue records and 179 retained current receipts while preserving historical evidence packets.\",\"Updated active C-SDLC v2 skills and runbooks to use bound branch/worktree topology.\",\"Added focused regression guards for claim-free records, production code, requests, and operator guidance.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate10a.rs\",\"docs/tooling/adl_pr_cycle_skill.md\",\"docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md\",\"https://github.com/agent-logic/agent-design-language/issues/47\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:5881-implementation",
+      "reason": "Record exact canonical schema proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove public schemas and request decoding are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact schema lane: 3 passed\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:5881-implementation",
+      "reason": "Record interrupted topology migration and recovery proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove one-time topology normalization, serialization, and interrupted recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"local topology migration lane: 9 passed\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:5881-implementation",
+      "reason": "Record claim-free create, bind, concurrency, and idempotence proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove claim-bearing requests fail and topology-owned create/bind remains atomic and idempotent.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate2 lane: 1 passed\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:5881-implementation",
+      "reason": "Record claim-free review through cleanup proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\",\"--test\",\"gate_cleanup\"],\"purpose\":\"Prove review, cross-repository publication, finish, and cleanup derive authority without claims.\",\"outcome\":\"passed\",\"evidence_ref\":\"local lifecycle lanes: gate5 14, gate6 6, gate_finish 17, gate_cleanup 9 passed\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:5881-implementation",
+      "reason": "Record active operator contract and current-record guard proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove active skills, runbooks, production decoder, and every tracked current record are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate10a lane: 17 passed\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:5881-implementation",
+      "reason": "Record strict Rust lint proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed C-SDLC v2 Rust surface is warning-free across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local strict clippy: passed\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:5881-implementation",
+      "reason": "Advance after completed implementation and focused validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:5881-review-remediation",
+      "reason": "Correct exact-head review finding P2 by limiting execution claims to tracked current records and repo-local guidance.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed active claim lifecycle compatibility, normalized 190 mutable tracked current records once, and made repo-local active operator guidance topology-owned.\",\"changes\":[\"Removed LegacyClaim, LegacyIssueRecord, legacy terminal receipt, verification, and normalization production code.\",\"Made bootstrap and bind requests reject unknown claim-era fields.\",\"Normalized 190 pre-existing tracked current issue records while preserving historical evidence packets.\",\"Updated repo-local active C-SDLC v2 skill and runbook sources to use bound branch/worktree topology.\",\"Added focused regression guards for claim-free records, production code, requests, and repo-local operator guidance.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate10a.rs\",\"docs/tooling/adl_pr_cycle_skill.md\",\"docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md\",\"https://github.com/agent-logic/agent-design-language/issues/47\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove public schemas and request decoding are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact schema lane: 3 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove one-time topology normalization, serialization, and interrupted recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"local topology migration lane: 9 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove claim-bearing requests fail and topology-owned create/bind remains atomic and idempotent.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate2 lane: 1 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\",\"--test\",\"gate_cleanup\"],\"purpose\":\"Prove review, cross-repository publication, finish, and cleanup derive authority without claims.\",\"outcome\":\"passed\",\"evidence_ref\":\"local lifecycle lanes: gate5 14, gate6 6, gate_finish 17, gate_cleanup 9 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove repo-local active skills, runbooks, production decoder, and every tracked current record are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate10a lane: 17 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed C-SDLC v2 Rust surface is warning-free across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local strict clippy: passed\"}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:5881-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:5881-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

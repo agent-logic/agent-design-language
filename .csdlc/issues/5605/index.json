@@ -5,8 +5,9 @@
   "initialization_digest": "fa1288e1b1188df16ff899e92ae7b2706878105ce29dad6485283bec972cf504",
   "phase": "closed_out",
   "generation": 18,
-  "digest": "39c0783696638683a6c5e347ec97101d548e130fce4a66751d7e60549c64ac46",
-  "claim": null,
+  "digest": "bcc22e0e4783714af2299aeaf708af80fa126292b3af5c78a04e9a227a4862a9",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8b4a-979c-7b02-b4ec-b1c246d0e5ce",
     "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -160,18 +161,8 @@
     "observed_sha": "62ec268dd361ff48bf0c4a16e78607a9ff37036d",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5605.json",
-    "released_branch": "codex/5605-v0-91-8-podcast-revive-ai-agent-podcast-weekly-cadence",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "docs/milestones/v0.91.8/features/AI_AGENT_PODCAST_STUDIO_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/README.md",
-      "docs/milestones/v0.91.8/review/README.md",
-      "docs/milestones/v0.91.8/review/podcast_studio_5605/README.md",
-      "docs/milestones/v0.91.8/review/podcast_studio_5605/PODCAST_STUDIO_LAUNCH_READINESS_5605.md",
-      "docs/milestones/v0.91.8/review/podcast_studio_5605/PODCAST_STUDIO_TOPIC_SLATE_5605.md",
-      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
-      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
-    ]
+    "branch": "codex/5605-v0-91-8-podcast-revive-ai-agent-podcast-weekly-cadence",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5605/retained/design.md",

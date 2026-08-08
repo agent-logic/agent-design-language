@@ -5,26 +5,9 @@
   "initialization_digest": "77fb2fc0cda6f8173344e07a5f1b6659802dab9ba830373b694b1953861be1b6",
   "phase": "published",
   "generation": 5,
-  "digest": "1c84e24105e9005c5d9ff6e9c7846ed7e30481d4d36c1949e7c120b8d5e6f7ac",
-  "claim": {
-    "id": "claim-5802-drive-recursive-mirror-2",
-    "owner": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
-    "generation": 5,
-    "acquired_unix_seconds": 1785896959,
-    "expires_unix_seconds": 1785983359,
-    "heartbeat_unix_seconds": 1785896959,
-    "branch": "codex/5802-drive-recursive-mirror",
-    "worktree": ".",
-    "protected_paths": [
-      "adl/src/adl_gws_context_mirror.rs",
-      "adl/src/adl_gws_drive_sync.rs",
-      "adl/src/adl_gws_native.rs",
-      "adl/src/bin/demo_adl_gws_context_mirror.rs",
-      "docs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md",
-      "docs/reviews/v0.92/google-drive-context-mirror-5802"
-    ],
-    "purpose": "Complete and prove the full recursive ADL Drive context mirror deployment"
-  },
+  "digest": "16e0a7764a9ae5d43bba954e58ebbe6695376352325c7226db1c8d2d617747ee",
+  "branch": "codex/5802-drive-recursive-mirror",
+  "worktree": ".",
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:/root/review_5802",

@@ -5,8 +5,9 @@
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "closed_out",
   "generation": 24,
-  "digest": "f6bb6b9323386854b81ec22aef0ad5cbe67a4462e7b6eb6daca315f4f1a0cb3b",
-  "claim": null,
+  "digest": "cde7353dbd6ee541f9af8eab6db71206f59bc9fd3ad6f43381fdbc10167fcae8",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:Darwin:019fbcd1-dee8-7682-8f2b-9f9261587524",
     "assigned_by": "codex:5351-execution",
@@ -158,15 +159,8 @@
     "observed_sha": "50f74e83c758f6442dc0d42f3344996e847660a5",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5351.json",
-    "released_branch": "codex/5351-v0918-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5351",
-      ".csdlc/issues/5351",
-      ".csdlc/locks/5351.lock",
-      ".csdlc/prepared/issues/5351",
-      "docs/milestones/v0.91.8/evidence/wp16"
-    ]
+    "branch": "codex/5351-v0918-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5351/retained/design.md",

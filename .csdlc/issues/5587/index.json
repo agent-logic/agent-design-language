@@ -5,8 +5,9 @@
   "initialization_digest": "a5944a332503136886e500c86d1c782c64846fad42b1a325ca4e5fe8e748f8d2",
   "phase": "closed_out",
   "generation": 26,
-  "digest": "a86168eb6e734872fd4fad5dcd131e0aa367f65bd9f570b198cd5cf16cbee1ac",
-  "claim": null,
+  "digest": "c06d4d6d2a10c534c6614f7bb32a56afa696179c47018d8dad36d02e3f768074",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-subagent:review_5587_exact_head",
     "assigned_by": "codex:5748-terminal-closeout",
@@ -200,20 +201,8 @@
     "observed_sha": "67acb4415e0e2ef1bade7328d19ecd26702788c8",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5587.json",
-    "released_branch": "codex/5587-google-drive-context-mirror",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl/Cargo.toml",
-      "adl/src/adl_gws_context_mirror.rs",
-      "adl/src/adl_gws_drive_sync.rs",
-      "adl/src/adl_gws_native.rs",
-      "adl/src/bin/demo_adl_gws_context_mirror.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_pr_fast_test_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_run_pr_fast_test_lane.sh",
-      "docs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md"
-    ]
+    "branch": "codex/5587-google-drive-context-mirror",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5587/retained/design.md",

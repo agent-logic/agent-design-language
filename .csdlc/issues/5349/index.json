@@ -5,8 +5,9 @@
   "initialization_digest": "4e26eb217e43960d3dbad13db595449f162a84223564e3cf1152670c4e4aed55",
   "phase": "closed_out",
   "generation": 33,
-  "digest": "906a0b9a153529ce130895293dbb7416f53130d0ff4c58ae89c916dc6e8b2492",
-  "claim": null,
+  "digest": "e477c51fd299c1b17e4e320d31b7c539ca8f9429dd5331d96193c568c175b471",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:/root/wp09_review",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -159,15 +160,8 @@
     "observed_sha": "a9c974a84093cf13990d9cbe0b5827d7445bc3ce",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5349.json",
-    "released_branch": "codex/5349-v0918-wp09-provider-tool-adapters",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5349",
-      ".csdlc/issues/5349",
-      ".csdlc/locks/5349.lock",
-      ".csdlc/prepared/issues/5349",
-      "adl-v2/crates/adl-adapters"
-    ]
+    "branch": "codex/5349-v0918-wp09-provider-tool-adapters",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5349/retained/design.md",

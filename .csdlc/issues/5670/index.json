@@ -5,8 +5,9 @@
   "initialization_digest": "189f55df87cf559fd27a662e23c235ee98ca1dcaa46109a05abf98c030a43f61",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "ceb87d420cfe9ec2327e31bb727ba5721ab3cc301a110641771911826a9b0365",
-  "claim": null,
+  "digest": "2e5f2ff8fd1bd52cad7b866ab470b1a4114ea0e6a2ccc44579c46df04d58c990",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f9c5d-654d-7af1-ab7a-f205c27ca0b2",
     "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -187,19 +188,8 @@
     "observed_sha": "26f6f00b95d0eca61db7ce12e0759c948ca9be3a",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5670.json",
-    "released_branch": "codex/5670-coverage-shard-fanout",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5670",
-      ".csdlc/issues/5670",
-      ".csdlc/locks/5670.lock",
-      ".csdlc/prepared/issues/5670",
-      ".github/workflows/ci.yaml",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_ci_path_policy.sh"
-    ]
+    "branch": "codex/5670-coverage-shard-fanout",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5670/retained/design.md",

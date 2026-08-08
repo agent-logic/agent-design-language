@@ -1,0 +1,13 @@
+{
+  "issue": 5881,
+  "card": "srp",
+  "expected_generation": 6,
+  "expected_digest": "aab9f0c1f476a0ea7cf4eb9b00133058e8fc5d52b1a8f25e1ade2f08b90406e8",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Align final review scope with one-time normalization and complete claim-specific production logic deletion.",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Residual claim deletion, verified one-time current-record normalization followed by complete claim-specific production logic deletion, topology concurrency and crash recovery, and claim-free lifecycle proof only."
+  }
+}

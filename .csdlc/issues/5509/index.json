@@ -5,8 +5,9 @@
   "initialization_digest": "99451b4d927edcf6b76df84be0dca94bd2abe78310226631423b8360b922925a",
   "phase": "closed_out",
   "generation": 16,
-  "digest": "47c8e117f4f585705f317b6e03b9c09e54f687430e389351fb8513b644210003",
-  "claim": null,
+  "digest": "2d01b81b35bd3da2d92d7364e092d0057e2fb000574bff4554dbda0b40a02f2e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f751d-2d23-70d1-b40f-69c756ed58d0",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -125,16 +126,8 @@
     "observed_sha": "23fbe8a6de84734c2b517c3d36220b3fd960a4db",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5509.json",
-    "released_branch": "codex/5509-runtime-v3-csm-fast-lane",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/run_pr_fast_test_lane.sh",
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_run_pr_fast_test_lane.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ]
+    "branch": "codex/5509-runtime-v3-csm-fast-lane",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5509/retained/design.md",

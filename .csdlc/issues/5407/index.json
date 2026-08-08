@@ -5,8 +5,9 @@
   "initialization_digest": "8e9178cb8566e54c25e6a60a6bb12f910904a4b5d8de5c90bfbda5e8f3b8338b",
   "phase": "closed_out",
   "generation": 37,
-  "digest": "e21c8bbe7bbf86b9c9f8925002afda3bc40cd02ceeb82bae6cb6576d1a54c934",
-  "claim": null,
+  "digest": "b038617aa829ea400a4cbad64c331a7018b37571f254cdb4f7af660f324a6022",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent-Darwin-019f6c37",
     "assigned_by": "codex",
@@ -162,16 +163,8 @@
     "observed_sha": "6618c080596ddf0943128c9abdaf67507479b8cc",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5407.json",
-    "released_branch": "codex/5407-tools-reliability-tail",
-    "released_worktree": ".worktrees/adl-wp-5407",
-    "released_protected_paths": [
-      ".csdlc/5407-validation.json",
-      ".csdlc/issues/5407",
-      "docs/reviews/v0.91.7/remaining-sprints-5403/TOOLS_RELIABILITY_REVIEW_5036.md",
-      "docs/reviews/v0.91.7/tools-5407",
-      "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
-      "docs/tooling/BUILD_ACTION_LOGS.md"
-    ]
+    "branch": "codex/5407-tools-reliability-tail",
+    "worktree": ".worktrees/adl-wp-5407"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5407/retained/design.md",

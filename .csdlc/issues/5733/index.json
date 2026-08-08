@@ -5,8 +5,9 @@
   "initialization_digest": "3164de19aa73e2b392aff34c090596e5ecb394e75067229a7898d36d8047b6fc",
   "phase": "closed_out",
   "generation": 15,
-  "digest": "b2ba0d21488f9dd487754ef986e6ac6bd11bc5dc436414a3dcc324c1a8b43863",
-  "claim": null,
+  "digest": "184d6c187fdb1ecad397fc4eb61f7a2fbbc6ad85ead79d20bded8643276afdff",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:Leibniz:019fba63-7f7d-7f02-a8cb-d2c694b22e6e",
     "assigned_by": "codex:5733-execution",
@@ -156,13 +157,8 @@
     "observed_sha": "7593093c4d5ebf4b339e31aca1ce5ade1a049141",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5733.json",
-    "released_branch": "codex/5733-demo-matrix-proof-coverage",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5733",
-      ".csdlc/locks/5733.lock",
-      ".csdlc/publication/5733.intent.json"
-    ]
+    "branch": "codex/5733-demo-matrix-proof-coverage",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5733/retained/design.md",

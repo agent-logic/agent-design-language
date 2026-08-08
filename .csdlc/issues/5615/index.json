@@ -5,8 +5,9 @@
   "initialization_digest": "36d04edef06074ba46ddc14aab9493fc35023e2395b1fac82d2c714b0cde44e0",
   "phase": "closed_out",
   "generation": 27,
-  "digest": "38a998feceaa8697fb835c195bfef1092a7fd35aa8c3937401c5d80159beb0d7",
-  "claim": null,
+  "digest": "48ced0dc10ff4cf5301fa52eb1d0fb570e5a107c13851a7d114c73c680b35d3e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f86da-0771-72d1-bbeb-a9aead4be515",
     "assigned_by": "codex:5615-owner",
@@ -82,21 +83,8 @@
     "observed_sha": "7fd0cd063c40e7a0dc181e1546f1963a4c4cfbef",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5615.json",
-    "released_branch": "codex/5615-csdlc-ci-fastwork-routing",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5615",
-      ".csdlc/issues/5615",
-      ".csdlc/prepared/issues/5615",
-      ".github/workflows/ci.yaml",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/run_cargo_validation.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_cargo_validation.sh",
-      "adl/tools/test_select_validation_lanes.sh"
-    ]
+    "branch": "codex/5615-csdlc-ci-fastwork-routing",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5615/retained/design.md",

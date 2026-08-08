@@ -5,8 +5,9 @@
   "initialization_digest": "dab42acf5c368379d4a37d2f3ddd8412f5146e44a6f0099cd7ae0a27a24d197b",
   "phase": "closed_out",
   "generation": 11,
-  "digest": "ba83882918d29ed1378666f10e0efb364821690c2a12df3f98f6d93ecf228d9a",
-  "claim": null,
+  "digest": "b39c067cfe7d912cdc11aad544510d2087089786d1176fe23c041a59332ed4e4",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex:5671-subagent-review",
     "assigned_by": "codex:5671-execution",
@@ -185,19 +186,8 @@
     "observed_sha": "828ab4876818888c067b8ecefcda3ac6330a71fc",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5671.json",
-    "released_branch": "codex/5671-anthropic-opus-5",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5671",
-      ".csdlc/locks/5671.lock",
-      ".csdlc/prepared/issues/5671",
-      "adl/src/cli/provider_cmd.rs",
-      "adl/src/cli/usage.rs",
-      "adl/src/provider/http_family/tests.rs",
-      "adl/src/provider/mod.rs",
-      "adl/src/provider/profiles.rs",
-      "adl/tests/provider_tests/profiles.rs"
-    ]
+    "branch": "codex/5671-anthropic-opus-5",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5671/retained/design.md",

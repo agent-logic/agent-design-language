@@ -5,8 +5,9 @@
   "initialization_digest": "812bcef468b7261d7d8cb522251cb0734425060895701091efad37a816ece601",
   "phase": "closed_out",
   "generation": 26,
-  "digest": "ef82d8e508793730f76a94bb427452d4bc79783b4ed39692c71aa9013f031102",
-  "claim": null,
+  "digest": "3b1540748a5f9872261230adf32491f984b64b1d19a66cf15db5d1d0ae1fd22d",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:/root/review_5589_exact",
     "assigned_by": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
@@ -144,17 +145,8 @@
     "observed_sha": "0f22baf5d4b2fdef485164aa4c83002fdb520a3e",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5589.json",
-    "released_branch": "codex/5589-runtime-v3-parity-c",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5589",
-      ".csdlc/issues/5589",
-      ".csdlc/locks/5589.lock",
-      ".csdlc/prepared/issues/5589",
-      "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/tests/governed_operations.rs"
-    ]
+    "branch": "codex/5589-runtime-v3-parity-c",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5589/retained/design.md",

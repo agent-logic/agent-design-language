@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5881,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
+    "slug": "remove-claims-from-lifecycle",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 6,
+      "summary": "Rebase after the two narrow deletion issues, classify claim surfaces, normalize current records once, delete all claim-specific production logic, and prove crash-safe binding plus the full lifecycle from branch/worktree topology.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Classify all claim-related occurrences as active authority, temporary current-record normalization, historical evidence, or unrelated language while the narrow deletion issues execute independently.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Delete residual active claim fields, operations, gates, schemas, fixtures, skills, and current operator guidance without adding compatibility routes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Normalize current claim-bearing records through a verified one-time path, preserve topology and audit truth, then delete the claim-specific decoder and structs.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused atomic, idempotent, concurrent, and interrupted-bind validation plus claim-free review, publication, finish, and cleanup proof.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-9"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/model.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/src/bin",
+        "csdlc-v2/operator",
+        "csdlc-v2/tests",
+        "docs/tooling",
+        "AGENTS.md"
+      ],
+      "invariants": [
+        "One authoritative branch/worktree pair per issue",
+        "No canonical claim state",
+        "Historical evidence immutable",
+        "Exact-head review and terminal authority unchanged",
+        "Focused validation only"
+      ],
+      "risks": [
+        "Deleting temporary normalization support before current claim-bearing legacy-format records normalize",
+        "Failing to delete claim-specific production logic after normalization",
+        "Treating ordinary evidence claims as lifecycle claims",
+        "Overlapping #5895 or #5883 operator edits",
+        "Leaving an installed skill or schema route stale"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "A proposed change weakens exact-head review or terminal authority",
+        "Current claim-bearing legacy-format records cannot be normalized without destructive rewriting",
+        "The issue would require a new compatibility wrapper",
+        "Shared #5895 or #5883 changes have not settled"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5881/design.md",
+      "design_digest": "44e67b37265d9143069bf9db75750c7d3c646ed23de6082ee33f43f73a1f90ff",
+      "diagram_ref": ".csdlc/prepared/issues/5881/diagram.mmd",
+      "diagram_digest": "965cc168665ed591f0024bcdb62c16a08582c20900becd4b90b4d7c6dbbff4de"
+    }
+  }
+}

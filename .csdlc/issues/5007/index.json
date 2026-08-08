@@ -5,8 +5,9 @@
   "initialization_digest": "c789bbcb9f19495094fd9501a0b61a1c79f53d38af4e5b93f463f3d0408a773e",
   "phase": "closed_out",
   "generation": 7,
-  "digest": "6079c9cbd0368b95c45444c9d929b4557368cef4522df847c1379cb0e2514088",
-  "claim": null,
+  "digest": "053b0635071f19e46a08c859d32ea6382c7ae5a8fcf5eee4ebbe73abf7320c95",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "openai:gpt-5.5-via-codex-review",
@@ -159,17 +160,8 @@
     "observed_sha": "426d0a53fb2b7b0be571b236ca5d0a248b32e1f8",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5007.json",
-    "released_branch": "codex/5007-v0918-wp14-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5007",
-      ".csdlc/locks/5007.lock",
-      ".csdlc/prepared/issues/5007",
-      ".csdlc/evidence/5007",
-      "docs/adr/0058-memory-palace-context-handoff-architecture.md",
-      "docs/adr/README.md",
-      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md"
-    ]
+    "branch": "codex/5007-v0918-wp14-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5007/design.md",

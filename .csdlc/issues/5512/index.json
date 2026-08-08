@@ -5,8 +5,9 @@
   "initialization_digest": "6a72c9067697b3b298b9ee9ad97efc1a57d61a7b5674ba9b4b6f737dc246c769",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "f9dd8ca505b4fc15c112454bb862bb7e76899b464f911540a65ba6d9a49046d6",
-  "claim": null,
+  "digest": "0ad60e5a7053785f35fe76122fcd88581d0f751b4d4c47877eaf20cc0fb876e9",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7532-dfd0-7b52-a750-7df6cce35b42",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -121,13 +122,8 @@
     "observed_sha": "325d8f490129f4198198222e9a95c0c94fa9410c",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5512.json",
-    "released_branch": "codex/5512-runtime-v3-csm-coverage-filter",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ]
+    "branch": "codex/5512-runtime-v3-csm-coverage-filter",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5512/retained/design.md",

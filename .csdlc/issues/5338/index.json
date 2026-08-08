@@ -5,8 +5,9 @@
   "initialization_digest": "199fbe42a3df206676fb4c08e306473ef17bb34c2be2c2e69c0cd371890f5f6f",
   "phase": "closed_out",
   "generation": 33,
-  "digest": "9d5a3eb659b29bd0fb02d0a938dc691a12667a9f4baa7c1ab212755c2e34dcc9",
-  "claim": null,
+  "digest": "ddafcb1ed1ef6ecfe3848fbdee286d27dfbe77176f686c0ebe58212a52476265",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:/root/review_5338_exact",
     "assigned_by": "codex:5338-owner-watch",
@@ -158,16 +159,8 @@
     "observed_sha": "2c0cdd4522e6d7a062595706249894be3e16b2b3",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5338.json",
-    "released_branch": "codex/5338-v0918-wp05-deterministic-compiler",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5338",
-      ".csdlc/issues/5338",
-      ".csdlc/locks/5338.lock",
-      ".csdlc/prepared/issues/5338",
-      "adl-v2/crates/adl-compiler",
-      "adl-v2/crates/adl-compiler/Cargo.toml"
-    ]
+    "branch": "codex/5338-v0918-wp05-deterministic-compiler",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5338/retained/design.md",

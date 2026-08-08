@@ -5,27 +5,9 @@
   "initialization_digest": "9bfd198cf34f50aebb4ba992ffad53ede0006f3bfff0bbe06a5ecc8a230f3fb0",
   "phase": "published",
   "generation": 8,
-  "digest": "aae20f35ebf6ed025d635bbc1eda635bf843ab4fdc4d567ad2941941e09ee990",
-  "claim": {
-    "id": "claim-5788-lockfile-preservation",
-    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 8,
-    "acquired_unix_seconds": 1785783351,
-    "expires_unix_seconds": 1786388151,
-    "heartbeat_unix_seconds": 1785783351,
-    "branch": "codex/5788-lockfile-preservation",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/evidence/5788",
-      "adl/tools/install_owner_binaries.sh",
-      "adl/tools/run_cargo_validation.sh",
-      "adl/tools/run_owner_validation_lane.sh",
-      "adl/tools/test_owner_binary_install.sh",
-      "adl/tools/test_owner_validation_lane.sh",
-      "adl/tools/test_run_cargo_validation.sh"
-    ],
-    "purpose": "Preserve Cargo.lock during validation and owner-binary installation through PR #5793; REVIEW.md and the canonical review handoff remain WP-19 #5357 scope."
-  },
+  "digest": "43681300204f51b19154708d561ae71648f72b20b5b05a6e6ce47b8d928635a2",
+  "branch": "codex/5788-lockfile-preservation",
+  "worktree": ".",
   "review_assignment": {
     "reviewer": "subagent:019fc8ce-d14d-7783-a875-70ad800660a2",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",

@@ -5,8 +5,9 @@
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
   "phase": "merge_ready",
   "generation": 22,
-  "digest": "2cb5f39f312414543ee4cde64ec149b5cfbc5602d47dd3318addfe32184ee61d",
-  "claim": null,
+  "digest": "c439049bc186b1ec5f0ae1dbaf4c422ee3749bc999036bc9883b93c4ed55ce91",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "Boole",

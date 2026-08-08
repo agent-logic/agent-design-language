@@ -86,6 +86,73 @@ fn current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper() {
 }
 
 #[test]
+fn current_records_and_operator_routes_are_claim_free() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    for entry in fs::read_dir(repo.join(".csdlc/issues")).unwrap() {
+        let entry = entry.unwrap();
+        let index = entry.path().join("index.json");
+        if !index.is_file() {
+            continue;
+        }
+        let value: serde_json::Value = serde_json::from_slice(&fs::read(&index).unwrap()).unwrap();
+        assert!(
+            value.get("claim").is_none(),
+            "current record retains claim state: {}",
+            index.display()
+        );
+        if let Some(terminal) = value.get("terminal").and_then(serde_json::Value::as_object) {
+            for retired in [
+                "released_branch",
+                "released_worktree",
+                "released_protected_paths",
+            ] {
+                assert!(
+                    !terminal.contains_key(retired),
+                    "current terminal record retains {retired}: {}",
+                    index.display()
+                );
+            }
+        }
+    }
+
+    let store = fs::read_to_string(repo.join("csdlc-v2/src/store.rs")).unwrap();
+    for retired in [
+        "struct LegacyClaim",
+        "struct LegacyIssueRecord",
+        "normalize_legacy_record_json",
+        "verify_legacy_record_json",
+    ] {
+        assert!(
+            !store.contains(retired),
+            "claim-specific production decoder remains: {retired}"
+        );
+    }
+
+    for relative in [
+        "docs/tooling/adl_pr_cycle_skill.md",
+        "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md",
+        "docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md",
+        "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+        "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+    ] {
+        let text = fs::read_to_string(repo.join(relative)).unwrap();
+        for retired in [
+            "session claim",
+            "issue claim",
+            "claim owner",
+            "stale claim",
+            "stale-claim",
+            "session-ledger claims",
+        ] {
+            assert!(
+                !text.contains(retired),
+                "current operator guidance retains {retired}: {relative}"
+            );
+        }
+    }
+}
+
+#[test]
 fn retired_csdlc_migrate_is_absent_from_active_authority() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let manifest = SkillManifest::load().unwrap();

@@ -5,8 +5,9 @@
   "initialization_digest": "7d2ae121794a7f32acd179c81aea481aa59af9f3f31f85ea8ef242fc462d1df4",
   "phase": "closed_out",
   "generation": 18,
-  "digest": "207c66685d419f108fb2ecee15e3f2e51590842aa09844ed0d201083711d4502",
-  "claim": null,
+  "digest": "6115f4f78298668e5d83409a905ceccd7f5b9093c797576e86d81f12adb99052",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
@@ -107,16 +108,8 @@
     "observed_sha": "4dcee7813d078ece7e31010465ef1530b102712b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5455.json",
-    "released_branch": "codex/5455-stale-owner-provenance",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5455",
-      ".csdlc/prepared/issues/5455",
-      "csdlc-v2/src/bin/csdlc-install.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/tests/gate10a.rs"
-    ]
+    "branch": "codex/5455-stale-owner-provenance",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5455/design.md",

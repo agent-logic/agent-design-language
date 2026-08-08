@@ -5,8 +5,9 @@
   "initialization_digest": "212fb29ba4dd1b21f17aa90ad19bd87f2497143204cb620d0f5699c00b26a631",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "f46bc5d718531007e29b867732e6550f6541e42e677318e41106e51249399da0",
-  "claim": null,
+  "digest": "207e97910310f8c6175b60cdac0a76401fa8bdd915087cc0fa8a957d487e6ce8",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8a9c-c932-70d1-a78d-e1fd5ae66b18",
     "assigned_by": "codex:closeout-batch",
@@ -160,15 +161,8 @@
     "observed_sha": "5f48b0854cd36f64bef38ed0d09a09d84fa2e158",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5342.json",
-    "released_branch": "codex/5342-v0918-wp07-records-signing",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5342",
-      ".csdlc/locks/5342.lock",
-      ".csdlc/prepared/issues/5342",
-      ".csdlc/evidence/5342",
-      "adl-v2/crates/adl-records"
-    ]
+    "branch": "codex/5342-v0918-wp07-records-signing",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5342/retained/design.md",

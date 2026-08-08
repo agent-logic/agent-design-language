@@ -5,8 +5,9 @@
   "initialization_digest": "304bc75a127522c6590ce93430b3be8b667c66b0bf3e3655403207b67290c8f5",
   "phase": "closed_out",
   "generation": 29,
-  "digest": "c0de911ab8382d03eef1c25c569da574deb7cd0c1787910318d3ba0aab33191b",
-  "claim": null,
+  "digest": "40f5cb95324db2dff941b430981dc5bb34620a51ede55b6ab2a89af17c8d180b",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8ab8-7865-7263-832c-2922bae1b9d3",
     "assigned_by": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
@@ -178,22 +179,8 @@
     "observed_sha": "4fe3e1ea5eab93c1842fa05106d62b3fa0b7a986",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5624.json",
-    "released_branch": "codex/5624-csdlc-prune-topology",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5624",
-      ".csdlc/issues/5624",
-      ".csdlc/prepared/issues/5624",
-      "adl/tools/run_cargo_validation.sh",
-      "adl/tools/test_run_cargo_validation.sh",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/proof.rs",
-      "csdlc-v2/src/readiness.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate7.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs"
-    ]
+    "branch": "codex/5624-csdlc-prune-topology",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5624/retained/design.md",

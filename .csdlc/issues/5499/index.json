@@ -5,8 +5,9 @@
   "initialization_digest": "316fcd95ede2f0eb1272cb321481d3b3a4fee04f249b216c1c2d80d694dfb98f",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "7c3b3f141b2b3930b2f064ba089f55e4f9c941129f803ebf58ea1ca749068c92",
-  "claim": null,
+  "digest": "04dfbabbf98a2ff14f72ac22e9df841fe80518bd573530fa0590e8dbd78fb18e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8bf0-a08b-7c92-ac2f-ca70c074bde7",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -154,12 +155,8 @@
     "observed_sha": "26a08cf896693c03fdf8dcc503e734bad56e61dc",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5499.json",
-    "released_branch": "codex/5748-terminal-recovery",
-    "released_worktree": ".worktrees/adl-wp-5748",
-    "released_protected_paths": [
-      ".csdlc/issues/5499",
-      "csdlc-v2/closeout/5499.json"
-    ]
+    "branch": "codex/5748-terminal-recovery",
+    "worktree": ".worktrees/adl-wp-5748"
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5499/design.md",

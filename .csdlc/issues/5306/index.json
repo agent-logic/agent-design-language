@@ -5,8 +5,9 @@
   "initialization_digest": "4bd749716a1a708d0d72d50211d181af01748a6f3f95dd32db38053c25345d71",
   "phase": "closed_out",
   "generation": 17,
-  "digest": "c7e20454ab9d450c23b82139c2e842cc0bf04dda0938d6909e471a8e3e1d1292",
-  "claim": null,
+  "digest": "f1ce2c4282c8b148f700dfe4b2d8b52d3340845351e7121603c2d7be6d64e90e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
@@ -111,20 +112,8 @@
     "observed_sha": "2b11155b6a4abaf9348cc1cfd147c9b9c676a56c",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5306.json",
-    "released_branch": "codex/5306-v0-91-7-csdlc-v2-gate-10d2-approved-bounded-v1-deletion-wave",
-    "released_worktree": ".worktrees/adl-wp-5306",
-    "released_protected_paths": [
-      "adl/src/cli/pr_cmd",
-      "adl/src/cli/pr_cmd.rs",
-      "adl/src/cli/pr_cmd_args.rs",
-      "adl/src/cli/pr_cmd_cards.rs",
-      "adl/src/cli/pr_cmd_prompt.rs",
-      "adl/src/cli/pr_cmd_validate.rs",
-      "adl/tools/pr.sh",
-      "adl/tools/pr_cards.sh",
-      "adl/tools/pr_delegate.sh",
-      "adl/tools/pr_usage.sh"
-    ]
+    "branch": "codex/5306-v0-91-7-csdlc-v2-gate-10d2-approved-bounded-v1-deletion-wave",
+    "worktree": ".worktrees/adl-wp-5306"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5306/retained/design.md",

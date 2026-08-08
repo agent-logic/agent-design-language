@@ -5,8 +5,9 @@
   "initialization_digest": "0b1b443e0ef68c9229695e3260f7340ef3b40df59112c8adb75d065cd81caf9a",
   "phase": "closed_out",
   "generation": 13,
-  "digest": "16f88792e7514a540b9a0a5b9d1f30fe56e724d860b4450d56159ca23c254795",
-  "claim": null,
+  "digest": "892983f341b41c02d5ff74fbb418e4650f36ff2787a79e41b5456b839b42418b",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "Wegener",
     "assigned_by": "codex:wp21-final-handoff",
@@ -161,16 +162,8 @@
     "observed_sha": "6105fc7377aede7d1d2d98ee03d6a9cfdb975048",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5352.json",
-    "released_branch": "codex/5352-v0918-final-handoff",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5352",
-      ".csdlc/issues/5352",
-      ".csdlc/locks/5352.lock",
-      ".csdlc/prepared/issues/5352",
-      "adl/src/csm_runtime_api.rs",
-      "docs/milestones/v0.91.8/handoff"
-    ]
+    "branch": "codex/5352-v0918-final-handoff",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5352/retained/design.md",

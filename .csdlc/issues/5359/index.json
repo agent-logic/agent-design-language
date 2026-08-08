@@ -5,27 +5,9 @@
   "initialization_digest": "1e45fdeda7d0795b7290a037be238e7e7c8624af5008b8c868d9e3b0a4c50365",
   "phase": "published",
   "generation": 19,
-  "digest": "862e49e9ffc2ea84c9fcc54f9812b95563fa624193d1250b29af6c13b766ce3b",
-  "claim": {
-    "id": "claim-5359-v0918-prep-recovery-20260804",
-    "owner": "codex:5359-preparation-owner",
-    "generation": 19,
-    "acquired_unix_seconds": 1785865465,
-    "expires_unix_seconds": 1786470265,
-    "heartbeat_unix_seconds": 1785865465,
-    "branch": "codex/5359-v0918-preparation",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/evidence/5359",
-      ".csdlc/issues/5359",
-      ".csdlc/locks/5359.lock",
-      ".csdlc/prepared/issues/5359",
-      "docs/milestones/v0.92/SPRINT_v0.92.md",
-      "docs/milestones/v0.92/WBS_v0.92.md",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml"
-    ],
-    "purpose": "Prepare #5359 WP-22 next-milestone planning review only; no execution until WP-21A #5355 is live-merged and ancestral"
-  },
+  "digest": "ba45052d1312e7181973be2fdefa8fe875bf401c6a439ca449f54f0c23ee4b04",
+  "branch": "codex/5359-v0918-preparation",
+  "worktree": ".",
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:gpt-5.5:Kuhn",

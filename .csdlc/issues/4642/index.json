@@ -5,8 +5,9 @@
   "initialization_digest": "244b74908e673c30461d55dcae29719064e60a609856bed8a12e8a2afccb9893",
   "phase": "closed_out",
   "generation": 16,
-  "digest": "f8cf7a8870baaaefee25b7e15e0e1e0b2508e7a3f829f46cad11ddbe1712560b",
-  "claim": null,
+  "digest": "013ace1aa994af11fd8e7a08ba47eb919137378844482c72a87f603083de4829",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f745c-23d3-7820-8e91-084314fbc95f",
     "assigned_by": "codex-root",
@@ -90,13 +91,8 @@
     "observed_sha": "60d9070863afc9b394d46eba5984529243464642",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4642.json",
-    "released_branch": "codex/4642-v0917-demo-convergence",
-    "released_worktree": ".worktrees/adl-wp-4642",
-    "released_protected_paths": [
-      "docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md",
-      "docs/milestones/v0.91.7/review/wp15_demo_convergence_4642",
-      ".csdlc/issues/4642"
-    ]
+    "branch": "codex/4642-v0917-demo-convergence",
+    "worktree": ".worktrees/adl-wp-4642"
   },
   "migration": null,
   "design_path": ".csdlc/issues/4642/retained/design.md",

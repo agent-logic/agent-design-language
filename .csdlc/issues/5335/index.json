@@ -5,8 +5,9 @@
   "initialization_digest": "88c4c7befd7b17486851dc332a51dc18904265300bd6bc0be0858331f9f3bf59",
   "phase": "closed_out",
   "generation": 1,
-  "digest": "34fca8fe7e9d874ef10b464acf7159f4de9a288f1cd5dc1a8b7bb596ddd7d0bd",
-  "claim": null,
+  "digest": "ae80675f06f43d5dac9cf02a08d17e0b1483a448501e2c81d518cc5aebb5d137",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -17,9 +18,8 @@
     "observed_sha": null,
     "observed_state": "closed_no_pr",
     "receipt_path": "csdlc-v2/closeout/5335.json",
-    "released_branch": "",
-    "released_worktree": "",
-    "released_protected_paths": []
+    "branch": null,
+    "worktree": null
   },
   "migration": null,
   "design_path": ".csdlc/issues/5335/retained/design.md",

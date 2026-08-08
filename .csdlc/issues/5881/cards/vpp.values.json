@@ -1,0 +1,146 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5881,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
+    "slug": "remove-claims-from-lifecycle",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "canonical-schema",
+          "proof_role": "Prove canonical requests, records, schemas, and CLI surfaces contain no claim lifecycle state.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 240,
+          "budget_tokens": 1800,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "schema"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "record-normalization-retirement",
+          "proof_role": "Prove current claim-bearing records normalize once with topology and audit truth preserved, then prove claim-specific production structs and logic are absent.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 420,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "topology_migration"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "bind-concurrency-recovery",
+          "proof_role": "Prove atomic and idempotent same-issue bind, different-issue concurrency, and interrupted-bind recovery without claims; extend gate2 with the required interrupted-transaction case.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 480,
+          "budget_tokens": 3600,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "parallel_group": "lifecycle",
+          "defer_reason": null
+        },
+        {
+          "lane": "review-to-cleanup",
+          "proof_role": "Prove exact-head review, qualified cross-repository publication, finish, and cleanup derive authority from bound topology without claim IDs.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "--test",
+            "gate6",
+            "--test",
+            "gate_finish",
+            "--test",
+            "gate_cleanup"
+          ],
+          "parallel_group": "lifecycle",
+          "defer_reason": null
+        },
+        {
+          "lane": "operator-contract",
+          "proof_role": "Prove current skills, policies, and runbooks use only claim-free binding while historical evidence remains untouched.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1400,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate10a"
+          ],
+          "parallel_group": "contracts",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on duplicate authoritative topology, active claim state, manual historical-record repair, weakened review/finish truth, compatibility routing, or historical evidence mutation.",
+      "design_ref": ".csdlc/prepared/issues/5881/design.md",
+      "design_digest": "44e67b37265d9143069bf9db75750c7d3c646ed23de6082ee33f43f73a1f90ff",
+      "diagram_ref": ".csdlc/prepared/issues/5881/diagram.mmd",
+      "diagram_digest": "965cc168665ed591f0024bcdb62c16a08582c20900becd4b90b4d7c6dbbff4de"
+    }
+  }
+}
