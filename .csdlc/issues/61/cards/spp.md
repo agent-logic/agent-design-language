@@ -16,14 +16,14 @@ Freeze canonical topology semantics, classify relevance from cheap metadata, ver
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Approve the source-grounded canonical topology and relevance-ordering design.",
+    "action": "Approve the exact Git-derived primary-root algorithm and predicate-carrying relevance/collision design.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -35,7 +35,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Implement canonical-root relevance classification and contextual filesystem errors in lifecycle.rs.",
+    "action": "Implement canonical-primary-root normalization, retain same-issue/same-stored-branch/same-canonical-worktree predicates, and decide reconciliation from verified stored identities rather than scanned projection topology.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -48,7 +48,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Add focused real-binary success and genuine-collision regression cases in gate2.rs.",
+    "action": "Add one exact named real-binary regression covering the #5791-shaped success plus same-issue, matching-stored-branch, matching-canonical-worktree, and contextual-error controls observed from unrelated projections.",
     "acceptance_ids": [
       "AC-2",
       "AC-4",
@@ -60,7 +60,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Run focused validation, resolve exact-head review, publish a closing PR, shepherd it green, and finish through typed authority.",
+    "action": "Run the exact focused regression, strict Clippy, diff hygiene, resolve exact-head review, publish a closing PR, shepherd it green, and finish through typed authority.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -95,13 +95,13 @@ Revision 1
 
 .csdlc/prepared/issues/61/design.md
 
-Digest: 57ffb544fb6002c26d19c73393fc52ed6c04cd0dff0ab621a8f402c4a40e26ca
+Digest: 70468aef4b603a83e240457fdd439a86fdf74e383d8ef1502321d19ab45afc87
 
 ## Diagram
 
 .csdlc/prepared/issues/61/diagram.mmd
 
-Digest: 8a8ce2bf4086aac6ca2aa3416e5c67f9f914f20df942f18e558a7ec3d72c2e76
+Digest: fbbf5d6c6e811a3e7361cf7dcc7e112f85047c75866fd10024c89b22b7e3db23
 
 ## Stop Conditions
 

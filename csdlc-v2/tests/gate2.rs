@@ -27,6 +27,96 @@ fn git(root: &Path, args: &[&str]) -> String {
     must_succeed(command(root, "git", args))
 }
 
+fn copy_directory(source: &Path, destination: &Path) {
+    fs::create_dir_all(destination).expect("copy destination");
+    for entry in fs::read_dir(source).expect("copy source") {
+        let entry = entry.expect("copy entry");
+        let destination = destination.join(entry.file_name());
+        if entry.file_type().expect("copy file type").is_dir() {
+            copy_directory(&entry.path(), &destination);
+        } else {
+            fs::copy(entry.path(), destination).expect("copy file");
+        }
+    }
+}
+
+fn focused_fixture_repo(root: &Path) {
+    fs::create_dir_all(root.join("docs/templates/prompts")).expect("registry directory");
+    fs::create_dir_all(root.join("csdlc-v2/operator")).expect("manifest directory");
+    fs::create_dir_all(root.join("csdlc-v2/tests")).expect("test directory");
+    fs::create_dir_all(root.join("design")).expect("design directory");
+    fs::write(
+        root.join("docs/templates/prompts/current.json"),
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .expect("registry fixture");
+    fs::write(
+        root.join("csdlc-v2/operator/native-card-shape.json"),
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .expect("shape fixture");
+    fs::write(root.join("csdlc-v2/tests/gate2.rs"), "// fixture\n").expect("test fixture");
+    for issue in [42_u64, 43] {
+        fs::write(
+            root.join(format!("design/issue-{issue}.md")),
+            format!("# Approved design for issue {issue}\n"),
+        )
+        .expect("design fixture");
+        fs::write(
+            root.join(format!("design/issue-{issue}.mmd")),
+            "flowchart LR\n  Create --> Bind\n",
+        )
+        .expect("diagram fixture");
+    }
+    git(root, &["init", "-b", "main"]);
+    git(root, &["config", "user.email", "test@example.com"]);
+    git(root, &["config", "user.name", "C-SDLC Test"]);
+    git(
+        root,
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/agent-logic/agent-design-language.git",
+        ],
+    );
+    git(root, &["add", "."]);
+    git(root, &["commit", "-m", "fixture"]);
+}
+
+fn focused_request(issue: u64) -> BootstrapRequest {
+    let mut value = request();
+    value.issue = issue;
+    value.design_path = format!("design/issue-{issue}.md");
+    value.diagram_path = format!("design/issue-{issue}.mmd");
+    value.initial.title = format!("Focused bind issue {issue}");
+    value.initial.slug = format!("focused-bind-issue-{issue}");
+    value.initial.repo_inputs = vec![value.design_path.clone()];
+    value.initial.affected_areas =
+        vec![value.design_path.clone(), "csdlc-v2/tests/gate2.rs".into()];
+    value
+}
+
+fn create_focused_issue(repo: &Path, request_root: &Path, issue: u64) {
+    let request_path = request_root.join(format!("create-{issue}.json"));
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&focused_request(issue)).expect("serialize focused request"),
+    )
+    .expect("focused create request");
+    must_succeed(command(
+        repo,
+        env!("CARGO_BIN_EXE_csdlc-issue"),
+        &[
+            "--root",
+            &repo.to_string_lossy(),
+            "create",
+            "--request",
+            &request_path.to_string_lossy(),
+        ],
+    ));
+}
+
 fn apply_edit(
     repo: &Path,
     temp: &Path,
@@ -1161,4 +1251,212 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         &repo,
         &["worktree", "remove", "--force", &worktree.to_string_lossy()],
     );
+}
+
+#[test]
+fn bind_topology_scan_uses_canonical_record_identity() {
+    let temp = tempfile::tempdir().expect("tempdir");
+
+    // Reproduce the reported failure through the real bind binary: an unrelated
+    // retained record stores `worktree: "."` and references intentionally absent
+    // local artifacts in the issue worktree being bound.
+    let success_repo = temp.path().join("success-repo");
+    let success_worktree = temp.path().join("success-worktree");
+    focused_fixture_repo(&success_repo);
+    git(
+        &success_repo,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "candidate-42",
+            &success_worktree.to_string_lossy(),
+            "main",
+        ],
+    );
+    create_focused_issue(&success_worktree, temp.path(), 42);
+    let retained_5791 = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repository root")
+        .join(".csdlc/issues/5791");
+    copy_directory(&retained_5791, &success_worktree.join(".csdlc/issues/5791"));
+    assert!(!success_worktree
+        .join(".adl/local-artifacts/5791-bootstrap/design.md")
+        .exists());
+    let success_bind = temp.path().join("success-bind.json");
+    fs::write(
+        &success_bind,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "base_branch": "main",
+            "branch": "candidate-42",
+            "worktree": success_worktree,
+        }))
+        .expect("serialize success bind"),
+    )
+    .expect("success bind request");
+    let success = must_succeed(command(
+        &success_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &success_worktree.to_string_lossy(),
+            "--request",
+            &success_bind.to_string_lossy(),
+        ],
+    ));
+    let success: serde_json::Value = serde_json::from_str(&success).expect("bind result JSON");
+    assert_eq!(success["branch"], "candidate-42");
+    assert_eq!(
+        success["worktree"],
+        success_worktree
+            .canonicalize()
+            .expect("canonical worktree")
+            .to_string_lossy()
+            .as_ref()
+    );
+
+    // A genuinely relevant same-issue record is still fully verified.
+    fs::remove_file(success_worktree.join("design/issue-42.md")).expect("remove issue design");
+    let corrupt_same_issue = command(
+        &success_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &success_worktree.to_string_lossy(),
+            "--request",
+            &success_bind.to_string_lossy(),
+        ],
+    );
+    assert!(!corrupt_same_issue.status.success());
+
+    // Build one valid owner record, retain its projection in an unrelated
+    // primary checkout, and unregister its original worktree. Collision
+    // decisions must use the stored branch/worktree predicates, not the branch
+    // or path of the projection being scanned.
+    let conflict_repo = temp.path().join("conflict-repo");
+    let owner_worktree = temp.path().join("owner-worktree");
+    focused_fixture_repo(&conflict_repo);
+    git(
+        &conflict_repo,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "claimed-branch",
+            &owner_worktree.to_string_lossy(),
+            "main",
+        ],
+    );
+    create_focused_issue(&owner_worktree, temp.path(), 43);
+    let owner_bind = temp.path().join("owner-bind.json");
+    fs::write(
+        &owner_bind,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 43,
+            "base_branch": "main",
+            "branch": "claimed-branch",
+            "worktree": owner_worktree,
+        }))
+        .expect("serialize owner bind"),
+    )
+    .expect("owner bind request");
+    must_succeed(command(
+        &owner_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &owner_worktree.to_string_lossy(),
+            "--request",
+            &owner_bind.to_string_lossy(),
+        ],
+    ));
+    copy_directory(
+        &owner_worktree.join(".csdlc/issues/43"),
+        &conflict_repo.join(".csdlc/issues/43"),
+    );
+    git(
+        &conflict_repo,
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            &owner_worktree.to_string_lossy(),
+        ],
+    );
+    create_focused_issue(&conflict_repo, temp.path(), 42);
+
+    let branch_collision = temp.path().join("branch-collision.json");
+    fs::write(
+        &branch_collision,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "base_branch": "main",
+            "branch": "claimed-branch",
+            "worktree": temp.path().join("branch-candidate"),
+        }))
+        .expect("serialize branch collision"),
+    )
+    .expect("branch collision request");
+    fs::remove_file(conflict_repo.join("design/issue-43.md")).expect("remove owner design");
+    let contextual_rejection = command(
+        &conflict_repo,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &conflict_repo.to_string_lossy(),
+            "--request",
+            &branch_collision.to_string_lossy(),
+        ],
+    );
+    assert!(!contextual_rejection.status.success());
+    let contextual_output = format!(
+        "{}{}",
+        String::from_utf8_lossy(&contextual_rejection.stdout),
+        String::from_utf8_lossy(&contextual_rejection.stderr)
+    );
+    assert!(contextual_output.contains("issue 43 topology"));
+    assert!(contextual_output.contains("design/issue-43.md"));
+    fs::write(
+        conflict_repo.join("design/issue-43.md"),
+        "# Approved design for issue 43\n",
+    )
+    .expect("restore owner design");
+    let branch_rejection = command(
+        &conflict_repo,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &conflict_repo.to_string_lossy(),
+            "--request",
+            &branch_collision.to_string_lossy(),
+        ],
+    );
+    assert!(!branch_rejection.status.success());
+    assert!(String::from_utf8_lossy(&branch_rejection.stdout).contains("reconciliation_required"));
+
+    let worktree_collision = temp.path().join("worktree-collision.json");
+    fs::write(
+        &worktree_collision,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "base_branch": "main",
+            "branch": "different-candidate-branch",
+            "worktree": owner_worktree,
+        }))
+        .expect("serialize worktree collision"),
+    )
+    .expect("worktree collision request");
+    let worktree_rejection = command(
+        &conflict_repo,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &conflict_repo.to_string_lossy(),
+            "--request",
+            &worktree_collision.to_string_lossy(),
+        ],
+    );
+    assert!(!worktree_rejection.status.success());
+    assert!(String::from_utf8_lossy(&worktree_rejection.stdout).contains("reconciliation_required"));
 }

@@ -7,7 +7,7 @@
     "title": "C-SDLC bind topology scan misresolves historical worktree dot records",
     "slug": "bind-topology-dot-records",
     "version": "v0.92",
-    "generation": 0
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "gate2-bind-topology-regression",
-          "proof_role": "Exercise the real bind binary with unrelated historical dot records, absent artifacts, and genuine topology collisions.",
+          "proof_role": "Exercise the exact real-binary regression with unrelated historical dot records, absent artifacts, same-issue verification, and genuine stored branch/worktree collisions.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -37,7 +37,10 @@
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
             "--test",
-            "gate2"
+            "gate2",
+            "bind_topology_scan_uses_canonical_record_identity",
+            "--",
+            "--exact"
           ],
           "parallel_group": "issue-local",
           "defer_reason": null
@@ -90,9 +93,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on ambiguous topology identity, any skipped relevant record, any raw uncontextualized filesystem error, failed focused proof, or stale review evidence.",
       "design_ref": ".csdlc/prepared/issues/61/design.md",
-      "design_digest": "57ffb544fb6002c26d19c73393fc52ed6c04cd0dff0ab621a8f402c4a40e26ca",
+      "design_digest": "70468aef4b603a83e240457fdd439a86fdf74e383d8ef1502321d19ab45afc87",
       "diagram_ref": ".csdlc/prepared/issues/61/diagram.mmd",
-      "diagram_digest": "8a8ce2bf4086aac6ca2aa3416e5c67f9f914f20df942f18e558a7ec3d72c2e76"
+      "diagram_digest": "fbbf5d6c6e811a3e7361cf7dcc7e112f85047c75866fd10024c89b22b7e3db23"
     }
   }
 }

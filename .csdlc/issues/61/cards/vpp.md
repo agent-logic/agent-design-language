@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/61/diagram.mmd
 [
   {
     "lane": "gate2-bind-topology-regression",
-    "proof_role": "Exercise the real bind binary with unrelated historical dot records, absent artifacts, and genuine topology collisions.",
+    "proof_role": "Exercise the exact real-binary regression with unrelated historical dot records, absent artifacts, same-issue verification, and genuine stored branch/worktree collisions.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -45,7 +45,10 @@ Diagram: .csdlc/prepared/issues/61/diagram.mmd
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
       "--test",
-      "gate2"
+      "gate2",
+      "bind_topology_scan_uses_canonical_record_identity",
+      "--",
+      "--exact"
     ],
     "parallel_group": "issue-local",
     "defer_reason": null
@@ -107,7 +110,7 @@ Tokens: 10000
 
 ## Commands
 
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate2`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate2 bind_topology_scan_uses_canonical_record_identity -- --exact`
 - `cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`
 - `git diff --check`
 

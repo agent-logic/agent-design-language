@@ -3,11 +3,11 @@
   "issue": 61,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3c30d55264d807d5007dad213d3138bd33bbd64299a29d3e8079c3fad62eab0d",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "b2085d3100cbd710e8fe19ab743b44977dfd3abf1a89fbf0753f17e2f05f102f",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "1c79b8d387b8d2baeccc881d5849c46c101f3b20c1c832d659cb27fdb5c2f6f4",
+  "branch": "codex/61-bind-topology-dot-records-preparation",
+  "worktree": "/Volumes/FastWork/adl-issue-61-bind-topology-dot-records",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -16,40 +16,67 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/61/design.md",
   "diagram_path": ".csdlc/prepared/issues/61/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-subagent:rereview-61-readiness:cfe2415fd",
+      "revision": "70468aef4b603a83e240457fdd439a86fdf74e383d8ef1502321d19ab45afc87"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "0d65581e779574e75df26f3424e224cc5a5eb2ca8ea39f4a2c8eed440d37d97e",
+      "values_digest": "4a1136b698a9e643083377d3fc4fac553ec76062d93bb16b4b88fdad545c6b2b",
       "rendered_digest": "cb5daea0fb30eded8071f3cd480a2b64a9f8de8e2fd3c4983e3b19016795f18f",
       "ast_digest": "3ec003f1dd607268116836ef1a337b51b2ad672f48e816c4c19e7ff113e54e53"
     },
     "stp": {
-      "values_digest": "fe825db01177690c38bfaf29ba05811b0893f526e1d217142051149bd49c61d3",
-      "rendered_digest": "8f05b4d3b76c00f85843d8450443e7eda1b529fb93287e064e4a7fe0280df06b",
-      "ast_digest": "0e42a377caa599974d680fd263d87db3e9458b3286c6a27a2d6f7077b1e3f7f8"
+      "values_digest": "12c41597f50c8c8fd089b6c9dc4089e133579e729ef27cec7c10c3f3fb5dd27d",
+      "rendered_digest": "99d0df66bb4c9d028469f306a29728aa642c8a58f9e5f97fbe96ce26a84ef944",
+      "ast_digest": "4d0e603fac98891cc174467130a6f8fdeef545b9e7605b8bdd613b4cb38d9c3e"
     },
     "spp": {
-      "values_digest": "b906ea11208bb14488ecf7b0c711430f15c46179a2ed2b1f42eac2587af34094",
-      "rendered_digest": "54b1f10f624b4b358a4fd4158e30f3d7424e957cb3baa35239ee6f8f1a8e2b94",
-      "ast_digest": "b703d4a8ed58340fc24e4b65be4694001bdc65829c247d70d238fb3f8e5843c1"
+      "values_digest": "d7fa4cc7f38436c1f7dbccb1c4930657daf502727ea0baf431d5b56e701c8a9f",
+      "rendered_digest": "590a613c1817d83505307907604f0d1663041f4e4a863c4c870fc01b8dbbbe49",
+      "ast_digest": "bce297cf9c48f77098704639f9a9ca6c1cadefb72ba1918ec4498f32b1f0972c"
     },
     "vpp": {
-      "values_digest": "8aad737811ef91e803e9adc1117a4f9ccaf6675a8a7e38f50f62ab8467e01afd",
-      "rendered_digest": "7d978cfe7de900a4e6375aa4b8c61994eed9e637d24ede12442cfc71a4d2e5af",
-      "ast_digest": "abebf32b4a151d480a1e8e78e4561df37b44c45eee5ec2a6cf63fd345212a6f0"
+      "values_digest": "63714a9bb505b3486b018cad4b461ad6ea05d558a6a2e1e910f4f1e1d3249e06",
+      "rendered_digest": "a024b8a331f34c803f12ba69f62d5857eec2636d1afd165eacbbed8eef455876",
+      "ast_digest": "8dec33ae0f20131c3134357937a3f15734d8a7cb3c1fc7af74140681640529e9"
     },
     "srp": {
-      "values_digest": "23ee43cbe185c0eec43c200fafc4e6872d7a5973a3c539567e0ec5975222befa",
+      "values_digest": "00f1fd73bb09bd4004d89e26711d3f765ade68fcf0c5552e87baf9f9b81921f1",
       "rendered_digest": "03eb845085b152b6ae47d2772a26fde6dcb542a2a97369e2fd166bcb889ac8b7",
       "ast_digest": "e68725f2ed07c53b1a56c8c17fa98d346dd7a82c1208b33cdfc812b8beefdf28"
     },
     "sor": {
-      "values_digest": "dcdd157193f567893855929cca74b081eacbc552dda5ac8d02c6fa068877c570",
-      "rendered_digest": "7cfb43431282ac86a9e53f47e84c4b3a10faa1a71c0ad64a783dd55e288a19d7",
-      "ast_digest": "df73b1cfbaa28ac988c002fc7b07c64a42da196552fb9e0b2c6fe06b4ad56c6d"
+      "values_digest": "a597b9fa415e6b56d2cd54d9d3f20b9775df4d29dfbb6554ce8cb9720f63b03e",
+      "rendered_digest": "b49b917c1f754535b5e9edeb72042f17456948f47f03df77dd64e7d087f146ef",
+      "ast_digest": "d910a1f9d0396cc6215b7d3351988e61296ff22864f31be69a3eb2430b9339ef"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-61",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -57,6 +84,48 @@
       "actor": "codex:prepare-61",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-subagent:rereview-61-readiness:cfe2415fd",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:prepare-61",
+      "reason": "make execution-readiness deliverables exact repository paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\".csdlc/prepared/issues/61/design.md\",\".csdlc/prepared/issues/61/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:prepare-61",
+      "reason": "resolve readiness findings about stored identity predicates and canonical topology authority",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Approve the exact Git-derived primary-root algorithm and predicate-carrying relevance/collision design.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement canonical-primary-root normalization, retain same-issue/same-stored-branch/same-canonical-worktree predicates, and decide reconciliation from verified stored identities rather than scanned projection topology.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add one exact named real-binary regression covering the #5791-shaped success plus same-issue, matching-stored-branch, matching-canonical-worktree, and contextual-error controls observed from unrelated projections.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run the exact focused regression, strict Clippy, diff hygiene, resolve exact-head review, publish a closing PR, shepherd it green, and finish through typed authority.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:prepare-61",
+      "reason": "resolve readiness finding by selecting the exact named bind topology regression",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"gate2-bind-topology-regression\",\"proof_role\":\"Exercise the exact real-binary regression with unrelated historical dot records, absent artifacts, same-issue verification, and genuine stored branch/worktree collisions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"bind_topology_scan_uses_canonical_record_identity\",\"--\",\"--exact\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject Rust API, match, diagnostic, and focused-test integration regressions in the bounded crate.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-61",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

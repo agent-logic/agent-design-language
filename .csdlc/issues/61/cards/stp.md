@@ -16,11 +16,10 @@ Correct only bind-time topology relevance and its focused tests; do not mutate r
 
 ## Deliverables
 
-- Canonical-root topology relevance classifier in csdlc-v2/src/lifecycle.rs
-- Focused #5791-shaped regression and genuine-collision controls in csdlc-v2/tests/gate2.rs
-- Typed contextual issue/path diagnostics for surviving filesystem failures
-- Reviewed design and Mermaid flow diagram
-- Focused validation and exact-head review evidence
+- csdlc-v2/src/lifecycle.rs
+- csdlc-v2/tests/gate2.rs
+- .csdlc/prepared/issues/61/design.md
+- .csdlc/prepared/issues/61/diagram.mmd
 
 ## Acceptance
 

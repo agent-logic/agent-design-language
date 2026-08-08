@@ -7,18 +7,18 @@
     "title": "C-SDLC bind topology scan misresolves historical worktree dot records",
     "slug": "bind-topology-dot-records",
     "version": "v0.92",
-    "generation": 0
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Freeze canonical topology semantics, classify relevance from cheap metadata, verify only relevant records, add issue/path diagnostics, prove the #5791-shaped success and genuine collision failures, then run focused review and publication.",
       "steps": [
         {
           "id": "S1",
-          "action": "Approve the source-grounded canonical topology and relevance-ordering design.",
+          "action": "Approve the exact Git-derived primary-root algorithm and predicate-carrying relevance/collision design.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -30,7 +30,7 @@
         },
         {
           "id": "S2",
-          "action": "Implement canonical-root relevance classification and contextual filesystem errors in lifecycle.rs.",
+          "action": "Implement canonical-primary-root normalization, retain same-issue/same-stored-branch/same-canonical-worktree predicates, and decide reconciliation from verified stored identities rather than scanned projection topology.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -43,7 +43,7 @@
         },
         {
           "id": "S3",
-          "action": "Add focused real-binary success and genuine-collision regression cases in gate2.rs.",
+          "action": "Add one exact named real-binary regression covering the #5791-shaped success plus same-issue, matching-stored-branch, matching-canonical-worktree, and contextual-error controls observed from unrelated projections.",
           "acceptance_ids": [
             "AC-2",
             "AC-4",
@@ -55,7 +55,7 @@
         },
         {
           "id": "S4",
-          "action": "Run focused validation, resolve exact-head review, publish a closing PR, shepherd it green, and finish through typed authority.",
+          "action": "Run the exact focused regression, strict Clippy, diff hygiene, resolve exact-head review, publish a closing PR, shepherd it green, and finish through typed authority.",
           "acceptance_ids": [
             "AC-8"
           ],
@@ -93,9 +93,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/61/design.md",
-      "design_digest": "57ffb544fb6002c26d19c73393fc52ed6c04cd0dff0ab621a8f402c4a40e26ca",
+      "design_digest": "70468aef4b603a83e240457fdd439a86fdf74e383d8ef1502321d19ab45afc87",
       "diagram_ref": ".csdlc/prepared/issues/61/diagram.mmd",
-      "diagram_digest": "8a8ce2bf4086aac6ca2aa3416e5c67f9f914f20df942f18e558a7ec3d72c2e76"
+      "diagram_digest": "fbbf5d6c6e811a3e7361cf7dcc7e112f85047c75866fd10024c89b22b7e3db23"
     }
   }
 }
