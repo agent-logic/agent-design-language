@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 41,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/41-missing-issue-read-diagnostics-preparation",
+  "title": "[C-SDLC v2][GitHub] Classify issue-read failures",
+  "body": "Closes #41\n\n## Summary\n- preserve structured Octocrab errors for explicit issue reads only\n- return stable typed codes and exits for not-found, authentication, authorization, rate-limit, server, and transport failures\n- keep successful reads and non-read reconciliation behavior unchanged\n- redact tokens, paths, response bodies, and raw remote errors\n\n## Validation\n- `gate_github_actions`: 5 passed\n- strict all-target Clippy: passed\n- formatting, diff hygiene, and typed validation: passed\n- exact-head independent review: PASS, no findings\n\nNo live GitHub mutation or AWS execution was used for validation.",
+  "draft": false,
+  "revision": "git-blake3:d5f2e6a8159ae32b1f8a1f2c87bff8911111cb74:27627295380cb3a0bb007bfa6a4e8d517c53a7708af9caee51bc02a20c7ae562",
+  "commit_sha": "d5f2e6a8159ae32b1f8a1f2c87bff8911111cb74"
+}

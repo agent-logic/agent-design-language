@@ -1,0 +1,1 @@
+{"issue":41,"card":"spp","expected_generation":10,"expected_digest":"0a31db673f8b48da69ccb09aea3e9738e59b7f7aeabe662afc2a5bfd5af17092","actor":"codex:41-execution","reason":"record the completed structured-error fetch seam and explicit-read mapping","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"}}

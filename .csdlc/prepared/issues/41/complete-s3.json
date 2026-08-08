@@ -1,0 +1,1 @@
+{"issue":41,"card":"spp","expected_generation":11,"expected_digest":"969f7296d99fa361069988ecb3d33923dfbe5ba1a91c23b865dcbbd551ad4de5","actor":"codex:41-execution","reason":"record the completed real-binary loopback and redaction proof","operation":{"operation":"update_plan_step","step_id":"S3","status":"completed"}}

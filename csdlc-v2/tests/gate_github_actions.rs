@@ -108,6 +108,278 @@ fn split_github_schema_commands_accept_early_stdout_close() {
     }
 }
 
+#[test]
+fn issue_read_failures_are_typed_redacted_and_action_scoped() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let token_path = temp.path().join("github.token");
+    let token = "secret-token-issue-41";
+    fs::write(&token_path, token).expect("write token");
+    let sensitive = "sensitive-response-sentinel-41";
+
+    let cases = [
+        (404, json!({"message": sensitive}), "remote_not_found", 69),
+        (
+            401,
+            json!({"message": sensitive}),
+            "remote_authentication",
+            77,
+        ),
+        (
+            403,
+            json!({"message": sensitive}),
+            "remote_authorization",
+            77,
+        ),
+        (
+            403,
+            json!({"message": format!("API rate limit exceeded for {sensitive}")}),
+            "remote_rate_limited",
+            74,
+        ),
+        (
+            403,
+            json!({"message": "You have exceeded a secondary rate limit. Please wait a few minutes before you try again."}),
+            "remote_rate_limited",
+            74,
+        ),
+        (
+            403,
+            json!({
+                "message": sensitive,
+                "documentation_url": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api"
+            }),
+            "remote_rate_limited",
+            74,
+        ),
+        (
+            403,
+            json!({
+                "message": sensitive,
+                "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
+            }),
+            "remote_rate_limited",
+            74,
+        ),
+        (
+            403,
+            json!({
+                "message": sensitive,
+                "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits"
+            }),
+            "remote_rate_limited",
+            74,
+        ),
+        (
+            403,
+            json!({
+                "message": "rate limit almost matched",
+                "documentation_url": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api/extra"
+            }),
+            "remote_authorization",
+            77,
+        ),
+        (
+            403,
+            json!({
+                "message": "ordinary forbidden response",
+                "documentation_url": "not a URL"
+            }),
+            "remote_authorization",
+            77,
+        ),
+        (
+            429,
+            json!({"message": sensitive}),
+            "remote_rate_limited",
+            74,
+        ),
+        (500, json!({"message": sensitive}), "remote_server", 74),
+    ];
+
+    for (index, (status, body, code, exit)) in cases.into_iter().enumerate() {
+        let server = ScriptedGithub::start(vec![(status, body)]);
+        let output = run_issue_binary(
+            temp.path(),
+            &token_path,
+            server.uri(),
+            base_read_request(),
+            &format!("failure-{index}"),
+        );
+        assert_eq!(output.status.code(), Some(exit), "case {index}");
+        let payload: Value = serde_json::from_slice(&output.stdout).expect("error JSON");
+        assert_eq!(payload["schema"], "csdlc.error.v1");
+        assert_eq!(payload["code"], code, "case {index}");
+        if status == 404 {
+            assert_eq!(
+                payload["message"],
+                "GitHub issue owner/repo#77 was not found or is inaccessible; verify the repository, issue number, and token access"
+            );
+        }
+        assert_redacted(&output, token, &token_path, sensitive);
+    }
+
+    let server = ScriptedGithub::start(vec![(
+        200,
+        open_issue("Readable", "Body", Vec::new(), Vec::new(), None),
+    )]);
+    let success = run_issue_binary(
+        temp.path(),
+        &token_path,
+        server.uri(),
+        base_read_request(),
+        "success",
+    );
+    assert!(success.status.success());
+    let payload: Value = serde_json::from_slice(&success.stdout).expect("success JSON");
+    assert_eq!(payload["issue"]["number"], 77);
+    assert_eq!(payload["issue"]["title"], "Readable");
+    assert!(success.stderr.is_empty());
+
+    let listener = TcpListener::bind("127.0.0.1:0").expect("transport address");
+    let unavailable = format!("http://{}/", listener.local_addr().unwrap());
+    drop(listener);
+    let transport = run_issue_binary(
+        temp.path(),
+        &token_path,
+        unavailable,
+        base_read_request(),
+        "transport",
+    );
+    assert_eq!(transport.status.code(), Some(74));
+    let payload: Value = serde_json::from_slice(&transport.stdout).expect("transport JSON");
+    assert_eq!(payload["code"], "remote_transport");
+    assert_redacted(&transport, token, &token_path, sensitive);
+
+    let server = ScriptedGithub::start(vec![
+        (200, json!({})),
+        (404, json!({"message": "Not Found"})),
+    ]);
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.issue = Some(77);
+    update.title = Some("Updated".into());
+    let non_read = run_issue_binary(temp.path(), &token_path, server.uri(), update, "non-read");
+    assert_eq!(non_read.status.code(), Some(74));
+    let payload: Value = serde_json::from_slice(&non_read.stdout).expect("non-read JSON");
+    assert_eq!(payload["code"], "remote_failure");
+}
+
+fn base_read_request() -> GithubActionRequest {
+    let mut request = base_request(GithubAction::IssueRead);
+    request.operation_key = None;
+    request.issue = Some(77);
+    request
+}
+
+fn run_issue_binary(
+    root: &std::path::Path,
+    token_path: &std::path::Path,
+    api_base: String,
+    mut request: GithubActionRequest,
+    name: &str,
+) -> std::process::Output {
+    request.token_file = Some(token_path.to_string_lossy().into_owned());
+    let request_path = root.join(format!("{name}.json"));
+    fs::write(&request_path, serde_json::to_vec_pretty(&request).unwrap()).unwrap();
+    Command::new(env!("CARGO_BIN_EXE_csdlc-github-issue"))
+        .args(["run", "--request", request_path.to_str().unwrap()])
+        .env("CSDLC_V2_TEST_GITHUB_API_BASE", api_base)
+        .output()
+        .expect("run csdlc-github-issue")
+}
+
+fn assert_redacted(
+    output: &std::process::Output,
+    token: &str,
+    token_path: &std::path::Path,
+    sensitive: &str,
+) {
+    let streams = format!(
+        "{}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(!streams.contains(token));
+    assert!(!streams.contains(&token_path.to_string_lossy().into_owned()));
+    assert!(!streams.contains(sensitive));
+    assert!(
+        output.stderr.is_empty(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+struct ScriptedGithub {
+    address: SocketAddr,
+    stop: Arc<AtomicBool>,
+    thread: Option<thread::JoinHandle<()>>,
+}
+
+impl ScriptedGithub {
+    fn start(responses: Vec<(u16, Value)>) -> Self {
+        let listener = TcpListener::bind("127.0.0.1:0").expect("bind scripted GitHub");
+        listener
+            .set_nonblocking(true)
+            .expect("nonblocking scripted GitHub");
+        let address = listener.local_addr().expect("scripted address");
+        let stop = Arc::new(AtomicBool::new(false));
+        let thread_stop = Arc::clone(&stop);
+        let thread = thread::spawn(move || {
+            let mut responses = responses.into_iter();
+            while !thread_stop.load(Ordering::SeqCst) {
+                match listener.accept() {
+                    Ok((mut stream, _)) => {
+                        if read_request(&mut stream).is_none() {
+                            continue;
+                        }
+                        let Some((status, body)) = responses.next() else {
+                            break;
+                        };
+                        write_status_response(&mut stream, status, body);
+                        if responses.len() == 0 {
+                            break;
+                        }
+                    }
+                    Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                        thread::sleep(Duration::from_millis(2));
+                    }
+                    Err(_) => break,
+                }
+            }
+        });
+        Self {
+            address,
+            stop,
+            thread: Some(thread),
+        }
+    }
+
+    fn uri(&self) -> String {
+        format!("http://{}/", self.address)
+    }
+}
+
+impl Drop for ScriptedGithub {
+    fn drop(&mut self) {
+        self.stop.store(true, Ordering::SeqCst);
+        let _ = TcpStream::connect(self.address);
+        if let Some(thread) = self.thread.take() {
+            let _ = thread.join();
+        }
+    }
+}
+
+fn write_status_response(stream: &mut TcpStream, status: u16, body: Value) {
+    let body = body.to_string();
+    let response = format!(
+        "HTTP/1.1 {status} response\r\ncontent-type: application/json\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{}",
+        body.len(),
+        body
+    );
+    stream
+        .write_all(response.as_bytes())
+        .expect("write scripted response");
+}
+
 #[tokio::test]
 async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     let mut invalid_key = base_request(GithubAction::IssueCreate);

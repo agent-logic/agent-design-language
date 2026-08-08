@@ -1,0 +1,241 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 41,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "771b5ed173830eb20533942fa87b74b8f11779b53aabf509b5e9cc0e34d22b32",
+  "phase": "published",
+  "generation": 15,
+  "digest": "1d0919c97ed34090b38d191aa37353dd83d1d128df38f70f03d007d6489cdd3a",
+  "branch": "codex/41-missing-issue-read-diagnostics-preparation",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-41-preparation",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:review-41-implementation",
+    "scope": [
+      ".csdlc/issues/41",
+      ".csdlc/prepared/issues/41",
+      "csdlc-v2/src/error.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ],
+    "reviewed_revision": "git-blake3:bda51b77837a4a8ae76e39ae39158400f36425a6:70c6fd14d59905c3000145a3d1989976ccbdec33f27adc2ec20c47134f6c1a49",
+    "findings": [],
+    "residual_risks": [
+      "No live GitHub request was made; deterministic loopback proof is the intentional validation boundary."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 41,
+    "pull_request": 68,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/68",
+    "base": "main",
+    "head": "codex/41-missing-issue-read-diagnostics-preparation",
+    "revision": "git-blake3:d5f2e6a8159ae32b1f8a1f2c87bff8911111cb74:27627295380cb3a0bb007bfa6a4e8d517c53a7708af9caee51bc02a20c7ae562",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/41/design.md",
+  "diagram_path": ".csdlc/prepared/issues/41/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:41-readiness-review",
+      "revision": "f6ae66c2ba91d72c737b6ec5e9de23063c70460e857c004a6d2ff3f70ae6cca7"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "319fb6719f9cc8a43180143f6b22542d80e39e423c61a1844d599780b5372d9b",
+      "rendered_digest": "f7745872babb8299b9f9c1964c684a2f4246df6a1ea3a19066e420c0976d289d",
+      "ast_digest": "3f9c49d932c246af98631b30d404612bd6f3ab99c71e3b9e64354a6280909a8d"
+    },
+    "stp": {
+      "values_digest": "b38431c1e03a5f2bc6cb01f18935f3d6237a4b99667646d6432aea67f6b1e55d",
+      "rendered_digest": "9c85cd21d22bea114ce3fbe8f269223ef781c1f5d7ff8f15cf77029c959c39ea",
+      "ast_digest": "6a3d0757edb91ea51a5399303d8c929b9c1eceace677c3c65b151f0256285b35"
+    },
+    "spp": {
+      "values_digest": "688d8798676ac6aebaec49251770820ee9907fb050e4619607dadb668b1d28be",
+      "rendered_digest": "d8a6614b34a983cf1c93ccfe1837d8d875676a0b35fecad5d0551fe40921f8f4",
+      "ast_digest": "2c2e4ab6aab25ac41943aef6ac3386a8117c0ef5b280f0526edcdc53a80ed45d"
+    },
+    "vpp": {
+      "values_digest": "cb62fffaa226950a1505eaa60cd2dae6195d9bc11f602eb954814f066aac9f59",
+      "rendered_digest": "d79f0155f1f4c69a19b7220349e7aa2e33f478ed3c3117ea6af445885ec11dd9",
+      "ast_digest": "40d94ac1d2cc4da656effdcb5e7154fbeb46c08a5bda0c1e6e6f3a37e655a49b"
+    },
+    "srp": {
+      "values_digest": "9777d402b53b174e274a8f6b5d82f7cbe69a7aab6435ceaf6605d3d3c3168227",
+      "rendered_digest": "1de26d3cb7559161326cd9b0be5f6419a3b85966d68d0295629fdb36ec882f2d",
+      "ast_digest": "216c4c44f8ca23f5ac459b84d7f478713cc1a9d1335d9aee978152779f41cbbd"
+    },
+    "sor": {
+      "values_digest": "4fcda989ce439a10a9a74dca1f1c6e287e514d29c3fe4e86633ddc79ac1f58e0",
+      "rendered_digest": "5227dde596b94f210ceaaeb59a58bc4da50dd7e276fd5031473fad580277e233",
+      "ast_digest": "7c1dda122446f4a923276ce1bc6a3a77f637fc726e8b1dc87928b6e4a243ba51"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:41-execution",
+      "reason": "advance only after bounded implementation and proving validation are recorded"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-41-implementation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:41-execution",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "bind execution readiness to exact repository-owned implementation and proof paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/error.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/bin/csdlc-github-issue.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:41-readiness-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "bind the focused loopback validator deliverable to its exact existing repository path",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Stable issue-read remote failure codes and exit mapping\",\"Contextual redacted repository/issue diagnostics\",\"csdlc-v2/tests/gate_github_actions.rs\",\"Exact JSON, exit-code, stdout/stderr, and secret-redaction assertions\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "carry the approved 404 wording, closed rate-limit allowlist, and non-read compatibility into typed acceptance truth",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: HTTP 404 issue reads return remote_not_found with exit 69 and say owner/name#N was not found or is inaccessible, directing the operator to verify repository, issue number, and token access\",\"AC-2: HTTP 401 and ordinary HTTP 403 are typed as authentication or authorization failures and never as not-found\",\"AC-3: HTTP 429 and only the design's closed allowlist of primary or secondary rate-limit HTTP 403 markers are typed as rate-limited; near-match and ordinary HTTP 403 remain authorization\",\"AC-4: HTTP 5xx and connection failures are typed as server or transport failures and never as not-found\",\"AC-5: Successful issue-read request/result JSON and all non-read action readback failure behavior remain unchanged\",\"AC-6: Failure stdout is valid csdlc.error.v1 JSON, exit codes are stable, and stderr remains empty unless stdout writing fails\",\"AC-7: Token value, token path, authorization material, sensitive response-body sentinel, and raw Octocrab error text are absent from stdout and stderr\",\"AC-8: Focused real-binary loopback tests and strict Clippy pass with no unresolved review findings\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "subagent:41-readiness-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "carry the approved structured-error fetch seam into executable typed plan truth",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm the issue-read-only failure taxonomy, safe diagnostic vocabulary, exit codes, closed rate-limit allowlist, and redaction invariant.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Extract the existing GitHub GET into fetch_issue_value returning structured octocrab::Error; keep shared read_issue_packet generic, and map only explicit IssueRead errors before the common normalizer.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Extend the existing loopback fixture and prove real CLI JSON, exits, classification, non-read compatibility, successful-read compatibility, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused validation and exact-head independent review, resolve findings, and publish a qualified closing PR.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:41-execution",
+      "reason": "record the bounded issue-read classifier implementation before review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added explicit IssueRead-only structured Octocrab failure classification with stable exit codes, bounded diagnostics, and real-binary loopback regression proof while preserving shared non-read behavior.\",\"changes\":[\"csdlc-v2/src/error.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"],\"artifacts\":[\".csdlc/prepared/issues/41/design.md\",\".csdlc/prepared/issues/41/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:41-execution",
+      "reason": "retain the focused real-binary issue-read and non-read compatibility proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove typed issue-read failure taxonomy, stable JSON and exits, redaction, successful reads, and unchanged non-read readback classification\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree: gate_github_actions 5 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:41-execution",
+      "reason": "retain strict Rust lint and formatting proof for the bounded classifier change",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the complete C-SDLC v2 target set remains warning-free after the classifier change\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree: strict all-target Clippy, cargo fmt --check, and git diff --check passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:41-execution",
+      "reason": "record the completed bounded failure taxonomy and redaction contract",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:41-execution",
+      "reason": "record the completed structured-error fetch seam and explicit-read mapping",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:41-execution",
+      "reason": "record the completed real-binary loopback and redaction proof",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:41-execution",
+      "reason": "advance only after bounded implementation and proving validation are recorded",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "subagent:review-41-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:41-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

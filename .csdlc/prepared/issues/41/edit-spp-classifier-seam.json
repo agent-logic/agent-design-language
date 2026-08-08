@@ -1,0 +1,37 @@
+{
+  "issue": 41,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "92334cebb0756a4e0add2ac7cc2ddeda3d7e5650c483a21fe1b0cf56dbdfbd31",
+  "actor": "codex:41-readiness-preparation",
+  "reason": "carry the approved structured-error fetch seam into executable typed plan truth",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Confirm the issue-read-only failure taxonomy, safe diagnostic vocabulary, exit codes, closed rate-limit allowlist, and redaction invariant.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Extract the existing GitHub GET into fetch_issue_value returning structured octocrab::Error; keep shared read_issue_packet generic, and map only explicit IssueRead errors before the common normalizer.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Extend the existing loopback fixture and prove real CLI JSON, exits, classification, non-read compatibility, successful-read compatibility, and redaction.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation and exact-head independent review, resolve findings, and publish a qualified closing PR.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "issue": 41,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "352cad338a9d2bacc1a88b8fb79cd1772363342450ad68e26cd20e24d4088c32",
+  "actor": "codex:41-readiness-preparation",
+  "reason": "carry the approved 404 wording, closed rate-limit allowlist, and non-read compatibility into typed acceptance truth",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: HTTP 404 issue reads return remote_not_found with exit 69 and say owner/name#N was not found or is inaccessible, directing the operator to verify repository, issue number, and token access",
+      "AC-2: HTTP 401 and ordinary HTTP 403 are typed as authentication or authorization failures and never as not-found",
+      "AC-3: HTTP 429 and only the design's closed allowlist of primary or secondary rate-limit HTTP 403 markers are typed as rate-limited; near-match and ordinary HTTP 403 remain authorization",
+      "AC-4: HTTP 5xx and connection failures are typed as server or transport failures and never as not-found",
+      "AC-5: Successful issue-read request/result JSON and all non-read action readback failure behavior remain unchanged",
+      "AC-6: Failure stdout is valid csdlc.error.v1 JSON, exit codes are stable, and stderr remains empty unless stdout writing fails",
+      "AC-7: Token value, token path, authorization material, sensitive response-body sentinel, and raw Octocrab error text are absent from stdout and stderr",
+      "AC-8: Focused real-binary loopback tests and strict Clippy pass with no unresolved review findings"
+    ]
+  }
+}
