@@ -82,3 +82,4 @@
 {"sequence":82,"generation":59,"actor":"codex:5821-wp04-gate","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":83,"generation":60,"actor":"codex:5821-wp04-gate","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":84,"generation":61,"actor":"codex:5821-wp04-gate","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":85,"generation":62,"actor":"codex:5821-wp04-gate","reason":"Recover stale review and publication truth after the substantive #5865 OpenRaft COTS contract repair.","operation":"recover_review"}

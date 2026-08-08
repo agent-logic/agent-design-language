@@ -3,69 +3,14 @@
   "issue": 5821,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9376933aa08bd1c1708eacda6c1cb876ff925d7a61596daf9f30c8c4e86f245e",
-  "phase": "published",
-  "generation": 61,
-  "digest": "18b96cb202de1d7ab97cfa9cf283e7e9c2e77649ca5095d69ad1f7351682c583",
+  "phase": "implemented",
+  "generation": 62,
+  "digest": "df621b36e118a95c6c33b4691eaf7f7f0e05587faa80526f51903ce67593c5b2",
   "branch": "codex/5821-v092-distributed-guardian-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5821-wp04-gate",
-  "review_assignment": {
-    "reviewer": "openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07",
-    "assigned_by": "codex:5821-wp04-gate",
-    "revision": "git-blake3:9426ef032052aff3a5f9aeffffac46db2a3390a6:ba0ccc14f88531941b93ddcd27b5cfd001d56bffd469a8361031ace71b301ba1",
-    "scope": [
-      "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md",
-      "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md",
-      ".csdlc/prepared/issues/5821",
-      ".csdlc/evidence/5821",
-      ".csdlc/issues/5869",
-      ".csdlc/prepared/issues/5869/design.md",
-      ".csdlc/issues/5870",
-      ".csdlc/prepared/issues/5870/design.md",
-      ".csdlc/issues/5875",
-      ".csdlc/prepared/issues/5875/design.md",
-      ".csdlc/issues/5876",
-      ".csdlc/prepared/issues/5876/design.md"
-    ]
-  },
-  "review": {
-    "reviewer": "openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07",
-    "scope": [
-      "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md",
-      "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md",
-      ".csdlc/prepared/issues/5821",
-      ".csdlc/evidence/5821",
-      ".csdlc/issues/5869",
-      ".csdlc/prepared/issues/5869/design.md",
-      ".csdlc/issues/5870",
-      ".csdlc/prepared/issues/5870/design.md",
-      ".csdlc/issues/5875",
-      ".csdlc/prepared/issues/5875/design.md",
-      ".csdlc/issues/5876",
-      ".csdlc/prepared/issues/5876/design.md"
-    ],
-    "reviewed_revision": "git-blake3:9426ef032052aff3a5f9aeffffac46db2a3390a6:ba0ccc14f88531941b93ddcd27b5cfd001d56bffd469a8361031ace71b301ba1",
-    "findings": [],
-    "residual_risks": [
-      "Quorum or voter compromise remains outside the gate's preventable threat boundary.",
-      "Quorum loss or clock uncertainty can intentionally sacrifice availability to preserve single authority.",
-      "Key exposure can precede revocation and fencing propagation.",
-      "Durable-state loss and dependency supply-chain compromise require child-owned implementation and operational controls.",
-      "Implementation and deployment behavior remains to be proven by WP-04.01 through WP-04.16."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5821,
-    "pull_request": 39,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/39",
-    "base": "main",
-    "head": "codex/5821-v092-distributed-guardian-gate",
-    "revision": "git-blake3:04e15e0772f60bf3530b381f32b6440a2acad1d7:d1540883f50bfe31cced9dbfb25452ed14b7d0d689478f8ec51010adf33a3b1b",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "61d6657f0bec4f24f263fa4972c2aa9a3b3188079e4c2b9e4d82a5cd4ac89a79",
+      "values_digest": "e5eb2e97f0e165b87cf6a02668303b2790cb31af106cbc35fbe3eb0305fbec23",
       "rendered_digest": "e0237a5edb0f610637736f1af02104812f6c2a64dd5cb0a573fdaf0b7cb4b576",
       "ast_digest": "7568b8872375bef23c9c4c66b374537ac9ebeb29505ad8dff9a1af878b7241d5"
     },
     "stp": {
-      "values_digest": "6cc5dca6c66a9a129453728d95109e384a36368f4d94b9983476aded45afb7ef",
+      "values_digest": "7d59e06905c75252df432d7762281ab6acf54b627e072993b0238b96d31054d6",
       "rendered_digest": "1f4b22c692e310d367014ae4ec7a02650db3c9c15a20afac792fe25af3553779",
       "ast_digest": "3813cb1efa14407e1503790a730f37bd93fa39f31314510efd249e8f90b9c2bb"
     },
     "spp": {
-      "values_digest": "9477e567494d59a106ceb6b60b72cc79747344140530280e17d79edf71263a7c",
+      "values_digest": "6d47c238460c84e2a7b87ef5d6fabb2f13a8b8601bfa4f194ad45451498b0b9d",
       "rendered_digest": "a3569902488d4d55f61d2a0640f4947842ee6d9b2561984f68519927f9a4c139",
       "ast_digest": "691450e0094450f7ab88e2de879748380738cd66c852361c93fd25c68ce2b805"
     },
     "vpp": {
-      "values_digest": "47937247c807d326404c1c94e02e0826db9fcd1e329e9cac8c4fca5dd99fd136",
+      "values_digest": "0910bff2f461b76b18b80b1624de0027342ce2fd59e29c997ad96421a3a942e9",
       "rendered_digest": "c4a101bf61dccfa775a39f3f57212784a572584a057968fefd7c00a7d17a5fb3",
       "ast_digest": "62ca9ae2d647f97c34a73bc82a63e8100200aae0c5bb818cee88cef924e6bb6b"
     },
     "srp": {
-      "values_digest": "d74126e273abe08c24d79fe98f27fdb7334f80d76fb675dc14795aa9b850637b",
-      "rendered_digest": "0e5fb4ebecf8a4da9e1518cda3c6d9483ec2a418117603c99758827b2600d240",
-      "ast_digest": "676217c6538d2f1cbc75d8e7017394d596da4293c889cb03bfab3c924e6ef41b"
+      "values_digest": "25caf1e62dccdab88e2d7bc5a35ef723f35a800e202e8cc58baae7f00ed5ce3e",
+      "rendered_digest": "2ed91955f1a6c3dc36175afb987ab515f0f998537307b58bc655d46db0b5490c",
+      "ast_digest": "899619b18f7739a11fed85769fd73beaa3327646f4532343b668db220b0682dd"
     },
     "sor": {
-      "values_digest": "a01029685da3cee973abd1e565c115721c2a4bf1eaa148658fa40912f4636e10",
-      "rendered_digest": "17c72019bbe50e30477f06ad4e82cbe231224cbef6b3c50e70e2aa8cd231505a",
-      "ast_digest": "eb41b48094d266bb0323681fbdbb7ab27a980eb8f600abc42bc093690f26ebbf"
+      "values_digest": "94c6454cb852f05bdc943cb08c23fde399b51ca2b3d53ae7dc9330c5554c1bdf",
+      "rendered_digest": "1737f70e89373c0cb34a0174a0eb4a9e76e47401ad6caab89b8faa3fdfef176b",
+      "ast_digest": "1364ea1513be2fe37320555eda81fda8d615cf6352bb7551a219a1ff5b99824f"
     }
   },
   "transitions": [
@@ -165,6 +110,13 @@
       "to": "published",
       "actor": "codex:5821-wp04-gate",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5821-wp04-gate",
+      "reason": "Recover stale review and publication truth after the substantive #5865 OpenRaft COTS contract repair."
     }
   ],
   "audit": [
@@ -755,6 +707,13 @@
       "actor": "codex:5821-wp04-gate",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 85,
+      "generation": 62,
+      "actor": "codex:5821-wp04-gate",
+      "reason": "Recover stale review and publication truth after the substantive #5865 OpenRaft COTS contract repair.",
+      "operation": "recover_review"
     }
   ]
 }

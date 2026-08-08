@@ -1,0 +1,7 @@
+{
+  "issue": 5821,
+  "expected_generation": 61,
+  "expected_digest": "18b96cb202de1d7ab97cfa9cf283e7e9c2e77649ca5095d69ad1f7351682c583",
+  "actor": "codex:5821-wp04-gate",
+  "reason": "Recover stale review and publication truth after the substantive #5865 OpenRaft COTS contract repair."
+}
