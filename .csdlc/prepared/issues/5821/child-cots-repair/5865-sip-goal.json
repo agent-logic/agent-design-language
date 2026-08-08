@@ -1,0 +1,13 @@
+{
+  "issue": 5865,
+  "card": "sip",
+  "expected_generation": 11,
+  "expected_digest": "40722a47aa2512726772781c427138ad3daee19bc2e946594d4a64fb1c8990f4",
+  "actor": "codex:5821-wp04-child-cots-repair",
+  "reason": "Align the child goal with its reviewed four-dependency COTS and shared-manifest ownership contract.",
+  "operation": {
+    "operation": "set_field",
+    "field": "goal",
+    "value": "Integrate and pin the reviewed quinn, rustls, prost, and openraft COTS set in the solely owned adl-runtime/Cargo.toml and adl-runtime/Cargo.lock while implementing bounded authenticated QUIC/TLS transport without custom cryptography or framing."
+  }
+}

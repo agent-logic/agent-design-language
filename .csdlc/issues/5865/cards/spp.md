@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Verify gates, implement the exclusive slice, run exact proving tests and negatives, validate rollback, resolve review, and close through child authority.
+Verify gates, pin reviewed quinn, rustls, prost, and openraft in adl-runtime/Cargo.toml and adl-runtime/Cargo.lock, implement only the QUIC/TLS adapter, prove dependency-lock parity, validate rollback, resolve review, and close through child authority.
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
@@ -86,7 +86,7 @@ Revision 4
 
 .csdlc/prepared/issues/5865/design.md
 
-Digest: 78ffb2d1201c0f4dd6b1b99deaf0858fcc1556ff18d732334bf688c783ea979e
+Digest: 4556ed1b334be7d182fb550dd419ef0eed655efdc59e50e1254700df62fea67a
 
 ## Diagram
 

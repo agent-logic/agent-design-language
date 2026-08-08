@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5821,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5821-v092-distributed-guardian-gate",
+  "title": "[v0.92][WP-04] Freeze the distributed Guardian architecture and security gate",
+  "body": "Closes danielbaustin/agent-design-language#5821\n\n## Summary\n- freeze the OpenRaft majority-authority, joint-membership, lease, fencing, and recovery contract\n- define the canonical AuthorityCertificateV1 possession and mutation-sink verification boundary\n- align the exact sixteen-child WP-04 execution wave with exclusive ownership, proof, and rollback contracts\n- retain an independent exact-head architecture and security review with no actionable findings\n\n## Validation\n- `ruby .csdlc/prepared/issues/5821/validate-architecture-security-review.rb`\n- `ruby .csdlc/prepared/issues/5821/validate-child-wave.rb`\n- typed C-SDLC v2 doctor: pass at reviewed generation 60\n- `git diff --check`\n\nThis PR is the architecture/security gate only. Distributed product implementation and deployment proof remain owned by WP-04.01 through WP-04.16.",
+  "draft": false,
+  "revision": "git-blake3:04e15e0772f60bf3530b381f32b6440a2acad1d7:d1540883f50bfe31cced9dbfb25452ed14b7d0d689478f8ec51010adf33a3b1b",
+  "commit_sha": "04e15e0772f60bf3530b381f32b6440a2acad1d7"
+}

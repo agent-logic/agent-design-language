@@ -12,12 +12,14 @@ Status: ready
 
 ## Task
 
-Integrate a maintained QUIC/TLS stack with bounded authenticated channels and no custom cryptography or framing.
+Pin reviewed quinn, rustls, prost, and openraft versions in the child-owned manifest and lockfile, implement only the bounded authenticated QUIC/TLS adapter, and leave the OpenRaft authority-ledger source implementation to WP-04.07.
 
 ## Deliverables
 
-- Integrate a maintained QUIC/TLS stack with bounded authenticated channels and no custom cryptography or framing.
-- Focused positive and negative tests
+- A bounded authenticated QUIC/TLS adapter using maintained quinn and rustls without custom cryptography or framing
+- Canonical length-delimited protobuf messages using prost
+- Reviewed quinn, rustls, prost, and openraft versions pinned together in adl-runtime/Cargo.toml and adl-runtime/Cargo.lock
+- Focused positive and negative tests with dependency-lock parity
 - Digest-bound execution proof
 - Reviewed rollback evidence
 

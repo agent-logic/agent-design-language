@@ -1,0 +1,37 @@
+{
+  "issue": 5865,
+  "card": "vpp",
+  "expected_generation": 15,
+  "expected_digest": "d63e700bcdb4e1342f6ebf49baf800d198e5c1c17d0f74d07954e3bf2b083cbb",
+  "actor": "codex:5821-wp04-child-cots-repair",
+  "reason": "Require exact proof that all four reviewed dependencies are pinned by the sole manifest owner.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "exact-child-tests",
+        "proof_role": "Exact nextest target distributed_transport proves mutual authentication, channel bounds, cancellation, malformed-frame denial, peer mismatch, and quinn/rustls/prost/openraft dependency-lock parity in the child-owned manifest and lockfile.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1800,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_transport", "--no-tests=fail"],
+        "parallel_group": "child",
+        "defer_reason": null
+      },
+      {
+        "lane": "exact-revision-proof-receipt",
+        "proof_role": "Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=3e13f9f12418797e9dd2fdc6eba203b2988f8f87e7f1547459e3d2613d0ab646]",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5865/validate-proof-receipt.rb"],
+        "parallel_group": "receipt",
+        "defer_reason": null
+      }
+    ]
+  }
+}

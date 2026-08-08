@@ -61,8 +61,25 @@ authority_contracts = {
   5875 => ["before fence", "after fence", "source-permit revocation", "majority-committed fencing", "activation-key", "non-authoritative"],
   5876 => ["majority-committed", "authoritycertificatev1", "divergent local histories", "malicious-leader/minority", "quorum proof", "trust-domain recovery"]
 }.freeze
+cots_contracts = {
+  "design.md" => ["quinn", "rustls", "prost", "openraft", "sole distributed manifest and", "adl-runtime/cargo.toml", "adl-runtime/cargo.lock"],
+  "sip.values.json" => ["quinn", "rustls", "prost", "openraft", "adl-runtime/cargo.toml", "adl-runtime/cargo.lock"],
+  "stp.values.json" => ["quinn", "rustls", "prost", "openraft", "manifest", "lockfile"],
+  "spp.values.json" => ["quinn", "rustls", "prost", "openraft", "adl-runtime/cargo.toml", "adl-runtime/cargo.lock"],
+  "vpp.values.json" => ["quinn", "rustls", "prost", "openraft", "dependency-lock parity"]
+}.freeze
 abort "child identities drifted" unless children.map(&:first) == expected_ids
 abort "live issue mapping drifted" unless children.map { |row| row[1] } == expected_issues
+
+cots_contracts.each do |surface, terms|
+  path = if surface == "design.md"
+           File.expand_path("../5865/design.md", __dir__)
+         else
+           File.expand_path("../../../issues/5865/cards/#{surface}", __dir__)
+         end
+  content = File.read(path).downcase
+  terms.each { |term| abort "child #5865 #{surface} COTS contract omits #{term}" unless content.include?(term) }
+end
 
 authority_contracts.each do |issue, terms|
   surfaces = [
@@ -150,6 +167,11 @@ expected_titles.each do |issue, (id, title, dependencies, paths, test_target, ro
   if issue != 5862
     abort "live body lost #{id} identity for ##{issue}" unless body.include?(id)
     abort "live body lost canonical WP-04-IMP dependency for ##{issue}" unless body.include?("WP-04-IMP issue 5862")
+    if issue == 5865
+      %w[quinn rustls prost openraft].each do |dependency|
+        abort "live issue #5865 COTS contract omits #{dependency}" unless body.downcase.include?(dependency)
+      end
+    end
     live_dependencies = dependency_ids(section(body, "## Dependencies"))
     abort "live dependency drift for ##{issue}" unless live_dependencies == dependency_ids(dependencies)
     abort "live proof omits #{test_target} for ##{issue}" if test_target && !section(body, "## Validation And Proof").include?(test_target)

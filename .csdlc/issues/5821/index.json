@@ -3,9 +3,9 @@
   "issue": 5821,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9376933aa08bd1c1708eacda6c1cb876ff925d7a61596daf9f30c8c4e86f245e",
-  "phase": "reviewed",
-  "generation": 60,
-  "digest": "49e0a3be3a79a0c19c7d03adf3473ed2e066fa3fbb105fb3b4af7bc3ccfac3e8",
+  "phase": "published",
+  "generation": 61,
+  "digest": "18b96cb202de1d7ab97cfa9cf283e7e9c2e77649ca5095d69ad1f7351682c583",
   "branch": "codex/5821-v092-distributed-guardian-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5821-wp04-gate",
   "review_assignment": {
@@ -55,7 +55,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5821,
+    "pull_request": 39,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/39",
+    "base": "main",
+    "head": "codex/5821-v092-distributed-guardian-gate",
+    "revision": "git-blake3:04e15e0772f60bf3530b381f32b6440a2acad1d7:d1540883f50bfe31cced9dbfb25452ed14b7d0d689478f8ec51010adf33a3b1b",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -69,34 +79,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "06cc315742bd634b2aa240df16467303c0665dd8ff19f0d8c1d487f2ebe32335",
+      "values_digest": "61d6657f0bec4f24f263fa4972c2aa9a3b3188079e4c2b9e4d82a5cd4ac89a79",
       "rendered_digest": "e0237a5edb0f610637736f1af02104812f6c2a64dd5cb0a573fdaf0b7cb4b576",
       "ast_digest": "7568b8872375bef23c9c4c66b374537ac9ebeb29505ad8dff9a1af878b7241d5"
     },
     "stp": {
-      "values_digest": "d61020a2fa6cacf60e9a667c53912ed697e286939c72677a9510d119942d6c4b",
+      "values_digest": "6cc5dca6c66a9a129453728d95109e384a36368f4d94b9983476aded45afb7ef",
       "rendered_digest": "1f4b22c692e310d367014ae4ec7a02650db3c9c15a20afac792fe25af3553779",
       "ast_digest": "3813cb1efa14407e1503790a730f37bd93fa39f31314510efd249e8f90b9c2bb"
     },
     "spp": {
-      "values_digest": "fae1bd4700d7db29223521b2fb42670ec87cbd7a5cbc1bffcb2b1f931ff2d1f0",
+      "values_digest": "9477e567494d59a106ceb6b60b72cc79747344140530280e17d79edf71263a7c",
       "rendered_digest": "a3569902488d4d55f61d2a0640f4947842ee6d9b2561984f68519927f9a4c139",
       "ast_digest": "691450e0094450f7ab88e2de879748380738cd66c852361c93fd25c68ce2b805"
     },
     "vpp": {
-      "values_digest": "d3ea34df14b116b9807cbfd81db1eec03af6816a9a81ccb347128f481ecb0ea4",
+      "values_digest": "47937247c807d326404c1c94e02e0826db9fcd1e329e9cac8c4fca5dd99fd136",
       "rendered_digest": "c4a101bf61dccfa775a39f3f57212784a572584a057968fefd7c00a7d17a5fb3",
       "ast_digest": "62ca9ae2d647f97c34a73bc82a63e8100200aae0c5bb818cee88cef924e6bb6b"
     },
     "srp": {
-      "values_digest": "f610d1e211f888c595a2c8883b9c400154165ad311cd2f865a2778bd61e4e381",
+      "values_digest": "d74126e273abe08c24d79fe98f27fdb7334f80d76fb675dc14795aa9b850637b",
       "rendered_digest": "0e5fb4ebecf8a4da9e1518cda3c6d9483ec2a418117603c99758827b2600d240",
       "ast_digest": "676217c6538d2f1cbc75d8e7017394d596da4293c889cb03bfab3c924e6ef41b"
     },
     "sor": {
-      "values_digest": "2334e9a725fcb8d04389008804380f71afd609349d8fdf1bada56a800f6112c0",
-      "rendered_digest": "94bff731a10f5a189e9f31b6f845b3be8683f7c987cf9962fe80667ec883a69b",
-      "ast_digest": "dd4c1445ab1db810723a62b9fb3a2624786b45200489b30142f208a9155c6667"
+      "values_digest": "a01029685da3cee973abd1e565c115721c2a4bf1eaa148658fa40912f4636e10",
+      "rendered_digest": "17c72019bbe50e30477f06ad4e82cbe231224cbef6b3c50e70e2aa8cd231505a",
+      "ast_digest": "eb41b48094d266bb0323681fbdbb7ab27a980eb8f600abc42bc093690f26ebbf"
     }
   },
   "transitions": [
@@ -148,6 +158,13 @@
       "to": "reviewed",
       "actor": "codex:5821-wp04-gate",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5821-wp04-gate",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -731,6 +748,13 @@
       "actor": "codex:5821-wp04-gate",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 84,
+      "generation": 61,
+      "actor": "codex:5821-wp04-gate",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

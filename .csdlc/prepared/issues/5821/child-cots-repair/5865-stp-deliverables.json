@@ -1,0 +1,20 @@
+{
+  "issue": 5865,
+  "card": "stp",
+  "expected_generation": 13,
+  "expected_digest": "98d88ef209529655eb952b977deb667795e643c08f852785b4f0542ae36f52a2",
+  "actor": "codex:5821-wp04-child-cots-repair",
+  "reason": "Require the manifest and lockfile output that later OpenRaft work depends on.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "A bounded authenticated QUIC/TLS adapter using maintained quinn and rustls without custom cryptography or framing",
+      "Canonical length-delimited protobuf messages using prost",
+      "Reviewed quinn, rustls, prost, and openraft versions pinned together in adl-runtime/Cargo.toml and adl-runtime/Cargo.lock",
+      "Focused positive and negative tests with dependency-lock parity",
+      "Digest-bound execution proof",
+      "Reviewed rollback evidence"
+    ]
+  }
+}
