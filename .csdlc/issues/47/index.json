@@ -5,13 +5,13 @@
   "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
   "phase": "implemented",
   "generation": 16,
-  "digest": "844935edce81dd78f9757efe3c6ea771e02a1cfbcf64be2646ce975269b77a05",
+  "digest": "b742b4ea2ef09a4c3f9959e780ffa4d073df15d6a1fb941af79749ed428141be",
   "branch": "codex/47-exact-rust-test-selectors",
   "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
   "review_assignment": {
     "reviewer": "codex:issue-47-exact-head-review",
     "assigned_by": "codex:issue-47-implementation",
-    "revision": "git-blake3:04e31256e42ac577c25b4512342ae51c51c6585a:c07bc537077960673c0e9faaa6e4bf61f5df9cbe9c47f276a5df0c9db0beb92d",
+    "revision": "git-blake3:1241ef19e2ab7b6d1e986370592e043cbb67bb7a:e362469e86fbcc5b63c4e64bba5324c264074a94f61a167336112eddb0ac8423",
     "scope": [
       "csdlc-v2/src/cards.rs",
       "csdlc-v2/tests/validation_selectors.rs",
@@ -227,6 +227,13 @@
       "actor": "codex:issue-47-implementation",
       "reason": "Record the implemented selector contract and exact focused validation before review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
