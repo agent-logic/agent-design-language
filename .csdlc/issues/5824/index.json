@@ -3,14 +3,49 @@
   "issue": 5824,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b64ea880252f74a339493a02b2aaa4484361128d76e56588f7fed78d84751c0f",
-  "phase": "initialized",
-  "generation": 24,
-  "digest": "03ad76ce7abd43c3649be51f457c0ab88b13f46de1ae0136e2a52998de687020",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 33,
+  "digest": "a57da50cf8cea50d8b6a48733623c6cbbcbc5cf068058a596616c72e6ba0ec0b",
+  "branch": "codex/5824-v092-prompt-card-enum-typing",
+  "worktree": "/Volumes/FastWork/adl-wp-5824-v092-prompt-card-enum-typing",
+  "review_assignment": {
+    "reviewer": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+    "assigned_by": "codex:wp07-session",
+    "revision": "git-blake3:5232335d61e4aea9aaa67947c11fda6749ba4d44:bbba8ce809eea46dfd36e926c5da3becb681748873e2c18ed9528dca3c346fea",
+    "scope": [
+      ".csdlc/issues/5824",
+      ".csdlc/evidence/5824",
+      ".csdlc/prepared/issues/5824/validate-enum-inventory.rb",
+      "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+    "scope": [
+      ".csdlc/issues/5824",
+      ".csdlc/evidence/5824",
+      ".csdlc/prepared/issues/5824/validate-enum-inventory.rb",
+      "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    ],
+    "reviewed_revision": "git-blake3:5232335d61e4aea9aaa67947c11fda6749ba4d44:bbba8ce809eea46dfd36e926c5da3becb681748873e2c18ed9528dca3c346fea",
+    "findings": [],
+    "residual_risks": [
+      "Hosted PR checks remain pending; the local proof is intentionally limited to the focused WP-07 validator, six-test integration target, typed issue validation, and diff hygiene."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5824,
+    "pull_request": 24,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/24",
+    "base": "main",
+    "head": "codex/5824-v092-prompt-card-enum-typing",
+    "revision": "git-blake3:3ac36bf17bc91b6c6a9ce5e497fa93195db57fcb:e5a8f1ea9c8d1126a9a1c474b3744f1191cf20d6d9b390112d723e0e16236208",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73129d1463c01a51761001092906f4b9bb091f456bfa5ca40d45e5f195a19ab9",
+      "values_digest": "d74a96569f3bad50a83220debdf04173b27d578c8176e33ada2124a8e318094c",
       "rendered_digest": "3c078a22e0b186e812947cb68fc69b204388acd828c00652285bc791baa8f916",
       "ast_digest": "7d89a791d94d459f676de8a69ffcba4e938277e73b7c52ea1bd9bf1278ac1425"
     },
     "stp": {
-      "values_digest": "a0e66463c41e75b944d4d32962abca17a1dc4cb619eb17d4e9fd1ad7e646207f",
+      "values_digest": "d1e80b5e1fba2afaeb9a9e35f335378b9cfb1107a954019dc0f15a209f3268a1",
       "rendered_digest": "6528528a1756de9503e1a99cf09f502a1cf248faabd24d06ec601ff05c9a9669",
       "ast_digest": "70910b3e83f3e7eefe8477471848900aa3184bef3ce378d1d2ee4519a6a6a152"
     },
     "spp": {
-      "values_digest": "89bdcfc02eefb6f006d3fb80200e71c5b1f6d38238ff055cbc4498e526700171",
-      "rendered_digest": "a712f57063a4f0a211ace076afa2c4313c9b227a982dbfe1e039af575608657f",
-      "ast_digest": "e3a1473990bec66e762c6703a63ab403efa610fbf108228fda5b1636a2ed4fa4"
+      "values_digest": "bf8e6f952cf0f39c1abc3a2d536aea8bbd555ed1bf2bdbb555ea3928d043f891",
+      "rendered_digest": "6d1010fa8ee69f23551eee5f8cc01448d4127bbaab2549876278598bd2569e60",
+      "ast_digest": "e552b1e9d56b5d049bbe8e4129a054abada7f20ff3de5f4ed4586873abab28b0"
     },
     "vpp": {
-      "values_digest": "52b417b3e604b01e4c2d79a6a46e9cfd533b1fa01a645b10f3d1f31b1a5573aa",
+      "values_digest": "151ab288f8fcf6e707eaea0c7dc451aa358a912231fa6b620dae41687b01baa4",
       "rendered_digest": "f6fab36745dbeaab69982dfd9173a015f5702f7d6103638d3345a8dfaa209e36",
       "ast_digest": "3f662a3cef27e958e0fc06e4a3934d4ccdcf52f4289f2ee736f21388e461aa10"
     },
     "srp": {
-      "values_digest": "403445a0231d6130a7232bab6fe30a7335ad2083379a720375efdaba52311629",
-      "rendered_digest": "330fdc5d203d7c423f7a21a24d362260ea0bc0e37e0cf61a0bcf5aafe738c1d8",
-      "ast_digest": "c41f89ee3243519e57315ed19839689b0a975dfc2ad05a3ade9cfe1a61e6b6df"
+      "values_digest": "57b3925f0ef3226f78f684ad309ae8b6b9402d048cef97ff076323a15469f8f7",
+      "rendered_digest": "472aca8310d1fb3e1c91a24d9264554cc1e01f0f25cd3877fcaf5cbb224f4515",
+      "ast_digest": "f58f1e9b579cca63569fa9d5f723d9ef17a0af8d97cda8f2a367c0b8a4a0fb26"
     },
     "sor": {
-      "values_digest": "7e85d295c00b57b2523993be973e7c9895708d3ff07d613a52c10f9a94b2d77d",
-      "rendered_digest": "a9e82b10a38d86a71ce1ace7f3ba80ddab41b2610f14edee8e48c1c31c9479b2",
-      "ast_digest": "c4bf4161b995d734609a8fdd7728933f7382fcd4ff9a2cd2c8918511c0b4ee03"
+      "values_digest": "708c926d02b9304d3233c3f5a91c1248324d751b2f27b88d62468f80e8e362b9",
+      "rendered_digest": "585dd8b2a2f5d295a6ad8cbbdbcf2efb2b6ea9fc07db298e38c87bc5ff519b6c",
+      "ast_digest": "4391a9ae75cb563748b4dc6ae3270f6a28d9d8649fb40badc716ea0a7416223f"
     }
   },
   "transitions": [
@@ -75,6 +110,41 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5824-execution",
+      "reason": "The bounded audit, focused validation, and independent pre-publication review are complete."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5824-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -371,6 +441,83 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 43,
+      "generation": 25,
+      "actor": "codex:5824-execution-readiness",
+      "reason": "Keep SPP affected areas path-only; serialization order remains in the design and live issue contract.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/prompt_card_enum_typing.rs\",\".csdlc/evidence/5824\",\".csdlc/prepared/issues/5824/validate-enum-inventory.rb\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 26,
+      "actor": "codex:5824-execution-readiness",
+      "reason": "Allow the accepted reviewed no-gap audit outcome while preserving fail-closed evidence boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"WP-05 typed-card dependency is incomplete\",\"The inventory cannot produce a complete source-backed disposition for every restricted field\",\"A change requires template redesign or wire-format migration\",\"Valid existing cards fail byte-stable round trips\",\"A proposed finite type would incorrectly close a policy-extensible field\"]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 26,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 46,
+      "generation": 27,
+      "actor": "codex:5824-execution",
+      "reason": "Record the bounded source-derived enum audit and its executable proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Audited every restricted enum and scalar string surface in the prompt-card model, retained digest-bound dispositions for all 132 source-derived candidates, and proved that no additional finite enum conversion is currently justified.\",\"changes\":[\"Expanded the inventory validator to derive enum definitions and scalar string fields from structs and enum variants.\",\"Retained canonical inventory and audit-decision evidence with source, denominator, ownership, and disposition digests.\",\"Added focused integration coverage for enum parsing, tagged enums, all six tracked card round trips, active template parity, typed invalid-value diagnostics, and mutation safety.\"],\"artifacts\":[\".csdlc/evidence/5824/enum-inventory.json\",\".csdlc/evidence/5824/enum-audit-decision.json\",\".csdlc/prepared/issues/5824/validate-enum-inventory.rb\",\"csdlc-v2/tests/prompt_card_enum_typing.rs\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 28,
+      "actor": "codex:5824-execution",
+      "reason": "Record the source-derived enum inventory validation result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5824/validate-enum-inventory.rb\"],\"purpose\":\"Prove a complete source-derived denominator, one disposition per candidate, digest-bound ownership, and a finite-gap decision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5824/enum-audit-decision.json\"}}"
+    },
+    {
+      "sequence": 48,
+      "generation": 29,
+      "actor": "codex:5824-execution",
+      "reason": "Record the exact focused prompt-card enum integration target result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--no-tests=fail\",\"--test\",\"prompt_card_enum_typing\"],\"purpose\":\"Prove enum parsing and schema parity, tagged-enum rejection, all six card round trips, active template parity, typed invalid-value diagnostics, and mutation safety.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/prompt_card_enum_typing.rs\"}}"
+    },
+    {
+      "sequence": 49,
+      "generation": 30,
+      "actor": "codex:5824-execution",
+      "reason": "Record bounded diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace hygiene across the bounded audit, evidence, test, and lifecycle surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5824/enum-audit-decision.json\"}}"
+    },
+    {
+      "sequence": 50,
+      "generation": 31,
+      "actor": "codex:5824-execution",
+      "reason": "The bounded audit, focused validation, and independent pre-publication review are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 31,
+      "actor": "codex:wp07-session",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 32,
+      "actor": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 33,
+      "actor": "codex:5824-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

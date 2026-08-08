@@ -30,7 +30,7 @@ A complete, reversible control-versus-candidate experiment with retained measure
 - Issue 5853 owns the bounded 16-core GitHub-hosted runner experiment and any accepted routing change
 - WP-02 owns repository transfer and WP-02A owns CI correctness and coverage reliability
 - Organization billing and runner-group changes require Agent Logic organization-owner approval
-- Further runner sizes, coverage topology, custom images, AWS, and self-hosting require separate authorization
+- The operator-authorized scope includes routing heavy Rust validation producers to the selected 16-core runner pool with capacity capped at ten; 32-core, custom-image, ARM64, AWS, and self-hosted changes remain separate work
 
 ## Assumptions
 
@@ -39,7 +39,7 @@ A complete, reversible control-versus-candidate experiment with retained measure
 ## Operator Constraints
 
 - Run only after WP-02 and WP-02A gates pass
-- Use one restricted selected-repository runner group with maximum concurrency one
+- Use one restricted selected-repository runner group with maximum concurrency ten; run only issue-affected lanes except for an explicitly required full-validation wave
 - Freeze exact comparison inputs and preserve required-check identity
 - Retain all samples and explain every excluded result
 - Never edit tracked work on main

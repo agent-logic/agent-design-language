@@ -1,0 +1,9 @@
+{
+  "issue": 5853,
+  "expected_generation": 17,
+  "expected_digest": "f0ba8a091b04300b690e5b9f019f229d3895680342afc6b1170af911b3578a95",
+  "actor": "codex:5853-execution",
+  "card": "spp",
+  "reason": "The retained eligibility and provider evidence proves every S1 gate.",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"}
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "adl.wp02b.run_accounting.v1",
+  "rate_per_rounded_job_minute_usd": 0.042,
+  "runs": [
+    {"workflow_run_id":"31143176102","role":"cache_seed","queue_seconds":4,"job_wall_seconds":192,"billed_rounded_minutes":4,"cost_usd":0.168,"cumulative_cost_usd":0.168,"remaining_budget_usd":9.832},
+    {"workflow_run_id":"31143391281","role":"cold_baseline","queue_seconds":4,"job_wall_seconds":435,"billed_rounded_minutes":8,"cost_usd":0.336,"cumulative_cost_usd":0.504,"remaining_budget_usd":9.496},
+    {"workflow_run_id":"31143497492","role":"warm_baseline","queue_seconds":322,"job_wall_seconds":190,"billed_rounded_minutes":4,"cost_usd":0.168,"cumulative_cost_usd":0.672,"remaining_budget_usd":9.328},
+    {"workflow_run_id":"31143499581","role":"warm_baseline","queue_seconds":512,"job_wall_seconds":190,"billed_rounded_minutes":4,"cost_usd":0.168,"cumulative_cost_usd":0.840,"remaining_budget_usd":9.160},
+    {"workflow_run_id":"31143501603","role":"warm_baseline","queue_seconds":702,"job_wall_seconds":195,"billed_rounded_minutes":4,"cost_usd":0.168,"cumulative_cost_usd":1.008,"remaining_budget_usd":8.992},
+    {"workflow_run_id":"31143972613","role":"test_only_canary","queue_seconds":352,"job_wall_seconds":118,"billed_rounded_minutes":2,"cost_usd":0.084,"cumulative_cost_usd":1.092,"remaining_budget_usd":8.908},
+    {"workflow_run_id":"31143974425","role":"test_only_canary","queue_seconds":470,"job_wall_seconds":125,"billed_rounded_minutes":3,"cost_usd":0.126,"cumulative_cost_usd":1.218,"remaining_budget_usd":8.782},
+    {"workflow_run_id":"31143976182","role":"test_only_canary","queue_seconds":594,"job_wall_seconds":113,"billed_rounded_minutes":2,"cost_usd":0.084,"cumulative_cost_usd":1.302,"remaining_budget_usd":8.698}
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "issue": 5853,
+  "expected_generation": 19,
+  "expected_digest": "c9a92750d0bc76b1c5ebb2fa0b19471496bf6b559e1a8ea68f29bb23c6620a82",
+  "reviewer": "codex:5853-operator-replan"
+}

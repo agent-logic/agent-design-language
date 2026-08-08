@@ -2,13 +2,15 @@ use std::collections::BTreeMap;
 use std::process::Command;
 
 use csdlc_v2::finish::{
-    derive_terminal, envelope_matches_record, load_cached_terminal, retain_cached_terminal,
-    validate_finish_merge_authority, validate_publication_head_in_repo,
+    derive_historical_terminal, derive_terminal, envelope_matches_record, load_cached_terminal,
+    retain_cached_terminal, select_historical_terminal, validate_finish_merge_authority,
+    validate_historical_candidates, validate_historical_request, validate_publication_head_in_repo,
 };
 use csdlc_v2::github::PrStatePacket;
 use csdlc_v2::{
-    DesignReview, FinishDisposition, FinishRequest, IssueRecord, IssueTerminalObservation,
-    LifecyclePhase, MergeMethod, PublicationEvidence, ReviewEvidence,
+    ClosingPullRequestIdentity, DesignReview, FinishDisposition, FinishRequest,
+    HistoricalFinishRequest, IssueRecord, IssueTerminalObservation, LifecyclePhase, MergeMethod,
+    PublicationEvidence, ReviewEvidence,
 };
 
 fn record(phase: LifecyclePhase, publication: Option<PublicationEvidence>) -> IssueRecord {
@@ -69,6 +71,248 @@ fn issue(state: &str, approved: bool) -> IssueTerminalObservation {
             .collect(),
         observed_unix_seconds: 100,
     }
+}
+
+fn historical_request(disposition: FinishDisposition) -> HistoricalFinishRequest {
+    let with_pr = disposition != FinishDisposition::ClosedNoPr;
+    HistoricalFinishRequest {
+        schema: "csdlc.historical_finish_request.v1".into(),
+        issue: 5778,
+        expected_generation: 8,
+        expected_digest: "canonical".into(),
+        actor: "operator".into(),
+        issue_repository: "owner/repo".into(),
+        disposition,
+        pr_repository: with_pr.then(|| "canonical/repo".into()),
+        pull_request: with_pr.then_some(9),
+        expected_head_sha: with_pr.then(|| "a".repeat(40)),
+        expected_merge_sha: (disposition == FinishDisposition::Merged).then(|| "b".repeat(40)),
+        approved_reason: (disposition != FinishDisposition::Merged)
+            .then(|| "approved historical disposition".into()),
+        token_file: None,
+    }
+}
+
+fn historical_packet(merged: bool) -> PrStatePacket {
+    PrStatePacket {
+        schema: "csdlc.github_pr_state.v1".into(),
+        repository: "canonical/repo".into(),
+        pull_request: 9,
+        linked_issue: Some(5778),
+        linkage_source: Some("github_closing_issues_references".into()),
+        state: "closed".into(),
+        draft: false,
+        merge_state: "unknown".into(),
+        review_decision: "unknown".into(),
+        base_ref: Some("main".into()),
+        head_ref: Some("codex/5778".into()),
+        head_sha: "a".repeat(40),
+        url: Some("https://github.com/canonical/repo/pull/9".into()),
+        body: Some("Closes owner/repo#5778".into()),
+        merged,
+        merge_commit_sha: merged.then(|| "b".repeat(40)),
+        checks: Vec::new(),
+        required_check_names: Vec::new(),
+        classification: if merged { "merged" } else { "closed" }.into(),
+    }
+}
+
+#[test]
+fn historical_merged_finish_is_exact_and_does_not_invent_publication() {
+    let record = record(LifecyclePhase::Implemented, None);
+    let request = historical_request(FinishDisposition::Merged);
+    let envelope = derive_historical_terminal(
+        &record,
+        &request,
+        &issue("closed", false),
+        Some(&historical_packet(true)),
+    )
+    .expect("historical merged terminal");
+    assert_eq!(envelope.source, "live_github_historical_reconciliation");
+    let expected_merge = "b".repeat(40);
+    assert_eq!(envelope.merge_sha.as_deref(), Some(expected_merge.as_str()));
+    assert!(envelope_matches_record(&envelope, &record).expect("canonical match"));
+    assert!(record.review.is_none());
+    assert!(record.publication.is_none());
+}
+
+#[test]
+fn historical_request_fields_are_disposition_conditional() {
+    let record = record(LifecyclePhase::Implemented, None);
+    let mut merged = historical_request(FinishDisposition::Merged);
+    merged.expected_merge_sha = None;
+    assert!(validate_historical_request(&record, &merged).is_err());
+
+    let mut closed = historical_request(FinishDisposition::ClosedUnmerged);
+    closed.expected_merge_sha = Some("forbidden".into());
+    assert!(validate_historical_request(&record, &closed).is_err());
+
+    let mut no_pr = historical_request(FinishDisposition::ClosedNoPr);
+    no_pr.pull_request = Some(9);
+    assert!(validate_historical_request(&record, &no_pr).is_err());
+
+    let mut malformed = historical_request(FinishDisposition::Merged);
+    malformed.issue_repository = "owner/".into();
+    assert!(validate_historical_request(&record, &malformed).is_err());
+    let mut malformed = historical_request(FinishDisposition::Merged);
+    malformed.expected_head_sha = Some("not-an-object-id".into());
+    assert!(validate_historical_request(&record, &malformed).is_err());
+
+    let mut value = serde_json::to_value(historical_request(FinishDisposition::Merged))
+        .expect("historical request JSON");
+    value["require_review"] = serde_json::json!(true);
+    assert!(serde_json::from_value::<HistoricalFinishRequest>(value).is_err());
+}
+
+#[test]
+fn historical_finish_requires_one_exact_closing_pr_candidate() {
+    let request = historical_request(FinishDisposition::Merged);
+    let expected = ClosingPullRequestIdentity {
+        repository: "canonical/repo".into(),
+        pull_request: 9,
+        state: "MERGED".into(),
+        merged: true,
+        merged_at: None,
+    };
+    assert!(validate_historical_candidates(&request, std::slice::from_ref(&expected)).is_ok());
+    assert!(validate_historical_candidates(&request, &[]).is_err());
+    assert!(validate_historical_candidates(
+        &request,
+        &[
+            expected.clone(),
+            ClosingPullRequestIdentity {
+                repository: "owner/repo".into(),
+                pull_request: 5904,
+                state: "CLOSED".into(),
+                merged: false,
+                merged_at: None,
+            },
+        ],
+    )
+    .is_ok());
+    assert!(validate_historical_candidates(
+        &request,
+        &[
+            ClosingPullRequestIdentity {
+                merged_at: Some("2026-08-06T00:00:00Z".into()),
+                ..expected.clone()
+            },
+            ClosingPullRequestIdentity {
+                repository: "canonical/repo".into(),
+                pull_request: 10,
+                state: "MERGED".into(),
+                merged: true,
+                merged_at: Some("2026-08-06T01:00:00Z".into()),
+            },
+        ],
+    )
+    .is_err());
+
+    let latest = ClosingPullRequestIdentity {
+        repository: "canonical/repo".into(),
+        pull_request: 9,
+        state: "MERGED".into(),
+        merged: true,
+        merged_at: Some("2026-08-06T02:00:00+01:00".into()),
+    };
+    let earlier = ClosingPullRequestIdentity {
+        repository: "canonical/repo".into(),
+        pull_request: 8,
+        state: "MERGED".into(),
+        merged: true,
+        merged_at: Some("2026-08-06T00:30:00Z".into()),
+    };
+    assert!(validate_historical_candidates(&request, &[earlier.clone(), latest.clone()]).is_ok());
+
+    let mut wrong_request = request.clone();
+    wrong_request.pull_request = Some(8);
+    assert!(
+        validate_historical_candidates(&wrong_request, &[earlier.clone(), latest.clone()]).is_err()
+    );
+
+    let mut missing = earlier.clone();
+    missing.merged_at = None;
+    assert!(validate_historical_candidates(&request, &[missing, latest.clone()]).is_err());
+
+    let mut malformed = earlier.clone();
+    malformed.merged_at = Some("not-rfc3339".into());
+    assert!(validate_historical_candidates(&request, &[malformed, latest.clone()]).is_err());
+
+    let tied = ClosingPullRequestIdentity {
+        merged_at: Some("2026-08-06T01:00:00Z".into()),
+        ..earlier
+    };
+    assert!(validate_historical_candidates(&request, &[tied, latest]).is_err());
+}
+
+#[test]
+fn historical_finish_repeat_reuses_stable_terminal_authority() {
+    let record = record(LifecyclePhase::Implemented, None);
+    let request = historical_request(FinishDisposition::Merged);
+    let first = derive_historical_terminal(
+        &record,
+        &request,
+        &issue("closed", false),
+        Some(&historical_packet(true)),
+    )
+    .expect("first observation");
+    let mut later_issue = issue("closed", false);
+    later_issue.observed_unix_seconds = 200;
+    let later = derive_historical_terminal(
+        &record,
+        &request,
+        &later_issue,
+        Some(&historical_packet(true)),
+    )
+    .expect("later observation");
+    assert_ne!(first.digest, later.digest);
+    let (selected, already_terminal) =
+        select_historical_terminal(Some(first.clone()), later).expect("select stable authority");
+    assert!(already_terminal);
+    assert_eq!(selected, first);
+}
+
+#[test]
+fn historical_finish_rejects_open_or_mismatched_remote_identity() {
+    let record = record(LifecyclePhase::Implemented, None);
+    let request = historical_request(FinishDisposition::Merged);
+    assert!(derive_historical_terminal(
+        &record,
+        &request,
+        &issue("open", false),
+        Some(&historical_packet(true)),
+    )
+    .is_err());
+
+    let mut packet = historical_packet(true);
+    packet.linked_issue = Some(99);
+    assert!(
+        derive_historical_terminal(&record, &request, &issue("closed", false), Some(&packet),)
+            .is_err()
+    );
+}
+
+#[test]
+fn historical_non_merged_dispositions_require_explicit_authority() {
+    let record = record(LifecyclePhase::Implemented, None);
+    let closed = derive_historical_terminal(
+        &record,
+        &historical_request(FinishDisposition::ClosedUnmerged),
+        &issue("closed", false),
+        Some(&historical_packet(false)),
+    )
+    .expect("closed unmerged");
+    assert_eq!(closed.disposition, FinishDisposition::ClosedUnmerged);
+    assert!(closed.merge_sha.is_none());
+
+    let no_pr_request = historical_request(FinishDisposition::ClosedNoPr);
+    assert!(
+        derive_historical_terminal(&record, &no_pr_request, &issue("closed", false), None,)
+            .is_err()
+    );
+    let no_pr = derive_historical_terminal(&record, &no_pr_request, &issue("closed", true), None)
+        .expect("approved no PR");
+    assert_eq!(no_pr.disposition, FinishDisposition::ClosedNoPr);
 }
 
 #[test]

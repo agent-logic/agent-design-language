@@ -3,7 +3,8 @@ use std::path::PathBuf;
 
 use clap::Parser;
 use csdlc_v2::finish::{
-    envelope_matches_record, execute_finish, load_cached_terminal, FinishRequest,
+    envelope_matches_record, execute_finish, execute_historical_finish, load_cached_terminal,
+    FinishRequest, HistoricalFinishRequest,
 };
 use csdlc_v2::{ErrorCode, Store, V2Error};
 
@@ -14,12 +15,22 @@ struct Cli {
     root: PathBuf,
     #[arg(
         long,
-        conflicts_with = "validate_cached_issue",
-        required_unless_present = "validate_cached_issue"
+        conflicts_with_all = ["validate_cached_issue", "historical_request"],
+        required_unless_present_any = ["validate_cached_issue", "historical_request"]
     )]
     request: Option<PathBuf>,
-    #[arg(long, conflicts_with = "request", required_unless_present = "request")]
+    #[arg(
+        long,
+        conflicts_with_all = ["request", "historical_request"],
+        required_unless_present_any = ["request", "historical_request"]
+    )]
     validate_cached_issue: Option<u64>,
+    #[arg(
+        long,
+        conflicts_with_all = ["request", "validate_cached_issue"],
+        required_unless_present_any = ["request", "validate_cached_issue"]
+    )]
+    historical_request: Option<PathBuf>,
 }
 
 #[tokio::main]
@@ -58,6 +69,11 @@ async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
             "canonical_match": true,
             "terminal": terminal,
         }));
+    }
+    if let Some(request) = cli.historical_request {
+        let request: HistoricalFinishRequest = serde_json::from_slice(&fs::read(request)?)?;
+        return serde_json::to_value(execute_historical_finish(&cli.root, &request).await?)
+            .map_err(Into::into);
     }
     let request = cli.request.expect("clap requires finish request");
     let request: FinishRequest = serde_json::from_slice(&fs::read(request)?)?;

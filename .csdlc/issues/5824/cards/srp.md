@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-WP-07 issue 5824, its declared implementation paths, and retained proof
+.csdlc/issues/5824
+.csdlc/evidence/5824
+.csdlc/prepared/issues/5824/validate-enum-inventory.rb
+csdlc-v2/tests/prompt_card_enum_typing.rs
 
 ## Prompts
 
@@ -31,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted PR checks remain pending; the local proof is intentionally limited to the focused WP-07 validator, six-test integration target, typed issue validation, and diff hygiene.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5232335d61e4aea9aaa67947c11fda6749ba4d44:bbba8ce809eea46dfd36e926c5da3becb681748873e2c18ed9528dca3c346fea")
 
-Reviewer: None
+Reviewer: Some("subagent:019fddaa-910d-74f2-a97a-047648474d73")
 
-Result: pre_review
+Result: pass

@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::env;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::time::{Duration, Instant};
 use tokio::fs;
 
 #[path = "../aws_remote_validation.rs"]
@@ -12,9 +13,9 @@ mod aws_remote_validation;
 mod observability;
 
 use aws_remote_validation::{
-    run_aws_remote_validation, write_summary_artifacts, AwsRemoteResilienceFaultClass,
-    AwsRemoteValidationConfig, AwsRemoteValidationSummary, LiveAwsRemoteValidationAdapter,
-    RemoteRunStatus,
+    redact_sensitive_text, redacted_summary, run_aws_remote_validation, write_summary_artifacts,
+    AwsRemoteResilienceFaultClass, AwsRemoteValidationConfig, AwsRemoteValidationSummary,
+    LiveAwsRemoteValidationAdapter, RemoteRunStatus,
 };
 use observability::ProgressHeartbeat;
 
@@ -132,7 +133,7 @@ impl Drop for EnvVarGuard {
 }
 
 fn usage() -> &'static str {
-    "adl-aws-remote-validation run --issue <number> --command <shell-command> --ami-id <ami> --subnet-id <subnet> --security-group-id <sg> --instance-profile-name <name> --out <summary.json> [--artifact-dir <dir>] [--instance-type <type> ...] [--spot-only] [--budget-name <name>] [--expected-max-cost-usd <usd>] [--repo-url <url>] [--git-ref <ref>] [--cache-bucket <bucket>] [--cache-prefix <prefix>] [--sccache-tarball-url <url>] [--nextest-tarball-url <url>] [--ssh-key-name <name>] [--ssh-private-key-path <path>] [--ssh-user <user>] [--ssh-allowed-cidr <cidr>] [--cache-volume-id <id>] [--cache-volume-name <name>] [--cache-volume-size-gib <gib>] [--cache-volume-type <type>] [--cache-volume-iops <iops>] [--cache-volume-throughput-mbps <mbps>] [--cache-volume-device-name <device>] [--cache-volume-mount-path <path>] [--command-timeout-seconds <seconds>] [--region <region>] [--profile <profile>] [--json]"
+    "adl-aws-remote-validation run --issue <number> --command <shell-command> --ami-id <ami> --subnet-id <subnet> --security-group-id <sg> --instance-profile-name <name> --out <summary.json> [--artifact-dir <dir>] [--instance-type <type> ...] [--spot-only] [--budget-name <name>] [--expected-max-cost-usd <usd>] [--estimated-hourly-cost-usd <usd>] [--total-run-timeout-seconds <seconds>] [--repo-url <url>] [--git-ref <ref>] [--cache-bucket <bucket>] [--cache-prefix <prefix>] [--sccache-tarball-url <url>] [--nextest-tarball-url <url>] [--ssh-key-name <name>] [--ssh-private-key-path <path>] [--ssh-user <user>] [--ssh-allowed-cidr <cidr>] [--cache-volume-id <id>] [--cache-volume-name <name>] [--cache-volume-size-gib <gib>] [--cache-volume-type <type>] [--cache-volume-iops <iops>] [--cache-volume-throughput-mbps <mbps>] [--cache-volume-device-name <device>] [--cache-volume-mount-path <path>] [--command-timeout-seconds <seconds>] [--region <region>] [--profile <profile>] [--json]"
 }
 
 fn local_git_stdout(args: &[&str]) -> Option<String> {
@@ -245,7 +246,10 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
     let mut allow_on_demand_fallback = true;
     let mut budget_name = None;
     let mut expected_max_cost_usd = None;
+    let mut estimated_hourly_cost_usd = None;
     let mut command_timeout_seconds = None;
+    let mut total_run_timeout_seconds = None;
+    let mut cancellation_file = None;
     let mut json_output = false;
     let mut max_spot_retries = 2u32;
 
@@ -508,6 +512,24 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
                         .map_err(|_| anyhow!("invalid --expected-max-cost-usd"))?,
                 );
             }
+            "--estimated-hourly-cost-usd" => {
+                i += 1;
+                estimated_hourly_cost_usd = Some(
+                    args.get(i)
+                        .ok_or_else(|| anyhow!("--estimated-hourly-cost-usd requires a value"))?
+                        .parse::<f64>()
+                        .map_err(|_| anyhow!("invalid --estimated-hourly-cost-usd"))?,
+                );
+            }
+            "--total-run-timeout-seconds" => {
+                i += 1;
+                total_run_timeout_seconds = Some(
+                    args.get(i)
+                        .ok_or_else(|| anyhow!("--total-run-timeout-seconds requires a value"))?
+                        .parse::<u64>()
+                        .map_err(|_| anyhow!("invalid --total-run-timeout-seconds"))?,
+                );
+            }
             "--command-timeout-seconds" => {
                 i += 1;
                 command_timeout_seconds = Some(
@@ -516,6 +538,13 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
                         .parse::<u64>()
                         .map_err(|_| anyhow!("invalid --command-timeout-seconds"))?,
                 );
+            }
+            "--cancellation-file" => {
+                i += 1;
+                cancellation_file =
+                    Some(PathBuf::from(args.get(i).ok_or_else(|| {
+                        anyhow!("--cancellation-file requires a value")
+                    })?));
             }
             "--max-spot-retries" => {
                 i += 1;
@@ -583,6 +612,9 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
             allow_on_demand_fallback,
             budget_name,
             expected_max_cost_usd,
+            estimated_hourly_cost_usd,
+            cancellation_file,
+            total_run_timeout_seconds,
             poll_interval_seconds: 15,
             ssm_ready_timeout_seconds: 600,
             command_timeout_seconds,
@@ -601,7 +633,7 @@ async fn write_resume_state(path: &Path, state: &ResumeState) -> Result<()> {
     Ok(())
 }
 
-fn main() -> Result<()> {
+fn run() -> Result<()> {
     let raw_args: Vec<String> = env::args().skip(1).collect();
     if raw_args.is_empty()
         || matches!(
@@ -620,7 +652,16 @@ fn main() -> Result<()> {
     let out_path_display = config.out_path.display().to_string();
     remote_git_source_preflight(&config.git_ref)?;
     let (summary, _) = runtime.block_on(async move {
+        let provider_wave_started = Instant::now();
+        let provider_wave_timeout = config.total_run_timeout_seconds.map(Duration::from_secs);
         let adapter = LiveAwsRemoteValidationAdapter::new(&config).await?;
+        if config
+            .cancellation_file
+            .as_ref()
+            .is_some_and(|path| path.exists())
+        {
+            bail!("portable cancellation requested before AWS launch-surface preparation");
+        }
         let prepared = adapter.prepare_launch_surface(&config).await?;
         let mut effective_config = config.clone();
         effective_config.ami_id = prepared.record.ami_id.clone();
@@ -653,11 +694,20 @@ fn main() -> Result<()> {
         write_resume_state(&resume_state_path, &resume_state).await?;
         let mut final_pair = None;
         for attempt_index in 0..=max_spot_retries {
+            let remaining_total = provider_wave_timeout
+                .map(|limit| limit.saturating_sub(provider_wave_started.elapsed()));
+            if remaining_total.is_some_and(|remaining| {
+                remaining <= Duration::from_secs(effective_config.termination_timeout_seconds)
+            }) {
+                break;
+            }
             let attempt_dir = effective_config
                 .artifact_dir
                 .join(format!("attempt-{}", attempt_index));
             let attempt_out = attempt_dir.join("summary.json");
             let mut attempt_config = effective_config.clone();
+            attempt_config.total_run_timeout_seconds =
+                remaining_total.map(|remaining| remaining.as_secs());
             attempt_config.artifact_dir = attempt_dir.clone();
             attempt_config.out_path = attempt_out.clone();
             let _obs_log = EnvVarGuard::set(
@@ -693,7 +743,8 @@ fn main() -> Result<()> {
                     pair
                 }
                 Err(err) => {
-                    heartbeat.failed(&[("result", "failed"), ("detail", &err.to_string())]);
+                    let redacted_error = redact_sensitive_text(&err.to_string());
+                    heartbeat.failed(&[("result", "failed"), ("detail", &redacted_error)]);
                     let _cleanup = adapter.cleanup_launch_surface(&prepared).await;
                     return Err(err);
                 }
@@ -788,6 +839,7 @@ fn main() -> Result<()> {
         .await?;
         Result::<_, anyhow::Error>::Ok((summary, events))
     })?;
+    let summary = redacted_summary(&summary);
     if json_output {
         println!("{}", serde_json::to_string_pretty(&summary)?);
     } else {
@@ -805,6 +857,16 @@ fn main() -> Result<()> {
                 .failure_reason
                 .unwrap_or_else(|| format!("{:?}", summary.status))
         )
+    }
+}
+
+fn main() {
+    if let Err(err) = run() {
+        eprintln!(
+            "aws remote validation failed: {}",
+            redact_sensitive_text(&err.to_string())
+        );
+        std::process::exit(1);
     }
 }
 

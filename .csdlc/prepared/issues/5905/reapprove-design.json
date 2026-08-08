@@ -1,0 +1,6 @@
+{
+  "issue": 5905,
+  "expected_generation": 8,
+  "expected_digest": "358efb243c814bdef44b496daa9cb7c86ce0e52a7a4cc4857f0cf7eb46e8b98a",
+  "reviewer": "subagent:review-5905-design"
+}

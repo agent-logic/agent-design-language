@@ -1,0 +1,3 @@
+aws_spot_remote_validation_wrapper_summary=<machine-path-redacted>
+aws_spot_remote_validation_wrapper_summary=<machine-path-redacted>
+PASS test_run_aws_spot_remote_validation_lane

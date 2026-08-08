@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SCRIPT="$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh"
 SETUP_SCRIPT="$ROOT/adl/tools/setup_aws_spot_remote_validation_github_resources.sh"
 WORKFLOW="$ROOT/.github/workflows/aws-spot-remote-validation.yaml"
-TMP_PARENT="$ROOT/.adl/tmp/aws-spot-remote-validation-tests"
+TMP_PARENT="${TMPDIR:?TMPDIR must be set to an approved external volume}/adl-aws-spot-remote-validation-tests"
 
 grep -F 'LANE_BIN="$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation"' "$SCRIPT" >/dev/null
 grep -F 'selected binary does not implement the required Spot contract' "$SCRIPT" >/dev/null
@@ -77,6 +77,8 @@ elif [[ "$1 $2" == "ec2 describe-volumes" ]]; then
   esac
 elif [[ "$1 $2" == "ec2 describe-subnets" ]]; then
   echo us-west-2a
+elif [[ "$1 $2" == "ec2 describe-instance-types" ]]; then
+  echo "${ADL_FAKE_INSTANCE_CAPACITY:-8 32768}"
 elif [[ "$1 $2" == "ssm get-parameter" ]]; then
   echo ami-0123456789abcdef0
 else
@@ -110,6 +112,10 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+if [[ "${ADL_SSH_KNOWN_HOSTS_FILE:-}" != "$artifact_dir/.private/ssh-known-hosts" ]]; then
+  echo "unexpected SSH known-hosts path: ${ADL_SSH_KNOWN_HOSTS_FILE:-unset}" >&2
+  exit 1
+fi
 mkdir -p "$(dirname "$out")" "$artifact_dir"
 status="${ADL_FAKE_AWS_REMOTE_STATUS:-passed}"
 cat >"$out" <<JSON
@@ -277,6 +283,7 @@ fi
 exec /usr/bin/stat "$@"
 EOF
 chmod +x "$fake_bin/aws" "$fake_bin/adl-aws-remote-validation" "$fake_bin/curl" "$fake_bin/stat"
+export ADL_AWS_REMOTE_VALIDATION_BIN="$fake_bin/adl-aws-remote-validation"
 
 ADL_FAKE_GITHUB_API_LOG="$TMP/github-api.log" \
 ADL_GITHUB_API_BIN="$fake_bin/curl" \
@@ -625,6 +632,152 @@ if grep -F -- '--ssh-allowed-cidr' "$WORKFLOW" >/dev/null; then
   echo "hosted Spot workflow must preserve runner CIDR auto-detection" >&2
   exit 1
 fi
+
+portable_runner="${ADL_REMOTE_VALIDATION_BIN:?ADL_REMOTE_VALIDATION_BIN is required for portable adapter proof}"
+portable_request="$TMP/portable-aws-request.json"
+python3 - "$portable_request" "$(git -C "$ROOT" rev-parse HEAD)" \
+  "refs/heads/$(git -C "$ROOT" symbolic-ref --short HEAD)" <<'PY'
+import hashlib
+import json
+import sys
+
+path, revision, source_ref = sys.argv[1:]
+profile = {
+    "argv": ["cargo", "test", "--locked"],
+    "working_directory": ".",
+    "environment_allowlist": ["PATH"],
+}
+digest = hashlib.sha256(json.dumps(profile, separators=(",", ":")).encode()).hexdigest()
+payload = {
+    "schema": "adl.remote_validation.request.v1",
+    "request_id": "wp-5823-aws-shell-adapter",
+    "checkout": ".",
+    "revision": revision,
+    "source_ref": source_ref,
+    "command_profile": profile,
+    "command_profile_digest": digest,
+    "adapter": "aws",
+    "requested_platform": "linux",
+    "resource_budget": {"cpu_cores": 8, "memory_mib": 32768, "timeout_seconds": 321, "estimated_max_cost_microusd": 200000},
+    "artifact_policy": {"paths": ["artifacts/summary.json"], "required": True, "max_total_bytes": 1048576},
+    "cancellation_file": None,
+    "fallback": "offer_local",
+}
+with open(path, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+
+bash "$SCRIPT" \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --estimated-hourly-cost-usd 0.15 \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-summary.json" \
+    --artifact-dir "$TMP/portable-artifacts" >"$TMP/portable-plan.out"
+grep -F "source_commit_resolved=true" "$TMP/portable-plan.out" >/dev/null
+grep -F "DRY-RUN no EC2 resources launched" "$TMP/portable-plan.out" >/dev/null
+
+bash "$SCRIPT" \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --estimated-hourly-cost-usd 0.15 \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-command-summary.json" \
+    --artifact-dir "$TMP/portable-command-artifacts" \
+    --print-command >"$TMP/portable-command.out"
+grep -F -- "--expected-max-cost-usd 0.200000" "$TMP/portable-command.out" >/dev/null
+grep -E -- "--estimated-hourly-cost-usd 0\.15(0+)?([[:space:]]|$)" "$TMP/portable-command.out" >/dev/null
+grep -F -- "--total-run-timeout-seconds 321" "$TMP/portable-command.out" >/dev/null
+grep -F -- "--spot-only" "$TMP/portable-command.out" >/dev/null
+
+if bash "$SCRIPT" \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-missing-rate-summary.json" \
+    --artifact-dir "$TMP/portable-missing-rate-artifacts" \
+    --print-command >"$TMP/portable-missing-rate.out" 2>"$TMP/portable-missing-rate.err"; then
+  echo "expected portable AWS planning without an hourly rate to fail closed" >&2
+  exit 1
+fi
+grep -F "portable AWS planning requires --estimated-hourly-cost-usd" "$TMP/portable-missing-rate.err" >/dev/null
+
+ADL_AWS_CLI="$fake_bin/aws" bash "$SCRIPT" preflight \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --expected-proof "$proof" \
+    --builder-image "$builder_image" \
+    --estimated-hourly-cost-usd 0.15 \
+    --ssh-private-key-path "$test_ssh_key" \
+    --out "$TMP/portable-preflight-summary.json" \
+    --artifact-dir "$TMP/portable-preflight-artifacts" >"$TMP/portable-preflight.out"
+grep -F '"status": "ready"' "$TMP/portable-preflight.out" >/dev/null
+
+if ADL_AWS_CLI="$fake_bin/aws" bash "$SCRIPT" preflight \
+    --portable-request "$portable_request" --portable-runner "$portable_runner" \
+    --expected-proof "$proof" --builder-image "$builder_image" \
+    --estimated-hourly-cost-usd 10 --ssh-private-key-path "$test_ssh_key" \
+    >"$TMP/portable-cost.out" 2>"$TMP/portable-cost.err"; then
+  echo "expected projected portable cost to exceed the declared ceiling" >&2
+  exit 1
+fi
+grep -F "projected cost" "$TMP/portable-cost.err" >/dev/null
+
+if ADL_FAKE_INSTANCE_CAPACITY="4 8192" ADL_AWS_CLI="$fake_bin/aws" bash "$SCRIPT" preflight \
+    --portable-request "$portable_request" --portable-runner "$portable_runner" \
+    --expected-proof "$proof" --builder-image "$builder_image" \
+    --estimated-hourly-cost-usd 0.15 --ssh-private-key-path "$test_ssh_key" \
+    >"$TMP/portable-capacity.out" 2>"$TMP/portable-capacity.err"; then
+  echo "expected undersized AWS instance selection to fail" >&2
+  exit 1
+fi
+grep -F "does not satisfy portable CPU/memory request" "$TMP/portable-capacity.err" >/dev/null
+
+portable_cancel_request="$TMP/portable-aws-cancel-request.json"
+python3 - "$portable_request" "$portable_cancel_request" <<'PY'
+import json
+import sys
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+payload["cancellation_file"] = "wp5823-aws-cancel.signal"
+json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
+PY
+touch "$ROOT/wp5823-aws-cancel.signal"
+if bash "$SCRIPT" preflight --portable-request "$portable_cancel_request" --portable-runner "$portable_runner" >"$TMP/portable-cancel.out" 2>"$TMP/portable-cancel.err"; then
+  echo "expected AWS cancellation file to stop before provider use" >&2
+  exit 1
+fi
+rm "$ROOT/wp5823-aws-cancel.signal"
+grep -F "cancellation requested before provider use" "$TMP/portable-cancel.err" >/dev/null
+
+portable_mismatch_request="$TMP/portable-aws-mismatch-request.json"
+python3 - "$portable_request" "$portable_mismatch_request" <<'PY'
+import json
+import sys
+
+source, destination = sys.argv[1:]
+with open(source, encoding="utf-8") as handle:
+    payload = json.load(handle)
+payload["revision"] = "0" * 40
+with open(destination, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+if bash "$SCRIPT" run --run \
+    --portable-request "$portable_mismatch_request" \
+    --portable-runner "$portable_runner" \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-mismatch-summary.json" \
+    --artifact-dir "$TMP/portable-mismatch-artifacts" >"$TMP/portable-mismatch.out" 2>"$TMP/portable-mismatch.err"; then
+  echo "expected portable source ref/revision mismatch to fail closed" >&2
+  exit 1
+fi
+grep -F "portable source ref does not resolve to requested revision" "$TMP/portable-mismatch.err" >/dev/null
+
+if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$portable_runner" --command "true" >"$TMP/portable-conflict.out" 2>"$TMP/portable-conflict.err"; then
+  echo "expected portable/manual AWS ambiguity to fail closed" >&2
+  exit 1
+fi
+grep -F "conflicts with command/ref overrides" "$TMP/portable-conflict.err" >/dev/null
+
 grep -F -- "if-no-files-found: warn" "$WORKFLOW" >/dev/null
 grep -F -- "ec2:RunInstances" "$SETUP_SCRIPT" >/dev/null
 if grep -F -- '"ec2:CreateVolume"' "$SETUP_SCRIPT" >/dev/null; then

@@ -1,0 +1,9 @@
+    Updating crates.io index
+   Compiling adl-runtime-kernel v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl-runtime-kernel)
+   Compiling adl-resilience v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl-resilience)
+   Compiling adl-runtime v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl-runtime)
+   Compiling adl v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 15s
+real 75.37
+user 115.96
+sys 6.27

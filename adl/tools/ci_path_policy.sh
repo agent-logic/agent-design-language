@@ -1561,7 +1561,10 @@ changed_line_delta_for_path() {
 
 if [ "$event_name" != "pull_request" ]; then
   if [ "$event_name" = "push" ] && [ "$ref_name" = "refs/heads/main" ]; then
-    mark_authoritative_full_coverage "push_main" "push_main_runs_authoritative_full_coverage"
+    coverage_lane="skip"
+    coverage_authority="not_required"
+    coverage_execution_state="skipped_after_pr_validation"
+    reason="push_main_skips_duplicate_post_merge_validation"
   else
     mark_authoritative_full_coverage "non_pr_event" "non_pull_request_event_runs_full_validation"
   fi

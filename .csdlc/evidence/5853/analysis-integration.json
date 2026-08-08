@@ -1,0 +1,26 @@
+{
+  "schema": "adl.wp02b.analysis_integration.v1",
+  "source": "independent 16-core warm-runner optimization analysis supplied by the operator",
+  "evidence_boundary": "standard-runner observations are historical context only; no 16-core result is inferred from them",
+  "primary_finding": "warm latency is dominated by duplicate dev and test profile compilation/linking while the test bodies complete in 0.00 seconds",
+  "canary_priority": [
+    "test_only_warm",
+    "workspace_artifact_cache",
+    "pinned_sccache_and_lld",
+    "reduced_debug_ci_profile",
+    "consolidated_paid_job"
+  ],
+  "rollout_gates": {
+    "test_only_p50_seconds_max": 90,
+    "test_only_p95_seconds_max": 120,
+    "cache_restore_fraction_max": 0.35,
+    "cache_restore_seconds_max": 45,
+    "source_delta_sccache_hit_rate_min": 0.80,
+    "proof_parity_required": true
+  },
+  "first_canary": {
+    "name": "test_only_warm",
+    "change": "remove the duplicate cargo build phase while retaining the authoritative provider communication test workload",
+    "acceptance": "proof parity, test-only p95 at most 120 seconds, and at least 35 percent median workload reduction"
+  }
+}

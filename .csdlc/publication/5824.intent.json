@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5824,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5824-v092-prompt-card-enum-typing",
+  "title": "[v0.92][WP-07] Complete prompt-card enum typing audit",
+  "body": "Closes danielbaustin/agent-design-language#5824\n\n## Summary\n- Derive the complete restricted-type denominator from current C-SDLC v2 source, including scalar strings in structs and enum variants.\n- Retain digest-bound dispositions for all 132 candidates; the audit found zero justified finite enum gaps, so no production type churn was introduced.\n- Add focused proof for enum and tagged-enum behavior, all six card round trips, active template parity, typed invalid-value diagnostics, mutation safety, and legacy rejection.\n\n## Validation\n- `ruby .csdlc/prepared/issues/5824/validate-enum-inventory.rb` (PASS: 132 candidates, 0 finite gaps)\n- `cargo nextest run --locked --manifest-path csdlc-v2/Cargo.toml --no-tests=fail --test prompt_card_enum_typing` (PASS: 6/6)\n- `csdlc-validate --root . issue --issue 5824` (PASS)\n- `git diff --check` (PASS)\n- Independent bounded review: PASS, no actionable findings",
+  "draft": false,
+  "revision": "git-blake3:3ac36bf17bc91b6c6a9ce5e497fa93195db57fcb:e5a8f1ea9c8d1126a9a1c474b3744f1191cf20d6d9b390112d723e0e16236208",
+  "commit_sha": "3ac36bf17bc91b6c6a9ce5e497fa93195db57fcb"
+}

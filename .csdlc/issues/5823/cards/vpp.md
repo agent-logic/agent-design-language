@@ -63,7 +63,6 @@ Diagram: .csdlc/prepared/issues/5823/diagram.mmd
     "budget_seconds": 400,
     "budget_tokens": 3000,
     "argv": [
-      "bash",
       "adl/tools/test_run_aws_spot_remote_validation_lane.sh"
     ],
     "parallel_group": "adapter-fixtures",
@@ -83,7 +82,6 @@ Diagram: .csdlc/prepared/issues/5823/diagram.mmd
     "budget_seconds": 400,
     "budget_tokens": 3000,
     "argv": [
-      "bash",
       "adl/tools/test_run_nessus_remote_validation.sh"
     ],
     "parallel_group": "adapter-fixtures",
@@ -91,7 +89,7 @@ Diagram: .csdlc/prepared/issues/5823/diagram.mmd
   },
   {
     "lane": "native-platform-contract-matrix",
-    "proof_role": "Require native live Linux and macOS receipts plus live-native or explicitly non-native fixture Windows proof; reject blocked rows. [preexec_rejection exit=1 diagnostic_sha256=74a6d08d90706609bd249a6ccdf542e35b3785ec34a6d0d60aecbdcdb4e57b2a]",
+    "proof_role": "Require native live Linux and macOS receipts plus live-native or explicitly non-native fixture Windows proof; reject blocked rows.",
     "acceptance_ids": [
       "AC-6",
       "AC-7",
@@ -141,8 +139,8 @@ Tokens: 25000
 ## Commands
 
 - `cargo test --locked --manifest-path tools/remote_validation/Cargo.toml --test contract`
-- `bash adl/tools/test_run_aws_spot_remote_validation_lane.sh`
-- `bash adl/tools/test_run_nessus_remote_validation.sh`
+- `adl/tools/test_run_aws_spot_remote_validation_lane.sh`
+- `adl/tools/test_run_nessus_remote_validation.sh`
 - `ruby .csdlc/prepared/issues/5823/validate-platform-matrix.rb`
 - `git diff --check`
 

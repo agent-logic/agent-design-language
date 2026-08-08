@@ -1,0 +1,20 @@
+{
+  "cache_hit": false,
+  "cache_state": "warm",
+  "cargo_version": "cargo 1.92.0 (344c4567c 2025-10-21)",
+  "commit_sha": "d5b30dd57ef1d22239bad61a8137b372c9a1f75b",
+  "cpu_count": 4,
+  "image_os": "ubuntu24",
+  "image_version": "20260804.265.1",
+  "machine": "x86_64",
+  "platform": "control",
+  "run_id": "wp02b-control-warm-seed-repair",
+  "runner_arch": "X64",
+  "runner_name": "GitHub Actions 1000000006",
+  "runner_os": "Linux",
+  "rustc_version": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "sample_role": "cache_seed",
+  "schema": "adl.wp02b.runner_trial.v1",
+  "workflow_attempt": "1",
+  "workflow_run_id": "31137906430"
+}

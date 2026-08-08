@@ -1,0 +1,14 @@
+{
+  "build_command": "skipped:test_only",
+  "build_elapsed_seconds": 0,
+  "build_real_seconds": null,
+  "cache_posture": "warm",
+  "platform": "github-hosted-candidate",
+  "schema": "adl.build_platform_benchmark.v1",
+  "status": "passed",
+  "test_command": "cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture",
+  "test_elapsed_seconds": 78,
+  "test_real_seconds": 77.72,
+  "total_elapsed_seconds": 78,
+  "variant": "test_only"
+}

@@ -1,0 +1,32 @@
+{
+  "linux": {
+    "qualification": "live",
+    "native": true,
+    "runner": "aws",
+    "revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+    "command_profile_digest": "f2b52c4e07c6b1d533ff363a439893900cb8a99b58c559098f5bd4951b8a6474",
+    "result_digest": "28bdc890feee85d10b265d3f7c7508c87457e5dd640198d89fffd3fd8925ba84",
+    "receipt": ".csdlc/evidence/5823/linux-native-result.json",
+    "outcome": "passed"
+  },
+  "macos": {
+    "qualification": "live",
+    "native": true,
+    "runner": "local",
+    "revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+    "command_profile_digest": "a69dfcda1353d31af0fa1d5ca029aa5443417f8ce2d1011c41a521b5152ad3ad",
+    "result_digest": "f31f4ee6a3513f584e900610f0aa769196d42ec2201dd15510d2512b5ec2d052",
+    "receipt": ".csdlc/evidence/5823/macos-native-result.json",
+    "outcome": "passed"
+  },
+  "windows": {
+    "qualification": "fixture",
+    "native": false,
+    "runner": "nessus_fixture",
+    "revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+    "command_profile_digest": "c17ce9c42dcceb10828b7522097f6cac3d1972b4ad35d31958326b9400c026dc",
+    "result_digest": "e5d380700a8be8b8c98c33b8c9a97de72996c9d0ebf6616d38d807fd9b27d6a4",
+    "receipt": ".csdlc/evidence/5823/windows-fixture-result.json",
+    "outcome": "passed"
+  }
+}

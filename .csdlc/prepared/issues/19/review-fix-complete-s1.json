@@ -1,0 +1,10 @@
+{
+  "issue": 19,
+  "card": "spp",
+  "expected_generation": 10,
+  "expected_digest": "55a7f8cd290333362c77fad8bbb4bddda57e52220b39fed2c142a516b3e35a98",
+  "actor": "codex:19-podcast-preview-deployment",
+  "reason": "The local-only static conversion and minimal object inventory are complete.",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"},
+  "fail_after_backup": false
+}

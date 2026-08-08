@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5906,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][closeout] Resolve multiple merged closing PRs deterministically",
+    "slug": "v092-terminal-precedence-multiple-merged-prs",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Retain mergedAt evidence and select only the explicitly requested unique latest merged closing PR.",
+      "deliverables": [
+        "Merged-at closing PR identity",
+        "Unique-latest precedence validation",
+        "Focused rejection and compatibility tests",
+        "Validated terminal reconciliation for 5818 and 5861"
+      ],
+      "acceptance_criteria": [
+        "Single merged candidate behavior remains compatible",
+        "Unique latest merged candidate is accepted only when explicitly requested",
+        "Wrong, missing-timestamp, and tied-timestamp candidates fail closed",
+        "Routine finish and review gates are unchanged",
+        "Issues 5818 and 5861 receive validated terminal truth"
+      ],
+      "dependencies": [
+        "Issue 5905 historical finish compatibility path"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/tests/gate_finish.rs"
+      ],
+      "non_goals": [
+        "Selecting by PR number",
+        "Rewriting merged PR bodies",
+        "Broad closeout redesign",
+        "Product implementation"
+      ]
+    }
+  }
+}

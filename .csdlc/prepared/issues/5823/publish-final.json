@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5823,
+  "expected_generation": 36,
+  "expected_digest": "36d7a5cb418fba193ebf733462cdac5422cf33e2f7d869f18324e2fefba66f5e",
+  "actor": "codex:5823-review-reconciliation",
+  "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
+  "title": "[v0.92][WP-06] Harden remote validation runners",
+  "body": "Closes danielbaustin/agent-design-language#5823\n\n## Summary\n- preserve complete command-profile working-directory and environment boundaries across remote adapters\n- prevent local fallback from masquerading as successful remote proof\n- fail closed when local or Nessus retained artifacts contain credential-shaped values or machine-local paths\n- harden AWS and Nessus cancellation, cleanup, cost, redaction, and exact-revision behavior\n- retain one native Linux run at substantive revision 2c76b1f8 plus native macOS and fixture-qualified Windows evidence\n\n## Validation\n- AWS portable adapter tests: 26/26\n- portable remote-validation contract tests: 12/12\n- focused AWS and Nessus shell suites: PASS\n- final native Linux AWS run: PASS, cleanup complete, estimated compute cost $0.008732\n- platform-matrix validator and self-test: PASS\n- shell syntax and git diff hygiene: PASS\n\n## Review\n- independent exact-head review at 6ce1e9051: PASS\n- canonical retained-receipt scanning rejects both /home and /var/folders paths\n- exact publication-intent allowance rejects sibling issue intents\n- declared scope includes the AWS artifact finalizer changed by this issue\n\n## Boundaries\n- Windows proof remains fixture-qualified rather than live-native\n- native Linux execution is pinned to revision 2c76b1f8; the later fail-closed artifact-redaction repair is covered by focused deterministic contract and wrapper proof",
+  "draft": false,
+  "token_file": null
+}

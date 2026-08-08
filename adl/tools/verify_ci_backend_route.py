@@ -27,6 +27,7 @@ parser.add_argument("--spot-opt-in", type=parse_bool, default=False)
 parser.add_argument("--work-required", type=parse_bool, required=True)
 parser.add_argument("--spot-work-required", type=parse_bool)
 parser.add_argument("--rust-required", type=parse_bool, default=False)
+parser.add_argument("--rust-tests-required", type=parse_bool, default=False)
 parser.add_argument("--demo-required", type=parse_bool, default=False)
 parser.add_argument("--path-policy-result", required=True)
 parser.add_argument("--spot-result", required=True)
@@ -66,7 +67,9 @@ elif not spot_selected:
                 f"{hosted_results.get('coverage', 'missing')}"
             )
     else:
-        expected_work_required = args.rust_required or args.demo_required
+        expected_work_required = (
+            args.rust_required or args.rust_tests_required or args.demo_required
+        )
         if args.work_required != expected_work_required:
             errors.append("adl-ci work-required input disagrees with required lane categories")
         if not args.work_required:
@@ -80,6 +83,17 @@ elif not spot_selected:
                         f"required hosted {lane} lane did not succeed: "
                         f"{hosted_results.get(lane, 'missing')}"
                     )
+        elif args.rust_tests_required:
+            if hosted_results.get("rust-fmt-clippy") != "skipped":
+                errors.append(
+                    "unrequired hosted rust-fmt-clippy lane expected skipped: "
+                    f"{hosted_results.get('rust-fmt-clippy', 'missing')}"
+                )
+            if hosted_results.get("rust-tests") != "success":
+                errors.append(
+                    "required hosted rust-tests lane did not succeed: "
+                    f"{hosted_results.get('rust-tests', 'missing')}"
+                )
         if args.demo_required and hosted_results.get("demo-proof") != "success":
             errors.append(
                 "required hosted demo-proof lane did not succeed: "

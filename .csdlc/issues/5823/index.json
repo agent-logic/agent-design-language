@@ -3,14 +3,73 @@
   "issue": 5823,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7c3bcca3a89242a98791c5d0a2391d199e3e2a088e3fa577d270275ae22c2571",
-  "phase": "initialized",
-  "generation": 22,
-  "digest": "e102fe8f9d1a59808be04928d7666b488a8895632414c67957701b373d763450",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 37,
+  "digest": "146a63d2f91b8aaadde308f751509e1db7de9e43afd198bc8fe9a0f35442d15d",
+  "branch": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
+  "worktree": "/Volumes/FastWork/adl-wp-5823-v0-92-wp-06-remote-validation-build-runner",
+  "review_assignment": {
+    "reviewer": "subagent:019fde22-3b39-7572-8a05-847988d33b3d",
+    "assigned_by": "codex:5823-review-reconciliation",
+    "revision": "git-blake3:6ce1e9051ffb5124f670eda5e9bd7477855d72c9:80c27d2cbd7a4a7a78a1f9070d6d09fb85125001146db14d10a6afb1212cc39a",
+    "scope": [
+      ".csdlc/evidence/5823",
+      ".csdlc/prepared/issues/5823/validate-platform-matrix.rb",
+      "adl/tools/aws_spot_artifact_finalize.py",
+      "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/run_nessus_remote_validation.sh",
+      "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/test_run_nessus_remote_validation.sh",
+      "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "tools/remote_validation/Cargo.lock",
+      "tools/remote_validation/Cargo.toml",
+      "tools/remote_validation/src/bin/adl-remote-validation.rs",
+      "tools/remote_validation/src/lib.rs",
+      "tools/remote_validation/tests/contract.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fde22-3b39-7572-8a05-847988d33b3d",
+    "scope": [
+      ".csdlc/evidence/5823",
+      ".csdlc/prepared/issues/5823/validate-platform-matrix.rb",
+      "adl/tools/aws_spot_artifact_finalize.py",
+      "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/run_nessus_remote_validation.sh",
+      "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/test_run_nessus_remote_validation.sh",
+      "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "tools/remote_validation/Cargo.lock",
+      "tools/remote_validation/Cargo.toml",
+      "tools/remote_validation/src/bin/adl-remote-validation.rs",
+      "tools/remote_validation/src/lib.rs",
+      "tools/remote_validation/tests/contract.rs"
+    ],
+    "reviewed_revision": "git-blake3:6ce1e9051ffb5124f670eda5e9bd7477855d72c9:80c27d2cbd7a4a7a78a1f9070d6d09fb85125001146db14d10a6afb1212cc39a",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS and Nessus behavior remains dependent on external provider timing and availability.",
+      "Windows proof remains fixture-qualified rather than live-native.",
+      "Native Linux execution is pinned to 2c76b1f8; later fail-closed redaction repairs are covered by focused deterministic contract and wrapper proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5823,
+    "pull_request": 15,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/15",
+    "base": "main",
+    "head": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
+    "revision": "git-blake3:6ce1e9051ffb5124f670eda5e9bd7477855d72c9:80c27d2cbd7a4a7a78a1f9070d6d09fb85125001146db14d10a6afb1212cc39a",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +83,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "72104108554c825c066bc986444652b5b86a2360e38e3b68465fac493df4ba75",
+      "values_digest": "e776b1694edbe093492b12b2717bab9d2fbdcf235cb7b852b4444bfc9e56e6d3",
       "rendered_digest": "3a521d5361568d36e6e58f2b1548dbe24b6deedb254c5106942ee132edda129d",
       "ast_digest": "c753f60486959e5674018050c5085ce087467ae6c749eefa4ed399b678129b0c"
     },
     "stp": {
-      "values_digest": "e7f89975a64c0a90a78a33c791925c243e60e04d599f20a5b8c59dad0debdaf2",
+      "values_digest": "0373a0eb9f72e77c730e35a613688eaff8f225db8b46ff6af082dabebc176bdd",
       "rendered_digest": "26a93a4af8877e02ec404514a74bfc23902ac3cbe536343ef04a7cad5dfabb85",
       "ast_digest": "0b73a4514b346098dad1a34949ea16795bc21fbf9f49c10c610ac39d3e5af291"
     },
     "spp": {
-      "values_digest": "c6635c2269e6cc46627af64affed0ba8127bab2b072b06b9d13b25ff9fcfcf1c",
-      "rendered_digest": "c6848d6c6c04137a52c3853c922f46a46d00eb765b292e4e0818d52340d22278",
-      "ast_digest": "598434e1c2fc48f62e288fa21e9a79a55a4fc0dcbe92142c1f7e47aecf868143"
+      "values_digest": "9ad9b96947209041f33204ebcd59af51af6fcb913bb8e54b3a79c46d6d898ad3",
+      "rendered_digest": "c27d7e003828c5ff60436ebb5cec56a7ef0dcfa90d4f50c67057e7f2f7e64ef8",
+      "ast_digest": "6d8bce4a6f3a82f12679a4e239d1ad04e332ce8e17f80e1785836b84a1f78543"
     },
     "vpp": {
-      "values_digest": "71627a73bae7c320e344d2a8921964359b2c4b5988c48c2577854245925b865f",
-      "rendered_digest": "171cdc3827da2194027c1c6dff80aee57655459a6fc311024f45870bdd807b18",
-      "ast_digest": "eb5c855c9d5da1f9e08e664deac765ea702cbc22cfebb9e566f6bb4a47d6053e"
+      "values_digest": "26eb1720170e71ab77e11bff0a9448f281b49eb6d263afc80ab888578b8aed58",
+      "rendered_digest": "b1874acfe1560921aea1949e011354b80cda7bc75d1e98605796987eaf42f5f7",
+      "ast_digest": "8e6723ca7e839922ab54a4d972a48184c8b27d6bc5f897725414cecf524f34b3"
     },
     "srp": {
-      "values_digest": "a6a21b061e520cd48b4e1116e17a415de89d6e0b2830e805c801c6e54d4ea094",
-      "rendered_digest": "d75b392680f254c5218c7ac6d47f1f0dab88c8d5975c5f9dcc312a58048cc045",
-      "ast_digest": "fa8a9f100c7618edbbdd6de56dbf5ca70b1f4dfe33d7cccf069ed303d921ba71"
+      "values_digest": "e229568ff879969ec1fa81ab6f02ba6aa11e88a61780915e9f71b6790b1786a8",
+      "rendered_digest": "7c053ecbfc897f380701bb3b97ddab01d4f9bd1757f3c95eb05eaeeb960ac148",
+      "ast_digest": "6cc468684af3fb3ddfa72b383fdf7879d8e640d2d8b8642d57f8a10ad37e1855"
     },
     "sor": {
-      "values_digest": "29419a089080bbb6e4d8f45e25b015a23007f46676ef73159930ae331c749538",
-      "rendered_digest": "918dde528a114bce7b991e20381cf7cd3f7c83daf40a3822786b937728ef41d3",
-      "ast_digest": "d44360186e739b1c36a6a1fd09a920ea5520e8b6f6203480950507a0168fb57c"
+      "values_digest": "843c12e152bb5ef16fe66a38d1da6b6397aca675b1a805dc36472538abadc1f4",
+      "rendered_digest": "eb992e784ac1b5ae7bb3436b5e8556279d1cd2a2d11a70ef9c4f4f4d2da243e8",
+      "ast_digest": "05f6582425a2f59135ef7a14952f8b03750e0675414a651708ac1d56c767c06f"
     }
   },
   "transitions": [
@@ -75,6 +134,76 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5823-execution",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5823-execution",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "The retained review predates the final portable runner implementation, exact platform proof, and corrected publication evidence; return to implemented for one complete exact-head review."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5823-final-review-reconciliation",
+      "reason": "The final exact publication-intent sibling rejection was added after the retained review; return to implemented to record the independent PASS at exact substantive head 6ce1e9051."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -357,6 +486,139 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 41,
+      "generation": 23,
+      "actor": "codex:5823-execution",
+      "reason": "Replace rejected shell-wrapper validation lanes with direct issue-owned proving executables before binding.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"portable-runner-contract\",\"proof_role\":\"Compile and run the new portable runner crate's exact contract target, proving its typed request/result, provenance, adapter boundary, artifacts, redaction, timeout, and cleanup semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"tools/remote_validation/Cargo.toml\",\"--test\",\"contract\"],\"parallel_group\":\"runner-contract\",\"defer_reason\":null},{\"lane\":\"aws-adapter-negative\",\"proof_role\":\"Exercise unreachable provider, stale revision, malformed output, timeout, cancellation, redaction, and cleanup failures without a live paid run.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\"],\"parallel_group\":\"adapter-fixtures\",\"defer_reason\":null},{\"lane\":\"nessus-and-local-fallback\",\"proof_role\":\"Prove the existing owned-runner adapter and same-profile local/no-network fallback contract.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_run_nessus_remote_validation.sh\"],\"parallel_group\":\"adapter-fixtures\",\"defer_reason\":null},{\"lane\":\"native-platform-contract-matrix\",\"proof_role\":\"Require native live Linux and macOS receipts plus live-native or explicitly non-native fixture Windows proof; reject blocked rows.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\"],\"parallel_group\":\"platform\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-revision review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 23,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 43,
+      "generation": 24,
+      "actor": "codex:5823-execution",
+      "reason": "Portable request/result, provenance, redaction, cleanup, and fallback contracts are implemented with focused proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 25,
+      "actor": "codex:5823-execution",
+      "reason": "Local, Nessus, and AWS adapters preserve exact request planning, timeout, budget, fallback, and result-validation contracts with focused positive and negative proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 26,
+      "actor": "codex:5823-execution",
+      "reason": "Focused local, macOS native, and Windows fixture proof is complete; the mandatory native Linux provider receipt and exact-head review remain outstanding.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 46,
+      "generation": 27,
+      "actor": "codex:5823-execution",
+      "reason": "Native Linux and macOS proof, qualified Windows fixture proof, negative adapter checks, exact revision verification, and complete provider cleanup are retained.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 28,
+      "actor": "codex:5823-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 48,
+      "generation": 29,
+      "actor": "codex:5823-review-repair",
+      "reason": "reconcile execution and focused validation after independent review repairs",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired the provider-neutral remote-validation contract after independent review. AWS and Nessus now preserve the complete portable request in canonical results; AWS enforces nonzero and projected cost bounds, instance CPU/memory capacity, cancellation, and pre-emission redaction; Nessus enforces revision, capacity, timeout, and cancellation; retained platform receipts are opened, hashed, cross-checked, and tied to truthful operator authorization. The prior authorized paid AWS run remains the live Linux proof; no second paid run was needed because the changed enforcement is covered by deterministic focused tests.\",\"changes\":[\"Preserved resource budget, artifact policy, cancellation file, fallback policy, and command-profile digest through adapter plans and canonical portable results.\",\"Added fail-closed AWS cost-ceiling, projected-cost, instance-capacity, cancellation, and stdout/stderr redaction enforcement with negative tests.\",\"Added Nessus exact-revision, CPU/memory, timeout, cancellation, artifact hashing, and canonical result enforcement with focused shell tests.\",\"Strengthened platform evidence validation to open receipts, verify SHA-256 and artifact bytes, compare revisions and profile digests, and validate budget, redaction, cleanup, first-attempt disposition, and operator authorization.\",\"Reconciled retained portable result schemas and fixed all bounded diff whitespace findings without another paid provider run.\"],\"artifacts\":[\"tools/remote_validation\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\"tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs\",\"tools/aws_remote_validation/tests/portable_adapter.rs\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/run_nessus_remote_validation.sh\",\"adl/tools/test_run_nessus_remote_validation.sh\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\",\".csdlc/evidence/5823\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"tools/remote_validation/Cargo.toml\",\"--test\",\"contract\"],\"purpose\":\"Prove complete portable request/result preservation, canonical artifact hashing, exact revision, timeout, cancellation, cleanup, redaction, and fallback semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-portable-contract.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\",\"--test\",\"portable_adapter\"],\"purpose\":\"Prove AWS portable mapping, redaction before retention, provider-failure classification, and cleanup behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-aws-adapter.log\"},{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\"],\"purpose\":\"Prove projected-cost, CPU/memory capacity, cancellation, exact revision, and wrapper redaction controls without provider use.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-aws-shell.log\"},{\"command\":[\"bash\",\"adl/tools/test_run_nessus_remote_validation.sh\"],\"purpose\":\"Prove Nessus complete portable mapping, exact revision, capacity, timeout, cancellation, artifact hashing, and canonical result behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-nessus-shell.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\"],\"purpose\":\"Verify retained receipt SHA-256, artifact digests, revisions, profile digests, authorization, budget, redaction, cleanup, and first-attempt disposition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-platform-matrix.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main\"],\"purpose\":\"Reject whitespace errors across the complete issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 29,
+      "actor": "codex:5823-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 30,
+      "actor": "codex:5823-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 31,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "The retained review predates the final portable runner implementation, exact platform proof, and corrected publication evidence; return to implemented for one complete exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 32,
+      "actor": "codex:5823-review-remediation",
+      "reason": "Formally declare the AWS artifact finalizer already changed by WP-06 after exact-head review identified the missing owned surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"tools/remote_validation/Cargo.toml\",\"tools/remote_validation/Cargo.lock\",\"tools/remote_validation/src/lib.rs\",\"tools/remote_validation/src/bin/adl-remote-validation.rs\",\"tools/remote_validation/tests/contract.rs\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\"tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs\",\"tools/aws_remote_validation/tests/portable_adapter.rs\",\"adl/tools/run_nessus_remote_validation.sh\",\"adl/tools/test_run_nessus_remote_validation.sh\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/aws_spot_artifact_finalize.py\",\".csdlc/evidence/5823\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\"]}"
+    },
+    {
+      "sequence": 53,
+      "generation": 32,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 33,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 34,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 35,
+      "actor": "codex:5823-final-review-reconciliation",
+      "reason": "The final exact publication-intent sibling rejection was added after the retained review; return to implemented to record the independent PASS at exact substantive head 6ce1e9051.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 35,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 36,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 37,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

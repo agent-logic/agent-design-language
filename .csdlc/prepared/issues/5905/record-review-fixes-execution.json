@@ -1,0 +1,20 @@
+{
+  "issue": 5905,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "7c365c039836dd83cd9ab7742888a27fd2f6dc88fe4496120f7f5a0218b82ec0",
+  "actor": "codex:5905-v092-terminal-reconciliation",
+  "reason": "Record all exact-head review fixes before rereview.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Resolved final implementation-review findings by including closed PRs in issue-side closing-link discovery, failing closed on pagination, applying unique-merged terminal precedence over abandoned closed-unmerged attempts, rejecting multiple merged candidates, and exposing strict repository/SHA patterns in the public schema.",
+    "changes": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_finish.rs"
+    ],
+    "artifacts": ["subagent:review-5905-implementation findings resolved"]
+  }
+}
