@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "26c54e5f037839ecd9f4f8a2410a5453e2d4d7ecf5353bec3092a45257b39c61",
   "phase": "reviewed",
-  "generation": 18,
-  "digest": "166036f3289e82ed8ef5578101c664504f9c42c6f25c7cda9ae0e8312b0d5841",
+  "generation": 20,
+  "digest": "da5a36aa1054fe2757f9405a884110781587ee06ec2cb4329cf726ecd1cff255",
   "branch": "codex/53-execution-proof-receipts",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-53",
   "review_assignment": {
-    "reviewer": "subagent:review-53-exact-head",
-    "assigned_by": "codex:53-execution",
-    "revision": "git-blake3:c7b454b30beec5d537966765a24f33823535f562:02c9a6df9b77454be516081ac0ccb186b97d76a620f8848df0e6a66d755f20ee",
+    "reviewer": "subagent:review-53-metadata-head",
+    "assigned_by": "codex:53-publication-recovery",
+    "revision": "git-blake3:83a3228936c7bfcf35a0c7fd13dc446268699c64:1bab14bd88c7fe129f9036e51c1f49d7464517eedd7bdbb684b18d39b158b64c",
     "scope": [
       ".csdlc/issues/53",
       ".csdlc/prepared/issues/53",
@@ -19,13 +19,13 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:review-53-exact-head",
+    "reviewer": "subagent:review-53-metadata-head",
     "scope": [
       ".csdlc/issues/53",
       ".csdlc/prepared/issues/53",
       ".csdlc/prepared/issues/5862/proof-receipt-contract.rb"
     ],
-    "reviewed_revision": "git-blake3:c7b454b30beec5d537966765a24f33823535f562:02c9a6df9b77454be516081ac0ccb186b97d76a620f8848df0e6a66d755f20ee",
+    "reviewed_revision": "git-blake3:83a3228936c7bfcf35a0c7fd13dc446268699c64:1bab14bd88c7fe129f9036e51c1f49d7464517eedd7bdbb684b18d39b158b64c",
     "findings": [],
     "residual_risks": [
       "The v3 contract intentionally accepts later commits outside the immutable issue evidence prefix while binding all proof claims to the exact substantive source revision."
@@ -47,34 +47,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "51279020d52cb5c7e074d2f5733f2015a212faae7986c7c5c29e82745d377c41",
+      "values_digest": "64f50249dfc46138f7f0b7cadbe81dc3b97585c48cf71380036e7c2d78be28c6",
       "rendered_digest": "f07742dec42f8c6399834b0faa7e562465eb254fa1ca065ee7c3c42be1b9335b",
       "ast_digest": "a65fe820157792afa3e7bc2ad8d2916bccc0a9bda423c08ba289e8e29923cddb"
     },
     "stp": {
-      "values_digest": "35087ae0366784af4b8a7a1132872daeca85381d8d3385163f238296407b2e8b",
+      "values_digest": "1b47f0a14cc183c60ce10f92eb8f5fd486b53f3a54a1cbf7e35ee5974e46b389",
       "rendered_digest": "01a2ef90056d83800f6a83470ae2095701a0dd622717d37b0028230d7043affa",
       "ast_digest": "4943ac151c925da9bd45db1cc7b32a9d2cfc0688201294a38bcdf5e0b84056d1"
     },
     "spp": {
-      "values_digest": "0b6bb20385877f2d782b01e10e43b13629f5911ff29a05b0c2b7b2f8487a5bbc",
+      "values_digest": "9fa9e466baa7b4c4656882f2221375b8e6ccbf5a4fbba7cb8f3f0ffb1fc3f15f",
       "rendered_digest": "5a5deddd37057c0d1ee177271d66d5097b0891352dfff249d356aeaacbc7d7b6",
       "ast_digest": "f273766ffdfafac9cd8952df47cd0e3374ee4d29438b8d7c26ef74060cbf7cfd"
     },
     "vpp": {
-      "values_digest": "b01992c91d98bdc6330699b089685b955697c23d1553fb4c85abab8c8446e8c3",
+      "values_digest": "4aff04a90d2a2b56dc0e15913b8697601069196e734bddb91bf34b1a37d743d6",
       "rendered_digest": "7e07c72923a0b2ba2b51107514029a555c3a5a2db403a121665b23249ed266d7",
       "ast_digest": "bf0393884c3c50e31726533a5baa36526cf3acb6c7cf108454ed7bc023c90622"
     },
     "srp": {
-      "values_digest": "1dca289ef9033102d005a0ea957339bda11c5b12db2ad324a0d5a4f9d2203caa",
-      "rendered_digest": "aec552501ed33c31e81d0f1be6e65e666859ffcc79d7cae11b8d589663784769",
-      "ast_digest": "c20209754a235702463fc3d46d2cec0a60c4d7bd90c3a25f379215611b17bf28"
+      "values_digest": "44cbc0c6793cc44600e4bf9e351cd2266252d0591d9f2bcbd18f981ee2be5ae8",
+      "rendered_digest": "0e9fa914dd075af8c59ef7e4ecdfc2e861677c90292df51a3500ff5090fd6cad",
+      "ast_digest": "5b571ebf9a63fbf93703ef0ff86e2cbf4afc81f25abff89545efa248842298a5"
     },
     "sor": {
-      "values_digest": "80a9ec0af18bb9a91cdbcef5fdb9309f9945a02f183547925d86a15186c5c81a",
-      "rendered_digest": "679356b0ff9a7478f455f0b85dc494f9de46529b9bc6c63c510ac98e1e6cca4d",
-      "ast_digest": "3240c33f3034b64016804612955efcb117d8f10ebc27ce28d08e93d4226898a3"
+      "values_digest": "83e4384fcda61aa4f0a8c739d17c9165a73704d11974fb5999c7e6dd72c32178",
+      "rendered_digest": "8d4212e360f627c135c54e92002746601101ef9a1b0a722e582befe1927cb7ba",
+      "ast_digest": "ef1f5053617e24f3599e981a9d78040f82a77f57868a3fd341e94608608bb25d"
     }
   },
   "transitions": [
@@ -104,6 +104,20 @@
       "from": "implemented",
       "to": "reviewed",
       "actor": "subagent:review-53-exact-head",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:53-publication-recovery",
+      "reason": "Recover stale review after the tracked typed review request metadata advanced HEAD; exact metadata head 83a3228936c7bfcf35a0c7fd13dc446268699c64 has been independently re-reviewed and approved."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-53-metadata-head",
       "reason": "exact scoped review passed"
     }
   ],
@@ -252,6 +266,27 @@
       "sequence": 21,
       "generation": 18,
       "actor": "subagent:review-53-exact-head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:53-publication-recovery",
+      "reason": "Recover stale review after the tracked typed review request metadata advanced HEAD; exact metadata head 83a3228936c7bfcf35a0c7fd13dc446268699c64 has been independently re-reviewed and approved.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:53-publication-recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "subagent:review-53-metadata-head",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
     }

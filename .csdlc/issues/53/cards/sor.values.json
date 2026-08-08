@@ -7,7 +7,7 @@
     "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
     "slug": "execution-proof-non-self-referential-revisions",
     "version": "v0.92",
-    "generation": 18
+    "generation": 20
   },
   "status": "pre_phase",
   "content": {
@@ -56,7 +56,7 @@
           "evidence_ref": "local:issue-53-review-fix-regression:passed"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

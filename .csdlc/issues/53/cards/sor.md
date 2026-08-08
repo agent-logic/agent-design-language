@@ -63,7 +63,7 @@ Added an explicit v3 receipt contract that derives the evidence commit from the 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
