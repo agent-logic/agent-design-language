@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
   "phase": "initialized",
-  "generation": 1,
-  "digest": "2c6c4aa0f9c1c7b73400e138e6e71dddeb3f2c3f85d554a64ad735e6e39930a8",
+  "generation": 2,
+  "digest": "6b09e44e9fff3eef91f409a306e30fb97739e34af9493a899380e96fab6c2c6e",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/59/design.md",
   "diagram_path": ".csdlc/prepared/issues/59/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:root",
+      "revision": "f525431fc1bfaea9f2854437e3b3c0ff8a4a8e2aee5d7bd6f502acd7821e5c80"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "76bd5cd0b776f463173f62c1bdea7729a88666d11aa3293aec8df51c22e6b86b",
+      "values_digest": "b7ff87b6e44712af719e4f69c83a48057285ed51b2dde38c47edb5d1efd67a3c",
       "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
       "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
     },
     "stp": {
-      "values_digest": "342f220854c9c7571d9e798f976281afe005964ac3ea19e0d743b23a5abd15c0",
+      "values_digest": "e381eb7b15cb41023c4b438f1f2a63e06d510a98e39d43a3ae19e1e4a2e014d6",
       "rendered_digest": "1510b612b9c6e37238872d54a4885078cff21c9284d07f6f59a6f13229e2b3a7",
       "ast_digest": "94eedada015eebee48807eb84125e58b9cd9b0e21192c645c22eacccd34fdc0e"
     },
     "spp": {
-      "values_digest": "74041569246f84a7e64530ae141cea466df171871b34028f2eec4dc67c40afb2",
-      "rendered_digest": "2ea1e6d4d918336a5353449f80d1033c6b863cb3f0f0033964e9f5f412d4c7e3",
-      "ast_digest": "8778a3b611f74dd474f738d68d7465d1d69694b288c5e330aa58743de6960f21"
+      "values_digest": "c5038b90f0e1fd0b56c6669ff512cd980f8b9c13d8ed45ba52ac35c6d8203469",
+      "rendered_digest": "b02888f92a7e0da398f2271daa90a3bfa0b3c7f323a67a671fce981081e528ac",
+      "ast_digest": "f1369dc997c0e4f80ec25b3de2b5752514235454c7917f78f0f7479c6d980ca6"
     },
     "vpp": {
-      "values_digest": "505ca6659a161729f57cd68b3c2560afe74135275d8deb41f3efb12ca0aae33f",
+      "values_digest": "d30ad63e5ce8a63ac99a144ebf85017d19afa9d8d18e6cbc44b46fd774da4bad",
       "rendered_digest": "2c9b83f9767524531a3522ae7e15462cc79e97bfe09c5365c776e56cc26f0f5c",
       "ast_digest": "bd1502b662307de8edf42341fb060ddb1b2982ffc3a5c7c3cf72421ea3726fa7"
     },
     "srp": {
-      "values_digest": "8da3296b0793943199bdc29a0d550a44adf24393adad2276e8b730518a111725",
+      "values_digest": "f072d90b6d3db06f9abdf7f63f33b2702a590410d3d50640a2ef91036cdd5c16",
       "rendered_digest": "f50abc0afdd64487b2862a1582017a3114579aea5c7a10203d61d422c5496688",
       "ast_digest": "2070043ae410de07e121cc484eee1284d2b78e96e46ff2a8ca1978360f6e4f5f"
     },
     "sor": {
-      "values_digest": "18ca661cf1ce2fd546cba019c141c4e3cee111c45aaa8c77a20df3b665258703",
+      "values_digest": "810d5007b5c079780c2fc4038eb4f19dae4e9792047caa4ce7ed8d34a8fd5889",
       "rendered_digest": "e5766b73478f755ea4d615a0f1a21fc856d057dd7e2ffa8f81f23e01a5757ace",
       "ast_digest": "6c27a8a040dbf4e5fc383ae59ff385dbafaff9ee00d0775b51c1bdb791503d24"
     }
@@ -64,6 +69,13 @@
       "actor": "codex:59-authority-readiness",
       "reason": "Replace conceptual areas with the exact repository-owned routing package paths; Codex platform implementation remains external.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/59\",\".csdlc/prepared/issues/59\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:root",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
     }
   ]
 }
