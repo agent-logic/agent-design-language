@@ -3,11 +3,11 @@
   "issue": 63,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "92a81b9bbaf710e41487a09174dc234dfffc8acccf4e348385a5e9ca85263df6",
-  "phase": "initialized",
-  "generation": 2,
-  "digest": "cd85449fc1d37eaa05b82d8fcced0ad42651e9955fab2ffc9f5aeb4dd63c1f2e",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 9,
+  "digest": "395a5ca24658914507f2a147c23b61029056d7efe79cb751d1820d1e79030d0e",
+  "branch": "codex/63-implemented-sip-scope-correction-preparation",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-63-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -16,40 +16,60 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/63/design.md",
   "diagram_path": ".csdlc/prepared/issues/63/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:63-readiness-review",
+      "revision": "37ddb9edd4c1afef9770c2e6aed4deac1df265eec9269adacfc103808c35c24f"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "ee423988cb1beee4b7d862eea5c6f2815caece18d7c2b1e48a62cfb5d99da7bd",
-      "rendered_digest": "6b812031c9bd14f967ac5e268df7e08a0ccb8ced03308c61e9d092121f8773a7",
-      "ast_digest": "3836228e4828f84b1972d0c2eb6137dc43adb51f43e0c67e72b7148b81488c50"
+      "values_digest": "13f2eec10f433036cf172a1f83c49d5542ae4085d2e0c0163b65b85577b323a9",
+      "rendered_digest": "dce16ee8175c62a94b90fa1d7668798328cefe5359a926b2d933307a52fe5e29",
+      "ast_digest": "6ce9f3483bb6f4db345918b2011e09b8efe75340845d60d6a25b4f262c65a7bc"
     },
     "stp": {
-      "values_digest": "72995389fc150cbd07f87374058812203718c61e31d495101bbbcd57cb577af6",
-      "rendered_digest": "2e465eedf0f776fe6a20514e9902f401c194ba135cf78230c11cecb8e2df704b",
-      "ast_digest": "9b54b8c8fd3e144dbcee4f5877b104db53d0bd27a1bd937b52dc114f768b0468"
+      "values_digest": "dad62bc3fd85da57f23eac9b80bbc940d64a03ac0b6cfb5fd7ee1a24f437f629",
+      "rendered_digest": "f6bcd90537303314e2f494e3007972dde07e77541016f75089010cc934bf8d83",
+      "ast_digest": "11c54393422b8e4426c61a8170fce897701c6a941f2973a8ab2674cb06fe5a51"
     },
     "spp": {
-      "values_digest": "47193e3d64be8f3e62cb20bba349ece3d304783186fb6261c1a8feabed6c1d7b",
-      "rendered_digest": "bbb17c2216d59e5c22e27d07dc758c4b199fe0564d1ab187ba248e1cba42d654",
-      "ast_digest": "b8f9f96e721336d8a907b62f203ced2f38f2140862124ecbef206b8b49bfa242"
+      "values_digest": "7d14fc4e77b01dc794be69d94696a47bd6812d552ed9c24be63d7b45cdefe2d2",
+      "rendered_digest": "c42a9fb61c0bf7706747058eceab0c4085f954149d2f66503458c972ef5b10f2",
+      "ast_digest": "3002fc329bc3695f10fa7abc6ec638c4f9323536067d8feda4bdfbb9f9ed0a4f"
     },
     "vpp": {
-      "values_digest": "864ae753089817ae0f1606f54d1c02992d4ebdaab440b76b20ba39eac3c9ae0e",
-      "rendered_digest": "c05a519ee084b652a884a4e7b2d651772a8b3d7162a3bb7ffcdcd26e8d082dc2",
-      "ast_digest": "74138fcc4eed86b6518182b7d08f68bf854a71a2b5f12304596b8d8a1e9ef93c"
+      "values_digest": "73165411428fc256a3a5ec99fe0da43c83f36a23d5f582bb27a0397e56409f2f",
+      "rendered_digest": "3d9d74ee9cdd21e1ece5d56c9646ae312db2bcdc6c9797d0795e5164d5165ec9",
+      "ast_digest": "cff13592ec6ddf3768660134b0c772589f97ac46f26656ef4749069a248882f0"
     },
     "srp": {
-      "values_digest": "4653f922cec9b6e2252820d0dc0f7358452b90a268707c483a8128548697d5e4",
+      "values_digest": "9047a03cf37cf1cc17d5dc90c4853126967c39a60c5f508b0207ee03c15fb72f",
       "rendered_digest": "5a7c9e1a5fcf0c5caad09061b084ee27bcb8f24b207805898b6477f6a6c8344c",
       "ast_digest": "cc58d7e279e01cf0402b89553d137fa12bb1dcaec9fabd0274fc360ebf5d78d4"
     },
     "sor": {
-      "values_digest": "dfe07b72c308b86f25e06d636ed4992ddc41a14cc3bbf9bf51a9c95ea0617f30",
+      "values_digest": "1cd196b14ee8a0b1584b7b91d61b0e8801d105ac9700006be02000f6b56eb0c9",
       "rendered_digest": "3b1d9c41eae08106ab4d40b145b1b42cff93a2f3d3b9084905983f0f0e839d59",
       "ast_digest": "38c63b22ea7c2f5160423ee9bdc6709bcad899fdc66b251f2e0447cbcbb9ed45"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -71,6 +91,62 @@
       "actor": "codex:63-readiness-preparation",
       "reason": "name the exact focused regression deliverable required for execution readiness",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Dedicated correct_declared_scope_before_publication typed semantic operation\",\"Exact implemented/SIP/cleared-truth authorization and actor/reason guards\",\"Audit operation retaining previous and replacement scope\",\"csdlc-v2/tests/gate2.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:63-readiness-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:63-readiness-preparation",
+      "reason": "include the exact typed review recovery source and proof required to remove the implemented-phase dead end",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/63\",\".csdlc/issues/63\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:63-readiness-preparation",
+      "reason": "align executable owned paths with the approved review-recovery extension",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:63-readiness-preparation",
+      "reason": "include existing review recovery sources and proof in executable task inputs",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate5.rs\",\"docs/templates/prompts/current.json\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:63-readiness-preparation",
+      "reason": "add the focused review-recovery regression deliverable required by the approved design",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Dedicated correct_declared_scope_before_publication typed semantic operation\",\"Exact implemented/SIP/cleared-truth authorization and actor/reason guards\",\"Audit operation retaining previous and replacement scope\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:63-readiness-preparation",
+      "reason": "prove both the real editor correction and the bounded implemented-review recovery seam",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"implemented-sip-scope-editor-contract\",\"proof_role\":\"Exercise the real typed editor/store/renderer/validator path for accepted correction, exact audit, concurrency, card/phase guards, and projection drift.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"implemented_sip_scope_correction\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"implemented-review-recovery-contract\",\"proof_role\":\"Prove assignment-only and changes-required implemented recovery clears review truth without an invalid same-phase transition, while clean implemented recovery fails closed.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_review_recovery_clears_truth\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"focused-editor-clippy\",\"proof_role\":\"Reject Rust type, match exhaustiveness, review recovery, and editor binary regressions on the bounded library and csdlc-edit target.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":420,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:63-readiness-preparation",
+      "reason": "carry the approved implemented-review recovery seam into executable plan truth",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm the dedicated correction operation, exact phase/card/truth guards, implemented-review recovery seam, and old/new audit contract.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Extend typed review recovery for implemented records carrying review truth, then implement SIP scope correction through the existing AST, render, validation, and atomic commit path.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add focused real-editor and recovery regressions for accepted correction, exact audit, stale input, adjacent phases/cards, recovery, and projection drift.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused validation and exact-head review, resolve findings, publish, shepherd, and finish truthfully.\",\"acceptance_ids\":[\"AC-6\"],\"status\":\"pending\"}]}"
     }
   ]
 }

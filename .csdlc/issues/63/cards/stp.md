@@ -20,6 +20,7 @@ Add an exact implemented-phase SIP declared_scope correction operation and focus
 - Exact implemented/SIP/cleared-truth authorization and actor/reason guards
 - Audit operation retaining previous and replacement scope
 - csdlc-v2/tests/gate2.rs
+- csdlc-v2/tests/gate5.rs
 
 ## Acceptance
 
@@ -40,8 +41,10 @@ Add an exact implemented-phase SIP declared_scope correction operation and focus
 ## Inputs
 
 - csdlc-v2/src/cards.rs
+- csdlc-v2/src/review.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate2.rs
+- csdlc-v2/tests/gate5.rs
 - docs/templates/prompts/current.json
 
 ## Non Goals

@@ -1,0 +1,20 @@
+{
+  "issue": 63,
+  "card": "stp",
+  "expected_generation": 5,
+  "expected_digest": "bd65863c863b15dceca54e8c0bf48ebabaa330af7d8c29a38312deb278b4561e",
+  "actor": "codex:63-readiness-preparation",
+  "reason": "include existing review recovery sources and proof in executable task inputs",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/templates/prompts/current.json"
+    ]
+  }
+}

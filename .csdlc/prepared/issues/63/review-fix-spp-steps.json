@@ -1,0 +1,37 @@
+{
+  "issue": 63,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "a232916e2de3d80465f70e503810d5080cc96c78b523ee658bdce9b12518c71b",
+  "actor": "codex:63-readiness-preparation",
+  "reason": "carry the approved implemented-review recovery seam into executable plan truth",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Confirm the dedicated correction operation, exact phase/card/truth guards, implemented-review recovery seam, and old/new audit contract.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Extend typed review recovery for implemented records carrying review truth, then implement SIP scope correction through the existing AST, render, validation, and atomic commit path.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add focused real-editor and recovery regressions for accepted correction, exact audit, stale input, adjacent phases/cards, recovery, and projection drift.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation and exact-head review, resolve findings, publish, shepherd, and finish truthfully.",
+        "acceptance_ids": ["AC-6"],
+        "status": "pending"
+      }
+    ]
+  }
+}

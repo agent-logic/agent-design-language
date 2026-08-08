@@ -16,14 +16,14 @@ Freeze the narrow operation and authorization contract, implement through the ex
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Confirm the dedicated operation, exact phase/card/truth guards, and old/new audit contract.",
+    "action": "Confirm the dedicated correction operation, exact phase/card/truth guards, implemented-review recovery seam, and old/new audit contract.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -34,7 +34,7 @@ Revision 2
   },
   {
     "id": "S2",
-    "action": "Implement the semantic operation and store authorization through the existing typed AST, render, validation, and atomic commit path.",
+    "action": "Extend typed review recovery for implemented records carrying review truth, then implement SIP scope correction through the existing AST, render, validation, and atomic commit path.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -46,7 +46,7 @@ Revision 2
   },
   {
     "id": "S3",
-    "action": "Add focused real-editor regressions for accepted correction, exact audit, stale input, adjacent phases/cards, recovery, and projection drift.",
+    "action": "Add focused real-editor and recovery regressions for accepted correction, exact audit, stale input, adjacent phases/cards, recovery, and projection drift.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -93,13 +93,13 @@ Revision 2
 
 .csdlc/prepared/issues/63/design.md
 
-Digest: 8b7cd544d1f7d76ed33fccd340b5fd35e329eaeaa26b62f06f7cfb2f473e34ea
+Digest: 37ddb9edd4c1afef9770c2e6aed4deac1df265eec9269adacfc103808c35c24f
 
 ## Diagram
 
 .csdlc/prepared/issues/63/diagram.mmd
 
-Digest: ad780692c3e66851a847102b1d81a23270af76c10dae4f62fa308a05bcd82633
+Digest: b8f7e332c3b73b50f5124efa9b69be76547178f9ec6bc1c3e751a54185596975
 
 ## Stop Conditions
 

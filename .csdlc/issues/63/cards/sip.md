@@ -21,8 +21,10 @@ A dedicated csdlc-edit operation corrects implemented-phase SIP declared_scope o
 ## Scope
 
 - csdlc-v2/src/cards.rs
+- csdlc-v2/src/review.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate2.rs
+- csdlc-v2/tests/gate5.rs
 - .csdlc/prepared/issues/63
 - .csdlc/issues/63
 
