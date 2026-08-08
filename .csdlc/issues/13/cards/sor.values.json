@@ -7,7 +7,7 @@
     "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
     "slug": "wp-02a-optional-coverage-producer-routing",
     "version": "v0.92",
-    "generation": 9
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
@@ -47,8 +47,8 @@
           "evidence_ref": "CI runtime contracts and the directly invoked test_verify_coverage_producer_results matrix passed. YAML parsing and git diff hygiene also passed."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
