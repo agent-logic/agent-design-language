@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 27,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "codex/5820-v092-runtime-launch-resilience",
+  "head": "codex/27-native-receipt-validator",
+  "title": "fix(runtime): harden native receipt revision validation",
+  "body": "Closes #27\n\nMakes Runtime v3 native receipt role denominators order-independent while preserving explicit uniqueness checks. Hardens post-proof revision validation with proof ancestry, rename-disabled Git path enumeration, immutable proof evidence, and fail-closed dirty-worktree handling. Adds real temporary-Git regressions for verifier-only repair, product dirtiness, rename attacks, and unrelated histories.\n\nThis is a stacked draft on WP-03. Focused policy validation, typed validation, diff hygiene, and exact-commit review pass. The final retained-packet integration remains intentionally deferred until WP-03 publishes its exact-head macOS and Linux native proofs; the current historical packet correctly fails with `runtime product changed after native proof`. Do not merge until that lane passes after rebasing onto terminal WP-03.",
+  "draft": true,
+  "revision": "git-blake3:7ec43b618c412b7d4cf6a54aaa0b3bf1e39a8695:2c7dd5869aa25cb2e04fd21252459e49ffa27234b544d8d33190e60012de6a1d",
+  "commit_sha": "7ec43b618c412b7d4cf6a54aaa0b3bf1e39a8695"
+}
