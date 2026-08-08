@@ -5,8 +5,9 @@
   "initialization_digest": "7c8abbf996795f4d33022b527e2915bc79bae567af2c6bb105b31fd6ab8598c2",
   "phase": "closed_out",
   "generation": 17,
-  "digest": "b9f95dc2aa2cf90cfa522353ba10da36c8ba2bdbc1a1c1399f3dc66d9b879740",
-  "claim": null,
+  "digest": "7786b1e55f55c0452eace3faf32a84873d05f234e3d19d23a33eaa4eef910eba",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "review_5427",
     "assigned_by": "codex",
@@ -100,15 +101,8 @@
     "observed_sha": "0119c2efbf573c7711eae8d725f5799e5c3d85ab",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5487.json",
-    "released_branch": "codex/5487-terminal-design-repair",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/tests/gate7_terminal_design_repair_5487.rs",
-      ".csdlc/issues/5487/retained/design.md",
-      ".csdlc/issues/5487/retained/diagram.mmd"
-    ]
+    "branch": "codex/5487-terminal-design-repair",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5487/retained/design.md",

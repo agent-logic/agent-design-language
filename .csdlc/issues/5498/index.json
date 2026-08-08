@@ -5,8 +5,9 @@
   "initialization_digest": "5641d1b95d616b80f136aa634bd62c0690db925d85c3841f15df8b666fe5c66c",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "bfc8cc61420d9e339b9124b6308adcf6016e86e4a05bc4348ef159935d92eaf2",
-  "claim": null,
+  "digest": "7c622404ddd4c512221fcf605b164e0c594608d0b62c31ec7eb58596a152eaef",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8c25-5bb5-7db2-965d-f9ccaa25f006",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -154,16 +155,8 @@
     "observed_sha": "96359ed5bc008c63632e76a72eb1f2f77bfd9dd1",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5498.json",
-    "released_branch": "codex/5498-v0918-wp10a-task-context-adapter",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5498",
-      ".csdlc/locks/5498.lock",
-      ".csdlc/prepared/issues/5498",
-      "adl-v2/Cargo.lock",
-      "adl-v2/Cargo.toml",
-      "adl-v2/crates/adl-workcell-task-adapter"
-    ]
+    "branch": "codex/5498-v0918-wp10a-task-context-adapter",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5498/retained/design.md",

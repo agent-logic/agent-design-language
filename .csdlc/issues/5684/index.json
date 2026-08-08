@@ -5,8 +5,9 @@
   "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
   "phase": "published",
   "generation": 38,
-  "digest": "94f437cc704139b6c64a52519a0f3d5c207ed7ade0e0b706457c3a5824ed51b8",
-  "claim": null,
+  "digest": "7764ef54b91a0fdead9fc0a9fab3aa263ddbe12cb9fd44df5fe8ba09a9f866fd",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019fa184-d21b-7590-a9c3-4827a36638ce",
     "assigned_by": "codex:5684-execution",

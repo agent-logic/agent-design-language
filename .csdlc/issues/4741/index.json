@@ -5,8 +5,9 @@
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
   "phase": "closed_out",
   "generation": 25,
-  "digest": "8a62d3aa81f52b5ced669f411df68fee5a31aab25133e6ff2f9aab181425b8d1",
-  "claim": null,
+  "digest": "4e42c3fe633311529b8bbcdb03041bf93fb4cfe9575bf84d36aaafc379ef9a28",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f90d6-07c1-7091-b996-73007e6a80fb",
     "assigned_by": "codex:issue-4741-execution",
@@ -161,21 +162,8 @@
     "observed_sha": "34831bab95f87ab6e2beb729130499850a051a4f",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4741.json",
-    "released_branch": "codex/4741-v0918-wp15-unity-editor-liveness-prep",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/4741",
-      ".csdlc/issues/4741",
-      ".csdlc/locks/4741.lock",
-      ".csdlc/prepared/issues/4741",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
-      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
-      "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
-      "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
-      "docs/tooling/unity_observatory_editor_batch_proof.md"
-    ]
+    "branch": "codex/4741-v0918-wp15-unity-editor-liveness-prep",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/4741/retained/design.md",

@@ -1,0 +1,20 @@
+{
+  "issue": 5881,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "aa7727cd530b1a7170a6865479a6970606a97d22f311ae1f25823e64d7b73262",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Require temporary normalization retirement and interrupted-bind recovery proof.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Active-versus-legacy occurrence classification",
+      "Claim-free canonical schemas and commands",
+      "Verified one-time current-record normalization with claim-specific production logic deleted afterward",
+      "Atomic, concurrent, and interrupted-bind recovery proof",
+      "Claim-free review through cleanup proof",
+      "Corrected current operator guidance"
+    ]
+  }
+}

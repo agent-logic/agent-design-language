@@ -5,8 +5,9 @@
   "initialization_digest": "e881c227735a375f6aea30eedff30434129a8e75d446610e5cf17856b488a4a2",
   "phase": "closed_out",
   "generation": 16,
-  "digest": "8accd4441cb3c82f9e711c17f5e8eaed79861687d0387853ea94895f9ac45e82",
-  "claim": null,
+  "digest": "a5e5be98b43164fb62b55a8a66a55eac0f34ce8e1aa30b6dfa834ce68301df1a",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7300-5482-7290-ab2c-1b4c44959fda",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -109,16 +110,8 @@
     "observed_sha": "fc761b2a8a170426d3cd42f837b912ba8ba7ab06",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5404.json",
-    "released_branch": "codex/5404-wp12-security-protocol-review-fix",
-    "released_worktree": ".worktrees/adl-wp-5404",
-    "released_protected_paths": [
-      "adl/src/csm_cav_red_blue.rs",
-      "adl/src/csm_credential_policy.rs",
-      "adl/tools/validate_wp12_cav_red_blue_4914.py",
-      "adl/tools/validate_wp12_ssm_readiness_4657.py",
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ]
+    "branch": "codex/5404-wp12-security-protocol-review-fix",
+    "worktree": ".worktrees/adl-wp-5404"
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5404/design.md",

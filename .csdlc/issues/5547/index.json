@@ -5,8 +5,9 @@
   "initialization_digest": "51ffcc86c4288f3ab50aec7beb0a0134d2a6763b0a025f7f74fd4c6acb4f0bc6",
   "phase": "closed_out",
   "generation": 16,
-  "digest": "371c1e809d1895270786a105a71c1cfe0e0b88d8b887e4a8a2733523eafc8d36",
-  "claim": null,
+  "digest": "fa5cd51ac0dca475a559385b2db0c5737c7ab4ac9dc6f07e92ebcd674986f0c2",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f77ca-4728-7271-b9c9-3b536e5e880e",
     "assigned_by": "codex:root",
@@ -111,16 +112,8 @@
     "observed_sha": "c66c8edf5a32f2711d95e333857f20654214c191",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5547.json",
-    "released_branch": "codex/5547-csdlc-identity-ownership-residuals",
-    "released_worktree": ".worktrees/adl-wp-5547",
-    "released_protected_paths": [
-      "docs/reviews/v0.91.7/review-fixes-5547",
-      "docs/architecture/csdlc-v2",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/git.rs",
-      "csdlc-v2/src/bin/csdlc-review.rs",
-      "csdlc-v2/src/bin/csdlc-publish.rs"
-    ]
+    "branch": "codex/5547-csdlc-identity-ownership-residuals",
+    "worktree": ".worktrees/adl-wp-5547"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5547/retained/design.md",

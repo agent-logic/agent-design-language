@@ -5,23 +5,9 @@
   "initialization_digest": "410016ef8a98a2326644e76a7d9d0be535280964fbb5295f4fd91ce9d1ebbecb",
   "phase": "published",
   "generation": 10,
-  "digest": "9bd57b5fcdd6d045a9648a61fda1ae3eb52e1c29cb904a17046b833ca33d0225",
-  "claim": {
-    "id": "claim-5765-v092-account-migration-scheduling",
-    "owner": "codex:5765",
-    "generation": 10,
-    "acquired_unix_seconds": 1785784093,
-    "expires_unix_seconds": 1786388893,
-    "heartbeat_unix_seconds": 1785784093,
-    "branch": "codex/5765-v092-migration",
-    "worktree": ".worktrees/adl-5765-v092-migration",
-    "protected_paths": [
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
-      ".csdlc/issues/5765",
-      ".csdlc/prepared/issues/5765"
-    ],
-    "purpose": "Schedule the Agent Logic account repository migration as planning-only v0.92 work"
-  },
+  "digest": "d401c5c6c80513c13ff5ca1d68c688890c8427fd8b66bbc2303a2d0445b66acf",
+  "branch": "codex/5765-v092-migration",
+  "worktree": ".worktrees/adl-5765-v092-migration",
   "review_assignment": {
     "reviewer": "subagent:review-5765b",
     "assigned_by": "codex:5765",

@@ -7,5 +7,5 @@ The request names the issue, base branch, issue branch, and worktree. For a
 split-authority route, it must also name `code_repository`; bind verifies that
 identity against the effective `origin` and records it in canonical issue
 state. Omit `code_repository` only when issue and code use the same repository.
-Do not create claims, edit cards, or fall back to shell/Python lifecycle
-mutation.
+Derive ownership only from the bound Git topology. Do not create claims, edit
+cards, or fall back to shell/Python lifecycle mutation.

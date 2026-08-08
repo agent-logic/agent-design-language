@@ -5,8 +5,9 @@
   "initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "819c1521ca6c8abe8ecd4b1841500b623e65476d5988d1e16f4a0a7403075683",
-  "claim": null,
+  "digest": "8b93f8161a10e633e69f1240b8f934621539f46f6602d197f37c6a7df02daf09",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -84,17 +85,8 @@
     "observed_sha": "dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5597.json",
-    "released_branch": "codex/5597-generation-aware-preparation-safe",
-    "released_worktree": ".worktrees/adl-wp-5597",
-    "released_protected_paths": [
-      ".csdlc/issues/5597",
-      ".csdlc/locks/5597.lock",
-      ".csdlc/prepared/issues/5597",
-      "csdlc-v2",
-      "docs/architecture/csdlc-v2/gate9/samples",
-      "docs/templates/prompts/README.md",
-      "docs/templates/prompts/current.json"
-    ]
+    "branch": "codex/5597-generation-aware-preparation-safe",
+    "worktree": ".worktrees/adl-wp-5597"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5597/retained/design.md",

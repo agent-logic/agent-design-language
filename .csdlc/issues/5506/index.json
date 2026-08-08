@@ -5,8 +5,9 @@
   "initialization_digest": "af133679cd9c7015c46c265fcc38664355bbbfd4fa282ab6ac6fac5fbb980bae",
   "phase": "closed_out",
   "generation": 18,
-  "digest": "f225f6c0da8dd00e3fde8331d49854455b1cb76fb2849ce8fbc709381aa4937f",
-  "claim": null,
+  "digest": "a4e3a348e6aea5d9633472f491e58c77af1645e5b13bee8095ee9f72f4aa151f",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f74a4-d2d6-7e51-b69d-e92676e69394",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -104,14 +105,8 @@
     "observed_sha": "5620c6e920dcbb232c4160c171c5bf3f4e60f845",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5506.json",
-    "released_branch": "codex/5506-runtime-auth-coverage-map",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ]
+    "branch": "codex/5506-runtime-auth-coverage-map",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5506/retained/design.md",

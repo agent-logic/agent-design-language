@@ -1,0 +1,18 @@
+{
+  "issue": 5881,
+  "card": "srp",
+  "expected_generation": 5,
+  "expected_digest": "90cc2dd634444b488b6a33e5f5a623ca27d2d39801d615a72593b914946d3919",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Require reviewers to reject any retained claim-specific production decoder after one-time normalization.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Does any public schema, binary, installed skill, or current doc still require lifecycle claim state?",
+      "Did verified one-time normalization preserve current-record topology and audit truth, followed by deletion of every claim-specific production decoder, struct, and compatibility path?",
+      "Do same-issue, different-issue, and interrupted-bind tests prove the required concurrency and crash-recovery semantics?",
+      "Does the full review-to-cleanup path derive authority only from issue topology and live GitHub state?"
+    ]
+  }
+}

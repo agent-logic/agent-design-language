@@ -5,8 +5,9 @@
   "initialization_digest": "f7ca62455b8ab2f07d97e34fed8502d2f59f4b77b96f04808837080769efaaba",
   "phase": "closed_out",
   "generation": 16,
-  "digest": "dceb0e7ae2b07d822640a5021bc8831e5a241382d9f4a7f546a22c741e77390a",
-  "claim": null,
+  "digest": "1d298381535e1bf55365d9eac974bd4efbbff93b4f7803efc714f6d3f99a45c8",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "review_5495",
     "assigned_by": "codex",
@@ -96,15 +97,8 @@
     "observed_sha": "0581f3ab9a7ca6e1d9ea9bcd7bf00ba470086a3d",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5495.json",
-    "released_branch": "codex/5495-publication-metadata",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "csdlc-v2/src/git.rs",
-      "csdlc-v2/src/review.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/5495/retained/design.md",
-      ".csdlc/issues/5495/retained/diagram.mmd"
-    ]
+    "branch": "codex/5495-publication-metadata",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5495/retained/design.md",

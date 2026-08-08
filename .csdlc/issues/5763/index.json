@@ -5,8 +5,9 @@
   "initialization_digest": "aadd979418b3e57f2825290e8085ba4f9f5d1adc57f4b0c2edf0ad007e67cba3",
   "phase": "closed_out",
   "generation": 7,
-  "digest": "2f65f8d0f91c8de7c6c0f984e74f389b4f05409c25faf0b9efae342b2729a074",
-  "claim": null,
+  "digest": "f04108b891acb3af25b9ccc1a8e29929fb7435fcba6e3217007a39df6bb180cb",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex:5763-post-merge-independent-review",
     "assigned_by": "codex:5763-post-merge-closeout",
@@ -156,17 +157,8 @@
     "observed_sha": "9dce9c69c32fc8870f2e3c9b9ab6f8dd1dab38ff",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5763.json",
-    "released_branch": "codex/5763-feature-crosswalk-digest",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5763",
-      ".csdlc/issues/5763",
-      ".csdlc/locks/5763.lock",
-      ".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb",
-      ".csdlc/prepared/issues/5763",
-      ".csdlc/publication/5763.intent.json",
-      "docs/milestones/v0.91.8/feature_preservation_crosswalk_5594.v1.json"
-    ]
+    "branch": "codex/5763-feature-crosswalk-digest",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5763/retained/design.md",

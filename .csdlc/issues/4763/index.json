@@ -5,8 +5,9 @@
   "initialization_digest": "de570b0095a75b8aa7114f780283cfb652a4b99c9d315de2e0301efc58a83323",
   "phase": "closed_out",
   "generation": 20,
-  "digest": "937bc35a01acafd1d7727b8e9393fb4877e91e02c4b5356d086d7b778b2bfa33",
-  "claim": null,
+  "digest": "cc5cbbbe0458b234023ade357cd812d9c8e171dbbda24df76ac8336b7b07d807",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "codex:repo-code-review-4763-post-integration",
@@ -165,13 +166,8 @@
     "observed_sha": "313268e09b8d9906f61b0e12ac05cce4deea1e3c",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4763.json",
-    "released_branch": "codex/4763-v0918-wp14-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/4763",
-      ".csdlc/locks/4763.lock",
-      ".csdlc/prepared/issues/4763"
-    ]
+    "branch": "codex/4763-v0918-wp14-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/4763/retained/design.md",

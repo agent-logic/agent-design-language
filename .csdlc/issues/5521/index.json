@@ -5,8 +5,9 @@
   "initialization_digest": "0f4f5b5ddef2db077364eb43801ab33059a3a5ad11cf235c657b3b349b76d6b3",
   "phase": "closed_out",
   "generation": 14,
-  "digest": "dc3302229ff37c282e7ee017c130188e864c5f4cb52498644980323ec8bb9762",
-  "claim": null,
+  "digest": "2a5efeb39deba49883f67bc8357c543fe6305b640201ea4be610c102d1c91c03",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -88,13 +89,8 @@
     "observed_sha": "f21e98155441271d095c9d1d43d8d4d343aaac4b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5521.json",
-    "released_branch": "codex/5521-terminal-plan-repair",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5518",
-      ".csdlc/issues/5521",
-      ".csdlc/prepared/issues/5521"
-    ]
+    "branch": "codex/5521-terminal-plan-repair",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5521/design.md",

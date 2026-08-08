@@ -5,24 +5,9 @@
   "initialization_digest": "437e850172eac49ea547a7e7f93eabcf5e576beab8f1ae452afe3033b8d593f7",
   "phase": "published",
   "generation": 5,
-  "digest": "3ddea4bcc1d57a75c606e273103d49756bf18d1af6c2eb81630b776bb3b4413d",
-  "claim": {
-    "id": "claim-5815-v092-final-repo-migration-plan",
-    "owner": "codex:5815",
-    "generation": 5,
-    "acquired_unix_seconds": 1785909450,
-    "expires_unix_seconds": 1786514250,
-    "heartbeat_unix_seconds": 1785909450,
-    "branch": "codex/5815-v092-final-repo-migration-plan",
-    "worktree": ".worktrees/adl-wp-5815",
-    "protected_paths": [
-      ".adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md",
-      ".csdlc/issues/5815",
-      ".csdlc/prepared/issues/5815",
-      ".csdlc/evidence/5815"
-    ],
-    "purpose": "Finalize and independently review the Agent Logic repository migration runbook"
-  },
+  "digest": "2e3820679c9814a819b512401f78348f3cd561e8dfd988e5b7555f45cefc340b",
+  "branch": "codex/5815-v092-final-repo-migration-plan",
+  "worktree": ".worktrees/adl-wp-5815",
   "review_assignment": {
     "reviewer": "subagent:019fd086-c81e-7681-819f-d56be320e0c5",
     "assigned_by": "codex:5815",

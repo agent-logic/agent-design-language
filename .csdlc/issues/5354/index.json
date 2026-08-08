@@ -5,8 +5,9 @@
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
   "phase": "closed_out",
   "generation": 23,
-  "digest": "7226871982fb89d025c5f93d4869e981957d185dc1afb45a70510d0b35c49c59",
-  "claim": null,
+  "digest": "ce1c3d6d2002d4b191b947d6eee3785814103d233c39ad0ede07fd69ba4b60bf",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex:gpt-5.5-exact-head-review",
     "assigned_by": "codex:5354-wp15-owner",
@@ -95,18 +96,8 @@
     "observed_sha": "e8c63268429b0162671e7f1bfae5f560171d7099",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5354.json",
-    "released_branch": "codex/5354-v0918-wp15-ready",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5354",
-      ".csdlc/issues/5354",
-      ".csdlc/locks/5354.lock",
-      ".csdlc/prepared/issues/5354",
-      ".csdlc/publication/5354.intent.json",
-      "adl-v2/Cargo.lock",
-      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
-      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
-    ]
+    "branch": "codex/5354-v0918-wp15-ready",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5354/retained/design.md",

@@ -5,8 +5,9 @@
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
   "phase": "closed_out",
   "generation": 40,
-  "digest": "78b3fe688e748478a5170f2dfeebd4579b4bc1ab9b80e0c5b1caeefbc29d273d",
-  "claim": null,
+  "digest": "8c1d060a908e46edeee40ee17231c36c3623a2b36bd55354f5dd943e3818af69",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:/root/review_5591_coverage_fix",
     "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
@@ -73,18 +74,8 @@
     "observed_sha": "59b61985c9964e56d83272efa7035f12be462fd7",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5591.json",
-    "released_branch": "codex/5591-runtime-v3-parity-a-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5591",
-      ".csdlc/issues/5591",
-      ".csdlc/locks/5591.lock",
-      ".csdlc/prepared/issues/5591",
-      "adl-runtime",
-      "adl-runtime-kernel",
-      "adl/tools/run_runtime_v3_guardian_soak.sh",
-      "infra/runtime-v3"
-    ]
+    "branch": "codex/5591-runtime-v3-parity-a-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5591/design.md",

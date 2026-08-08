@@ -5,8 +5,9 @@
   "initialization_digest": "3941e020aa68cae990d3047dce3216b20af3db17f469741f3f281b59f7332d31",
   "phase": "closed_out",
   "generation": 10,
-  "digest": "c0c3b0bed9ceee782f69268ecdadc2969a7165188316a4f0ab737ad90f56aafc",
-  "claim": null,
+  "digest": "33a76ff910bab3ee0d81143c942c5529d5adca99beae1121207473aab6b9e28e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "codex:issue-5666-closeout-reconcile",
@@ -42,12 +43,8 @@
     "observed_sha": "92fde26a2ca073e204459fce1bb5e88d7c895528",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5632.json",
-    "released_branch": "codex/5632-adl-pr-cycle-v2",
-    "released_worktree": ".worktrees/adl-wp-5632",
-    "released_protected_paths": [
-      "docs/tooling/adl_pr_cycle_skill.md",
-      "docs/architecture/"
-    ]
+    "branch": "codex/5632-adl-pr-cycle-v2",
+    "worktree": ".worktrees/adl-wp-5632"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5632/retained/design.md",

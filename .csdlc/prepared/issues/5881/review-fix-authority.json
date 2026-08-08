@@ -1,0 +1,20 @@
+{
+  "issue": 5881,
+  "card": "sip",
+  "expected_generation": 1,
+  "expected_digest": "bf47e1c8cbfa204109566535069e7cabc7fcc4f7ccfe2ce258375f2a68463022",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Make claim-specific decoding temporary and require its deletion after verified current-record normalization.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "Issue authority remains danielbaustin/agent-design-language#5881",
+      "Code PR publication targets agent-logic/agent-design-language",
+      "PR body must use Closes danielbaustin/agent-design-language#5881",
+      "This is split issue/code publication authority, not repository cutover or issue migration",
+      "Historical evidence remains immutable",
+      "Claim-specific decoding is temporary only for verified current-record normalization and must be deleted before completion"
+    ]
+  }
+}

@@ -5,8 +5,9 @@
   "initialization_digest": "4d17d6d585363c1f9d984fc262eae3544b655682c1a09740c0cdff2d8e49bd39",
   "phase": "closed_out",
   "generation": 10,
-  "digest": "f7da2edaeb31e5dae0675811e9c283d96cb1aad6f0947bb7c95858e3e1a8eee4",
-  "claim": null,
+  "digest": "c9b6201d84c30a8cba4c396b33e7b3c23c1b29038c47afce6b1812f1f31b9fdb",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "codex-bounded-review",
@@ -143,11 +144,8 @@
     "observed_sha": "92fed26e1ff2031a57d80a014fbef77542da55d8",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5756.json",
-    "released_branch": "codex/5756-minimax-billing-classification",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl/src/provider_adapter.rs"
-    ]
+    "branch": "codex/5756-minimax-billing-classification",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5756/retained/design.md",

@@ -5,8 +5,9 @@
   "initialization_digest": "9b823b2aa9399574baeed6b02b17734c63776c4dc3886f1aa847f8e0928c3ef1",
   "phase": "closed_out",
   "generation": 13,
-  "digest": "0bcc4a5ede1decbcd9c74fe73738c4da9d335eb0e93b0a33e050035ae1e7ac75",
-  "claim": null,
+  "digest": "a758356013435d5733ac3432cad4dfcdac703242ef12695b3918c5e5d4f3e653",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-review",
     "assigned_by": "codex",
@@ -120,16 +121,8 @@
     "observed_sha": "432e215a629053e67c6b2c2daaad026ed2ddba9c",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5330.json",
-    "released_branch": "codex/5330-runtime-v3-fast-validation",
-    "released_worktree": ".worktrees/adl-wp-5330",
-    "released_protected_paths": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/select_validation_lanes.py",
-      "adl/tools/run_pr_fast_test_lane.sh",
-      "adl/tools/test_run_pr_fast_test_lane.sh",
-      "docs/architecture/runtime_v3_fast_validation_5330.md",
-      "docs/architecture/runtime_v3_fast_validation_5330.mmd"
-    ]
+    "branch": "codex/5330-runtime-v3-fast-validation",
+    "worktree": ".worktrees/adl-wp-5330"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5330/retained/design.md",

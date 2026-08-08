@@ -5,8 +5,9 @@
   "initialization_digest": "934f17887e0891330b3a364da07a049b3a1cdb0d4855d4ab65eb1a06d32d2630",
   "phase": "closed_out",
   "generation": 22,
-  "digest": "6df68ab7c34b7312e03217a0fc97652c5ded322d28eaf48d3f7c988b2dfc8d24",
-  "claim": null,
+  "digest": "991ee5a044f459f00290e2c86ac82dc10afef9edaa980f8924634be6484779b7",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "gpt-5.5:codex-exec-review:019f8c5a-2717-7bc0-b649-33f7843dcd72",
@@ -140,18 +141,8 @@
     "observed_sha": "3b900210cd30ee381c860a624499d1e4d8aea0d8",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5502.json",
-    "released_branch": "codex/5502-v0918-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5502",
-      ".csdlc/issues/5502",
-      ".csdlc/locks/5502.lock",
-      ".csdlc/prepared/issues/5502",
-      ".csdlc/prepared/issues/5502/run-validation-lane.rb",
-      "adl-v2/Cargo.lock",
-      "adl-v2/Cargo.toml",
-      "adl-v2/crates/adl-workcell-convergence"
-    ]
+    "branch": "codex/5502-v0918-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5502/retained/design.md",

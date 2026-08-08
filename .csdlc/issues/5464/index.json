@@ -5,8 +5,9 @@
   "initialization_digest": "ae3e72f2513ddf93bede427c2ef36d2b067ddb7c1bd59bd1003a94f2e520d5fb",
   "phase": "closed_out",
   "generation": 30,
-  "digest": "8efe1964d85d0a6e3fa341ae1e24e927ce93cd85f53c19f707229d2dd40337f3",
-  "claim": null,
+  "digest": "c289317c909324d9919d6eed85bf9d7c2c9649fefe571844e58dacd83df57d38",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5464",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -98,12 +99,8 @@
     "observed_sha": "cd1a7c902d5a9475786213df4a8499ef411acc80",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5464.json",
-    "released_branch": "codex/5464-nextest-install-contract",
-    "released_worktree": ".worktrees/adl-wp-5464",
-    "released_protected_paths": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/test_ci_runtime_contracts.sh"
-    ]
+    "branch": "codex/5464-nextest-install-contract",
+    "worktree": ".worktrees/adl-wp-5464"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5464/retained/design.md",

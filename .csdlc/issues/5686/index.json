@@ -5,8 +5,9 @@
   "initialization_digest": "4596ba7749c802bc3bdc53df41c48eecce8cdeee5b25e059a41d4402149d646e",
   "phase": "closed_out",
   "generation": 12,
-  "digest": "c6a48c3bdcfb5af5498f9c9386919194af1c17474bbcc1a5f3a5c2efd13c28bc",
-  "claim": null,
+  "digest": "ae142cee84fd5e781b20953eb60a22c7b380ed63706f413470a401585d65c77b",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:codex-review:019fa160-30d6-7f40-b673-3ae44ea0bd3d",
     "assigned_by": "codex:issue-5686-terminal-projection",
@@ -211,15 +212,8 @@
     "observed_sha": "be419727aa76472c189263c5e69d92df5cd2c488",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5686.json",
-    "released_branch": "codex/5686-publish-5662-terminal-projection",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5662",
-      ".csdlc/publication/5662.intent.json",
-      ".csdlc/issues/5686",
-      ".csdlc/locks/5686.lock",
-      ".csdlc/prepared/issues/5686"
-    ]
+    "branch": "codex/5686-publish-5662-terminal-projection",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5686/retained/design.md",

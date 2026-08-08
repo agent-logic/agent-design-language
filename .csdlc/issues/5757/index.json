@@ -5,8 +5,9 @@
   "initialization_digest": "4688628ae0ce9d60ae255bf8cb770bb991f77366416595d38b77e15f45bf045e",
   "phase": "closed_out",
   "generation": 11,
-  "digest": "562d2ddc5d3486846874494cf9f9a787ae307fcc36603bcfa44dcbb6f64a5bd9",
-  "claim": null,
+  "digest": "50d12aebc7ed86652f5978c64806c2c929b04cce5b4aebe5c39b846702911122",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-bounded-review",
     "assigned_by": "codex",
@@ -156,17 +157,8 @@
     "observed_sha": "7ef7462392278cb4e3e6d50a3d187a3ceff1126b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5757.json",
-    "released_branch": "codex/5757-observatory-corrective",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5757/",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl/src/runtime_v3/",
-      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-      "adl/tools/validate_v0917_html_observatory.py",
-      "demos/html-observatory/",
-      "infra/runtime-v3/"
-    ]
+    "branch": "codex/5757-observatory-corrective",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5757/retained/design.md",

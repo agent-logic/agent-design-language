@@ -5,8 +5,9 @@
   "initialization_digest": "4fecd6caf5933cf3222a602ae1033477f116376e15c34477ee930a42928b0422",
   "phase": "closed_out",
   "generation": 17,
-  "digest": "e8976d1fa5549b2d9999129f21135d6ec120f307a22610f5146ec001146a6d11",
-  "claim": null,
+  "digest": "fb8a5501673e2f97b6f092f4f997dfb3ad8fd091e55f84f071815d7a6276e7f9",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "provider:gemini-3.1-pro-preview",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -82,19 +83,8 @@
     "observed_sha": "c35c0a896d3a5ef5c9289886dbef232639dc9e98",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5384.json",
-    "released_branch": "codex/5384-v0918-wp14a-preparation-bound",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5384",
-      ".csdlc/issues/5384",
-      ".csdlc/locks/5384.lock",
-      ".csdlc/prepared/issues/5384",
-      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
-      "docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/V0918_WP14A_PLATFORM_ACCEPTANCE_5384.md"
-    ]
+    "branch": "codex/5384-v0918-wp14a-preparation-bound",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5384/retained/design.md",

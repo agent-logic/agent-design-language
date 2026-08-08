@@ -5,8 +5,9 @@
   "initialization_digest": "cddcaba6cb5630f40f5a0351b4235eeec48846d450e812101f1ddb865a799e8f",
   "phase": "closed_out",
   "generation": 28,
-  "digest": "20cba1d07538a539c5fe8094f259ec38c04cfbeb0bd63ef882baeaa39d86483a",
-  "claim": null,
+  "digest": "e2c83b1fbd29d29af4e6f201e3e06f4086cde8ea11a870216a4de6e96ec9f355",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "coordinator:exact-review-5610-alias-maxima",
     "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
@@ -154,12 +155,8 @@
     "observed_sha": "ceea12f37a23c3d8b897c3fdae64a3d25102ec82",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5610.json",
-    "released_branch": "codex/5610-coverage-path-normalization",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl/tools/merge_coverage_summaries.py",
-      "adl/tools/test_merge_coverage_summaries.sh"
-    ]
+    "branch": "codex/5610-coverage-path-normalization",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5610/retained/design.md",

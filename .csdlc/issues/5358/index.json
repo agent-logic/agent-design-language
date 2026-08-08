@@ -5,8 +5,9 @@
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
   "phase": "closed_out",
   "generation": 42,
-  "digest": "0908a0ce4e6b7faf4c0892e2485b27ab642946a31f0535a9781724d049dc08fd",
-  "claim": null,
+  "digest": "fc30cef029e26c12437da83b79497ba42651069c4cfc1e87057e3880804049b3",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "provider:deepseek:deepseek-chat",
     "assigned_by": "codex:issue-5358-slot-3",
@@ -126,18 +127,8 @@
     "observed_sha": "e048230245b1ad101c8056678123a2747faa4b60",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5358.json",
-    "released_branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5358",
-      ".csdlc/issues/5358",
-      ".csdlc/prepared/issues/5358",
-      ".github/workflows/ci.yaml",
-      "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "csdlc-v2",
-      "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md"
-    ]
+    "branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5358/design.md",

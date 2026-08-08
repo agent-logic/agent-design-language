@@ -5,8 +5,9 @@
   "initialization_digest": "ef36cef510717d019edeb96f12e5187579cb8c39402fb4270b3a9344a7974e49",
   "phase": "closed_out",
   "generation": 12,
-  "digest": "6a3be214d5d2b3a374ceacd154ad529b7bb4c2e437d953715e98b73a4fb68737",
-  "claim": null,
+  "digest": "d2d674f6c1ccd8031b2877eeb40b60d617dfcc8fa0a49d716026a731b3ad7766",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-closeout-review",
     "assigned_by": "codex",
@@ -146,11 +147,8 @@
     "observed_sha": "faf0c62c231e4db1ad7a582cc5a7a57b085a310b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5657.json",
-    "released_branch": "codex/5657-runtime-v3-launch-recovery",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5657"
-    ]
+    "branch": "codex/5657-runtime-v3-launch-recovery",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5657/retained/design.md",

@@ -5,8 +5,9 @@
   "initialization_digest": "b0163f8dcda50dfb601d5200558056a562b9343f92f1f994c2ddf2b8ff49d298",
   "phase": "closed_out",
   "generation": 7,
-  "digest": "a139b69ceeeeae2e00c9df1992144712403bd4ef8f3248ed4938bc9d5e695ffe",
-  "claim": null,
+  "digest": "19ba377a45ab07cbf00dec9626a723ab2881415bb4f971b130e81d9c7fc5aaf1",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex:issue-5748-peer",
     "assigned_by": "codex",
@@ -152,16 +153,8 @@
     "observed_sha": "4a44e4a6b6feb64cfe566cb97e04aa0d888c57f5",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5762.json",
-    "released_branch": "codex/5762-terminal-sor-validation-fixtures",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "csdlc-v2/src/store.rs",
-      ".csdlc/designs/5762",
-      ".csdlc/evidence/5762",
-      ".csdlc/issues/5762",
-      ".csdlc/prepared/issues/5762",
-      ".csdlc/requests/5762"
-    ]
+    "branch": "codex/5762-terminal-sor-validation-fixtures",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5762/retained/design.md",

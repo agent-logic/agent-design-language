@@ -5,8 +5,9 @@
   "initialization_digest": "e9514f192747112be2638f9e8dd48ab1a1c34b702294fb0cde278ab971217063",
   "phase": "closed_out",
   "generation": 1,
-  "digest": "7d14fa9beb1ad828318bb2b6956c7911c7a1f5ebb110dc0aec3475188fd18cf0",
-  "claim": null,
+  "digest": "0b0a70a0e8ce7191a689f87f318ba7910c1251b92b589a7e8333f573240f8499",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -17,9 +18,8 @@
     "observed_sha": "7ef7462392278cb4e3e6d50a3d187a3ceff1126b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5722.json",
-    "released_branch": "",
-    "released_worktree": "",
-    "released_protected_paths": []
+    "branch": null,
+    "worktree": null
   },
   "migration": null,
   "design_path": ".csdlc/issues/5722/retained/design.md",

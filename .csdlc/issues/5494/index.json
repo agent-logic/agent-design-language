@@ -5,8 +5,9 @@
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
   "phase": "closed_out",
   "generation": 62,
-  "digest": "b459ef063066c33f89d3578f9bd83761afaed99f364fb03c30d07fe74b1615ab",
-  "claim": null,
+  "digest": "413ae4d8ce92e5a67b9b41ee4079dd5d3636405a0dc0b993c363276d9d8ebeba",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -136,17 +137,8 @@
     "observed_sha": "d6e55367ec3b9fe9c8908f4ca8fe499e4b0a693c",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5494.json",
-    "released_branch": "codex/5494-wp07a-completion",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl-runtime/src/runtime_api_auth.rs",
-      "adl-runtime/src/supervision.rs",
-      "adl-runtime/src/topology.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/long_lived_agent.rs",
-      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
-    ]
+    "branch": "codex/5494-wp07a-completion",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5494/retained/design.md",

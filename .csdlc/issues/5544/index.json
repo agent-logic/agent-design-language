@@ -5,8 +5,9 @@
   "initialization_digest": "3cb107cf091a604d64ad723f767c71c0dfd71375a7971dc0584c32af392f0a19",
   "phase": "closed_out",
   "generation": 26,
-  "digest": "4ce5d3c137d9eb4fbbc00fface300456199c44bea6a9bbb49fd3fa014b9c9197",
-  "claim": null,
+  "digest": "c6703158b7c9db7eb768fc237e31d5bc59d746f7ba6a858c680e215041521e79",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f77d3-f77f-7161-9f58-6503d284cdc5",
     "assigned_by": "codex:issue-5544",
@@ -224,21 +225,8 @@
     "observed_sha": "246a5fc9b7f4b4e025e2431d0f78e5a629509432",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5544.json",
-    "released_branch": "codex/5544-v0917-release-truth-gates",
-    "released_worktree": ".worktrees/adl-wp-5544",
-    "released_protected_paths": [
-      ".csdlc/evidence/5544",
-      ".csdlc/issues/4644",
-      ".csdlc/issues/5544",
-      ".csdlc/prepared/issues/4644/reconcile-terminal-from-5544.json",
-      ".csdlc/prepared/issues/5544",
-      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md",
-      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_5544"
-    ]
+    "branch": "codex/5544-v0917-release-truth-gates",
+    "worktree": ".worktrees/adl-wp-5544"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5544/retained/design.md",

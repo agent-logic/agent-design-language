@@ -5,8 +5,9 @@
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
   "phase": "closed_out",
   "generation": 32,
-  "digest": "c20e8e8a15fc0a3f74cc3ec992fef7426cd129b24767bc60aa65178f8357b20b",
-  "claim": null,
+  "digest": "63f02c5fdebd5e800a6386b035810f120698c9fd83c4adff077ce01ca9b9e4a7",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f95ae-c03a-7e90-808f-803f476c9738",
     "assigned_by": "codex:issue-4739-preparation",
@@ -162,19 +163,8 @@
     "observed_sha": "7411c86b899ae209448b3c4374959e2cb4b84c5c",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4739.json",
-    "released_branch": "codex/4739-v0918-wp15-unity-mcp-alignment-prep",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/4739",
-      ".csdlc/locks/4739.lock",
-      ".csdlc/prepared/issues/4739",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/probe_unity_mcp_observatory_alignment.sh",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
-      "adl/tools/test_v0916_unity_observatory_contract.sh",
-      "docs/tooling/unity_mcp_observatory_alignment.md"
-    ]
+    "branch": "codex/4739-v0918-wp15-unity-mcp-alignment-prep",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/4739/retained/design.md",

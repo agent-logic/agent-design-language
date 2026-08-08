@@ -5,8 +5,9 @@
   "initialization_digest": "7bdd347c560965375b7f0a7d9b112887e4beef8851bf44eae2936b487467fc97",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "317cf0e0756f70bc5032dfdc5cdb89365bff11732090a044a5e2689afe26929d",
-  "claim": null,
+  "digest": "a7281652f6b3731f35c9a796a0e760ccb3e5680d57aff9b96b5f177f23653d8e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -163,15 +164,8 @@
     "observed_sha": "d80791ff220db788787ce0a7170e14c4fd5a5f3e",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5516.json",
-    "released_branch": "codex/5516-5494-terminal-design-repair",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5494",
-      ".csdlc/issues/5516",
-      ".csdlc/prepared/issues/5494/reconcile-terminal.json",
-      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
-    ]
+    "branch": "codex/5516-5494-terminal-design-repair",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5516/retained/design.md",

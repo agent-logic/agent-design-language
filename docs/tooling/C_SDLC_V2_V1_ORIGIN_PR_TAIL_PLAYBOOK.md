@@ -22,7 +22,7 @@ those commands; those mentions are evidence, not executable instructions.
 
 ## Stale-base repair
 
-1. Keep the issue claim and bound worktree.
+1. Keep the issue branch and bound worktree.
 2. Fetch the intended base and rebase or merge it in the issue worktree.
 3. Run the smallest proving validation for the changed paths.
 4. Treat the resulting commit as a new substantive revision. A prior review is

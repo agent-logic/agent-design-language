@@ -16,6 +16,7 @@ use crate::store::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
 pub struct BindRequest {
     pub issue: u64,
     pub base_branch: String,
