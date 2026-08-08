@@ -77,7 +77,7 @@ Procedure:
    - Confirm all six cards, the design, and the diagram are present or can be
      generated from the current versioned prompt registry.
 2) Init
-   - Submit a typed bootstrap request to `csdlc-init`; this is the atomic,
+   - Submit a typed bootstrap request to `csdlc-issue create`; this is the atomic,
      pre-binding creation of the issue record and six initial projections. It
      includes design and diagram paths, operator constraints, review
      scope, and explicit validation budgets; it is not implementation editing.

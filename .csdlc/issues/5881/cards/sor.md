@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Removed active claim lifecycle compatibility, normalized mutable current records and retained receipts once, and made active operator guidance topology-owned.
+Removed active claim lifecycle compatibility, normalized 190 mutable tracked current records once, and made repo-local active operator guidance topology-owned.
 
 ## Artifacts
 
@@ -28,9 +28,9 @@ Removed active claim lifecycle compatibility, normalized mutable current records
 
 - Removed LegacyClaim, LegacyIssueRecord, legacy terminal receipt, verification, and normalization production code.
 - Made bootstrap and bind requests reject unknown claim-era fields.
-- Normalized 190 tracked current issue records and 179 retained current receipts while preserving historical evidence packets.
-- Updated active C-SDLC v2 skills and runbooks to use bound branch/worktree topology.
-- Added focused regression guards for claim-free records, production code, requests, and operator guidance.
+- Normalized 190 pre-existing tracked current issue records while preserving historical evidence packets.
+- Updated repo-local active C-SDLC v2 skill and runbook sources to use bound branch/worktree topology.
+- Added focused regression guards for claim-free records, production code, requests, and repo-local operator guidance.
 
 ## Validation
 
@@ -102,7 +102,7 @@ Removed active claim lifecycle compatibility, normalized mutable current records
       "--test",
       "gate10a"
     ],
-    "purpose": "Prove active skills, runbooks, production decoder, and every tracked current record are claim-free.",
+    "purpose": "Prove repo-local active skills, runbooks, production decoder, and every tracked current record are claim-free.",
     "outcome": "passed",
     "evidence_ref": "local gate10a lane: 17 passed"
   },

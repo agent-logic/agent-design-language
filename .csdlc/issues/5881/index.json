@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6b4cac1985b729f21eaab711dcf00a34a28bc7ee635983a8cee52dac15fca8ea",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "82a96b87660e22ce60a2f50d77719a364be59c6c95da416b62257a4ce245c1b2",
+  "generation": 25,
+  "digest": "e4836ce7f64070775ca0c0defaff3c9de5a20982062b09f25847791d0f1df33c",
   "branch": "codex/5881-remove-csdlc-claims",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5881",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ac92d67d5b7c964eadfafd06fae6b603d5ace76986f5b104c4a496535e4647bb",
+      "values_digest": "b06b38a219db6655ef27245cd31d515d308003a1f92db3d046c06d3b0bee17c0",
       "rendered_digest": "60670c16343546a20bb4e65dacd38d9daca0d00913711015dba889bce3f5b87f",
       "ast_digest": "8f9be8f8811d192b61590603b141e9d2847bc9a90991e295f3b4361c85f00bec"
     },
     "stp": {
-      "values_digest": "9eeaf800fea0f345ee46260896c80f1b890c614b2c0a615336fc8e44ce982bf6",
+      "values_digest": "ab49197f923284a244b074f41d5c5aecdfdf275c6a094fc63eaf1fc605ac2869",
       "rendered_digest": "6dc254f2d20ab63c2c85ffb0000e7fa28914b02762002b3871c8aac1ba08a769",
       "ast_digest": "873ef552b7761cfe06ccea1724eec52d71178697cd39dcf3809836f40d674669"
     },
     "spp": {
-      "values_digest": "b355560d43a3b6d0efa6a96fa56db1c9ad7b21b8e3e40c7ab3cc392eace9a0ad",
+      "values_digest": "5c486fb102c5d70f30487c98bc04a0a77c426b2d9a127dddc1d32198d0061925",
       "rendered_digest": "a06a8ddb70e836c85286e7a749fa7d792ece4b65819c886fc775963ab15bd26d",
       "ast_digest": "670e2b7cc86cb07d91bdd82fc8a251d3f0583baef79770d65f2ea4899a60d08b"
     },
     "vpp": {
-      "values_digest": "86a0b557533f8a916f029a58a7ab9017894c98f79eeab28cf3ea0a426dd73690",
+      "values_digest": "9ed11552e23a830e6ab81a4fcf2645a0bba0f01326301feedfb26994270f36c8",
       "rendered_digest": "3649e37c440a60859ceb3338f7c6f725f7387ee059914bbf075951eb3a1676db",
       "ast_digest": "0c46b55d57c217aeca29cf63aa7b3d23fa95921786e18d457627c38ad2dab779"
     },
     "srp": {
-      "values_digest": "5fa89a77589783702e9ba59e613368d66c3a108885bc20bd3b697f6960611526",
+      "values_digest": "af579c82cfeca4a1f04822448703cdaf3df502b8e8a80a801b9afa83b6db88b9",
       "rendered_digest": "593a3dd758cd48f6064129d2b6f9db3f9c63e7d88f1ad08870ee73ab082d7580",
       "ast_digest": "80ed98d03d67ab5cd913e84e71f72621ebd066386d4765192f3b045f843f73b5"
     },
     "sor": {
-      "values_digest": "082a59f4c85cb24f777fd22785256b0ba6b7cf3d9a531d40a1c9d300db99110d",
-      "rendered_digest": "a0216df193458a57c841c470996b8dc549b0794e3d4c1a21f122ebaac8d0b681",
-      "ast_digest": "d56fd1508bdfda036a75fb0711f4198b7a277b67bfa2f0e41b3c3a8115e75be1"
+      "values_digest": "17cfb6b135f64794660974cc9a46ff0cd8b27a5771c6af14cd07191de2c1366b",
+      "rendered_digest": "bdbd2810a67411f9b9a06506a06d104dd46ef3eeb19711428535bec567c2bc09",
+      "ast_digest": "70f09bf9fa6acd0c31fbf88bba301035af6b4edddbbac8b47734dad2aa4bdf36"
     }
   },
   "transitions": [
@@ -259,6 +259,13 @@
       "actor": "codex:5881-implementation",
       "reason": "Advance after completed implementation and focused validation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:5881-review-remediation",
+      "reason": "Correct exact-head review finding P2 by limiting execution claims to tracked current records and repo-local guidance.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed active claim lifecycle compatibility, normalized 190 mutable tracked current records once, and made repo-local active operator guidance topology-owned.\",\"changes\":[\"Removed LegacyClaim, LegacyIssueRecord, legacy terminal receipt, verification, and normalization production code.\",\"Made bootstrap and bind requests reject unknown claim-era fields.\",\"Normalized 190 pre-existing tracked current issue records while preserving historical evidence packets.\",\"Updated repo-local active C-SDLC v2 skill and runbook sources to use bound branch/worktree topology.\",\"Added focused regression guards for claim-free records, production code, requests, and repo-local operator guidance.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate10a.rs\",\"docs/tooling/adl_pr_cycle_skill.md\",\"docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md\",\"https://github.com/agent-logic/agent-design-language/issues/47\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove public schemas and request decoding are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact schema lane: 3 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove one-time topology normalization, serialization, and interrupted recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"local topology migration lane: 9 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove claim-bearing requests fail and topology-owned create/bind remains atomic and idempotent.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate2 lane: 1 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\",\"--test\",\"gate_cleanup\"],\"purpose\":\"Prove review, cross-repository publication, finish, and cleanup derive authority without claims.\",\"outcome\":\"passed\",\"evidence_ref\":\"local lifecycle lanes: gate5 14, gate6 6, gate_finish 17, gate_cleanup 9 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove repo-local active skills, runbooks, production decoder, and every tracked current record are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate10a lane: 17 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed C-SDLC v2 Rust surface is warning-free across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local strict clippy: passed\"}]}"
     }
   ]
 }
