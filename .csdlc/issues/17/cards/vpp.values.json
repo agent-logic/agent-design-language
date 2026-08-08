@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 17,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC doctor should reject repository drift and non-executable owned-path plans",
+    "slug": "doctor-execution-readiness",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "doctor-readiness-regression",
+          "proof_role": "Prove issue-specific doctor readiness and valid workflow behavior through the focused integration target.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on repository drift, unroutable owned modules, unavailable undeclared validators, or a zero issue-specific proof denominator.",
+      "design_ref": ".csdlc/prepared/issues/17/design.md",
+      "design_digest": "b54e7215fda6338b6fc4a65b1eb3df13b9fd52c9582bed73647e3c6fc18c601f",
+      "diagram_ref": ".csdlc/prepared/issues/17/diagram.mmd",
+      "diagram_digest": "0948ad6e9259e094b47b1034f759aee8594dfcb60b00ac60c3457b6b223f29cd"
+    }
+  }
+}

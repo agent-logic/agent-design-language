@@ -36,6 +36,40 @@ pub fn current_branch(root: &Path) -> Result<String> {
     Ok(run(root, &["branch", "--show-current"])?.stdout)
 }
 
+pub fn github_remote_repository(root: &Path, remote: &str) -> Result<Option<String>> {
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["remote", "get-url", remote])
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        if stderr.contains("No such remote") {
+            return Ok(None);
+        }
+        return Err(V2Error::new(ErrorCode::GitFailure, stderr.trim()));
+    }
+    Ok(parse_github_repository(
+        String::from_utf8_lossy(&output.stdout).trim(),
+    ))
+}
+
+fn parse_github_repository(value: &str) -> Option<String> {
+    let value = value.trim_end_matches('/').trim_end_matches(".git");
+    let path = if let Some(path) = value.strip_prefix("git@github.com:") {
+        path.to_owned()
+    } else {
+        let parsed = url::Url::parse(value).ok()?;
+        if !matches!(parsed.scheme(), "https" | "ssh") || parsed.host_str() != Some("github.com") {
+            return None;
+        }
+        parsed.path().trim_start_matches('/').to_owned()
+    };
+    let parts = path.split('/').collect::<Vec<_>>();
+    (parts.len() == 2 && parts.iter().all(|part| !part.is_empty()))
+        .then(|| format!("{}/{}", parts[0], parts[1]))
+}
+
 pub fn worktrees(root: &Path) -> Result<Vec<(String, String)>> {
     let text = run(root, &["worktree", "list", "--porcelain"])?.stdout;
     let mut result = Vec::new();

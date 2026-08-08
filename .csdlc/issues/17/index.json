@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 17,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ce7a72390c3da02eb291f61abc2642d9eab856af390152b0d5898de5646a09b8",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "82438eebca22f7fd13b80a198d1ac442f5e0cc49c862879fd60c0a4e0937a725",
+  "branch": "codex/17-doctor-execution-readiness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-17-doctor-readiness",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/17/design.md",
+  "diagram_path": ".csdlc/prepared/issues/17/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-17-design-review",
+      "revision": "b54e7215fda6338b6fc4a65b1eb3df13b9fd52c9582bed73647e3c6fc18c601f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6ef3a5da604f285b8c8888de080e49f5185308aa839b348a1f523f1d5986a91a",
+      "rendered_digest": "e72b4cda2964938872e2d78baa969536ec92825abdee173948b39f78493ad91c",
+      "ast_digest": "cdf21bf65f18a6587e11420b5dddd84e6bf9bd27056e7b20042c3f6c69887a09"
+    },
+    "stp": {
+      "values_digest": "3f0869f20005fb2aacba51791b257196049527715489616ef68ccba85b51ffe0",
+      "rendered_digest": "5e05a8bc472d7a2e806231380618ccc386804602f6253d588c3fd42b71131d48",
+      "ast_digest": "6b515217a0e3d6a9214b6f94844e87e45522bf7c5a9528524cba8966c6ad913b"
+    },
+    "spp": {
+      "values_digest": "ae1320bebe01c1c94a578be4c1ddf91023eeb5038e9dcf9aaa36d7e96932c078",
+      "rendered_digest": "da53851d2e3f88b746f70f69220bdcf6bd8133b8e3cacdb385f802328acaadc1",
+      "ast_digest": "2f22946cf0d855ab292277f5d1b285e223fd31bae80b4e27f84b511fbf9b6fd6"
+    },
+    "vpp": {
+      "values_digest": "079976e0a42f52dee05d9b5537737d7a25cda96574f9ac98da0a4aa865b7e806",
+      "rendered_digest": "64ea916b9f57f0ff3862f3aafc0f2fc8bfca44013583fa7a7cb94810e0a3f029",
+      "ast_digest": "cf00c15da48770b261126e67b84c532bd36cfb9b4026d97ccc9cf82c348f7885"
+    },
+    "srp": {
+      "values_digest": "20ed6e17cb8d9df1e504825b93b9d13913af48d63365011734c25f6c6028485a",
+      "rendered_digest": "06e214fdcfd0d6e01c6c50c6e742bbd553d6404c724d3d49c247d9ad6dbd3dd9",
+      "ast_digest": "b66d4e7273cef602bc78c1ca03d38b819c18eb07adc3aaf0ef532a13c02bd095"
+    },
+    "sor": {
+      "values_digest": "76352c5d6f487dc931a43c90707bbfcbeeff5bf8ceb0558a1772b22a610b115d",
+      "rendered_digest": "83298d07ae8390f7e721294ad30dc872c3502f77a1a50be2424bb72a66a8dd2e",
+      "ast_digest": "271865c10819ddb6dbf7a9e94e03a395618e474874ef0e46c19e48dfd120d018"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Issue 17 implementation and focused validation are complete; advance to exact-head review."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Record the focused issue 17 gate2 production-path validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove repository drift, unroutable module, missing validator, and nonzero issue-specific denominator doctor behavior through the focused gate2 integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed\"}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Record the bounded issue 17 doctor-readiness implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Doctor now fails closed on repository drift, unroutable Rust module plans, unavailable validator targets, and zero issue-specific validation denominators.\",\"changes\":[\"Parse canonical GitHub origin identity and report deterministic repository drift.\",\"Return specific execution-readiness finding codes for owned paths, Rust module routes, validator availability, and denominator coverage.\",\"Add an issue-5795-shaped gate2 production fixture and repair the baseline fixture ownership contract.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/src/git.rs\",\"csdlc-v2/tests/gate2.rs\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Issue 17 implementation and focused validation are complete; advance to exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

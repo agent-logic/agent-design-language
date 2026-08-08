@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 17,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC doctor should reject repository drift and non-executable owned-path plans",
+    "slug": "doctor-execution-readiness",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "C-SDLC v2 doctor execution-readiness behavior and focused regression fixtures",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Check false positives against valid existing issue contracts.",
+        "Check repository URL parsing and validator target resolution edge cases."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

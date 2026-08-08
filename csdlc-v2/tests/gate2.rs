@@ -27,10 +27,50 @@ fn git(root: &Path, args: &[&str]) -> String {
     must_succeed(command(root, "git", args))
 }
 
+fn apply_edit(
+    repo: &Path,
+    temp: &Path,
+    issue: u64,
+    card: &str,
+    name: &str,
+    operation: serde_json::Value,
+) {
+    let index: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(format!(".csdlc/issues/{issue}/index.json"))).expect("issue index"),
+    )
+    .expect("issue index JSON");
+    let request = temp.join(format!("{issue}-{name}.json"));
+    fs::write(
+        &request,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": issue,
+            "card": card,
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": format!("issue 5795 shaped fixture: {name}"),
+            "operation": operation,
+        }))
+        .expect("serialize edit request"),
+    )
+    .expect("edit request");
+    must_succeed(command(
+        repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo.to_string_lossy(),
+            "apply",
+            "--request",
+            &request.to_string_lossy(),
+        ],
+    ));
+}
+
 fn request() -> BootstrapRequest {
     BootstrapRequest {
         issue: 42,
-        repository: "example/repo".into(),
+        repository: "agent-logic/agent-design-language".into(),
         actor: "test-operator".into(),
         design_path: "design/issue-42.md".into(),
         diagram_path: "design/issue-42.mmd".into(),
@@ -46,7 +86,10 @@ fn request() -> BootstrapRequest {
             authority_boundary: vec!["local test repository".into()],
             operator_constraints: vec!["no network".into()],
             task_boundary: "Exercise only the focused binary path.".into(),
-            deliverables: vec!["bound issue record".into()],
+            deliverables: vec![
+                "bound issue record".into(),
+                "csdlc-v2/tests/gate2.rs".into(),
+            ],
             acceptance_criteria: vec![
                 "issue creation is claim-free".into(),
                 "binding is atomic and idempotent".into(),
@@ -61,7 +104,10 @@ fn request() -> BootstrapRequest {
                 acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
                 status: StepStatus::Pending,
             }],
-            affected_areas: vec!["design/issue-42.md".into()],
+            affected_areas: vec![
+                "design/issue-42.md".into(),
+                "csdlc-v2/tests/gate2.rs".into(),
+            ],
             invariants: vec!["Git topology is binding authority".into()],
             risks: vec!["conflicting worktree".into()],
             planning_profile: PlanningProfile::Small,
@@ -77,6 +123,8 @@ fn request() -> BootstrapRequest {
                 argv: vec![
                     "cargo".into(),
                     "test".into(),
+                    "--manifest-path".into(),
+                    "csdlc-v2/Cargo.toml".into(),
                     "--test".into(),
                     "gate2".into(),
                 ],
@@ -98,6 +146,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     let conflict = temp.path().join("worktrees/conflict");
     fs::create_dir_all(repo.join("docs/templates/prompts")).expect("registry directory");
     fs::create_dir_all(repo.join("csdlc-v2/operator")).expect("manifest directory");
+    fs::create_dir_all(repo.join("csdlc-v2/tests")).expect("test directory");
     fs::create_dir_all(repo.join("design")).expect("design directory");
     fs::write(
         repo.join("docs/templates/prompts/current.json"),
@@ -109,6 +158,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         include_bytes!("../operator/native-card-shape.json"),
     )
     .expect("shape fixture");
+    fs::write(repo.join("csdlc-v2/tests/gate2.rs"), "// focused fixture\n").expect("gate2 fixture");
     fs::write(repo.join("design/issue-42.md"), "# Approved design\n").expect("design");
     fs::write(
         repo.join("design/issue-42.mmd"),
@@ -119,6 +169,15 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     git(&repo, &["init", "-b", "main"]);
     git(&repo, &["config", "user.email", "test@example.com"]);
     git(&repo, &["config", "user.name", "C-SDLC Test"]);
+    git(
+        &repo,
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/agent-logic/agent-design-language.git",
+        ],
+    );
     git(&repo, &["add", "."]);
     git(&repo, &["commit", "-m", "fixture"]);
 
@@ -271,6 +330,143 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     ));
     assert!(diagnosed.contains("\"ready\": true"));
 
+    let stale_repository_request = temp.path().join("stale-repository-create.json");
+    let mut stale_repository = request();
+    stale_repository.issue = 43;
+    stale_repository.repository = "danielbaustin/agent-design-language".into();
+    stale_repository.design_path = "design/issue-43.md".into();
+    stale_repository.diagram_path = "design/issue-43.mmd".into();
+    fs::write(repo.join("design/issue-43.md"), "# Approved design\n")
+        .expect("stale repository design");
+    fs::write(
+        repo.join("design/issue-43.mmd"),
+        "flowchart LR\n  Plan --> Block\n",
+    )
+    .expect("stale repository diagram");
+    stale_repository.initial.affected_areas[0] = "design/issue-43.md".into();
+    stale_repository.initial.repo_inputs[0] = "design/issue-43.md".into();
+    fs::write(
+        &stale_repository_request,
+        serde_json::to_vec_pretty(&stale_repository).expect("serialize stale repository request"),
+    )
+    .expect("stale repository request");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-issue"),
+        &[
+            "--root",
+            &repo_text,
+            "create",
+            "--request",
+            &stale_repository_request.to_string_lossy(),
+        ],
+    ));
+    let stale_diagnosis = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-doctor"),
+        &["--repo", &repo_text, "--issue", "43"],
+    );
+    assert!(!stale_diagnosis.status.success());
+    let stale_diagnosis = String::from_utf8(stale_diagnosis.stdout).expect("UTF-8 diagnosis");
+    assert!(stale_diagnosis.contains("repository_identity_drift"));
+    assert!(stale_diagnosis.contains("danielbaustin/agent-design-language"));
+    assert!(stale_diagnosis.contains("agent-logic/agent-design-language"));
+
+    let mut issue_5795_shape = request();
+    issue_5795_shape.issue = 44;
+    issue_5795_shape.design_path = "design/issue-44.md".into();
+    issue_5795_shape.diagram_path = "design/issue-44.mmd".into();
+    issue_5795_shape.initial.affected_areas[0] = "design/issue-44.md".into();
+    issue_5795_shape.initial.repo_inputs[0] = "design/issue-44.md".into();
+    fs::write(repo.join("design/issue-44.md"), "# Approved design\n")
+        .expect("issue 5795 shaped design");
+    fs::write(
+        repo.join("design/issue-44.mmd"),
+        "flowchart LR\n  Plan --> Block\n",
+    )
+    .expect("issue 5795 shaped diagram");
+    let issue_5795_request = temp.path().join("issue-5795-shape-create.json");
+    fs::write(
+        &issue_5795_request,
+        serde_json::to_vec_pretty(&issue_5795_shape).expect("serialize issue 5795 shaped request"),
+    )
+    .expect("issue 5795 shaped request");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-issue"),
+        &[
+            "--root",
+            &repo_text,
+            "create",
+            "--request",
+            &issue_5795_request.to_string_lossy(),
+        ],
+    ));
+    let future_module = "adl-runtime-kernel/src/shepherd.rs";
+    let future_validator = "adl-runtime-kernel/tests/shepherd_live.rs";
+    apply_edit(
+        &repo,
+        temp.path(),
+        44,
+        "spp",
+        "unroutable-owned-module",
+        serde_json::json!({
+            "operation": "replace_planning_collection",
+            "field": "affected_areas",
+            "values": [future_module, future_validator]
+        }),
+    );
+    apply_edit(
+        &repo,
+        temp.path(),
+        44,
+        "stp",
+        "missing-validator-deliverable",
+        serde_json::json!({
+            "operation": "replace_planning_collection",
+            "field": "deliverables",
+            "values": [future_module, future_validator]
+        }),
+    );
+    apply_edit(
+        &repo,
+        temp.path(),
+        44,
+        "vpp",
+        "zero-denominator-lane",
+        serde_json::json!({
+            "operation": "replace_validation_lanes",
+            "lanes": [{
+                "lane": "shepherd-live-focused",
+                "proof_role": "exercise the issue-owned Shepherd validator",
+                "acceptance_ids": ["AC-1", "AC-2"],
+                "deterministic": true,
+                "resource_profile": "small",
+                "budget_seconds": 120,
+                "budget_tokens": 1000,
+                "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "shepherd_live"],
+                "parallel_group": "local",
+                "defer_reason": null
+            }]
+        }),
+    );
+    let issue_5795_diagnosis = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-doctor"),
+        &["--repo", &repo_text, "--issue", "44"],
+    );
+    assert!(!issue_5795_diagnosis.status.success());
+    let issue_5795_diagnosis =
+        String::from_utf8(issue_5795_diagnosis.stdout).expect("UTF-8 diagnosis");
+    for code in [
+        "owned_paths_invalid",
+        "owned_rust_module_unroutable",
+        "validator_target_missing",
+        "issue_specific_denominator_missing",
+    ] {
+        assert!(issue_5795_diagnosis.contains(code), "missing {code}");
+    }
+
     let index_path = repo.join(".csdlc/issues/42/index.json");
     let current_index = || -> serde_json::Value {
         serde_json::from_slice(&fs::read(&index_path).expect("issue index"))
@@ -290,7 +486,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "operation": {
                 "operation": "replace_planning_collection",
                 "field": "affected_areas",
-                "values": ["design/future/deep.rs"]
+                "values": ["design/future/deep.rs", "csdlc-v2/tests/gate2.rs"]
             }
         }))
         .expect("serialize initialized planning edit"),
