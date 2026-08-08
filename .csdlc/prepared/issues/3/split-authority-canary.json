@@ -25,7 +25,10 @@
     "cross_reference_repository": "agent-logic/agent-design-language",
     "cross_reference_pull_request": 4,
     "cross_reference_closing_reference": "Closes danielbaustin/agent-design-language#5901",
-    "closed_event_at": "2026-08-07T02:22:14Z"
+    "closed_event_at": "2026-08-07T02:22:14Z",
+    "closed_event_closer_type": "PullRequest",
+    "closed_event_closer_repository": "agent-logic/agent-design-language",
+    "closed_event_closer_pull_request": 4
   },
   "post_closure_reconciliation_pull_request": {
     "repository": "agent-logic/agent-design-language",

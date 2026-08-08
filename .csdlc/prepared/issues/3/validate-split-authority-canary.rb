@@ -31,6 +31,9 @@ require_truth(timeline.fetch("cross_reference_repository") == pr.fetch("reposito
 require_truth(timeline.fetch("cross_reference_pull_request") == pr.fetch("number"), "timeline PR mismatch")
 require_truth(timeline.fetch("cross_reference_closing_reference") == pr.fetch("closing_reference"), "timeline closing reference mismatch")
 require_truth(timeline.fetch("closed_event_at") == issue.fetch("closed_event_at"), "closed event mismatch")
+require_truth(timeline.fetch("closed_event_closer_type") == "PullRequest", "closed event closer is not a PR")
+require_truth(timeline.fetch("closed_event_closer_repository") == pr.fetch("repository"), "closed event closer repository mismatch")
+require_truth(timeline.fetch("closed_event_closer_pull_request") == pr.fetch("number"), "closed event closer PR mismatch")
 
 cross_reference_at = Time.iso8601(timeline.fetch("cross_reference_event_at"))
 merged_at = Time.iso8601(pr.fetch("merged_at"))
