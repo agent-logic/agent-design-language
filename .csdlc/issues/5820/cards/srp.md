@@ -8,11 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Review issue 5820 exact-head Guardian/kernel/init changes and retained proof for sole process ownership, bounded lifecycle behavior, durable restart, truthful degradation/readiness, authenticated API/WSS, observability channel policy, native platforms, and strict exclusion of distributed/protocol/consumer scope.
+adl-runtime/src/guardian.rs
 
 ## Prompts
 

@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-03] Runtime launch and resilience consolidation",
     "slug": "v0-92-wp-03-runtime-launch-and-resilience-consolidation",
     "version": "v0.92",
-    "generation": 33
+    "generation": 51
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review issue 5820 exact-head Guardian/kernel/init changes and retained proof for sole process ownership, bounded lifecycle behavior, durable restart, truthful degradation/readiness, authenticated API/WSS, observability channel policy, native platforms, and strict exclusion of distributed/protocol/consumer scope.",
+      "review_scope": "adl-runtime/src/guardian.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

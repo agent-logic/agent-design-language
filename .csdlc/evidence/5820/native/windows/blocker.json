@@ -1,0 +1,12 @@
+{
+  "schema": "adl.runtime_v3.platform_blocker_evidence.v1",
+  "platform": "windows",
+  "status": "blocked",
+  "reason": "native_windows_runner_unavailable",
+  "unavailable_authority": "No native Windows execution authority is available to this bounded WP-03 session.",
+  "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+  "non_claims": [
+    "No native Windows Guardian lifecycle execution was performed.",
+    "The macOS and Linux receipts do not stand in for native Windows proof."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "assigned_by": "codex:5820-runtime-resilience",
+  "expected_digest": "4a2aa67313a82079a450ee26a82ccb00f4d2f8083ebe5473ad475b4ad7c9b75d",
+  "expected_generation": 49,
+  "issue": 5820,
+  "reviewer": "subagent:Codex-019fdef4",
+  "scope": [
+    "adl-runtime/src/guardian.rs"
+  ]
+}

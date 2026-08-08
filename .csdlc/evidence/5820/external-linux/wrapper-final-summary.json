@@ -1,0 +1,46 @@
+{
+  "attempt_count": 1,
+  "builder_image_architecture": "amd64",
+  "builder_image_digest_sha256": "a53b2d503af05ac42835c2fc4b9c478cbb3d27f6fd19bfb2ad81b1e9a92b5ee8",
+  "cache_free_bytes": 643396476928,
+  "cache_target_preexisting_bytes": 255118196736,
+  "cache_target_preexisting_entries": 51380,
+  "cost": {
+    "estimate_basis": "observed_instance_lifetime_seconds_x_pre_run_spot_hourly_price",
+    "estimated_compute_cost_usd": 0.044328,
+    "estimated_hourly_usd": 0.7563
+  },
+  "interrupted_attempt_count": 0,
+  "next_action": "complete",
+  "private_recovery_state_retained": true,
+  "private_recovery_state_uploaded": false,
+  "resumed_after_interruption": false,
+  "runner_exit_code": 0,
+  "schema": "adl.aws_spot_remote_validation_wrapper_summary.v2",
+  "self_verification": {
+    "account_verified_by_wrapper": true,
+    "builder_toolchain_verified": true,
+    "cache_mount_health_verified": true,
+    "compute_teardown_verified": true,
+    "failures": [],
+    "host_validation_tools_installed": false,
+    "immutable_builder_image_verified": true,
+    "live_logs_verified": true,
+    "passed": true,
+    "retained_cache_identity_verified": true,
+    "retained_cache_verified": true,
+    "source_commit_verified": true,
+    "spot_purchase_verified": true,
+    "ssh_recovery_verified": true
+  },
+  "source_commit": "2faa7c0ddda8e12e452d7be4b309aeb86c10f69d",
+  "status": "passed",
+  "timings": {
+    "launch_seconds": 9,
+    "remote_command_seconds": 124,
+    "ssm_ready_seconds": 15,
+    "teardown_seconds": 61,
+    "total_seconds": 211,
+    "validation_seconds": 16
+  }
+}

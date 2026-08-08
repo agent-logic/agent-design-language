@@ -1,0 +1,126 @@
+2026-08-07T20:42:35Z stage=ensure_git
+2026-08-07T20:42:48Z stage=ensure_curl
+2026-08-07T20:42:48Z stage=clone_repo
+2026-08-07T20:42:51Z stage=fetch_repo
+2026-08-07T20:42:52Z stage=checkout_ref ref='codex/5820-v092-runtime-launch-resilience'
+2026-08-07T20:42:52Z stage=tracked_remote_runner
+2026-08-07T20:42:55Z stage=ensure_build_toolchain
+2026-08-07T20:42:55Z stage=ensure_rustup
+2026-08-07T20:42:55Z stage=ensure_sccache
+2026-08-07T20:42:55Z tool_install_policy=immutable_builder_image_only tool=sccache
+2026-08-07T20:42:55Z stage=ensure_nextest
+2026-08-07T20:42:55Z tool_install_policy=immutable_builder_image_only tool=cargo-nextest
+2026-08-07T20:42:55Z stage=validation_command command=bash adl/tools/run_aws_spot_builder_image_validation.sh --image <aws-account-id-redacted>.dkr.ecr.us-west-2.amazonaws.com/adl-builder@sha256:4b37c656b6a5724dd8708cd478b84cd3a831a02e473813eda76a2a9d5b3e19ef --expected-ref 0dfd6c26084b20528e805aa570b2d6b930c42b81 --expected-architecture x86_64 --min-cache-free-gib 10 --command set\ -euo\ pipefail\;\ ADL_VECTOR_INSTALL_ROOT=/cache-root/components/vector-0.56.0\ bash\ adl/tools/install_vector_component.sh\;\ export\ ADL_RUNTIME_VECTOR_BIN=/cache-root/components/vector-0.56.0/bin/vector\;\ export\ ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/cache-root\;\ export\ CARGO_TARGET_DIR=/cache-root/targets/5820-runtime\;\ export\ ADL_TEST_TMPDIR=/tmp\;\ bash\ adl/tools/validate_v092_runtime_guardian_lifecycle.sh\ --suite\ stress_100x10s\;\ run_root=\$\(ls\ -td\ .adl/runtime-v3/qualification/5820-run.\*\ \|\ head\ -1\)\;\ bundle=/run-output/linux-native-proof\;\ mkdir\ -p\ \"\$bundle\"\;\ cp\ \"\$run_root/issue-proof.json\"\ \"\$bundle/lifecycle-proof.json\"\;\ cp\ \"\$run_root/report.json\"\ \"\$bundle/lifecycle-component-report.json\"\;\ cp\ \"\$run_root/https-transcript.json\"\ \"\$bundle/https-transcript.json\"\;\ cp\ \"\$run_root/wss-transcript.json\"\ \"\$bundle/wss-transcript.json\"\;\ cp\ infra/runtime-v3/runtime-init.toml\ \"\$bundle/runtime-init.toml\"\;\ cp\ /cache-root/targets/5820-runtime/debug/adl-runtime-guardian\ \"\$bundle/adl-runtime-guardian\"\;\ cp\ /cache-root/targets/5820-runtime/debug/adl-runtime-kernel\ \"\$bundle/adl-runtime-kernel\"\;\ printf\ \"%s\\n\"\ \"\{\\\"schema\\\":\\\"adl.runtime_guardian.runner_provenance.v1\\\"\,\\\"source_revision\\\":\\\"0dfd6c26084b20528e805aa570b2d6b930c42b81\\\"\,\\\"provider\\\":\\\"aws-spot\\\"\,\\\"run_id\\\":\\\"adl-wp-5820-linux-stress-20260807-2345\\\"\,\\\"os\\\":\\\"linux\\\"\,\\\"arch\\\":\\\"x86_64\\\"\}\"\ \>\ \"\$bundle/runner-provenance.json\"\;\ tar\ -C\ /run-output\ -czf\ /run-output/linux-native-proof.tar.gz\ linux-native-proof\;\ touch\ /run-output/linux-native-proof.ready\;\ sleep\ 300
+2026-08-07T20:42:55Z stage=verify_source
+2026-08-07T20:42:55Z stage=verify_cache
+2026-08-07T20:42:55Z stage=ensure_container_runtime
+2026-08-07T20:43:19Z stage=pull_immutable_image
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+2026-08-07T20:43:32Z stage=verify_builder_toolchain
+2026-08-07T20:43:44Z stage=validation_command
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.65s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.61s
+guardian_runtime_window_progress=1/100 run_cycles=27 total_cycles=27 elapsed_millis=15255
+guardian_runtime_window_progress=2/100 run_cycles=29 total_cycles=56 elapsed_millis=25829
+guardian_runtime_window_progress=3/100 run_cycles=28 total_cycles=84 elapsed_millis=36308
+guardian_runtime_window_progress=4/100 run_cycles=28 total_cycles=112 elapsed_millis=46828
+guardian_runtime_window_progress=5/100 run_cycles=29 total_cycles=141 elapsed_millis=57539
+guardian_runtime_window_progress=6/100 run_cycles=28 total_cycles=169 elapsed_millis=67988
+guardian_runtime_window_progress=7/100 run_cycles=28 total_cycles=197 elapsed_millis=78397
+guardian_runtime_window_progress=8/100 run_cycles=28 total_cycles=225 elapsed_millis=88829
+guardian_runtime_window_progress=9/100 run_cycles=28 total_cycles=253 elapsed_millis=99267
+guardian_runtime_window_progress=10/100 run_cycles=29 total_cycles=282 elapsed_millis=110008
+guardian_runtime_window_progress=11/100 run_cycles=28 total_cycles=310 elapsed_millis=120397
+guardian_runtime_window_progress=12/100 run_cycles=28 total_cycles=338 elapsed_millis=130998
+guardian_runtime_window_progress=13/100 run_cycles=29 total_cycles=367 elapsed_millis=141658
+guardian_runtime_window_progress=14/100 run_cycles=28 total_cycles=395 elapsed_millis=152137
+guardian_runtime_window_progress=15/100 run_cycles=28 total_cycles=423 elapsed_millis=162607
+guardian_runtime_window_progress=16/100 run_cycles=28 total_cycles=451 elapsed_millis=173147
+guardian_runtime_window_progress=17/100 run_cycles=29 total_cycles=480 elapsed_millis=183638
+guardian_runtime_window_progress=18/100 run_cycles=29 total_cycles=509 elapsed_millis=194237
+guardian_runtime_window_progress=19/100 run_cycles=29 total_cycles=538 elapsed_millis=204827
+guardian_runtime_window_progress=20/100 run_cycles=28 total_cycles=566 elapsed_millis=215259
+guardian_runtime_window_progress=21/100 run_cycles=28 total_cycles=594 elapsed_millis=225758
+guardian_runtime_window_progress=22/100 run_cycles=29 total_cycles=623 elapsed_millis=236266
+guardian_runtime_window_progress=23/100 run_cycles=29 total_cycles=652 elapsed_millis=246958
+guardian_runtime_window_progress=24/100 run_cycles=29 total_cycles=681 elapsed_millis=257628
+guardian_runtime_window_progress=25/100 run_cycles=28 total_cycles=709 elapsed_millis=268068
+guardian_runtime_window_progress=26/100 run_cycles=28 total_cycles=737 elapsed_millis=278628
+guardian_runtime_window_progress=27/100 run_cycles=29 total_cycles=766 elapsed_millis=289277
+guardian_runtime_window_progress=28/100 run_cycles=29 total_cycles=795 elapsed_millis=299908
+guardian_runtime_window_progress=29/100 run_cycles=28 total_cycles=823 elapsed_millis=310317
+guardian_runtime_window_progress=30/100 run_cycles=28 total_cycles=851 elapsed_millis=320897
+guardian_runtime_window_progress=31/100 run_cycles=28 total_cycles=879 elapsed_millis=331387
+guardian_runtime_window_progress=32/100 run_cycles=29 total_cycles=908 elapsed_millis=342188
+guardian_runtime_window_progress=33/100 run_cycles=28 total_cycles=936 elapsed_millis=352798
+guardian_runtime_window_progress=34/100 run_cycles=28 total_cycles=964 elapsed_millis=363137
+guardian_runtime_window_progress=35/100 run_cycles=28 total_cycles=992 elapsed_millis=373638
+guardian_runtime_window_progress=36/100 run_cycles=29 total_cycles=1021 elapsed_millis=384318
+guardian_runtime_window_progress=37/100 run_cycles=29 total_cycles=1050 elapsed_millis=394868
+guardian_runtime_window_progress=38/100 run_cycles=29 total_cycles=1079 elapsed_millis=405467
+guardian_runtime_window_progress=39/100 run_cycles=29 total_cycles=1108 elapsed_millis=415917
+guardian_runtime_window_progress=40/100 run_cycles=29 total_cycles=1137 elapsed_millis=426558
+guardian_runtime_window_progress=41/100 run_cycles=28 total_cycles=1165 elapsed_millis=436947
+guardian_runtime_window_progress=42/100 run_cycles=29 total_cycles=1194 elapsed_millis=447458
+guardian_runtime_window_progress=43/100 run_cycles=28 total_cycles=1222 elapsed_millis=458068
+guardian_runtime_window_progress=44/100 run_cycles=29 total_cycles=1251 elapsed_millis=468688
+guardian_runtime_window_progress=45/100 run_cycles=29 total_cycles=1280 elapsed_millis=479148
+guardian_runtime_window_progress=46/100 run_cycles=29 total_cycles=1309 elapsed_millis=489718
+guardian_runtime_window_progress=47/100 run_cycles=28 total_cycles=1337 elapsed_millis=500078
+guardian_runtime_window_progress=48/100 run_cycles=29 total_cycles=1366 elapsed_millis=510788
+guardian_runtime_window_progress=49/100 run_cycles=29 total_cycles=1395 elapsed_millis=521548
+guardian_runtime_window_progress=50/100 run_cycles=29 total_cycles=1424 elapsed_millis=532118
+guardian_runtime_window_progress=51/100 run_cycles=28 total_cycles=1452 elapsed_millis=542667
+guardian_runtime_window_progress=52/100 run_cycles=28 total_cycles=1480 elapsed_millis=553097
+guardian_runtime_window_progress=53/100 run_cycles=29 total_cycles=1509 elapsed_millis=563738
+guardian_runtime_window_progress=54/100 run_cycles=29 total_cycles=1538 elapsed_millis=574327
+guardian_runtime_window_progress=55/100 run_cycles=29 total_cycles=1567 elapsed_millis=584967
+guardian_runtime_window_progress=56/100 run_cycles=28 total_cycles=1595 elapsed_millis=595388
+guardian_runtime_window_progress=57/100 run_cycles=34 total_cycles=1629 elapsed_millis=605855
+guardian_runtime_window_progress=58/100 run_cycles=36 total_cycles=1665 elapsed_millis=616218
+guardian_runtime_window_progress=59/100 run_cycles=36 total_cycles=1701 elapsed_millis=626514
+guardian_runtime_window_progress=60/100 run_cycles=36 total_cycles=1737 elapsed_millis=636834
+guardian_runtime_window_progress=61/100 run_cycles=36 total_cycles=1773 elapsed_millis=647124
+guardian_runtime_window_progress=62/100 run_cycles=36 total_cycles=1809 elapsed_millis=657455
+guardian_runtime_window_progress=63/100 run_cycles=36 total_cycles=1845 elapsed_millis=667904
+guardian_runtime_window_progress=64/100 run_cycles=36 total_cycles=1881 elapsed_millis=678252
+guardian_runtime_window_progress=65/100 run_cycles=36 total_cycles=1917 elapsed_millis=688615
+guardian_runtime_window_progress=66/100 run_cycles=36 total_cycles=1953 elapsed_millis=698927
+guardian_runtime_window_progress=67/100 run_cycles=36 total_cycles=1989 elapsed_millis=709277
+guardian_runtime_window_progress=68/100 run_cycles=36 total_cycles=2025 elapsed_millis=719601
+guardian_runtime_window_progress=69/100 run_cycles=36 total_cycles=2061 elapsed_millis=729916
+guardian_runtime_window_progress=70/100 run_cycles=36 total_cycles=2097 elapsed_millis=740233
+guardian_runtime_window_progress=71/100 run_cycles=36 total_cycles=2133 elapsed_millis=750547
+guardian_runtime_window_progress=72/100 run_cycles=36 total_cycles=2169 elapsed_millis=760849
+guardian_runtime_window_progress=73/100 run_cycles=36 total_cycles=2205 elapsed_millis=771170
+guardian_runtime_window_progress=74/100 run_cycles=36 total_cycles=2241 elapsed_millis=781560
+guardian_runtime_window_progress=75/100 run_cycles=36 total_cycles=2277 elapsed_millis=791889
+guardian_runtime_window_progress=76/100 run_cycles=36 total_cycles=2313 elapsed_millis=802204
+guardian_runtime_window_progress=77/100 run_cycles=36 total_cycles=2349 elapsed_millis=812556
+guardian_runtime_window_progress=78/100 run_cycles=36 total_cycles=2385 elapsed_millis=822879
+guardian_runtime_window_progress=79/100 run_cycles=36 total_cycles=2421 elapsed_millis=833194
+guardian_runtime_window_progress=80/100 run_cycles=36 total_cycles=2457 elapsed_millis=843520
+guardian_runtime_window_progress=81/100 run_cycles=36 total_cycles=2493 elapsed_millis=853853
+guardian_runtime_window_progress=82/100 run_cycles=36 total_cycles=2529 elapsed_millis=864208
+guardian_runtime_window_progress=83/100 run_cycles=36 total_cycles=2565 elapsed_millis=874539
+guardian_runtime_window_progress=84/100 run_cycles=36 total_cycles=2601 elapsed_millis=884932
+guardian_runtime_window_progress=85/100 run_cycles=36 total_cycles=2637 elapsed_millis=895256
+guardian_runtime_window_progress=86/100 run_cycles=36 total_cycles=2673 elapsed_millis=905595
+guardian_runtime_window_progress=87/100 run_cycles=36 total_cycles=2709 elapsed_millis=915921
+guardian_runtime_window_progress=88/100 run_cycles=36 total_cycles=2745 elapsed_millis=926381
+guardian_runtime_window_progress=89/100 run_cycles=36 total_cycles=2781 elapsed_millis=936720
+guardian_runtime_window_progress=90/100 run_cycles=36 total_cycles=2817 elapsed_millis=947134
+guardian_runtime_window_progress=91/100 run_cycles=36 total_cycles=2853 elapsed_millis=957474
+guardian_runtime_window_progress=92/100 run_cycles=36 total_cycles=2889 elapsed_millis=967811
+guardian_runtime_window_progress=93/100 run_cycles=36 total_cycles=2925 elapsed_millis=978173
+guardian_runtime_window_progress=94/100 run_cycles=36 total_cycles=2961 elapsed_millis=988526
+guardian_runtime_window_progress=95/100 run_cycles=36 total_cycles=2997 elapsed_millis=998873
+guardian_runtime_window_progress=96/100 run_cycles=36 total_cycles=3033 elapsed_millis=1009227
+guardian_runtime_window_progress=97/100 run_cycles=36 total_cycles=3069 elapsed_millis=1019641
+guardian_runtime_window_progress=98/100 run_cycles=36 total_cycles=3105 elapsed_millis=1029999
+guardian_runtime_window_progress=99/100 run_cycles=36 total_cycles=3141 elapsed_millis=1040369
+guardian_runtime_window_progress=100/100 run_cycles=36 total_cycles=3177 elapsed_millis=1050735
+2026-08-07T21:07:01Z stage=write_builder_summary

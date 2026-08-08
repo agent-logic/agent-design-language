@@ -1,0 +1,309 @@
+{
+  "schema": "adl.runtime_guardian_native_receipts.v3",
+  "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+  "receipts": [
+    {
+      "platform": "macos",
+      "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+      "runner": {
+        "provider": "local-native",
+        "run_id": "adl-wp-5820-macos-stress-20260807",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "0fa447bfedcc1ba5d76cf5d6101ca477641113bbeb879945b3e6e2f5b86dfc98"
+      },
+      "command": {
+        "argv": [
+          "bash",
+          "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+          "--suite",
+          "stress_100x10s"
+        ],
+        "exit_code": 0,
+        "stdout_path": ".csdlc/evidence/5820/native/macos/command.stdout.log",
+        "stdout_sha256": "39814392edd63d27048ffca5ceccb3df95cd8915e4799fb17772b4f295224826",
+        "stderr_path": ".csdlc/evidence/5820/native/macos/command.stderr.log",
+        "stderr_sha256": "2f276528f9cd049567b2d6f8f6993ced1946ec0e759ee6189fb6b7875fd3b080"
+      },
+      "artifacts": [
+        {
+          "role": "guardian_binary",
+          "path": ".csdlc/evidence/5820/native/macos/adl-runtime-guardian.gz",
+          "sha256": "4012be0a291e8bc5a229f876bc6ab7ccf1885ba813dc8f550be6a9f1aa98245b",
+          "compression": "gzip",
+          "content_sha256": "ca9c906ec39b8c5d94306c48ed7a14feb08f9978a9462f3415d29e6f5da19f80"
+        },
+        {
+          "role": "kernel_binary",
+          "path": ".csdlc/evidence/5820/native/macos/adl-runtime-kernel.gz",
+          "sha256": "0d3f47b721851b8e02fcb454ef3f2e9ab0bbd159974552d51f7fb8b4ae504716",
+          "compression": "gzip",
+          "content_sha256": "fefa6151e3701ae26290e22ee57ce7c0aa26b29161be110681306b9a9fd9a453"
+        },
+        {
+          "role": "canonical_init",
+          "path": ".csdlc/evidence/5820/native/macos/runtime-init.toml",
+          "sha256": "2c3718a7aa1d0a49c5dbf7c181b6e9ed668a732d2bbea6bb20d393fcbc6634e4"
+        },
+        {
+          "role": "https_transcript",
+          "path": ".csdlc/evidence/5820/native/macos/https-transcript.json",
+          "sha256": "cd407be529525153721d68cb6da6557e1c8f530190969663a4827f0f7ca8dc8d"
+        },
+        {
+          "role": "wss_transcript",
+          "path": ".csdlc/evidence/5820/native/macos/wss-transcript.json",
+          "sha256": "2903c95ba21c66212e72929ef6a881a7b1d03447c26dfa3eaf4ba7774a1eb5f0"
+        },
+        {
+          "role": "lifecycle_report",
+          "path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        },
+        {
+          "role": "lifecycle_component_report",
+          "path": ".csdlc/evidence/5820/native/macos/lifecycle-component-report.json",
+          "sha256": "bedebab7e6a95456f943ad186009f3fb0be40d8a30bacebda703eaf64e9bbb7d"
+        },
+        {
+          "role": "runner_provenance",
+          "path": ".csdlc/evidence/5820/native/macos/runner-provenance.json",
+          "sha256": "0fa447bfedcc1ba5d76cf5d6101ca477641113bbeb879945b3e6e2f5b86dfc98"
+        }
+      ],
+      "assertions": [
+        {
+          "name": "guardian_launched",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "evidence_sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        },
+        {
+          "name": "kernel_ready",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "evidence_sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        },
+        {
+          "name": "authenticated_https",
+          "result": "passed",
+          "evidence_role": "https_transcript",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/https-transcript.json",
+          "evidence_sha256": "cd407be529525153721d68cb6da6557e1c8f530190969663a4827f0f7ca8dc8d"
+        },
+        {
+          "name": "authenticated_wss",
+          "result": "passed",
+          "evidence_role": "wss_transcript",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/wss-transcript.json",
+          "evidence_sha256": "2903c95ba21c66212e72929ef6a881a7b1d03447c26dfa3eaf4ba7774a1eb5f0"
+        },
+        {
+          "name": "child_killed",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "evidence_sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        },
+        {
+          "name": "bounded_restart",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "evidence_sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        },
+        {
+          "name": "state_preserved",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "evidence_sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        },
+        {
+          "name": "clean_shutdown",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "evidence_sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        },
+        {
+          "name": "clean_logs",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/macos/lifecycle-proof.json",
+          "evidence_sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
+        }
+      ]
+    },
+    {
+      "platform": "linux",
+      "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+      "runner": {
+        "provider": "aws-spot",
+        "run_id": "adl-wp-5820-linux-stress-20260807-2345",
+        "os": "linux",
+        "arch": "x86_64",
+        "identity_sha256": "3cc1eaba7f349f56cdbde949d69747651dfd5c1613116df63da5f2542340d38b"
+      },
+      "command": {
+        "argv": [
+          "bash",
+          "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+          "--suite",
+          "stress_100x10s"
+        ],
+        "exit_code": 0,
+        "stdout_path": ".csdlc/evidence/5820/native/linux/command.stdout.log",
+        "stdout_sha256": "3e9f07476343bf57ca058a6335e845f1acd79357f8a15d93728f14256ff6a5d8",
+        "stderr_path": ".csdlc/evidence/5820/native/linux/command.stderr.log",
+        "stderr_sha256": "117ce2944237cd07c9ecd11548ca693c36671aac5c3d60b531692a92de0aa070"
+      },
+      "artifacts": [
+        {
+          "role": "guardian_binary",
+          "chunks": [
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-00", "sha256": "d15b459637c5a05d9c1ff483bd4250941ef0e15ac34a95f35a2150cfca3ca2bd"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-01", "sha256": "959385a89d35e545fbb567844eee727ff9983caab332e1f83594066900a8ef51"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-02", "sha256": "7ce01fb6ee0752716c49623222efc31aedc30b94163d94b6b6a22beb716c606b"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-03", "sha256": "417e6316e6f44552a24032a5c5508b23c8501d51cfaf32ca7a67ba2f197d8006"}
+          ],
+          "sha256": "9ae7b7747c38d068f81287b4309eeaeb0b7b950f40d9dc6f13c7a82a78edc16e",
+          "compression": "gzip",
+          "content_sha256": "1b0bfdc5d5fecf3e456fd9db1f3b3be63e7683f3fc23e5c1fc2096567559cef1"
+        },
+        {
+          "role": "kernel_binary",
+          "chunks": [
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-00", "sha256": "7b4ac3922f2f23c2c942171a602c30bd70bc80311c19c3f7a6e0465736b88e26"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-01", "sha256": "f2be54b775ee7b8cc2183a8844d88129e297ccea93645a6bdad475812c9881b1"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-02", "sha256": "bd1d5ba0c03fa5eae84bc6058f3bc5be0478c64b186dae27845e21fd6d7a54e4"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-03", "sha256": "269d1dedd506ee11a4fcfe5c8b721a2b8fe438bf22ac429d255b7e09f6964772"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-04", "sha256": "adc9cd6371993b2d9e9430dc185b6444145fa3d2c2a632037521c428cf261bf7"}
+          ],
+          "sha256": "de637e13ea10175c1e70f7683ee76c17d08f61a01a56d11986baf6877dca6527",
+          "compression": "gzip",
+          "content_sha256": "4833d3701c0b3afd0aa5bafed5d884fd7881df7425622b51fa5347adceaa15b0"
+        },
+        {
+          "role": "canonical_init",
+          "path": ".csdlc/evidence/5820/native/linux/runtime-init.toml",
+          "sha256": "2c3718a7aa1d0a49c5dbf7c181b6e9ed668a732d2bbea6bb20d393fcbc6634e4"
+        },
+        {
+          "role": "https_transcript",
+          "path": ".csdlc/evidence/5820/native/linux/https-transcript.json",
+          "sha256": "9dde714a464f9c45cabb120fe5b352170370cd5a934e5a0cca367055fb5cc5ad"
+        },
+        {
+          "role": "wss_transcript",
+          "path": ".csdlc/evidence/5820/native/linux/wss-transcript.json",
+          "sha256": "eec6429f807594717048c101299f6a367e9f0a3e596e24e1a989584ea8d98df2"
+        },
+        {
+          "role": "lifecycle_report",
+          "path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "role": "lifecycle_component_report",
+          "path": ".csdlc/evidence/5820/native/linux/lifecycle-component-report.json",
+          "sha256": "412f56541f82fe584fcbfe1aa52c92df9b8fad59be8b873afa5adf9906525615"
+        },
+        {
+          "role": "aws_summary",
+          "path": ".csdlc/evidence/5820/native/linux/aws-summary.json",
+          "sha256": "0f584706371fc85a23e3841d8d21a47cf02ada7881454b55505afcac5b70e39c"
+        },
+        {
+          "role": "volume_deletion_receipt",
+          "path": ".csdlc/evidence/5820/native/linux/volume-deletion-receipt.json",
+          "sha256": "98b8ee4c5a1dc4cde2d086724a25603e4ba7eec8bcdb81e8477360d85b09304b"
+        },
+        {
+          "role": "runner_provenance",
+          "path": ".csdlc/evidence/5820/native/linux/runner-provenance.json",
+          "sha256": "3cc1eaba7f349f56cdbde949d69747651dfd5c1613116df63da5f2542340d38b"
+        }
+      ],
+      "assertions": [
+        {
+          "name": "guardian_launched",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "evidence_sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "name": "kernel_ready",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "evidence_sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "name": "authenticated_https",
+          "result": "passed",
+          "evidence_role": "https_transcript",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/https-transcript.json",
+          "evidence_sha256": "9dde714a464f9c45cabb120fe5b352170370cd5a934e5a0cca367055fb5cc5ad"
+        },
+        {
+          "name": "authenticated_wss",
+          "result": "passed",
+          "evidence_role": "wss_transcript",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/wss-transcript.json",
+          "evidence_sha256": "eec6429f807594717048c101299f6a367e9f0a3e596e24e1a989584ea8d98df2"
+        },
+        {
+          "name": "child_killed",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "evidence_sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "name": "bounded_restart",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "evidence_sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "name": "state_preserved",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "evidence_sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "name": "clean_shutdown",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "evidence_sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "name": "clean_logs",
+          "result": "passed",
+          "evidence_role": "lifecycle_report",
+          "evidence_path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
+          "evidence_sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        }
+      ]
+    }
+  ],
+  "blockers": [
+    {
+      "schema": "adl.runtime_v3.platform_blocker.v1",
+      "platform": "windows",
+      "status": "blocked",
+      "reason": "native_windows_runner_unavailable",
+      "unavailable_authority": "No native Windows execution authority is available to this bounded WP-03 session.",
+      "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+      "evidence_path": ".csdlc/evidence/5820/native/windows/blocker.json",
+      "evidence_sha256": "dc6e74b6f720c0ba869bbef2506e552ac8018e2cff228cff5d7fc66b36c81023"
+    }
+  ]
+}

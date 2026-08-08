@@ -3,12 +3,19 @@
   "issue": 5820,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "50b75585680c7acb7b8f8912ae3704962d8da142da1ef08a64e78dd0fb1f0129",
-  "phase": "initialized",
-  "generation": 33,
-  "digest": "5a5ec12222f1d4b327f56c3081fdfe0136d856202648dd370f667ff00d40c06e",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
+  "phase": "implemented",
+  "generation": 51,
+  "digest": "cd5e0e8bf56a37bc804655a73513d7ab55c4bd9ad99f138e7436f8530d98f9e4",
+  "branch": "codex/5820-v092-runtime-launch-resilience",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience",
+  "review_assignment": {
+    "reviewer": "subagent:Codex-019fdef4",
+    "assigned_by": "codex:5820-runtime-resilience",
+    "revision": "git-blake3:7c63fa8fd53bdb28115d26102645056f4cdc7009:da9ab73c36704785f80b34739124f73ea40b71d827abec2f7087ab9aa825c71b",
+    "scope": [
+      "adl-runtime/src/guardian.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -18,40 +25,40 @@
   "diagram_path": ".csdlc/prepared/issues/5820/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-v092-ownership-design-review",
-      "revision": "b9838dcfa3966a4f8e3bb7482ef7762db50b7ceafbf1d9f0684227e734fd6200"
+      "reviewer": "subagent:Codex-019fdef4",
+      "revision": "e89f529a22d74acd488d3aa5afc69deb4d7150256fad01d7325af9c5547a3ae6"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "58ba1f3e6fd5b982e0cc9f4916b7366797855d08f43457719b16589f52b28532",
+      "values_digest": "af55259017fe53c8853f2c34a6a4b2b001a7fc7f77901a6628dd347bb2444b64",
       "rendered_digest": "822b110b8030f1e2f7820eea7307b907c69c28d2f51c220c8ff9a7b3186618c4",
       "ast_digest": "04364454cada7124a7cda08bc8a36d90667b54ba2d46a986a10cf3e5f8493806"
     },
     "stp": {
-      "values_digest": "33c7dda805d64df268c6db9be571f1a3661fe606ffe0dedb41128d4b4fb9a9f5",
+      "values_digest": "ca3242d0b70629e05f3107388ca81c24542361c8a0f4fe32da16ae270f8430a5",
       "rendered_digest": "42851e4b8c0b2f55ea1c753bba432a5fd8a015ea097b764dd0a8b2bc15eb5b19",
       "ast_digest": "3520e78cac053e9737dcb5cc31ac6407f4e4bc2b0f319992508b9acc0c9903ea"
     },
     "spp": {
-      "values_digest": "4579de043c2fc8541475b4916d1d8c41befb89f60ea82c89cdbfd997567ef94c",
-      "rendered_digest": "77d687ead77842281726b6809fa76d6dfb1b0bb938c1a87bae5bb7a5c2c584e8",
-      "ast_digest": "2d5ca983c8a0dc031f401f7f301559511a8629ee778a2daaa21ced6f2c8366bc"
+      "values_digest": "283fb72d529ccb8600bd6fab8204391802d0f972621f37eec7e3a8a1ad16e8b5",
+      "rendered_digest": "830f029777e61a59f629a51272c733778e79f8990efdcb13340d70a7566658c0",
+      "ast_digest": "d77de48107c54be62d59f595a78143197c90d5d2c507600218e1f54f668cd2d0"
     },
     "vpp": {
-      "values_digest": "13f677b2e9287051886c3e71cd7e60d17ce5bfe2e89a2cf5a8c4ec4e86fe522f",
-      "rendered_digest": "24f3ca2e0516bc776933086d9e51eb1ee80bf5ca00f9bcd3ff6e2b058298ff9b",
-      "ast_digest": "0d3f444a086987559407238874a69b2e32a6ad97cacf7c884fcf92e7a0bd49dc"
+      "values_digest": "c435d0eba7110b2fab268efd832ac7e3c7328985d2dbe33770014921ee744767",
+      "rendered_digest": "b253ed9d2be6b1379ed0da449c8a52dcad3fb1d363a362af9f2a6f9b9f3a832e",
+      "ast_digest": "e1211de6edb84fa246bcb11656858aa429076650bf05328364006f3bb2e421f0"
     },
     "srp": {
-      "values_digest": "3ef81b0b2296f3e2b7d99e7413ec8737502eea622537387b55558af98e196ef9",
-      "rendered_digest": "9c7c37c04789b4430bf9e043b973021fe19d34e483fd88ed7c27b623ce4b1386",
-      "ast_digest": "baacb4d0f1a6b174755fca142e86fb09268a52e9de59d07f4590ac5503b8646e"
+      "values_digest": "0e3910a1f6f7b440fdf7f792455fcc15a0922a813b798b2dad6263d2ddca80f8",
+      "rendered_digest": "3a2d75324fec2d0d028e6a518581c488f0d10105bf1c57a96d4935b6d8bd8326",
+      "ast_digest": "06872181b2cf5595a9b6bb52d6ff37762b33c9dd8b4ed29507f6a17e80b051ab"
     },
     "sor": {
-      "values_digest": "6cfbf8f3303ce14f573d91f703e62097410bf3a555a6be4b763e7d9788a15298",
-      "rendered_digest": "6366dce0988089114b667d0e041ec857a2ae01ffdd5d685b0fe12e96ebc3cfdd",
-      "ast_digest": "ac7fef06771ff91e952fce5af2722151f0fe7a59be4ba8c517a2f57ab786cd25"
+      "values_digest": "dd25cb6822dfbf74bd63055f0a7ed25fa09af90a41fa1b4dd85b7f61c1935459",
+      "rendered_digest": "02351d39e4c85fba727457d7ee109bfcbd0279355cae411bcfdb6aeefe69ffa1",
+      "ast_digest": "5e35bc654974646c2f9d51db3844f3c89021657458072ed6a7958b6f9bc24463"
     }
   },
   "transitions": [
@@ -75,6 +82,62 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:Leibniz",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Committed typed review metadata advanced HEAD after the substantive review; recover for one bounded exact-head lifecycle-metadata review before publication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:Leibniz",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Recover stale review and publication after the final healthy-window correction changed adl-runtime/src/guardian.rs."
     }
   ],
   "audit": [
@@ -406,6 +469,181 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 48,
+      "generation": 33,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 49,
+      "generation": 34,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Align the planned native receipt lane with the hardened issue-owned validator and remove stale execution-result text from validation planning.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-lifecycle-contract\",\"proof_role\":\"Run the exact nonzero production Guardian lifecycle target over init, supervision, restart, durable state, degradation, shutdown, and logs.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"production-guardian-api-wss-restart\",\"proof_role\":\"Launch the production Guardian/kernel and prove authenticated HTTPS/WSS, child kill, bounded restart, durable state, readiness, clean shutdown, and clean logs.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"native-guardian-receipts\",\"proof_role\":\"Recompute digest-bound macOS, Linux, and native Windows production Guardian lifecycle receipts.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"exact-head-review-preflight\",\"proof_role\":\"Reject diff damage before exact-head review and issue-closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 35,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record completed Runtime launch-path audit and ownership narrowing from committed implementation evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 36,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record completed Guardian ownership, bounded lifecycle, and init-validation implementation from committed source and focused tests.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record completed durable restart, degradation, authenticated HTTPS/WSS, shutdown, and logging work from exact production evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 53,
+      "generation": 38,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record native receipt and exact-head pre-publication review work as active without claiming unavailable platform proof or publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 54,
+      "generation": 39,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Align final validation with the exact implemented production path, retained Linux Spot evidence, and the acceptance-authorized named native Windows blocker.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-lifecycle-unit\",\"proof_role\":\"Prove Guardian restart policy, lifecycle aggregation, and nonce-bound pre-restart probe synchronization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--no-default-features\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"production-guardian-api-wss-restart\",\"proof_role\":\"Launch the production Guardian/kernel on macOS and prove authenticated HTTPS/WSS, forced child failure, bounded restart, durable continuity, clean logs, and shutdown.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"],\"parallel_group\":\"runtime-production\",\"defer_reason\":null},{\"lane\":\"linux-spot-runtime-proof\",\"proof_role\":\"Validate the retained exact-head Linux Spot lifecycle result, immutable builder provenance, and verified instance teardown.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\"-c\",\"import json,pathlib; s=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/summary.json').read_text()); w=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/wrapper-final-summary.json').read_text()); assert s['status']=='passed' and s['remote_summary']['resolved_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and s['cleanup']['final_instance_state']=='terminated' and s['launch']['purchase_option']=='spot'; assert w['status']=='passed' and w['source_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and w['self_verification']['compute_teardown_verified'] is True; print('PASS: exact-head Linux Spot Guardian lifecycle and teardown evidence')\"],\"parallel_group\":\"platform-evidence\",\"defer_reason\":null},{\"lane\":\"native-windows-blocker\",\"proof_role\":\"Retain the acceptance-authorized named blocker that no native Windows execution authority is available in this bounded issue session; do not claim Windows lifecycle proof.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"python3\",\"-c\",\"import json; print(json.dumps({'schema':'adl.runtime_v3.platform_blocker.v1','platform':'windows','status':'blocked','reason':'native_windows_runner_unavailable','source_revision':'2faa7c0ddda8e12e452d7be4b309aeb86c10f69d'},sort_keys=True))\"],\"parallel_group\":\"platform-evidence\",\"defer_reason\":null},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject whitespace damage before exact-head review and issue-closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 55,
+      "generation": 40,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 56,
+      "generation": 40,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 41,
+      "actor": "subagent:Leibniz",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 42,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Replace preflight-only platform checks with acceptance-eligible stress execution and digest-complete native receipt recomputation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-lifecycle-unit\",\"proof_role\":\"Prove Guardian restart policy, lifecycle aggregation, and nonce-bound pre-restart probe synchronization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--no-default-features\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"production-guardian-macos-stress\",\"proof_role\":\"Run 100 ten-second production Guardian windows on macOS and prove authenticated HTTPS/WSS, forced child failure, bounded restart, durable continuity, clean logs, and shutdown.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"stress_100x10s\"],\"parallel_group\":\"runtime-production\",\"defer_reason\":null},{\"lane\":\"native-platform-receipts\",\"proof_role\":\"Recompute exact-head digest bindings for the acceptance-eligible macOS and Linux production artifacts and retain the acceptance-authorized native Windows blocker as blocked evidence, never as a pass.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\".csdlc/evidence/5820/runtime-native-receipts.json\"],\"parallel_group\":\"platform-evidence\",\"defer_reason\":null},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject whitespace damage before exact-head review and issue-closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 59,
+      "generation": 43,
+      "actor": "codex",
+      "reason": "Replace superseded preflight claims with sustained native acceptance evidence and truthful platform boundaries.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Consolidated Runtime v3 under Guardian ownership and proved sustained bounded recovery, durable continuity, authenticated HTTPS/WSS, exact artifact identity, and complete task-owned AWS teardown on native macOS and Linux at product revision 0dfd6c26084b20528e805aa570b2d6b930c42b81. Native Windows remains explicitly blocked and is not claimed as proved.\",\"changes\":[\"Hardened Guardian startup, child ownership, bounded restart, and failure classification around the authoritative runtime init contract.\",\"Added a production lifecycle soak that forces one kernel failure and proves restart, durable generation continuity, authenticated Observatory HTTPS/WSS, clean logging, and clean shutdown.\",\"Made suite eligibility explicit and reconciled acceptance counters so preflight runs cannot be mistaken for sustained acceptance proof.\",\"Added digest-complete native receipt validation for named production Guardian and kernel artifacts, command logs, runtime init, runner provenance, and HTTPS/WSS transcripts.\",\"Removed non-portable process-substitution from the AWS Spot validation wrapper while retaining direct stdout and stderr evidence.\",\"Recorded tooling-only AWS tail/finalizer defects as new-repository issue #26 and the native receipt denominator defect as new-repository issue #27 without weakening runtime acceptance.\",\"Deleted the task-owned EC2 instance and temporary EBS cache volume after Linux proof; no task-owned compute remains.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/tests/runtime_guardian_lifecycle.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\".csdlc/evidence/5820/runtime-native-receipts.json\",\".csdlc/evidence/5820/native/macos\",\".csdlc/evidence/5820/native/linux\",\".csdlc/evidence/5820/native/windows/blocker.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--no-default-features\"],\"purpose\":\"Prove restart policy, marker safety, nonce pairing, cleanup, and lifecycle invariants across the focused unit surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"10 focused lifecycle tests passed at the final product revision\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"stress_100x10s\"],\"purpose\":\"Prove 100 sustained macOS windows using the production Guardian and kernel with one forced failure, durable continuity, authenticated HTTPS/WSS, and clean shutdown.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5820/native/macos/lifecycle-component-report.json; 100/100 windows, 1954 completed cycles, generation 1954, one restart\"},{\"command\":[\"bash\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"--\",\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"stress_100x10s\"],\"purpose\":\"Prove 100 sustained Linux Spot windows at the exact product revision and verify task-owned compute teardown.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5820/native/linux/lifecycle-component-report.json; .csdlc/evidence/5820/native/linux/aws-summary.json; 100/100 windows, 3177 completed cycles, generation 3177, one restart; instance terminated and temporary volume deleted\"},{\"command\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\".csdlc/evidence/5820/runtime-native-receipts.json\"],\"purpose\":\"Verify digest-complete macOS and Linux production artifacts, logs, transcripts, runtime init, and runner provenance against the exact product proof revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5820/runtime-native-receipts.json\"},{\"command\":[\"native-windows-runner\"],\"purpose\":\"Retain the explicit fail-closed Windows platform boundary without claiming native proof that was not run.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/5820/native/windows/blocker.json\"},{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\"],\"purpose\":\"Prove the AWS wrapper retains stdout and stderr without relying on non-portable process substitution.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused AWS wrapper regression passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace damage before exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\"final worktree hygiene check\"}]}"
+    },
+    {
+      "sequence": 60,
+      "generation": 43,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 44,
+      "actor": "codex",
+      "reason": "Replace superseded preflight claims with sustained native acceptance evidence and truthful platform boundaries.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Consolidated Runtime v3 under Guardian ownership and proved sustained bounded recovery, durable continuity, authenticated HTTPS/WSS, exact artifact identity, and complete task-owned AWS teardown on native macOS and Linux at product revision 0dfd6c26084b20528e805aa570b2d6b930c42b81. Native Windows remains explicitly blocked and is not claimed as proved.\",\"changes\":[\"Hardened Guardian startup, child ownership, bounded restart, and failure classification around the authoritative runtime init contract.\",\"Added a production lifecycle soak that forces one kernel failure and proves restart, durable generation continuity, authenticated Observatory HTTPS/WSS, clean logging, and clean shutdown.\",\"Made suite eligibility explicit and reconciled acceptance counters so preflight runs cannot be mistaken for sustained acceptance proof.\",\"Added digest-complete native receipt validation for named production Guardian and kernel artifacts, command logs, runtime init, runner provenance, and HTTPS/WSS transcripts.\",\"Removed non-portable process-substitution from the AWS Spot validation wrapper while retaining direct stdout and stderr evidence.\",\"Recorded tooling-only AWS tail/finalizer defects as new-repository issue #26 and the native receipt denominator defect as new-repository issue #27 without weakening runtime acceptance.\",\"Deleted the task-owned EC2 instance and temporary EBS cache volume after Linux proof; no task-owned compute remains.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/tests/runtime_guardian_lifecycle.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\".csdlc/evidence/5820/runtime-native-receipts.json\",\".csdlc/evidence/5820/native/macos\",\".csdlc/evidence/5820/native/linux\",\".csdlc/evidence/5820/native/linux/volume-deletion-receipt.json\",\".csdlc/evidence/5820/native/windows/blocker.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--no-default-features\"],\"purpose\":\"Prove restart policy, marker safety, nonce pairing, cleanup, and lifecycle invariants across the focused unit surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"10 focused lifecycle tests passed at the final product revision\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"stress_100x10s\"],\"purpose\":\"Prove 100 sustained macOS windows using the production Guardian and kernel with one forced failure, durable continuity, authenticated HTTPS/WSS, and clean shutdown.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5820/native/macos/lifecycle-component-report.json; 100/100 windows, 1954 completed cycles, generation 1954, one restart\"},{\"command\":[\"bash\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"--\",\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"stress_100x10s\"],\"purpose\":\"Prove 100 sustained Linux Spot windows at the exact product revision and verify task-owned compute teardown.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5820/native/linux/lifecycle-component-report.json; .csdlc/evidence/5820/native/linux/aws-summary.json; .csdlc/evidence/5820/native/linux/volume-deletion-receipt.json; 100/100 windows, 3177 completed cycles, generation 3177, one restart; instance terminated and temporary volume deletion verified by InvalidVolume.NotFound\"},{\"command\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\".csdlc/evidence/5820/runtime-native-receipts.json\"],\"purpose\":\"Verify digest-complete macOS and Linux production artifacts, logs, transcripts, runtime init, and runner provenance against the exact product proof revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5820/runtime-native-receipts.json\"},{\"command\":[\"native-windows-runner\"],\"purpose\":\"Retain the explicit fail-closed Windows platform boundary without claiming native proof that was not run.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/5820/native/windows/blocker.json\"},{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\"],\"purpose\":\"Prove the AWS wrapper retains stdout and stderr without relying on non-portable process substitution.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused AWS wrapper regression passed\"},{\"command\":[\"bash\",\"adl/tools/test_validate_v092_runtime_native_receipts.sh\"],\"purpose\":\"Prove exact-final-head receipt closure while rejecting any post-proof runtime product change.\",\"outcome\":\"passed\",\"evidence_ref\":\"final-head native receipt closure passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace damage before exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\"final worktree hygiene check\"}]}"
+    },
+    {
+      "sequence": 62,
+      "generation": 44,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 44,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 45,
+      "actor": "subagent:Leibniz",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 46,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Committed typed review metadata advanced HEAD after the substantive review; recover for one bounded exact-head lifecycle-metadata review before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 66,
+      "generation": 46,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 47,
+      "actor": "subagent:Leibniz",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 48,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 69,
+      "generation": 49,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Recover stale review and publication after the final healthy-window correction changed adl-runtime/src/guardian.rs.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 49,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 50,
+      "actor": "subagent:Codex-019fdef4",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 72,
+      "generation": 51,
+      "actor": "codex:5820-review-remediation",
+      "reason": "Reconcile the implemented and validating path set identified by exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/src/shutdown.rs\",\"adl-runtime/src/supervision.rs\",\"adl-runtime/src/resident_agent.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/supervisor.rs\",\"infra/runtime-v3/runtime-init.toml\",\"adl-runtime/tests/runtime_guardian_lifecycle.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_validate_v092_runtime_native_receipts.sh\"]}"
     }
   ]
 }

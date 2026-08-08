@@ -594,6 +594,22 @@ pub struct RuntimeShutdownInitConfig {
 
 impl RuntimeShutdownInitConfig {
     fn validate(&self) -> Result<(), RuntimeInitError> {
+        self.guardian_budgets().map(|_| ())
+    }
+
+    pub fn guardian_budgets(&self) -> Result<(u64, u64), RuntimeInitError> {
+        let child_budget = self
+            .checkpoint_deadline_millis
+            .checked_add(self.kernel_grace_millis)
+            .and_then(|total| total.checked_add(self.api_drain_millis))
+            .ok_or_else(|| {
+                RuntimeInitError::Policy("shutdown child budget overflows u64".to_owned())
+            })?;
+        let total_budget = child_budget
+            .checked_add(self.guardian_margin_millis)
+            .ok_or_else(|| {
+                RuntimeInitError::Policy("guardian shutdown budget overflows u64".to_owned())
+            })?;
         for (field, value) in [
             (
                 "shutdown.checkpoint_deadline_millis",
@@ -608,7 +624,72 @@ impl RuntimeShutdownInitConfig {
         ] {
             validate_bounded_millis(field, value)?;
         }
-        Ok(())
+        if child_budget > MAX_RUNTIME_INIT_MILLIS {
+            return Err(RuntimeInitError::Policy(format!(
+                "shutdown child budget must not exceed {MAX_RUNTIME_INIT_MILLIS}"
+            )));
+        }
+        if total_budget > MAX_RUNTIME_INIT_MILLIS {
+            return Err(RuntimeInitError::Policy(format!(
+                "guardian shutdown budget must not exceed {MAX_RUNTIME_INIT_MILLIS}"
+            )));
+        }
+        Ok((child_budget, total_budget))
+    }
+}
+
+#[cfg(test)]
+mod shutdown_policy_tests {
+    use super::*;
+
+    fn shutdown(
+        checkpoint_deadline_millis: u64,
+        kernel_grace_millis: u64,
+        api_drain_millis: u64,
+        guardian_margin_millis: u64,
+    ) -> RuntimeShutdownInitConfig {
+        RuntimeShutdownInitConfig {
+            checkpoint_deadline_millis,
+            kernel_grace_millis,
+            api_drain_millis,
+            guardian_margin_millis,
+        }
+    }
+
+    #[test]
+    fn aggregate_shutdown_policy_enforces_boundary_and_overflow() {
+        assert_eq!(
+            shutdown(599_997, 1, 1, 1).guardian_budgets(),
+            Ok((599_999, 600_000))
+        );
+
+        for (policy, expected) in [
+            (
+                shutdown(599_998, 1, 1, 1),
+                "guardian shutdown budget must not exceed 600000",
+            ),
+            (
+                shutdown(599_999, 1, 1, 1),
+                "shutdown child budget must not exceed 600000",
+            ),
+            (
+                shutdown(0, 1, 1, 1),
+                "shutdown.checkpoint_deadline_millis must be between 1 and 600000",
+            ),
+            (
+                shutdown(u64::MAX, 1, 1, 1),
+                "shutdown child budget overflows u64",
+            ),
+            (
+                shutdown(1, 1, 1, u64::MAX),
+                "guardian shutdown budget overflows u64",
+            ),
+        ] {
+            assert_eq!(
+                policy.guardian_budgets(),
+                Err(RuntimeInitError::Policy(expected.to_owned()))
+            );
+        }
     }
 }
 
@@ -663,7 +744,7 @@ impl RuntimeGuardianInitConfig {
         }
         if self.configuration_exit_codes.is_empty()
             || self.configuration_exit_codes.len() > MAX_GUARDIAN_CONFIGURATION_EXIT_CODES
-            || self.configuration_exit_codes.iter().any(|code| *code < 0)
+            || self.configuration_exit_codes.iter().any(|code| *code <= 0)
         {
             return Err(RuntimeInitError::Policy(
                 "guardian.configuration_exit_codes must be a non-empty bounded list of positive exit codes".to_owned(),
