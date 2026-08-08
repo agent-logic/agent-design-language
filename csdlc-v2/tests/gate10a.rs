@@ -86,6 +86,46 @@ fn current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper() {
 }
 
 #[test]
+fn retired_csdlc_migrate_is_absent_from_active_authority() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let manifest = SkillManifest::load().unwrap();
+    let inventory = CoexistenceInventory::load().unwrap();
+    assert!(!manifest.required_binaries().contains("csdlc-migrate"));
+    assert!(!inventory
+        .required_v2_binaries
+        .iter()
+        .any(|name| name == "csdlc-migrate"));
+
+    let active_authority = [
+        "csdlc-v2/Cargo.toml",
+        "csdlc-v2/operator/coexistence.json",
+        "csdlc-v2/operator/skills.json",
+        "csdlc-v2/src/operator.rs",
+        "csdlc-v2/src/proof.rs",
+        "csdlc-v2/src/bin/csdlc-install.rs",
+        "adl/tools/install_owner_binaries.sh",
+        "docs/default_workflow.md",
+        "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+        "docs/tooling/README.md",
+    ];
+    for relative in active_authority {
+        let text = fs::read_to_string(repo.join(relative)).unwrap();
+        assert!(
+            !text.contains("csdlc-migrate"),
+            "active authority retains retired csdlc-migrate route: {relative}"
+        );
+    }
+    for skill in &manifest.skills {
+        let relative = format!("csdlc-v2/operator/skills/{}/SKILL.md", skill.name);
+        let text = fs::read_to_string(repo.join(&relative)).unwrap();
+        assert!(
+            !text.contains("csdlc-migrate"),
+            "active skill retains retired csdlc-migrate route: {relative}"
+        );
+    }
+}
+
+#[test]
 fn current_guidance_guard_rejects_exact_former_wrapper_command() {
     let former = "Run `bash ./adl/tools/pr.sh run 42`; pr.sh remains the default.";
     assert!(!current_guidance_is_v2_only(former, &[]));
@@ -430,6 +470,180 @@ fn freshly_installed_stable_edit_binary_is_executable() {
     let reapproved = store.load_record(42).unwrap();
     assert_eq!(reapproved.phase, LifecyclePhase::Implemented);
     assert_eq!(reapproved.generation, implemented.generation + 1);
+}
+
+#[test]
+fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let parent = tempfile::tempdir().unwrap();
+    let destination = parent.path().join("csdlc-v2");
+    let cargo_target = parent.path().join("cargo-target");
+    fs::create_dir_all(&cargo_target).unwrap();
+    let cargo_target = fs::canonicalize(cargo_target).unwrap();
+    let install = Command::new(env!("CARGO_BIN_EXE_csdlc-install"))
+        .args(["install", "--repo"])
+        .arg(&repo)
+        .arg("--destination")
+        .arg(&destination)
+        .env("CARGO_TARGET_DIR", &cargo_target)
+        .output()
+        .unwrap();
+    assert!(
+        install.status.success(),
+        "exact-revision install failed: {}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    let receipt: csdlc_v2::InstallReceipt = serde_json::from_slice(&install.stdout).unwrap();
+    let source_revision = Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(&repo)
+        .output()
+        .unwrap();
+    assert!(source_revision.status.success());
+    assert_eq!(
+        receipt.source_revision,
+        format!(
+            "git:{}",
+            String::from_utf8(source_revision.stdout).unwrap().trim()
+        )
+    );
+    let coexistence =
+        verify_coexistence(&repo, &destination, &CoexistenceInventory::load().unwrap()).unwrap();
+    assert!(coexistence.pass);
+    assert!(coexistence.missing_v2_binaries.is_empty());
+    assert!(coexistence.present_forbidden_v1_paths.is_empty());
+    assert!(!destination.join("csdlc-migrate").exists());
+
+    let temp = tempfile::tempdir().unwrap();
+    let fixture = temp.path().join("repo");
+    let worktree = temp.path().join("worktrees/issue-42");
+    fs::create_dir_all(fixture.join("docs")).unwrap();
+    fs::write(fixture.join("docs/design.md"), "# Reviewed design\n").unwrap();
+    fs::write(
+        fixture.join("docs/diagram.mmd"),
+        "flowchart LR\n  Create --> Bind\n",
+    )
+    .unwrap();
+    fs::write(
+        fixture.join("docs/validate.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\ntest -f docs/design.md\n",
+    )
+    .unwrap();
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        fs::set_permissions(
+            fixture.join("docs/validate.sh"),
+            fs::Permissions::from_mode(0o755),
+        )
+        .unwrap();
+    }
+    install_native_authority(&fixture);
+    fs::write(
+        fixture.join("csdlc-v2/operator/generation-selector.json"),
+        include_bytes!("../operator/generation-selector.json"),
+    )
+    .unwrap();
+
+    git(&fixture, &["init", "-b", "main"]);
+    git(&fixture, &["config", "user.email", "test@example.invalid"]);
+    git(&fixture, &["config", "user.name", "C-SDLC Test"]);
+    git(
+        &fixture,
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/example/repo.git",
+        ],
+    );
+    git(&fixture, &["add", "."]);
+    git(&fixture, &["commit", "-m", "fixture"]);
+
+    let create_request = temp.path().join("create.json");
+    fs::write(
+        &create_request,
+        serde_json::to_vec_pretty(&bootstrap_request()).unwrap(),
+    )
+    .unwrap();
+    let create = Command::new(destination.join("csdlc-issue"))
+        .args(["--root", fixture.to_str().unwrap(), "create", "--request"])
+        .arg(&create_request)
+        .output()
+        .unwrap();
+    assert!(
+        create.status.success(),
+        "installed create failed: {}",
+        String::from_utf8_lossy(&create.stderr)
+    );
+    assert!(!String::from_utf8_lossy(&create.stdout).contains("claim"));
+
+    let validate = Command::new(destination.join("csdlc-validate"))
+        .args([
+            "--root",
+            fixture.to_str().unwrap(),
+            "issue",
+            "--issue",
+            "42",
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        validate.status.success(),
+        "installed validate failed: {}",
+        String::from_utf8_lossy(&validate.stderr)
+    );
+    let doctor = Command::new(destination.join("csdlc-doctor"))
+        .args(["--repo", fixture.to_str().unwrap(), "--issue", "42"])
+        .output()
+        .unwrap();
+    assert!(
+        doctor.status.success(),
+        "installed doctor failed: {}",
+        String::from_utf8_lossy(&doctor.stderr)
+    );
+
+    let resolve = Command::new(destination.join("csdlc-install"))
+        .args([
+            "resolve",
+            "--repo",
+            fixture.to_str().unwrap(),
+            "--issue",
+            "42",
+        ])
+        .output()
+        .unwrap();
+    assert!(resolve.status.success());
+    assert!(String::from_utf8_lossy(&resolve.stdout).contains("v2"));
+
+    let bind_request = temp.path().join("bind.json");
+    fs::write(
+        &bind_request,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "base_branch": "main",
+            "branch": "issue-42",
+            "worktree": worktree,
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let bind = Command::new(destination.join("csdlc-bind"))
+        .args(["--root", fixture.to_str().unwrap(), "--request"])
+        .arg(&bind_request)
+        .output()
+        .unwrap();
+    assert!(
+        bind.status.success(),
+        "installed bind failed: {}",
+        String::from_utf8_lossy(&bind.stderr)
+    );
+    assert!(String::from_utf8_lossy(&bind.stdout).contains("\"created\":true"));
+    assert!(worktree.join(".csdlc/issues/42/index.json").is_file());
+    git(
+        &fixture,
+        &["worktree", "remove", "--force", worktree.to_str().unwrap()],
+    );
 }
 
 fn install_native_authority(root: &std::path::Path) {

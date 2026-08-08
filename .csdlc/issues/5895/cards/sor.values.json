@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5895,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority",
+    "slug": "retire-csdlc-migrate-installer",
+    "version": "backlog",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Proved that the retired csdlc-migrate binary is absent from active authority and that a freshly installed v2 generation completes the claim-free create, validate, doctor, resolve, and bind lifecycle.",
+      "actual_changes": [
+        "Added a focused negative guard over active manifests, coexistence authority, skills, and runbooks so csdlc-migrate cannot reappear.",
+        "Added an isolated installed-generation lifecycle canary that proves the stable binaries operate without csdlc-migrate."
+      ],
+      "artifacts": [
+        "csdlc-v2/tests/gate10a.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate10a"
+          ],
+          "purpose": "Prove active inventory excludes csdlc-migrate and a freshly installed generation runs the claim-free lifecycle.",
+          "outcome": "passed",
+          "evidence_ref": "local:gate10a:18-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "purpose": "Prove claim-free create, validate, doctor, and bind semantics independently.",
+          "outcome": "passed",
+          "evidence_ref": "local:gate2:1-passed"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

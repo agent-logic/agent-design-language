@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5895,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority",
+    "slug": "retire-csdlc-migrate-installer",
+    "version": "backlog",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/tests/gate10a.rs\n.csdlc/issues/5895\n.csdlc/prepared/issues/5895",
+      "review_revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
+      "reviewer": "subagent:review_5895_implementation",
+      "review_prompts": [
+        "Is every remaining csdlc-migrate reference non-authoritative or an explicit negative guard?",
+        "Does the proof use the installed current generation rather than Cargo output?",
+        "Was a no-code outcome chosen if the current tree already meets acceptance?"
+      ],
+      "findings": [
+        {
+          "id": "5895-R1",
+          "severity": "p1",
+          "summary": "Installed lifecycle canary did not prove exact source provenance or coexistence.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
+          "route": null
+        },
+        {
+          "id": "5895-R2",
+          "severity": "p2",
+          "summary": "Negative guard omitted active operator skill and installer/proof authority surfaces.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Split issue/code repository doctor validation remains tracked separately as agent-logic/agent-design-language#45."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

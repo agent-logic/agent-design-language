@@ -1,0 +1,6 @@
+{
+  "issue": 5895,
+  "expected_generation": 0,
+  "expected_digest": "0b96148b9912dd76077695761c0eddf3a2f79252f0a3c7b592caafcdc3ed11bf",
+  "reviewer": "codex:5895-readiness-design-review"
+}
