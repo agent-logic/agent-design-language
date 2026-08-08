@@ -1,0 +1,15 @@
+{
+  "issue": 5895,
+  "card": "vpp",
+  "expected_generation": 2,
+  "expected_digest": "3c845e0b431e359510f45c37175a2022f9c284ab90a64114dc160912a8956a52",
+  "actor": "codex:5895-readiness-review-fix",
+  "reason": "Replace nonexistent and non-installed proof commands with full Gate10A installed-generation evidence plus a separate creation-semantics lane.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {"lane":"installed-generation-contract","proof_role":"Run the complete focused Gate10A inventory/provenance suite, including a required test that installs the declared generation into an isolated stable layout and invokes its csdlc-issue, csdlc-validate, csdlc-doctor, and csdlc-bind binaries while proving csdlc-migrate is absent.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":4200,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate10a"],"parallel_group":"installed","defer_reason":null},
+      {"lane":"creation-semantics","proof_role":"Prove claim-free create, validate, doctor, and bind semantics independently of the installed-generation provenance proof.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":240,"budget_tokens":1800,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2"],"parallel_group":"focused","defer_reason":null}
+    ]
+  }
+}

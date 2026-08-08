@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5895,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority",
+    "slug": "retire-csdlc-migrate-installer",
+    "version": "backlog",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Installer/coexistence correctness, provenance, negative guard, and installed lifecycle canary only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is every remaining csdlc-migrate reference non-authoritative or an explicit negative guard?",
+        "Does the proof use the installed current generation rather than Cargo output?",
+        "Was a no-code outcome chosen if the current tree already meets acceptance?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

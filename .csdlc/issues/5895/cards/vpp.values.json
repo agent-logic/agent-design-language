@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5895,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority",
+    "slug": "retire-csdlc-migrate-installer",
+    "version": "backlog",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "installed-generation-contract",
+          "proof_role": "Run the complete focused Gate10A inventory/provenance suite, including a required test that installs the declared generation into an isolated stable layout and invokes its csdlc-issue, csdlc-validate, csdlc-doctor, and csdlc-bind binaries while proving csdlc-migrate is absent.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate10a"
+          ],
+          "parallel_group": "installed",
+          "defer_reason": null
+        },
+        {
+          "lane": "creation-semantics",
+          "proof_role": "Prove claim-free create, validate, doctor, and bind semantics independently of the installed-generation provenance proof.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 240,
+          "budget_tokens": 1800,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on active retired authority, install mismatch, stale selector/provenance, non-installed canary execution, or historical evidence churn.",
+      "design_ref": ".csdlc/prepared/issues/5895/design.md",
+      "design_digest": "2658e02a3e5a3f336825a62bebbc6f5a51ade76603f01ce90c7914a5de24f28c",
+      "diagram_ref": ".csdlc/prepared/issues/5895/diagram.mmd",
+      "diagram_digest": "9b1195f1288c7940cab08b36aedd765356d68df7f9aefa09c915af589137e752"
+    }
+  }
+}

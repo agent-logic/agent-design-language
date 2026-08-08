@@ -1,0 +1,44 @@
+{
+  "issue": 5895,
+  "repository": "danielbaustin/agent-design-language",
+  "actor": "codex:5895-readiness",
+  "design_path": ".csdlc/prepared/issues/5895/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5895/diagram.mmd",
+  "design_reviewer": "codex:5895-readiness-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority",
+    "slug": "retire-csdlc-migrate-installer",
+    "version": "backlog",
+    "goal": "Make the active installer and coexistence authority exactly match the claim-free v1-sunset C-SDLC v2 binary set.",
+    "required_outcome": "Current-main installation succeeds without csdlc-migrate, selector and provenance match the exact source revision, and an installed claim-free lifecycle canary passes; if current main already satisfies this, close with exact evidence and no speculative code.",
+    "declared_scope": ["csdlc-v2/Cargo.toml", "csdlc-v2/operator/coexistence.json", "csdlc-v2/operator/generation-selector.json", "csdlc-v2/src/proof.rs", "csdlc-v2/tests/gate10a.rs", "adl/tools/install_owner_binaries.sh", "docs/tooling"],
+    "authority_boundary": ["Current installer/coexistence/selector/provenance surfaces only", "Historical evidence remains immutable", "Issue authority remains danielbaustin/agent-design-language#5895", "Code PR publication targets agent-logic/agent-design-language", "PR body must use Closes danielbaustin/agent-design-language#5895", "This is split issue/code publication authority, not repository cutover or issue migration"],
+    "operator_constraints": ["No AWS", "No broad product suite", "Do not restore csdlc-migrate or any wrapper", "Prefer no-code closure when current-main evidence already proves acceptance"],
+    "task_boundary": "Verify and remove only active csdlc-migrate installer authority, then prove the installed claim-free route.",
+    "deliverables": ["Authoritative occurrence classification", "Corrected active binary inventory if needed", "Exact installed provenance proof", "Gate10A test that invokes a freshly installed generation for the claim-free lifecycle canary", "Focused negative guard against csdlc-migrate reappearance"],
+    "acceptance_criteria": ["AC-1: No authoritative installer, coexistence, selector, or current operator surface requires csdlc-migrate", "AC-2: Clean current-main build and stable v2 installation succeed", "AC-3: csdlc-install resolve selects v2 and installed provenance matches the exact source revision", "AC-4: A focused negative guard rejects csdlc-migrate reappearance", "AC-5: An installed claim-free create/validate/bind canary passes", "AC-6: Historical evidence is unchanged and no compatibility route is added"],
+    "dependencies": ["#5861 claim-free creation and binding", "#5896 bound-topology migration", "Execute before #5883 to avoid shared installer/coexistence conflicts"],
+    "repo_inputs": ["danielbaustin/agent-design-language#5895", ".csdlc/evidence/5891/active-issue-dispositions.tsv", "csdlc-v2/operator/coexistence.json", "csdlc-v2/operator/generation-selector.json", "adl/tools/install_owner_binaries.sh"],
+    "non_goals": ["Reintroduce csdlc-migrate", "Redesign issue creation or binding", "Change card semantics", "Broad tooling refactor", "Edit #5844 or historical Gate 10 evidence"],
+    "plan_summary": "Inventory current authority, make the smallest proven correction or evidence-only disposition, then prove install, resolve, provenance, retired-surface guard, and one installed lifecycle canary.",
+    "steps": [
+      {"id":"S1","action":"Classify every current csdlc-migrate reference and determine whether active drift remains.","acceptance_ids":["AC-1","AC-6"],"status":"pending"},
+      {"id":"S2","action":"Delete only proven active stale expectations and add or tighten one focused negative guard, or record an already-resolved no-code disposition.","acceptance_ids":["AC-1","AC-4","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Build and install the declared current v2 set and verify selector plus exact provenance.","acceptance_ids":["AC-2","AC-3"],"status":"pending"},
+      {"id":"S4","action":"Run the installed claim-free create, validate, and bind canary and retain results.","acceptance_ids":["AC-5"],"status":"pending"}
+    ],
+    "affected_areas": ["csdlc-v2/Cargo.toml", "csdlc-v2/operator/coexistence.json", "csdlc-v2/src/proof.rs", "csdlc-v2/tests/gate10a.rs", "adl/tools/install_owner_binaries.sh", "docs/tooling"],
+    "invariants": ["V2 selector remains authoritative", "Installed provenance is exact", "No retired binary or compatibility shim", "Historical evidence unchanged", "No broad validation"],
+    "risks": ["Mistaking historical text for active authority", "Passing with a stale installed generation", "Overlapping #5883 changes", "Adding code when the issue is already resolved"],
+    "planning_profile": "small",
+    "stop_conditions": ["Any need to restore or wrap csdlc-migrate", "Installed provenance cannot be tied to exact source", "The representative lifecycle canary does not use installed binaries", "Scope expands beyond installer/coexistence authority"],
+    "validation_lanes": [
+      {"lane":"installed-generation-contract","proof_role":"Run the complete focused Gate10A inventory/provenance suite, including a required test that installs the declared generation into an isolated stable layout and invokes its csdlc-issue, csdlc-validate, csdlc-doctor, and csdlc-bind binaries while proving csdlc-migrate is absent.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":4200,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate10a"],"parallel_group":"installed","defer_reason":null},
+      {"lane":"creation-semantics","proof_role":"Prove claim-free create, validate, doctor, and bind semantics independently of the installed-generation provenance proof.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":240,"budget_tokens":1800,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2"],"parallel_group":"focused","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on active retired authority, install mismatch, stale selector/provenance, non-installed canary execution, or historical evidence churn.",
+    "review_prompts": ["Is every remaining csdlc-migrate reference non-authoritative or an explicit negative guard?", "Does the proof use the installed current generation rather than Cargo output?", "Was a no-code outcome chosen if the current tree already meets acceptance?"],
+    "review_scope": "Installer/coexistence correctness, provenance, negative guard, and installed lifecycle canary only."
+  }
+}

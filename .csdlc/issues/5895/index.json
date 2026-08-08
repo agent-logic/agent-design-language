@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5895,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "d173a56713569c6f71cc7321e8b2d6b0ae5b162d4664cf0bf2c592a7ef4b4b84",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "0d87cfce7d012f53bba17838df8e10c9095383d010f07d489a1d352c23d53503",
+  "branch": "codex/5895-retire-csdlc-migrate-installer",
+  "worktree": "/Volumes/FastWork/adl-issue-5895-retire-csdlc-migrate-installer",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5895/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5895/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5895-readiness-design-review",
+      "revision": "2658e02a3e5a3f336825a62bebbc6f5a51ade76603f01ce90c7914a5de24f28c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "13876151eec80825209ea074ba6d8338cea2748e4b522182425016074b2820cc",
+      "rendered_digest": "5f89dbf085e83bb9e9c32997c9d4df426d0f3e66282521e5e94b15129d0c5090",
+      "ast_digest": "204eb71f88ceffaba5a13527a0c9ae28ccb25a72d02f206efc5ba81ac3e32a07"
+    },
+    "stp": {
+      "values_digest": "931d2bb2aea9aff82854f171a1f768036cee1f2bbb0edca2bcbfceefcfa55652",
+      "rendered_digest": "5564b348a4d36bee6f59c066f7c1c31ff97330cc6fdb153ab954eadff03acf3d",
+      "ast_digest": "fe14c1bab1ccbade3a373b140e2799bf2fc1be86fd3d2b2639984b6935237dce"
+    },
+    "spp": {
+      "values_digest": "198aa0141198e51332a5eca0273dcb0a7f84454efe324c0f96a79c34ccdb6155",
+      "rendered_digest": "3a39852f21d33b6a4539ce763b26979f7f03abd59f12c0b7b321a34b2ad15231",
+      "ast_digest": "e9b50e52f91f55cc39a170390a4a81b64cbf28f99d109c62d718fe2b313199c5"
+    },
+    "vpp": {
+      "values_digest": "a99a7e85cf2abaeff5c5572ed4cd52d669559dda36a8893441abe926c4eef296",
+      "rendered_digest": "0bbeec9d8b40d06d000b451fbcd9cdec6214d50f13a0d37f2fc9e8da14296664",
+      "ast_digest": "7a1c8a8f463fbb9638a4046d7409153ab67374b5d1f53c27f7a245bf94ea9946"
+    },
+    "srp": {
+      "values_digest": "2e849e9f93fefb4834fbe217973b8ef807b7c5cc80abe2f50728d596491861e0",
+      "rendered_digest": "162cecabee388e0ec2cf081c7395ceb0f53c6d8ed1030cdb28d8e05738c98e82",
+      "ast_digest": "a62237536a681b7a69f9abf539c35d9836a3c89c8de118e077df604f0c8d3385"
+    },
+    "sor": {
+      "values_digest": "062aed047a0632a8b6d16277765fa2f2776ab5ee7d2f8ee55b76153c811e987c",
+      "rendered_digest": "7886ce2502ff3011e1b1b9023027c1ec0dee9e2f74ff2f092e3a546d93e2396b",
+      "ast_digest": "db2ad082d21540893350c71ce5e4103dd7a26c9c31d466c5ae0552a62e179779"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5895-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5895-readiness-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5895-readiness",
+      "reason": "Align issue and code publication authority with the proved old-issue/new-PR pattern from issue 5821 and PR 39.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Current installer/coexistence/selector/provenance surfaces only\",\"Historical evidence remains immutable\",\"Issue authority remains danielbaustin/agent-design-language#5895\",\"Code PR publication targets agent-logic/agent-design-language\",\"PR body must use Closes danielbaustin/agent-design-language#5895\",\"This is split issue/code publication authority, not repository cutover or issue migration\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5895-readiness-review-fix",
+      "reason": "Replace nonexistent and non-installed proof commands with full Gate10A installed-generation evidence plus a separate creation-semantics lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"installed-generation-contract\",\"proof_role\":\"Run the complete focused Gate10A inventory/provenance suite, including a required test that installs the declared generation into an isolated stable layout and invokes its csdlc-issue, csdlc-validate, csdlc-doctor, and csdlc-bind binaries while proving csdlc-migrate is absent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"parallel_group\":\"installed\",\"defer_reason\":null},{\"lane\":\"creation-semantics\",\"proof_role\":\"Prove claim-free create, validate, doctor, and bind semantics independently of the installed-generation provenance proof.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":1800,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"focused\",\"defer_reason\":null}]}"
+    }
+  ]
+}
