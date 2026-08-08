@@ -100,6 +100,10 @@ fn retired_csdlc_migrate_is_absent_from_active_authority() {
         "csdlc-v2/Cargo.toml",
         "csdlc-v2/operator/coexistence.json",
         "csdlc-v2/operator/skills.json",
+        "csdlc-v2/src/operator.rs",
+        "csdlc-v2/src/proof.rs",
+        "csdlc-v2/src/bin/csdlc-install.rs",
+        "adl/tools/install_owner_binaries.sh",
         "docs/default_workflow.md",
         "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
         "docs/tooling/README.md",
@@ -109,6 +113,14 @@ fn retired_csdlc_migrate_is_absent_from_active_authority() {
         assert!(
             !text.contains("csdlc-migrate"),
             "active authority retains retired csdlc-migrate route: {relative}"
+        );
+    }
+    for skill in &manifest.skills {
+        let relative = format!("csdlc-v2/operator/skills/{}/SKILL.md", skill.name);
+        let text = fs::read_to_string(repo.join(&relative)).unwrap();
+        assert!(
+            !text.contains("csdlc-migrate"),
+            "active skill retains retired csdlc-migrate route: {relative}"
         );
     }
 }
@@ -462,9 +474,28 @@ fn freshly_installed_stable_edit_binary_is_executable() {
 
 #[test]
 fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let destination = parent.path().join("csdlc-v2");
-    install_binaries(prebuilt_binaries(), &destination).unwrap();
+    let receipt = build_and_install_binaries(&repo, &destination).unwrap();
+    let source_revision = Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(&repo)
+        .output()
+        .unwrap();
+    assert!(source_revision.status.success());
+    assert_eq!(
+        receipt.source_revision,
+        format!(
+            "git:{}",
+            String::from_utf8(source_revision.stdout).unwrap().trim()
+        )
+    );
+    let coexistence =
+        verify_coexistence(&repo, &destination, &CoexistenceInventory::load().unwrap()).unwrap();
+    assert!(coexistence.pass);
+    assert!(coexistence.missing_v2_binaries.is_empty());
+    assert!(coexistence.forbidden_v1_paths_present.is_empty());
     assert!(!destination.join("csdlc-migrate").exists());
 
     let temp = tempfile::tempdir().unwrap();
