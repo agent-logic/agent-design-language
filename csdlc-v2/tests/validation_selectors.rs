@@ -41,6 +41,23 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
         .expect("cargo test alias classification");
     assert_eq!(alias.posture, RustTestSelectorPosture::ExactTarget);
 
+    let nightly_directory = classify_rust_test_selector(&argv(&[
+        "cargo", "+nightly", "-C", ".", "test", "--test", "gate2",
+    ]))
+    .expect("cargo global directory classification");
+    assert_eq!(
+        nightly_directory.posture,
+        RustTestSelectorPosture::ExactTarget
+    );
+
+    let broad_with_features =
+        classify_rust_test_selector(&argv(&["cargo", "test", "-F", "feature-a"]))
+            .expect("cargo broad feature classification");
+    assert_eq!(
+        broad_with_features.posture,
+        RustTestSelectorPosture::IntentionalBroad
+    );
+
     let broad = classify_rust_test_selector(&argv(&[
         "cargo",
         "test",

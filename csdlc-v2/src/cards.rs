@@ -1618,7 +1618,7 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         "--locked",
         "--offline",
     ];
-    let global_value_flags = ["--color", "--config", "-Z"];
+    let global_value_flags = ["--color", "--config", "-C", "-Z"];
     loop {
         let value = argv.get(test_index)?;
         if value == "test" || value == "t" {
@@ -1678,8 +1678,10 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         "-p",
         "--exclude",
         "--features",
+        "-F",
         "--target",
         "--target-dir",
+        "--lockfile-path",
         "--profile",
         "--jobs",
         "-j",
