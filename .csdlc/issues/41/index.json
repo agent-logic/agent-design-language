@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "771b5ed173830eb20533942fa87b74b8f11779b53aabf509b5e9cc0e34d22b32",
   "phase": "bound",
-  "generation": 4,
-  "digest": "55aeb0938a5aeb6c0eff7530097dc7c5a6f2eb14b7e83ebcd1ebb0ff71074579",
+  "generation": 6,
+  "digest": "877a6861d9f0d079f01f84ee30ced1e315c05363e93d515238e406690ba907dc",
   "branch": "codex/41-missing-issue-read-diagnostics-preparation",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-41-preparation",
   "review_assignment": null,
@@ -19,37 +19,37 @@
   "design_review": {
     "approved": {
       "reviewer": "subagent:41-readiness-review",
-      "revision": "3732d901425c4721a2a10ce1ebfb6b3df1c0d628f30a7bc62994d713e5eca4de"
+      "revision": "f6ae66c2ba91d72c737b6ec5e9de23063c70460e857c004a6d2ff3f70ae6cca7"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "ec0f450a42217b6976b308584d79dfb4ab7ab074fc4af645b90343a662948983",
+      "values_digest": "d0b850633bcad703235b94d72a3ceb48db64d408e0978df359ea0f2ca39100f3",
       "rendered_digest": "f7745872babb8299b9f9c1964c684a2f4246df6a1ea3a19066e420c0976d289d",
       "ast_digest": "3f9c49d932c246af98631b30d404612bd6f3ab99c71e3b9e64354a6280909a8d"
     },
     "stp": {
-      "values_digest": "a250cdb50647120867dc8e243c01178eac7f4887f5f426605af51eb4844612c9",
+      "values_digest": "04a6efa690c4872e30c183000bc220712491934b3b08e4209a2d59d127abc21c",
       "rendered_digest": "9c85cd21d22bea114ce3fbe8f269223ef781c1f5d7ff8f15cf77029c959c39ea",
       "ast_digest": "6a3d0757edb91ea51a5399303d8c929b9c1eceace677c3c65b151f0256285b35"
     },
     "spp": {
-      "values_digest": "63d8fe5accc6b48fec72bf42ba4ea8104a44e68b310954db2c512254792e8700",
-      "rendered_digest": "fbafcdce542a034ed431c368eb2344c3fbe103871ddc65cac9f51f8febabcb8a",
-      "ast_digest": "9d1ce2335189bf8a3bcce8a85f9f008d5fa5ae0282f9d4155a7908a625e1d104"
+      "values_digest": "6d8c3c93aaada0e292afd99946e12b1bf44203a2b1f0aadcc8e9400996c32e9e",
+      "rendered_digest": "3f692197a4b57c3ce43af36584ecf74cb9aa22844ddc30598378c3c012cfb8b3",
+      "ast_digest": "efceb171d447b546ebd3646fae234d2b7088fc4a305837ec00ae75c6138eb31b"
     },
     "vpp": {
-      "values_digest": "42ef07cd5ca6bdc1e7dc3678eba89c05fe6dfc46744c404ffa8f39cff16410e9",
+      "values_digest": "5fbf3695a6cca0f89c1aa6e4d280e656fa64e09d1eb1d9c466e09ead76f902d6",
       "rendered_digest": "d79f0155f1f4c69a19b7220349e7aa2e33f478ed3c3117ea6af445885ec11dd9",
       "ast_digest": "40d94ac1d2cc4da656effdcb5e7154fbeb46c08a5bda0c1e6e6f3a37e655a49b"
     },
     "srp": {
-      "values_digest": "f37b5c9ab15503d5ea912432333b4947f9ec46e2121a0059aa5f6ae7bd41f8e5",
+      "values_digest": "92bc1f9645d2b239de5751b72ff481e8a2c3fa1c53f32c874e9550a0744375ba",
       "rendered_digest": "f263c817d430321d6320f7c309c1c859afba3b650676b9c97b0401125aca362e",
       "ast_digest": "c302e395f99cf1463665f5b736d313f2ca300ea7a9b611a9173f917151bd355c"
     },
     "sor": {
-      "values_digest": "204552770f8512d6664e1d705b40279ced433123b3e95fa63e74c6602b700a99",
+      "values_digest": "80eaba4efb4e5cb2b07208324dc1678b0d1273a60fc2d8df0ac019f8ba95de9a",
       "rendered_digest": "8277b211253dd0bc3cfd8eba27365edda347ccca511c46d3ca74c619884ec611",
       "ast_digest": "653d53c28b4e335302c6ebd54c5e5a0f94ec806bcefb2d4d3b1360be3c71c6b6"
     }
@@ -112,6 +112,20 @@
       "actor": "codex:41-readiness-preparation",
       "reason": "carry the approved 404 wording, closed rate-limit allowlist, and non-read compatibility into typed acceptance truth",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: HTTP 404 issue reads return remote_not_found with exit 69 and say owner/name#N was not found or is inaccessible, directing the operator to verify repository, issue number, and token access\",\"AC-2: HTTP 401 and ordinary HTTP 403 are typed as authentication or authorization failures and never as not-found\",\"AC-3: HTTP 429 and only the design's closed allowlist of primary or secondary rate-limit HTTP 403 markers are typed as rate-limited; near-match and ordinary HTTP 403 remain authorization\",\"AC-4: HTTP 5xx and connection failures are typed as server or transport failures and never as not-found\",\"AC-5: Successful issue-read request/result JSON and all non-read action readback failure behavior remain unchanged\",\"AC-6: Failure stdout is valid csdlc.error.v1 JSON, exit codes are stable, and stderr remains empty unless stdout writing fails\",\"AC-7: Token value, token path, authorization material, sensitive response-body sentinel, and raw Octocrab error text are absent from stdout and stderr\",\"AC-8: Focused real-binary loopback tests and strict Clippy pass with no unresolved review findings\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "subagent:41-readiness-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "carry the approved structured-error fetch seam into executable typed plan truth",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm the issue-read-only failure taxonomy, safe diagnostic vocabulary, exit codes, closed rate-limit allowlist, and redaction invariant.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Extract the existing GitHub GET into fetch_issue_value returning structured octocrab::Error; keep shared read_issue_packet generic, and map only explicit IssueRead errors before the common normalizer.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Extend the existing loopback fixture and prove real CLI JSON, exits, classification, non-read compatibility, successful-read compatibility, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused validation and exact-head independent review, resolve findings, and publish a qualified closing PR.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
     }
   ]
 }

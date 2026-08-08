@@ -16,14 +16,14 @@ Freeze the issue-read-only failure taxonomy and redaction boundary, add a contex
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Confirm the issue-read-only failure taxonomy, safe diagnostic vocabulary, exit codes, and redaction invariant.",
+    "action": "Confirm the issue-read-only failure taxonomy, safe diagnostic vocabulary, exit codes, closed rate-limit allowlist, and redaction invariant.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -36,7 +36,7 @@ Revision 2
   },
   {
     "id": "S2",
-    "action": "Implement the contextual Octocrab issue-read classifier and stable ErrorCode exit mapping without changing successful reads.",
+    "action": "Extract the existing GitHub GET into fetch_issue_value returning structured octocrab::Error; keep shared read_issue_packet generic, and map only explicit IssueRead errors before the common normalizer.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -50,7 +50,7 @@ Revision 2
   },
   {
     "id": "S3",
-    "action": "Extend the existing loopback fixture and prove real CLI JSON, exits, classification, success compatibility, and redaction.",
+    "action": "Extend the existing loopback fixture and prove real CLI JSON, exits, classification, non-read compatibility, successful-read compatibility, and redaction.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -101,13 +101,13 @@ Revision 2
 
 .csdlc/prepared/issues/41/design.md
 
-Digest: 3732d901425c4721a2a10ce1ebfb6b3df1c0d628f30a7bc62994d713e5eca4de
+Digest: f6ae66c2ba91d72c737b6ec5e9de23063c70460e857c004a6d2ff3f70ae6cca7
 
 ## Diagram
 
 .csdlc/prepared/issues/41/diagram.mmd
 
-Digest: 52d77f0feb5517e08f47b3a561bee2b2a42f3532fa2d932e97c31ebb610dbc9e
+Digest: 168b37bbb533d68dce62abfc84f9377a5edeb188847a409fd5b8f29df1100f47
 
 ## Stop Conditions
 
