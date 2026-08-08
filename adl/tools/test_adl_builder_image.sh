@@ -19,6 +19,8 @@ assert_has() {
 assert_has "$DOCKERFILE" "FROM ubuntu:24.04"
 assert_has "$DOCKERFILE" "ARG SCCACHE_VERSION=v0.16.0"
 assert_has "$DOCKERFILE" "ARG CARGO_NEXTEST_VERSION=0.9.140"
+assert_has "$DOCKERFILE" "ARG RUBY_VERSION=3.3.6"
+assert_has "$DOCKERFILE" "ARG RUBY_SOURCE_SHA256=540975969d1af42190d26ff629bc93b1c3f4bffff4ab253e245e125085e66266"
 assert_has "$DOCKERFILE" "CARGO_NEXTEST_X86_64_SHA256=4ee9aaa0d0171a985a5d0eb735b87355894c1c455972e9674fb9fdbd1387c9a3"
 assert_has "$DOCKERFILE" "clang"
 assert_has "$DOCKERFILE" "lld"
@@ -34,6 +36,8 @@ assert_not_latest() {
 }
 assert_not_latest
 assert_has "$DOCKERFILE" "sha256sum -c -"
+assert_has "$DOCKERFILE" "cache.ruby-lang.org/pub/ruby"
+assert_has "$DOCKERFILE" 'ruby=$(ruby --version)'
 assert_has "$DOCKERFILE" "cargo nextest --version"
 assert_has "$DOCKERFILE" "/usr/local/share/adl-builder-toolchain.txt"
 assert_has "$DOCKERFILE" "gh --version"

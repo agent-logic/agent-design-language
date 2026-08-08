@@ -1,0 +1,80 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 22,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Include pinned Ruby runtime in the immutable AWS Spot builder image",
+    "slug": "pinned-ruby-builder-runtime",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bind issue 22, add a checksum-pinned Ruby source build and provenance, extend preflight and focused regressions, obtain independent review, publish, merge when green, and close out.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Add pinned Ruby and provenance to the immutable builder image",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Add fail-closed Ruby and validator preflight",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused contracts, review, publish, and merge",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/docker/adl-builder/Dockerfile",
+        "adl/tools/run_aws_spot_builder_image_validation.sh",
+        "adl/tools/test_adl_builder_image.sh",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+      ],
+      "invariants": [
+        "Builder images remain content-digest pinned",
+        "Validation tools remain inside the immutable image",
+        "The requested validation command never runs after preflight failure"
+      ],
+      "risks": [
+        "Ruby source build dependencies can increase image build time",
+        "A weak fake-Docker contract could miss ordering regressions"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Official archive checksum cannot be verified",
+        "The change requires host-time installation or unrelated workflow redesign",
+        "Focused tests reveal regression outside the declared builder surface"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/22/design.md",
+      "design_digest": "7b2526ad87abd5e2c78030750eef8b0f98b3e3eb0b64f8c4a502398c2705f1bf",
+      "diagram_ref": ".csdlc/prepared/issues/22/diagram.mmd",
+      "diagram_digest": "44d8b30becc3ca642911dff89d91ae1bf822bd876f37c99e3aa8da654813dff9"
+    }
+  }
+}

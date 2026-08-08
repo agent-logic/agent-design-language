@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 22,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Include pinned Ruby runtime in the immutable AWS Spot builder image",
+    "slug": "pinned-ruby-builder-runtime",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue 22 only: builder Ruby availability and fail-closed preflight.",
+      "deliverables": [
+        "Pinned Ruby runtime in adl/docker/adl-builder/Dockerfile",
+        "Ruby provenance in /usr/local/share/adl-builder-toolchain.txt",
+        "Ruby preflight and repository validator smoke",
+        "Focused positive and missing-Ruby regression coverage"
+      ],
+      "acceptance_criteria": [
+        "The builder image pins Ruby to an explicit version and verifies the official source archive SHA-256",
+        "Ruby version and provenance are recorded in the immutable toolchain manifest",
+        "Builder preflight executes ruby --version, a minimal Ruby expression, and one repository Ruby validator smoke before the requested validation command",
+        "A missing or unusable Ruby runtime fails builder preflight and prevents the requested validation command",
+        "Existing Rust, nextest, sccache, LLD, AWS CLI, architecture, cache, and immutable image checks remain intact",
+        "Focused shell contracts, diff hygiene, independent review, and required GitHub checks pass"
+      ],
+      "dependencies": [
+        "WP-03 AWS Spot builder path is present on current main"
+      ],
+      "repo_inputs": [
+        "adl/docker/adl-builder/Dockerfile",
+        "adl/tools/run_aws_spot_builder_image_validation.sh",
+        "adl/tools/test_adl_builder_image.sh",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+      ],
+      "non_goals": [
+        "No dynamic Ruby installation on Spot hosts",
+        "No AWS execution or image publication in this issue",
+        "No changes to unrelated CI, lifecycle tooling, or other sprints"
+      ]
+    }
+  }
+}
