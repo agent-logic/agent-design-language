@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5883,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
+    "slug": "retire-csdlc-init",
+    "version": "backlog",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make csdlc-issue create the only active issue-creation command and delete the duplicate csdlc-init surface.",
+      "required_outcome": "The duplicate binary, declarations, installed-set requirements, proof fixtures, and active operator guidance are removed while claim-free create/validate/doctor/bind behavior remains proven.",
+      "declared_scope": [
+        "csdlc-v2/Cargo.toml",
+        "csdlc-v2/src/bin/csdlc-init.rs",
+        "csdlc-v2/operator",
+        "csdlc-v2/src/proof.rs",
+        "csdlc-v2/tests/gate10a.rs",
+        "adl/tools",
+        "docs/tooling",
+        "AGENTS.md"
+      ],
+      "authority_boundary": [
+        "csdlc-issue create is sole creation authority",
+        "Historical evidence is immutable",
+        "Issue authority remains danielbaustin/agent-design-language#5883",
+        "Code PR publication targets agent-logic/agent-design-language",
+        "PR body must use Closes danielbaustin/agent-design-language#5883",
+        "This is split issue/code publication authority, not repository cutover or issue migration"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "No AWS",
+        "No compatibility wrapper or alias",
+        "No broad product suite",
+        "Execute after #5895 and rebase before editing shared installer surfaces"
+      ]
+    }
+  }
+}

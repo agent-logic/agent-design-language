@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5883,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
+    "slug": "retire-csdlc-init",
+    "version": "backlog",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Duplicate entrypoint deletion, active operator routing, installed inventory, and creation behavior parity only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is every removed reference active rather than historical evidence?",
+        "Does the installed set lack csdlc-init and reject its return?",
+        "Does csdlc-issue create retain atomicity, idempotence, and fail-closed validation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

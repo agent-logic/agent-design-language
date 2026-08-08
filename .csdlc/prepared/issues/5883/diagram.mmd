@@ -1,0 +1,9 @@
+flowchart LR
+  A["Typed create request"] --> B["csdlc-issue create"]
+  B --> C["Validate request and design"]
+  C --> D["Write one issue record and six cards"]
+  D --> E["csdlc-validate"]
+  E --> F["csdlc-doctor"]
+  F --> G["csdlc-bind"]
+  X["csdlc-init"] -. "delete binary, inventory, and active guidance" .-> B
+  H["Historical evidence"] -. "preserve unchanged" .-> X
