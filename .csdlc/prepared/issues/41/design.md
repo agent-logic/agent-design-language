@@ -4,17 +4,19 @@
 
 Keep the existing `GithubAction::IssueRead` request and successful
 `GithubActionResult` unchanged. Add one issue-read-specific Octocrab error
-classifier at the boundary where `read_issue_packet` observes GitHub. The
-classifier returns stable `ErrorCode` variants and constructs its own bounded
-diagnostic from the already-validated repository identity and issue number. It
-must never interpolate the Octocrab error display, GitHub response body,
-authorization header, token path, or token value.
+classifier only in the explicit `GithubAction::IssueRead` match arm: that arm
+maps an error returned by `read_issue_packet`, while the shared helper itself
+and every create/update/comment/close reconciliation call remain unchanged.
+The classifier returns stable `ErrorCode` variants and constructs its own
+bounded diagnostic from the already-validated repository identity and issue
+number. It must never interpolate the Octocrab error display, GitHub response
+body, authorization header, token path, or token value.
 
 The minimum failure taxonomy is:
 
 | Observation | Typed code | CLI exit | Safe diagnostic |
 | --- | --- | ---: | --- |
-| HTTP 404 | `remote_not_found` | 69 | `GitHub issue owner/name#N was not found; verify the repository and issue number` |
+| HTTP 404 | `remote_not_found` | 69 | `GitHub issue owner/name#N was not found or is inaccessible; verify the repository, issue number, and token access` |
 | HTTP 401 | `remote_authentication` | 77 | Authentication failed while reading `owner/name#N` |
 | HTTP 403, non-rate-limit | `remote_authorization` | 77 | Authorization failed while reading `owner/name#N` |
 | HTTP 403 with GitHub rate-limit signal, or HTTP 429 | `remote_rate_limited` | 74 | GitHub rate limit prevented reading `owner/name#N` |
@@ -23,14 +25,28 @@ The minimum failure taxonomy is:
 | Any unclassified remote error | existing `remote_failure` | 74 | Generic bounded observation failure |
 
 GitHub deliberately uses 404 for both an absent object and some inaccessible
-private objects. The diagnostic therefore describes the observation as not
-found and tells the operator to verify both the repository and issue identity;
-it does not claim that the repository definitely exists.
+private objects. The diagnostic therefore says `not found or inaccessible`
+and tells the operator to verify repository identity, issue number, and token
+access; it does not claim that the repository definitely exists.
 
 For 403 classification, use only Octocrab's structured `GitHubError` status,
-message, and documentation URL. A 403 is rate-limited only when those
-structured fields contain a recognized GitHub rate-limit marker; otherwise it
-is authorization. The emitted diagnostic never includes those source fields.
+message, and documentation URL. Normalize the message with ASCII lowercase and
+trim only leading/trailing whitespace. The closed rate-limit allowlist is:
+
+- message starts with `api rate limit exceeded` (the primary-limit form may
+  append an actor or address);
+- message equals `you have exceeded a secondary rate limit. please wait a few
+  minutes before you try again.`;
+- or a parsed HTTPS URL on host `docs.github.com` has path exactly
+  `/rest/using-the-rest-api/rate-limits-for-the-rest-api`;
+- legacy documentation is accepted only for path
+  `/rest/overview/resources-in-the-rest-api` with fragment exactly
+  `rate-limiting` or `secondary-rate-limits`.
+
+HTTP 429 is always rate-limited. An HTTP 403 that matches none of this closed
+allowlist is authorization; malformed URLs and merely containing words such as
+`rate` or `limit` do not qualify. The emitted diagnostic never includes the
+source message or URL.
 
 ## Boundary and flow
 
@@ -55,10 +71,16 @@ Extend the existing loopback GitHub fixture in
   diagnostic;
 - 401 and ordinary 403 prove authentication and authorization are not labeled
   not-found;
-- rate-limit 403 and 429 prove `remote_rate_limited`;
+- every allowlisted primary/secondary rate-limit 403 form plus 429 proves
+  `remote_rate_limited`, while near-match 403 text and URLs remain
+  `remote_authorization`;
 - 500 proves `remote_server`;
 - a loopback connection dropped before a response proves
   `remote_transport`.
+
+One non-read action whose reconciliation readback returns 404 must retain the
+existing `remote_failure` behavior. This proves the contextual mapper is wired
+only to an explicit `IssueRead` and not into the shared readback helper.
 
 Every failure assertion parses stdout as JSON, checks the exact code and exit
 status, requires empty stderr, and scans both streams for the fake token, token
