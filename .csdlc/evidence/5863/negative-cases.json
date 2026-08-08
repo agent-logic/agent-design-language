@@ -1,12 +1,12 @@
 {
   "schema": "adl.wp04.negative_cases.v1",
   "issue": 5863,
-  "source_revision": "9dc6463e6cf994f052849b05cd0f2399f0637ae5",
+  "source_revision": "e61938e51d7a44847cfda70591c767c182b925e2",
   "test_output": ".csdlc/evidence/5863/distributed-identity.stdout.log",
-  "test_output_sha256": "f6a4ba1d6bcc5a12b86157be996a0d57ef7e28f98ac6b017c282ef8da3d2ce30",
+  "test_output_sha256": "5a434be6546db36fca13ee2cbeef21b66ec8bd291bef5f8fbb385f92b2d9e2f6",
   "source_artifacts": {
-    "adl-runtime/src/distributed/identity.rs": "3faaf906af03893b2c8b5c50ad087ba62813b0fcf114a00e496823c934258c8f",
-    "adl-runtime/tests/distributed_identity.rs": "1682385b1e2088be00584618e1786863e8c2b64a762fbd0e889b8d6aa5eec257"
+    "adl-runtime/src/distributed/identity.rs": "7de32b83eade525375e73d76967179131fa1105ccdca33fdd72df5dc0887dcdc",
+    "adl-runtime/tests/distributed_identity.rs": "53588769a7d80814fa7e72fbc73097670735508e9a782fca1351507818199be9"
   },
   "cases": [
     {"case": "wrong_trust_domain", "test": "wrong_trust_domain_is_rejected_and_audited", "result": "rejected"},
@@ -17,6 +17,7 @@
     {"case": "duplicate_effective_guardian_control_key", "test": "one_guardian_control_key_cannot_represent_two_voters", "result": "rejected"},
     {"case": "bounded_nonce_capacity", "test": "bounded_nonce_capacity_rejects_additional_work", "result": "fail_closed"},
     {"case": "restart_stability", "test": "local_node_and_guardian_identity_is_restart_stable", "result": "recovered"},
+    {"case": "trust_root_rotation_quarantine", "test": "rotated_trust_root_quarantines_distributed_enrollment_but_preserves_local_recovery", "result": "fenced"},
     {"case": "audit_redaction_and_bound", "test": "audit_records_are_bounded_and_redact_identity_material", "result": "fail_closed"},
     {"case": "oversized_request_bound", "test": "oversized_request_is_rejected_before_unbounded_serialization_and_safely_audited", "result": "fail_closed"},
     {"case": "durable_corruption_and_audit_gap", "test": "corrupt_audit_metadata_event_and_nonce_fail_closed_on_restart", "result": "fail_closed"},

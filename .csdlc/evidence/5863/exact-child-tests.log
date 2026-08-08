@@ -1,19 +1,20 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
 ────────────
- Nextest run ID 11d23dc6-177c-4b4f-a817-6837409f1b59 with nextest profile: default
-    Starting 13 tests across 1 binary
-        PASS [   0.010s] ( 1/13) adl-runtime::distributed_identity symlinked_database_parent_is_rejected
-        PASS [   0.238s] ( 2/13) adl-runtime::distributed_identity wrong_trust_domain_is_rejected_and_audited
-        PASS [   0.263s] ( 3/13) adl-runtime::distributed_identity oversized_request_is_rejected_before_unbounded_serialization_and_safely_audited
-        PASS [   0.279s] ( 4/13) adl-runtime::distributed_identity one_guardian_control_key_cannot_represent_two_voters
-        PASS [   0.285s] ( 5/13) adl-runtime::distributed_identity bounded_nonce_capacity_rejects_additional_work
-        PASS [   0.290s] ( 6/13) adl-runtime::distributed_identity consumed_nonce_cannot_be_replayed
-        PASS [   0.318s] ( 7/13) adl-runtime::distributed_identity local_node_and_guardian_identity_is_restart_stable
-        PASS [   0.322s] ( 8/13) adl-runtime::distributed_identity unapproved_operator_root_and_malformed_signature_fail_closed
-        PASS [   0.322s] ( 9/13) adl-runtime::distributed_identity node_and_guardian_proof_of_possession_are_both_required
-        PASS [   0.342s] (10/13) adl-runtime::distributed_identity expired_and_future_requests_fail_closed
-        PASS [   0.356s] (11/13) adl-runtime::distributed_identity audit_records_are_bounded_and_redact_identity_material
-        PASS [   0.356s] (12/13) adl-runtime::distributed_identity signed_enrollment_is_durable_and_same_generation_is_idempotent
-        PASS [   0.605s] (13/13) adl-runtime::distributed_identity corrupt_audit_metadata_event_and_nonce_fail_closed_on_restart
+ Nextest run ID c86c5251-913f-4eef-b8f6-de01795ad81a with nextest profile: default
+    Starting 14 tests across 1 binary
+        PASS [   0.042s] ( 1/14) adl-runtime::distributed_identity symlinked_database_parent_is_rejected
+        PASS [   0.269s] ( 2/14) adl-runtime::distributed_identity wrong_trust_domain_is_rejected_and_audited
+        PASS [   0.304s] ( 3/14) adl-runtime::distributed_identity consumed_nonce_cannot_be_replayed
+        PASS [   0.325s] ( 4/14) adl-runtime::distributed_identity oversized_request_is_rejected_before_unbounded_serialization_and_safely_audited
+        PASS [   0.343s] ( 5/14) adl-runtime::distributed_identity audit_records_are_bounded_and_redact_identity_material
+        PASS [   0.371s] ( 6/14) adl-runtime::distributed_identity bounded_nonce_capacity_rejects_additional_work
+        PASS [   0.376s] ( 7/14) adl-runtime::distributed_identity one_guardian_control_key_cannot_represent_two_voters
+        PASS [   0.401s] ( 8/14) adl-runtime::distributed_identity node_and_guardian_proof_of_possession_are_both_required
+        PASS [   0.406s] ( 9/14) adl-runtime::distributed_identity signed_enrollment_is_durable_and_same_generation_is_idempotent
+        PASS [   0.411s] (10/14) adl-runtime::distributed_identity unapproved_operator_root_and_malformed_signature_fail_closed
+        PASS [   0.416s] (11/14) adl-runtime::distributed_identity expired_and_future_requests_fail_closed
+        PASS [   0.437s] (12/14) adl-runtime::distributed_identity local_node_and_guardian_identity_is_restart_stable
+        PASS [   0.449s] (13/14) adl-runtime::distributed_identity rotated_trust_root_quarantines_distributed_enrollment_but_preserves_local_recovery
+        PASS [   0.654s] (14/14) adl-runtime::distributed_identity corrupt_audit_metadata_event_and_nonce_fail_closed_on_restart
 ────────────
-     Summary [   0.605s] 13 tests run: 13 passed, 0 skipped
+     Summary [   0.655s] 14 tests run: 14 passed, 0 skipped
