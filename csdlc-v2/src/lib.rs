@@ -15,12 +15,14 @@ pub mod lifecycle;
 pub mod migration;
 pub mod model;
 pub mod operator;
+pub mod output;
 pub mod proof;
 pub mod publication;
 pub mod pvf;
 pub mod readiness;
 pub mod registry;
 pub mod review;
+pub mod runner_preflight;
 pub mod schema;
 pub mod soak;
 pub mod store;
@@ -83,6 +85,7 @@ pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
     CoexistenceInventory, InstallReceipt, SkillManifest,
 };
+pub use output::write_json_stdout;
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
     prepare_publication, reconcile_action, record_publication, PublicationAction,
@@ -101,6 +104,10 @@ pub use review::{
     assign_review, evaluate_publication_review, evaluate_publication_review_in_repo, record_review,
     recover_review, PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest,
     ReviewRecoveryRequest,
+};
+pub use runner_preflight::{
+    inspect_runner_eligibility, CapacityState, DispatchState, OverallState, PolicyState,
+    RunnerPreflightPacket, RunnerPreflightRequest, WorkflowRefObservation,
 };
 pub use schema::public_schema_bundle;
 pub use soak::{

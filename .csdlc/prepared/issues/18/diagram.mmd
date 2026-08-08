@@ -1,0 +1,6 @@
+flowchart LR
+    C["Split C-SDLC command"] --> J["Serialize typed JSON"]
+    J --> W["Shared stdout writer"]
+    W -->|"write succeeds"| O["JSON consumer"]
+    W -->|"BrokenPipe"| N["Clean normal termination"]
+    W -->|"other error"| F["Fail with stderr diagnostic"]

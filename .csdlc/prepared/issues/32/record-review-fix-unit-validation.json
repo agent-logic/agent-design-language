@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 24,
+  "expected_digest": "7ccdebf23f9c07b5ea6c09ab23d0b2310b4c9097e1be4c36b91c73f900b407e3",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record focused review-remediation classifier proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "runner_preflight"],
+      "purpose": "Prove exact run/workflow/head/group binding, terminal-unassigned classification, pagination helpers, capacity classification, and stale-ref authorization uncertainty.",
+      "outcome": "passed",
+      "evidence_ref": "Eleven matching focused tests passed after review remediation."
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "7e16d21ef74c4ca2232ecda4edf6087fe790a23b7d06bc0ae1ea27a1417f4b32",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Remove the superseded CI-wiring claim and describe the implemented native diagnostic truthfully.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Implement a focused read-only Rust preflight on the existing csdlc-github and Octocrab surfaces; prove complete API pagination, policy/capacity/dispatch classification, exact canary identity, stale-reference uncertainty, CLI redaction, and live larger-runner dispatch; then review the exact head and publish without changing workflow routing."
+  }
+}

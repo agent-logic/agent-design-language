@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "62ae8d5fb17442f9c01d4fa7e27464357a79f1a5f80c5ddbf46ed3a2e24e1e23",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record the truthful boundary between configuration eligibility and post-publication dispatch proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "run", "--manifest-path", "csdlc-v2/Cargo.toml", "--bin", "csdlc-github", "--", "runner-preflight", "--request", ".csdlc/prepared/issues/32/live-preflight.json"],
+      "purpose": "Read live organization runner and group configuration, then require an assigned expected-label canary before declaring dispatch eligible.",
+      "outcome": "deferred",
+      "evidence_ref": "Live read-only preflight observed runner adl-ubuntu-24.04-16core Ready with max_count 10; group 3 selected to agent-logic/agent-design-language with workflow restriction disabled and no selected workflow refs. It correctly returned configuration_eligible_dispatch_unproven (exit 2). Terminal dispatch proof requires the published issue #32 PR canary job id."
+    }
+  }
+}

@@ -1,0 +1,63 @@
+
+running 45 tests
+test cutover::tests::clocks_and_deletion_authority_are_fixed ... ok
+test cards::tests::latest_pass_supersedes_waiting_for_the_same_validation ... ok
+test cards::tests::latest_failure_supersedes_an_earlier_pass ... ok
+test cards::tests::bash_lane_requires_a_governed_repository_script ... ok
+test cards::tests::owned_paths_accept_real_files_and_safe_future_descendants ... ok
+test eligibility::tests::schema_bundle_is_versioned ... ok
+test finish::tests::merged_pr_derives_terminal_without_mutating_record ... ok
+test finish::tests::open_pr_is_not_terminal ... ok
+test git::tests::preparation_paths_are_not_metadata_safe ... ok
+test cards::tests::owned_paths_reject_every_symlink_component ... ok
+test github::tests::classifies_common_tail_states ... ok
+test github::tests::classifies_mergeability_states_without_treating_pending_as_stale ... ok
+test github::tests::exact_head_changes_requested_wins_over_exact_head_approval ... ok
+test github::tests::issue_closing_pr_inventory_preserves_multiple_candidates ... ok
+test github::tests::later_approval_supersedes_same_reviewer_changes_request ... ok
+test github::tests::later_comment_does_not_revoke_same_reviewer_approval ... ok
+test github::tests::later_comment_does_not_revoke_same_reviewer_changes_request ... ok
+test github::tests::newer_check_run_identity_replaces_stale_duplicate_name ... ok
+test github::tests::normalizes_every_supported_mergeability_variant_explicitly ... ok
+test github::tests::producer_accepts_only_remote_closing_issue_linkage ... ok
+test github::tests::review_decision_ignores_approval_from_a_superseded_head ... ok
+test github_token::tests::explicit_file_is_used ... ok
+test operator::tests::v1_override_is_rejected_after_sunset ... ok
+test output::tests::broken_pipe_is_normal_downstream_termination ... ok
+test output::tests::unrelated_output_failures_remain_errors ... ok
+test schema::tests::excludes_removed_claim_schemas ... ok
+test schema::tests::historical_finish_request_schema_rejects_ambiguous_repositories_and_shas ... ok
+test store::edit_authorization_tests::implemented_spp_review_remediation_authorizes_only_bounded_replacements ... ok
+test store::edit_authorization_tests::post_review_spp_replacements_remain_rejected ... ok
+test store::legacy_compatibility_tests::tampered_legacy_claim_is_rejected_before_normalization ... ok
+test store::legacy_compatibility_tests::unsigned_current_topology_cannot_be_injected_into_legacy_record ... ok
+test store::legacy_compatibility_tests::valid_legacy_claim_is_verified_before_bounded_normalization ... ok
+test git::tests::shared_request_path_is_one_overwritten_git_common_file_per_issue ... ok
+test eligibility::tests::default_partition_and_exact_overrides_derive_lines ... ok
+test eligibility::tests::all_authoritative_inputs_are_approval_bound ... ok
+test eligibility::tests::exact_operator_approval_can_accelerate_protection_windows ... ok
+test eligibility::tests::missing_approval_fails_closed ... ok
+test eligibility::tests::unknown_or_duplicate_overrides_are_invalid ... ok
+test eligibility::tests::mandatory_phase_c_windows_fail_closed ... ok
+test eligibility::tests::malformed_digest_is_rejected ... ok
+test cutover::tests::changed_path_failure_restores_exact_original_bytes ... ok
+test cutover::tests::failed_smoke_restores_v1 ... ok
+test cutover::tests::successful_transaction_proves_v2_v1_v2_and_keeps_override ... ok
+test cutover::tests::every_failed_smoke_restores_exact_original_selector_bytes ... ok
+test cutover::tests::every_selector_write_error_restores_exact_original_bytes ... ok
+
+test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s
+
+
+running 4 tests
+test operation_marker_is_stable_and_idempotent ... ok
+test split_github_binaries_reject_the_wrong_surface_before_network ... ok
+test split_github_schema_commands_accept_early_stdout_close ... ok
+test issue_create_and_comment_reconcile_by_marker_with_exact_readback ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.24s
+
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.38s
+     Running unittests src/lib.rs (../adl-builds/csdlc-v2-issue-18/debug/deps/csdlc_v2-3f68687c7b46ee3a)
+     Running tests/gate_github_actions.rs (../adl-builds/csdlc-v2-issue-18/debug/deps/gate_github_actions-934ed6ea8a7eadbc)

@@ -1,0 +1,12 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "d731228c6a4fa48a9f2fa23a7b6764fa1b0a209a4e72a0864874233df58b3fbe",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Issue #32 implementation and focused local validation are complete; exact-head review and the published larger-runner canary remain next.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

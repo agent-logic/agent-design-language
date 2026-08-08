@@ -1,0 +1,23 @@
+{
+  "issue": 32,
+  "card": "sip",
+  "expected_generation": 14,
+  "expected_digest": "d9a646d845eade6f824efcc20da59a4e8980e8248645d90410e5cd82d3b47036",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Remove superseded binary, workflow, selector, and shell-test paths from the final issue scope.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_runner_preflight.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      ".csdlc/prepared/issues/32",
+      ".csdlc/issues/32"
+    ]
+  }
+}

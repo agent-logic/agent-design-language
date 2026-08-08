@@ -1,0 +1,23 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "9911e8485906075ed3988f087d4279f7b8f30789093aa41e177e9c1b4e059012",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Align owned scope with the final focused csdlc-github implementation and operator guidance.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/schema.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      ".csdlc/prepared/issues/32",
+      ".csdlc/issues/32"
+    ]
+  },
+  "fail_after_backup": false
+}

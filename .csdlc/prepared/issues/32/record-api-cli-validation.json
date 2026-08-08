@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 25,
+  "expected_digest": "6ffb0594a08e110937ab9711e7588bf87636a0c1818afc98e00b4081f88e1785",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record API-level pagination, redaction, and fail-closed CLI proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate_runner_preflight"],
+      "purpose": "Exercise the real csdlc-github binary against a loopback GitHub API with paginated runner and repository results, secret-bearing request input, JSON stdout, and non-eligible exit semantics.",
+      "outcome": "passed",
+      "evidence_ref": "The loopback integration test passed; it required page 2 for both lists, found the target runner/repository there, returned diagnostic exit 2, emitted valid JSON, and did not expose the token or token path."
+    }
+  }
+}

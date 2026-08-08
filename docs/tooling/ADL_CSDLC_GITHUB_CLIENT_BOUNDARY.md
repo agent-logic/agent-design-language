@@ -20,10 +20,22 @@ The current command surface is split by responsibility:
 - `csdlc-finish` is the sole exact-head merge and derived-terminal authority.
 - `csdlc-github` remains a compatibility facade while callers migrate to the
   narrower owner binaries.
+  It also owns the read-only organization larger-runner preflight because that
+  observation spans hosted runners, runner groups, selected repositories,
+  workflow refs, and Actions job dispatch rather than issue or PR lifecycle.
 
 Every issue/comment mutation must carry an `operation_key`. The GitHub command
 surface renders it as a stable marker, reads back remote state, and fails closed
 on missing, duplicated, or mismatched reconciliation.
+
+## Machine Output Termination
+
+The split issue and PR binaries route schema, success, and typed error JSON
+through the shared C-SDLC stdout writer. Machine-readable JSON remains on
+stdout and human diagnostics remain on stderr. If a downstream reader closes
+stdout early, the writer treats `BrokenPipe` as normal termination and emits no
+panic or backtrace text. Serialization failures and every other stdout I/O
+error remain fail-closed.
 
 ## Shared Client Ownership
 
@@ -91,6 +103,9 @@ or built from stale provenance.
   for PR observation.
 - Keep `csdlc-github run --request <request.json>` only as compatibility during
   migration.
+- Use `csdlc-github runner-preflight --request <request.json>` for the bounded,
+  read-only larger-runner eligibility and dispatch diagnostic documented in
+  `docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md`.
 - Do not add new issue actions to `csdlc-github-pr`.
 - Do not add new PR actions to `csdlc-github-issue`.
 - Do not route publication or terminal operations through connector actions;

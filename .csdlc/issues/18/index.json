@@ -1,0 +1,189 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 18,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d17a38c463cbd63f4ad7f383210eef6caa09b6a87bfe493d8f72a07b2b8edc92",
+  "phase": "published",
+  "generation": 8,
+  "digest": "13de4b80a7e4d8efda7451a9f682cc0c0769e6e295da2064cbbb3e5ea30bab53",
+  "branch": "codex/18-csdlc-schema-broken-pipe",
+  "worktree": "/Volumes/FastWork/adl-issue-18-csdlc-schema-broken-pipe",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:review_issue_18",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:b50356cd00ab1645dcd825a11b4ed7688d8687c5:f2e18ea4d00fbedb28d18b06683ec6b386274071e9f1188412b2d28fd31be3fc",
+    "findings": [],
+    "residual_risks": [
+      "The shared helper is adopted only by the two split GitHub binaries bounded by issue #18; unrelated C-SDLC binaries retain legacy direct-print output paths.",
+      "The process regression relies on the large schema payload exceeding normal pipe buffering, while the direct unit test independently proves BrokenPipe classification."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 18,
+    "pull_request": 34,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/34",
+    "base": "main",
+    "head": "codex/18-csdlc-schema-broken-pipe",
+    "revision": "git-blake3:d4fa14aff387bfaab369cd65c5ec2f217f8b86f6:b2fafeeba0eaf9f0f2a567451441ee6fc52450e229609a9487cf06ccb4e1b963",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/18/design.md",
+  "diagram_path": ".csdlc/prepared/issues/18/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-18-design-review",
+      "revision": "b20e704be6264e0d1e06a94ba31f374c5fa04d7e93a3c132b6032820cfcb78ff"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a385df1a804520f0647e763956404a638264f16359f054815778fc3ea1d866a5",
+      "rendered_digest": "8b64badbd46792e5f6e18425a18298d063cb5c0e886c571efb35ce67c7ec87a4",
+      "ast_digest": "7b399b7e98f1344f9d00e3fc11d9dfd66c8d7c37f141078f688c7be925c26999"
+    },
+    "stp": {
+      "values_digest": "f587443ead3ae294a7092cf2f0c20390694a348d0cdd9e3ad010ee8015d71863",
+      "rendered_digest": "cd707c68335cbeda1d9d9f314b1daf75fad847e4c73d9174f8da1a6e8e993cb6",
+      "ast_digest": "d5c5575ef62f79f76767bf573b9ceacca87000c8b7b1d3d29f1e6b06ee735391"
+    },
+    "spp": {
+      "values_digest": "6e878fc99c7d0267b833525696cf2c5059d4ebecefef8b1546e5cdcbee8f59ad",
+      "rendered_digest": "8b8fb91777ec69ef7e18b5eb43d98e4737044be0ebe211002f54392566039efb",
+      "ast_digest": "da27ad14946efd87cd4bb054c396e5f74508c9c1efcd648ca6fc4326bf75d051"
+    },
+    "vpp": {
+      "values_digest": "68ad0586ae5abb6f47add2b8b0af697afae94f644146068fdd7b1a09f587800d",
+      "rendered_digest": "7c889bce9c7912a5d645881107a98d11fb5fa798203a0e550e340a9e419f888c",
+      "ast_digest": "7813f4a1b07d939eedd6c29d1f9a14b320a7c6014269ef7624154f4b8b9f1d14"
+    },
+    "srp": {
+      "values_digest": "81c4d29f343fdda3e125109b251d930208656fc457512e95099c89ad08de5433",
+      "rendered_digest": "4f2e66a03325342b964af848f904131985f795c1af09cd649d5cee946d4db1a8",
+      "ast_digest": "f71f6e9c5ae73750be5c79d36b35720cbb527cfe2d1b3360eb89ff19befbfad2"
+    },
+    "sor": {
+      "values_digest": "b96ba959143fb2667cadbb66a5a5bdce80d7051f56238e8d8db08fa2de27c3c1",
+      "rendered_digest": "30c45b9c3240232e651f45394ccb7b41d9aa076b3054c709b3e66c59dc181f2e",
+      "ast_digest": "4c0b00bb24869fb9c9e00e466bec4ae033bcb66edf7ca3f79bfb227eae12bde4"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-18-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed shared output writer implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed split GitHub binary output routing.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed focused BrokenPipe regression coverage.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed output termination contract documentation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

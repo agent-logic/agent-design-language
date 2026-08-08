@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 23,
+  "expected_digest": "fe71adae0a188352b943c834d640a333b884531e7edb393bb5ff52a2f22f36d1",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record the exact terminal larger-runner dispatch proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "run", "--quiet", "--manifest-path", "csdlc-v2/Cargo.toml", "--bin", "csdlc-github", "--", "runner-preflight", "--request", ".csdlc/prepared/issues/32/live-canary-preflight.json"],
+      "purpose": "Prove branch-independent repository policy and terminal dispatch on the exact expected run, workflow, head, label, and runner group.",
+      "outcome": "passed",
+      "evidence_ref": "Run 31236518300 attempt 5 job 93054382571 completed success at 2026-08-08T04:00:53Z on head 3558f41b2395e9cb80f2804ba09f68914e9690ec; csdlc-github reported capacity=ready, policy=eligible, dispatchability=proven, label adl-ubuntu-24.04-16core, group adl-build-experiment, runner adl-ubuntu-24.04-16core-1000001117."
+    }
+  }
+}
