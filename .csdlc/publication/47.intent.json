@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 47,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/47-exact-rust-test-selectors",
+  "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
+  "body": "Closes #47\n\nMakes Rust test lane selection fail closed when a free substring could fan out across unrelated targets. Distinguishes exact singular targets from intentional broad target sets, supports documented Cargo toolchain/global/alias/value-option syntax, and rejects ambiguous or conflicting selector shapes before execution.\n\nValidation: focused selector guard 1/1; selector integration 2/2; exact schema lane 3/3; strict all-target Clippy; formatting; typed issue validation generation 22; exact-head subagent review with all findings fixed and no remaining P0-P3 findings.",
+  "draft": false,
+  "revision": "git-blake3:6488ef71e56eb3350cc79abe24560d70c9afd64c:70f78d9ec7ac6e1a34b11f6afbed3fb93db9eaf774c8a3cd1060a438fc056b4b",
+  "commit_sha": "6488ef71e56eb3350cc79abe24560d70c9afd64c"
+}

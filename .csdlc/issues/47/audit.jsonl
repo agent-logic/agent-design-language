@@ -30,3 +30,4 @@
 {"sequence":30,"generation":21,"actor":"codex:issue-47-implementation","reason":"Record completion of active guidance, focused validation, and the no-findings exact-head review.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"}
 {"sequence":31,"generation":21,"actor":"codex:issue-47-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":32,"generation":22,"actor":"codex:issue-47-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":33,"generation":23,"actor":"codex:issue-47-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
