@@ -3,9 +3,9 @@
   "issue": 41,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "771b5ed173830eb20533942fa87b74b8f11779b53aabf509b5e9cc0e34d22b32",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "877a6861d9f0d079f01f84ee30ced1e315c05363e93d515238e406690ba907dc",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "ac390630478f4a5dfca8f054830f59cd451dfea6b849ff3e8b1f98d3ff772a8c",
   "branch": "codex/41-missing-issue-read-diagnostics-preparation",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-41-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d0b850633bcad703235b94d72a3ceb48db64d408e0978df359ea0f2ca39100f3",
+      "values_digest": "a17ee3c1af75bc01895565c9f2f509c65c35fa67f9f012445ac88084fe9374c5",
       "rendered_digest": "f7745872babb8299b9f9c1964c684a2f4246df6a1ea3a19066e420c0976d289d",
       "ast_digest": "3f9c49d932c246af98631b30d404612bd6f3ab99c71e3b9e64354a6280909a8d"
     },
     "stp": {
-      "values_digest": "04a6efa690c4872e30c183000bc220712491934b3b08e4209a2d59d127abc21c",
+      "values_digest": "16b0b47e4aebff877fb57c8c1f264bb1993bc1b8e6471ddd7b53a1f6687d072f",
       "rendered_digest": "9c85cd21d22bea114ce3fbe8f269223ef781c1f5d7ff8f15cf77029c959c39ea",
       "ast_digest": "6a3d0757edb91ea51a5399303d8c929b9c1eceace677c3c65b151f0256285b35"
     },
     "spp": {
-      "values_digest": "6d8c3c93aaada0e292afd99946e12b1bf44203a2b1f0aadcc8e9400996c32e9e",
-      "rendered_digest": "3f692197a4b57c3ce43af36584ecf74cb9aa22844ddc30598378c3c012cfb8b3",
-      "ast_digest": "efceb171d447b546ebd3646fae234d2b7088fc4a305837ec00ae75c6138eb31b"
+      "values_digest": "46d5233cde8841846e2cfd68d0f26c31a38a4ff4c0e63531ea492b3117f626de",
+      "rendered_digest": "d8a6614b34a983cf1c93ccfe1837d8d875676a0b35fecad5d0551fe40921f8f4",
+      "ast_digest": "2c2e4ab6aab25ac41943aef6ac3386a8117c0ef5b280f0526edcdc53a80ed45d"
     },
     "vpp": {
-      "values_digest": "5fbf3695a6cca0f89c1aa6e4d280e656fa64e09d1eb1d9c466e09ead76f902d6",
+      "values_digest": "eef0f35cb0f246368b7177b3295cdc6589b559b9e34917c98ea061ce6b40f9ed",
       "rendered_digest": "d79f0155f1f4c69a19b7220349e7aa2e33f478ed3c3117ea6af445885ec11dd9",
       "ast_digest": "40d94ac1d2cc4da656effdcb5e7154fbeb46c08a5bda0c1e6e6f3a37e655a49b"
     },
     "srp": {
-      "values_digest": "92bc1f9645d2b239de5751b72ff481e8a2c3fa1c53f32c874e9550a0744375ba",
+      "values_digest": "3fc3a0968485376271bfd39d33e6fc9bb4463ae27a10cbd6ba9c1f130f8190e0",
       "rendered_digest": "f263c817d430321d6320f7c309c1c859afba3b650676b9c97b0401125aca362e",
       "ast_digest": "c302e395f99cf1463665f5b736d313f2ca300ea7a9b611a9173f917151bd355c"
     },
     "sor": {
-      "values_digest": "80eaba4efb4e5cb2b07208324dc1678b0d1273a60fc2d8df0ac019f8ba95de9a",
-      "rendered_digest": "8277b211253dd0bc3cfd8eba27365edda347ccca511c46d3ca74c619884ec611",
-      "ast_digest": "653d53c28b4e335302c6ebd54c5e5a0f94ec806bcefb2d4d3b1360be3c71c6b6"
+      "values_digest": "891d1607926335655b2bae98ad7da1d64d25ef761435c2dd6e5cc2cbeda336c7",
+      "rendered_digest": "df4133d3bd2f89665dafdb0098d8a662d30adc2acb60f757689aef154dd04485",
+      "ast_digest": "02dd7f01f8ec73f4889caa9a6a026df3078ab325e186eea174730ae5093035d1"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:41-execution",
+      "reason": "advance only after bounded implementation and proving validation are recorded"
     }
   ],
   "audit": [
@@ -126,6 +133,55 @@
       "actor": "codex:41-readiness-preparation",
       "reason": "carry the approved structured-error fetch seam into executable typed plan truth",
       "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm the issue-read-only failure taxonomy, safe diagnostic vocabulary, exit codes, closed rate-limit allowlist, and redaction invariant.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Extract the existing GitHub GET into fetch_issue_value returning structured octocrab::Error; keep shared read_issue_packet generic, and map only explicit IssueRead errors before the common normalizer.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Extend the existing loopback fixture and prove real CLI JSON, exits, classification, non-read compatibility, successful-read compatibility, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused validation and exact-head independent review, resolve findings, and publish a qualified closing PR.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:41-execution",
+      "reason": "record the bounded issue-read classifier implementation before review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added explicit IssueRead-only structured Octocrab failure classification with stable exit codes, bounded diagnostics, and real-binary loopback regression proof while preserving shared non-read behavior.\",\"changes\":[\"csdlc-v2/src/error.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"],\"artifacts\":[\".csdlc/prepared/issues/41/design.md\",\".csdlc/prepared/issues/41/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:41-execution",
+      "reason": "retain the focused real-binary issue-read and non-read compatibility proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove typed issue-read failure taxonomy, stable JSON and exits, redaction, successful reads, and unchanged non-read readback classification\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree: gate_github_actions 5 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:41-execution",
+      "reason": "retain strict Rust lint and formatting proof for the bounded classifier change",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the complete C-SDLC v2 target set remains warning-free after the classifier change\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree: strict all-target Clippy, cargo fmt --check, and git diff --check passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:41-execution",
+      "reason": "record the completed bounded failure taxonomy and redaction contract",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:41-execution",
+      "reason": "record the completed structured-error fetch seam and explicit-read mapping",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:41-execution",
+      "reason": "record the completed real-binary loopback and redaction proof",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:41-execution",
+      "reason": "advance only after bounded implementation and proving validation are recorded",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

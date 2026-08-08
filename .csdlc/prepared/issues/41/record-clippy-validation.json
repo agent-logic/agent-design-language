@@ -1,0 +1,17 @@
+{
+  "issue": 41,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "9784557e2a4f06aa7dc00721b7301821c0da11fa9f567ddd222f8b601d8b20f0",
+  "actor": "codex:41-execution",
+  "reason": "retain strict Rust lint and formatting proof for the bounded classifier change",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "clippy", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+      "purpose": "Prove the complete C-SDLC v2 target set remains warning-free after the classifier change",
+      "outcome": "passed",
+      "evidence_ref": "local issue worktree: strict all-target Clippy, cargo fmt --check, and git diff --check passed"
+    }
+  }
+}
