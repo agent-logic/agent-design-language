@@ -56,11 +56,11 @@ Hardened native receipt validation while preserving the exact-proof packet integ
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

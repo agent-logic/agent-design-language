@@ -3,9 +3,9 @@
   "issue": 27,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1259634061e6920d6c48d3eea7eff3589ae47a0b4e9d104a3a43e464a03b1d5a",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "f27dd7467b76cdc612c451bd7da3578484f4018a1a1a1e4ea6efe5ab70a229df",
+  "phase": "published",
+  "generation": 14,
+  "digest": "d2a31571744d1d61e280c815db1ff4d490aa422fe69ff6d905cd2512d5dc6a2f",
   "branch": "codex/27-native-receipt-validator",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-27-native-receipts",
   "review_assignment": null,
@@ -25,7 +25,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 27,
+    "pull_request": 29,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/29",
+    "base": "codex/5820-v092-runtime-launch-resilience",
+    "head": "codex/27-native-receipt-validator",
+    "revision": "git-blake3:7ec43b618c412b7d4cf6a54aaa0b3bf1e39a8695:2c7dd5869aa25cb2e04fd21252459e49ffa27234b544d8d33190e60012de6a1d",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -39,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "72e0b51eb5fb6e07211338669c95e916f541393addf0ee9bd9c3fcb7a310e5a4",
+      "values_digest": "62cca1a6376c9cb6a54b41ff88d6bcefdddcb69c6cc9add2c4c5e1d9b2f533bb",
       "rendered_digest": "7a160715d50ad16f93a9e38eb9a8df676fb4c2c2d452694183548b630fc66e2c",
       "ast_digest": "cf7e97617fc42e7e3adf7aff103ef33bfdca48b9cb865188b8f01722691b558e"
     },
     "stp": {
-      "values_digest": "3059314d2cb59dd0756365b1cba72d1e6c0431833ff653deb04bc494e1630700",
+      "values_digest": "a7fa7f3cba3c033047bea950b84680a175432f6c97dcb1354ff0091f84714c21",
       "rendered_digest": "a30671755177682479a57d484d31a26d05963ddc22daa6907c583ba318099a2c",
       "ast_digest": "eb2c75ca2ed54f9f57c2cd5b697f519c4476f64f6ab6e7789a2d8bd5fdbd2dd0"
     },
     "spp": {
-      "values_digest": "6bdcaa659903b4c3b86f1aa13a4c6cb6663fd6db3832d0be52491e8992dfc261",
+      "values_digest": "582906aa68cb9f07920f64f3cb7724cacc9ee4869874694bb9c203a3a2493410",
       "rendered_digest": "b273e6e9be466099f84b979a860f4b0ba0c6e72296a237cf85a6df385fdf1acc",
       "ast_digest": "66a76ab93254b9e91cf1772cce37a9a0a2081e38de05f9eb94713cdee6c3ef55"
     },
     "vpp": {
-      "values_digest": "53b069d6c882dbae4e893e8e7ceafdce87ec3c4c83b30d12f873c5f090dd79bd",
+      "values_digest": "fb6cd37f4785da24b5df30887172a9276345b850c0afe755c52913fb05df93df",
       "rendered_digest": "21fbf8ae04e6324bafd3b413634695192a39557f10ff6e1e19114da8015e2f87",
       "ast_digest": "5fef167b5706f41355442e024d6f04c674f8dcec6610189e0fcbcb77384328fa"
     },
     "srp": {
-      "values_digest": "c7d6554d04405e99c07ad2ec020e97231dc8ae59eef68d07c9ef30bafb858d49",
+      "values_digest": "e4676cf66bf9550e5c48afffbf206c0c438fb0c96962ebf9698065b12230c110",
       "rendered_digest": "fc8b2ce6cd20cf134fcabee4c728418909b856bd3d3823449ad3f01acd7a26e4",
       "ast_digest": "a4dd1a2934f21408a9510f2d50c6a5cf25b01fa20a6f6d22e53c93367e5afac7"
     },
     "sor": {
-      "values_digest": "7ed957edda80b221cc9d793effba334c038b40c0547d27e2b5a59a45b9a7b4b4",
-      "rendered_digest": "734b7d2ad17ae258ba928351f9c2a805b5ba54b8bf9898ea901d3bcefa01edec",
-      "ast_digest": "19f0b7036f05678140abd439677cf42dfc18fd813fa7be5d59d464604766e10f"
+      "values_digest": "59e477bdcce057423a81f5a7824248659ddd02dd73043043a7b819c891826af7",
+      "rendered_digest": "29d04fa826d9c2f44a07ef2b11e998275d601bf4673f42053b00be934af18e53",
+      "ast_digest": "e98e3a7a0dd5d47e4c2340f33ed6775974c8ad96ba3add000f588e96732683f8"
     }
   },
   "transitions": [
@@ -97,6 +107,13 @@
       "to": "reviewed",
       "actor": "codex:issue-27-native-receipt-validator",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -204,6 +221,13 @@
       "actor": "codex:issue-27-native-receipt-validator",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
