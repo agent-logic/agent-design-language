@@ -1,7 +1,7 @@
 {
   "schema": "adl.wp04.negative_cases.v1",
   "issue": 5864,
-  "source_revision": "bede5ccccf20a58e7601de5e2ebbd7c2be49272b",
+  "source_revision": "6c8648832fc9aa24bc2ddc35ebfe509e69b0a5b8",
   "test_output": ".csdlc/evidence/5864/distributed-certificates.stdout.log",
   "source_artifacts": {
     "adl-runtime/src/distributed/certificates.rs": "9e06621e17c1d37c3b152f6af1517b823ea621ff451608a1f75440b6aa459352",
