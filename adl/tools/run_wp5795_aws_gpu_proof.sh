@@ -627,7 +627,12 @@ set -Eeuo pipefail
 mkdir -p /opt/adl-wp5795
 exec 3>&1 4>&2
 exec >/opt/adl-wp5795/bootstrap.log 2>&1
-trap 'rc=\$?; tail -120 /opt/adl-wp5795/bootstrap.log >&4; exit "\$rc"' ERR
+bootstrap_fail() {
+  local rc="\${1:-1}"
+  tail -120 /opt/adl-wp5795/bootstrap.log >&4
+  exit "\$rc"
+}
+trap 'bootstrap_fail \$?' ERR
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
 	apt-get install -y -qq zstd git build-essential pkg-config libssl-dev jq curl ca-certificates
@@ -656,7 +661,7 @@ apt-get update -qq
 	    ollama_model_store) ;;
 	    ollama_runtime) OLLAMA_ARCHIVE="\$destination" ;;
 	    rustup_init) RUSTUP_INIT="\$destination" ;;
-	    *) echo "unknown artifact kind: \$kind" >&2; exit 2 ;;
+	    *) echo "unknown artifact kind: \$kind" >&2; bootstrap_fail 2 ;;
 	  esac
 	done < <(jq -r '.artifacts[] | [.kind,.key,.version_id,.relative_path,(.size_bytes|tostring),.sha256] | @tsv' /opt/adl-wp5795/artifact-manifest.json)
 	[[ -n "\${OLLAMA_ARCHIVE:-}" && -n "\${RUSTUP_INIT:-}" ]]
@@ -704,10 +709,10 @@ ADL_SHEPHERD_MODEL_IDENTITY='$MODEL_IDENTITY' \
 ADL_SHEPHERD_MODEL_DIGEST_SHA256=\"\$MODEL_DIGEST\" \
 cargo test --locked --manifest-path adl-runtime/Cargo.toml \
   --test shepherd_local_model real_local_model_smoke -- --ignored --exact --nocapture \
-  >/opt/adl-wp5795/shepherd-local-model-smoke.log 2>&1 || {
-    tail -120 /opt/adl-wp5795/shepherd-local-model-smoke.log >&2
-    exit 1
-  }
+	  >/opt/adl-wp5795/shepherd-local-model-smoke.log 2>&1 || {
+	    tail -120 /opt/adl-wp5795/shepherd-local-model-smoke.log >&2
+	    bootstrap_fail 1
+	  }
 SHEPHERD_PROOF=\$(grep '"schema":"adl.runtime.shepherd_local_model_smoke.v1"' /opt/adl-wp5795/shepherd-local-model-smoke.log | tail -1)
 jq -e --arg digest "\$MODEL_DIGEST" \
   '.schema == "adl.runtime.shepherd_local_model_smoke.v1"
