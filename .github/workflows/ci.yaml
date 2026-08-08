@@ -494,7 +494,7 @@ jobs:
           sccache --zero-stats || true
 
       - name: Install cargo-nextest
-        if: needs.adl_path_policy.outputs.full_coverage_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
         uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
         with:
           tool: nextest@0.9.140
@@ -506,7 +506,7 @@ jobs:
         working-directory: .
 
       - name: test (CI routing canary)
-        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
+        if: needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
         run: cargo nextest run --status-level all --final-status-level slow
 
       - name: test deferred to validation-manager escalation
@@ -522,11 +522,11 @@ jobs:
         working-directory: .
 
       - name: doc test
-        if: needs.adl_path_policy.outputs.full_coverage_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
         run: cargo test --doc
 
       - name: test covered by full coverage lane
-        if: needs.adl_path_policy.outputs.full_coverage_required == 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'
         run: |
           echo "Skipping standalone cargo nextest/doc-test lane because this event requires the full cargo-llvm-cov lane."
           echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"

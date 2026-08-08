@@ -388,7 +388,6 @@ if routing_canary_run != "cargo nextest run --status-level all --final-status-le
     )
 routing_canary_if = step_optional_if("test (CI routing canary)")
 expected_routing_canary_if = (
-    "needs.adl_path_policy.outputs.full_coverage_required != 'true' && "
     "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'"
 )
 if routing_canary_if != expected_routing_canary_if:
@@ -429,6 +428,35 @@ if ordinary_doc_test != "cargo test --doc":
     raise SystemExit(
         "ordinary adl-ci doc-test lane must be 'cargo test --doc' without --all-features; "
         f"found: {ordinary_doc_test}"
+    )
+ordinary_doc_test_if = step_optional_if("doc test")
+expected_ordinary_doc_test_if = (
+    "needs.adl_path_policy.outputs.full_coverage_required != 'true' || "
+    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'"
+)
+if ordinary_doc_test_if != expected_ordinary_doc_test_if:
+    raise SystemExit(
+        "CI routing changes must execute doc tests even when full coverage is also required; "
+        f"found: {ordinary_doc_test_if}"
+    )
+
+nextest_install_if = step_optional_if("Install cargo-nextest")
+expected_nextest_install_if = expected_ordinary_doc_test_if
+if nextest_install_if != expected_nextest_install_if:
+    raise SystemExit(
+        "the CI routing canary must install cargo-nextest even when full coverage is also required; "
+        f"found: {nextest_install_if}"
+    )
+
+coverage_replacement_if = step_optional_if("test covered by full coverage lane")
+expected_coverage_replacement_if = (
+    "needs.adl_path_policy.outputs.full_coverage_required == 'true' && "
+    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'"
+)
+if coverage_replacement_if != expected_coverage_replacement_if:
+    raise SystemExit(
+        "the coverage replacement notice must not substitute for the direct CI routing canary; "
+        f"found: {coverage_replacement_if}"
     )
 
 authoritative_contract = step_run("authoritative coverage lane contract")
