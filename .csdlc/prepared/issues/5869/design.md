@@ -38,8 +38,9 @@ set, or strict majorities of both old and new voter sets during joint
 membership. A majority of the union that lacks either constituent majority is
 rejected. `AuthorityCertificateV1` uses algorithm identifier `ed25519`,
 RustCrypto `ed25519-dalek`, 32-byte compressed public keys, 64-byte `R || S`
-signatures, the exact `ADL-AUTHORITY-CERTIFICATE-V1\0` domain separator, and the
-deterministic prost body encoding and strict unknown/duplicate/non-minimal-field
+signatures, the exact two-stage `ADL-AUTHORITY-CERTIFICATE-BODY-V1\0` body-digest
+domain and `ADL-AUTHORITY-ENDORSEMENT-V1\0` signer-payload domain, and the
+deterministic prost encodings and strict unknown/duplicate/non-minimal-field
 rejection rules frozen by #5821. The fixed protobuf field-number and wire-type
 table, closed operation-class values, unsigned lexicographic signer-ID order,
 decode/re-encode byte equality, and `VerifyingKey::verify_strict` operation are

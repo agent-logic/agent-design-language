@@ -1,0 +1,21 @@
+{
+  "issue": 5869,
+  "card": "spp",
+  "expected_generation": 29,
+  "expected_digest": "079856e0b1bf8504b2922459ae6bed4770184d580ad8259c2c0f5033eed82d88",
+  "actor": "codex:5821-wp04-two-stage-domain-repair",
+  "reason": "Bind the operative plan to both exact signature domains on every execution path.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure or Runtime v2 fallback is permitted",
+      "Evidence is exact-revision and digest bound",
+      "Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority",
+      "AuthorityCertificateV1 uses frozen protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer ordering, and hashes canonical body bytes under ADL-AUTHORITY-CERTIFICATE-BODY-V1\\0",
+      "AuthorityEndorsementPayloadV1 signs the body digest, exact signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\0",
+      "Enrollment and verification reject duplicate effective control public keys, while quorum counting deduplicates both signer identity and control key",
+      "Authority certificates accept only frozen Ed25519 encodings, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict"
+    ]
+  }
+}

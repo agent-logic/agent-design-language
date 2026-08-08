@@ -1,0 +1,6 @@
+{
+  "issue": 5869,
+  "expected_generation": 26,
+  "expected_digest": "498ee237ced71772090a9940c659aa7374413e30ed01878ec2e794d6910443ee",
+  "reviewer": "codex:5821-wp04-two-stage-domain-design-review"
+}

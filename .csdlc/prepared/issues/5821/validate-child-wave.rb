@@ -61,6 +61,13 @@ authority_contracts = {
   5875 => ["before fence", "after fence", "source-permit revocation", "majority-committed fencing", "activation-key", "non-authoritative"],
   5876 => ["majority-committed", "authoritycertificatev1", "divergent local histories", "malicious-leader/minority", "quorum proof", "trust-domain recovery"]
 }.freeze
+certificate_surface_contracts = {
+  "design.md" => ["majorities of both", "union", "authorityendorsementpayloadv1", "adl-authority-certificate-body-v1", "adl-authority-endorsement-v1", "signer", "certificate generation", "duplicate effective control", "verify_strict"],
+  "sip.values.json" => ["both constituent majorities", "union", "authorityendorsementpayloadv1", "adl-authority-certificate-body-v1", "adl-authority-endorsement-v1", "signer identity", "certificate generation", "duplicate effective control", "verify_strict"],
+  "stp.values.json" => ["both constituent majorities", "union-majority", "authorityendorsementpayloadv1", "adl-authority-certificate-body-v1", "adl-authority-endorsement-v1", "signer guardian identity", "certificate generation", "duplicate", "verify_strict"],
+  "spp.values.json" => ["majorities of the old and new", "union majority", "authorityendorsementpayloadv1", "adl-authority-certificate-body-v1", "adl-authority-endorsement-v1", "signer identity", "certificate generation", "duplicate effective control", "verify_strict"],
+  "vpp.values.json" => ["joint old-plus-new majority", "union majority", "authorityendorsementpayloadv1", "adl-authority-certificate-body-v1", "adl-authority-endorsement-v1", "signer identity", "certificate generation", "effective control keys", "verify_strict", "superseded adl-authority-certificate-v1"]
+}.freeze
 cots_contracts = {
   "design.md" => ["quinn", "rustls", "prost", "openraft", "sole distributed manifest and", "adl-runtime/cargo.toml", "adl-runtime/cargo.lock"],
   "sip.values.json" => ["quinn", "rustls", "prost", "openraft", "adl-runtime/cargo.toml", "adl-runtime/cargo.lock"],
@@ -79,6 +86,19 @@ cots_contracts.each do |surface, terms|
          end
   content = File.read(path).downcase
   terms.each { |term| abort "child #5865 #{surface} COTS contract omits #{term}" unless content.include?(term) }
+end
+
+certificate_surface_contracts.each do |surface, terms|
+  path = if surface == "design.md"
+           File.expand_path("../5869/design.md", __dir__)
+         else
+           File.expand_path("../../../issues/5869/cards/#{surface}", __dir__)
+         end
+  content = File.read(path).downcase
+  terms.each { |term| abort "child #5869 #{surface} certificate contract omits #{term}" unless content.include?(term) }
+  if surface != "vpp.values.json" && content.include?("adl-authority-certificate-v1\\0")
+    abort "child #5869 #{surface} retains superseded authority-certificate signature domain"
+  end
 end
 
 authority_contracts.each do |issue, terms|

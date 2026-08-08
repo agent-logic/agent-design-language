@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7267ce23765f7123ab0ffbb966ebbd8848190136f77b904b3649ddf6830c9e75",
   "phase": "initialized",
-  "generation": 26,
-  "digest": "498ee237ced71772090a9940c659aa7374413e30ed01878ec2e794d6910443ee",
+  "generation": 31,
+  "digest": "8b00604dfbbd40acf567275f95df6bbd28c32b37cfd1e9e270cc91ae55af8a95",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5869/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5821-wp04-endorsement-binding-design-review",
-      "revision": "d91f8680aa67605d4549fd623baf5329f28c8a253f48be717c112792aef562e4"
+      "reviewer": "codex:5821-wp04-two-stage-domain-design-review",
+      "revision": "132f5437e67cb71961df3c6cb1b88fed79e68d88ac39b44d8f421f630d468125"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "09369ec254896bb0dcc2fe7ea09917c1fd9d9857801bbd130fb0bcdd4a9b9da8",
-      "rendered_digest": "915a87b5c0755a09de2bce9b968dd46d45c0ea91f90f7ae668f09b3c87781c61",
-      "ast_digest": "dfcec8a5b3c3b92ec7ad00abf208167c2816d820dfed48c0c0ad3f0a73bf581d"
+      "values_digest": "eba006b065e7b385a86cdb84674bc0782d7e264cc8ce71bb26dd1edb9ca2d20d",
+      "rendered_digest": "876d9101a6666c6ad62e03e5f07b16d742e7e71f9009f8e314769c8e5ceb192f",
+      "ast_digest": "65341c5ceb5278de2c0b114ed0aaa4d7f7dc8f6b67d65b23b8bf11976b552626"
     },
     "stp": {
-      "values_digest": "0fcf323364778adf8a1afe046a58feec0670845472281fe661d8c8463e070315",
-      "rendered_digest": "69dc1167da1b9d8482eefac2fa49bc87c561ac4aedc43c315b2fc3f251742e88",
-      "ast_digest": "b39f386c0b9b116e9e9e1b0ce6fb2d482407bb48480f96e3774a5b3709136572"
+      "values_digest": "358bedcfde0e0cf5a970c09d9b2539947db9e126ec35a273838cc07909a5a745",
+      "rendered_digest": "a05f0104d4503752ab9f6525de62c17a6ea204cc2057a93d0984f5c1026ec42b",
+      "ast_digest": "56db6434dd5853dda72f57ec9feedbe423406eff4d294206936eef12ae93caa0"
     },
     "spp": {
-      "values_digest": "6ab921f7d878070f52b9989b89d88d4491b830ca12150fd469ab2d051ed3afe2",
-      "rendered_digest": "3efea41573a7cdde8f487611f9c82a27c6d48e4d54c587c99865c6c7f112c8fb",
-      "ast_digest": "d851323d7da21b79007d595348801143781b6392878db28867d09e6978c43d62"
+      "values_digest": "64db3b1233f8980fb3d4cbdd5196b124f314725d22bfd8c61d03f5d253bcdcdb",
+      "rendered_digest": "88f46d39ce8e005ea289d5439954b2cd2212be14a4e23ba0c6ad5137abd3eab7",
+      "ast_digest": "2fb4d33f6fe69cd8ac4ae38182d146ba5800be3b67ec9878964b1ac295242d46"
     },
     "vpp": {
-      "values_digest": "42c2227570d7fe364a7c32d5ce2470c97c41dba67ba5b53d984f7863f5a51468",
-      "rendered_digest": "69f45e9e5ef24ade5ad780bfb2d6b5bd97b8337d6cc20a9d1ec5525d58556465",
-      "ast_digest": "0493db6954a6baca2c87c2ad565be704736c03ff09e548ba0546bbda394c2c74"
+      "values_digest": "7f6ac5caacc1512822332051f5fbd379c53fd24e9f6a3b9588874df3c2b82535",
+      "rendered_digest": "68c13f34a1f6b10ab8879a6f318cc07cbf048d032a46508954864b4b0977cb81",
+      "ast_digest": "7ec811bf48b0013bc0707a834bb42ffdf02a6e2b9bb44aa24b854b943c03591b"
     },
     "srp": {
-      "values_digest": "36023396659b8ca323bfea9baa6c77d52aceb57a530935a1846d8805c0d89f7c",
+      "values_digest": "e6efe75b1139f22a7c3e213ac33536f71f1c1af30461d1b93c31c1db4d3e6c9d",
       "rendered_digest": "027da3cdb5f1b780031f84fd41dc54354275b0483923ff4175506e92b231ee17",
       "ast_digest": "4b054b5ead22ac0d9e91daeee381de242d3184a73d613e692d5e65d2da0879a6"
     },
     "sor": {
-      "values_digest": "b2fd8ada079ea0c6f0b249265f995064406889eec15f5a0efe1fdfeb284a1822",
+      "values_digest": "30aca221f6d647fef93275d415c42dce267aa43faf6c74c7c8373e1efac0c401",
       "rendered_digest": "bb45e6e1db31068c0354adcbb0695a85fdbf9cf4038b21605b23353ce83702fa",
       "ast_digest": "0f8fb984437a074332d2881b9d9334d865d1f7c4409a29be9b99a4174e353f05"
     }
@@ -371,6 +371,41 @@
       "actor": "codex:5821-wp04-endorsement-binding-repair",
       "reason": "Require negative proof that unsigned signer metadata or duplicate effective keys cannot manufacture quorum.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement; rejects a union majority lacking either constituent majority; proves AuthorityEndorsementPayloadV1 signs the body digest, signer Guardian identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\\\0; rejects copied signatures under another identity or generation, stale generations, duplicate signer identities, and duplicate effective control keys; enforces the fixed AuthorityCertificateBodyV1 and endorsement protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer order, canonical decode/re-encode byte equality, Ed25519 algorithm identity, 32-byte public keys, 64-byte R || S signatures, SHA-256, and VerifyingKey::verify_strict; rejects malformed lengths, wrong algorithms, unknown or duplicate fields, non-minimal varints, unsorted signers, noncanonical scalar or point encodings, and byte-mismatched re-encoding; and proves activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=67c48658cb585b04994978da823640a32be4602799401649195121fd796ce598]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5869/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 27,
+      "actor": "codex:5821-wp04-two-stage-domain-design-review",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 44,
+      "generation": 28,
+      "actor": "codex:5821-wp04-two-stage-domain-repair",
+      "reason": "Align the child outcome with the exact two-stage body and signer endorsement domains.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"Implement OpenRaft committed authority whose certificates satisfy a stable majority or both constituent majorities during joint membership and reject insufficient union majorities. AuthorityCertificateV1 must hash its canonical body under ADL-AUTHORITY-CERTIFICATE-BODY-V1\\\\0; each AuthorityEndorsementPayloadV1 must sign that body digest plus signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\\\0 using Ed25519 verify_strict; enrollment and verification must reject duplicate effective control keys; and activation possession, leases, and mutation sinks must follow #5821.\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 29,
+      "actor": "codex:5821-wp04-two-stage-domain-repair",
+      "reason": "Make both exact signature domains mandatory deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"OpenRaft authority whose endorsements use a stable majority or both constituent majorities during joint membership, with a negative union-majority test\",\"AuthorityCertificateV1 using the fixed protobuf tag and wire-type table, closed operation classes, exact identity bytes, unsigned lexicographic signer ordering, and canonical body hashing under ADL-AUTHORITY-CERTIFICATE-BODY-V1\\\\0\",\"AuthorityEndorsementPayloadV1 signing the body digest, signer Guardian identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\\\0\",\"Ed25519 verification using ed25519-dalek VerifyingKey::verify_strict, 32-byte public keys, 64-byte R || S signatures, SHA-256, and deterministic prost encoding\",\"Negative tests for copied signatures under another identity or generation, stale generations, duplicate signer identities or effective control keys, wrong algorithms, malformed lengths, unknown or duplicate fields, non-minimal varints, noncanonical scalar or point encodings, unsorted signers, and decode/re-encode mismatch\",\"Digest-bound execution proof, reviewed rollback evidence, and quorum-only authority recovery\"]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 30,
+      "actor": "codex:5821-wp04-two-stage-domain-repair",
+      "reason": "Bind the operative plan to both exact signature domains on every execution path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure or Runtime v2 fallback is permitted\",\"Evidence is exact-revision and digest bound\",\"Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority\",\"AuthorityCertificateV1 uses frozen protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer ordering, and hashes canonical body bytes under ADL-AUTHORITY-CERTIFICATE-BODY-V1\\\\0\",\"AuthorityEndorsementPayloadV1 signs the body digest, exact signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\\\0\",\"Enrollment and verification reject duplicate effective control public keys, while quorum counting deduplicates both signer identity and control key\",\"Authority certificates accept only frozen Ed25519 encodings, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 31,
+      "actor": "codex:5821-wp04-two-stage-domain-repair",
+      "reason": "Prove both exact signature domains and reject the superseded single-domain construction.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement and rejects an insufficient union majority. It enforces frozen protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer order, canonical decode/re-encode equality, and AuthorityCertificateV1 body hashing under ADL-AUTHORITY-CERTIFICATE-BODY-V1\\\\0. It proves AuthorityEndorsementPayloadV1 signs that body digest, signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\\\0 using SHA-256 and Ed25519 VerifyingKey::verify_strict. It rejects the superseded ADL-AUTHORITY-CERTIFICATE-V1\\\\0 construction, copied signatures under another identity or generation, stale generations, duplicate signer identities or effective control keys, malformed lengths, wrong algorithms, unknown or duplicate fields, non-minimal varints, unsorted signers, noncanonical scalar or point encodings, and byte-mismatched re-encoding. It also proves activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=67c48658cb585b04994978da823640a32be4602799401649195121fd796ce598]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5869/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }

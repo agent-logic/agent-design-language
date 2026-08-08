@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.07] Epoch and lease authority",
     "slug": "v0-92-wp-04-07-epoch-lease-authority",
     "version": "v0.92",
-    "generation": 26
+    "generation": 31
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement; rejects a union majority lacking either constituent majority; proves AuthorityEndorsementPayloadV1 signs the body digest, signer Guardian identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\0; rejects copied signatures under another identity or generation, stale generations, duplicate signer identities, and duplicate effective control keys; enforces the fixed AuthorityCertificateBodyV1 and endorsement protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer order, canonical decode/re-encode byte equality, Ed25519 algorithm identity, 32-byte public keys, 64-byte R || S signatures, SHA-256, and VerifyingKey::verify_strict; rejects malformed lengths, wrong algorithms, unknown or duplicate fields, non-minimal varints, unsorted signers, noncanonical scalar or point encodings, and byte-mismatched re-encoding; and proves activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.",
+          "proof_role": "Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement and rejects an insufficient union majority. It enforces frozen protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer order, canonical decode/re-encode equality, and AuthorityCertificateV1 body hashing under ADL-AUTHORITY-CERTIFICATE-BODY-V1\\0. It proves AuthorityEndorsementPayloadV1 signs that body digest, signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\0 using SHA-256 and Ed25519 VerifyingKey::verify_strict. It rejects the superseded ADL-AUTHORITY-CERTIFICATE-V1\\0 construction, copied signatures under another identity or generation, stale generations, duplicate signer identities or effective control keys, malformed lengths, wrong algorithms, unknown or duplicate fields, non-minimal varints, unsorted signers, noncanonical scalar or point encodings, and byte-mismatched re-encoding. It also proves activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -66,7 +66,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on stale dependencies, path overlap, zero tests, invalid evidence, insecure fallback, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/5869/design.md",
-      "design_digest": "d91f8680aa67605d4549fd623baf5329f28c8a253f48be717c112792aef562e4",
+      "design_digest": "132f5437e67cb71961df3c6cb1b88fed79e68d88ac39b44d8f421f630d468125",
       "diagram_ref": ".csdlc/prepared/issues/5869/diagram.mmd",
       "diagram_digest": "b6214f3f6d8281d9eabcf54b42092e69517d8f3cbb616f27313f0b7265a97d07"
     }

@@ -16,14 +16,12 @@ Implement monotonic epochs and bounded leases as prerequisites for distributed o
 
 ## Deliverables
 
-- OpenRaft authority and leases whose endorsements use a stable majority or both constituent majorities during joint membership
-- Negative tests proving a union majority without either constituent majority is rejected and one effective control key cannot count as multiple voters
-- AuthorityCertificateV1 using the fixed protobuf tag and wire-type table, closed operation classes, exact identity bytes, and unsigned lexicographic signer ordering
-- AuthorityEndorsementPayloadV1 signing the certificate-body digest, signer Guardian identity, certificate generation, and algorithm under the exact ADL-AUTHORITY-ENDORSEMENT-V1\0 domain
+- OpenRaft authority whose endorsements use a stable majority or both constituent majorities during joint membership, with a negative union-majority test
+- AuthorityCertificateV1 using the fixed protobuf tag and wire-type table, closed operation classes, exact identity bytes, unsigned lexicographic signer ordering, and canonical body hashing under ADL-AUTHORITY-CERTIFICATE-BODY-V1\0
+- AuthorityEndorsementPayloadV1 signing the body digest, signer Guardian identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\0
 - Ed25519 verification using ed25519-dalek VerifyingKey::verify_strict, 32-byte public keys, 64-byte R || S signatures, SHA-256, and deterministic prost encoding
-- Negative tests for wrong algorithms, stale signer generations, duplicate signer identities or effective control keys, malformed key/signature lengths, unknown or duplicate fields, non-minimal varints, noncanonical scalar or point encodings, unsorted signers, decode/re-encode mismatch, and noncanonical field ordering
-- Digest-bound execution proof and reviewed rollback evidence
-- Authority recovery only from a quorum-proven committed prefix; local durability, a leader assertion, or a minority history never grants authority
+- Negative tests for copied signatures under another identity or generation, stale generations, duplicate signer identities or effective control keys, wrong algorithms, malformed lengths, unknown or duplicate fields, non-minimal varints, noncanonical scalar or point encodings, unsorted signers, and decode/re-encode mismatch
+- Digest-bound execution proof, reviewed rollback evidence, and quorum-only authority recovery
 
 ## Acceptance
 
