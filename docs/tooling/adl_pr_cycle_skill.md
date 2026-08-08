@@ -59,12 +59,12 @@ Hard guardrails:
    are recorded in VPP truth.
 4) Do not edit `.csdlc` state or Markdown cards directly. Use `csdlc-edit` and
    `csdlc-validate`; preserve the canonical SIP -> STP -> SPP -> VPP -> SRP ->
-   SOR lifecycle and active session claim/lease invariants.
+   SOR lifecycle and bound Git topology invariants.
 5) Do not publish until `csdlc-review` has current exact-head review evidence.
    Publication must fail closed without it. Do not merge or close the issue
    unless the operator explicitly authorizes that terminal action.
 6) Keep retries bounded and preserve every failure artifact. Never hide a
-   stale-generation, claim, review, validation, or ancestry error by retrying
+   stale-generation, topology, review, validation, or ancestry error by retrying
    around it.
 
 Procedure:
@@ -77,14 +77,16 @@ Procedure:
    - Confirm all six cards, the design, and the diagram are present or can be
      generated from the current versioned prompt registry.
 2) Init
-   - Submit a typed bootstrap request to `csdlc-init`; this is the atomic,
+   - Submit a typed bootstrap request to `csdlc-issue create`; this is the atomic,
      pre-binding creation of the issue record and six initial projections. It
-     includes design and diagram paths, the claim, operator constraints, review
+     includes design and diagram paths, operator constraints, review
      scope, and explicit validation budgets; it is not implementation editing.
 3) Bind
    - Submit a typed `csdlc-bind` request for the issue branch/worktree.
-   - Preserve the claim owner, heartbeat/lease, protected paths, and stale-claim
-     recovery evidence in the shared ledger.
+   - When issue and code repositories differ, include the explicit
+     `code_repository`; doctor verifies it against effective Git topology.
+   - Preserve the issue branch/worktree relationship and reject conflicting or
+     ambiguous Git topology.
 4) Design/plan, implement, and validate
    - After binding, use `csdlc-v2-card-editor` for all semantic card
      construction/repair and run `csdlc-validate` after every accepted edit.
@@ -117,7 +119,7 @@ Stop boundaries:
 - `mode=suggest` stops after reporting the next typed operation.
 - `publish=false` stops after exact-head review and final validation.
 - `merge=false` stops before merge/finish even when the PR is green.
-- Any stale claim, stale revision, missing card, missing budget, failed proof,
+- Any stale topology, stale revision, missing card, missing budget, failed proof,
   missing review, or ancestry drift is a blocker; preserve evidence and report
   the typed recovery operation instead of improvising.
 ```
@@ -133,7 +135,7 @@ Stop boundaries:
 
 ## Failure policy
 
-Fail closed on invalid input, missing authority, stale claims or revisions,
+Fail closed on invalid input, missing authority, stale topology or revisions,
 missing review truth, failed validation, publication drift, or incomplete
 finish. Preserve the machine-readable error and report one typed recovery
 operation; do not silently fall back to a legacy command surface.

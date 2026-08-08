@@ -335,6 +335,100 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     ));
     assert!(diagnosed.contains("\"ready\": true"));
 
+    let split_worktree = temp.path().join("worktrees/issue-43");
+    let mut split = request();
+    split.issue = 43;
+    split.repository = "danielbaustin/agent-design-language".into();
+    split.design_path = "design/issue-43.md".into();
+    split.diagram_path = "design/issue-43.mmd".into();
+    split.initial.affected_areas[0] = "design/issue-43.md".into();
+    split.initial.repo_inputs[0] = "design/issue-43.md".into();
+    fs::write(repo.join("design/issue-43.md"), "# Approved split design\n").expect("split design");
+    fs::write(
+        repo.join("design/issue-43.mmd"),
+        "flowchart LR\n  Issue --> Code\n",
+    )
+    .expect("split diagram");
+    let split_create_request = temp.path().join("split-create.json");
+    fs::write(
+        &split_create_request,
+        serde_json::to_vec_pretty(&split).expect("serialize split create request"),
+    )
+    .expect("split create request");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-issue"),
+        &[
+            "--root",
+            &repo_text,
+            "create",
+            "--request",
+            &split_create_request.to_string_lossy(),
+        ],
+    ));
+    let split_without_contract = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-doctor"),
+        &["--repo", &repo_text, "--issue", "43"],
+    );
+    assert!(!split_without_contract.status.success());
+    assert!(String::from_utf8_lossy(&split_without_contract.stdout)
+        .contains("no explicit code repository was declared"));
+    let split_bind_request = temp.path().join("split-bind.json");
+    fs::write(
+        &split_bind_request,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 43,
+            "base_branch": "main",
+            "branch": "issue-43",
+            "worktree": split_worktree,
+            "code_repository": "agent-logic/agent-design-language",
+        }))
+        .expect("serialize split bind request"),
+    )
+    .expect("split bind request");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &repo_text,
+            "--request",
+            &split_bind_request.to_string_lossy(),
+        ],
+    ));
+    let split_repo_text = split_worktree.to_string_lossy();
+    let split_diagnosis = must_succeed(command(
+        &split_worktree,
+        env!("CARGO_BIN_EXE_csdlc-doctor"),
+        &["--repo", &split_repo_text, "--issue", "43"],
+    ));
+    assert!(!split_diagnosis.contains("repository_identity_drift"));
+    let split_index: serde_json::Value = serde_json::from_slice(
+        &fs::read(split_worktree.join(".csdlc/issues/43/index.json")).expect("split issue index"),
+    )
+    .expect("split issue index JSON");
+    assert_eq!(
+        split_index["code_repository"],
+        "agent-logic/agent-design-language"
+    );
+    let mismatched_split = csdlc_v2::doctor::diagnose_with_code_repository(
+        &csdlc_v2::Store::new(&split_worktree),
+        43,
+        Some("other-owner/other-repository"),
+    );
+    let mismatch = mismatched_split
+        .findings
+        .iter()
+        .find(|finding| finding.code == "repository_identity_drift")
+        .expect("mismatched explicit split must fail closed");
+    assert!(mismatch
+        .message
+        .contains("declared code repository other-owner/other-repository"));
+    assert!(mismatch
+        .message
+        .contains("origin repository agent-logic/agent-design-language"));
+
     let mut issue_5795_shape = request();
     issue_5795_shape.issue = 44;
     issue_5795_shape.repository = "danielbaustin/agent-design-language".into();

@@ -51,6 +51,14 @@ pub struct DoctorReport {
 }
 
 pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
+    diagnose_with_code_repository(store, issue, None)
+}
+
+pub fn diagnose_with_code_repository(
+    store: &Store,
+    issue: u64,
+    requested_code_repository: Option<&str>,
+) -> DoctorReport {
     let mut report = DoctorReport {
         schema: "csdlc.doctor.report.v1".into(),
         issue,
@@ -85,13 +93,27 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
         report.findings.push(finding(error));
         return report;
     }
+    let explicit_code_repository = requested_code_repository.or(record.code_repository.as_deref());
+    let code_repository = explicit_code_repository.unwrap_or(&record.repository);
     match crate::git::github_remote_repository(store.root(), "origin") {
-        Ok(Some(repository)) if !repository.eq_ignore_ascii_case(&record.repository) => {
+        Ok(Some(repository))
+            if explicit_code_repository.is_none()
+                && !repository.eq_ignore_ascii_case(&record.repository) =>
+        {
             report.findings.push(Finding {
                 code: "repository_identity_drift".into(),
                 message: format!(
-                    "issue repository {} does not match origin repository {repository}",
-                    record.repository
+                    "issue repository {} differs from origin repository {repository}, but no explicit code repository was declared",
+                    record.repository,
+                ),
+            });
+        }
+        Ok(Some(repository)) if !repository.eq_ignore_ascii_case(code_repository) => {
+            report.findings.push(Finding {
+                code: "repository_identity_drift".into(),
+                message: format!(
+                    "declared code repository {code_repository} does not match origin repository {repository}; issue repository is {}",
+                    record.repository,
                 ),
             });
         }

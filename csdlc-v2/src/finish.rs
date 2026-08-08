@@ -1724,6 +1724,7 @@ mod tests {
             schema: "csdlc.issue.v2".into(),
             issue: 7,
             repository: "owner/repo".into(),
+            code_repository: None,
             initialization_digest: "init".into(),
             phase: LifecyclePhase::MergeReady,
             generation: 3,

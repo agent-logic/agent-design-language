@@ -3,9 +3,9 @@
   "issue": 45,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "18b2eea1adfa602448a1bd5ce457a9d6d59102aa1e82a2e784393891fff8876b",
-  "phase": "bound",
-  "generation": 5,
-  "digest": "c6d1d283dda4c0bd33f22bc6378cf61fa5213d6e0d75a6b463f9066257227b2a",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "b3cc0e446320c19eb20310686ee0dc160347c27c93cafd083ae34ce566c09c24",
   "branch": "codex/45-doctor-split-repository-authority",
   "worktree": "/Volumes/FastWork/adl-issue-45-doctor-split-authority",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ee165cec62db06301e56287ae3e9386f9aec45a29700c90563aec5615e55c16",
+      "values_digest": "9b9ce8274e4f52ce1d8205586f8e39bc03289ac1d908dfb79b7290d441ab0eec",
       "rendered_digest": "77186a4f08a7269344c31f0318ad8225000c28019811382fb9fd61abb88d56d0",
       "ast_digest": "604d9fad4d60da84ad5f91948d8a84eb3f353255613dd283c3ea977975ba39ae"
     },
     "stp": {
-      "values_digest": "57b99affb2df4941e58e461e3a74b8443abd11dcdca41a2d41714ab0402d03af",
+      "values_digest": "cf33183ac7eeab0004995aee1e8f8de22ad6da0909c248f2445f7dba13caa9a1",
       "rendered_digest": "5e4d512bfe1e765fb730c0ee685c8d5d47b2667bf83bc6bad9b99ef97124ae19",
       "ast_digest": "5cc869f262ba2e1c902cbc273d45bca91f00f0df71988f13c3e918f8de160659"
     },
     "spp": {
-      "values_digest": "91d55bf69deb53e8b46a2ed286167e49c2c0f423312b205ea1768a4a34bf112b",
+      "values_digest": "6278520325bd7834a933136bd7f5dcc323fd90b995e22b921401f9bf9bde5b2d",
       "rendered_digest": "98ccc699c2acfa13d7c4d3d511d3d0f7659e1885177eb64f4f6023788169aae5",
       "ast_digest": "4260b239b9b4218400059a86090c9204011dd37802ffcd269e4c41bc8d1f406a"
     },
     "vpp": {
-      "values_digest": "71132fdd9f4fcc223ae673a466bf62d794964b83acfd1d6e563e51f6e3d0502a",
+      "values_digest": "ae4fcbc0d96b676a2ab598f810efb8b1474ab0bc78ed653981c89d5f6d2e8d10",
       "rendered_digest": "d76226f6d71b35ea65c14e1adef175fd56b20554f3e7ddd4b1f98652dd941079",
       "ast_digest": "22df74d18eea1bb6ed2b67c4370a9c33a31895b3dda4cf6bef3fe46f25e16e7f"
     },
     "srp": {
-      "values_digest": "3fd4ae335361af67debd22822ec6c71c95a431012732353c5eead35153273807",
+      "values_digest": "332ec61b08776728524bd3d7260639647e7b89333c46f78714bfad52721e0c1b",
       "rendered_digest": "24a521b4506118e9a4db9e0ccaf9433e2bf0a7b65b5837e639c1880e9617f647",
       "ast_digest": "3d124ae8585375ddb3ae49ada3d91c50ce17d04e92f8a8f8a2c18c8aa1a62652"
     },
     "sor": {
-      "values_digest": "e99ad0ad553ac4aa852d2d06c82af208e9bfdd72ef47bb4dda57714fc5fd673b",
-      "rendered_digest": "605bbd9bae4e00442753a0f817336e71045b766f0c8faf3249ad52524a3f4645",
-      "ast_digest": "692e7a6876e8e36cf39218ec75fd3d86d4198ea9cfca2eb5186ced42da92686a"
+      "values_digest": "47f0e269ef35d2bd90c7d896223037b26dee19d3498f5c8c32800a0d7bd21ca2",
+      "rendered_digest": "c90f7a8b3894fcfa36a45ffb1112437142f0923442b0e0856104c6ef76ee5841",
+      "ast_digest": "a5a57f39e34aaae4cb42a21a2f0c2300a924b05669993b4dbaaf4189859e8958"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-45-execution",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -119,6 +126,20 @@
       "actor": "codex:issue-45-readiness-remediation",
       "reason": "Align STP acceptance, SPP steps, and VPP lanes on the existing gate2 target.",
       "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Doctor accepts a same-repository lifecycle record whose issue repository and effective code remote normalize to the same identity\",\"AC-2: Doctor accepts the supported split route only when issue repository danielbaustin/agent-design-language and code repository agent-logic/agent-design-language are both explicit and consistent\",\"AC-3: Doctor rejects absent, partial, substituted, or mismatched split-authority identity with repository_identity_drift and a specific diagnostic\",\"AC-4: csdlc-v2/tests/gate2.rs deterministically covers same-repository acceptance, valid split-repository acceptance, and invalid drift rejection\",\"AC-5: Active C-SDLC v2 skills and runbooks consistently explain separate issue and code repository authority without reviving claims or sunset v1 routes\",\"AC-6: Typed card, focused gate2 Rust, schema, and strict lint validation pass within recorded reviewable budgets\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Trace the current doctor, record, publication, and Git-remote identity flow and select the smallest typed split-authority representation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement same-repository and explicit split-repository validation with specific fail-closed drift diagnostics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Extend csdlc-v2/tests/gate2.rs with deterministic same-repository, valid split-authority, and invalid-drift fixtures.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Update every active skill and runbook affected by repository identity, then run the planned focused validation and exact-head review.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"doctor-repository-identity\",\"proof_role\":\"The existing issue-owned gate2 integration target proves same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"doctor-contract-and-lint\",\"proof_role\":\"Typed validation, active guidance scans, and strict Clippy prove schema and operator-contract consistency.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-45-execution",
+      "reason": "Record the bounded split-repository doctor implementation and focused local proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added explicit typed code-repository identity at bind time so doctor accepts same-repository and declared split-authority routes while rejecting absent or mismatched repository drift.\",\"changes\":[\"Record optional code_repository identity in canonical issue state through csdlc-bind.\",\"Compare doctor Git origin evidence against explicit code authority without inferring a split from remote names.\",\"Reject publication-time code repository substitution against the bound canonical record.\",\"Add deterministic gate2 coverage for same-repository, valid split, absent split, and mismatched split cases.\",\"Update active typed skills, lifecycle runbooks, and adl_pr_cycle installation contract.\"],\"artifacts\":[\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/operator/skills\",\"docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"docs/tooling/adl_pr_cycle_skill.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-45-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

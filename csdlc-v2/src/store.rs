@@ -1342,6 +1342,7 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
         schema: "csdlc.issue.index.v1".into(),
         issue: request.issue,
         repository: request.repository,
+        code_repository: None,
         initialization_digest,
         phase: LifecyclePhase::Initialized,
         generation: 0,
