@@ -1,0 +1,9 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 20,
+  "expected_digest": "5d0d17d915b4280bea148ce5be24d38f90456f341b3eab982a330f69ddb6b8fc",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Exact-head re-review and publication remain active.",
+  "operation": {"operation": "update_plan_step", "step_id": "S4", "status": "in_progress"}
+}

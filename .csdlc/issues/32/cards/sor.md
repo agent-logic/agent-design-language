@@ -102,6 +102,49 @@ Added a typed csdlc-github runner-preflight operation that reads GitHub runner, 
     "purpose": "Read live organization runner and group configuration, then require an assigned expected-label canary before declaring dispatch eligible.",
     "outcome": "deferred",
     "evidence_ref": "Live read-only preflight observed runner adl-ubuntu-24.04-16core Ready with max_count 10; group 3 selected to agent-logic/agent-design-language with workflow restriction disabled and no selected workflow refs. It correctly returned configuration_eligible_dispatch_unproven (exit 2). Terminal dispatch proof requires the published issue #32 PR canary job id."
+  },
+  {
+    "command": [
+      "cargo",
+      "run",
+      "--quiet",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-github",
+      "--",
+      "runner-preflight",
+      "--request",
+      ".csdlc/prepared/issues/32/live-canary-preflight.json"
+    ],
+    "purpose": "Prove branch-independent repository policy and terminal dispatch on the exact expected run, workflow, head, label, and runner group.",
+    "outcome": "passed",
+    "evidence_ref": "Run 31236518300 attempt 5 job 93054382571 completed success at 2026-08-08T04:00:53Z on head 3558f41b2395e9cb80f2804ba09f68914e9690ec; csdlc-github reported capacity=ready, policy=eligible, dispatchability=proven, label adl-ubuntu-24.04-16core, group adl-build-experiment, runner adl-ubuntu-24.04-16core-1000001117."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "runner_preflight"
+    ],
+    "purpose": "Prove exact run/workflow/head/group binding, terminal-unassigned classification, pagination helpers, capacity classification, and stale-ref authorization uncertainty.",
+    "outcome": "passed",
+    "evidence_ref": "Eleven matching focused tests passed after review remediation."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_runner_preflight"
+    ],
+    "purpose": "Exercise the real csdlc-github binary against a loopback GitHub API with paginated runner and repository results, secret-bearing request input, JSON stdout, and non-eligible exit semantics.",
+    "outcome": "passed",
+    "evidence_ref": "The loopback integration test passed; it required page 2 for both lists, found the target runner/repository there, returned diagnostic exit 2, emitted valid JSON, and did not expose the token or token path."
   }
 ]
 

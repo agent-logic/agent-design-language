@@ -12,54 +12,55 @@ Status: ready
 
 ## Summary
 
-Build a small read-only Rust preflight on existing COTS GitHub surfaces, wire a fast workflow gate, prove policy/capacity classification, review exact head, and publish a live canary PR.
+Implement a focused read-only Rust preflight on the existing csdlc-github and Octocrab surfaces; prove complete API pagination, policy/capacity/dispatch classification, exact canary identity, stale-reference uncertainty, CLI redaction, and live larger-runner dispatch; then review the exact head and publish without changing workflow routing.
 
 ## Plan
 
-Revision 3
+Revision 7
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Define the typed runner policy and capacity contract.",
+    "action": "Define the typed runner policy, capacity, dispatch, pagination, and canary-identity contract.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
       "AC-4",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Implement Octocrab-backed runner and group inspection with stale-ref diagnostics.",
+    "action": "Implement read-only Octocrab runner and group inspection with fail-closed stale-ref diagnostics.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Add focused deterministic tests and CI contract routing.",
+    "action": "Prove classifiers, schemas, API pagination, CLI redaction, and exact live larger-runner dispatch.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
       "AC-4",
+      "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
-    "action": "Review exact head, publish, and retain the live runner-assignment canary.",
+    "action": "Resolve exact-head review, publish the reviewed change, and retain terminal canary evidence.",
     "acceptance_ids": [
       "AC-5"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
@@ -91,7 +92,7 @@ Revision 3
 
 .csdlc/prepared/issues/32/design.md
 
-Digest: 1ce39cb5d02984ca57d3191178834e6a107774a8ca6513d581e6c060bc4456de
+Digest: 9de2ed1bc225fb8e8e6fac8edd938f655ff77987dd574b9043a37a17463caf84
 
 ## Diagram
 

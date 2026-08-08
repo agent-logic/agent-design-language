@@ -17,6 +17,12 @@ pub struct RunnerPreflightRequest {
     pub workflow_path: String,
     #[serde(default)]
     pub canary_job_id: Option<u64>,
+    #[serde(default)]
+    pub expected_run_id: Option<u64>,
+    #[serde(default)]
+    pub expected_head_sha: Option<String>,
+    #[serde(default)]
+    pub expected_pull_request: Option<u64>,
     #[serde(default = "default_queue_timeout_seconds")]
     pub queue_timeout_seconds: u64,
     #[serde(default)]
@@ -50,6 +56,7 @@ pub enum DispatchState {
     Proven,
     Unproven,
     TimedOut,
+    TerminalUnassigned,
     Mismatched,
 }
 
@@ -87,6 +94,7 @@ pub struct WorkflowRefObservation {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct CanaryObservation {
     pub job_id: u64,
+    pub run_id: u64,
     pub status: String,
     pub conclusion: Option<String>,
     pub labels: Vec<String>,
@@ -94,6 +102,9 @@ pub struct CanaryObservation {
     pub runner_group_name: Option<String>,
     pub created_at: Option<String>,
     pub started_at: Option<String>,
+    pub workflow_path: String,
+    pub head_sha: String,
+    pub pull_requests: Vec<u64>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -127,6 +138,7 @@ impl RunnerPreflightPacket {
 
 #[derive(Debug, Deserialize)]
 struct HostedRunnerList {
+    total_count: u64,
     runners: Vec<HostedRunner>,
 }
 
@@ -150,6 +162,7 @@ struct RunnerGroup {
 
 #[derive(Debug, Deserialize)]
 struct RepositoryList {
+    total_count: u64,
     repositories: Vec<RepositoryIdentity>,
 }
 
@@ -161,6 +174,7 @@ struct RepositoryIdentity {
 #[derive(Debug, Deserialize)]
 struct ActionsJob {
     id: u64,
+    run_id: u64,
     status: String,
     conclusion: Option<String>,
     #[serde(default)]
@@ -171,6 +185,19 @@ struct ActionsJob {
     started_at: Option<String>,
 }
 
+#[derive(Debug, Deserialize)]
+struct ActionsWorkflowRun {
+    path: String,
+    head_sha: String,
+    #[serde(default)]
+    pull_requests: Vec<RunPullRequest>,
+}
+
+#[derive(Debug, Deserialize)]
+struct RunPullRequest {
+    number: u64,
+}
+
 pub async fn inspect_runner_eligibility(
     request: &RunnerPreflightRequest,
 ) -> crate::Result<RunnerPreflightPacket> {
@@ -178,13 +205,7 @@ pub async fn inspect_runner_eligibility(
     let token = crate::github_token::resolve(request.token_file.as_deref())?;
     let crab = github_client(token)?;
 
-    let hosted: HostedRunnerList = crab
-        .get(
-            format!("/orgs/{}/actions/hosted-runners", request.organization),
-            None::<&()>,
-        )
-        .await
-        .map_err(remote)?;
+    let hosted = list_hosted_runners(&crab, &request.organization).await?;
     let group: RunnerGroup = crab
         .get(
             format!(
@@ -195,16 +216,8 @@ pub async fn inspect_runner_eligibility(
         )
         .await
         .map_err(remote)?;
-    let repositories: RepositoryList = crab
-        .get(
-            format!(
-                "/orgs/{}/actions/runner-groups/{}/repositories",
-                request.organization, request.runner_group_id
-            ),
-            None::<&()>,
-        )
-        .await
-        .map_err(remote)?;
+    let repositories =
+        list_selected_repositories(&crab, &request.organization, request.runner_group_id).await?;
 
     if group.id != request.runner_group_id {
         return Err(crate::V2Error::new(
@@ -213,12 +226,11 @@ pub async fn inspect_runner_eligibility(
         ));
     }
 
-    let runner = hosted.runners.iter().find(|runner| {
+    let runner = hosted.iter().find(|runner| {
         runner.name == request.expected_label && runner.runner_group_id == request.runner_group_id
     });
     let capacity = classify_capacity(runner);
     let repository_selected = repositories
-        .repositories
         .iter()
         .any(|repo| repo.full_name == request.repository);
     let policy = classify_policy(
@@ -240,8 +252,16 @@ pub async fn inspect_runner_eligibility(
             )
             .await
             .map_err(remote)?;
+        let run: ActionsWorkflowRun = crab
+            .get(
+                format!("/repos/{}/actions/runs/{}", request.repository, job.run_id),
+                None::<&()>,
+            )
+            .await
+            .map_err(remote)?;
         Some(CanaryObservation {
             job_id: job.id,
+            run_id: job.run_id,
             status: job.status,
             conclusion: job.conclusion,
             labels: job.labels,
@@ -249,14 +269,17 @@ pub async fn inspect_runner_eligibility(
             runner_group_name: job.runner_group_name,
             created_at: job.created_at,
             started_at: job.started_at,
+            workflow_path: run.path,
+            head_sha: run.head_sha,
+            pull_requests: run.pull_requests.into_iter().map(|pr| pr.number).collect(),
         })
     } else {
         None
     };
     let dispatchability = classify_dispatch(
         canary.as_ref(),
-        &request.expected_label,
-        request.queue_timeout_seconds,
+        request,
+        &group.name,
         OffsetDateTime::now_utc(),
     );
     let classification = classify_overall(capacity, policy, dispatchability);
@@ -291,6 +314,66 @@ pub async fn inspect_runner_eligibility(
     })
 }
 
+async fn list_hosted_runners(
+    crab: &Octocrab,
+    organization: &str,
+) -> crate::Result<Vec<HostedRunner>> {
+    let mut runners = Vec::new();
+    for page in 1_u64.. {
+        let response: HostedRunnerList = crab
+            .get(
+                format!("/orgs/{organization}/actions/hosted-runners?per_page=100&page={page}"),
+                None::<&()>,
+            )
+            .await
+            .map_err(remote)?;
+        let total = response.total_count as usize;
+        if response.runners.is_empty() && runners.len() < total {
+            return Err(incomplete_pagination("hosted runner"));
+        }
+        runners.extend(response.runners);
+        if runners.len() >= total {
+            return Ok(runners);
+        }
+    }
+    unreachable!()
+}
+
+async fn list_selected_repositories(
+    crab: &Octocrab,
+    organization: &str,
+    runner_group_id: u64,
+) -> crate::Result<Vec<RepositoryIdentity>> {
+    let mut repositories = Vec::new();
+    for page in 1_u64.. {
+        let response: RepositoryList = crab
+            .get(
+                format!(
+                    "/orgs/{organization}/actions/runner-groups/{runner_group_id}/repositories?per_page=100&page={page}"
+                ),
+                None::<&()>,
+            )
+            .await
+            .map_err(remote)?;
+        let total = response.total_count as usize;
+        if response.repositories.is_empty() && repositories.len() < total {
+            return Err(incomplete_pagination("selected repository"));
+        }
+        repositories.extend(response.repositories);
+        if repositories.len() >= total {
+            return Ok(repositories);
+        }
+    }
+    unreachable!()
+}
+
+fn incomplete_pagination(kind: &str) -> crate::V2Error {
+    crate::V2Error::new(
+        crate::ErrorCode::RemoteFailure,
+        format!("GitHub {kind} pagination ended before total_count"),
+    )
+}
+
 fn validate_request(request: &RunnerPreflightRequest) -> crate::Result<()> {
     let (owner, repo) = request.repository.split_once('/').ok_or_else(|| {
         crate::V2Error::new(
@@ -298,6 +381,20 @@ fn validate_request(request: &RunnerPreflightRequest) -> crate::Result<()> {
             "repository must be owner/name",
         )
     })?;
+    let canary_context_complete = match request.canary_job_id {
+        Some(_) => {
+            request.expected_run_id.is_some_and(|number| number > 0)
+                && request.expected_head_sha.as_deref().is_some_and(is_git_sha)
+                && request
+                    .expected_pull_request
+                    .is_none_or(|number| number > 0)
+        }
+        None => {
+            request.expected_run_id.is_none()
+                && request.expected_head_sha.is_none()
+                && request.expected_pull_request.is_none()
+        }
+    };
     if owner != request.organization
         || repo.is_empty()
         || request.runner_group_id == 0
@@ -305,6 +402,7 @@ fn validate_request(request: &RunnerPreflightRequest) -> crate::Result<()> {
         || !request.workflow_path.starts_with(".github/workflows/")
         || !request.workflow_path.ends_with(".yaml") && !request.workflow_path.ends_with(".yml")
         || request.queue_timeout_seconds == 0
+        || !canary_context_complete
     {
         return Err(crate::V2Error::new(
             crate::ErrorCode::InvalidInput,
@@ -312,6 +410,10 @@ fn validate_request(request: &RunnerPreflightRequest) -> crate::Result<()> {
         ));
     }
     Ok(())
+}
+
+fn is_git_sha(value: &str) -> bool {
+    matches!(value.len(), 40 | 64) && value.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
 fn classify_capacity(runner: Option<&HostedRunner>) -> CapacityState {
@@ -336,36 +438,53 @@ fn classify_policy(
 
 fn classify_dispatch(
     canary: Option<&CanaryObservation>,
-    expected_label: &str,
-    timeout_seconds: u64,
+    request: &RunnerPreflightRequest,
+    expected_runner_group: &str,
     now: OffsetDateTime,
 ) -> DispatchState {
     let Some(canary) = canary else {
         return DispatchState::Unproven;
     };
-    let expected_label_present = canary.labels.iter().any(|label| label == expected_label);
-    if expected_label_present
-        && canary
-            .runner_name
+    let context_matches = request.expected_run_id == Some(canary.run_id)
+        && canary.workflow_path == request.workflow_path
+        && request
+            .expected_head_sha
             .as_deref()
-            .is_some_and(|name| !name.is_empty())
-    {
-        return DispatchState::Proven;
+            .is_some_and(|sha| canary.head_sha == sha)
+        && request
+            .expected_pull_request
+            .is_none_or(|number| canary.pull_requests.contains(&number));
+    if !context_matches {
+        return DispatchState::Mismatched;
     }
+    let expected_label_present = canary
+        .labels
+        .iter()
+        .any(|label| label == &request.expected_label);
     if canary
         .runner_name
         .as_deref()
         .is_some_and(|name| !name.is_empty())
     {
-        return DispatchState::Mismatched;
+        return if expected_label_present
+            && canary.runner_group_name.as_deref() == Some(expected_runner_group)
+        {
+            DispatchState::Proven
+        } else {
+            DispatchState::Mismatched
+        };
     }
     let timed_out = canary
         .created_at
         .as_deref()
         .and_then(|created| OffsetDateTime::parse(created, &Rfc3339).ok())
-        .is_some_and(|created| (now - created).whole_seconds() >= timeout_seconds as i64);
-    if timed_out || canary.status == "completed" {
+        .is_some_and(|created| {
+            (now - created).whole_seconds() >= request.queue_timeout_seconds as i64
+        });
+    if timed_out {
         DispatchState::TimedOut
+    } else if canary.status == "completed" {
+        DispatchState::TerminalUnassigned
     } else {
         DispatchState::Unproven
     }
@@ -385,7 +504,9 @@ fn classify_overall(
     match dispatch {
         DispatchState::Proven => OverallState::Eligible,
         DispatchState::Unproven => OverallState::ConfigurationEligibleDispatchUnproven,
-        DispatchState::TimedOut | DispatchState::Mismatched => OverallState::DispatchUnavailable,
+        DispatchState::TimedOut | DispatchState::TerminalUnassigned | DispatchState::Mismatched => {
+            OverallState::DispatchUnavailable
+        }
     }
 }
 
@@ -417,6 +538,11 @@ fn diagnostics(
         }
         DispatchState::TimedOut => {
             values.insert("canary exceeded the queue bound without runner assignment".into());
+        }
+        DispatchState::TerminalUnassigned => {
+            values.insert(
+                "canary reached a terminal state without assignment before the queue bound".into(),
+            );
         }
         DispatchState::Mismatched => {
             values.insert("canary ran on a different label or runner group".into());
@@ -454,11 +580,31 @@ async fn observe_workflow_ref(
     observation.state = match crab.get::<Value, _, ()>(endpoint, None::<&()>).await {
         Ok(_) => classify_workflow_ref_http(Some(true)),
         Err(octocrab::Error::GitHub { source, .. }) if source.status_code.as_u16() == 404 => {
-            classify_workflow_ref_http(Some(false))
+            classify_workflow_ref_http(verify_ref(crab, repository, git_ref).await)
         }
         Err(_) => classify_workflow_ref_http(None),
     };
     observation
+}
+
+async fn verify_ref(crab: &Octocrab, repository: &str, git_ref: &str) -> Option<bool> {
+    let (owner, name) = repository.split_once('/')?;
+    let response: Value = crab
+        .graphql(&serde_json::json!({
+            "query": "query RunnerPreflightRef($owner: String!, $name: String!, $qualifiedName: String!) { repository(owner: $owner, name: $name) { ref(qualifiedName: $qualifiedName) { id } } }",
+            "variables": {"owner": owner, "name": name, "qualifiedName": git_ref}
+        }))
+        .await
+        .ok()?;
+    classify_ref_query(&response)
+}
+
+fn classify_ref_query(response: &Value) -> Option<bool> {
+    let repository = response.pointer("/data/repository")?;
+    if repository.is_null() {
+        return None;
+    }
+    Some(!repository.get("ref").is_none_or(Value::is_null))
 }
 
 fn parse_workflow_ref(request: &RunnerPreflightRequest, selected: &str) -> WorkflowRefObservation {
@@ -567,6 +713,7 @@ mod tests {
     fn canary(labels: &[&str], runner: Option<&str>, created_at: &str) -> CanaryObservation {
         CanaryObservation {
             job_id: 7,
+            run_id: 11,
             status: "queued".into(),
             conclusion: None,
             labels: labels.iter().map(|value| (*value).into()).collect(),
@@ -574,6 +721,9 @@ mod tests {
             runner_group_name: runner.map(|_| "adl-build-experiment".into()),
             created_at: Some(created_at.into()),
             started_at: None,
+            workflow_path: ".github/workflows/ci.yaml".into(),
+            head_sha: "3558f41b2395e9cb80f2804ba09f68914e9690ec".into(),
+            pull_requests: vec![30],
         }
     }
 
@@ -585,9 +735,26 @@ mod tests {
             expected_label: "adl-ubuntu-24.04-16core".into(),
             workflow_path: ".github/workflows/ci.yaml".into(),
             canary_job_id: None,
+            expected_run_id: None,
+            expected_head_sha: None,
+            expected_pull_request: None,
             queue_timeout_seconds: 300,
             token_file: None,
         }
+    }
+
+    fn classify(canary: &CanaryObservation, now: &str) -> DispatchState {
+        let mut request = request();
+        request.canary_job_id = Some(canary.job_id);
+        request.expected_run_id = Some(11);
+        request.expected_head_sha = Some("3558f41b2395e9cb80f2804ba09f68914e9690ec".into());
+        request.expected_pull_request = Some(30);
+        classify_dispatch(
+            Some(canary),
+            &request,
+            "adl-build-experiment",
+            OffsetDateTime::parse(now, &Rfc3339).unwrap(),
+        )
     }
 
     #[test]
@@ -615,6 +782,18 @@ mod tests {
     }
 
     #[test]
+    fn unavailable_capacity_is_distinct_from_eligible_policy() {
+        assert_eq!(
+            classify_overall(
+                CapacityState::Unavailable,
+                PolicyState::Eligible,
+                DispatchState::Unproven
+            ),
+            OverallState::CapacityUnavailable
+        );
+    }
+
+    #[test]
     fn assigned_expected_label_proves_dispatch() {
         let observation = canary(
             &["adl-ubuntu-24.04-16core"],
@@ -622,12 +801,7 @@ mod tests {
             "2026-08-08T03:00:00Z",
         );
         assert_eq!(
-            classify_dispatch(
-                Some(&observation),
-                "adl-ubuntu-24.04-16core",
-                300,
-                OffsetDateTime::parse("2026-08-08T03:01:00Z", &Rfc3339).unwrap()
-            ),
+            classify(&observation, "2026-08-08T03:01:00Z"),
             DispatchState::Proven
         );
     }
@@ -636,13 +810,33 @@ mod tests {
     fn unassigned_job_over_bound_is_dispatch_unavailable() {
         let observation = canary(&["adl-ubuntu-24.04-16core"], None, "2026-08-08T03:00:00Z");
         assert_eq!(
-            classify_dispatch(
-                Some(&observation),
-                "adl-ubuntu-24.04-16core",
-                300,
-                OffsetDateTime::parse("2026-08-08T03:06:00Z", &Rfc3339).unwrap()
-            ),
+            classify(&observation, "2026-08-08T03:06:00Z"),
             DispatchState::TimedOut
+        );
+    }
+
+    #[test]
+    fn terminal_unassigned_inside_bound_is_not_a_timeout() {
+        let mut observation = canary(&["adl-ubuntu-24.04-16core"], None, "2026-08-08T03:00:00Z");
+        observation.status = "completed".into();
+        observation.conclusion = Some("skipped".into());
+        assert_eq!(
+            classify(&observation, "2026-08-08T03:01:00Z"),
+            DispatchState::TerminalUnassigned
+        );
+    }
+
+    #[test]
+    fn stale_job_context_cannot_prove_dispatch() {
+        let mut observation = canary(
+            &["adl-ubuntu-24.04-16core"],
+            Some("runner-1"),
+            "2026-08-08T03:00:00Z",
+        );
+        observation.head_sha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".into();
+        assert_eq!(
+            classify(&observation, "2026-08-08T03:01:00Z"),
+            DispatchState::Mismatched
         );
     }
 
@@ -678,9 +872,33 @@ mod tests {
             "agent-logic/agent-design-language/.github/workflows/ci.yaml@refs/heads/main",
         );
         assert_eq!(current.state, WorkflowRefState::Unverified);
+        let wrong_path = parse_workflow_ref(
+            &request,
+            "agent-logic/agent-design-language/.github/workflows/other.yaml@refs/heads/main",
+        );
+        assert_eq!(wrong_path.state, WorkflowRefState::Malformed);
         assert_eq!(
             classify_workflow_ref_http(Some(false)),
             WorkflowRefState::Stale
         );
+    }
+
+    #[test]
+    fn ref_query_separates_stale_from_authorization_uncertainty() {
+        assert_eq!(
+            classify_ref_query(&serde_json::json!({"data": {"repository": {"ref": null}}})),
+            Some(false)
+        );
+        assert_eq!(
+            classify_ref_query(
+                &serde_json::json!({"data": {"repository": {"ref": {"id": "R_1"}}}})
+            ),
+            Some(true)
+        );
+        assert_eq!(
+            classify_ref_query(&serde_json::json!({"data": {"repository": null}})),
+            None
+        );
+        assert_eq!(classify_ref_query(&serde_json::json!({"errors": []})), None);
     }
 }

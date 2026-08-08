@@ -7,7 +7,7 @@
     "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
     "slug": "runner-policy-preflight",
     "version": "v0.92",
-    "generation": 13
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -111,7 +111,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed with typed indeterminate or ineligible diagnostics; never infer eligibility from runner Ready alone.",
       "design_ref": ".csdlc/prepared/issues/32/design.md",
-      "design_digest": "1ce39cb5d02984ca57d3191178834e6a107774a8ca6513d581e6c060bc4456de",
+      "design_digest": "9de2ed1bc225fb8e8e6fac8edd938f655ff77987dd574b9043a37a17463caf84",
       "diagram_ref": ".csdlc/prepared/issues/32/diagram.mmd",
       "diagram_digest": "706a56f11a18e0b180a4bd40e23b9ae5a9adc18d28254dbfadc4d6f01acd22d4"
     }

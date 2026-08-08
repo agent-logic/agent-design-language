@@ -1,0 +1,9 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "de3e2ec984e0dd005582f3e297c0a1607a6d2c3176be9259e8562ab834592368",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record completed typed contract design.",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"}
+}

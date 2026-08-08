@@ -20,13 +20,13 @@ A typed read-only Rust preflight proves runner label and capacity, group visibil
 
 ## Scope
 
-- csdlc-v2/Cargo.toml
+- csdlc-v2/src/bin/csdlc-github.rs
 - csdlc-v2/src/lib.rs
 - csdlc-v2/src/runner_preflight.rs
-- csdlc-v2/src/bin/csdlc-runner-preflight.rs
-- .github/workflows/ci.yaml
-- adl/config/validation_lane_selector.v0.91.6.json
-- adl/tools/test_ci_runtime_contracts.sh
+- csdlc-v2/src/schema.rs
+- csdlc-v2/tests/gate_runner_preflight.rs
+- docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md
+- docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md
 - .csdlc/prepared/issues/32
 - .csdlc/issues/32
 

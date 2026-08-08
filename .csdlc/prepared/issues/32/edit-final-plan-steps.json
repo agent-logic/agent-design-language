@@ -1,0 +1,37 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 16,
+  "expected_digest": "a2b53d21fd737e439efb37a555d55151443651968a75a9124539a5b5c76dd3e2",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record completed implementation work and the remaining exact-head review/publication boundary.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Define the typed runner policy, capacity, dispatch, pagination, and canary-identity contract.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement read-only Octocrab runner and group inspection with fail-closed stale-ref diagnostics.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Prove classifiers, schemas, API pagination, CLI redaction, and exact live larger-runner dispatch.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Resolve exact-head review, publish the reviewed change, and retain terminal canary evidence.",
+        "acceptance_ids": ["AC-5"],
+        "status": "pending"
+      }
+    ]
+  }
+}

@@ -7,7 +7,7 @@
     "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
     "slug": "runner-policy-preflight",
     "version": "v0.92",
-    "generation": 13
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -16,13 +16,13 @@
       "goal": "Make larger-runner eligibility branch-independent while retaining repository scope and providing fast native diagnostics for capacity versus policy failures.",
       "required_outcome": "A typed read-only Rust preflight proves runner label and capacity, group visibility, selected repository access, workflow restriction state, and stale workflow references, while PR branches remain eligible without allowlist mutation.",
       "declared_scope": [
-        "csdlc-v2/Cargo.toml",
+        "csdlc-v2/src/bin/csdlc-github.rs",
         "csdlc-v2/src/lib.rs",
         "csdlc-v2/src/runner_preflight.rs",
-        "csdlc-v2/src/bin/csdlc-runner-preflight.rs",
-        ".github/workflows/ci.yaml",
-        "adl/config/validation_lane_selector.v0.91.6.json",
-        "adl/tools/test_ci_runtime_contracts.sh",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/tests/gate_runner_preflight.rs",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+        "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
         ".csdlc/prepared/issues/32",
         ".csdlc/issues/32"
       ],

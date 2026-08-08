@@ -51,9 +51,12 @@ token or request headers.
 
 `Ready` is configuration evidence, not dispatch proof. When a canary job is
 provided, the preflight reads its runner name, runner group, labels, timestamps,
-and terminal status. A job assigned to the expected label proves dispatch; a
-still-unassigned job older than the request's bounded queue threshold reports
-`dispatch_unavailable`. With no canary, an otherwise healthy configuration is
+run id, workflow path, pull requests, and head SHA. A job assigned to the
+expected label and group proves dispatch only when its run, workflow, PR, and
+head exactly match the typed request. A still-unassigned job older than the
+request's bounded queue threshold reports `dispatch_unavailable`; a completed
+skipped or cancelled job inside that bound is terminal-unassigned rather than
+being mislabeled a timeout. With no canary, an otherwise healthy configuration is
 explicitly `configuration_eligible_dispatch_unproven`, never `eligible`.
 
 The command is diagnostic and fail-closed. GitHub authorization or schema

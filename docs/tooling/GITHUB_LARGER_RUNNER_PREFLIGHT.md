@@ -14,6 +14,9 @@ The request is typed JSON:
   "expected_label": "adl-ubuntu-24.04-16core",
   "workflow_path": ".github/workflows/ci.yaml",
   "canary_job_id": null,
+  "expected_run_id": null,
+  "expected_head_sha": null,
+  "expected_pull_request": null,
   "queue_timeout_seconds": 300,
   "token_file": null
 }
@@ -49,7 +52,13 @@ It reports:
 - `eligible`: a canary job was assigned to the expected label. Continue to watch
   it to a terminal result for release evidence.
 
-To evaluate a live canary, set `canary_job_id` to the numeric Actions job id.
+To evaluate a live canary, set `canary_job_id`, `expected_run_id`, and
+`expected_head_sha` together. `expected_pull_request` is an optional additional
+pin when GitHub's run response exposes a pull-request association. The command proves
+dispatch only when the job is assigned to the expected label and runner group
+and its workflow run exactly matches the requested workflow path, run, and
+head SHA, plus the PR number when supplied. This prevents an old or unrelated job from satisfying the
+gate.
 Keep the queue threshold bounded. Do not repeatedly wait on an unassigned job;
 record `dispatch_unavailable`, temporarily select a known working GitHub-hosted
 label if urgent work must continue, and repair the larger-runner route separately.

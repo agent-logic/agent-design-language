@@ -1,0 +1,6 @@
+{
+  "issue": 32,
+  "expected_generation": 13,
+  "expected_digest": "bb276dc81d9a4771b9b0d86af49c1f5b5cc3dc6e84d51d976f4a58ee08b09684",
+  "reviewer": "subagent:issue_32_runner_policy"
+}

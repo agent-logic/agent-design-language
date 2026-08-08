@@ -1,0 +1,9 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 19,
+  "expected_digest": "2667567c34cd9d1582754222c76ee51af25caa04ac02f7060c4ff126ee69a720",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record completed focused and live validation.",
+  "operation": {"operation": "update_plan_step", "step_id": "S3", "status": "completed"}
+}
