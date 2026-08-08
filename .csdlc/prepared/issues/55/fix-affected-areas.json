@@ -1,0 +1,20 @@
+{
+  "issue": 55,
+  "expected_generation": 2,
+  "expected_digest": "88d88e2ae7d1ad0fb3a3475b268f9d76e7f6e1b10797dc2f0df4f66941f84cd9",
+  "actor": "codex:issue-55-readiness",
+  "card": "spp",
+  "reason": "Own only existing workflow, focused contract, and typed issue paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "csdlc-v2/tests/gate_runner_preflight.rs",
+      ".csdlc/issues/55",
+      ".csdlc/prepared/issues/55"
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "issue": 55,
+  "expected_generation": 3,
+  "expected_digest": "5e35ccbcf0245c7d2fd05fc2d5c9b6838774ec28ff3bd48c2f2b274bd2b6dc57",
+  "actor": "codex:issue-55-readiness",
+  "card": "vpp",
+  "reason": "Replace provisional commands with existing focused proof surfaces.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane":"workflow-yaml",
+        "proof_role":"Parse the changed GitHub Actions workflow as valid YAML.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":60,
+        "budget_tokens":500,
+        "argv":["ruby","-e","require 'yaml'; YAML.load_file('.github/workflows/ci.yaml')"],
+        "acceptance_ids":["AC-4"]
+      },
+      {
+        "lane":"ci-runner-contract",
+        "proof_role":"Focused CI runtime and path-policy contracts prove the heavy aggregator route and preserved surrounding semantics.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":300,
+        "budget_tokens":2000,
+        "argv":["bash","adl/tools/test_ci_runtime_contracts.sh"],
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"]
+      },
+      {
+        "lane":"ci-path-policy-contract",
+        "proof_role":"Focused path-policy proof preserves producer, Spot, stable status, and coverage routing boundaries.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":180,
+        "budget_tokens":1000,
+        "argv":["bash","adl/tools/test_ci_path_policy.sh"],
+        "acceptance_ids":["AC-2","AC-3","AC-4"]
+      },
+      {
+        "lane":"larger-runner-preflight-contract",
+        "proof_role":"The typed larger-runner preflight contract verifies expected 16-core runner eligibility semantics.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":300,
+        "budget_tokens":1500,
+        "argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate_runner_preflight"],
+        "acceptance_ids":["AC-1","AC-4"]
+      }
+    ]
+  }
+}

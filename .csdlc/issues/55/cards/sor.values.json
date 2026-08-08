@@ -1,0 +1,77 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 55,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
+    "slug": "coverage-aggregate-big-runner",
+    "version": "v0.92",
+    "generation": 18
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Routed heavyweight hosted coverage aggregation through the established selected 16-core runner contract.",
+      "actual_changes": [
+        "Changed only adl_coverage_hosted from ubuntu-latest to the centralized ADL_HEAVY_RUNNER expression.",
+        "Added focused contract assertions rejecting standard-runner aggregation and updated the heavy-job count to eleven.",
+        "Preserved stable adl-coverage, producers, Spot, artifacts, Codecov, and coverage policy semantics."
+      ],
+      "artifacts": [
+        ".github/workflows/ci.yaml",
+        "adl/tools/test_ci_runtime_contracts.sh"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            "-e",
+            "require 'yaml'; YAML.load_file('.github/workflows/ci.yaml')"
+          ],
+          "purpose": "Parse the changed GitHub Actions workflow.",
+          "outcome": "passed",
+          "evidence_ref": "local:workflow-yaml:passed"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_runtime_contracts.sh"
+          ],
+          "purpose": "Prove selected heavy-runner routing and preserved coverage topology.",
+          "outcome": "passed",
+          "evidence_ref": "local:ci-runtime-contracts:passed"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "purpose": "Prove surrounding coverage route and policy semantics remain intact.",
+          "outcome": "passed",
+          "evidence_ref": "local:ci-path-policy:passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_runner_preflight"
+          ],
+          "purpose": "Prove selected 16-core runner eligibility and redacted fail-closed preflight behavior.",
+          "outcome": "passed",
+          "evidence_ref": "local:gate-runner-preflight:1-passed"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

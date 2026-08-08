@@ -1158,7 +1158,7 @@ jobs:
       - adl_coverage_workspace_fast_hosted
       - adl_coverage_workspace_hosted
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
       id-token: write
