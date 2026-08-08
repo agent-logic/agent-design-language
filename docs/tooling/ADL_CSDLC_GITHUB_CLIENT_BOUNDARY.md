@@ -42,6 +42,32 @@ fallback. The operator-approved token file may be supplied through
 `token_file`/`ADL_GITHUB_TOKEN_FILE`; token contents must never be printed,
 copied, persisted into tracked artifacts, or committed.
 
+## Split Issue And Code Repository Authority
+
+The typed issue record's `repository` remains the issue-tracker authority. A
+publication request may additionally set `code_repository` when the reviewed
+code, branch, and pull request belong to a different canonical repository.
+The resulting publication intent and evidence retain both identities:
+
+- `issue_repository` identifies the issue that GitHub must close.
+- `repository` identifies the code repository that owns the Git remote,
+  branch, pull request, checks, and merge.
+
+Split-authority publication requires a qualified closing keyword such as
+`Closes danielbaustin/agent-design-language#5844`. An unqualified `Closes
+#5844` is invalid because GitHub would resolve it against the code repository.
+
+Before any push, `csdlc-publish` verifies every configured effective fetch URL
+and push URL for the selected remote against the code repository. It then
+requires the observed PR base and head repositories, refs, and exact head SHA
+to match, exhaustively reconciles all pages of matching open PRs, and rejects
+ambiguity. `csdlc-finish` uses the publication repository for PR authority but
+does not derive terminal success until the separately identified issue is
+observed closed through the exact qualified relationship.
+
+Omitting `code_repository` is the backward-compatible same-repository mode;
+it retains the same exact remote, linkage, review, and reconciliation checks.
+
 ## Install Contract
 
 The v2 install/coexistence manifests must require every operational GitHub

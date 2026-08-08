@@ -5,7 +5,10 @@
 - Sprint issue: `#5858`
 - Milestone: `v0.92`
 - Execution mode: `hybrid`
-- Status: `prepared`
+- Status: `closeout_ready`
+- Observed: `2026-08-08T03:18:11Z`
+- Live terminal children: `8/8`
+- Derived terminal envelopes present: `8/8`
 - Machine packet: `.csdlc/prepared/issues/5858/sprint-execution-packet.yaml`
 
 ## Sprint Goal
@@ -28,14 +31,14 @@ Out of scope:
 
 | Issue | Role | Status | Primary surface | Watcher |
 |---|---|---|---|---|
-| `#5818` | WP-01B | initialized | v0.92 current-version truth across docs/planning/ADL_FEATURE_LIST.md, canonical docs, READMEs, manifests, Cargo metadata, skills, and runbooks | child session owner |
-| `#5819` | WP-02 | initialized | five serially transferred company repositories with danielbaustin/asksifu retained as personal and Horust excluded | child session owner |
-| `#5812` | supporting | initialized | Clippy-clean Freedom Gate defaults with unchanged runtime behavior | child session owner |
-| `#5801` | WP-02A | initialized | reliable focused and slow test routing, coverage aggregation, and platform parity | child session owner |
-| `#5853` | WP-02B | initialized | a measured and reversible post-migration build acceleration decision for the standard and 16-core GitHub-hosted runner comparison | child session owner |
-| `#5822` | WP-05 | initialized | measured estimation, reconnection, and simplified lifecycle path | child session owner |
-| `#5823` | WP-06 | initialized | portable bounded runner with provenance and failover | child session owner |
-| `#5824` | WP-07 | initialized | historical-delivery audit and only the proven remaining enum/schema correction | child session owner |
+| `#5818` | WP-01B | issue closed; legacy PR `#5887` merged | v0.92 current-version truth across docs/planning/ADL_FEATURE_LIST.md, canonical docs, READMEs, manifests, Cargo metadata, skills, and runbooks | terminal envelope present |
+| `#5819` | WP-02 | issue closed; legacy PR `#5889` merged | five copy-only company repository destinations; source repositories preserved | terminal envelope present |
+| `#5812` | supporting | issue closed; legacy PR `#5894` merged | Clippy-clean Freedom Gate defaults with unchanged runtime behavior | terminal envelope present |
+| `#5801` | WP-02A | issue closed; legacy PR `#5893` merged | reliable focused and slow test routing, coverage aggregation, and platform parity | terminal envelope present |
+| `#5853` | WP-02B | issue closed; Agent Logic PR `#11` merged | measured and reversible build acceleration decision | terminal envelope present; digest `a91044f8...` |
+| `#5822` | WP-05 | issue closed; Agent Logic PR `#12` merged | measured estimation, reconnection, and simplified lifecycle path | terminal envelope present; receipt `cf227a8c...` |
+| `#5823` | WP-06 | issue closed; Agent Logic PR `#15` merged | portable bounded runner with provenance and failover | terminal envelope present |
+| `#5824` | WP-07 | issue closed; Agent Logic PR `#24` merged | historical-delivery audit and proven enum/schema disposition | terminal envelope present |
 
 ## Recommended Execution Order
 
@@ -57,9 +60,9 @@ Out of scope:
 ## Budget And Goal Accounting
 
 - No sprint-global token budget is preallocated.
-- After WP-01 releases its publication claim, every implementation session
-  registers its child worktree, reacquires the exact issue-local claim, binds,
-  and creates its own issue-bound goal before implementation.
+- Every implementation session binds its dedicated Git branch and worktree
+  through `csdlc-bind` and creates its own issue-bound goal before
+  implementation. Claims and leases are not lifecycle authority.
 - Actual time and token use are recorded per child when available and are never inferred as zero.
 
 ## Watcher Plan
@@ -119,6 +122,13 @@ Out of scope:
 
 - Declared path: `.csdlc/evidence/5858/sprint-review.md`
 - Review every child result, integration boundary, failed or deferred lane, and residual route before closing the umbrella.
+
+Current review gate:
+
+- All eight mapped child issues are closed and all eight mapped PRs are merged.
+- Derived terminal envelopes are present for all eight children.
+- The integrated sprint review has no unresolved actionable finding and the
+  umbrella is eligible for publication and terminal closeout.
 
 ## Sprint Closeout Rollup Expectations
 

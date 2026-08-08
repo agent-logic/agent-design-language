@@ -1,0 +1,6 @@
+flowchart LR
+    I["Preserved legacy issue"] --> Q["Qualified closing reference"]
+    C["Canonical code repository"] --> R["Verified fetch and push remote"]
+    R --> P["Canonical pull request"]
+    Q --> P
+    P --> F["Live linked issue and terminal reconciliation"]

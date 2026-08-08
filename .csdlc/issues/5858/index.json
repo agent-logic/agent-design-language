@@ -3,10 +3,11 @@
   "issue": 5858,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0035e45ed467b56ed0e44f95d69abfc9a6492f3ce6b7b20f8be49c9ce88f2d44",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "49639947a22139ad9f595f9dd0f8904351f336d001aab4d0237e7ee1843419dc",
-  "claim": null,
+  "phase": "bound",
+  "generation": 9,
+  "digest": "82c1eeb855df55dfa78979f6c4a7237ce2e0629570f56bdf13f7fc805bb67799",
+  "branch": "codex/5858-v092-foundation-throughput-closeout",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprint-5858-foundation-closeout",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -23,37 +24,52 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fea3b59a9dfc2ce2a837905c6a6ec0f861ad8375a46d7f68c9712bc4bf715396",
+      "values_digest": "6e7f916fd45c7eacd2d2c251351b940b408b09efb82725e1fe3c7bbe8ee4c4a3",
       "rendered_digest": "d5adaa3353aec146707806f319ff8f4d96190491d098ed320d1df4d5c88d5fee",
       "ast_digest": "cd95070e7b58ba2f6b7a54f508787da36e9edb421280d110e777c123e080f18c"
     },
     "stp": {
-      "values_digest": "c71d551fb432a2d13e551c279d77a89447604f41fbbd9e811dfd6ef8ac01ac93",
+      "values_digest": "47e58f155738216ecf9f7d092bf38e5f3f94148d7ce03ead6a5d855356c77a1f",
       "rendered_digest": "9e25ed3931c95c7cc4169fcac048aa9bfcdf65e50d8e627dd56b60f36794ab35",
       "ast_digest": "f8d0a9347ce43c380ccc2549642552c36d6089940e454359070f347454f9afd3"
     },
     "spp": {
-      "values_digest": "0f5734a649391e68d3300b564f0e9c75e9b120cee30f19b4c31039e10c9af9c5",
-      "rendered_digest": "2b09968a7ff167b5626e0fa53a127ee1ccc9005d65b3d6a65c678e8a4ca6bea1",
-      "ast_digest": "f7be6121c9b7590adb46dfb4588270fe5266a84c5206bbbc647f75962a213383"
+      "values_digest": "b75584fc09a4075c8792156d8a24b47885f987d40ca76a2824b2b5b4947e6dcd",
+      "rendered_digest": "e16bff6c38b8eb04bf1debc9a94bbe3906c3f98adf55f26546ce2c03e6d8b81f",
+      "ast_digest": "468ec7ca9bc0c59b5c7316d7404e381b6fc0b652917b4d100c0021908307fc03"
     },
     "vpp": {
-      "values_digest": "ebdcc4e7391b9e288b52cb78145ee2cba61d5bc21ca7fe20b82a119c1992be12",
+      "values_digest": "516e5b31c805ba95c1c6b8be6c087121ac412944095f1908d9fe98cbbd372de2",
       "rendered_digest": "a22aa93a1121de24cb770effb878af7979629dcf5bbab5d1f6704a5a5a797bb4",
       "ast_digest": "d47d9421f0dbbb6c5a1f004a11055a59513828565343d5e65fb5fdec805b9f69"
     },
     "srp": {
-      "values_digest": "46666838c5c5068cd89e311cd77f7fa956d0d683308cd8714e07e621e7dd3348",
+      "values_digest": "ab99bb998778052df0e978e05f523a6a92c70e4ceb4fbffcca08ca7873e8f1c6",
       "rendered_digest": "19c0cee5c79416953111a06004e93a4e2df98247765ccb73d198c97f36024459",
       "ast_digest": "5a32f84ed50121a349089c3e847b8d16faf820a5664bb1fda3d361f5b7233137"
     },
     "sor": {
-      "values_digest": "fe76e89af5eeac1c39c39129acbd3834f6171239de9d32ee46a523272367f029",
-      "rendered_digest": "74ff80d1eb305316bfbdc8ea4f3cedca0aff83ea914fa7ed8e5c0b39368632ee",
-      "ast_digest": "0e46362ef2211e498aa1458f21c9df8ee04328611d4b2e045af3d7a95855f069"
+      "values_digest": "43239f4a2f74167d853b72bbfc299e11ada107f52fc47852246c3b8847056037",
+      "rendered_digest": "b5d04b87c01c0dc7a85752ff4dd27e034712a27d56dd41f6772a0a908d80c8a6",
+      "ast_digest": "7a52ce944d6438a51829c090c8e84e74ad99f87d215feeec52aafa19841ff741"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -68,6 +84,76 @@
       "actor": "codex:5817",
       "reason": "Revoke WP-01 bootstrap-only preparation reservation so issue 5817 can own and review every path it publishes; the child session must reacquire its issue-local claim after WP-01 releases.",
       "operation": "{\"claim_id\":\"claim-5858-v092-sprint-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-wp01-publication-ownership\",\"previous_owner\":\"wp01:sprint-preparation\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "Align the umbrella plan with its existing exact coordination-only ownership before closeout preparation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/5858\",\".csdlc/prepared/issues/5858\",\".csdlc/evidence/5858\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "The canonical packet and all eight mapped child issue and PR identities were verified against live GitHub state.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"readiness\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "Every mapped child reached live issue and pull-request terminal state through its own execution lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"coordinate\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "Closeout review preparation is active and remains blocked on two missing derived terminal envelopes.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"review-close\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "Record the bounded umbrella-only closeout audit without claiming terminal eligibility.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Verified all eight mapped child issues and pull requests against live GitHub state, refreshed the Sprint 1 packet, and retained an explicit closeout blocker for two missing derived terminal envelopes.\",\"changes\":[\"Updated only the #5858 coordination packet and typed umbrella status\",\"Recorded an eight-child live terminal matrix across the legacy issue tracker and current code repository\",\"Kept the umbrella open because derived terminal envelopes are missing for #5853 and #5822\"],\"artifacts\":[\".csdlc/prepared/issues/5858/sprint-execution-packet.md\",\".csdlc/prepared/issues/5858/sprint-execution-packet.yaml\",\".csdlc/evidence/5858/child-terminal-matrix.json\",\".csdlc/evidence/5858/sprint-review.md\",\".csdlc/evidence/5858/activity.jsonl\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "Retain the focused machine-readable packet and terminal-matrix proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"-rjson\",\"-ryaml\",\"-e\",\"validate Sprint 1 packet and terminal matrix\"],\"purpose\":\"Prove exact eight-child membership, live terminal counts, missing-envelope denominator, and blocked packet status.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5858/child-terminal-matrix.json\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "Retain the focused typed-card validation result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"5858\"],\"purpose\":\"Prove the bound umbrella record and all six rendered card projections remain valid.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5858/index.json\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "Retain focused diff hygiene for the umbrella-only change.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main\"],\"purpose\":\"Reject whitespace errors in the bounded umbrella packet and lifecycle update.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/5858/sprint-execution-packet.md\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5858-closeout-preparation",
+      "reason": "The umbrella output record now truthfully describes completed coordination and the remaining closeout blockers.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
     }
   ]
 }
