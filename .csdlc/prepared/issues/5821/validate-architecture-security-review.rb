@@ -99,6 +99,9 @@ report_text = File.read(review_report)
 abort "review report lacks exact revision" unless report_text.include?(packet["reviewed_revision"])
 abort "review report lacks reviewer identity" unless report_text.include?(packet["reviewer"])
 abort "review report is not accepted" unless report_text.include?("Verdict: accepted")
+dispositions.each do |finding|
+  abort "review report omits disposition #{finding['id']}" unless report_text.include?("`#{finding['id']}`")
+end
 
 _, status = Open3.capture2("git", "merge-base", "--is-ancestor", packet["reviewed_revision"], "HEAD")
 abort "review revision is not ancestral to HEAD" unless status.success?
