@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "421dcbb5f175ad60a76124fe09d92fb357634c3ce493305cc9f9722b6827c02e",
   "phase": "initialized",
-  "generation": 8,
-  "digest": "49c0a73ccd6354065e32484097cb10a313b3369f1ab77419892f687f6bea77ef",
+  "generation": 13,
+  "digest": "534760aab689c4fe210e0fceb2d35c796d26843fa1759925db21c6ecafef3856",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5867/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-wp04-exact-estimate-design-review",
-      "revision": "d0b64a0b5c5e96cf884a80d68fc183bd88c487e468ab92795570ab41b88b1262"
+      "reviewer": "codex:5821-wp04-promotion-key-uniqueness-design-review",
+      "revision": "c60e74502ea664909f76263e93e463c3d5ac0449e2b68550ea662a7d4cf0ff43"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "c46052748dd067002313af46393fa105168fcd060ebb4cad27485cfe7b093b33",
-      "rendered_digest": "2404737534f213d6f6c53860e0e8cd93bb2ae571215d0babe2a3e723a7d4aa00",
-      "ast_digest": "8c629bbe5d4c07b721678fe03cc526c691082b8f03fdad742d53e7a16d3036ad"
+      "values_digest": "20644b9c57af29aba4b29b0e398b1a9dff27d4da040d6b968b83ac53fe00ae49",
+      "rendered_digest": "848efafb64f1e51878c0fd42417d7db98580f297dfc3c8076f1d9708086a0cde",
+      "ast_digest": "b5d7fdcc90b719c39e39929e8e5ff23892d508b5cf894f474acc380115aacdf4"
     },
     "stp": {
-      "values_digest": "c089d8db84a1c9aa346ded0b27ee77ddf775322b13bc76a51ef4bcb3955c7a2c",
-      "rendered_digest": "07efe5821a50a1bd50071a72c471a863e5eafca1c50e1a32a491f8ce4d47353a",
-      "ast_digest": "c8604d51021ad5fb82b36a62b756f943c7acbbe5415ea744af9e0e0fb75d4cf8"
+      "values_digest": "c3a1580b4e158996c7a4929a9bba604d165bc94fa7e5aecb22a6dc8d187599af",
+      "rendered_digest": "fea82abf15ab0f28337a4800a651131e57a2f1e6f7e3fcd8c814e68220dd8820",
+      "ast_digest": "d69c45d5db7a285879bcff6aeda4981d0c14370ec15e3e5fe05de0142d71874a"
     },
     "spp": {
-      "values_digest": "d8163ef20baec314216ad18769b601f482b62008395dc538e597c14f444fda94",
-      "rendered_digest": "8930207c232a1f241d49373b39deadaaf4cfecc4bb016e0b42d4579db9ea7111",
-      "ast_digest": "075143c6f15252df44229e5ae23da641a1e6eb6ff1346d849fee66beeefcab9d"
+      "values_digest": "805f83eec2db67d910375b5d5f2d76159f6be3c98bf76b2de51aedda1ba1ec70",
+      "rendered_digest": "9d292790e1a5b922a52162025ab6e7dcd4b3c5e0eea8857cd7e33c8e9968cda9",
+      "ast_digest": "efc41c42e9221fa1ca69d99c86961e33179cb2fe9bc00ac388bd068cacc0b952"
     },
     "vpp": {
-      "values_digest": "f48767a83ae7294c0fedc1741f85449c1fe18a1f4c99323e1e692d662695fa47",
-      "rendered_digest": "2bbccfb7505ff336b0c4bb3c9cf52d4b46b4207d03bde468dd3f161435a540da",
-      "ast_digest": "447ab8efea621c3f164ffcc76836e3980e34eafac34c791e81266da1ffee3678"
+      "values_digest": "0eae021aa41a8dd24721170b08d697b07a7a87f776626729ed59aeea537e696e",
+      "rendered_digest": "fc4f07be8edb765beb3bb44484af95506e9e363f9f842e052cc205e8adb56f0b",
+      "ast_digest": "429c924b911c5989dd30d0154554c83eb9d4a34cdea4d49d1c48c01924efd820"
     },
     "srp": {
-      "values_digest": "f1d521c3fe0e30c205a78f4042f6c710ee00192f048868352820e03d10121bb2",
+      "values_digest": "ea823439bdb64d75f4e7465c130ff035c0c591f22bf7ebb095d76418caaa069b",
       "rendered_digest": "a3245be480e3c976e0421d88778ee4db70d49b5ebd20dc19a44362a2665d8c7c",
       "ast_digest": "7120a6307dcd12e6e48e00f50a177f246e385fbd285df42a062bf3f2de84b1aa"
     },
     "sor": {
-      "values_digest": "417954179fde6a079abc0742077227ff102107efb11b0ccc96f1b6c3cd1c6fe0",
+      "values_digest": "c93e509bbd142fa8a1e055dda4dbdd2d64872e6372db98cceebfbc5d3c333be5",
       "rendered_digest": "487fd8d4c8837237ec4a3f6e75c27b79f9cc7fcf2c78dcb7a42620d988ddde3f",
       "ast_digest": "b10faaed4e8a1e939a1dd7c2228022376bfb3cfb113eab20b0830efe21699b23"
     }
@@ -259,6 +259,41 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 27,
+      "generation": 9,
+      "actor": "codex:5821-wp04-promotion-key-uniqueness-design-review",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Assign fail-closed duplicate voter control-key rejection to promotion.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"Implement deterministic membership epochs and bounded topology convergence, rejecting voter promotion when the candidate's effective Guardian control public key is already assigned to another active voter and preserving that uniqueness through snapshot and replay.\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 11,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Require promotion ownership and negative proof for duplicate effective voter keys.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Deterministic membership epochs and bounded topology convergence from authenticated join events\",\"Voter promotion rejects a candidate whose effective Guardian control public key belongs to another active voter\",\"A negative test proves duplicate-key promotion fails and snapshot plus replay preserve voter-key uniqueness\",\"Convergence, monotonic epoch, duplicate-event, out-of-order, restart, and bounded-size tests\",\"Digest-bound execution proof and reviewed rollback evidence\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 12,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Bind membership execution to unique effective voter control keys.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure fallback is permitted\",\"Evidence is exact-revision and digest bound\",\"Voter promotion rejects a candidate whose effective Guardian control public key belongs to another active voter\",\"Committed membership snapshots and replay preserve one effective control key per active voter identity\",\"Membership epochs and convergence remain deterministic and bounded\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 13,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Require exact negative promotion proof for duplicate effective voter keys.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_membership proves convergence, monotonic epochs, rejection of voter promotion when the effective Guardian control public key belongs to another active voter, preservation of one-key-per-voter uniqueness through committed snapshot and replay, duplicate and out-of-order event handling, restart recovery, and bounded membership size.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_membership\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=1aa9699231627d02c86b171ce325f7c18f85eb97d0353851ecc2d72c20b50dd3]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5867/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }

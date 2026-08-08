@@ -1,0 +1,13 @@
+{
+  "issue": 5876,
+  "card": "sip",
+  "expected_generation": 8,
+  "expected_digest": "0e318725924d6103e96b39bc7a4302ba18cbac07a0198cb4aaefd8f64af0cee8",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "set_field",
+    "field": "required_outcome",
+    "value": "Recover one owner only from a majority-committed OpenRaft prefix and valid AuthorityCertificateV1, leaving both candidates fenced when no quorum can prove authority."
+  }
+}

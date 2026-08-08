@@ -25,7 +25,12 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Implement deterministic rollback and recovery for failed, interrupted, or ambiguous relocation. The implementation must preserve Guardian as process 0,
+Implement deterministic rollback and recovery for failed, interrupted, or
+ambiguous relocation. Recovery verifies the majority-committed OpenRaft prefix,
+voter generation, AuthorityCertificateV1 endorsements, activation possession,
+lease safety window, and applied index before restoring an owner. A local
+durable epoch, leader assertion, minority history, or failure-detector result
+cannot grant authority. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -40,7 +45,10 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_recovery proves failures at each migration stage, restart recovery, target loss, source loss, audit continuity, and one-owner restoration.
+Exact nextest target distributed_recovery proves failures at each migration
+stage, restart recovery, target loss, source loss, quorum loss, divergent local
+histories, malicious-leader/minority denial, certificate expiry/revocation,
+audit continuity, and one-owner restoration from a majority-committed prefix.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner
@@ -50,7 +58,9 @@ working behavior.
 
 ## Rollback
 
-Fence both sides on ambiguity and require explicit recovery from the last validated durable owner.
+Fence both sides on ambiguity; restore only the quorum-committed owner or issue
+a newer majority-committed epoch and lease after the prior safety window. If no
+majority can prove one committed prefix, require operator trust-domain recovery.
 
 ## Estimate
 

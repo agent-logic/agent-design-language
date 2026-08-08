@@ -1,0 +1,13 @@
+{
+  "issue": 5869,
+  "card": "sip",
+  "expected_generation": 14,
+  "expected_digest": "1591dbe6f5e6f6def91c93a8d384dbee89b1e178ea6847bcaee5e8120af0d131",
+  "actor": "codex:5821-wp04-child-certificate-repair",
+  "reason": "Make the child outcome require exact joint-consensus quorum and interoperable AuthorityCertificateV1 verification.",
+  "operation": {
+    "operation": "set_field",
+    "field": "required_outcome",
+    "value": "Implement OpenRaft committed authority whose certificates satisfy a stable majority or both constituent majorities during joint membership, reject insufficient union majorities, and use the exact Ed25519, domain-separated SHA-256, deterministic prost, activation-possession, lease, and mutation-sink contract frozen by #5821."
+  }
+}

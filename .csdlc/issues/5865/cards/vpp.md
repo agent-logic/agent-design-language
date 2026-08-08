@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5865/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_transport proves mutual authentication, channel bounds, cancellation, malformed-frame denial, peer mismatch, and dependency-lock parity.",
+    "proof_role": "Exact nextest target distributed_transport proves mutual authentication, channel bounds, cancellation, malformed-frame denial, peer mismatch, and quinn/rustls/prost/openraft dependency-lock parity in the child-owned manifest and lockfile.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

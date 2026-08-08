@@ -1,0 +1,6 @@
+{
+  "issue": 5869,
+  "expected_generation": 8,
+  "expected_digest": "e726f276e264f95a96ec597899ee6b0db7ae4c2be4aa6c33b9862f0cdcb967ad",
+  "reviewer": "codex:5821-wp04-child-authority-design-review"
+}

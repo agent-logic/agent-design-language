@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.13] Migration state machine",
     "slug": "v0-92-wp-04-13-migration-state-machine",
     "version": "v0.92",
-    "generation": 7
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,8 @@
         "Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed.",
         "Focused positive and negative tests",
         "Digest-bound execution proof",
-        "Reviewed rollback evidence"
+        "Reviewed rollback evidence",
+        "Authority safety: Before fence the source may resume; after fence both candidates remain non-authoritative and recovery routes through WP-04.14."
       ],
       "acceptance_criteria": [
         "Implement only the declared exclusive paths",

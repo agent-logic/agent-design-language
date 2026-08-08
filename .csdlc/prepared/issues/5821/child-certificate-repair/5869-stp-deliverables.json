@@ -1,0 +1,20 @@
+{
+  "issue": 5869,
+  "card": "stp",
+  "expected_generation": 15,
+  "expected_digest": "d312c7628e235f64127be768a1e4dc99dfc9072532cde80af84242cbd0de44a4",
+  "actor": "codex:5821-wp04-child-certificate-repair",
+  "reason": "Require concrete joint-quorum and interoperable certificate deliverables.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "OpenRaft authority and leases whose endorsements use a stable majority or both constituent majorities during joint membership",
+      "A negative test proving a union majority without either constituent majority is rejected",
+      "AuthorityCertificateV1 using ed25519-dalek, 32-byte public keys, 64-byte signatures, the exact ADL-AUTHORITY-CERTIFICATE-V1\\0 domain, SHA-256, and deterministic prost encoding",
+      "Negative tests for wrong algorithms, malformed key/signature lengths, unknown or duplicate fields, non-minimal varints, and noncanonical repeated-field ordering",
+      "Digest-bound execution proof and reviewed rollback evidence",
+      "Authority recovery only from a quorum-proven committed prefix; local durability, a leader assertion, or a minority history never grants authority"
+    ]
+  }
+}

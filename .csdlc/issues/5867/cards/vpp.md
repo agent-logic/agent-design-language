@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5867/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_membership proves convergence, monotonic epochs, duplicate and out-of-order handling, restart recovery, and bounded membership size.",
+    "proof_role": "Exact nextest target distributed_membership proves convergence, monotonic epochs, rejection of voter promotion when the effective Guardian control public key belongs to another active voter, preservation of one-key-per-voter uniqueness through committed snapshot and replay, duplicate and out-of-order event handling, restart recovery, and bounded membership size.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

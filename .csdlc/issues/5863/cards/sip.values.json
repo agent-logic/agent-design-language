@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.01] Node identity and authenticated enrollment",
     "slug": "v0-92-wp-04-01-node-identity-enrollment",
     "version": "v0.92",
-    "generation": 9
+    "generation": 14
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Implement stable node and Guardian identities plus explicit, fail-closed enrollment into one trust domain.",
-      "required_outcome": "Implement stable node and Guardian identities plus explicit, fail-closed enrollment into one trust domain.",
+      "required_outcome": "Implement stable node and Guardian identities plus explicit fail-closed enrollment into one trust domain, rejecting enrollment when the effective Guardian control public key is already assigned to another active or enrolled voter identity so one key cannot represent multiple quorum voters.",
       "declared_scope": [
         "adl-runtime/src/distributed/identity.rs",
         "adl-runtime/tests/distributed_identity.rs"

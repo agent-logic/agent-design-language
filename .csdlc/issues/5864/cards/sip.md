@@ -16,7 +16,7 @@ Implement separate node, Guardian, transport, and signing certificate purposes w
 
 ## Required Outcome
 
-Implement separate node, Guardian, transport, and signing certificate purposes with rotation, revocation, and expiry enforcement.
+Implement purpose-separated certificates with rotation, revocation, and expiry, rejecting a Guardian control key already assigned to another active voter and ensuring bounded overlap for one identity remains exactly one quorum vote.
 
 ## Scope
 

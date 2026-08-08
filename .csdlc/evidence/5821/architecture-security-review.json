@@ -1,0 +1,244 @@
+{
+  "schema": "adl.wp04.architecture_security_review.v1",
+  "outcome": "accepted",
+  "reviewer": "openai-codex:gpt-5:wp04-authority-certificate-independent-review:2026-08-08",
+  "reviewed_revision": "29243a6a5400467ceb0fe98b69baf855f8249b54",
+  "unresolved_actionable_findings": [
+
+  ],
+  "finding_dispositions": [
+    {
+      "id": "authority-linearization",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "activation-incarnation",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "certificate-session-lifecycle",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md"
+      ]
+    },
+    {
+      "id": "maintained-transport",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5821/design.md"
+      ]
+    },
+    {
+      "id": "candidate-status",
+      "severity": "P2",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "authority-certificate-definition",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "child-authority-contracts",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5869/design.md"
+      ]
+    },
+    {
+      "id": "review-identity-and-revision",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb"
+      ]
+    },
+    {
+      "id": "staged-authoritative-drift",
+      "severity": "P2",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb"
+      ]
+    },
+    {
+      "id": "normalized-possession-contract",
+      "severity": "P2",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb"
+      ]
+    },
+    {
+      "id": "openraft-cots-contract-parity",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5865/design.md"
+      ]
+    },
+    {
+      "id": "spp-exact-review-scope",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb"
+      ]
+    },
+    {
+      "id": "joint-membership-certificate-quorum",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "certificate-signature-suite",
+      "severity": "P2",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "threat-joint-quorum-parity",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md"
+      ]
+    },
+    {
+      "id": "certificate-wire-canonicalization",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "endorsement-signer-binding",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "duplicate-effective-control-key",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "per-surface-contract-validation",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5821/validate-child-wave.rb"
+      ]
+    },
+    {
+      "id": "domain-separation-parity",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5821/validate-child-wave.rb"
+      ]
+    },
+    {
+      "id": "owner-contract-propagation",
+      "severity": "P1",
+      "disposition": "resolved",
+      "evidence": [
+        ".csdlc/prepared/issues/5863/design.md"
+      ]
+    }
+  ],
+  "reviewer_provenance": {
+    "role": "independent_architecture_security_reviewer",
+    "independent_from_author": true,
+    "agent_id": "codex-independent-review:29243a6a5400467ceb0fe98b69baf855f8249b54",
+    "author_identity": "codex:issue-5821-wp04-gate",
+    "report_path": ".csdlc/evidence/5821/architecture-security-review.md",
+    "report_sha256": "08c7943a756f544340133581311da077c485c6c6626aefb0075a70b203c37c89"
+  },
+  "artifact_sha256": {
+    "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md": "5e10d234e49f7686a8644304017dbab3eed642809c5f99d79afa9fe8bfe05339",
+    "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md": "6c5ab5c0d7dbbc5cbd5adc84065fc7e598024189c521823d396e7f2ee37562c6",
+    ".csdlc/prepared/issues/5821/design.md": "d75d14954cffe2c953feac9507685acde946800059607751f0c7fb15d2987c8d",
+    "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md": "eeed78cc0edfc9b33bcaf725505df54e5617ba3c0a97f9b00e086ad885de3b52",
+    "docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md": "be18ed5287898f1c568e41435fb7c3b4a5ec6d02cdb0119cc5a505d2aba41d9a",
+    ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb": "0c432c93a912e95e00e5f68796e98f46cb85e9257c915966490e6f579dc04456",
+    ".csdlc/prepared/issues/5821/validate-child-wave.rb": "ebf3c587b9c77e116c2ef19c289bf77cf314ba4a169bcaf7ed7041feb52d3656",
+    ".csdlc/prepared/issues/5863/design.md": "2c525b7bfd3c007109215408b3a7abc464cff1af08a8a03482889fead032ac4e",
+    ".csdlc/issues/5863/index.json": "1e0f3ab8a8b3f8664e93a30314514392c62c2c6fe8d82d83c98e297c446480ad",
+    ".csdlc/issues/5863/cards/sip.values.json": "4a4a9ec32f988ab598e045c58553b37c3bf57e2a2c1f690bd7551c6026abf973",
+    ".csdlc/issues/5863/cards/stp.values.json": "a7bc0a67649b5c8aafc2f7b20b5a02f50b3f914b200025f43a3270a249ba0866",
+    ".csdlc/issues/5863/cards/spp.values.json": "6654552605a58c7116d2090a963ac07aa252664336148b3945d5346977a1dca1",
+    ".csdlc/issues/5863/cards/vpp.values.json": "ce4cb28d0900367259a5d74ae516928c08b3f31fae37e7a72c55cc94301c462f",
+    ".csdlc/prepared/issues/5864/design.md": "abb784384bd55bdacb785835f58172a1ac4f880deb3ba118093f59f90d724004",
+    ".csdlc/issues/5864/index.json": "3fd9a1519c7df2a0a6185ce7163bff790d7bbce0878c3c6a9316d1fdccf37d3d",
+    ".csdlc/issues/5864/cards/sip.values.json": "8aa7994a8f20a27911211760b08e312764b2246da4c724cb3cc640d5c08be331",
+    ".csdlc/issues/5864/cards/stp.values.json": "27eed60b63d5c0a380aeb2041d726f9ba11f3957d1fc7ae36024922e850565e9",
+    ".csdlc/issues/5864/cards/spp.values.json": "0156a67ac76f23f2e22997c9ac25ccc2dcd3e31ec1f53e7023ea167ff93b9da9",
+    ".csdlc/issues/5864/cards/vpp.values.json": "72963feae81b16261f4e14011d4c3dbd94d9b7cbf9cb82da25d0bf0d49bd902f",
+    ".csdlc/prepared/issues/5865/design.md": "e25bcce2f37ba5127ab292e04799844cc9997cdcc7cfa2f64ca26c0933e834d1",
+    ".csdlc/issues/5865/index.json": "f4294af33deaa2d138c95a649beb9e1b5deb4d61caa4f98d6f118e7f83436f55",
+    ".csdlc/issues/5865/cards/sip.values.json": "3fce96ea441471b4520dd2553e46f72e1f867d21d24cb1cb790c9e8d0fe8bb75",
+    ".csdlc/issues/5865/cards/stp.values.json": "a6026c13c9925667bab0c9bb89a6d47d11bfbff5fae9fd9c0163bf5a816cccbf",
+    ".csdlc/issues/5865/cards/spp.values.json": "b2ebc4cd04617b40b565dfef49a570d55e4b4f6a8a131bb5142c819a3ca1b743",
+    ".csdlc/issues/5865/cards/vpp.values.json": "9601e1d8a580d062d5cbaa80dafa0de4bc5d9e26ee6a6afeba92dc7a0a04705c",
+    ".csdlc/prepared/issues/5867/design.md": "d080eb3958b2f0516fb720936c45f01dde793726a73ffe094c523e96340c8393",
+    ".csdlc/issues/5867/index.json": "b4b52130295e16d380a5bf0bca90d6aa5de3fde35b5cbb8ba6e593af7494958b",
+    ".csdlc/issues/5867/cards/sip.values.json": "26f569fa1ccc93e9886a154fb538be5caa62f5111b94cfe6b5f99a5a7dd6ffca",
+    ".csdlc/issues/5867/cards/stp.values.json": "58e0a7dd6ef0b380cc63a42450af4467b35497d2d2a9cfcc68280f2a72bb0e3f",
+    ".csdlc/issues/5867/cards/spp.values.json": "db422dfc12253023ef35c982f061be428cc662c10324e9a07667b79adc6b2442",
+    ".csdlc/issues/5867/cards/vpp.values.json": "fbf9497dbe146c9246bc62fe4e315587151d382d93abd3760eca646baa723bbf",
+    ".csdlc/prepared/issues/5869/design.md": "c06fbd95c99bffd5a217c6fd0f9571fd2d57efa473e7c3a7a40be4496d04af95",
+    ".csdlc/issues/5869/index.json": "8272aa21593574ad15d0c17e9e2588ae0c8a7664813f774be3cca10952cc9188",
+    ".csdlc/issues/5869/cards/sip.values.json": "e27b08db12facc17cfacb264dbe5e721eb83ccc763a7eb858ab335f207780004",
+    ".csdlc/issues/5869/cards/stp.values.json": "532b3b79b80122f5b3dfc0e6808276543982c78623aef5a942987f7f0d2be144",
+    ".csdlc/issues/5869/cards/spp.values.json": "a9358c4ad341a19204a3700189acfa14629512f9e34218b3edd02ffaf9cbcf9c",
+    ".csdlc/issues/5869/cards/vpp.values.json": "92f12a19385438578cba1309d0ecab2b45506a19dfa1a32a0788252d81885549",
+    ".csdlc/prepared/issues/5870/design.md": "4794a307b8907fdd657206b327ed932657f9a00ba72d4b83bf5825e3498fa3fc",
+    ".csdlc/issues/5870/index.json": "32d66006d5ef3c90f8f5af841c62774632bd3d088b5d3172a06db0721720748f",
+    ".csdlc/issues/5870/cards/sip.values.json": "322bddf2cb93473570dad81bf6c7c69928e9c10be3cbd54c00b73587d5a3c652",
+    ".csdlc/issues/5870/cards/stp.values.json": "08d3f8d6da72bdbd03db69cfb50c3db7f94ce1a9a88a219a304a0d2dde77dca5",
+    ".csdlc/issues/5870/cards/spp.values.json": "64d507a1416abc3a62e723fa3c07ea6c1d7de5755fcb8ff2bf8acf08ac791bc9",
+    ".csdlc/issues/5870/cards/vpp.values.json": "1b3d5a755ca7b95ef2ac360ac1c0c45b844b34e04d71acebdbfd6c2d8d115be5",
+    ".csdlc/prepared/issues/5875/design.md": "64904ce8d434d9a629218b6cf582da3de6161fc04b30aa07e2b9e59c456c81ac",
+    ".csdlc/issues/5875/index.json": "08ab0117d6ff9e138bc579a38694d9fbb1f0dbc08ab1b3450b0a9b900ca1c8e5",
+    ".csdlc/issues/5875/cards/sip.values.json": "9b38f518aeaf48ba06ddbbeca398cebce4841fecd95956eb1b725fbbfcf4f48e",
+    ".csdlc/issues/5875/cards/stp.values.json": "ddde35a265c630bf5f5501a23017629138da5541ab6bd923656b8ac49260d840",
+    ".csdlc/issues/5875/cards/spp.values.json": "67999874deefbaaf7734fd77db07cb257217563bf7b34cee7379473930cea3ba",
+    ".csdlc/issues/5875/cards/vpp.values.json": "6fb4b17d9e91137a21a1dc7fb248441a6d9bea759aad4d2bbfb70695db4f5251",
+    ".csdlc/prepared/issues/5876/design.md": "e0532cb4590e29ea93f8e57f95a7a314bc7196e1f6072aa5174c2cc20996f731",
+    ".csdlc/issues/5876/index.json": "b307df8be3e7c7b1271105d99a8c8aef0305b26ea34b761b6dd1be7917a4bf88",
+    ".csdlc/issues/5876/cards/sip.values.json": "d157dbb1c6240513c563e01d59808934944b34e646068c2f59937d66d8c91197",
+    ".csdlc/issues/5876/cards/stp.values.json": "731a8de2eaff5872894073193db4359baf01a5fa160784709068f9c51fc574b9",
+    ".csdlc/issues/5876/cards/spp.values.json": "e47f5fd38044e0fe32c7bac9e6608bed2a36a6ca40d4a78d5e1ab13009914dfb",
+    ".csdlc/issues/5876/cards/vpp.values.json": "39f3c96233a0ce31a434cedb2a7f65cca7157a87b52b8d3a35998496108473d1"
+  }
+}

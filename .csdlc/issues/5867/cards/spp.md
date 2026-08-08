@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -61,11 +61,11 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
+- Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure fallback is permitted
 - Evidence is exact-revision and digest bound
+- Voter promotion rejects a candidate whose effective Guardian control public key belongs to another active voter
+- Committed membership snapshots and replay preserve one effective control key per active voter identity
+- Membership epochs and convergence remain deterministic and bounded
 
 ## Risks
 
@@ -86,7 +86,7 @@ Revision 2
 
 .csdlc/prepared/issues/5867/design.md
 
-Digest: d0b64a0b5c5e96cf884a80d68fc183bd88c487e468ab92795570ab41b88b1262
+Digest: c60e74502ea664909f76263e93e463c3d5ac0449e2b68550ea662a7d4cf0ff43
 
 ## Diagram
 

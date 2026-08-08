@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5863/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_identity proves identity creation, signed enrollment, wrong-domain rejection, replay rejection, and restart-stable identity.",
+    "proof_role": "Exact nextest target distributed_identity proves identity creation, signed enrollment, rejection of the same effective Guardian control public key under a second active or enrolled voter identity, one-key-one-quorum-voter enforcement, wrong-domain rejection, replay rejection, and restart-stable identity.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

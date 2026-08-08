@@ -12,7 +12,7 @@ Status: ready
 
 ## Goal
 
-Integrate a maintained QUIC/TLS stack with bounded authenticated channels and no custom cryptography or framing.
+Integrate and pin the reviewed quinn, rustls, prost, and openraft COTS set in the solely owned adl-runtime/Cargo.toml and adl-runtime/Cargo.lock while implementing bounded authenticated QUIC/TLS transport without custom cryptography or framing.
 
 ## Required Outcome
 

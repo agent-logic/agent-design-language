@@ -1,0 +1,7 @@
+{
+  "issue": 5821,
+  "expected_generation": 64,
+  "expected_digest": "3a9b6b8814a5fa027fb2e040477172e23fb24873cf601ab07137b298eec4dd07",
+  "actor": "codex:5821-wp04-gate",
+  "reason": "Recover stale review and publication truth before repairing SPP digest binding, joint-membership certificate quorum semantics, and the interoperable Ed25519 certificate suite."
+}

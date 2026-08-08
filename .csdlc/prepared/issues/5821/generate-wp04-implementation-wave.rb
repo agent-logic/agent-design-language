@@ -31,11 +31,11 @@ CHILDREN = [
   {
     wp: "WP-04.03", key: "quic-tls-transport",
     title: "Maintained QUIC/TLS transport adapter",
-    outcome: "Integrate a maintained QUIC/TLS stack with bounded authenticated channels and no custom cryptography or framing.",
+    outcome: "Integrate maintained quinn/rustls/prost transport and pin the reviewed OpenRaft dependency set with bounded authenticated channels and no custom cryptography or framing.",
     depends: ["WP-04.02"],
     paths: ["adl-runtime/src/distributed/transport.rs", "adl-runtime/tests/distributed_transport.rs", "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock"],
-    proof: "Exact nextest target distributed_transport proves mutual authentication, channel bounds, cancellation, malformed-frame denial, peer mismatch, and dependency-lock parity.",
-    rollback: "Remove the distributed transport feature and restore the prior manifest and lockfile while retaining the single-node Runtime API."
+    proof: "Exact nextest target distributed_transport proves mutual authentication, channel bounds, cancellation, malformed-frame denial, peer mismatch, and pinned quinn/rustls/prost/openraft dependency-lock parity.",
+    rollback: "Remove the distributed dependency set and transport feature together, restoring the prior manifest and lockfile while retaining the single-node Runtime API."
   },
   {
     wp: "WP-04.04", key: "seed-discovery-join",
@@ -67,11 +67,11 @@ CHILDREN = [
   {
     wp: "WP-04.07", key: "epoch-lease-authority",
     title: "Epoch and lease authority",
-    outcome: "Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions.",
+    outcome: "Implement OpenRaft majority-committed authority, joint membership, monotonic epochs, and bounded leases as prerequisites for distributed ownership decisions.",
     depends: ["WP-04.05"],
     paths: ["adl-runtime/src/distributed/lease.rs", "adl-runtime/tests/distributed_lease.rs"],
-    proof: "Exact nextest target distributed_lease proves monotonic epochs, lease acquisition and renewal, expiry, stale-holder denial, clock-bound handling, and restart recovery.",
-    rollback: "Expire issue-created leases, restore the last durable epoch, and leave no ambiguous owner."
+    proof: "Exact nextest target distributed_lease proves three-voter majority, joint membership, committed-index linearization, monotonic epochs, renewal, expiry, quorum loss, stale-holder denial, clock bounds, and restart recovery.",
+    rollback: "Expire issue-created leases, restore only the last majority-committed authority state, and leave no ambiguous owner."
   },
   {
     wp: "WP-04.08", key: "fencing-single-owner",
@@ -80,7 +80,7 @@ CHILDREN = [
     depends: ["WP-04.06", "WP-04.07"],
     paths: ["adl-runtime/src/distributed/fencing.rs", "adl-runtime/tests/distributed_fencing.rs"],
     proof: "Exact nextest target distributed_fencing proves stale epoch, cloned state, split-brain, wrong owner, post-partition, and recovery fencing semantics.",
-    rollback: "Fence all uncertain distributed owners and return authority to the last durable single-node owner."
+    rollback: "Keep uncertain owners fenced and restore only a quorum-committed owner or a newer majority-committed epoch."
   },
   {
     wp: "WP-04.09", key: "capability-advertisements",
@@ -125,7 +125,7 @@ CHILDREN = [
     depends: ["WP-04.08", "WP-04.11", "WP-04.12"],
     paths: ["adl-runtime/src/distributed/migration.rs", "adl-runtime/tests/distributed_migration.rs"],
     proof: "Exact nextest target distributed_migration proves every transition, idempotence, source authority retention, target validation, fencing, interruption, and split-brain denial.",
-    rollback: "Abort before commit, fence the target, resume the validated source owner, and preserve both transfer and audit evidence."
+    rollback: "Before fence, abort target work and resume the source; after fence, keep both candidates non-authoritative and hand recovery to WP-04.14."
   },
   {
     wp: "WP-04.14", key: "rollback-recovery-relocation",
@@ -134,7 +134,7 @@ CHILDREN = [
     depends: ["WP-04.13"],
     paths: ["adl-runtime/src/distributed/recovery.rs", "adl-runtime/tests/distributed_recovery.rs"],
     proof: "Exact nextest target distributed_recovery proves failures at each migration stage, restart recovery, target loss, source loss, audit continuity, and one-owner restoration.",
-    rollback: "Fence both sides on ambiguity and require explicit recovery from the last validated durable owner."
+    rollback: "Fence both sides on ambiguity; restore only the quorum-committed owner or issue a newer majority-committed epoch and lease."
   },
   {
     wp: "WP-04.15", key: "distributed-projection",
@@ -348,6 +348,24 @@ end
 def write_json(path, value)
   FileUtils.mkdir_p(File.dirname(path))
   File.write(path, JSON.pretty_generate(value) + "\n")
+end
+
+def replace_markdown_section(body, heading, replacement)
+  pattern = /^#{Regexp.escape(heading)}\s*$\n.*?(?=^## |\z)/m
+  abort "missing live section #{heading}" unless body.match?(pattern)
+  body.sub(pattern, "#{heading}\n\n#{replacement.strip}\n\n")
+end
+
+def normalize_child_body_sections(body, outcome)
+  normalized = body
+    .sub("## Exclusive Owned Paths", "## Owned Paths")
+    .sub("## Required Proof", "## Validation And Proof")
+    .sub("## Rollback Responsibility", "## Rollback")
+  return normalized if normalized.include?("## Required Outcome")
+
+  dependency_heading = /^## Dependencies\s*$/
+  abort "missing live section ## Dependencies" unless normalized.match?(dependency_heading)
+  normalized.sub(dependency_heading, "## Required Outcome\n\n#{outcome}\n\n## Dependencies")
 end
 
 def child_numbers
@@ -899,6 +917,36 @@ when "update-live-contracts"
     write_json(File.join(OUT, "update-results", "#{issue}.json"), result)
     write_json(File.join(OUT, "read", "#{issue}.json"), {action: "issue_read", repository: REPOSITORY, issue: issue, labels: [], assignees: [], require_review: false, required_checks: [], operation_key: nil})
     puts "updated live contract ##{issue}"
+  end
+when "repair-authority-contracts"
+  github_binary = ARGV.fetch(0)
+  numbers = child_numbers
+  CHILDREN.select { |item| %w[WP-04.03 WP-04.07 WP-04.08 WP-04.13 WP-04.14].include?(item[:wp]) }.each do |item|
+    issue = numbers.fetch(item[:wp])
+    read_request = File.join(OUT, "read", "#{issue}.json")
+    stdout, stderr, status = Open3.capture3(github_binary, "run", "--request", read_request, chdir: ROOT)
+    warn stderr unless stderr.empty?
+    abort "typed live read failed for ##{issue}: #{stdout}" unless status.success?
+    live = JSON.parse(stdout).fetch("issue")
+    body = normalize_child_body_sections(live.fetch("body"), item.fetch(:outcome))
+    body = replace_markdown_section(body, "## Required Outcome", item.fetch(:outcome))
+    body = replace_markdown_section(body, "## Validation And Proof", item.fetch(:proof))
+    body = replace_markdown_section(body, "## Rollback", item.fetch(:rollback))
+    operation_key = "v092-#{item[:wp].downcase.tr('.', '-')}-authority-safety-repair"
+    request = {
+      action: "issue_update", repository: REPOSITORY, issue: issue,
+      title: live.fetch("title"), body: body, labels: [], assignees: [],
+      require_review: false, required_checks: [], operation_key: operation_key
+    }
+    request_path = File.join(OUT, "authority-repair", "#{issue}.json")
+    write_json(request_path, request)
+    stdout, stderr, status = Open3.capture3(github_binary, "run", "--request", request_path, chdir: ROOT)
+    warn stderr unless stderr.empty?
+    abort "typed authority repair failed for ##{issue}: #{stdout}" unless status.success?
+    result = JSON.parse(stdout)
+    abort "authority repair did not reconcile ##{issue}" unless result["reconciled"] && result.dig("issue", "marker_present")
+    write_json(File.join(OUT, "authority-repair", "#{issue}-result.json"), result)
+    puts "repaired authority contract ##{issue}"
   end
 else
   abort "usage: #{$PROGRAM_NAME} umbrella-request | child-requests <umbrella-issue> | execute-child-creates <csdlc-github-issue> | materialize <umbrella-issue> | bootstrap-local <csdlc-init> <csdlc-bind> <umbrella-issue> | revoke-local <csdlc-bind> <umbrella-issue>"

@@ -16,7 +16,7 @@ Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and
 
 ## Required Outcome
 
-Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed.
+Implement migration with source authority retained before fence, majority-committed fencing and source-permit revocation at the boundary, and certificate-bound target activation afterward.
 
 ## Scope
 

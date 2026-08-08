@@ -20,6 +20,7 @@ Enforce one authoritative owner per lineage and reject stale, cloned, or partiti
 - Focused positive and negative tests
 - Digest-bound execution proof
 - Reviewed rollback evidence
+- Authority safety: Keep uncertain owners fenced and restore only a quorum-committed owner or newer majority-committed epoch after the prior lease safety window.
 
 ## Acceptance
 

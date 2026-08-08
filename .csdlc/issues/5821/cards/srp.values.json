@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04] Distributed Guardian/polis runtime",
     "slug": "v0-92-wp-04-distributed-guardian-polis-runtime",
     "version": "v0.92",
-    "generation": 54
+    "generation": 67
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review issue 5821 architecture/threat gate, exact 16-child ledger and terminal truth, production mTLS membership, epochs/leases/fencing, placement authority, migration/rollback, certificate/replay/partition failures, API/observability projection, and strict Runtime v2/v0.93/WP-14 non-ownership.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5863/cards/sip.values.json\n.csdlc/issues/5863/cards/spp.values.json\n.csdlc/issues/5863/cards/stp.values.json\n.csdlc/issues/5863/cards/vpp.values.json\n.csdlc/issues/5863/index.json\n.csdlc/issues/5864/cards/sip.values.json\n.csdlc/issues/5864/cards/spp.values.json\n.csdlc/issues/5864/cards/stp.values.json\n.csdlc/issues/5864/cards/vpp.values.json\n.csdlc/issues/5864/index.json\n.csdlc/issues/5865/cards/sip.values.json\n.csdlc/issues/5865/cards/spp.values.json\n.csdlc/issues/5865/cards/stp.values.json\n.csdlc/issues/5865/cards/vpp.values.json\n.csdlc/issues/5865/index.json\n.csdlc/issues/5867/cards/sip.values.json\n.csdlc/issues/5867/cards/spp.values.json\n.csdlc/issues/5867/cards/stp.values.json\n.csdlc/issues/5867/cards/vpp.values.json\n.csdlc/issues/5867/index.json\n.csdlc/issues/5869/cards/sip.values.json\n.csdlc/issues/5869/cards/spp.values.json\n.csdlc/issues/5869/cards/stp.values.json\n.csdlc/issues/5869/cards/vpp.values.json\n.csdlc/issues/5869/index.json\n.csdlc/issues/5870/cards/sip.values.json\n.csdlc/issues/5870/cards/spp.values.json\n.csdlc/issues/5870/cards/stp.values.json\n.csdlc/issues/5870/cards/vpp.values.json\n.csdlc/issues/5870/index.json\n.csdlc/issues/5875/cards/sip.values.json\n.csdlc/issues/5875/cards/spp.values.json\n.csdlc/issues/5875/cards/stp.values.json\n.csdlc/issues/5875/cards/vpp.values.json\n.csdlc/issues/5875/index.json\n.csdlc/issues/5876/cards/sip.values.json\n.csdlc/issues/5876/cards/spp.values.json\n.csdlc/issues/5876/cards/stp.values.json\n.csdlc/issues/5876/cards/vpp.values.json\n.csdlc/issues/5876/index.json\n.csdlc/prepared/issues/5821/design.md\n.csdlc/prepared/issues/5821/validate-architecture-security-review.rb\n.csdlc/prepared/issues/5821/validate-child-wave.rb\n.csdlc/prepared/issues/5863/design.md\n.csdlc/prepared/issues/5864/design.md\n.csdlc/prepared/issues/5865/design.md\n.csdlc/prepared/issues/5867/design.md\n.csdlc/prepared/issues/5869/design.md\n.csdlc/prepared/issues/5870/design.md\n.csdlc/prepared/issues/5875/design.md\n.csdlc/prepared/issues/5876/design.md\ndocs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md\ndocs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md\ndocs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\ndocs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md",
+      "review_revision": "git-blake3:b7035e934dc8c69c2b20fbaf1680aeac0c305bc6:5271cc39809768e1fcd0656636747bc69bde3b913f5bc96c9007b3c048ab2b9d",
+      "reviewer": "openai-codex:gpt-5:wp04-authority-certificate-independent-review:2026-08-08",
       "review_prompts": [
         "Does the architecture and threat model close every declared identity, trust, certificate, partition, replay, lease, fencing, placement, migration, rollback, and observability boundary?",
         "Does the ledger contain exactly WP-04.01 through WP-04.16 with complete, nonduplicative outcomes and disjoint protected paths?",
@@ -24,8 +24,11 @@
         "Does issue 5821 stop before product implementation, multi-node proof, integration, or terminal child reconciliation claims?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "This gate proves architecture, security, dependency ownership, and child-wave contract readiness; runtime implementation and distributed failure proofs remain assigned to the WP-04 implementation children.",
+        "Claude supplemental review was attempted through the documented provider route but returned no usable text and is not counted as an approval."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5869/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_lease proves monotonic epochs, lease acquisition and renewal, expiry, stale-holder denial, clock-bound handling, and restart recovery.",
+    "proof_role": "Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement and rejects an insufficient union majority. It enforces frozen protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer order, canonical decode/re-encode equality, and AuthorityCertificateV1 body hashing under ADL-AUTHORITY-CERTIFICATE-BODY-V1\\0. It proves AuthorityEndorsementPayloadV1 signs that body digest, signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\0 using SHA-256 and Ed25519 VerifyingKey::verify_strict. It rejects the superseded ADL-AUTHORITY-CERTIFICATE-V1\\0 construction, copied signatures under another identity or generation, stale generations, duplicate signer identities or effective control keys, malformed lengths, wrong algorithms, unknown or duplicate fields, non-minimal varints, unsorted signers, noncanonical scalar or point encodings, and byte-mismatched re-encoding. It also proves activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

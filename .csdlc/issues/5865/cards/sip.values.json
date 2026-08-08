@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter",
     "slug": "v0-92-wp-04-03-quic-tls-transport",
     "version": "v0.92",
-    "generation": 10
+    "generation": 16
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
-      "goal": "Integrate a maintained QUIC/TLS stack with bounded authenticated channels and no custom cryptography or framing.",
+      "goal": "Integrate and pin the reviewed quinn, rustls, prost, and openraft COTS set in the solely owned adl-runtime/Cargo.toml and adl-runtime/Cargo.lock while implementing bounded authenticated QUIC/TLS transport without custom cryptography or framing.",
       "required_outcome": "Integrate a maintained QUIC/TLS stack with bounded authenticated channels and no custom cryptography or framing.",
       "declared_scope": [
         "adl-runtime/src/distributed/transport.rs",

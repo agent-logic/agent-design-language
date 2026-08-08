@@ -1,0 +1,21 @@
+{
+  "assigned_by": "codex:5821-wp04-gate",
+  "expected_digest": "b1fbd6911ad3128c96e4281cf6ae3087af2c6b6d58f3ef932693d7d7c55da83e",
+  "expected_generation": 59,
+  "issue": 5821,
+  "reviewer": "openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07",
+  "scope": [
+    "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md",
+    "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md",
+    ".csdlc/prepared/issues/5821",
+    ".csdlc/evidence/5821",
+    ".csdlc/issues/5869",
+    ".csdlc/prepared/issues/5869/design.md",
+    ".csdlc/issues/5870",
+    ".csdlc/prepared/issues/5870/design.md",
+    ".csdlc/issues/5875",
+    ".csdlc/prepared/issues/5875/design.md",
+    ".csdlc/issues/5876",
+    ".csdlc/prepared/issues/5876/design.md"
+  ]
+}

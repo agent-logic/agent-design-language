@@ -25,7 +25,12 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors. The implementation must preserve Guardian as process 0,
+Enforce one authoritative owner per lineage by requiring every state-changing
+sink to verify the current majority-endorsed AuthorityCertificateV1, committed
+voter generation, applied log index, epoch, activation-key possession,
+operation class, certificate validity, and monotonic-time lease safety. Reject
+leader-only, minority, stale, cloned, expired, revoked, wrong-owner, or
+partitioned authority. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -41,7 +46,11 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_fencing proves stale epoch, cloned state, split-brain, wrong owner, post-partition, and recovery fencing semantics.
+Exact nextest target distributed_fencing proves mutation-sink enforcement,
+majority-certificate validation, voter-generation and applied-index checks,
+activation possession, stale epoch, cloned state, malicious leader/minority,
+split-brain, wrong owner, expiry/revocation, post-partition, and recovery
+fencing semantics.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner
@@ -51,7 +60,8 @@ working behavior.
 
 ## Rollback
 
-Fence all uncertain distributed owners and return authority to the last durable single-node owner.
+Keep every uncertain owner fenced and restore only a quorum-committed owner or
+a newer majority-committed epoch after the prior lease safety window.
 
 ## Estimate
 
