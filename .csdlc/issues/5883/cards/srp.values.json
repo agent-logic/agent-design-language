@@ -7,15 +7,15 @@
     "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
     "slug": "retire-csdlc-init",
     "version": "backlog",
-    "generation": 15
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/tests/gate4.rs deterministic concurrency proof\ntyped lifecycle recovery and canonical SRP/SOR truth",
+      "review_revision": "git-blake3:38cb42440e034582ef05a35d169d04c9da6658ca:f8543bf869e73b759fb9379488383b59f8121d8633f2873f2a1772713d632223",
+      "reviewer": "codex:review_49_repair",
       "review_prompts": [
         "Is every removed reference active rather than historical evidence?",
         "Does the installed set lack csdlc-init and reject its return?",
@@ -23,7 +23,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

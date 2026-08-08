@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/tests/gate4.rs deterministic concurrency proof
+typed lifecycle recovery and canonical SRP/SOR truth
 
 ## Prompts
 
@@ -34,8 +35,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:38cb42440e034582ef05a35d169d04c9da6658ca:f8543bf869e73b759fb9379488383b59f8121d8633f2873f2a1772713d632223")
 
-Reviewer: None
+Reviewer: Some("codex:review_49_repair")
 
-Result: pre_review
+Result: pass
