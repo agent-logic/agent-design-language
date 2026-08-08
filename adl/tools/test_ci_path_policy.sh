@@ -52,7 +52,9 @@ assert_current_coverage_workflow_contract() {
   local workflow="$ROOT_DIR/.github/workflows/ci.yaml"
   assert_file_has "$workflow" 'Determine PR fast coverage filters'
   assert_file_has "$workflow" "adl_coverage_workspace_fast_hosted:"
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.full_coverage_required != 'true'"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.runtime_coverage_required == 'true'"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true'"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true'"
   assert_file_has "$workflow" "if: github.event_name == 'pull_request' && !contains(github.event.pull_request.head.ref, 'csdlc-v2')"
   assert_file_has "$workflow" '--print-risk-nextest-expression > adl/coverage-impact-filter-expression.txt'
   assert_file_has "$workflow" 'filter_expression<<ADL_COVERAGE_EXPR'
@@ -64,16 +66,13 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)'
   assert_file_has "$workflow" 'args+=(--require-summary-for-risk)'
   assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.full_coverage_required == 'true'"
-  assert_file_has "$workflow" "if: steps.path-policy.outputs.full_coverage_required == 'true'"
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld'
   assert_file_has "$workflow" 'bash adl/tools/setup_required_coverage_toolchain.sh configure "$GITHUB_ENV"'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh verify'
   assert_file_order "$workflow" 'Install cargo-llvm-cov for CI contract checks' 'path-policy PR-fast coverage contract'
   assert_file_order "$workflow" 'Install cargo-nextest for CI contract checks' 'path-policy PR-fast coverage contract'
-  assert_file_has "$workflow" 'Coverage not required by path policy'
-  assert_file_has "$workflow" "if: steps.path-policy.outputs.coverage_required != 'true'"
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
   assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
   assert_file_has "$workflow" 'Upload runtime coverage evidence'
   assert_file_has "$workflow" 'Upload workspace coverage evidence'
@@ -81,7 +80,7 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}'
   assert_file_has "$workflow" 'name: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}'
   assert_file_has "$workflow" 'pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*'
-  assert_file_has "$workflow" 'Coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}'
+  assert_file_has "$workflow" 'policy coverage execution state'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
   assert_file_has "$workflow" 'actual adl-coverage execution state'
@@ -412,6 +411,29 @@ PY
   assert_has "$runtime_v3_mixed_output" "change_class=mixed"
   assert_has "$runtime_v3_mixed_output" "runtime_v3_fast_required=false"
   assert_has "$runtime_v3_mixed_output" "rust_required=true"
+
+  git checkout -q -b runtime-owner-observatory-only "$base_sha"
+  mkdir -p .csdlc/issues/5800/cards adl-runtime/src/bin adl-runtime/tests adl/tools demos/html-observatory
+  printf '{"phase":"published"}\n' > .csdlc/issues/5800/index.json
+  printf '{}\n' > .csdlc/issues/5800/cards/sor.values.json
+  printf 'fn main() {}\n' > adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs
+  printf 'pub fn local_tls() {}\n' > adl-runtime/src/local_tls.rs
+  printf '#[test]\nfn local_tls_works() {}\n' > adl-runtime/tests/local_tls.rs
+  printf 'console.log("validate observatory")\n' > adl/tools/validate_v092_browser_trusted_observatory.mjs
+  printf '# observatory\n' > demos/html-observatory/README.md
+  printf '{}\n' > demos/html-observatory/runtime-v3.config.json
+  git add .csdlc/issues/5800 adl-runtime adl/tools/validate_v092_browser_trusted_observatory.mjs demos/html-observatory
+  git commit -q -m runtime-owner-observatory-only
+  runtime_owner_observatory_head="$(git rev-parse HEAD)"
+  runtime_owner_observatory_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_owner_observatory_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_owner_observatory_output" "coverage_required=true"
+  assert_has "$runtime_owner_observatory_output" "full_coverage_required=false"
+  assert_has "$runtime_owner_observatory_output" "runtime_coverage_required=true"
+  assert_has "$runtime_owner_observatory_output" "workspace_fast_coverage_required=false"
+  assert_has "$runtime_owner_observatory_output" "workspace_full_coverage_required=false"
+  assert_has "$runtime_owner_observatory_output" "validation_profile_status=ready_to_run"
+  assert_has "$runtime_owner_observatory_output" "validation_profile_escalation_required=false"
+  assert_has "$runtime_owner_observatory_output" "reason=runtime_owner_surface_runs_runtime_only_coverage"
 
   git checkout -q -b runtime-v3-unmapped "$base_sha"
   mkdir -p infra/runtime-v3-extra

@@ -1,0 +1,5 @@
+flowchart LR
+  A[Pinned Ruby source and SHA-256] --> B[Immutable adl-builder image]
+  B --> C[Builder toolchain preflight]
+  C --> D[Repository Ruby validator smoke]
+  D --> E[Requested validation command]

@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 13,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
+    "slug": "wp-02a-optional-coverage-producer-routing",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Fix issue #13 only: explicit coverage-producer selection, aggregation, and focused regression proof.",
+      "deliverables": [
+        "Explicit Runtime, fast-workspace, and full-workspace producer selectors.",
+        "Job-level producer guards and deterministic aggregate result checks.",
+        "Focused selected/unselected routing tests.",
+        "Retained CI timing evidence from the reviewable PR run."
+      ],
+      "acceptance_criteria": [
+        "A Runtime-local change does not execute either full-workspace shard.",
+        "Producer routing occurs at job level before checkout and tool installation.",
+        "The required adl-coverage check succeeds for intentionally skipped workspace coverage.",
+        "Runtime coverage runs when selected.",
+        "Full workspace coverage runs when selected.",
+        "Focused contracts cover selected and unselected producer and aggregator combinations.",
+        "CI evidence shows unselected producers consume only GitHub skipped-job accounting."
+      ],
+      "dependencies": [
+        "Canonical CI workflow",
+        "validation manager",
+        "path policy",
+        "GitHub job result semantics"
+      ],
+      "repo_inputs": [
+        "https://github.com/agent-logic/agent-design-language/issues/13",
+        "https://github.com/agent-logic/agent-design-language/actions/runs/31143017130",
+        ".github/workflows/ci.yaml",
+        "adl/tools/ci_path_policy.sh",
+        "adl/config/validation_lane_selector.v0.91.6.json"
+      ],
+      "non_goals": [
+        "Coverage threshold changes",
+        "Weakening selected coverage",
+        "Runtime TLS changes",
+        "AWS or runner provisioning"
+      ]
+    }
+  }
+}

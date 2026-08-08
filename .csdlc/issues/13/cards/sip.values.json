@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 13,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
+    "slug": "wp-02a-optional-coverage-producer-routing",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prevent unselected workspace coverage producers from consuming hosted execution while preserving deterministic required coverage checks.",
+      "required_outcome": "Runtime-local changes run Runtime coverage without workspace producers, full coverage still runs when selected, and the required aggregate succeeds only when producer results match explicit path-policy selectors.",
+      "declared_scope": [
+        ".github/workflows/ci.yaml",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        ".csdlc/prepared/issues/13",
+        ".csdlc/issues/13"
+      ],
+      "authority_boundary": [
+        "The canonical path-policy job remains the sole producer-selection authority.",
+        "Coverage thresholds and coverage commands are unchanged.",
+        "Unselected producers must be skipped before runner work begins."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue changes on main.",
+        "Use focused deterministic validation.",
+        "Do not use AWS.",
+        "PR body must include Closes #13."
+      ]
+    }
+  }
+}

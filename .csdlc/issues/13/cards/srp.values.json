@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 13,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
+    "slug": "wp-02a-optional-coverage-producer-routing",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".github/workflows/ci.yaml\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/ci_path_policy.sh\nadl/tools/verify_coverage_producer_results.sh\nadl/tools/test_verify_coverage_producer_results.sh\nadl/tools/test_ci_path_policy.sh\nadl/tools/test_ci_runtime_contracts.sh\n.csdlc/issues/13\n.csdlc/prepared/issues/13",
+      "review_revision": "git-blake3:241a39d0711a83965d481e2ed0d774fca37ab81f:7662d6413c8465459886e33190c5c7d16f0037f527112e83e8dd0a9d00c22791",
+      "reviewer": "subagent:review_13_implementation",
+      "review_prompts": [
+        "Can an unselected coverage producer still acquire a runner or install tools?",
+        "Do all selected and skipped producer combinations terminate the required aggregate correctly?",
+        "Does Runtime-only routing keep both workspace producers skipped?",
+        "Does full coverage retain Runtime plus both workspace shards?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The live hosted timing canary remains deferred until the issue #13 PR creates a GitHub Actions run."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

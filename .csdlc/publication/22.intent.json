@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 22,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/22-pinned-ruby-builder-runtime",
+  "title": "fix(builder): include pinned Ruby runtime",
+  "body": "## Summary\n\n- install Ruby 3.3.6 from the checksum-pinned official source archive in the immutable builder image\n- record Ruby in builder provenance\n- execute a minimal Ruby program and repository validator self-test during builder preflight\n- fail before the requested validation command when Ruby proof is missing\n\n## Validation\n\n- `TMPDIR=/Volumes/FastWork/tmp bash adl/tools/test_adl_builder_image.sh`\n- `TMPDIR=/Volumes/FastWork/tmp bash adl/tools/test_run_aws_spot_builder_image_validation.sh`\n- `git diff --check`\n- independent exact-head review: PASS at `eba54de5b31ba52c3b34f9df455e9b9caf970378`; later commit records lifecycle review truth only\n\nCloses #22",
+  "draft": false,
+  "revision": "git-blake3:8db86f760f48630a9739de4cfb2094e232be1b0e:16a75e84e9370fed6fab0a1c032e8448a9e3864e49b228bfbb4173bfb6a0a432",
+  "commit_sha": "8db86f760f48630a9739de4cfb2094e232be1b0e"
+}

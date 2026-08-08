@@ -1,0 +1,27 @@
+{
+  "issue": 13,
+  "expected_generation": 6,
+  "expected_digest": "a1855ae5de62b2a2db16e973e68fdafa920e6e521d6513028327e57bf2361d3a",
+  "actor": "subagent:review_13_implementation",
+  "evidence": {
+    "reviewer": "subagent:review_13_implementation",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/verify_coverage_producer_results.sh",
+      "adl/tools/test_verify_coverage_producer_results.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/13",
+      ".csdlc/prepared/issues/13"
+    ],
+    "reviewed_revision": "git-blake3:97551f8bfd0685a7c3548efc75fe96b600199117:f3734d83b289b1d2e8720b63bade14b679fa4de45182ddb0553f2e99f39c0e98",
+    "findings": [],
+    "residual_risks": [
+      "The live hosted timing canary remains deferred until the issue #13 PR creates a GitHub Actions run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

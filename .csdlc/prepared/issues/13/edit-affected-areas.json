@@ -1,0 +1,22 @@
+{
+  "issue": 13,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "fb9d22de48099a5a0b03764e3d2a29fd58409c1c6058a6e9c46474d4c7552f1b",
+  "actor": "codex:13-coverage-routing",
+  "reason": "Replace descriptive area labels with exact repository-owned implementation and proof paths required for execution readiness.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/prepared/issues/13",
+      ".csdlc/issues/13"
+    ]
+  },
+  "fail_after_backup": false
+}

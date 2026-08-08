@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 13,
+  "repository": "agent-logic/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/13-skip-optional-workspace-coverage",
+  "title": "[CI][WP-02A] Skip unselected workspace coverage producers",
+  "body": "Closes #13\n\n## Summary\n- adds explicit Runtime, fast-workspace, and full-workspace coverage producer selectors\n- routes the PR #9 Runtime + Observatory surface to Runtime-only coverage\n- skips unselected heavy producer jobs before checkout or tool installation\n- verifies hosted/Spot producer results against a fail-closed route matrix\n\n## Validation\n- `bash adl/tools/test_ci_path_policy.sh`: PASS\n- `bash adl/tools/test_ci_runtime_contracts.sh`: PASS\n- `bash adl/tools/test_verify_coverage_producer_results.sh`: PASS\n- workflow YAML parse and `git diff --check`: PASS\n\n## Review\n- independent exact-head review approved implementation commit `97551f8bfd0685a7c3548efc75fe96b600199117` with no P0-P3 findings\n\n## Deferred live proof\n- the PR Actions canary must show Runtime coverage plus both required aggregates succeed while both full-workspace shards remain GitHub-skipped with no runner start",
+  "actor": "codex:13-coverage-routing",
+  "expected_generation": 7,
+  "expected_digest": "b3272d2993a652fb11b3e3090e37985d2250b737201191db210c8de63256e7d6",
+  "draft": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}
