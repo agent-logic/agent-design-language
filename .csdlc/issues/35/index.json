@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "00f98108c36d7c2ce6bbae31c45faeb67fbfbc021a97d5bbbd4afa18592289da",
   "phase": "bound",
-  "generation": 23,
-  "digest": "16168d42c20baa8226e81fa0da01eb2b0299e47e65782bf9c043fdb6984ebdf7",
+  "generation": 25,
+  "digest": "0f39cb48a8b45db611c21c50e7034e62230ad06ee1a536446b35456ac7e2f7a8",
   "branch": "codex/35-codex-background-task-dispatch",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-35-background-dispatch",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "008a1e9dc5c622cbc808c7b9177a10f453606c8a69b0d0498d243f75b195c41f",
+      "values_digest": "0e80c704db2d1bd5d5c0de8002adbf68bf4117b1d415db45cc7341017a1ceb22",
       "rendered_digest": "7b03563958c2c7e6d1baafb8651eb87a423d8b3ede73ff275ac962c1a2198f53",
       "ast_digest": "c9449d36e53b58ec406a0886efdf6da9fb798fc2f21684354c8b42624c8ce60b"
     },
     "stp": {
-      "values_digest": "0d06866f81537d0500f94640a5a6992ce0cdea96681080fdc62549de8e12b6c7",
-      "rendered_digest": "2f76a80f030989dff0271106665dc56c6ca7baa3051f3a91419089674bb7b264",
-      "ast_digest": "5b2eca5218b54ddd5b0a02194e63310d2b3018b1a9a75e213c287940bf4b9f66"
+      "values_digest": "7183e7cd0e2357be929681b23905c8d411162b792822a153bac71d8e1b564657",
+      "rendered_digest": "71c1a186a1f2df15e244c9f9ee9123a890e52a4c5275986425568f9b8c75bc49",
+      "ast_digest": "c519269528a5210a7d6c3973e871015a21a9926c3475f258922c4da7746babfe"
     },
     "spp": {
-      "values_digest": "a81bdeb1600f20574300d9180c06881d5c34e0648070eb697732f968999bff09",
+      "values_digest": "c583c5e59977e2d82be2068363f3e0ed5f2ebfc0abd88d329f6b37970a9f339e",
       "rendered_digest": "64d9ae3b8661ddc85a1bf117f54603cc37f72813bd406e2f7c8ce2a96cb026d6",
       "ast_digest": "26d36da1995bea8ec7dd0500528f24b016423099d1c416a77a33c78fb9625fcb"
     },
     "vpp": {
-      "values_digest": "a51176c90ef04712290aabb16b348acd0f66a57813d45821a59b554183a54294",
+      "values_digest": "2be0fe636e83d5c52d7f43109eb547087e394a31f85661fb97ea3b1b9cdc06ec",
       "rendered_digest": "e565db5ce7d38bf2c325342e1ad5b358a9882644e88af2aa03bcd31e49e39054",
       "ast_digest": "362ea774dd3ab0b5bdfe3a00899b9a7af8b1741740b561479dc0fc634fe7cfe4"
     },
     "srp": {
-      "values_digest": "d64ae54404f003903a97dc3932322c71d0341059e43eaab753a262e8bd189ffa",
+      "values_digest": "afff145dd40450279e9364f1bb98b0a154e0995588609e81563d9a88e80a7169",
       "rendered_digest": "81fc506c5a53627a7d6b7cb61a8b2871df53ee6b6eb33f78edd99fbd63e74a28",
       "ast_digest": "3c969467233e3011dbfa19edc86da215c10083113585d774f48b7c55f5691dbf"
     },
     "sor": {
-      "values_digest": "b785745a5addb60468e5fd0064013b120cbcd8c6bc02e3abadbe89156d6d4c2f",
-      "rendered_digest": "319cc8a05dc048d6cee6a904a7727ded579452a95977c02b22bf78c3284aa0a5",
-      "ast_digest": "a1e05bfa68ac2a48f03128fbc15bcb0bf925b5f68465fc120dca5f5d4425fb12"
+      "values_digest": "6018959136c703dc3003f26725f51fc55e74f36f8a0858ac826866d86c9d0d59",
+      "rendered_digest": "5b9448f2fc920f54582ff5c3b9bdcf943d038c2a5eebb4aa6a84e933540cafc9",
+      "ast_digest": "e1915bbd0f5cbcd6532111ef8a78aae257596b08db99133bc0294c5d23810c4b"
     }
   },
   "transitions": [
@@ -245,6 +245,20 @@
       "actor": "codex:issue-35-readiness",
       "reason": "Align operator constraints with the projectless no-op canary and absolute timeout or indeterminate no-retry rule.",
       "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use one uniquely identified projectless no-op canary that owns no repository, issue, or worktree and forbids all mutation or child dispatch.\",\"Never retry a timeout or indeterminate dispatch; retry an explicit typed failure only after complete paginated inventory receipts prove an empty task-ID delta.\",\"Do not create wrappers, polling state machines, claims, leases, or hidden ownership records.\",\"Do not use AWS, remote builders, or /private/tmp.\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:35-execution",
+      "reason": "Record the bounded project discovery, projectless canary dispatch, ownership reconciliation, and operator guidance.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Executed one bounded Codex project-discovery probe and one projectless no-op dispatch canary; retained sanitized inventory/readback evidence and bounded operator guidance without changing ADL product code.\",\"changes\":[\"Updated the issue-local validator to name the current codex.list_threads interface.\",\"Retained digest-bound reproduction, inventory, readback, and ownership evidence.\",\"Documented success, reconciliation, retry, escalation, upstream ownership, and non-claims.\"],\"artifacts\":[\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/task-inventory-receipts.json\",\".csdlc/evidence/35/task-readback-receipt.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:35-execution",
+      "reason": "Reconcile the prepared acceptance contract with the current Codex list_threads interface observed during the bounded canary.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Project discovery terminates within 120 seconds and records terminal_result project_found with a nonempty returned_project_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"One projectless no-op canary dispatch terminates within 120 seconds and records terminal_result created with a nonempty returned_task_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"A created dispatch is the unique delta derived from complete pre/post codex.list_threads receipts with the interface's terminal cursor state, and its digest-bound codex.read_thread receipt proves the expected canary_id and prompt_digest while repository, issue, and worktree bindings are absent before ownership_disposition may equal transferred_to_canary\",\"For a typed_failure, timeout, or indeterminate dispatch the validator derives an empty delta from complete inventory receipts with terminal cursor state and a typed no-task readback receipt; every incomplete inventory, unexpected, duplicate, or unverified new task fails closed and retains ownership in the caller\",\"retry_allowed is true only for an explicit typed_failure with complete inventory receipts and an empty derived delta; created, timeout, indeterminate, incomplete, unexpected, duplicate, or unverified outcomes prohibit retry\",\"Retained reproduction, ownership, inventory, and readback JSON record exact schemas, a unique canary_id, prompt_digest, two 120-second attempts, elapsed_seconds not exceeding 120, mode-specific terminal fields, sanitized source receipts with timestamps and digest binding, derived task delta, ownership_disposition, and retry_allowed without secrets, personal data, raw prompt content, or machine-local absolute paths\",\"The canonical issue-35 review assignment and completed review name the same independently assigned subagent and typed revision, cover every declared affected area, and contain zero unresolved findings\"]}"
     }
   ]
 }

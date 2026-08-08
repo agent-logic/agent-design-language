@@ -1,0 +1,29 @@
+{
+  "schema": "codex.background_task_dispatch.reproduction.v1",
+  "canary_id": "issue-35-dispatch-canary-20260808-0836",
+  "prompt_digest": "0fe43658c8f0692914da3f2a17f81f7b1442ba1858b0f998006e13d584ba8d36",
+  "attempts": [
+    {
+      "request_mode": "project_discovery",
+      "timeout_seconds": 120,
+      "elapsed_seconds": 0.134,
+      "terminal_result": "project_found",
+      "returned_project_id": "local-bb52f3e18910b93ae22838b22be3f4b6",
+      "diagnostic_class": null
+    },
+    {
+      "request_mode": "projectless_task_create",
+      "timeout_seconds": 120,
+      "elapsed_seconds": 1.092,
+      "terminal_result": "created",
+      "returned_task_id": "019fe203-69ff-7422-8d92-bb5f1da3d559",
+      "diagnostic_class": null
+    }
+  ],
+  "target": {
+    "kind": "projectless_no_op",
+    "repository_bound": false,
+    "issue_bound": false,
+    "worktree_bound": false
+  }
+}

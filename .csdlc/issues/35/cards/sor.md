@@ -12,15 +12,22 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Executed one bounded Codex project-discovery probe and one projectless no-op dispatch canary; retained sanitized inventory/readback evidence and bounded operator guidance without changing ADL product code.
 
 ## Artifacts
 
-- none
+- .csdlc/evidence/35/background-task-dispatch-reproduction.json
+- .csdlc/evidence/35/ownership-reconciliation.json
+- .csdlc/evidence/35/task-inventory-receipts.json
+- .csdlc/evidence/35/task-readback-receipt.json
+- docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md
+- docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md
 
 ## Execution
 
-- none
+- Updated the issue-local validator to name the current codex.list_threads interface.
+- Retained digest-bound reproduction, inventory, readback, and ownership evidence.
+- Documented success, reconciliation, retry, escalation, upstream ownership, and non-claims.
 
 ## Validation
 

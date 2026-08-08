@@ -66,7 +66,7 @@ def validate_evidence
   snapshots = inventory["snapshots"]
   abort_unless(snapshots.is_a?(Array) && snapshots.map { |snapshot| snapshot["phase"] } == %w[pre_dispatch post_dispatch], "inventory snapshots")
   snapshot_ids = snapshots.map do |snapshot|
-    abort_unless(snapshot["source_operation"] == "codex.list_tasks", "inventory source")
+    abort_unless(snapshot["source_operation"] == "codex.list_threads", "inventory source")
     Time.iso8601(snapshot.fetch("observed_at"))
     pages = snapshot["pages"]
     abort_unless(pages.is_a?(Array) && !pages.empty?, "inventory pages")
