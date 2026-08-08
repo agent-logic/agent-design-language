@@ -1,0 +1,34 @@
+{
+  "schema": "adl.wp02b.failed_preflight.v1",
+  "workflow_run_id": 31137517647,
+  "job_id": 92740128095,
+  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31137517647",
+  "head_sha": "134875c80bd03c093a0d1a69a30afdeee51c5020",
+  "platform": "control",
+  "cache_state": "warm",
+  "sample_role": "cache_seed",
+  "status": "completed",
+  "conclusion": "failure",
+  "created_at": "2026-08-07T01:17:07Z",
+  "completed_at": "2026-08-07T01:17:43Z",
+  "failed_step": "Run frozen build acceleration workload",
+  "exit_code": 101,
+  "root_cause": "The read-only benchmark helper invoked the removed Cargo binary adl-pr-doctor.",
+  "disposition": "Excluded from experiment trial and seed counts; no paid candidate job was dispatched; workflow repaired to invoke the current adl binary directly.",
+  "artifacts": {
+    "directory": ".csdlc/evidence/5853/preflight-31137517647",
+    "build_stderr_sha256": "b994da26c4ad972d2c111e0ca6eae3c411008db27bc2d46ea9f4a7d92f7d6730",
+    "build_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8829b1e61986228df4360d406624f1c07bd97931144d5429cb54368679dcb827"
+  },
+  "repair_commit": "d5b30dd57ef1d22239bad61a8137b372c9a1f75b",
+  "repair_workflow_sha256": "3ccc6c841c8bb99327af1aa904a3224b835150342eab980d64e5d15575857ca1",
+  "focused_proof": [
+    "workflow YAML parsed",
+    "test_ci_runtime_contracts passed",
+    "build_acceleration_experiment_contract passed",
+    "test_run_pr_fast_coverage_lane passed",
+    "Cargo metadata confirmed adl exists and adl-pr-doctor is absent",
+    "git diff --check passed"
+  ]
+}

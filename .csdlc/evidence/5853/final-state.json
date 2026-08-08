@@ -1,0 +1,22 @@
+{
+  "schema": "adl.wp02b.final_state.v1",
+  "production_runner": "adl-ubuntu-24.04-16core",
+  "adopted_lane": "adl-rust-tests",
+  "required_check_identity_preserved": true,
+  "validation_breadth_preserved": true,
+  "validation_breadth_contract_preserved": true,
+  "runner_group_concurrency": 10,
+  "selected_repository_access": true,
+  "untrusted_fork_privilege": false,
+  "standard_runner_fallback": true,
+  "experiment_dispatch_removed": true,
+  "approved_max_total_cost_usd": 10.0,
+  "observed_total_cost_usd": 1.302,
+  "production_canary": {
+    "routing_receipt": ".csdlc/evidence/5853/production-canary.json",
+    "terminal_gate": "At the final reviewed PR head, either the direct test and doc-test steps or the complete authoritative coverage replacement must finish successfully",
+    "workflow_run_id": "31219936196",
+    "workflow_run_attempt": 8,
+    "terminal_acceptance": true
+  }
+}

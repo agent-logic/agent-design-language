@@ -8,9 +8,6 @@ on:
       - reopened
       - labeled
       - unlabeled
-  push:
-    branches:
-      - main
   workflow_dispatch:
   schedule:
     - cron: "17 10 * * *"
@@ -130,7 +127,7 @@ jobs:
     name: csdlc-v2-standalone
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.csdlc_v2_standalone_required == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -162,7 +159,7 @@ jobs:
     name: adl-v2-standalone
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -331,7 +328,7 @@ jobs:
     name: adl-runtime-v3-fast
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -366,7 +363,7 @@ jobs:
     name: adl-rust-fmt-clippy
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -438,8 +435,8 @@ jobs:
   adl_rust_tests:
     name: adl-rust-tests
     needs: adl_path_policy
-    if: needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    if: (needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true') && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -497,19 +494,23 @@ jobs:
           sccache --zero-stats || true
 
       - name: Install cargo-nextest
-        if: needs.adl_path_policy.outputs.full_coverage_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
         uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
         with:
           tool: nextest@0.9.140
           fallback: none
 
       - name: test
-        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true' && needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'
         run: bash adl/tools/run_pr_fast_test_lane.sh --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.event.pull_request.head.sha }}"
         working-directory: .
 
+      - name: test (CI routing canary)
+        if: needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
+        run: cargo nextest run --status-level all --final-status-level slow
+
       - name: test deferred to validation-manager escalation
-        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_path_policy.outputs.validation_profile_escalation_required == 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_path_policy.outputs.validation_profile_escalation_required == 'true' && needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'
         run: |
           echo "Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile."
           echo "Selected profile: ${{ needs.adl_path_policy.outputs.validation_profile_selected }}"
@@ -521,11 +522,11 @@ jobs:
         working-directory: .
 
       - name: doc test
-        if: needs.adl_path_policy.outputs.full_coverage_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
         run: cargo test --doc
 
       - name: test covered by full coverage lane
-        if: needs.adl_path_policy.outputs.full_coverage_required == 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'
         run: |
           echo "Skipping standalone cargo nextest/doc-test lane because this event requires the full cargo-llvm-cov lane."
           echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
@@ -551,7 +552,7 @@ jobs:
     name: adl-demo-proof
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true') && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -629,9 +630,10 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           SAME_REPO_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
           SPOT_OPT_IN: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ci:spot') }}
-          WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' }}
+          WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' }}
           SPOT_WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' || needs.adl_path_policy.outputs.coverage_required == 'true' }}
           RUST_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' }}
+          RUST_TESTS_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' }}
           CSDLC_V2_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.csdlc_v2_standalone_required }}
           CSDLC_V2_STANDALONE_RESULT: ${{ needs.csdlc_v2_standalone.result }}
           ADL_V2_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.adl_v2_standalone_required }}
@@ -684,6 +686,7 @@ jobs:
             --work-required "$WORK_REQUIRED" \
             --spot-work-required "$SPOT_WORK_REQUIRED" \
             --rust-required "$RUST_REQUIRED" \
+            --rust-tests-required "$RUST_TESTS_REQUIRED" \
             --demo-required "$DEMO_REQUIRED" \
             --path-policy-result "${{ needs.adl_path_policy.result }}" \
             --spot-result "${{ needs.adl_spot_ci_and_coverage.result }}" \
@@ -737,8 +740,8 @@ jobs:
 
   adl-slow-proof:
     needs: adl_path_policy
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
-    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     strategy:
@@ -787,7 +790,7 @@ jobs:
     name: adl-coverage-runtime-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.full_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -895,7 +898,7 @@ jobs:
     name: adl-coverage-workspace-fast-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.full_coverage_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -1029,7 +1032,7 @@ jobs:
     name: adl-coverage-workspace-hosted (${{ matrix.shard }}/2)
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.full_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     strategy:
@@ -1453,7 +1456,7 @@ jobs:
         run: |
           echo "Workspace coverage gate and lcov artifact generation are deferred for pull requests."
           echo "This PR ran isolated workspace and runtime coverage plus changed-source coverage-impact validation."
-          echo "Full workspace coverage gating remains required on push-to-main, nightly ratchet, and non-PR fail-closed events."
+          echo "Full workspace coverage gating remains available on scheduled and manually dispatched full-validation events."
           echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
           echo "Coverage lane: ${{ needs.adl_path_policy.outputs.coverage_lane }}"
           echo "Coverage authority: ${{ needs.adl_path_policy.outputs.coverage_authority }}"
@@ -1495,7 +1498,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload coverage to Codecov
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
+        if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           use_oidc: true

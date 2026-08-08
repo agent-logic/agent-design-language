@@ -12,40 +12,39 @@ Status: ready
 
 ## Summary
 
-Verify migration and CI entry gates, freeze the comparison, capture standard and 16-core cold/warm trials, prove parity, run one canary, apply predeclared thresholds, retain the decision, and prove fallback or cleanup.
+Use the seven retained 16-core measurements to select the test-only command structure, route adl-rust-tests to the 16-core runner, remove the dispatch-only experiment harness, and require the implementation PR as the production canary.
 
 ## Plan
 
-Revision 6
+Revision 14
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify entry gates and freeze exact workloads, environment, permissions, cost, cache, proof topology, and numeric adoption thresholds",
+    "action": "Verify migration, budget, runner-group, selected-repository, bounded maximum concurrency ten, and rollback gates",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Capture complete ubuntu-latest and restricted 16-core cold/warm raw trials and proof parity evidence",
+    "action": "Retain one cold, three warm, and three test-only 16-core measurements and recompute the bounded decision",
     "acceptance_ids": [
+      "AC-2",
       "AC-3",
       "AC-4",
-      "AC-7"
+      "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Recompute statistics, apply every frozen threshold, run one canary, retain observation or cleanup/fallback proof, validate, and review",
+    "action": "Route adl-rust-tests and heavy Rust validation producers to the selected runner, preserve lightweight orchestration on standard runners, validate, and require a green direct-test production canary",
     "acceptance_ids": [
-      "AC-5",
       "AC-6",
       "AC-7",
       "AC-8"
@@ -56,11 +55,12 @@ Revision 6
 
 ## Invariants
 
-- Standard GitHub-hosted runners remain the default and immediate fallback
+- Heavy Rust validation producers use the selected 16-core runner pool capped at ten; lightweight orchestration remains on standard GitHub-hosted runners and the standard runner remains the immediate fallback
 - Exact-head validation and proof quality are independent of runner class
 - Required-check names and branch protection remain stable
 - No tracked work occurs on main
 - No sample or error is silently discarded
+- Issue-selected validation runs before merge; ordinary main pushes do not repeat paid validation, and scheduled or manual full validation remains explicit
 
 ## Risks
 
@@ -83,7 +83,7 @@ Revision 6
 
 .csdlc/prepared/issues/5853/design.md
 
-Digest: 5a0f7eefbffae2cfc9cdde6969b68cb6e772bf8db2c2fd6c7f48ecabef21228c
+Digest: 366401d1c5744adc5ed02ba96780df2f4f754d83f7c264916054be203a723965
 
 ## Diagram
 

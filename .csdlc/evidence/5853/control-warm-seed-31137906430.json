@@ -1,0 +1,58 @@
+{
+  "schema": "adl.wp02b.cache_seed_receipt.v1",
+  "workflow_run_id": 31137906430,
+  "job_id": 92741362492,
+  "artifact_id": 8978910048,
+  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31137906430",
+  "head_sha": "d5b30dd57ef1d22239bad61a8137b372c9a1f75b",
+  "workflow_sha256": "3ccc6c841c8bb99327af1aa904a3224b835150342eab980d64e5d15575857ca1",
+  "platform": "control",
+  "cache_state": "warm",
+  "sample_role": "cache_seed",
+  "status": "completed",
+  "conclusion": "success",
+  "started_at": "2026-08-07T01:24:24Z",
+  "completed_at": "2026-08-07T01:36:34Z",
+  "job_duration_seconds": 730,
+  "runner": {
+    "name": "GitHub Actions 1000000006",
+    "group": "GitHub Actions",
+    "cpu_count": 4,
+    "image_os": "ubuntu24",
+    "image_version": "20260804.265.1",
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+    "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)"
+  },
+  "workload": {
+    "build_command": "cargo build --manifest-path adl/Cargo.toml --locked --bin adl",
+    "build_real_seconds": 349.81,
+    "test_command": "cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture",
+    "test_real_seconds": 332.97,
+    "focused_tests_passed": 21,
+    "focused_tests_failed": 0,
+    "total_real_seconds": 682.78
+  },
+  "cache": {
+    "restore_hit": false,
+    "expected_seed_miss": true,
+    "upload_completed": true,
+    "uploaded_bytes": 1683171498,
+    "shared_key": "wp02b-build-acceleration-v1"
+  },
+  "artifact": {
+    "name": "build-acceleration-wp02b-control-warm-seed-repair",
+    "size_in_bytes": 9192,
+    "expires_at": "2026-08-21T01:36:04Z",
+    "retained_directory": ".csdlc/evidence/5853/seed-31137906430",
+    "benchmark_sha256": "ad835cd930463f4efe1853bdb0ff6be0d0d174c319b730c792cddc678d551b11",
+    "build_stderr_sha256": "69132d2742c67e35aec889e7780c70a6bb5151162524ea8769a0f6aa7262953d",
+    "build_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "ff51db0344f515583dbfe5bb5417ecfb725f4e15b1b7534b742f9157593e4fd2",
+    "test_stderr_sha256": "b94e5b7af1cb5af14a90c317edbacd0cb24b5404733e3d7c5d3f41c9743fb1f2",
+    "test_stdout_sha256": "ce67471046c9f2abc794bdc9408901fbf5ac6ca253a7beefa20750d0a56a1394"
+  },
+  "billing": {
+    "metered_candidate_jobs_dispatched": 0,
+    "metered_candidate_cost_usd": 0
+  }
+}

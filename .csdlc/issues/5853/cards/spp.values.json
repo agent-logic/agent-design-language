@@ -7,40 +7,39 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 11
+    "generation": 43
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 6,
-      "summary": "Verify migration and CI entry gates, freeze the comparison, capture standard and 16-core cold/warm trials, prove parity, run one canary, apply predeclared thresholds, retain the decision, and prove fallback or cleanup.",
+      "plan_revision": 14,
+      "summary": "Use the seven retained 16-core measurements to select the test-only command structure, route adl-rust-tests to the 16-core runner, remove the dispatch-only experiment harness, and require the implementation PR as the production canary.",
       "steps": [
         {
           "id": "S1",
-          "action": "Verify entry gates and freeze exact workloads, environment, permissions, cost, cache, proof topology, and numeric adoption thresholds",
+          "action": "Verify migration, budget, runner-group, selected-repository, bounded maximum concurrency ten, and rollback gates",
           "acceptance_ids": [
             "AC-1",
-            "AC-2",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
-          "action": "Capture complete ubuntu-latest and restricted 16-core cold/warm raw trials and proof parity evidence",
+          "action": "Retain one cold, three warm, and three test-only 16-core measurements and recompute the bounded decision",
           "acceptance_ids": [
+            "AC-2",
             "AC-3",
             "AC-4",
-            "AC-7"
+            "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
-          "action": "Recompute statistics, apply every frozen threshold, run one canary, retain observation or cleanup/fallback proof, validate, and review",
+          "action": "Route adl-rust-tests and heavy Rust validation producers to the selected runner, preserve lightweight orchestration on standard runners, validate, and require a green direct-test production canary",
           "acceptance_ids": [
-            "AC-5",
             "AC-6",
             "AC-7",
             "AC-8"
@@ -51,16 +50,19 @@
       "affected_areas": [
         ".github/workflows/ci.yaml",
         "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/verify_ci_backend_route.py",
         ".csdlc/evidence/5853",
         ".csdlc/prepared/issues/5853/validate-experiment.rb",
-        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-ci-runner-experiment-v1\",\"paths\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"issues\":[5801,5853],\"order\":[5801,5853]}"
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/test_ci_path_policy.sh"
       ],
       "invariants": [
-        "Standard GitHub-hosted runners remain the default and immediate fallback",
+        "Heavy Rust validation producers use the selected 16-core runner pool capped at ten; lightweight orchestration remains on standard GitHub-hosted runners and the standard runner remains the immediate fallback",
         "Exact-head validation and proof quality are independent of runner class",
         "Required-check names and branch protection remain stable",
         "No tracked work occurs on main",
-        "No sample or error is silently discarded"
+        "No sample or error is silently discarded",
+        "Issue-selected validation runs before merge; ordinary main pushes do not repeat paid validation, and scheduled or manual full validation remains explicit"
       ],
       "risks": [
         "Queue latency erases execution gains",
@@ -90,7 +92,7 @@
         "The organization owner changes thresholds before the first measured run"
       ],
       "design_ref": ".csdlc/prepared/issues/5853/design.md",
-      "design_digest": "5a0f7eefbffae2cfc9cdde6969b68cb6e772bf8db2c2fd6c7f48ecabef21228c",
+      "design_digest": "366401d1c5744adc5ed02ba96780df2f4f754d83f7c264916054be203a723965",
       "diagram_ref": ".csdlc/prepared/issues/5853/diagram.mmd",
       "diagram_digest": "17d5a853df6d07718c8495e9076f622572dea08eba574fccccf450a39131a966"
     }

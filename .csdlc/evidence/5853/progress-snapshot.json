@@ -1,0 +1,28 @@
+{
+  "schema": "adl.wp02b.progress_snapshot.v1",
+  "observed_at": "2026-08-07T03:31:00Z",
+  "phase": "complete",
+  "production_runner": "adl-ubuntu-24.04-16core",
+  "standard_experiment_dispatch_disabled": true,
+  "runner_group_id": 3,
+  "runner_group_concurrency": 10,
+  "budget_amount": 10,
+  "accrued_rounded_cost": 1.302,
+  "successful_paid_runs": 8,
+  "retained_measurement_run_ids": [
+    31143391281,
+    31143497492,
+    31143499581,
+    31143501603,
+    31143972613,
+    31143974425,
+    31143976182
+  ],
+  "active_or_queued_paid_runs": [],
+  "terminal_cohort_requirement": {
+    "cold_successes": 1,
+    "confirmed_cache_hit_warm_successes": 3,
+    "test_only_canary_successes": 3
+  },
+  "next_step": "require the implementation PR to pass adl-rust-tests on the selected 16-core runner"
+}

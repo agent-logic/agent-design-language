@@ -1,0 +1,31 @@
+{
+  "issue": 5853,
+  "expected_generation": 16,
+  "expected_digest": "20dbf301e2af3f469b456eeef71c0cf25ec3e039cd7404affb184961d6b34b97",
+  "actor": "codex:5853-execution",
+  "card": "spp",
+  "reason": "Make the replanned 16-core execution steps truthful.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Verify migration, budget, runner-group, selected-repository, concurrency-one, and rollback gates",
+        "acceptance_ids": ["AC-1", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Retain one cold, three warm, and three test-only 16-core measurements and recompute the bounded decision",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Route adl-rust-tests to the selected runner, remove experiment-only machinery, validate, and require a green production canary",
+        "acceptance_ids": ["AC-6", "AC-7", "AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

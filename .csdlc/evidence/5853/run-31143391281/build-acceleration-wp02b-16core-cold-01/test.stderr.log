@@ -1,0 +1,93 @@
+ Downloading crates ...
+  Downloaded generator v0.8.9
+  Downloaded scoped-tls v1.0.1
+  Downloaded loom v0.7.2
+   Compiling serde v1.0.228
+   Compiling zerocopy v0.8.33
+   Compiling zerocopy-derive v0.8.33
+   Compiling serde_json v1.0.149
+   Compiling ciborium-io v0.2.2
+   Compiling bs58 v0.5.1
+   Compiling separator v0.4.1
+   Compiling diff v0.1.13
+   Compiling yansi v1.0.1
+   Compiling roxmltree v0.14.1
+   Compiling generator v0.8.9
+   Compiling scoped-tls v1.0.1
+   Compiling pretty_assertions v1.4.1
+   Compiling url v2.5.8
+   Compiling chrono v0.4.44
+   Compiling serde_urlencoded v0.7.1
+   Compiling tracing-serde v0.2.0
+   Compiling serde_spanned v0.6.9
+   Compiling toml_datetime v0.6.11
+   Compiling http-serde v2.1.1
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling toml_edit v0.19.15
+   Compiling assert-json-diff v2.0.2
+   Compiling tracing-subscriber v0.3.22
+   Compiling utoipa v5.5.0
+   Compiling serde_jcs v0.2.0
+   Compiling schemars v0.8.22
+   Compiling reqwest v0.11.27
+   Compiling reqwest v0.12.28
+   Compiling axum v0.7.9
+   Compiling yup-oauth2 v12.1.2
+   Compiling rsntp v4.1.2
+   Compiling chrono-tz v0.10.4
+   Compiling adl-resilience v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl-resilience)
+   Compiling half v2.7.1
+   Compiling ppv-lite86 v0.2.21
+   Compiling ahash v0.8.12
+   Compiling toml v0.7.8
+   Compiling jsonschema v0.17.1
+   Compiling ciborium-ll v0.2.2
+   Compiling cbor-diag v0.1.12
+   Compiling rand_chacha v0.3.1
+   Compiling ciborium v0.2.2
+   Compiling rand_chacha v0.9.0
+   Compiling rand v0.8.5
+   Compiling rand v0.9.2
+   Compiling google-workspace v0.22.5
+   Compiling loom v0.7.2
+   Compiling aws-smithy-protocol-test v0.63.13
+   Compiling ntp-proto v0.3.7
+   Compiling num-bigint-dig v0.8.6
+   Compiling tungstenite v0.29.0
+   Compiling aws-smithy-http-client v1.1.11
+   Compiling tokio-tungstenite v0.29.0
+   Compiling rsa v0.9.10
+   Compiling axum v0.8.9
+   Compiling tungstenite v0.24.0
+   Compiling jsonwebtoken v10.4.0
+   Compiling tokio-tungstenite v0.24.0
+   Compiling ntp-udp v0.3.7
+   Compiling ntp-os-clock v0.3.7
+   Compiling ntp-daemon v0.3.7
+   Compiling octocrab v0.53.0
+   Compiling aws-smithy-runtime v1.10.2
+   Compiling utoipa-swagger-ui v9.0.2
+   Compiling adl-runtime-kernel v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl-runtime-kernel)
+   Compiling aws-runtime v1.7.1
+   Compiling aws-sdk-ssooidc v1.97.0
+   Compiling aws-sdk-sso v1.95.0
+   Compiling aws-sdk-sts v1.99.0
+   Compiling aws-sdk-lambda v1.117.0
+   Compiling aws-sdk-servicequotas v1.97.0
+   Compiling aws-sdk-ec2 v1.215.0
+   Compiling aws-sdk-costexplorer v1.111.0
+   Compiling aws-sdk-cloudwatchlogs v1.119.0
+   Compiling aws-sdk-budgets v1.104.0
+   Compiling aws-sdk-bedrockruntime v1.126.0
+   Compiling aws-sdk-eventbridge v1.102.0
+   Compiling aws-sdk-iam v1.105.0
+   Compiling aws-sdk-ssm v1.106.0
+   Compiling aws-sdk-sns v1.96.0
+   Compiling aws-config v1.8.14
+   Compiling adl-runtime v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl-runtime)
+   Compiling adl v0.92.0 (/home/runner/work/agent-design-language/agent-design-language/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 27s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-f72dd1594b43a204)
+real 207.82
+user 757.72
+sys 25.31

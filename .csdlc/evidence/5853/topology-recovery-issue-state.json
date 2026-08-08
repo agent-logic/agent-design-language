@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.bound_topology_issue_states.v1",
+  "source": "operator-confirmed preserved source issue state",
+  "issues": [
+    {
+      "issue": 5853,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-02B] Post-migration build acceleration experiment"
+    }
+  ]
+}

@@ -12,27 +12,27 @@ Status: ready
 
 ## Task
 
-Deliver a measured and reversible post-migration build acceleration decision for the standard and 16-core GitHub-hosted runner comparison.
+Measure the already-approved 16-core GitHub-hosted runner with one cold baseline, three warm baselines, and three test-only canaries; adopt it for adl-rust-tests only when the frozen performance, reliability, cost, security, and exact-head production-canary gates pass.
 
 ## Deliverables
 
-- Migration-eligibility receipt and frozen workload/environment manifest
-- Raw five-cold and ten-warm trial records for each platform and selected workload
-- Queue, cache, timing, reliability, proof-parity, and cost analysis
-- Restricted runner-group access, concurrency, budget, and rollback evidence
-- One production-semantics canary and lane-by-lane adopt/reject/defer decision
-- Ten-run post-change observation for adopted routes or cleanup confirmation for rejected routes
+- Migration, budget, selected-repository access, bounded maximum concurrency ten, security, and rollback eligibility receipts
+- One cold, three warm, and three test-only 16-core measurement receipts with queue, cache, timing, reliability, and cost accounting
+- Recomputed performance and cost decision bound to frozen adoption thresholds
+- Production routing of adl-rust-tests and heavy Rust validation producers to adl-ubuntu-24.04-16core with unchanged check identities and validation semantics
+- Removal of the temporary experiment-dispatch harness
+- Green exact-head production canary plus focused validator, workflow-contract, diff-hygiene, and independent review evidence
 
 ## Acceptance
 
-1. WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, concurrency-one, and rollback entry gates are verified
-2. Control and candidate runs freeze one exact commit, workflow, toolchain, lockfiles, commands, permissions, cache design, proof inputs, required checks, workloads, and numeric adoption thresholds before measurement
-3. Five cold and ten warm trials per selected workload and platform retain finite nonnegative metrics, cache evidence, queue delay, failures, retries, cancellations, and justified outliers with internally consistent totals
-4. Result, artifact, validation, and required-check parity passes before exactly one production-semantics canary
-5. The issue-local validator recomputes p50, p95, means, critical-path and queue deltas, reliability, cost per run, and cost per minute saved from raw trials and rejects reported-statistic or threshold-disposition drift
-6. Adoption requires every predeclared reliability, p95, queue, critical-path, cost, proof-parity, and canary gate; adopted routing has ten-run observation and fallback while rejected or deferred routing is removed
-7. Untrusted code cannot reach privileged runner context and no required-check, branch-protection, validation-breadth, or proof semantic changes occur
-8. The issue-local validator, workflow contracts, diff hygiene, and exact-head review pass
+1. WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, bounded maximum concurrency ten, security, and rollback entry gates are verified
+2. Exactly one cold, three warm, and three test-only 16-core measurements are retained with finite nonnegative timings, queue and cache evidence, and warm cache-hit proof
+3. The issue-local validator recomputes statistics, reliability, and cost from retained per-run accounting and rejects denominator, toolchain, runner, report, threshold, or production-canary drift
+4. The test-only p95 is at most 120 seconds and its median duration improves by at least 35 percent over the warm baseline
+5. adl-rust-tests and the heavy Rust validation producers run on adl-ubuntu-24.04-16core before merge with required-check identities, commands, validation breadth, and proof semantics unchanged; main pushes do not automatically repeat paid validation, while scheduled and manual full validation remain available
+6. The temporary workflow-dispatch experiment harness is absent from the final implementation
+7. The implementation PR passes an exact-head direct adl-rust-tests production canary on the selected 16-core runner without substituting a skipped test shell
+8. The focused evidence validator, workflow-routing contract, diff hygiene, and independent exact-head review pass
 
 ## Dependencies
 
@@ -50,11 +50,15 @@ Deliver a measured and reversible post-migration build acceleration decision for
 - docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md
 - docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
 - docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
+- adl/tools/ci_path_policy.sh
+- adl/tools/test_ci_path_policy.sh
+- adl/tools/test_ci_runtime_contracts.sh
+- adl/tools/verify_ci_backend_route.py
 
 ## Non Goals
 
 - AWS or a self-hosted runner platform
 - Organization-wide larger-runner defaults
 - Changes to validation breadth, test semantics, required-check names, or branch protection
-- 32-core, coverage-topology, custom-image, ARM64, or self-hosted experiments
+- 32-core, custom-image, ARM64, or self-hosted experiments
 - Treating runner provisioning, cache existence, or planning prose as acceleration proof

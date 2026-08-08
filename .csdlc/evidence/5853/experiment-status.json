@@ -1,0 +1,7 @@
+{
+  "schema": "adl.wp02b.experiment_status.v1",
+  "phase": "measurement_complete",
+  "terminal_acceptance": false,
+  "review_posture": "ready for exact-head review; terminal acceptance requires the final-head adl-rust-tests check and independent review",
+  "publication_posture": "merge only after the adopted 16-core Rust test lane is green"
+}

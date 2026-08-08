@@ -2,8 +2,9 @@
 
 ## Decision Boundary
 
-WP-02B owns one controlled comparison between the current `ubuntu-latest`
-control and one restricted GitHub-hosted 16-core Ubuntu runner. It starts only
+WP-02B owns one bounded selection and command-structure experiment for the
+restricted GitHub-hosted 16-core Ubuntu runner chosen by the operator. The
+standard runner remains rollback context and is not a new dispatch target. It starts only
 after WP-02 migration verification, WP-02A CI reliability, organization-owner
 budget approval, alerts, and selected-repository runner access are proven.
 
@@ -17,29 +18,35 @@ portable runtime dependency.
 1. Freeze one exact commit, workflow revision, toolchain, lockfiles, commands,
    permissions, cache design, proof inputs, workloads, and required-check
    topology.
-2. Capture five cold and ten warm trials for the shared benchmark and each
-   selected Tier 2 Rust lane on both platforms.
+2. Retain one cold baseline, three cache-hit warm baselines, and three
+   cache-hit test-only canaries on the selected 16-core runner.
 3. Retain queue, setup, cache, compile/link, execution, artifact, total-time,
    critical-path, reliability, retry/cancellation, and cost data without
    dropping unexplained outliers.
-4. Prove result, artifact, validation, and required-check parity before exactly
-   one canary lane is routed to the candidate runner.
-5. Apply the predeclared thresholds and record `adopt`, `reject`, or `defer` for
-   every measured lane.
-6. Preserve `ubuntu-latest` fallback. Observe ten representative runs for an
-   adopted route or remove rejected/deferred experimental configuration.
+4. Adopt only when all retained runs pass, test-only p95 is at most 120 seconds,
+   median workload reduction is at least 35 percent, and required-check and
+   validation semantics remain unchanged.
+5. Route `adl-rust-tests` to the selected runner, remove the dispatch-only
+   experiment harness, and use the implementation PR as the production canary.
+6. Preserve `ubuntu-latest` as a one-line rollback through the repository
+   `ADL_HEAVY_RUNNER` Actions variable without using it as a new experimental
+   control.
+7. Run issue-selected validation before merge. Do not automatically repeat the
+   paid validation wave after a merge to `main`; retain scheduled and manual
+   full validation for explicit integration and Codecov publication.
 
 ## Security And Negative Boundary
 
-- The runner group is selected-repository only with maximum concurrency one.
+- The runner group is selected-repository only with maximum concurrency ten.
 - Paid execution requires an owner-approved maximum cost and alerts.
 - Untrusted fork code receives no privileged runner or secret access.
 - Required-check names, branch protection, validation breadth, and proof
   semantics do not change.
-- Missing gates, incomparable inputs, absent cache-hit evidence, incomplete
-  samples, parity failure, cost breach, or failed cleanup invalidates adoption.
-- AWS, self-hosting, 32-core runners, coverage topology, custom images, and
-  ARM64 are separate decisions.
+- Missing gates, absent cache-hit evidence, incomplete declared samples,
+  parity failure, cost breach, or failed cleanup invalidates adoption.
+- AWS, self-hosting, 32-core runners, custom images, and ARM64 are separate
+  decisions. Heavy Rust validation jobs may share the selected 16-core pool;
+  their commands, proof semantics, and required-check identities remain fixed.
 
 ## Rollback
 
@@ -49,22 +56,22 @@ record, required-check, or branch-protection changes.
 
 ## Completion Evidence
 
-Completion requires `eligibility.json`, `frozen-manifest.json`, complete
-`trials.jsonl`, `parity.json`, `decision.json`, and `final-state.json`, all
-accepted by the tracked validator, plus workflow contract checks, diff hygiene,
-and a clean exact-head review. Provisioning a runner or producing planning
-prose is not completion.
+Completion requires retained runner and benchmark receipts for all seven
+declared runs, `eligibility.json`, `frozen-manifest.json`, `decision.json`, and
+`final-state.json`, all accepted by the tracked validator, plus workflow
+contract checks, a green production canary, diff hygiene, and exact-head review.
 
-`frozen-manifest.json` must predeclare numeric adoption thresholds for minimum
-critical-path improvement, minimum reliability, maximum candidate p95
-regression, maximum queue increase, and maximum cost per minute saved. The
-validator recomputes p50, p95, means, reliability, deltas, and cost efficiency
-from finite nonnegative raw samples; it rejects inconsistent totals, mismatched
-reported statistics, threshold-free adoption, or adoption below any gate.
+`frozen-manifest.json` declares the bounded denominator and numeric adoption
+thresholds. The validator recomputes p50, p95, reliability, workload reduction,
+and cost from retained receipts; it rejects denominator drift, inconsistent
+statistics, missing security gates, or adoption below either performance gate.
 ## Owned Paths
 
 - `.github/workflows/ci.yaml`
+- `adl/tools/ci_path_policy.sh`
+- `adl/tools/test_ci_path_policy.sh`
 - `adl/tools/test_ci_runtime_contracts.sh`
+- `adl/tools/verify_ci_backend_route.py`
 - `.csdlc/evidence/5853`
 - `.csdlc/prepared/issues/5853/validate-experiment.rb`
 
@@ -82,7 +89,10 @@ reported statistics, threshold-free adoption, or adoption below any gate.
     "id": "v092-ci-runner-experiment-v1",
     "paths": [
       ".github/workflows/ci.yaml",
-      "adl/tools/test_ci_runtime_contracts.sh"
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/verify_ci_backend_route.py"
     ],
     "issues": [
       5801,

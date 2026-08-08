@@ -1,0 +1,9 @@
+{
+  "issue": 5853,
+  "expected_generation": 18,
+  "expected_digest": "d38fa228d3e5dea20f1b1b53d0fe1495fdc3bc17deb7afdcb2e4cf234b7bf8fa",
+  "actor": "codex:5853-execution",
+  "card": "spp",
+  "reason": "All seven declared measurement receipts are retained and the bounded statistics recompute cleanly.",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"}
+}
