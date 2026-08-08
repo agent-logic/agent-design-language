@@ -6,8 +6,8 @@
   "base": "main",
   "head": "codex/5863-node-identity-enrollment",
   "title": "[v0.92][WP-04.01] Add authenticated distributed node enrollment",
-  "body": "Closes danielbaustin/agent-design-language#5863\n\n## Summary\n- add stable node and Guardian identities with Ed25519-authenticated enrollment\n- enforce one effective Guardian control key per quorum voter\n- fail closed on replay, malformed or oversized requests, durable-state corruption, audit gaps, and symlinked storage paths\n- retain exact nonzero validation and independent review evidence\n\n## Validation\n- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_identity --no-tests=fail` (13 passed, 0 skipped)\n- `cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_identity -- -D warnings`\n- WP-04.01 exact revision proof receipt",
+  "body": "Closes danielbaustin/agent-design-language#5863\n\n## Summary\n- add stable node and Guardian identities with Ed25519-authenticated enrollment\n- quarantine distributed operation after operator-root rotation while preserving stable local identity recovery\n- bind historical signer keys to root identities and fail closed on corrupted historical operator signatures\n- enforce one effective Guardian control key per quorum voter\n- fail closed on replay, malformed or oversized requests, durable-state corruption, audit gaps, and symlinked storage paths\n- retain exact nonzero validation and independent review evidence\n\n## Validation\n- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_identity --no-tests=fail` (15 passed, 0 skipped)\n- `cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_identity -- -D warnings`\n- WP-04.01 exact revision proof receipt\n- independent exact-head review: no actionable findings",
   "draft": false,
-  "revision": "git-blake3:028a699daf843dbf148bab35d2b0085cc0422da5:311f070ce5e56842f2537caef38d031cf6c26eb767f53308709a5479074509ef",
-  "commit_sha": "028a699daf843dbf148bab35d2b0085cc0422da5"
+  "revision": "git-blake3:047c6edd71b2a548722b9cf42d124b8c853a9c82:4d9b1b9df30f1a3bc3e66f3663a18fcbfe23b1aaff59bbe1455407d8a4bef297",
+  "commit_sha": "047c6edd71b2a548722b9cf42d124b8c853a9c82"
 }
