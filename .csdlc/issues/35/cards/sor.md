@@ -31,7 +31,28 @@ Executed one bounded Codex project-discovery probe and one projectless no-op dis
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+      "evidence"
+    ],
+    "purpose": "Prove bounded task creation, digest-bound inventory and readback, unique ownership transfer, retry prohibition, and portable redacted evidence.",
+    "outcome": "passed",
+    "evidence_ref": "PASS: dispatch ownership contract"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+      "docs"
+    ],
+    "purpose": "Prove the operator guide and upstream report contain substantive success, reconciliation, retry, escalation, ownership, and non-claim boundaries.",
+    "outcome": "passed",
+    "evidence_ref": "PASS: operator report contract"
+  }
+]
 
 ## Integration
 

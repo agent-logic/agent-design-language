@@ -7,7 +7,7 @@
     "title": "Codex background task dispatch hangs without returning ownership",
     "slug": "codex-background-task-dispatch-bounded-ownership",
     "version": "v0.92",
-    "generation": 25
+    "generation": 29
   },
   "status": "pre_phase",
   "content": {
@@ -27,7 +27,28 @@
         "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md",
         "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md"
       ],
-      "actual_validation": [],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+            "evidence"
+          ],
+          "purpose": "Prove bounded task creation, digest-bound inventory and readback, unique ownership transfer, retry prohibition, and portable redacted evidence.",
+          "outcome": "passed",
+          "evidence_ref": "PASS: dispatch ownership contract"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+            "docs"
+          ],
+          "purpose": "Prove the operator guide and upstream report contain substantive success, reconciliation, retry, escalation, ownership, and non-claim boundaries.",
+          "outcome": "passed",
+          "evidence_ref": "PASS: operator report contract"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
