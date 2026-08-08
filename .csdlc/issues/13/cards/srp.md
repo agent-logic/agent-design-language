@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Exact producer selector derivation, job-level conditions, aggregate result matrix, provenance handling, and focused regression tests.
+.github/workflows/ci.yaml
+adl/config/validation_lane_selector.v0.91.6.json
+adl/tools/ci_path_policy.sh
+adl/tools/verify_coverage_producer_results.sh
+adl/tools/test_verify_coverage_producer_results.sh
+adl/tools/test_ci_path_policy.sh
+adl/tools/test_ci_runtime_contracts.sh
+.csdlc/issues/13
+.csdlc/prepared/issues/13
 
 ## Prompts
 

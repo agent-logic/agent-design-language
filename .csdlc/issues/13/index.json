@@ -5,10 +5,25 @@
   "initialization_digest": "a62dfc115a6566aafa607e3c70667629a9a14896b38ebf238b5c575ec97e7b69",
   "phase": "implemented",
   "generation": 6,
-  "digest": "f0e234ff330cabb22fb28d3836761e7f59e76339fe5f333df0869bac89ba26f1",
+  "digest": "a1855ae5de62b2a2db16e973e68fdafa920e6e521d6513028327e57bf2361d3a",
   "branch": "codex/13-skip-optional-workspace-coverage",
   "worktree": "/Volumes/FastWork/adl-issue-13-coverage-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:review_13_implementation",
+    "assigned_by": "codex:13-coverage-routing",
+    "revision": "git-blake3:97551f8bfd0685a7c3548efc75fe96b600199117:f3734d83b289b1d2e8720b63bade14b679fa4de45182ddb0553f2e99f39c0e98",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/verify_coverage_producer_results.sh",
+      "adl/tools/test_verify_coverage_producer_results.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/13",
+      ".csdlc/prepared/issues/13"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "8288760f784d4858a3a7675194812f125647dbe880ee5eae642a4f409ca1ee54"
     },
     "srp": {
-      "values_digest": "e6757b6968020aabc73192d9e0bd7d556e5e4a04314cb9a619821c56665f0faf",
-      "rendered_digest": "8c07a67b45278c9983c4dd999380f64c641747bbcca45e05428089d7ffe095ae",
-      "ast_digest": "dc255b6f1b97674c6ea2a36dc36011d9e77773b9175da6fa6010212948d7caff"
+      "values_digest": "aef947f12c82502e65f591dc2573ecb5b2c752987031b4715f03e29a207e1219",
+      "rendered_digest": "ee163849a284151974f4f9a9551c168653358f12bf48c31691626406b238cb3c",
+      "ast_digest": "f3726e18e2b75ae17ae8b0224e362e8794ee1be6f7135d9feedffd6cf0aa537c"
     },
     "sor": {
       "values_digest": "cd9af5ecc0cdf422d75a62ab996d32ad8b2fba5440178a32f02711839e77fec1",
@@ -133,6 +148,13 @@
       "actor": "codex:13-coverage-routing",
       "reason": "Issue #13 implementation and focused local validation are complete; live Actions timing proof remains post-publication.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:13-coverage-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
