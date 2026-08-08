@@ -623,10 +623,14 @@ CLOUD_INIT
 
   bootstrap_script="$run_dir/bootstrap.sh"
   cat >"$bootstrap_script" <<BOOTSTRAP
-set -euo pipefail
+set -Eeuo pipefail
+mkdir -p /opt/adl-wp5795
+exec 3>&1 4>&2
+exec >/opt/adl-wp5795/bootstrap.log 2>&1
+trap 'rc=\$?; tail -120 /opt/adl-wp5795/bootstrap.log >&4; exit "\$rc"' ERR
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-	apt-get install -y -qq zstd git build-essential pkg-config libssl-dev jq ca-certificates
+	apt-get install -y -qq zstd git build-essential pkg-config libssl-dev jq curl ca-certificates
 	command -v aws >/dev/null
 	mkdir -p /opt/adl-wp5795/artifacts /opt/adl-ollama-models
 	aws s3api get-object --bucket '$ARTIFACT_BUCKET' --key '$ARTIFACT_MANIFEST_KEY' \
@@ -720,7 +724,7 @@ VRAM_BYTES=\$(curl -fsS http://127.0.0.1:11434/api/ps | jq -er --arg model '$MOD
 kill "\$OLLAMA_PID"
 wait "\$OLLAMA_PID" || true
 trap - EXIT
-jq -n --arg schema adl.wp5795.aws_gpu_proof.v1 --arg gpu \"\$GPU_NAME\" --argjson gpu_memory_mib \"\$GPU_MEMORY_MIB\" --arg nvidia_driver_version \"\$NVIDIA_DRIVER_VERSION\" --arg cuda_userspace_family cuda_v12 --arg cuda_libset_sha256 \"\$CUDA_LIBSET_SHA256\" --arg model '$MODEL_IDENTITY' --arg digest \"\$MODEL_DIGEST\" --arg manifest '$ARTIFACT_MANIFEST_SHA256' --arg manifest_version '$ARTIFACT_MANIFEST_VERSION_ID' --arg commit '$SOURCE_COMMIT' --argjson size_vram \"\$VRAM_BYTES\" --argjson shepherd \"\$SHEPHERD_PROOF\" '{schema:\$schema,gpu:\$gpu,gpu_memory_mib:\$gpu_memory_mib,nvidia_driver_version:\$nvidia_driver_version,cuda_userspace_family:\$cuda_userspace_family,cuda_libset_sha256:\$cuda_libset_sha256,model_identity:\$model,model_artifact_sha256:\$digest,artifact_manifest_sha256:\$manifest,artifact_manifest_version_id:\$manifest_version,source_commit:\$commit,size_vram:\$size_vram,shepherd:\$shepherd,real_local_model_smoke:\"passed\"}'
+jq -n --arg schema adl.wp5795.aws_gpu_proof.v1 --arg gpu \"\$GPU_NAME\" --argjson gpu_memory_mib \"\$GPU_MEMORY_MIB\" --arg nvidia_driver_version \"\$NVIDIA_DRIVER_VERSION\" --arg cuda_userspace_family cuda_v12 --arg cuda_libset_sha256 \"\$CUDA_LIBSET_SHA256\" --arg model '$MODEL_IDENTITY' --arg digest \"\$MODEL_DIGEST\" --arg manifest '$ARTIFACT_MANIFEST_SHA256' --arg manifest_version '$ARTIFACT_MANIFEST_VERSION_ID' --arg commit '$SOURCE_COMMIT' --argjson size_vram \"\$VRAM_BYTES\" --argjson shepherd \"\$SHEPHERD_PROOF\" '{schema:\$schema,gpu:\$gpu,gpu_memory_mib:\$gpu_memory_mib,nvidia_driver_version:\$nvidia_driver_version,cuda_userspace_family:\$cuda_userspace_family,cuda_libset_sha256:\$cuda_libset_sha256,model_identity:\$model,model_artifact_sha256:\$digest,artifact_manifest_sha256:\$manifest,artifact_manifest_version_id:\$manifest_version,source_commit:\$commit,size_vram:\$size_vram,shepherd:\$shepherd,real_local_model_smoke:\"passed\"}' >&3
 BOOTSTRAP
   bash -n "$bootstrap_script"
   bootstrap_started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
