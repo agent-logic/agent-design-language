@@ -22,8 +22,9 @@ first safe fan-out remains `#5866/#5871/#5872`, followed later by
 
 Tracked execution risks:
 
-- GitHub closure/merge ancestry for parent `#5820/#5821` is current, but their
-  root typed records require terminal reconciliation before child publication.
+- GitHub closure/merge ancestry for parent `#5820/#5821` is current. The
+  operator explicitly classified their typed closeout as asynchronous and
+  non-blocking for Sprint 3 execution and publication.
 - Before final `#5878` module registration, each child test must compile its
   owned module through an issue-local harness without editing sibling-owned
   registration paths.
