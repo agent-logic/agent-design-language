@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 27,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Native receipt validator has an impossible artifact-role denominator",
+    "slug": "native-receipt-validator",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/validate_v092_runtime_native_receipts.rb\nadl/tools/test_validate_v092_runtime_native_receipts.sh\n.csdlc/issues/27\n.csdlc/prepared/issues/27",
+      "review_revision": "git-blake3:e9883400fcabb607f26cb8fc14deee58375725e6:0d93ad2c16d7aee4c3917583d29916826ebdacfbc14907b26b9d9e9747d832fe",
+      "reviewer": "Socrates",
+      "review_prompts": [
+        "Verify role canonicalization cannot hide duplicates",
+        "Verify the post-proof allowlist cannot admit runtime or product changes",
+        "Verify existing digest and platform checks are unchanged"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The final exact-head WP-03 native packet integration remains deferred and must pass before merge or terminal closeout."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
