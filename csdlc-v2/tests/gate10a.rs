@@ -477,7 +477,22 @@ fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let destination = parent.path().join("csdlc-v2");
-    let receipt = build_and_install_binaries(&repo, &destination).unwrap();
+    let cargo_target = parent.path().join("cargo-target");
+    fs::create_dir_all(&cargo_target).unwrap();
+    let install = Command::new(env!("CARGO_BIN_EXE_csdlc-install"))
+        .args(["install", "--repo"])
+        .arg(&repo)
+        .arg("--destination")
+        .arg(&destination)
+        .env("CARGO_TARGET_DIR", &cargo_target)
+        .output()
+        .unwrap();
+    assert!(
+        install.status.success(),
+        "exact-revision install failed: {}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    let receipt: csdlc_v2::InstallReceipt = serde_json::from_slice(&install.stdout).unwrap();
     let source_revision = Command::new("git")
         .args(["rev-parse", "HEAD"])
         .current_dir(&repo)
