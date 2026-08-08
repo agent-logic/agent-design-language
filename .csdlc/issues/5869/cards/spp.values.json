@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.07] Epoch and lease authority",
     "slug": "v0-92-wp-04-07-epoch-lease-authority",
     "version": "v0.92",
-    "generation": 22
+    "generation": 26
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 4,
+      "plan_revision": 5,
       "summary": "Verify gates, implement the exclusive slice, run exact proving tests and negatives, validate rollback, resolve review, and close through child authority.",
       "steps": [
         {
@@ -65,7 +65,9 @@
         "Evidence is exact-revision and digest bound",
         "Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority",
         "AuthorityCertificateV1 uses the frozen protobuf field numbers and wire types, closed operation classes, exact identity bytes, and unsigned lexicographic signer-ID ordering",
-        "AuthorityCertificateV1 accepts only the frozen Ed25519 key, signature, domain-separation, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict contract"
+        "AuthorityEndorsementPayloadV1 signs the certificate-body digest, exact signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\0",
+        "Enrollment and verification reject duplicate effective control public keys, while quorum counting deduplicates both signer identity and control key",
+        "Authority certificates accept only frozen Ed25519 key and signature encodings, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict"
       ],
       "risks": [
         "Dependency contract drift",
@@ -87,7 +89,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5869/design.md",
-      "design_digest": "8009d706b24f9e0f004387d7eaac94192b9acef76edb1a863f903182b9e7ba40",
+      "design_digest": "d91f8680aa67605d4549fd623baf5329f28c8a253f48be717c112792aef562e4",
       "diagram_ref": ".csdlc/prepared/issues/5869/diagram.mmd",
       "diagram_digest": "b6214f3f6d8281d9eabcf54b42092e69517d8f3cbb616f27313f0b7265a97d07"
     }

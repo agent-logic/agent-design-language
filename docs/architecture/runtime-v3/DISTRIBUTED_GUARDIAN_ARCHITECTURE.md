@@ -122,6 +122,10 @@ membership epoch. Duplicate and out-of-order events are idempotent or rejected.
 Membership state has a configured maximum size and a durable committed epoch.
 Restart restores only a verified committed snapshot. A stale seed, silent node,
 or network route cannot add, remove, or promote a member.
+No two active voter identities may resolve to the same effective Guardian
+control public key. Enrollment, promotion, and key rotation reject a key already
+assigned to another active voter; rotation overlap for one identity does not
+create another quorum vote.
 
 ## Failure Detection And Partition Semantics
 
@@ -198,6 +202,13 @@ message AuthorityEndorsementV1 {
   bytes signature = 4;                 // exactly 64 bytes, R || S
 }
 
+message AuthorityEndorsementPayloadV1 {
+  bytes certificate_body_sha256 = 1;   // exactly 32 bytes
+  bytes signer_guardian_id = 2;
+  uint64 certificate_generation = 3;
+  uint32 signing_algorithm = 4;        // 1 = Ed25519
+}
+
 message AuthorityCertificateV1 {
   AuthorityCertificateBodyV1 body = 1;
   repeated AuthorityEndorsementV1 endorsements = 2;
@@ -215,22 +226,31 @@ key.
 Version 1 uses RustCrypto `ed25519-dalek`: each
 control public key is the 32-byte compressed Edwards-Y coordinate accepted by
 `VerifyingKey::from_bytes`, and each signature is the 64-byte `R || S` encoding
-accepted by `Signature::from_bytes`. The signing preimage is the ASCII domain
-separator `ADL-AUTHORITY-CERTIFICATE-V1\0` followed by the deterministic
-`prost::Message::encode_to_vec` encoding of the certificate body with the
-endorsement list omitted. Version 1 forbids protobuf maps, requires fields in
+accepted by `Signature::from_bytes`. First compute `certificate_body_sha256` as
+`SHA-256("ADL-AUTHORITY-CERTIFICATE-BODY-V1\0" || body_bytes)`, where
+`body_bytes` is the deterministic `prost::Message::encode_to_vec` encoding of
+`AuthorityCertificateBodyV1`. Each signer then constructs the canonical
+`AuthorityEndorsementPayloadV1` from that digest, its exact Guardian identity,
+its current control-certificate generation, and algorithm `1`. The signed digest
+is `SHA-256("ADL-AUTHORITY-ENDORSEMENT-V1\0" || payload_bytes)`, where
+`payload_bytes` is that payload's deterministic prost encoding. The signature
+therefore binds the certificate body, signer identity, certificate generation,
+and algorithm; no endorsement metadata is unsigned. Version 1 forbids protobuf maps, requires fields in
 declared tag order, requires repeated fields to be pre-sorted by their specified
 identity order, rejects duplicate singular or signer fields, rejects unknown
 fields, and rejects non-minimal varints before decoding. After those wire checks,
 the verifier decodes with `prost`, re-encodes, and requires byte-for-byte equality
-with the received canonical body. The signed digest is `SHA-256(preimage)`.
-Verification calls `ed25519_dalek::VerifyingKey::verify_strict` on that 32-byte
-digest and the parsed signature. Plain `verify`, Ed25519ph, Ed25519ctx,
+with the received canonical body and endorsement payload. Verification calls
+`ed25519_dalek::VerifyingKey::verify_strict` on the 32-byte signed digest and the
+parsed signature. Plain `verify`, Ed25519ph, Ed25519ctx,
 non-canonical scalar or point encodings, and every other algorithm identifier,
 key length, signature length, encoding, or canonicalization are rejected.
 
 The certificate carries each distinct signer identity, certificate generation,
-and Ed25519 signature. The signer identities must satisfy the exact quorum rule
+and Ed25519 signature. Verification resolves the signer identity and generation
+to the effective control public key in the committed membership, rejects stale
+generations, and deduplicates by both signer identity and the exact 32-byte
+control public key. The signer identities must satisfy the exact quorum rule
 of the committed membership named by the certificate: a strict majority for a
 stable configuration, or a strict majority of both old and new voter sets for a
 joint configuration. A union majority that lacks either constituent majority is
@@ -239,8 +259,9 @@ not authority. It uses no threshold scheme or custom cryptographic primitive.
 A voter endorses only after durably applying the identical authority-ledger
 entry. Voter changes use OpenRaft joint consensus, and verification uses the
 voter-set generation named by the committed entry. Every mutation sink parses
-the canonical message, recomputes its digest, verifies that distinct current-voter
-signatures satisfy that committed membership's stable or joint quorum function,
+the canonical message, recomputes its body and per-endorsement digests, verifies
+that distinct current-voter identities backed by distinct effective control keys
+satisfy that committed membership's stable or joint quorum function,
 and verifies their certificate purpose, generation,
 revocation, and expiry, checks its applied log index is at least the named index,
 proves activation-key possession, and enforces the operation class. A leader

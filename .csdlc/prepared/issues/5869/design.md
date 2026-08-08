@@ -43,7 +43,11 @@ deterministic prost body encoding and strict unknown/duplicate/non-minimal-field
 rejection rules frozen by #5821. The fixed protobuf field-number and wire-type
 table, closed operation-class values, unsigned lexicographic signer-ID order,
 decode/re-encode byte equality, and `VerifyingKey::verify_strict` operation are
-interoperability requirements, not implementation choices. Quorum-valid purpose-bound endorsements,
+interoperability requirements, not implementation choices. Each endorsement's
+signed `AuthorityEndorsementPayloadV1` binds the certificate-body digest, signer
+Guardian identity, certificate generation, and algorithm. Enrollment and
+verification reject duplicate effective control public keys, and quorum counting
+deduplicates both signer identity and key. Quorum-valid purpose-bound endorsements,
 activation-key possession, certificate validity, monotonic-time
 safety, and applied-index checks are mandatory. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
@@ -65,6 +69,7 @@ membership behavior, canonical AuthorityCertificateV1 encoding and digest
 binding, exact Ed25519 key/signature/domain/protobuf rejection behavior,
 the frozen protobuf tag and wire-type table, closed operation classes, unsigned
 lexicographic signer ordering, strict decode/re-encode equality, `verify_strict`,
+signed signer identity and certificate generation, duplicate-control-key denial,
 distinct quorum endorsements, rejection of a union majority that lacks either
 the old-set or new-set majority, activation-key possession, applied
 mutation-sink checks, monotonic epochs, lease renewal and expiry, certificate

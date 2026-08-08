@@ -96,7 +96,10 @@ assumptions fail, operator-led trust-domain generation recovery is required.
 - **Mitigations:** Failure detection is non-authoritative; OpenRaft commits
   authority through a stable majority or, during joint membership, a majority
   of both the old and new voter sets; a union majority missing either
-  constituent majority is rejected; leases are bounded;
+  constituent majority is rejected. Each endorsement signs its signer identity
+  and certificate generation, and enrollment plus verification reject duplicate
+  effective control public keys, so one key cannot count as multiple voters.
+  Leases are bounded;
   replacements use a newer majority-committed epoch only after the prior lease
   safety window; stale holders fail fencing checks; and quorum or clock
   uncertainty halts mutation. Availability never overrides one-owner proof.
