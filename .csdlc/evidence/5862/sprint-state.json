@@ -1,0 +1,437 @@
+{
+  "installed_skill_parity": {
+    "diff_files": [],
+    "ignored_generated_files": [],
+    "installed_skill_dir": "/Users/daniel/.codex/skills/sprint-conductor",
+    "left_only": [],
+    "notes": [
+      "installed sprint-conductor matches tracked bundle after generated-file filtering"
+    ],
+    "parity_policy": "installed bundle must match tracked bundle except generated cache artifacts",
+    "repair_command": "bash adl/tools/install_adl_operational_skills.sh",
+    "right_only": [],
+    "status": "matched",
+    "tracked_skill_dir": "adl/tools/skills/sprint-conductor"
+  },
+  "readiness_sweep": {
+    "activity_log_paths": {
+      "missing_paths": [],
+      "notes": [
+        "activity log path(s) declared"
+      ],
+      "paths": [
+        ".csdlc/evidence/5862/activity.jsonl"
+      ],
+      "status": "declared"
+    },
+    "execution_mode": "hybrid",
+    "execution_packet": {
+      "missing_sections": [],
+      "notes": [
+        "execution packet present: .csdlc/evidence/5862/sprint-execution-packet.md"
+      ],
+      "path": ".csdlc/evidence/5862/sprint-execution-packet.md",
+      "status": "present"
+    },
+    "goal_policy": {
+      "active_session_goal_required": "child_issue_only",
+      "notes": [
+        "Sprint state may record a descriptive sprint objective, but that objective does not satisfy the active Codex session-goal requirement for child issue execution.",
+        "Each child issue session must create its own issue-bound goal after bind/readiness succeeds and before implementation starts.",
+        "Do not keep a competing sprint-global active session goal in the same thread while a child issue implementation session is active."
+      ],
+      "sprint_goal_role": "descriptive_sprint_objective",
+      "status": "descriptive_only"
+    },
+    "issue_repairs": [
+      {
+        "bundle_path": null,
+        "issue_number": 5863,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5863.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5864,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5864.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5865,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5865.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5866,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5866.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5867,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5867.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5868,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5868.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5869,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5869.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5870,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5870.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5871,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5871.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5872,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5872.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5873,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5873.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5874,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5874.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5875,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5875.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5876,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5876.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5877,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5877.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 5878,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #5878.",
+        "status": "blocked"
+      }
+    ],
+    "notes": [
+      "installed sprint-conductor matches tracked bundle after generated-file filtering",
+      "Review and repair all child issue structured cards before starting issue execution.",
+      "execution packet present: .csdlc/evidence/5862/sprint-execution-packet.md",
+      "review path(s) declared",
+      "activity log path(s) declared"
+    ],
+    "ordered_issue_numbers": [
+      5863,
+      5864,
+      5865,
+      5866,
+      5867,
+      5868,
+      5869,
+      5870,
+      5871,
+      5872,
+      5873,
+      5874,
+      5875,
+      5876,
+      5877,
+      5878
+    ],
+    "review_paths": {
+      "missing_paths": [],
+      "notes": [
+        "review path(s) declared"
+      ],
+      "paths": [
+        ".csdlc/evidence/5862/sprint-review.md"
+      ],
+      "status": "declared"
+    },
+    "status": "blocked"
+  },
+  "structured_prompt_preflight": {
+    "issue_results": [
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5863,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5863."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5864,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5864."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5865,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5865."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5866,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5866."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5867,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5867."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5868,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5868."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5869,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5869."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5870,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5870."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5871,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5871."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5872,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5872."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5873,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5873."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5874,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5874."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5875,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5875."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5876,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5876."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5877,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5877."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 5878,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #5878."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      }
+    ],
+    "notes": [
+      "Review and repair all child issue structured cards before starting issue execution."
+    ],
+    "required_card_types": [
+      "stp.md",
+      "sip.md",
+      "sor.md",
+      "spp.md",
+      "vpp.md",
+      "srp.md"
+    ],
+    "status": "blocked"
+  }
+}
