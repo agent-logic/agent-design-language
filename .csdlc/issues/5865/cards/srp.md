@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- WP-04.16 issue #5878 must wire certificate-generation update events to the adapter cancellation token and prove immediate closure of already-blocked old-generation sessions; until integration, WP-04.02 bounded overlap and authorization refresh remain the fail-closed bound.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a5c1cdd11985d5cb657df2081e09ed2d53660d64:4ae0b64574a4f75302bde6c0daa2903aa212bc855a7aded4c5294571cf7e075f")
 
-Reviewer: None
+Reviewer: Some("Codex independent review subagent /root/review_5864")
 
-Result: pre_review
+Result: pass

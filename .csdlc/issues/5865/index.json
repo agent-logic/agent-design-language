@@ -3,9 +3,9 @@
   "issue": 5865,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c55fcec9d7fd6a0d4d2da1c93fd714b817b6f697dc7c376a861c603da0e046bf",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "74aed2ae6c02a4bbfba3c51becd0a5947291bec53956b13de458cfc668feb605",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "fba5ad3148f0fec9975406faaf210d7cdd57d9ce21ba303a568292b7d74369fc",
   "branch": "codex/5865-maintained-quic-tls-adapter",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5865-transport",
   "review_assignment": {
@@ -21,7 +21,24 @@
       ".csdlc/issues/5865"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "scope": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      ".csdlc/evidence/5865",
+      ".csdlc/issues/5865"
+    ],
+    "reviewed_revision": "git-blake3:a5c1cdd11985d5cb657df2081e09ed2d53660d64:4ae0b64574a4f75302bde6c0daa2903aa212bc855a7aded4c5294571cf7e075f",
+    "findings": [],
+    "residual_risks": [
+      "WP-04.16 issue #5878 must wire certificate-generation update events to the adapter cancellation token and prove immediate closure of already-blocked old-generation sessions; until integration, WP-04.02 bounded overlap and authorization refresh remain the fail-closed bound."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "94cb21deed78876f278ed9869c85a662f5d230fe7cc747336c905516bb670b12",
+      "values_digest": "0561d22c3d8e7e0645398361ad7581e64e1fa8e690c72fb7570c21dc19d136c6",
       "rendered_digest": "13e5c1536fc46a4b9b62873115b816c445e8dd9e0aa8cbac07ff51478baa3ff4",
       "ast_digest": "6b10c9cfe02ea6f6b9da2328d28b4c0e504260178452d58d93ef65cbf8b681ee"
     },
     "stp": {
-      "values_digest": "a48d6d3c6b6ab7be103ffff59d851b50e91404c403d27fabd72e6af9cd88b5c2",
+      "values_digest": "fed50d5a6c3f687b950b946c8451efb01701be43d838e4ebf3c7a8e8433f509a",
       "rendered_digest": "c27fe58cf3474387770a79c1cf33778ed86d66b3c673fcc69648a8849d808554",
       "ast_digest": "26ec92d17e1c740059210764eba344bd57377205848d891db32fb08e6f4bf520"
     },
     "spp": {
-      "values_digest": "0c46cd4c06752c9d64495ac6f1b91d8485bc5e2f5808d8861a24e21aba5d0b86",
+      "values_digest": "96be067ebe0ab99df7c7a7653acb7faed4e54b807f003fbd9ef7d276c336924a",
       "rendered_digest": "174c3a2ffc37d47d6a6fff57f055a6ea4dc7b7c67de5b730cd2e0c0a6f69d968",
       "ast_digest": "3973bb28719f3ef17af633d9834fee897496eb055eb8d758074d258a7beea44e"
     },
     "vpp": {
-      "values_digest": "ef058d284de70fb32cd7b7dc25b9518149ec5d162d92fd17d34d49ce55b7b4fd",
+      "values_digest": "896b333d98bf3621cea43e1ba3300d7d93e6b2d5c3f042bd77c4e70994f3f588",
       "rendered_digest": "2c9cd8d18a4934ebaaa5335a335f741d914c1e3c49fe28eaa4992a32137afd56",
       "ast_digest": "a7690eafdd035a5ad8c7acf27dffe965c64d52563f03c55f56692b2607595cfe"
     },
     "srp": {
-      "values_digest": "df414274a8c873d0607f87689227b9fc4f7bb8dd685e4fa9d8e116b01d9f2653",
-      "rendered_digest": "f24c63e429c939f2f945e448e96092ed052a8e143522430a5e4e600efe5eeaab",
-      "ast_digest": "b3f04f393b69fa6298ac603469e20922b05b1e69537418715ceca33dd212587b"
+      "values_digest": "0e6658bda4188bb5a93c437bf3066457fc1f177ef41cdadf3216f949611635dc",
+      "rendered_digest": "3e95e6420b266dbfa3cf5c3a2ffb64b81ffe79160b556dfee345bf7b8f6e6ec5",
+      "ast_digest": "d690100b5f2e4934dff4a47a40d3e425318863166df3c7164f10bb60b5eeb64c"
     },
     "sor": {
-      "values_digest": "80a7ca9e53c818b53760689c061e30eef553a7ddf1f004b1da16220b1acaec77",
+      "values_digest": "b94fceeffb224733bed38d9cf3ed653cc7be1f017169e0ca90ea0c76dac76b51",
       "rendered_digest": "10d91a21bd57cd78bbdf2711cee799681c03f19ffb13692de25a2395d00e8596",
       "ast_digest": "98de5d92691fde310e5b9e3d4b60574ab5b9507eccd42f86df94d3dd89b1ef7e"
     }
@@ -108,6 +125,13 @@
       "to": "implemented",
       "actor": "codex:5862-sprint3-conductor",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -369,6 +393,13 @@
       "actor": "codex:5862-sprint3-conductor",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 18,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

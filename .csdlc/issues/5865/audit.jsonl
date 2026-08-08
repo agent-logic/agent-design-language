@@ -35,3 +35,4 @@
 {"sequence":35,"generation":16,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":36,"generation":17,"actor":"codex:5862-sprint3-conductor","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":37,"generation":17,"actor":"codex:5862-sprint3-conductor","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":38,"generation":18,"actor":"codex:5862-sprint3-conductor","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
