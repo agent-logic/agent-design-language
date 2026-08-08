@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -61,11 +61,11 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
+- Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure fallback is permitted
 - Evidence is exact-revision and digest bound
+- Enrollment rejects an effective Guardian control public key already assigned to another active or enrolled voter identity
+- One effective control key can represent at most one quorum voter
+- Wrong-domain, replayed, malformed, and unauthorized enrollment fails closed
 
 ## Risks
 
@@ -86,7 +86,7 @@ Revision 2
 
 .csdlc/prepared/issues/5863/design.md
 
-Digest: 1c804888b7929ab266e0a34fd5960a8f596e3ad2a15f46fd815cbf7a150f7482
+Digest: 55cda6f85d338fbe532447d37a6221b06a4991016efbb6495dfca1e467ad7037
 
 ## Diagram
 

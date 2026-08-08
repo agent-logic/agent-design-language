@@ -25,7 +25,11 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Implement separate node, Guardian, transport, and signing certificate purposes with rotation, revocation, and expiry enforcement. The implementation must preserve Guardian as process 0,
+Implement separate node, Guardian, transport, and signing certificate purposes
+with rotation, revocation, and expiry enforcement. Guardian control-key rotation
+rejects a key already assigned to another active voter. A bounded overlap for
+one identity remains one quorum vote and cannot make either key count for a
+second voter identity. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -40,7 +44,9 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_certificates proves purpose separation, chain validation, rotation overlap, revocation, expiry, and compromised-key denial.
+Exact nextest target distributed_certificates proves purpose separation, chain
+validation, one-vote rotation overlap, rejection of duplicate effective control
+keys across voter identities, revocation, expiry, and compromised-key denial.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner

@@ -16,10 +16,11 @@ Implement separate node, Guardian, transport, and signing certificate purposes w
 
 ## Deliverables
 
-- Implement separate node, Guardian, transport, and signing certificate purposes with rotation, revocation, and expiry enforcement.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
+- Purpose-separated node, Guardian, transport, and signing certificates with rotation, revocation, and expiry
+- Guardian control-key rotation rejects a key already assigned to another active voter
+- A negative test proves bounded overlap for one voter identity remains one quorum vote and neither key can represent a second voter
+- Chain, purpose, revocation, expiry, and compromised-key tests
+- Digest-bound execution proof and reviewed rollback evidence
 
 ## Acceptance
 

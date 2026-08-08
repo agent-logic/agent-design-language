@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.05] Membership state and topology convergence",
     "slug": "v0-92-wp-04-05-membership-topology",
     "version": "v0.92",
-    "generation": 8
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Verify gates, implement the exclusive slice, run exact proving tests and negatives, validate rollback, resolve review, and close through child authority.",
       "steps": [
         {
@@ -58,11 +58,11 @@
         "adl-runtime/tests/distributed_membership.rs"
       ],
       "invariants": [
-        "Exclusive paths remain disjoint",
-        "Guardian stays process 0",
-        "No insecure or Runtime v2 fallback",
-        "Queues and waits remain bounded",
-        "Evidence is exact-revision and digest bound"
+        "Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure fallback is permitted",
+        "Evidence is exact-revision and digest bound",
+        "Voter promotion rejects a candidate whose effective Guardian control public key belongs to another active voter",
+        "Committed membership snapshots and replay preserve one effective control key per active voter identity",
+        "Membership epochs and convergence remain deterministic and bounded"
       ],
       "risks": [
         "Dependency contract drift",
@@ -84,7 +84,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5867/design.md",
-      "design_digest": "d0b64a0b5c5e96cf884a80d68fc183bd88c487e468ab92795570ab41b88b1262",
+      "design_digest": "c60e74502ea664909f76263e93e463c3d5ac0449e2b68550ea662a7d4cf0ff43",
       "diagram_ref": ".csdlc/prepared/issues/5867/diagram.mmd",
       "diagram_digest": "583069f1e5e23de29e40c6d6a2c6f6f2c39c31907ef9d63198e80ae2ae0a8f33"
     }

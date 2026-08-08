@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.02] Distributed certificate purposes and lifecycle",
     "slug": "v0-92-wp-04-02-certificate-lifecycle",
     "version": "v0.92",
-    "generation": 8
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Implement separate node, Guardian, transport, and signing certificate purposes with rotation, revocation, and expiry enforcement.",
-      "required_outcome": "Implement separate node, Guardian, transport, and signing certificate purposes with rotation, revocation, and expiry enforcement.",
+      "required_outcome": "Implement purpose-separated certificates with rotation, revocation, and expiry, rejecting a Guardian control key already assigned to another active voter and ensuring bounded overlap for one identity remains exactly one quorum vote.",
       "declared_scope": [
         "adl-runtime/src/distributed/certificates.rs",
         "adl-runtime/tests/distributed_certificates.rs"

@@ -25,7 +25,10 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Implement stable node and Guardian identities plus explicit, fail-closed enrollment into one trust domain. The implementation must preserve Guardian as process 0,
+Implement stable node and Guardian identities plus explicit, fail-closed
+enrollment into one trust domain. Enrollment rejects any Guardian control public
+key already assigned to another active or enrolled voter identity, so one
+effective control key cannot represent multiple quorum voters. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -41,7 +44,9 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_identity proves identity creation, signed enrollment, wrong-domain rejection, replay rejection, and restart-stable identity.
+Exact nextest target distributed_identity proves identity creation, signed
+enrollment, rejection of the same effective control public key under a second
+voter identity, wrong-domain rejection, replay rejection, and restart-stable identity.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner

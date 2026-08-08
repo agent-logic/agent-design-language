@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.05] Membership state and topology convergence",
     "slug": "v0-92-wp-04-05-membership-topology",
     "version": "v0.92",
-    "generation": 8
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Implement deterministic membership epochs and bounded topology convergence from authenticated join events.",
-      "required_outcome": "Implement deterministic membership epochs and bounded topology convergence from authenticated join events.",
+      "required_outcome": "Implement deterministic membership epochs and bounded topology convergence, rejecting voter promotion when the candidate's effective Guardian control public key is already assigned to another active voter and preserving that uniqueness through snapshot and replay.",
       "declared_scope": [
         "adl-runtime/src/distributed/membership.rs",
         "adl-runtime/tests/distributed_membership.rs"

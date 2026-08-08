@@ -68,6 +68,29 @@ certificate_surface_contracts = {
   "spp.values.json" => ["majorities of the old and new", "union majority", "authorityendorsementpayloadv1", "adl-authority-certificate-body-v1", "adl-authority-endorsement-v1", "signer identity", "certificate generation", "duplicate effective control", "verify_strict"],
   "vpp.values.json" => ["joint old-plus-new majority", "union majority", "authorityendorsementpayloadv1", "adl-authority-certificate-body-v1", "adl-authority-endorsement-v1", "signer identity", "certificate generation", "effective control keys", "verify_strict", "superseded adl-authority-certificate-v1"]
 }.freeze
+unique_key_owner_contracts = {
+  5863 => {
+    "design.md" => ["enrollment", "effective control key", "multiple quorum voters", "rejection"],
+    "sip.values.json" => ["enrollment", "effective guardian control public key", "multiple quorum voters"],
+    "stp.values.json" => ["enrollment rejects", "second voter identity", "multiple quorum voters"],
+    "spp.values.json" => ["enrollment rejects", "at most one quorum voter"],
+    "vpp.values.json" => ["distributed_identity", "second active or enrolled voter identity", "one-key-one-quorum-voter"]
+  },
+  5864 => {
+    "design.md" => ["rotation", "another active voter", "one quorum vote", "duplicate effective control"],
+    "sip.values.json" => ["rotation", "another active voter", "one quorum vote"],
+    "stp.values.json" => ["rotation rejects", "another active voter", "one quorum vote"],
+    "spp.values.json" => ["rotation rejects", "another active voter", "exactly one quorum vote"],
+    "vpp.values.json" => ["distributed_certificates", "one quorum vote", "another active voter"]
+  },
+  5867 => {
+    "design.md" => ["promotion", "effective guardian control public key", "another active voter", "snapshot", "replay"],
+    "sip.values.json" => ["voter promotion", "effective guardian control public key", "another active voter", "snapshot", "replay"],
+    "stp.values.json" => ["voter promotion rejects", "another active voter", "snapshot", "replay"],
+    "spp.values.json" => ["voter promotion rejects", "another active voter", "snapshot", "replay"],
+    "vpp.values.json" => ["distributed_membership", "voter promotion", "another active voter", "snapshot", "replay"]
+  }
+}.freeze
 cots_contracts = {
   "design.md" => ["quinn", "rustls", "prost", "openraft", "sole distributed manifest and", "adl-runtime/cargo.toml", "adl-runtime/cargo.lock"],
   "sip.values.json" => ["quinn", "rustls", "prost", "openraft", "adl-runtime/cargo.toml", "adl-runtime/cargo.lock"],
@@ -84,7 +107,7 @@ cots_contracts.each do |surface, terms|
          else
            File.expand_path("../../../issues/5865/cards/#{surface}", __dir__)
          end
-  content = File.read(path).downcase
+  content = File.read(path).gsub(/\s+/, " ").downcase
   terms.each { |term| abort "child #5865 #{surface} COTS contract omits #{term}" unless content.include?(term) }
 end
 
@@ -94,10 +117,22 @@ certificate_surface_contracts.each do |surface, terms|
          else
            File.expand_path("../../../issues/5869/cards/#{surface}", __dir__)
          end
-  content = File.read(path).downcase
+  content = File.read(path).gsub(/\s+/, " ").downcase
   terms.each { |term| abort "child #5869 #{surface} certificate contract omits #{term}" unless content.include?(term) }
   if surface != "vpp.values.json" && content.include?("adl-authority-certificate-v1\\0")
     abort "child #5869 #{surface} retains superseded authority-certificate signature domain"
+  end
+end
+
+unique_key_owner_contracts.each do |issue, surfaces|
+  surfaces.each do |surface, terms|
+    path = if surface == "design.md"
+             File.expand_path("../#{issue}/design.md", __dir__)
+           else
+             File.expand_path("../../../issues/#{issue}/cards/#{surface}", __dir__)
+           end
+    content = File.read(path).gsub(/\s+/, " ").downcase
+    terms.each { |term| abort "child ##{issue} #{surface} key-uniqueness contract omits #{term}" unless content.include?(term) }
   end
 end
 

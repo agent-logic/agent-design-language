@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.02] Distributed certificate purposes and lifecycle",
     "slug": "v0-92-wp-04-02-certificate-lifecycle",
     "version": "v0.92",
-    "generation": 8
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Verify gates, implement the exclusive slice, run exact proving tests and negatives, validate rollback, resolve review, and close through child authority.",
       "steps": [
         {
@@ -58,11 +58,11 @@
         "adl-runtime/tests/distributed_certificates.rs"
       ],
       "invariants": [
-        "Exclusive paths remain disjoint",
-        "Guardian stays process 0",
-        "No insecure or Runtime v2 fallback",
-        "Queues and waits remain bounded",
-        "Evidence is exact-revision and digest bound"
+        "Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure fallback is permitted",
+        "Evidence is exact-revision and digest bound",
+        "Guardian control-key rotation rejects any key assigned to another active voter",
+        "Rotation overlap for one voter identity remains exactly one quorum vote",
+        "Purpose separation, revocation, expiry, and verification remain fail closed"
       ],
       "risks": [
         "Dependency contract drift",
@@ -84,7 +84,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5864/design.md",
-      "design_digest": "dfa34ff95f3ffd8091c440217a10a0fd3c76be1b1c9ea0ebbbc945b168d223dd",
+      "design_digest": "d9b15c2b19540afe4c8f8e19601d7f6ad3cc47f7f05823280b26c7786fd4eadc",
       "diagram_ref": ".csdlc/prepared/issues/5864/diagram.mmd",
       "diagram_digest": "9604660435e11926c438538864ddeaaf35e7c9e3766cfa8917e0e648e9d0b9bf"
     }

@@ -16,7 +16,7 @@ Implement deterministic membership epochs and bounded topology convergence from 
 
 ## Required Outcome
 
-Implement deterministic membership epochs and bounded topology convergence from authenticated join events.
+Implement deterministic membership epochs and bounded topology convergence, rejecting voter promotion when the candidate's effective Guardian control public key is already assigned to another active voter and preserving that uniqueness through snapshot and replay.
 
 ## Scope
 

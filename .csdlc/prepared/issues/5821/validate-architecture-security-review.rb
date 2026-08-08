@@ -14,7 +14,7 @@ adr = "docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md"
 design = ".csdlc/prepared/issues/5821/design.md"
 validator = ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb"
 child_validator = ".csdlc/prepared/issues/5821/validate-child-wave.rb"
-reviewed_children = [5865, 5869, 5870, 5875, 5876]
+reviewed_children = [5863, 5864, 5865, 5867, 5869, 5870, 5875, 5876]
 child_authoritative = reviewed_children.flat_map do |issue|
   [
     ".csdlc/prepared/issues/#{issue}/design.md",
