@@ -34,7 +34,7 @@ end
 arch_text = File.read(architecture)
 required_architecture = {
   "## Invariants" => ["at most one active authoritative Guardian", "Availability cannot override fencing"],
-  "## Identity And Enrollment" => ["proof", "nonce", "Wrong-domain", "replayed"],
+  "## Identity And Enrollment" => ["proves", "nonce", "Wrong-domain", "replayed"],
   "## Certificate Purposes And Lifecycle" => ["not interchangeable", "actively closes affected sessions", "revalidates", "revocation"],
   "## Maintained QUIC/TLS Transport" => ["quinn", "rustls", "prost", "custom cryptography", "custom wire framing"],
   "## Discovery, Join, And Membership" => ["seeds as addresses, never trust anchors", "deterministic order", "committed epoch"],
@@ -48,7 +48,8 @@ required_architecture = {
 required_architecture.each do |heading, terms|
   body = section(arch_text, heading)
   abort "architecture omits section #{heading}" if body.empty?
-  terms.each { |term| abort "#{heading} omits #{term}" unless body.downcase.include?(term.downcase) }
+  normalized = body.gsub(/\s+/, " ").downcase
+  terms.each { |term| abort "#{heading} omits #{term}" unless normalized.include?(term.gsub(/\s+/, " ").downcase) }
 end
 
 threat_text = File.read(threat_model)
@@ -68,7 +69,8 @@ required_threats = {
 required_threats.each do |heading, terms|
   body = section(threat_text, heading)
   abort "threat model omits section #{heading}" if body.empty?
-  terms.each { |term| abort "#{heading} omits #{term}" unless body.downcase.include?(term.downcase) }
+  normalized = body.gsub(/\s+/, " ").downcase
+  terms.each { |term| abort "#{heading} omits #{term}" unless normalized.include?(term.gsub(/\s+/, " ").downcase) }
 end
 
 packet = JSON.parse(File.read(review))
