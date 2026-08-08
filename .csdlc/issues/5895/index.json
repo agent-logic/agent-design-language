@@ -5,13 +5,13 @@
   "initialization_digest": "d173a56713569c6f71cc7321e8b2d6b0ae5b162d4664cf0bf2c592a7ef4b4b84",
   "phase": "implemented",
   "generation": 12,
-  "digest": "d723cb6c711ed4a1afc69594e494428fbf42d7912125d361ac5ca7199516d847",
+  "digest": "7784fa6caf8b565fe7f2da60a885fb5b96e6051785b7b6401011117bbd8e1d0b",
   "branch": "codex/5895-retire-csdlc-migrate-installer",
   "worktree": "/Volumes/FastWork/adl-issue-5895-retire-csdlc-migrate-installer",
   "review_assignment": {
     "reviewer": "subagent:review_5895_implementation",
-    "assigned_by": "codex:5895-implementation",
-    "revision": "git-blake3:0dafc1b15f1dfb24b6706f6222d05b7913dccedb:6d4b90599307b1179eaa42975a198f4613359543ed10a1799a931aefa362bd12",
+    "assigned_by": "codex:5895-review-fixes",
+    "revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
     "scope": [
       "csdlc-v2/tests/gate10a.rs",
       ".csdlc/issues/5895",
@@ -189,6 +189,13 @@
       "sequence": 15,
       "generation": 12,
       "actor": "codex:5895-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:5895-review-fixes",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
     }
