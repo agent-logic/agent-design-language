@@ -7,7 +7,7 @@
     "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
     "slug": "coverage-aggregate-big-runner",
     "version": "v0.92",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -67,7 +67,7 @@
           "evidence_ref": "local:gate-runner-preflight:1-passed"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

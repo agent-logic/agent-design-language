@@ -74,7 +74,7 @@ Routed heavyweight hosted coverage aggregation through the established selected 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

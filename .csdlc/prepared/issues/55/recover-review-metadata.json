@@ -1,0 +1,1 @@
+{"issue":55,"expected_generation":15,"expected_digest":"152c1b643720330c5341de55bdafbb93323ad4fb75cd122ad4de16c9a4aa01c6","actor":"codex:issue-55-publication","reason":"Review metadata commit advanced the clean head; re-review the exact publication head before opening the PR."}

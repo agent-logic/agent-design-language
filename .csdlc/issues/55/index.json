@@ -3,34 +3,13 @@
   "issue": 55,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "538adb25a8cb561652e43a349bdbfa886adbf63b86f40d0d759dad271ce37b04",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "152c1b643720330c5341de55bdafbb93323ad4fb75cd122ad4de16c9a4aa01c6",
+  "phase": "implemented",
+  "generation": 16,
+  "digest": "d23e53e8ba74fbfe1858a9d3c2630db5c37ed4852d0b7bb1b6705de86d164f25",
   "branch": "codex/55-coverage-aggregate-big-runner",
   "worktree": "/Volumes/FastWork/adl-issue-55-coverage-aggregate-big-runner",
-  "review_assignment": {
-    "reviewer": "codex:review_55_exact_head",
-    "assigned_by": "codex:issue-55-implementation",
-    "revision": "git-blake3:79280aa3b1c5887876d5f4e9a4252d963c92828a:63eab5f08f70d6ad08aea6729d7ab5385ea9a62be74e93e1e6e4560ecc5b9994",
-    "scope": [
-      "Heavyweight adl_coverage_hosted selected-runner route",
-      "Focused regression assertions and preserved surrounding CI semantics",
-      "Typed issue evidence at exact implementation revision"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:review_55_exact_head",
-    "scope": [
-      "Heavyweight adl_coverage_hosted selected-runner route",
-      "Focused regression assertions and preserved surrounding CI semantics",
-      "Typed issue evidence at exact implementation revision"
-    ],
-    "reviewed_revision": "git-blake3:79280aa3b1c5887876d5f4e9a4252d963c92828a:63eab5f08f70d6ad08aea6729d7ab5385ea9a62be74e93e1e6e4560ecc5b9994",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5f6b6acdbb1bb94749710c3623febb2b6bdc92b8634589acf619f9be0bf72afe",
+      "values_digest": "d981fd7cd957027a2c25e7dcffaf82cf0a97244636cc0c6f9a909c18fb5915d1",
       "rendered_digest": "8a359e5112702a94ef1ce46d0c75ef69b10d7b1048b98d020d9a581c74fd50f1",
       "ast_digest": "e8690cb6c3d97ad20b472a5c1a6c7c3968a124fa4e14071bf9826b2d5d3071f1"
     },
     "stp": {
-      "values_digest": "af5a2afa15246bef11ef5d18c598c4b00f5a46404a5e1f840ccd1be6083e56e1",
+      "values_digest": "015caecfdd566a064f9ad55c999a7b8cb56f981d4620787836598cf505d1a07a",
       "rendered_digest": "2622bf397b5d99812b89749967beca8bae1ab9cf5bec5e4b88491ab4d12f15bc",
       "ast_digest": "d2390067bd4cda090f8d6f573245ccd2d48855114fa3cf036947056fed0364f6"
     },
     "spp": {
-      "values_digest": "6d600e5dbcb914dda71e095b6656e1e351b589d1def1da0c13ea6a8790782ba0",
+      "values_digest": "227709f0fed774b2f4ee92ab8e5b4c13cab4d4526d4f7904fd047544e05a2aa0",
       "rendered_digest": "37bf9bb65e25419a6d2f14c3c3ca7b3b4b27396529e7629e1746db547eec1de0",
       "ast_digest": "73ac7959e0d6d05e861e8eaa06a3e52c988f26d86d1ca9fa3fff5977ad1efd01"
     },
     "vpp": {
-      "values_digest": "6a48dc8ef699b0a629f72b81397ad8aeab77be235a1c8f7ff7004293e89e1bde",
+      "values_digest": "becb3a6b9c5173bc28b62567c8efaa07abc60fc07b2c4e7c525faeccc3b32072",
       "rendered_digest": "466fb747c2ef7d7445e841a0f3514b547dde579dabcaf41f5b9778a6eafc8bbb",
       "ast_digest": "7a287eceb08b889a1e50cf28e62480193a6c65b539683579dfd2fe423721bad6"
     },
     "srp": {
-      "values_digest": "988f2edd7f67b18f23bc0bf85090bba2a8dd14d3050f4cba4369d984a31bc8ec",
-      "rendered_digest": "7cfc33cd22b7ed45affbf6e6e7ab9e8879334a9d08c747f5e55709794280e21e",
-      "ast_digest": "a7915d2fff89168d7fb58b33d2ed6a4b87a9788d85ce83e8b7ec0e5c6f5fbc91"
+      "values_digest": "c9e12b0ff3d6d6798a9a2db8f7c4f1ac76f2cb472233d4d9b018a5885b91c96c",
+      "rendered_digest": "71f4933f1b8975fb09069f9ca68d0c290609b8e39404f0fd40c4541d453becf3",
+      "ast_digest": "e612195b5674a4e918e781830d47d41f300d11b323e0bfb39dc0c2da21f357cd"
     },
     "sor": {
-      "values_digest": "839b024dd677bf7900a66f5fa98a9d9f4eaa265d280e00376c2f3e292068b361",
-      "rendered_digest": "73464c5dffe02f05777ed0b9a6f19d4ebf3f4c18ead067561e393cc4ec14e188",
-      "ast_digest": "e1497dd7e7b733636549b53363259220c5c53973dd995955cf2ffbf7106792b3"
+      "values_digest": "5f0c266d200b159b79e8f376baba6cf6e28791c0a30e50009a1c3f806aa9527e",
+      "rendered_digest": "53829aeeed0df95b4cc90208e905667fa27986d5d51badcd60a7a7050eea96db",
+      "ast_digest": "ebeb3b0d96aa0299b16b6ba660665e6ab0ea60778d94c38296956298f3e3296d"
     }
   },
   "transitions": [
@@ -103,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:issue-55-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-55-publication",
+      "reason": "Review metadata commit advanced the clean head; re-review the exact publication head before opening the PR."
     }
   ],
   "audit": [
@@ -231,6 +217,13 @@
       "actor": "codex:issue-55-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:issue-55-publication",
+      "reason": "Review metadata commit advanced the clean head; re-review the exact publication head before opening the PR.",
+      "operation": "recover_review"
     }
   ]
 }
