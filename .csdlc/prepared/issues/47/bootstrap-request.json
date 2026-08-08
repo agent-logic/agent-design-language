@@ -1,0 +1,154 @@
+{
+  "issue": 47,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:issue-47-preparation",
+  "design_path": ".csdlc/prepared/issues/47/design.md",
+  "diagram_path": ".csdlc/prepared/issues/47/diagram.mmd",
+  "design_reviewer": "pending-independent-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
+    "slug": "exact-rust-test-selectors",
+    "version": "v0.92",
+    "goal": "Prevent named Rust VPP lanes from silently fanning out through Cargo substring matching while preserving truthful intentional broad commands.",
+    "required_outcome": "Typed planning accepts exact target-bounded and intentional broad Rust test commands, rejects ambiguous named selectors before execution, and proves the schema lane runs nonzero intended unit tests without selecting estimation_contracts.",
+    "declared_scope": [
+      "Typed VPP Rust test-selector classification and validation",
+      "Actionable invalid-selector diagnostics",
+      "Focused exact-schema, exact-integration, broad-command, and invalid-selector regression proof",
+      "Active VPP/editor/planning skill and runbook guidance affected by selector syntax"
+    ],
+    "authority_boundary": [
+      "Issue #47 owns validation-selector semantics only",
+      "Broad commands remain broad when explicitly declared without a misleading named substring",
+      "The unrelated estimation_contracts behavior remains unchanged",
+      "Issue #5881 claim-removal behavior and records remain out of scope"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Use only typed C-SDLC v2 Rust lifecycle tools",
+      "Do not weaken, skip, or modify unrelated tests",
+      "Keep selector policy in manifests/planning rather than ordinary test logic",
+      "Treat estimates as reviewable rather than hard implementation limits"
+    ],
+    "task_boundary": "Add exact versus broad Rust selector semantics at the typed planning boundary, focused proof, diagnostics, and directly affected active guidance.",
+    "deliverables": [
+      "Typed exact, broad, and invalid Rust selector classification",
+      "Planning-time diagnostics for missing, conflicting, or ambiguous target selectors",
+      "Focused regression proof that exact schema selection is nonzero and excludes estimation_contracts",
+      "Compatibility proof for exact integration targets and intentional broad commands",
+      "Updated active skill/runbook examples where applicable"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A named schema lane uses an exact Cargo target boundary and selects a nonzero set of schema unit tests",
+      "AC-2: The exact schema lane cannot select or launch the unrelated estimation_contracts integration target",
+      "AC-3: Exact integration target commands such as --test gate2 remain accepted",
+      "AC-4: Intentional broad commands with no misleading trailing substring remain accepted and retain broad semantics",
+      "AC-5: Free substring, missing target name, and conflicting target selector shapes fail during planning or validation with an actionable corrected-command diagnostic",
+      "AC-6: Active VPP/editor/planning skills and runbooks use the corrected selector shape and distinguish exact from broad intent",
+      "AC-7: Focused Rust tests, typed card validation, and strict lint proof pass within reviewable budgets"
+    ],
+    "dependencies": [
+      "Current C-SDLC v2 VPP validation-lane model",
+      "Existing schema unit tests and estimation_contracts integration target",
+      "Observed #5881 selector defect evidence"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/validation.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests",
+      "csdlc-v2/operator/skills",
+      "docs/tooling"
+    ],
+    "non_goals": [
+      "Changing #5881 claim-removal behavior or records",
+      "Weakening or skipping estimation_contracts",
+      "Replacing Cargo's test runner",
+      "Making every broad test command target-exact",
+      "Unrelated validation scheduling or CI changes"
+    ],
+    "plan_summary": "Classify Rust test argv at the typed VPP boundary, reject ambiguous named substrings, retain intentional broad commands, prove exact nonzero schema selection excludes unrelated integration targets, and update affected active guidance.",
+    "steps": [
+      {"id":"S1","action":"Trace VPP lane parsing and define typed exact, broad, and invalid Rust selector postures with fail-closed diagnostics.","acceptance_ids":["AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Implement selector validation without changing Cargo or ordinary test behavior.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S3","action":"Add focused fixtures proving nonzero exact schema selection, integration exclusion, broad compatibility, and invalid-shape rejection.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-7"],"status":"pending"},
+      {"id":"S4","action":"Update directly affected active skills/runbooks, run typed/focused validation, and obtain exact-head review.","acceptance_ids":["AC-6","AC-7"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/validation.rs",
+      "csdlc-v2/tests",
+      "csdlc-v2/operator/skills",
+      "docs/tooling",
+      ".csdlc/issues/47",
+      ".csdlc/prepared/issues/47"
+    ],
+    "invariants": [
+      "A named lane cannot escape its declared Cargo target boundary",
+      "Accepted exact lanes execute a nonzero intended test set",
+      "Intentional broad commands remain truthful and supported",
+      "Invalid selectors fail before expensive or unrelated execution",
+      "Unrelated test semantics remain unchanged"
+    ],
+    "risks": [
+      "Over-validation incorrectly rejects legitimate broad Cargo commands",
+      "A syntactically exact selector still runs zero tests and creates false proof",
+      "Command parsing diverges from Cargo target syntax",
+      "Guidance retains ambiguous substring examples"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The solution requires modifying or skipping unrelated tests",
+      "Intentional broad validation can no longer be represented truthfully",
+      "Selector intent cannot be determined from typed argv without a new explicit field",
+      "Scope expands into CI scheduling or general command execution"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "rust-selector-contract",
+        "proof_role": "Focused Rust tests prove exact, broad, and invalid selector classification plus actionable diagnostics.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local",
+        "budget_seconds": 600,
+        "budget_tokens": 3500,
+        "argv": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","validation_selectors"],
+        "acceptance_ids": ["AC-3","AC-4","AC-5","AC-7"]
+      },
+      {
+        "lane": "exact-schema-selection",
+        "proof_role": "The target-bounded library command proves a nonzero schema unit-test set and excludes integration targets.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--lib","schema::tests"],
+        "acceptance_ids": ["AC-1","AC-2","AC-7"]
+      },
+      {
+        "lane": "selector-contract-lint",
+        "proof_role": "Strict Clippy and active guidance checks prove the typed implementation and examples remain consistent.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo","clippy","--locked","--manifest-path","csdlc-v2/Cargo.toml","--all-targets","--","-D","warnings"],
+        "acceptance_ids": ["AC-6","AC-7"]
+      }
+    ],
+    "failure_policy": "Fail closed on ambiguous target intent, missing or conflicting target names, zero selected exact-lane tests, unexpected integration fan-out, stale typed state, or misleading active guidance.",
+    "review_prompts": [
+      "Can any accepted named lane still fan out across unrelated Cargo test targets?",
+      "Does exact schema proof select a nonzero intended unit-test set and exclude estimation_contracts?",
+      "Do intentional broad commands remain supported without being misclassified?",
+      "Are invalid-selector diagnostics specific enough to provide a corrected command?",
+      "Do active skills/runbooks distinguish target boundaries from test-name filters?"
+    ],
+    "review_scope": "Issue #47 typed Rust selector classification, diagnostics, focused exact/broad/invalid proof, and directly affected active planning guidance."
+  }
+}

@@ -1,0 +1,360 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 47,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
+  "phase": "published",
+  "generation": 23,
+  "digest": "20360ae2fccd5e47201c89e9c1cf1509b866020202b7605235e31cbd036b58a7",
+  "branch": "codex/47-exact-rust-test-selectors",
+  "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
+  "review_assignment": {
+    "reviewer": "codex:issue-47-exact-head-review",
+    "assigned_by": "codex:issue-47-implementation",
+    "revision": "git-blake3:8f78d2d1ca4bf29051e1971ac82986b66230b2a1:0771d7304528a89df4d34165383958f3fdefb07b51d28398be1831cc84124702",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/validation_selectors.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:issue-47-exact-head-review",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/validation_selectors.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+    ],
+    "reviewed_revision": "git-blake3:8f78d2d1ca4bf29051e1971ac82986b66230b2a1:0771d7304528a89df4d34165383958f3fdefb07b51d28398be1831cc84124702",
+    "findings": [],
+    "residual_risks": [
+      "Hosted integration proof remains deferred to the exact published PR head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 47,
+    "pull_request": 60,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/60",
+    "base": "main",
+    "head": "codex/47-exact-rust-test-selectors",
+    "revision": "git-blake3:6488ef71e56eb3350cc79abe24560d70c9afd64c:70f78d9ec7ac6e1a34b11f6afbed3fb93db9eaf774c8a3cd1060a438fc056b4b",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/47/design.md",
+  "diagram_path": ".csdlc/prepared/issues/47/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-47-capacity-bounded-readiness-audit",
+      "revision": "5423a1c6db9a58f90b384cf70126f355b60312af6a523c6214e39dfd26577759"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a8bc760baec13d8559b44b7486e8a836093f1a508d6f8971e49fcc32695a8afd",
+      "rendered_digest": "733dcb06dddaa768a73faa1ce4928177e0ce93e8ac263f639b031e7ae19f27a0",
+      "ast_digest": "8a86d67f40e75fc0a5c5b396b0986ead341adcbf45cac53f52dec21a089d6842"
+    },
+    "stp": {
+      "values_digest": "a9ffbcd666366d4be553f518e564d9093f526e15dffe3aa869b0135da0bc6872",
+      "rendered_digest": "9f6504856f62e79caa56903268cba3255da962282736b6383619187da3435e36",
+      "ast_digest": "c6286d6fbf8d4bfe0141d8958ce38d4e961782ff7fd66716bc21a3d15ebcd30b"
+    },
+    "spp": {
+      "values_digest": "9bf47a7737c0539a54cbcb64c258f1d126f927daaaa8e0622f9984b7985ea17a",
+      "rendered_digest": "6c7150212c076bd3ea61d52aec3083ef511695402e6fcd8e263f469c0c0c0ae6",
+      "ast_digest": "caf3109a1da3e1cf37fbb2800609278752db7034363cb77918856cc4ae0cf9e2"
+    },
+    "vpp": {
+      "values_digest": "edfed146c4cbe7bfb6b41356b4f2ae305d282c39de87d478bab07cc31b75eb11",
+      "rendered_digest": "32487a992c5e8912313257d2ce77333eee2d5f6680b71a6c4eea824ed52a664e",
+      "ast_digest": "841d097fb38eaf4a904ac3b9fd9e4e57df237b22a6c8394d97d487e8f8a5caad"
+    },
+    "srp": {
+      "values_digest": "f91e521b06f70f78a2322ab491e5a39474031382802d24c1664d800c9aad41f1",
+      "rendered_digest": "f76bfa94ab8f4ab5d2320fa686ecf31e3ccc20b64bb9f176ebfc97a784ace48f",
+      "ast_digest": "4f3d564584195b59655334d9f60425921f5a192715ede2ccd5a39f42af086126"
+    },
+    "sor": {
+      "values_digest": "a087bcde48737fa2430e7453b40f2dddfb85dce4d96e3063572ba89b5c7c77c1",
+      "rendered_digest": "6134a123d5cb9d16776798ccbaecc599de8622746614ecdb89ff1fb94a500ff0",
+      "ast_digest": "e4ec35ff60b401a59e821674a6530d614ec9fc0fdbc9f8f667f43f064a780ac7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-47-implementation",
+      "reason": "Advance the bound issue after implementation and focused validation completed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-47-implementation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-47-publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-47-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-47-capacity-bounded-readiness-audit",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Remove the nonexistent validation module and route planning through existing owned selector surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"AGENTS.md\",\"csdlc-v2/AGENTS.md\",\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/operator/skills\",\"docs/tooling\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Declare the proposed focused integration target as an issue-owned implementation deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed exact, broad, and invalid Rust selector classification\",\"Planning-time diagnostics for missing, conflicting, or ambiguous target selectors\",\"csdlc-v2/tests/validation_selectors.rs\",\"Compatibility proof for exact integration targets and intentional broad commands\",\"Updated active skill/runbook examples where applicable\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Own the existing selector implementation routes and the explicitly deferred focused test target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills\",\"docs/tooling\",\".csdlc/issues/47\",\".csdlc/prepared/issues/47\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Align acceptance, plan, and VPP on the explicitly deferred focused test target and existing owned routes.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: A named schema lane uses an exact Cargo target boundary and selects a nonzero set of schema unit tests\",\"AC-2: The exact schema lane cannot select or launch the unrelated estimation_contracts integration target\",\"AC-3: Exact integration target commands such as --test gate2 remain accepted\",\"AC-4: Intentional broad commands with no misleading trailing substring remain accepted and retain broad semantics\",\"AC-5: Free substring, missing target name, and conflicting target selector shapes fail during planning or validation with an actionable corrected-command diagnostic\",\"AC-6: Active VPP/editor/planning skills and runbooks use the corrected selector shape and distinguish exact from broad intent\",\"AC-7: Implementation creates csdlc-v2/tests/validation_selectors.rs, then the focused selector test, exact schema unit-test lane, typed validation, and strict lint proof pass within reviewable budgets\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Trace selector handling in csdlc-v2/src/cards.rs and define typed exact, broad, and invalid Rust selector postures with fail-closed diagnostics.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement selector validation in existing owned source routes without changing Cargo or ordinary test behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Create csdlc-v2/tests/validation_selectors.rs with focused nonzero schema, integration-exclusion, broad-compatibility, and invalid-shape fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Update directly affected active skills/runbooks, run the planned focused validation after the deferred target exists, and obtain exact-head review.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"rust-selector-contract\",\"proof_role\":\"The issue-owned focused integration target will prove exact, broad, and invalid selector classification plus actionable diagnostics after implementation creates it.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until issue #47 implementation creates the declared owned target csdlc-v2/tests/validation_selectors.rs; execution must fail closed if the target is still absent.\"},{\"lane\":\"exact-schema-selection\",\"proof_role\":\"The existing target-bounded library command proves a nonzero schema unit-test set and excludes integration targets.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"selector-contract-lint\",\"proof_role\":\"Strict Clippy and active guidance checks prove the typed implementation and examples remain consistent.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record completion of typed Rust selector posture design and diagnostics.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record completion of fail-closed selector validation in the owned card route.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record completion of the issue-owned focused selector integration target.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Active guidance and focused validation are complete; exact-head review remains in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract before advancing lifecycle phase.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substring lanes fail before execution while explicit Cargo target boundaries and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Advance the bound issue after implementation and focused validation completed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substring lanes fail before execution while explicit Cargo target boundaries and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-47-validation-repair",
+      "reason": "Replace an abstract proof phrase with the concrete issue-owned test target after implemented-phase validation exposed the stale denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed exact, broad, and invalid Rust selector classification\",\"Planning-time diagnostics for missing, conflicting, or ambiguous target selectors\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/src/cards.rs validator integration\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:issue-47-review-remediation",
+      "reason": "Clear the completed focused lane deferral and align VPP truth with retained passing execution evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"rust-selector-contract\",\"proof_role\":\"The issue-owned focused integration target proves exact, intentional-broad, and invalid selector classification plus actionable diagnostics.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"exact-schema-selection\",\"proof_role\":\"The existing target-bounded library command proves a nonzero schema unit-test set and excludes integration targets.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"selector-contract-lint\",\"proof_role\":\"Strict Clippy and active guidance checks prove the typed implementation and examples remain consistent.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, Cargo toolchain selectors, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, the test/t aliases, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.\",\"Handled Cargo's documented t alias and repeated verbosity flags without reopening substring fan-out.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, the test/t aliases, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.\",\"Handled Cargo's documented t alias and repeated verbosity flags without reopening substring fan-out.\",\"Handled documented Cargo -C, -F, and lockfile-path value options without misclassifying their values as test filters.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, the test/t aliases, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.\",\"Handled Cargo's documented t alias and repeated verbosity flags without reopening substring fan-out.\",\"Handled documented Cargo -C, -F, and lockfile-path value options without misclassifying their values as test filters.\",\"Handled attached short-value forms for Cargo global and test options while preserving missing-value rejection.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, the test/t aliases, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.\",\"Handled Cargo's documented t alias and repeated verbosity flags without reopening substring fan-out.\",\"Handled documented Cargo -C, -F, and lockfile-path value options without misclassifying their values as test filters.\",\"Handled attached short-value forms for Cargo global and test options while preserving missing-value rejection.\",\"Distinguished singular exact targets from plural broad target sets so target-set substring filters cannot fan out across unrelated binaries.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record completion of active guidance, focused validation, and the no-findings exact-head review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:issue-47-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:issue-47-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

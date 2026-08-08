@@ -1,0 +1,19 @@
+{
+  "issue": 47,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "03fe4733562b019024eae95ca47718482193193629b1599e5ea0e98f7a7df424",
+  "actor": "codex:issue-47-readiness-remediation",
+  "reason": "Declare the proposed focused integration target as an issue-owned implementation deliverable.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Typed exact, broad, and invalid Rust selector classification",
+      "Planning-time diagnostics for missing, conflicting, or ambiguous target selectors",
+      "csdlc-v2/tests/validation_selectors.rs",
+      "Compatibility proof for exact integration targets and intentional broad commands",
+      "Updated active skill/runbook examples where applicable"
+    ]
+  }
+}
