@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved both bounded review findings without widening issue 17.
+Resolved all five exact-head pre-PR review findings without widening issue 17.
 
 ## Artifacts
 
@@ -23,6 +23,8 @@ Resolved both bounded review findings without widening issue 17.
 - csdlc-v2/src/cards.rs
 - csdlc-v2/src/doctor.rs
 - csdlc-v2/tests/gate2.rs
+- csdlc-v2/src/cards.rs
+- csdlc-v2/tests/gate2.rs
 
 ## Execution
 
@@ -32,6 +34,11 @@ Resolved both bounded review findings without widening issue 17.
 - Require every declared validator deliverable to exist or have its own selected fail-closed deferred lane.
 - Continue execution-readiness diagnosis after repository drift so one doctor report exposes the combined repair surface.
 - Make the issue-5795-shaped fixture combine stale repository identity, unroutable module ownership, an unselected missing validator, and an unrelated existing test lane.
+- Normalize fail-closed policy semantics and reject explicitly negated policies.
+- Classify validator deliverables by test and validation semantics instead of treating every script as a validator.
+- Anchor Rust module routing checks to Cargo crate roots and resolve nested parent modules correctly.
+- Recognize Cargo manifest equals syntax and package-selected integration tests.
+- Add focused positive and negative production-path fixtures for every review finding.
 
 ## Validation
 
@@ -59,6 +66,19 @@ Resolved both bounded review findings without widening issue 17.
       "gate2"
     ],
     "purpose": "Prove combined issue-5795 repository and execution findings plus per-required-validator enforcement after bounded review cleanup.",
+    "outcome": "passed",
+    "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2"
+    ],
+    "purpose": "Prove the issue-5795-shaped false-ready rejection and focused edge cases for fail-closed deferral, product scripts, Cargo-root routing, nested modules, and Cargo target syntax.",
     "outcome": "passed",
     "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
   }

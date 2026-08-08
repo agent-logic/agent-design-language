@@ -1661,9 +1661,26 @@ fn validator_targets(lane: &ValidationLane) -> Vec<String> {
             .argv
             .windows(2)
             .find_map(|pair| (pair[0] == "--manifest-path").then_some(pair[1].as_str()))
-            .unwrap_or("Cargo.toml");
-        let crate_root = Path::new(manifest)
-            .parent()
+            .or_else(|| {
+                lane.argv
+                    .iter()
+                    .find_map(|value| value.strip_prefix("--manifest-path="))
+            });
+        let package = lane
+            .argv
+            .windows(2)
+            .find_map(|pair| {
+                matches!(pair[0].as_str(), "-p" | "--package").then_some(pair[1].as_str())
+            })
+            .or_else(|| {
+                lane.argv
+                    .iter()
+                    .find_map(|value| value.strip_prefix("--package="))
+            });
+        let crate_root = manifest
+            .map(Path::new)
+            .and_then(Path::parent)
+            .or_else(|| package.map(Path::new))
             .unwrap_or_else(|| Path::new(""));
         let mut targets = Vec::new();
         for (index, value) in lane.argv.iter().enumerate() {
@@ -1721,17 +1738,48 @@ fn explicitly_deferred_validator(
             .defer_reason
             .as_deref()
             .is_some_and(|reason| !placeholder(reason))
-        && failure_policy.to_ascii_lowercase().contains("fail closed")
+        && fail_closed_policy(failure_policy)
+}
+
+fn fail_closed_policy(value: &str) -> bool {
+    let words = value
+        .split(|character: char| !character.is_ascii_alphanumeric())
+        .filter(|word| !word.is_empty())
+        .map(str::to_ascii_lowercase)
+        .collect::<Vec<_>>();
+    words.windows(2).enumerate().any(|(index, pair)| {
+        pair == ["fail", "closed"]
+            && !words[index.saturating_sub(3)..index]
+                .iter()
+                .any(|word| matches!(word.as_str(), "not" | "never" | "without" | "avoid"))
+    })
 }
 
 fn required_validator_deliverable(path: &str) -> bool {
     let path = Path::new(path);
-    path.components()
-        .any(|component| component.as_os_str() == "tests")
-        || matches!(
-            path.extension().and_then(|value| value.to_str()),
-            Some("sh" | "py" | "rb" | "js")
-        )
+    let validator_words = [
+        "test",
+        "tests",
+        "spec",
+        "validate",
+        "validation",
+        "validator",
+        "verify",
+        "check",
+        "proof",
+    ];
+    path.components().any(|component| {
+        component
+            .as_os_str()
+            .to_str()
+            .is_some_and(|value| validator_words.contains(&value.to_ascii_lowercase().as_str()))
+    }) || path
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .is_some_and(|stem| {
+            stem.split(|character: char| !character.is_ascii_alphanumeric())
+                .any(|word| validator_words.contains(&word.to_ascii_lowercase().as_str()))
+        })
 }
 
 fn rust_module_route_owned(root: &Path, path: &str, owned_paths: &[String]) -> bool {
@@ -1744,19 +1792,44 @@ fn rust_module_route_owned(root: &Path, path: &str, owned_paths: &[String]) -> b
     let components = relative.components().collect::<Vec<_>>();
     let Some(src_index) = components
         .iter()
-        .position(|component| component.as_os_str() == "src")
+        .enumerate()
+        .find_map(|(index, component)| {
+            if component.as_os_str() != "src" {
+                return None;
+            }
+            let crate_root =
+                components[..index]
+                    .iter()
+                    .fold(PathBuf::new(), |mut path, component| {
+                        path.push(component.as_os_str());
+                        path
+                    });
+            root.join(crate_root)
+                .join("Cargo.toml")
+                .is_file()
+                .then_some(index)
+        })
     else {
         return true;
     };
     let after_src = &components[src_index + 1..];
     if after_src.is_empty()
-        || matches!(
-            after_src.last().and_then(|part| part.as_os_str().to_str()),
-            Some("lib.rs" | "main.rs")
-        )
-        || after_src
-            .first()
-            .is_some_and(|part| part.as_os_str() == "bin")
+        || (after_src.len() == 1
+            && matches!(
+                after_src[0].as_os_str().to_str(),
+                Some("lib.rs" | "main.rs")
+            ))
+    {
+        return true;
+    }
+    if after_src
+        .first()
+        .is_some_and(|part| part.as_os_str() == "bin")
+        && (after_src.len() == 2
+            || (after_src.len() == 3
+                && after_src
+                    .last()
+                    .is_some_and(|part| part.as_os_str() == "main.rs")))
     {
         return true;
     }
@@ -1766,25 +1839,51 @@ fn rust_module_route_owned(root: &Path, path: &str, owned_paths: &[String]) -> b
             path.push(component.as_os_str());
             path
         });
-    let candidates = if after_src.len() == 1
-        || after_src
-            .last()
-            .is_some_and(|part| part.as_os_str() == "mod.rs")
-            && after_src.len() == 2
-    {
+    let is_mod_root = after_src
+        .last()
+        .is_some_and(|part| part.as_os_str() == "mod.rs");
+    let parent_end = after_src.len() - usize::from(is_mod_root) - 1;
+    let parent_parts = &after_src[..parent_end];
+    let mut candidates = if parent_parts.is_empty() {
         vec![src_root.join("lib.rs"), src_root.join("main.rs")]
     } else {
-        let parent_parts = &after_src[..after_src.len() - 2];
-        let parent = parent_parts.iter().fold(src_root, |mut path, component| {
-            path.push(component.as_os_str());
-            path
-        });
-        let module = after_src[after_src.len() - 2].as_os_str();
+        let parent_root = parent_parts[..parent_parts.len() - 1].iter().fold(
+            src_root.clone(),
+            |mut path, component| {
+                path.push(component.as_os_str());
+                path
+            },
+        );
+        let parent = parent_parts
+            .iter()
+            .fold(PathBuf::new(), |mut path, component| {
+                path.push(component.as_os_str());
+                path
+            });
+        let module = parent_parts[parent_parts.len() - 1].as_os_str();
         vec![
-            parent.join(format!("{}.rs", module.to_string_lossy())),
-            parent.join(module).join("mod.rs"),
+            parent_root.join(format!("{}.rs", module.to_string_lossy())),
+            src_root.join(&parent).join("mod.rs"),
         ]
     };
+    if after_src
+        .first()
+        .is_some_and(|part| part.as_os_str() == "bin")
+        && parent_parts.len() >= 2
+    {
+        candidates.push(
+            src_root
+                .join(
+                    parent_parts
+                        .iter()
+                        .fold(PathBuf::new(), |mut path, component| {
+                            path.push(component.as_os_str());
+                            path
+                        }),
+                )
+                .join("main.rs"),
+        );
+    }
     candidates.iter().any(|candidate| {
         let candidate = candidate.to_string_lossy();
         root.join(candidate.as_ref()).is_file()
