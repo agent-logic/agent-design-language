@@ -83,3 +83,5 @@
 {"sequence":83,"generation":60,"actor":"codex:5821-wp04-gate","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":84,"generation":61,"actor":"codex:5821-wp04-gate","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":85,"generation":62,"actor":"codex:5821-wp04-gate","reason":"Recover stale review and publication truth after the substantive #5865 OpenRaft COTS contract repair.","operation":"recover_review"}
+{"sequence":86,"generation":62,"actor":"codex:5821-wp04-gate","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":87,"generation":63,"actor":"openai-codex:gpt-5:wp04-openraft-contract-independent-review:2026-08-08","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

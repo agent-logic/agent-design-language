@@ -3,11 +3,11 @@
 ## Review Identity
 
 - Issue: #5821, v0.92 WP-04 Distributed Guardian architecture and security gate
-- Reviewed revision: `83495616b94c6de94ce346aab4328d78a031b661`
-- Reviewer: `openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07`
-- Agent ID: `019fdf69-5a0f-7e31-ba34-419c135eb7e8`
+- Reviewed revision: `e4f1572cf35b62f445d6aef54142f68da7d28cf6`
+- Reviewer: `openai-codex:gpt-5:wp04-openraft-contract-independent-review:2026-08-08`
+- Agent ID: `019fdf4a-5f9f-7420-9cfd-418ed63dee8c`
 - Review role: independent architecture and security reviewer
-- Review date: 2026-08-07
+- Review date: 2026-08-08
 
 ## Reviewed Scope
 
@@ -18,7 +18,7 @@
 - `docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md`
 - `.csdlc/prepared/issues/5821/validate-architecture-security-review.rb`
 - `.csdlc/prepared/issues/5821/validate-child-wave.rb`
-- Canonical approved designs, typed indexes, and SIP/STP/VPP values for issues #5869, #5870, #5875, and #5876
+- Canonical approved designs, typed indexes, and SIP/STP/VPP values for issues #5865, #5869, #5870, #5875, and #5876
 - Live WP-04-IMP issue #5862 and child issue #5863 through #5878 contract validation
 
 The review was pinned to the committed content at the revision above. The authoritative surface had neither unstaged nor staged changes during review.
@@ -32,20 +32,21 @@ The review was pinned to the committed content at the revision above. The author
 5. **`candidate-status`: Architecture and threat documents prematurely claimed frozen status - resolved.** Both identify themselves as candidate gates pending independent review and retain explicit non-claims.
 6. **`authority-certificate-definition`: Authority certificates were not cryptographically defined - resolved.** `AuthorityCertificateV1` defines canonical signed fields, a domain-separated SHA-256 digest, strict-majority distinct control-key endorsements, voter-generation binding, certificate lifecycle checks, activation possession, and malicious-leader/minority denial.
 7. **`child-authority-contracts`: Child ownership, proof, and rollback contracts did not carry the repaired authority guarantees - resolved.** The parent ledger, reapproved child designs, typed SIP/STP/VPP records, and live contracts now assign and prove majority authority, joint membership, canonical certificates, activation possession, monotonic-time safety, mutation-sink enforcement, fence-boundary migration, and quorum-only recovery.
-8. **`review-identity-and-revision`: Retained review evidence was not exact-revision or independently identity-bound - resolved.** Validation pins the latest authoritative revision, exact reviewer identity, exact agent ID, report digest, authoritative Git blobs, and finding dispositions while rejecting superseded revisions and authoritative drift.
+8. **`review-identity-and-revision`: Retained review evidence was not exact-revision or independently identity-bound - resolved.** Validation pins the latest authoritative revision, the actual nonempty reviewer and agent provenance, independent role, author separation, report digest, authoritative Git blobs, and finding dispositions while rejecting superseded revisions and authoritative drift.
 9. **`staged-authoritative-drift`: Staged authoritative changes were not rejected - resolved.** Validation checks both worktree-versus-index and index-versus-HEAD drift across the complete authoritative review surface.
 10. **`normalized-possession-contract`: Enrollment possession validation used an over-broad normalized term - resolved.** The section-term gate now normalizes whitespace while requiring the exact phrase `proves possession`, so unrelated proof language cannot satisfy the enrollment possession requirement.
+11. **`openraft-cots-contract-parity`: WP-04.03 could omit OpenRaft despite sole manifest ownership - resolved.** Issue #5865's design and typed SIP/STP/SPP/VPP now require the reviewed `quinn`, `rustls`, `prost`, and `openraft` set, preserve WP-04.07 source ownership, and are digest-bound by the architecture review validator and checked by the live child-wave validator.
 
 ## Validation Performed
 
-- Confirmed `HEAD` equals `83495616b94c6de94ce346aab4328d78a031b661`.
+- Confirmed the exact authoritative review revision is `e4f1572cf35b62f445d6aef54142f68da7d28cf6`.
 - Confirmed the latest authoritative revision resolves to the same full commit.
-- Parsed the four repaired child indexes and SIP/STP/VPP values as JSON.
-- Confirmed all four authority designs are reapproved under `codex:5821-wp04-child-authority-design-review` with null claim, branch, and worktree state.
+- Parsed the five reviewed child indexes and SIP/STP/VPP values as JSON.
+- Confirmed #5865's distributed COTS design is reapproved, the four authority designs remain reapproved, and all five child records have null claim, branch, and worktree state.
 - Ran `validate-child-wave.rb`: it passed the live umbrella and sixteen-child mapping, 38 exclusive paths, dependency graph, authority contracts, proof targets, and rollback checks.
 - Checked both review validators for Ruby syntax.
 - Confirmed both unstaged and staged authoritative surfaces were clean.
-- Re-reviewed partition, replay, stale lease, cloned state, wrong trust domain, certificate compromise and expiry, relocation and rollback failure, split brain, child ownership, proof boundaries, and unsupported completion claims.
+- Re-reviewed partition, replay, stale lease, cloned state, wrong trust domain, certificate compromise and expiry, relocation and rollback failure, split brain, child ownership, the four-dependency COTS contract, proof boundaries, and unsupported completion claims.
 
 ## Residual Risks
 

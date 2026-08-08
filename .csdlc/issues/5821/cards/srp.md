@@ -12,7 +12,38 @@ Status: draft
 
 ## Scope
 
-
+docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md
+docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md
+.csdlc/prepared/issues/5821/design.md
+docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md
+docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md
+.csdlc/prepared/issues/5821/validate-architecture-security-review.rb
+.csdlc/prepared/issues/5821/validate-child-wave.rb
+.csdlc/prepared/issues/5865/design.md
+.csdlc/issues/5865/index.json
+.csdlc/issues/5865/cards/sip.values.json
+.csdlc/issues/5865/cards/stp.values.json
+.csdlc/issues/5865/cards/vpp.values.json
+.csdlc/prepared/issues/5869/design.md
+.csdlc/issues/5869/index.json
+.csdlc/issues/5869/cards/sip.values.json
+.csdlc/issues/5869/cards/stp.values.json
+.csdlc/issues/5869/cards/vpp.values.json
+.csdlc/prepared/issues/5870/design.md
+.csdlc/issues/5870/index.json
+.csdlc/issues/5870/cards/sip.values.json
+.csdlc/issues/5870/cards/stp.values.json
+.csdlc/issues/5870/cards/vpp.values.json
+.csdlc/prepared/issues/5875/design.md
+.csdlc/issues/5875/index.json
+.csdlc/issues/5875/cards/sip.values.json
+.csdlc/issues/5875/cards/stp.values.json
+.csdlc/issues/5875/cards/vpp.values.json
+.csdlc/prepared/issues/5876/design.md
+.csdlc/issues/5876/index.json
+.csdlc/issues/5876/cards/sip.values.json
+.csdlc/issues/5876/cards/stp.values.json
+.csdlc/issues/5876/cards/vpp.values.json
 
 ## Prompts
 
@@ -32,12 +63,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This gate proves architecture, security, dependency ownership, and child-wave contract readiness; runtime implementation and distributed failure proofs remain assigned to the WP-04 implementation children.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:853da180917fd9e714799d8130db21851fbe1ec9:f0a8c3ce04863904aa1b4c58d527c7a35f4ab3e02455864220f079e9cdad6bf6")
 
-Reviewer: None
+Reviewer: Some("openai-codex:gpt-5:wp04-openraft-contract-independent-review:2026-08-08")
 
-Result: pre_review
+Result: pass
