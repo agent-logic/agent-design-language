@@ -3,13 +3,33 @@
   "issue": 5795,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "409e16e0228f29a4e234fa3fa006087a058b5409f297ac014539fbdee6cb922a",
-  "phase": "implemented",
-  "generation": 48,
-  "digest": "76b72d0f8c9e8883034d103963d96c61c6dba73c6e6207268bccfa1d9f1c3085",
+  "phase": "reviewed",
+  "generation": 49,
+  "digest": "4bf8f6166e2a050fa83e451a1af84a26223676bcda75fcbd651ab0bd44dbc442",
   "branch": "codex/5795-local-gemma-mlx-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5795-local-shepherd",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-codex:gpt-5:issue-5795-lifecycle-publication-independent-review:2026-08-08",
+    "assigned_by": "codex:issue-5795-review-record",
+    "revision": "git-blake3:d84f726b4605b2c43442de4dc4274b459ac97011:d9cbc94377ad3a55e6bde12d6103ae653c0271efbfda2536b2ae17be025352e9",
+    "scope": [
+      "."
+    ]
+  },
+  "review": {
+    "reviewer": "openai-codex:gpt-5:issue-5795-lifecycle-publication-independent-review:2026-08-08",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:d84f726b4605b2c43442de4dc4274b459ac97011:d9cbc94377ad3a55e6bde12d6103ae653c0271efbfda2536b2ae17be025352e9",
+    "findings": [],
+    "residual_risks": [
+      "The AWS CUDA execution proof remains deferred until the us-west-2 On-Demand G and VT quota reaches four vCPUs.",
+      "Authenticated WSS and Observatory browser integration remain deferred behind issue 5832 and are not claimed by this foundation slice."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f1a3ed40172b6cb7f131d4994c72578ac1c34a92a430c79469ac82fb563c328a",
+      "values_digest": "b362a894f0c41301eb02826750aa2aa3347ad62e52598a45d28e51cd621994c1",
       "rendered_digest": "8711735ab9715d666a6ed98a42d95ced1bce438c0cdc1d2e723d8b622af12214",
       "ast_digest": "23799561d6fbdb18697292ba3a7b0dc86cd314122af9a2cd9da41ad1cd8736a8"
     },
     "stp": {
-      "values_digest": "965340d9574b5d6e2a6a04f673ed9d8dddc112cf700e37841d7d11c252ef345b",
+      "values_digest": "141c9279f24f34181aa116a11e4259907d8cc4216777f4f2e701225e4e53eec4",
       "rendered_digest": "35cc53fafbffb6049454b2b29e8b3692692ff2c0f9ae61ace2d5cedca66776bc",
       "ast_digest": "c0316a34236b0f6c806267cc6324d4fb9ffa46f1848291a9d1b01bea4b24af21"
     },
     "spp": {
-      "values_digest": "640f22e1d3d609eba8e94da90a5baba63f105474b35fd06c365ee4aae100a3f2",
+      "values_digest": "97e86992052079dfb7e3967919d516cd5e74351606a4741c95470dc8b126bf1c",
       "rendered_digest": "0545419eb0fa8b659aa1a6ce7548af99b0758ee2eee5c34972cb709df4bdbed5",
       "ast_digest": "decc39e51c2100224ace37f2d516138d9e1f9d40cafb2f4b7a18d4f979fbad26"
     },
     "vpp": {
-      "values_digest": "073f52cd4637230a0b27ad620b7bf23458f4e0d385dc4bc58c99c0f822859182",
+      "values_digest": "610ee27854963709ddbbfe34dabd0d97de72f106f81fcb760808266645eabd0b",
       "rendered_digest": "f877b02302545a32c5ffb3912440194f3dd5004ee02c8e2cb14c0f8c319fa7ab",
       "ast_digest": "eaa7a639cf236dadeef7e6ffc646c0d333e82a808d326eb6acfd753f876b0f30"
     },
     "srp": {
-      "values_digest": "225c871e327573de953eb75cb115602f2c38e3246affbaf167aec2ad69efd90d",
-      "rendered_digest": "e3f361c41322cbe30f643af742a4a48adcd9aa2e84dd22c49f474180876b57eb",
-      "ast_digest": "b8bdbd3e726f6e16200fdbaec307e5dcd8161488b319b5c0f2d6307623bfbc98"
+      "values_digest": "d2ebacc5a57c7ed1b10339e328a2ae954e44a743266452ff23e5e20dcff8e226",
+      "rendered_digest": "bd8bf2654f2f20d008e31d0d839b7e5f97a1691a744371a7c0c4987ed7543891",
+      "ast_digest": "9992c30813e2c36cb870f184b15f85ced7e912cd1fdc5ca36e31f8b396648b3a"
     },
     "sor": {
-      "values_digest": "75b9dce84c2d3f2044bf058acd143a53486fca61e26efb669c9c6b969fb60119",
+      "values_digest": "f338d931cb0e38b93b4bdd3b2c11fb75f554f7a5e69154b709ed04f51261a35e",
       "rendered_digest": "34c608cf425ecdbe7a98d3161b486895d3413a52d8004ef0baa04367230449ee",
       "ast_digest": "598f71bc129bf3d2df497ff11879f81611949f05fc6296e1b918d09eca6c6da3"
     }
@@ -96,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:issue-5795-shepherd-foundation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5795-review-record",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -553,6 +580,20 @@
       "actor": "codex:issue-5795-review-remediation",
       "reason": "Narrow the execution claim to the approved process-group and observed-descendant containment boundary.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the bounded local Gemma Shepherd foundation with governed admission, exact runner and model binding, failure isolation, real local MLX proof, and a quota-gated one-instance AWS CUDA proof runner.\",\"changes\":[\"Added the bounded LocalShepherdExecutor and governed operation contract.\",\"Added process-group and observed-descendant cleanup plus cancellation, timeout, output, memory, and concurrency enforcement under the trusted-runner contract.\",\"Added exact runner-byte, nonce, backend, model, and artifact attestation.\",\"Added real local MLX smoke proof and a pinned portable CUDA artifact bundle contract.\",\"Added a one-instance, one-bootstrap AWS proof runner with owner-bound locking and three cleanup layers.\"],\"artifacts\":[\".csdlc/evidence/5795/foundation/shepherd-contract.log\",\".csdlc/evidence/5795/foundation/kernel-clippy.log\",\".csdlc/evidence/5795/foundation/runtime-clippy.log\",\".csdlc/evidence/5795/foundation/mac-mlx-real-local-model-smoke.json\",\".csdlc/evidence/5795/foundation/aws-gpu-preflight.json\",\".csdlc/evidence/5795/foundation/aws-deadline-reaper.json\",\".csdlc/evidence/5795/foundation/aws-lock-collision.json\",\".csdlc/evidence/5795/foundation/portable-model-publication.json\"],\"validation\":[{\"command\":[\"bash\",\"-n\",\"adl/tools/run_wp5795_aws_gpu_proof.sh\"],\"purpose\":\"Parse the bounded AWS proof runner without executing it.\",\"outcome\":\"passed\",\"evidence_ref\":\"aws-runner-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-head diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head-hygiene.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"shepherd_local_model\",\"real_local_model_smoke\",\"--\",\"--ignored\",\"--exact\",\"--nocapture\"],\"purpose\":\"Run the ignored real-local-model smoke against the configured local Ollama endpoint.\",\"outcome\":\"passed\",\"evidence_ref\":\"mac-mlx-real-local-model-smoke.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"shepherd\"],\"purpose\":\"Run the focused Shepherd kernel contract suite.\",\"outcome\":\"passed\",\"evidence_ref\":\"shepherd-foundation-contract.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"shepherd\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused kernel Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"shepherd-kernel-clippy.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"shepherd_local_model\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused runtime Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"shepherd-runtime-clippy.log\"}]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 48,
+      "actor": "codex:issue-5795-review-record",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 49,
+      "actor": "codex:issue-5795-review-record",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
