@@ -19,8 +19,8 @@ Add exact versus broad Rust selector semantics at the typed planning boundary, f
 - Typed exact, broad, and invalid Rust selector classification
 - Planning-time diagnostics for missing, conflicting, or ambiguous target selectors
 - csdlc-v2/tests/validation_selectors.rs
-- Compatibility proof for exact integration targets and intentional broad commands
-- Updated active skill/runbook examples where applicable
+- csdlc-v2/src/cards.rs validator integration
+- csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
 
 ## Acceptance
 

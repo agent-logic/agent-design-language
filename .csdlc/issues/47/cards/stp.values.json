@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
     "slug": "exact-rust-test-selectors",
     "version": "v0.92",
-    "generation": 5
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -18,8 +18,8 @@
         "Typed exact, broad, and invalid Rust selector classification",
         "Planning-time diagnostics for missing, conflicting, or ambiguous target selectors",
         "csdlc-v2/tests/validation_selectors.rs",
-        "Compatibility proof for exact integration targets and intentional broad commands",
-        "Updated active skill/runbook examples where applicable"
+        "csdlc-v2/src/cards.rs validator integration",
+        "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
       ],
       "acceptance_criteria": [
         "AC-1: A named schema lane uses an exact Cargo target boundary and selects a nonzero set of schema unit tests",

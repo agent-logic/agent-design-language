@@ -347,6 +347,18 @@ pub struct ValidationLane {
     pub defer_reason: Option<String>,
 }
 
+closed_enum!(RustTestSelectorPosture {
+    ExactTarget,
+    IntentionalBroad,
+    Invalid,
+});
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RustTestSelectorClassification {
+    pub posture: RustTestSelectorPosture,
+    pub diagnostic: Option<String>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct VppValues {
     pub summary: String,
@@ -1567,7 +1579,153 @@ fn validate_validation_lanes(lanes: &[ValidationLane]) -> Result<()> {
             "validation lanes must be unique and complete",
         ));
     }
+    for lane in lanes {
+        if let Some(classification) = classify_rust_test_selector(&lane.argv) {
+            if classification.posture == RustTestSelectorPosture::Invalid {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    classification
+                        .diagnostic
+                        .unwrap_or_else(|| "invalid Rust test selector".into()),
+                ));
+            }
+        }
+    }
     Ok(())
+}
+
+pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorClassification> {
+    let executable = argv
+        .first()
+        .and_then(|value| Path::new(value).file_name())
+        .and_then(|value| value.to_str());
+    if executable != Some("cargo") || argv.get(1).map(String::as_str) != Some("test") {
+        return None;
+    }
+
+    let target_flags = [
+        "--lib",
+        "--bins",
+        "--tests",
+        "--examples",
+        "--benches",
+        "--all-targets",
+    ];
+    let named_target_flags = ["--test", "--bin", "--example", "--bench"];
+    let value_flags = [
+        "--manifest-path",
+        "--package",
+        "-p",
+        "--exclude",
+        "--features",
+        "--target",
+        "--target-dir",
+        "--profile",
+        "--jobs",
+        "-j",
+        "--color",
+        "--config",
+        "--message-format",
+    ];
+    let mut target_boundaries = 0_u8;
+    let mut filter = None;
+    let mut index = 2;
+    while index < argv.len() {
+        let value = &argv[index];
+        if value == "--" {
+            break;
+        }
+        if target_flags.contains(&value.as_str()) {
+            target_boundaries += 1;
+            index += 1;
+            continue;
+        }
+        if named_target_flags.contains(&value.as_str()) {
+            let Some(name) = argv.get(index + 1).filter(|name| !name.starts_with('-')) else {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test selector `{value}` requires a target name"
+                )));
+            };
+            if name.trim().is_empty() {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test selector `{value}` requires a non-empty target name"
+                )));
+            }
+            target_boundaries += 1;
+            index += 2;
+            continue;
+        }
+        if named_target_flags
+            .iter()
+            .any(|flag| value.starts_with(&format!("{flag}=")))
+        {
+            if value.ends_with('=') {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test selector `{value}` requires a target name"
+                )));
+            }
+            target_boundaries += 1;
+            index += 1;
+            continue;
+        }
+        if value_flags.contains(&value.as_str()) {
+            if argv.get(index + 1).is_none_or(|next| next.starts_with('-')) {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test option `{value}` requires a value"
+                )));
+            }
+            index += 2;
+            continue;
+        }
+        if value_flags
+            .iter()
+            .any(|flag| value.starts_with(&format!("{flag}=")))
+        {
+            index += 1;
+            continue;
+        }
+        if value.starts_with('-') {
+            index += 1;
+            continue;
+        }
+        if filter.replace(value.as_str()).is_some() {
+            return Some(invalid_rust_selector(
+                "cargo test lane contains multiple free substring selectors; declare one exact target with `--lib`, `--test <name>`, `--bin <name>`, `--example <name>`, or `--bench <name>`"
+                    .into(),
+            ));
+        }
+        index += 1;
+    }
+
+    if target_boundaries > 1 {
+        return Some(invalid_rust_selector(
+            "cargo test lane has conflicting target selectors; declare exactly one target boundary"
+                .into(),
+        ));
+    }
+    if target_boundaries == 0 {
+        if let Some(filter) = filter {
+            return Some(invalid_rust_selector(format!(
+                "cargo test lane uses free substring selector `{}` without a target boundary; use `--lib {}` or `--test <target>`",
+                filter, filter
+            )));
+        }
+    }
+    Some(RustTestSelectorClassification {
+        posture: if target_boundaries == 0 {
+            RustTestSelectorPosture::IntentionalBroad
+        } else {
+            RustTestSelectorPosture::ExactTarget
+        },
+        diagnostic: None,
+    })
+}
+
+fn invalid_rust_selector(diagnostic: String) -> RustTestSelectorClassification {
+    RustTestSelectorClassification {
+        posture: RustTestSelectorPosture::Invalid,
+        diagnostic: Some(diagnostic),
+    }
 }
 
 fn placeholder(value: &str) -> bool {
@@ -2408,8 +2566,8 @@ mod tests {
     use std::fs;
 
     use super::{
-        owned_path_at, proving_lane_at, terminal_validation_passed, EvidenceOutcome,
-        ResourceProfile, ValidationLane, ValidationResult,
+        owned_path_at, proving_lane_at, terminal_validation_passed, validate_validation_lanes,
+        ErrorCode, EvidenceOutcome, ResourceProfile, ValidationLane, ValidationResult,
     };
 
     fn lane(argv: &[&str]) -> ValidationLane {
@@ -2498,6 +2656,37 @@ mod tests {
             &lane(&["bash", "../outside.sh"]),
             &["../outside.sh".into()]
         ));
+    }
+
+    #[test]
+    fn validation_lane_rejects_free_rust_test_substring_before_execution() {
+        let ambiguous = lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "schema",
+        ]);
+        let error = validate_validation_lanes(&[ambiguous]).expect_err("ambiguous selector");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        assert!(validate_validation_lanes(&[lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+        ])])
+        .is_ok());
+        assert!(validate_validation_lanes(&[lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "schema::tests",
+        ])])
+        .is_ok());
     }
 
     #[cfg(unix)]
