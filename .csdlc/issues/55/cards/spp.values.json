@@ -7,7 +7,7 @@
     "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
     "slug": "coverage-aggregate-big-runner",
     "version": "v0.92",
-    "generation": 17
+    "generation": 18
   },
   "status": "ready",
   "content": {
