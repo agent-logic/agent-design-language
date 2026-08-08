@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7267ce23765f7123ab0ffbb966ebbd8848190136f77b904b3649ddf6830c9e75",
   "phase": "initialized",
-  "generation": 18,
-  "digest": "4b353b59f4c1e7721b92279028154a755fa2dfc3b9426f7eaeab8289979e4b5d",
+  "generation": 22,
+  "digest": "da4f53cd2d4b9165eea3e5daa4c9b620d95d9fb72d7d1689935b9c0b4da32ad2",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5869/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5821-wp04-child-certificate-design-review",
-      "revision": "8ee5527fc6675fcf43efb635ba076b597dbc369dad65665aa330420853f33fba"
+      "reviewer": "codex:5821-wp04-certificate-interoperability-design-review",
+      "revision": "8009d706b24f9e0f004387d7eaac94192b9acef76edb1a863f903182b9e7ba40"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "adbbac805f69a7a92d2c5a0e63fa4c54a60f0b6e1a56a77599d374b2fe987bfa",
+      "values_digest": "8d756fe8c3488554af90351f502eb62e4f5e23693085d6624e519def1b87976e",
       "rendered_digest": "915a87b5c0755a09de2bce9b968dd46d45c0ea91f90f7ae668f09b3c87781c61",
       "ast_digest": "dfcec8a5b3c3b92ec7ad00abf208167c2816d820dfed48c0c0ad3f0a73bf581d"
     },
     "stp": {
-      "values_digest": "d4102944c330302585fc6c42217c732bfab542d259d515839008d43fa3b9457f",
-      "rendered_digest": "2e0f06677258251ce8206bfea8b6c5bd3039c63419603a9096388a9ba329060c",
-      "ast_digest": "4e734837b4fb67615c8e3ee6238e0c8f562cfa7fa3ca099c2fc4d6f1d2ac38d3"
+      "values_digest": "f318cb10a72334a204bd88e2f928e22d7de357058f1029213b728c3e86a8a328",
+      "rendered_digest": "48e640bfa02ee0bf40619b56ff7a77fc852f08edd8028eed66a0b552611743ff",
+      "ast_digest": "87191b092ac7883cf61b40a27d1926e75713fe88710d025047342a6a9ce05780"
     },
     "spp": {
-      "values_digest": "904a6341f8ec645e1bc2652a9dd2077b1824de7b8aa7dab440c5622484f9bad0",
-      "rendered_digest": "656b3c0c95ff83648eb4521ceca098c1b927eae0092dec2e8417ba7e88d63dcb",
-      "ast_digest": "da2a199f4a50bc39d5cab94ee204ce3b413e3bf84c807c66233f18fb4fd84283"
+      "values_digest": "6ede4b7dc8bb3491849e0275da1f354f33ed0f20d533a6edead456cc96e8e80a",
+      "rendered_digest": "a07d9d668579b0ff02a90b43c93c23c9e359840d4bfa854db98dd16dd9fe508d",
+      "ast_digest": "e9880482dfd20336f5fe5b0240aa16725dfab341429a1e1b17610b021e8676b6"
     },
     "vpp": {
-      "values_digest": "72f8d0789f1cf6672b3305f93e38cf2fddcf08589422fb75168a26d76c5d2794",
-      "rendered_digest": "f611b7eea250eb15afea3fd05f0ba3507493028b35dd2747e3be8cab48e21f8c",
-      "ast_digest": "b57fe7a56daa8206ee5164a4f9c56679403c014d4592eab1b2f7cfedf3fe0e0a"
+      "values_digest": "e949c2cd7d53ba4c6d92140c59b0835602c7a6b7f6271fb9d6bf3c194e26c2eb",
+      "rendered_digest": "85e3b6a5fd20cd46af18446632de95459d5320c9026877f99f4b14c4f498e042",
+      "ast_digest": "e4034eb0c5998f7731bfcae5f82acd3e1237edd649413fd403e1d7fbf27f6ea2"
     },
     "srp": {
-      "values_digest": "20cd8d34cb5b86d4ca7ae1eb1dbc0e97e12cb96453c487dbfa25b25d9a712aa5",
+      "values_digest": "0ea504642821f3bb7f8fcedb3f52e86ad21d0c53e6214a93cdd908452881d307",
       "rendered_digest": "027da3cdb5f1b780031f84fd41dc54354275b0483923ff4175506e92b231ee17",
       "ast_digest": "4b054b5ead22ac0d9e91daeee381de242d3184a73d613e692d5e65d2da0879a6"
     },
     "sor": {
-      "values_digest": "a24f7d3e154389c0fb7e5db2449ea7d2394a4fde2607e26984ceae5b9c31c687",
+      "values_digest": "bf0468e17ed05f76417dc79e9a6e234412b5bac0dc5fc96a2c3d4b38e0c8b0e4",
       "rendered_digest": "bb45e6e1db31068c0354adcbb0695a85fdbf9cf4038b21605b23353ce83702fa",
       "ast_digest": "0f8fb984437a074332d2881b9d9334d865d1f7c4409a29be9b99a4174e353f05"
     }
@@ -315,6 +315,34 @@
       "actor": "codex:5821-wp04-child-certificate-repair",
       "reason": "Require exact negative proof for joint quorum and certificate interoperability.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement, rejects a union majority lacking either constituent majority, and proves canonical AuthorityCertificateV1 Ed25519 algorithm identity, 32-byte public keys, 64-byte signatures, ADL-AUTHORITY-CERTIFICATE-V1\\\\0 domain separation, SHA-256, deterministic prost encoding, malformed/noncanonical encoding denial, activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=67c48658cb585b04994978da823640a32be4602799401649195121fd796ce598]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5869/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 19,
+      "actor": "codex:5821-wp04-certificate-interoperability-design-review",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 36,
+      "generation": 20,
+      "actor": "codex:5821-wp04-certificate-interoperability-repair",
+      "reason": "Freeze the child deliverables to the exact protobuf and strict Ed25519 verification contract.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"OpenRaft authority and leases whose endorsements use a stable majority or both constituent majorities during joint membership\",\"A negative test proving a union majority without either constituent majority is rejected\",\"AuthorityCertificateV1 using the fixed protobuf tag and wire-type table, closed operation classes, exact identity bytes, and unsigned lexicographic signer ordering\",\"Ed25519 verification using ed25519-dalek VerifyingKey::verify_strict, 32-byte public keys, 64-byte R || S signatures, the exact ADL-AUTHORITY-CERTIFICATE-V1\\\\0 domain, SHA-256, and deterministic prost encoding\",\"Negative tests for wrong algorithms, malformed key/signature lengths, unknown or duplicate fields, non-minimal varints, noncanonical scalar or point encodings, unsorted or duplicate signers, decode/re-encode mismatch, and noncanonical field ordering\",\"Digest-bound execution proof and reviewed rollback evidence\",\"Authority recovery only from a quorum-proven committed prefix; local durability, a leader assertion, or a minority history never grants authority\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 21,
+      "actor": "codex:5821-wp04-certificate-interoperability-repair",
+      "reason": "Bind the operative plan to the exact protobuf and strict Ed25519 verification invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Exclusive paths remain disjoint\",\"Guardian stays process 0\",\"No insecure or Runtime v2 fallback\",\"Queues and waits remain bounded\",\"Evidence is exact-revision and digest bound\",\"Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority\",\"AuthorityCertificateV1 uses the frozen protobuf field numbers and wire types, closed operation classes, exact identity bytes, and unsigned lexicographic signer-ID ordering\",\"AuthorityCertificateV1 accepts only the frozen Ed25519 key, signature, domain-separation, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict contract\"]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 22,
+      "actor": "codex:5821-wp04-certificate-interoperability-repair",
+      "reason": "Require exact negative proof for the frozen protobuf and strict Ed25519 verification contract.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement; rejects a union majority lacking either constituent majority; enforces the fixed AuthorityCertificateBodyV1 and AuthorityEndorsementV1 protobuf tag and wire-type table, closed operation classes, exact identity bytes, unsigned lexicographic unique signer ordering, canonical decode/re-encode byte equality, Ed25519 algorithm identity, 32-byte public keys, 64-byte R || S signatures, ADL-AUTHORITY-CERTIFICATE-V1\\\\0 domain separation, SHA-256, and VerifyingKey::verify_strict; rejects wrong algorithms, malformed lengths, unknown or duplicate fields, non-minimal varints, unsorted or duplicate signers, noncanonical scalar or point encodings, and byte-mismatched re-encoding; and proves activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=67c48658cb585b04994978da823640a32be4602799401649195121fd796ce598]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5869/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }

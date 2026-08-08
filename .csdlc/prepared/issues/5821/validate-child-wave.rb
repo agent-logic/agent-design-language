@@ -56,7 +56,7 @@ expected_dependencies = {
   "WP-04.16" => (1..15).map { |number| format("WP-04.%02d", number) }
 }.freeze
 authority_contracts = {
-  5869 => ["authoritycertificatev1", "joint membership", "majority-committed", "majorities of both", "union majority", "ed25519", "adl-authority-certificate-v1", "32-byte", "64-byte", "unknown/duplicate/non-minimal", "activation-key possession", "mutation-sink", "malicious-leader/minority"],
+  5869 => ["authoritycertificatev1", "joint membership", "majority-committed", "majorities of both", "union majority", "ed25519", "verify_strict", "adl-authority-certificate-v1", "unsigned lexicographic", "protobuf tag and wire-type", "32-byte", "64-byte", "unknown/duplicate/non-minimal", "activation-key possession", "mutation-sink", "malicious-leader/minority"],
   5870 => ["authoritycertificatev1", "mutation sink", "majority-certificate", "activation possession", "quorum-committed", "lease safety window"],
   5875 => ["before fence", "after fence", "source-permit revocation", "majority-committed fencing", "activation-key", "non-authoritative"],
   5876 => ["majority-committed", "authoritycertificatev1", "divergent local histories", "malicious-leader/minority", "quorum proof", "trust-domain recovery"]

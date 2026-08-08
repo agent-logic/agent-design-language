@@ -182,8 +182,11 @@ assumptions fail, operator-led trust-domain generation recovery is required.
 - **Mitigations:** Verify the majority-committed `openraft` authority-ledger
   epoch, log index, activation incarnation, and current fencing token at every
   mutation sink. `AuthorityCertificateV1` must contain distinct valid
-  purpose-bound signatures from a strict majority of the committed voter-set
-  generation; a leader assertion or minority cannot renew or replace authority.
+  purpose-bound signatures satisfying the committed membership quorum: a
+  strict majority in a stable configuration, or strict majorities of both the
+  old and new voter sets during joint membership. A union majority missing
+  either constituent majority, a leader assertion, or a minority cannot renew
+  or replace authority.
   Never un-fence both sides; wait the old lease deadline plus clock/message
   uncertainty before replacement activation; and require operator action when
   a majority cannot establish one owner. Rollback failure leaves both

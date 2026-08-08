@@ -165,11 +165,54 @@ log entry, proves possession of the same activation key, and cannot change
 holder or incarnation. A clone therefore cannot renew a copied lease; a second
 activation requires a newer committed epoch after the prior safety window.
 
-`AuthorityCertificateV1` is a canonical `prost` message containing the schema
-version, trust domain, lineage, voter-set generation, Raft term and committed
-log index, epoch, holder node and Guardian identities, activation-key digest,
-operation class, issued UTC time, lease duration, policy digest, and signing
-algorithm identifier `ed25519`. Version 1 uses RustCrypto `ed25519-dalek`: each
+`AuthorityCertificateV1` is the following frozen protobuf v3 wire contract;
+field numbers, scalar types, and nesting are part of version 1 and may not be
+reinterpreted:
+
+```proto
+syntax = "proto3";
+
+message AuthorityCertificateBodyV1 {
+  uint32 schema_version = 1;           // MUST equal 1
+  bytes trust_domain_id = 2;
+  bytes lineage_id = 3;
+  uint64 voter_set_generation = 4;
+  uint64 raft_term = 5;
+  uint64 committed_log_index = 6;
+  uint64 epoch = 7;
+  bytes holder_node_id = 8;
+  bytes holder_guardian_id = 9;
+  bytes activation_key_sha256 = 10;    // exactly 32 bytes
+  uint32 operation_class = 11;
+  int64 issued_unix_seconds = 12;
+  uint32 issued_nanos = 13;            // 0..999999999
+  uint64 lease_duration_millis = 14;
+  bytes policy_sha256 = 15;            // exactly 32 bytes
+  uint32 signing_algorithm = 16;       // 1 = Ed25519
+}
+
+message AuthorityEndorsementV1 {
+  bytes signer_guardian_id = 1;
+  uint64 certificate_generation = 2;
+  uint32 signing_algorithm = 3;        // 1 = Ed25519
+  bytes signature = 4;                 // exactly 64 bytes, R || S
+}
+
+message AuthorityCertificateV1 {
+  AuthorityCertificateBodyV1 body = 1;
+  repeated AuthorityEndorsementV1 endorsements = 2;
+}
+```
+
+`operation_class` is closed: `1=lease_grant`, `2=lease_renewal`, `3=fence`,
+`4=activate`, `5=owner_commit`, and `6=revoke`; zero and every unknown value
+are rejected. Identity fields contain the exact non-empty canonical identity
+bytes from their owning durable records and receive no Unicode, case, or other
+normalization. Endorsements are unique by `signer_guardian_id` and sorted by
+unsigned lexicographic comparison of that byte string, with no secondary sort
+key.
+
+Version 1 uses RustCrypto `ed25519-dalek`: each
 control public key is the 32-byte compressed Edwards-Y coordinate accepted by
 `VerifyingKey::from_bytes`, and each signature is the 64-byte `R || S` encoding
 accepted by `Signature::from_bytes`. The signing preimage is the ASCII domain
@@ -178,9 +221,13 @@ separator `ADL-AUTHORITY-CERTIFICATE-V1\0` followed by the deterministic
 endorsement list omitted. Version 1 forbids protobuf maps, requires fields in
 declared tag order, requires repeated fields to be pre-sorted by their specified
 identity order, rejects duplicate singular or signer fields, rejects unknown
-fields, and rejects non-minimal varints before re-encoding. The signed digest is
-`SHA-256(preimage)`. Any other algorithm identifier, key length, signature
-length, encoding, or canonicalization is rejected.
+fields, and rejects non-minimal varints before decoding. After those wire checks,
+the verifier decodes with `prost`, re-encodes, and requires byte-for-byte equality
+with the received canonical body. The signed digest is `SHA-256(preimage)`.
+Verification calls `ed25519_dalek::VerifyingKey::verify_strict` on that 32-byte
+digest and the parsed signature. Plain `verify`, Ed25519ph, Ed25519ctx,
+non-canonical scalar or point encodings, and every other algorithm identifier,
+key length, signature length, encoding, or canonicalization are rejected.
 
 The certificate carries each distinct signer identity, certificate generation,
 and Ed25519 signature. The signer identities must satisfy the exact quorum rule

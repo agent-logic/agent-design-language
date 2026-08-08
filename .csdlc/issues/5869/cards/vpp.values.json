@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.07] Epoch and lease authority",
     "slug": "v0-92-wp-04-07-epoch-lease-authority",
     "version": "v0.92",
-    "generation": 18
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement, rejects a union majority lacking either constituent majority, and proves canonical AuthorityCertificateV1 Ed25519 algorithm identity, 32-byte public keys, 64-byte signatures, ADL-AUTHORITY-CERTIFICATE-V1\\0 domain separation, SHA-256, deterministic prost encoding, malformed/noncanonical encoding denial, activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.",
+          "proof_role": "Exact nextest target distributed_lease proves stable-majority and joint old-plus-new majority endorsement; rejects a union majority lacking either constituent majority; enforces the fixed AuthorityCertificateBodyV1 and AuthorityEndorsementV1 protobuf tag and wire-type table, closed operation classes, exact identity bytes, unsigned lexicographic unique signer ordering, canonical decode/re-encode byte equality, Ed25519 algorithm identity, 32-byte public keys, 64-byte R || S signatures, ADL-AUTHORITY-CERTIFICATE-V1\\0 domain separation, SHA-256, and VerifyingKey::verify_strict; rejects wrong algorithms, malformed lengths, unknown or duplicate fields, non-minimal varints, unsorted or duplicate signers, noncanonical scalar or point encodings, and byte-mismatched re-encoding; and proves activation possession, applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader denial, clock uncertainty, stale-holder denial, and restart recovery.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -66,7 +66,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on stale dependencies, path overlap, zero tests, invalid evidence, insecure fallback, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/5869/design.md",
-      "design_digest": "8ee5527fc6675fcf43efb635ba076b597dbc369dad65665aa330420853f33fba",
+      "design_digest": "8009d706b24f9e0f004387d7eaac94192b9acef76edb1a863f903182b9e7ba40",
       "diagram_ref": ".csdlc/prepared/issues/5869/diagram.mmd",
       "diagram_digest": "b6214f3f6d8281d9eabcf54b42092e69517d8f3cbb616f27313f0b7265a97d07"
     }

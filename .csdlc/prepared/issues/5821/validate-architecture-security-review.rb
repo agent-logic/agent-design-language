@@ -39,7 +39,7 @@ required_architecture = {
   "## Certificate Purposes And Lifecycle" => ["not interchangeable", "actively closes affected sessions", "revalidates", "revocation"],
   "## Maintained QUIC/TLS Transport" => ["quinn", "rustls", "prost", "custom cryptography", "custom wire framing"],
   "## Discovery, Join, And Membership" => ["seeds as addresses, never trust anchors", "deterministic order", "committed epoch"],
-  "## Epochs, Leases, And Fencing" => ["openraft", "at least three voters", "non-voting learners", "joint membership", "majority of both", "union majority", "linearization point", "leader term", "committed log index", "certificate generation", "ed25519", "adl-authority-certificate-v1", "32-byte", "64-byte", "unknown fields", "duplicate", "Quorum loss", "numerically highest local epoch"],
+  "## Epochs, Leases, And Fencing" => ["openraft", "at least three voters", "non-voting learners", "joint membership", "majority of both", "union majority", "linearization point", "leader term", "committed log index", "certificate generation", "AuthorityCertificateBodyV1", "AuthorityEndorsementV1", "operation_class", "ed25519", "verify_strict", "adl-authority-certificate-v1", "unsigned lexicographic", "32-byte", "64-byte", "unknown fields", "duplicate", "Quorum loss", "numerically highest local epoch"],
   "## Advertisements And Placement" => ["deterministic placement", "stable tie-break order", "fenced node", "no eligible target"],
   "## Snapshot And Migration Protocol" => ["prepare -> quiesce -> checkpoint -> transfer -> validate -> fence -> activate -> commit", "prior lease safety", "source permit"],
   "## Rollback And Recovery" => ["Before `fence`", "After `fence`, before `activate`", "both remain fenced"],
@@ -64,7 +64,7 @@ required_threats = {
   "### T7: Forged capability or resource-weather evidence" => ["signatures", "freshness", "never grant authority"],
   "### T8: Snapshot substitution or disclosure" => ["chunk digests", "authenticated encrypted transport", "isolated restore"],
   "### T9: Relocation failure" => ["source authority retained", "target activation only after fence", "failure-stage recovery"],
-  "### T10: Rollback failure or ambiguous commit" => ["majority-committed", "minority cannot renew", "both candidates fenced"],
+  "### T10: Rollback failure or ambiguous commit" => ["majority-committed", "strict majorities of both", "union majority", "minority cannot renew", "both candidates fenced"],
   "### T11: Projection, log, or audit leakage and poisoning" => ["field-level redaction", "bounded labels", "diagnostic evidence"]
 }
 required_threats.each do |heading, terms|

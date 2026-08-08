@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -67,7 +67,8 @@ Revision 3
 - Queues and waits remain bounded
 - Evidence is exact-revision and digest bound
 - Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority
-- AuthorityCertificateV1 accepts only the frozen Ed25519 key, signature, domain-separation, SHA-256, and deterministic prost encoding contract
+- AuthorityCertificateV1 uses the frozen protobuf field numbers and wire types, closed operation classes, exact identity bytes, and unsigned lexicographic signer-ID ordering
+- AuthorityCertificateV1 accepts only the frozen Ed25519 key, signature, domain-separation, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict contract
 
 ## Risks
 
@@ -88,7 +89,7 @@ Revision 3
 
 .csdlc/prepared/issues/5869/design.md
 
-Digest: 8ee5527fc6675fcf43efb635ba076b597dbc369dad65665aa330420853f33fba
+Digest: 8009d706b24f9e0f004387d7eaac94192b9acef76edb1a863f903182b9e7ba40
 
 ## Diagram
 
