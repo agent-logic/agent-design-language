@@ -1,0 +1,12 @@
+flowchart TD
+    V[VPP typed argv] --> C{cargo test command?}
+    C -->|no| O[Use other typed validator rules]
+    C -->|yes| T{Exact Cargo target selector?}
+    T -->|yes| E[Exact target lane\n--lib / --test / --bin]
+    E --> N{Selected tests nonzero?}
+    N -->|yes| RUN[Run only declared target boundary]
+    N -->|no| FAIL0[Fail: lane proves nothing]
+    T -->|no| F{Trailing free substring?}
+    F -->|yes| FAIL1[Fail planning:\nambiguous selector]
+    F -->|no| BROAD[Intentional broad crate lane]
+    BROAD --> ALL[Run broad intended targets truthfully]

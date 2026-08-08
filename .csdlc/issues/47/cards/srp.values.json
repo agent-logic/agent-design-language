@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 47,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
+    "slug": "exact-rust-test-selectors",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #47 typed Rust selector classification, diagnostics, focused exact/broad/invalid proof, and directly affected active planning guidance.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any accepted named lane still fan out across unrelated Cargo test targets?",
+        "Does exact schema proof select a nonzero intended unit-test set and exclude estimation_contracts?",
+        "Do intentional broad commands remain supported without being misclassified?",
+        "Are invalid-selector diagnostics specific enough to provide a corrected command?",
+        "Do active skills/runbooks distinguish target boundaries from test-name filters?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
