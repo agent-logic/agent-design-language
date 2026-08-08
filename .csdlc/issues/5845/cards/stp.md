@@ -19,8 +19,13 @@ Create and validate the ten review-ready production packages using retained Podc
 - Ten complete episode directories
 - Ten final MP3 and archive-audio artifacts with manifests
 - Validated feed and enclosure records
-- Audio, redaction, guest, metadata, playback, and listen-check QA
-- Exact-head editorial/audio review
+- Audio, redaction, guest, metadata, playback, and listening QA evidence
+- Exact-head editorial and audio review
+- adl/tools/test_podcast_launch_packet.sh
+- adl/tools/record_podcast_native_playback.sh
+- adl/tools/record_podcast_browser_playback.mjs
+- adl/tools/record_podcast_ios_safari_playback.sh
+- .csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb
 
 ## Acceptance
 

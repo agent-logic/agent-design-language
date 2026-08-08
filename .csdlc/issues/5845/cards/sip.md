@@ -32,6 +32,9 @@ Each of the first ten episodes is independently reviewable and contains final sc
 ## Authority
 
 - WP-24A owns ten review-ready local episode packages
+- Issue authority remains danielbaustin/agent-design-language#5845
+- Code and pull-request publication target agent-logic/agent-design-language
+- The implementation PR must use Closes danielbaustin/agent-design-language#5845
 - #5819 and the route/storage decision identify any canonical public destination
 - #3223/#3256 provide retained production-pipeline proof
 - The operator retains deployment and publication authority
