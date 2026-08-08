@@ -292,7 +292,14 @@ pub async fn execute_github_action(
         }
         GithubAction::IssueRead => {
             let number = required_issue(request)?;
-            read_issue_packet(&crab, owner, repo, number, request.operation_key.as_deref()).await?
+            let value = fetch_issue_value(&crab, owner, repo, number)
+                .await
+                .map_err(|error| classify_issue_read_error(error, &request.repository, number))?;
+            normalize_issue(
+                &request.repository,
+                &value,
+                request.operation_key.as_deref(),
+            )?
         }
         GithubAction::PrState => unreachable!("handled above"),
     };
@@ -540,14 +547,104 @@ async fn read_issue_packet(
     number: u64,
     marker: Option<&str>,
 ) -> crate::Result<GithubIssuePacket> {
-    let value: Value = crab
-        .get(
-            format!("/repos/{owner}/{repo}/issues/{number}"),
-            None::<&()>,
-        )
+    let value = fetch_issue_value(crab, owner, repo, number)
         .await
         .map_err(remote)?;
     normalize_issue(&format!("{owner}/{repo}"), &value, marker)
+}
+
+async fn fetch_issue_value(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+) -> Result<Value, octocrab::Error> {
+    crab.get(
+        format!("/repos/{owner}/{repo}/issues/{number}"),
+        None::<&()>,
+    )
+    .await
+}
+
+fn classify_issue_read_error(
+    error: octocrab::Error,
+    repository: &str,
+    number: u64,
+) -> crate::V2Error {
+    use crate::ErrorCode;
+
+    let (code, message) = match error {
+        octocrab::Error::GitHub { source, .. } => match source.status_code.as_u16() {
+            404 => (
+                ErrorCode::RemoteNotFound,
+                format!(
+                    "GitHub issue {repository}#{number} was not found or is inaccessible; verify the repository, issue number, and token access"
+                ),
+            ),
+            401 => (
+                ErrorCode::RemoteAuthentication,
+                format!("Authentication failed while reading {repository}#{number}"),
+            ),
+            403 if github_error_is_rate_limited(&source) => (
+                ErrorCode::RemoteRateLimited,
+                format!("GitHub rate limit prevented reading {repository}#{number}"),
+            ),
+            403 => (
+                ErrorCode::RemoteAuthorization,
+                format!("Authorization failed while reading {repository}#{number}"),
+            ),
+            429 => (
+                ErrorCode::RemoteRateLimited,
+                format!("GitHub rate limit prevented reading {repository}#{number}"),
+            ),
+            500..=599 => (
+                ErrorCode::RemoteServer,
+                format!("GitHub server failure prevented reading {repository}#{number}"),
+            ),
+            _ => (
+                ErrorCode::RemoteFailure,
+                format!("GitHub observation failed while reading {repository}#{number}"),
+            ),
+        },
+        octocrab::Error::Http { .. }
+        | octocrab::Error::Hyper { .. }
+        | octocrab::Error::Service { .. }
+        | octocrab::Error::Uri { .. }
+        | octocrab::Error::UriParse { .. } => (
+            ErrorCode::RemoteTransport,
+            format!("Transport failure prevented reading {repository}#{number}"),
+        ),
+        _ => (
+            ErrorCode::RemoteFailure,
+            format!("GitHub observation failed while reading {repository}#{number}"),
+        ),
+    };
+    crate::V2Error::new(code, message)
+}
+
+fn github_error_is_rate_limited(error: &octocrab::GitHubError) -> bool {
+    let message = error.message.trim().to_ascii_lowercase();
+    if message.starts_with("api rate limit exceeded")
+        || message
+            == "you have exceeded a secondary rate limit. please wait a few minutes before you try again."
+    {
+        return true;
+    }
+    let Some(documentation_url) = error.documentation_url.as_deref() else {
+        return false;
+    };
+    let Ok(url) = url::Url::parse(documentation_url) else {
+        return false;
+    };
+    if url.scheme() != "https" || url.host_str() != Some("docs.github.com") {
+        return false;
+    }
+    url.path() == "/rest/using-the-rest-api/rate-limits-for-the-rest-api"
+        || (url.path() == "/rest/overview/resources-in-the-rest-api"
+            && matches!(
+                url.fragment(),
+                Some("rate-limiting" | "secondary-rate-limits")
+            ))
 }
 
 fn normalize_issue(

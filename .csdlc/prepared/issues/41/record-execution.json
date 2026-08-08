@@ -1,0 +1,21 @@
+{
+  "issue": 41,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "877a6861d9f0d079f01f84ee30ced1e315c05363e93d515238e406690ba907dc",
+  "actor": "codex:41-execution",
+  "reason": "record the bounded issue-read classifier implementation before review",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added explicit IssueRead-only structured Octocrab failure classification with stable exit codes, bounded diagnostics, and real-binary loopback regression proof while preserving shared non-read behavior.",
+    "changes": [
+      "csdlc-v2/src/error.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/41/design.md",
+      ".csdlc/prepared/issues/41/diagram.mmd"
+    ]
+  }
+}

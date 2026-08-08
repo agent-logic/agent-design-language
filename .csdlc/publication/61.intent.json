@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 61,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/61-bind-topology-dot-records-preparation",
+  "title": "[v0.92][C-SDLC v2] Resolve historical bind topology records canonically",
+  "body": "Closes #61\n\n## Summary\n- resolve stored worktree identities from the canonical primary Git topology root\n- skip irrelevant historical projections before loading their authored artifacts\n- retain same-issue, stored-branch, and canonical-worktree predicates through reconciliation\n- require a complete collision scan and exact live Git topology before idempotent success\n\n## Validation\n- exact real-binary Gate 2 topology regression: passed\n- strict all-target C-SDLC v2 Clippy: passed\n- diff hygiene: passed\n- independent exact-head review: PASS, no findings\n\nNo AWS execution or broad repository test suite was used.",
+  "draft": false,
+  "revision": "git-blake3:3b294fbb0a54cb11cb397375331434a72c6a3e5f:7e89a9676f282c53359ba4b3234c9bd753b6236c3307e65a7345df58716510f2",
+  "commit_sha": "3b294fbb0a54cb11cb397375331434a72c6a3e5f"
+}
