@@ -98,11 +98,11 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route, and r
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
