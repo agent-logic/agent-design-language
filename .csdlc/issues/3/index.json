@@ -3,13 +3,67 @@
   "issue": 3,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c14a65d847b726bac60dc5ad69c2f16e486de3d5ecfa05b7e3d4582a8e183c1c",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "5e3feaabec532bf91a87072bb96941c209b1cf28debb4e1cf8f24a539bfe18dd",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "fc413abdc4ecc19aaa184fa1be0db294c54f9cbd986f8f50731a2dc6808be2de",
   "branch": "codex/3-cross-repository-publication-identity",
   "worktree": "/Volumes/FastWork/adl-csdlc-cross-repo-3",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:review_issue_3",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+    "findings": [
+      {
+        "id": "P1-canary-closure-causality",
+        "severity": "p1",
+        "summary": "Fixed: the canary now identifies canonical PR #4 as the causal closer and explicitly classifies later PR #5 as non-causal reconciliation evidence.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+        "route": null
+      },
+      {
+        "id": "P2-spp-step-truth-drift",
+        "severity": "p2",
+        "summary": "Fixed: all four implemented SPP steps are recorded completed through typed plan-step edits.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+        "route": null
+      },
+      {
+        "id": "P3-clippy-evidence-self-reference",
+        "severity": "p3",
+        "summary": "Fixed: warning-denied Clippy output is retained in an independent PVF-generated evidence log referenced by the SOR.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+        "route": null
+      },
+      {
+        "id": "P2-canary-closer-identity",
+        "severity": "p2",
+        "summary": "Fixed: retained GitHub ClosedEvent evidence names PullRequest, canonical repository, and PR #4, and the validator asserts each identity exactly.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Matching-PR pagination ambiguity is helper-tested rather than exercised through a live multi-page GitHub fixture.",
+      "The retained GitHub canary is a committed snapshot rather than a live re-query on every validation run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +78,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ddf1c34cb019a6d8cc6694e98ce854262f3e0dfeabdec9929859a24bbb0fb7a3",
+      "values_digest": "65a6545a4e1f05fe5c091995f425f242fee1fc6deb7b056309a01b1b5c3a9f34",
       "rendered_digest": "8691da25d6f4680732076fb087e5c00767c7ab4575fc736da5005a864ca77be2",
       "ast_digest": "7423f960d4958a3bdd117721447326957e73b51a991a796df81256ba153e8424"
     },
     "stp": {
-      "values_digest": "79ddaa17d5cee2954a3e218db0e3b01b98af17e338766d8e8473ab4c795694a5",
+      "values_digest": "3ae4b36793b82d230ef65bf1b5a71bbea60d432ac5a7b2a810aeec8c761c77bd",
       "rendered_digest": "b00709923e1ee553cbe9d666b59c322b1f788d586fa2536fbb7a2e3a7b021be4",
       "ast_digest": "9fccf6be64826555204e4e34d1177c7bec439318aa1da9722cf791581c8b8aed"
     },
     "spp": {
-      "values_digest": "679b379728ffcc6146199ab61f49e32204db8031c3abdec54d79d7b590c2ebb2",
+      "values_digest": "a215de8c228a72e3a0919d5e0440981712cb3cd9b296a96a2002f235b69584fa",
       "rendered_digest": "75e92277eb520c30f416895242fc5c7a13eccb9ab83cfd014be70343cc570fe1",
       "ast_digest": "9805159f0651a2e82f9aa4f69e21b6020b1edca289af2b8e568b127497513179"
     },
     "vpp": {
-      "values_digest": "bb827f33667c31e74a015be9f0e727398e8b03c14559e6bd721b81ed7e78d59b",
+      "values_digest": "f27c217f4f8df9e22b3c21a569851977b2da7182d27aa64c286189459fc117e8",
       "rendered_digest": "abc11d1b86be926e9678830bd157d795aabfacbc68ec68c6fdd99f51674e29e0",
       "ast_digest": "2d1bcc6d8d51363e217389ae3ee37d8aeccc26bdf81452225acef2808bde5d0a"
     },
     "srp": {
-      "values_digest": "d58e7f0ceeab40c10f09a5e632d20d55d15cf383dbd272999376bd9a612a71e0",
-      "rendered_digest": "6923329c4315bdbdc0fd654ccf2708a945154d164debb58f66d9854b823d5f31",
-      "ast_digest": "6328c6da06dc3e97715d1433a5367c7846c92bcd9a20803d267c8af19ede2109"
+      "values_digest": "2ec29f137c4c98056c6c24ca24b670f2ec60fce90030aa9fff71704dd887b6c7",
+      "rendered_digest": "5258855aaeca8dbfa259c608fdca48f9aedff74daa214b489f7ea01187896121",
+      "ast_digest": "b3dd9cc2e269d077a4461f8d8eaccf60e59cc0ec302361be9cbc46107f53e847"
     },
     "sor": {
-      "values_digest": "f7380f8d0ebbb9be9f52706564b6264a0404f2439843c911b2ea49294f32c140",
+      "values_digest": "00c2a2268df70333668680ca4a4ab462846ce8f0c654c548c49a0a5c27367081",
       "rendered_digest": "0260733536e27106130395ac67803a4ab7b1afbe07ed58d684dfb8f8e9c0810f",
       "ast_digest": "c8e8e15108792ea492cf324b5e6b8adaeb2645fd80fe6406cf0f4f514386ecc8"
     }
@@ -75,6 +129,13 @@
       "to": "implemented",
       "actor": "codex:issue-3-cross-repository-publication",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-3-cross-repository-publication",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -168,6 +229,13 @@
       "actor": "codex:issue-3-review-remediation",
       "reason": "Bind the corrected causal canary claim to its post-review retained validator log.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Hardened canonical C-SDLC v2 publication for preserved legacy issue authority and retained a causal split-authority closure canary.\",\"changes\":[\"Verified every configured fetch and effective push URL for the publication remote against the canonical code repository before pushing.\",\"Reconciled all pages of matching pull requests and rejected ambiguous publication identity.\",\"Added focused remote-substitution and ambiguity regression tests while preserving same-repository compatibility.\",\"Documented split issue and code repository authority for typed publication and finish.\",\"Retained GitHub timeline evidence proving canonical PR #4 causally closed legacy issue #5901, while identifying later PR #5 as non-causal reconciliation evidence.\"],\"artifacts\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\".csdlc/prepared/issues/3/split-authority-canary.json\",\".csdlc/prepared/issues/3/validate-split-authority-canary.rb\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--target-dir\",\"../adl-builds/csdlc-v2-issue-3\",\"--bin\",\"csdlc-publish\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\"],\"purpose\":\"Run the focused C-SDLC v2 publication and finish regression surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/csdlc-publication-focused.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/3/validate-split-authority-canary.rb\"],\"purpose\":\"Validate canonical PR #4 causal closure, later PR #5 non-causality, and preserved legacy issue #5901 against retained GitHub evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/canary/split-authority-causal-canary.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--target-dir\",\"../adl-builds/csdlc-v2-issue-3\",\"--bin\",\"csdlc-publish\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed publication binary and its tests remain warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/clippy/csdlc-publication-clippy.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-3-cross-repository-publication",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
