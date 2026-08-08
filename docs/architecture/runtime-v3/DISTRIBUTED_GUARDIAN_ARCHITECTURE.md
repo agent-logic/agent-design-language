@@ -140,19 +140,47 @@ valid owner.
 
 WP-04.07 maintains the authoritative per-lineage record in a majority-replicated
 Guardian authority ledger implemented with the maintained `openraft` crate.
-Only enrolled voting Guardians in the same trust domain participate. The
-committed log serializes membership-voter changes, epochs, lease grants,
-activation incarnations, fences, and owner commits. A node outside a majority
-cannot advance the log, renew authority, or activate a replacement. Single-node
-mode is a one-voter ledger and preserves WP-03 behavior.
+Only enrolled voting Guardians in the same trust domain participate. A
+distributed authority group has at least three voters; joining nodes begin as
+non-voting learners, and voter changes use OpenRaft's joint membership
+transition. A majority of the effective voter configuration is the only
+quorum. The committed log serializes membership-voter changes, epochs, lease
+grants, activation incarnations, fences, certificate revocations, and owner
+commits. The linearization point is the applied majority-committed log index.
+A node outside a majority cannot advance the log, renew authority, or activate
+a replacement. WP-03 single-node operation remains outside distributed mode
+and cannot grant remote authority.
 
 A lease records the lineage, holder identity, activation-incarnation public
-key, committed log index, epoch, issued time, expiry, policy bounds, and quorum
-certificate. The activation private key is generated at Guardian start and is
-never written into the state directory. Renewal proves possession of the same
-activation key and cannot change holder or incarnation. A clone therefore
-cannot renew a copied lease; a second activation requires a newer committed
-epoch after the prior safety window.
+key, leader term, committed log index, epoch, certificate generation, issued
+time, expiry, policy bounds, and an `AuthorityCertificateV1`. Local durability,
+a higher uncommitted term or epoch, transport reachability, and failure-detector
+output are not authority. The activation private key is generated at Guardian
+start and is never written into the state directory. Renewal is a new committed
+log entry, proves possession of the same activation key, and cannot change
+holder or incarnation. A clone therefore cannot renew a copied lease; a second
+activation requires a newer committed epoch after the prior safety window.
+
+`AuthorityCertificateV1` is a canonical `prost` message containing the schema
+version, trust domain, lineage, voter-set generation, Raft term and committed
+log index, epoch, holder node and Guardian identities, activation-key digest,
+operation class, issued UTC time, lease duration, and policy digest. The
+domain-separated SHA-256 digest of those canonical bytes is signed independently
+by a strict majority of the committed voter set using each Guardian's
+purpose-bound control signing key. The certificate carries each distinct signer
+identity, certificate generation, and standard signature. It uses no threshold
+scheme or custom cryptographic primitive.
+
+A voter endorses only after durably applying the identical authority-ledger
+entry. Voter changes use OpenRaft joint consensus, and verification uses the
+voter-set generation named by the committed entry. Every mutation sink parses
+the canonical message, recomputes its digest, verifies a strict majority of
+distinct current-voter signatures and their certificate purpose, generation,
+revocation, and expiry, checks its applied log index is at least the named index,
+proves activation-key possession, and enforces the operation class. A leader
+value without those endorsements has no authority. Safety assumes fewer than a
+majority of current voters are compromised; majority compromise requires
+operator trust-domain reconstruction.
 
 Lease safety uses monotonic elapsed time, never wall-clock time alone. Voting
 nodes enforce a configured maximum clock uncertainty measured through the
@@ -161,7 +189,7 @@ replacement cannot activate until the previous committed lease deadline plus
 the maximum uncertainty and message-delay safety margin has elapsed. Restart
 invalidates the local activation incarnation and requires quorum renewal.
 
-WP-04.08 derives a quorum-certified fencing token from the committed epoch,
+WP-04.08 derives a majority-endorsed fencing token from the committed epoch,
 activation incarnation, and log index. Every state-changing sink, including
 durable writes, checkpoint commit, API mutation, and target activation,
 validates the current certificate against its applied authority-ledger index and
@@ -169,6 +197,14 @@ monotonic deadline. A sink that cannot establish current ledger state refuses
 mutation. Stale lease holders, cloned state, wrong-owner requests, and lower
 epochs are denied even if their process and transport remain healthy. Recovery
 commits a newer epoch before a replacement permit is issued.
+
+Every voter restores and verifies its OpenRaft vote, log, committed membership,
+snapshot, and applied state-machine index before participation. Quorum loss
+halts new mutation authority. Recovery selects a history only through a
+majority containing the committed prefix; if no such majority can be
+established, all candidates remain fenced for operator-led trust-domain
+generation recovery. The numerically highest local epoch is never selected by
+itself.
 
 ## Advertisements And Placement
 
@@ -247,6 +283,9 @@ The exact WP-04.01 through WP-04.16 ledger in
 Each child owns its declared module and proving target. WP-04.16 alone owns
 `adl-runtime/src/distributed/mod.rs`, `adl-runtime/src/lib.rs`, production
 registration, integrated adversarial behavior, and native-platform receipts.
+WP-04.03 is the sole manifest and lockfile owner and introduces the reviewed
+`quinn`, `rustls`, `prost`, and `openraft` dependency set required by later
+children; no sibling edits those shared files.
 WP-04-IMP issue #5862 coordinates dependency order but owns no product path.
 
 ## Compatibility And Rollback

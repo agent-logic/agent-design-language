@@ -4,6 +4,17 @@
 require "json"
 require "open3"
 
+def section(text, heading)
+  text[/^#{Regexp.escape(heading)}\s*$\n(.*?)(?=^## |\z)/m, 1].to_s
+end
+
+def dependency_ids(text)
+  expanded = text.scan(/(WP-04\.\d{2})\s+through\s+(WP-04\.\d{2})/).flat_map do |first, last|
+    (first[-2..].to_i..last[-2..].to_i).map { |number| format("WP-04.%02d", number) }
+  end
+  (text.scan(/WP-04\.\d{2}/) + expanded).uniq.sort
+end
+
 design_path = File.expand_path("design.md", __dir__)
 text = File.read(design_path)
 rows = text.lines.grep(/^\| WP-04\.\d{2} \|/)
@@ -26,6 +37,24 @@ end
 
 expected_ids = (1..16).map { |number| format("WP-04.%02d", number) }
 expected_issues = (5863..5878).to_a
+expected_dependencies = {
+  "WP-04.01" => [],
+  "WP-04.02" => ["WP-04.01"],
+  "WP-04.03" => ["WP-04.02"],
+  "WP-04.04" => ["WP-04.03"],
+  "WP-04.05" => ["WP-04.04"],
+  "WP-04.06" => ["WP-04.05"],
+  "WP-04.07" => ["WP-04.05"],
+  "WP-04.08" => ["WP-04.06", "WP-04.07"],
+  "WP-04.09" => ["WP-04.03"],
+  "WP-04.10" => ["WP-04.03"],
+  "WP-04.11" => ["WP-04.05", "WP-04.08", "WP-04.09", "WP-04.10"],
+  "WP-04.12" => ["WP-04.02", "WP-04.08"],
+  "WP-04.13" => ["WP-04.08", "WP-04.11", "WP-04.12"],
+  "WP-04.14" => ["WP-04.13"],
+  "WP-04.15" => ["WP-04.05", "WP-04.08", "WP-04.13", "WP-04.14"],
+  "WP-04.16" => (1..15).map { |number| format("WP-04.%02d", number) }
+}.freeze
 abort "child identities drifted" unless children.map(&:first) == expected_ids
 abort "live issue mapping drifted" unless children.map { |row| row[1] } == expected_issues
 
@@ -39,7 +68,8 @@ abort "overlapping protected paths: #{overlaps.inspect}" unless overlaps.empty?
 
 dependency_graph = {}
 children.each do |id, _, dependencies, _|
-  child_dependencies = dependencies.scan(/WP-04\.\d{2}/)
+  child_dependencies = dependency_ids(dependencies)
+  abort "#{id} dependency set drifted" unless child_dependencies == expected_dependencies.fetch(id)
   dependency_graph[id] = child_dependencies
   child_dependencies.each do |dependency|
     abort "#{id} references unknown dependency #{dependency}" unless expected_ids.include?(dependency)
@@ -77,12 +107,14 @@ abort "cannot resolve Git common directory" unless git_status.success?
 github_binary = ENV.fetch("CSDLC_GITHUB_ISSUE_BIN", File.join(File.expand_path("..", git_common.strip), ".adl/bin/csdlc-v2/csdlc-github-issue"))
 abort "missing typed GitHub issue binary" unless File.executable?(github_binary)
 expected_titles = {5862 => "[v0.92][WP-04-IMP][umbrella] Execute distributed Guardian child wave"}
-children.each do |id, issue, _, paths, _, _|
+children.each do |id, issue, dependencies, paths, proof, rollback|
   local_title = JSON.parse(File.read(File.expand_path("../../../issues/#{issue}/cards/stp.values.json", __dir__))).dig("identity", "title")
-  expected_titles[issue] = [id, local_title, paths]
+  test_target = paths.grep(%r{/tests/.*\.rs\z}).first&.then { |path| File.basename(path, ".rs") }
+  abort "#{id} proof omits exact owned test target" if test_target && !proof.include?(test_target)
+  expected_titles[issue] = [id, local_title, dependencies, paths, test_target, rollback]
 end
-expected_titles[5862] = ["WP-04-IMP", expected_titles.fetch(5862), []]
-expected_titles.each do |issue, (id, title, paths)|
+expected_titles[5862] = ["WP-04-IMP", expected_titles.fetch(5862), "", [], nil, ""]
+expected_titles.each do |issue, (id, title, dependencies, paths, test_target, rollback)|
   request_path = File.join(__dir__, "wp04-implementation-wave", "read", "#{issue}.json")
   abort "missing live read request for ##{issue}" unless File.file?(request_path)
   stdout, stderr, status = Open3.capture3(github_binary, "run", "--request", request_path)
@@ -100,11 +132,33 @@ expected_titles.each do |issue, (id, title, paths)|
   if issue != 5862
     abort "live body lost #{id} identity for ##{issue}" unless body.include?(id)
     abort "live body lost canonical WP-04-IMP dependency for ##{issue}" unless body.include?("WP-04-IMP issue 5862")
+    live_dependencies = dependency_ids(section(body, "## Dependencies"))
+    abort "live dependency drift for ##{issue}" unless live_dependencies == dependency_ids(dependencies)
+    abort "live proof omits #{test_target} for ##{issue}" if test_target && !section(body, "## Validation And Proof").include?(test_target)
+    live_rollback = section(body, "## Rollback").downcase
+    rollback.downcase.split(/[,;]/).map(&:strip).reject(&:empty?).each do |clause|
+      keywords = clause.scan(/[a-z0-9-]+/).reject { |word| %w[the a an and or to from only].include?(word) }
+      abort "live rollback drift for ##{issue}: #{clause}" unless keywords.count { |word| live_rollback.include?(word) } >= [keywords.length, 3].min
+    end
   end
 end
 umbrella_request = File.join(__dir__, "wp04-implementation-wave", "read", "5862.json")
 stdout, = Open3.capture2(github_binary, "run", "--request", umbrella_request)
 live_umbrella = JSON.parse(stdout).fetch("issue").fetch("body")
 abort "umbrella lost canonical child denominator" unless live_umbrella.include?("WP-04.01 through WP-04.16")
+umbrella_design = File.read(File.expand_path("../5862/design.md", __dir__))
+umbrella_rows = umbrella_design.lines.grep(/^\| WP-04\.\d{2} \|/).map do |line|
+  cells = line.split("|").map(&:strip).reject(&:empty?)
+  [cells.fetch(0), cells.fetch(1)[/#(\d+)/, 1].to_i]
+end
+abort "umbrella exact denominator drifted" unless umbrella_rows == expected_ids.zip(expected_issues)
+
+rollback_by_id = children.to_h { |id, _, _, _, _, rollback| [id, rollback.downcase] }
+abort "WP-04.07 rollback is not majority-committed" unless rollback_by_id.fetch("WP-04.07").include?("majority-committed")
+abort "WP-04.08 rollback is not quorum-committed" unless rollback_by_id.fetch("WP-04.08").include?("quorum-committed")
+migration_rollback = rollback_by_id.fetch("WP-04.13")
+abort "WP-04.13 rollback crosses the fence boundary" unless ["before fence", "after fence", "non-authoritative", "wp-04.14"].all? { |term| migration_rollback.include?(term) }
+recovery_rollback = rollback_by_id.fetch("WP-04.14")
+abort "WP-04.14 rollback can select uncommitted authority" unless recovery_rollback.include?("majority-committed") && recovery_rollback.include?("quorum-committed")
 
 puts "PASS: live #5862 plus 16 mapped approved claim-null children, #{all_paths.length} exclusive paths, complete owner/proof/rollback fields"

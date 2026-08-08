@@ -50,15 +50,20 @@ Architecture review cannot prove implementation or deployment security.
 ## Attacker Capabilities
 
 Consider an attacker who can observe, delay, duplicate, reorder, or drop network
-traffic; present stale valid messages; operate an enrolled or compromised node;
-copy a state directory; exhaust bounded connections or transfer capacity; and
+traffic; present stale valid messages; operate an enrolled node; compromise
+fewer than a majority of current authority-ledger voters; copy a state
+directory; exhaust bounded connections or transfer capacity; and
 cause process, host, storage, or network failure. A host compromise may expose
 that host's active purpose-bound keys.
 
 The attacker is not assumed to break maintained cryptography, control an
-operator enrollment root, or modify a quorum of independent durable records
-without detection. If those assumptions fail, operator-led trust-domain
-recovery is required.
+operator enrollment root, or control a majority of the effective OpenRaft
+voter configuration. A distributed authority group has at least three voters
+and changes voters through joint membership. Every mutation sink verifies
+distinct purpose-bound majority endorsements over one canonical committed
+entry, so a malicious leader or minority cannot fabricate authority. Loss of a
+majority halts new authority rather than selecting a local history. If those
+assumptions fail, operator-led trust-domain generation recovery is required.
 
 ## Threats And Required Mitigations
 
@@ -88,9 +93,11 @@ recovery is required.
   one lineage, or failure detection promotes a replacement without fencing.
 - **Impact:** Divergent cognition and durable state corruption.
 - **Priority:** Critical.
-- **Mitigations:** Failure detection is non-authoritative; leases are bounded;
-  replacements advance the durable epoch; stale holders fail fencing checks;
-  uncertainty fences both sides. Availability never overrides one-owner proof.
+- **Mitigations:** Failure detection is non-authoritative; OpenRaft commits
+  authority through a majority and joint membership; leases are bounded;
+  replacements use a newer majority-committed epoch only after the prior lease
+  safety window; stale holders fail fencing checks; and quorum or clock
+  uncertainty halts mutation. Availability never overrides one-owner proof.
 
 ### T4: Cloned state and identity collision
 
@@ -168,11 +175,13 @@ recovery is required.
 - **Priority:** Critical.
 - **Mitigations:** Verify the majority-committed `openraft` authority-ledger
   epoch, log index, activation incarnation, and current fencing token at every
-  mutation sink. A minority cannot renew or replace authority. Never un-fence
-  both sides; wait the old lease deadline plus clock/message uncertainty before
-  replacement activation; and require operator action when a majority cannot
-  establish one owner. Rollback failure leaves both candidates fenced rather
-  than guessing.
+  mutation sink. `AuthorityCertificateV1` must contain distinct valid
+  purpose-bound signatures from a strict majority of the committed voter-set
+  generation; a leader assertion or minority cannot renew or replace authority.
+  Never un-fence both sides; wait the old lease deadline plus clock/message
+  uncertainty before replacement activation; and require operator action when
+  a majority cannot establish one owner. Rollback failure leaves both
+  candidates fenced rather than guessing.
 
 ### T11: Projection, log, or audit leakage and poisoning
 
@@ -221,5 +230,8 @@ satisfy runtime proof.
   evidence and can leave the lineage unavailable.
 - Library vulnerabilities remain supply-chain risk and require pinned,
   maintained dependency review and upgrade policy.
+- Compromise of a majority of current authority-ledger voters defeats automated
+  ownership safety and requires trust-domain reconstruction from retained audit
+  and continuity evidence.
 - A future cross-polis identity policy may add trust relationships; this gate
   deliberately does not authorize them.
