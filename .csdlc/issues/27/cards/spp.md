@@ -16,7 +16,7 @@ Strengthen the validator's explicit role-set and post-proof path policies, add f
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -28,7 +28,8 @@ Revision 2
       "AC-1",
       "AC-2",
       "AC-3",
-      "AC-4"
+      "AC-4",
+      "AC-5"
     ],
     "status": "completed"
   },
@@ -42,15 +43,6 @@ Revision 2
       "AC-4"
     ],
     "status": "completed"
-  },
-  {
-    "id": "S3",
-    "action": "Validate the final exact-head WP-03 native receipt packet without rerunning product soak from this issue",
-    "acceptance_ids": [
-      "AC-4",
-      "AC-5"
-    ],
-    "status": "pending"
   }
 ]
 

@@ -7,15 +7,26 @@
     "title": "Native receipt validator has an impossible artifact-role denominator",
     "slug": "native-receipt-validator",
     "version": "v0.92",
-    "generation": 7
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
+      "summary": "Hardened native receipt validation while preserving the exact-proof packet integration as an explicit upstream gate.",
+      "actual_changes": [
+        "Made artifact role denominator comparison explicitly order-independent while preserving separate uniqueness enforcement.",
+        "Required proof ancestry and rename-disabled Git path enumeration for post-proof verifier changes.",
+        "Removed proof evidence directories from the post-proof allowlist and rejected runtime or product drift.",
+        "Required a clean validation worktree except for the exact issue-local C-SDLC lock.",
+        "Added real temporary-Git regressions for allowed verifier repair, dirty product changes, rename attacks, and unrelated histories."
+      ],
+      "artifacts": [
+        "adl/tools/validate_v092_runtime_native_receipts.rb",
+        "adl/tools/test_validate_v092_runtime_native_receipts.sh",
+        ".csdlc/prepared/issues/27/design.md",
+        ".csdlc/prepared/issues/27/diagram.mmd"
+      ],
       "actual_validation": [
         {
           "command": [

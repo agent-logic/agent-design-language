@@ -7,13 +7,13 @@
     "title": "Native receipt validator has an impossible artifact-role denominator",
     "slug": "native-receipt-validator",
     "version": "v0.92",
-    "generation": 7
+    "generation": 12
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Strengthen the validator's explicit role-set and post-proof path policies, add focused negative and positive regression checks, then review the exact delta.",
       "steps": [
         {
@@ -23,7 +23,8 @@
             "AC-1",
             "AC-2",
             "AC-3",
-            "AC-4"
+            "AC-4",
+            "AC-5"
           ],
           "status": "completed"
         },
@@ -37,15 +38,6 @@
             "AC-4"
           ],
           "status": "completed"
-        },
-        {
-          "id": "S3",
-          "action": "Validate the final exact-head WP-03 native receipt packet without rerunning product soak from this issue",
-          "acceptance_ids": [
-            "AC-4",
-            "AC-5"
-          ],
-          "status": "pending"
         }
       ],
       "affected_areas": [

@@ -12,15 +12,22 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Hardened native receipt validation while preserving the exact-proof packet integration as an explicit upstream gate.
 
 ## Artifacts
 
-- none
+- adl/tools/validate_v092_runtime_native_receipts.rb
+- adl/tools/test_validate_v092_runtime_native_receipts.sh
+- .csdlc/prepared/issues/27/design.md
+- .csdlc/prepared/issues/27/diagram.mmd
 
 ## Execution
 
-- none
+- Made artifact role denominator comparison explicitly order-independent while preserving separate uniqueness enforcement.
+- Required proof ancestry and rename-disabled Git path enumeration for post-proof verifier changes.
+- Removed proof evidence directories from the post-proof allowlist and rejected runtime or product drift.
+- Required a clean validation worktree except for the exact issue-local C-SDLC lock.
+- Added real temporary-Git regressions for allowed verifier repair, dirty product changes, rename attacks, and unrelated histories.
 
 ## Validation
 
