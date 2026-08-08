@@ -76,11 +76,11 @@ Correct bind topology scans so retained relative worktree records use canonical 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
