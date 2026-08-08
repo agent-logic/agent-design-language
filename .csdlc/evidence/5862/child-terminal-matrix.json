@@ -3,7 +3,7 @@
   "sprint_issue": 5862,
   "candidate_head": null,
   "children": [
-    {"wp":"WP-04.01","issue":5863,"state":"in_progress"},
+    {"wp":"WP-04.01","issue":5863,"state":"green_pr_54_waiting_authorized_merge"},
     {"wp":"WP-04.02","issue":5864,"state":"blocked_on_5863"},
     {"wp":"WP-04.03","issue":5865,"state":"blocked_on_5864"},
     {"wp":"WP-04.04","issue":5866,"state":"blocked_on_5865"},
