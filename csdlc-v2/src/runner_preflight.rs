@@ -545,7 +545,10 @@ fn diagnostics(
             );
         }
         DispatchState::Mismatched => {
-            values.insert("canary ran on a different label or runner group".into());
+            values.insert(
+                "canary identity mismatched the expected run, workflow, head, PR, label, or runner group"
+                    .into(),
+            );
         }
         DispatchState::Proven => {}
     }
@@ -838,6 +841,15 @@ mod tests {
             classify(&observation, "2026-08-08T03:01:00Z"),
             DispatchState::Mismatched
         );
+        assert!(diagnostics(
+            CapacityState::Ready,
+            PolicyState::Eligible,
+            DispatchState::Mismatched,
+            true,
+            false
+        )
+        .iter()
+        .any(|message| message.contains("run, workflow, head, PR, label, or runner group")));
     }
 
     #[test]

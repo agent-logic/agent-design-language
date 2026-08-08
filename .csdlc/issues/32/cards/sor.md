@@ -145,6 +145,18 @@ Added a typed csdlc-github runner-preflight operation that reads GitHub runner, 
     "purpose": "Exercise the real csdlc-github binary against a loopback GitHub API with paginated runner and repository results, secret-bearing request input, JSON stdout, and non-eligible exit semantics.",
     "outcome": "passed",
     "evidence_ref": "The loopback integration test passed; it required page 2 for both lists, found the target runner/repository there, returned diagnostic exit 2, emitted valid JSON, and did not expose the token or token path."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "runner_preflight"
+    ],
+    "purpose": "Prove that a mismatched canary cannot pass and its diagnostic names every enforced identity dimension.",
+    "outcome": "passed",
+    "evidence_ref": "Eleven focused tests passed; stale_job_context_cannot_prove_dispatch asserts the diagnostic covers run, workflow, head, PR, label, and runner group."
   }
 ]
 

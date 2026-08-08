@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f9a90e9708ac3f33f42b7da3aabea450ef6fe8131d8fc092392626f04c7ca4b",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "6b8360d2183db1a7d2ece51532b77e69ff27dadcbe45b9e19ba56fda565cc7ee",
+  "generation": 27,
+  "digest": "a625713925b949c2ec5baeefc2065eaa67b27e2c7ce0a119e9257d2f9df62f98",
   "branch": "codex/32-runner-policy-preflight",
   "worktree": "/Volumes/FastWork/adl-issue-32-runner-policy",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8bf26537af0fa0a2d41c35be94a17e4f0ee57c4c2688b0f637e73228f8552d61",
+      "values_digest": "1a232748a8c5bfb2d38d854a7c601102785d37fefb41ad19843ae8cb210576af",
       "rendered_digest": "6bd7e2af1ddc2454a9049bd53718641a9eadeef40cb1ef93dad96485bf16412a",
       "ast_digest": "d5dbd89f88f4ef13d84f1fe1756a2d00604d30402e5338560b82736c031ee891"
     },
     "stp": {
-      "values_digest": "e797b6ab5d3b5bcb1b601e1c49938ed19968984b52008ccd9e27652f3ecf93e4",
+      "values_digest": "8fb5a7e67aa01f40e3ba86c84a54d65aa053bdcaa1cb1a2ee1a4f5e86e256ccf",
       "rendered_digest": "21cef2f24999fa190f47ad0d293622919adec636870cccc91f01f3a50ee9d561",
       "ast_digest": "0080edb1bb65741daa1157a6e1de0d66b44bde6b8acb9e9d6ea6817bbbf50e9a"
     },
     "spp": {
-      "values_digest": "88ea84e864133bc8b82b688a8b87af9aa10e73c94aa6f356d8c81929b8137bf3",
+      "values_digest": "a93803e766bfe57aa49aa90ccffdf8fdca585a3ba891948a76d49ec4decc0b88",
       "rendered_digest": "50b8f5d0dbfd09e2553a023a1c2554af18ef511e5443086bf8e5baad6aecddd6",
       "ast_digest": "40ff2604e29dcfb9a9e49485a1ec7905654a8fbcdd4a1bc4a4f0767215a2d30e"
     },
     "vpp": {
-      "values_digest": "cdc418fbc1ac9005a3baaab37d0f19734b180165e5e235f13975fddb63d0a574",
+      "values_digest": "42574350102bf0a39704d2cb700339b7dec33c4d9af0379ad1a4af01577ca84d",
       "rendered_digest": "443a095200d2791273088391bfe764cb2b3f2ddb4f6475d798ae9423700b5ca6",
       "ast_digest": "4d0ec3701a8dd18883efe989a5f1068e3e3d06c63ffd5aebebc08fa1200379bc"
     },
     "srp": {
-      "values_digest": "da9419d0b5f2f3cf6def94fd3ece69022ff9a334ed5ee128c8f322226a47742e",
+      "values_digest": "b6e0aa6ef16827e3dbf693bb0ff1d6f9b588c0ffb5a034b86e467ffc50e64d45",
       "rendered_digest": "b1274fd31be898d82d36257f420a672d8f9575d6ebc7f154053683ed810da4da",
       "ast_digest": "f6ee14b834b760a395e66af5f9f92514557a3e00ba0bd12ab6b48ca4c2392d93"
     },
     "sor": {
-      "values_digest": "e9cf3d9deb498aedc1e93bf65a9518fb597276bf7dcc484636e6f4fb42a5ae27",
-      "rendered_digest": "fdc4b03d7b0b9bd060bd7c82830e041869dd3ff3bd64992e030890151e31f58c",
-      "ast_digest": "55b1ec8aeded9c8ab8d1553f881c902e7eb1ea36037af83d7be369b92bf03139"
+      "values_digest": "971eaa193dce5cc975e473bf97b7d50e1a1f3d85e23e57dfde3d0ff507cf0ee6",
+      "rendered_digest": "5f274934c02300491232e6efc021864bda70b5bd51a6e0552c0bd22ac0eff444",
+      "ast_digest": "101017b68c11b25a55b1503629b87049a3377a4419d14e9a8c65151c15285605"
     }
   },
   "transitions": [
@@ -273,6 +273,13 @@
       "actor": "codex:32-runner-policy-preflight",
       "reason": "Record API-level pagination, redaction, and fail-closed CLI proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_runner_preflight\"],\"purpose\":\"Exercise the real csdlc-github binary against a loopback GitHub API with paginated runner and repository results, secret-bearing request input, JSON stdout, and non-eligible exit semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"The loopback integration test passed; it required page 2 for both lists, found the target runner/repository there, returned diagnostic exit 2, emitted valid JSON, and did not expose the token or token path.\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Record the final review fix for complete mismatch diagnostics.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"runner_preflight\"],\"purpose\":\"Prove that a mismatched canary cannot pass and its diagnostic names every enforced identity dimension.\",\"outcome\":\"passed\",\"evidence_ref\":\"Eleven focused tests passed; stale_job_context_cannot_prove_dispatch asserts the diagnostic covers run, workflow, head, PR, label, and runner group.\"}}"
     }
   ]
 }
