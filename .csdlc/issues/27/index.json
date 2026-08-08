@@ -1,0 +1,233 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 27,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1259634061e6920d6c48d3eea7eff3589ae47a0b4e9d104a3a43e464a03b1d5a",
+  "phase": "published",
+  "generation": 14,
+  "digest": "d2a31571744d1d61e280c815db1ff4d490aa422fe69ff6d905cd2512d5dc6a2f",
+  "branch": "codex/27-native-receipt-validator",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-27-native-receipts",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "Socrates",
+    "scope": [
+      "adl/tools/validate_v092_runtime_native_receipts.rb",
+      "adl/tools/test_validate_v092_runtime_native_receipts.sh",
+      ".csdlc/issues/27",
+      ".csdlc/prepared/issues/27"
+    ],
+    "reviewed_revision": "git-blake3:e9883400fcabb607f26cb8fc14deee58375725e6:0d93ad2c16d7aee4c3917583d29916826ebdacfbc14907b26b9d9e9747d832fe",
+    "findings": [],
+    "residual_risks": [
+      "The final exact-head WP-03 native packet integration remains deferred and must pass before merge or terminal closeout."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 27,
+    "pull_request": 29,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/29",
+    "base": "codex/5820-v092-runtime-launch-resilience",
+    "head": "codex/27-native-receipt-validator",
+    "revision": "git-blake3:7ec43b618c412b7d4cf6a54aaa0b3bf1e39a8695:2c7dd5869aa25cb2e04fd21252459e49ffa27234b544d8d33190e60012de6a1d",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/27/design.md",
+  "diagram_path": ".csdlc/prepared/issues/27/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-27-design-review",
+      "revision": "8eefdd3176645f328745d212bdc70acefde07362ebbee9dc67b6638c14e5579e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "62cca1a6376c9cb6a54b41ff88d6bcefdddcb69c6cc9add2c4c5e1d9b2f533bb",
+      "rendered_digest": "7a160715d50ad16f93a9e38eb9a8df676fb4c2c2d452694183548b630fc66e2c",
+      "ast_digest": "cf7e97617fc42e7e3adf7aff103ef33bfdca48b9cb865188b8f01722691b558e"
+    },
+    "stp": {
+      "values_digest": "a7fa7f3cba3c033047bea950b84680a175432f6c97dcb1354ff0091f84714c21",
+      "rendered_digest": "a30671755177682479a57d484d31a26d05963ddc22daa6907c583ba318099a2c",
+      "ast_digest": "eb2c75ca2ed54f9f57c2cd5b697f519c4476f64f6ab6e7789a2d8bd5fdbd2dd0"
+    },
+    "spp": {
+      "values_digest": "582906aa68cb9f07920f64f3cb7724cacc9ee4869874694bb9c203a3a2493410",
+      "rendered_digest": "b273e6e9be466099f84b979a860f4b0ba0c6e72296a237cf85a6df385fdf1acc",
+      "ast_digest": "66a76ab93254b9e91cf1772cce37a9a0a2081e38de05f9eb94713cdee6c3ef55"
+    },
+    "vpp": {
+      "values_digest": "fb6cd37f4785da24b5df30887172a9276345b850c0afe755c52913fb05df93df",
+      "rendered_digest": "21fbf8ae04e6324bafd3b413634695192a39557f10ff6e1e19114da8015e2f87",
+      "ast_digest": "5fef167b5706f41355442e024d6f04c674f8dcec6610189e0fcbcb77384328fa"
+    },
+    "srp": {
+      "values_digest": "e4676cf66bf9550e5c48afffbf206c0c438fb0c96962ebf9698065b12230c110",
+      "rendered_digest": "fc8b2ce6cd20cf134fcabee4c728418909b856bd3d3823449ad3f01acd7a26e4",
+      "ast_digest": "a4dd1a2934f21408a9510f2d50c6a5cf25b01fa20a6f6d22e53c93367e5afac7"
+    },
+    "sor": {
+      "values_digest": "59e477bdcce057423a81f5a7824248659ddd02dd73043043a7b819c891826af7",
+      "rendered_digest": "29d04fa826d9c2f44a07ef2b11e998275d601bf4673f42053b00be934af18e53",
+      "ast_digest": "e98e3a7a0dd5d47e4c2340f33ed6775974c8ad96ba3add000f588e96732683f8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Implementation and focused policy proof are complete; exact native packet integration remains explicitly deferred in VPP pending WP-03 proof publication."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-27-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Separate completed verifier policy proof from the exact WP-03 native packet integration gate discovered during implementation.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"Canonical and observed artifact role denominators compare order-independently\",\"Artifact roles remain unique and duplicates fail closed\",\"Only an explicit verifier and issue-finalization allowlist may differ after the proof revision\",\"Any runtime or product change, rename bypass, dirty worktree, or non-ancestor verifier revision is rejected\",\"Digest recomputation and platform denominator checks remain intact\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement explicit canonical role-set and verifier-only Git path policy helpers\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Prove positive and negative policy cases in a temporary Git repository\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Validate the final exact-head WP-03 native receipt packet without rerunning product soak from this issue\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"native-receipt-policy-focused\",\"proof_role\":\"Prove role order independence, duplicate rejection, verifier-only allowance, rename safety, clean-worktree enforcement, and ancestry rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\"--self-test-policy\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"native-receipt-packet-integration\",\"proof_role\":\"Preserve digest recomputation and exact platform denominator checks against the final WP-03 proof revision.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\".csdlc/evidence/5820/runtime-native-receipts.json\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"WP-03 is generating final exact-head macOS and Linux native proofs; the existing packet predates later product changes and correctly fails closed.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors in the bounded validator delta.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Record the completed role-set and fail-closed Git policy implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Record the passing temporary-Git positive and negative policy regression proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Record the passing focused role and Git policy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\"--self-test-policy\"],\"purpose\":\"Prove order-independent roles, duplicate rejection, exact allowlisting, rename safety, clean-worktree enforcement, and proof ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/validate_v092_runtime_native_receipts.rb\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Record clean patch hygiene for the bounded issue delta.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the issue-local validator and lifecycle changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/27/design.md\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-27-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Separate completed verifier policy proof from the exact WP-03 native packet integration gate discovered during implementation.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"Canonical and observed artifact role denominators compare order-independently\",\"Artifact roles remain unique and duplicates fail closed\",\"Only an explicit verifier and issue-finalization allowlist may differ after the proof revision\",\"Any runtime or product change, rename bypass, dirty worktree, or non-ancestor verifier revision is rejected\",\"Digest recomputation and platform denominator checks remain intact\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement explicit canonical role-set and verifier-only Git path policy helpers\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Prove positive and negative policy cases in a temporary Git repository\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"native-receipt-policy-focused\",\"proof_role\":\"Prove role order independence, duplicate rejection, verifier-only allowance, rename safety, clean-worktree enforcement, and ancestry rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\"--self-test-policy\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"native-receipt-packet-integration\",\"proof_role\":\"Preserve digest recomputation and exact platform denominator checks against the final WP-03 proof revision.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\".csdlc/evidence/5820/runtime-native-receipts.json\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"WP-03 is generating final exact-head macOS and Linux native proofs; the existing packet predates later product changes and correctly fails closed.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors in the bounded validator delta.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Record the completed role-set and fail-closed Git policy implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Record the passing temporary-Git positive and negative policy regression proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Record the completed validator hardening and focused policy proof before draft publication.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Hardened native receipt validation while preserving the exact-proof packet integration as an explicit upstream gate.\",\"changes\":[\"Made artifact role denominator comparison explicitly order-independent while preserving separate uniqueness enforcement.\",\"Required proof ancestry and rename-disabled Git path enumeration for post-proof verifier changes.\",\"Removed proof evidence directories from the post-proof allowlist and rejected runtime or product drift.\",\"Required a clean validation worktree except for the exact issue-local C-SDLC lock.\",\"Added real temporary-Git regressions for allowed verifier repair, dirty product changes, rename attacks, and unrelated histories.\"],\"artifacts\":[\"adl/tools/validate_v092_runtime_native_receipts.rb\",\"adl/tools/test_validate_v092_runtime_native_receipts.sh\",\".csdlc/prepared/issues/27/design.md\",\".csdlc/prepared/issues/27/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "Implementation and focused policy proof are complete; exact native packet integration remains explicitly deferred in VPP pending WP-03 proof publication.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-27-native-receipt-validator",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

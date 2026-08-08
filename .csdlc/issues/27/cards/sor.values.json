@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 27,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Native receipt validator has an impossible artifact-role denominator",
+    "slug": "native-receipt-validator",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Hardened native receipt validation while preserving the exact-proof packet integration as an explicit upstream gate.",
+      "actual_changes": [
+        "Made artifact role denominator comparison explicitly order-independent while preserving separate uniqueness enforcement.",
+        "Required proof ancestry and rename-disabled Git path enumeration for post-proof verifier changes.",
+        "Removed proof evidence directories from the post-proof allowlist and rejected runtime or product drift.",
+        "Required a clean validation worktree except for the exact issue-local C-SDLC lock.",
+        "Added real temporary-Git regressions for allowed verifier repair, dirty product changes, rename attacks, and unrelated histories."
+      ],
+      "artifacts": [
+        "adl/tools/validate_v092_runtime_native_receipts.rb",
+        "adl/tools/test_validate_v092_runtime_native_receipts.sh",
+        ".csdlc/prepared/issues/27/design.md",
+        ".csdlc/prepared/issues/27/diagram.mmd"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            "adl/tools/validate_v092_runtime_native_receipts.rb",
+            "--self-test-policy"
+          ],
+          "purpose": "Prove order-independent roles, duplicate rejection, exact allowlisting, rename safety, clean-worktree enforcement, and proof ancestry.",
+          "outcome": "passed",
+          "evidence_ref": "adl/tools/validate_v092_runtime_native_receipts.rb"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject whitespace errors in the issue-local validator and lifecycle changes.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/27/design.md"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "draft",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

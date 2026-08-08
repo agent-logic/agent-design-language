@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 27,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Native receipt validator has an impossible artifact-role denominator",
+    "slug": "native-receipt-validator",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make native Runtime v3 receipt validation order-independent while preserving fail-closed revision and digest checks.",
+      "required_outcome": "Valid role sets pass regardless of order, duplicate roles fail, verifier-only post-proof changes are accepted, and product changes are rejected.",
+      "declared_scope": [
+        "adl/tools/validate_v092_runtime_native_receipts.rb",
+        "adl/tools/test_validate_v092_runtime_native_receipts.sh",
+        ".csdlc/issues/27",
+        ".csdlc/prepared/issues/27"
+      ],
+      "authority_boundary": [
+        "Git revision and changed-path evidence",
+        "Runtime v3 native receipt packet schema and digests"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not modify or rerun Runtime v3 product soak work",
+        "Do not touch the active WP-03 worktree",
+        "Use only focused validation and FastWork storage"
+      ]
+    }
+  }
+}

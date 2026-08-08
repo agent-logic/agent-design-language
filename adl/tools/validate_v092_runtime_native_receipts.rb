@@ -2,14 +2,17 @@
 # frozen_string_literal: true
 
 require "digest"
+require "fileutils"
 require "json"
 require "open3"
 require "pathname"
 require "stringio"
+require "tmpdir"
 require "zlib"
 
 SHA256 = /\A[0-9a-f]{64}\z/
 ISSUE = 5820
+REPAIR_ISSUE = 27
 PLATFORMS = %w[linux macos windows].freeze
 COMMON_ARTIFACT_ROLES = %w[
   guardian_binary
@@ -36,6 +39,103 @@ ASSERTION_ROLES = {
   "clean_shutdown" => "lifecycle_report",
   "clean_logs" => "lifecycle_report"
 }.freeze
+POST_PROOF_EXACT_PATHS = %w[
+  adl/tools/validate_v092_runtime_native_receipts.rb
+  adl/tools/test_validate_v092_runtime_native_receipts.sh
+].freeze
+POST_PROOF_PATH_PREFIXES = [
+  ".csdlc/issues/#{ISSUE}/",
+  ".csdlc/prepared/issues/#{ISSUE}/",
+  ".csdlc/issues/#{REPAIR_ISSUE}/",
+  ".csdlc/prepared/issues/#{REPAIR_ISSUE}/"
+].freeze
+
+def same_denominator?(observed, expected)
+  observed.sort == expected.sort
+end
+
+def unique_values?(values)
+  values.uniq.length == values.length
+end
+
+def run_git!(repository, *args)
+  output, status = Open3.capture2e("git", *args, chdir: repository)
+  raise "git #{args.join(' ')} failed: #{output.strip}" unless status.success?
+  output.strip
+end
+
+def changed_entries_between(repository, proof_revision, head_revision)
+  _, ancestry_status = Open3.capture2e(
+    "git", "merge-base", "--is-ancestor", proof_revision, head_revision,
+    chdir: repository
+  )
+  raise "proof revision is not an ancestor of verifier revision" unless ancestry_status.success?
+
+  changed, diff_status = Open3.capture2(
+    "git", "diff", "--no-renames", "--name-status", "-z",
+    "#{proof_revision}..#{head_revision}", "--",
+    chdir: repository
+  )
+  raise "cannot compare proof and verifier revisions" unless diff_status.success?
+  fields = changed.split("\0")
+  raise "malformed Git change list" unless fields.length.even?
+  fields.each_slice(2).map { |status, path| [status, path] }
+end
+
+def manifest_evidence_paths(value, paths = [])
+  case value
+  when Hash
+    value.each_value { |entry| manifest_evidence_paths(entry, paths) }
+  when Array
+    value.each { |entry| manifest_evidence_paths(entry, paths) }
+  when String
+    prefix = ".csdlc/evidence/#{ISSUE}/"
+    paths << value if value.start_with?(prefix)
+  end
+  paths
+end
+
+def immutable_manifest_addition?(repository, proof_revision, head_revision, status, path, manifest_paths)
+  return false unless status == "A" && manifest_paths.include?(path)
+
+  additions, additions_status = Open3.capture2(
+    "git", "log", "--diff-filter=A", "--format=%H", "--reverse",
+    "#{proof_revision}..#{head_revision}", "--", path,
+    chdir: repository
+  )
+  return false unless additions_status.success?
+  addition_commits = additions.lines.map(&:strip).reject(&:empty?)
+  return false unless addition_commits.length == 1
+
+  touches, touches_status = Open3.capture2(
+    "git", "log", "--format=%H", "--reverse",
+    "#{proof_revision}..#{head_revision}", "--", path,
+    chdir: repository
+  )
+  return false unless touches_status.success?
+  touch_commits = touches.lines.map(&:strip).reject(&:empty?)
+  return false unless touch_commits == addition_commits
+
+  initial_blob, initial_status = Open3.capture2(
+    "git", "rev-parse", "#{addition_commits.first}:#{path}",
+    chdir: repository
+  )
+  current_blob, current_status = Open3.capture2(
+    "git", "rev-parse", "#{head_revision}:#{path}",
+    chdir: repository
+  )
+  initial_status.success? && current_status.success? && initial_blob == current_blob
+end
+
+def clean_worktree?(repository)
+  status, git_status = Open3.capture2(
+    "git", "status", "--porcelain", "--untracked-files=all",
+    chdir: repository
+  )
+  return false unless git_status.success?
+
+  status.empty?
+end
 
 def repository_root
   root, status = Open3.capture2("git", "rev-parse", "--show-toplevel")
@@ -116,30 +216,120 @@ def checked_artifact(artifact, label)
 end
 
 def post_proof_change_allowed?(path)
-  path == "adl/tools/validate_v092_runtime_native_receipts.rb" ||
-    path == "adl/tools/test_validate_v092_runtime_native_receipts.sh" ||
-    path.start_with?(".csdlc/issues/#{ISSUE}/") ||
-    path.start_with?(".csdlc/evidence/#{ISSUE}/") ||
-    path.start_with?(".csdlc/prepared/issues/#{ISSUE}/")
+  POST_PROOF_EXACT_PATHS.include?(path) ||
+    POST_PROOF_PATH_PREFIXES.any? { |prefix| path.start_with?(prefix) }
 end
 
-if ARGV.first == "--self-test-finalization-policy"
+if ARGV.first == "--self-test-policy"
+  observed_roles = COMMON_ARTIFACT_ROLES.rotate(3)
+  abort "artifact role comparison is order-sensitive" unless same_denominator?(observed_roles, COMMON_ARTIFACT_ROLES)
+  abort "valid artifact roles are not unique" unless unique_values?(observed_roles)
+
+  duplicate_roles = observed_roles.drop(1) + [observed_roles.first, observed_roles.first]
+  abort "duplicate artifact roles were accepted" if unique_values?(duplicate_roles)
+  abort "artifact role denominator accepted a duplicate/missing set" if same_denominator?(duplicate_roles, COMMON_ARTIFACT_ROLES)
+
   allowed = [
     "adl/tools/validate_v092_runtime_native_receipts.rb",
     "adl/tools/test_validate_v092_runtime_native_receipts.sh",
     ".csdlc/issues/5820/index.json",
-    ".csdlc/evidence/5820/runtime-native-receipts.json",
-    ".csdlc/prepared/issues/5820/record-final-review.json"
+    ".csdlc/prepared/issues/5820/record-final-review.json",
+    ".csdlc/issues/27/index.json",
+    ".csdlc/prepared/issues/27/design.md"
   ]
   rejected = [
     "adl-runtime/src/guardian.rs",
     "adl-runtime-kernel/src/config.rs",
     "infra/runtime-v3/runtime-init.toml",
-    "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+    "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+    "adl/tools/validate_v092_runtime_native_receipts.rb.bak",
+    ".csdlc/issues/270/index.json",
+    ".csdlc/evidence/5820/runtime-native-receipts.json",
+    ".csdlc/evidence/27/validation.json",
+    ".csdlc/evidence/19/deployment-manifest.json"
   ]
   abort "finalization allowlist rejected lifecycle evidence" unless allowed.all? { |path| post_proof_change_allowed?(path) }
   abort "finalization allowlist accepted Runtime product drift" unless rejected.none? { |path| post_proof_change_allowed?(path) }
-  puts "PASS: finalization allowlist rejects Runtime product drift"
+
+  Dir.mktmpdir("native-receipt-policy") do |repository|
+    run_git!(repository, "init", "-b", "main")
+    run_git!(repository, "config", "user.email", "native-receipt-policy@example.invalid")
+    run_git!(repository, "config", "user.name", "Native Receipt Policy")
+    FileUtils.mkdir_p(File.join(repository, "adl-runtime/src"))
+    FileUtils.mkdir_p(File.join(repository, "adl/tools"))
+    File.write(File.join(repository, "adl-runtime/src/guardian.rs"), "product-v1\n")
+    File.write(File.join(repository, POST_PROOF_EXACT_PATHS.first), "verifier-v1\n")
+    run_git!(repository, "add", ".")
+    run_git!(repository, "commit", "-m", "proof revision")
+    proof = run_git!(repository, "rev-parse", "HEAD")
+
+    File.write(File.join(repository, POST_PROOF_EXACT_PATHS.first), "verifier-v2\n")
+    run_git!(repository, "add", POST_PROOF_EXACT_PATHS.first)
+    run_git!(repository, "commit", "-m", "verifier repair")
+    verifier = run_git!(repository, "rev-parse", "HEAD")
+    verifier_entries = changed_entries_between(repository, proof, verifier)
+    abort "Git verifier-only change was rejected" unless verifier_entries.all? { |_, path| post_proof_change_allowed?(path) }
+
+    evidence_path = ".csdlc/evidence/#{ISSUE}/native/proof.json"
+    FileUtils.mkdir_p(File.join(repository, File.dirname(evidence_path)))
+    File.write(File.join(repository, evidence_path), "proof-v1\n")
+    run_git!(repository, "add", evidence_path)
+    run_git!(repository, "commit", "-m", "retain proof evidence")
+    retained = run_git!(repository, "rev-parse", "HEAD")
+    evidence_entries = changed_entries_between(repository, verifier, retained)
+    evidence_status, = evidence_entries.find { |_, path| path == evidence_path }
+    manifest_paths = [evidence_path]
+    abort "immutable manifest evidence addition was rejected" unless immutable_manifest_addition?(
+      repository, verifier, retained, evidence_status, evidence_path, manifest_paths
+    )
+
+    File.write(File.join(repository, evidence_path), "proof-v2\n")
+    run_git!(repository, "add", evidence_path)
+    run_git!(repository, "commit", "-m", "mutate proof evidence")
+    mutated = run_git!(repository, "rev-parse", "HEAD")
+    mutated_entries = changed_entries_between(repository, verifier, mutated)
+    mutated_status, = mutated_entries.find { |_, path| path == evidence_path }
+    abort "mutated proof evidence was accepted" if immutable_manifest_addition?(
+      repository, verifier, mutated, mutated_status, evidence_path, manifest_paths
+    )
+
+    File.write(File.join(repository, "adl-runtime/src/guardian.rs"), "product-v2\n")
+    abort "dirty product worktree was accepted" if clean_worktree?(repository)
+    run_git!(repository, "restore", "adl-runtime/src/guardian.rs")
+
+    File.write(File.join(repository, evidence_path), "proof-v1\n")
+    run_git!(repository, "add", evidence_path)
+    run_git!(repository, "commit", "-m", "restore proof evidence")
+    restored = run_git!(repository, "rev-parse", "HEAD")
+    restored_entries = changed_entries_between(repository, verifier, restored)
+    restored_status, = restored_entries.find { |_, path| path == evidence_path }
+    abort "mutate-then-revert proof evidence was accepted" if immutable_manifest_addition?(
+      repository, verifier, restored, restored_status, evidence_path, manifest_paths
+    )
+
+    run_git!(repository, "switch", "--detach", proof)
+    FileUtils.mkdir_p(File.join(repository, ".csdlc/issues/#{REPAIR_ISSUE}"))
+    run_git!(repository, "mv", "adl-runtime/src/guardian.rs", ".csdlc/issues/#{REPAIR_ISSUE}/guardian.rs")
+    run_git!(repository, "commit", "-m", "rename product into allowlist")
+    renamed = run_git!(repository, "rev-parse", "HEAD")
+    renamed_entries = changed_entries_between(repository, proof, renamed)
+    abort "rename hid a Runtime product change" if renamed_entries.all? { |_, path| post_proof_change_allowed?(path) }
+
+    run_git!(repository, "checkout", "--orphan", "unrelated")
+    run_git!(repository, "rm", "-rf", ".")
+    File.write(File.join(repository, "unrelated.txt"), "unrelated\n")
+    run_git!(repository, "add", "unrelated.txt")
+    run_git!(repository, "commit", "-m", "unrelated revision")
+    unrelated = run_git!(repository, "rev-parse", "HEAD")
+    begin
+      changed_entries_between(repository, proof, unrelated)
+      abort "non-ancestor verifier revision was accepted"
+    rescue RuntimeError => error
+      abort error.message unless error.message == "proof revision is not an ancestor of verifier revision"
+    end
+  end
+
+  puts "PASS: native receipt role and finalization policies"
   exit 0
 end
 
@@ -147,27 +337,40 @@ packet_argument = ARGV.fetch(0, ".csdlc/evidence/#{ISSUE}/runtime-native-receipt
 packet_path = contained_issue_file(packet_argument, "native receipt packet")
 packet = JSON.parse(File.read(packet_path))
 abort "wrong schema" unless packet["schema"] == "adl.runtime_guardian_native_receipts.v3"
+manifest_paths = manifest_evidence_paths(packet).uniq
+manifest_paths << packet_argument unless manifest_paths.include?(packet_argument)
 
 head, status = Open3.capture2("git", "rev-parse", "HEAD")
 abort "cannot resolve HEAD" unless status.success?
 head = head.strip
 proof_revision = packet["source_revision"].to_s
 abort "invalid proof revision" unless proof_revision.match?(/\A[0-9a-f]{40}\z/)
+abort "native receipt validation requires a clean worktree" unless clean_worktree?(REPOSITORY_ROOT)
 unless proof_revision == head
-  changed, diff_status = Open3.capture2(
-    "git", "diff", "--name-only", "#{proof_revision}..#{head}"
-  )
-  abort "cannot compare proof and verifier revisions" unless diff_status.success?
-  changed_paths = changed.lines.map(&:strip).reject(&:empty?)
-  abort "runtime product changed after native proof" unless changed_paths.all? { |path| post_proof_change_allowed?(path) }
+  changed_entries = begin
+    changed_entries_between(REPOSITORY_ROOT, proof_revision, head)
+  rescue RuntimeError => error
+    abort error.message
+  end
+  allowed = changed_entries.all? do |status_code, path|
+    post_proof_change_allowed?(path) || immutable_manifest_addition?(
+      REPOSITORY_ROOT,
+      proof_revision,
+      head,
+      status_code,
+      path,
+      manifest_paths
+    )
+  end
+  abort "runtime product changed after native proof" unless allowed
 end
 
 receipts = Array(packet["receipts"])
 blockers = Array(packet["blockers"])
 covered_platforms = receipts.map { |entry| entry["platform"] } + blockers.map { |entry| entry["platform"] }
-abort "platform denominator drift" unless covered_platforms.sort == PLATFORMS
-abort "platform entries must be unique" unless covered_platforms.uniq.length == covered_platforms.length
-abort "production receipts must cover macOS and Linux" unless receipts.map { |entry| entry["platform"] }.sort == %w[linux macos]
+abort "platform denominator drift" unless same_denominator?(covered_platforms, PLATFORMS)
+abort "platform entries must be unique" unless unique_values?(covered_platforms)
+abort "production receipts must cover macOS and Linux" unless same_denominator?(receipts.map { |entry| entry["platform"] }, %w[linux macos])
 abort "only native Windows may be blocked" unless blockers.map { |entry| entry["platform"] } == ["windows"]
 
 blockers.each do |blocker|
@@ -210,8 +413,8 @@ receipts.each do |receipt|
   artifacts = Array(receipt["artifacts"])
   roles = artifacts.map { |artifact| artifact["role"] }
   expected_roles = platform == "linux" ? LINUX_ARTIFACT_ROLES : COMMON_ARTIFACT_ROLES
-  abort "#{platform} artifact role denominator drift" unless roles.sort == expected_roles.sort
-  abort "#{platform} artifact roles must be unique" unless roles.uniq.length == roles.length
+  abort "#{platform} artifact role denominator drift" unless same_denominator?(roles, expected_roles)
+  abort "#{platform} artifact roles must be unique" unless unique_values?(roles)
   artifacts_by_role = artifacts.to_h do |artifact|
     role = artifact.fetch("role")
     resolved, digest, content_digest = checked_artifact(artifact, "#{platform} #{role}")
