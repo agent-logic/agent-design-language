@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Issue 63 design, exact semantic-operation boundary, phase/card/recovery authorization, audit old/new truth, AST/render/validator invariants, focused proof, and no-widening constraints.
+csdlc-v2/src/cards.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate2.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/63
+.csdlc/prepared/issues/63
 
 ## Prompts
 
@@ -32,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The focused regressions intentionally avoid broad workspace tests; GitHub CI remains the integration proof for the bounded C-SDLC v2 change.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8f2172ea05f7829a89619606a7c402e0ab062341:d1ecf3ca2b6f22ca40c15fe02e373f51c9442b635b2a057b4de6d405bc3d533d")
 
-Reviewer: None
+Reviewer: Some("subagent:63-exact-head-review")
 
-Result: pre_review
+Result: pass

@@ -3,13 +3,42 @@
   "issue": 63,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "92a81b9bbaf710e41487a09174dc234dfffc8acccf4e348385a5e9ca85263df6",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "12e2256fe08d6819f947bc594ac7097c2a5241f813ec0594641361de12f596fc",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "508293672e1b8ad52ec313878fda2abc8d028ca5b59ba22aafd268acd04c2f50",
   "branch": "codex/63-implemented-sip-scope-correction-preparation",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-63-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:63-exact-head-review",
+    "assigned_by": "codex:63-implementation",
+    "revision": "git-blake3:8f2172ea05f7829a89619606a7c402e0ab062341:d1ecf3ca2b6f22ca40c15fe02e373f51c9442b635b2a057b4de6d405bc3d533d",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/63",
+      ".csdlc/prepared/issues/63"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:63-exact-head-review",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/63",
+      ".csdlc/prepared/issues/63"
+    ],
+    "reviewed_revision": "git-blake3:8f2172ea05f7829a89619606a7c402e0ab062341:d1ecf3ca2b6f22ca40c15fe02e373f51c9442b635b2a057b4de6d405bc3d533d",
+    "findings": [],
+    "residual_risks": [
+      "The focused regressions intentionally avoid broad workspace tests; GitHub CI remains the integration proof for the bounded C-SDLC v2 change."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8e4860c12382d0f1abe550ad93d82e8808610a8a4409324c279c71ddbed04e46",
+      "values_digest": "8cc440f973ac53d3a987686c2c1aa9daaba3be5284bb7fe407b6b8e360df85f9",
       "rendered_digest": "dce16ee8175c62a94b90fa1d7668798328cefe5359a926b2d933307a52fe5e29",
       "ast_digest": "6ce9f3483bb6f4db345918b2011e09b8efe75340845d60d6a25b4f262c65a7bc"
     },
     "stp": {
-      "values_digest": "cb73a61119d190f76b211ed900488db050f319e2629ad20a459ff27c0c79b61f",
+      "values_digest": "33e25ff02a74ada68ba4ee13704ea4b0174804dff61a578ee7d24d90c65acd02",
       "rendered_digest": "f6bcd90537303314e2f494e3007972dde07e77541016f75089010cc934bf8d83",
       "ast_digest": "11c54393422b8e4426c61a8170fce897701c6a941f2973a8ab2674cb06fe5a51"
     },
     "spp": {
-      "values_digest": "6ff8f443a1bf2a80e0a304a1544d42a81c35837975dcc71544268e2764829615",
+      "values_digest": "4d19a217a0c2dfd458eee13204a00826b4f63652db3bb44aa90e4307cddfd7f8",
       "rendered_digest": "6af1f8a6bbeed6059cf4456cd3ee95f9ccffbcd57e14e92f650c397efddbc6f3",
       "ast_digest": "ee853bf68137260b57ef33c642784080e87e88c1c9f68e20a2978bc2aa2ed412"
     },
     "vpp": {
-      "values_digest": "6147627f832b8c73b71247efb47a342daab1fac49c49089e85229091f022254d",
+      "values_digest": "7c5ea80fa00de090ddec4ab3df1a225e90fdfb9d51ce31d93431bd873009eb19",
       "rendered_digest": "3d9d74ee9cdd21e1ece5d56c9646ae312db2bcdc6c9797d0795e5164d5165ec9",
       "ast_digest": "cff13592ec6ddf3768660134b0c772589f97ac46f26656ef4749069a248882f0"
     },
     "srp": {
-      "values_digest": "84900fefe97108c605fe0b7439fe4fc746aa5d1cbae9a45c3b4d0186455393d3",
-      "rendered_digest": "5a7c9e1a5fcf0c5caad09061b084ee27bcb8f24b207805898b6477f6a6c8344c",
-      "ast_digest": "cc58d7e279e01cf0402b89553d137fa12bb1dcaec9fabd0274fc360ebf5d78d4"
+      "values_digest": "9f97b6efbbc7ed886fb1c1703985456ee32cba66b0fd8d03d465b1f304dc7e65",
+      "rendered_digest": "008271e47be010216786afbf676bbdf5e4df8db193d99385778454ce0c4b9e6a",
+      "ast_digest": "b701b7c842c04ebd993bbb1bfd7cd2fa54dd182a42952a94889069671a995b73"
     },
     "sor": {
-      "values_digest": "d896a266d0bc872cf16dc070aad2a70fb9d5d684a12b4438ce102ca0a0e76dc2",
+      "values_digest": "a65fbb28b68d249ff05dae4b8897c58294f46b7c677d77e9008439e5ae61be4e",
       "rendered_digest": "1aef8270ab3fceec8645c9a004bcf365da5afe88116035f764062c1f6138ecf0",
       "ast_digest": "1b899c195377c88cd39782f9033fbb2027038c03d263cadbd27f6a29b9763b53"
     }
@@ -75,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:63-implementation",
       "reason": "Bounded implementation and focused local proof are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:63-exact-head-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -231,6 +267,20 @@
       "actor": "codex:63-implementation",
       "reason": "Bounded implementation and focused local proof are complete; exact-head review is next.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:63-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "subagent:63-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
