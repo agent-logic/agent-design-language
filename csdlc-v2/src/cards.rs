@@ -1,6 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
+use std::process::Command;
 
 use markdown::mdast::Node;
 use markdown::{to_mdast, ParseOptions};
@@ -1652,7 +1653,43 @@ pub(crate) struct ExecutionReadinessFinding {
     pub message: String,
 }
 
-fn validator_targets(lane: &ValidationLane) -> Vec<String> {
+fn cargo_package_root(root: &Path, manifest: Option<&str>, package: &str) -> Option<PathBuf> {
+    let manifest = manifest.unwrap_or("Cargo.toml");
+    let manifest_path = root.join(manifest);
+    if !manifest_path.is_file() {
+        return None;
+    }
+    let output = Command::new("cargo")
+        .current_dir(root)
+        .args([
+            "metadata",
+            "--no-deps",
+            "--format-version",
+            "1",
+            "--manifest-path",
+        ])
+        .arg(&manifest_path)
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    let metadata: serde_json::Value = serde_json::from_slice(&output.stdout).ok()?;
+    let package_manifest = metadata
+        .get("packages")?
+        .as_array()?
+        .iter()
+        .find(|candidate| candidate.get("name").and_then(|name| name.as_str()) == Some(package))?
+        .get("manifest_path")?
+        .as_str()?;
+    Path::new(package_manifest)
+        .parent()?
+        .strip_prefix(root)
+        .ok()
+        .map(Path::to_path_buf)
+}
+
+fn validator_targets(root: &Path, lane: &ValidationLane) -> Vec<String> {
     let Some(executable) = lane.argv.first().map(String::as_str) else {
         return Vec::new();
     };
@@ -1677,11 +1714,18 @@ fn validator_targets(lane: &ValidationLane) -> Vec<String> {
                     .iter()
                     .find_map(|value| value.strip_prefix("--package="))
             });
-        let crate_root = manifest
-            .map(Path::new)
-            .and_then(Path::parent)
-            .or_else(|| package.map(Path::new))
-            .unwrap_or_else(|| Path::new(""));
+        let crate_root = if let Some(package) = package {
+            let Some(crate_root) = cargo_package_root(root, manifest, package) else {
+                return Vec::new();
+            };
+            crate_root
+        } else {
+            manifest
+                .map(Path::new)
+                .and_then(Path::parent)
+                .unwrap_or_else(|| Path::new(""))
+                .to_path_buf()
+        };
         let mut targets = Vec::new();
         for (index, value) in lane.argv.iter().enumerate() {
             let name = if value == "--test" {
@@ -1725,13 +1769,16 @@ fn validator_targets(lane: &ValidationLane) -> Vec<String> {
 }
 
 fn explicitly_deferred_validator(
+    root: &Path,
     path: &str,
     lane: &ValidationLane,
     owned_paths: &[String],
     deliverables: &[String],
     failure_policy: &str,
 ) -> bool {
-    validator_targets(lane).iter().any(|target| target == path)
+    validator_targets(root, lane)
+        .iter()
+        .any(|target| target == path)
         && owned_paths.iter().any(|owned| owned == path)
         && deliverables.iter().any(|deliverable| deliverable == path)
         && lane
@@ -1747,12 +1794,7 @@ fn fail_closed_policy(value: &str) -> bool {
         .filter(|word| !word.is_empty())
         .map(str::to_ascii_lowercase)
         .collect::<Vec<_>>();
-    words.windows(2).enumerate().any(|(index, pair)| {
-        pair == ["fail", "closed"]
-            && !words[index.saturating_sub(3)..index]
-                .iter()
-                .any(|word| matches!(word.as_str(), "not" | "never" | "without" | "avoid"))
-    })
+    matches!(words.as_slice(), [first, second, ..] if first == "fail" && second == "closed")
 }
 
 fn required_validator_deliverable(path: &str) -> bool {
@@ -2027,10 +2069,11 @@ fn execution_readiness_findings(
                 ),
             });
         }
-        let targets = validator_targets(lane);
+        let targets = validator_targets(root, lane);
         for target in &targets {
             let exists = root.join(target).is_file();
             let deferred = explicitly_deferred_validator(
+                root,
                 target,
                 lane,
                 affected_areas,
@@ -2061,7 +2104,7 @@ fn execution_readiness_findings(
     }
     let selected_targets = lanes
         .iter()
-        .flat_map(validator_targets)
+        .flat_map(|lane| validator_targets(root, lane))
         .collect::<BTreeSet<_>>();
     for validator in deliverables
         .iter()
@@ -2070,6 +2113,7 @@ fn execution_readiness_findings(
         let exists = root.join(validator).is_file();
         let deferred = lanes.iter().any(|lane| {
             explicitly_deferred_validator(
+                root,
                 validator,
                 lane,
                 affected_areas,

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all five exact-head pre-PR review findings without widening issue 17.
+Resolved the final two exact-head review findings without widening issue 17.
 
 ## Artifacts
 
@@ -22,6 +22,8 @@ Resolved all five exact-head pre-PR review findings without widening issue 17.
 - csdlc-v2/tests/gate2.rs
 - csdlc-v2/src/cards.rs
 - csdlc-v2/src/doctor.rs
+- csdlc-v2/tests/gate2.rs
+- csdlc-v2/src/cards.rs
 - csdlc-v2/tests/gate2.rs
 - csdlc-v2/src/cards.rs
 - csdlc-v2/tests/gate2.rs
@@ -39,6 +41,9 @@ Resolved all five exact-head pre-PR review findings without widening issue 17.
 - Anchor Rust module routing checks to Cargo crate roots and resolve nested parent modules correctly.
 - Recognize Cargo manifest equals syntax and package-selected integration tests.
 - Add focused positive and negative production-path fixtures for every review finding.
+- Require fail-closed deferral policy to begin with the explicit normalized fail-closed authority phrase.
+- Resolve package-selected Cargo validators through cargo metadata instead of inferring package directories.
+- Prove package-name and member-directory divergence with a valid workspace fixture and a distant policy negation.
 
 ## Validation
 
@@ -79,6 +84,19 @@ Resolved all five exact-head pre-PR review findings without widening issue 17.
       "gate2"
     ],
     "purpose": "Prove the issue-5795-shaped false-ready rejection and focused edge cases for fail-closed deferral, product scripts, Cargo-root routing, nested modules, and Cargo target syntax.",
+    "outcome": "passed",
+    "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2"
+    ],
+    "purpose": "Prove strict fail-closed deferral and cargo-metadata package resolution alongside the complete issue-5795 readiness fixture.",
     "outcome": "passed",
     "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
   }

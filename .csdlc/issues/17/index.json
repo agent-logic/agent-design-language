@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ce7a72390c3da02eb291f61abc2642d9eab856af390152b0d5898de5646a09b8",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "c378a3ea641a622e02e0bb6050f1057049325ffc8891a857e946375344d6a1ca",
+  "generation": 9,
+  "digest": "e9000234303bda9d4a82fe5ba5781876e19112d56006b7c53ad77b710474edd9",
   "branch": "codex/17-doctor-execution-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-17-doctor-readiness",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4c8d18ffbb7cd15ea59dda4233b8b01f1590676ae82e0728a77c3b24b624408f",
+      "values_digest": "37653041c60971f67324230fd2fc06cebb2b1af929f6e27749cef8c8d302709f",
       "rendered_digest": "e72b4cda2964938872e2d78baa969536ec92825abdee173948b39f78493ad91c",
       "ast_digest": "cdf21bf65f18a6587e11420b5dddd84e6bf9bd27056e7b20042c3f6c69887a09"
     },
     "stp": {
-      "values_digest": "583ba4d89a78374ab191503c4615bd0c8d2f7147add4b72c02355230028968d4",
+      "values_digest": "bdc06c393849234ff74509cdd036bcf16d4dfea3c581ca9f4547d4bdd60f9355",
       "rendered_digest": "5e05a8bc472d7a2e806231380618ccc386804602f6253d588c3fd42b71131d48",
       "ast_digest": "6b515217a0e3d6a9214b6f94844e87e45522bf7c5a9528524cba8966c6ad913b"
     },
     "spp": {
-      "values_digest": "f886b5575262771cb0423792bd808f1a099bea9f56b3e856745a5a37ac7bb10f",
+      "values_digest": "b7b0e89397fb2fd13b06566bdfa84ae076a0176cf95c13f29ea2d5ead331c694",
       "rendered_digest": "da53851d2e3f88b746f70f69220bdcf6bd8133b8e3cacdb385f802328acaadc1",
       "ast_digest": "2f22946cf0d855ab292277f5d1b285e223fd31bae80b4e27f84b511fbf9b6fd6"
     },
     "vpp": {
-      "values_digest": "f2f657c49920ec568062535c163be026df7c56b4a1767393d2f9c9a278622d86",
+      "values_digest": "813f13ff3d3f6e85b195c283d2a9ee7f456e82567cf379391f27c3e1dfad48f6",
       "rendered_digest": "64ea916b9f57f0ff3862f3aafc0f2fc8bfca44013583fa7a7cb94810e0a3f029",
       "ast_digest": "cf00c15da48770b261126e67b84c532bd36cfb9b4026d97ccc9cf82c348f7885"
     },
     "srp": {
-      "values_digest": "2ca14aa3c557175f1f57cdc840b69f72b7f037db88383b2f1f01d057f664371c",
+      "values_digest": "6ac25511f3ba3e2d7abb173b97e8d94121c5de541ae6fa7b9d3bf2504ee46f83",
       "rendered_digest": "06e214fdcfd0d6e01c6c50c6e742bbd553d6404c724d3d49c247d9ad6dbd3dd9",
       "ast_digest": "b66d4e7273cef602bc78c1ca03d38b819c18eb07adc3aaf0ef532a13c02bd095"
     },
     "sor": {
-      "values_digest": "c164d5d87ff6153f79d1485c2799bff7706a8d8af653ffb6f5c7daffcf613dd0",
-      "rendered_digest": "e540e6d378394be3f5f624cb70e21a2bb95467ebf00c0adc64b71d812ab70699",
-      "ast_digest": "2dddf67a50fac0abb02fd923ed568496eb1624ec7f449cf0a09e6ac0a8e09008"
+      "values_digest": "9c36b1332490663dc8d0fd69e4c5ffd61dbacdf520700eee240a1762ed92ddf5",
+      "rendered_digest": "86917bf93734c8d09721ff7a25310860040f313f94b49e33227531ded2780584",
+      "ast_digest": "208beccd4757d4ccb3fcaa5949b646c48c5246083843deea6b71b29285500dd6"
     }
   },
   "transitions": [
@@ -140,6 +140,20 @@
       "actor": "codex:issue-17-doctor-readiness",
       "reason": "Record focused validation after resolving all pre-PR review findings.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the issue-5795-shaped false-ready rejection and focused edge cases for fail-closed deferral, product scripts, Cargo-root routing, nested modules, and Cargo target syntax.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Record the final exact-head review corrections.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved the final two exact-head review findings without widening issue 17.\",\"changes\":[\"Require fail-closed deferral policy to begin with the explicit normalized fail-closed authority phrase.\",\"Resolve package-selected Cargo validators through cargo metadata instead of inferring package directories.\",\"Prove package-name and member-directory divergence with a valid workspace fixture and a distant policy negation.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/gate2.rs\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Record final focused validation after exact-head review corrections.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove strict fail-closed deferral and cargo-metadata package resolution alongside the complete issue-5795 readiness fixture.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed\"}}"
     }
   ]
 }

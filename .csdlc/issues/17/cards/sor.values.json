@@ -7,13 +7,13 @@
     "title": "C-SDLC doctor should reject repository drift and non-executable owned-path plans",
     "slug": "doctor-execution-readiness",
     "version": "v0.92",
-    "generation": 7
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Resolved all five exact-head pre-PR review findings without widening issue 17.",
+      "summary": "Resolved the final two exact-head review findings without widening issue 17.",
       "actual_changes": [
         "Parse canonical GitHub origin identity and report deterministic repository drift.",
         "Return specific execution-readiness finding codes for owned paths, Rust module routes, validator availability, and denominator coverage.",
@@ -25,7 +25,10 @@
         "Classify validator deliverables by test and validation semantics instead of treating every script as a validator.",
         "Anchor Rust module routing checks to Cargo crate roots and resolve nested parent modules correctly.",
         "Recognize Cargo manifest equals syntax and package-selected integration tests.",
-        "Add focused positive and negative production-path fixtures for every review finding."
+        "Add focused positive and negative production-path fixtures for every review finding.",
+        "Require fail-closed deferral policy to begin with the explicit normalized fail-closed authority phrase.",
+        "Resolve package-selected Cargo validators through cargo metadata instead of inferring package directories.",
+        "Prove package-name and member-directory divergence with a valid workspace fixture and a distant policy negation."
       ],
       "artifacts": [
         "csdlc-v2/src/cards.rs",
@@ -34,6 +37,8 @@
         "csdlc-v2/tests/gate2.rs",
         "csdlc-v2/src/cards.rs",
         "csdlc-v2/src/doctor.rs",
+        "csdlc-v2/tests/gate2.rs",
+        "csdlc-v2/src/cards.rs",
         "csdlc-v2/tests/gate2.rs",
         "csdlc-v2/src/cards.rs",
         "csdlc-v2/tests/gate2.rs"
@@ -75,6 +80,19 @@
             "gate2"
           ],
           "purpose": "Prove the issue-5795-shaped false-ready rejection and focused edge cases for fail-closed deferral, product scripts, Cargo-root routing, nested modules, and Cargo target syntax.",
+          "outcome": "passed",
+          "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "purpose": "Prove strict fail-closed deferral and cargo-metadata package resolution alongside the complete issue-5795 readiness fixture.",
           "outcome": "passed",
           "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
         }

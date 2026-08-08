@@ -441,17 +441,28 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         assert!(issue_5795_diagnosis.contains(code), "missing {code}");
     }
 
-    fs::create_dir_all(repo.join("product/src/foo")).expect("nested product source");
-    fs::create_dir_all(repo.join("product/tests")).expect("product tests");
+    fs::create_dir_all(repo.join("workspace/member/src/foo")).expect("nested product source");
+    fs::create_dir_all(repo.join("workspace/member/tests")).expect("product tests");
     fs::create_dir_all(repo.join("docs/src")).expect("non-crate src directory");
     fs::write(
-        repo.join("product/Cargo.toml"),
+        repo.join("Cargo.toml"),
+        "[workspace]\nmembers = [\"workspace/member\"]\nresolver = \"2\"\n",
+    )
+    .expect("workspace manifest");
+    fs::write(
+        repo.join("workspace/member/Cargo.toml"),
         "[package]\nname = \"product\"\nversion = \"0.1.0\"\n",
     )
     .expect("product manifest");
-    fs::write(repo.join("product/src/foo/mod.rs"), "// parent module\n").expect("parent module");
+    fs::write(repo.join("workspace/member/src/lib.rs"), "pub mod foo;\n")
+        .expect("product crate root");
     fs::write(
-        repo.join("product/tests/focused.rs"),
+        repo.join("workspace/member/src/foo/mod.rs"),
+        "// parent module\n",
+    )
+    .expect("parent module");
+    fs::write(
+        repo.join("workspace/member/tests/focused.rs"),
         "// focused validator\n",
     )
     .expect("focused validator");
@@ -462,22 +473,22 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     valid_edge_shapes.initial.repo_inputs[0] = "design/issue-45.md".into();
     valid_edge_shapes.initial.affected_areas = vec![
         "design/issue-45.md".into(),
-        "product/src/foo/mod.rs".into(),
-        "product/src/foo/bar/mod.rs".into(),
-        "product/src/server.py".into(),
+        "workspace/member/src/foo/mod.rs".into(),
+        "workspace/member/src/foo/bar/mod.rs".into(),
+        "workspace/member/src/server.py".into(),
         "docs/src/example.rs".into(),
-        "product/tests/focused.rs".into(),
+        "workspace/member/tests/focused.rs".into(),
     ];
     valid_edge_shapes.initial.deliverables = vec![
-        "product/src/foo/bar/mod.rs".into(),
-        "product/src/server.py".into(),
+        "workspace/member/src/foo/bar/mod.rs".into(),
+        "workspace/member/src/server.py".into(),
         "docs/src/example.rs".into(),
-        "product/tests/focused.rs".into(),
+        "workspace/member/tests/focused.rs".into(),
     ];
     valid_edge_shapes.initial.validation_lanes[0].argv = vec![
         "cargo".into(),
         "test".into(),
-        "--manifest-path=product/Cargo.toml".into(),
+        "--manifest-path=workspace/member/Cargo.toml".into(),
         "--test=focused".into(),
     ];
     fs::write(repo.join("design/issue-45.md"), "# Approved design\n").expect("edge-shape design");
@@ -538,7 +549,11 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
 
     fs::create_dir_all(repo.join("validators")).expect("validator directory");
     for (issue, failure_policy, should_pass) in [
-        (46_u64, "Do not fail closed when proof is absent.", false),
+        (
+            46_u64,
+            "Do not under any circumstances ever fail closed when proof is absent.",
+            false,
+        ),
         (47_u64, "Fail closed when proof is absent.", true),
     ] {
         let design = format!("design/issue-{issue}.md");
