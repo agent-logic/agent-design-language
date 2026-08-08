@@ -49,6 +49,15 @@ Added an explicit v3 receipt contract that derives the evidence commit from the 
     "purpose": "Reject malformed tracked changes before exact-head review.",
     "outcome": "passed",
     "evidence_ref": "local:issue-53-diff-check:passed"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb"
+    ],
+    "purpose": "Prove protected test-source tampering and post-evidence tamper-then-revert history fail closed in addition to the original A/B/C and retained-v2 cases.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-53-review-fix-regression:passed"
   }
 ]
 

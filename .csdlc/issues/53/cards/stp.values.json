@@ -7,7 +7,7 @@
     "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
     "slug": "execution-proof-non-self-referential-revisions",
     "version": "v0.92",
-    "generation": 14
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -22,12 +22,12 @@
         "Exact-head review and qualified issue-closing implementation PR"
       ],
       "acceptance_criteria": [
-        "AC-1: A tracked receipt for substantive commit A committed in evidence-only commit B validates without recursive HEAD rewriting",
-        "AC-2: The validator distinguishes and resolves source_revision and evidence_revision",
-        "AC-3: Source is an ancestor of evidence and evidence is an ancestor of current HEAD",
+        "AC-1: A tracked execution-proof receipt can be committed without requiring an infinite sequence of HEAD rewrites",
+        "AC-2: The validator distinguishes substantive source revision from evidence-only commit revision",
+        "AC-3: Both revisions and their ancestry are machine-verified",
         "AC-4: Every A..B changed path is confined to declared issue evidence and receipt paths",
-        "AC-5: Source, command, logs, negatives, native receipts, and artifact tampering still fail closed",
-        "AC-6: Focused regression proves A then B plus later metadata C and all named rejection cases",
+        "AC-5: Tampering with source, test, logs, or receipt still fails closed",
+        "AC-6: Focused regression covers substantive commit A followed by evidence-only commit B plus later metadata C and named rejection cases",
         "AC-7: Retained v2 receipts are not reinterpreted or migrated",
         "AC-8: Exact-head review has no unresolved actionable findings"
       ],

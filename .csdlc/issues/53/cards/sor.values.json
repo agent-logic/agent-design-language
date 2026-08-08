@@ -7,7 +7,7 @@
     "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
     "slug": "execution-proof-non-self-referential-revisions",
     "version": "v0.92",
-    "generation": 14
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -45,6 +45,15 @@
           "purpose": "Reject malformed tracked changes before exact-head review.",
           "outcome": "passed",
           "evidence_ref": "local:issue-53-diff-check:passed"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb"
+          ],
+          "purpose": "Prove protected test-source tampering and post-evidence tamper-then-revert history fail closed in addition to the original A/B/C and retained-v2 cases.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-53-review-fix-regression:passed"
         }
       ],
       "integration_state": "not_started",

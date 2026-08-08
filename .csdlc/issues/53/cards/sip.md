@@ -21,7 +21,7 @@ A committed receipt names machine-verified substantive and evidence revisions wi
 ## Scope
 
 - .csdlc/prepared/issues/5862/proof-receipt-contract.rb
-- adl/tools/test_wp04_proof_receipt_contract.rb
+- .csdlc/prepared/issues/53/test-proof-receipt-contract.rb
 - .csdlc/prepared/issues/53
 - .csdlc/issues/53
 

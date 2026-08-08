@@ -24,12 +24,12 @@ Add an explicit two-revision v3 proof contract and focused regression without mi
 
 ## Acceptance
 
-1. AC-1: A tracked receipt for substantive commit A committed in evidence-only commit B validates without recursive HEAD rewriting
-2. AC-2: The validator distinguishes and resolves source_revision and evidence_revision
-3. AC-3: Source is an ancestor of evidence and evidence is an ancestor of current HEAD
+1. AC-1: A tracked execution-proof receipt can be committed without requiring an infinite sequence of HEAD rewrites
+2. AC-2: The validator distinguishes substantive source revision from evidence-only commit revision
+3. AC-3: Both revisions and their ancestry are machine-verified
 4. AC-4: Every A..B changed path is confined to declared issue evidence and receipt paths
-5. AC-5: Source, command, logs, negatives, native receipts, and artifact tampering still fail closed
-6. AC-6: Focused regression proves A then B plus later metadata C and all named rejection cases
+5. AC-5: Tampering with source, test, logs, or receipt still fails closed
+6. AC-6: Focused regression covers substantive commit A followed by evidence-only commit B plus later metadata C and named rejection cases
 7. AC-7: Retained v2 receipts are not reinterpreted or migrated
 8. AC-8: Exact-head review has no unresolved actionable findings
 

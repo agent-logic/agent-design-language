@@ -13,6 +13,8 @@ require_relative "../5862/proof-receipt-contract"
 ISSUE = 53
 WP = "WP-04.RECEIPT"
 PRODUCT = "src/product.txt"
+TEST_SOURCE = "tests/receipt_contract_test.rb"
+PROTECTED_PATHS = [PRODUCT, TEST_SOURCE].freeze
 TEST_NAME = "receipt_contract"
 EVIDENCE = ".csdlc/evidence/#{ISSUE}"
 PROOF = "#{EVIDENCE}/execution-proof.json"
@@ -48,7 +50,7 @@ def base_proof(source, schema: "adl.wp04.execution_proof.v3")
     "issue" => ISSUE,
     "wp" => WP,
     "source_revision" => source,
-    "protected_paths" => [PRODUCT],
+    "protected_paths" => PROTECTED_PATHS,
     "commands" => [{
       "argv" => ["ruby", "test", TEST_NAME, "--no-tests=fail"],
       "exit_code" => 0,
@@ -80,7 +82,10 @@ def base_proof(source, schema: "adl.wp04.execution_proof.v3")
     "native_receipts" => []
   }.tap do |proof|
     if schema.end_with?("v3")
-      proof["source_artifacts"] = [{"path" => PRODUCT, "sha256" => Digest::SHA256.hexdigest("product A\n")}]
+      proof["source_artifacts"] = [
+        {"path" => PRODUCT, "sha256" => Digest::SHA256.hexdigest("product A\n")},
+        {"path" => TEST_SOURCE, "sha256" => Digest::SHA256.hexdigest("test A\n")}
+      ]
       proof["evidence_revision_strategy"] = "derive_from_receipt_introduction"
     end
   end
@@ -93,6 +98,7 @@ def fixture(schema: "adl.wp04.execution_proof.v3", mutate_before_evidence: nil, 
       run_git("config", "user.email", "csdlc-test@example.invalid")
       run_git("config", "user.name", "C-SDLC Test")
       write(PRODUCT, "product A\n")
+      write(TEST_SOURCE, "test A\n")
       source = commit("substantive A")
 
       write("#{EVIDENCE}/test.stdout.log", "one selected test passed\n")
@@ -118,7 +124,7 @@ def validate
   Wp04ProofReceiptContract.validate(
     issue: ISSUE,
     wp: WP,
-    paths: [PRODUCT],
+    paths: PROTECTED_PATHS,
     test: TEST_NAME,
     platforms: []
   )
@@ -146,6 +152,10 @@ fixture(mutate_before_evidence: ->(_proof, _source) { write(PRODUCT, "product dr
   expect_failure("product drift", /escapes issue evidence/) { validate }
 end
 
+fixture(mutate_before_evidence: ->(_proof, _source) { write(TEST_SOURCE, "test tamper in B\n") }) do
+  expect_failure("test tamper", /escapes issue evidence/) { validate }
+end
+
 fixture(mutate_before_evidence: ->(proof, _source) { proof["source_revision"] = "bad" }) do
   expect_failure("malformed source", /source revision malformed/) { validate }
 end
@@ -166,6 +176,16 @@ end) do
   expect_failure("receipt tamper", /receipt content differs from evidence revision/) { validate }
 end
 
+fixture(mutate_after_evidence: lambda do |_proof, _source, _evidence|
+  original = File.binread("#{EVIDENCE}/test.stdout.log")
+  write("#{EVIDENCE}/test.stdout.log", "transient tamper\n")
+  commit("tamper evidence")
+  write("#{EVIDENCE}/test.stdout.log", original)
+  commit("revert evidence tamper")
+end) do
+  expect_failure("tamper then revert", /evidence changed after its introduction/) { validate }
+end
+
 fixture(mutate_after_evidence: ->(_proof, _source, _evidence) { write("#{EVIDENCE}/test.stdout.log", "tampered\n") }) do
   expect_failure("log tamper", /stdout digest mismatch/) { validate }
 end
@@ -174,6 +194,7 @@ fixture(mutate_before_evidence: lambda do |proof, source|
   run_git("checkout", "--quiet", "--orphan", "unrelated")
   run_git("rm", "--quiet", "-r", "-f", ".")
   write(PRODUCT, "product A\n")
+  write(TEST_SOURCE, "test A\n")
   unrelated = commit("unrelated source")
   run_git("checkout", "--quiet", "main")
   raise "fixture source changed" unless run_git("rev-parse", "HEAD") == source

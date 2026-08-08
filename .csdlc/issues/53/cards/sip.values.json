@@ -7,7 +7,7 @@
     "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
     "slug": "execution-proof-non-self-referential-revisions",
     "version": "v0.92",
-    "generation": 14
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "required_outcome": "A committed receipt names machine-verified substantive and evidence revisions with valid ancestry and evidence-only intervening changes, while all existing proof digests remain fail closed.",
       "declared_scope": [
         ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
-        "adl/tools/test_wp04_proof_receipt_contract.rb",
+        ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb",
         ".csdlc/prepared/issues/53",
         ".csdlc/issues/53"
       ],

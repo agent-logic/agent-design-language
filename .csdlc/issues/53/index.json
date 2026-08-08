@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "26c54e5f037839ecd9f4f8a2410a5453e2d4d7ecf5353bec3092a45257b39c61",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "a6c1f6c81b615de664e377551c87ce5e0847232a2af3c00e49d508963078181c",
+  "generation": 17,
+  "digest": "4d34d9ab578659d51ff5e420fdef8ac1991159c67f09c6e3c82809ce9ac9dfe9",
   "branch": "codex/53-execution-proof-receipts",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-53",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "313c1e360b1127c9e9a6b718095340b91db356ef2453f60206975ea510974e69",
-      "rendered_digest": "9ed34e343bf1521f1e2f03f5634e53f00040a367d73c9ad839cf921c06eab0b6",
-      "ast_digest": "dc315ad176e4f345a70d7989e6ec86117653621f7c03950c136a492b80cce6c4"
+      "values_digest": "3841c9a5aa8be6ae829ae50b89a1a136de55ccdc068178fae2e36609516da244",
+      "rendered_digest": "f07742dec42f8c6399834b0faa7e562465eb254fa1ca065ee7c3c42be1b9335b",
+      "ast_digest": "a65fe820157792afa3e7bc2ad8d2916bccc0a9bda423c08ba289e8e29923cddb"
     },
     "stp": {
-      "values_digest": "559423e27429d67239fd5d433a4cdb542c9cf6a7c35d8ed3baed84b2f65d500c",
-      "rendered_digest": "f899fbc777d770eaf90600e37865860b64619eaf98dff767382142d13d6a8e71",
-      "ast_digest": "1e2c06d7118c6bac7669984228f71165d5aaf73590564c9857d6deca4626723c"
+      "values_digest": "6e15b07313e8a38d52af673af3de74b43ac2d915504697f27ff2d5366612afc1",
+      "rendered_digest": "01a2ef90056d83800f6a83470ae2095701a0dd622717d37b0028230d7043affa",
+      "ast_digest": "4943ac151c925da9bd45db1cc7b32a9d2cfc0688201294a38bcdf5e0b84056d1"
     },
     "spp": {
-      "values_digest": "2c2da9ea6e10f10c4497a644ea783cb92ed8f878c9d90b145c37a75c62a9f0cf",
+      "values_digest": "f1f2de70c9c9c1f80c05a379d36410c0081cdb0a2a7f6e0986cdc7d285407553",
       "rendered_digest": "5a5deddd37057c0d1ee177271d66d5097b0891352dfff249d356aeaacbc7d7b6",
       "ast_digest": "f273766ffdfafac9cd8952df47cd0e3374ee4d29438b8d7c26ef74060cbf7cfd"
     },
     "vpp": {
-      "values_digest": "2ed91e6a0072206e8fa4479c9903c57aa9ff880b844219bc746a5311c025b765",
+      "values_digest": "dad3e98bb87f4bfa1c0e79a6eb8d57ecc854a7358f4da850baaa3d8a5f2c3a6f",
       "rendered_digest": "7e07c72923a0b2ba2b51107514029a555c3a5a2db403a121665b23249ed266d7",
       "ast_digest": "bf0393884c3c50e31726533a5baa36526cf3acb6c7cf108454ed7bc023c90622"
     },
     "srp": {
-      "values_digest": "3b091333de7d811f3bcd67b7de20f75288fd6de06e3c09c649661c1956738ad6",
+      "values_digest": "ebf44ffa9c441c47e55c51a4f0cf516b1b412021c110ace5de8351fb771c6c19",
       "rendered_digest": "88d4066fd70908c1503c47f67e9fc6b5fa91c3a7577e86a664514d55b13887b5",
       "ast_digest": "b30f61a2e4e67d005984797aadb7cee13871ba42a6c300f3c1eea46d306f8810"
     },
     "sor": {
-      "values_digest": "ece2949e8d7c41e5537c79aecc1e704184e5088fc88b8756fbdc8b29849dbf8b",
-      "rendered_digest": "f6d262e3803379d69daed29fea9e52d34dcf7b9f2b37ceedbe631ee73916a083",
-      "ast_digest": "3067042589da07cce19fe01e3eb09bac7874f871fd7fcb52c86bac470ffee58f"
+      "values_digest": "3921c13335d4cf9af6334cd916f046fd9a493d5b9ff51dffe66f216d722bd903",
+      "rendered_digest": "679356b0ff9a7478f455f0b85dc494f9de46529b9bc6c63c510ac98e1e6cca4d",
+      "ast_digest": "3240c33f3034b64016804612955efcb117d8f10ebc27ce28d08e93d4226898a3"
     }
   },
   "transitions": [
@@ -189,6 +189,27 @@
       "actor": "codex:53-implementation",
       "reason": "Bounded implementation and focused local validation are complete; exact-head review is next.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:53-review-fix",
+      "reason": "Restore the live issue's explicit test-tampering acceptance boundary.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A tracked execution-proof receipt can be committed without requiring an infinite sequence of HEAD rewrites\",\"AC-2: The validator distinguishes substantive source revision from evidence-only commit revision\",\"AC-3: Both revisions and their ancestry are machine-verified\",\"AC-4: Every A..B changed path is confined to declared issue evidence and receipt paths\",\"AC-5: Tampering with source, test, logs, or receipt still fails closed\",\"AC-6: Focused regression covers substantive commit A followed by evidence-only commit B plus later metadata C and named rejection cases\",\"AC-7: Retained v2 receipts are not reinterpreted or migrated\",\"AC-8: Exact-head review has no unresolved actionable findings\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:53-review-fix",
+      "reason": "Replace the stale nonexistent test path with the implemented focused regression path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\",\".csdlc/prepared/issues/53\",\".csdlc/issues/53\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:53-review-fix",
+      "reason": "Record focused proof after resolving all first-pass review findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"],\"purpose\":\"Prove protected test-source tampering and post-evidence tamper-then-revert history fail closed in addition to the original A/B/C and retained-v2 cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-53-review-fix-regression:passed\"}}"
     }
   ]
 }

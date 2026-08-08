@@ -1,0 +1,22 @@
+{
+  "issue": 53,
+  "card": "stp",
+  "expected_generation": 14,
+  "expected_digest": "a6c1f6c81b615de664e377551c87ce5e0847232a2af3c00e49d508963078181c",
+  "actor": "codex:53-review-fix",
+  "reason": "Restore the live issue's explicit test-tampering acceptance boundary.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: A tracked execution-proof receipt can be committed without requiring an infinite sequence of HEAD rewrites",
+      "AC-2: The validator distinguishes substantive source revision from evidence-only commit revision",
+      "AC-3: Both revisions and their ancestry are machine-verified",
+      "AC-4: Every A..B changed path is confined to declared issue evidence and receipt paths",
+      "AC-5: Tampering with source, test, logs, or receipt still fails closed",
+      "AC-6: Focused regression covers substantive commit A followed by evidence-only commit B plus later metadata C and named rejection cases",
+      "AC-7: Retained v2 receipts are not reinterpreted or migrated",
+      "AC-8: Exact-head review has no unresolved actionable findings"
+    ]
+  },
+  "fail_after_backup": false
+}

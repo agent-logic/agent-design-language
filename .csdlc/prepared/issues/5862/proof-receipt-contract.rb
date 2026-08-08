@@ -74,8 +74,8 @@ module Wp04ProofReceiptContract
     abort "source-to-evidence diff is empty" if changed.empty?
     escaped = changed.reject { |path| path.start_with?(prefix) }
     abort "source-to-evidence diff escapes issue evidence: #{escaped.join(', ')}" unless escaped.empty?
-    drift = git("diff", "--name-only", evidence, head, "--", prefix).lines.map(&:strip).reject(&:empty?)
-    abort "evidence changed after its introduction: #{drift.join(', ')}" unless drift.empty?
+    later_touches = git("log", "--format=%H", "#{evidence}..#{head}", "--", prefix).lines.map(&:strip).reject(&:empty?)
+    abort "evidence changed after its introduction: #{later_touches.join(', ')}" unless later_touches.empty?
     [source, evidence]
   end
 
