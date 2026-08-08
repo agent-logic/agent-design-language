@@ -1,0 +1,85 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 18,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC schema commands should exit cleanly when stdout closes",
+    "slug": "csdlc-schema-broken-pipe",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-broken-pipe-focused",
+          "proof_role": "Focused library and split-binary tests prove EPIPE normalization, JSON preservation, and clean stderr.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "--test",
+            "gate_github_actions"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-broken-pipe-clippy",
+          "proof_role": "Warning-denied Clippy proves the shared writer and split binary integration remain clean.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "--bin",
+            "csdlc-github-issue",
+            "--bin",
+            "csdlc-github-pr",
+            "--test",
+            "gate_github_actions",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on panic output, nonzero schema exit, non-JSON stdout, swallowed non-EPIPE failures, or split-binary drift.",
+      "design_ref": ".csdlc/prepared/issues/18/design.md",
+      "design_digest": "b20e704be6264e0d1e06a94ba31f374c5fa04d7e93a3c132b6032820cfcb78ff",
+      "diagram_ref": ".csdlc/prepared/issues/18/diagram.mmd",
+      "diagram_digest": "a5ca558be2b84900ebea96067d66e8d6eb37b4c9c79f5589e172bf4432f4d598"
+    }
+  }
+}

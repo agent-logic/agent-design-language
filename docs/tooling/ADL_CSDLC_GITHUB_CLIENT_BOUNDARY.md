@@ -25,6 +25,15 @@ Every issue/comment mutation must carry an `operation_key`. The GitHub command
 surface renders it as a stable marker, reads back remote state, and fails closed
 on missing, duplicated, or mismatched reconciliation.
 
+## Machine Output Termination
+
+The split issue and PR binaries route schema, success, and typed error JSON
+through the shared C-SDLC stdout writer. Machine-readable JSON remains on
+stdout and human diagnostics remain on stderr. If a downstream reader closes
+stdout early, the writer treats `BrokenPipe` as normal termination and emits no
+panic or backtrace text. Serialization failures and every other stdout I/O
+error remain fail-closed.
+
 ## Shared Client Ownership
 
 Shared GitHub behavior belongs in the C-SDLC v2 GitHub library code, not in

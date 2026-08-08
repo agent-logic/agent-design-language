@@ -1,0 +1,138 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 18,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d17a38c463cbd63f4ad7f383210eef6caa09b6a87bfe493d8f72a07b2b8edc92",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "091e8a6f8c4ca215af947f63aaf159004d0b7f017b0176a17ce576ec9b07c8c7",
+  "branch": "codex/18-csdlc-schema-broken-pipe",
+  "worktree": "/Volumes/FastWork/adl-issue-18-csdlc-schema-broken-pipe",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/18/design.md",
+  "diagram_path": ".csdlc/prepared/issues/18/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-18-design-review",
+      "revision": "b20e704be6264e0d1e06a94ba31f374c5fa04d7e93a3c132b6032820cfcb78ff"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b5f9ee6d051f5371708f47be5d6a5a69e5784654fc8b738dbe4cda4696afa53f",
+      "rendered_digest": "8b64badbd46792e5f6e18425a18298d063cb5c0e886c571efb35ce67c7ec87a4",
+      "ast_digest": "7b399b7e98f1344f9d00e3fc11d9dfd66c8d7c37f141078f688c7be925c26999"
+    },
+    "stp": {
+      "values_digest": "c00989198e0e6a56fb9a4ed04c4dce3a97d45db67aea1a80e51f3dfa22b3e526",
+      "rendered_digest": "cd707c68335cbeda1d9d9f314b1daf75fad847e4c73d9174f8da1a6e8e993cb6",
+      "ast_digest": "d5c5575ef62f79f76767bf573b9ceacca87000c8b7b1d3d29f1e6b06ee735391"
+    },
+    "spp": {
+      "values_digest": "4f111f20705f1b6d123dd1e7f885e1223fadcdd3d24bfbcc44e4f9b711677d04",
+      "rendered_digest": "8b8fb91777ec69ef7e18b5eb43d98e4737044be0ebe211002f54392566039efb",
+      "ast_digest": "da27ad14946efd87cd4bb054c396e5f74508c9c1efcd648ca6fc4326bf75d051"
+    },
+    "vpp": {
+      "values_digest": "bc89e0d8aeb013291de1f6539e31e1d5c5149c0e18ff70677ba8672a10b9f1ef",
+      "rendered_digest": "7c889bce9c7912a5d645881107a98d11fb5fa798203a0e550e340a9e419f888c",
+      "ast_digest": "7813f4a1b07d939eedd6c29d1f9a14b320a7c6014269ef7624154f4b8b9f1d14"
+    },
+    "srp": {
+      "values_digest": "68f38dfd35b043f67e69ac24ea4f8357116d992ff8d192e7588e8065d13971fd",
+      "rendered_digest": "201b4b7bf794dd0b7d8748f4f52a5eb58648eb3f931abc11bce8c7a8e57f94c0",
+      "ast_digest": "f800739583d12bda48ff5d51e9df8997f1da063fa88bf38761880b8c35c4808c"
+    },
+    "sor": {
+      "values_digest": "5fb352977a3a2f3ca08c863f0ecbdec4b309569108a9f2d262f449fedb91795d",
+      "rendered_digest": "1f917dfc2f3f608b6bc9f216abb336b0ca1efd0755d17f92a4c032c84eb0d7cb",
+      "ast_digest": "08073f7e16007754930d4fd74916a79f9175df0eb7d3e84470f630a4809b3b0a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-18-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed shared output writer implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed split GitHub binary output routing.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed focused BrokenPipe regression coverage.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "Record completed output termination contract documentation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-18-broken-pipe",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
