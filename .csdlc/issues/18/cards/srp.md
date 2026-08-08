@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Issue #18 shared output writer, split binaries, focused tests, lifecycle truth, and output contract documentation.
+.
 
 ## Prompts
 
@@ -31,12 +31,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The shared helper is adopted only by the two split GitHub binaries bounded by issue #18; unrelated C-SDLC binaries retain legacy direct-print output paths.
+- The process regression relies on the large schema payload exceeding normal pipe buffering, while the direct unit test independently proves BrokenPipe classification.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b50356cd00ab1645dcd825a11b4ed7688d8687c5:f2e18ea4d00fbedb28d18b06683ec6b386274071e9f1188412b2d28fd31be3fc")
 
-Reviewer: None
+Reviewer: Some("subagent:review_issue_18")
 
-Result: pre_review
+Result: pass
