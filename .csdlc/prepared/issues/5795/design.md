@@ -43,13 +43,14 @@ rlimit where the host supports it, and an independent process-tree RSS
 watchdog. The watchdog retains every observed descendant identity even when a
 child creates a new session or process group. The request, timeout, output,
 cancellation, and pipe-drain paths are all bounded and metadata is redacted.
-Timeout, cancellation, normal child exit, and executor drop freeze and
-terminate the original process group plus individually terminate retained or
-newly observed descendants, so escaped sessions and inherited pipes cannot
-outlive the request. Resource accounting runs off the asynchronous Runtime
-worker threads. This is supervision of an operator-trusted runner, not a claim
-of kernel isolation from a separately compromised process running as the same
-OS user. No model availability is inferred from configuration alone.
+Timeout, cancellation, normal child exit, and executor drop terminate the
+original process group and every separately observed descendant. The
+operator-attested runner must not deliberately daemonize and sever ancestry
+before the watchdog can observe it. That behavior is outside this trusted
+runner contract and requires an OS service sandbox or Linux cgroup deployment
+boundary; process polling is not represented as kernel containment. Resource
+accounting runs off the asynchronous Runtime worker threads. No model
+availability is inferred from configuration alone.
 
 Real-model classification requires a versioned runner handshake. Runtime sends
 a fresh nonce plus the expected backend, exact model identity, model artifact
@@ -124,11 +125,12 @@ failure leaves Runtime and the public read stream usable.
 - Model path, prompt content, tokens, and private response data are not logged
   beyond the declared redacted evidence policy.
 - Timeouts and cancellation release permits and preserve Runtime usability.
-- Subprocess descendants cannot survive timeout, cancellation, successful
-  parent exit, or executor future drop; reader draining is independently
-  bounded.
-- Process supervision retains descendants that call `setsid()`; the trusted
-  runner boundary does not claim same-user hostile-code sandboxing.
+- The original subprocess process group is terminated on timeout,
+  cancellation, successful parent exit, and executor future drop; reader
+  draining is independently bounded.
+- Process supervision also terminates descendants observed after `setsid()`.
+  Deliberate ancestry-racing daemonization is prohibited by the attested-runner
+  contract and is not misrepresented as same-user hostile-code containment.
 - Completed idempotency replay is explicitly retained and cannot claim live
   execution.
 - `real_local_model` requires an operator-pinned runner-program digest and a
@@ -160,9 +162,13 @@ bounded run deadline and cost ceiling, and leave no test instance or temporary
 volume running or retained after success or failure. Every paid run uses an
 unguessable owner token, an exact-version S3 lock, owner-scoped instance and
 volume tags, and three cleanup layers: local trap cleanup, a guest timer, and a
-one-time EventBridge Scheduler action that terminates only the exact launched
-instance. Lock release verifies the retained run ID, owner token, and S3
-version before deleting that version. Missing hardware/model is a truthful
+pre-existing tag-scoped EventBridge/Lambda reaper that is verified before
+launch and terminates only overdue managed issue instances. Launch writes the
+reaper deadline tags atomically with instance creation, avoiding a post-launch
+deadline-registration gap. Manual and local-trap cleanup require the exact run
+ID, owner token, and S3 lock version; the guest timer can delete only the exact
+lock version captured for its launched owner. Lock release verifies retained
+ownership before deleting that version. Missing hardware/model is a truthful
 deferred or blocked lane, never a pass. Until the regional On-Demand G/VT quota
 is at least four vCPUs, only artifact publication and the non-billing preflight
 may run; no EC2 instance is launched.

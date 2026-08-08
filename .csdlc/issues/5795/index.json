@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "409e16e0228f29a4e234fa3fa006087a058b5409f297ac014539fbdee6cb922a",
   "phase": "bound",
-  "generation": 44,
-  "digest": "6cb850a13bef9c017d7980b184aca85c58896e760400ead1862a0848884ee183",
+  "generation": 46,
+  "digest": "e2e78fad8ed64019a7fc1abd445072a4911dfee267c04c7b9e469288087af9e9",
   "branch": "codex/5795-local-gemma-mlx-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5795-local-shepherd",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5795/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5795-runtime-hardening-design-review",
-      "revision": "e3d2ac9f0484788e8a880ffb378969c5c89514815d834b4d6dc743d90dc2bfec"
+      "reviewer": "codex:5795-final-cloud-contract-design-review",
+      "revision": "aacf30a17e71c738bfab5b0b0477b80a6e9d14ab8cc7d83bc1e052fa06ff101f"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "62c9060235e05bb2022cfe2ec218d759cfc4f8458b327994d93dcbc4109fe631",
+      "values_digest": "816e065fefd82b0cd0f7b11530683c47609012addf7673a801bd64e771a87b50",
       "rendered_digest": "8711735ab9715d666a6ed98a42d95ced1bce438c0cdc1d2e723d8b622af12214",
       "ast_digest": "23799561d6fbdb18697292ba3a7b0dc86cd314122af9a2cd9da41ad1cd8736a8"
     },
     "stp": {
-      "values_digest": "6fa57c1837c2e5a2e26c3dc13e8d2f66eb0ae5f94a91ffcfe979145aed8b623b",
+      "values_digest": "a04840607020bcba55a8a663392c68302443528d9f9ead4fa0b1550e7b3efaf8",
       "rendered_digest": "35cc53fafbffb6049454b2b29e8b3692692ff2c0f9ae61ace2d5cedca66776bc",
       "ast_digest": "c0316a34236b0f6c806267cc6324d4fb9ffa46f1848291a9d1b01bea4b24af21"
     },
     "spp": {
-      "values_digest": "fe9892dbcfb922ffba2f936403013d5095b44f6f3516c58449b524ec471253f5",
-      "rendered_digest": "cf6b9cc6da051d1ee02e1735fb5af87490b623331523bc7cefe9203061cef538",
-      "ast_digest": "344de06ea1f16542b76559ca1ca19c54b4cba0de7ced832ee7906b3b8fd27b87"
+      "values_digest": "e9b83cd89187ea2ce850e6226b116265749211d4ef02d59d14098b39d3b8c0aa",
+      "rendered_digest": "0545419eb0fa8b659aa1a6ce7548af99b0758ee2eee5c34972cb709df4bdbed5",
+      "ast_digest": "decc39e51c2100224ace37f2d516138d9e1f9d40cafb2f4b7a18d4f979fbad26"
     },
     "vpp": {
-      "values_digest": "0a83e27fcfc7c1a297852b39cdf47592e9ba35c7112af679a15436361b63ac6a",
+      "values_digest": "5c97baaf953a5f65397662eaa5132e69917d025aae02e5cd6722874d9b2cc385",
       "rendered_digest": "f877b02302545a32c5ffb3912440194f3dd5004ee02c8e2cb14c0f8c319fa7ab",
       "ast_digest": "eaa7a639cf236dadeef7e6ffc646c0d333e82a808d326eb6acfd753f876b0f30"
     },
     "srp": {
-      "values_digest": "c708c5b15c47bf6f204367132bd77a2f0451a3b998f158446eb151ddb1c22661",
+      "values_digest": "a7368eea293f89b6370c90d54f4fb614cbd4304681ced2a5d76b095751d7745b",
       "rendered_digest": "e3f361c41322cbe30f643af742a4a48adcd9aa2e84dd22c49f474180876b57eb",
       "ast_digest": "b8bdbd3e726f6e16200fdbaec307e5dcd8161488b319b5c0f2d6307623bfbc98"
     },
     "sor": {
-      "values_digest": "4f75aa8f8c10cdcdcb4764efebb7b8a712516500755375a67c00b8362d509413",
+      "values_digest": "e73d80d276c21704b3d190040d565aa19132d2618cad2811ce7dfd368fc51aa5",
       "rendered_digest": "8dff0bc57674843f439603d89e33224b1ad639e40a0dd715390f570e1d6bd15c",
       "ast_digest": "3cb60e4ee9159c2fd215b4b7993aee24df63502aa9ed8072f8286c1faad540ed"
     }
@@ -516,6 +516,20 @@
       "sequence": 61,
       "generation": 44,
       "actor": "codex:5795-runtime-hardening-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 62,
+      "generation": 45,
+      "actor": "codex:5795-final-hardening-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 63,
+      "generation": 46,
+      "actor": "codex:5795-final-cloud-contract-design-review",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
     }

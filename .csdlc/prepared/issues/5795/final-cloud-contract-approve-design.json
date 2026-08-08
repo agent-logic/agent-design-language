@@ -1,0 +1,6 @@
+{
+  "issue": 5795,
+  "expected_generation": 45,
+  "expected_digest": "baf1759a1488fa7f170faf8b703cf4e1e431c2280debe9ff03d9735b805e3641",
+  "reviewer": "codex:5795-final-cloud-contract-design-review"
+}

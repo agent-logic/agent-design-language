@@ -1,0 +1,6 @@
+{
+  "issue": 5795,
+  "expected_generation": 44,
+  "expected_digest": "6cb850a13bef9c017d7980b184aca85c58896e760400ead1862a0848884ee183",
+  "reviewer": "codex:5795-final-hardening-design-review"
+}

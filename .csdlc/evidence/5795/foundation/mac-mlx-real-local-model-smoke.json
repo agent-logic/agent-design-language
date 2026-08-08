@@ -8,10 +8,7 @@
   "response_sha256": "721d2a91ad71f9c5e88f76b117330e1eb6ed9d2f69e30c8ccc3697ba4554c9d6",
   "retained": false,
   "runner_launch_sha256": "2f5386442e590a2c08ac02d5229d0abfa072d97f5e74e8659ade8584c5743d79",
-  "runner_nonce_sha256": "7baafc0e884cef094a5582988a910195d1cb778bc050de6cac2f512f7496e536",
+  "runner_nonce_sha256": "fa78429bdf2f4e9fcfb900e36d45b29c7317432b5c10b12cd94b305f100a4da8",
   "runner_program_sha256": "b6a5dd05cb44fe0d72b7155265fc92feee1aaccc734a85c3e4002ee2e0472a0b",
-  "schema": "adl.runtime.shepherd_local_model_smoke.v1",
-  "gpu_residency_required": true,
-  "private_response_retained": false,
-  "outcome": "passed"
+  "schema": "adl.runtime.shepherd_local_model_smoke.v1"
 }

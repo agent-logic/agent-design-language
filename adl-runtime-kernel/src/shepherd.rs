@@ -576,7 +576,7 @@ impl LocalShepherdExecutor {
             status = child.wait() => status.map_err(|_| ShepherdError::ProcessFailed)?,
         };
         // The direct child may exit while descendants retain its pipes. Terminate the
-        // complete isolated group before bounded draining on every normal exit path.
+        // isolated process group and any separately observed descendants before drain.
         process_group.terminate();
         memory_monitor.stop().await;
         let stdout = join_reader_bounded(stdout).await?;
@@ -1054,7 +1054,7 @@ async fn read_bounded(
 }
 
 #[cfg(unix)]
-fn terminate_process_tree(process_id: u32, tracked: &Mutex<TrackedProcesses>) {
+fn terminate_observed_process_tree(process_id: u32, tracked: &Mutex<TrackedProcesses>) {
     if let Ok(group) = i32::try_from(process_id) {
         unsafe {
             libc::kill(-group, libc::SIGSTOP);
@@ -1103,7 +1103,7 @@ fn terminate_process_tree(process_id: u32, tracked: &Mutex<TrackedProcesses>) {
 }
 
 #[cfg(not(unix))]
-fn terminate_process_tree(_process_id: u32, _tracked: &Mutex<TrackedProcesses>) {}
+fn terminate_observed_process_tree(_process_id: u32, _tracked: &Mutex<TrackedProcesses>) {}
 
 struct ProcessGroupGuard {
     process_id: u32,
@@ -1122,7 +1122,7 @@ impl ProcessGroupGuard {
 
     fn terminate(&mut self) {
         if self.armed {
-            terminate_process_tree(self.process_id, &self.tracked);
+            terminate_observed_process_tree(self.process_id, &self.tracked);
             self.armed = false;
         }
     }

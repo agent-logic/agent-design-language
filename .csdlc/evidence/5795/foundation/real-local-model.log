@@ -1,8 +1,10 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-5795-local-shepherd/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-5795-local-shepherd/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.94s
      Running tests/shepherd_local_model.rs (adl-runtime/target/debug/deps/shepherd_local_model-82938544c4e3829c)
 
 running 1 test
-{"backend_identity_sha256":"0a47f552147380cd0074e7845403d98dae9f18a7f5289b0edccb17e12c6fc934","correlation_id":"wp-5795-real-local-smoke","execution_class":"real_local_model","model_artifact_sha256":"117d0d84cf2ab865feb59afc2cd30ff5d55f0035e05eb8d1b814f9688e3f3671","model_identity_sha256":"2b6928c6e0f1d8b6f6fe612857a83eb667fcd8d9a56300be47bd7cb488a7f88f","provenance":"live_execution","response_sha256":"721d2a91ad71f9c5e88f76b117330e1eb6ed9d2f69e30c8ccc3697ba4554c9d6","retained":false,"runner_launch_sha256":"2f5386442e590a2c08ac02d5229d0abfa072d97f5e74e8659ade8584c5743d79","runner_nonce_sha256":"7baafc0e884cef094a5582988a910195d1cb778bc050de6cac2f512f7496e536","runner_program_sha256":"b6a5dd05cb44fe0d72b7155265fc92feee1aaccc734a85c3e4002ee2e0472a0b","schema":"adl.runtime.shepherd_local_model_smoke.v1"}
+{"backend_identity_sha256":"0a47f552147380cd0074e7845403d98dae9f18a7f5289b0edccb17e12c6fc934","correlation_id":"wp-5795-real-local-smoke","execution_class":"real_local_model","model_artifact_sha256":"117d0d84cf2ab865feb59afc2cd30ff5d55f0035e05eb8d1b814f9688e3f3671","model_identity_sha256":"2b6928c6e0f1d8b6f6fe612857a83eb667fcd8d9a56300be47bd7cb488a7f88f","provenance":"live_execution","response_sha256":"721d2a91ad71f9c5e88f76b117330e1eb6ed9d2f69e30c8ccc3697ba4554c9d6","retained":false,"runner_launch_sha256":"2f5386442e590a2c08ac02d5229d0abfa072d97f5e74e8659ade8584c5743d79","runner_nonce_sha256":"fa78429bdf2f4e9fcfb900e36d45b29c7317432b5c10b12cd94b305f100a4da8","runner_program_sha256":"b6a5dd05cb44fe0d72b7155265fc92feee1aaccc734a85c3e4002ee2e0472a0b","schema":"adl.runtime.shepherd_local_model_smoke.v1"}
 test real_local_model_smoke ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.56s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.27s

@@ -1,0 +1,13 @@
+{
+  "schema": "adl.wp5795.aws_deadline_reaper_contract.v1",
+  "function": "adl-wp5795-gpu-deadline-reaper",
+  "function_code_sha256_b64": "YGnNKxanDvyfdnId/4M6iqJA+Y7HDIt/z6sheoRiz7s=",
+  "rule": "adl-wp5795-gpu-deadline-reaper",
+  "rule_state": "ENABLED",
+  "schedule": "rate(5 minutes)",
+  "target_count": 1,
+  "least_privilege_policy_verified": true,
+  "manual_invocation_terminated": 0,
+  "launches_during_proof": 0,
+  "outcome": "passed"
+}

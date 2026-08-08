@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime][shepherd] Pull local Gemma/MLX Shepherd MVP forward",
     "slug": "v0-92-local-gemma-mlx-shepherd-mvp",
     "version": "v0.92",
-    "generation": 44
+    "generation": 46
   },
   "status": "ready",
   "content": {
@@ -115,7 +115,7 @@
         "Runtime provider-adapter ownership moves before implementation"
       ],
       "design_ref": ".csdlc/prepared/issues/5795/design.md",
-      "design_digest": "e3d2ac9f0484788e8a880ffb378969c5c89514815d834b4d6dc743d90dc2bfec",
+      "design_digest": "aacf30a17e71c738bfab5b0b0477b80a6e9d14ab8cc7d83bc1e052fa06ff101f",
       "diagram_ref": ".csdlc/prepared/issues/5795/diagram.mmd",
       "diagram_digest": "7db206956bb1d4ac5d32aae7445ca356c16a90e7d8cc28bb40054e448880a2dd"
     }

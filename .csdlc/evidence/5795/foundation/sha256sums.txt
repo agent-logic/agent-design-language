@@ -1,9 +1,9 @@
-e8b009014889a808fa7e2b8d9aa4b853381bd1692b16e2ca6f95f63acf869050  .csdlc/evidence/5795/foundation/aws-deadline-scheduler.json
-c6fa9b5f2b6a9dbf3e1f2d4553f1f48531f1cd26575be086f289639d9b502c51  .csdlc/evidence/5795/foundation/aws-gpu-preflight.json
-fe6ae0f24b6de178d4de07a020ddc62aca7a239b833ae90d093cbf90939101b8  .csdlc/evidence/5795/foundation/aws-lock-collision.json
-6779647321d0d216c0835417199b4e672eedd8bb9adf9367c9b389fcd4fc55b3  .csdlc/evidence/5795/foundation/kernel-clippy.log
-45e9bd67ff91364f13f75328c6ba95a0480f3fa126c7a73962e305f09ecb6151  .csdlc/evidence/5795/foundation/mac-mlx-real-local-model-smoke.json
+63b6b11ddb3c4ffc0f659ad9fda128004383ad3a93a3075d3aaa20ac9fa09ca6  .csdlc/evidence/5795/foundation/aws-deadline-reaper.json
+24944ab4f6d0ad37dbe17ef3e2defba508ae621647ff10bc99bf8dd8fcaf3285  .csdlc/evidence/5795/foundation/aws-gpu-preflight.json
+c4fce7dd721232e22344e98517447a2130b33d42ecf3f113a11b5f39712eaa0e  .csdlc/evidence/5795/foundation/aws-lock-collision.json
+1c7c850459d102c394066de3903113b0dc3e1d77fa76472f1f128e233db2c7ae  .csdlc/evidence/5795/foundation/kernel-clippy.log
+810e34580aace0cfe1b2b3ee74e7779d8c37f548a2f35abcfabf981db01dff5f  .csdlc/evidence/5795/foundation/mac-mlx-real-local-model-smoke.json
 5a0379b09c79ba444325ecdd33e08700a95621b5df2ade9800132a4664fbd04a  .csdlc/evidence/5795/foundation/portable-model-publication.json
-0c9c8ee0b42683da7840aa319a04cfb17d33a0c2baeac72ffeee36c4fa931345  .csdlc/evidence/5795/foundation/real-local-model.log
-6ad9bd473149867190aeb0d57f97432b6809b8640077ff9b0f2433c1a3429a4a  .csdlc/evidence/5795/foundation/runtime-clippy.log
-9ffa2d3201844a51e4ee7758fd7df9a3b1845a43994b1359ea284de86e39fda2  .csdlc/evidence/5795/foundation/shepherd-contract.log
+7a51c11cb12b3a6917d2c96f8021e4a87ef565d8a55da28bef2caa89ab3566ef  .csdlc/evidence/5795/foundation/real-local-model.log
+a62aa8896841e40fa72c25c1b2599d097c5e1e1ce7e63f0b0dabc3f71c0a5ec1  .csdlc/evidence/5795/foundation/runtime-clippy.log
+1986ba943f25058ec5f1a26ac7754932598541971e0c0150054ff350d0adde47  .csdlc/evidence/5795/foundation/shepherd-contract.log

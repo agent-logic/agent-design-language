@@ -121,6 +121,19 @@ fn reason(error: &ExecutorError) -> String {
         .unwrap_or_else(|_| error.message.clone())
 }
 
+async fn wait_for_marker(path: &Path) {
+    tokio::time::timeout(Duration::from_secs(5), async {
+        loop {
+            if path.exists() {
+                break;
+            }
+            tokio::time::sleep(Duration::from_millis(5)).await;
+        }
+    })
+    .await
+    .expect("runner readiness marker was not observed within five seconds");
+}
+
 fn governed_adapter(executor: Arc<dyn OperationExecutor>, key: &SigningKey) -> OperationalAdapter {
     OperationalAdapter::with_permit_keys(
         AdapterKind::Shepherd,
@@ -458,7 +471,7 @@ async fn timeout_releases_capacity_and_runtime_remains_usable() {
 
 #[cfg(unix)]
 #[tokio::test]
-async fn normal_parent_exit_kills_descendants_and_bounds_pipe_drain() {
+async fn normal_parent_exit_kills_observed_descendants_and_bounds_pipe_drain() {
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("descendant-survived");
     let runner = write_python(
@@ -486,7 +499,7 @@ os._exit(0)"#,
 
 #[cfg(unix)]
 #[tokio::test]
-async fn timeout_kills_descendants() {
+async fn timeout_kills_observed_descendants() {
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("descendant-survived");
     let runner = write_python(
@@ -510,7 +523,7 @@ time.sleep(5)"#,
 
 #[cfg(unix)]
 #[tokio::test]
-async fn dropped_execution_future_kills_descendants() {
+async fn dropped_execution_future_kills_observed_descendants() {
     let temp = tempfile::tempdir().unwrap();
     let started = temp.path().join("started");
     let escaped = temp.path().join("descendant-survived");
@@ -529,13 +542,7 @@ time.sleep(5)"#,
     );
     let executor = LocalShepherdExecutor::configured(config(&runner, vec![])).unwrap();
     let task = tokio::spawn(async move { executor.execute(&request("hello")).await });
-    tokio::time::timeout(Duration::from_secs(1), async {
-        while !started.exists() {
-            tokio::task::yield_now().await;
-        }
-    })
-    .await
-    .unwrap();
+    wait_for_marker(&started).await;
     task.abort();
     let _ = task.await;
     tokio::time::sleep(Duration::from_millis(700)).await;
@@ -662,7 +669,7 @@ async fn cancellation_is_bounded_and_releases_capacity() {
 
 #[cfg(unix)]
 #[tokio::test]
-async fn cancellation_kills_descendant_that_escaped_the_process_group() {
+async fn cancellation_kills_observed_descendant_that_escaped_the_process_group() {
     let temp = tempfile::tempdir().unwrap();
     let started = temp.path().join("started");
     let escaped = temp.path().join("descendant-survived");
@@ -687,13 +694,7 @@ time.sleep(5)"#,
             .execute_with_cancellation(&request("hello"), &cancellation)
             .await
     });
-    tokio::time::timeout(Duration::from_secs(1), async {
-        while !started.exists() {
-            tokio::task::yield_now().await;
-        }
-    })
-    .await
-    .unwrap();
+    wait_for_marker(&started).await;
     cancel.cancel();
     assert_eq!(
         reason(&execution.await.unwrap().unwrap_err()),
@@ -739,13 +740,7 @@ async fn concurrent_request_is_rejected_without_exceeding_capacity() {
     let executor = LocalShepherdExecutor::configured(config(&script, vec![])).unwrap();
     let first_executor = executor.clone();
     let first = tokio::spawn(async move { first_executor.execute(&request("first")).await });
-    tokio::time::timeout(Duration::from_millis(100), async {
-        while !marker.exists() {
-            tokio::task::yield_now().await;
-        }
-    })
-    .await
-    .unwrap();
+    wait_for_marker(&marker).await;
 
     assert_eq!(
         reason(&executor.execute(&request("second")).await.unwrap_err()),
