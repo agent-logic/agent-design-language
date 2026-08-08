@@ -56,11 +56,11 @@ Executed one bounded Codex project-discovery probe and one projectless no-op dis
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

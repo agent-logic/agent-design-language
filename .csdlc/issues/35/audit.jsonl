@@ -30,3 +30,4 @@
 {"sequence":30,"generation":28,"actor":"codex:35-execution","reason":"Bounded canary execution and focused validation are complete; advance to independent review.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":31,"generation":28,"actor":"codex:019fdf4d-e998-7bc2-b66c-8e2b5c572a89","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":32,"generation":29,"actor":"subagent:019fe208-e624-7c71-bc34-a0f4409f9079","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":33,"generation":30,"actor":"codex:35-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
