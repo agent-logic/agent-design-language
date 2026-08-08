@@ -59,4 +59,21 @@ python3 "$ROOT_DIR/adl/tools/validate_podcast_launch_packet.py" \
   --preview-root "$ROOT_DIR/demos/_preview/podcast" \
   --http-base "http://127.0.0.1:$port"
 
+episode_source="$ROOT_DIR/demos/podcast/episodes/001-meet-the-ai-coworkers"
+ADL_PODCAST_AUDIO_TEST_TONES=1 \
+ADL_PODCAST_AUDIO_SOURCE_DIR="$episode_source" \
+  bash "$ROOT_DIR/adl/tools/demo_v0911_multiagent_podcast_audio.sh" \
+    "$TMP_DIR/episode-001-reproduction" >/dev/null
+python3 - "$TMP_DIR/episode-001-reproduction/audio_manifest.json" <<'PY'
+import json
+import sys
+
+manifest = json.load(open(sys.argv[1], encoding="utf-8"))
+segments = manifest.get("segments") or []
+if len(segments) != 24:
+    raise SystemExit(f"Episode 001 reproduction expected 24 turns, found {len(segments)}")
+if not all(segment["source_text_file"].startswith("script.md#turn-") for segment in segments):
+    raise SystemExit("Episode 001 reproduction did not retain script turn provenance")
+PY
+
 echo "test_podcast_launch_packet: PASS"

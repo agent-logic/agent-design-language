@@ -37,8 +37,8 @@ def first_episode(packet: dict) -> dict:
     if len(episodes) < 10:
         raise SystemExit("podcast launch packet requires 10 episode records")
     episode = episodes[0]
-    if len(episode.get("turns") or []) != 6:
-        raise SystemExit("first episode must contain six launch transcript turns")
+    if len(episode.get("smoke_fixture_turns") or []) != 6:
+        raise SystemExit("first episode must contain six offline smoke-fixture turns")
     return episode
 
 
@@ -51,7 +51,7 @@ def write_audio_source(root: Path, episode: dict) -> None:
         f"Listener question: {episode['listener_question']}",
         "",
     ]
-    turns = episode["turns"]
+    turns = episode["smoke_fixture_turns"]
     for expected, turn in zip(TURN_FILES, turns):
         if turn["file"] != expected:
             raise SystemExit(f"turn file order mismatch: expected {expected}, got {turn['file']}")
@@ -156,7 +156,7 @@ def write_launch_pages(out_root: Path, packet: dict, audio_file: str, audio_byte
 
     transcript = "\n".join(
         f"<h3>{html.escape(turn['speaker'])}</h3><p>{html.escape(turn['text'])}</p>"
-        for turn in episode["turns"]
+        for turn in episode["smoke_fixture_turns"]
     )
     episode_page = f"""<!doctype html>
 <html lang=\"en\">

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import hashlib
+import struct
 import sys
 import wave
 import xml.etree.ElementTree as ET
@@ -21,6 +22,7 @@ FORBIDDEN_PUBLIC_TEXT = [
 ]
 
 STUDIO_HTML = "podcast-studio.html"
+ITUNES_NS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 
 
 def fail(message: str) -> None:
@@ -109,12 +111,104 @@ def validate_feed(root: Path) -> None:
     enclosure = feed.find("./channel/item/enclosure")
     if enclosure is None:
         fail("RSS item is missing enclosure")
-    if enclosure.attrib.get("type") != "audio/wav":
-        fail("RSS enclosure must be audio/wav for the local launch proof")
+    enclosure_type = enclosure.attrib.get("type")
+    if enclosure_type not in {"audio/wav", "audio/mpeg"}:
+        fail("RSS enclosure must be audio/wav or audio/mpeg")
     length = int(enclosure.attrib.get("length", "0"))
-    actual = (root / "audio" / "meet-the-ai-coworkers.wav").stat().st_size
+    audio_name = "meet-the-ai-coworkers.mp3" if enclosure_type == "audio/mpeg" else "meet-the-ai-coworkers.wav"
+    actual = (root / "audio" / audio_name).stat().st_size
     if length != actual:
         fail(f"RSS enclosure length {length} does not match audio size {actual}")
+    if enclosure_type == "audio/mpeg":
+        expected_url = f"https://agent-logic.ai/podcast/audio/{audio_name}"
+        if enclosure.attrib.get("url") != expected_url:
+            fail("production RSS enclosure URL is not the stable MP3 route")
+        required_channel_tags = ["image", "category"]
+        for name in required_channel_tags:
+            if channel.find(f"{{{ITUNES_NS}}}{name}") is None:
+                fail(f"production RSS channel is missing itunes:{name}")
+        item = channel.find("item")
+        if item is None:
+            fail("production RSS feed is missing its episode item")
+        expected = {
+            "episode": "1",
+            "episodeType": "full",
+            "explicit": "false",
+            "duration": "00:18:32",
+        }
+        for name, value in expected.items():
+            if item.findtext(f"{{{ITUNES_NS}}}{name}", "") != value:
+                fail(f"production RSS item has invalid itunes:{name}")
+
+
+def validate_png_artwork(path: Path) -> None:
+    data = path.read_bytes()[:33]
+    if len(data) < 33 or data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
+        fail("show artwork is not a valid PNG")
+    width, height, bit_depth, color_type = struct.unpack(">IIBB", data[16:26])
+    if (width, height) != (3000, 3000):
+        fail(f"show artwork must be 3000 x 3000, found {width} x {height}")
+    if bit_depth != 8 or color_type not in {2, 3}:
+        fail("show artwork must be 8-bit RGB or indexed-color PNG without alpha")
+
+
+def validate_production_episode(root: Path) -> None:
+    package_root = root / "episodes" / "001-meet-the-ai-coworkers"
+    metadata_path = package_root / "episode.json"
+    required = [
+        metadata_path,
+        package_root / "script.md",
+        package_root / "transcript.md",
+        package_root / "show-notes.md",
+        package_root / "CREATOR_WORKFLOW.md",
+        package_root / "audio-manifest.json",
+        package_root / "artwork.png",
+        root / "artwork.png",
+        root / "audio" / "meet-the-ai-coworkers.mp3",
+        root / "audio" / "meet-the-ai-coworkers.wav",
+    ]
+    for path in required:
+        if not path.is_file() or path.stat().st_size == 0:
+            fail(f"production episode is missing {path}")
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    audio_manifest = json.loads((package_root / "audio-manifest.json").read_text(encoding="utf-8"))
+    if metadata.get("publication_status") != "held_for_human_review":
+        fail("production episode must remain held for human review")
+    mp3 = root / "audio" / "meet-the-ai-coworkers.mp3"
+    wav = root / "audio" / "meet-the-ai-coworkers.wav"
+    if metadata.get("audio_bytes") != mp3.stat().st_size:
+        fail("episode metadata MP3 byte count does not match")
+    if metadata.get("archive_audio_bytes") != wav.stat().st_size:
+        fail("episode metadata WAV byte count does not match")
+    if hashlib.sha256(mp3.read_bytes()).hexdigest() != metadata.get("audio_sha256"):
+        fail("episode metadata MP3 digest does not match")
+    if hashlib.sha256(wav.read_bytes()).hexdigest() != metadata.get("archive_audio_sha256"):
+        fail("episode metadata WAV digest does not match")
+    if audio_manifest.get("credential_retention") != "none" or audio_manifest.get("publication_status") != "held_for_human_review":
+        fail("audio manifest has invalid credential or publication truth")
+    renderers = audio_manifest.get("voice_renderers") or {}
+    if renderers.get("Claude", {}).get("voice") != "aura-2-pluto-en" or renderers.get("Claude", {}).get("surrogate") is not True:
+        fail("audio manifest does not retain the approved Claude voice boundary")
+    if renderers.get("Gemini", {}).get("surrogate") is not True or renderers.get("ChatGPT", {}).get("surrogate") is not False:
+        fail("audio manifest does not distinguish native and surrogate rendering")
+    outputs = audio_manifest.get("outputs") or {}
+    if outputs.get("distribution_mp3", {}).get("sha256") != metadata.get("audio_sha256"):
+        fail("audio manifest MP3 digest does not match episode metadata")
+    if outputs.get("archive_wav", {}).get("sha256") != metadata.get("archive_audio_sha256"):
+        fail("audio manifest WAV digest does not match episode metadata")
+    with wave.open(str(wav), "rb") as source:
+        duration = source.getnframes() / source.getframerate()
+        if duration < 600:
+            fail("production episode must contain at least ten minutes of audio")
+        if source.getnchannels() != 1 or source.getframerate() != 24000 or source.getsampwidth() != 2:
+            fail("production WAV must be 24 kHz mono 16-bit PCM")
+    transcript = (package_root / "transcript.md").read_text(encoding="utf-8")
+    if transcript.count("## Act ") != 4 or transcript.count("### ChatGPT") != 8 or transcript.count("### Gemini") != 8 or transcript.count("### Claude") != 8:
+        fail("production transcript must contain the complete four-act, three-speaker dialogue")
+    validate_png_artwork(root / "artwork.png")
+    validate_png_artwork(package_root / "artwork.png")
+    if hashlib.sha256((root / "artwork.png").read_bytes()).hexdigest() != metadata.get("artwork_sha256"):
+        fail("episode metadata artwork digest does not match")
 
 
 def validate_http_route(http_base: str, route: str, contains: str) -> None:
@@ -151,6 +245,7 @@ def main() -> None:
     if len(episodes) != 10:
         fail("expected exactly 10 episode records")
 
+    production = (root / "audio" / "meet-the-ai-coworkers.mp3").is_file()
     required = [
         root / "index.html",
         root / "episodes" / "meet-the-ai-coworkers" / "index.html",
@@ -164,6 +259,8 @@ def main() -> None:
     for path in required:
         if not path.is_file() or path.stat().st_size == 0:
             fail(f"missing required launch artifact: {path}")
+    if production:
+        validate_production_episode(root)
 
     for html_path in [root / "index.html", root / "episodes" / "meet-the-ai-coworkers" / "index.html"]:
         validate_html_public_text(html_path, require_audio=True)

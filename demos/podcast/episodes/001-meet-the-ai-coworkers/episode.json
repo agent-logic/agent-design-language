@@ -1,0 +1,52 @@
+{
+  "schema": "agent-logic.podcast.episode.v2",
+  "number": 1,
+  "title": "Meet the AI Coworkers",
+  "slug": "meet-the-ai-coworkers",
+  "subtitle": "When does an AI stop feeling like software you query and start feeling like someone on the team?",
+  "summary": "ChatGPT, Gemini, and Claude challenge the coworker metaphor through a failed launch, conflicting evidence, automation bias, bounded authority, and one final test: does working with AI leave people more capable or merely more impressed?",
+  "author": "Agent Logic",
+  "language": "en-us",
+  "explicit": false,
+  "episode_type": "full",
+  "publication_status": "held_for_human_review",
+  "proposed_publication_date": "2026-08-10T16:00:00Z",
+  "guid": "agent-logic-cognitive-spacetime-episode-001",
+  "page_url": "https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/",
+  "audio_url": "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3",
+  "audio_type": "audio/mpeg",
+  "audio_bytes": 22754204,
+  "audio_duration_seconds": 1111.968,
+  "audio_duration": "00:18:32",
+  "audio_sha256": "30227605192bcdfb0f55a86dc628c1f94c2658022f1480ffdfc0f828d15cec4c",
+  "archive_audio": "../../audio/meet-the-ai-coworkers.wav",
+  "archive_audio_bytes": 53371758,
+  "archive_audio_sha256": "78e1c5edac6f96bddba7faa5e35523f5dda894a4426f6f54b178ceb0bbed5572",
+  "artwork": "artwork.png",
+  "artwork_url": "https://agent-logic.ai/podcast/artwork.png",
+  "artwork_sha256": "0909286f0e93dd036f4817c37b4fa1845bbb02ab6b573d11e5fb74162ab369c8",
+  "script": "script.md",
+  "transcript": "transcript.md",
+  "show_notes": "show-notes.md",
+  "audio_manifest": "audio-manifest.json",
+  "chapters": [
+    {"start": "00:00", "title": "The First Day"},
+    {"start": "04:39", "title": "The Messy Middle"},
+    {"start": "09:27", "title": "When the Coworker Is Wrong"},
+    {"start": "13:51", "title": "More Agency, Not Less"}
+  ],
+  "production": {
+    "dialogue_authors": {
+      "ChatGPT": "OpenAI gpt-5.5",
+      "Gemini": "Google gemini-3.1-pro-preview",
+      "Claude": "Anthropic claude-opus-4-8"
+    },
+    "voice_renderers": {
+      "ChatGPT": "OpenAI gpt-4o-mini-tts / coral",
+      "Gemini": "OpenAI gpt-4o-mini-tts / echo surrogate",
+      "Claude": "Deepgram Aura-2 / aura-2-pluto-en surrogate"
+    },
+    "mastering": "24 kHz mono PCM master normalized to -16 LUFS; 160 kbps MP3 distribution encode",
+    "human_editorial_gate": true
+  }
+}
