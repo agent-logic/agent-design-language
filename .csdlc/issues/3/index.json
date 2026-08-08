@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c14a65d847b726bac60dc5ad69c2f16e486de3d5ecfa05b7e3d4582a8e183c1c",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "ab7b37e2cc9a912e8385c941a3e92d970ec107643b2797bd6f93aef8a1b80a88",
+  "generation": 11,
+  "digest": "5e3feaabec532bf91a87072bb96941c209b1cf28debb4e1cf8f24a539bfe18dd",
   "branch": "codex/3-cross-repository-publication-identity",
   "worktree": "/Volumes/FastWork/adl-csdlc-cross-repo-3",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "50d0c8624b38f6623e140efc00dc84340be3da33e7c18d4f864bbba72824ff2e",
+      "values_digest": "ddf1c34cb019a6d8cc6694e98ce854262f3e0dfeabdec9929859a24bbb0fb7a3",
       "rendered_digest": "8691da25d6f4680732076fb087e5c00767c7ab4575fc736da5005a864ca77be2",
       "ast_digest": "7423f960d4958a3bdd117721447326957e73b51a991a796df81256ba153e8424"
     },
     "stp": {
-      "values_digest": "3e5a2b69f2aa23e5d8c46badb70955c50074ae2032f1c44a25bdcfdcd6139714",
+      "values_digest": "79ddaa17d5cee2954a3e218db0e3b01b98af17e338766d8e8473ab4c795694a5",
       "rendered_digest": "b00709923e1ee553cbe9d666b59c322b1f788d586fa2536fbb7a2e3a7b021be4",
       "ast_digest": "9fccf6be64826555204e4e34d1177c7bec439318aa1da9722cf791581c8b8aed"
     },
     "spp": {
-      "values_digest": "72d13f94c3254f065a424ff94c704fe871de42e8d3a25bf79ea0d8a87ea6237b",
-      "rendered_digest": "4d8252a337524fdf3a4dcf5a15235f1cde9e620bdf273ba14248a98fd392b25e",
-      "ast_digest": "6a9def842e4dd5748a70526fd7710628723b3eeebe1b021abe659b9bb2b5200b"
+      "values_digest": "679b379728ffcc6146199ab61f49e32204db8031c3abdec54d79d7b590c2ebb2",
+      "rendered_digest": "75e92277eb520c30f416895242fc5c7a13eccb9ab83cfd014be70343cc570fe1",
+      "ast_digest": "9805159f0651a2e82f9aa4f69e21b6020b1edca289af2b8e568b127497513179"
     },
     "vpp": {
-      "values_digest": "4f001a3c8f8e3af6b5eb31e9dcdedefd8eba8ac701486cbfd83524cf6d503120",
+      "values_digest": "bb827f33667c31e74a015be9f0e727398e8b03c14559e6bd721b81ed7e78d59b",
       "rendered_digest": "abc11d1b86be926e9678830bd157d795aabfacbc68ec68c6fdd99f51674e29e0",
       "ast_digest": "2d1bcc6d8d51363e217389ae3ee37d8aeccc26bdf81452225acef2808bde5d0a"
     },
     "srp": {
-      "values_digest": "bd6f8f917cc743f09375b2919555a01d74a2b9eb7d99d95bbe952da76e5903a0",
+      "values_digest": "d58e7f0ceeab40c10f09a5e632d20d55d15cf383dbd272999376bd9a612a71e0",
       "rendered_digest": "6923329c4315bdbdc0fd654ccf2708a945154d164debb58f66d9854b823d5f31",
       "ast_digest": "6328c6da06dc3e97715d1433a5367c7846c92bcd9a20803d267c8af19ede2109"
     },
     "sor": {
-      "values_digest": "067e89129899e9b627abdd342bf50cc7380262892e4009889027b28b283f6326",
-      "rendered_digest": "e573b0a5bd47c428edabeb3fdeb0c6d055dd12840dc2f9888d22c15aa9414cff",
-      "ast_digest": "5238146c3e7892e2e9429de88dcb634cc821903d7f97efcdb41ab0a7ea751ff7"
+      "values_digest": "f7380f8d0ebbb9be9f52706564b6264a0404f2439843c911b2ea49294f32c140",
+      "rendered_digest": "0260733536e27106130395ac67803a4ab7b1afbe07ed58d684dfb8f8e9c0810f",
+      "ast_digest": "c8e8e15108792ea492cf324b5e6b8adaeb2645fd80fe6406cf0f4f514386ecc8"
     }
   },
   "transitions": [
@@ -126,6 +126,48 @@
       "actor": "codex:issue-3-design-whitespace-review",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-3-review-remediation",
+      "reason": "Record completed implementation step S1 after independent review exposed stale pending plan truth.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-3-review-remediation",
+      "reason": "Record completed regression-test and schema step S2.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-3-review-remediation",
+      "reason": "Record completed operator and GitHub-client documentation step S3.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-3-review-remediation",
+      "reason": "Resolve the independent review's canary-causality and Clippy-evidence findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Hardened canonical C-SDLC v2 publication for preserved legacy issue authority and retained a causal split-authority closure canary.\",\"changes\":[\"Verified every configured fetch and effective push URL for the publication remote against the canonical code repository before pushing.\",\"Reconciled all pages of matching pull requests and rejected ambiguous publication identity.\",\"Added focused remote-substitution and ambiguity regression tests while preserving same-repository compatibility.\",\"Documented split issue and code repository authority for typed publication and finish.\",\"Retained GitHub timeline evidence proving canonical PR #4 causally closed legacy issue #5901, while identifying later PR #5 as non-causal reconciliation evidence.\"],\"artifacts\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\".csdlc/prepared/issues/3/split-authority-canary.json\",\".csdlc/prepared/issues/3/validate-split-authority-canary.rb\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--target-dir\",\"../adl-builds/csdlc-v2-issue-3\",\"--bin\",\"csdlc-publish\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\"],\"purpose\":\"Run the focused C-SDLC v2 publication and finish regression surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/csdlc-publication-focused.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/3/validate-split-authority-canary.rb\"],\"purpose\":\"Validate canonical PR #4 causal closure, later PR #5 non-causality, and preserved legacy issue #5901 against retained GitHub evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/split-authority-canary.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--target-dir\",\"../adl-builds/csdlc-v2-issue-3\",\"--bin\",\"csdlc-publish\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed publication binary and its tests remain warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/clippy/csdlc-publication-clippy.log\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-3-review-remediation",
+      "reason": "Record completed canary and review-preparation step S4 after correcting causal closure evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-3-review-remediation",
+      "reason": "Bind the corrected causal canary claim to its post-review retained validator log.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Hardened canonical C-SDLC v2 publication for preserved legacy issue authority and retained a causal split-authority closure canary.\",\"changes\":[\"Verified every configured fetch and effective push URL for the publication remote against the canonical code repository before pushing.\",\"Reconciled all pages of matching pull requests and rejected ambiguous publication identity.\",\"Added focused remote-substitution and ambiguity regression tests while preserving same-repository compatibility.\",\"Documented split issue and code repository authority for typed publication and finish.\",\"Retained GitHub timeline evidence proving canonical PR #4 causally closed legacy issue #5901, while identifying later PR #5 as non-causal reconciliation evidence.\"],\"artifacts\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\".csdlc/prepared/issues/3/split-authority-canary.json\",\".csdlc/prepared/issues/3/validate-split-authority-canary.rb\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--target-dir\",\"../adl-builds/csdlc-v2-issue-3\",\"--bin\",\"csdlc-publish\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\"],\"purpose\":\"Run the focused C-SDLC v2 publication and finish regression surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/csdlc-publication-focused.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/3/validate-split-authority-canary.rb\"],\"purpose\":\"Validate canonical PR #4 causal closure, later PR #5 non-causality, and preserved legacy issue #5901 against retained GitHub evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/canary/split-authority-causal-canary.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--target-dir\",\"../adl-builds/csdlc-v2-issue-3\",\"--bin\",\"csdlc-publish\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed publication binary and its tests remain warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/3/clippy/csdlc-publication-clippy.log\"}]}"
     }
   ]
 }

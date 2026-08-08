@@ -1,30 +1,42 @@
 {
   "schema": "csdlc.split_authority_canary.v1",
-  "captured_at": "2026-08-07T03:31:53Z",
+  "captured_at": "2026-08-08T02:58:59Z",
   "issue": {
     "repository": "danielbaustin/agent-design-language",
     "number": 5901,
     "state": "closed",
-    "closed_at": "2026-08-07T02:22:13Z"
+    "closed_at": "2026-08-07T02:22:13Z",
+    "closed_event_at": "2026-08-07T02:22:14Z"
   },
   "pull_request": {
     "repository": "agent-logic/agent-design-language",
-    "number": 5,
+    "number": 4,
     "state": "merged",
     "base": "main",
+    "head": "codex/5901-sprint3-readiness",
+    "head_sha": "350ef45ccbbf23ca1bd700fcacd13343f8166b57",
+    "merge_sha": "51f4e00a32176a7d2fb9388997da8448d8e3d4f2",
+    "merged_at": "2026-08-07T02:22:12Z",
+    "closing_reference": "Closes danielbaustin/agent-design-language#5901",
+    "required_checks": "success"
+  },
+  "timeline": {
+    "cross_reference_event_at": "2026-08-07T02:04:37Z",
+    "cross_reference_repository": "agent-logic/agent-design-language",
+    "cross_reference_pull_request": 4,
+    "cross_reference_closing_reference": "Closes danielbaustin/agent-design-language#5901",
+    "closed_event_at": "2026-08-07T02:22:14Z"
+  },
+  "post_closure_reconciliation_pull_request": {
+    "repository": "agent-logic/agent-design-language",
+    "number": 5,
+    "state": "merged",
     "head": "codex/5901-sprint3-readiness",
     "head_sha": "4083dba57b5e9a379efd02251a6c69f7524c94b9",
     "merge_sha": "35127c242565eea33f375098f0ca57697713a9db",
     "merged_at": "2026-08-07T03:31:53Z",
     "closing_reference": "Closes danielbaustin/agent-design-language#5901",
-    "required_checks": "success"
+    "role": "Later typed publication reconciliation evidence; not the causal issue-closing PR."
   },
-  "terminal": {
-    "canonical_generation": 27,
-    "canonical_digest": "57d5693ffc374d90c679f6fb766a112fce9baa7ae81497990ca0b44cbb2e82ff",
-    "derived_digest": "c6ece1bc5b4b7a5d576d4ffd7723be7a498f7b9fa54910786fa9f0ae88ced111",
-    "disposition": "merged",
-    "issue_state": "closed_by_merged_pr"
-  },
-  "boundary": "This retained canary proves one canonical split-authority publication and terminal path. It is not a general audit of every preserved legacy issue reference."
+  "boundary": "GitHub timeline evidence cross-references canonical PR #4 before merge and records the preserved legacy issue closing two seconds after that merge. This retained canary proves one causal split-authority closure path; it is not a general audit of every preserved legacy issue reference."
 }

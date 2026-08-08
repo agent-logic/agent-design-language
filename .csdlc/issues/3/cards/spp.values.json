@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2] Support canonical PRs closing preserved legacy issues",
     "slug": "v0-92-csdlc-v2-cross-repository-publication",
     "version": "v0.92",
-    "generation": 5
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -26,7 +26,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -37,7 +37,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -47,7 +47,7 @@
             "AC-2",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -55,7 +55,7 @@
           "acceptance_ids": [
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
