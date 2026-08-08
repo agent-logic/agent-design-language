@@ -3,13 +3,38 @@
   "issue": 5863,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "11c8c3af9d6da39dbef1a1346e9367fa8bc5fc51f5d1989c22c14ee7432e16bd",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "76beb2e53c2eb0f017310af5ca67ba315a426690e21861f24dcdfb1e18382de7",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "d8b8de0036accad6ad8a02e9cb146c2f8009a627826ce35305f86eb872c8de48",
   "branch": "codex/5863-node-identity-enrollment",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5863-node-identity",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-codex:gpt-5:wp04.01-independent-review:2026-08-08",
+    "assigned_by": "codex:sprint-5862-conductor",
+    "revision": "git-blake3:bd89d4ad16f1338ebf38fecba4e6d7370553be59:771da0539be867e850d6f3d9f62d8cbe6ca10b3f7cfce9683e148c42bd7c420d",
+    "scope": [
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/tests/distributed_identity.rs",
+      ".csdlc/issues/5863",
+      ".csdlc/evidence/5863"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-codex:gpt-5:wp04.01-independent-review:2026-08-08",
+    "scope": [
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/tests/distributed_identity.rs",
+      ".csdlc/issues/5863",
+      ".csdlc/evidence/5863"
+    ],
+    "reviewed_revision": "git-blake3:bd89d4ad16f1338ebf38fecba4e6d7370553be59:771da0539be867e850d6f3d9f62d8cbe6ca10b3f7cfce9683e148c42bd7c420d",
+    "findings": [],
+    "residual_risks": [
+      "The shared proof validator sequencing contract remains tracked by agent-logic/agent-design-language#53."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5fca99062a71f1f8cb55c68117ff13f3d0a5e3d5348d75a0d92799e3a7bd235c",
+      "values_digest": "ba4c329c166b16a655efc8b9f3e4f3be5853894b03c04024fc530bb0d2bee334",
       "rendered_digest": "b2e8d1838d18cafc2d264d2c0d02d9b21e9f146fa83c6f2452118ee534461884",
       "ast_digest": "ac32915f7f3ef1ef1b75cc13ae3e165abdd3112e7f91594fd16f61bbd165aa65"
     },
     "stp": {
-      "values_digest": "604290627bb6ac8493a4dc1e7c34ac4d533dc5caf71d521c832a7e4c5f16c512",
+      "values_digest": "269873ddcf2f86af0d0f7fe041ebff51082e1ade2a2ad7bdb67946cd18a4a3fc",
       "rendered_digest": "e5c7d40e6b6604899ce6256222c26e5a91e1e13b1db8b445b253d37ee20a0b94",
       "ast_digest": "5b8b9188b5534ca2971c6b57891222627d45cbb2ecbd22e36c3535d3a23d0aec"
     },
     "spp": {
-      "values_digest": "fbf454b8073a555a5e05f928d7968fd7e8c8a642815b0b2586b86e6b4a40dfcc",
+      "values_digest": "9bdbb04f6384b6c318f4bc05083a75d9f46e25604a2c484c7752d6429622488f",
       "rendered_digest": "71f4e9e335529531d2aee876c523c30170c2adeb9a5653a74b4e759888e1eea4",
       "ast_digest": "0f7d36c3c2d2c32bce0f4dd4502e56da1edbf03186f72ba95aff97b5e354f1ef"
     },
     "vpp": {
-      "values_digest": "5eef56f2d580eb13d799379218e2974c9fca1d6ce6f37882f227d1694762a7c2",
+      "values_digest": "3d3af2926b8020fd43b26d05eeada1d8b8638b605ee34499e8f319d9d226b3b0",
       "rendered_digest": "86f49dce8cfa9de1a5f5b77998d2df8ecfbe1a98ae159d94cbca6c477a9b56d8",
       "ast_digest": "a4bd04019e0b0e3392d5ad3331b9809c3a28add88298002586d0ee0f7af738bf"
     },
     "srp": {
-      "values_digest": "82385df41e25f18bee82ae37cfbe0f49b219fe8041cb656c23226f6f4bbdafe2",
-      "rendered_digest": "1a52a7ac582679cbb46f6651bbc1f1a09869520289876e023dc0138ab21715b9",
-      "ast_digest": "eab7a0ebfe25b52ee9b50ec6e55113da413c0f39c8bcbc08d8f6b7723c9c8a7a"
+      "values_digest": "7e7663538ac05ca7e86d9b274a867ca4f30bd8831d11f8ba67ef6870c10052cb",
+      "rendered_digest": "c243125f920045ced3161819dca883ebe22a97bba694279d0f8d0fa6a399ddef",
+      "ast_digest": "cf86cca56d86298367d1e3d834df5567b0bd1ec709f2dfd5848419a9190257a3"
     },
     "sor": {
-      "values_digest": "736ed16139c6d539a99238290212b00015596c1ace09fc9c73c2872ff2213e43",
+      "values_digest": "1d60c6bbdcb1f22a669358f6005a2320b1f744421a8205cfd193254748858aed",
       "rendered_digest": "33d1fa6966e069fb7e01a5aabbd5bccefdb744ef485c5d258ff51c71e4f5f764",
       "ast_digest": "1e1a7d1226d5b54b56e27d4ee879a1ee52abf1ce6977b973af3a530ff09ba1f7"
     }
@@ -110,6 +135,13 @@
       "to": "implemented",
       "actor": "codex:sprint-5862-conductor",
       "reason": "Recover stale review after integrating unrelated mainline C-SDLC metadata; exact candidate re-review required before publication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -371,6 +403,20 @@
       "actor": "codex:sprint-5862-conductor",
       "reason": "Recover stale review after integrating unrelated mainline C-SDLC metadata; exact candidate re-review required before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 17,
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 18,
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
