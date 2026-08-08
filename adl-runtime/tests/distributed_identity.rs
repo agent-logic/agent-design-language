@@ -23,7 +23,18 @@ fn policy(root: &SigningKey) -> EnrollmentPolicy {
 }
 
 fn open_store(temp: &TempDir, policy: EnrollmentPolicy) -> DistributedIdentityStore {
-    DistributedIdentityStore::open(temp.path().join("identity.redb"), policy).unwrap()
+    DistributedIdentityStore::open(
+        temp.path().canonicalize().unwrap().join("identity.redb"),
+        policy,
+    )
+    .unwrap()
+}
+
+fn open_error(path: impl AsRef<std::path::Path>, policy: EnrollmentPolicy) -> IdentityError {
+    match DistributedIdentityStore::open(path, policy) {
+        Ok(_) => panic!("corrupt or unsafe database path unexpectedly opened"),
+        Err(error) => error,
+    }
 }
 
 fn identity_with_keys(
@@ -80,7 +91,10 @@ fn local_node_and_guardian_identity_is_restart_stable() {
     let restarted = open_store(&temp, policy(&root));
     let restored = restarted.load_local_identity().unwrap();
     assert_eq!(restored.public_identity(), &first_public);
-    assert_eq!(restarted.database_path(), temp.path().join("identity.redb"));
+    assert_eq!(
+        restarted.database_path(),
+        temp.path().canonicalize().unwrap().join("identity.redb")
+    );
     assert_eq!(
         restarted.load_or_create_local_identity(2).unwrap_err(),
         IdentityError::IdentityGenerationMismatch
@@ -388,4 +402,111 @@ fn audit_records_are_bounded_and_redact_identity_material() {
     assert!(!encoded.contains(&public.node_id));
     assert!(!encoded.contains(&public.guardian_id));
     assert!(!encoded.contains(&hex::encode(public.guardian_control_public_key)));
+}
+
+#[test]
+fn oversized_request_is_rejected_before_unbounded_serialization_and_safely_audited() {
+    let temp = tempfile::tempdir().unwrap();
+    let root = signing_key(15);
+    let store = open_store(&temp, policy(&root));
+    let local = store.load_or_create_local_identity(1).unwrap();
+    let mut request = local
+        .sign_enrollment(
+            GuardianEnrollmentRole::Voter,
+            &root,
+            [18; 32],
+            NOW,
+            NOW + 300,
+        )
+        .unwrap();
+    request.operator_signature = vec![0; 1_000_000];
+
+    assert_eq!(
+        store.enroll(&request, NOW).unwrap_err(),
+        IdentityError::RequestTooLarge
+    );
+    let audit = store.audit_events().unwrap();
+    assert_eq!(audit.len(), 1);
+    assert_eq!(audit[0].reason_code, "request_too_large");
+    assert_eq!(audit[0].request_sha256.len(), 64);
+}
+
+#[test]
+fn corrupt_audit_metadata_event_and_nonce_fail_closed_on_restart() {
+    let root = signing_key(16);
+
+    let corrupt_meta = tempfile::tempdir().unwrap();
+    {
+        let store = open_store(&corrupt_meta, policy(&root));
+        store.corrupt_audit_sequence_for_test(&[1, 2, 3]).unwrap();
+    }
+    assert_eq!(
+        open_error(
+            corrupt_meta
+                .path()
+                .canonicalize()
+                .unwrap()
+                .join("identity.redb"),
+            policy(&root),
+        ),
+        IdentityError::DurableStateCorrupt
+    );
+
+    let corrupt_event = tempfile::tempdir().unwrap();
+    {
+        let store = open_store(&corrupt_event, policy(&root));
+        store
+            .corrupt_audit_event_for_test(1, br#"{"schema":"wrong"}"#)
+            .unwrap();
+    }
+    assert_eq!(
+        open_error(
+            corrupt_event
+                .path()
+                .canonicalize()
+                .unwrap()
+                .join("identity.redb"),
+            policy(&root),
+        ),
+        IdentityError::DurableStateCorrupt
+    );
+
+    let corrupt_nonce = tempfile::tempdir().unwrap();
+    {
+        let store = open_store(&corrupt_nonce, policy(&root));
+        store.corrupt_nonce_for_test(&[1, 2, 3], NOW).unwrap();
+    }
+    assert_eq!(
+        open_error(
+            corrupt_nonce
+                .path()
+                .canonicalize()
+                .unwrap()
+                .join("identity.redb"),
+            policy(&root),
+        ),
+        IdentityError::DurableStateCorrupt
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn symlinked_database_parent_is_rejected() {
+    use std::os::unix::fs::symlink;
+
+    let temp = tempfile::tempdir().unwrap();
+    let canonical_temp = temp.path().canonicalize().unwrap();
+    let real_parent = canonical_temp.join("real");
+    std::fs::create_dir(&real_parent).unwrap();
+    let linked_parent = canonical_temp.join("linked");
+    symlink(&real_parent, &linked_parent).unwrap();
+
+    assert_eq!(
+        open_error(
+            linked_parent.join("identity.redb"),
+            policy(&signing_key(17))
+        ),
+        IdentityError::DatabasePathIsSymlink
+    );
+    assert!(!real_parent.join("identity.redb").exists());
 }

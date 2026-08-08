@@ -1,7 +1,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     fmt, fs,
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
 };
 
 use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
@@ -457,16 +457,17 @@ impl DistributedIdentityStore {
         if !database_path.is_absolute() {
             return Err(IdentityError::RelativeDatabasePath);
         }
-        if let Ok(metadata) = fs::symlink_metadata(database_path) {
-            if metadata.file_type().is_symlink() {
-                return Err(IdentityError::DatabasePathIsSymlink);
-            }
-        }
+        reject_symlink_components(database_path)?;
         let parent = database_path
             .parent()
             .ok_or(IdentityError::RelativeDatabasePath)?;
         fs::create_dir_all(parent).map_err(storage_error)?;
+        // Recheck after creating missing parents and immediately before opening the
+        // database. This closes the ordinary symlink-parent traversal case and
+        // narrows the remaining platform-level check/open race.
+        reject_symlink_components(database_path)?;
         let database = Database::create(database_path).map_err(storage_error)?;
+        reject_symlink_components(database_path)?;
         restrict_database_permissions(database_path)?;
         let store = Self {
             database_path: database_path.to_path_buf(),
@@ -721,11 +722,13 @@ impl DistributedIdentityStore {
         request: &SignedEnrollmentRequest,
         now_unix_secs: Option<u64>,
     ) -> IdentityResult<()> {
+        validate_bounded_request_fields(request)?;
+        validate_claim_shape(&request.claims)?;
+        validate_signature_lengths(request)?;
         let encoded = encode(request)?;
         if encoded.len() > self.policy.max_request_bytes {
             return Err(IdentityError::RequestTooLarge);
         }
-        validate_claim_shape(&request.claims)?;
         if request.claims.identity.trust_domain != self.policy.trust_domain {
             return Err(IdentityError::WrongTrustDomain);
         }
@@ -818,22 +821,93 @@ impl DistributedIdentityStore {
                 return Err(IdentityError::DurableStateCorrupt);
             }
         }
-        if read
-            .open_table(USED_NONCES)
-            .map_err(storage_error)?
-            .len()
-            .map_err(storage_error)?
-            > self.policy.max_outstanding_nonces
-            || read
-                .open_table(AUDIT)
-                .map_err(storage_error)?
-                .len()
-                .map_err(storage_error)?
-                > self.policy.max_audit_events
-        {
+        let nonces = read.open_table(USED_NONCES).map_err(storage_error)?;
+        if nonces.len().map_err(storage_error)? > self.policy.max_outstanding_nonces {
+            return Err(IdentityError::DurableStateCorrupt);
+        }
+        for row in nonces.iter().map_err(storage_error)? {
+            let (key, expires_at) = row.map_err(storage_error)?;
+            if key.value().len() != NONCE_LEN
+                || key.value() == [0_u8; NONCE_LEN]
+                || expires_at.value() == 0
+            {
+                return Err(IdentityError::DurableStateCorrupt);
+            }
+        }
+
+        let audit = read.open_table(AUDIT).map_err(storage_error)?;
+        if audit.len().map_err(storage_error)? > self.policy.max_audit_events {
+            return Err(IdentityError::DurableStateCorrupt);
+        }
+        let mut last_sequence = None;
+        for row in audit.iter().map_err(storage_error)? {
+            let (key, value) = row.map_err(storage_error)?;
+            let event: EnrollmentAuditEvent =
+                decode(value.value(), IdentityError::DurableStateCorrupt)?;
+            let sequence = key.value();
+            if event.schema != AUDIT_SCHEMA
+                || event.sequence != sequence
+                || event.request_sha256.len() != 64
+                || !event
+                    .request_sha256
+                    .bytes()
+                    .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+                || event.result.is_empty()
+                || event.reason_code.is_empty()
+                || last_sequence.is_some_and(|previous| previous >= sequence)
+            {
+                return Err(IdentityError::DurableStateCorrupt);
+            }
+            last_sequence = Some(sequence);
+        }
+        let expected_next = last_sequence
+            .unwrap_or(0)
+            .checked_add(1)
+            .ok_or(IdentityError::DurableStateCorrupt)?;
+        let meta = read.open_table(META).map_err(storage_error)?;
+        let recorded_next = match meta.get(NEXT_AUDIT_SEQUENCE_KEY).map_err(storage_error)? {
+            Some(value) => {
+                Some(decode_u64(value.value()).ok_or(IdentityError::DurableStateCorrupt)?)
+            }
+            None => None,
+        };
+        if recorded_next.unwrap_or(1) != expected_next {
             return Err(IdentityError::DurableStateCorrupt);
         }
         Ok(())
+    }
+
+    #[cfg(test)]
+    pub fn corrupt_audit_sequence_for_test(&self, bytes: &[u8]) -> IdentityResult<()> {
+        let write = self.database.begin_write().map_err(storage_error)?;
+        write
+            .open_table(META)
+            .map_err(storage_error)?
+            .insert(NEXT_AUDIT_SEQUENCE_KEY, bytes)
+            .map_err(storage_error)?;
+        write.commit().map_err(storage_error)
+    }
+
+    #[cfg(test)]
+    pub fn corrupt_nonce_for_test(&self, nonce: &[u8], expires_at: u64) -> IdentityResult<()> {
+        let write = self.database.begin_write().map_err(storage_error)?;
+        write
+            .open_table(USED_NONCES)
+            .map_err(storage_error)?
+            .insert(nonce, expires_at)
+            .map_err(storage_error)?;
+        write.commit().map_err(storage_error)
+    }
+
+    #[cfg(test)]
+    pub fn corrupt_audit_event_for_test(&self, sequence: u64, bytes: &[u8]) -> IdentityResult<()> {
+        let write = self.database.begin_write().map_err(storage_error)?;
+        write
+            .open_table(AUDIT)
+            .map_err(storage_error)?
+            .insert(sequence, bytes)
+            .map_err(storage_error)?;
+        write.commit().map_err(storage_error)
     }
 
     fn record_preflight_rejection(
@@ -1001,10 +1075,10 @@ fn append_audit(
 ) -> IdentityResult<()> {
     let sequence = {
         let mut meta = write.open_table(META).map_err(storage_error)?;
-        let sequence = meta
-            .get(NEXT_AUDIT_SEQUENCE_KEY)
-            .map_err(storage_error)?
-            .map_or(1, |value| decode_u64(value.value()).unwrap_or(1));
+        let sequence = match meta.get(NEXT_AUDIT_SEQUENCE_KEY).map_err(storage_error)? {
+            Some(value) => decode_u64(value.value()).ok_or(IdentityError::DurableStateCorrupt)?,
+            None => 1,
+        };
         let next = sequence
             .checked_add(1)
             .ok_or(IdentityError::ResourceExhausted)?;
@@ -1013,7 +1087,7 @@ fn append_audit(
             .map_err(storage_error)?;
         sequence
     };
-    let request_sha256 = hex::encode(Sha256::digest(encode(request)?));
+    let request_sha256 = audit_request_digest(request)?;
     let event = EnrollmentAuditEvent {
         schema: AUDIT_SCHEMA.to_owned(),
         sequence,
@@ -1024,6 +1098,9 @@ fn append_audit(
     };
     let encoded = encode(&event)?;
     let mut audit = write.open_table(AUDIT).map_err(storage_error)?;
+    if audit.get(sequence).map_err(storage_error)?.is_some() {
+        return Err(IdentityError::DurableStateCorrupt);
+    }
     audit
         .insert(sequence, encoded.as_slice())
         .map_err(storage_error)?;
@@ -1034,6 +1111,75 @@ fn append_audit(
             .map(|(key, _)| key.value())
             .ok_or(IdentityError::DurableStateCorrupt)?;
         audit.remove(oldest).map_err(storage_error)?;
+    }
+    Ok(())
+}
+
+fn validate_signature_lengths(request: &SignedEnrollmentRequest) -> IdentityResult<()> {
+    for signature in [
+        &request.operator_signature,
+        &request.node_proof_signature,
+        &request.guardian_proof_signature,
+    ] {
+        if signature.len() > SIGNATURE_LEN {
+            return Err(IdentityError::RequestTooLarge);
+        }
+        if signature.len() != SIGNATURE_LEN {
+            return Err(IdentityError::MalformedSignature);
+        }
+    }
+    Ok(())
+}
+
+fn validate_bounded_request_fields(request: &SignedEnrollmentRequest) -> IdentityResult<()> {
+    if request.claims.schema.len() > ENROLLMENT_SCHEMA.len()
+        || request.claims.operation.len() > "enroll".len()
+        || request.claims.identity.schema.len() > IDENTITY_SCHEMA.len()
+        || request.claims.identity.trust_domain.len() > 128
+        || request.claims.identity.node_id.len() > NODE_ID_PREFIX.len() + IDENTIFIER_HEX_LEN
+        || request.claims.identity.guardian_id.len() > GUARDIAN_ID_PREFIX.len() + IDENTIFIER_HEX_LEN
+        || request.claims.operator_root_id.len() > ROOT_ID_PREFIX.len() + IDENTIFIER_HEX_LEN
+    {
+        return Err(IdentityError::RequestTooLarge);
+    }
+    validate_signature_lengths(request)
+}
+
+fn audit_request_digest(request: &SignedEnrollmentRequest) -> IdentityResult<String> {
+    if validate_bounded_request_fields(request) == Err(IdentityError::RequestTooLarge) {
+        let mut digest = Sha256::new();
+        digest.update(b"ADL-DISTRIBUTED-OVERSIZED-ENROLLMENT-V1\0");
+        digest.update(request.claims.schema.len().to_be_bytes());
+        digest.update(request.claims.operation.len().to_be_bytes());
+        digest.update(request.claims.operator_root_id.len().to_be_bytes());
+        digest.update(request.operator_signature.len().to_be_bytes());
+        digest.update(request.node_proof_signature.len().to_be_bytes());
+        digest.update(request.guardian_proof_signature.len().to_be_bytes());
+        digest.update(request.claims.nonce);
+        return Ok(hex::encode(digest.finalize()));
+    }
+    Ok(hex::encode(Sha256::digest(encode(request)?)))
+}
+
+fn reject_symlink_components(path: &Path) -> IdentityResult<()> {
+    let mut current = PathBuf::new();
+    for component in path.components() {
+        match component {
+            Component::RootDir | Component::Prefix(_) | Component::Normal(_) => {
+                current.push(component.as_os_str());
+            }
+            Component::CurDir | Component::ParentDir => {
+                return Err(IdentityError::DatabasePathIsSymlink);
+            }
+        }
+        match fs::symlink_metadata(&current) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(IdentityError::DatabasePathIsSymlink);
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => break,
+            Err(error) => return Err(storage_error(error)),
+        }
     }
     Ok(())
 }
