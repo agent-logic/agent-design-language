@@ -16,6 +16,7 @@ PRODUCT = "src/product.txt"
 TEST_NAME = "receipt_contract"
 EVIDENCE = ".csdlc/evidence/#{ISSUE}"
 PROOF = "#{EVIDENCE}/execution-proof.json"
+FIXTURE_PARENT = File.expand_path(".csdlc/prepared/issues/53", Dir.pwd)
 
 def run_git(*args)
   stdout, stderr, status = Open3.capture3("git", *args)
@@ -86,7 +87,7 @@ def base_proof(source, schema: "adl.wp04.execution_proof.v3")
 end
 
 def fixture(schema: "adl.wp04.execution_proof.v3", mutate_before_evidence: nil, mutate_after_evidence: nil)
-  Dir.mktmpdir("csdlc-proof-receipt-53-") do |dir|
+  Dir.mktmpdir("receipt-fixture-", FIXTURE_PARENT) do |dir|
     Dir.chdir(dir) do
       run_git("init", "--quiet", "--initial-branch=main")
       run_git("config", "user.email", "csdlc-test@example.invalid")
