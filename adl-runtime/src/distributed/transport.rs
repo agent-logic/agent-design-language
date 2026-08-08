@@ -321,7 +321,7 @@ pub fn server_endpoint(
     if certificate_chain.is_empty() || client_roots.is_empty() {
         return Err(TransportError::InvalidTlsMaterial);
     }
-    let provider = Arc::new(rustls::crypto::ring::default_provider());
+    let provider = Arc::new(rustls::crypto::aws_lc_rs::default_provider());
     let roots = roots(client_roots)?;
     let verifier = WebPkiClientVerifier::builder_with_provider(Arc::new(roots), provider.clone())
         .build()
@@ -349,7 +349,7 @@ pub fn client_endpoint(
     if certificate_chain.is_empty() || server_roots.is_empty() {
         return Err(TransportError::InvalidTlsMaterial);
     }
-    let provider = Arc::new(rustls::crypto::ring::default_provider());
+    let provider = Arc::new(rustls::crypto::aws_lc_rs::default_provider());
     let mut tls = rustls::ClientConfig::builder_with_provider(provider)
         .with_protocol_versions(&[&rustls::version::TLS13])
         .map_err(|_| TransportError::TlsConfiguration)?
