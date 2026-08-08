@@ -1,0 +1,13 @@
+{
+  "issue": 5795,
+  "card": "spp",
+  "expected_generation": 35,
+  "expected_digest": "baa9c9ae0aff53973829c8d69aadf555155f8bee5714184160cc067dc4028d39",
+  "actor": "openai-codex:gpt-5:issue-5795-portable-model",
+  "reason": "Align the operative plan with the completed portable S3 model publication, Mac MLX proof, quota-gated AWS CUDA proof, and unresolved WSS integration gate.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Implement and prove the bounded Shepherd foundation on Mac with the configured MLX model, retain one immutable portable Ollama/CUDA model bundle in versioned S3 for AWS and distributed Polis hosts, and run the fixed g6.xlarge CUDA proof after quota approval. Keep authenticated WSS, Observatory projection, and browser round-trip explicitly deferred behind issue 5832."
+  }
+}

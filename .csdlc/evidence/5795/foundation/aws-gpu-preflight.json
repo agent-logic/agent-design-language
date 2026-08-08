@@ -1,0 +1,20 @@
+{
+  "schema": "adl.wp5795.aws_gpu_preflight.v1",
+  "profile": "agent-logic-admin",
+  "region": "us-west-2",
+  "account_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "ami_sha256": "1155c4ab3180f32af0fa8c7f1f0b296d28d57167d5b38237ac8a7124d2efa319",
+  "subnet_sha256": "83fe4e890405df0a3c1aeb6da6353f869fd688e7894bfd0aade4e8f7ff19866e",
+  "instance_profile": "ADLRemoteValidationPermanentProfile",
+  "gpu_instance_type": "g6.xlarge",
+  "model_identity": "gemma4:12b",
+  "model_artifact_sha256": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+  "artifact_manifest_sha256": "cfc1e4ad8ce60a7cabc36b612e057fac7fb37324c1d6c79233b35883577b369f",
+  "gpu_quota_vcpus": 0.0,
+  "gpu_vcpus_required": 4,
+  "gpu_hourly_price_usd": 0.8048000000,
+  "max_gpu_hourly_price_usd": 0.85,
+  "price_ready": true,
+  "quota_ready": false,
+  "active_issue_instance_count": 0
+}

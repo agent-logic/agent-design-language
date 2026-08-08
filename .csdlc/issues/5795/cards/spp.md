@@ -12,27 +12,27 @@ Status: ready
 
 ## Summary
 
-With issues 5800 and 5820 stable but issue 5832 still unresolved, implement and validate only the bounded local Gemma/MLX Shepherd process-adapter and failure-isolation foundation. Retain authenticated WSS, Observatory projection, browser round-trip, and final issue publication as explicitly pending work after 5832 freezes the command and carrier contract.
+Implement and prove the bounded Shepherd foundation on Mac with the configured MLX model, retain one immutable portable Ollama/CUDA model bundle in versioned S3 for AWS and distributed Polis hosts, and run the fixed g6.xlarge CUDA proof after quota approval. Keep authenticated WSS, Observatory projection, and browser round-trip explicitly deferred behind issue 5832.
 
 ## Plan
 
-Revision 14
+Revision 17
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Confirm issues 5800 and 5820 are stable, identify issue 5832 as unresolved, inventory governed adapter boundaries, and restrict this pass to the three owned Rust foundation paths.",
+    "action": "Confirm issues 5800 and 5820 are stable, identify issue 5832 as unresolved, and restrict this pass to the bounded Shepherd foundation and portable model proof surfaces.",
     "acceptance_ids": [
       "AC-2",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Implement the explicitly configured bounded local process adapter with truthful execution classification, cleared environment, strict bounds, concurrency control, timeout, cancellation, explicit child reaping, and redacted failures.",
+    "action": "Implement the explicitly configured bounded local process adapter with truthful execution classification, cleared environment, strict bounds, concurrency control, timeout, cancellation, child reaping, runner-byte pinning, and redacted failures.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -40,11 +40,11 @@ Revision 14
       "AC-4",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Prove governed admission and failure isolation deterministically, compile both crate surfaces with warnings denied, and run one explicitly configured real local Gemma smoke; keep WSS and browser proof deferred behind issue 5832.",
+    "action": "Complete focused Rust and Mac MLX proof, retain the portable Ollama/CUDA model bundle by exact S3 object versions, and validate the no-launch AWS GPU preflight with zero residual resources.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -53,10 +53,22 @@ Revision 14
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
+    "action": "After the us-west-2 On-Demand G and VT quota reaches four vCPUs, run the fixed g6.xlarge CUDA proof against the exact model manifest and exact source head, then prove automatic instance and volume cleanup.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-4",
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
     "action": "After issue 5832 freezes the command and WSS contract, complete authenticated Runtime and Observatory integration, live browser proof, exact-head review, and final publication.",
     "acceptance_ids": [
       "AC-2",
@@ -96,7 +108,7 @@ Revision 14
 
 .csdlc/prepared/issues/5795/design.md
 
-Digest: 89fe1dc1292243e40a2ec48d47040e901ac91451a8d5d99945fb154d8b3d1037
+Digest: 714e32d250ea000b158c6f2940af60db47219a38ada6ff2c6b01d438be5a76c9
 
 ## Diagram
 

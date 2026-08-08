@@ -1,19 +1,29 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
      Running tests/shepherd.rs (adl-runtime-kernel/target/debug/deps/shepherd-932fe1c1b10f0b71)
 
-running 12 tests
+running 22 tests
 test invalid_configuration_is_rejected_before_execution ... ok
-test missing_authority_fails_before_process_invocation ... ok
-test malformed_oversized_and_wrong_runtime_requests_fail_before_invocation ... ok
 test pre_cancelled_request_never_invokes_provider ... ok
+test malformed_oversized_and_wrong_runtime_requests_fail_before_invocation ... ok
+test correlated_failure_and_replay_retention_are_truthful ... ok
+test every_authority_mutation_fails_before_process_invocation ... ok
+test real_runner_bytes_must_match_the_operator_pinned_digest ... ok
 test provider_environment_is_cleared_and_allow_listed ... ok
+test completed_idempotency_replay_is_retained_and_does_not_reinvoke_provider ... ok
 test provider_failure_redacts_prompt_and_stderr ... ok
 test governed_request_invokes_local_process_and_classifies_test_evidence ... ok
 test unavailable_and_excess_output_are_truthful ... ok
 test cancellation_is_bounded_and_releases_capacity ... ok
+test real_classification_requires_exact_nonce_bound_runner_attestation ... ok
+test forged_real_runner_binding_is_rejected ... ok
+test runner_inherits_declared_resource_limits ... ok
+test process_tree_memory_pressure_is_terminated_and_capacity_recovers ... ok
 test concurrent_request_is_rejected_without_exceeding_capacity ... ok
 test stdin_backpressure_is_covered_by_timeout ... ok
 test timeout_releases_capacity_and_runtime_remains_usable ... ok
+test normal_parent_exit_kills_descendants_and_bounds_pipe_drain ... ok
+test dropped_execution_future_kills_descendants ... ok
+test timeout_kills_descendants ... ok
 
-test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.31s
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.06s
 

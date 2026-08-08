@@ -1,0 +1,6 @@
+{
+  "issue": 5795,
+  "expected_generation": 34,
+  "expected_digest": "bfb7c43ceac9c432921647e260dd761cd0d9390b6096afef5253dc7d60660d6a",
+  "reviewer": "codex:5795-portable-mlx-cuda-design-review"
+}

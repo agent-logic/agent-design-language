@@ -1,0 +1,13 @@
+{
+  "issue": 5795,
+  "card": "spp",
+  "expected_generation": 39,
+  "expected_digest": "7e943ac463e2935b00916a9979f60b0e7a912a01504e1cdcdc4b3dec689a3030",
+  "actor": "openai-codex:gpt-5:issue-5795-portable-model",
+  "reason": "Mark focused validation and retained portable artifact proof as the sole active plan step.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "in_progress"
+  }
+}

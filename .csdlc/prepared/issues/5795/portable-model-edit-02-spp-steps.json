@@ -1,0 +1,43 @@
+{
+  "issue": 5795,
+  "card": "spp",
+  "expected_generation": 36,
+  "expected_digest": "7cd7232c9c67d66160925e054cfd9899d4ef22908596b6a2c5566fa3905f6047",
+  "actor": "openai-codex:gpt-5:issue-5795-portable-model",
+  "reason": "Record completed Shepherd and portable artifact work while preserving the quota and WSS gates truthfully.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Confirm issues 5800 and 5820 are stable, identify issue 5832 as unresolved, and restrict this pass to the bounded Shepherd foundation and portable model proof surfaces.",
+        "acceptance_ids": ["AC-2", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement the explicitly configured bounded local process adapter with truthful execution classification, cleared environment, strict bounds, concurrency control, timeout, cancellation, child reaping, runner-byte pinning, and redacted failures.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Complete focused Rust and Mac MLX proof, retain the portable Ollama/CUDA model bundle by exact S3 object versions, and validate the no-launch AWS GPU preflight with zero residual resources.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "After the us-west-2 On-Demand G and VT quota reaches four vCPUs, run the fixed g6.xlarge CUDA proof against the exact model manifest and exact source head, then prove automatic instance and volume cleanup.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "After issue 5832 freezes the command and WSS contract, complete authenticated Runtime and Observatory integration, live browser proof, exact-head review, and final publication.",
+        "acceptance_ids": ["AC-2", "AC-5", "AC-6", "AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

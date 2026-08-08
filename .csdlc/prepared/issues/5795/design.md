@@ -1,17 +1,22 @@
-# Issue 5795 Design: Governed Local Gemma/MLX Shepherd MVP
+# Issue 5795 Design: Governed Gemma GPU Shepherd MVP
 
 ## Outcome And Boundary
 
 Issue 5795 lets an operator send one bounded Shepherd message from the separate
 HTML Observatory through Runtime v3 governed ingress to an explicitly
-configured local MLX/Gemma adapter and receive the real response plus execution
-evidence. The MVP is local-only and optional. It must distinguish unavailable,
-deterministic test-double, and real-model states and may not present fake,
-cached, or retained responses as live local inference.
+configured Gemma GPU adapter and receive the real response plus execution
+evidence. The MVP is optional and supports an Apple MLX/Metal runner on macOS
+and a portable Ollama/CUDA model bundle on Linux/AWS through one subprocess
+contract. It must distinguish unavailable, deterministic test-double, and
+real-model states and may not present fake, cached, or retained responses as
+live inference. The MLX artifact is a macOS proof input only and is never used
+as the AWS or distributed-Polis deployment artifact.
 
 The issue does not implement the v0.95 Shepherd training/evaluator program,
-change the global default model, use cloud providers, or redefine Runtime,
-Observatory, or WP-14 protocol contracts.
+change the global default model, add a hosted-inference fallback, or redefine
+Runtime, Observatory, or WP-14 protocol contracts. AWS is a bounded portability
+proof target and a future self-hosted deployment environment, not an external
+model-provider dependency.
 
 ## Source Baseline
 
@@ -32,22 +37,61 @@ Observatory, or WP-14 protocol contracts.
 Add a Runtime-owned local Shepherd adapter contract selected only by explicit
 configuration. Admission validates the signed command, principal, capability,
 runtime identity, message bounds, and operation policy before provider work.
-The adapter launches or connects to the configured local MLX boundary with a
-bounded request, timeout, output limit, cancellation, and redacted metadata.
-No model availability is inferred from configuration alone.
+The adapter launches the configured MLX/Metal or CUDA runner in a dedicated
+process group with CPU, descriptor, and process-count rlimits, an address-space
+rlimit where the host supports it, and an independent process-tree RSS
+watchdog. The request, timeout, output, cancellation, and pipe-drain paths are
+all bounded and metadata is redacted. Timeout, cancellation, normal child
+exit, and executor drop all terminate the complete process group so descendants
+and inherited pipes cannot outlive the request. Resource accounting runs off
+the asynchronous Runtime worker threads. No model availability is inferred
+from configuration alone.
 
-The response envelope includes correlation identity and a truthful execution
-classification: `unavailable`, `deterministic_test_double`, or
-`real_local_model`. Observatory renders that classification and response but
-does not hold signing keys, launch providers, or gain direct filesystem/model
-authority. Provider failure returns a bounded error and leaves Runtime and the
-public read stream usable.
+Real-model classification requires a versioned runner handshake. Runtime sends
+a fresh nonce plus the expected backend, exact model identity, model artifact
+digest, runtime identity, and correlation identity. The runner must return all
+of those bindings with a response before Runtime emits `real_local_model`.
+The operator must pin the expected SHA-256 digest of the trusted runner bytes;
+configuration fails closed if the executable does not match. Executable bytes
+and the canonical launch configuration are hashed into the redacted result. A
+syntactically valid caller-supplied model name, substituted executable, or
+arbitrary nonempty subprocess output is insufficient.
+
+The portable CUDA model, Ollama runtime, and restoration manifest are prepared
+once and stored in a private, versioned Agent Logic S3 bucket. The manifest
+pins every object key, S3 version ID, byte length, and SHA-256 digest. AWS proof
+and future distributed-Polis nodes download those exact versions, verify every
+digest before installation, and run the model locally on node-owned GPU
+hardware. Mutable latest objects, per-node registry pulls, Bedrock, and hosted
+inference are not valid restoration paths. S3 distributes immutable bytes; it
+does not execute inference or hold runtime authority.
+
+The Linux runtime contract includes the Ollama CUDA 12 userspace libraries in
+the pinned Ollama archive. The proof host supplies the NVIDIA kernel driver
+through an AWS NVIDIA-driver DLAMI. Startup verifies the expected GPU class,
+driver presence, CUDA userspace library family and digest, and Ollama GPU
+residency before inference. The CUDA compiler toolkit is not an inference
+dependency and is not installed merely for proof theater.
+
+The response envelope includes correlation identity, live-versus-replay
+provenance, retention truth, and a truthful execution classification:
+`unavailable`, `deterministic_test_double`, or `real_local_model`. Completed
+idempotency replay rewrites successful Shepherd evidence to
+`idempotency_replay` and `retained=true`; cached bytes may never masquerade as
+fresh inference. A separate versioned failure envelope carries correlation,
+runtime, unavailable classification, retention truth, and a bounded reason
+code. Observatory renders those classifications but does not hold signing
+keys, launch providers, or gain direct filesystem/model authority. Provider
+failure leaves Runtime and the public read stream usable.
 
 ## Owned Paths
 
 - `adl-runtime-kernel/src/shepherd.rs`
+- `adl-runtime-kernel/src/lib.rs`
+- `adl-runtime-kernel/src/operations.rs`
 - `adl-runtime-kernel/tests/shepherd.rs`
 - `adl-runtime/tests/shepherd_local_model.rs`
+- `adl/tools/run_wp5795_aws_gpu_proof.sh`
 - `demos/html-observatory/shepherd.js`
 - `demos/html-observatory/index.html`
 - `adl/tools/validate_v092_shepherd_browser_roundtrip.mjs`
@@ -62,9 +106,24 @@ public read stream usable.
 - Unsigned, unauthorized, malformed, oversized, or wrong-runtime messages are
   rejected before local provider invocation.
 - No cloud fallback, silent model substitution, or global-default change.
+- AWS and distributed-Polis nodes use the portable CUDA bundle, never the
+  Apple-only MLX bundle.
+- Model restoration fails closed unless the artifact manifest and every
+  versioned S3 object match their pinned SHA-256 digests and byte lengths.
+- CUDA execution fails closed unless the NVIDIA driver and pinned Ollama CUDA
+  12 userspace libraries are present and the model reports nonzero VRAM
+  residency.
 - Model path, prompt content, tokens, and private response data are not logged
   beyond the declared redacted evidence policy.
 - Timeouts and cancellation release permits and preserve Runtime usability.
+- Subprocess descendants cannot survive timeout, cancellation, successful
+  parent exit, or executor future drop; reader draining is independently
+  bounded.
+- Completed idempotency replay is explicitly retained and cannot claim live
+  execution.
+- `real_local_model` requires an operator-pinned runner-program digest and a
+  nonce-bound response matching the exact configured backend, model identity,
+  and model artifact digest.
 - Deterministic fakes prove adapter logic only; they cannot satisfy the real
   local-model acceptance criterion.
 - Observatory status never upgrades retained/mock evidence to live proof.
@@ -82,7 +141,16 @@ Deterministic tests cover admission, fake adapter behavior, timeout,
 cancellation, malformed commands, status classification, redaction, and
 unauthorized mutation. A local macOS Apple Metal/MLX lane must invoke the
 explicitly configured model and retain a real response with correlation proof.
-Missing hardware/model is a truthful deferred or blocked lane, never a pass.
+An AWS Linux lane must restore the pinned portable bundle from S3, run the same
+exact-head test against a CUDA-backed Gemma model on a `g6.xlarge` (or an
+explicitly recorded compatible GPU instance), prove GPU residency, and retain
+the artifact-manifest/backend/model/runner/correlation digests.
+The AWS runner must use the approved Agent Logic account/profile, enforce a
+bounded run deadline and cost ceiling, and leave no test instance or temporary
+volume running or retained after success or failure. Missing hardware/model is
+a truthful deferred or blocked lane, never a pass. Until the regional On-Demand
+G/VT quota is at least four vCPUs, only artifact publication and the non-billing
+preflight may run; no EC2 instance is launched.
 Browser proof verifies the complete Observatory-to-Runtime round trip.
 The implementation must add
 `adl/tools/validate_v092_shepherd_browser_roundtrip.mjs`. That live validator
@@ -103,7 +171,7 @@ remain usable. It does not switch to cloud or label a fake as production.
 ## Non-Goals
 
 - Full v0.95 Shepherd/Gemma training, Aptitude Atlas, or evaluator buildout.
-- AWS, hosted inference, or provider billing work.
+- Hosted inference, automatic cloud fallback, or provider billing integration.
 - Global default model selection or broad intelligence/safety claims.
 - Runtime/API/protocol redesign owned by 5820 or 5832.
 - Observatory visual redesign or Unity consumer work.

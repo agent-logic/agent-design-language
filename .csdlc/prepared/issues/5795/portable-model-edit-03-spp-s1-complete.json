@@ -1,0 +1,13 @@
+{
+  "issue": 5795,
+  "card": "spp",
+  "expected_generation": 37,
+  "expected_digest": "334c74a7a5c6f38fc1e41b7c47ee1f48b016ed5daafe388e5d03ea3490fb67c8",
+  "actor": "openai-codex:gpt-5:issue-5795-portable-model",
+  "reason": "Record the completed dependency and scope inventory.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  }
+}
