@@ -1,0 +1,55 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 61
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Correct only bind-time topology relevance and its focused tests; do not mutate retained records or widen into migration, claims, publication, finish, or unrelated validation behavior.
+
+## Deliverables
+
+- csdlc-v2/src/lifecycle.rs
+- csdlc-v2/tests/gate2.rs
+- .csdlc/prepared/issues/61/design.md
+- .csdlc/prepared/issues/61/diagram.mmd
+
+## Acceptance
+
+1. AC-1: Relative stored worktree paths are resolved against canonical repository topology, not an arbitrary scanned worktree projection.
+2. AC-2: An unrelated historical record with worktree dot cannot collide with a new issue-local bind.
+3. AC-3: Topology scanning does not require absent authored artifacts for records proven irrelevant by issue, branch, and canonical worktree identity.
+4. AC-4: A real-binary regression reproduces a #5791-shaped dot-worktree record with absent local artifacts and proves a distinct issue binds successfully.
+5. AC-5: Genuine same-issue, same-branch, and same-canonical-worktree collisions remain fully verified and fail closed with a typed reconciliation error.
+6. AC-6: Any remaining filesystem failure identifies the affected issue and path rather than surfacing raw ENOENT alone.
+7. AC-7: Retained #5791 evidence and unrelated lifecycle surfaces are unchanged.
+8. AC-8: Focused validation, strict Clippy, diff hygiene, and exact-head independent review pass without unresolved findings.
+
+## Dependencies
+
+- Current origin/main C-SDLC v2 bind implementation
+- Retained #5791 record as read-only defect evidence
+- Issue #61 live problem and acceptance contract
+
+## Inputs
+
+- csdlc-v2/src/lifecycle.rs
+- csdlc-v2/src/git.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate2.rs
+- .csdlc/issues/5791/index.json
+
+## Non Goals
+
+- Mutating or normalizing retained #5791 evidence
+- Weakening card verification for a genuinely relevant topology record
+- Changing claims, leases, migration, publication, finish, or cleanup
+- Widening issue #53 execution-proof receipt scope
+- Running broad repository validation
