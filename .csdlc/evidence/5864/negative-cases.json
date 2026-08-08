@@ -1,0 +1,22 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5864,
+  "source_revision": "64ac531ebe5dd1202a7882d120738adca071164d",
+  "test_output": ".csdlc/evidence/5864/distributed-certificates.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/certificates.rs": "9dca39a02b14693469a36242dc84093b9da062af1c0a86ed618369b1efe01d5d",
+    "adl-runtime/tests/distributed_certificates.rs": "15361eaff70a84dc3922581118aa5879e313f9a0ac539958305e60f90f52da73"
+  },
+  "cases": [
+    {"case": "certificate_purpose_separation", "test": "all_certificate_purposes_are_distinct_and_keys_are_not_interchangeable", "result": "rejected"},
+    {"case": "unapproved_root_and_tampered_certificate", "test": "issuer_chain_is_root_bound_and_tampering_fails_closed", "result": "fail_closed"},
+    {"case": "expired_and_future_certificate", "test": "expiry_and_not_yet_valid_are_enforced_before_authority", "result": "fail_closed"},
+    {"case": "bounded_rotation_overlap", "test": "rotation_overlap_is_bounded_and_one_identity_remains_one_quorum_vote", "result": "denied"},
+    {"case": "duplicate_guardian_control_key", "test": "one_guardian_control_key_cannot_represent_two_voters", "result": "rejected"},
+    {"case": "immediate_revocation", "test": "revocation_is_immediate_and_authorization_is_refresh_bounded", "result": "denied"},
+    {"case": "identity_compromise_fence", "test": "compromised_certificate_fences_all_identity_purposes_and_reenrollment", "result": "fenced"},
+    {"case": "restart_persistence", "test": "rotation_revocation_and_compromise_survive_restart", "result": "recovered"},
+    {"case": "durable_state_corruption", "test": "corrupt_durable_certificate_state_fails_closed_on_restart", "result": "fail_closed"},
+    {"case": "certificate_resource_ceiling", "test": "certificate_count_is_bounded_before_persisting_more_authority", "result": "fail_closed"}
+  ]
+}

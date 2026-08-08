@@ -1,0 +1,52 @@
+{
+  "schema": "adl.wp04.execution_proof.v2",
+  "issue": 5864,
+  "wp": "WP-04.02",
+  "source_revision": "64ac531ebe5dd1202a7882d120738adca071164d",
+  "protected_paths": [
+    "adl-runtime/src/distributed/certificates.rs",
+    "adl-runtime/tests/distributed_certificates.rs"
+  ],
+  "source_artifacts": [
+    {"path": "adl-runtime/src/distributed/certificates.rs", "sha256": "9dca39a02b14693469a36242dc84093b9da062af1c0a86ed618369b1efe01d5d"},
+    {"path": "adl-runtime/tests/distributed_certificates.rs", "sha256": "15361eaff70a84dc3922581118aa5879e313f9a0ac539958305e60f90f52da73"}
+  ],
+  "commands": [
+    {
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_certificates", "--no-tests=fail"],
+      "exit_code": 0,
+      "selected_tests": 10,
+      "started_at": "2026-08-08T17:47:58Z",
+      "finished_at": "2026-08-08T17:48:09Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "55a0bc27-7b7d-4195-a1fb-f4fe0a05425e",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"
+      },
+      "stdout_path": ".csdlc/evidence/5864/distributed-certificates.stdout.log",
+      "stdout_sha256": "943c311466b477fa56a23aaff2544594c3feb711e3d1a9900be70a52cc261bad",
+      "stderr_path": ".csdlc/evidence/5864/distributed-certificates.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    {"case": "certificate_purpose_separation", "result": "rejected", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "unapproved_root_and_tampered_certificate", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "expired_and_future_certificate", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "bounded_rotation_overlap", "result": "denied", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "duplicate_guardian_control_key", "result": "rejected", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "immediate_revocation", "result": "denied", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "identity_compromise_fence", "result": "fenced", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "restart_persistence", "result": "recovered", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "durable_state_corruption", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"case": "certificate_resource_ceiling", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5864/negative-cases.json", "evidence_sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"}
+  ],
+  "artifacts": [
+    {"path": ".csdlc/evidence/5864/distributed-certificates.stdout.log", "sha256": "943c311466b477fa56a23aaff2544594c3feb711e3d1a9900be70a52cc261bad"},
+    {"path": ".csdlc/evidence/5864/negative-cases.json", "sha256": "ca0610cb69c245a24d1fa74800722acbab0f4384ddb4e73031de9407f55a9fcf"},
+    {"path": ".csdlc/evidence/5864/runner.txt", "sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"}
+  ],
+  "native_receipts": []
+}
