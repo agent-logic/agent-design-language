@@ -6,7 +6,7 @@ ERROR: codex_pr.sh has been retired and now fails closed.
 
 Use the independent C-SDLC v2 route instead:
   csdlc-install resolve
-  csdlc-init --root <worktree> --request <bootstrap-request.json>
+  csdlc-issue --root <repo> create --request <bootstrap-request.json>
   csdlc-bind --root <worktree> --request <bind-request.json>
   csdlc-validate --root <worktree> finalize --request <finalize-request.json>
   csdlc-review record --request <review-request.json>

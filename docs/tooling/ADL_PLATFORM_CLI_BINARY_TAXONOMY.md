@@ -22,7 +22,7 @@ skills in `csdlc-v2/operator/skills/`.
 
 Current lifecycle owners are:
 
-- `csdlc-init`
+- `csdlc-issue create`
 - `csdlc-bind`
 - `csdlc-edit`
 - `csdlc-doctor`

@@ -31,7 +31,7 @@ For ADL repo changes:
 ## Quick Workflow
 
 1. Read the current milestone docs, issue list, and operator decision.
-2. Resolve the installed generation and use `csdlc-init`, `csdlc-doctor`, or `csdlc-bind` for issue setup or execution state.
+2. Resolve the installed generation and use `csdlc-issue create`, `csdlc-doctor`, or `csdlc-bind` for issue setup or execution state.
 3. Create a setup issue if none exists.
 4. Confirm all five prompt cards exist from the active template registry.
 5. Bind execution to a worktree; stop if still on `main`.

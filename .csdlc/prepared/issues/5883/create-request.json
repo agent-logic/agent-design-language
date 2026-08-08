@@ -1,0 +1,45 @@
+{
+  "issue": 5883,
+  "repository": "danielbaustin/agent-design-language",
+  "actor": "codex:5883-readiness",
+  "design_path": ".csdlc/prepared/issues/5883/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5883/diagram.mmd",
+  "design_reviewer": "codex:5883-readiness-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
+    "slug": "retire-csdlc-init",
+    "version": "backlog",
+    "goal": "Make csdlc-issue create the only active issue-creation command and delete the duplicate csdlc-init surface.",
+    "required_outcome": "The duplicate binary, declarations, installed-set requirements, proof fixtures, and active operator guidance are removed while claim-free create/validate/doctor/bind behavior remains proven.",
+    "declared_scope": ["csdlc-v2/Cargo.toml", "csdlc-v2/src/bin/csdlc-init.rs", "csdlc-v2/operator", "csdlc-v2/src/proof.rs", "csdlc-v2/tests/gate10a.rs", "adl/tools", "docs/tooling", "AGENTS.md"],
+    "authority_boundary": ["csdlc-issue create is sole creation authority", "Historical evidence is immutable", "Issue authority remains danielbaustin/agent-design-language#5883", "Code PR publication targets agent-logic/agent-design-language", "PR body must use Closes danielbaustin/agent-design-language#5883", "This is split issue/code publication authority, not repository cutover or issue migration"],
+    "operator_constraints": ["No AWS", "No compatibility wrapper or alias", "No broad product suite", "Execute after #5895 and rebase before editing shared installer surfaces"],
+    "task_boundary": "Delete only the duplicate creation entrypoint and active references while preserving creation and binding semantics.",
+    "deliverables": ["Deleted csdlc-init binary declaration and source", "Updated active installed/coexistence/proof inventories", "Updated current operator skills and docs", "Focused real-binary creation parity proof", "Installed create/validate/doctor/bind canary"],
+    "acceptance_criteria": ["AC-1: Active operator guidance and callers use csdlc-issue create", "AC-2: csdlc-init is absent from Cargo, declared and installed inventories, and focused proof fixtures", "AC-3: Current non-historical documentation contains no csdlc-init creation instruction", "AC-4: Historical evidence is unchanged", "AC-5: Real-binary create behavior preserves validation, idempotence, rollback, and conflict rejection", "AC-6: Installed create/validate/doctor/bind workflow passes without claims or compatibility routing"],
+    "dependencies": ["#5861 claim-free issue creation and binding", "#5895 must settle first because installer/coexistence proof overlaps"],
+    "repo_inputs": ["danielbaustin/agent-design-language#5883", "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md", "csdlc-v2/operator/coexistence.json", "csdlc-v2/operator/skills.json", "csdlc-v2/tests/gate2.rs", "csdlc-v2/tests/gate10a.rs"],
+    "non_goals": ["Change card semantics", "Change bind topology", "Reintroduce claims or preparation", "Add an alias or wrapper", "Rewrite historical evidence"],
+    "plan_summary": "Rebase after #5895, classify active versus historical references, delete the duplicate command and active requirements, update current guidance, and prove real installed claim-free creation and binding.",
+    "steps": [
+      {"id":"S1","action":"Rebase after #5895 and classify every csdlc-init occurrence as active or historical.","acceptance_ids":["AC-1","AC-3","AC-4"],"status":"pending"},
+      {"id":"S2","action":"Delete the duplicate Cargo binary and remove it from current installer, coexistence, proof, and skill authority.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S3","action":"Update current non-historical docs and operator adapters to csdlc-issue create without compatibility wording.","acceptance_ids":["AC-1","AC-3","AC-4"],"status":"pending"},
+      {"id":"S4","action":"Run focused real-binary creation parity, installed inventory, and create/validate/doctor/bind proof.","acceptance_ids":["AC-5","AC-6"],"status":"pending"}
+    ],
+    "affected_areas": ["csdlc-v2/Cargo.toml", "csdlc-v2/src/bin", "csdlc-v2/operator", "csdlc-v2/src/proof.rs", "csdlc-v2/tests", "adl/tools", "docs/tooling", "AGENTS.md"],
+    "invariants": ["One issue-creation entrypoint", "Identical typed request and record semantics", "No claim or preparation concept", "Historical evidence unchanged", "V2 installed provenance exact"],
+    "risks": ["Missing a generated or installed-skill reference", "Editing historical evidence", "Overlapping #5895 inventory changes", "Accidentally weakening create rollback or idempotence tests"],
+    "planning_profile": "medium",
+    "stop_conditions": ["#5895 has not settled or shared files cannot be cleanly rebased", "Any proposed compatibility alias or wrapper", "Creation semantics require redesign", "Historical evidence would need rewriting"],
+    "validation_lanes": [
+      {"lane":"create-contract","proof_role":"Prove real csdlc-issue create validation, atomicity, idempotence, and conflict behavior.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":2400,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2"],"parallel_group":"rust-focused","defer_reason":null},
+      {"lane":"installed-inventory","proof_role":"Prove csdlc-init is absent from declared and installed sets and its reappearance fails.","acceptance_ids":["AC-2","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":360,"budget_tokens":2600,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate10a"],"parallel_group":"rust-focused","defer_reason":null},
+      {"lane":"operator-contract","proof_role":"Prove active skill and documentation routes name only csdlc-issue create.","acceptance_ids":["AC-1","AC-3","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1400,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate10a","operator_workflow_names_only_current_creation_route"],"parallel_group":"contracts","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on any active csdlc-init authority, installed binary presence, creation behavior regression, historical evidence mutation, or compatibility routing.",
+    "review_prompts": ["Is every removed reference active rather than historical evidence?", "Does the installed set lack csdlc-init and reject its return?", "Does csdlc-issue create retain atomicity, idempotence, and fail-closed validation?"],
+    "review_scope": "Duplicate entrypoint deletion, active operator routing, installed inventory, and creation behavior parity only."
+  }
+}
