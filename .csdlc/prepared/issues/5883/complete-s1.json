@@ -1,0 +1,1 @@
+{"issue":5883,"card":"spp","expected_generation":1,"expected_digest":"b24f869399841975689af6ed69ef8adcd45085f9a5aff41ac918f2a9fa0159e9","actor":"codex:5883-implementation","reason":"Classified active and historical csdlc-init references.","operation":{"operation":"update_plan_step","step_id":"S1","status":"completed"},"fail_after_backup":false}

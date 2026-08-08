@@ -43,7 +43,7 @@
     {"concern": "markdown_serialization", "crate": null, "version_requirement": null, "features": [], "status": "evaluate_in_gate_2", "compatibility_basis": "markdown.rs mdast parser selected; serializer unresolved", "reason": "must round-trip or render deterministically without text surgery"}
   ],
   "binaries": [
-    "csdlc-init",
+    "csdlc-issue",
     "csdlc-doctor",
     "csdlc-edit",
     "csdlc-bind",

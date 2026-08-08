@@ -12,19 +12,74 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Retired csdlc-init so csdlc-issue create is the sole typed creation route.
 
 ## Artifacts
 
-- none
+- csdlc-v2/src/operator.rs
+- csdlc-v2/tests/gate10a.rs
+- docs/tooling/adl_pr_cycle_skill.md
 
 ## Execution
 
-- none
+- Deleted the csdlc-init Cargo target and source binary.
+- Removed csdlc-init from installer, skill, coexistence, and proof authority and reject its reappearance.
+- Updated active skills, runbooks, adapters, architecture contracts, and contributor guidance to csdlc-issue create while preserving historical evidence.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2"
+    ],
+    "purpose": "Prove the real csdlc-issue create/validate/doctor/bind lifecycle.",
+    "outcome": "passed",
+    "evidence_ref": "local:gate2:1-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Prove the retired binary is absent, reappearance fails closed, and active guidance uses csdlc-issue create.",
+    "outcome": "passed",
+    "evidence_ref": "local:gate10a:17-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the changed Rust surface is warning-free across all targets.",
+    "outcome": "passed",
+    "evidence_ref": "local:clippy:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_install_adl_pr_cycle_skill.sh"
+    ],
+    "purpose": "Prove the installed compatibility skill source teaches csdlc-issue create.",
+    "outcome": "passed",
+    "evidence_ref": "local:adl-pr-cycle-skill:passed"
+  }
+]
 
 ## Integration
 

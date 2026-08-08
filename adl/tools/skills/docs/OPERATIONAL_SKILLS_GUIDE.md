@@ -886,7 +886,7 @@ Structured schema:
 ### Preferred Commands
 
 - `csdlc-github-issue run --request <issue-create-request.json>`
-- `csdlc-init --root <worktree> --request <bootstrap-request.json>`
+- `csdlc-issue --root <repo> create --request <bootstrap-request.json>`
 
 For `create_and_bootstrap`, the expected machine-safe path is:
 

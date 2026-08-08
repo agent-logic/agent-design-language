@@ -7,7 +7,7 @@
     "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
     "slug": "retire-csdlc-init",
     "version": "backlog",
-    "generation": 0
+    "generation": 10
   },
   "status": "ready",
   "content": {

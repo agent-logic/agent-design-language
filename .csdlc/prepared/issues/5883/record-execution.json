@@ -1,0 +1,23 @@
+{
+  "issue": 5883,
+  "card": "sor",
+  "expected_generation": 0,
+  "expected_digest": "b68404709a1dc1fb38fd7cd16a963bbcb73d7ea12dfd1aacf109fd29c2e24031",
+  "actor": "codex:5883-implementation",
+  "reason": "Record the bounded duplicate-entrypoint retirement.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Retired csdlc-init so csdlc-issue create is the sole typed creation route.",
+    "changes": [
+      "Deleted the csdlc-init Cargo target and source binary.",
+      "Removed csdlc-init from installer, skill, coexistence, and proof authority and reject its reappearance.",
+      "Updated active skills, runbooks, adapters, architecture contracts, and contributor guidance to csdlc-issue create while preserving historical evidence."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "docs/tooling/adl_pr_cycle_skill.md"
+    ]
+  },
+  "fail_after_backup": false
+}

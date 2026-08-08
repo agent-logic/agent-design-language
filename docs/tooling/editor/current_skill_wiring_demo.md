@@ -44,7 +44,7 @@ The browser editor is a preparation surface only.
 
 It can help prepare commands for:
 
-- `csdlc-init`
+- `csdlc-issue create`
 - `csdlc-doctor`
 - `csdlc-bind`
 - `csdlc-validate`

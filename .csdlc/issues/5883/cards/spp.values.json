@@ -7,7 +7,7 @@
     "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
     "slug": "retire-csdlc-init",
     "version": "backlog",
-    "generation": 0
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -52,7 +52,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

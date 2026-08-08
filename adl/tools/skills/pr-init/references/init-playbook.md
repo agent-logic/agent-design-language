@@ -96,7 +96,7 @@ The skill should prefer the Rust-owned control-plane path when available.
 
 Current command truth:
 - use `csdlc-github-issue run --request <issue-create-request.json>` when a new issue must be created
-- use `csdlc-init --root <worktree> --request <bootstrap-request.json>` when the issue already exists
+- use `csdlc-issue --root <repo> create --request <bootstrap-request.json>` when the issue already exists
 - hand off to qualitative review after bootstrap
 - only after review does issue-mode `pr run` bind branch and worktree context
 

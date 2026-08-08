@@ -27,7 +27,7 @@ The supported adapter surface is intentionally copy-only:
   - `adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]`
 - canonical C-SDLC v2 control-plane mapping:
   - `csdlc-install resolve`
-  - `csdlc-init --root <worktree> --request <bootstrap-request.json>`
+  - `csdlc-issue --root <repo> create --request <bootstrap-request.json>`
   - `csdlc-doctor --repo <repo> --issue <issue>`
   - `csdlc-bind --root <worktree> --request <bind-request.json>`
   - `csdlc-validate --root <worktree> finalize --request <finalize-request.json>`
@@ -47,7 +47,7 @@ The browser/editor may:
 
 The browser/editor may not claim direct browser invocation of:
 
-- `csdlc-init`
+- `csdlc-issue create`
 - `csdlc-doctor`
 - `csdlc-bind`
 - `csdlc-validate`
@@ -74,7 +74,7 @@ That means:
 
 | Lifecycle command | Exists in repo | Browser-direct adapter support | Truthful editor status |
 | --- | --- | --- | --- |
-| `csdlc-init` | yes | no | copy-only prepared handoff |
+| `csdlc-issue create` | yes | no | copy-only prepared handoff |
 | `csdlc-doctor` | yes | no | copy-only prepared handoff |
 | `csdlc-bind` | yes | no | copy-only prepared handoff |
 | `csdlc-validate finalize` | yes | no | copy-only prepared handoff |

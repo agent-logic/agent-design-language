@@ -124,7 +124,7 @@ replacement. Unknown imported AST nodes are retained or reported; they never
 silently disappear. Direct Markdown edits cause a digest mismatch and fail
 doctor until an explicit import-or-regenerate decision is recorded.
 
-`csdlc-init` constructs all six cards. Later-phase cards begin in explicit
+`csdlc-issue create` constructs all six cards. Later-phase cards begin in explicit
 pre-phase states. `csdlc-edit` is the sole general card-mutation boundary.
 
 ## Enum Contract
@@ -135,11 +135,11 @@ JSON Schema values, card values, and human output use one canonical spelling.
 Legacy aliases are accepted only by the legacy importer. Unknown values fail
 closed.
 
-## Seven Owner Binaries
+## Owner Binaries
 
 | Binary | Responsibility |
 | --- | --- |
-| `csdlc-init` | Resolve issue/repository identity; initialize index, design surfaces, and six cards. |
+| `csdlc-issue create` | Resolve issue/repository identity; initialize index, design surfaces, and six cards. |
 | `csdlc-doctor` | Read-only invariant, readiness, collision, design, diagram, card, and external-state diagnosis. |
 | `csdlc-edit` | Apply typed semantic card operations and atomically commit cards/index/audit. |
 | `csdlc-bind` | Bind or verify branch, worktree, claim, and protected paths. |

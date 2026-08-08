@@ -66,7 +66,7 @@ CORE_WORKFLOW_COMMANDS = [
         "Resolve the installed v2 generation selector before issue work.",
     ),
     (
-        "csdlc-init --root <worktree> --request <bootstrap-request.json>",
+        "csdlc-issue --root <repo> create --request <bootstrap-request.json>",
         "core workflow command",
         "primary",
         "Atomically create the canonical issue record and six projections.",

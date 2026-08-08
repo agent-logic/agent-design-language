@@ -1,0 +1,1 @@
+{"issue":5883,"card":"sor","expected_generation":9,"expected_digest":"1adfd613de5878192595b5941933102faaf7f94f4d490ec44235ea136c695367","actor":"codex:5883-implementation","reason":"Focused implementation and validation proof are complete.","operation":{"operation":"advance_phase","phase":"implemented"},"fail_after_backup":false}

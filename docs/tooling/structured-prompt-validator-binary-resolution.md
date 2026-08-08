@@ -21,7 +21,7 @@ work by shelling out to the deleted wrapper.
 
 Bootstrap or review-prep code that needs lifecycle validation must create or
 load typed C-SDLC issue state and run `csdlc-validate`. If the issue is not yet
-typed, initialize it through `csdlc-init`; do not call deleted ADL shell
+typed, initialize it through `csdlc-issue create`; do not call deleted ADL shell
 wrappers as a precondition to lifecycle creation.
 
 ## Regression Surface
