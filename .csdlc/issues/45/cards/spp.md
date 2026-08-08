@@ -16,7 +16,7 @@ Model the two repository authorities explicitly, teach doctor a three-way fail-c
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -43,7 +43,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Add deterministic fixtures and tests for same repository, valid split authority, and invalid drift.",
+    "action": "Extend csdlc-v2/tests/gate2.rs with deterministic same-repository, valid split-authority, and invalid-drift fixtures.",
     "acceptance_ids": [
       "AC-4",
       "AC-6"
@@ -52,7 +52,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Update every active skill and runbook affected by repository identity, then run focused validation and exact-head review.",
+    "action": "Update every active skill and runbook affected by repository identity, then run the planned focused validation and exact-head review.",
     "acceptance_ids": [
       "AC-5",
       "AC-6"

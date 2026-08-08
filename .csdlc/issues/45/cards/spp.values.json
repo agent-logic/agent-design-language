@@ -7,13 +7,13 @@
     "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
     "slug": "doctor-split-repository-authority",
     "version": "v0.92",
-    "generation": 2
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 3,
       "summary": "Model the two repository authorities explicitly, teach doctor a three-way fail-closed decision, add focused fixtures for all required cases, update active guidance, validate, and obtain exact-head review.",
       "steps": [
         {
@@ -38,7 +38,7 @@
         },
         {
           "id": "S3",
-          "action": "Add deterministic fixtures and tests for same repository, valid split authority, and invalid drift.",
+          "action": "Extend csdlc-v2/tests/gate2.rs with deterministic same-repository, valid split-authority, and invalid-drift fixtures.",
           "acceptance_ids": [
             "AC-4",
             "AC-6"
@@ -47,7 +47,7 @@
         },
         {
           "id": "S4",
-          "action": "Update every active skill and runbook affected by repository identity, then run focused validation and exact-head review.",
+          "action": "Update every active skill and runbook affected by repository identity, then run the planned focused validation and exact-head review.",
           "acceptance_ids": [
             "AC-5",
             "AC-6"
@@ -59,7 +59,7 @@
         "csdlc-v2/src/doctor.rs",
         "csdlc-v2/src/store.rs",
         "csdlc-v2/src/publication.rs",
-        "csdlc-v2/tests",
+        "csdlc-v2/tests/gate2.rs",
         "csdlc-v2/operator/skills",
         "docs/tooling",
         ".csdlc/issues/45",

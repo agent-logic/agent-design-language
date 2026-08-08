@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/45/diagram.mmd
 [
   {
     "lane": "doctor-repository-identity",
-    "proof_role": "Focused Rust fixtures prove same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.",
+    "proof_role": "The existing issue-owned gate2 integration target proves same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
     "slug": "doctor-split-repository-authority",
     "version": "v0.92",
-    "generation": 2
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "doctor-repository-identity",
-          "proof_role": "Focused Rust fixtures prove same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.",
+          "proof_role": "The existing issue-owned gate2 integration target proves same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
