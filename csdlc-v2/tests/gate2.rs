@@ -315,12 +315,22 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     )
     .expect("create request");
     let create_text = create_request.to_string_lossy();
-    let created = must_succeed(command(
+    let legacy_create = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-issue"),
+        &["--root", &repo_text, "create", "--request", &create_text],
+    );
+    assert!(!legacy_create.status.success());
+    fs::write(
+        &create_request,
+        serde_json::to_vec_pretty(&request()).expect("serialize claim-free create request"),
+    )
+    .expect("claim-free create request");
+    must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-issue"),
         &["--root", &repo_text, "create", "--request", &create_text],
     ));
-    assert!(!created.contains("claim"));
 
     let validated = must_succeed(command(
         &repo,
@@ -794,6 +804,24 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     )
     .expect("bind request");
     let bind_text = bind_request.to_string_lossy();
+
+    let legacy_bind = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &["--root", &repo_text, "--request", &bind_text],
+    );
+    assert!(!legacy_bind.status.success());
+    fs::write(
+        &bind_request,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "base_branch": "main",
+            "branch": "issue-42",
+            "worktree": worktree,
+        }))
+        .expect("serialize claim-free bind request"),
+    )
+    .expect("claim-free bind request");
 
     fs::write(repo.join("design/issue-42.md"), "# Stale design\n").expect("stale design");
     let invalid_validation = command(

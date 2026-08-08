@@ -5,8 +5,9 @@
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "closed_out",
   "generation": 48,
-  "digest": "55c9904eaf2892894ce5c0f1cfe4359f830946fcef0e4fd6ee85698ca249972e",
-  "claim": null,
+  "digest": "e5b10db0f0d65514d08e3e409a2f1488907cc89658d93ffc55c94402e43b852a",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -140,22 +141,8 @@
     "observed_sha": "cf506e3f0ce8e9d6eb3deabf66c586fb9d0b4bdc",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5336.json",
-    "released_branch": "codex/5336-v0918-runtime-parity-plan",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5336",
-      ".csdlc/issues/5336",
-      ".csdlc/prepared/issues/5336",
-      ".github/workflows/ci.yaml",
-      "adl/.gitignore",
-      "adl/tools/merge_coverage_summaries.py",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_merge_coverage_summaries.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "docs/milestones/v0.91.8"
-    ]
+    "branch": "codex/5336-v0918-runtime-parity-plan",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5336/design.md",

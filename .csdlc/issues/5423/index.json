@@ -5,8 +5,9 @@
   "initialization_digest": "8b5942655a471cfcd2d3e2b47141e472ea0667a7f8fda159a59854e272f1d50a",
   "phase": "closed_out",
   "generation": 20,
-  "digest": "f8816f4a9b8bead797eb53b6e718b42c494ffcf21159b904e9b1a0f2819829aa",
-  "claim": null,
+  "digest": "6221d4f5eeb99f40f8a059c514d20d57c51b4b47e69dc1df790847139ecc1472",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "huygens-subagent",
     "assigned_by": "codex",
@@ -97,13 +98,8 @@
     "observed_sha": "afffd91407e4ec8e3e643176f5fb89524d6b4083",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5423.json",
-    "released_branch": "codex/5423-register-reconcile-final",
-    "released_worktree": ".worktrees/adl-wp-5423-final",
-    "released_protected_paths": [
-      ".csdlc/issues/5423",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/reviews/v0.91.7/register-reconcile-5423"
-    ]
+    "branch": "codex/5423-register-reconcile-final",
+    "worktree": ".worktrees/adl-wp-5423-final"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5423/retained/design.md",

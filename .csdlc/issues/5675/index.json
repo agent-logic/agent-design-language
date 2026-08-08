@@ -5,8 +5,9 @@
   "initialization_digest": "c600ad81a92f3c87eb5098faa2237f85713be1650bf3c1d713c0206a4ef263b9",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "deb9f29b120039dfac97394e512f7e8b230a3ab58b32f8bcbe4ff03b419c292d",
-  "claim": null,
+  "digest": "90d4c604e5f41fdf7f5892348c1600c8a0826366888a6a1cb02a8845fbc85f29",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "codex:5675-5759-corrective-review",
@@ -147,15 +148,8 @@
     "observed_sha": "92fed26e1ff2031a57d80a014fbef77542da55d8",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5675.json",
-    "released_branch": "codex/5675-provider-adapter-routes-publish",
-    "released_worktree": ".worktrees/adl-wp-5675",
-    "released_protected_paths": [
-      ".csdlc/issues/5675",
-      ".csdlc/locks/5675.lock",
-      ".csdlc/prepared/issues/5675",
-      "adl/src/provider_adapter.rs",
-      "adl/src/provider/profiles.rs"
-    ]
+    "branch": "codex/5675-provider-adapter-routes-publish",
+    "worktree": ".worktrees/adl-wp-5675"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5675/retained/design.md",

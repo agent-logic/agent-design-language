@@ -5,8 +5,9 @@
   "initialization_digest": "57a995b4e8def457743bbb6195a56ad30c43e0e9bec2d90766fd1dee105a19f1",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "4bb7b63a2f8af76e15124642c8dc1b24505882839511b256e25714b889b40f24",
-  "claim": null,
+  "digest": "abe280eef6a149f040604d5558b68576f4eec5f3220db047b4db045b9d058128",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-review",
     "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -131,13 +132,8 @@
     "observed_sha": "d0ded4ef1c22f07b9bf57dcff80630270fa14af7",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4641.json",
-    "released_branch": "codex/4641-v0917-launch-birthday-handoff",
-    "released_worktree": ".worktrees/adl-wp-4641",
-    "released_protected_paths": [
-      "docs/milestones/v0.91.7/review/V0917_WP14_LAUNCH_BIRTHDAY_HANDOFF_4641.md",
-      "docs/milestones/v0.91.7/review/wp14_launch_birthday_4641",
-      ".csdlc/issues/4641"
-    ]
+    "branch": "codex/4641-v0917-launch-birthday-handoff",
+    "worktree": ".worktrees/adl-wp-4641"
   },
   "migration": null,
   "design_path": ".csdlc/issues/4641/retained/design.md",

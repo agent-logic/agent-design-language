@@ -5,8 +5,9 @@
   "initialization_digest": "2f246e5f1760776340161d5e4722c5a33c98c4dc5224601586d57c734b7d3d71",
   "phase": "closed_out",
   "generation": 45,
-  "digest": "527c64eaa0f1507c03c8cb90715a37355f54aa325d19c67ace10d52cf1e218f1",
-  "claim": null,
+  "digest": "cdf7f32fa7288b39f70f2a9f87438849a7d0e7826722254431b1f9b4c357ce63",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -62,16 +63,8 @@
     "observed_sha": "086eebf9811c96f073e21306741c652f05939ee0",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5594.json",
-    "released_branch": "codex/5594-v0918-wp01-readiness",
-    "released_worktree": ".worktrees/adl-wp-5594",
-    "released_protected_paths": [
-      ".csdlc/issues/5594",
-      ".csdlc/locks/5594.lock",
-      ".csdlc/prepared/issues/5594",
-      "README.md",
-      "docs/planning/ADL_FEATURE_LIST.md",
-      "docs/milestones/v0.91.8"
-    ]
+    "branch": "codex/5594-v0918-wp01-readiness",
+    "worktree": ".worktrees/adl-wp-5594"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5594/retained/design.md",

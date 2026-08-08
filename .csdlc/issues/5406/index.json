@@ -5,8 +5,9 @@
   "initialization_digest": "dd7cf0bd89553833f2914daff64cecdce443600f09e0b5b36d4027d9ca9dc3d3",
   "phase": "closed_out",
   "generation": 46,
-  "digest": "9084bbb9680df4704f5cdde4c3566c7bdbfe7f8b6707985fef3b93c2415202f1",
-  "claim": null,
+  "digest": "bdc0e894f52a5ec9f3bc928ae232d6e63adf11b374a8369d83b6b9ab48e53291",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-subagent-mendel",
     "assigned_by": "codex",
@@ -109,13 +110,8 @@
     "observed_sha": "f847332f40e090dcc9afb1295474b206435e0b67",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5406.json",
-    "released_branch": "codex/5406-csdlc-v2-records-truth",
-    "released_worktree": ".worktrees/adl-wp-5406",
-    "released_protected_paths": [
-      "csdlc-v2",
-      "docs/reviews/v0.91.7/csdlc-v2-5406",
-      ".csdlc/issues/5406"
-    ]
+    "branch": "codex/5406-csdlc-v2-records-truth",
+    "worktree": ".worktrees/adl-wp-5406"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5406/retained/design.md",

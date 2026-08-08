@@ -5,8 +5,9 @@
   "initialization_digest": "a6431154f7be59025286f7b5235b96d831871ce2b05f99bb4bb953c68443e0cf",
   "phase": "closed_out",
   "generation": 22,
-  "digest": "a6cd1d41597c9dc94dc9a430b26d34a180c87d1ad592ab2c6bc17b94ade26f6c",
-  "claim": null,
+  "digest": "750c7a235e267336cb7f09208b156eb153c54db3eeb91b5ec9b9fa87f09df9da",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "gpt-5.5:required-pre-pr-review",
     "assigned_by": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
@@ -191,14 +192,8 @@
     "observed_sha": "9ff6a0a2f808a2f6207ad8de245c60f646706912",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5501.json",
-    "released_branch": "codex/5501-v0918-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5501",
-      ".csdlc/issues/5501",
-      ".csdlc/locks/5501.lock",
-      ".csdlc/prepared/issues/5501"
-    ]
+    "branch": "codex/5501-v0918-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5501/retained/design.md",

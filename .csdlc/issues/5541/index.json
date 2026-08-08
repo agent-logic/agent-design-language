@@ -5,8 +5,9 @@
   "initialization_digest": "052e24c4cff26aa0a876c9dbf6153fa4defcfab8fe44e5ce3547cb681dacb8f6",
   "phase": "closed_out",
   "generation": 13,
-  "digest": "dc7db9bffc8f6062ebd6abdad9846b0f336fbfe144b6990d4af2f1d3daece876",
-  "claim": null,
+  "digest": "b84f9f479b850d080d4aa40a1bfb5cedfadb51f8e15fe9f2d245fc628c3b7c48",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
@@ -94,15 +95,8 @@
     "observed_sha": "8e206363ee75f5517862a03d8cc5dc07efa4128a",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5541.json",
-    "released_branch": "codex/5541-gate10d2-authority-docs",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5541",
-      ".csdlc/prepared/issues/5541",
-      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
-      "docs/default_workflow.md",
-      "csdlc-v2/tests/gate10a.rs"
-    ]
+    "branch": "codex/5541-gate10d2-authority-docs",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5541/retained/design.md",

@@ -5,8 +5,9 @@
   "initialization_digest": "0ac7f243c9cdabc81f435bc523ae859b6886558d3e83a11e327ce4c4b29442ba",
   "phase": "closed_out",
   "generation": 13,
-  "digest": "1497bda7a8a433e048a5fc5996864fb8a7b01d96dff0812f26aa029441784f6e",
-  "claim": null,
+  "digest": "5af646fb495e663ea2f7f436b7438576c7494ebaf2bc9d000dcabed5dd904c16",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f755e-caed-72b0-b9fb-21366bf78332",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -99,12 +100,8 @@
     "observed_sha": "6787d12a21a81e99bd441590ccd113c220a43a60",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5514.json",
-    "released_branch": "codex/5514-complete-csm-coverage",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ]
+    "branch": "codex/5514-complete-csm-coverage",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5514/retained/design.md",

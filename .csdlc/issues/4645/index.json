@@ -5,8 +5,9 @@
   "initialization_digest": "b83689bd4a80acea6cd1dad467b03005174d03bdf87b95341e9d6235f48796fe",
   "phase": "closed_out",
   "generation": 33,
-  "digest": "3c75710650e17e334b71a69738da1a49185c9e7576d108e5cb996ef322438f2c",
-  "claim": null,
+  "digest": "b2718f67e5ab59b6bf3fd6c84c1a184ff845b7235ce69aee2738cf3e2b341d72",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
@@ -150,16 +151,8 @@
     "observed_sha": "bc19a880c9f13d2cae37a0be2e7484993f92f5b1",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4645.json",
-    "released_branch": "codex/4645-v0917-internal-review",
-    "released_worktree": ".worktrees/adl-wp-4645",
-    "released_protected_paths": [
-      ".csdlc/issues/4645",
-      "adl/tools/test_retained_diff_proof_contract.sh",
-      "docs/milestones/v0.91.7/review/V0917_INTERNAL_REVIEW_4645.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/internal_review_4645",
-      "docs/reviews/v0.91.7/internal-review-4645"
-    ]
+    "branch": "codex/4645-v0917-internal-review",
+    "worktree": ".worktrees/adl-wp-4645"
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/4645/design.md",

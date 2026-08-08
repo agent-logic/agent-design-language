@@ -5,8 +5,9 @@
   "initialization_digest": "76c01aff9cfa5df1cb78fa58763e7de29d43b0e9a9dd02de411a2953b7b4f8d2",
   "phase": "closed_out",
   "generation": 20,
-  "digest": "1c7a06f7f649febebbaecc799393b591cc1b45c014452be2e31affe3491f6862",
-  "claim": null,
+  "digest": "bcca2e0c21922098d912c3b308200a46d13b4430096ce47b366e331aba067637",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-subagent-019f6d31",
     "assigned_by": "codex",
@@ -91,13 +92,8 @@
     "observed_sha": "77fafde96e9681b1b4871d1c033de532adc7df32",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5440.json",
-    "released_branch": "codex/5440-csdlc-design-reapproval",
-    "released_worktree": ".worktrees/adl-wp-5440",
-    "released_protected_paths": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate2.rs",
-      "docs/reviews/v0.91.7/csdlc-v2-5440"
-    ]
+    "branch": "codex/5440-csdlc-design-reapproval",
+    "worktree": ".worktrees/adl-wp-5440"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5440/retained/design.md",

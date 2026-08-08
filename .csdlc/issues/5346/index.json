@@ -5,8 +5,9 @@
   "initialization_digest": "d391333554b11b0dae9033fb57979c1abf35567ca36a3bc2e29fc1802987f01b",
   "phase": "closed_out",
   "generation": 20,
-  "digest": "0d2cdc07505648410d8e0a1cb40f421fd98644ea033203e3a56b2291b30e3b43",
-  "claim": null,
+  "digest": "f58105b987f06a1eb2098ddbc632788f4cb956b8c529650650e39528520cf995",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "reviewer:gpt-5.5-direct",
@@ -175,18 +176,8 @@
     "observed_sha": "7b1ef84bc8a4966c0c454ae4d87fd973537a856d",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5346.json",
-    "released_branch": "codex/5346-v0918-wp13-final-adl-deletion",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5346",
-      ".csdlc/issues/5346",
-      ".csdlc/locks/5346.lock",
-      ".csdlc/prepared/issues/5346",
-      "adl/src/cli/tests/pr_cmd_inline",
-      "adl/src/cli/tooling_cmd",
-      "docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json",
-      "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
-    ]
+    "branch": "codex/5346-v0918-wp13-final-adl-deletion",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5346/retained/design.md",

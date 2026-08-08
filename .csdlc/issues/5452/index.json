@@ -5,8 +5,9 @@
   "initialization_digest": "68d1850efcd713469108287c5d8186257a701602239d865940693086774c6281",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "e28d55c367501712bfee9564137d4d2fde30162b5f3bdadaaa29fa00fd99cb26",
-  "claim": null,
+  "digest": "8116b66ec67b231741a03f662601af5a316379c214c571253e0496d9be3e748e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f73c5-dd52-7540-bebd-9ca6c7c8d9f9",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -135,12 +136,8 @@
     "observed_sha": "ec722b9b773c9faaf4f9b8e1555c7afbc6922500",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5452.json",
-    "released_branch": "codex/5452-builder-summary-failure",
-    "released_worktree": ".worktrees/adl-wp-5452",
-    "released_protected_paths": [
-      "adl/tools/run_aws_spot_builder_image_validation.sh",
-      "adl/tools/test_run_aws_spot_builder_image_validation.sh"
-    ]
+    "branch": "codex/5452-builder-summary-failure",
+    "worktree": ".worktrees/adl-wp-5452"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5452/retained/design.md",

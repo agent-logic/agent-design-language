@@ -5,8 +5,9 @@
   "initialization_digest": "624106bf52f25a8a94eb0717fe157e89f3023d6e610c0ed2ca2f6f9d257233f4",
   "phase": "closed_out",
   "generation": 11,
-  "digest": "d4302997b4cb460ed73b2b95841141bdca5f63f042156bb3a24aa2936022934c",
-  "claim": null,
+  "digest": "72b9a82121577119253ecc9fd0748405b4252925296e66ca2bb3f291f1947fd9",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:gpt-5.5:WP21A-reviewer",
     "assigned_by": "codex:wp21a-conductor",
@@ -61,14 +62,8 @@
     "observed_sha": "1aabee8c57bdeb0e7d0a53a6f9da8f1e2597c7b6",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5355.json",
-    "released_branch": "codex/5355-v0918-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5355",
-      ".csdlc/locks/5355.lock",
-      ".csdlc/prepared/issues/5355",
-      ".csdlc/evidence/5355"
-    ]
+    "branch": "codex/5355-v0918-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5355/design.md",

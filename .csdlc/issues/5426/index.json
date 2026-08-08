@@ -5,8 +5,9 @@
   "initialization_digest": "e55c2db4bd8ae777019f0debbc3182c08f764f13e2fad1f7888f0de141ce5efb",
   "phase": "closed_out",
   "generation": 25,
-  "digest": "ba0fc520eafecbd4119c6c59ec5c1678b38e227ba28fa0a9680ad05f10b7c067",
-  "claim": null,
+  "digest": "d8de9aae096d4496184661b0287e307f052a4936a48ed7c8e34a2d6d41e2217d",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent-huygens",
     "assigned_by": "codex",
@@ -105,14 +106,8 @@
     "observed_sha": "d1ed65343d71bcf55274affb1fb731e1dd9ad2a9",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5426.json",
-    "released_branch": "codex/5426-validation-supersession",
-    "released_worktree": ".worktrees/adl-wp-5426",
-    "released_protected_paths": [
-      ".csdlc/issues/5426",
-      "csdlc-v2/src",
-      "csdlc-v2/tests",
-      "docs/reviews/v0.91.7/csdlc-v2-5426"
-    ]
+    "branch": "codex/5426-validation-supersession",
+    "worktree": ".worktrees/adl-wp-5426"
   },
   "migration": null,
   "design_path": "docs/reviews/v0.91.7/csdlc-v2-5426/DESIGN.md",

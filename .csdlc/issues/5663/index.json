@@ -5,8 +5,9 @@
   "initialization_digest": "9ae48371048e17e2df859779e157e43a5d9e4ada902e49a33a66eddacd56daf5",
   "phase": "closed_out",
   "generation": 40,
-  "digest": "1e146a5a44529ce6b127749ee70a2d1addb5648d8d59e506b8ed519e8d415d38",
-  "claim": null,
+  "digest": "4fb62595f9a1f10d4b863041507e54027a849052955d6c49bf872df57d100d0f",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex:terminal-closeout-5663",
     "assigned_by": "codex:terminal-closeout-5663",
@@ -162,20 +163,8 @@
     "observed_sha": "fb04c9fa29c528c06a7b3c76e5f6560b7700d43e",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5663.json",
-    "released_branch": "codex/5663-runtime-v3-durable-local-adapters",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5663",
-      ".csdlc/issues/5663",
-      ".csdlc/locks/5663.lock",
-      ".csdlc/prepared/issues/5663",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/governed_operations.rs",
-      "adl-runtime-kernel/tests/operations.rs"
-    ]
+    "branch": "codex/5663-runtime-v3-durable-local-adapters",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5663/retained/design.md",

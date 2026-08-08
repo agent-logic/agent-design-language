@@ -5,8 +5,9 @@
   "initialization_digest": "5c4f0b80a55fc6a22577fde823f493baa9e2e6fd707b7a7966ab6a241f78a977",
   "phase": "closed_out",
   "generation": 12,
-  "digest": "a3287f9cb3f3e70cc8cd8f289c4e8e2b5b7eed8bf713a8969123bd3821b2d477",
-  "claim": null,
+  "digest": "8d906ad85f52f804a54059d6bd8987d87414ef49a1d8f974d8e91cb37aa89513",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "Einstein",
     "assigned_by": "codex:closeout-runtime-tooling",
@@ -153,21 +154,8 @@
     "observed_sha": "16e6594dae2f76e41ebf432c9ea477523e685247",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5664.json",
-    "released_branch": "codex/5664-runtime-v3-protocol-adapters",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5664",
-      ".csdlc/issues/5664",
-      ".csdlc/locks/5664.lock",
-      ".csdlc/prepared/issues/5664",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/protocol_adapters.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/operations.rs",
-      "adl-runtime-kernel/tests/protocol_adapters.rs"
-    ]
+    "branch": "codex/5664-runtime-v3-protocol-adapters",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5664/design.md",

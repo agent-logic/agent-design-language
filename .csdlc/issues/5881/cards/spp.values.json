@@ -7,24 +7,24 @@
     "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
     "slug": "remove-claims-from-lifecycle",
     "version": "v0.92",
-    "generation": 11
+    "generation": 24
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 5,
+      "plan_revision": 6,
       "summary": "Rebase after the two narrow deletion issues, classify claim surfaces, normalize current records once, delete all claim-specific production logic, and prove crash-safe binding plus the full lifecycle from branch/worktree topology.",
       "steps": [
         {
           "id": "S1",
-          "action": "Rebase after #5895 and #5883 and classify all claim-related occurrences as active authority, temporary current-record normalization, historical evidence, or unrelated language.",
+          "action": "Classify all claim-related occurrences as active authority, temporary current-record normalization, historical evidence, or unrelated language while the narrow deletion issues execute independently.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-2",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-3",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -55,7 +55,7 @@
             "AC-7",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

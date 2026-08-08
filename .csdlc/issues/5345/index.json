@@ -5,8 +5,9 @@
   "initialization_digest": "157c42fee68c23e91d25009889f22dbb4d9dc9ca1f51c0b97d05f2855352d57d",
   "phase": "closed_out",
   "generation": 23,
-  "digest": "4810bc4040bc4c9cbd2ed1f575871ad9a5dbc48000749f75b0fd4ba2c6a52ad4",
-  "claim": null,
+  "digest": "ab192243aa5f4208b7d08b710a02c1a8afc5e932d5aad31de713a6c11fff852e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:019f8611-2d02-7492-9c03-7af0fcf6662e",
@@ -170,21 +171,8 @@
     "observed_sha": "4b4e36570f91483c4f263588f1f59970c2d125b4",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5345.json",
-    "released_branch": "codex/5345-v0918-wp10-thin-cli-selector",
-    "released_worktree": ".worktrees/adl-wp-5345",
-    "released_protected_paths": [
-      ".csdlc/evidence/5345",
-      ".csdlc/issues/5345",
-      ".csdlc/locks/5345.lock",
-      ".csdlc/prepared/issues/5345",
-      "adl-v2/Cargo.lock",
-      "adl-v2/Cargo.toml",
-      "adl-v2/crates/adl-cli",
-      "adl-v2/crates/adl-cli/src",
-      "adl-v2/crates/adl-cli/tests",
-      "adl-v2/tools",
-      "adl-v2/tools/install-adl-v2.sh"
-    ]
+    "branch": "codex/5345-v0918-wp10-thin-cli-selector",
+    "worktree": ".worktrees/adl-wp-5345"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5345/retained/design.md",

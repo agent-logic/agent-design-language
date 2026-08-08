@@ -5,8 +5,9 @@
   "initialization_digest": "dd8bbd7e72fcac523e678ee42361ce5864464fe5c54829e6fd1030feaadedcce",
   "phase": "closed_out",
   "generation": 10,
-  "digest": "943e924e0805cf3f41ad6432e8e4d5ab03c9d03adbfd69649d990f5af5f266b9",
-  "claim": null,
+  "digest": "2cc38731d5700a7d93a7906c458d3f5fa2c0ed7954e5752f258d8eefcee5ebbe",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:/root/review_5727",
@@ -29,16 +30,8 @@
     "observed_sha": null,
     "observed_state": "closed_no_pr",
     "receipt_path": "csdlc-v2/closeout/5548.json",
-    "released_branch": "codex/5548-gate2-temp-root-init",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5548",
-      ".csdlc/locks/5548.lock",
-      ".csdlc/prepared/issues/5548",
-      "csdlc-v2/tests/gate2.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/lifecycle.rs"
-    ]
+    "branch": "codex/5548-gate2-temp-root-init",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5548/retained/design.md",

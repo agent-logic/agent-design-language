@@ -5,8 +5,9 @@
   "initialization_digest": "7825c6b94e04ddb0cac12bf61e8c50dc765cc55c3a09139c3158bfaeab569bd7",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "b72e297ff49b0ec7b1acb88a8ceb859b13dc57c9a0232452daa6cae39b41fc64",
-  "claim": null,
+  "digest": "9872b5aa9608900647b72ddfc0bb07d9cdc5156084a3499cf602e7485e4587c0",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5648",
     "assigned_by": "codex:5648-execution",
@@ -156,15 +157,8 @@
     "observed_sha": "17f1d91781611e8f0d2ed740a58cbfcbd81a05d0",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5648.json",
-    "released_branch": "codex/5648-operator-active-claim-revoke",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5648",
-      ".csdlc/locks/5648.lock",
-      ".csdlc/prepared/issues/5648",
-      "csdlc-v2/src",
-      "csdlc-v2/tests"
-    ]
+    "branch": "codex/5648-operator-active-claim-revoke",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5648/retained/design.md",

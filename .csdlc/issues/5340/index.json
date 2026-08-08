@@ -5,8 +5,9 @@
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
   "phase": "closed_out",
   "generation": 61,
-  "digest": "80e3ebdcb5c54814a04a93327fca469c10f39b921c869f5f5123eb5cae758070",
-  "claim": null,
+  "digest": "60cc3083ac38414227f83173e6e8ff40b2716f45e280b281f118e47a3d2cd316",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:/root/review_5340_exact",
     "assigned_by": "codex:5340-owner-watch",
@@ -243,15 +244,8 @@
     "observed_sha": "f38f662acb3988ef0704a54da055b14812c898d9",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5340.json",
-    "released_branch": "codex/5340-v0918-wp06-portable-engine",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5340",
-      ".csdlc/issues/5340",
-      ".csdlc/locks/5340.lock",
-      ".csdlc/prepared/issues/5340",
-      "adl-v2/crates/adl-engine"
-    ]
+    "branch": "codex/5340-v0918-wp06-portable-engine",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5340/retained/design.md",

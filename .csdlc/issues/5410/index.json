@@ -5,8 +5,9 @@
   "initialization_digest": "51b84af00233b3ef4a23490fa7b3cdd510296e5ed90ca2942d20405bf69a5d93",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "7f178e6b373952948ebeda0a9934c57bbd86735065d6217d4134c91e62606c39",
-  "claim": null,
+  "digest": "67b6e60fd194a0e534cc47bff305c55624bebf0949f18033a9f6194838ce29b5",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "independent-runtime-v3-reviewer",
     "assigned_by": "codex",
@@ -196,21 +197,8 @@
     "observed_sha": "b46184afe4eb1c2328b9bb8a361ee14fa7de083f",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5410.json",
-    "released_branch": "codex/5410-runtime-v3-live-kernel",
-    "released_worktree": ".worktrees/adl-wp-5410",
-    "released_protected_paths": [
-      ".csdlc/issues/5410",
-      "adl-runtime-kernel",
-      "docs/architecture/RUNTIME_V3_FINAL_REVIEW_5175.md",
-      "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md",
-      "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md",
-      "docs/architecture/runtime_v3_current_inventory.v1.json",
-      "docs/reviews/v0.91.7/runtime-v3-5410",
-      "infra/horust/README.md",
-      "infra/horust/adl-runtime-kernel.toml",
-      "infra/rustysd/adl-runtime-kernel.service",
-      "infra/systemd/adl-runtime-kernel.service"
-    ]
+    "branch": "codex/5410-runtime-v3-live-kernel",
+    "worktree": ".worktrees/adl-wp-5410"
   },
   "migration": null,
   "design_path": "docs/reviews/v0.91.7/runtime-v3-5410/DESIGN.md",

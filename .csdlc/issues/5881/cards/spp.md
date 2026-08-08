@@ -16,20 +16,20 @@ Rebase after the two narrow deletion issues, classify claim surfaces, normalize 
 
 ## Plan
 
-Revision 5
+Revision 6
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Rebase after #5895 and #5883 and classify all claim-related occurrences as active authority, temporary current-record normalization, historical evidence, or unrelated language.",
+    "action": "Classify all claim-related occurrences as active authority, temporary current-record normalization, historical evidence, or unrelated language while the narrow deletion issues execute independently.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -39,7 +39,7 @@ Revision 5
       "AC-2",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -48,7 +48,7 @@ Revision 5
       "AC-3",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -60,7 +60,7 @@ Revision 5
       "AC-7",
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

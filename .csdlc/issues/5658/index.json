@@ -5,8 +5,9 @@
   "initialization_digest": "f0956ae3f1c83909acb21792fa8016035926ce54c66ff3c20504c484a18e4c36",
   "phase": "closed_out",
   "generation": 16,
-  "digest": "1ea320ebac52320723a4786ffd6f1533efb4813ee19e966a6d05c8d000ae373f",
-  "claim": null,
+  "digest": "bf27e63566c4b88f4163075d11d5ac7bda26c23e358fd4fc6ec3b42685db3c4b",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:019f9cb8-4963-7c13-bc36-0f5ac5bbf97a",
@@ -149,17 +150,8 @@
     "observed_sha": "cb7674a5346110fb3ab65166a56683a4b1926ea2",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5658.json",
-    "released_branch": "codex/5658-bound-worktree-lifecycle",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5658",
-      ".csdlc/locks/5658.lock",
-      ".csdlc/prepared/issues/5658",
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate2.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs"
-    ]
+    "branch": "codex/5658-bound-worktree-lifecycle",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5658/retained/design.md",

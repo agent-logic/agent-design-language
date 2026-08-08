@@ -5,8 +5,9 @@
   "initialization_digest": "50e5a24f47771e5a22e2dcfacf667303ac7d1ed3df0b7b2895e393f664d19a60",
   "phase": "closed_out",
   "generation": 7,
-  "digest": "45f4846950f47ea1e05b8b321704071fed9dadfd44b4dde550efc1a80cdb8581",
-  "claim": null,
+  "digest": "7ebe4d5ff2db87d0eac822fd1ed3d01895c1640737261f2fec8c2b2c29203696",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "codex:bounded-exact-head-review",
@@ -167,16 +168,8 @@
     "observed_sha": "8bf36c9d214a54212e7c483fb29872e9be9e92b3",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5107.json",
-    "released_branch": "codex/5107-v092-adaptive-learning-dag-queue",
-    "released_worktree": ".worktrees/adl-wp-5107",
-    "released_protected_paths": [
-      ".csdlc/issues/5107",
-      ".csdlc/locks/5107.lock",
-      ".csdlc/prepared/issues/5107",
-      ".csdlc/evidence/5107",
-      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-      "docs/milestones/v0.92/features/README.md"
-    ]
+    "branch": "codex/5107-v092-adaptive-learning-dag-queue",
+    "worktree": ".worktrees/adl-wp-5107"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5107/retained/design.md",

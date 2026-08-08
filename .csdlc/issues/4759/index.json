@@ -5,8 +5,9 @@
   "initialization_digest": "e14ee014a589057a3380656a449efc0a5ced9da2586edaf061a224c68f935c76",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "8eb7e85467fd488041ee626162233a32b439c63abd96907978e82be0f2cfff79",
-  "claim": null,
+  "digest": "9bde04f141f79c5bb7cbf26ee176c1f0740da715432f31ea2aab475d4a7f061a",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex:bounded-review-4759-activation-bridge",
     "assigned_by": "codex:issue-4759-execution",
@@ -176,19 +177,8 @@
     "observed_sha": "32957a21a3fc3fc8a8efb3c3c6ad198db9b0ddd7",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4759.json",
-    "released_branch": "codex/4759-v0918-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/4759",
-      ".csdlc/locks/4759.lock",
-      ".csdlc/prepared/issues/4759",
-      ".csdlc/evidence/4759",
-      ".csdlc/publication/4759.intent.json",
-      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
-      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"
-    ]
+    "branch": "codex/4759-v0918-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/4759/retained/design.md",

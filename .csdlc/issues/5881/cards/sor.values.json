@@ -7,16 +7,117 @@
     "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
     "slug": "remove-claims-from-lifecycle",
     "version": "v0.92",
-    "generation": 11
+    "generation": 24
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Removed active claim lifecycle compatibility, normalized mutable current records and retained receipts once, and made active operator guidance topology-owned.",
+      "actual_changes": [
+        "Removed LegacyClaim, LegacyIssueRecord, legacy terminal receipt, verification, and normalization production code.",
+        "Made bootstrap and bind requests reject unknown claim-era fields.",
+        "Normalized 190 tracked current issue records and 179 retained current receipts while preserving historical evidence packets.",
+        "Updated active C-SDLC v2 skills and runbooks to use bound branch/worktree topology.",
+        "Added focused regression guards for claim-free records, production code, requests, and operator guidance."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/tests/gate2.rs",
+        "csdlc-v2/tests/gate10a.rs",
+        "docs/tooling/adl_pr_cycle_skill.md",
+        "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md",
+        "https://github.com/agent-logic/agent-design-language/issues/47"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "schema::tests"
+          ],
+          "purpose": "Prove public schemas and request decoding are claim-free.",
+          "outcome": "passed",
+          "evidence_ref": "local exact schema lane: 3 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "topology_migration"
+          ],
+          "purpose": "Prove one-time topology normalization, serialization, and interrupted recovery.",
+          "outcome": "passed",
+          "evidence_ref": "local topology migration lane: 9 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "purpose": "Prove claim-bearing requests fail and topology-owned create/bind remains atomic and idempotent.",
+          "outcome": "passed",
+          "evidence_ref": "local gate2 lane: 1 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "--test",
+            "gate6",
+            "--test",
+            "gate_finish",
+            "--test",
+            "gate_cleanup"
+          ],
+          "purpose": "Prove review, cross-repository publication, finish, and cleanup derive authority without claims.",
+          "outcome": "passed",
+          "evidence_ref": "local lifecycle lanes: gate5 14, gate6 6, gate_finish 17, gate_cleanup 9 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate10a"
+          ],
+          "purpose": "Prove active skills, runbooks, production decoder, and every tracked current record are claim-free.",
+          "outcome": "passed",
+          "evidence_ref": "local gate10a lane: 17 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove the changed C-SDLC v2 Rust surface is warning-free across all targets.",
+          "outcome": "passed",
+          "evidence_ref": "local strict clippy: passed"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

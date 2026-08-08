@@ -5,8 +5,9 @@
   "initialization_digest": "c2abc3f4639db9f22c08b1794d2639a7cc3316e6b33452400ea9fcdfb5dc4c9a",
   "phase": "closed_out",
   "generation": 12,
-  "digest": "eb06bd2eb95d888424a9ae7df2f49761fbb6a42e2d694929bf135c281d3be2de",
-  "claim": null,
+  "digest": "35955b3b5d60113731e45d6f1c409f47fd24191c1142c6333dc12c3f4296873c",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f8b6b-26c2-7a12-800e-e93282e34d9b",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -183,15 +184,8 @@
     "observed_sha": "c2c381cdd1393d1074e06f786320e81ac66a305f",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5341.json",
-    "released_branch": "codex/5341-v0918-runtime-v3-adapter",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5341",
-      ".csdlc/issues/5341",
-      ".csdlc/locks/5341.lock",
-      ".csdlc/prepared/issues/5341",
-      "adl-v2/crates/adl-runtime-v3-adapter"
-    ]
+    "branch": "codex/5341-v0918-runtime-v3-adapter",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5341/retained/design.md",

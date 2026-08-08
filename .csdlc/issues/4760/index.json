@@ -5,8 +5,9 @@
   "initialization_digest": "5122de3f552f7d3e67507008600e4a269906e2987e6e22a18e536921df718948",
   "phase": "closed_out",
   "generation": 10,
-  "digest": "df798d4c04dd137f54dad4ee03cce26195382100efd8ab1f9f6be2fab636da1e",
-  "claim": null,
+  "digest": "dfc5625965a68e636785205d02f47d5577ec728d8f358a66146785df145197cd",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:/root/review_5727",
@@ -173,19 +174,8 @@
     "observed_sha": "9719252262913351144a20adf0affb7ed4b5480d",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4760.json",
-    "released_branch": "codex/4760-v0918-wp14-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/4760",
-      ".csdlc/locks/4760.lock",
-      ".csdlc/prepared/issues/4760",
-      ".csdlc/evidence/4760",
-      "adl/src/memory_palace.rs",
-      "adl/src/lib.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/tests/memory_palace_tests.rs",
-      "adl/tests/fixtures/memory_palace/long_running_context.json"
-    ]
+    "branch": "codex/4760-v0918-wp14-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/4760/retained/design.md",

@@ -5,8 +5,9 @@
   "initialization_digest": "27a589f56d939921778467b4b57e218fe9bc89225f19cf93200ca51c9076fb24",
   "phase": "closed_out",
   "generation": 10,
-  "digest": "56262693593f1e60933f79cde61b89dd61ceeae3cb9d323da091b63d110bb3fd",
-  "claim": null,
+  "digest": "cbd4e5c91d89f19e23708a7193be8b6702556ec651f397bcb4d4b605f92ddf3b",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7776-8160-73f0-8815-7804e9924cfe",
     "assigned_by": "codex-root",
@@ -90,13 +91,8 @@
     "observed_sha": "5c356ff5f7cf95d9545726a55b99fc826f7972d7",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4643.json",
-    "released_branch": "codex/4643-v0917-quality-gate",
-    "released_worktree": ".worktrees/adl-wp-4643",
-    "released_protected_paths": [
-      "docs/milestones/v0.91.7/review/V0917_WP16_QUALITY_GATE_4643.md",
-      "docs/milestones/v0.91.7/review/wp16_quality_gate_4643",
-      ".csdlc/issues/4643"
-    ]
+    "branch": "codex/4643-v0917-quality-gate",
+    "worktree": ".worktrees/adl-wp-4643"
   },
   "migration": null,
   "design_path": ".csdlc/issues/4643/retained/design.md",

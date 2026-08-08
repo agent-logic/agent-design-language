@@ -5,8 +5,9 @@
   "initialization_digest": "3fc88369990e40c9b73c328c1de0d54b2a00bee7e32e56053060ae27ef2a1b9c",
   "phase": "closed_out",
   "generation": 18,
-  "digest": "05c9c7a06b59c83dd7460b26821269a841f8555887ee3c9083c1d811f666fc72",
-  "claim": null,
+  "digest": "63573cc9a068a549e2f6970df359c0ccd04ad8639bd0fc3f9ef8358e5cc3cfed",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
@@ -114,13 +115,8 @@
     "observed_sha": "e0a4d4256316d85615f26142836ea76a2d339086",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5551.json",
-    "released_branch": "codex/5551-terminal-plan-truth",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5527",
-      ".csdlc/issues/5551",
-      ".csdlc/prepared/issues/5551"
-    ]
+    "branch": "codex/5551-terminal-plan-truth",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5551/design.md",

@@ -5,8 +5,9 @@
   "initialization_digest": "3311f6460b0988706cb978ea2fcf7da322d7af3273fc5c96c2813a6f7a4fc271",
   "phase": "closed_out",
   "generation": 8,
-  "digest": "6a4102c7666a69c10a1cc04783cf133cf92215a828d7e611143fdefd6d4205f5",
-  "claim": null,
+  "digest": "feb47d75d4c8fc2939a360d8bc009395ba10770b7afb403ec4c42628c392b9eb",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "Heisenberg",
     "assigned_by": "codex:5719-execution",
@@ -162,19 +163,8 @@
     "observed_sha": "e37fca96d6e023e53e0af317bfead9654aba8e12",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5719.json",
-    "released_branch": "codex/5719-ci-coverage-page-policy",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5719",
-      ".csdlc/locks/5719.lock",
-      ".csdlc/prepared/issues/5719",
-      ".github/workflows/ci.yaml",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_validation_manager.sh"
-    ]
+    "branch": "codex/5719-ci-coverage-page-policy",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5719/retained/design.md",

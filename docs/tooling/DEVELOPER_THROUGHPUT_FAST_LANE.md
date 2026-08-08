@@ -22,7 +22,7 @@ Use the smallest class that truthfully covers the changed surface.
 
 Fast lane eligibility requires all of the following:
 
-- the changed paths are explicitly protected by the issue claim
+- the changed paths are explicitly within the bound issue scope
 - the selector or issue VPP names a focused proof lane
 - the proof is deterministic, cheap, and directly tied to the acceptance
   criteria
@@ -91,7 +91,7 @@ Leave the fast lane and escalate when any of these appears:
 - touched paths include shared Rust, provider, runtime, security, publication,
   closeout, or release-gate code
 - selector output is `escalated` or `release_gate_required`
-- the issue claim does not cover a touched path
+- the bound issue scope does not cover a touched path
 - review finds an unresolved behavioral risk
 - local proof is fixture-only for an integrated feature
 - FastWork or the declared build root is unavailable when required

@@ -5,8 +5,9 @@
   "initialization_digest": "f8acfa7ae245012c2e6017e2b33f50c8af46f755be2cb30c945a79c4173be0c5",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "f0e8de590b5ddca8fed15268f7d3f269666f89e1bf9fc37e18e1c817ca29d907",
-  "claim": null,
+  "digest": "6a80c565c05a357d61d2224e1f4083faec15c4dd3c436e7d3fb7960e35fc5850",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5463",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -155,18 +156,8 @@
     "observed_sha": "e3829a5a18db93b18ba0940fdd8e30fd2ff727cf",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5463.json",
-    "released_branch": "codex/5463-node24-action-pins",
-    "released_worktree": ".worktrees/adl-wp-5463",
-    "released_protected_paths": [
-      ".github/workflows/aws-codefriend-build.yaml",
-      ".github/workflows/aws-spot-remote-validation.yaml",
-      ".github/workflows/ci.yaml",
-      ".github/workflows/nightly-coverage-ratchet.yaml",
-      ".github/workflows/v0871_milestone_closeout_gate.yaml",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
-    ]
+    "branch": "codex/5463-node24-action-pins",
+    "worktree": ".worktrees/adl-wp-5463"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5463/retained/design.md",
