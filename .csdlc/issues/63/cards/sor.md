@@ -104,7 +104,7 @@ Added an explicit audited implemented-phase SIP scope correction route and remov
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

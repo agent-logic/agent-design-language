@@ -22,3 +22,6 @@
 {"sequence":22,"generation":20,"actor":"codex:63-implementation","reason":"Bounded implementation and focused local proof are complete; exact-head review is next.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":23,"generation":20,"actor":"codex:63-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":21,"actor":"subagent:63-exact-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":25,"generation":22,"actor":"codex:63-publication-recovery","reason":"Recover the committed review metadata head for exact rerecord before publication.","operation":"recover_review"}
+{"sequence":26,"generation":22,"actor":"codex:63-publication-recovery","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":27,"generation":23,"actor":"subagent:63-exact-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
