@@ -172,7 +172,7 @@ def main() -> None:
 
     studio_html = root / "studio" / STUDIO_HTML
     studio_text = studio_html.read_text(encoding="utf-8")
-    if "Synthetic Minds" not in studio_text or "{{ latest.title }}" not in studio_text:
+    if "Cognitive Spacetime" not in studio_text or "{{ latest.title }}" not in studio_text:
         fail("studio reference HTML no longer looks like the operator-provided export")
     if '<script src="./support.js"></script>' not in studio_text:
         fail("studio reference HTML is not wired to its local support.js asset")
@@ -200,10 +200,10 @@ def main() -> None:
 
     validate_feed(root)
     if http_base is not None:
-        validate_http_route(http_base, "/podcast/", "Synthetic Minds Podcast")
-        validate_http_route(http_base, "/podcast/feed.xml", "Synthetic Minds Podcast")
-        validate_http_route(http_base, "/podcast/studio/podcast-studio.html", "Synthetic Minds Podcast")
-        validate_http_route(http_base, "/_preview/podcast/", "Synthetic Minds Podcast")
+        validate_http_route(http_base, "/podcast/", "Cognitive Spacetime Podcast")
+        validate_http_route(http_base, "/podcast/feed.xml", "Cognitive Spacetime Podcast")
+        validate_http_route(http_base, "/podcast/studio/podcast-studio.html", "Cognitive Spacetime Podcast")
+        validate_http_route(http_base, "/_preview/podcast/", "Cognitive Spacetime Podcast")
 
     print("podcast_launch_packet: PASS")
 
