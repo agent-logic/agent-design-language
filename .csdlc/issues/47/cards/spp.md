@@ -16,14 +16,14 @@ Classify Rust test argv at the typed VPP boundary, reject ambiguous named substr
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Trace VPP lane parsing and define typed exact, broad, and invalid Rust selector postures with fail-closed diagnostics.",
+    "action": "Trace selector handling in csdlc-v2/src/cards.rs and define typed exact, broad, and invalid Rust selector postures with fail-closed diagnostics.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -33,7 +33,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Implement selector validation without changing Cargo or ordinary test behavior.",
+    "action": "Implement selector validation in existing owned source routes without changing Cargo or ordinary test behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -45,7 +45,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Add focused fixtures proving nonzero exact schema selection, integration exclusion, broad compatibility, and invalid-shape rejection.",
+    "action": "Create csdlc-v2/tests/validation_selectors.rs with focused nonzero schema, integration-exclusion, broad-compatibility, and invalid-shape fixtures.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -58,7 +58,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Update directly affected active skills/runbooks, run typed/focused validation, and obtain exact-head review.",
+    "action": "Update directly affected active skills/runbooks, run the planned focused validation after the deferred target exists, and obtain exact-head review.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"

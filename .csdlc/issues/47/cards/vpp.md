@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/47/diagram.mmd
 [
   {
     "lane": "rust-selector-contract",
-    "proof_role": "Focused Rust tests prove exact, broad, and invalid selector classification plus actionable diagnostics.",
+    "proof_role": "The issue-owned focused integration target will prove exact, broad, and invalid selector classification plus actionable diagnostics after implementation creates it.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -46,11 +46,11 @@ Diagram: .csdlc/prepared/issues/47/diagram.mmd
       "validation_selectors"
     ],
     "parallel_group": "local",
-    "defer_reason": null
+    "defer_reason": "Deferred until issue #47 implementation creates the declared owned target csdlc-v2/tests/validation_selectors.rs; execution must fail closed if the target is still absent."
   },
   {
     "lane": "exact-schema-selection",
-    "proof_role": "The target-bounded library command proves a nonzero schema unit-test set and excludes integration targets.",
+    "proof_role": "The existing target-bounded library command proves a nonzero schema unit-test set and excludes integration targets.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

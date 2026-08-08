@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
   "phase": "bound",
-  "generation": 1,
-  "digest": "50153c88499e43af986e7358991f73aa389cd949972bd53cdff082e595302009",
+  "generation": 5,
+  "digest": "213fd7693dbea5f5fefa2649308785f23963f058d03d107117d053922e130350",
   "branch": "codex/47-exact-rust-test-selectors",
   "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fa68fc7a318d9e067f3247ec4d0f09d72185ca7734304d652cb4da5ff9af5022",
+      "values_digest": "b32957a50768420e570754d57606f26d1ca22a952da2619a79624cc596ba9dcf",
       "rendered_digest": "733dcb06dddaa768a73faa1ce4928177e0ce93e8ac263f639b031e7ae19f27a0",
       "ast_digest": "8a86d67f40e75fc0a5c5b396b0986ead341adcbf45cac53f52dec21a089d6842"
     },
     "stp": {
-      "values_digest": "3b45eaba868659431eae593046859a628a51278629b4211e6f7e400c9d36da17",
-      "rendered_digest": "6dbf4c7578318ea28c912fca5c150f1f2deffc07ceeb52811310335edf0def08",
-      "ast_digest": "0b29bbbdb31f7c79f6674cb0d209fef692c3d51968776570535afe7808d872ba"
+      "values_digest": "9cea6267c332ab58882e93dc8a8df1842a2ee9553130b2b5175a8e6a83433ea4",
+      "rendered_digest": "e6cc2f92df5a47c6f8624f371c9f80999b20b070871a17583ff10275ae54fc9b",
+      "ast_digest": "0ac903255a55d1dff1c2b237c09c70f44405e85ba1d2a0d7430b71666807ecf0"
     },
     "spp": {
-      "values_digest": "6d735e732d0c8a5bdccca2f49712be30f1372d7cb021cda9d4e1b82d13887582",
-      "rendered_digest": "6e8ecf5801e3974776a2943bce5df5ce3fd90af9b5de0e9c48ec00457924b5ab",
-      "ast_digest": "c2f570d849faac8c4157b418b4f7eb773d5406035dce536c2fbdf4b731131d19"
+      "values_digest": "9dac6188d428b2680aa7727c19fcc971ed2978c4f296f40a880a5eddf0c755fc",
+      "rendered_digest": "ebcc80d550b202abdad96833ce1ee48d3c4a4112e478d5c31495106da8c3dbff",
+      "ast_digest": "f25eda06886ac14b939d70c0d7743922df784927aefec38a623d3805a1c943fa"
     },
     "vpp": {
-      "values_digest": "4dd83f9c7b88d2008a5028af7e8f6e8a6744538c8597bb9bd8dd2a44de1cea3f",
-      "rendered_digest": "b37ded3a37ba9fb3ea80eeb3efe3c98761e89b1640907fe3e4737853e7d1ebf6",
-      "ast_digest": "91978a8e2d47a7bfd2d649ebf08c8b5c791782888093d3bb4c010c12b430e31a"
+      "values_digest": "3a9d1442b69471fa775780e941994cbe283db9d14b26f1d6c1ef930007f2a5ac",
+      "rendered_digest": "8e17171bb421944f12a05bbed348b07dcebdef49cf01bbec8c8124d515ded3f3",
+      "ast_digest": "fd04b2f3ee8380c8e8a845c660ade9709e2dac18d5849d7b261838ee5515b292"
     },
     "srp": {
-      "values_digest": "18ef5d8a10ec6e0d88bc63bf373372c91ecadd0e18ab7e1d77a2136768ff0f06",
+      "values_digest": "bcb4764a7e0d715dd87c2265e8745173dfd8fad5263465c67f950145b52a6069",
       "rendered_digest": "9f65aa6dd3ff01af9976e0158abcc41ae5bae892b61d7fd21147657e7b9bb94f",
       "ast_digest": "a93233f2d9a152d5bdbf0519fad35947b7471567d628ce82f3d12583fb2d3964"
     },
     "sor": {
-      "values_digest": "7031fb05c54c28af4bed787a0c400b15986dc5de0299ad38327a9267ac7cd5aa",
+      "values_digest": "517076a16dc7c5a277017a8cea2cafa8f7bb9fde333e68e87d3e6031226d5429",
       "rendered_digest": "2dd643e19e5bd936c94fdc9f76c3102d1c4ed4b6349d85f4a18e08daa0683f4e",
       "ast_digest": "0e11ff1c30452a1686c8cf06ecbf5994c9f2847159f020828c1e00cc44e781ac"
     }
@@ -91,6 +91,34 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Remove the nonexistent validation module and route planning through existing owned selector surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"AGENTS.md\",\"csdlc-v2/AGENTS.md\",\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/operator/skills\",\"docs/tooling\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Declare the proposed focused integration target as an issue-owned implementation deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed exact, broad, and invalid Rust selector classification\",\"Planning-time diagnostics for missing, conflicting, or ambiguous target selectors\",\"csdlc-v2/tests/validation_selectors.rs\",\"Compatibility proof for exact integration targets and intentional broad commands\",\"Updated active skill/runbook examples where applicable\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Own the existing selector implementation routes and the explicitly deferred focused test target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills\",\"docs/tooling\",\".csdlc/issues/47\",\".csdlc/prepared/issues/47\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-47-readiness-remediation",
+      "reason": "Align acceptance, plan, and VPP on the explicitly deferred focused test target and existing owned routes.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: A named schema lane uses an exact Cargo target boundary and selects a nonzero set of schema unit tests\",\"AC-2: The exact schema lane cannot select or launch the unrelated estimation_contracts integration target\",\"AC-3: Exact integration target commands such as --test gate2 remain accepted\",\"AC-4: Intentional broad commands with no misleading trailing substring remain accepted and retain broad semantics\",\"AC-5: Free substring, missing target name, and conflicting target selector shapes fail during planning or validation with an actionable corrected-command diagnostic\",\"AC-6: Active VPP/editor/planning skills and runbooks use the corrected selector shape and distinguish exact from broad intent\",\"AC-7: Implementation creates csdlc-v2/tests/validation_selectors.rs, then the focused selector test, exact schema unit-test lane, typed validation, and strict lint proof pass within reviewable budgets\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Trace selector handling in csdlc-v2/src/cards.rs and define typed exact, broad, and invalid Rust selector postures with fail-closed diagnostics.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement selector validation in existing owned source routes without changing Cargo or ordinary test behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Create csdlc-v2/tests/validation_selectors.rs with focused nonzero schema, integration-exclusion, broad-compatibility, and invalid-shape fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Update directly affected active skills/runbooks, run the planned focused validation after the deferred target exists, and obtain exact-head review.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"rust-selector-contract\",\"proof_role\":\"The issue-owned focused integration target will prove exact, broad, and invalid selector classification plus actionable diagnostics after implementation creates it.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until issue #47 implementation creates the declared owned target csdlc-v2/tests/validation_selectors.rs; execution must fail closed if the target is still absent.\"},{\"lane\":\"exact-schema-selection\",\"proof_role\":\"The existing target-bounded library command proves a nonzero schema unit-test set and excludes integration targets.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"selector-contract-lint\",\"proof_role\":\"Strict Clippy and active guidance checks prove the typed implementation and examples remain consistent.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
     }
   ]
 }

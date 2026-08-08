@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
     "slug": "exact-rust-test-selectors",
     "version": "v0.92",
-    "generation": 1
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "deliverables": [
         "Typed exact, broad, and invalid Rust selector classification",
         "Planning-time diagnostics for missing, conflicting, or ambiguous target selectors",
-        "Focused regression proof that exact schema selection is nonzero and excludes estimation_contracts",
+        "csdlc-v2/tests/validation_selectors.rs",
         "Compatibility proof for exact integration targets and intentional broad commands",
         "Updated active skill/runbook examples where applicable"
       ],
@@ -28,7 +28,7 @@
         "AC-4: Intentional broad commands with no misleading trailing substring remain accepted and retain broad semantics",
         "AC-5: Free substring, missing target name, and conflicting target selector shapes fail during planning or validation with an actionable corrected-command diagnostic",
         "AC-6: Active VPP/editor/planning skills and runbooks use the corrected selector shape and distinguish exact from broad intent",
-        "AC-7: Focused Rust tests, typed card validation, and strict lint proof pass within reviewable budgets"
+        "AC-7: Implementation creates csdlc-v2/tests/validation_selectors.rs, then the focused selector test, exact schema unit-test lane, typed validation, and strict lint proof pass within reviewable budgets"
       ],
       "dependencies": [
         "Current C-SDLC v2 VPP validation-lane model",
@@ -39,9 +39,8 @@
         "AGENTS.md",
         "csdlc-v2/AGENTS.md",
         "csdlc-v2/src/cards.rs",
-        "csdlc-v2/src/validation.rs",
         "csdlc-v2/src/schema.rs",
-        "csdlc-v2/tests",
+        "csdlc-v2/tests/gate2.rs",
         "csdlc-v2/operator/skills",
         "docs/tooling"
       ],
