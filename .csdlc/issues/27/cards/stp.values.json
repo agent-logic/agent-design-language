@@ -7,7 +7,7 @@
     "title": "Native receipt validator has an impossible artifact-role denominator",
     "slug": "native-receipt-validator",
     "version": "v0.92",
-    "generation": 7
+    "generation": 12
   },
   "status": "ready",
   "content": {
