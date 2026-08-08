@@ -3,13 +3,36 @@
   "issue": 63,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "92a81b9bbaf710e41487a09174dc234dfffc8acccf4e348385a5e9ca85263df6",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "66ab34aa11e6119d7fbeede2b808d5dd1253efc3e62960dc0ffefb2c2cab844e",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "03979c84a23bca305f236abb3817141a32a9a17f3e9b1ae1910b5867ac01c8c8",
   "branch": "codex/63-implemented-sip-scope-correction-preparation",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-63-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:63-exact-head-review",
+    "assigned_by": "codex:issue-63-post-merge-review",
+    "revision": "git-blake3:3726f828cf8cdb8e2079cb38990aafe81c7bc503:e8092e3f02e40e5dc2a54e741f4b1e6755cdeddaef37416dc8b5ede8e4e5030a",
+    "scope": [
+      "typed recovery projection after reviewed origin/main merge",
+      "preservation of issue #63 production and focused proof semantics",
+      "publication reconciliation safety"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:63-exact-head-review",
+    "scope": [
+      "typed recovery projection after reviewed origin/main merge",
+      "preservation of issue #63 production and focused proof semantics",
+      "publication reconciliation safety"
+    ],
+    "reviewed_revision": "git-blake3:3726f828cf8cdb8e2079cb38990aafe81c7bc503:e8092e3f02e40e5dc2a54e741f4b1e6755cdeddaef37416dc8b5ede8e4e5030a",
+    "findings": [],
+    "residual_risks": [
+      "Broad integration remains delegated to the already-green exact PR-head CI run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "071dd8751ea68cf1adfa3fd71c84f2ec996266c2e1bc8ead5b1094354640bd10",
+      "values_digest": "6abdab1f9125fb20aa41760843110f3f6419ebeb0bb485a90313902ee6e0e8fd",
       "rendered_digest": "dce16ee8175c62a94b90fa1d7668798328cefe5359a926b2d933307a52fe5e29",
       "ast_digest": "6ce9f3483bb6f4db345918b2011e09b8efe75340845d60d6a25b4f262c65a7bc"
     },
     "stp": {
-      "values_digest": "a0e41b715dcaaaa8ec58098e67835bed429f58243aee0720b274e2a87f44c43e",
+      "values_digest": "0319e1c3dd4d29d5d70c7fd86254038de23571f12ddbd51b287e4f52a6948081",
       "rendered_digest": "f6bcd90537303314e2f494e3007972dde07e77541016f75089010cc934bf8d83",
       "ast_digest": "11c54393422b8e4426c61a8170fce897701c6a941f2973a8ab2674cb06fe5a51"
     },
     "spp": {
-      "values_digest": "4c7aa2ee1b19e2968a0b4cdb6edd11e9649c0a984c293f0b86a0cf3c2013861d",
+      "values_digest": "8002732336d776e11e38099fbb539a8f17d36121567612c593bb14f3c987814a",
       "rendered_digest": "6af1f8a6bbeed6059cf4456cd3ee95f9ccffbcd57e14e92f650c397efddbc6f3",
       "ast_digest": "ee853bf68137260b57ef33c642784080e87e88c1c9f68e20a2978bc2aa2ed412"
     },
     "vpp": {
-      "values_digest": "dd36e21280707dc34f33dc9abd6fc02d1cf70b14fd815fda1bd3fba0dc106e6e",
+      "values_digest": "69ff034a85de514cbeb8a61fa5b9b6406940ef45cdafe1d33f3d0c84014cc726",
       "rendered_digest": "3d9d74ee9cdd21e1ece5d56c9646ae312db2bcdc6c9797d0795e5164d5165ec9",
       "ast_digest": "cff13592ec6ddf3768660134b0c772589f97ac46f26656ef4749069a248882f0"
     },
     "srp": {
-      "values_digest": "9d7dfc55bfefba07abf2482dbe8f90e768fe4e7b3f8a7369a49651bf65de34b1",
-      "rendered_digest": "8339b45d02ae23234b3d92cf91589a43ab0529e85394f2ce3c31ca98a9ee4c6d",
-      "ast_digest": "9ee3c9ecb943381c1094d93521e18d24680d31a78b6d03f1d150eb186f93f374"
+      "values_digest": "a20cf95fd39f6490f73979dcc1b263388c97ebcd3477d1fd2a66907b71e7437b",
+      "rendered_digest": "49c433897dc74152c57540def2776162721b98d55cf9abf9e8aaf47584398467",
+      "ast_digest": "b05c8215629c6464c3b6e02dc2a77f03c34f1b40558f751a1e03a7eb287da220"
     },
     "sor": {
-      "values_digest": "854248ff18af7f5688c247292f56523917376c8336096742026631f2d26a6217",
+      "values_digest": "88ee4e5332866b3bed8c37a848eabcc0095cad92dddfa672a4f8e13a80110d52",
       "rendered_digest": "87a386d0f8d791f5cb225f300c3e88d7959476a4359bad017284fbf77f1e0900",
       "ast_digest": "3467a16f0a8afddb0402dee2ddded43ea995d25905d3f57b9f10f88d6ccc680b"
     }
@@ -110,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:issue-63-publication-recovery",
       "reason": "Recover stale pre-merge review and publication truth after reviewed origin/main reconciliation."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:63-exact-head-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -315,6 +345,20 @@
       "actor": "codex:issue-63-publication-recovery",
       "reason": "Recover stale pre-merge review and publication truth after reviewed origin/main reconciliation.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "codex:issue-63-post-merge-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "subagent:63-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

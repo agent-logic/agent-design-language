@@ -7,15 +7,15 @@
     "title": "C-SDLC editor cannot correct SIP scope after implemented review finding",
     "slug": "implemented-sip-scope-correction",
     "version": "v0.92",
-    "generation": 25
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "typed recovery projection after reviewed origin/main merge\npreservation of issue #63 production and focused proof semantics\npublication reconciliation safety",
+      "review_revision": "git-blake3:3726f828cf8cdb8e2079cb38990aafe81c7bc503:e8092e3f02e40e5dc2a54e741f4b1e6755cdeddaef37416dc8b5ede8e4e5030a",
+      "reviewer": "subagent:63-exact-head-review",
       "review_prompts": [
         "Can any implemented-phase SIP field other than declared_scope be changed through this route?",
         "Can correction occur while review, publication, or readiness truth remains attached?",
@@ -24,8 +24,10 @@
         "Does post-publication recovery remain owned by csdlc-review rather than this operation?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Broad integration remains delegated to the already-green exact PR-head CI run."
+      ],
+      "review_result": "pass"
     }
   }
 }

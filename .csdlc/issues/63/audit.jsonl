@@ -27,3 +27,5 @@
 {"sequence":27,"generation":23,"actor":"subagent:63-exact-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":28,"generation":24,"actor":"codex:issue-63-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":29,"generation":25,"actor":"codex:issue-63-publication-recovery","reason":"Recover stale pre-merge review and publication truth after reviewed origin/main reconciliation.","operation":"recover_review"}
+{"sequence":30,"generation":25,"actor":"codex:issue-63-post-merge-review","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":31,"generation":26,"actor":"subagent:63-exact-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
