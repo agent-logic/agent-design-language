@@ -3,14 +3,53 @@
   "issue": 32,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f9a90e9708ac3f33f42b7da3aabea450ef6fe8131d8fc092392626f04c7ca4b",
-  "phase": "implemented",
-  "generation": 27,
-  "digest": "a625713925b949c2ec5baeefc2065eaa67b27e2c7ce0a119e9257d2f9df62f98",
+  "phase": "published",
+  "generation": 29,
+  "digest": "0a75b2bacedf21cc246d5491402923f7c56e66758f506f09972061778f6912f6",
   "branch": "codex/32-runner-policy-preflight",
   "worktree": "/Volumes/FastWork/adl-issue-32-runner-policy",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "review_32_implementation",
+    "assigned_by": "codex:32-runner-policy-preflight",
+    "revision": "git-blake3:cde7eb2fd14d97151cd99f9c57872d91fe7dd718:9070710bdffeffac6b793dceee7fe77242a26b5d38afc670936bbd0581078e91",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_runner_preflight.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md"
+    ]
+  },
+  "review": {
+    "reviewer": "review_32_implementation",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_runner_preflight.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md"
+    ],
+    "reviewed_revision": "git-blake3:cde7eb2fd14d97151cd99f9c57872d91fe7dd718:9070710bdffeffac6b793dceee7fe77242a26b5d38afc670936bbd0581078e91",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 32,
+    "pull_request": 38,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/38",
+    "base": "main",
+    "head": "codex/32-runner-policy-preflight",
+    "revision": "git-blake3:cde7eb2fd14d97151cd99f9c57872d91fe7dd718:9070710bdffeffac6b793dceee7fe77242a26b5d38afc670936bbd0581078e91",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a232748a8c5bfb2d38d854a7c601102785d37fefb41ad19843ae8cb210576af",
+      "values_digest": "78ac251b06b3f9f2d6bc7ae27961616963b411eb0f739d21e358ef4568db902d",
       "rendered_digest": "6bd7e2af1ddc2454a9049bd53718641a9eadeef40cb1ef93dad96485bf16412a",
       "ast_digest": "d5dbd89f88f4ef13d84f1fe1756a2d00604d30402e5338560b82736c031ee891"
     },
     "stp": {
-      "values_digest": "8fb5a7e67aa01f40e3ba86c84a54d65aa053bdcaa1cb1a2ee1a4f5e86e256ccf",
+      "values_digest": "80352795690892c73890d7b427b1b70f5515a9c4bd50bc7d6c5544d1c8ba76a2",
       "rendered_digest": "21cef2f24999fa190f47ad0d293622919adec636870cccc91f01f3a50ee9d561",
       "ast_digest": "0080edb1bb65741daa1157a6e1de0d66b44bde6b8acb9e9d6ea6817bbbf50e9a"
     },
     "spp": {
-      "values_digest": "a93803e766bfe57aa49aa90ccffdf8fdca585a3ba891948a76d49ec4decc0b88",
+      "values_digest": "42ac61d82f17c5ee5224cf2aee4e9210cf241960ecb3683a1cbdb2fd5f004eda",
       "rendered_digest": "50b8f5d0dbfd09e2553a023a1c2554af18ef511e5443086bf8e5baad6aecddd6",
       "ast_digest": "40ff2604e29dcfb9a9e49485a1ec7905654a8fbcdd4a1bc4a4f0767215a2d30e"
     },
     "vpp": {
-      "values_digest": "42574350102bf0a39704d2cb700339b7dec33c4d9af0379ad1a4af01577ca84d",
+      "values_digest": "94b80493aef1d21f6331ed4944cdad85ea6591a399f6bfd679dd92ee3106bacb",
       "rendered_digest": "443a095200d2791273088391bfe764cb2b3f2ddb4f6475d798ae9423700b5ca6",
       "ast_digest": "4d0ec3701a8dd18883efe989a5f1068e3e3d06c63ffd5aebebc08fa1200379bc"
     },
     "srp": {
-      "values_digest": "b6e0aa6ef16827e3dbf693bb0ff1d6f9b588c0ffb5a034b86e467ffc50e64d45",
-      "rendered_digest": "b1274fd31be898d82d36257f420a672d8f9575d6ebc7f154053683ed810da4da",
-      "ast_digest": "f6ee14b834b760a395e66af5f9f92514557a3e00ba0bd12ab6b48ca4c2392d93"
+      "values_digest": "fc413025afd7e7f43e3954a62b2937e35659004cddc7209c59dc4845c7cd99a8",
+      "rendered_digest": "ed2bfab83986e8015a2dc221ae175712f1654c52edcb62c75530629caec876b5",
+      "ast_digest": "f5a7c66729ede48381170730514cb136dd4ca8844b659460f1123a123767d5e4"
     },
     "sor": {
-      "values_digest": "971eaa193dce5cc975e473bf97b7d50e1a1f3d85e23e57dfde3d0ff507cf0ee6",
-      "rendered_digest": "5f274934c02300491232e6efc021864bda70b5bd51a6e0552c0bd22ac0eff444",
-      "ast_digest": "101017b68c11b25a55b1503629b87049a3377a4419d14e9a8c65151c15285605"
+      "values_digest": "7938d6d49b3355b15d4eb5fe198b2e5443dc5c6979668f8645f209b578cb06ea",
+      "rendered_digest": "56d033339fd313f69d55e83d17e3ddbd77d157b0e21f906a628434fe70549be4",
+      "ast_digest": "4d8efa52ce496d512eced25747a09cfd7b320f31513427dd2d03aae7c4546256"
     }
   },
   "transitions": [
@@ -75,6 +114,20 @@
       "to": "implemented",
       "actor": "codex:32-runner-policy-preflight",
       "reason": "Issue #32 implementation and focused local validation are complete; exact-head review and the published larger-runner canary remain next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -280,6 +333,27 @@
       "actor": "codex:32-runner-policy-preflight",
       "reason": "Record the final review fix for complete mismatch diagnostics.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"runner_preflight\"],\"purpose\":\"Prove that a mismatched canary cannot pass and its diagnostic names every enforced identity dimension.\",\"outcome\":\"passed\",\"evidence_ref\":\"Eleven focused tests passed; stale_job_context_cannot_prove_dispatch asserts the diagnostic covers run, workflow, head, PR, label, and runner group.\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
