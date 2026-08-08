@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5863,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5863-node-identity-enrollment",
+  "title": "[v0.92][WP-04.01] Add authenticated distributed node enrollment",
+  "body": "## Summary\n- add stable node and Guardian identities with Ed25519-authenticated enrollment\n- enforce one effective Guardian control key per quorum voter\n- fail closed on replay, malformed or oversized requests, durable-state corruption, audit gaps, and symlinked storage paths\n- retain exact nonzero validation and independent review evidence\n\n## Validation\n- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_identity --no-tests=fail` (13 passed, 0 skipped)\n- `cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_identity -- -D warnings`\n- WP-04.01 exact revision proof receipt\n\nCloses danielbaustin/agent-design-language#5863",
+  "draft": false,
+  "revision": "git-blake3:4b937db43f6c613828df288462b496e1b3066b09:ee0b77a469d62f65fbc590be146f674c1338b9098e6ba82574b461a475629fa7",
+  "commit_sha": "4b937db43f6c613828df288462b496e1b3066b09"
+}
