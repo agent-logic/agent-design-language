@@ -1654,13 +1654,14 @@ pub(crate) struct ExecutionReadinessFinding {
 }
 
 fn cargo_package_root(root: &Path, manifest: Option<&str>, package: &str) -> Option<PathBuf> {
+    let canonical_root = root.canonicalize().ok()?;
     let manifest = manifest.unwrap_or("Cargo.toml");
-    let manifest_path = root.join(manifest);
+    let manifest_path = canonical_root.join(manifest);
     if !manifest_path.is_file() {
         return None;
     }
     let output = Command::new("cargo")
-        .current_dir(root)
+        .current_dir(&canonical_root)
         .args([
             "metadata",
             "--no-deps",
@@ -1684,7 +1685,7 @@ fn cargo_package_root(root: &Path, manifest: Option<&str>, package: &str) -> Opt
         .as_str()?;
     Path::new(package_manifest)
         .parent()?
-        .strip_prefix(root)
+        .strip_prefix(&canonical_root)
         .ok()
         .map(Path::to_path_buf)
 }
@@ -1795,6 +1796,12 @@ fn fail_closed_policy(value: &str) -> bool {
         .map(str::to_ascii_lowercase)
         .collect::<Vec<_>>();
     matches!(words.as_slice(), [first, second, ..] if first == "fail" && second == "closed")
+        && !words[2..].iter().any(|word| {
+            matches!(
+                word.as_str(),
+                "unless" | "except" | "excepting" | "however" | "but"
+            )
+        })
 }
 
 fn required_validator_deliverable(path: &str) -> bool {

@@ -517,7 +517,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-doctor"),
-        &["--repo", &repo_text, "--issue", "45"],
+        &["--repo", ".", "--issue", "45"],
     ));
     apply_edit(
         &repo,
@@ -544,7 +544,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-doctor"),
-        &["--repo", &repo_text, "--issue", "45"],
+        &["--repo", ".", "--issue", "45"],
     ));
 
     fs::create_dir_all(repo.join("validators")).expect("validator directory");
@@ -555,6 +555,11 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             false,
         ),
         (47_u64, "Fail closed when proof is absent.", true),
+        (
+            48_u64,
+            "Fail closed unless the validator is missing.",
+            false,
+        ),
     ] {
         let design = format!("design/issue-{issue}.md");
         let diagram = format!("design/issue-{issue}.mmd");
