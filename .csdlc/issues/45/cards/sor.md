@@ -130,11 +130,11 @@ Implemented explicit typed split-repository authority for bind, doctor, and publ
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

@@ -7,15 +7,15 @@
     "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
     "slug": "doctor-split-repository-authority",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/45\n.csdlc/evidence/45\n.csdlc/prepared/issues/45\nadl/tools/test_install_adl_pr_cycle_skill.sh\ncsdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md\ncsdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md\ncsdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\ncsdlc-v2/src/doctor.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/model.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate4.rs\ncsdlc-v2/tests/gate5.rs\ncsdlc-v2/tests/gate_cleanup.rs\ncsdlc-v2/tests/gate_finish.rs\ndocs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\ndocs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md\ndocs/tooling/adl_pr_cycle_skill.md",
-      "review_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-      "reviewer": "subagent:issue45_exact_head_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any incidental or attacker-controlled remote mismatch be accepted as a split route?",
         "Are issue and code repository identities sourced from independent explicit authority rather than guessed from origin?",
@@ -23,54 +23,9 @@
         "Do all active skills and runbooks teach the new contract consistently without reviving sunset concepts?",
         "Are the time and token estimates sufficient but non-binding?"
       ],
-      "findings": [
-        {
-          "id": "P1-legacy-record-receipt-digest-compatibility",
-          "severity": "p1",
-          "summary": "Absent code_repository is omitted from serialization so pre-field live indexes and retained terminal receipts preserve their canonical digests.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-          "route": null
-        },
-        {
-          "id": "P2-explicit-split-missing-origin-evidence",
-          "severity": "p2",
-          "summary": "Explicit split authority now fails closed when effective origin is absent or not an exact GitHub repository identity.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-          "route": null
-        },
-        {
-          "id": "P2-rebind-request-authority-substitution",
-          "severity": "p2",
-          "summary": "Recorded code authority takes precedence and idempotent bind rejects a retry-supplied repository identity mismatch.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-          "route": null
-        },
-        {
-          "id": "P2-ac6-typed-card-schema-evidence",
-          "severity": "p2",
-          "summary": "VPP, SOR, and retained evidence now include direct current-source typed issue validation, schema proof, and legacy compatibility proof.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "Split-publication consistency remains primarily code-inspection and existing Gate 6 coverage rather than a new network-backed publication integration test.",
-        "The compatibility regression proves serialization and digest stability directly but does not exercise every historical terminal receipt in the repository.",
-        "Same-repository operation without an origin retains preexisting behavior; fail-closed unavailable-origin handling is scoped to explicit split authority."
-      ],
-      "review_result": "pass"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

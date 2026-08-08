@@ -3,100 +3,14 @@
   "issue": 45,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "18b2eea1adfa602448a1bd5ce457a9d6d59102aa1e82a2e784393891fff8876b",
-  "phase": "published",
-  "generation": 14,
-  "digest": "02e6c3831c2dbfc50f9b3d4f0404c5b9854edca0d301bb69f1db58a6c1a70751",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "44db905097571dd96ef86648ae7796399a1f21b3d16920fd68a6590daf18c01a",
   "branch": "codex/45-doctor-split-repository-authority",
   "worktree": "/Volumes/FastWork/adl-issue-45-doctor-split-authority",
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:issue45_exact_head_review",
-    "scope": [
-      ".csdlc/issues/45",
-      ".csdlc/evidence/45",
-      ".csdlc/prepared/issues/45",
-      "adl/tools/test_install_adl_pr_cycle_skill.sh",
-      "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
-      "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      "csdlc-v2/src/doctor.rs",
-      "csdlc-v2/src/finish.rs",
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/model.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate2.rs",
-      "csdlc-v2/tests/gate4.rs",
-      "csdlc-v2/tests/gate5.rs",
-      "csdlc-v2/tests/gate_cleanup.rs",
-      "csdlc-v2/tests/gate_finish.rs",
-      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
-      "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
-      "docs/tooling/adl_pr_cycle_skill.md"
-    ],
-    "reviewed_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-    "findings": [
-      {
-        "id": "P1-legacy-record-receipt-digest-compatibility",
-        "severity": "p1",
-        "summary": "Absent code_repository is omitted from serialization so pre-field live indexes and retained terminal receipts preserve their canonical digests.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-        "route": null
-      },
-      {
-        "id": "P2-explicit-split-missing-origin-evidence",
-        "severity": "p2",
-        "summary": "Explicit split authority now fails closed when effective origin is absent or not an exact GitHub repository identity.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-        "route": null
-      },
-      {
-        "id": "P2-rebind-request-authority-substitution",
-        "severity": "p2",
-        "summary": "Recorded code authority takes precedence and idempotent bind rejects a retry-supplied repository identity mismatch.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-        "route": null
-      },
-      {
-        "id": "P2-ac6-typed-card-schema-evidence",
-        "severity": "p2",
-        "summary": "VPP, SOR, and retained evidence now include direct current-source typed issue validation, schema proof, and legacy compatibility proof.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Split-publication consistency remains primarily code-inspection and existing Gate 6 coverage rather than a new network-backed publication integration test.",
-      "The compatibility regression proves serialization and digest stability directly but does not exercise every historical terminal receipt in the repository.",
-      "Same-repository operation without an origin retains preexisting behavior; fail-closed unavailable-origin handling is scoped to explicit split authority."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 45,
-    "pull_request": 58,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/58",
-    "base": "main",
-    "head": "codex/45-doctor-split-repository-authority",
-    "revision": "git-blake3:c10cc05a3d0476e532f519693183c4bb962ee830:890ded5ffe28d454c2cb5293b9de041641c9f46e10bc9238d9c177bc8018131a",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -110,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c71c8c1071273a30d7b4047c61ad134f7e03162f1f667953d12a55ce8fb85a78",
+      "values_digest": "f28f808e666455b580be38a8240e7dbb7d6af90a7d302784d3340be4a8bd0fff",
       "rendered_digest": "77186a4f08a7269344c31f0318ad8225000c28019811382fb9fd61abb88d56d0",
       "ast_digest": "604d9fad4d60da84ad5f91948d8a84eb3f353255613dd283c3ea977975ba39ae"
     },
     "stp": {
-      "values_digest": "9fde06111345baa49cf81f4ca20d69e3fb25653fd394f736587786b8dc3c27d9",
+      "values_digest": "d2502190e521bb0ac3eb9aa654e73b4fa5aa6904cefb4ac329e3be2649307c8c",
       "rendered_digest": "4c6ee7704c6893c3ae0bdf5cb4a0308bfb1102c31b16ce93e32992d7a17114ed",
       "ast_digest": "7af27d411db2c82982c6721d16e4502f7368421ecfc5db81e99b64150f96b58c"
     },
     "spp": {
-      "values_digest": "43d5870c7df531bb65625a8f1715e8474a80ec03ea4f9dbe68a157e843096239",
+      "values_digest": "5858d2d3533449bfd1ef5b5cb42c475539b18e283f0206c3c553495e9598c693",
       "rendered_digest": "98ccc699c2acfa13d7c4d3d511d3d0f7659e1885177eb64f4f6023788169aae5",
       "ast_digest": "4260b239b9b4218400059a86090c9204011dd37802ffcd269e4c41bc8d1f406a"
     },
     "vpp": {
-      "values_digest": "95bc3b92e28e0fe862884277b928b664d093572137a1d9bf58aa071da1e7f5ca",
+      "values_digest": "3230fae80f09c9d4afe0d490957e1de33933ddb2c75968a340e4046b4d6fa647",
       "rendered_digest": "fc39c049ecc95a5af0c0f127358babb25f8a7081fdf3eb16311aabf9f0a9cb3b",
       "ast_digest": "ca6b93390293230b030d25a60d8e3601f476ff102337d44e93d0ae70fb2e1448"
     },
     "srp": {
-      "values_digest": "3cdc8399caa2f43a4c13b4f70a221d20d5e3b6302e11a357759e4f098858588f",
-      "rendered_digest": "0e52501a4eb9773273a99d7a11467875d5e1b45bd2e2f126996cd83770260e00",
-      "ast_digest": "ca8ead992ec5b25d3e51e26c43fe31901583dfd34110978f06841bbbb6362e65"
+      "values_digest": "30b6e14918ffdf2ef95809d024313b79bff82cfc75590ffed0cd7d3c12d19af3",
+      "rendered_digest": "8a1d7bbbffa712de9ddb03a9fc72ee60e1690c5668fad52c5763b47519489782",
+      "ast_digest": "780bcbfdb7a701ce90edb7896f4ad0b13143b0be25d65bfa4d6ee50d8f03b777"
     },
     "sor": {
-      "values_digest": "eb3938ad2c2026c87b024162224ba789e7de4f6b27077b33c644325f57ee279f",
-      "rendered_digest": "e6efe2492a0de1cde8f24ad88c0b596815ac8592cf2e8b3c71f483c2f47988b7",
-      "ast_digest": "bd37db6d66ec876725ac80da707d14c9312766ce20d946b55523e37cc212446e"
+      "values_digest": "7e518e0bd634db30e67698864bea077c7a05c3579ea776833ee969a3fb143f73",
+      "rendered_digest": "1e60911edd8bd2c1f0485ba164812db9ed484cbae5ffba3760905b35a4694b2c",
+      "ast_digest": "0e44f6f1a1ee3b240c303d0e697b7a0a72a3afc1526522a5471231eae7dc6f92"
     }
   },
   "transitions": [
@@ -175,6 +89,13 @@
       "to": "published",
       "actor": "codex:issue-45-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-45-main-reconciliation",
+      "reason": "Recover published review truth after reconciling merged main claim-removal changes and resolving four bounded conflicts."
     }
   ],
   "audit": [
@@ -289,6 +210,13 @@
       "actor": "codex:issue-45-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:issue-45-main-reconciliation",
+      "reason": "Recover published review truth after reconciling merged main claim-removal changes and resolving four bounded conflicts.",
+      "operation": "recover_review"
     }
   ]
 }
