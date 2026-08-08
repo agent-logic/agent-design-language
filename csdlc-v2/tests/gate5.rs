@@ -55,6 +55,11 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
     .expect("diagram");
     std::fs::create_dir_all(temp.path().join("src")).expect("source directory");
     std::fs::write(temp.path().join("src/lib.rs"), "// fixture\n").expect("source fixture");
+    std::fs::write(
+        temp.path().join("src/validate.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\ntest -f src/lib.rs\n",
+    )
+    .expect("validator fixture");
     install_native_authority(temp.path());
     git(temp.path(), &["init", "-b", "main"]);
     git(
@@ -85,7 +90,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                 authority_boundary: vec!["no network".into()],
                 operator_constraints: vec!["none".into()],
                 task_boundary: "review only".into(),
-                deliverables: vec!["review".into()],
+                deliverables: vec!["src/validate.sh".into()],
                 acceptance_criteria: vec!["review current".into()],
                 dependencies: vec!["none".into()],
                 repo_inputs: vec!["src".into()],
@@ -97,7 +102,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                     acceptance_ids: vec!["AC-1".into()],
                     status: csdlc_v2::cards::StepStatus::Pending,
                 }],
-                affected_areas: vec!["src".into()],
+                affected_areas: vec!["src".into(), "src/validate.sh".into()],
                 invariants: vec!["exact revision".into()],
                 risks: vec!["stale".into()],
                 planning_profile: PlanningProfile::Small,
@@ -110,7 +115,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                     resource_profile: csdlc_v2::cards::ResourceProfile::Small,
                     budget_seconds: 60,
                     budget_tokens: 100,
-                    argv: vec!["cargo".into(), "test".into()],
+                    argv: vec!["bash".into(), "src/validate.sh".into()],
                     parallel_group: "local".into(),
                     defer_reason: None,
                 }],
