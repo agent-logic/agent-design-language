@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "ea8a3d8a3afc88202e70a40916a507d7cc62385dd8e8a7f97ebe7b13dd9487f0",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record focused classifier and stale-reference proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "runner_preflight"],
+      "purpose": "Prove capacity, policy, dispatchability, queue-timeout, stale-reference, and branch-independent runner-group classifications.",
+      "outcome": "passed",
+      "evidence_ref": "Seven matching focused tests passed, including the runner-preflight schema discoverability test."
+    }
+  }
+}

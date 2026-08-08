@@ -3,9 +3,9 @@
   "issue": 32,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f9a90e9708ac3f33f42b7da3aabea450ef6fe8131d8fc092392626f04c7ca4b",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "5b120b3f864c1e68c5885ba1dfc1e80474541516cad1626163005bcf22e7f57b",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "bb276dc81d9a4771b9b0d86af49c1f5b5cc3dc6e84d51d976f4a58ee08b09684",
   "branch": "codex/32-runner-policy-preflight",
   "worktree": "/Volumes/FastWork/adl-issue-32-runner-policy",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "83022126291390ef3b0e665008737965559e9fb92283c0826a3ae355d77fbdb0",
+      "values_digest": "8d79053a5e8ac12c70c8b93092a15637f7ff279d25f0ee29b00ca65abe268113",
       "rendered_digest": "b6053e9c245d2e19224525672df16e2016d09779c3f919c0c9e32dd5c1e5a641",
       "ast_digest": "a1fed7a25455f7a64bc2cba9483efc737ef615008ce749229c905bf3a75330e3"
     },
     "stp": {
-      "values_digest": "d221b436d9b885a20d3c06321ecd50f339f4140fce73dd55e205478574cf5d35",
+      "values_digest": "cd4f2ea21cac5df5c0e7de6ff7950c88a9990ce9a5e4722e71f6fd7a9f0e2c20",
       "rendered_digest": "21cef2f24999fa190f47ad0d293622919adec636870cccc91f01f3a50ee9d561",
       "ast_digest": "0080edb1bb65741daa1157a6e1de0d66b44bde6b8acb9e9d6ea6817bbbf50e9a"
     },
     "spp": {
-      "values_digest": "bee40fdda473bd850ad5eb6363edcff8732ef47d72a8fca083faaddb2ce6a6eb",
+      "values_digest": "6e9fcf899c8c5ff8311ab9391cbc92b21b0349a23921726e2f27d9cdae6e8d24",
       "rendered_digest": "b7cd1d2c3ca9efce35f4f9fe93f72d21bea206e5cff0a28ba0243a57fb6cd5d6",
       "ast_digest": "0bfe831969c5429d21a833c1ad4526a722201a723c844f914b9b548e1bad7251"
     },
     "vpp": {
-      "values_digest": "af22f1064e7b3301f36b9784d60f608905c2e9ef8ae3fa897c3143f2ab6f5839",
+      "values_digest": "ed7360dede73bd8dca2c477c3aebb423171b860cf385d5bb92dd260be7ad2853",
       "rendered_digest": "443a095200d2791273088391bfe764cb2b3f2ddb4f6475d798ae9423700b5ca6",
       "ast_digest": "4d0ec3701a8dd18883efe989a5f1068e3e3d06c63ffd5aebebc08fa1200379bc"
     },
     "srp": {
-      "values_digest": "d037b8558b2cc2d339e343f226147c7126ddd3932a302fc1ec963a5920ebe413",
+      "values_digest": "9cc5d35028b4a3f62329cd311379ec34ef95e2d0c12bf063569b50b68422bb9f",
       "rendered_digest": "b1274fd31be898d82d36257f420a672d8f9575d6ebc7f154053683ed810da4da",
       "ast_digest": "f6ee14b834b760a395e66af5f9f92514557a3e00ba0bd12ab6b48ca4c2392d93"
     },
     "sor": {
-      "values_digest": "74c5687cb08b520c3d4916cd4e816ef3237fb10562359e6383a3b736fcac6960",
-      "rendered_digest": "53d91a5c644249a2691cdb17b97d7f10a625d44f394f4530ca8671df8f5857c9",
-      "ast_digest": "f0020540f6293adac6b3cf7507209c210cd0860de49d0d19de5f0908f8461f4f"
+      "values_digest": "8f2a27ee4ca6ca83266a5fc06379fda0bcf70770a41a877c6a82321b0f84b351",
+      "rendered_digest": "97a10c968cb9a0c18d06d132a8f72bad9cf7ab8e189501923092f5a01b599b85",
+      "ast_digest": "b05561201f1717125b2c3d8523cde03f3ba7404c112f6dde16cba11ca9f1e932"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Issue #32 implementation and focused local validation are complete; exact-head review and the published larger-runner canary remain next."
     }
   ],
   "audit": [
@@ -126,6 +133,55 @@
       "actor": "subagent:issue_32_runner_policy",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Record the bounded native larger-runner policy and dispatch preflight implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a typed csdlc-github runner-preflight operation that reads GitHub runner, runner-group, repository, workflow-restriction, selected-workflow, and optional canary-job state without mutation. It reports capacity, policy eligibility, stale workflow references, and live dispatchability separately so a Ready runner is never treated as dispatch proof.\",\"changes\":[\"csdlc-v2/src/runner_preflight.rs\",\"csdlc-v2/src/bin/csdlc-github.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/schema.rs\",\"docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\"],\"artifacts\":[\".csdlc/prepared/issues/32/design.md\",\".csdlc/prepared/issues/32/diagram.mmd\",\".csdlc/prepared/issues/32/live-preflight.json\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Record focused classifier and stale-reference proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"runner_preflight\"],\"purpose\":\"Prove capacity, policy, dispatchability, queue-timeout, stale-reference, and branch-independent runner-group classifications.\",\"outcome\":\"passed\",\"evidence_ref\":\"Seven matching focused tests passed, including the runner-preflight schema discoverability test.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Record public schema-bundle proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"schema::tests\"],\"purpose\":\"Prove the runner-preflight request and diagnostic packet remain discoverable in the public C-SDLC schema bundle.\",\"outcome\":\"passed\",\"evidence_ref\":\"All three focused schema-bundle tests passed.\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Record focused GitHub contract-gate proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove the new operation preserves the existing C-SDLC GitHub client boundary and source guardrails.\",\"outcome\":\"passed\",\"evidence_ref\":\"All three focused GitHub Actions gate tests passed.\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Record strict focused lint proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-github\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in the library and owning GitHub binary.\",\"outcome\":\"passed\",\"evidence_ref\":\"Strict Clippy completed successfully for csdlc-v2 and csdlc-github.\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Record the truthful boundary between configuration eligibility and post-publication dispatch proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-github\",\"--\",\"runner-preflight\",\"--request\",\".csdlc/prepared/issues/32/live-preflight.json\"],\"purpose\":\"Read live organization runner and group configuration, then require an assigned expected-label canary before declaring dispatch eligible.\",\"outcome\":\"deferred\",\"evidence_ref\":\"Live read-only preflight observed runner adl-ubuntu-24.04-16core Ready with max_count 10; group 3 selected to agent-logic/agent-design-language with workflow restriction disabled and no selected workflow refs. It correctly returned configuration_eligible_dispatch_unproven (exit 2). Terminal dispatch proof requires the published issue #32 PR canary job id.\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Issue #32 implementation and focused local validation are complete; exact-head review and the published larger-runner canary remain next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

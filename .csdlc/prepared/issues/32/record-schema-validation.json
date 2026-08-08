@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "10ee44537926e69e329dc8edd1b24dc718fd1f13f426f1a97d33cd5408d36f79",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record public schema-bundle proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "schema::tests"],
+      "purpose": "Prove the runner-preflight request and diagnostic packet remain discoverable in the public C-SDLC schema bundle.",
+      "outcome": "passed",
+      "evidence_ref": "All three focused schema-bundle tests passed."
+    }
+  }
+}

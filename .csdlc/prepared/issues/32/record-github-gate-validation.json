@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "ed3c588a65ff5d306c9cef034087ad144b3c1be1d409ece1760c891797051bab",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record focused GitHub contract-gate proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate_github_actions"],
+      "purpose": "Prove the new operation preserves the existing C-SDLC GitHub client boundary and source guardrails.",
+      "outcome": "passed",
+      "evidence_ref": "All three focused GitHub Actions gate tests passed."
+    }
+  }
+}

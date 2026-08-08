@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "a09522320b99e8624313a2b879da476c33f50d696f3c2a7338a4dbae8b73cfc9",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record strict focused lint proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "clippy", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib", "--bin", "csdlc-github", "--", "-D", "warnings"],
+      "purpose": "Reject warnings in the library and owning GitHub binary.",
+      "outcome": "passed",
+      "evidence_ref": "Strict Clippy completed successfully for csdlc-v2 and csdlc-github."
+    }
+  }
+}
