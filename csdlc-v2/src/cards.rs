@@ -1621,10 +1621,14 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
     let global_value_flags = ["--color", "--config", "-Z"];
     loop {
         let value = argv.get(test_index)?;
-        if value == "test" {
+        if value == "test" || value == "t" {
             break;
         }
-        if global_flags.contains(&value.as_str()) {
+        if global_flags.contains(&value.as_str())
+            || (value.starts_with('-')
+                && value.len() > 2
+                && value[1..].chars().all(|character| character == 'v'))
+        {
             test_index += 1;
             continue;
         }
@@ -1647,9 +1651,12 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
             test_index += 1;
             continue;
         }
-        if argv[test_index + 1..].iter().any(|value| value == "test") {
+        if argv[test_index + 1..]
+            .iter()
+            .any(|value| value == "test" || value == "t")
+        {
             return Some(invalid_rust_selector(format!(
-                "unrecognized cargo global option `{value}` before `test`; use a supported typed argv shape"
+                "unrecognized cargo global option `{value}` before `test`/`t`; use a supported typed argv shape"
             )));
         }
         return None;

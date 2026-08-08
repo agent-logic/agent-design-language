@@ -37,6 +37,10 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
     .expect("cargo global options test classification");
     assert_eq!(global_options.posture, RustTestSelectorPosture::ExactTarget);
 
+    let alias = classify_rust_test_selector(&argv(&["cargo", "-vv", "t", "--test", "gate2"]))
+        .expect("cargo test alias classification");
+    assert_eq!(alias.posture, RustTestSelectorPosture::ExactTarget);
+
     let broad = classify_rust_test_selector(&argv(&[
         "cargo",
         "test",
@@ -51,6 +55,8 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
         argv(&["cargo", "test", "--", "schema", "--list"]),
         argv(&["cargo", "+stable", "test", "schema"]),
         argv(&["cargo", "--locked", "test", "schema"]),
+        argv(&["cargo", "t", "schema"]),
+        argv(&["cargo", "+stable", "t", "schema"]),
         argv(&["cargo", "test", "--test"]),
         argv(&["cargo", "test", "--lib", "--test", "gate2"]),
     ] {
