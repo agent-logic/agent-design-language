@@ -152,6 +152,58 @@ def validate_png_artwork(path: Path) -> None:
         fail("show artwork must be 8-bit RGB or indexed-color PNG without alpha")
 
 
+def validate_storage_manifest(root: Path, package_root: Path, metadata: dict) -> None:
+    manifest_path = package_root / metadata.get("storage_manifest", "")
+    inventory_path = package_root / "s3-object-inventory.json"
+    runbook_path = root / "S3_CLOUDFRONT_RUNBOOK.md"
+    for path in (manifest_path, inventory_path, runbook_path):
+        if not path.is_file() or path.stat().st_size == 0:
+            fail(f"production storage evidence is missing {path}")
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
+    if manifest.get("publication_status") != "held_for_human_review":
+        fail("storage manifest must remain held for human review")
+    if manifest.get("bucket") != "agent-logic-podcast-archive-agentlogic":
+        fail("storage manifest names an unexpected podcast bucket")
+    if manifest.get("archive_object_count") != inventory.get("object_count"):
+        fail("storage manifest and S3 inventory object counts differ")
+    if manifest.get("archive_total_bytes") != inventory.get("total_bytes"):
+        fail("storage manifest and S3 inventory byte totals differ")
+
+    cloudfront = manifest.get("cloudfront") or {}
+    if cloudfront.get("origin_path") != "/public" or cloudfront.get("public_object_count") != 0:
+        fail("CloudFront must remain bound to an empty public prefix before approval")
+    if cloudfront.get("archive_access_probe_status") != 403:
+        fail("storage manifest does not prove the private archive boundary")
+
+    local_by_key = {
+        "archive/cognitive-spacetime/episodes/001/package/artwork-source.png": package_root / "artwork-source.png",
+        "archive/cognitive-spacetime/episodes/001/package/artwork.png": package_root / "artwork.png",
+        "archive/cognitive-spacetime/episodes/001/package/script.md": package_root / "script.md",
+        "archive/cognitive-spacetime/episodes/001/package/transcript.md": package_root / "transcript.md",
+        "archive/cognitive-spacetime/episodes/001/package/audio-manifest.json": package_root / "audio-manifest.json",
+        "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.mp3": root / "audio" / "meet-the-ai-coworkers.mp3",
+        "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.wav": root / "audio" / "meet-the-ai-coworkers.wav",
+    }
+    critical = {entry.get("key"): entry for entry in manifest.get("critical_objects") or []}
+    if set(critical) != set(local_by_key):
+        fail("storage manifest critical-object set is incomplete")
+    for key, local_path in local_by_key.items():
+        entry = critical[key]
+        if entry.get("bytes") != local_path.stat().st_size:
+            fail(f"storage manifest byte count differs for {key}")
+        if entry.get("sha256") != hashlib.sha256(local_path.read_bytes()).hexdigest():
+            fail(f"storage manifest digest differs for {key}")
+        if not entry.get("version_id") or not entry.get("s3_checksum_sha256"):
+            fail(f"storage manifest lacks retained S3 identity for {key}")
+
+    runbook = runbook_path.read_text(encoding="utf-8")
+    for value in (manifest["bucket"], cloudfront.get("distribution_id"), cloudfront.get("origin_access_control_id")):
+        if not value or value not in runbook:
+            fail(f"storage runbook does not retain infrastructure identity {value!r}")
+
+
 def validate_production_episode(root: Path) -> None:
     package_root = root / "episodes" / "001-meet-the-ai-coworkers"
     metadata_path = package_root / "episode.json"
@@ -162,6 +214,7 @@ def validate_production_episode(root: Path) -> None:
         package_root / "show-notes.md",
         package_root / "CREATOR_WORKFLOW.md",
         package_root / "audio-manifest.json",
+        package_root / "artwork-source.png",
         package_root / "artwork.png",
         root / "artwork.png",
         root / "audio" / "meet-the-ai-coworkers.mp3",
@@ -209,6 +262,9 @@ def validate_production_episode(root: Path) -> None:
     validate_png_artwork(package_root / "artwork.png")
     if hashlib.sha256((root / "artwork.png").read_bytes()).hexdigest() != metadata.get("artwork_sha256"):
         fail("episode metadata artwork digest does not match")
+    if hashlib.sha256((package_root / "artwork-source.png").read_bytes()).hexdigest() != metadata.get("artwork_source_sha256"):
+        fail("episode metadata artwork-source digest does not match")
+    validate_storage_manifest(root, package_root, metadata)
 
 
 def validate_http_route(http_base: str, route: str, contains: str) -> None:

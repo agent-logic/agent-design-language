@@ -35,7 +35,7 @@
       <itunes:episode>1</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:duration>00:18:32</itunes:duration>
-      <enclosure url="https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3" length="22754204" type="audio/mpeg" />
+      <enclosure url="https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3" length="22804249" type="audio/mpeg" />
     </item>
   </channel>
 </rss>

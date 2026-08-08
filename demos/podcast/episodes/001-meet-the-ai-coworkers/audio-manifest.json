@@ -1,7 +1,7 @@
 {
   "schema": "agent-logic.podcast.audio-manifest.v1",
   "episode": 1,
-  "script_sha256": "f02ca4539d7849b21cd647c2dd9fa4288719a821302de3e4f4c6ba2ea34198ab",
+  "script_sha256": "fb357385b910cb27afd09e11c4b5cb946ba0d5338e4ab5b02a1e83e137c7e835",
   "transcript_sha256": "0f771e6222625901c8d6ed21b4083b215ee318e05cb6a2494333f4216af6db3b",
   "dialogue_authors": {
     "ChatGPT": "OpenAI gpt-5.5",
@@ -48,9 +48,9 @@
     "distribution_mp3": {
       "path": "../../audio/meet-the-ai-coworkers.mp3",
       "duration_seconds": 1111.968,
-      "bytes": 22754204,
+      "bytes": 22804249,
       "bit_rate_bps": 160000,
-      "sha256": "30227605192bcdfb0f55a86dc628c1f94c2658022f1480ffdfc0f828d15cec4c",
+      "sha256": "2ce56a2a4e3f74315f844978b9a9c344e377227cd92d4ddd0e05f338a4338cbc",
       "embedded_cover_art": true
     },
     "archive_wav": {
