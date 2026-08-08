@@ -7,15 +7,15 @@
     "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
     "slug": "coverage-aggregate-big-runner",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "Approved two-file behavior diff\nTyped metadata-only drift from prior reviewed implementation head",
+      "review_revision": "git-blake3:0cc4b6f24f6314609d49faabc0c4c9aa4a24967d:3d18904541c6fec9697296a554c8d2f9ab0c3fc2e9fe44be8fd548b97d0e3959",
+      "reviewer": "codex:rereview_55_publication_head",
       "review_prompts": [
         "Does only the heavyweight adl_coverage_hosted job move to the selected 16-core runner?",
         "Does focused proof fail if that job returns to ubuntu-latest?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

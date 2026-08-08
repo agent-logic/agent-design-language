@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+Approved two-file behavior diff
+Typed metadata-only drift from prior reviewed implementation head
 
 ## Prompts
 
@@ -35,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0cc4b6f24f6314609d49faabc0c4c9aa4a24967d:3d18904541c6fec9697296a554c8d2f9ab0c3fc2e9fe44be8fd548b97d0e3959")
 
-Reviewer: None
+Reviewer: Some("codex:rereview_55_publication_head")
 
-Result: pre_review
+Result: pass
