@@ -10,6 +10,11 @@
   "deadline_reaper_rule": "adl-wp5795-gpu-deadline-reaper",
   "deadline_reaper_code_sha256_b64": "YGnNKxanDvyfdnId/4M6iqJA+Y7HDIt/z6sheoRiz7s=",
   "bucket_versioning": "Enabled",
+  "remote_execution": {
+    "transport": "ssm",
+    "bootstrap_script_count": 1,
+    "ssh_port_opened": false
+  },
   "gpu_instance_type": "g6.xlarge",
   "model_identity": "gemma4:12b",
   "model_artifact_sha256": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",

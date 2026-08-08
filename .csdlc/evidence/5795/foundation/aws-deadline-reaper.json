@@ -7,6 +7,8 @@
   "schedule": "rate(5 minutes)",
   "target_count": 1,
   "least_privilege_policy_verified": true,
+  "attached_policy_set_verified": true,
+  "eventbridge_invoke_permission_verified": true,
   "manual_invocation_terminated": 0,
   "launches_during_proof": 0,
   "outcome": "passed"

@@ -540,7 +540,9 @@ time.sleep(5)"#,
             started.display()
         ),
     );
-    let executor = LocalShepherdExecutor::configured(config(&runner, vec![])).unwrap();
+    let mut lifecycle = config(&runner, vec![]);
+    lifecycle.timeout = Duration::from_secs(10);
+    let executor = LocalShepherdExecutor::configured(lifecycle).unwrap();
     let task = tokio::spawn(async move { executor.execute(&request("hello")).await });
     wait_for_marker(&started).await;
     task.abort();
@@ -686,7 +688,9 @@ time.sleep(5)"#,
             started.display()
         ),
     );
-    let executor = LocalShepherdExecutor::configured(config(&runner, vec![])).unwrap();
+    let mut lifecycle = config(&runner, vec![]);
+    lifecycle.timeout = Duration::from_secs(10);
+    let executor = LocalShepherdExecutor::configured(lifecycle).unwrap();
     let cancellation = CancellationToken::new();
     let cancel = cancellation.clone();
     let execution = tokio::spawn(async move {

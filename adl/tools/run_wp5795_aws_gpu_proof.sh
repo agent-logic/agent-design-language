@@ -14,6 +14,7 @@ DEADLINE_REAPER_FUNCTION="${ADL_WP5795_DEADLINE_REAPER_FUNCTION:-adl-wp5795-gpu-
 DEADLINE_REAPER_RULE="${ADL_WP5795_DEADLINE_REAPER_RULE:-adl-wp5795-gpu-deadline-reaper}"
 DEADLINE_REAPER_ROLE="ADLWP5795GpuDeadlineReaperRole"
 DEADLINE_REAPER_POLICY="ReapOnlyManagedWp5795Instances"
+DEADLINE_REAPER_LOG_POLICY_ARN="arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 DEADLINE_REAPER_TARGET_ID="wp5795-deadline-reaper"
 DEADLINE_REAPER_CODE_SHA256_B64="YGnNKxanDvyfdnId/4M6iqJA+Y7HDIt/z6sheoRiz7s="
 DEADLINE_REAPER_SCHEDULE="rate(5 minutes)"
@@ -46,9 +47,12 @@ Usage:
   adl/tools/run_wp5795_aws_gpu_proof.sh cleanup --run-id <id> \
     --owner-token <token> --lock-version-id <version>
 
-The paid path uses one fixed On-Demand g6.xlarge. It restores the exact
-versioned S3 artifact set, source revision, toolchain, and compiled tests, then
-runs the CUDA proof without a stopped-state gap or registry model pull. An
+The paid path uses one fixed On-Demand g6.xlarge and one remote bootstrap
+script. The script restores the exact versioned S3 artifact set, source
+revision, toolchain, and compiled tests, then runs the CUDA proof without a
+stopped-state gap or registry model pull. SSM provides the SSH-equivalent
+transport without opening port 22 or creating temporary keys and security
+groups. An
 atomic, owner-bound S3 lock prevents concurrent paid runs. A pre-existing
 tag-driven AWS reaper terminates overdue instances even if launch-response
 delivery fails; the guest and local runner provide independent cleanup paths.
@@ -208,8 +212,8 @@ release_run_lock() {
 }
 
 verify_deadline_reaper() {
-  local account function_config function_arn expected_role rule targets policy_names policy
-  local expected_instance_resource
+  local account function_config function_arn expected_role rule rule_arn targets policy_names policy
+  local attached_policies lambda_policy expected_instance_resource
   account="$(aws --profile "$PROFILE" sts get-caller-identity --query Account --output text)"
   expected_role="arn:aws:iam::$account:role/$DEADLINE_REAPER_ROLE"
   expected_instance_resource="arn:aws:ec2:$REGION:$account:instance/*"
@@ -229,6 +233,7 @@ verify_deadline_reaper() {
     echo "permanent AWS deadline reaper schedule drifted" >&2
     return 2
   }
+  rule_arn="$(jq -er '.Arn' <<<"$rule")"
   targets="$(aws_cli events list-targets-by-rule --rule "$DEADLINE_REAPER_RULE" --output json)"
   jq -e --arg id "$DEADLINE_REAPER_TARGET_ID" --arg arn "$function_arn" \
     '.Targets | length == 1 and .[0].Id == $id and .[0].Arn == $arn' \
@@ -241,6 +246,14 @@ verify_deadline_reaper() {
   jq -e --arg policy "$DEADLINE_REAPER_POLICY" \
     '.PolicyNames == [$policy]' <<<"$policy_names" >/dev/null || {
     echo "permanent AWS deadline reaper role policy set drifted" >&2
+    return 2
+  }
+  attached_policies="$(aws --profile "$PROFILE" iam list-attached-role-policies \
+    --role-name "$DEADLINE_REAPER_ROLE" --output json)"
+  jq -e --arg arn "$DEADLINE_REAPER_LOG_POLICY_ARN" \
+    '.AttachedPolicies | length == 1 and .[0].PolicyName == "AWSLambdaBasicExecutionRole"
+      and .[0].PolicyArn == $arn' <<<"$attached_policies" >/dev/null || {
+    echo "permanent AWS deadline reaper attached policy set drifted" >&2
     return 2
   }
   policy="$(aws --profile "$PROFILE" iam get-role-policy \
@@ -256,6 +269,19 @@ verify_deadline_reaper() {
         and .Condition.StringEquals["ec2:ResourceTag/adl:managed-deadline"] == "true")' \
     <<<"$policy" >/dev/null || {
     echo "permanent AWS deadline reaper least-privilege policy drifted" >&2
+    return 2
+  }
+  lambda_policy="$(aws_cli lambda get-policy --function-name "$DEADLINE_REAPER_FUNCTION" \
+    --query Policy --output text)"
+  jq -e --arg function_arn "$function_arn" --arg rule_arn "$rule_arn" \
+    '.Version == "2012-10-17" and (.Statement | length == 1)
+      and .Statement[0].Effect == "Allow"
+      and .Statement[0].Principal.Service == "events.amazonaws.com"
+      and .Statement[0].Action == "lambda:InvokeFunction"
+      and .Statement[0].Resource == $function_arn
+      and .Statement[0].Condition.ArnLike["AWS:SourceArn"] == $rule_arn' \
+    <<<"$lambda_policy" >/dev/null || {
+    echo "EventBridge permission to invoke the deadline reaper drifted" >&2
     return 2
   }
 }
@@ -373,6 +399,7 @@ preflight() {
       deadline_reaper_rule:$deadline_reaper_rule,
       deadline_reaper_code_sha256_b64:$deadline_reaper_code_sha256_b64,
       bucket_versioning:$bucket_versioning,
+      remote_execution:{transport:"ssm",bootstrap_script_count:1,ssh_port_opened:false},
       gpu_instance_type:$gpu_instance_type, model_identity:$model_identity,
       model_artifact_sha256:$model_artifact_sha256,
       artifact_manifest_sha256:$artifact_manifest_sha256,
@@ -521,8 +548,8 @@ cleanup_on_exit() {
 }
 
 run_proof() {
-  local ami subnet instance_id started_at gpu_started_at finished_at deadline_epoch
-  local run_dir user_data stage_script gpu_script result status
+  local ami subnet instance_id started_at bootstrap_started_at finished_at deadline_epoch
+  local run_dir user_data bootstrap_script result status
   [[ "$EXECUTE" == true ]] || {
     echo "paid execution requires --execute" >&2
     return 2
@@ -594,8 +621,8 @@ CLOUD_INIT
   aws_cli ec2 wait instance-status-ok --instance-ids "$instance_id"
   wait_for_ssm "$instance_id"
 
-  stage_script="$run_dir/stage.sh"
-  cat >"$stage_script" <<STAGE
+  bootstrap_script="$run_dir/bootstrap.sh"
+  cat >"$bootstrap_script" <<BOOTSTRAP
 set -euo pipefail
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
@@ -643,14 +670,6 @@ source /root/.cargo/env
 cargo test --locked --manifest-path /opt/adl-wp5795/repo/adl-runtime-kernel/Cargo.toml --test shepherd
 cargo test --locked --manifest-path /opt/adl-wp5795/repo/adl-runtime/Cargo.toml --test shepherd_local_model --no-run
 	jq -n --arg schema adl.wp5795.aws_model_stage.v1 --arg model '$MODEL_IDENTITY' --arg digest \"\$MODEL_DIGEST\" --arg manifest '$ARTIFACT_MANIFEST_SHA256' --arg commit '$SOURCE_COMMIT' '{schema:\$schema,model_identity:\$model,model_artifact_sha256:\$digest,artifact_manifest_sha256:\$manifest,source_commit:\$commit,kernel_tests:"passed",runtime_smoke_compiled:true}'
-STAGE
-  bash -n "$stage_script"
-  run_ssm_script "$instance_id" stage "$stage_script"
-  gpu_started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
-  gpu_script="$run_dir/gpu-proof.sh"
-  cat >"$gpu_script" <<GPU
-set -euo pipefail
 GPU_NAME=\$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)
 GPU_MEMORY_MIB=\$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | head -1 | tr -d ' ')
 NVIDIA_DRIVER_VERSION=\$(nvidia-smi --query-gpu=driver_version --format=csv,noheader | head -1 | tr -d ' ')
@@ -702,13 +721,14 @@ kill "\$OLLAMA_PID"
 wait "\$OLLAMA_PID" || true
 trap - EXIT
 jq -n --arg schema adl.wp5795.aws_gpu_proof.v1 --arg gpu \"\$GPU_NAME\" --argjson gpu_memory_mib \"\$GPU_MEMORY_MIB\" --arg nvidia_driver_version \"\$NVIDIA_DRIVER_VERSION\" --arg cuda_userspace_family cuda_v12 --arg cuda_libset_sha256 \"\$CUDA_LIBSET_SHA256\" --arg model '$MODEL_IDENTITY' --arg digest \"\$MODEL_DIGEST\" --arg manifest '$ARTIFACT_MANIFEST_SHA256' --arg manifest_version '$ARTIFACT_MANIFEST_VERSION_ID' --arg commit '$SOURCE_COMMIT' --argjson size_vram \"\$VRAM_BYTES\" --argjson shepherd \"\$SHEPHERD_PROOF\" '{schema:\$schema,gpu:\$gpu,gpu_memory_mib:\$gpu_memory_mib,nvidia_driver_version:\$nvidia_driver_version,cuda_userspace_family:\$cuda_userspace_family,cuda_libset_sha256:\$cuda_libset_sha256,model_identity:\$model,model_artifact_sha256:\$digest,artifact_manifest_sha256:\$manifest,artifact_manifest_version_id:\$manifest_version,source_commit:\$commit,size_vram:\$size_vram,shepherd:\$shepherd,real_local_model_smoke:\"passed\"}'
-GPU
-  bash -n "$gpu_script"
-  run_ssm_script "$instance_id" gpu-proof "$gpu_script"
+BOOTSTRAP
+  bash -n "$bootstrap_script"
+  bootstrap_started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  run_ssm_script "$instance_id" bootstrap "$bootstrap_script"
   finished_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$LOCK_VERSION_ID" >"$run_dir/cleanup.log"
   trap - EXIT INT TERM
-  result="$(tail -1 "$run_dir/gpu-proof.stdout")"
+  result="$(tail -1 "$run_dir/bootstrap.stdout")"
   status="$(jq -er \
     --arg commit "$SOURCE_COMMIT" \
     --arg manifest "$ARTIFACT_MANIFEST_SHA256" \
@@ -729,7 +749,7 @@ GPU
     --arg run_id "$RUN_ID" \
     --arg source_commit "$SOURCE_COMMIT" \
     --arg started_at "$started_at" \
-    --arg gpu_started_at "$gpu_started_at" \
+    --arg bootstrap_started_at "$bootstrap_started_at" \
     --arg finished_at "$finished_at" \
     --arg gpu_instance_type "$GPU_INSTANCE_TYPE" \
     --arg model_identity "$MODEL_IDENTITY" \
@@ -737,7 +757,7 @@ GPU
     --arg artifact_manifest_version_id "$ARTIFACT_MANIFEST_VERSION_ID" \
     --arg cleanup "passed" \
     '{schema:$schema,run_id:$run_id,source_commit:$source_commit,
-      started_at:$started_at,gpu_started_at:$gpu_started_at,finished_at:$finished_at,
+      started_at:$started_at,bootstrap_started_at:$bootstrap_started_at,finished_at:$finished_at,
       gpu_instance_type:$gpu_instance_type,
       model_identity:$model_identity,artifact_manifest_sha256:$artifact_manifest_sha256,
       artifact_manifest_version_id:$artifact_manifest_version_id,
