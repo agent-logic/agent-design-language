@@ -6,3 +6,4 @@
 {"sequence":6,"generation":4,"actor":"subagent-Copernicus","reason":"reapprove changed issue design","operation":"approve_design"}
 {"sequence":7,"generation":5,"actor":"codex","reason":"Record independent exact-head review","operation":"{\"operation\":\"record_review\",\"reviewer\":\"subagent-Copernicus\",\"revision\":\"eba54de5b31ba52c3b34f9df455e9b9caf970378\",\"result\":\"pass\",\"residual_risk\":[\"The actual immutable image build and publication remain a separate operational action; focused contracts prove this patch's pinning and preflight behavior.\"]}"}
 {"sequence":8,"generation":6,"actor":"codex","reason":"Exact-head independent review passed with no actionable findings","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":9,"generation":7,"actor":"codex","reason":"Replace card-only review projection with canonical csdlc-review evidence","operation":"recover_review"}

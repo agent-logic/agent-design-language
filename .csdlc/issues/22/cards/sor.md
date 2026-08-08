@@ -63,7 +63,7 @@ Added checksum-pinned Ruby 3.3.6 to the immutable builder image, recorded Ruby p
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

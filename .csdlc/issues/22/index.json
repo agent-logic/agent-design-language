@@ -3,9 +3,9 @@
   "issue": 22,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5fa8517ec88a66465e0baff5b4f7c6560781aa68ac7602c0beedea0fe51bd16",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "02cc740eeb08bfd868763e170cb4871b142adcf7d663a43bd61cb2c76bcd0a5a",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "783b852c5880b3f4ad1cb159f5d42d7e619ed8bb683aa5ec29e9d7a5d7579829",
   "branch": "codex/22-pinned-ruby-builder-runtime",
   "worktree": "/Volumes/FastWork/adl-issue-22-pinned-ruby-builder-runtime",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4980690fd65457bc227952a206e7a3a98e071eecbaa16b20128d94d509c8a5f8",
+      "values_digest": "4b221f15f07b432e426ae7afb4ebfb1ff72d36844d28fcca5fea01a9600c02c3",
       "rendered_digest": "749441d157724ec13d7238da7fd95321057740b0ae4be7afa85e63a248c2a43e",
       "ast_digest": "280d5a7bec796c2a354c4d01c003be9d0217cddcb0edf67617cdcd2a95e48976"
     },
     "stp": {
-      "values_digest": "46d95cb69bc0bc21f31ca600ea911dbe293a11a717bfddf24c926302254bf510",
+      "values_digest": "32c641b5fd7e154efe7b95afeb1464487477579293d342f4f219289f03868c61",
       "rendered_digest": "cb3ce281176cc8545dcb722783ff6ce61d5ad3503e385ee801665fbd3e5efb33",
       "ast_digest": "44aa1a23d6453a29fd90659f6fc2aa092a45d7d4036b44f951eb2ef009a19d80"
     },
     "spp": {
-      "values_digest": "24954c1863c7b461abc7d421a343c9c3e61486f6b26f891ecfa3f0bd116f69e6",
+      "values_digest": "d0727484a6f12f9a793fc38efd1540bfa999f77ea8fcba89a583fb2b1e6a2b02",
       "rendered_digest": "e1e96d1c5142a83374d235e22a769d3875eb4d1215093b79da17dfa9d587f440",
       "ast_digest": "6cc3853ee4314801c364448627ef0f3038a4e5be58bcd85f9d68e9a792902f51"
     },
     "vpp": {
-      "values_digest": "ae312fc62867040f781388c7d3473adb216b41d37f42ee74812b2623f7de8d85",
+      "values_digest": "b9b8b08a4e7aa58644c2cfcf5471240c6f4c16ab2adcf396f5e9d66b4a99825e",
       "rendered_digest": "42b6c1a7c2a46f1ee82d37b69d5b7f5aea143edf6032d64fa1689b9b4b6e7cbc",
       "ast_digest": "92f4a60c5ec8a779949f04deb1a4e1b5efeb71f7d41619902c4e7bd7642b00c9"
     },
     "srp": {
-      "values_digest": "cecb7ed54ee38212075adef496231c6c456a39d969ab281e63ce2cd1f77699c8",
-      "rendered_digest": "a29d69971ef35d61ddf954883bff4337f27408e5f84e0468526354f05c73543c",
-      "ast_digest": "a4dafc8e6de7b3af6e0b0bd214c2fc8877f1732de08612e1533a846dc540ba6f"
+      "values_digest": "31eee1d7a953302f46e1b8f6084179c0fbd213bc4a25a479dcb3ae320ea1b4a7",
+      "rendered_digest": "c995a5fc769dea0dce9f35cb48a87cfda3922ce354ea1927a88be3bc1712a8db",
+      "ast_digest": "56049e3889846a6d25c82cf97ad04698169c2c3a3adfffa417de04d54ec5660d"
     },
     "sor": {
-      "values_digest": "dc1470547e199eb6bdffbbe3100d494bb02eb0d4db2341764efa19a98f9cb732",
-      "rendered_digest": "7dd1bb562c8ea3f3ea537da392d1d9522421eb4c2a2934ebea83fd5c932ed667",
-      "ast_digest": "2a30ba6e851b1b8f6cdb63e0081180f7b16b8b9304a85470484766eb68f74239"
+      "values_digest": "ba5d2fc7e3104a1b5cc84bbc06a7c91e0856dac4cfe7882ac0e864d6c1d283e2",
+      "rendered_digest": "6336f7aefcdadc12942c2e522c583672a7dd91ce0550858f55c9927b9f1b6f8a",
+      "ast_digest": "674c8dd870f81116a35208768e9b4da5bb6871f3240aec4de16a09c99dfde6a3"
     }
   },
   "transitions": [
@@ -82,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex",
       "reason": "Exact-head independent review passed with no actionable findings"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Replace card-only review projection with canonical csdlc-review evidence"
     }
   ],
   "audit": [
@@ -140,6 +147,13 @@
       "actor": "codex",
       "reason": "Exact-head independent review passed with no actionable findings",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "Replace card-only review projection with canonical csdlc-review evidence",
+      "operation": "recover_review"
     }
   ]
 }
