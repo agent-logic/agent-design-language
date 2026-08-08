@@ -1,0 +1,6 @@
+{
+  "issue": 5821,
+  "expected_generation": 54,
+  "expected_digest": "564a1923e246bd9a028166cf7eb06d53b449adcf4ecceb727e4f95f931569ce0",
+  "reviewer": "codex:5821-wp04-authority-safety-design-review"
+}

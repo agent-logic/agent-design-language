@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9376933aa08bd1c1708eacda6c1cb876ff925d7a61596daf9f30c8c4e86f245e",
   "phase": "bound",
-  "generation": 54,
-  "digest": "564a1923e246bd9a028166cf7eb06d53b449adcf4ecceb727e4f95f931569ce0",
+  "generation": 55,
+  "digest": "5c3eaaefbdf03159c5da50642ddf8344e817862759d91f313061473ede156f4b",
   "branch": "codex/5821-v092-distributed-guardian-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5821-wp04-gate",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5821/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-runtime-wp04-rollback-design-review",
-      "revision": "9fe5fa921d68ac98add7b33e9dd6caec12e051bab1a8a7c5ad4e156fa447a3a6"
+      "reviewer": "codex:5821-wp04-authority-safety-design-review",
+      "revision": "45602a17c327ed54e49298e00251f20968f74dac41121ae2138cedae64c04194"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e0a12e866b1b4d1cbc0f517dd2036b93ca97743babb94360ce677635910cc859",
+      "values_digest": "1b2be3a0b046d97c15545ee829a5cbe8a3d5fc66b2c661e9353e79dd3435d46a",
       "rendered_digest": "e0237a5edb0f610637736f1af02104812f6c2a64dd5cb0a573fdaf0b7cb4b576",
       "ast_digest": "7568b8872375bef23c9c4c66b374537ac9ebeb29505ad8dff9a1af878b7241d5"
     },
     "stp": {
-      "values_digest": "bb8f874133f5ffbea6339806cf153d4a4da80281a69ae6e689ca7867fe95526d",
+      "values_digest": "bd251c7acec3a42f2973d012b8fa703711dead0ad0fca636738c55fd77a7ed99",
       "rendered_digest": "1f4b22c692e310d367014ae4ec7a02650db3c9c15a20afac792fe25af3553779",
       "ast_digest": "3813cb1efa14407e1503790a730f37bd93fa39f31314510efd249e8f90b9c2bb"
     },
     "spp": {
-      "values_digest": "db7104c0f0f7ada239bdc2e19a8901fe0b06ec4fb942f9302b30fbc2e4840d1c",
-      "rendered_digest": "99ef9d0c549e036697dbb8e1681de41e1f19b0f48b03c308bdfd4584df78d8c6",
-      "ast_digest": "753ddd50496704f17f1cc1cfd4bda74561fc2ba855d168591ca0ca730a368645"
+      "values_digest": "cd6429fd375ffea909d28030205c202c3cf61cc96994043f19873916f013381b",
+      "rendered_digest": "a3569902488d4d55f61d2a0640f4947842ee6d9b2561984f68519927f9a4c139",
+      "ast_digest": "691450e0094450f7ab88e2de879748380738cd66c852361c93fd25c68ce2b805"
     },
     "vpp": {
-      "values_digest": "8e32ad0bd862322fc0633c80022b66cb5ba38d6891b2bdc772512775d5616a68",
+      "values_digest": "71c225c23e9af181eba791df875c8118d54cc832123c2cfa53a9c276d9d14eb2",
       "rendered_digest": "c4a101bf61dccfa775a39f3f57212784a572584a057968fefd7c00a7d17a5fb3",
       "ast_digest": "62ca9ae2d647f97c34a73bc82a63e8100200aae0c5bb818cee88cef924e6bb6b"
     },
     "srp": {
-      "values_digest": "fe04adcbe854e1f3b3779fd0edc5f2ce3c8e581d39260405fb8d49a40cd165d4",
+      "values_digest": "8f4f02acae4472a2e25152c9dbbb70311a2db6296e6f0c64fc1d48e53457647a",
       "rendered_digest": "26cef715aa56af54b86ef0aba47aadba1c1bf7f3c05d0719853cd6242ca5e0fd",
       "ast_digest": "46f530c75ae60c4d0858fff71941147846698e0d938b9cc3cb2b7f5e1ab07ce0"
     },
     "sor": {
-      "values_digest": "c58a65b01821a2eced5a7ec030074085d78c3497c4e1b21458062b5f23aeb543",
+      "values_digest": "cd5f782062d21ed0761642e7b852f4ae3b8e1f73e517a89037e2cbf71ef16ed6",
       "rendered_digest": "e10d878924281817411c3f3ea1f856c4f04bc1a7c1419a67f67224f0db96dd33",
       "ast_digest": "e9f243f2dcd8c5194d9cc00e3bcc0b6d2994a1076c33b349f81126488ff15055"
     }
@@ -616,6 +616,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 76,
+      "generation": 55,
+      "actor": "codex:5821-wp04-authority-safety-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
