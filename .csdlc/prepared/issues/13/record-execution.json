@@ -1,0 +1,25 @@
+{
+  "issue": 13,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "e4a6c350171d7767297a0088ca03620be5028c1331cf0b4d988cb8c029664898",
+  "actor": "codex:13-coverage-routing",
+  "reason": "Record the explicit coverage producer routing implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added canonical Runtime, fast-workspace, and full-workspace producer selectors; mapped the v0.92 Observatory validator; routed bounded Runtime-owner profiles to Runtime-only coverage; moved producer selection to job-level guards; and extracted a fail-closed hosted/Spot result verifier with a directly executable route matrix.",
+    "changes": [
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/verify_coverage_producer_results.sh",
+      "adl/tools/test_verify_coverage_producer_results.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/13/design.md",
+      ".csdlc/prepared/issues/13/diagram.mmd"
+    ]
+  }
+}

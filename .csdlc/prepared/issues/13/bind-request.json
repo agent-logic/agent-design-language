@@ -1,0 +1,6 @@
+{
+  "issue": 13,
+  "base_branch": "main",
+  "branch": "codex/13-skip-optional-workspace-coverage",
+  "worktree": "/Volumes/FastWork/adl-issue-13-coverage-routing"
+}

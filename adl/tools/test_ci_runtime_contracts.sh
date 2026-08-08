@@ -548,7 +548,7 @@ workspace_coverage_step = step_run("Workspace coverage run and summary (json)")
 for required_fragment in (
     '--name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs',
     'run_authoritative_coverage_lane.sh --profile workspace',
-    '--authority "${{ steps.path-policy.outputs.coverage_authority }}"',
+    '--authority "${{ needs.adl_path_policy.outputs.coverage_authority }}"',
     '--event-name "${{ github.event_name }}"',
 ):
     if required_fragment not in workspace_coverage_step:
@@ -556,8 +556,6 @@ for required_fragment in (
             "workspace producer must run only the workspace authoritative coverage profile; "
             f"missing fragment: {required_fragment}"
         )
-if step_if("Workspace coverage run and summary (json)") != "steps.path-policy.outputs.full_coverage_required == 'true'":
-    raise SystemExit("workspace authoritative coverage must remain limited to full_coverage_required surfaces")
 workspace_coverage_block = step_block("Workspace coverage run and summary (json)")
 for required_fragment in (
     "ADL_AUTHORITATIVE_COVERAGE_REPORT_MODE: collect",
@@ -575,7 +573,7 @@ runtime_coverage_step = step_run("Runtime coverage run and summary (json)")
 for required_fragment in (
     '--name "coverage-runtime-summary-json" --log-root ci-step-logs',
     'run_authoritative_coverage_lane.sh --profile adl-runtime',
-    '--authority "${{ steps.path-policy.outputs.coverage_authority }}"',
+    '--authority "${{ needs.adl_path_policy.outputs.coverage_authority }}"',
     '--event-name "${{ github.event_name }}"',
 ):
     if required_fragment not in runtime_coverage_step:
@@ -613,12 +611,15 @@ if "cargo llvm-cov report --lcov" in workspace_job + workspace_fast_job:
 selected_runner = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
 if selected_runner not in runtime_job or selected_runner not in workspace_job or selected_runner not in workspace_fast_job:
     raise SystemExit("Rust coverage producers must use the selected 16-core GitHub-hosted runner")
-if "needs.adl_path_policy.outputs.full_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
-    raise SystemExit("runtime coverage producer must run only for full authoritative coverage")
-if "needs.adl_path_policy.outputs.full_coverage_required == 'true'" not in workspace_job.split("runs-on:", 1)[0]:
-    raise SystemExit("workspace shard producer must run only for full authoritative coverage")
-if "needs.adl_path_policy.outputs.coverage_required == 'true'" not in workspace_fast_job.split("runs-on:", 1)[0] or "needs.adl_path_policy.outputs.full_coverage_required != 'true'" not in workspace_fast_job.split("runs-on:", 1)[0]:
-    raise SystemExit("workspace fast producer must retain non-full coverage-required PR-fast routing")
+if "needs.adl_path_policy.outputs.runtime_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
+    raise SystemExit("runtime coverage producer must use its explicit job-level selector")
+if "needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true'" not in workspace_job.split("runs-on:", 1)[0]:
+    raise SystemExit("workspace shard producer must use its explicit job-level selector")
+if "needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true'" not in workspace_fast_job.split("runs-on:", 1)[0]:
+    raise SystemExit("workspace fast producer must use its explicit job-level selector")
+for producer in (runtime_job, workspace_job):
+    if "Classify changed paths" in producer or "Classify runtime coverage paths" in producer:
+        raise SystemExit("coverage producers must consume canonical path-policy outputs without reclassification")
 if "PR fast coverage summary (json)" not in workspace_fast_job or "PR fast coverage summary (json)" in workspace_job or "PR fast coverage summary (json)" in runtime_job:
     raise SystemExit("only the workspace fast producer may own PR-fast coverage")
 
@@ -686,18 +687,10 @@ for required_fragment in (
     '"shard_count": "2"',
     'seen_shards != {"1", "2"}',
     "workspace shard profraw profiles missing",
-    'expected_workspace=skipped',
-    'expected_workspace_fast=skipped',
-    'expected_runtime=skipped',
-    'expected_workspace=success',
-    'expected_workspace_fast=success',
-    'expected_runtime=success',
-    'PATH_POLICY_RESULT" != success',
-    'WORKSPACE_RESULT" != "$expected_workspace',
-    'WORKSPACE_FAST_RESULT" != "$expected_workspace_fast',
-    'RUNTIME_RESULT" != "$expected_runtime',
-    'echo "route_result=success" >> "$GITHUB_OUTPUT"',
-    'echo "route_result=skipped" >> "$GITHUB_OUTPUT"',
+    'RUNTIME_REQUIRED: ${{ needs.adl_path_policy.outputs.runtime_coverage_required }}',
+    'WORKSPACE_FAST_REQUIRED: ${{ needs.adl_path_policy.outputs.workspace_fast_coverage_required }}',
+    'WORKSPACE_FULL_REQUIRED: ${{ needs.adl_path_policy.outputs.workspace_full_coverage_required }}',
+    'bash adl/tools/verify_coverage_producer_results.sh',
     "ADL_AUTHORITATIVE_COVERAGE_REPORT_MODE: report",
     "ADL_AUTHORITATIVE_COVERAGE_IMPORT_PROFRAW_DIR: ${{ github.workspace }}/coverage-artifacts/workspace-profraw",
     '--name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs',
@@ -715,6 +708,10 @@ if "Enforce coverage policy gates (workspace + per-file)" in workspace_job:
     raise SystemExit("workspace producer must not gate an unmerged profile summary")
 if re.search(r"(?:^|\s)aws(?:\s|$)", runtime_job + workspace_job + hosted_aggregator, re.IGNORECASE):
     raise SystemExit("hosted coverage isolation must not invoke AWS execution")
+
+repo_root = workflow_path.parents[2]
+producer_result_test = repo_root / "adl/tools/test_verify_coverage_producer_results.sh"
+subprocess.run(["bash", str(producer_result_test)], cwd=repo_root, check=True)
 
 required_status_names = re.findall(r"^    name:\s+adl-coverage\s*$", workflow, re.MULTILINE)
 if len(required_status_names) != 1 or "name: adl-coverage" not in required_status_job:
@@ -799,7 +796,7 @@ if "github.event_name == 'pull_request'" not in filter_if:
         "PR-fast filter determination must be limited to coverage-requiring pull requests; "
         f"found: {filter_if}"
     )
-if "needs.adl_path_policy.outputs.coverage_required == 'true'" not in workspace_fast_job.split("runs-on:", 1)[0]:
+if "needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true'" not in workspace_fast_job.split("runs-on:", 1)[0]:
     raise SystemExit(
         "PR-fast filter determination must be inside the coverage-required workspace fast producer job"
     )
@@ -967,7 +964,7 @@ if workspace_artifact_if != expected_workspace_artifact_if:
         f"found: {workspace_artifact_if}"
     )
 workspace_profile_artifact_if = step_if("Upload workspace coverage shard profiles")
-expected_workspace_profile_artifact_if = "always() && steps.path-policy.outputs.full_coverage_required == 'true'"
+expected_workspace_profile_artifact_if = "always()"
 if workspace_profile_artifact_if != expected_workspace_profile_artifact_if:
     raise SystemExit(
         "full workspace profraw shard evidence must upload even when a shard producer fails; "

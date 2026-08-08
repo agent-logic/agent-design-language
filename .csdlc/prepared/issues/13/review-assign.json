@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 13,
+  "expected_generation": 6,
+  "expected_digest": "f0e234ff330cabb22fb28d3836761e7f59e76339fe5f333df0869bac89ba26f1",
+  "reviewer": "subagent:review_13_implementation",
+  "assigned_by": "codex:13-coverage-routing",
+  "scope": [
+    ".github/workflows/ci.yaml",
+    "adl/config/validation_lane_selector.v0.91.6.json",
+    "adl/tools/ci_path_policy.sh",
+    "adl/tools/verify_coverage_producer_results.sh",
+    "adl/tools/test_verify_coverage_producer_results.sh",
+    "adl/tools/test_ci_path_policy.sh",
+    "adl/tools/test_ci_runtime_contracts.sh",
+    ".csdlc/issues/13",
+    ".csdlc/prepared/issues/13"
+  ]
+}
