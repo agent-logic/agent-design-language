@@ -38,3 +38,5 @@
 {"sequence":38,"generation":17,"actor":"codex:sprint-5862-conductor","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":18,"actor":"codex:sprint-5862-conductor","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":40,"generation":19,"actor":"codex:sprint-5862-conductor","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":41,"generation":20,"actor":"codex:sprint-5862-conductor","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":42,"generation":21,"actor":"codex:sprint-5862-conductor","reason":"Recover PR #54 after P1 review finding: historical enrollment signed by a rotated trust root must quarantine distributed operation without preventing local identity recovery.","operation":"recover_review"}

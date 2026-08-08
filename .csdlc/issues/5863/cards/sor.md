@@ -57,11 +57,11 @@ Implemented stable node and Guardian identity with authenticated fail-closed enr
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

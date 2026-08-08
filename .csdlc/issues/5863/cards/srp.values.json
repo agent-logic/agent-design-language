@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.01] Node identity and authenticated enrollment",
     "slug": "v0-92-wp-04-01-node-identity-enrollment",
     "version": "v0.92",
-    "generation": 19
+    "generation": 21
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/identity.rs\nadl-runtime/tests/distributed_identity.rs\n.csdlc/issues/5863\n.csdlc/evidence/5863",
-      "review_revision": "git-blake3:bd89d4ad16f1338ebf38fecba4e6d7370553be59:771da0539be867e850d6f3d9f62d8cbe6ca10b3f7cfce9683e148c42bd7c420d",
-      "reviewer": "openai-codex:gpt-5:wp04.01-independent-review:2026-08-08",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,10 +23,8 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The shared proof validator sequencing contract remains tracked by agent-logic/agent-design-language#53."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

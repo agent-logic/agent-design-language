@@ -62,6 +62,7 @@ pub enum IdentityError {
     ConflictingNodeIdentity,
     ConflictingGuardianIdentity,
     DuplicateGuardianControlKey,
+    DistributedOperationQuarantined,
     ResourceExhausted,
     DurableStateCorrupt,
     Storage(String),
@@ -96,6 +97,7 @@ impl IdentityError {
             Self::ConflictingNodeIdentity => "conflicting_node_identity",
             Self::ConflictingGuardianIdentity => "conflicting_guardian_identity",
             Self::DuplicateGuardianControlKey => "duplicate_guardian_control_key",
+            Self::DistributedOperationQuarantined => "distributed_operation_quarantined",
             Self::ResourceExhausted => "resource_exhausted",
             Self::DurableStateCorrupt => "durable_state_corrupt",
             Self::Storage(_) => "storage_error",
@@ -435,6 +437,11 @@ pub enum EnrollmentOutcome {
     AlreadyEnrolled(EnrollmentRecord),
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum DistributedQuarantineReason {
+    TrustRootMismatch,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct EnrollmentAuditEvent {
     pub schema: String,
@@ -449,6 +456,7 @@ pub struct DistributedIdentityStore {
     database_path: PathBuf,
     database: Database,
     policy: EnrollmentPolicy,
+    distributed_quarantine: Option<DistributedQuarantineReason>,
 }
 
 impl DistributedIdentityStore {
@@ -469,18 +477,23 @@ impl DistributedIdentityStore {
         let database = Database::create(database_path).map_err(storage_error)?;
         reject_symlink_components(database_path)?;
         restrict_database_permissions(database_path)?;
-        let store = Self {
+        let mut store = Self {
             database_path: database_path.to_path_buf(),
             database,
             policy,
+            distributed_quarantine: None,
         };
         store.initialize_tables()?;
-        store.validate_durable_state()?;
+        store.distributed_quarantine = store.validate_durable_state()?;
         Ok(store)
     }
 
     pub fn database_path(&self) -> &Path {
         &self.database_path
+    }
+
+    pub fn distributed_quarantine_reason(&self) -> Option<DistributedQuarantineReason> {
+        self.distributed_quarantine
     }
 
     pub fn load_or_create_local_identity(
@@ -542,6 +555,9 @@ impl DistributedIdentityStore {
         request: &SignedEnrollmentRequest,
         now_unix_secs: u64,
     ) -> IdentityResult<EnrollmentOutcome> {
+        if self.distributed_quarantine.is_some() {
+            return Err(IdentityError::DistributedOperationQuarantined);
+        }
         if let Err(error) = self.validate_request(request, Some(now_unix_secs)) {
             self.record_preflight_rejection(request, now_unix_secs, &error)?;
             return Err(error);
@@ -762,27 +778,31 @@ impl DistributedIdentityStore {
             &request.operator_signature,
             IdentityError::InvalidOperatorSignature,
         )?;
-        let node_key = VerifyingKey::from_bytes(&request.claims.identity.node_public_key)
-            .map_err(|_| IdentityError::NodeIdentityMismatch)?;
-        verify_signature(
-            &node_key,
-            &signing_bytes(NODE_PROOF_DOMAIN, &request.claims)?,
-            &request.node_proof_signature,
-            IdentityError::InvalidNodeProof,
-        )?;
-        let guardian_key =
-            VerifyingKey::from_bytes(&request.claims.identity.guardian_control_public_key)
-                .map_err(|_| IdentityError::GuardianIdentityMismatch)?;
-        verify_signature(
-            &guardian_key,
-            &signing_bytes(GUARDIAN_PROOF_DOMAIN, &request.claims)?,
-            &request.guardian_proof_signature,
-            IdentityError::InvalidGuardianProof,
-        )?;
-        Ok(())
+        validate_identity_proofs(request)
     }
 
-    fn validate_durable_state(&self) -> IdentityResult<()> {
+    fn validate_historical_request(&self, request: &SignedEnrollmentRequest) -> IdentityResult<()> {
+        validate_bounded_request_fields(request)?;
+        validate_claim_shape(&request.claims)?;
+        validate_signature_lengths(request)?;
+        if encode(request)?.len() > self.policy.max_request_bytes {
+            return Err(IdentityError::RequestTooLarge);
+        }
+        if request.claims.identity.trust_domain != self.policy.trust_domain {
+            return Err(IdentityError::WrongTrustDomain);
+        }
+        let lifetime = request
+            .claims
+            .expires_at_unix_secs
+            .checked_sub(request.claims.created_at_unix_secs)
+            .ok_or(IdentityError::RequestLifetimeInvalid)?;
+        if lifetime == 0 || lifetime > self.policy.max_request_lifetime_secs {
+            return Err(IdentityError::RequestLifetimeInvalid);
+        }
+        validate_identity_proofs(request)
+    }
+
+    fn validate_durable_state(&self) -> IdentityResult<Option<DistributedQuarantineReason>> {
         let read = self.database.begin_read().map_err(storage_error)?;
         if let Some(bytes) = read
             .open_table(META)
@@ -799,6 +819,7 @@ impl DistributedIdentityStore {
         if table.len().map_err(storage_error)? > self.policy.max_enrollments {
             return Err(IdentityError::DurableStateCorrupt);
         }
+        let mut quarantine = None;
         let mut node_ids = BTreeSet::new();
         let mut guardian_ids = BTreeSet::new();
         let mut voter_keys = BTreeSet::new();
@@ -806,8 +827,15 @@ impl DistributedIdentityStore {
             let (key, value) = row.map_err(storage_error)?;
             let record: EnrollmentRecord =
                 decode(value.value(), IdentityError::DurableStateCorrupt)?;
-            self.validate_request(&record.request, None)
-                .map_err(|_| IdentityError::DurableStateCorrupt)?;
+            match self.validate_request(&record.request, None) {
+                Ok(()) => {}
+                Err(IdentityError::OperatorRootNotApproved) => {
+                    self.validate_historical_request(&record.request)
+                        .map_err(|_| IdentityError::DurableStateCorrupt)?;
+                    quarantine = Some(DistributedQuarantineReason::TrustRootMismatch);
+                }
+                Err(_) => return Err(IdentityError::DurableStateCorrupt),
+            }
             let identity = &record.request.claims.identity;
             if key.value() != identity.node_id
                 || !node_ids.insert(identity.node_id.clone())
@@ -821,6 +849,11 @@ impl DistributedIdentityStore {
                 return Err(IdentityError::DurableStateCorrupt);
             }
         }
+        self.validate_durable_auxiliary_state(&read)?;
+        Ok(quarantine)
+    }
+
+    fn validate_durable_auxiliary_state(&self, read: &redb::ReadTransaction) -> IdentityResult<()> {
         let nonces = read.open_table(USED_NONCES).map_err(storage_error)?;
         if nonces.len().map_err(storage_error)? > self.policy.max_outstanding_nonces {
             return Err(IdentityError::DurableStateCorrupt);
@@ -995,6 +1028,26 @@ fn signing_bytes(domain: &[u8], claims: &EnrollmentClaims) -> IdentityResult<Vec
     bytes.extend_from_slice(domain);
     bytes.extend_from_slice(&claims);
     Ok(bytes)
+}
+
+fn validate_identity_proofs(request: &SignedEnrollmentRequest) -> IdentityResult<()> {
+    let node_key = VerifyingKey::from_bytes(&request.claims.identity.node_public_key)
+        .map_err(|_| IdentityError::NodeIdentityMismatch)?;
+    verify_signature(
+        &node_key,
+        &signing_bytes(NODE_PROOF_DOMAIN, &request.claims)?,
+        &request.node_proof_signature,
+        IdentityError::InvalidNodeProof,
+    )?;
+    let guardian_key =
+        VerifyingKey::from_bytes(&request.claims.identity.guardian_control_public_key)
+            .map_err(|_| IdentityError::GuardianIdentityMismatch)?;
+    verify_signature(
+        &guardian_key,
+        &signing_bytes(GUARDIAN_PROOF_DOMAIN, &request.claims)?,
+        &request.guardian_proof_signature,
+        IdentityError::InvalidGuardianProof,
+    )
 }
 
 fn verify_signature(

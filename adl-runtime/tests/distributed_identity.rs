@@ -5,9 +5,9 @@ mod identity;
 
 use ed25519_dalek::SigningKey;
 use identity::{
-    operator_root_id, DistributedIdentityStore, EnrollmentClaims, EnrollmentOutcome,
-    EnrollmentPolicy, GuardianEnrollmentRole, IdentityError, PublicNodeGuardianIdentity,
-    SignedEnrollmentRequest, IDENTITY_SCHEMA,
+    operator_root_id, DistributedIdentityStore, DistributedQuarantineReason, EnrollmentClaims,
+    EnrollmentOutcome, EnrollmentPolicy, GuardianEnrollmentRole, IdentityError,
+    PublicNodeGuardianIdentity, SignedEnrollmentRequest, IDENTITY_SCHEMA,
 };
 use tempfile::TempDir;
 
@@ -143,6 +143,55 @@ fn signed_enrollment_is_durable_and_same_generation_is_idempotent() {
     let restored = restarted.enrollment(&public.node_id).unwrap().unwrap();
     assert_eq!(restored.request.claims.identity, public);
     assert_eq!(restarted.enrollment_count().unwrap(), 1);
+}
+
+#[test]
+fn rotated_trust_root_quarantines_distributed_enrollment_but_preserves_local_recovery() {
+    let temp = tempfile::tempdir().unwrap();
+    let root_a = signing_key(17);
+    let root_b = signing_key(18);
+    let public = {
+        let store = open_store(&temp, policy(&root_a));
+        let local = store.load_or_create_local_identity(1).unwrap();
+        let request = local
+            .sign_enrollment(
+                GuardianEnrollmentRole::Voter,
+                &root_a,
+                [17; 32],
+                NOW,
+                NOW + 300,
+            )
+            .unwrap();
+        assert!(matches!(
+            store.enroll(&request, NOW).unwrap(),
+            EnrollmentOutcome::Enrolled(_)
+        ));
+        local.public_identity().clone()
+    };
+
+    let restarted = open_store(&temp, policy(&root_b));
+    assert_eq!(
+        restarted.distributed_quarantine_reason(),
+        Some(DistributedQuarantineReason::TrustRootMismatch)
+    );
+    let restored = restarted.load_local_identity().unwrap();
+    assert_eq!(restored.public_identity(), &public);
+
+    let request_under_root_b = restored
+        .sign_enrollment(
+            GuardianEnrollmentRole::Voter,
+            &root_b,
+            [18; 32],
+            NOW + 1,
+            NOW + 301,
+        )
+        .unwrap();
+    assert_eq!(
+        restarted
+            .enroll(&request_under_root_b, NOW + 1)
+            .unwrap_err(),
+        IdentityError::DistributedOperationQuarantined
+    );
 }
 
 #[test]
