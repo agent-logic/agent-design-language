@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 63,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/63-implemented-sip-scope-correction-preparation",
+  "title": "[C-SDLC v2] Allow audited implemented SIP scope correction",
+  "body": "Closes #63\n\nAdds the bounded typed SIP declared-scope correction at Implemented, including fail-closed review/publication guards and typed review recovery for stale Implemented review truth.\n\nFocused proof: Gate 2 real-CLI correction regression, Gate 5 recovery regression, authorization unit matrix, strict Clippy, typed validation/doctor, and exact-head independent review.",
+  "draft": false,
+  "revision": "git-blake3:c45c28fd2679428e2b48b5585f30d0240b988f12:e7c3c1d9b4099a830a8af360b31033cdb42c265138f67fcf2a9341a823bdebd8",
+  "commit_sha": "c45c28fd2679428e2b48b5585f30d0240b988f12"
+}
