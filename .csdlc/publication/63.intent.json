@@ -8,6 +8,6 @@
   "title": "[C-SDLC v2] Allow audited implemented SIP scope correction",
   "body": "Closes #63\n\nAdds the bounded typed SIP declared-scope correction at Implemented, including fail-closed review/publication guards and typed review recovery for stale Implemented review truth.\n\nFocused proof: Gate 2 real-CLI correction regression, Gate 5 recovery regression, authorization unit matrix, strict Clippy, typed validation/doctor, and exact-head independent review.",
   "draft": false,
-  "revision": "git-blake3:c45c28fd2679428e2b48b5585f30d0240b988f12:e7c3c1d9b4099a830a8af360b31033cdb42c265138f67fcf2a9341a823bdebd8",
-  "commit_sha": "c45c28fd2679428e2b48b5585f30d0240b988f12"
+  "revision": "git-blake3:9b90f3a63a22c3fd598691dda85ed6b2a2f010b4:a384bb47f7176b7b3c2b9896611aaa92b3ad00247b086e38f83366f712418716",
+  "commit_sha": "9b90f3a63a22c3fd598691dda85ed6b2a2f010b4"
 }

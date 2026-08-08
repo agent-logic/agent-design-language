@@ -104,11 +104,11 @@ Added an explicit audited implemented-phase SIP scope correction route and remov
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
