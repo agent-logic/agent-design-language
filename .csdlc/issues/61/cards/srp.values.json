@@ -7,15 +7,15 @@
     "title": "C-SDLC bind topology scan misresolves historical worktree dot records",
     "slug": "bind-topology-dot-records",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #61 design, canonical bind topology classifier, focused Gate 2 regressions, diagnostics, and strictly necessary bind-skill wording.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/lifecycle.rs\ncsdlc-v2/tests/gate2.rs",
+      "review_revision": "git-blake3:9f778dd2ba8a1aa52fb0673cbd5525afe62ab360:dd5b16d7d067aa7068f6846eaa4904b6879b09ed6f5d908f20237e583d293bd3",
+      "reviewer": "subagent:review-61-final",
       "review_prompts": [
         "Does every relative stored worktree path resolve from one canonical repository topology root rather than a scanned projection root?",
         "Can any unrelated historical dot record still trigger card or authored-artifact verification?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

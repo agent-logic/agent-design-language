@@ -3,13 +3,24 @@
   "issue": 61,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3c30d55264d807d5007dad213d3138bd33bbd64299a29d3e8079c3fad62eab0d",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "1c79b8d387b8d2baeccc881d5849c46c101f3b20c1c832d659cb27fdb5c2f6f4",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "565082dbc457c1e2931c4a60087e8a516a367074067b6184a0db7d7ccfa3f12b",
   "branch": "codex/61-bind-topology-dot-records-preparation",
   "worktree": "/Volumes/FastWork/adl-issue-61-bind-topology-dot-records",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:review-61-final",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ],
+    "reviewed_revision": "git-blake3:9f778dd2ba8a1aa52fb0673cbd5525afe62ab360:dd5b16d7d067aa7068f6846eaa4904b6879b09ed6f5d908f20237e583d293bd3",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +35,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4a1136b698a9e643083377d3fc4fac553ec76062d93bb16b4b88fdad545c6b2b",
+      "values_digest": "652762e0a72d5a3f7da4c15810cf2ed73c863f07c0ba52d694c0582dc6801edd",
       "rendered_digest": "cb5daea0fb30eded8071f3cd480a2b64a9f8de8e2fd3c4983e3b19016795f18f",
       "ast_digest": "3ec003f1dd607268116836ef1a337b51b2ad672f48e816c4c19e7ff113e54e53"
     },
     "stp": {
-      "values_digest": "12c41597f50c8c8fd089b6c9dc4089e133579e729ef27cec7c10c3f3fb5dd27d",
+      "values_digest": "acf2b27224837a9a912fe9db8377b68daa6f338a0d47566de8976f0975b2cf8b",
       "rendered_digest": "99d0df66bb4c9d028469f306a29728aa642c8a58f9e5f97fbe96ce26a84ef944",
       "ast_digest": "4d0e603fac98891cc174467130a6f8fdeef545b9e7605b8bdd613b4cb38d9c3e"
     },
     "spp": {
-      "values_digest": "d7fa4cc7f38436c1f7dbccb1c4930657daf502727ea0baf431d5b56e701c8a9f",
+      "values_digest": "0bdaa43d756e2acb5465162b6458cba4f55002c3bf89cb20e7c0ea984fd70cd8",
       "rendered_digest": "590a613c1817d83505307907604f0d1663041f4e4a863c4c870fc01b8dbbbe49",
       "ast_digest": "bce297cf9c48f77098704639f9a9ca6c1cadefb72ba1918ec4498f32b1f0972c"
     },
     "vpp": {
-      "values_digest": "63714a9bb505b3486b018cad4b461ad6ea05d558a6a2e1e910f4f1e1d3249e06",
+      "values_digest": "914db69168b7dcbaa72776ab30ef871840498ea8845aa63a456d135234b369bf",
       "rendered_digest": "a024b8a331f34c803f12ba69f62d5857eec2636d1afd165eacbbed8eef455876",
       "ast_digest": "8dec33ae0f20131c3134357937a3f15734d8a7cb3c1fc7af74140681640529e9"
     },
     "srp": {
-      "values_digest": "00f1fd73bb09bd4004d89e26711d3f765ade68fcf0c5552e87baf9f9b81921f1",
-      "rendered_digest": "03eb845085b152b6ae47d2772a26fde6dcb542a2a97369e2fd166bcb889ac8b7",
-      "ast_digest": "e68725f2ed07c53b1a56c8c17fa98d346dd7a82c1208b33cdfc812b8beefdf28"
+      "values_digest": "2e5dcef8d13137d93e010b49ecef0f5b744bdebd7165ad8a98080b6e64eb9c3b",
+      "rendered_digest": "66b1318dce93d6dc715a5bf9c23b863d95b49403418f668a8d536531cada9fb2",
+      "ast_digest": "6866dbd06f96f6df346a411528b3843645732a136f2d2a04dc33394cf3b52bf0"
     },
     "sor": {
-      "values_digest": "a597b9fa415e6b56d2cd54d9d3f20b9775df4d29dfbb6554ce8cb9720f63b03e",
+      "values_digest": "b6f62f81ee3aacfc2138d1c7f5d9da1d4096706b3980640b7952853818517302",
       "rendered_digest": "b49b917c1f754535b5e9edeb72042f17456948f47f03df77dd64e7d087f146ef",
       "ast_digest": "d910a1f9d0396cc6215b7d3351988e61296ff22864f31be69a3eb2430b9339ef"
     }
@@ -75,6 +86,13 @@
       "to": "implemented",
       "actor": "codex:issue-61",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-61-final",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -126,6 +144,13 @@
       "actor": "codex:issue-61",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "subagent:review-61-final",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

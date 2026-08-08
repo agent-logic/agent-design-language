@@ -7,7 +7,7 @@
     "title": "C-SDLC bind topology scan misresolves historical worktree dot records",
     "slug": "bind-topology-dot-records",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "ready",
   "content": {

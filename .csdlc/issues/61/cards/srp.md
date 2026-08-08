@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-Issue #61 design, canonical bind topology classifier, focused Gate 2 regressions, diagnostics, and strictly necessary bind-skill wording.
+csdlc-v2/src/lifecycle.rs
+csdlc-v2/tests/gate2.rs
 
 ## Prompts
 
@@ -36,8 +37,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9f778dd2ba8a1aa52fb0673cbd5525afe62ab360:dd5b16d7d067aa7068f6846eaa4904b6879b09ed6f5d908f20237e583d293bd3")
 
-Reviewer: None
+Reviewer: Some("subagent:review-61-final")
 
-Result: pre_review
+Result: pass
