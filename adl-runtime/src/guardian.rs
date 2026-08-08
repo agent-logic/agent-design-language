@@ -417,12 +417,14 @@ pub async fn run_guardian(
             status = child.wait() => {
                 match status {
                     Ok(status) => {
+                        let attempt_ended_at = Instant::now();
                         let cleanup = child
                             .cleanup_descendants(Duration::from_millis(config.shutdown_grace_ms))
                             .await;
                         let code = status.code();
                         let healthy_window = authenticated_healthy_window(
                             &lease_authenticated_at,
+                            attempt_ended_at,
                             config.healthy_window_ms,
                         );
                         reset_restart_window_after_healthy_attempt(
@@ -482,6 +484,7 @@ pub async fn run_guardian(
             }
             lease_result = &mut lease_task => {
                 lease_finished = true;
+                let attempt_ended_at = Instant::now();
                 match child.try_wait() {
                     Ok(Some(status)) => {
                         let cleanup = child
@@ -490,6 +493,7 @@ pub async fn run_guardian(
                         let code = status.code();
                         let healthy_window = authenticated_healthy_window(
                             &lease_authenticated_at,
+                            attempt_ended_at,
                             config.healthy_window_ms,
                         );
                         reset_restart_window_after_healthy_attempt(
@@ -534,6 +538,7 @@ pub async fn run_guardian(
                             let code = status.code();
                             let healthy_window = authenticated_healthy_window(
                                 &lease_authenticated_at,
+                                attempt_ended_at,
                                 config.healthy_window_ms,
                             );
                             reset_restart_window_after_healthy_attempt(
@@ -589,6 +594,7 @@ pub async fn run_guardian(
                         } else {
                             let healthy_window = authenticated_healthy_window(
                                 &lease_authenticated_at,
+                                attempt_ended_at,
                                 config.healthy_window_ms,
                             );
                             reset_restart_window_after_healthy_attempt(
@@ -1021,13 +1027,16 @@ enum AttemptExit {
 
 fn authenticated_healthy_window(
     authenticated_at: &Mutex<Option<Instant>>,
+    attempt_ended_at: Instant,
     healthy_window_ms: u64,
 ) -> bool {
     authenticated_at
         .lock()
         .expect("Guardian lease authentication timestamp mutex poisoned")
         .is_some_and(|authenticated_at| {
-            authenticated_at.elapsed() >= Duration::from_millis(healthy_window_ms)
+            attempt_ended_at
+                .checked_duration_since(authenticated_at)
+                .is_some_and(|elapsed| elapsed >= Duration::from_millis(healthy_window_ms))
         })
 }
 
@@ -1724,6 +1733,24 @@ fn main() {
             outcome.last_reason(),
             Some("guardian_lease_lost:lease_auth_attempts_exhausted:restart_budget_exhausted")
         );
+    }
+
+    #[test]
+    fn cleanup_time_does_not_extend_authenticated_health_window() {
+        let authenticated_at = Instant::now();
+        let attempt_ended_at = authenticated_at + Duration::from_millis(40);
+        let authenticated_at = Mutex::new(Some(authenticated_at));
+
+        assert!(!authenticated_healthy_window(
+            &authenticated_at,
+            attempt_ended_at,
+            50,
+        ));
+        assert!(authenticated_healthy_window(
+            &authenticated_at,
+            attempt_ended_at,
+            40,
+        ));
     }
 
     #[test]
