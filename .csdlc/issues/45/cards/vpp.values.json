@@ -1,0 +1,152 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 45,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
+    "slug": "doctor-split-repository-authority",
+    "version": "v0.92",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "doctor-repository-identity",
+          "proof_role": "Prove same-repository, declared split, absent origin, unparseable origin, mismatched identity, and rebind substitution behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "legacy-record-receipt-compatibility",
+          "proof_role": "Prove missing code_repository preserves pre-field index and retained terminal-receipt digest bytes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "absent_code_repository_preserves_pre_field_record_and_receipt_digests"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-validation",
+          "proof_role": "Run the source-built typed validator against issue 45 canonical cards and lifecycle state.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--bin",
+            "csdlc-validate",
+            "--",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "45"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "public-schema-contract",
+          "proof_role": "Prove the public publication schema remains available and terminal mutation schemas remain absent.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate6",
+            "public_schema_keeps_publication_and_drops_merged_reconciliation"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "doctor-contract-and-lint",
+          "proof_role": "Strict Clippy proves warning-free schema, lifecycle, guidance, and regression changes across all targets.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing or ambiguous repository identity, unexpected effective remote drift, stale typed state, failed three-case proof, or obsolete active guidance.",
+      "design_ref": ".csdlc/prepared/issues/45/design.md",
+      "design_digest": "3ba9b8f651c2fba7b1e2248b446c6ac9596ec381118a45a0f4be0cc726d765a2",
+      "diagram_ref": ".csdlc/prepared/issues/45/diagram.mmd",
+      "diagram_digest": "ad3e20a829f8fb2c9010355be03c7bd14246833c7b3b9e0af0bcf257febd73d2"
+    }
+  }
+}

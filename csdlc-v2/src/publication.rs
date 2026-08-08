@@ -223,14 +223,23 @@ pub fn prepare_publication(
 }
 
 fn verify_record(record: &IssueRecord, request: &PublicationRequest) -> Result<()> {
+    let record_code_repository = record
+        .code_repository
+        .as_deref()
+        .unwrap_or(&record.repository);
+    let request_code_repository = request
+        .code_repository
+        .as_deref()
+        .unwrap_or(&request.repository);
     if record.issue != request.issue
         || record.repository != request.repository
+        || !record_code_repository.eq_ignore_ascii_case(request_code_repository)
         || record.generation != request.expected_generation
         || record.digest != request.expected_digest
     {
         return Err(V2Error::new(
             ErrorCode::StaleDigest,
-            "publication request does not match canonical record",
+            "publication request does not match canonical issue or code repository identity",
         ));
     }
     if !matches!(

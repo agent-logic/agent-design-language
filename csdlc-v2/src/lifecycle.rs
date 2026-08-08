@@ -22,6 +22,8 @@ pub struct BindRequest {
     pub base_branch: String,
     pub branch: String,
     pub worktree: String,
+    #[serde(default)]
+    pub code_repository: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -36,6 +38,11 @@ fn clean_relative(value: &str) -> bool {
         && Path::new(value)
             .components()
             .all(|part| matches!(part, Component::Normal(_)))
+}
+
+fn valid_repository_identity(value: &str) -> bool {
+    let mut parts = value.split('/');
+    matches!((parts.next(), parts.next(), parts.next()), (Some(owner), Some(repo), None) if !owner.is_empty() && !repo.is_empty())
 }
 
 fn requested_worktree(root: &Path, value: &str) -> Result<PathBuf> {
@@ -433,6 +440,10 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         || request.branch == request.base_branch
         || !valid_branch(store.root(), &request.branch)
         || !valid_branch(store.root(), &request.base_branch)
+        || request
+            .code_repository
+            .as_deref()
+            .is_some_and(|repository| !valid_repository_identity(repository))
     {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
@@ -448,7 +459,11 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 
     let _lock = store.binding_lock()?;
     let _issue_lock = store.authority_projection_lock(request.issue)?;
-    let source_diagnosis = crate::diagnose(store, request.issue);
+    let source_diagnosis = crate::doctor::diagnose_with_code_repository(
+        store,
+        request.issue,
+        request.code_repository.as_deref(),
+    );
     let source_phase = source_diagnosis.phase;
     let source_is_bindable = source_diagnosis.status == DoctorStatus::Pass
         && matches!(
@@ -491,6 +506,13 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                         .worktree
                         .as_deref()
                         .is_some_and(|value| same_worktree(store.root(), value, &wanted))
+                    && request.code_repository.as_deref().is_none_or(|requested| {
+                        record
+                            .code_repository
+                            .as_deref()
+                            .unwrap_or(&record.repository)
+                            .eq_ignore_ascii_case(requested)
+                    })
                     && record.phase == crate::LifecyclePhase::Bound
                 {
                     return Ok(BindResult {
@@ -587,6 +609,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         }
         record.branch = Some(request.branch.clone());
         record.worktree = Some(wanted_text.clone());
+        record.code_repository = request.code_repository.clone();
         if record.phase == crate::LifecyclePhase::Ready {
             record.advance(
                 crate::LifecyclePhase::Bound,

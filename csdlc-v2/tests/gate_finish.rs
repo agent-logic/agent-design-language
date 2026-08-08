@@ -18,6 +18,7 @@ fn record(phase: LifecyclePhase, publication: Option<PublicationEvidence>) -> Is
         schema: "csdlc.issue.v2".into(),
         issue: 5778,
         repository: "owner/repo".into(),
+        code_repository: None,
         initialization_digest: "initialization".into(),
         phase,
         generation: 8,

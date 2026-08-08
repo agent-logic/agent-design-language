@@ -517,6 +517,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
             base_branch: "main".into(),
             branch: "issue-42".into(),
             worktree: ".".into(),
+            code_repository: None,
         },
     )
     .unwrap();

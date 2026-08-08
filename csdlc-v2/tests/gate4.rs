@@ -116,6 +116,7 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
             base_branch: "main".into(),
             branch: "codex/5627".into(),
             worktree: ".".into(),
+            code_repository: None,
         },
     )
     .expect("bind");

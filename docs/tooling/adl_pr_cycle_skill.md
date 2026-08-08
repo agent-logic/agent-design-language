@@ -83,6 +83,8 @@ Procedure:
      scope, and explicit validation budgets; it is not implementation editing.
 3) Bind
    - Submit a typed `csdlc-bind` request for the issue branch/worktree.
+   - When issue and code repositories differ, include the explicit
+     `code_repository`; doctor verifies it against effective Git topology.
    - Preserve the issue branch/worktree relationship and reject conflicting or
      ambiguous Git topology.
 4) Design/plan, implement, and validate

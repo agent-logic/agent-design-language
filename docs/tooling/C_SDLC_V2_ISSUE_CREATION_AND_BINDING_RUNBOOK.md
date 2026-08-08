@@ -40,9 +40,16 @@ Prepare one typed bind request:
   "issue": 1234,
   "base_branch": "main",
   "branch": "codex/1234-short-description",
-  "worktree": ".worktrees/adl-wp-1234"
+  "worktree": ".worktrees/adl-wp-1234",
+  "code_repository": "agent-logic/agent-design-language"
 }
 ```
+
+Omit `code_repository` for the ordinary same-repository route. When the issue
+tracker repository differs from the code repository, `code_repository` is
+required and must match the effective GitHub `origin`. Bind records both
+identities; doctor rejects absent, partial, substituted, or mismatched split
+authority as `repository_identity_drift`.
 
 Then run:
 

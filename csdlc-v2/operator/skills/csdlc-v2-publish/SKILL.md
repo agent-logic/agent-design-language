@@ -9,6 +9,9 @@ the optional `code_repository` only when the PR belongs to a different
 canonical code repository. Split-authority requests must use a qualified
 closing reference such as
 `Closes danielbaustin/agent-design-language#5844`; `Closes #5844` is rejected.
+The requested `code_repository` must match the explicit identity already
+recorded by typed bind; do not substitute a different repository at
+publication time.
 The selected Git remote's complete effective fetch and push URL sets, the PR
 base and head repositories, the branch, and every matching open PR page must
 all resolve unambiguously to `code_repository` before publication can mutate

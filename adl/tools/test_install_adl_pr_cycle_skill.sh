@@ -18,6 +18,8 @@ bash "${repo_root}/adl/tools/validate_skill_frontmatter.sh" "${installed}"
 grep -Fq 'preflight -> init -> bind -> design/plan -> implement -> validate -> review' "${installed}"
 grep -Fq 'bound worktree path' "${installed}"
 grep -Fq 'Submit a typed bootstrap request to `csdlc-issue create`' "${installed}"
+grep -Fq 'include the explicit' "${installed}"
+grep -Fq '`code_repository`; doctor verifies it against effective Git topology.' "${installed}"
 grep -Fq 'Use `csdlc-edit` and' "${installed}"
 
 malformed_source="${tmpdir}/bad_adl_pr_cycle_skill.md"

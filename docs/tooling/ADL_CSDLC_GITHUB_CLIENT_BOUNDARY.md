@@ -77,8 +77,12 @@ ambiguity. `csdlc-finish` uses the publication repository for PR authority but
 does not derive terminal success until the separately identified issue is
 observed closed through the exact qualified relationship.
 
-Omitting `code_repository` is the backward-compatible same-repository mode;
-it retains the same exact remote, linkage, review, and reconciliation checks.
+Typed bind records `code_repository` before execution when code and issue
+authority differ. Doctor compares that explicit identity with the effective
+`origin`; it does not infer split authority from remote names. Publication must
+reuse the recorded code repository. Omitting `code_repository` is the
+backward-compatible same-repository mode; it retains the same exact remote,
+linkage, review, and reconciliation checks.
 
 ## Install Contract
 

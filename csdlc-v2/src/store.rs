@@ -1241,6 +1241,7 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
         schema: "csdlc.issue.index.v1".into(),
         issue: request.issue,
         repository: request.repository,
+        code_repository: None,
         initialization_digest,
         phase: LifecyclePhase::Initialized,
         generation: 0,
@@ -2489,5 +2490,75 @@ mod edit_authorization_tests {
                 assert_eq!(error.code, ErrorCode::InvalidTransition);
             }
         }
+    }
+}
+#[cfg(test)]
+mod pre_field_compatibility_tests {
+    use super::*;
+
+    fn pre_field_record(issue: u64) -> IssueRecord {
+        let mut record = IssueRecord {
+            schema: "csdlc.issue.index.v1".into(),
+            issue,
+            repository: "example/repo".into(),
+            code_repository: None,
+            initialization_digest: "initialization".into(),
+            phase: LifecyclePhase::Bound,
+            generation: 1,
+            digest: String::new(),
+            branch: Some(format!("issue-{issue}")),
+            worktree: Some(format!(".worktrees/issue-{issue}")),
+            review_assignment: None,
+            review: None,
+            publication: None,
+            readiness: None,
+            terminal: None,
+            migration: None,
+            design_path: format!("design/issue-{issue}.md"),
+            diagram_path: format!("design/issue-{issue}.mmd"),
+            design_review: DesignReview::Pending,
+            cards: BTreeMap::new(),
+            transitions: Vec::new(),
+            audit: Vec::new(),
+        };
+        record.digest = record_digest(&record).expect("pre-field digest");
+        record
+    }
+
+    #[test]
+    fn absent_code_repository_preserves_pre_field_record_and_receipt_digests() {
+        let record = pre_field_record(45);
+        let value = serde_json::to_value(&record).expect("pre-field record JSON");
+        assert!(value.get("code_repository").is_none());
+        let decoded_record: IssueRecord = serde_json::from_value(value).expect("current record");
+        assert_eq!(
+            decoded_record.digest,
+            record_digest(&decoded_record).expect("decoded record digest")
+        );
+
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue: 45,
+            repository: record.repository.clone(),
+            initialization_digest: record.initialization_digest.clone(),
+            receipt_ref: "csdlc-v2/closeout/45.json".into(),
+            authored_artifacts: BTreeMap::new(),
+            record: decoded_record,
+            cards: BTreeMap::new(),
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt).expect("terminal receipt digest");
+        let encoded_receipt = serde_json::to_value(&receipt).expect("encoded terminal receipt");
+        assert!(encoded_receipt["record"].get("code_repository").is_none());
+        let decoded_receipt: TerminalReceipt =
+            serde_json::from_value(encoded_receipt).expect("decoded terminal receipt");
+        assert_eq!(
+            decoded_receipt.record.digest,
+            record_digest(&decoded_receipt.record).expect("receipt record digest")
+        );
+        assert_eq!(
+            decoded_receipt.digest,
+            terminal_receipt_digest(&decoded_receipt).expect("decoded receipt digest")
+        );
     }
 }

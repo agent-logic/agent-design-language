@@ -150,6 +150,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
             base_branch: "main".into(),
             branch: "issue-7".into(),
             worktree: ".".into(),
+            code_repository: None,
         },
     )
     .expect("bind");

@@ -1,0 +1,10 @@
+flowchart LR
+    IR[Typed issue repository] --> D[csdlc-doctor identity check]
+    CR[Bound code repository\nfrom effective Git topology] --> D
+    SC[Explicit split-authority contract] --> D
+
+    D --> SAME{Issue repo = code repo?}
+    SAME -->|yes| OK1[Accept same-repository route]
+    SAME -->|no| EXPLICIT{Contract explicitly names\nboth repositories?}
+    EXPLICIT -->|yes, consistent| OK2[Accept supported split route]
+    EXPLICIT -->|absent or mismatch| FAIL[Fail closed:\nrepository_identity_drift]
