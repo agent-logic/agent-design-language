@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-07] Prompt-card enum typing",
     "slug": "v0-92-wp-07-prompt-card-enum-typing",
     "version": "v0.92",
-    "generation": 24
+    "generation": 33
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 11,
+      "plan_revision": 13,
       "summary": "Audit current v2 restricted fields end to end, classify typed completion and extensibility, implement only the smallest proven finite gap, preserve durable strings, and prove schema/editor/validator/Markdown round-trip parity and invalid-value rejection.",
       "steps": [
         {
@@ -62,8 +62,7 @@
         "csdlc-v2/src/schema.rs",
         "csdlc-v2/tests/prompt_card_enum_typing.rs",
         ".csdlc/evidence/5824",
-        ".csdlc/prepared/issues/5824/validate-enum-inventory.rb",
-        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-csdlc-card-internals-v1\",\"paths\":[\"csdlc-v2/src/cards.rs\"],\"issues\":[5822,5824],\"order\":[5822,5824]}"
+        ".csdlc/prepared/issues/5824/validate-enum-inventory.rb"
       ],
       "invariants": [
         "Durable card values remain canonical strings",
@@ -86,10 +85,10 @@
       },
       "stop_conditions": [
         "WP-05 typed-card dependency is incomplete",
-        "The inventory cannot prove a current finite gap",
+        "The inventory cannot produce a complete source-backed disposition for every restricted field",
         "A change requires template redesign or wire-format migration",
         "Valid existing cards fail byte-stable round trips",
-        "The proposed field is policy-extensible"
+        "A proposed finite type would incorrectly close a policy-extensible field"
       ],
       "replan_triggers": [
         "The active prompt-template registry changes",

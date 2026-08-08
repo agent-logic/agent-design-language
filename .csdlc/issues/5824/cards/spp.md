@@ -16,7 +16,7 @@ Audit current v2 restricted fields end to end, classify typed completion and ext
 
 ## Plan
 
-Revision 11
+Revision 13
 
 ## Steps
 
@@ -101,10 +101,10 @@ Digest: 5846fe328a23646041deee2956de2d777e77a496fc82d707f3976361df4c5249
 ## Stop Conditions
 
 - WP-05 typed-card dependency is incomplete
-- The inventory cannot prove a current finite gap
+- The inventory cannot produce a complete source-backed disposition for every restricted field
 - A change requires template redesign or wire-format migration
 - Valid existing cards fail byte-stable round trips
-- The proposed field is policy-extensible
+- A proposed finite type would incorrectly close a policy-extensible field
 
 ## Handoff
 
