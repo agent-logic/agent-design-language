@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/tests/validation_selectors.rs\ncsdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\n.csdlc/issues/47",
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/tests/validation_selectors.rs\ncsdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

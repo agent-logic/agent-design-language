@@ -15,7 +15,6 @@ Status: pre_phase
 csdlc-v2/src/cards.rs
 csdlc-v2/tests/validation_selectors.rs
 csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
-.csdlc/issues/47
 
 ## Prompts
 

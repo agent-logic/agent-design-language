@@ -5,18 +5,17 @@
   "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
   "phase": "implemented",
   "generation": 21,
-  "digest": "2c3bc9f9bd2077c75753859263e1be45c4c33cb5f6d2e6a8298c5bd45d39bc79",
+  "digest": "df426d7f0beaa1787ffa8e5ca0332563222625b995ff8e579edf6502bc5523cd",
   "branch": "codex/47-exact-rust-test-selectors",
   "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
   "review_assignment": {
     "reviewer": "codex:issue-47-exact-head-review",
     "assigned_by": "codex:issue-47-implementation",
-    "revision": "git-blake3:9e4fb6971feb1190e698f71984acc14861f990f5:b3e06f5488fa0cc2e68b80c50a565b29571eddf3f211363f0a2604b776f9d505",
+    "revision": "git-blake3:8f78d2d1ca4bf29051e1971ac82986b66230b2a1:0771d7304528a89df4d34165383958f3fdefb07b51d28398be1831cc84124702",
     "scope": [
       "csdlc-v2/src/cards.rs",
       "csdlc-v2/tests/validation_selectors.rs",
-      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
-      ".csdlc/issues/47"
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
     ]
   },
   "review": null,
@@ -54,9 +53,9 @@
       "ast_digest": "841d097fb38eaf4a904ac3b9fd9e4e57df237b22a6c8394d97d487e8f8a5caad"
     },
     "srp": {
-      "values_digest": "acf9c655b02599dff29aa48bbca3c0da97f55bc9ea833f3c946ee1d1cedaa747",
-      "rendered_digest": "2544c3b46d0b0b54dc4dc3e723e60249b13ee30c3076ade2b3af991f955a6d9e",
-      "ast_digest": "f613b6aab0d36660f93e69eb359248bdaf44c5d0220c2e65068827a05298abbe"
+      "values_digest": "05e8fd3751134fc75f1d886329820511cd00a80f1b8c77f0e68e8ac25e04715c",
+      "rendered_digest": "a872ba38be48fb4534d6a996a8aaf9ef0a48e655f1e0d6c6839a5aa469651517",
+      "ast_digest": "793769f9ffb6234253320e91517bdfa7ccadc65dd6aee2b6349331b726b1949f"
     },
     "sor": {
       "values_digest": "6382f7fff567aba74fa06f027a505212ff0d2ff877057a6b082c8bccfdab56e7",
@@ -297,6 +296,13 @@
       "actor": "codex:issue-47-implementation",
       "reason": "Record completion of active guidance, focused validation, and the no-findings exact-head review.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:issue-47-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
