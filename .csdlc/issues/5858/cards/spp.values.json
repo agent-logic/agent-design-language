@@ -7,13 +7,13 @@
     "title": "Foundation and throughput sprint",
     "slug": "foundation-and-throughput",
     "version": "v0.92",
-    "generation": 0
+    "generation": 1
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.",
       "steps": [
         {
@@ -46,7 +46,11 @@
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        ".csdlc/issues/5858",
+        ".csdlc/prepared/issues/5858",
+        ".csdlc/evidence/5858"
+      ],
       "invariants": [
         "Child issues retain all code and proof authority",
         "No child begins before its declared dependencies",
