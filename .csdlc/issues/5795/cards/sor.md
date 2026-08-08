@@ -28,7 +28,7 @@ Implemented the bounded local Gemma Shepherd foundation with governed admission,
 ## Execution
 
 - Added the bounded LocalShepherdExecutor and governed operation contract.
-- Added process-tree containment, cancellation, timeout, output, memory, and concurrency enforcement.
+- Added process-group and observed-descendant cleanup plus cancellation, timeout, output, memory, and concurrency enforcement under the trusted-runner contract.
 - Added exact runner-byte, nonce, backend, model, and artifact attestation.
 - Added real local MLX smoke proof and a pinned portable CUDA artifact bundle contract.
 - Added a one-instance, one-bootstrap AWS proof runner with owner-bound locking and three cleanup layers.
