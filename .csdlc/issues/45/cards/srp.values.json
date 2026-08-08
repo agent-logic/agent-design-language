@@ -7,15 +7,15 @@
     "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
     "slug": "doctor-split-repository-authority",
     "version": "v0.92",
-    "generation": 15
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/45\n.csdlc/evidence/45\n.csdlc/prepared/issues/45\nadl/tools/test_install_adl_pr_cycle_skill.sh\ncsdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md\ncsdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md\ncsdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\ncsdlc-v2/src/doctor.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/model.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate4.rs\ncsdlc-v2/tests/gate5.rs\ncsdlc-v2/tests/gate_cleanup.rs\ncsdlc-v2/tests/gate_finish.rs\ndocs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\ndocs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md\ndocs/tooling/adl_pr_cycle_skill.md",
+      "review_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+      "reviewer": "subagent:issue45_exact_head_review",
       "review_prompts": [
         "Can any incidental or attacker-controlled remote mismatch be accepted as a split route?",
         "Are issue and code repository identities sourced from independent explicit authority rather than guessed from origin?",
@@ -23,9 +23,53 @@
         "Do all active skills and runbooks teach the new contract consistently without reviving sunset concepts?",
         "Are the time and token estimates sufficient but non-binding?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "P1-legacy-record-receipt-digest-compatibility",
+          "severity": "p1",
+          "summary": "Absent code_repository remains omitted from claim-free current serialization so pre-field index and retained receipt digests stay stable after main reconciliation.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+          "route": null
+        },
+        {
+          "id": "P2-explicit-split-missing-origin-evidence",
+          "severity": "p2",
+          "summary": "Explicit split authority fails closed when effective origin is absent or not an exact GitHub identity.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+          "route": null
+        },
+        {
+          "id": "P2-rebind-request-authority-substitution",
+          "severity": "p2",
+          "summary": "Recorded code authority takes precedence and idempotent bind rejects retry identity substitution after claim removal.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+          "route": null
+        },
+        {
+          "id": "P2-ac6-typed-card-schema-evidence",
+          "severity": "p2",
+          "summary": "Current typed cards, schema, compatibility, lint, formatting, and installer proof remain green after main reconciliation.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "The read-only rereview did not perform live GitHub publication; typed publish and shepherd own that observation.",
+        "The compatibility regression proves representative pre-field record and retained-receipt digest stability rather than loading every historical receipt."
+      ],
+      "review_result": "pass"
     }
   }
 }

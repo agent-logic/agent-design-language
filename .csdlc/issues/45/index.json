@@ -3,13 +3,88 @@
   "issue": 45,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "18b2eea1adfa602448a1bd5ce457a9d6d59102aa1e82a2e784393891fff8876b",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "44db905097571dd96ef86648ae7796399a1f21b3d16920fd68a6590daf18c01a",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "db00f86c7fac3992bcc2262ffab3c552c8b3ecf5f3be884ec046ae9b0091e265",
   "branch": "codex/45-doctor-split-repository-authority",
   "worktree": "/Volumes/FastWork/adl-issue-45-doctor-split-authority",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:issue45_exact_head_review",
+    "scope": [
+      ".csdlc/issues/45",
+      ".csdlc/evidence/45",
+      ".csdlc/prepared/issues/45",
+      "adl/tools/test_install_adl_pr_cycle_skill.sh",
+      "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/gate_cleanup.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+      "docs/tooling/adl_pr_cycle_skill.md"
+    ],
+    "reviewed_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+    "findings": [
+      {
+        "id": "P1-legacy-record-receipt-digest-compatibility",
+        "severity": "p1",
+        "summary": "Absent code_repository remains omitted from claim-free current serialization so pre-field index and retained receipt digests stay stable after main reconciliation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      },
+      {
+        "id": "P2-explicit-split-missing-origin-evidence",
+        "severity": "p2",
+        "summary": "Explicit split authority fails closed when effective origin is absent or not an exact GitHub identity.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      },
+      {
+        "id": "P2-rebind-request-authority-substitution",
+        "severity": "p2",
+        "summary": "Recorded code authority takes precedence and idempotent bind rejects retry identity substitution after claim removal.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      },
+      {
+        "id": "P2-ac6-typed-card-schema-evidence",
+        "severity": "p2",
+        "summary": "Current typed cards, schema, compatibility, lint, formatting, and installer proof remain green after main reconciliation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The read-only rereview did not perform live GitHub publication; typed publish and shepherd own that observation.",
+      "The compatibility regression proves representative pre-field record and retained-receipt digest stability rather than loading every historical receipt."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +99,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f28f808e666455b580be38a8240e7dbb7d6af90a7d302784d3340be4a8bd0fff",
+      "values_digest": "34e006d37e662bcc882d312e1efec30810ce92353f86c1e7479b7c9a9b910a42",
       "rendered_digest": "77186a4f08a7269344c31f0318ad8225000c28019811382fb9fd61abb88d56d0",
       "ast_digest": "604d9fad4d60da84ad5f91948d8a84eb3f353255613dd283c3ea977975ba39ae"
     },
     "stp": {
-      "values_digest": "d2502190e521bb0ac3eb9aa654e73b4fa5aa6904cefb4ac329e3be2649307c8c",
+      "values_digest": "2a0a9b0ae1097b923cffcaf0c6cac29ae20bfd8138656d0d5d0ef248f15dcad9",
       "rendered_digest": "4c6ee7704c6893c3ae0bdf5cb4a0308bfb1102c31b16ce93e32992d7a17114ed",
       "ast_digest": "7af27d411db2c82982c6721d16e4502f7368421ecfc5db81e99b64150f96b58c"
     },
     "spp": {
-      "values_digest": "5858d2d3533449bfd1ef5b5cb42c475539b18e283f0206c3c553495e9598c693",
+      "values_digest": "20888a98956abe81b4bfb12221de5df4c8287c41f1cc2b4dec861c8dd8aa7a6c",
       "rendered_digest": "98ccc699c2acfa13d7c4d3d511d3d0f7659e1885177eb64f4f6023788169aae5",
       "ast_digest": "4260b239b9b4218400059a86090c9204011dd37802ffcd269e4c41bc8d1f406a"
     },
     "vpp": {
-      "values_digest": "3230fae80f09c9d4afe0d490957e1de33933ddb2c75968a340e4046b4d6fa647",
+      "values_digest": "3c78fe36b80a3e78e9de09ef2103b2a7a3bf6846b31522df3f875ee36efbc19f",
       "rendered_digest": "fc39c049ecc95a5af0c0f127358babb25f8a7081fdf3eb16311aabf9f0a9cb3b",
       "ast_digest": "ca6b93390293230b030d25a60d8e3601f476ff102337d44e93d0ae70fb2e1448"
     },
     "srp": {
-      "values_digest": "30b6e14918ffdf2ef95809d024313b79bff82cfc75590ffed0cd7d3c12d19af3",
-      "rendered_digest": "8a1d7bbbffa712de9ddb03a9fc72ee60e1690c5668fad52c5763b47519489782",
-      "ast_digest": "780bcbfdb7a701ce90edb7896f4ad0b13143b0be25d65bfa4d6ee50d8f03b777"
+      "values_digest": "6f2c33e61fe8ade7f7c7f00c43418ab2973d6944ed50d2a73516933b12894d32",
+      "rendered_digest": "04da184deee17ae952b9e46a4a8470de6a4ade97aa02905410fc38f4305af2fe",
+      "ast_digest": "27684546dfda02e25d873b08bfb7499d2423f389ab2ef5e4b153658d7eeb5c88"
     },
     "sor": {
-      "values_digest": "7e518e0bd634db30e67698864bea077c7a05c3579ea776833ee969a3fb143f73",
+      "values_digest": "a57112caa12bf9dbed7ea06ea6fafe839e999a4a4e0b4cbb523883a936654e24",
       "rendered_digest": "1e60911edd8bd2c1f0485ba164812db9ed484cbae5ffba3760905b35a4694b2c",
       "ast_digest": "0e44f6f1a1ee3b240c303d0e697b7a0a72a3afc1526522a5471231eae7dc6f92"
     }
@@ -96,6 +171,13 @@
       "to": "implemented",
       "actor": "codex:issue-45-main-reconciliation",
       "reason": "Recover published review truth after reconciling merged main claim-removal changes and resolving four bounded conflicts."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -217,6 +299,13 @@
       "actor": "codex:issue-45-main-reconciliation",
       "reason": "Recover published review truth after reconciling merged main claim-removal changes and resolving four bounded conflicts.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
