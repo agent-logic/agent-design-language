@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 3,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Support canonical PRs closing preserved legacy issues",
+    "slug": "v0-92-csdlc-v2-cross-repository-publication",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #3 publication/finish hardening, focused tests, operator contracts, and retained canary evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any configured push URL bypass canonical repository verification?",
+        "Can pagination or ambiguous PR matches select the wrong remote PR?",
+        "Do same-repository and split-authority paths both remain fail-closed?",
+        "Does the canary prove real canonical-to-legacy closing causality without overclaiming?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

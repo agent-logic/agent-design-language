@@ -1,0 +1,30 @@
+{
+  "schema": "csdlc.split_authority_canary.v1",
+  "captured_at": "2026-08-07T03:31:53Z",
+  "issue": {
+    "repository": "danielbaustin/agent-design-language",
+    "number": 5901,
+    "state": "closed",
+    "closed_at": "2026-08-07T02:22:13Z"
+  },
+  "pull_request": {
+    "repository": "agent-logic/agent-design-language",
+    "number": 5,
+    "state": "merged",
+    "base": "main",
+    "head": "codex/5901-sprint3-readiness",
+    "head_sha": "4083dba57b5e9a379efd02251a6c69f7524c94b9",
+    "merge_sha": "35127c242565eea33f375098f0ca57697713a9db",
+    "merged_at": "2026-08-07T03:31:53Z",
+    "closing_reference": "Closes danielbaustin/agent-design-language#5901",
+    "required_checks": "success"
+  },
+  "terminal": {
+    "canonical_generation": 27,
+    "canonical_digest": "57d5693ffc374d90c679f6fb766a112fce9baa7ae81497990ca0b44cbb2e82ff",
+    "derived_digest": "c6ece1bc5b4b7a5d576d4ffd7723be7a498f7b9fa54910786fa9f0ae88ced111",
+    "disposition": "merged",
+    "issue_state": "closed_by_merged_pr"
+  },
+  "boundary": "This retained canary proves one canonical split-authority publication and terminal path. It is not a general audit of every preserved legacy issue reference."
+}

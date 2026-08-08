@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 3,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Support canonical PRs closing preserved legacy issues",
+    "slug": "v0-92-csdlc-v2-cross-repository-publication",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Harden and prove canonical code-repository PR publication against a separately identified preserved issue repository.",
+      "required_outcome": "Typed publication and finish preserve exact code and issue repository identities, reject substitution, remain backward compatible, and retain a live split-authority canary.",
+      "declared_scope": [
+        "C-SDLC v2 publication remote and PR reconciliation",
+        "Split-authority finish and linkage proof",
+        "Public schemas and typed operator documentation",
+        "Existing canonical PR #5 to legacy issue #5901 canary evidence"
+      ],
+      "authority_boundary": [
+        "Issue #3 owns only the declared C-SDLC v2 publication hardening and proof surfaces",
+        "The preserved legacy repository is read-only except for GitHub's closing relation caused by the canonical PR",
+        "Already-merged #5901 implementation is baseline evidence, not work to duplicate"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue changes on main",
+        "Use only typed C-SDLC v2 lifecycle tools",
+        "Do not use AWS or remote builders",
+        "Do not merge without explicit operator authorization"
+      ]
+    }
+  }
+}
