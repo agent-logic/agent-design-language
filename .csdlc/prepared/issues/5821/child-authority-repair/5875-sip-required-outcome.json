@@ -1,0 +1,13 @@
+{
+  "issue": 5875,
+  "card": "sip",
+  "expected_generation": 8,
+  "expected_digest": "5d4283b2587b77abbdd0ae911d16379d3b3319d0489dcb896ce8e2a987e338a2",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "set_field",
+    "field": "required_outcome",
+    "value": "Implement migration with source authority retained before fence, majority-committed fencing and source-permit revocation at the boundary, and certificate-bound target activation afterward."
+  }
+}

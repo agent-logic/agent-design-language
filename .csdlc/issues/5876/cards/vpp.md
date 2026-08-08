@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5876/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_recovery proves failures at each migration stage, restart recovery, target loss, source loss, audit continuity, and one-owner restoration.",
+    "proof_role": "Exact nextest target distributed_recovery proves each migration failure stage, restart, target/source loss, quorum loss, divergent local histories, malicious-leader/minority denial, certificate expiry/revocation, audit continuity, safety-window enforcement, and one-owner restoration from a majority-committed prefix.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

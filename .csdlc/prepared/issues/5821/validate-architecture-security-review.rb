@@ -14,7 +14,17 @@ adr = "docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md"
 design = ".csdlc/prepared/issues/5821/design.md"
 validator = ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb"
 child_validator = ".csdlc/prepared/issues/5821/validate-child-wave.rb"
-authoritative = [architecture, threat_model, design, feature, adr, validator, child_validator]
+authority_children = [5869, 5870, 5875, 5876]
+child_authoritative = authority_children.flat_map do |issue|
+  [
+    ".csdlc/prepared/issues/#{issue}/design.md",
+    ".csdlc/issues/#{issue}/index.json",
+    ".csdlc/issues/#{issue}/cards/sip.values.json",
+    ".csdlc/issues/#{issue}/cards/stp.values.json",
+    ".csdlc/issues/#{issue}/cards/vpp.values.json"
+  ]
+end
+authoritative = [architecture, threat_model, design, feature, adr, validator, child_validator, *child_authoritative]
 [review, review_report, *authoritative].each { |path| abort "missing #{path}" unless File.file?(path) }
 
 def section(text, heading)
@@ -95,6 +105,8 @@ abort "cannot resolve authoritative revision" unless latest_status.success?
 abort "review does not cover the latest authoritative revision" unless packet["reviewed_revision"] == latest_authoritative_revision.strip
 _, dirty_status = Open3.capture2("git", "diff", "--quiet", "--", *authoritative)
 abort "authoritative review surface has uncommitted changes" unless dirty_status.success?
+_, staged_status = Open3.capture2("git", "diff", "--cached", "--quiet", "--", *authoritative)
+abort "authoritative review surface has staged changes" unless staged_status.success?
 _, drift_status = Open3.capture2("git", "diff", "--quiet", packet["reviewed_revision"], "HEAD", "--", *authoritative)
 abort "authoritative review surface changed after review" unless drift_status.success?
 expected = authoritative.to_h do |path|

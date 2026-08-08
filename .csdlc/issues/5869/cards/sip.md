@@ -16,7 +16,7 @@ Implement monotonic epochs and bounded leases as prerequisites for distributed o
 
 ## Required Outcome
 
-Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions.
+Implement OpenRaft majority-committed authority, joint membership, canonical AuthorityCertificateV1 endorsements, activation-key possession, monotonic epochs, bounded leases, and fail-closed mutation-sink verification.
 
 ## Scope
 

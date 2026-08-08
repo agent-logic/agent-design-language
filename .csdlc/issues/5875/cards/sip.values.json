@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.13] Migration state machine",
     "slug": "v0-92-wp-04-13-migration-state-machine",
     "version": "v0.92",
-    "generation": 7
+    "generation": 11
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed.",
-      "required_outcome": "Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed.",
+      "required_outcome": "Implement migration with source authority retained before fence, majority-committed fencing and source-permit revocation at the boundary, and certificate-bound target activation afterward.",
       "declared_scope": [
         "adl-runtime/src/distributed/migration.rs",
         "adl-runtime/tests/distributed_migration.rs"

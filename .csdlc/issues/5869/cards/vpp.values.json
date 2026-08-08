@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.07] Epoch and lease authority",
     "slug": "v0-92-wp-04-07-epoch-lease-authority",
     "version": "v0.92",
-    "generation": 7
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_lease proves monotonic epochs, lease acquisition and renewal, expiry, stale-holder denial, clock-bound handling, and restart recovery.",
+          "proof_role": "Exact nextest target distributed_lease proves three-voter majority, joint membership, canonical AuthorityCertificateV1 encoding, distinct purpose-bound majority endorsements, activation-key possession, voter-generation and applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader/minority denial, clock uncertainty, stale-holder denial, and restart recovery.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -66,7 +66,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on stale dependencies, path overlap, zero tests, invalid evidence, insecure fallback, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/5869/design.md",
-      "design_digest": "63bf9f7c0db0131a37995912c0c63ab1b19a6bbb1946e029e50903907862a296",
+      "design_digest": "22b23bd5a365e75df3b8d0d4d12b6c2a4b4c7ad4f2baed0641712260113f6c21",
       "diagram_ref": ".csdlc/prepared/issues/5869/diagram.mmd",
       "diagram_digest": "b6214f3f6d8281d9eabcf54b42092e69517d8f3cbb616f27313f0b7265a97d07"
     }

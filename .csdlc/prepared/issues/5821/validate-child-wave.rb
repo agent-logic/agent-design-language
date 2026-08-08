@@ -55,8 +55,26 @@ expected_dependencies = {
   "WP-04.15" => ["WP-04.05", "WP-04.08", "WP-04.13", "WP-04.14"],
   "WP-04.16" => (1..15).map { |number| format("WP-04.%02d", number) }
 }.freeze
+authority_contracts = {
+  5869 => ["authoritycertificatev1", "joint membership", "majority-committed", "activation-key possession", "mutation-sink", "malicious-leader/minority"],
+  5870 => ["authoritycertificatev1", "mutation sink", "majority-certificate", "activation possession", "quorum-committed", "lease safety window"],
+  5875 => ["before fence", "after fence", "source-permit revocation", "majority-committed fencing", "activation-key", "non-authoritative"],
+  5876 => ["majority-committed", "authoritycertificatev1", "divergent local histories", "malicious-leader/minority", "quorum proof", "trust-domain recovery"]
+}.freeze
 abort "child identities drifted" unless children.map(&:first) == expected_ids
 abort "live issue mapping drifted" unless children.map { |row| row[1] } == expected_issues
+
+authority_contracts.each do |issue, terms|
+  surfaces = [
+    File.read(File.expand_path("../#{issue}/design.md", __dir__)),
+    File.read(File.expand_path("../../../issues/#{issue}/cards/sip.values.json", __dir__)),
+    File.read(File.expand_path("../../../issues/#{issue}/cards/stp.values.json", __dir__)),
+    File.read(File.expand_path("../../../issues/#{issue}/cards/vpp.values.json", __dir__))
+  ].join("\n").downcase
+  terms.each { |term| abort "child ##{issue} authority contract omits #{term}" unless surfaces.include?(term) }
+  record = JSON.parse(File.read(File.expand_path("../../../issues/#{issue}/index.json", __dir__)))
+  abort "child ##{issue} authority design is not reapproved" unless record.dig("design_review", "approved", "reviewer") == "codex:5821-wp04-child-authority-design-review"
+end
 
 all_paths = children.flat_map { |id, _, _, paths, _, _| paths.map { |path| [path, id] } }
 duplicates = all_paths.group_by(&:first).select { |_, entries| entries.length > 1 }

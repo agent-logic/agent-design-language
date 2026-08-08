@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5869/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_lease proves monotonic epochs, lease acquisition and renewal, expiry, stale-holder denial, clock-bound handling, and restart recovery.",
+    "proof_role": "Exact nextest target distributed_lease proves three-voter majority, joint membership, canonical AuthorityCertificateV1 encoding, distinct purpose-bound majority endorsements, activation-key possession, voter-generation and applied-index checks, monotonic epochs, renewal, expiry, revocation, quorum loss, malicious-leader/minority denial, clock uncertainty, stale-holder denial, and restart recovery.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

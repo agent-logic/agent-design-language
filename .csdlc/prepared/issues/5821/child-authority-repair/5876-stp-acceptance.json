@@ -1,0 +1,19 @@
+{
+  "issue": 5876,
+  "card": "stp",
+  "expected_generation": 9,
+  "expected_digest": "4b9191ac6e9b95a345363d30ce11e94fd72f2736faf9198a31c39bd913c82f24",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Implement deterministic rollback and recovery for failed, interrupted, or ambiguous relocation.",
+      "Focused positive and negative tests",
+      "Digest-bound execution proof",
+      "Reviewed rollback evidence",
+      "Authority safety: Never select the numerically highest local epoch or last durable local owner without quorum proof; ambiguity requires operator trust-domain recovery."
+    ]
+  }
+}

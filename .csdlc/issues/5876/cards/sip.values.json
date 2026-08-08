@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.14] Rollback, recovery, and relocation failure",
     "slug": "v0-92-wp-04-14-rollback-recovery-relocation",
     "version": "v0.92",
-    "generation": 7
+    "generation": 11
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Implement deterministic rollback and recovery for failed, interrupted, or ambiguous relocation.",
-      "required_outcome": "Implement deterministic rollback and recovery for failed, interrupted, or ambiguous relocation.",
+      "required_outcome": "Recover one owner only from a majority-committed OpenRaft prefix and valid AuthorityCertificateV1, leaving both candidates fenced when no quorum can prove authority.",
       "declared_scope": [
         "adl-runtime/src/distributed/recovery.rs",
         "adl-runtime/tests/distributed_recovery.rs"

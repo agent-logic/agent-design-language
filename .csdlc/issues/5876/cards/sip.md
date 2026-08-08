@@ -16,7 +16,7 @@ Implement deterministic rollback and recovery for failed, interrupted, or ambigu
 
 ## Required Outcome
 
-Implement deterministic rollback and recovery for failed, interrupted, or ambiguous relocation.
+Recover one owner only from a majority-committed OpenRaft prefix and valid AuthorityCertificateV1, leaving both candidates fenced when no quorum can prove authority.
 
 ## Scope
 

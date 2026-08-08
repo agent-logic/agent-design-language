@@ -1,0 +1,13 @@
+{
+  "issue": 5869,
+  "card": "sip",
+  "expected_generation": 10,
+  "expected_digest": "9ff45de7d635e022b1ec2a651addec4722ba0f9931ee6236b8eff152281987d4",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "set_field",
+    "field": "required_outcome",
+    "value": "Implement OpenRaft majority-committed authority, joint membership, canonical AuthorityCertificateV1 endorsements, activation-key possession, monotonic epochs, bounded leases, and fail-closed mutation-sink verification."
+  }
+}

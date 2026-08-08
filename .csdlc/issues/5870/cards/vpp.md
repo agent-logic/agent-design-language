@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5870/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_fencing proves stale epoch, cloned state, split-brain, wrong owner, post-partition, and recovery fencing semantics.",
+    "proof_role": "Exact nextest target distributed_fencing proves mutation-sink enforcement, majority-certificate validation, voter-generation and applied-index checks, activation possession, stale epoch, cloned state, malicious-leader/minority denial, split-brain, wrong owner, expiry/revocation, post-partition, and recovery fencing.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

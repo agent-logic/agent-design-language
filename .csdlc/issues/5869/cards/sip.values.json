@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.07] Epoch and lease authority",
     "slug": "v0-92-wp-04-07-epoch-lease-authority",
     "version": "v0.92",
-    "generation": 7
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions.",
-      "required_outcome": "Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions.",
+      "required_outcome": "Implement OpenRaft majority-committed authority, joint membership, canonical AuthorityCertificateV1 endorsements, activation-key possession, monotonic epochs, bounded leases, and fail-closed mutation-sink verification.",
       "declared_scope": [
         "adl-runtime/src/distributed/lease.rs",
         "adl-runtime/tests/distributed_lease.rs"

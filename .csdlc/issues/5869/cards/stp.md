@@ -20,6 +20,7 @@ Implement monotonic epochs and bounded leases as prerequisites for distributed o
 - Focused positive and negative tests
 - Digest-bound execution proof
 - Reviewed rollback evidence
+- Authority safety: Restore authority only from a majority-committed prefix; local durability, a leader assertion, or a minority history never grants authority.
 
 ## Acceptance
 

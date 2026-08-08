@@ -16,7 +16,7 @@ Enforce one authoritative owner per lineage and reject stale, cloned, or partiti
 
 ## Required Outcome
 
-Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors.
+Enforce one authoritative owner at every mutation sink using a current majority-endorsed AuthorityCertificateV1, activation-key possession, committed voter generation, applied index, epoch, operation class, and lease safety.
 
 ## Scope
 

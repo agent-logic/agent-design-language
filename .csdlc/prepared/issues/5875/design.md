@@ -25,7 +25,12 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed. The implementation must preserve Guardian as process 0,
+Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate,
+and commit with source authority retained through validation. Before fence the
+source may resume. Fence commits a newer majority-authorized epoch and revokes
+the source permit; after that boundary neither candidate may self-authorize,
+and activation requires the matching current AuthorityCertificateV1 plus
+activation-key possession. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -42,7 +47,11 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_migration proves every transition, idempotence, source authority retention, target validation, fencing, interruption, and split-brain denial.
+Exact nextest target distributed_migration proves every transition,
+idempotence, source authority retention before fence, majority-committed fence,
+source-permit revocation, target validation, activation-certificate and
+activation-key checks, interruption on both sides of the fence boundary, and
+split-brain denial.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner
@@ -52,7 +61,9 @@ working behavior.
 
 ## Rollback
 
-Abort before commit, fence the target, resume the validated source owner, and preserve both transfer and audit evidence.
+Before fence, abort target work and resume the source. After fence, keep both
+candidates non-authoritative and hand recovery to WP-04.14; never restore
+authority without a quorum-committed owner or newer majority-committed epoch.
 
 ## Estimate
 

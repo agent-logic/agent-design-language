@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.13] Migration state machine",
     "slug": "v0-92-wp-04-13-migration-state-machine",
     "version": "v0.92",
-    "generation": 7
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -84,7 +84,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5875/design.md",
-      "design_digest": "774567dfb35cfe47d15729c1e44344ddc31d2153e01825e7e9bb8e06f0e0bfda",
+      "design_digest": "4e877f145f3965e55f518e91fc6f40b026a0ea2d98d304662b943cd23e330821",
       "diagram_ref": ".csdlc/prepared/issues/5875/diagram.mmd",
       "diagram_digest": "cce3eba1094ebf7104a4a56009784c3cddac29d5aea119937333219cd7bfaf6d"
     }

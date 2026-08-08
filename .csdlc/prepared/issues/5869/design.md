@@ -2,7 +2,9 @@
 
 ## Outcome And Boundary
 
-Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions. This child is one exclusive implementation slice under
+Implement OpenRaft majority-committed authority, joint membership, canonical
+authority certificates, monotonic epochs, and bounded leases as prerequisites
+for distributed ownership decisions. This child is one exclusive implementation slice under
 WP-04-IMP issue #5862; it does not absorb sibling work or
 receive completion credit from the #5821 architecture gate.
 
@@ -25,7 +27,14 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions. The implementation must preserve Guardian as process 0,
+Implement the OpenRaft authority ledger and canonical
+`AuthorityCertificateV1` contract frozen by #5821. A distributed group has at
+least three voters; membership changes use joint consensus; lease grant and
+renewal are majority-committed entries; and each certificate binds the voter
+generation, term, applied log index, epoch, holder, activation-key digest,
+operation class, lifetime, and policy digest. Strict-majority purpose-bound
+endorsements, activation-key possession, certificate validity, monotonic-time
+safety, and applied-index checks are mandatory. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -40,7 +49,12 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_lease proves monotonic epochs, lease acquisition and renewal, expiry, stale-holder denial, clock-bound handling, and restart recovery.
+Exact nextest target distributed_lease proves three-voter majority and joint
+membership behavior, canonical AuthorityCertificateV1 encoding and digest
+binding, distinct majority endorsements, activation-key possession, applied
+mutation-sink checks, monotonic epochs, lease renewal and expiry, certificate
+revocation/expiry, quorum loss, malicious-leader/minority denial, clock
+uncertainty, stale-holder denial, and restart recovery.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner
@@ -50,7 +64,8 @@ working behavior.
 
 ## Rollback
 
-Expire issue-created leases, restore the last durable epoch, and leave no ambiguous owner.
+Expire issue-created leases, restore only the last majority-committed authority
+state, and leave all candidates fenced when no quorum can prove that state.
 
 ## Estimate
 
