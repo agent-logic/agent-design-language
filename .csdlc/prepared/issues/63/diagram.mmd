@@ -14,6 +14,6 @@ flowchart LR
     N --> K[Atomic commit: cards, audit, generation, digest]
     K --> O[Typed validator proves canonical projections]
 
-    REC[Typed csdlc-review recovery] --> I[Clean implemented state]
+    F[Implemented with assignment or review finding] --> REC[Typed csdlc-review recovery]
+    REC --> I[Clean implemented state; review truth cleared]
     I --> R
-

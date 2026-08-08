@@ -26,12 +26,17 @@ trying to infer whether an individual path is semantically broader.
    merge-ready, and closed-out phases remain rejected for this operation.
    Normal pre-implementation planning continues to use
    `replace_planning_collection`.
-4. In `store::edit_issue`, before mutation, require a non-empty actor and
+4. Extend `csdlc-review recover` to accept `implemented` only when a review
+   assignment or recorded review is present. Reuse its existing atomic cleanup
+   of SRP, SOR, assignment, review, publication, readiness, and terminal truth;
+   remain in `implemented` rather than adding a new lifecycle phase transition.
+   An ordinary clean implemented record still rejects recovery.
+5. In `store::edit_issue`, before mutation, require a non-empty actor and
    reason and require `review_assignment`, `review`, `publication`, and
    `readiness` to be absent. A typed review/publication recovery may return the
    record to `implemented` and clear those fields; only then may the correction
    proceed.
-5. Build the audit operation from the verified current SIP card, recording
+6. Build the audit operation from the verified current SIP card, recording
    `previous_values` and `new_values`. Then use the existing `apply`,
    `validate_cross_card`, renderer, generation/digest, atomic store commit, and
    audit event logic unchanged.
@@ -45,8 +50,9 @@ trying to infer whether an individual path is semantically broader.
   guards before authorization or mutation.
 - The existing store verifies current JSON/Markdown projections before the
   correction and revalidates/rerenders all cards before atomic commit.
-- Review/publication recovery remains owned by `csdlc-review`; this issue does
-  not add a recovery transition or clear review/publication truth itself.
+- Review/publication recovery remains owned by `csdlc-review`; this issue
+  extends that existing typed operation for the otherwise-dead-end
+  implemented-with-review-truth case, without adding a lifecycle phase.
 
 ## Proof design
 
@@ -61,8 +67,11 @@ typed bootstrap, advances it through bind/finalize to `implemented`, then runs
 - empty actor/reason, empty replacement, wrong card, and ordinary bound-phase
   use of the repair operation fail closed;
 - reviewed/published state rejects the operation;
-- a typed recovery that returns to clean `implemented` permits it, while any
-  retained review/publication/readiness truth rejects it;
+- assigned or changes-required implemented review truth rejects the editor
+  until typed `csdlc-review recover` atomically clears it; clean implemented
+  then permits correction;
+- an ordinary clean implemented record cannot invoke review recovery, and any
+  retained review/publication/readiness truth still rejects the editor;
 - direct Markdown drift remains detected by the validator.
 
 Keep the proof in the existing focused editor/lifecycle regression surface. No
@@ -74,6 +83,7 @@ or broad compatibility rewrite is required.
 - Inferring whether a path is a semantic widening or narrowing.
 - Permitting arbitrary implemented-phase SIP planning edits.
 - Changing direct Markdown ownership, prompt templates, or lifecycle recovery.
+- Adding a new lifecycle phase or letting the editor clear review truth.
 - Mutating issue #53 or any historical lifecycle evidence.
 
 ## Risks and mitigations
@@ -84,6 +94,7 @@ or broad compatibility rewrite is required.
   editor cannot perform recovery itself.
 - **Projection drift:** reuse existing verified-card, AST render,
   cross-card-validation, and atomic commit path.
+- **Overbroad recovery:** accept implemented recovery only when assignment or
+  review evidence exists, and retain rejection for an ordinary clean record.
 - **Overbroad authorization:** match the exact operation/card/phase tuple and
   retain negative tests for adjacent phases and cards.
-
