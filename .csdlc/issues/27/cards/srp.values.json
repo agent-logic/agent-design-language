@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 27,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Native receipt validator has an impossible artifact-role denominator",
+    "slug": "native-receipt-validator",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The validator policy helpers, focused tests, and exact issue-local lifecycle delta.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify role canonicalization cannot hide duplicates",
+        "Verify the post-proof allowlist cannot admit runtime or product changes",
+        "Verify existing digest and platform checks are unchanged"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

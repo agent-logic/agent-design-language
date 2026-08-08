@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 27,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Native receipt validator has an impossible artifact-role denominator",
+    "slug": "native-receipt-validator",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair and prove only the native receipt validator policy.",
+      "deliverables": [
+        "Order-independent role denominator validation",
+        "Duplicate-role and post-proof drift regression proof"
+      ],
+      "acceptance_criteria": [
+        "Canonical and observed artifact role denominators compare order-independently",
+        "Artifact roles remain unique and duplicates fail closed",
+        "Only an explicit verifier and issue-finalization allowlist may differ after the proof revision",
+        "Any runtime or product change, rename bypass, dirty worktree, or non-ancestor verifier revision is rejected",
+        "Digest recomputation and platform denominator checks remain intact"
+      ],
+      "dependencies": [
+        "WP-03 validator introduction at committed revision 93641db996f2409baf94be2e9e6f27bb1ec9039b"
+      ],
+      "repo_inputs": [
+        "adl/tools/validate_v092_runtime_native_receipts.rb",
+        "adl/tools/test_validate_v092_runtime_native_receipts.sh",
+        ".csdlc/prepared/issues/27/design.md",
+        ".csdlc/prepared/issues/27/diagram.mmd"
+      ],
+      "non_goals": [
+        "Runtime, Guardian, kernel, TLS, or lifecycle behavior changes",
+        "Native proof regeneration",
+        "WP-03 branch mutation"
+      ]
+    }
+  }
+}
