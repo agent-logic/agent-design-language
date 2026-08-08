@@ -29,8 +29,11 @@ trying to infer whether an individual path is semantically broader.
 4. Extend `csdlc-review recover` to accept `implemented` only when a review
    assignment or recorded review is present. Reuse its existing atomic cleanup
    of SRP, SOR, assignment, review, publication, readiness, and terminal truth;
-   remain in `implemented` rather than adding a new lifecycle phase transition.
-   An ordinary clean implemented record still rejects recovery.
+   for this same-phase case, do not call `IssueRecord::advance` (which correctly
+   rejects `implemented -> implemented`) and retain the existing recovery audit
+   event as the transition evidence. Reviewed/published/merge-ready recovery
+   continues to call `advance(implemented)` unchanged. An ordinary clean
+   implemented record still rejects recovery.
 5. In `store::edit_issue`, before mutation, require a non-empty actor and
    reason and require `review_assignment`, `review`, `publication`, and
    `readiness` to be absent. A typed review/publication recovery may return the
