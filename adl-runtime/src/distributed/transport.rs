@@ -1,4 +1,10 @@
-use std::{fmt, io::Cursor, net::SocketAddr, sync::Arc, time::Duration};
+use std::{
+    fmt,
+    io::Cursor,
+    net::SocketAddr,
+    sync::{Arc, Mutex},
+    time::{Duration, SystemTime, UNIX_EPOCH},
+};
 
 use prost::Message;
 use quinn::{
@@ -14,11 +20,14 @@ use sha2::{Digest, Sha256};
 use tokio::time::Instant;
 use tokio_util::sync::CancellationToken;
 
+use super::certificates::{CertificatePurpose, DistributedCertificateStore};
+
 pub const TRANSPORT_SCHEMA: &str = "adl.distributed.transport_envelope.v1";
 pub const TRANSPORT_ALPN: &[u8] = b"adl-guardian/1";
 const CLOSE_CODE: u32 = 0x100;
 const MAX_TEXT_LEN: usize = 128;
 const LENGTH_PREFIX_SLACK: usize = 10;
+const REPLAY_WINDOW_BITS: u64 = 64;
 
 #[derive(Clone, PartialEq, Message)]
 pub struct TransportEnvelope {
@@ -95,6 +104,95 @@ impl PeerBinding {
     }
 }
 
+#[derive(Clone)]
+pub struct TransportAuthorization {
+    store: Arc<DistributedCertificateStore>,
+    holder_id: String,
+    generation: u64,
+    certificate_id: String,
+}
+
+impl TransportAuthorization {
+    pub fn new(
+        store: Arc<DistributedCertificateStore>,
+        holder_id: impl Into<String>,
+        generation: u64,
+    ) -> TransportResult<Self> {
+        let holder_id = holder_id.into();
+        let verified = store
+            .authorize(
+                &holder_id,
+                CertificatePurpose::Transport,
+                generation,
+                unix_time()?,
+            )
+            .map_err(|_| TransportError::CertificateAuthorization)?;
+        Ok(Self {
+            store,
+            holder_id,
+            generation,
+            certificate_id: verified.certificate_id,
+        })
+    }
+
+    fn revalidate(&self) -> TransportResult<u64> {
+        let verified = self
+            .store
+            .authorize(
+                &self.holder_id,
+                CertificatePurpose::Transport,
+                self.generation,
+                unix_time()?,
+            )
+            .map_err(|_| TransportError::CertificateAuthorization)?;
+        if verified.certificate_id != self.certificate_id
+            || verified.holder_id != self.holder_id
+            || verified.purpose != CertificatePurpose::Transport
+            || verified.generation != self.generation
+        {
+            return Err(TransportError::CertificateAuthorization);
+        }
+        Ok(verified.authorization_deadline_unix_secs)
+    }
+
+    fn validate_binding(&self, binding: &PeerBinding) -> TransportResult<u64> {
+        if self.holder_id != binding.node_id || self.generation != binding.certificate_generation {
+            return Err(TransportError::CertificateAuthorization);
+        }
+        self.revalidate()
+    }
+}
+
+#[derive(Default)]
+struct ReplayWindow {
+    highest: u64,
+    seen: u64,
+}
+
+impl ReplayWindow {
+    fn observe(&mut self, sequence: u64) -> TransportResult<()> {
+        if sequence == 0 {
+            return Err(TransportError::SequenceInvalid);
+        }
+        if sequence > self.highest {
+            let shift = sequence - self.highest;
+            self.seen = if shift >= REPLAY_WINDOW_BITS {
+                1
+            } else {
+                (self.seen << shift) | 1
+            };
+            self.highest = sequence;
+            return Ok(());
+        }
+        let distance = self.highest - sequence;
+        if distance >= REPLAY_WINDOW_BITS || self.seen & (1_u64 << distance) != 0 {
+            return Err(TransportError::ReplayDetected);
+        }
+        self.seen |= 1_u64 << distance;
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct TransportLimits {
     pub max_frame_bytes: usize,
@@ -127,6 +225,37 @@ impl TransportLimits {
     }
 }
 
+pub struct ConnectionSecurity {
+    local: PeerBinding,
+    expected_peer: PeerBinding,
+    local_authorization: TransportAuthorization,
+    peer_authorization: TransportAuthorization,
+    limits: TransportLimits,
+    cancellation: CancellationToken,
+}
+
+impl ConnectionSecurity {
+    pub fn new(
+        local: PeerBinding,
+        expected_peer: PeerBinding,
+        local_authorization: TransportAuthorization,
+        peer_authorization: TransportAuthorization,
+        limits: TransportLimits,
+        cancellation: CancellationToken,
+    ) -> TransportResult<Self> {
+        local.validate()?;
+        expected_peer.validate()?;
+        Ok(Self {
+            local,
+            expected_peer,
+            local_authorization,
+            peer_authorization,
+            limits,
+            cancellation,
+        })
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum TransportError {
     InvalidLimits,
@@ -137,10 +266,12 @@ pub enum TransportError {
     Connection,
     PeerCertificateMissing,
     PeerCertificateMismatch,
+    CertificateAuthorization,
     FrameTooLarge,
     MalformedFrame,
     PeerIdentityMismatch,
     SequenceInvalid,
+    ReplayDetected,
     Cancelled,
     AuthorizationExpired,
     Stream,
@@ -157,10 +288,12 @@ impl TransportError {
             Self::Connection => "connection_error",
             Self::PeerCertificateMissing => "peer_certificate_missing",
             Self::PeerCertificateMismatch => "peer_certificate_mismatch",
+            Self::CertificateAuthorization => "certificate_authorization_failed",
             Self::FrameTooLarge => "frame_too_large",
             Self::MalformedFrame => "malformed_frame",
             Self::PeerIdentityMismatch => "peer_identity_mismatch",
             Self::SequenceInvalid => "sequence_invalid",
+            Self::ReplayDetected => "replay_detected",
             Self::Cancelled => "cancelled",
             Self::AuthorizationExpired => "authorization_expired",
             Self::Stream => "stream_error",
@@ -261,9 +394,12 @@ pub struct AuthenticatedConnection {
     connection: Connection,
     local: PeerBinding,
     expected_peer: PeerBinding,
+    local_authorization: TransportAuthorization,
+    peer_authorization: TransportAuthorization,
     limits: TransportLimits,
     authorization_deadline: Instant,
     cancellation: CancellationToken,
+    replay_window: Mutex<ReplayWindow>,
 }
 
 impl AuthenticatedConnection {
@@ -271,12 +407,10 @@ impl AuthenticatedConnection {
         endpoint: &Endpoint,
         remote: SocketAddr,
         server_name: &str,
-        local: PeerBinding,
-        expected_peer: PeerBinding,
-        limits: TransportLimits,
-        cancellation: CancellationToken,
+        security: ConnectionSecurity,
     ) -> TransportResult<Self> {
         validate_text(server_name)?;
+        let cancellation = security.cancellation.clone();
         let connecting = endpoint
             .connect(remote, server_name)
             .map_err(|_| TransportError::Connection)?;
@@ -284,16 +418,14 @@ impl AuthenticatedConnection {
             _ = cancellation.cancelled() => return Err(TransportError::Cancelled),
             result = connecting => result.map_err(|_| TransportError::Connection)?,
         };
-        Self::from_connection(connection, local, expected_peer, limits, cancellation)
+        Self::from_connection(connection, security)
     }
 
     pub async fn accept(
         endpoint: &Endpoint,
-        local: PeerBinding,
-        expected_peer: PeerBinding,
-        limits: TransportLimits,
-        cancellation: CancellationToken,
+        security: ConnectionSecurity,
     ) -> TransportResult<Self> {
+        let cancellation = security.cancellation.clone();
         let incoming = tokio::select! {
             _ = cancellation.cancelled() => return Err(TransportError::Cancelled),
             result = endpoint.accept() => result.ok_or(TransportError::Connection)?,
@@ -302,29 +434,40 @@ impl AuthenticatedConnection {
             _ = cancellation.cancelled() => return Err(TransportError::Cancelled),
             result = incoming => result.map_err(|_| TransportError::Connection)?,
         };
-        Self::from_connection(connection, local, expected_peer, limits, cancellation)
+        Self::from_connection(connection, security)
     }
 
     fn from_connection(
         connection: Connection,
-        local: PeerBinding,
-        expected_peer: PeerBinding,
-        limits: TransportLimits,
-        cancellation: CancellationToken,
+        security: ConnectionSecurity,
     ) -> TransportResult<Self> {
+        let ConnectionSecurity {
+            local,
+            expected_peer,
+            local_authorization,
+            peer_authorization,
+            limits,
+            cancellation,
+        } = security;
         local.validate()?;
         expected_peer.validate()?;
         verify_peer_certificate(&connection, &expected_peer)?;
-        let authorization_deadline = Instant::now()
-            .checked_add(limits.authorization_lifetime)
-            .ok_or(TransportError::InvalidLimits)?;
+        let local_deadline = local_authorization.validate_binding(&local)?;
+        let peer_deadline = peer_authorization.validate_binding(&expected_peer)?;
+        let authorization_deadline = bounded_deadline(
+            limits.authorization_lifetime,
+            local_deadline.min(peer_deadline),
+        )?;
         Ok(Self {
             connection,
             local,
             expected_peer,
+            local_authorization,
+            peer_authorization,
             limits,
             authorization_deadline,
             cancellation,
+            replay_window: Mutex::new(ReplayWindow::default()),
         })
     }
 
@@ -366,6 +509,10 @@ impl AuthenticatedConnection {
         };
         let envelope = decode_frame(&bytes, &self.limits)?;
         verify_envelope(&envelope, &self.expected_peer)?;
+        self.replay_window
+            .lock()
+            .map_err(|_| TransportError::CertificateAuthorization)?
+            .observe(envelope.sequence)?;
         Ok(envelope)
     }
 
@@ -382,6 +529,21 @@ impl AuthenticatedConnection {
             self.connection
                 .close(CLOSE_CODE.into(), b"authorization expired");
             return Err(TransportError::AuthorizationExpired);
+        }
+        let (local_deadline, peer_deadline) = match (
+            self.local_authorization.validate_binding(&self.local),
+            self.peer_authorization
+                .validate_binding(&self.expected_peer),
+        ) {
+            (Ok(local), Ok(peer)) => (local, peer),
+            _ => {
+                self.connection
+                    .close(CLOSE_CODE.into(), b"certificate authorization failed");
+                return Err(TransportError::CertificateAuthorization);
+            }
+        };
+        if unix_time()? >= local_deadline.min(peer_deadline) {
+            return self.expire();
         }
         Ok(())
     }
@@ -465,7 +627,29 @@ fn validate_envelope_shape(
     if envelope.payload.len() > limits.max_frame_bytes {
         return Err(TransportError::FrameTooLarge);
     }
+    if envelope.encoded_len() > limits.max_frame_bytes {
+        return Err(TransportError::FrameTooLarge);
+    }
     Ok(())
+}
+
+fn unix_time() -> TransportResult<u64> {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|_| TransportError::CertificateAuthorization)
+        .map(|duration| duration.as_secs())
+}
+
+fn bounded_deadline(
+    configured_lifetime: Duration,
+    certificate_deadline_unix_secs: u64,
+) -> TransportResult<Instant> {
+    let certificate_remaining = certificate_deadline_unix_secs
+        .checked_sub(unix_time()?)
+        .ok_or(TransportError::CertificateAuthorization)?;
+    Instant::now()
+        .checked_add(configured_lifetime.min(Duration::from_secs(certificate_remaining)))
+        .ok_or(TransportError::InvalidLimits)
 }
 
 fn verify_envelope(envelope: &TransportEnvelope, expected: &PeerBinding) -> TransportResult<()> {
