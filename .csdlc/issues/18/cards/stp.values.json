@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 18,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC schema commands should exit cleanly when stdout closes",
+    "slug": "csdlc-schema-broken-pipe",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement and prove clean EPIPE handling for the shared output path used by the split GitHub issue and PR binaries.",
+      "deliverables": [
+        "Shared JSON stdout writer with explicit BrokenPipe handling",
+        "Split issue and PR binary adoption",
+        "Process-level early-reader-close regression tests",
+        "Updated stdout/stderr contract documentation"
+      ],
+      "acceptance_criteria": [
+        "Schema output piped to an early-closing reader exits without a panic",
+        "No backtrace hint, broken-pipe panic, or human panic text contaminates machine-readable output",
+        "Focused regression coverage exercises the shared output path used by both split C-SDLC GitHub binaries"
+      ],
+      "dependencies": [
+        "Current canonical Agent Logic main",
+        "C-SDLC v2 split GitHub binaries"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "csdlc-v2/src/bin/csdlc-github-issue.rs",
+        "csdlc-v2/src/bin/csdlc-github-pr.rs",
+        "csdlc-v2/tests/gate_github_actions.rs",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"
+      ],
+      "non_goals": [
+        "Changing GitHub API behavior or schemas",
+        "Changing stderr observability policy",
+        "Refactoring unrelated binaries",
+        "AWS, hosted validation, or CI policy changes"
+      ]
+    }
+  }
+}

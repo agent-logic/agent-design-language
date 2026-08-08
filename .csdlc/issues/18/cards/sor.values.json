@@ -1,0 +1,81 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 18,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC schema commands should exit cleanly when stdout closes",
+    "slug": "csdlc-schema-broken-pipe",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Made split C-SDLC GitHub machine-readable output tolerate downstream pipe closure without panic output.",
+      "actual_changes": [
+        "Added a shared machine-readable JSON stdout writer that accepts only BrokenPipe as normal termination.",
+        "Routed split GitHub issue and pull-request schema, success, and error payloads through the shared writer.",
+        "Added process-level regression coverage that closes stdout early and rejects panic contamination.",
+        "Documented the machine-output termination contract."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/output.rs",
+        "csdlc-v2/src/lib.rs",
+        "csdlc-v2/src/bin/csdlc-github-issue.rs",
+        "csdlc-v2/src/bin/csdlc-github-pr.rs",
+        "csdlc-v2/tests/gate_github_actions.rs",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--target-dir",
+            "../adl-builds/csdlc-v2-issue-18",
+            "--lib",
+            "--bin",
+            "csdlc-github-issue",
+            "--bin",
+            "csdlc-github-pr",
+            "--test",
+            "gate_github_actions",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict lint on the changed C-SDLC v2 output surfaces.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-github-broken-pipe-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--target-dir",
+            "../adl-builds/csdlc-v2-issue-18",
+            "--lib",
+            "--test",
+            "gate_github_actions"
+          ],
+          "purpose": "Run the focused C-SDLC v2 GitHub action and shared output regression surfaces.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-github-broken-pipe-focused.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

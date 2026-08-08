@@ -2,8 +2,8 @@ use std::{fs, path::PathBuf};
 
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    execute_github_action, public_schema_bundle, ErrorCode, GithubAction, GithubActionRequest,
-    V2Error,
+    execute_github_action, public_schema_bundle, write_json_stdout, ErrorCode, GithubAction,
+    GithubActionRequest, V2Error,
 };
 
 #[derive(Parser)]
@@ -30,17 +30,29 @@ async fn main() {
         Command::Schema => Ok(public_schema_bundle()),
     };
     match result {
-        Ok(value) => println!("{}", serde_json::to_string_pretty(&value).expect("JSON")),
+        Ok(value) => {
+            if let Err(error) = write_json_stdout(&value, true) {
+                eprintln!(
+                    "csdlc-github-issue: failed writing stdout: {}",
+                    error.message
+                );
+                std::process::exit(error.code.exit_code());
+            }
+        }
         Err(error) => {
-            println!(
-                "{}",
-                serde_json::json!({
-                    "schema": "csdlc.error.v1",
-                    "code": error.code.to_string(),
-                    "message": error.message
-                })
-            );
-            std::process::exit(error.code.exit_code());
+            let exit_code = error.code.exit_code();
+            let payload = serde_json::json!({
+                "schema": "csdlc.error.v1",
+                "code": error.code.to_string(),
+                "message": error.message
+            });
+            if let Err(output_error) = write_json_stdout(&payload, true) {
+                eprintln!(
+                    "csdlc-github-issue: failed writing error payload: {}",
+                    output_error.message
+                );
+            }
+            std::process::exit(exit_code);
         }
     }
 }

@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 18,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/18-csdlc-schema-broken-pipe",
+  "title": "[v0.92][C-SDLC v2] Handle closed machine-output pipes",
+  "body": "Closes #18\n\n## Summary\n- adds a shared JSON stdout writer that treats only BrokenPipe as normal downstream termination\n- routes schema, success, and typed error payloads from both split GitHub binaries through that writer\n- adds process-level early-close coverage and direct writer error-classification tests\n- documents the machine-readable output termination contract\n\n## Validation\n- focused library and GitHub action tests: 49 passed\n- strict warning-denied Clippy: PASS\n- typed finalize and doctor: PASS\n- independent exact-head review: PASS, no actionable findings\n\n## Boundary\n- bounded to csdlc-github-issue and csdlc-github-pr plus the reusable shared writer\n- unrelated C-SDLC binaries retain their existing output paths\n- no GitHub action semantics or schema changes\n- no AWS",
+  "draft": false,
+  "revision": "git-blake3:d4fa14aff387bfaab369cd65c5ec2f217f8b86f6:b2fafeeba0eaf9f0f2a567451441ee6fc52450e229609a9487cf06ccb4e1b963",
+  "commit_sha": "d4fa14aff387bfaab369cd65c5ec2f217f8b86f6"
+}

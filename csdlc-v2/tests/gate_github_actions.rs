@@ -5,7 +5,7 @@ use serde_json::{json, Value};
 use std::fs;
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
-use std::process::Command;
+use std::process::{Command, Stdio};
 use std::sync::{
     atomic::{AtomicBool, Ordering},
     mpsc, Arc, Mutex, MutexGuard,
@@ -78,6 +78,34 @@ fn split_github_binaries_reject_the_wrong_surface_before_network() {
     assert!(!pr_binary_rejects_issue.status.success());
     let pr_stdout = String::from_utf8_lossy(&pr_binary_rejects_issue.stdout);
     assert!(pr_stdout.contains("only accepts pr_state actions"));
+}
+
+#[test]
+fn split_github_schema_commands_accept_early_stdout_close() {
+    for binary in [
+        env!("CARGO_BIN_EXE_csdlc-github-issue"),
+        env!("CARGO_BIN_EXE_csdlc-github-pr"),
+    ] {
+        let mut child = Command::new(binary)
+            .arg("schema")
+            .env("RUST_BACKTRACE", "1")
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("spawn split schema command");
+        let mut stdout = child.stdout.take().expect("schema stdout");
+        let mut prefix = [0_u8; 1];
+        stdout.read_exact(&mut prefix).expect("schema prefix");
+        assert_eq!(prefix[0], b'{');
+        drop(stdout);
+
+        let output = child.wait_with_output().expect("wait for schema command");
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(output.status.success(), "{binary}: {stderr}");
+        assert!(!stderr.contains("panicked"), "{binary}: {stderr}");
+        assert!(!stderr.contains("Broken pipe"), "{binary}: {stderr}");
+        assert!(!stderr.contains("backtrace"), "{binary}: {stderr}");
+    }
 }
 
 #[tokio::test]

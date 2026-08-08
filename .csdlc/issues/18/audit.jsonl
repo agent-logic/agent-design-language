@@ -1,0 +1,10 @@
+{"sequence":1,"generation":0,"actor":"codex:issue-18-broken-pipe","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:issue-18-design-review","reason":"approve completed issue design","operation":"approve_design"}
+{"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":4,"generation":2,"actor":"codex:issue-18-broken-pipe","reason":"Record completed shared output writer implementation.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"}
+{"sequence":5,"generation":3,"actor":"codex:issue-18-broken-pipe","reason":"Record completed split GitHub binary output routing.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"}
+{"sequence":6,"generation":4,"actor":"codex:issue-18-broken-pipe","reason":"Record completed focused BrokenPipe regression coverage.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"}
+{"sequence":7,"generation":5,"actor":"codex:issue-18-broken-pipe","reason":"Record completed output termination contract documentation.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"}
+{"sequence":8,"generation":6,"actor":"codex:issue-18-broken-pipe","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":9,"generation":7,"actor":"codex:issue-18-broken-pipe","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":8,"actor":"codex:issue-18-broken-pipe","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

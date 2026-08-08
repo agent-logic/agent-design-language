@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 18,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC schema commands should exit cleanly when stdout closes",
+    "slug": "csdlc-schema-broken-pipe",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bind issue #18, add the shared EPIPE-safe writer, adopt it in both split binaries, prove process behavior, document the contract, review, and publish one canonical PR.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Add a shared JSON stdout writer that accepts BrokenPipe and propagates other output failures.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Route split GitHub issue and PR schema, success, and typed error payloads through the shared writer.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused process-level regression coverage for early-closing schema readers and ordinary JSON output.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Document the output contract and prepare the clean exact-head review revision.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/lib.rs",
+        "csdlc-v2/src/output.rs",
+        "csdlc-v2/src/bin/csdlc-github-issue.rs",
+        "csdlc-v2/src/bin/csdlc-github-pr.rs",
+        "csdlc-v2/tests/gate_github_actions.rs",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+        ".csdlc/issues/18",
+        ".csdlc/prepared/issues/18",
+        ".csdlc/evidence/18"
+      ],
+      "invariants": [
+        "Machine JSON remains on stdout",
+        "Human diagnostics remain on stderr",
+        "Only BrokenPipe is normalized to success",
+        "GitHub action semantics and schemas remain unchanged"
+      ],
+      "risks": [
+        "A helper swallows non-EPIPE I/O failures",
+        "One split binary retains println-based panic behavior",
+        "A process test passes without actually closing the reader early",
+        "Error payload exit codes change accidentally"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "The change requires GitHub action or schema semantics to change",
+        "The shared writer cannot distinguish BrokenPipe from other I/O failure",
+        "Scope expands into unrelated command refactoring"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/18/design.md",
+      "design_digest": "b20e704be6264e0d1e06a94ba31f374c5fa04d7e93a3c132b6032820cfcb78ff",
+      "diagram_ref": ".csdlc/prepared/issues/18/diagram.mmd",
+      "diagram_digest": "a5ca558be2b84900ebea96067d66e8d6eb37b4c9c79f5589e172bf4432f4d598"
+    }
+  }
+}

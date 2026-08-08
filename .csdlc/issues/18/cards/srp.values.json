@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 18,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC schema commands should exit cleanly when stdout closes",
+    "slug": "csdlc-schema-broken-pipe",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".",
+      "review_revision": "git-blake3:b50356cd00ab1645dcd825a11b4ed7688d8687c5:f2e18ea4d00fbedb28d18b06683ec6b386274071e9f1188412b2d28fd31be3fc",
+      "reviewer": "subagent:review_issue_18",
+      "review_prompts": [
+        "Does the helper normalize only BrokenPipe?",
+        "Do both split binaries use the helper for every machine-readable output path?",
+        "Do regression tests prove process-level behavior without brittle shell dependencies?",
+        "Are exit codes and stdout/stderr separation preserved for real errors?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The shared helper is adopted only by the two split GitHub binaries bounded by issue #18; unrelated C-SDLC binaries retain legacy direct-print output paths.",
+        "The process regression relies on the large schema payload exceeding normal pipe buffering, while the direct unit test independently proves BrokenPipe classification."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

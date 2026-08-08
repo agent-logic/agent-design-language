@@ -15,6 +15,7 @@ pub mod lifecycle;
 pub mod migration;
 pub mod model;
 pub mod operator;
+pub mod output;
 pub mod proof;
 pub mod publication;
 pub mod pvf;
@@ -84,6 +85,7 @@ pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
     CoexistenceInventory, InstallReceipt, SkillManifest,
 };
+pub use output::write_json_stdout;
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
     prepare_publication, reconcile_action, record_publication, PublicationAction,
