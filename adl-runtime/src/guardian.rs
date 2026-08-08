@@ -7,10 +7,7 @@
 use std::collections::{BTreeSet, VecDeque};
 use std::path::PathBuf;
 use std::process::{ExitStatus, Stdio};
-use std::sync::{
-    atomic::{AtomicBool, Ordering},
-    Arc,
-};
+use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
 use adl_resilience::capped_exponential_backoff;
@@ -299,7 +296,6 @@ pub async fn run_guardian(
         };
 
         let pid = child.id();
-        let attempt_started = Instant::now();
         let stdout = child
             .child
             .stdout
@@ -313,12 +309,12 @@ pub async fn run_guardian(
             .map(|pipe| capture_pipe(pipe, config.capture_max_bytes))
             .unwrap_or_else(|| tokio::spawn(async { String::new() }));
         let lease_shutdown = CancellationToken::new();
-        let lease_authenticated = Arc::new(AtomicBool::new(false));
+        let lease_authenticated_at = Arc::new(Mutex::new(None));
         let mut lease_task = tokio::spawn(lease.authenticate_and_hold(
             Duration::from_millis(config.lease_auth_timeout_ms),
             config.lease_auth_attempts,
             lease_shutdown.clone(),
-            Arc::clone(&lease_authenticated),
+            Arc::clone(&lease_authenticated_at),
         ));
         let mut lease_finished = false;
 
@@ -426,8 +422,7 @@ pub async fn run_guardian(
                             .await;
                         let code = status.code();
                         let healthy_window = authenticated_healthy_window(
-                            &lease_authenticated,
-                            attempt_started,
+                            &lease_authenticated_at,
                             config.healthy_window_ms,
                         );
                         reset_restart_window_after_healthy_attempt(
@@ -494,8 +489,7 @@ pub async fn run_guardian(
                             .await;
                         let code = status.code();
                         let healthy_window = authenticated_healthy_window(
-                            &lease_authenticated,
-                            attempt_started,
+                            &lease_authenticated_at,
                             config.healthy_window_ms,
                         );
                         reset_restart_window_after_healthy_attempt(
@@ -539,8 +533,7 @@ pub async fn run_guardian(
                                 .await;
                             let code = status.code();
                             let healthy_window = authenticated_healthy_window(
-                                &lease_authenticated,
-                                attempt_started,
+                                &lease_authenticated_at,
                                 config.healthy_window_ms,
                             );
                             reset_restart_window_after_healthy_attempt(
@@ -595,8 +588,7 @@ pub async fn run_guardian(
                             AttemptExit::Terminal(GuardianTerminalState::SpawnFailed)
                         } else {
                             let healthy_window = authenticated_healthy_window(
-                                &lease_authenticated,
-                                attempt_started,
+                                &lease_authenticated_at,
                                 config.healthy_window_ms,
                             );
                             reset_restart_window_after_healthy_attempt(
@@ -817,7 +809,7 @@ impl GuardianLease {
         auth_timeout: Duration,
         max_attempts: u32,
         shutdown: CancellationToken,
-        authenticated_state: Arc<AtomicBool>,
+        authenticated_at: Arc<Mutex<Option<Instant>>>,
     ) -> GuardianLeaseOutcome {
         for _ in 0..max_attempts {
             let accepted = tokio::select! {
@@ -850,7 +842,10 @@ impl GuardianLease {
             if stream.write_all(b"ok").await.is_err() {
                 return GuardianLeaseOutcome::AcknowledgementFailed;
             }
-            authenticated_state.store(true, Ordering::Release);
+            *authenticated_at
+                .lock()
+                .expect("Guardian lease authentication timestamp mutex poisoned") =
+                Some(Instant::now());
             let mut closed = [0_u8; 1];
             loop {
                 let read = tokio::select! {
@@ -1025,12 +1020,15 @@ enum AttemptExit {
 }
 
 fn authenticated_healthy_window(
-    authenticated: &AtomicBool,
-    attempt_started: Instant,
+    authenticated_at: &Mutex<Option<Instant>>,
     healthy_window_ms: u64,
 ) -> bool {
-    authenticated.load(Ordering::Acquire)
-        && attempt_started.elapsed() >= Duration::from_millis(healthy_window_ms)
+    authenticated_at
+        .lock()
+        .expect("Guardian lease authentication timestamp mutex poisoned")
+        .is_some_and(|authenticated_at| {
+            authenticated_at.elapsed() >= Duration::from_millis(healthy_window_ms)
+        })
 }
 
 fn classify_exit_after_cleanup(
