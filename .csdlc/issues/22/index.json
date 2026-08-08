@@ -3,14 +3,49 @@
   "issue": 22,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5fa8517ec88a66465e0baff5b4f7c6560781aa68ac7602c0beedea0fe51bd16",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "783b852c5880b3f4ad1cb159f5d42d7e619ed8bb683aa5ec29e9d7a5d7579829",
+  "phase": "published",
+  "generation": 9,
+  "digest": "dfd3853ff755d7b01b8265fff388ee801345abd3ef4c7652e852ad1b35944ead",
   "branch": "codex/22-pinned-ruby-builder-runtime",
   "worktree": "/Volumes/FastWork/adl-issue-22-pinned-ruby-builder-runtime",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent-Copernicus",
+    "assigned_by": "codex",
+    "revision": "git-blake3:8db86f760f48630a9739de4cfb2094e232be1b0e:16a75e84e9370fed6fab0a1c032e8448a9e3864e49b228bfbb4173bfb6a0a432",
+    "scope": [
+      "adl/docker/adl-builder/Dockerfile",
+      "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "adl/tools/test_adl_builder_image.sh",
+      "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent-Copernicus",
+    "scope": [
+      "adl/docker/adl-builder/Dockerfile",
+      "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "adl/tools/test_adl_builder_image.sh",
+      "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+    ],
+    "reviewed_revision": "git-blake3:8db86f760f48630a9739de4cfb2094e232be1b0e:16a75e84e9370fed6fab0a1c032e8448a9e3864e49b228bfbb4173bfb6a0a432",
+    "findings": [],
+    "residual_risks": [
+      "The actual image build and digest publication remain a separate operational action; this issue proves immutable pinning and preflight behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 22,
+    "pull_request": 36,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/36",
+    "base": "main",
+    "head": "codex/22-pinned-ruby-builder-runtime",
+    "revision": "git-blake3:8db86f760f48630a9739de4cfb2094e232be1b0e:16a75e84e9370fed6fab0a1c032e8448a9e3864e49b228bfbb4173bfb6a0a432",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4b221f15f07b432e426ae7afb4ebfb1ff72d36844d28fcca5fea01a9600c02c3",
+      "values_digest": "a55d041981dfca4a5eb652c7e1d36b16804eba830badda7c59f96bf52fecf00f",
       "rendered_digest": "749441d157724ec13d7238da7fd95321057740b0ae4be7afa85e63a248c2a43e",
       "ast_digest": "280d5a7bec796c2a354c4d01c003be9d0217cddcb0edf67617cdcd2a95e48976"
     },
     "stp": {
-      "values_digest": "32c641b5fd7e154efe7b95afeb1464487477579293d342f4f219289f03868c61",
+      "values_digest": "f3df468a70cf9d461de731076a02a8a2bdab0147563f1b74533acd6ebabb7a55",
       "rendered_digest": "cb3ce281176cc8545dcb722783ff6ce61d5ad3503e385ee801665fbd3e5efb33",
       "ast_digest": "44aa1a23d6453a29fd90659f6fc2aa092a45d7d4036b44f951eb2ef009a19d80"
     },
     "spp": {
-      "values_digest": "d0727484a6f12f9a793fc38efd1540bfa999f77ea8fcba89a583fb2b1e6a2b02",
+      "values_digest": "8d874ed2258a803cd3d47c61a4e56586679d9319d2f5941490b23581417e42ee",
       "rendered_digest": "e1e96d1c5142a83374d235e22a769d3875eb4d1215093b79da17dfa9d587f440",
       "ast_digest": "6cc3853ee4314801c364448627ef0f3038a4e5be58bcd85f9d68e9a792902f51"
     },
     "vpp": {
-      "values_digest": "b9b8b08a4e7aa58644c2cfcf5471240c6f4c16ab2adcf396f5e9d66b4a99825e",
+      "values_digest": "02d60e5b2b691342fdc042bb31c744a02e3272117feeef50ef31a015d4a63603",
       "rendered_digest": "42b6c1a7c2a46f1ee82d37b69d5b7f5aea143edf6032d64fa1689b9b4b6e7cbc",
       "ast_digest": "92f4a60c5ec8a779949f04deb1a4e1b5efeb71f7d41619902c4e7bd7642b00c9"
     },
     "srp": {
-      "values_digest": "31eee1d7a953302f46e1b8f6084179c0fbd213bc4a25a479dcb3ae320ea1b4a7",
-      "rendered_digest": "c995a5fc769dea0dce9f35cb48a87cfda3922ce354ea1927a88be3bc1712a8db",
-      "ast_digest": "56049e3889846a6d25c82cf97ad04698169c2c3a3adfffa417de04d54ec5660d"
+      "values_digest": "9023c04f112280e12067928f41db5f7d9a1f39298da611cfea53ec2d7923e53f",
+      "rendered_digest": "162a2650b37c44bfa9ffb4b529628e0bf979381507edc5b754a363b9e3516b31",
+      "ast_digest": "2b85d5c6326f2444728a2a5ce8e0f8ab22999aa25c6dbf82777bbb1d35746c16"
     },
     "sor": {
-      "values_digest": "ba5d2fc7e3104a1b5cc84bbc06a7c91e0856dac4cfe7882ac0e864d6c1d283e2",
-      "rendered_digest": "6336f7aefcdadc12942c2e522c583672a7dd91ce0550858f55c9927b9f1b6f8a",
-      "ast_digest": "674c8dd870f81116a35208768e9b4da5bb6871f3240aec4de16a09c99dfde6a3"
+      "values_digest": "6d6b455cd9b01ca422d8fd126b50accca723ec46f3d4467f0918b3f007d3b750",
+      "rendered_digest": "99f90b9e4369ed7ee92290abb67c0b5b7ee2e76f059b3bc1206adb8d4c8cb8e8",
+      "ast_digest": "5b8df7a6c1c43b3c94bab4fcf7a3d196c6669e2c115de065b0c6341d7be6da14"
     }
   },
   "transitions": [
@@ -89,6 +124,20 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Replace card-only review projection with canonical csdlc-review evidence"
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -154,6 +203,27 @@
       "actor": "codex",
       "reason": "Replace card-only review projection with canonical csdlc-review evidence",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

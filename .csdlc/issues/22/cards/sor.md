@@ -63,11 +63,11 @@ Added checksum-pinned Ruby 3.3.6 to the immutable builder image, recorded Ruby p
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

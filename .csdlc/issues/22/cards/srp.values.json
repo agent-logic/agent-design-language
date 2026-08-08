@@ -7,23 +7,25 @@
     "title": "Include pinned Ruby runtime in the immutable AWS Spot builder image",
     "slug": "pinned-ruby-builder-runtime",
     "version": "v0.92",
-    "generation": 7
+    "generation": 9
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/docker/adl-builder/Dockerfile\nadl/tools/run_aws_spot_builder_image_validation.sh\nadl/tools/test_adl_builder_image.sh\nadl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "review_revision": "git-blake3:8db86f760f48630a9739de4cfb2094e232be1b0e:16a75e84e9370fed6fab0a1c032e8448a9e3864e49b228bfbb4173bfb6a0a432",
+      "reviewer": "subagent-Copernicus",
       "review_prompts": [
         "Is Ruby version and source digest provenance explicit and verified?",
         "Can a missing Ruby runtime reach the requested validation command?",
         "Are all existing builder checks preserved?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The actual image build and digest publication remain a separate operational action; this issue proves immutable pinning and preflight behavior."
+      ],
+      "review_result": "pass"
     }
   }
 }
