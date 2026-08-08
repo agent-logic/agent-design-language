@@ -3,7 +3,7 @@
   "production_runner": "adl-ubuntu-24.04-16core",
   "adopted_lane": "adl-rust-tests",
   "required_check_identity_preserved": true,
-  "validation_breadth_preserved": false,
+  "validation_breadth_preserved": true,
   "validation_breadth_contract_preserved": true,
   "runner_group_concurrency": 10,
   "selected_repository_access": true,
@@ -15,7 +15,8 @@
   "production_canary": {
     "routing_receipt": ".csdlc/evidence/5853/production-canary.json",
     "terminal_gate": "At the final reviewed PR head, either the direct test and doc-test steps or the complete authoritative coverage replacement must finish successfully",
-    "terminal_acceptance": false
-  },
-  "remaining_action": "Run one fresh paid canary after the repair is committed and pushed, allow the authoritative proof path to finish, retain its exact-head step outcomes, then recompute terminal acceptance."
+    "workflow_run_id": "31219936196",
+    "workflow_run_attempt": 8,
+    "terminal_acceptance": true
+  }
 }

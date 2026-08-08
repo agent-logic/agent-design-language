@@ -1,18 +1,19 @@
 {
   "schema": "adl.wp02b.production_canary.v2",
   "proof_role": "validation_canary",
-  "workflow_run_id": "31148178127",
-  "workflow_conclusion": "cancelled",
-  "job_id": 92772618930,
-  "head_sha": "5996dccc9d7f381035c889e28678397e8f7865cd",
+  "workflow_run_id": "31219936196",
+  "workflow_run_attempt": 8,
+  "workflow_conclusion": "success",
+  "job_id": 93025827899,
+  "head_sha": "efdb5b83d71184329030609a5daee3aba0ef634d",
   "job_name": "adl-rust-tests",
   "job_conclusion": "success",
-  "runner_name": "adl-ubuntu-24.04-16core-1000000256",
+  "runner_name": "adl-ubuntu-24.04-16core-1000000910",
   "runner_group_name": "adl-build-experiment",
   "labels": ["adl-ubuntu-24.04-16core"],
-  "started_at": "2026-08-07T04:44:43Z",
-  "completed_at": "2026-08-07T04:46:25Z",
-  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31148178127/job/92772618930",
+  "started_at": "2026-08-08T00:03:03Z",
+  "completed_at": "2026-08-08T00:05:21Z",
+  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31219936196/job/93025827899",
   "proof_paths": {
     "direct_test": {
       "test_step_conclusion": "skipped",
@@ -23,34 +24,43 @@
       "producer_jobs": [
         {
           "name": "adl-coverage-runtime-hosted",
-          "job_id": 92772618948,
-          "conclusion": "cancelled"
+          "job_id": 93025827910,
+          "conclusion": "success"
         },
         {
           "name": "adl-coverage-workspace-hosted (1/2)",
-          "job_id": 92772618977,
-          "conclusion": "cancelled"
+          "job_id": 93025828008,
+          "conclusion": "success"
         },
         {
           "name": "adl-coverage-workspace-hosted (2/2)",
-          "job_id": 92772619044,
-          "conclusion": "cancelled"
+          "job_id": 93025828090,
+          "conclusion": "success"
         }
       ],
       "aggregator_jobs": [
         {
           "name": "adl-coverage-hosted",
-          "job_id": 92773141004,
-          "conclusion": "failure"
+          "job_id": 93031456859,
+          "conclusion": "success"
         },
         {
           "name": "adl-coverage",
-          "job_id": 92773179472,
-          "conclusion": "failure"
+          "job_id": 93033709431,
+          "conclusion": "success"
         }
       ]
     }
   },
-  "terminal_acceptance": false,
-  "terminal_boundary": "The exact-head shell routed to the selected runner, but direct tests were skipped and the authoritative replacement did not complete. A fresh final-head paid canary must complete one proof path successfully."
+  "access_bootstrap": {
+    "reason": "GitHub selected-workflow policy cannot resolve the hidden pull-request merge ref while the workflow itself is introduced by the pull request",
+    "temporary_ref": "refs/heads/codex/wp02b-pr11-merge-canary",
+    "temporary_ref_sha": "b81dcf2dc86f7fdab1163450e151376705fc36d5",
+    "only_active_run": "31219936196",
+    "selected_repository_preserved": true,
+    "workflow_restriction_restored_after_assignment": true,
+    "temporary_ref_deleted": true
+  },
+  "terminal_acceptance": true,
+  "terminal_boundary": "The exact-head pull-request canary completed successfully on the selected 16-core runner. Direct test and doc-test steps were policy-skipped, and the complete authoritative runtime/workspace coverage replacement plus both aggregators succeeded."
 }
