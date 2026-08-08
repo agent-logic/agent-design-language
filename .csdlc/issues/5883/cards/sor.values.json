@@ -7,7 +7,7 @@
     "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
     "slug": "retire-csdlc-init",
     "version": "backlog",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
@@ -36,7 +36,7 @@
           ],
           "purpose": "Prove the real csdlc-issue create/validate/doctor/bind lifecycle.",
           "outcome": "passed",
-          "evidence_ref": "local:gate2:1-passed"
+          "evidence_ref": "exact-head:gate2:1-passed"
         },
         {
           "command": [
@@ -49,7 +49,7 @@
           ],
           "purpose": "Prove the retired binary is absent, reappearance fails closed, and active guidance uses csdlc-issue create.",
           "outcome": "passed",
-          "evidence_ref": "local:gate10a:17-passed"
+          "evidence_ref": "exact-head:gate10a:19-passed"
         },
         {
           "command": [
@@ -64,7 +64,7 @@
           ],
           "purpose": "Prove the changed Rust surface is warning-free across all targets.",
           "outcome": "passed",
-          "evidence_ref": "local:clippy:passed"
+          "evidence_ref": "exact-head:clippy:passed"
         },
         {
           "command": [
@@ -73,7 +73,7 @@
           ],
           "purpose": "Prove the installed compatibility skill source teaches csdlc-issue create.",
           "outcome": "passed",
-          "evidence_ref": "local:adl-pr-cycle-skill:passed"
+          "evidence_ref": "exact-head:adl-pr-cycle-skill:passed"
         }
       ],
       "integration_state": "not_started",

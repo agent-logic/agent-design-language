@@ -40,7 +40,7 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route.
     ],
     "purpose": "Prove the real csdlc-issue create/validate/doctor/bind lifecycle.",
     "outcome": "passed",
-    "evidence_ref": "local:gate2:1-passed"
+    "evidence_ref": "exact-head:gate2:1-passed"
   },
   {
     "command": [
@@ -53,7 +53,7 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route.
     ],
     "purpose": "Prove the retired binary is absent, reappearance fails closed, and active guidance uses csdlc-issue create.",
     "outcome": "passed",
-    "evidence_ref": "local:gate10a:17-passed"
+    "evidence_ref": "exact-head:gate10a:19-passed"
   },
   {
     "command": [
@@ -68,7 +68,7 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route.
     ],
     "purpose": "Prove the changed Rust surface is warning-free across all targets.",
     "outcome": "passed",
-    "evidence_ref": "local:clippy:passed"
+    "evidence_ref": "exact-head:clippy:passed"
   },
   {
     "command": [
@@ -77,7 +77,7 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route.
     ],
     "purpose": "Prove the installed compatibility skill source teaches csdlc-issue create.",
     "outcome": "passed",
-    "evidence_ref": "local:adl-pr-cycle-skill:passed"
+    "evidence_ref": "exact-head:adl-pr-cycle-skill:passed"
   }
 ]
 
