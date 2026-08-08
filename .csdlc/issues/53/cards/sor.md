@@ -63,11 +63,11 @@ Added an explicit v3 receipt contract that derives the evidence commit from the 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

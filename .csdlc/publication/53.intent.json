@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 53,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/53-execution-proof-receipts",
+  "title": "[C-SDLC v2] Make execution-proof receipts non-self-referential",
+  "body": "Closes #53\n\nAdds a v3 execution-proof receipt contract that binds the exact substantive source commit and derives the evidence commit from the receipt's unique Git introduction, avoiding self-referential SHA rewrites. It verifies A-to-B-to-HEAD ancestry, confines A..B to issue evidence, rejects any later evidence-prefix touch including tamper-then-revert history, and validates source/test artifacts at A plus current receipt/log/artifact digests. Retained v2 receipts keep their exact-HEAD behavior.\n\nValidation: focused repository-local A/B/C regression with product, test, source-digest, receipt, log, unrelated-ancestry, malformed-revision, and tamper-then-revert rejection; v2 compatibility; Ruby syntax; diff hygiene; typed issue validation and doctor. Exact-head subagent re-review approved c7b454b30beec5d537966765a24f33823535f562 with no P0-P3 findings.",
+  "draft": false,
+  "revision": "git-blake3:f327fde0f65661a87645418fa0aa371058081e64:ff8397b167cf0316869a2444e4ad4752dc548e002bc0ff38230fe5b2de3b80bd",
+  "commit_sha": "f327fde0f65661a87645418fa0aa371058081e64"
+}
