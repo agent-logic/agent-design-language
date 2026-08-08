@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue 41 design, typed cards, error taxonomy, issue-read mapper boundary, real CLI loopback proof plan, redaction, and no-widening constraints.
+.csdlc/issues/41
+.csdlc/prepared/issues/41
+csdlc-v2/src/error.rs
+csdlc-v2/src/github.rs
+csdlc-v2/tests/gate_github_actions.rs
 
 ## Prompts
 
@@ -32,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live GitHub request was made; deterministic loopback proof is the intentional validation boundary.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bda51b77837a4a8ae76e39ae39158400f36425a6:70c6fd14d59905c3000145a3d1989976ccbdec33f27adc2ec20c47134f6c1a49")
 
-Reviewer: None
+Reviewer: Some("subagent:review-41-implementation")
 
-Result: pre_review
+Result: pass

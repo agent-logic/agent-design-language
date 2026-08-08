@@ -3,13 +3,29 @@
   "issue": 41,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "771b5ed173830eb20533942fa87b74b8f11779b53aabf509b5e9cc0e34d22b32",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "ac390630478f4a5dfca8f054830f59cd451dfea6b849ff3e8b1f98d3ff772a8c",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "d0154d23ae5ddd435a943528ef13725e2205a64c7081eb4f352b185295a65739",
   "branch": "codex/41-missing-issue-read-diagnostics-preparation",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-41-preparation",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:review-41-implementation",
+    "scope": [
+      ".csdlc/issues/41",
+      ".csdlc/prepared/issues/41",
+      "csdlc-v2/src/error.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ],
+    "reviewed_revision": "git-blake3:bda51b77837a4a8ae76e39ae39158400f36425a6:70c6fd14d59905c3000145a3d1989976ccbdec33f27adc2ec20c47134f6c1a49",
+    "findings": [],
+    "residual_risks": [
+      "No live GitHub request was made; deterministic loopback proof is the intentional validation boundary."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a17ee3c1af75bc01895565c9f2f509c65c35fa67f9f012445ac88084fe9374c5",
+      "values_digest": "c1a16eecb3c913de27b8737d03583a201051c5222f3d1ebf534b3f9c2b027ee0",
       "rendered_digest": "f7745872babb8299b9f9c1964c684a2f4246df6a1ea3a19066e420c0976d289d",
       "ast_digest": "3f9c49d932c246af98631b30d404612bd6f3ab99c71e3b9e64354a6280909a8d"
     },
     "stp": {
-      "values_digest": "16b0b47e4aebff877fb57c8c1f264bb1993bc1b8e6471ddd7b53a1f6687d072f",
+      "values_digest": "16ebcddc9624129868b63069e12fd0c241a85dce5b22e62bf7a50ce21782b36d",
       "rendered_digest": "9c85cd21d22bea114ce3fbe8f269223ef781c1f5d7ff8f15cf77029c959c39ea",
       "ast_digest": "6a3d0757edb91ea51a5399303d8c929b9c1eceace677c3c65b151f0256285b35"
     },
     "spp": {
-      "values_digest": "46d5233cde8841846e2cfd68d0f26c31a38a4ff4c0e63531ea492b3117f626de",
+      "values_digest": "55de93fccc49fb8ea451151eee39c472ea66604f3391cc2d7f0cb3232e18a401",
       "rendered_digest": "d8a6614b34a983cf1c93ccfe1837d8d875676a0b35fecad5d0551fe40921f8f4",
       "ast_digest": "2c2e4ab6aab25ac41943aef6ac3386a8117c0ef5b280f0526edcdc53a80ed45d"
     },
     "vpp": {
-      "values_digest": "eef0f35cb0f246368b7177b3295cdc6589b559b9e34917c98ea061ce6b40f9ed",
+      "values_digest": "fef6fb870b1b17d2e784947356c6991a1926098d39f98b807d62852d13ffdc03",
       "rendered_digest": "d79f0155f1f4c69a19b7220349e7aa2e33f478ed3c3117ea6af445885ec11dd9",
       "ast_digest": "40d94ac1d2cc4da656effdcb5e7154fbeb46c08a5bda0c1e6e6f3a37e655a49b"
     },
     "srp": {
-      "values_digest": "3fc3a0968485376271bfd39d33e6fc9bb4463ae27a10cbd6ba9c1f130f8190e0",
-      "rendered_digest": "f263c817d430321d6320f7c309c1c859afba3b650676b9c97b0401125aca362e",
-      "ast_digest": "c302e395f99cf1463665f5b736d313f2ca300ea7a9b611a9173f917151bd355c"
+      "values_digest": "30e6cb23b0a23a8339de5afb595b2d8a01e23b9c3d33e70a01aa7c14f64ed073",
+      "rendered_digest": "1de26d3cb7559161326cd9b0be5f6419a3b85966d68d0295629fdb36ec882f2d",
+      "ast_digest": "216c4c44f8ca23f5ac459b84d7f478713cc1a9d1335d9aee978152779f41cbbd"
     },
     "sor": {
-      "values_digest": "891d1607926335655b2bae98ad7da1d64d25ef761435c2dd6e5cc2cbeda336c7",
+      "values_digest": "6da0bb06bc109ecbb19b09c5379affd4c626357ec2b4ed869e8e070324f98dc6",
       "rendered_digest": "df4133d3bd2f89665dafdb0098d8a662d30adc2acb60f757689aef154dd04485",
       "ast_digest": "02dd7f01f8ec73f4889caa9a6a026df3078ab325e186eea174730ae5093035d1"
     }
@@ -75,6 +91,13 @@
       "to": "implemented",
       "actor": "codex:41-execution",
       "reason": "advance only after bounded implementation and proving validation are recorded"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-41-implementation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -182,6 +205,13 @@
       "actor": "codex:41-execution",
       "reason": "advance only after bounded implementation and proving validation are recorded",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "subagent:review-41-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
