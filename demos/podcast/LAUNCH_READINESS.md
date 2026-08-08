@@ -1,4 +1,4 @@
-# Synthetic Minds Podcast Launch Readiness
+# Cognitive Spacetime Podcast Launch Readiness
 
 This packet prepares the podcast surface for hidden-route testing before launch.
 
