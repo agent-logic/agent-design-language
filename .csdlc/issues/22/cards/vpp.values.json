@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 22,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Include pinned Ruby runtime in the immutable AWS Spot builder image",
+    "slug": "pinned-ruby-builder-runtime",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "builder-image-contract",
+          "proof_role": "Verify pinned Ruby source, digest, provenance, and existing immutable builder tools",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "adl/tools/test_adl_builder_image.sh"
+          ],
+          "parallel_group": "focused-shell",
+          "defer_reason": null
+        },
+        {
+          "lane": "spot-builder-preflight-contract",
+          "proof_role": "Verify Ruby smoke ordering and missing-Ruby fail-closed behavior",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+          ],
+          "parallel_group": "focused-shell",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace and unrelated changes",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed before the requested validation command when Ruby or validator smoke fails; do not substitute host installation.",
+      "design_ref": ".csdlc/prepared/issues/22/design.md",
+      "design_digest": "c610e2ddfe9484a8be12c6ae5bc0a5f8e5d39fa5247a771bdb34efb74c54a7c1",
+      "diagram_ref": ".csdlc/prepared/issues/22/diagram.mmd",
+      "diagram_digest": "7172e260db3474a20353d51e23fea1917bb7b6056a8c10f7d0cb3106666fc447"
+    }
+  }
+}

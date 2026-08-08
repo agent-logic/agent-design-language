@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 22,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b5fa8517ec88a66465e0baff5b4f7c6560781aa68ac7602c0beedea0fe51bd16",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "8ab691e9dab281cad472ee29b98b6ea9503d6bf0a4e1d449567cb9678b944c50",
+  "branch": "codex/22-pinned-ruby-builder-runtime",
+  "worktree": "/Volumes/FastWork/adl-issue-22-pinned-ruby-builder-runtime",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/22/design.md",
+  "diagram_path": ".csdlc/prepared/issues/22/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-approved-issue-contract",
+      "revision": "c610e2ddfe9484a8be12c6ae5bc0a5f8e5d39fa5247a771bdb34efb74c54a7c1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d673cad019c7c35ad5864a7b28380474ca0eeb492f3aa11742024ee6d6874532",
+      "rendered_digest": "749441d157724ec13d7238da7fd95321057740b0ae4be7afa85e63a248c2a43e",
+      "ast_digest": "280d5a7bec796c2a354c4d01c003be9d0217cddcb0edf67617cdcd2a95e48976"
+    },
+    "stp": {
+      "values_digest": "312100cd75062e6a8d1e7c35dbabde400b0a11346c4c1fd09e8cd948d538eb8d",
+      "rendered_digest": "cb3ce281176cc8545dcb722783ff6ce61d5ad3503e385ee801665fbd3e5efb33",
+      "ast_digest": "44aa1a23d6453a29fd90659f6fc2aa092a45d7d4036b44f951eb2ef009a19d80"
+    },
+    "spp": {
+      "values_digest": "26211bc244d07e03fc115534f6cb0ef4bfabcd052dfaf0d6037fe0c7166ad8dd",
+      "rendered_digest": "f4eb972d1ea33c9c051a1a1f7f89db9c0f449b3688e037acb9912557e6968a1a",
+      "ast_digest": "64a2392b806d3b9b3b7844fe03708dd67c5477f80e7869ec5f60cd7439da8969"
+    },
+    "vpp": {
+      "values_digest": "4937d459cb8b40b28a7d5545990b4fa8b8d1d053868ae2418cc9f06e48e6ab8e",
+      "rendered_digest": "42b6c1a7c2a46f1ee82d37b69d5b7f5aea143edf6032d64fa1689b9b4b6e7cbc",
+      "ast_digest": "92f4a60c5ec8a779949f04deb1a4e1b5efeb71f7d41619902c4e7bd7642b00c9"
+    },
+    "srp": {
+      "values_digest": "fec4b8b754323ba2497acb96007be1a5f072df90a94f7e1a0e671a35c6146195",
+      "rendered_digest": "8aed586f98adfedfa9055ca38e8afde873d950d73177a7390198face22c420a1",
+      "ast_digest": "4bb70ef0ad811cda46a15094433f9a3341c726f5ee3d291d176594da8f218928"
+    },
+    "sor": {
+      "values_digest": "e5e56270d22d6560f1c03297d1a5d4a88a191c89fac7ae324f43efe20572791b",
+      "rendered_digest": "7dd1bb562c8ea3f3ea537da392d1d9522421eb4c2a2934ebea83fd5c932ed667",
+      "ast_digest": "2a30ba6e851b1b8f6cdb63e0081180f7b16b8b9304a85470484766eb68f74239"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation and focused proof are complete"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Record bounded issue 22 implementation and focused proof",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added checksum-pinned Ruby 3.3.6 to the immutable builder image, recorded Ruby provenance, and made builder preflight execute a minimal Ruby program plus the repository validator self-test before any requested validation command.\",\"changes\":[\"Pinned the official Ruby 3.3.6 source archive and SHA-256 in the builder Dockerfile\",\"Recorded ruby --version in the immutable builder toolchain manifest\",\"Executed Ruby and the native-receipt validator self-test during builder preflight\",\"Added focused static, positive, and missing-Ruby fail-closed contracts\"],\"artifacts\":[\"adl/docker/adl-builder/Dockerfile\",\"adl/tools/run_aws_spot_builder_image_validation.sh\",\"adl/tools/test_adl_builder_image.sh\",\"adl/tools/test_run_aws_spot_builder_image_validation.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Implementation and focused proof are complete",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Record bounded issue 22 implementation and focused proof",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Added checksum-pinned Ruby 3.3.6 to the immutable builder image, recorded Ruby provenance, and made builder preflight execute a minimal Ruby program plus the repository validator self-test before any requested validation command.\",\"changes\":[\"Pinned the official Ruby 3.3.6 source archive and SHA-256 in the builder Dockerfile\",\"Recorded ruby --version in the immutable builder toolchain manifest\",\"Executed Ruby and the native-receipt validator self-test during builder preflight\",\"Added focused static, positive, and missing-Ruby fail-closed contracts\"],\"artifacts\":[\"adl/docker/adl-builder/Dockerfile\",\"adl/tools/run_aws_spot_builder_image_validation.sh\",\"adl/tools/test_adl_builder_image.sh\",\"adl/tools/test_run_aws_spot_builder_image_validation.sh\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_adl_builder_image.sh\"],\"purpose\":\"Verify immutable builder pinning and provenance contract\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation output: PASS test_adl_builder_image\"},{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_builder_image_validation.sh\"],\"purpose\":\"Verify Ruby preflight execution and missing-Ruby stop before validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation output: PASS test_run_aws_spot_builder_image_validation\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation exited 0\"}]}"
+    }
+  ]
+}

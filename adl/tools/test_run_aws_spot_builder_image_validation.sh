@@ -68,6 +68,7 @@ case "$1" in
   run)
     args="$*"
     if [[ "$args" == *"rustc --version"* ]]; then
+      echo toolchain >>"$ADL_FAKE_DOCKER_CALLS"
       if [[ "${ADL_FAKE_TOOLCHAIN_OK:-1}" != "1" ]]; then
         echo "rustc 1.96.0"
         exit 0
@@ -80,8 +81,16 @@ sccache 0.16.0
 Ubuntu LLD 18.1.3
 aws-cli/2.35.15
 TOOLS
+      if [[ "${ADL_FAKE_RUBY_OK:-1}" == "1" ]]; then
+        cat <<'RUBY'
+ruby 3.3.6
+ruby-smoke-ok
+PASS: finalization allowlist rejects Runtime product drift
+RUBY
+      fi
       exit 0
     fi
+    echo validation >>"$ADL_FAKE_DOCKER_CALLS"
     [[ "$args" == *"--env RUSTFLAGS= --env CARGO_INCREMENTAL=0"* ]] || {
       echo "validation container did not preserve the known-good Rust flags" >&2
       exit 2
@@ -136,6 +145,7 @@ run_fixture() {
   ADL_RUN_ROOT="$RUN_ROOT" \
   ADL_CACHE_VOLUME_MOUNT_PATH="$CACHE_MOUNT" \
   ADL_REGION=us-west-2 \
+  ADL_FAKE_DOCKER_CALLS="$TMP/docker-calls.log" \
   bash "$SCRIPT" \
     --image "$image" \
     --expected-ref "$commit" \
@@ -200,6 +210,17 @@ if ADL_FAKE_TOOLCHAIN_OK=0 run_fixture >"$TMP/tool.out" 2>"$TMP/tool.err"; then
   exit 1
 fi
 grep -F 'builder toolchain verification missing' "$TMP/tool.err" >/dev/null
+
+: >"$TMP/docker-calls.log"
+if ADL_FAKE_RUBY_OK=0 run_fixture >"$TMP/ruby.out" 2>"$TMP/ruby.err"; then
+  echo "expected missing Ruby to fail builder preflight" >&2
+  exit 1
+fi
+grep -F 'builder toolchain verification missing ruby-smoke-ok' "$TMP/ruby.err" >/dev/null
+if grep -F validation "$TMP/docker-calls.log" >/dev/null; then
+  echo "missing Ruby reached the requested validation command" >&2
+  exit 1
+fi
 
 if ADL_FAKE_IMAGE_ARCH=arm64 run_fixture >"$TMP/arch.out" 2>"$TMP/arch.err"; then
   echo "expected wrong image architecture to fail" >&2

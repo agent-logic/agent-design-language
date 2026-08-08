@@ -1,0 +1,80 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 22
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Added checksum-pinned Ruby 3.3.6 to the immutable builder image, recorded Ruby provenance, and made builder preflight execute a minimal Ruby program plus the repository validator self-test before any requested validation command.
+
+## Artifacts
+
+- adl/docker/adl-builder/Dockerfile
+- adl/tools/run_aws_spot_builder_image_validation.sh
+- adl/tools/test_adl_builder_image.sh
+- adl/tools/test_run_aws_spot_builder_image_validation.sh
+
+## Execution
+
+- Pinned the official Ruby 3.3.6 source archive and SHA-256 in the builder Dockerfile
+- Recorded ruby --version in the immutable builder toolchain manifest
+- Executed Ruby and the native-receipt validator self-test during builder preflight
+- Added focused static, positive, and missing-Ruby fail-closed contracts
+
+## Validation
+
+[
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_adl_builder_image.sh"
+    ],
+    "purpose": "Verify immutable builder pinning and provenance contract",
+    "outcome": "passed",
+    "evidence_ref": "local focused validation output: PASS test_adl_builder_image"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+    ],
+    "purpose": "Verify Ruby preflight execution and missing-Ruby stop before validation",
+    "outcome": "passed",
+    "evidence_ref": "local focused validation output: PASS test_run_aws_spot_builder_image_validation"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace errors",
+    "outcome": "passed",
+    "evidence_ref": "local focused validation exited 0"
+  }
+]
+
+## Integration
+
+not_started
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

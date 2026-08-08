@@ -160,7 +160,11 @@ fi
 CURRENT_STAGE="verify_builder_toolchain"
 stage "$CURRENT_STAGE"
 TOOLCHAIN_OUTPUT="$ADL_RUN_ROOT/builder-toolchain.log"
-"${DOCKER[@]}" run --rm --entrypoint /bin/bash "$IMAGE" -lc "
+"${DOCKER[@]}" run --rm \
+  --workdir /workspace \
+  --volume "$ADL_REMOTE_REPO_DIR:/workspace:ro" \
+  --entrypoint /bin/bash \
+  "$IMAGE" -lc "
   set -euo pipefail
   test \"\$(uname -m)\" = '$EXPECTED_UNAME_ARCH'
   rustc --version
@@ -169,8 +173,12 @@ TOOLCHAIN_OUTPUT="$ADL_RUN_ROOT/builder-toolchain.log"
   sccache --version
   ld.lld --version | head -n 1
   aws --version
+  ruby --version
+  ruby -e 'abort unless 6 * 7 == 42; puts \"ruby-smoke-ok\"'
+  ruby adl/tools/validate_v092_runtime_native_receipts.rb --self-test-finalization-policy
 " >"$TOOLCHAIN_OUTPUT" 2>&1
-for required in rustc cargo cargo-nextest sccache LLD aws-cli; do
+for required in rustc cargo cargo-nextest sccache LLD aws-cli ruby-smoke-ok \
+  'PASS: finalization allowlist rejects Runtime product drift'; do
   grep -F "$required" "$TOOLCHAIN_OUTPUT" >/dev/null || {
     echo "spot_builder_image_validation: builder toolchain verification missing $required" >&2
     exit 1

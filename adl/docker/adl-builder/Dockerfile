@@ -6,6 +6,8 @@ ARG CARGO_NEXTEST_VERSION=0.9.140
 ARG CARGO_NEXTEST_X86_64_SHA256=4ee9aaa0d0171a985a5d0eb735b87355894c1c455972e9674fb9fdbd1387c9a3
 ARG CARGO_NEXTEST_AARCH64_SHA256=8b3f4d4560b6b0f83774fecc6be07e47716dbad0eb0bb6c3890f478f4affe4b6
 ARG CARGO_LLVM_COV_VERSION=0.8.7
+ARG RUBY_VERSION=3.3.6
+ARG RUBY_SOURCE_SHA256=540975969d1af42190d26ff629bc93b1c3f4bffff4ab253e245e125085e66266
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CARGO_HOME=/usr/local/cargo
@@ -35,8 +37,24 @@ RUN apt-get update -y \
       unzip \
       xz-utils \
       zstd \
+      libreadline-dev \
       libssl-dev \
+      libyaml-dev \
+      zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
+
+RUN ruby_archive="ruby-${RUBY_VERSION}.tar.xz" \
+    && ruby_url="https://cache.ruby-lang.org/pub/ruby/${RUBY_VERSION%.*}/${ruby_archive}" \
+    && curl -fsSL "$ruby_url" -o "/tmp/${ruby_archive}" \
+    && printf '%s  %s\n' "$RUBY_SOURCE_SHA256" "/tmp/${ruby_archive}" | sha256sum -c - \
+    && mkdir -p /tmp/ruby-source \
+    && tar -xJf "/tmp/${ruby_archive}" -C /tmp/ruby-source --strip-components=1 \
+    && cd /tmp/ruby-source \
+    && ./configure --disable-install-doc \
+    && make -j"$(nproc)" \
+    && make install \
+    && ruby --version \
+    && rm -rf /tmp/ruby-source "/tmp/${ruby_archive}"
 
 RUN arch="$(uname -m)" \
     && case "$arch" in \
@@ -91,6 +109,7 @@ RUN printf '%s\n' \
       "sccache=$(sccache --version)" \
       "lld=$(ld.lld --version | head -n 1)" \
       "aws=$(aws --version 2>&1)" \
+      "ruby=$(ruby --version)" \
       > /usr/local/share/adl-builder-toolchain.txt
 
 RUN arch="$(uname -m)" \
