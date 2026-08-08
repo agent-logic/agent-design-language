@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Duplicate entrypoint deletion, active operator routing, installed inventory, and creation behavior parity only.
+.csdlc/issues/5883
+.csdlc/prepared/issues/5883
+CONTRIBUTING.md
+adl/tools
+csdlc-v2
+docs/architecture
+docs/tooling
 
 ## Prompts
 
@@ -22,7 +28,18 @@ Duplicate entrypoint deletion, active operator routing, installed inventory, and
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P2-stale-gate10a-count",
+    "severity": "p2",
+    "summary": "Canonical SOR retained the pre-rebase Gate 10A count instead of exact-head proof.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -34,8 +51,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:rereview_5883_exact_head")
 
-Result: pre_review
+Result: pass

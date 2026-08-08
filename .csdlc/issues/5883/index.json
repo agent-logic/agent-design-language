@@ -3,13 +3,53 @@
   "issue": 5883,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9caf03a65108a139d1562e3ea22709bb3df6cf437e9f8e6f42637de19c1d93e1",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "eaaeab5b5c4dff5c6d4771970510c7c65c986d9a52663a901b9bfd9c9ee262de",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "09aff2a22c4d2c8037bba5e6f1998ba8ac3fbb4f4032a4b52ae3ea6d973a8873",
   "branch": "codex/5883-retire-csdlc-init",
   "worktree": "/Volumes/FastWork/adl-issue-5883-retire-csdlc-init",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:rereview_5883_exact_head",
+    "assigned_by": "codex:5883-implementation",
+    "revision": "git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100",
+    "scope": [
+      ".csdlc/issues/5883",
+      ".csdlc/prepared/issues/5883",
+      "CONTRIBUTING.md",
+      "adl/tools",
+      "csdlc-v2",
+      "docs/architecture",
+      "docs/tooling"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:rereview_5883_exact_head",
+    "scope": [
+      ".csdlc/issues/5883",
+      ".csdlc/prepared/issues/5883",
+      "CONTRIBUTING.md",
+      "adl/tools",
+      "csdlc-v2",
+      "docs/architecture",
+      "docs/tooling"
+    ],
+    "reviewed_revision": "git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100",
+    "findings": [
+      {
+        "id": "P2-stale-gate10a-count",
+        "severity": "p2",
+        "summary": "Canonical SOR retained the pre-rebase Gate 10A count instead of exact-head proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f0e232e95a140505cbe4c7a5e40a508e6c0898918d449fa5aae0c10e609a2f1b",
+      "values_digest": "ba9e154a2f329226a1c17737cd9cf26d827e86e013ff9dd0f0932b7ba6318a4b",
       "rendered_digest": "5fbb4d7270a1cf109f028a7f8ea435d6ea10a9abaa3ff6ef7db3884e954c4f51",
       "ast_digest": "356c8313c994e984348c82a8595c9422c9afcb797428144a31ab67978535c8e7"
     },
     "stp": {
-      "values_digest": "84baccc6cc619a488fefd6d2834e820d07064536d1500355b6276f42264bf85b",
+      "values_digest": "0f8b5914889bc2fdd5945799db522c7f1783732c78442162c898efe5a4434d24",
       "rendered_digest": "339465c15e858720df8b0520ca0cec1a58df6e989c2e11d6fa8c05ccf9851416",
       "ast_digest": "3be83bbfe6d5aeb62c2aeda9a203d81e8e85cb2d78db95081d0c7d9181ef10c1"
     },
     "spp": {
-      "values_digest": "843782e18bb3102bca0d8ead25764fe345fffd3b9877a662046f67eaab74dd87",
+      "values_digest": "e5d58891884cf010398e8e610efa9f23ddbad031524bf5273223319ea8389ddc",
       "rendered_digest": "84bdc678ae5ba4faa47ba2a867b7a63be49e51888a3e77d879d2c9a327d89b56",
       "ast_digest": "468cf4e5688352eced7666554650ecb1e6a61512429c461dddfcfd01672a33ec"
     },
     "vpp": {
-      "values_digest": "efd31788414d2e0d1d48794a245c88e3b96a69834f0fa55cacc0b5ef4e41db5b",
+      "values_digest": "9dc91ee3472d81fe4ae7a7a84a059da346de5f85da9f03bb10f76d884062b436",
       "rendered_digest": "630592259d266b34cebcfb49e7d48731d76021981855ff20c699989c071d8072",
       "ast_digest": "291a7a887adaf6712a82407f14eb73a06629b2a52a50db0171641de24fed5b17"
     },
     "srp": {
-      "values_digest": "538e682018065a858c3888cbfab2aeed7ad9bf366b4e0bbead3c58c6c87a96b6",
-      "rendered_digest": "005188554e97c09761cc0a9f473ddd58b135235c46c4a2dd21ba30cdbad14f40",
-      "ast_digest": "c0ddc37bfca2715a0eca5b500564421a79ecde43fb1c60efc54183f08f6fb60c"
+      "values_digest": "e650a235e153d9e385e710fac2822a2d7cfce55eceec4791ad0c99d20a474e52",
+      "rendered_digest": "4b16030b466c427470d897d4270314a60b2f499e63ec42d58f9cea3b3e62032a",
+      "ast_digest": "e9c327939edcda3907f421c6d786e482337f2e7124ff08a549fc608521ba5a62"
     },
     "sor": {
-      "values_digest": "065b74439e2c2f61307688d24a1d95d1d45f6801ad8cc7b9f62f5b193f4f3d0a",
+      "values_digest": "05aa30a0eb3d86844367e43c12dbe44e95bf40c5e836f0c8781a94fe0a20207d",
       "rendered_digest": "07dda942dc5c0f15f0f5d6b3cd794ffaeebd5b3c42bc0ae32fff57154702ffd1",
       "ast_digest": "7e61c71827409a7293595f2a1c9ce3b39541824f3b9b8f726fa729f6ccf312b2"
     }
@@ -75,6 +115,13 @@
       "to": "implemented",
       "actor": "codex:5883-implementation",
       "reason": "Focused implementation and validation proof are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5883-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -168,6 +215,20 @@
       "actor": "codex:5883-review-remediation",
       "reason": "Replace pre-rebase validation evidence with exact-head post-rebase proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Retired csdlc-init so csdlc-issue create is the sole typed creation route.\",\"changes\":[\"Deleted the csdlc-init Cargo target and source binary.\",\"Removed csdlc-init from installer, skill, coexistence, and proof authority and reject its reappearance.\",\"Updated active skills, runbooks, adapters, architecture contracts, and contributor guidance to csdlc-issue create while preserving historical evidence.\"],\"artifacts\":[\"csdlc-v2/src/operator.rs\",\"csdlc-v2/tests/gate10a.rs\",\"docs/tooling/adl_pr_cycle_skill.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the real csdlc-issue create/validate/doctor/bind lifecycle.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:gate2:1-passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove the retired binary is absent, reappearance fails closed, and active guidance uses csdlc-issue create.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:gate10a:19-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed Rust surface is warning-free across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:clippy:passed\"},{\"command\":[\"bash\",\"adl/tools/test_install_adl_pr_cycle_skill.sh\"],\"purpose\":\"Prove the installed compatibility skill source teaches csdlc-issue create.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:adl-pr-cycle-skill:passed\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:5883-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:5883-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
