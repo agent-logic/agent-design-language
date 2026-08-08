@@ -839,7 +839,7 @@ impl DistributedIdentityStore {
         if audit.len().map_err(storage_error)? > self.policy.max_audit_events {
             return Err(IdentityError::DurableStateCorrupt);
         }
-        let mut last_sequence = None;
+        let mut last_sequence: Option<u64> = None;
         for row in audit.iter().map_err(storage_error)? {
             let (key, value) = row.map_err(storage_error)?;
             let event: EnrollmentAuditEvent =
@@ -854,7 +854,7 @@ impl DistributedIdentityStore {
                     .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
                 || event.result.is_empty()
                 || event.reason_code.is_empty()
-                || last_sequence.is_some_and(|previous| previous >= sequence)
+                || last_sequence.is_some_and(|previous| previous.checked_add(1) != Some(sequence))
             {
                 return Err(IdentityError::DurableStateCorrupt);
             }
@@ -906,6 +906,17 @@ impl DistributedIdentityStore {
             .open_table(AUDIT)
             .map_err(storage_error)?
             .insert(sequence, bytes)
+            .map_err(storage_error)?;
+        write.commit().map_err(storage_error)
+    }
+
+    #[cfg(test)]
+    pub fn remove_audit_event_for_test(&self, sequence: u64) -> IdentityResult<()> {
+        let write = self.database.begin_write().map_err(storage_error)?;
+        write
+            .open_table(AUDIT)
+            .map_err(storage_error)?
+            .remove(sequence)
             .map_err(storage_error)?;
         write.commit().map_err(storage_error)
     }

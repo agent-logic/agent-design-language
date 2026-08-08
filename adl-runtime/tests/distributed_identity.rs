@@ -487,6 +487,40 @@ fn corrupt_audit_metadata_event_and_nonce_fail_closed_on_restart() {
         ),
         IdentityError::DurableStateCorrupt
     );
+
+    let audit_gap = tempfile::tempdir().unwrap();
+    {
+        let store = open_store(&audit_gap, policy(&root));
+        let local = store.load_or_create_local_identity(1).unwrap();
+        for nonce in [19_u8, 20, 21] {
+            let mut request = local
+                .sign_enrollment(
+                    GuardianEnrollmentRole::Voter,
+                    &root,
+                    [nonce; 32],
+                    NOW,
+                    NOW + 300,
+                )
+                .unwrap();
+            request.operator_signature[0] ^= 1;
+            assert_eq!(
+                store.enroll(&request, NOW).unwrap_err(),
+                IdentityError::InvalidOperatorSignature
+            );
+        }
+        store.remove_audit_event_for_test(2).unwrap();
+    }
+    assert_eq!(
+        open_error(
+            audit_gap
+                .path()
+                .canonicalize()
+                .unwrap()
+                .join("identity.redb"),
+            policy(&root),
+        ),
+        IdentityError::DurableStateCorrupt
+    );
 }
 
 #[cfg(unix)]
