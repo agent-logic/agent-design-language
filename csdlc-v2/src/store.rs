@@ -2774,4 +2774,47 @@ mod legacy_compatibility_tests {
             .load_record(44)
             .expect_err("unsigned topology injection must fail closed");
     }
+
+    #[test]
+    fn absent_code_repository_preserves_pre_field_record_and_receipt_digests() {
+        let legacy = legacy_record(45);
+        let mut value = serde_json::to_value(legacy).expect("pre-field record JSON");
+        assert!(value.get("code_repository").is_none());
+        assert!(normalize_legacy_record_json(&mut value));
+        let mut record: IssueRecord = serde_json::from_value(value).expect("current record");
+        record.digest = record_digest(&record).expect("current record digest");
+        let encoded_record = serde_json::to_value(&record).expect("encoded current record");
+        assert!(encoded_record.get("code_repository").is_none());
+        let decoded_record: IssueRecord =
+            serde_json::from_value(encoded_record).expect("decoded current record");
+        assert_eq!(
+            decoded_record.digest,
+            record_digest(&decoded_record).expect("decoded record digest")
+        );
+
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue: 45,
+            repository: record.repository.clone(),
+            initialization_digest: record.initialization_digest.clone(),
+            receipt_ref: "csdlc-v2/closeout/45.json".into(),
+            authored_artifacts: BTreeMap::new(),
+            record,
+            cards: BTreeMap::new(),
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt).expect("terminal receipt digest");
+        let encoded_receipt = serde_json::to_value(&receipt).expect("encoded terminal receipt");
+        assert!(encoded_receipt["record"].get("code_repository").is_none());
+        let decoded_receipt: TerminalReceipt =
+            serde_json::from_value(encoded_receipt).expect("decoded terminal receipt");
+        assert_eq!(
+            decoded_receipt.record.digest,
+            record_digest(&decoded_receipt.record).expect("receipt record digest")
+        );
+        assert_eq!(
+            decoded_receipt.digest,
+            terminal_receipt_digest(&decoded_receipt).expect("decoded receipt digest")
+        );
+    }
 }

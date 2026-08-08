@@ -505,6 +505,13 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                         .worktree
                         .as_deref()
                         .is_some_and(|value| same_worktree(store.root(), value, &wanted))
+                    && request.code_repository.as_deref().is_none_or(|requested| {
+                        record
+                            .code_repository
+                            .as_deref()
+                            .unwrap_or(&record.repository)
+                            .eq_ignore_ascii_case(requested)
+                    })
                     && record.phase == crate::LifecyclePhase::Bound
                 {
                     return Ok(BindResult {

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "18b2eea1adfa602448a1bd5ce457a9d6d59102aa1e82a2e784393891fff8876b",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "b3cc0e446320c19eb20310686ee0dc160347c27c93cafd083ae34ce566c09c24",
+  "generation": 12,
+  "digest": "b002e1d00909304239a9b101144bed11960cbbf83c210dceb2d17f32baaf6685",
   "branch": "codex/45-doctor-split-repository-authority",
   "worktree": "/Volumes/FastWork/adl-issue-45-doctor-split-authority",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9b9ce8274e4f52ce1d8205586f8e39bc03289ac1d908dfb79b7290d441ab0eec",
+      "values_digest": "9dd2bf5003e3d26926e0c9db32865725687c8b76ee2bdef7ef2a3be18548a36e",
       "rendered_digest": "77186a4f08a7269344c31f0318ad8225000c28019811382fb9fd61abb88d56d0",
       "ast_digest": "604d9fad4d60da84ad5f91948d8a84eb3f353255613dd283c3ea977975ba39ae"
     },
     "stp": {
-      "values_digest": "cf33183ac7eeab0004995aee1e8f8de22ad6da0909c248f2445f7dba13caa9a1",
-      "rendered_digest": "5e4d512bfe1e765fb730c0ee685c8d5d47b2667bf83bc6bad9b99ef97124ae19",
-      "ast_digest": "5cc869f262ba2e1c902cbc273d45bca91f00f0df71988f13c3e918f8de160659"
+      "values_digest": "565ab14127adfcf1f68022a81fc605779e6d8e81284b2e519fa11ac863ea2a43",
+      "rendered_digest": "4c6ee7704c6893c3ae0bdf5cb4a0308bfb1102c31b16ce93e32992d7a17114ed",
+      "ast_digest": "7af27d411db2c82982c6721d16e4502f7368421ecfc5db81e99b64150f96b58c"
     },
     "spp": {
-      "values_digest": "6278520325bd7834a933136bd7f5dcc323fd90b995e22b921401f9bf9bde5b2d",
+      "values_digest": "dd78312df999fb644df938adfa9bc12200cecbf562da43afa5271958219edbd7",
       "rendered_digest": "98ccc699c2acfa13d7c4d3d511d3d0f7659e1885177eb64f4f6023788169aae5",
       "ast_digest": "4260b239b9b4218400059a86090c9204011dd37802ffcd269e4c41bc8d1f406a"
     },
     "vpp": {
-      "values_digest": "ae4fcbc0d96b676a2ab598f810efb8b1474ab0bc78ed653981c89d5f6d2e8d10",
-      "rendered_digest": "d76226f6d71b35ea65c14e1adef175fd56b20554f3e7ddd4b1f98652dd941079",
-      "ast_digest": "22df74d18eea1bb6ed2b67c4370a9c33a31895b3dda4cf6bef3fe46f25e16e7f"
+      "values_digest": "cac96943e84dddc7d51c452bb1efce84071a23f2662fd45b3a7be91bb8940ca9",
+      "rendered_digest": "fc39c049ecc95a5af0c0f127358babb25f8a7081fdf3eb16311aabf9f0a9cb3b",
+      "ast_digest": "ca6b93390293230b030d25a60d8e3601f476ff102337d44e93d0ae70fb2e1448"
     },
     "srp": {
-      "values_digest": "332ec61b08776728524bd3d7260639647e7b89333c46f78714bfad52721e0c1b",
+      "values_digest": "0ef98ce263737e9bd3ae93f25c1e880a0e4a54df204a350c18aa1a396477a02a",
       "rendered_digest": "24a521b4506118e9a4db9e0ccaf9433e2bf0a7b65b5837e639c1880e9617f647",
       "ast_digest": "3d124ae8585375ddb3ae49ada3d91c50ce17d04e92f8a8f8a2c18c8aa1a62652"
     },
     "sor": {
-      "values_digest": "47f0e269ef35d2bd90c7d896223037b26dee19d3498f5c8c32800a0d7bd21ca2",
-      "rendered_digest": "c90f7a8b3894fcfa36a45ffb1112437142f0923442b0e0856104c6ef76ee5841",
-      "ast_digest": "a5a57f39e34aaae4cb42a21a2f0c2300a924b05669993b4dbaaf4189859e8958"
+      "values_digest": "6246f74d301de982e69bb2700a53a67d32d01c2e57c7a5d9cac50a2007d35a57",
+      "rendered_digest": "7b3b0317a6464b5c7d13675cb541299ebcce1d24e639954c136ebd5201c7fffc",
+      "ast_digest": "2aec40fc266905a5d5ddc361924d40f864f04c82d23b0d4f3b12c8e3414489f7"
     }
   },
   "transitions": [
@@ -140,6 +140,41 @@
       "actor": "codex:issue-45-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Replace descriptive deliverables with exact tracked product, regression, skill, and runbook paths so typed card validation is executable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Record explicit typed-card, schema, and retained-record compatibility lanes required by AC-6 and exact-head review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"doctor-repository-identity\",\"proof_role\":\"Prove same-repository, declared split, absent origin, unparseable origin, mismatched identity, and rebind substitution behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"legacy-record-receipt-compatibility\",\"proof_role\":\"Prove missing code_repository preserves pre-field index and retained terminal-receipt digest bytes.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"absent_code_repository_preserves_pre_field_record_and_receipt_digests\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"typed-card-validation\",\"proof_role\":\"Run the source-built typed validator against issue 45 canonical cards and lifecycle state.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-validate\",\"--\",\"--root\",\".\",\"issue\",\"--issue\",\"45\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"public-schema-contract\",\"proof_role\":\"Prove the public publication schema remains available and terminal mutation schemas remain absent.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate6\",\"public_schema_keeps_publication_and_drops_merged_reconciliation\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"doctor-contract-and-lint\",\"proof_role\":\"Strict Clippy proves warning-free schema, lifecycle, guidance, and regression changes across all targets.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Retain backward-compatible live-index and terminal-receipt digest proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"absent_code_repository_preserves_pre_field_record_and_receipt_digests\"],\"purpose\":\"Prove records and retained receipts written before code_repository remain digest-compatible.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/45/review-remediation-validation.md\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Retain direct source-built typed card and issue-state validation required by AC-6.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-validate\",\"--\",\"--root\",\".\",\"issue\",\"--issue\",\"45\"],\"purpose\":\"Prove all six typed cards and canonical issue state pass current-source validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/45/review-remediation-validation.md\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Retain direct public schema proof required by AC-6.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate6\",\"public_schema_keeps_publication_and_drops_merged_reconciliation\"],\"purpose\":\"Prove the publication-facing schema contract remains valid after adding split authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/45/review-remediation-validation.md\"}}"
     }
   ]
 }

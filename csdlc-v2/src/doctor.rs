@@ -93,7 +93,22 @@ pub fn diagnose_with_code_repository(
         report.findings.push(finding(error));
         return report;
     }
-    let explicit_code_repository = requested_code_repository.or(record.code_repository.as_deref());
+    let recorded_code_repository = record.code_repository.as_deref();
+    let requested_identity_conflicts = requested_code_repository
+        .zip(recorded_code_repository)
+        .is_some_and(|(requested, recorded)| !requested.eq_ignore_ascii_case(recorded));
+    if requested_identity_conflicts {
+        report.findings.push(Finding {
+            code: "repository_identity_drift".into(),
+            message: format!(
+                "requested code repository {} does not match recorded code repository {} for issue repository {}",
+                requested_code_repository.unwrap_or_default(),
+                recorded_code_repository.unwrap_or_default(),
+                record.repository,
+            ),
+        });
+    }
+    let explicit_code_repository = recorded_code_repository.or(requested_code_repository);
     let code_repository = explicit_code_repository.unwrap_or(&record.repository);
     match crate::git::github_remote_repository(store.root(), "origin") {
         Ok(Some(repository))
@@ -117,6 +132,13 @@ pub fn diagnose_with_code_repository(
                 ),
             });
         }
+        Ok(None) if explicit_code_repository.is_some() => report.findings.push(Finding {
+            code: "repository_identity_drift".into(),
+            message: format!(
+                "declared code repository {code_repository} requires an exact effective GitHub origin repository, but none is available; issue repository is {}",
+                record.repository,
+            ),
+        }),
         Ok(_) => {}
         Err(error) => report.findings.push(Finding {
             code: "repository_identity_unavailable".into(),

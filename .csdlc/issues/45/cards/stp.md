@@ -16,10 +16,17 @@ Represent or derive issue and code repository authority separately for doctor, p
 
 ## Deliverables
 
-- Typed split-authority identity contract available to doctor
-- Fail-closed doctor decision logic with specific drift diagnostics
-- Focused three-case regression coverage in csdlc-v2/tests/gate2.rs
-- Updated active skills and operator runbooks
+- csdlc-v2/src/doctor.rs
+- csdlc-v2/src/lifecycle.rs
+- csdlc-v2/src/model.rs
+- csdlc-v2/src/publication.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate2.rs
+- csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md
+- csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md
+- csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md
+- docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md
+- docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md
 
 ## Acceptance
 

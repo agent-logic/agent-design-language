@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
     "slug": "doctor-split-repository-authority",
     "version": "v0.92",
-    "generation": 7
+    "generation": 12
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "doctor-repository-identity",
-          "proof_role": "The existing issue-owned gate2 integration target proves same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.",
+          "proof_role": "Prove same-repository, declared split, absent origin, unparseable origin, mismatched identity, and rebind substitution behavior.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -41,8 +41,82 @@
           "defer_reason": null
         },
         {
+          "lane": "legacy-record-receipt-compatibility",
+          "proof_role": "Prove missing code_repository preserves pre-field index and retained terminal-receipt digest bytes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "absent_code_repository_preserves_pre_field_record_and_receipt_digests"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-validation",
+          "proof_role": "Run the source-built typed validator against issue 45 canonical cards and lifecycle state.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--bin",
+            "csdlc-validate",
+            "--",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "45"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "public-schema-contract",
+          "proof_role": "Prove the public publication schema remains available and terminal mutation schemas remain absent.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate6",
+            "public_schema_keeps_publication_and_drops_merged_reconciliation"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
           "lane": "doctor-contract-and-lint",
-          "proof_role": "Typed validation, active guidance scans, and strict Clippy prove schema and operator-contract consistency.",
+          "proof_role": "Strict Clippy proves warning-free schema, lifecycle, guidance, and regression changes across all targets.",
           "acceptance_ids": [
             "AC-5",
             "AC-6"

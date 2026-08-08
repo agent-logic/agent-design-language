@@ -77,6 +77,54 @@ Implemented explicit typed split-repository authority for bind, doctor, and publ
     "purpose": "Prove same-repository acceptance, explicit valid split acceptance, and fail-closed drift rejection.",
     "outcome": "passed",
     "evidence_ref": "doctor-repository-identity.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "absent_code_repository_preserves_pre_field_record_and_receipt_digests"
+    ],
+    "purpose": "Prove records and retained receipts written before code_repository remain digest-compatible.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/45/review-remediation-validation.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-validate",
+      "--",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "45"
+    ],
+    "purpose": "Prove all six typed cards and canonical issue state pass current-source validation.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/45/review-remediation-validation.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate6",
+      "public_schema_keeps_publication_and_drops_merged_reconciliation"
+    ],
+    "purpose": "Prove the publication-facing schema contract remains valid after adding split authority.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/45/review-remediation-validation.md"
   }
 ]
 
