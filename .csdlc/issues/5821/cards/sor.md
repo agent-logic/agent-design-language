@@ -61,11 +61,11 @@ Completed the WP-04 architecture and security gate: defined OpenRaft majority au
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
