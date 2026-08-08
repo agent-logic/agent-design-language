@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04] Distributed Guardian/polis runtime",
     "slug": "v0-92-wp-04-distributed-guardian-polis-runtime",
     "version": "v0.92",
-    "generation": 59
+    "generation": 60
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md\ndocs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md\n.csdlc/prepared/issues/5821\n.csdlc/evidence/5821\n.csdlc/issues/5869\n.csdlc/prepared/issues/5869/design.md\n.csdlc/issues/5870\n.csdlc/prepared/issues/5870/design.md\n.csdlc/issues/5875\n.csdlc/prepared/issues/5875/design.md\n.csdlc/issues/5876\n.csdlc/prepared/issues/5876/design.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:9426ef032052aff3a5f9aeffffac46db2a3390a6:ba0ccc14f88531941b93ddcd27b5cfd001d56bffd469a8361031ace71b301ba1",
+      "reviewer": "openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07",
       "review_prompts": [
         "Does the architecture and threat model close every declared identity, trust, certificate, partition, replay, lease, fencing, placement, migration, rollback, and observability boundary?",
         "Does the ledger contain exactly WP-04.01 through WP-04.16 with complete, nonduplicative outcomes and disjoint protected paths?",
@@ -24,8 +24,14 @@
         "Does issue 5821 stop before product implementation, multi-node proof, integration, or terminal child reconciliation claims?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Quorum or voter compromise remains outside the gate's preventable threat boundary.",
+        "Quorum loss or clock uncertainty can intentionally sacrifice availability to preserve single authority.",
+        "Key exposure can precede revocation and fencing propagation.",
+        "Durable-state loss and dependency supply-chain compromise require child-owned implementation and operational controls.",
+        "Implementation and deployment behavior remains to be proven by WP-04.01 through WP-04.16."
+      ],
+      "review_result": "pass"
     }
   }
 }

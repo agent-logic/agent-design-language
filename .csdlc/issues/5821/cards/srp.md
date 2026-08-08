@@ -43,12 +43,16 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Quorum or voter compromise remains outside the gate's preventable threat boundary.
+- Quorum loss or clock uncertainty can intentionally sacrifice availability to preserve single authority.
+- Key exposure can precede revocation and fencing propagation.
+- Durable-state loss and dependency supply-chain compromise require child-owned implementation and operational controls.
+- Implementation and deployment behavior remains to be proven by WP-04.01 through WP-04.16.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9426ef032052aff3a5f9aeffffac46db2a3390a6:ba0ccc14f88531941b93ddcd27b5cfd001d56bffd469a8361031ace71b301ba1")
 
-Reviewer: None
+Reviewer: Some("openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07")
 
-Result: pre_review
+Result: pass
