@@ -12,18 +12,18 @@ Status: ready
 
 ## Summary
 
-After 5800/5820 and stable 5832 contracts, narrow the governed operation and consumer files, add an explicit bounded local MLX adapter and truthful execution classification, preserve Runtime usability on all failures, then prove deterministic negatives, one real model round trip, browser correlation, and exact-head review.
+With issues 5800 and 5820 stable but issue 5832 still unresolved, implement and validate only the bounded local Gemma/MLX Shepherd process-adapter and failure-isolation foundation. Retain authenticated WSS, Observatory projection, browser round-trip, and final issue publication as explicitly pending work after 5832 freezes the command and carrier contract.
 
 ## Plan
 
-Revision 12
+Revision 14
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify 5800/5820 and stable 5832 gates, inventory governed ingress/provider ownership, and narrow disjoint Runtime and Observatory files.",
+    "action": "Confirm issues 5800 and 5820 are stable, identify issue 5832 as unresolved, inventory governed adapter boundaries, and restrict this pass to the three owned Rust foundation paths.",
     "acceptance_ids": [
       "AC-2",
       "AC-7"
@@ -32,7 +32,7 @@ Revision 12
   },
   {
     "id": "S2",
-    "action": "Implement the explicit bounded local adapter, governed admission, truthful execution classification, and correlated response projection.",
+    "action": "Implement the explicitly configured bounded local process adapter with truthful execution classification, cleared environment, strict bounds, concurrency control, timeout, cancellation, explicit child reaping, and redacted failures.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -44,20 +44,24 @@ Revision 12
   },
   {
     "id": "S3",
-    "action": "Run deterministic admission/adapter negatives, real MLX/Gemma smoke, and live browser-to-Runtime round trip while verifying post-failure usability.",
+    "action": "Prove governed admission and failure isolation deterministically, compile both crate surfaces with warnings denied, and run one explicitly configured real local Gemma smoke; keep WSS and browser proof deferred behind issue 5832.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6"
+      "AC-6",
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Resolve exact-head review and publish with truthful local-only claims and closing linkage.",
+    "action": "After issue 5832 freezes the command and WSS contract, complete authenticated Runtime and Observatory integration, live browser proof, exact-head review, and final publication.",
     "acceptance_ids": [
+      "AC-2",
+      "AC-5",
+      "AC-6",
       "AC-8"
     ],
     "status": "pending"

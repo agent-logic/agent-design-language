@@ -3,11 +3,11 @@
   "issue": 5795,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "409e16e0228f29a4e234fa3fa006087a058b5409f297ac014539fbdee6cb922a",
-  "phase": "initialized",
-  "generation": 31,
-  "digest": "533c8d21e918f5374bb2730ebff5d9697d9fc5769411c5d2e9a65b23523f11cf",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 34,
+  "digest": "bfb7c43ceac9c432921647e260dd761cd0d9390b6096afef5253dc7d60660d6a",
+  "branch": "codex/5795-local-gemma-mlx-shepherd",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5795-local-shepherd",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "adf86664e097e6f9ff91543af9edd4a03e8cceb197dd024ea4e30f59f4e18f92",
+      "values_digest": "11209529c0c651df83f73c685eb1dc775bd182bbe34c5c5bd69c7cf008dd0c91",
       "rendered_digest": "8711735ab9715d666a6ed98a42d95ced1bce438c0cdc1d2e723d8b622af12214",
       "ast_digest": "23799561d6fbdb18697292ba3a7b0dc86cd314122af9a2cd9da41ad1cd8736a8"
     },
     "stp": {
-      "values_digest": "cdb195c9e09a6a804afaccaf6eb34d373a3b70ae6040f4570abb55dbb4f73a5f",
+      "values_digest": "68584ab7dc50d31abbca2fe1ed933006b1402b3fb9c2913b28697d9c53960a8f",
       "rendered_digest": "35cc53fafbffb6049454b2b29e8b3692692ff2c0f9ae61ace2d5cedca66776bc",
       "ast_digest": "c0316a34236b0f6c806267cc6324d4fb9ffa46f1848291a9d1b01bea4b24af21"
     },
     "spp": {
-      "values_digest": "41ce2646fce3b313eb59b70b84fc1fd757e91a17aa810597316b52c764596b91",
-      "rendered_digest": "c0e630b1cd0094fbf684846c934b4d3fc9101c6f3d52cf393bb4493934f3b538",
-      "ast_digest": "f44026f3423b55792fd074517d18d139465c1235d7ea71dbbc29727a7ddcbd87"
+      "values_digest": "980e59d821c8c0d907d5c36a660714cb6b33ef1cd570103c1ed15e465ec18ee3",
+      "rendered_digest": "2a9515062f0904e53fa5fd64a657f76906e2eec950180dc1512669b0348df0ae",
+      "ast_digest": "8c0331d018a80ed2e3626412c9c08630c1aedbaa9c22c2c15c512b67f9a4c7da"
     },
     "vpp": {
-      "values_digest": "a2ac36f3b37fc4f3535a1d5e62c4c16a9bb8cf5563175e1428bb9eb90360fb39",
-      "rendered_digest": "cc89306546c10162019f53df9ef5378f064557f641d91df1c5346bcd78201571",
-      "ast_digest": "b6f9b0de8d00612df512690aba76491df0988b4cfda3b504d21f23db07ddc710"
+      "values_digest": "8c77b23fb38443b6428d0f2910687c37aa08d5071360a64c288e7f1a9e5e7133",
+      "rendered_digest": "53c3e28407036c08293135d9fd5996a0e148d754bd1e49ab9e6ebae5a5a7d78c",
+      "ast_digest": "ef595db60a97500076392d4141d234bf0f21374d84b3017e31f5c25b3b569d55"
     },
     "srp": {
-      "values_digest": "ed0ce774e1ffc7b1ed098afb792734015d7eb4d3c438870d4c52aba8bc5446cb",
+      "values_digest": "04084abee5cb57d5a68081125a3902af2874c8458fcb1ffb1988407e3ae5e223",
       "rendered_digest": "e3f361c41322cbe30f643af742a4a48adcd9aa2e84dd22c49f474180876b57eb",
       "ast_digest": "b8bdbd3e726f6e16200fdbaec307e5dcd8161488b319b5c0f2d6307623bfbc98"
     },
     "sor": {
-      "values_digest": "bf33f3b2785c352b3b728a163f252779483aab05e5a65a3e48565c065c06b719",
+      "values_digest": "a7eba7522b0ed78e238eba44284d60203e106d3a397bb2a4f47ccfa564fe36c0",
       "rendered_digest": "8dff0bc57674843f439603d89e33224b1ad639e40a0dd715390f570e1d6bd15c",
       "ast_digest": "3cb60e4ee9159c2fd215b4b7993aee24df63502aa9ed8072f8286c1faad540ed"
     }
@@ -75,6 +75,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -406,6 +420,34 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 48,
+      "generation": 31,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 49,
+      "generation": 32,
+      "actor": "openai-codex:gpt-5:issue-5795-foundation",
+      "reason": "Align the operative plan with the authorized foundation-only execution boundary without claiming the unresolved WP-14 integration surface.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"With issues 5800 and 5820 stable but issue 5832 still unresolved, implement and validate only the bounded local Gemma/MLX Shepherd process-adapter and failure-isolation foundation. Retain authenticated WSS, Observatory projection, browser round-trip, and final issue publication as explicitly pending work after 5832 freezes the command and carrier contract.\",\"operation\":\"replan\",\"previous_value\":\"After 5800/5820 and stable 5832 contracts, narrow the governed operation and consumer files, add an explicit bounded local MLX adapter and truthful execution classification, preserve Runtime usability on all failures, then prove deterministic negatives, one real model round trip, browser correlation, and exact-head review.\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 33,
+      "actor": "openai-codex:gpt-5:issue-5795-foundation",
+      "reason": "Record completed foundation work and preserve the unresolved WP-14 integration boundary as pending rather than silently claiming it.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm issues 5800 and 5820 are stable, identify issue 5832 as unresolved, inventory governed adapter boundaries, and restrict this pass to the three owned Rust foundation paths.\",\"acceptance_ids\":[\"AC-2\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement the explicitly configured bounded local process adapter with truthful execution classification, cleared environment, strict bounds, concurrency control, timeout, cancellation, explicit child reaping, and redacted failures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Prove governed admission and failure isolation deterministically, compile both crate surfaces with warnings denied, and run one explicitly configured real local Gemma smoke; keep WSS and browser proof deferred behind issue 5832.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"After issue 5832 freezes the command and WSS contract, complete authenticated Runtime and Observatory integration, live browser proof, exact-head review, and final publication.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 34,
+      "actor": "openai-codex:gpt-5:issue-5795-foundation",
+      "reason": "Make the current foundation proof executable and preserve WSS/browser integration as an explicit fail-closed deferment behind issue 5832.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"shepherd-foundation-contract\",\"proof_role\":\"Prove signed governed admission, strict request and output bounds, real versus test classification, one-request saturation, timeout, cancellation, explicit recovery, unavailable behavior, configuration rejection, and failure redaction.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"shepherd\"],\"parallel_group\":\"shepherd-foundation\",\"defer_reason\":null},{\"lane\":\"shepherd-denied-warning-build\",\"proof_role\":\"Compile the kernel contract and cross-crate real-model harness with Clippy warnings denied so hidden dependency and portability drift fail closed.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"shepherd\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"shepherd-foundation\",\"defer_reason\":null},{\"lane\":\"real-local-model-smoke\",\"proof_role\":\"Invoke the explicitly configured local gemma4:12b-mlx model through the bounded process adapter and require a correlated non-retained real_local_model response without cloud fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"shepherd_local_model\",\"--\",\"--ignored\",\"--exact\",\"real_local_model_smoke\"],\"parallel_group\":\"local-model\",\"defer_reason\":null},{\"lane\":\"runtime-wss-negative\",\"proof_role\":\"After WP-14 freezes the carrier contract, prove malformed, unauthorized, wrong-runtime, timeout, and post-failure read-stream behavior over authenticated Runtime API/WSS.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"parallel_group\":\"post-wp14-integration\",\"defer_reason\":\"Issue 5832 has not frozen the authenticated command and WSS carrier contract; running or modifying that integration now would cross the declared serialization gate.\"},{\"lane\":\"real-shepherd-browser-roundtrip\",\"proof_role\":\"After WP-14 integration, submit one uniquely correlated governed message from Chrome and prove the Observatory renders the same non-retained real_local_model result while Runtime remains usable.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":12000,\"argv\":[\"node\",\"adl/tools/validate_v092_shepherd_browser_roundtrip.mjs\",\"--browser\",\"chrome\",\"--require-real-local-model\",\"--require-governed-ingress\",\"--require-correlated-browser-result\"],\"parallel_group\":\"post-wp14-integration\",\"defer_reason\":\"Issue 5832 remains unresolved, the Shepherd WSS route is intentionally absent, and the Runtime feed on port 20997 is currently unavailable; none of those conditions may be reported as passing browser proof.\"},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject unrelated changes and support exact-head review of the bounded foundation.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
     }
   ]
 }

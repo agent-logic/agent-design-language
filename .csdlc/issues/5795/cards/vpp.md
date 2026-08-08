@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5795/diagram.mmd
 
 [
   {
-    "lane": "shepherd-governed-contract",
-    "proof_role": "Prove signed and capability admission, bounds, deterministic adapter behavior, status classification, timeout, cancellation, and redaction.",
+    "lane": "shepherd-foundation-contract",
+    "proof_role": "Prove signed governed admission, strict request and output bounds, real versus test classification, one-request saturation, timeout, cancellation, explicit recovery, unavailable behavior, configuration rejection, and failure redaction.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -34,7 +34,7 @@ Diagram: .csdlc/prepared/issues/5795/diagram.mmd
       "AC-7"
     ],
     "deterministic": true,
-    "resource_profile": "large",
+    "resource_profile": "medium",
     "budget_seconds": 1200,
     "budget_tokens": 8000,
     "argv": [
@@ -44,40 +44,40 @@ Diagram: .csdlc/prepared/issues/5795/diagram.mmd
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "governed_operations",
-      "--test",
-      "protocol_adapters"
+      "shepherd"
     ],
-    "parallel_group": "shepherd-contract",
+    "parallel_group": "shepherd-foundation",
     "defer_reason": null
   },
   {
-    "lane": "runtime-wss-negative",
-    "proof_role": "Prove malformed, unauthorized, wrong-runtime, timeout, and post-failure read-stream behavior over Runtime API/WSS.",
+    "lane": "shepherd-denied-warning-build",
+    "proof_role": "Compile the kernel contract and cross-crate real-model harness with Clippy warnings denied so hidden dependency and portability drift fail closed.",
     "acceptance_ids": [
-      "AC-2",
       "AC-4",
-      "AC-5"
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 900,
-    "budget_tokens": 6000,
+    "budget_seconds": 1200,
+    "budget_tokens": 8000,
     "argv": [
       "cargo",
-      "test",
+      "clippy",
       "--locked",
       "--manifest-path",
-      "adl-runtime/Cargo.toml",
+      "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "runtime_api_wss"
+      "shepherd",
+      "--",
+      "-D",
+      "warnings"
     ],
-    "parallel_group": "shepherd-contract",
+    "parallel_group": "shepherd-foundation",
     "defer_reason": null
   },
   {
     "lane": "real-local-model-smoke",
-    "proof_role": "Invoke the explicitly configured Apple Metal/MLX Gemma model through the production adapter and retain correlated redacted Runtime and adapter evidence.",
+    "proof_role": "Invoke the explicitly configured local gemma4:12b-mlx model through the bounded process adapter and require a correlated non-retained real_local_model response without cloud fallback.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -103,11 +103,35 @@ Diagram: .csdlc/prepared/issues/5795/diagram.mmd
       "real_local_model_smoke"
     ],
     "parallel_group": "local-model",
-    "defer_reason": "Requires the completed production adapter and explicitly configured local MLX/Gemma model; absence is blocked, not passed."
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-wss-negative",
+    "proof_role": "After WP-14 freezes the carrier contract, prove malformed, unauthorized, wrong-runtime, timeout, and post-failure read-stream behavior over authenticated Runtime API/WSS.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-4",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss"
+    ],
+    "parallel_group": "post-wp14-integration",
+    "defer_reason": "Issue 5832 has not frozen the authenticated command and WSS carrier contract; running or modifying that integration now would cross the declared serialization gate."
   },
   {
     "lane": "real-shepherd-browser-roundtrip",
-    "proof_role": "Use the issue-delivered Playwright validator to submit a unique governed message from real Chrome, prove Runtime invokes the configured MLX/Gemma adapter, and render the same non-retained real_local_model correlation in the Observatory.",
+    "proof_role": "After WP-14 integration, submit one uniquely correlated governed message from Chrome and prove the Observatory renders the same non-retained real_local_model result while Runtime remains usable.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -128,12 +152,12 @@ Diagram: .csdlc/prepared/issues/5795/diagram.mmd
       "--require-governed-ingress",
       "--require-correlated-browser-result"
     ],
-    "parallel_group": "local-model",
-    "defer_reason": "The named validator is an issue 5795 implementation deliverable and requires trusted HTTPS, Runtime, Observatory, and the configured real model."
+    "parallel_group": "post-wp14-integration",
+    "defer_reason": "Issue 5832 remains unresolved, the Shepherd WSS route is intentionally absent, and the Runtime feed on port 20997 is currently unavailable; none of those conditions may be reported as passing browser proof."
   },
   {
     "lane": "exact-head-hygiene",
-    "proof_role": "Reject unrelated changes and support exact-head review.",
+    "proof_role": "Reject unrelated changes and support exact-head review of the bounded foundation.",
     "acceptance_ids": [
       "AC-7",
       "AC-8"
@@ -164,9 +188,10 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test governed_operations --test protocol_adapters`
-- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test shepherd`
+- `cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --test shepherd -- -D warnings`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test shepherd_local_model -- --ignored --exact real_local_model_smoke`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss`
 - `node adl/tools/validate_v092_shepherd_browser_roundtrip.mjs --browser chrome --require-real-local-model --require-governed-ingress --require-correlated-browser-result`
 - `git diff --check`
 
