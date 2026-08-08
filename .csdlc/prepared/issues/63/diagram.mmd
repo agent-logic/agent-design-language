@@ -1,0 +1,19 @@
+flowchart LR
+    R[Typed csdlc-edit request] --> C{Generation and digest current?}
+    C -- no --> X[Fail closed; no mutation]
+    C -- yes --> V[Verify canonical values and rendered cards]
+    V --> P{Phase is implemented?}
+    P -- no --> X
+    P -- yes --> T{Review, publication, readiness truth absent?}
+    T -- no --> X
+    T -- yes --> Q{SIP + nonempty actor, reason, scope?}
+    Q -- no --> X
+    Q -- yes --> A[Record previous and new scope in audit operation]
+    A --> M[Mutate SIP values AST]
+    M --> N[Cross-card validate and render Markdown]
+    N --> K[Atomic commit: cards, audit, generation, digest]
+    K --> O[Typed validator proves canonical projections]
+
+    REC[Typed csdlc-review recovery] --> I[Clean implemented state]
+    I --> R
+

@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 63,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC editor cannot correct SIP scope after implemented review finding",
+    "slug": "implemented-sip-scope-correction",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 63 design, exact semantic-operation boundary, phase/card/recovery authorization, audit old/new truth, AST/render/validator invariants, focused proof, and no-widening constraints.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any implemented-phase SIP field other than declared_scope be changed through this route?",
+        "Can correction occur while review, publication, or readiness truth remains attached?",
+        "Does the audit retain exact previous and replacement arrays plus actor and reason?",
+        "Do real editor and validator tests prove rendered-card and stale-input behavior?",
+        "Does post-publication recovery remain owned by csdlc-review rather than this operation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
