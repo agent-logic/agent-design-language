@@ -313,7 +313,11 @@ fn compromised_certificate_fences_all_identity_purposes_and_reenrollment() {
     store.activate(&transport, NOW).unwrap();
     store.activate(&advertisement, NOW).unwrap();
     store
-        .mark_compromised(&transport.certificate_id().unwrap(), NOW + 1)
+        .revoke(
+            &transport.certificate_id().unwrap(),
+            NOW + 1,
+            RevocationReason::KeyCompromise,
+        )
         .unwrap();
     for purpose in [
         CertificatePurpose::Transport,

@@ -436,6 +436,7 @@ impl DistributedCertificateStore {
         generation: u64,
         now_unix_secs: u64,
     ) -> CertificateResult<VerifiedCertificate> {
+        validate_text(holder_id, CertificateError::InvalidHolder)?;
         if self.is_fenced(holder_id)? {
             return Err(CertificateError::IdentityFenced);
         }
@@ -483,6 +484,9 @@ impl DistributedCertificateStore {
         now_unix_secs: u64,
         reason: RevocationReason,
     ) -> CertificateResult<()> {
+        if reason == RevocationReason::KeyCompromise {
+            return self.mark_compromised(certificate_id, now_unix_secs);
+        }
         validate_certificate_id(certificate_id)?;
         if !self.certificate_exists(certificate_id)? {
             return Err(CertificateError::CertificateNotFound);
