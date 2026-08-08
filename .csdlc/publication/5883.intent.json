@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5883,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5883-retire-csdlc-init",
+  "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
+  "body": "Closes danielbaustin/agent-design-language#5883\n\nRetires the duplicate csdlc-init binary and makes csdlc-issue create the sole typed issue-creation route. Removes it from active installer, coexistence, proof, skill, runbook, adapter, and architecture authority while preserving historical evidence.\n\nValidation: Gate 2 1/1; Gate 10A 19/19; strict all-target Clippy; active command scan; installed adl_pr_cycle skill test; exact-head subagent review with all findings fixed.",
+  "draft": false,
+  "revision": "git-blake3:cea884301f7a674d208bb87f01508d022b37c9b0:a3ad2bf8a01956b0d5ac6d0a82e34afa6b670c9290665b271af9163c3e0353ef",
+  "commit_sha": "cea884301f7a674d208bb87f01508d022b37c9b0"
+}
