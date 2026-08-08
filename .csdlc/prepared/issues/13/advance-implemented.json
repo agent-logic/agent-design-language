@@ -1,0 +1,9 @@
+{
+  "issue": 13,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "6427ed398b5922b022dd640d806e12c1cf189177b61f1c61bf298adb91e40e94",
+  "actor": "codex:13-coverage-routing",
+  "reason": "Issue #13 implementation and focused local validation are complete; live Actions timing proof remains post-publication.",
+  "operation": {"operation":"advance_phase","phase":"implemented"}
+}

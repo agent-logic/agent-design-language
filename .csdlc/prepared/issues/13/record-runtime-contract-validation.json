@@ -1,0 +1,17 @@
+{
+  "issue": 13,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "51ef5cc8d3f80a31a3f0b26c40238b29ec6469523fb64c5374e6e48b4dec8281",
+  "actor": "codex:13-coverage-routing",
+  "reason": "Record focused workflow and producer-result matrix proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash","adl/tools/test_ci_runtime_contracts.sh"],
+      "purpose": "Prove job-level producer guards, canonical path-policy consumption, all valid hosted/Spot producer combinations, invalid-combination rejection, result mismatches, provenance routing, and stable required aggregation.",
+      "outcome": "passed",
+      "evidence_ref": "CI runtime contracts and the directly invoked test_verify_coverage_producer_results matrix passed. YAML parsing and git diff hygiene also passed."
+    }
+  }
+}

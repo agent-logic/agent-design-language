@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 13,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
+    "slug": "wp-02a-optional-coverage-producer-routing",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact producer selector derivation, job-level conditions, aggregate result matrix, provenance handling, and focused regression tests.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can an unselected coverage producer still acquire a runner or install tools?",
+        "Do all selected and skipped producer combinations terminate the required aggregate correctly?",
+        "Does Runtime-only routing keep both workspace producers skipped?",
+        "Does full coverage retain Runtime plus both workspace shards?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

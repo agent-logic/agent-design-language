@@ -221,6 +221,8 @@
         "adl/tools/summarize_ci_runtime.py",
         "adl/tools/test_summarize_ci_runtime.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/verify_coverage_producer_results.sh",
+        "adl/tools/test_verify_coverage_producer_results.sh",
         "adl/tools/setup_required_coverage_toolchain.sh",
         "adl/tools/test_setup_required_coverage_toolchain.sh",
         "adl/tools/rust_cache_env.sh",
@@ -253,6 +255,8 @@
         "adl/tools/summarize_ci_runtime.py",
         "adl/tools/test_summarize_ci_runtime.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/verify_coverage_producer_results.sh",
+        "adl/tools/test_verify_coverage_producer_results.sh",
         "adl/tools/setup_required_coverage_toolchain.sh",
         "adl/tools/test_setup_required_coverage_toolchain.sh",
         "adl/tools/rust_cache_env.sh",
@@ -517,11 +521,13 @@
       "path_selectors": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
         "adl/tools/validate_v0917_html_observatory.py",
+        "adl/tools/validate_v092_browser_trusted_observatory.mjs",
         "demos/html-observatory/**"
       ],
       "path_hints": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
         "adl/tools/validate_v0917_html_observatory.py",
+        "adl/tools/validate_v092_browser_trusted_observatory.mjs",
         "demos/html-observatory/"
       ],
       "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",

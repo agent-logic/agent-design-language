@@ -1,0 +1,17 @@
+{
+  "issue": 13,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "5362599e7707b68282337910259f9cc970534258504c6292170d76cdfd79ca14",
+  "actor": "codex:13-coverage-routing",
+  "reason": "Record focused path-policy proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash","adl/tools/test_ci_path_policy.sh"],
+      "purpose": "Prove Runtime-only, fast-workspace, authoritative-full, no-coverage, validation-manager mapping, and canonical workflow routing contracts.",
+      "outcome": "passed",
+      "evidence_ref": "Focused path-policy suite passed, including the PR #9 Runtime + Observatory regression fixture with runtime=true, workspace-fast=false, workspace-full=false."
+    }
+  }
+}

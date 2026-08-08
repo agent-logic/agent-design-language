@@ -1,0 +1,18 @@
+flowchart LR
+  P["Canonical path policy"] --> R{"Valid producer selector state?"}
+  R -->|"no"| F["Fail closed"]
+  R -->|"yes"| H{"Hosted route active?"}
+  H -->|"no: approved Spot route"| S["Hosted jobs skipped"]
+  H -->|"yes and runtime=true"| RC["Runtime coverage"]
+  H -->|"yes and workspace_fast=true"| WF["Fast workspace coverage"]
+  H -->|"yes and workspace_full=true"| W1["Workspace shard 1"]
+  H -->|"yes and workspace_full=true"| W2["Workspace shard 2"]
+  H -->|"yes and selector=false"| S
+  RC --> A["Required adl-coverage aggregate"]
+  WF --> A
+  W1 --> A
+  W2 --> A
+  S --> A
+  A --> C{"Hosted results match route-adjusted expectations?"}
+  C -->|"yes"| G["Success"]
+  C -->|"no"| F

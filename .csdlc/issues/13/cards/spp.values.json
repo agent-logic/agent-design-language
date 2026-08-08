@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 13,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
+    "slug": "wp-02a-optional-coverage-producer-routing",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Add explicit producer selectors, preserve fail-closed aggregation, prove the Runtime-only and full-coverage routes, review exact head, and publish a PR closing #13.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Model explicit producer selection and the bounded Runtime-owner route.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Apply job-level guards and deterministic aggregate checks.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add and run focused producer/aggregator routing contracts.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Review exact head, publish the PR, and retain GitHub timing evidence.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".github/workflows/ci.yaml",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/verify_coverage_producer_results.sh",
+        "adl/tools/test_verify_coverage_producer_results.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        ".csdlc/prepared/issues/13",
+        ".csdlc/issues/13"
+      ],
+      "invariants": [
+        "No unselected producer work",
+        "Selected coverage remains fail closed",
+        "Required aggregate remains terminal",
+        "No threshold weakening"
+      ],
+      "risks": [
+        "A selector combination could expect the wrong producer result",
+        "Runtime-only proof could accidentally route to fast workspace coverage",
+        "Full coverage could omit Runtime coverage"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Producer selectors cannot be derived deterministically",
+        "Required aggregate semantics cannot distinguish selected from skipped",
+        "The fix requires changing coverage thresholds"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/13/design.md",
+      "design_digest": "8e4518a9091499661d221171aba42f127a973ecbd485144705e1b9490bbac5f7",
+      "diagram_ref": ".csdlc/prepared/issues/13/diagram.mmd",
+      "diagram_digest": "3b47586ddeacec60057415846e1564d70298c075275901d62cdefffa172588d1"
+    }
+  }
+}

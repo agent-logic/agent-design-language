@@ -100,6 +100,9 @@ bool_false=false
 rust_required="$bool_false"
 coverage_required="$bool_false"
 full_coverage_required="$bool_false"
+runtime_coverage_required="$bool_false"
+workspace_fast_coverage_required="$bool_false"
+workspace_full_coverage_required="$bool_false"
 demo_smoke_required="$bool_false"
 v0913_proof_required="$bool_false"
 release_version_only="$bool_false"
@@ -193,6 +196,18 @@ mark_runtime_v3_csm_focused_validation() {
   validation_profile_pr_publication_sufficient=true
   validation_profile_escalation_required=false
   validation_profile_escalation_lanes=""
+}
+
+mark_runtime_owner_focused_coverage() {
+  rust_required=true
+  coverage_required=true
+  full_coverage_required=false
+  demo_smoke_required=true
+  ci_contracts_required=true
+  coverage_lane="runtime_owner_focused"
+  coverage_authority="focused_runtime_owner"
+  coverage_execution_state="runtime_coverage_required"
+  reason="runtime_owner_surface_runs_runtime_only_coverage"
 }
 
 mark_policy_surface_full_coverage() {
@@ -1153,6 +1168,24 @@ validation_profile_includes_lane() {
   return 1
 }
 
+manager_profile_is_runtime_owner_focused_coverage() {
+  [ "$validation_profile_status" = "ready_to_run" ] || return 1
+  [ "$validation_profile_escalation_required" = "false" ] || return 1
+  validation_profile_includes_lane "runtime_owner_lane" || return 1
+  validation_profile_includes_lane "rust_pr_fast" || return 1
+  local lane
+  local old_ifs="$IFS"
+  IFS=','
+  for lane in $validation_profile_run_lanes; do
+    case "$lane" in
+      docs_diff_check|html_observatory_v0917_runtime_surface|runtime_owner_lane|rust_pr_fast) ;;
+      *) IFS="$old_ifs"; return 1 ;;
+    esac
+  done
+  IFS="$old_ifs"
+  return 0
+}
+
 changed_files_include_skill_author_contract_surface() {
   local path
   while IFS= read -r path; do
@@ -1322,6 +1355,10 @@ EOF
 }
 
 apply_validation_manager_routing() {
+  if manager_profile_is_runtime_owner_focused_coverage; then
+    mark_runtime_owner_focused_coverage
+    return 0
+  fi
   if [ "$validation_profile_status" = "escalation_required" ] \
     && [ "$validation_profile_escalation_lanes" = "rust_pr_fast" ] \
     && is_bounded_runtime_v3_csm_bridge_change; then
@@ -1811,6 +1848,31 @@ if [ "$fail_closed" = true ]; then
   coverage_execution_state="fail_closed_authoritative_full_required"
 fi
 
+select_coverage_producers() {
+  runtime_coverage_required=false
+  workspace_fast_coverage_required=false
+  workspace_full_coverage_required=false
+  if [ "$full_coverage_required" = true ]; then
+    runtime_coverage_required=true
+    workspace_full_coverage_required=true
+  elif [ "$coverage_required" = true ]; then
+    if [ "$coverage_lane" = "runtime_owner_focused" ]; then
+      runtime_coverage_required=true
+    else
+      workspace_fast_coverage_required=true
+    fi
+  fi
+  case "$runtime_coverage_required:$workspace_fast_coverage_required:$workspace_full_coverage_required" in
+    false:false:false|true:false:false|false:true:false|true:false:true) ;;
+    *)
+      echo "ci_path_policy: invalid coverage producer selector combination" >&2
+      return 2
+      ;;
+  esac
+}
+
+select_coverage_producers
+
 classify_changed_path() {
   local path="$1"
   case "$path" in
@@ -1892,6 +1954,9 @@ emit "release_gate_role" "$release_gate_role"
 emit "rust_required" "$rust_required"
 emit "coverage_required" "$coverage_required"
 emit "full_coverage_required" "$full_coverage_required"
+emit "runtime_coverage_required" "$runtime_coverage_required"
+emit "workspace_fast_coverage_required" "$workspace_fast_coverage_required"
+emit "workspace_full_coverage_required" "$workspace_full_coverage_required"
 emit "demo_smoke_required" "$demo_smoke_required"
 emit "v0913_proof_required" "$v0913_proof_required"
 emit "release_version_only" "$release_version_only"
@@ -1930,6 +1995,9 @@ printf '  release_gate_role=%s\n' "$release_gate_role"
 printf '  rust_required=%s\n' "$rust_required"
 printf '  coverage_required=%s\n' "$coverage_required"
 printf '  full_coverage_required=%s\n' "$full_coverage_required"
+printf '  runtime_coverage_required=%s\n' "$runtime_coverage_required"
+printf '  workspace_fast_coverage_required=%s\n' "$workspace_fast_coverage_required"
+printf '  workspace_full_coverage_required=%s\n' "$workspace_full_coverage_required"
 printf '  demo_smoke_required=%s\n' "$demo_smoke_required"
 printf '  v0913_proof_required=%s\n' "$v0913_proof_required"
 printf '  release_version_only=%s\n' "$release_version_only"
