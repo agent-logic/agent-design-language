@@ -1,0 +1,24 @@
+flowchart LR
+    CLI[csdlc-github-issue\nrun --request] --> PARSE[Typed request validation]
+    PARSE --> OCTO[Existing Octocrab client]
+    OCTO --> READ[GET owner/name issues/N]
+    READ -->|200| SUCCESS[Existing GithubIssuePacket\nunchanged JSON and exit 0]
+    READ -->|Octocrab error| CLASSIFY[Issue-read failure classifier]
+
+    CLASSIFY --> N404[404\nremote_not_found\nexit 69]
+    CLASSIFY --> AUTH[401 or ordinary 403\nremote_authentication or authorization\nexit 77]
+    CLASSIFY --> RATE[rate 403 or 429\nremote_rate_limited\nexit 74]
+    CLASSIFY --> SERVER[5xx\nremote_server\nexit 74]
+    CLASSIFY --> TRANSPORT[service HTTP Hyper connection\nremote_transport\nexit 74]
+    CLASSIFY --> OTHER[unclassified\nremote_failure\nexit 74]
+
+    N404 --> SAFE[csdlc.error.v1 on stdout]
+    AUTH --> SAFE
+    RATE --> SAFE
+    SERVER --> SAFE
+    TRANSPORT --> SAFE
+    OTHER --> SAFE
+
+    SAFE --> REDACT[Only owner/name and issue N\nNo token path value header or raw body]
+    TEST[Loopback binary proof\n200 404 401 403 429 500 dropped connection] -. verifies .-> SUCCESS
+    TEST -. verifies .-> REDACT
