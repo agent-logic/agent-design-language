@@ -3,7 +3,10 @@ use std::path::Path;
 use std::process::{Command, Output};
 
 use csdlc_v2::cards::{PlanStep, ResourceProfile, StepStatus, ValidationLane};
-use csdlc_v2::{BootstrapRequest, InitialCardInput, PlanningProfile};
+use csdlc_v2::{
+    bind_issue, edit_issue, BindRequest, BootstrapRequest, CardKind, EditRequest, InitialCardInput,
+    LifecyclePhase, PlanningProfile, SemanticOperation, Store,
+};
 
 fn command(root: &Path, program: &str, args: &[&str]) -> Output {
     Command::new(program)
@@ -1161,4 +1164,302 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         &repo,
         &["worktree", "remove", "--force", &worktree.to_string_lossy()],
     );
+}
+
+#[test]
+fn implemented_sip_scope_correction() {
+    let target = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target");
+    fs::create_dir_all(&target).expect("target temp parent");
+    let temp = tempfile::Builder::new()
+        .prefix("issue-63-scope-")
+        .tempdir_in(&target)
+        .expect("repo-local tempdir");
+    let repo = temp.path().join("repo");
+    fs::create_dir_all(repo.join("docs/templates/prompts")).expect("registry directory");
+    fs::create_dir_all(repo.join("csdlc-v2/operator")).expect("manifest directory");
+    fs::create_dir_all(repo.join("csdlc-v2/tests")).expect("test directory");
+    fs::create_dir_all(repo.join("design")).expect("design directory");
+    fs::write(
+        repo.join("docs/templates/prompts/current.json"),
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .expect("registry fixture");
+    fs::write(
+        repo.join("csdlc-v2/operator/native-card-shape.json"),
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .expect("shape fixture");
+    fs::write(repo.join("csdlc-v2/tests/gate2.rs"), "// focused fixture\n").expect("gate2 fixture");
+    fs::write(repo.join("design/issue-42.md"), "# Approved design\n").expect("design");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Edit --> Validate\n",
+    )
+    .expect("diagram");
+    git(&repo, &["init", "-b", "main"]);
+    git(&repo, &["config", "user.email", "test@example.com"]);
+    git(&repo, &["config", "user.name", "C-SDLC Test"]);
+    git(&repo, &["add", "."]);
+    git(&repo, &["commit", "-m", "fixture"]);
+
+    let store = Store::new(&repo);
+    let record = csdlc_v2::initialize_native_json(
+        &store,
+        &serde_json::to_vec(&request()).expect("serialize bootstrap"),
+    )
+    .expect("bootstrap");
+    let _ready = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            actor: "test-operator".into(),
+            reason: "fixture ready".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: LifecyclePhase::Ready,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("ready");
+    git(&repo, &["switch", "-c", "issue-42"]);
+    bind_issue(
+        &store,
+        BindRequest {
+            issue: 42,
+            base_branch: "main".into(),
+            branch: "issue-42".into(),
+            worktree: ".".into(),
+            code_repository: None,
+        },
+    )
+    .expect("bind");
+    let bound = store.load_record(42).expect("bound record");
+    assert_eq!(bound.phase, LifecyclePhase::Bound);
+
+    let request_path = |name: &str| temp.path().join(format!("{name}.json"));
+    let write_edit = |path: &Path,
+                      index: &serde_json::Value,
+                      card: &str,
+                      actor: &str,
+                      reason: &str,
+                      values: Vec<&str>| {
+        fs::write(
+            path,
+            serde_json::to_vec_pretty(&serde_json::json!({
+                "issue": 42,
+                "card": card,
+                "expected_generation": index["generation"],
+                "expected_digest": index["digest"],
+                "actor": actor,
+                "reason": reason,
+                "operation": {
+                    "operation": "correct_declared_scope_before_publication",
+                    "values": values
+                }
+            }))
+            .expect("serialize correction request"),
+        )
+        .expect("write correction request");
+    };
+    let current_index = || -> serde_json::Value {
+        serde_json::from_slice(
+            &fs::read(repo.join(".csdlc/issues/42/index.json")).expect("issue index"),
+        )
+        .expect("issue index JSON")
+    };
+    let bound_request = request_path("bound-correction");
+    write_edit(
+        &bound_request,
+        &current_index(),
+        "sip",
+        "test-operator",
+        "bound is too early",
+        vec!["src/new.rs"],
+    );
+    let bound_rejection = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo.to_string_lossy(),
+            "apply",
+            "--request",
+            &bound_request.to_string_lossy(),
+        ],
+    );
+    assert!(!bound_rejection.status.success());
+
+    let executed = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sor,
+            expected_generation: bound.generation,
+            expected_digest: bound.digest,
+            actor: "test-operator".into(),
+            reason: "record fixture implementation".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "implemented fixture".into(),
+                changes: vec!["src/old.rs".into()],
+                artifacts: vec!["fixture".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("execution");
+    let implemented = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: executed.generation,
+            expected_digest: executed.digest,
+            actor: "test-operator".into(),
+            reason: "advance implemented fixture".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: LifecyclePhase::Implemented,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("implemented");
+
+    for (name, card, actor, reason, values) in [
+        ("empty-actor", "sip", "", "reason", vec!["src/new.rs"]),
+        ("empty-reason", "sip", "operator", "", vec!["src/new.rs"]),
+        ("empty-scope", "sip", "operator", "reason", vec![]),
+        (
+            "wrong-card",
+            "stp",
+            "operator",
+            "reason",
+            vec!["src/new.rs"],
+        ),
+    ] {
+        let path = request_path(name);
+        write_edit(&path, &current_index(), card, actor, reason, values);
+        let output = command(
+            &repo,
+            env!("CARGO_BIN_EXE_csdlc-edit"),
+            &[
+                "--repo",
+                &repo.to_string_lossy(),
+                "apply",
+                "--request",
+                &path.to_string_lossy(),
+            ],
+        );
+        assert!(!output.status.success(), "{name} unexpectedly succeeded");
+        assert_eq!(store.load_record(42).unwrap().digest, implemented.digest);
+    }
+
+    let stale_digest_path = request_path("stale-digest");
+    let mut stale_index = current_index();
+    stale_index["digest"] = serde_json::Value::String("0".repeat(64));
+    write_edit(
+        &stale_digest_path,
+        &stale_index,
+        "sip",
+        "operator",
+        "stale digest",
+        vec!["src/new.rs"],
+    );
+    assert!(!command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo.to_string_lossy(),
+            "apply",
+            "--request",
+            &stale_digest_path.to_string_lossy(),
+        ],
+    )
+    .status
+    .success());
+
+    let correction_path = request_path("correction");
+    write_edit(
+        &correction_path,
+        &current_index(),
+        "sip",
+        "review-fix-operator",
+        "replace stale declared scope path",
+        vec!["src/new.rs", "tests/new.rs"],
+    );
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo.to_string_lossy(),
+            "apply",
+            "--request",
+            &correction_path.to_string_lossy(),
+        ],
+    ));
+    let corrected = store.load_record(42).expect("corrected record");
+    assert_eq!(corrected.generation, implemented.generation + 1);
+    assert_ne!(corrected.digest, implemented.digest);
+    let operation: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("audit operation JSON");
+    assert_eq!(
+        operation["previous_values"],
+        serde_json::json!(["claim-free workflow"])
+    );
+    assert_eq!(
+        operation["new_values"],
+        serde_json::json!(["src/new.rs", "tests/new.rs"])
+    );
+    let event = corrected.audit.last().expect("correction audit");
+    assert_eq!(event.actor, "review-fix-operator");
+    assert_eq!(event.reason, "replace stale declared scope path");
+    let sip_values: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".csdlc/issues/42/cards/sip.values.json")).expect("SIP values"),
+    )
+    .expect("SIP values JSON");
+    assert_eq!(
+        sip_values["content"]["values"]["declared_scope"],
+        serde_json::json!(["src/new.rs", "tests/new.rs"])
+    );
+    let sip_path = repo.join(".csdlc/issues/42/cards/sip.md");
+    let rendered = fs::read_to_string(&sip_path).expect("rendered SIP");
+    assert!(rendered.contains("src/new.rs"));
+    assert!(rendered.contains("tests/new.rs"));
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    ));
+
+    let stale_generation = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo.to_string_lossy(),
+            "apply",
+            "--request",
+            &correction_path.to_string_lossy(),
+        ],
+    );
+    assert!(!stale_generation.status.success());
+    let before_drift = fs::read(&sip_path).expect("SIP before drift");
+    fs::write(
+        &sip_path,
+        [before_drift.as_slice(), b"\nmanual drift\n"].concat(),
+    )
+    .expect("inject Markdown drift");
+    assert!(!command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    )
+    .status
+    .success());
+    fs::write(sip_path, before_drift).expect("restore rendered SIP");
 }

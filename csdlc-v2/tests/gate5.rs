@@ -543,6 +543,160 @@ fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
     .expect("reassign after clean finalize");
     assert!(reassigned.review_assignment.is_some());
 }
+
+#[test]
+fn implemented_review_recovery_clears_truth() {
+    let (_temp, clean_store, clean) = implemented_fixture();
+    let clean_error = csdlc_v2::recover_review(
+        &clean_store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: clean.generation,
+            expected_digest: clean.digest,
+            actor: "operator".into(),
+            reason: "clean implemented records have nothing to recover".into(),
+        },
+    )
+    .expect_err("clean implemented recovery must fail closed");
+    assert_eq!(clean_error.code, ErrorCode::InvalidTransition);
+
+    let (_temp, assigned_store, implemented) = implemented_fixture();
+    let assigned = assign_review(
+        &assigned_store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["docs".into()],
+        },
+    )
+    .expect("assign review");
+    assert_eq!(assigned.phase, LifecyclePhase::Implemented);
+    let correction_error = edit_issue(
+        &assigned_store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest.clone(),
+            actor: "operator".into(),
+            reason: "correct scope".into(),
+            operation: SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/lib.rs".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("scope correction must wait for typed review recovery");
+    assert_eq!(correction_error.code, ErrorCode::InvalidTransition);
+    let transition_count = assigned.transitions.len();
+    let recovered_assignment = csdlc_v2::recover_review(
+        &assigned_store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "correct declared scope before review".into(),
+        },
+    )
+    .expect("recover assignment-only implemented state");
+    assert_eq!(recovered_assignment.phase, LifecyclePhase::Implemented);
+    assert_eq!(recovered_assignment.transitions.len(), transition_count);
+    assert!(recovered_assignment.review_assignment.is_none());
+    assert!(recovered_assignment.review.is_none());
+    assert!(recovered_assignment.publication.is_none());
+    assert!(recovered_assignment.readiness.is_none());
+    assert!(recovered_assignment
+        .audit
+        .last()
+        .is_some_and(|event| event.operation == "recover_review"));
+    let corrected = edit_issue(
+        &assigned_store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered_assignment.generation,
+            expected_digest: recovered_assignment.digest,
+            actor: "operator".into(),
+            reason: "correct scope after typed recovery".into(),
+            operation: SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/lib.rs".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct scope after recovery");
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+
+    let (_temp, reviewed_store, implemented) = implemented_fixture();
+    let assigned = assign_review(
+        &reviewed_store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["docs".into()],
+        },
+    )
+    .expect("assign review");
+    let revision = assigned
+        .review_assignment
+        .as_ref()
+        .expect("assignment")
+        .revision
+        .clone();
+    let changes_required = record_review(
+        &reviewed_store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            evidence: ReviewEvidence {
+                reviewer: "subagent".into(),
+                scope: vec!["docs".into()],
+                reviewed_revision: revision,
+                findings: vec![ReviewFindingEvidence {
+                    id: "scope-path".into(),
+                    severity: FindingSeverity::P1,
+                    summary: "declared scope names a stale path".into(),
+                    actionable: true,
+                    in_scope: true,
+                    disposition: FindingDisposition::Open,
+                    fix_revision: None,
+                    route: None,
+                }],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record changes-required review");
+    assert_eq!(changes_required.phase, LifecyclePhase::Implemented);
+    assert!(changes_required.review.is_some());
+    let transition_count = changes_required.transitions.len();
+    let recovered_review = csdlc_v2::recover_review(
+        &reviewed_store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: changes_required.generation,
+            expected_digest: changes_required.digest,
+            actor: "operator".into(),
+            reason: "repair the declared scope finding".into(),
+        },
+    )
+    .expect("recover changes-required implemented state");
+    assert_eq!(recovered_review.phase, LifecyclePhase::Implemented);
+    assert_eq!(recovered_review.transitions.len(), transition_count);
+    assert!(recovered_review.review_assignment.is_none());
+    assert!(recovered_review.review.is_none());
+}
 fn git(root: &std::path::Path, args: &[&str]) {
     let output = std::process::Command::new("git")
         .current_dir(root)

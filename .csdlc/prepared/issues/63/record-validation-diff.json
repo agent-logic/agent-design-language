@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "sor",
+  "expected_generation": 18,
+  "expected_digest": "d4069b90db7667398b799557124100dc295f0771d2c641a1730f63362674effd",
+  "actor": "codex:63-validation",
+  "reason": "Record focused diff-hygiene proof.",
+  "operation": {"operation":"record_validation","result":{"command":["git","diff","--check"],"purpose":"Reject malformed whitespace and patch artifacts before exact-head review.","outcome":"passed","evidence_ref":"local:issue-63-diff-check:passed"}}
+}

@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "spp",
+  "expected_generation": 11,
+  "expected_digest": "5aacb9ca6ce8555500d226fddc3cd44dcc4226b9df4a33f561d78e7f5dd8ead4",
+  "actor": "codex:63-implementation",
+  "reason": "Implemented bounded review recovery and typed SIP scope correction through canonical card mutation and commit paths.",
+  "operation": {"operation":"update_plan_step","step_id":"S2","status":"completed"}
+}

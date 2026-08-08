@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "spp",
+  "expected_generation": 10,
+  "expected_digest": "b0c1113f457a787667bdec4c1cf2ceccc2b2bf732e70cebbb20ac943f5751592",
+  "actor": "codex:63-implementation",
+  "reason": "Confirmed the dedicated correction operation, exact guards, recovery seam, and audit contract.",
+  "operation": {"operation":"update_plan_step","step_id":"S1","status":"completed"}
+}
