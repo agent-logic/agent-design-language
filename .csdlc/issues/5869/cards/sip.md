@@ -16,7 +16,7 @@ Implement monotonic epochs and bounded leases as prerequisites for distributed o
 
 ## Required Outcome
 
-Implement OpenRaft majority-committed authority, joint membership, canonical AuthorityCertificateV1 endorsements, activation-key possession, monotonic epochs, bounded leases, and fail-closed mutation-sink verification.
+Implement OpenRaft committed authority whose certificates satisfy a stable majority or both constituent majorities during joint membership, reject insufficient union majorities, and use the exact Ed25519, domain-separated SHA-256, deterministic prost, activation-possession, lease, and mutation-sink contract frozen by #5821.
 
 ## Scope
 

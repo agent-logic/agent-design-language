@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -66,6 +66,8 @@ Revision 2
 - No insecure or Runtime v2 fallback
 - Queues and waits remain bounded
 - Evidence is exact-revision and digest bound
+- Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority
+- AuthorityCertificateV1 accepts only the frozen Ed25519 key, signature, domain-separation, SHA-256, and deterministic prost encoding contract
 
 ## Risks
 
@@ -86,7 +88,7 @@ Revision 2
 
 .csdlc/prepared/issues/5869/design.md
 
-Digest: 22b23bd5a365e75df3b8d0d4d12b6c2a4b4c7ad4f2baed0641712260113f6c21
+Digest: 8ee5527fc6675fcf43efb635ba076b597dbc369dad65665aa330420853f33fba
 
 ## Diagram
 

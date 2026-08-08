@@ -1,0 +1,6 @@
+{
+  "issue": 5869,
+  "expected_generation": 13,
+  "expected_digest": "c4e9f2e3c445dbe5ad8017333d5bee0a2db4846dd326112e507e10f181c4d4a2",
+  "reviewer": "codex:5821-wp04-child-certificate-design-review"
+}

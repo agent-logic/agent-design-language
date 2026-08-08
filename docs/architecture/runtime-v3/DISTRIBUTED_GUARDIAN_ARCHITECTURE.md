@@ -144,7 +144,11 @@ Only enrolled voting Guardians in the same trust domain participate. A
 distributed authority group has at least three voters; joining nodes begin as
 non-voting learners, and voter changes use OpenRaft's joint membership
 transition. A majority of the effective voter configuration is the only
-quorum. The committed log serializes membership-voter changes, epochs, lease
+quorum. For a stable configuration, quorum means a strict majority of that
+configuration. For a joint configuration, quorum means a strict majority of
+both the committed old voter set and the committed new voter set; a strict
+majority of their union is insufficient if either constituent majority is
+missing. The committed log serializes membership-voter changes, epochs, lease
 grants, activation incarnations, fences, certificate revocations, and owner
 commits. The linearization point is the applied majority-committed log index.
 A node outside a majority cannot advance the log, renew authority, or activate
@@ -164,23 +168,39 @@ activation requires a newer committed epoch after the prior safety window.
 `AuthorityCertificateV1` is a canonical `prost` message containing the schema
 version, trust domain, lineage, voter-set generation, Raft term and committed
 log index, epoch, holder node and Guardian identities, activation-key digest,
-operation class, issued UTC time, lease duration, and policy digest. The
-domain-separated SHA-256 digest of those canonical bytes is signed independently
-by a strict majority of the committed voter set using each Guardian's
-purpose-bound control signing key. The certificate carries each distinct signer
-identity, certificate generation, and standard signature. It uses no threshold
-scheme or custom cryptographic primitive.
+operation class, issued UTC time, lease duration, policy digest, and signing
+algorithm identifier `ed25519`. Version 1 uses RustCrypto `ed25519-dalek`: each
+control public key is the 32-byte compressed Edwards-Y coordinate accepted by
+`VerifyingKey::from_bytes`, and each signature is the 64-byte `R || S` encoding
+accepted by `Signature::from_bytes`. The signing preimage is the ASCII domain
+separator `ADL-AUTHORITY-CERTIFICATE-V1\0` followed by the deterministic
+`prost::Message::encode_to_vec` encoding of the certificate body with the
+endorsement list omitted. Version 1 forbids protobuf maps, requires fields in
+declared tag order, requires repeated fields to be pre-sorted by their specified
+identity order, rejects duplicate singular or signer fields, rejects unknown
+fields, and rejects non-minimal varints before re-encoding. The signed digest is
+`SHA-256(preimage)`. Any other algorithm identifier, key length, signature
+length, encoding, or canonicalization is rejected.
+
+The certificate carries each distinct signer identity, certificate generation,
+and Ed25519 signature. The signer identities must satisfy the exact quorum rule
+of the committed membership named by the certificate: a strict majority for a
+stable configuration, or a strict majority of both old and new voter sets for a
+joint configuration. A union majority that lacks either constituent majority is
+not authority. It uses no threshold scheme or custom cryptographic primitive.
 
 A voter endorses only after durably applying the identical authority-ledger
 entry. Voter changes use OpenRaft joint consensus, and verification uses the
 voter-set generation named by the committed entry. Every mutation sink parses
-the canonical message, recomputes its digest, verifies a strict majority of
-distinct current-voter signatures and their certificate purpose, generation,
+the canonical message, recomputes its digest, verifies that distinct current-voter
+signatures satisfy that committed membership's stable or joint quorum function,
+and verifies their certificate purpose, generation,
 revocation, and expiry, checks its applied log index is at least the named index,
 proves activation-key possession, and enforces the operation class. A leader
-value without those endorsements has no authority. Safety assumes fewer than a
-majority of current voters are compromised; majority compromise requires
-operator trust-domain reconstruction.
+value without those endorsements has no authority. Safety assumes compromised
+signers cannot satisfy the committed membership's quorum function; satisfying a
+stable majority, or both constituent majorities during joint membership,
+requires operator trust-domain reconstruction.
 
 Lease safety uses monotonic elapsed time, never wall-clock time alone. Voting
 nodes enforce a configured maximum clock uncertainty measured through the

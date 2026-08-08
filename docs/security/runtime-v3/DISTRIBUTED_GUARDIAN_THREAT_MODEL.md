@@ -94,7 +94,9 @@ assumptions fail, operator-led trust-domain generation recovery is required.
 - **Impact:** Divergent cognition and durable state corruption.
 - **Priority:** Critical.
 - **Mitigations:** Failure detection is non-authoritative; OpenRaft commits
-  authority through a majority and joint membership; leases are bounded;
+  authority through a stable majority or, during joint membership, a majority
+  of both the old and new voter sets; a union majority missing either
+  constituent majority is rejected; leases are bounded;
   replacements use a newer majority-committed epoch only after the prior lease
   safety window; stale holders fail fencing checks; and quorum or clock
   uncertainty halts mutation. Availability never overrides one-owner proof.
@@ -135,6 +137,10 @@ assumptions fail, operator-led trust-domain generation recovery is required.
 - **Mitigations:** Maintained QUIC/TLS only, mutual authentication, fixed
   versions, library framing, input and stream limits, handshake/idle timeouts,
   cancellation, backpressure, per-peer quotas, and redacted reason codes.
+  Authority certificates accept only the frozen Ed25519 algorithm, key and
+  signature lengths, domain separator, SHA-256 digest, and deterministic prost
+  encoding; unknown fields, duplicate fields, non-minimal varints, unsorted
+  repeated fields, and alternative signature suites fail closed.
 
 ### T7: Forged capability or resource-weather evidence
 

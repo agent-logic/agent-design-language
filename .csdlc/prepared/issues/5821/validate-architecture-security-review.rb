@@ -21,6 +21,7 @@ child_authoritative = reviewed_children.flat_map do |issue|
     ".csdlc/issues/#{issue}/index.json",
     ".csdlc/issues/#{issue}/cards/sip.values.json",
     ".csdlc/issues/#{issue}/cards/stp.values.json",
+    ".csdlc/issues/#{issue}/cards/spp.values.json",
     ".csdlc/issues/#{issue}/cards/vpp.values.json"
   ]
 end
@@ -38,7 +39,7 @@ required_architecture = {
   "## Certificate Purposes And Lifecycle" => ["not interchangeable", "actively closes affected sessions", "revalidates", "revocation"],
   "## Maintained QUIC/TLS Transport" => ["quinn", "rustls", "prost", "custom cryptography", "custom wire framing"],
   "## Discovery, Join, And Membership" => ["seeds as addresses, never trust anchors", "deterministic order", "committed epoch"],
-  "## Epochs, Leases, And Fencing" => ["openraft", "at least three voters", "non-voting learners", "joint membership", "majority", "linearization point", "leader term", "committed log index", "certificate generation", "Quorum loss", "numerically highest local epoch"],
+  "## Epochs, Leases, And Fencing" => ["openraft", "at least three voters", "non-voting learners", "joint membership", "majority of both", "union majority", "linearization point", "leader term", "committed log index", "certificate generation", "ed25519", "adl-authority-certificate-v1", "32-byte", "64-byte", "unknown fields", "duplicate", "Quorum loss", "numerically highest local epoch"],
   "## Advertisements And Placement" => ["deterministic placement", "stable tie-break order", "fenced node", "no eligible target"],
   "## Snapshot And Migration Protocol" => ["prepare -> quiesce -> checkpoint -> transfer -> validate -> fence -> activate -> commit", "prior lease safety", "source permit"],
   "## Rollback And Recovery" => ["Before `fence`", "After `fence`, before `activate`", "both remain fenced"],
@@ -56,10 +57,10 @@ threat_text = File.read(threat_model)
 required_threats = {
   "### T1: Unauthorized or wrong-domain enrollment" => ["proof of possession", "one-time nonce", "trust-domain binding"],
   "### T2: Replay and stale lease activation" => ["replay", "stale authority", "fencing-token checks"],
-  "### T3: Partition-induced split brain" => ["OpenRaft", "majority", "joint membership", "quorum or clock uncertainty halts mutation"],
+  "### T3: Partition-induced split brain" => ["OpenRaft", "majority of both", "union majority", "joint membership", "quorum or clock uncertainty halts mutation"],
   "### T4: Cloned state and identity collision" => ["non-persistent activation key", "cannot renew", "newer committed epoch"],
   "### T5: Certificate compromise or certificate expiry" => ["active session closure", "per-authority-operation certificate checks", "no verification bypass"],
-  "### T6: Transport downgrade, malformed input, or resource exhaustion" => ["Maintained QUIC/TLS only", "stream limits", "per-peer quotas"],
+  "### T6: Transport downgrade, malformed input, or resource exhaustion" => ["Maintained QUIC/TLS only", "stream limits", "per-peer quotas", "Ed25519", "unknown fields", "non-minimal varints"],
   "### T7: Forged capability or resource-weather evidence" => ["signatures", "freshness", "never grant authority"],
   "### T8: Snapshot substitution or disclosure" => ["chunk digests", "authenticated encrypted transport", "isolated restore"],
   "### T9: Relocation failure" => ["source authority retained", "target activation only after fence", "failure-stage recovery"],

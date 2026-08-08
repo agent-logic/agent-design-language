@@ -32,8 +32,16 @@ Implement the OpenRaft authority ledger and canonical
 least three voters; membership changes use joint consensus; lease grant and
 renewal are majority-committed entries; and each certificate binds the voter
 generation, term, applied log index, epoch, holder, activation-key digest,
-operation class, lifetime, and policy digest. Strict-majority purpose-bound
-endorsements, activation-key possession, certificate validity, monotonic-time
+operation class, lifetime, and policy digest. Endorsements must satisfy the
+exact committed OpenRaft quorum function: a strict majority of the stable voter
+set, or strict majorities of both old and new voter sets during joint
+membership. A majority of the union that lacks either constituent majority is
+rejected. `AuthorityCertificateV1` uses algorithm identifier `ed25519`,
+RustCrypto `ed25519-dalek`, 32-byte compressed public keys, 64-byte `R || S`
+signatures, the exact `ADL-AUTHORITY-CERTIFICATE-V1\0` domain separator, and the
+deterministic prost body encoding and strict unknown/duplicate/non-minimal-field
+rejection rules frozen by #5821. Quorum-valid purpose-bound endorsements,
+activation-key possession, certificate validity, monotonic-time
 safety, and applied-index checks are mandatory. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
@@ -51,7 +59,9 @@ insecure fallback.
 
 Exact nextest target distributed_lease proves three-voter majority and joint
 membership behavior, canonical AuthorityCertificateV1 encoding and digest
-binding, distinct majority endorsements, activation-key possession, applied
+binding, exact Ed25519 key/signature/domain/protobuf rejection behavior,
+distinct quorum endorsements, rejection of a union majority that lacks either
+the old-set or new-set majority, activation-key possession, applied
 mutation-sink checks, monotonic epochs, lease renewal and expiry, certificate
 revocation/expiry, quorum loss, malicious-leader/minority denial, clock
 uncertainty, stale-holder denial, and restart recovery.

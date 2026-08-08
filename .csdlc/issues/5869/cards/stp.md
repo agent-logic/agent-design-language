@@ -16,11 +16,12 @@ Implement monotonic epochs and bounded leases as prerequisites for distributed o
 
 ## Deliverables
 
-- Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
-- Authority safety: Restore authority only from a majority-committed prefix; local durability, a leader assertion, or a minority history never grants authority.
+- OpenRaft authority and leases whose endorsements use a stable majority or both constituent majorities during joint membership
+- A negative test proving a union majority without either constituent majority is rejected
+- AuthorityCertificateV1 using ed25519-dalek, 32-byte public keys, 64-byte signatures, the exact ADL-AUTHORITY-CERTIFICATE-V1\0 domain, SHA-256, and deterministic prost encoding
+- Negative tests for wrong algorithms, malformed key/signature lengths, unknown or duplicate fields, non-minimal varints, and noncanonical repeated-field ordering
+- Digest-bound execution proof and reviewed rollback evidence
+- Authority recovery only from a quorum-proven committed prefix; local durability, a leader assertion, or a minority history never grants authority
 
 ## Acceptance
 

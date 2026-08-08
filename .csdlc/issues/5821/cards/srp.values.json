@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04] Distributed Guardian/polis runtime",
     "slug": "v0-92-wp-04-distributed-guardian-polis-runtime",
     "version": "v0.92",
-    "generation": 64
+    "generation": 65
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md\ndocs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md\n.csdlc/prepared/issues/5821/design.md\ndocs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\ndocs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md\n.csdlc/prepared/issues/5821/validate-architecture-security-review.rb\n.csdlc/prepared/issues/5821/validate-child-wave.rb\n.csdlc/prepared/issues/5865/design.md\n.csdlc/issues/5865/index.json\n.csdlc/issues/5865/cards/sip.values.json\n.csdlc/issues/5865/cards/stp.values.json\n.csdlc/issues/5865/cards/vpp.values.json\n.csdlc/prepared/issues/5869/design.md\n.csdlc/issues/5869/index.json\n.csdlc/issues/5869/cards/sip.values.json\n.csdlc/issues/5869/cards/stp.values.json\n.csdlc/issues/5869/cards/vpp.values.json\n.csdlc/prepared/issues/5870/design.md\n.csdlc/issues/5870/index.json\n.csdlc/issues/5870/cards/sip.values.json\n.csdlc/issues/5870/cards/stp.values.json\n.csdlc/issues/5870/cards/vpp.values.json\n.csdlc/prepared/issues/5875/design.md\n.csdlc/issues/5875/index.json\n.csdlc/issues/5875/cards/sip.values.json\n.csdlc/issues/5875/cards/stp.values.json\n.csdlc/issues/5875/cards/vpp.values.json\n.csdlc/prepared/issues/5876/design.md\n.csdlc/issues/5876/index.json\n.csdlc/issues/5876/cards/sip.values.json\n.csdlc/issues/5876/cards/stp.values.json\n.csdlc/issues/5876/cards/vpp.values.json",
-      "review_revision": "git-blake3:853da180917fd9e714799d8130db21851fbe1ec9:f0a8c3ce04863904aa1b4c58d527c7a35f4ab3e02455864220f079e9cdad6bf6",
-      "reviewer": "openai-codex:gpt-5:wp04-openraft-contract-independent-review:2026-08-08",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the architecture and threat model close every declared identity, trust, certificate, partition, replay, lease, fencing, placement, migration, rollback, and observability boundary?",
         "Does the ledger contain exactly WP-04.01 through WP-04.16 with complete, nonduplicative outcomes and disjoint protected paths?",
@@ -24,10 +24,8 @@
         "Does issue 5821 stop before product implementation, multi-node proof, integration, or terminal child reconciliation claims?"
       ],
       "findings": [],
-      "residual_risk": [
-        "This gate proves architecture, security, dependency ownership, and child-wave contract readiness; runtime implementation and distributed failure proofs remain assigned to the WP-04 implementation children."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
