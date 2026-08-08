@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
     "slug": "v0-92-wp-24a-podcast-studio-first-ten-episodes",
     "version": "v0.92",
-    "generation": 42
+    "generation": 46
   },
   "status": "ready",
   "content": {
@@ -18,8 +18,13 @@
         "Ten complete episode directories",
         "Ten final MP3 and archive-audio artifacts with manifests",
         "Validated feed and enclosure records",
-        "Audio, redaction, guest, metadata, playback, and listen-check QA",
-        "Exact-head editorial/audio review"
+        "Audio, redaction, guest, metadata, playback, and listening QA evidence",
+        "Exact-head editorial and audio review",
+        "adl/tools/test_podcast_launch_packet.sh",
+        "adl/tools/record_podcast_native_playback.sh",
+        "adl/tools/record_podcast_browser_playback.mjs",
+        "adl/tools/record_podcast_ios_safari_playback.sh",
+        ".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb"
       ],
       "acceptance_criteria": [
         "AC-1: All ten episodes contain every required script, audio, transcript, note, metadata, artwork, enclosure, redaction, QA, and review artifact.",

@@ -36,14 +36,12 @@ Diagram: .csdlc/prepared/issues/5845/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 8000,
     "argv": [
-      "env",
-      "TMPDIR=.csdlc/evidence/5845/tmp",
       "bash",
       "adl/tools/test_podcast_launch_packet.sh",
       "--ten-episode-positive"
     ],
     "parallel_group": "podcast",
-    "defer_reason": null
+    "defer_reason": "Implementation must first add ten-episode positive-mode parsing and enforce temporary storage beneath .csdlc/evidence/5845; running the current legacy smoke is not acceptance proof."
   },
   {
     "lane": "wp24a-package-negative",
@@ -58,14 +56,12 @@ Diagram: .csdlc/prepared/issues/5845/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 8000,
     "argv": [
-      "env",
-      "TMPDIR=.csdlc/evidence/5845/tmp",
       "bash",
       "adl/tools/test_podcast_launch_packet.sh",
       "--ten-episode-negative"
     ],
     "parallel_group": "podcast",
-    "defer_reason": null
+    "defer_reason": "Implementation must first add a distinct fail-closed ten-episode negative mode and enforce temporary storage beneath .csdlc/evidence/5845; the current legacy smoke cannot satisfy this lane."
   },
   {
     "lane": "wp24a-macos-playback",
@@ -90,7 +86,7 @@ Diagram: .csdlc/prepared/issues/5845/diagram.mmd
       ".csdlc/evidence/5845/platform/macos-native"
     ],
     "parallel_group": "platform-native",
-    "defer_reason": "Required on a native macOS runner; unavailable runner blocks review readiness."
+    "defer_reason": "The issue must implement this owned validator before validation; a missing producer blocks review readiness."
   },
   {
     "lane": "wp24a-linux-playback",
@@ -115,7 +111,7 @@ Diagram: .csdlc/prepared/issues/5845/diagram.mmd
       ".csdlc/evidence/5845/platform/linux-native"
     ],
     "parallel_group": "platform-native",
-    "defer_reason": "Required on a native Linux runner; unavailable runner blocks review readiness."
+    "defer_reason": "The issue must implement this owned validator before validation; a missing producer blocks review readiness."
   },
   {
     "lane": "wp24a-desktop-chromium-playback",
@@ -140,11 +136,11 @@ Diagram: .csdlc/prepared/issues/5845/diagram.mmd
       ".csdlc/evidence/5845/platform/desktop-chromium"
     ],
     "parallel_group": "platform-browser",
-    "defer_reason": "Required with desktop Chromium and the bounded loopback fixture; absence blocks review readiness."
+    "defer_reason": "The issue must implement this owned validator before validation; a missing producer blocks review readiness."
   },
   {
     "lane": "wp24a-ios-safari-playback",
-    "proof_role": "Produce a physical-device iOS Safari playback receipt at exact candidate HEAD using the required ADL_IOS_DEVICE_ID_SHA256 and ADL_IOS_EPISODE_URL environment contracts; retain only the hashed device identity.",
+    "proof_role": "Produce a physical-device iOS Safari playback receipt at exact candidate HEAD while retaining only a hashed device identity.",
     "acceptance_ids": [
       "AC-2",
       "AC-5"
@@ -165,11 +161,11 @@ Diagram: .csdlc/prepared/issues/5845/diagram.mmd
       ".csdlc/evidence/5845/platform/ios-safari-device"
     ],
     "parallel_group": "platform-browser",
-    "defer_reason": "Required on a physical iOS Safari device with ADL_IOS_DEVICE_ID_SHA256 and a device-reachable ADL_IOS_EPISODE_URL set by the operator; missing or simulator-only proof blocks review readiness."
+    "defer_reason": "The issue must implement this owned validator before validation; missing physical-device proof blocks review readiness."
   },
   {
     "lane": "wp24a-platform-receipt-binding",
-    "proof_role": "Recompute canonical receipt payload, media, and capture SHA-256 bindings and require all four exact platform identities at candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=e542a9dc375e1f9405365401453003da960d237897980caea6f051a933b599d8]",
+    "proof_role": "Recompute canonical receipt, media, and capture digests and require all four exact platform identities at candidate HEAD.",
     "acceptance_ids": [
       "AC-2",
       "AC-5"
@@ -200,8 +196,8 @@ Tokens: 80000
 
 ## Commands
 
-- `env TMPDIR=.csdlc/evidence/5845/tmp bash adl/tools/test_podcast_launch_packet.sh --ten-episode-positive`
-- `env TMPDIR=.csdlc/evidence/5845/tmp bash adl/tools/test_podcast_launch_packet.sh --ten-episode-negative`
+- `bash adl/tools/test_podcast_launch_packet.sh --ten-episode-positive`
+- `bash adl/tools/test_podcast_launch_packet.sh --ten-episode-negative`
 - `bash adl/tools/record_podcast_native_playback.sh --platform macos --source-sha-from-git-head --episode demos/podcast/episodes/001-meet-the-ai-coworkers/episode.mp3 --evidence-dir .csdlc/evidence/5845/platform/macos-native`
 - `bash adl/tools/record_podcast_native_playback.sh --platform linux --source-sha-from-git-head --episode demos/podcast/episodes/001-meet-the-ai-coworkers/episode.mp3 --evidence-dir .csdlc/evidence/5845/platform/linux-native`
 - `node adl/tools/record_podcast_browser_playback.mjs --browser chromium --source-sha-from-git-head --episode-url http://127.0.0.1:4173/podcast/episodes/001/episode.mp3 --evidence-dir .csdlc/evidence/5845/platform/desktop-chromium`
