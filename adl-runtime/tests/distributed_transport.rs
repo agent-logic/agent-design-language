@@ -84,7 +84,7 @@ fn authority_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
     let root = SigningKey::from_bytes(&[91; 32]);
     let policy = CertificatePolicy::new(DOMAIN, [root.verifying_key()])
         .unwrap()
-        .with_bounds(3600, 60, 1, 64, 64)
+        .with_bounds(3600, 60, 60, 64, 64)
         .unwrap();
     let directory = tempfile::tempdir().unwrap();
     let canonical_directory = directory.path().canonicalize().unwrap();
