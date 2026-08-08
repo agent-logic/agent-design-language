@@ -1,0 +1,21 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+────────────
+ Nextest run ID 375c114c-b73a-4e45-9e4b-8381fa4b245b with nextest profile: default
+    Starting 15 tests across 1 binary
+        PASS [   0.052s] ( 1/15) adl-runtime::distributed_identity symlinked_database_parent_is_rejected
+        PASS [   0.363s] ( 2/15) adl-runtime::distributed_identity bounded_nonce_capacity_rejects_additional_work
+        PASS [   0.353s] ( 3/15) adl-runtime::distributed_identity wrong_trust_domain_is_rejected_and_audited
+        PASS [   0.414s] ( 4/15) adl-runtime::distributed_identity consumed_nonce_cannot_be_replayed
+        PASS [   0.429s] ( 5/15) adl-runtime::distributed_identity local_node_and_guardian_identity_is_restart_stable
+        PASS [   0.433s] ( 6/15) adl-runtime::distributed_identity unapproved_operator_root_and_malformed_signature_fail_closed
+        PASS [   0.438s] ( 7/15) adl-runtime::distributed_identity signed_enrollment_is_durable_and_same_generation_is_idempotent
+        PASS [   0.445s] ( 8/15) adl-runtime::distributed_identity one_guardian_control_key_cannot_represent_two_voters
+        PASS [   0.445s] ( 9/15) adl-runtime::distributed_identity oversized_request_is_rejected_before_unbounded_serialization_and_safely_audited
+        PASS [   0.445s] (10/15) adl-runtime::distributed_identity expired_and_future_requests_fail_closed
+        PASS [   0.450s] (11/15) adl-runtime::distributed_identity audit_records_are_bounded_and_redact_identity_material
+        PASS [   0.459s] (12/15) adl-runtime::distributed_identity node_and_guardian_proof_of_possession_are_both_required
+        PASS [   0.495s] (13/15) adl-runtime::distributed_identity rotated_root_does_not_hide_a_corrupt_historical_operator_signature
+        PASS [   0.503s] (14/15) adl-runtime::distributed_identity rotated_trust_root_quarantines_distributed_enrollment_but_preserves_local_recovery
+        PASS [   0.719s] (15/15) adl-runtime::distributed_identity corrupt_audit_metadata_event_and_nonce_fail_closed_on_restart
+────────────
+     Summary [   0.719s] 15 tests run: 15 passed, 0 skipped

@@ -7,18 +7,51 @@
     "title": "[v0.92][WP-04.01] Node identity and authenticated enrollment",
     "slug": "v0-92-wp-04-01-node-identity-enrollment",
     "version": "v0.92",
-    "generation": 14
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "summary": "Implemented stable node and Guardian identity with authenticated fail-closed enrollment and hardened durable-state validation.",
+      "actual_changes": [
+        "adl-runtime/src/distributed/identity.rs",
+        "adl-runtime/tests/distributed_identity.rs"
+      ],
+      "artifacts": [
+        ".csdlc/evidence/5863/execution-proof.json",
+        ".csdlc/evidence/5863/negative-cases.json",
+        ".csdlc/evidence/5863/distributed-identity.stdout.log",
+        ".csdlc/evidence/5863/distributed-identity.stderr.log"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_identity",
+            "--no-tests=fail"
+          ],
+          "purpose": "Prove identity, enrollment, replay, bounded-resource, durable-corruption, and path-safety behavior",
+          "outcome": "passed",
+          "evidence_ref": "exact-child-tests.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5863/validate-proof-receipt.rb"
+          ],
+          "purpose": "Fail closed on stale or tampered WP-04.01 proof",
+          "outcome": "passed",
+          "evidence_ref": "exact-revision-proof-receipt.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
