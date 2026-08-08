@@ -30,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The actual immutable image build and publication remain a separate operational action; focused contracts prove this patch's pinning and preflight behavior.
 
 ## Review Result
 
-Revision: None
+Revision: Some("eba54de5b31ba52c3b34f9df455e9b9caf970378")
 
-Reviewer: None
+Reviewer: Some("subagent-Copernicus")
 
-Result: pre_review
+Result: pass

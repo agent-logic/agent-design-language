@@ -3,9 +3,9 @@
   "issue": 22,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5fa8517ec88a66465e0baff5b4f7c6560781aa68ac7602c0beedea0fe51bd16",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "8ab691e9dab281cad472ee29b98b6ea9503d6bf0a4e1d449567cb9678b944c50",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "02cc740eeb08bfd868763e170cb4871b142adcf7d663a43bd61cb2c76bcd0a5a",
   "branch": "codex/22-pinned-ruby-builder-runtime",
   "worktree": "/Volumes/FastWork/adl-issue-22-pinned-ruby-builder-runtime",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/22/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-approved-issue-contract",
-      "revision": "c610e2ddfe9484a8be12c6ae5bc0a5f8e5d39fa5247a771bdb34efb74c54a7c1"
+      "reviewer": "subagent-Copernicus",
+      "revision": "7b2526ad87abd5e2c78030750eef8b0f98b3e3eb0b64f8c4a502398c2705f1bf"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "d673cad019c7c35ad5864a7b28380474ca0eeb492f3aa11742024ee6d6874532",
+      "values_digest": "4980690fd65457bc227952a206e7a3a98e071eecbaa16b20128d94d509c8a5f8",
       "rendered_digest": "749441d157724ec13d7238da7fd95321057740b0ae4be7afa85e63a248c2a43e",
       "ast_digest": "280d5a7bec796c2a354c4d01c003be9d0217cddcb0edf67617cdcd2a95e48976"
     },
     "stp": {
-      "values_digest": "312100cd75062e6a8d1e7c35dbabde400b0a11346c4c1fd09e8cd948d538eb8d",
+      "values_digest": "46d95cb69bc0bc21f31ca600ea911dbe293a11a717bfddf24c926302254bf510",
       "rendered_digest": "cb3ce281176cc8545dcb722783ff6ce61d5ad3503e385ee801665fbd3e5efb33",
       "ast_digest": "44aa1a23d6453a29fd90659f6fc2aa092a45d7d4036b44f951eb2ef009a19d80"
     },
     "spp": {
-      "values_digest": "26211bc244d07e03fc115534f6cb0ef4bfabcd052dfaf0d6037fe0c7166ad8dd",
-      "rendered_digest": "f4eb972d1ea33c9c051a1a1f7f89db9c0f449b3688e037acb9912557e6968a1a",
-      "ast_digest": "64a2392b806d3b9b3b7844fe03708dd67c5477f80e7869ec5f60cd7439da8969"
+      "values_digest": "24954c1863c7b461abc7d421a343c9c3e61486f6b26f891ecfa3f0bd116f69e6",
+      "rendered_digest": "e1e96d1c5142a83374d235e22a769d3875eb4d1215093b79da17dfa9d587f440",
+      "ast_digest": "6cc3853ee4314801c364448627ef0f3038a4e5be58bcd85f9d68e9a792902f51"
     },
     "vpp": {
-      "values_digest": "4937d459cb8b40b28a7d5545990b4fa8b8d1d053868ae2418cc9f06e48e6ab8e",
+      "values_digest": "ae312fc62867040f781388c7d3473adb216b41d37f42ee74812b2623f7de8d85",
       "rendered_digest": "42b6c1a7c2a46f1ee82d37b69d5b7f5aea143edf6032d64fa1689b9b4b6e7cbc",
       "ast_digest": "92f4a60c5ec8a779949f04deb1a4e1b5efeb71f7d41619902c4e7bd7642b00c9"
     },
     "srp": {
-      "values_digest": "fec4b8b754323ba2497acb96007be1a5f072df90a94f7e1a0e671a35c6146195",
-      "rendered_digest": "8aed586f98adfedfa9055ca38e8afde873d950d73177a7390198face22c420a1",
-      "ast_digest": "4bb70ef0ad811cda46a15094433f9a3341c726f5ee3d291d176594da8f218928"
+      "values_digest": "cecb7ed54ee38212075adef496231c6c456a39d969ab281e63ce2cd1f77699c8",
+      "rendered_digest": "a29d69971ef35d61ddf954883bff4337f27408e5f84e0468526354f05c73543c",
+      "ast_digest": "a4dafc8e6de7b3af6e0b0bd214c2fc8877f1732de08612e1533a846dc540ba6f"
     },
     "sor": {
-      "values_digest": "e5e56270d22d6560f1c03297d1a5d4a88a191c89fac7ae324f43efe20572791b",
+      "values_digest": "dc1470547e199eb6bdffbbe3100d494bb02eb0d4db2341764efa19a98f9cb732",
       "rendered_digest": "7dd1bb562c8ea3f3ea537da392d1d9522421eb4c2a2934ebea83fd5c932ed667",
       "ast_digest": "2a30ba6e851b1b8f6cdb63e0081180f7b16b8b9304a85470484766eb68f74239"
     }
@@ -75,6 +75,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Implementation and focused proof are complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Exact-head independent review passed with no actionable findings"
     }
   ],
   "audit": [
@@ -112,6 +119,27 @@
       "actor": "codex",
       "reason": "Record bounded issue 22 implementation and focused proof",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Added checksum-pinned Ruby 3.3.6 to the immutable builder image, recorded Ruby provenance, and made builder preflight execute a minimal Ruby program plus the repository validator self-test before any requested validation command.\",\"changes\":[\"Pinned the official Ruby 3.3.6 source archive and SHA-256 in the builder Dockerfile\",\"Recorded ruby --version in the immutable builder toolchain manifest\",\"Executed Ruby and the native-receipt validator self-test during builder preflight\",\"Added focused static, positive, and missing-Ruby fail-closed contracts\"],\"artifacts\":[\"adl/docker/adl-builder/Dockerfile\",\"adl/tools/run_aws_spot_builder_image_validation.sh\",\"adl/tools/test_adl_builder_image.sh\",\"adl/tools/test_run_aws_spot_builder_image_validation.sh\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_adl_builder_image.sh\"],\"purpose\":\"Verify immutable builder pinning and provenance contract\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation output: PASS test_adl_builder_image\"},{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_builder_image_validation.sh\"],\"purpose\":\"Verify Ruby preflight execution and missing-Ruby stop before validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation output: PASS test_run_aws_spot_builder_image_validation\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation exited 0\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "subagent-Copernicus",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Record independent exact-head review",
+      "operation": "{\"operation\":\"record_review\",\"reviewer\":\"subagent-Copernicus\",\"revision\":\"eba54de5b31ba52c3b34f9df455e9b9caf970378\",\"result\":\"pass\",\"residual_risk\":[\"The actual immutable image build and publication remain a separate operational action; focused contracts prove this patch's pinning and preflight behavior.\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Exact-head independent review passed with no actionable findings",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

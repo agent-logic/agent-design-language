@@ -7,7 +7,7 @@
     "title": "Include pinned Ruby runtime in the immutable AWS Spot builder image",
     "slug": "pinned-ruby-builder-runtime",
     "version": "v0.92",
-    "generation": 3
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -78,9 +78,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed before the requested validation command when Ruby or validator smoke fails; do not substitute host installation.",
       "design_ref": ".csdlc/prepared/issues/22/design.md",
-      "design_digest": "c610e2ddfe9484a8be12c6ae5bc0a5f8e5d39fa5247a771bdb34efb74c54a7c1",
+      "design_digest": "7b2526ad87abd5e2c78030750eef8b0f98b3e3eb0b64f8c4a502398c2705f1bf",
       "diagram_ref": ".csdlc/prepared/issues/22/diagram.mmd",
-      "diagram_digest": "7172e260db3474a20353d51e23fea1917bb7b6056a8c10f7d0cb3106666fc447"
+      "diagram_digest": "44d8b30becc3ca642911dff89d91ae1bf822bd876f37c99e3aa8da654813dff9"
     }
   }
 }

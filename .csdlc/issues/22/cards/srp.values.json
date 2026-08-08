@@ -7,23 +7,25 @@
     "title": "Include pinned Ruby runtime in the immutable AWS Spot builder image",
     "slug": "pinned-ruby-builder-runtime",
     "version": "v0.92",
-    "generation": 3
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "The four declared builder files and issue 22 lifecycle artifacts only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "eba54de5b31ba52c3b34f9df455e9b9caf970378",
+      "reviewer": "subagent-Copernicus",
       "review_prompts": [
         "Is Ruby version and source digest provenance explicit and verified?",
         "Can a missing Ruby runtime reach the requested validation command?",
         "Are all existing builder checks preserved?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The actual immutable image build and publication remain a separate operational action; focused contracts prove this patch's pinning and preflight behavior."
+      ],
+      "review_result": "pass"
     }
   }
 }
