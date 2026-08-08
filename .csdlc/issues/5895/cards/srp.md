@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Installer/coexistence correctness, provenance, negative guard, and installed lifecycle canary only.
+csdlc-v2/tests/gate10a.rs
+.csdlc/issues/5895
+.csdlc/prepared/issues/5895
 
 ## Prompts
 

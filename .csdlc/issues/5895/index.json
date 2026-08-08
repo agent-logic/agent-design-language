@@ -5,10 +5,19 @@
   "initialization_digest": "d173a56713569c6f71cc7321e8b2d6b0ae5b162d4664cf0bf2c592a7ef4b4b84",
   "phase": "implemented",
   "generation": 12,
-  "digest": "beaffc73e5c6804d948cdf1f14e8a87e306793a9159a3d77961b7afcf1afa837",
+  "digest": "d723cb6c711ed4a1afc69594e494428fbf42d7912125d361ac5ca7199516d847",
   "branch": "codex/5895-retire-csdlc-migrate-installer",
   "worktree": "/Volumes/FastWork/adl-issue-5895-retire-csdlc-migrate-installer",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:review_5895_implementation",
+    "assigned_by": "codex:5895-implementation",
+    "revision": "git-blake3:0dafc1b15f1dfb24b6706f6222d05b7913dccedb:6d4b90599307b1179eaa42975a198f4613359543ed10a1799a931aefa362bd12",
+    "scope": [
+      "csdlc-v2/tests/gate10a.rs",
+      ".csdlc/issues/5895",
+      ".csdlc/prepared/issues/5895"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "7a1c8a8f463fbb9638a4046d7409153ab67374b5d1f53c27f7a245bf94ea9946"
     },
     "srp": {
-      "values_digest": "3f23ff3a51fa670b088b633d60e5884a6373891862f5ce12875b669c53715d56",
-      "rendered_digest": "162cecabee388e0ec2cf081c7395ceb0f53c6d8ed1030cdb28d8e05738c98e82",
-      "ast_digest": "a62237536a681b7a69f9abf539c35d9836a3c89c8de118e077df604f0c8d3385"
+      "values_digest": "3b4851b881b532fce8d303bc5d010d7aac7280eb82305fe0bb64bd563e1577f6",
+      "rendered_digest": "a77935da9db405c58ac75f9d25dc76ce4006d3925cd7874066a4abd87775d178",
+      "ast_digest": "8e24018d207df533fe9d14820faa65d7ad119a7c43fecdf059ecc5d15892b011"
     },
     "sor": {
       "values_digest": "99b21ac0dc1ce34164ceb10b81c11574583bbd100f22e41baa579a59a2150b46",
@@ -175,6 +184,13 @@
       "actor": "codex:5895-implementation",
       "reason": "Implementation and planned local proof are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:5895-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

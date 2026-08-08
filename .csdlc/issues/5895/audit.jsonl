@@ -12,3 +12,4 @@
 {"sequence":12,"generation":10,"actor":"codex:5895-implementation","reason":"Proved isolated installed-generation selector and provenance.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"}
 {"sequence":13,"generation":11,"actor":"codex:5895-implementation","reason":"Completed the installed claim-free lifecycle canary.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"}
 {"sequence":14,"generation":12,"actor":"codex:5895-implementation","reason":"Implementation and planned local proof are complete.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
+{"sequence":15,"generation":12,"actor":"codex:5895-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}

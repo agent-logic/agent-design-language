@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Installer/coexistence correctness, provenance, negative guard, and installed lifecycle canary only.",
+      "review_scope": "csdlc-v2/tests/gate10a.rs\n.csdlc/issues/5895\n.csdlc/prepared/issues/5895",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
