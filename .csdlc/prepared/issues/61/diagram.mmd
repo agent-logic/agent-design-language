@@ -2,16 +2,15 @@ flowchart TD
     A[csdlc-bind request] --> B[Read registered Git worktree topology]
     B --> C[Choose canonical repository topology root]
     C --> D[Scan candidate index metadata]
-    D --> E{Issue, branch, or canonical worktree matches?}
+    D --> E{Retained predicates:\nsame issue, stored branch,\nor canonical worktree?}
     E -- No --> F[Skip unrelated historical record]
     E -- Yes --> G[Load typed record and six cards]
-    G --> H[Verify cards and authored artifacts]
-    H --> I{Verified relevant owner?}
-    I -- Conflict --> J[Typed reconciliation_required]
-    I -- Requested issue/idempotent --> K[Continue typed bind]
+    G --> H[Verify cards and authored artifacts\ncarry retained predicates]
+    H --> I{Exact idempotent bind?}
+    I -- No, any predicate true --> J[Typed reconciliation_required]
+    I -- Yes --> K[Continue typed bind]
     H -- Filesystem failure --> L[Typed error with issue and path context]
     F --> M[Continue scan]
     M --> D
 
-    N[Historical #5791 copy\nworktree = .\nmissing local artifacts] --> D
-    E -- False match forbidden --> N
+    N[Historical #5791 copy\nworktree = .\nmissing local artifacts] -. defect fixture .-> D
