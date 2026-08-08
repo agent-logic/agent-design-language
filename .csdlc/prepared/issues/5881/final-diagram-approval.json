@@ -1,0 +1,6 @@
+{
+  "issue": 5881,
+  "expected_generation": 10,
+  "expected_digest": "b0c9d7174c80105f5ef97a13e695aa05fe46d5e5e352120c62aa9feb61044d68",
+  "reviewer": "codex:5881-readiness-design-review-fix"
+}

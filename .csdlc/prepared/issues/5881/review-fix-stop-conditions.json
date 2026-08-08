@@ -1,0 +1,18 @@
+{
+  "issue": 5881,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "03dc9a85cec5461283ee1db3244ebd3b239d945aebbd395ef671b739a578beb8",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Clarify that normalization applies to current legacy-format records, not immutable historical evidence.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "A proposed change weakens exact-head review or terminal authority",
+      "Current claim-bearing legacy-format records cannot be normalized without destructive rewriting",
+      "The issue would require a new compatibility wrapper",
+      "Shared #5895 or #5883 changes have not settled"
+    ]
+  }
+}

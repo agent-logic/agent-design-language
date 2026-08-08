@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5881,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
+    "slug": "remove-claims-from-lifecycle",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Remove residual active claim lifecycle authority and prove canonical branch/worktree ownership end to end.",
+      "deliverables": [
+        "Active-versus-legacy occurrence classification",
+        "Claim-free canonical schemas and commands",
+        "Verified one-time current-record normalization with claim-specific production logic deleted afterward",
+        "Atomic, concurrent, and interrupted-bind recovery proof",
+        "Claim-free review through cleanup proof",
+        "Corrected current operator guidance"
+      ],
+      "acceptance_criteria": [
+        "AC-1: No active request or canonical schema contains claim, claim_id, protected_paths, lease, or heartbeat fields",
+        "AC-2: No operator command requires claim acquisition, refresh, recovery, release, revoke, rehome, or amend",
+        "AC-3: Existing current issue records normalize without manual claim repair while preserving branch/worktree topology and audit truth, and no claim-specific production decoder remains afterward",
+        "AC-4: Concurrent binds for one issue cannot produce two authoritative worktrees",
+        "AC-5: Different issues can bind and execute concurrently without path reservations",
+        "AC-6: Review, publication, finish, and cleanup pass from bound topology alone",
+        "AC-7: Focused Rust tests and owner validation pass",
+        "AC-8: Claim-specific active code, schemas, fixtures, docs, and binaries are deleted rather than wrapped",
+        "AC-9: An interrupted bind transaction recovers to one valid authoritative topology without claim state or partial records"
+      ],
+      "dependencies": [
+        "#5861 established claim-free creation and binding",
+        "#5895 settles retired installer authority first",
+        "#5883 settles duplicate creation entrypoint second"
+      ],
+      "repo_inputs": [
+        "danielbaustin/agent-design-language#5881",
+        "csdlc-v2/src/model.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/operator/skills",
+        "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+        "docs/tooling/adl_pr_cycle_skill.md"
+      ],
+      "non_goals": [
+        "Remove issue-bound branches or worktrees",
+        "Weaken review, validation, publication, finish, or cleanup",
+        "Rewrite historical evidence",
+        "Replace claims with another reservation ledger",
+        "Broad C-SDLC redesign"
+      ]
+    }
+  }
+}

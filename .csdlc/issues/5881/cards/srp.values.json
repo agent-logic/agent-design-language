@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5881,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
+    "slug": "remove-claims-from-lifecycle",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Residual claim deletion, verified one-time current-record normalization followed by complete claim-specific production logic deletion, topology concurrency and crash recovery, and claim-free lifecycle proof only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does any public schema, binary, installed skill, or current doc still require lifecycle claim state?",
+        "Did verified one-time normalization preserve current-record topology and audit truth, followed by deletion of every claim-specific production decoder, struct, and compatibility path?",
+        "Do same-issue, different-issue, and interrupted-bind tests prove the required concurrency and crash-recovery semantics?",
+        "Does the full review-to-cleanup path derive authority only from issue topology and live GitHub state?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
