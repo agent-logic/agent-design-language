@@ -20,6 +20,8 @@ fs2 = "0.4"
 futures = "0.3"
 hex = "0.4"
 hmac = "0.12"
+openraft = { version = "=0.9.21", features = ["serde"] }
+quinn = { version = "=0.11.11", default-features = false, features = ["runtime-tokio", "rustls-ring"] }
 rand = "0.8"
 rcgen = "0.14"
 redb = "4.1"
@@ -29,7 +31,8 @@ serde_json = "1.0"
 sha2 = "0.10"
 serde_jcs = "0.2"
 subtle = "2.6"
-prost = "0.13"
+prost = "=0.13.5"
+rustls = { version = "=0.23.42", default-features = false, features = ["ring", "std"] }
 sysinfo = { version = "0.38.4", default-features = false, features = ["disk", "system"] }
 tokio = { version = "1", features = ["fs", "io-util", "macros", "net", "process", "rt", "rt-multi-thread", "signal", "sync", "time"] }
 tokio-rustls = "0.26"
