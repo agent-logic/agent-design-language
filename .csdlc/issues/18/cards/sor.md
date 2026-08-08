@@ -78,11 +78,11 @@ Made split C-SDLC GitHub machine-readable output tolerate downstream pipe closur
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

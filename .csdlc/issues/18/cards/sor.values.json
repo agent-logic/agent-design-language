@@ -7,7 +7,7 @@
     "title": "C-SDLC schema commands should exit cleanly when stdout closes",
     "slug": "csdlc-schema-broken-pipe",
     "version": "v0.92",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
@@ -71,8 +71,8 @@
           "evidence_ref": "csdlc-github-broken-pipe-focused.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
