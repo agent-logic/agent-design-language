@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 35,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Codex background task dispatch hangs without returning ownership",
+    "slug": "codex-background-task-dispatch-bounded-ownership",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Codex background task dispatch termination, diagnostic classification, and ownership safety for one bounded canary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the evidence distinguish timeout, typed failure, and verified successful ownership transfer?",
+        "Can any dispatch attempt leave a hidden task or duplicate issue/worktree owner?",
+        "Is the proposed repair assigned to the component proven to own the failure?",
+        "Are retry guidance and retained records portable, bounded, and secret-free?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

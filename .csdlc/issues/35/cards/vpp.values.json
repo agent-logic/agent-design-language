@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 35,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Codex background task dispatch hangs without returning ownership",
+    "slug": "codex-background-task-dispatch-bounded-ownership",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "dispatch-ownership-contract",
+          "proof_role": "Prove bounded mode-specific results, complete paginated list receipts, digest-bound task readback, derived dispatch delta, no-op canary ownership, retry safety, and portable redacted evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+            "evidence"
+          ],
+          "parallel_group": "evidence",
+          "defer_reason": "Runs after the two bounded canary attempts produce issue-local evidence and before review or publication."
+        },
+        {
+          "lane": "operator-report-contract",
+          "proof_role": "Require substantive bounded operator guidance and an actionable upstream report with evidence references, observed diagnostics, inventory reconciliation, ownership route, and non-claims.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+            "docs"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": "Runs after the bounded operator guidance and upstream report are written."
+        },
+        {
+          "lane": "canonical-independent-review",
+          "proof_role": "Require canonical assignment to a distinct subagent and a completed matching typed-revision review covering every affected area with zero findings.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+            "review"
+          ],
+          "parallel_group": "review",
+          "defer_reason": "Runs after canonical independent review and before publication."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed or whitespace-damaged changes on the bounded evidence and documentation surface.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 250,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on timeout, absent task identity, indeterminate inventory, duplicate ownership, secret-bearing evidence, or an unproven repository ownership boundary.",
+      "design_ref": ".csdlc/prepared/issues/35/design.md",
+      "design_digest": "87b8cf57616431515a1cf5967d3aed328fdcb8b64bfed397cf2fcdff68922a0b",
+      "diagram_ref": ".csdlc/prepared/issues/35/diagram.mmd",
+      "diagram_digest": "c7bac06fe66dfd1d4d31d440f38a2be93ea825eb4cc8daf9732a36991b9cbbf2"
+    }
+  }
+}
