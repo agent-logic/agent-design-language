@@ -7,14 +7,14 @@
     "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
     "slug": "runner-policy-preflight",
     "version": "v0.92",
-    "generation": 29
+    "generation": 31
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/bin/csdlc-github.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/runner_preflight.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/tests/gate_runner_preflight.rs\ndocs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\ndocs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
-      "review_revision": "git-blake3:cde7eb2fd14d97151cd99f9c57872d91fe7dd718:9070710bdffeffac6b793dceee7fe77242a26b5d38afc670936bbd0581078e91",
+      "review_revision": "git-blake3:bc19d9445d6ccfe1bb94b2a13bea6465b26cae2a:3ca66a697b4986b55a5161e0f3d9db3903a7e2c5af531eae6f6d46bccc29e95e",
       "reviewer": "review_32_implementation",
       "review_prompts": [
         "Can policy-ineligible or non-dispatching routing still be misreported as capacity unavailable?",

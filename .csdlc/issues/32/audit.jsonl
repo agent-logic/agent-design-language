@@ -30,3 +30,6 @@
 {"sequence":30,"generation":27,"actor":"codex:32-runner-policy-preflight","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":28,"actor":"codex:32-runner-policy-preflight","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":32,"generation":29,"actor":"codex:32-runner-policy-preflight","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":33,"generation":30,"actor":"codex:32-runner-policy-preflight","reason":"Recover publication ordering so the exact PR head retains review evidence before republishing and typed finish.","operation":"recover_review"}
+{"sequence":34,"generation":30,"actor":"codex:32-runner-policy-preflight","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":35,"generation":31,"actor":"codex:32-runner-policy-preflight","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

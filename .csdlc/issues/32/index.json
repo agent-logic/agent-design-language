@@ -3,15 +3,15 @@
   "issue": 32,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f9a90e9708ac3f33f42b7da3aabea450ef6fe8131d8fc092392626f04c7ca4b",
-  "phase": "published",
-  "generation": 29,
-  "digest": "0a75b2bacedf21cc246d5491402923f7c56e66758f506f09972061778f6912f6",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "f72734e439f4d82effd2e0a888c7733c3920df194c93cc9bf915e3f7484ea70e",
   "branch": "codex/32-runner-policy-preflight",
   "worktree": "/Volumes/FastWork/adl-issue-32-runner-policy",
   "review_assignment": {
     "reviewer": "review_32_implementation",
     "assigned_by": "codex:32-runner-policy-preflight",
-    "revision": "git-blake3:cde7eb2fd14d97151cd99f9c57872d91fe7dd718:9070710bdffeffac6b793dceee7fe77242a26b5d38afc670936bbd0581078e91",
+    "revision": "git-blake3:bc19d9445d6ccfe1bb94b2a13bea6465b26cae2a:3ca66a697b4986b55a5161e0f3d9db3903a7e2c5af531eae6f6d46bccc29e95e",
     "scope": [
       "csdlc-v2/src/bin/csdlc-github.rs",
       "csdlc-v2/src/lib.rs",
@@ -33,23 +33,13 @@
       "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
       "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md"
     ],
-    "reviewed_revision": "git-blake3:cde7eb2fd14d97151cd99f9c57872d91fe7dd718:9070710bdffeffac6b793dceee7fe77242a26b5d38afc670936bbd0581078e91",
+    "reviewed_revision": "git-blake3:bc19d9445d6ccfe1bb94b2a13bea6465b26cae2a:3ca66a697b4986b55a5161e0f3d9db3903a7e2c5af531eae6f6d46bccc29e95e",
     "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 32,
-    "pull_request": 38,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/38",
-    "base": "main",
-    "head": "codex/32-runner-policy-preflight",
-    "revision": "git-blake3:cde7eb2fd14d97151cd99f9c57872d91fe7dd718:9070710bdffeffac6b793dceee7fe77242a26b5d38afc670936bbd0581078e91",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,34 +53,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "78ac251b06b3f9f2d6bc7ae27961616963b411eb0f739d21e358ef4568db902d",
+      "values_digest": "92ed1755716955acab2af4220b2d0e8a4d29e25b59b137e0e30610744fed2d0c",
       "rendered_digest": "6bd7e2af1ddc2454a9049bd53718641a9eadeef40cb1ef93dad96485bf16412a",
       "ast_digest": "d5dbd89f88f4ef13d84f1fe1756a2d00604d30402e5338560b82736c031ee891"
     },
     "stp": {
-      "values_digest": "80352795690892c73890d7b427b1b70f5515a9c4bd50bc7d6c5544d1c8ba76a2",
+      "values_digest": "2d1bf15ccc97fe938545907eedde8948870206772a21256d1dbbbbbd5f8f18e5",
       "rendered_digest": "21cef2f24999fa190f47ad0d293622919adec636870cccc91f01f3a50ee9d561",
       "ast_digest": "0080edb1bb65741daa1157a6e1de0d66b44bde6b8acb9e9d6ea6817bbbf50e9a"
     },
     "spp": {
-      "values_digest": "42ac61d82f17c5ee5224cf2aee4e9210cf241960ecb3683a1cbdb2fd5f004eda",
+      "values_digest": "f009bd30863f2f5ed102637550ca3fd36191aff232657f23d9af1b8beacfb95b",
       "rendered_digest": "50b8f5d0dbfd09e2553a023a1c2554af18ef511e5443086bf8e5baad6aecddd6",
       "ast_digest": "40ff2604e29dcfb9a9e49485a1ec7905654a8fbcdd4a1bc4a4f0767215a2d30e"
     },
     "vpp": {
-      "values_digest": "94b80493aef1d21f6331ed4944cdad85ea6591a399f6bfd679dd92ee3106bacb",
+      "values_digest": "52293eebae95261e9d8d0ed4394b7930e43d2954e8eda6b7ada9babf12fbb993",
       "rendered_digest": "443a095200d2791273088391bfe764cb2b3f2ddb4f6475d798ae9423700b5ca6",
       "ast_digest": "4d0ec3701a8dd18883efe989a5f1068e3e3d06c63ffd5aebebc08fa1200379bc"
     },
     "srp": {
-      "values_digest": "fc413025afd7e7f43e3954a62b2937e35659004cddc7209c59dc4845c7cd99a8",
-      "rendered_digest": "ed2bfab83986e8015a2dc221ae175712f1654c52edcb62c75530629caec876b5",
-      "ast_digest": "f5a7c66729ede48381170730514cb136dd4ca8844b659460f1123a123767d5e4"
+      "values_digest": "16c0da292d2fec60306841534fe30b172ff8add8c96f869c6928b2fda340edfd",
+      "rendered_digest": "e72926e6bb8c0cc66f89f8ea267369fcec0f27ab89acf45cd634658940730cc4",
+      "ast_digest": "de0c0ae32d5612b306cc6b42eb0d5be61f66c5a19001570da8655db1a4654443"
     },
     "sor": {
-      "values_digest": "7938d6d49b3355b15d4eb5fe198b2e5443dc5c6979668f8645f209b578cb06ea",
-      "rendered_digest": "56d033339fd313f69d55e83d17e3ddbd77d157b0e21f906a628434fe70549be4",
-      "ast_digest": "4d8efa52ce496d512eced25747a09cfd7b320f31513427dd2d03aae7c4546256"
+      "values_digest": "df1d6ed4f768ede688cf10f1d39c0ae9a9f9d3078016c9b0fae42fc420f1e336",
+      "rendered_digest": "4983b5a9fc527163556310e51ca11cca2f0e00ee64c29d63f7687afc780b2584",
+      "ast_digest": "65e9db3561cf869c99f0ed5270338ec64f651330ae165b6167dbe29745aec1a1"
     }
   },
   "transitions": [
@@ -128,6 +118,20 @@
       "to": "published",
       "actor": "codex:32-runner-policy-preflight",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Recover publication ordering so the exact PR head retains review evidence before republishing and typed finish."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -354,6 +358,27 @@
       "actor": "codex:32-runner-policy-preflight",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 30,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Recover publication ordering so the exact PR head retains review evidence before republishing and typed finish.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

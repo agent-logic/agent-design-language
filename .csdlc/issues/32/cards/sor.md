@@ -162,11 +162,11 @@ Added a typed csdlc-github runner-preflight operation that reads GitHub runner, 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

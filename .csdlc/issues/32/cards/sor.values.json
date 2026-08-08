@@ -7,7 +7,7 @@
     "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
     "slug": "runner-policy-preflight",
     "version": "v0.92",
-    "generation": 29
+    "generation": 31
   },
   "status": "pre_phase",
   "content": {
@@ -155,8 +155,8 @@
           "evidence_ref": "Eleven focused tests passed; stale_job_context_cannot_prove_dispatch asserts the diagnostic covers run, workflow, head, PR, label, and runner group."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
