@@ -7,15 +7,15 @@
     "title": "C-SDLC editor cannot correct SIP scope after implemented review finding",
     "slug": "implemented-sip-scope-correction",
     "version": "v0.92",
-    "generation": 24
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/63\n.csdlc/prepared/issues/63",
-      "review_revision": "git-blake3:16d93fcc92a0a4a7d788be590462dd4ba15eb034:4c6a2ddd251388d42f2f67c98c43ed1a1302204cb5db68c50f8df34f4034e652",
-      "reviewer": "subagent:63-exact-head-review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any implemented-phase SIP field other than declared_scope be changed through this route?",
         "Can correction occur while review, publication, or readiness truth remains attached?",
@@ -24,10 +24,8 @@
         "Does post-publication recovery remain owned by csdlc-review rather than this operation?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The focused regressions intentionally avoid broad workspace tests; GitHub CI remains the integration proof for the bounded C-SDLC v2 change."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
