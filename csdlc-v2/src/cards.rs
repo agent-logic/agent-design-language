@@ -1,6 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::path::{Component, Path};
+use std::path::{Component, Path, PathBuf};
+use std::process::Command;
 
 use markdown::mdast::Node;
 use markdown::{to_mdast, ParseOptions};
@@ -1646,6 +1647,299 @@ fn proving_lane_at(root: &Path, lane: &ValidationLane, owned_paths: &[String]) -
     executable_exists && governed_shell_script && proving_lane(lane)
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct ExecutionReadinessFinding {
+    pub code: &'static str,
+    pub message: String,
+}
+
+fn cargo_package_root(root: &Path, manifest: Option<&str>, package: &str) -> Option<PathBuf> {
+    let canonical_root = root.canonicalize().ok()?;
+    let manifest = manifest.unwrap_or("Cargo.toml");
+    let manifest_path = canonical_root.join(manifest);
+    if !manifest_path.is_file() {
+        return None;
+    }
+    let output = Command::new("cargo")
+        .current_dir(&canonical_root)
+        .args([
+            "metadata",
+            "--no-deps",
+            "--format-version",
+            "1",
+            "--manifest-path",
+        ])
+        .arg(&manifest_path)
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    let metadata: serde_json::Value = serde_json::from_slice(&output.stdout).ok()?;
+    let package_manifest = metadata
+        .get("packages")?
+        .as_array()?
+        .iter()
+        .find(|candidate| candidate.get("name").and_then(|name| name.as_str()) == Some(package))?
+        .get("manifest_path")?
+        .as_str()?;
+    Path::new(package_manifest)
+        .parent()?
+        .strip_prefix(&canonical_root)
+        .ok()
+        .map(Path::to_path_buf)
+}
+
+fn validator_targets(root: &Path, lane: &ValidationLane) -> Vec<String> {
+    let Some(executable) = lane.argv.first().map(String::as_str) else {
+        return Vec::new();
+    };
+    if executable == "cargo" {
+        let manifest = lane
+            .argv
+            .windows(2)
+            .find_map(|pair| (pair[0] == "--manifest-path").then_some(pair[1].as_str()))
+            .or_else(|| {
+                lane.argv
+                    .iter()
+                    .find_map(|value| value.strip_prefix("--manifest-path="))
+            });
+        let package = lane
+            .argv
+            .windows(2)
+            .find_map(|pair| {
+                matches!(pair[0].as_str(), "-p" | "--package").then_some(pair[1].as_str())
+            })
+            .or_else(|| {
+                lane.argv
+                    .iter()
+                    .find_map(|value| value.strip_prefix("--package="))
+            });
+        let crate_root = if let Some(package) = package {
+            let Some(crate_root) = cargo_package_root(root, manifest, package) else {
+                return Vec::new();
+            };
+            crate_root
+        } else {
+            manifest
+                .map(Path::new)
+                .and_then(Path::parent)
+                .unwrap_or_else(|| Path::new(""))
+                .to_path_buf()
+        };
+        let mut targets = Vec::new();
+        for (index, value) in lane.argv.iter().enumerate() {
+            let name = if value == "--test" {
+                lane.argv.get(index + 1).map(String::as_str)
+            } else {
+                value.strip_prefix("--test=")
+            };
+            if let Some(name) = name {
+                targets.push(
+                    crate_root
+                        .join("tests")
+                        .join(format!("{name}.rs"))
+                        .to_string_lossy()
+                        .into_owned(),
+                );
+            }
+        }
+        return targets;
+    }
+    let executable_name = Path::new(executable)
+        .file_name()
+        .and_then(|value| value.to_str())
+        .unwrap_or_default();
+    if matches!(
+        executable_name,
+        "bash" | "zsh" | "node" | "ruby" | "python" | "python3"
+    ) {
+        return lane
+            .argv
+            .get(1)
+            .filter(|value| !value.starts_with('-'))
+            .cloned()
+            .into_iter()
+            .collect();
+    }
+    executable
+        .contains('/')
+        .then(|| executable.to_owned())
+        .into_iter()
+        .collect()
+}
+
+fn explicitly_deferred_validator(
+    root: &Path,
+    path: &str,
+    lane: &ValidationLane,
+    owned_paths: &[String],
+    deliverables: &[String],
+    failure_policy: &str,
+) -> bool {
+    validator_targets(root, lane)
+        .iter()
+        .any(|target| target == path)
+        && owned_paths.iter().any(|owned| owned == path)
+        && deliverables.iter().any(|deliverable| deliverable == path)
+        && lane
+            .defer_reason
+            .as_deref()
+            .is_some_and(|reason| !placeholder(reason))
+        && fail_closed_policy(failure_policy)
+}
+
+fn fail_closed_policy(value: &str) -> bool {
+    let words = value
+        .split(|character: char| !character.is_ascii_alphanumeric())
+        .filter(|word| !word.is_empty())
+        .map(str::to_ascii_lowercase)
+        .collect::<Vec<_>>();
+    matches!(words.as_slice(), [first, second, ..] if first == "fail" && second == "closed")
+        && !words[2..].iter().any(|word| {
+            matches!(
+                word.as_str(),
+                "unless" | "except" | "excepting" | "however" | "but"
+            )
+        })
+}
+
+fn required_validator_deliverable(path: &str) -> bool {
+    let path = Path::new(path);
+    let validator_words = [
+        "test",
+        "tests",
+        "spec",
+        "validate",
+        "validation",
+        "validator",
+        "verify",
+        "check",
+        "proof",
+    ];
+    path.components().any(|component| {
+        component
+            .as_os_str()
+            .to_str()
+            .is_some_and(|value| validator_words.contains(&value.to_ascii_lowercase().as_str()))
+    }) || path
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .is_some_and(|stem| {
+            stem.split(|character: char| !character.is_ascii_alphanumeric())
+                .any(|word| validator_words.contains(&word.to_ascii_lowercase().as_str()))
+        })
+}
+
+fn rust_module_route_owned(root: &Path, path: &str, owned_paths: &[String]) -> bool {
+    let relative = Path::new(path);
+    if root.join(relative).is_file()
+        || relative.extension().and_then(|value| value.to_str()) != Some("rs")
+    {
+        return true;
+    }
+    let components = relative.components().collect::<Vec<_>>();
+    let Some(src_index) = components
+        .iter()
+        .enumerate()
+        .find_map(|(index, component)| {
+            if component.as_os_str() != "src" {
+                return None;
+            }
+            let crate_root =
+                components[..index]
+                    .iter()
+                    .fold(PathBuf::new(), |mut path, component| {
+                        path.push(component.as_os_str());
+                        path
+                    });
+            root.join(crate_root)
+                .join("Cargo.toml")
+                .is_file()
+                .then_some(index)
+        })
+    else {
+        return true;
+    };
+    let after_src = &components[src_index + 1..];
+    if after_src.is_empty()
+        || (after_src.len() == 1
+            && matches!(
+                after_src[0].as_os_str().to_str(),
+                Some("lib.rs" | "main.rs")
+            ))
+    {
+        return true;
+    }
+    if after_src
+        .first()
+        .is_some_and(|part| part.as_os_str() == "bin")
+        && (after_src.len() == 2
+            || (after_src.len() == 3
+                && after_src
+                    .last()
+                    .is_some_and(|part| part.as_os_str() == "main.rs")))
+    {
+        return true;
+    }
+    let src_root = components[..=src_index]
+        .iter()
+        .fold(PathBuf::new(), |mut path, component| {
+            path.push(component.as_os_str());
+            path
+        });
+    let is_mod_root = after_src
+        .last()
+        .is_some_and(|part| part.as_os_str() == "mod.rs");
+    let parent_end = after_src.len() - usize::from(is_mod_root) - 1;
+    let parent_parts = &after_src[..parent_end];
+    let mut candidates = if parent_parts.is_empty() {
+        vec![src_root.join("lib.rs"), src_root.join("main.rs")]
+    } else {
+        let parent_root = parent_parts[..parent_parts.len() - 1].iter().fold(
+            src_root.clone(),
+            |mut path, component| {
+                path.push(component.as_os_str());
+                path
+            },
+        );
+        let parent = parent_parts
+            .iter()
+            .fold(PathBuf::new(), |mut path, component| {
+                path.push(component.as_os_str());
+                path
+            });
+        let module = parent_parts[parent_parts.len() - 1].as_os_str();
+        vec![
+            parent_root.join(format!("{}.rs", module.to_string_lossy())),
+            src_root.join(&parent).join("mod.rs"),
+        ]
+    };
+    if after_src
+        .first()
+        .is_some_and(|part| part.as_os_str() == "bin")
+        && parent_parts.len() >= 2
+    {
+        candidates.push(
+            src_root
+                .join(
+                    parent_parts
+                        .iter()
+                        .fold(PathBuf::new(), |mut path, component| {
+                            path.push(component.as_os_str());
+                            path
+                        }),
+                )
+                .join("main.rs"),
+        );
+    }
+    candidates.iter().any(|candidate| {
+        let candidate = candidate.to_string_lossy();
+        root.join(candidate.as_ref()).is_file()
+            && owned_paths.iter().any(|owned| owned == candidate.as_ref())
+    })
+}
+
 fn owned_path_at(root: &Path, value: &str) -> bool {
     let relative = Path::new(value);
     if placeholder(value)
@@ -1700,10 +1994,10 @@ fn owned_path_at(root: &Path, value: &str) -> bool {
             .is_ok_and(|owned| owned.starts_with(&canonical_root))
 }
 
-pub(crate) fn validate_execution_readiness(
+pub(crate) fn execution_readiness_findings_for_cards(
     root: &Path,
     cards: &BTreeMap<CardKind, CardValues>,
-) -> Result<()> {
+) -> Result<Vec<ExecutionReadinessFinding>> {
     let affected_areas = match &cards
         .get(&CardKind::Spp)
         .ok_or_else(|| V2Error::new(ErrorCode::CardInvalid, "SPP projection missing"))?
@@ -1712,30 +2006,144 @@ pub(crate) fn validate_execution_readiness(
         CardContent::Spp(values) => &values.affected_areas,
         _ => unreachable!("SPP projection"),
     };
-    let owned_paths_are_valid = !affected_areas.is_empty()
-        && affected_areas
-            .iter()
-            .all(|value| owned_path_at(root, value));
-    let lanes = match &cards
+    let deliverables = match &cards
+        .get(&CardKind::Stp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CardInvalid, "STP projection missing"))?
+        .content
+    {
+        CardContent::Stp(values) => &values.deliverables,
+        _ => unreachable!("STP projection"),
+    };
+    let vpp = match &cards
         .get(&CardKind::Vpp)
         .ok_or_else(|| V2Error::new(ErrorCode::CardInvalid, "VPP projection missing"))?
         .content
     {
-        CardContent::Vpp(values) => &values.lanes,
+        CardContent::Vpp(values) => values,
         _ => unreachable!("VPP projection"),
     };
-    if !owned_paths_are_valid
-        || lanes.is_empty()
-        || lanes
+    let owned_paths_are_valid = !affected_areas.is_empty()
+        && affected_areas
             .iter()
-            .any(|lane| !proving_lane_at(root, lane, affected_areas))
-    {
-        return Err(V2Error::new(
-            ErrorCode::CardInvalid,
-            "execution readiness requires owned repository paths and proving validation lanes",
-        ));
+            .all(|value| owned_path_at(root, value));
+    Ok(execution_readiness_findings(
+        root,
+        affected_areas,
+        deliverables,
+        &vpp.lanes,
+        &vpp.failure_policy,
+        owned_paths_are_valid,
+    ))
+}
+
+fn execution_readiness_findings(
+    root: &Path,
+    affected_areas: &[String],
+    deliverables: &[String],
+    lanes: &[ValidationLane],
+    failure_policy: &str,
+    owned_paths_are_valid: bool,
+) -> Vec<ExecutionReadinessFinding> {
+    let mut findings = Vec::new();
+    if !owned_paths_are_valid {
+        findings.push(ExecutionReadinessFinding {
+            code: "owned_paths_invalid",
+            message: "execution readiness requires non-empty safe repository-owned paths".into(),
+        });
     }
-    Ok(())
+    for path in affected_areas {
+        if !rust_module_route_owned(root, path, affected_areas) {
+            findings.push(ExecutionReadinessFinding {
+                code: "owned_rust_module_unroutable",
+                message: format!("new Rust module requires an owned existing module route: {path}"),
+            });
+        }
+    }
+    let mut issue_specific_denominator = false;
+    if lanes.is_empty() {
+        findings.push(ExecutionReadinessFinding {
+            code: "validation_lanes_missing",
+            message: "at least one proving validation lane is required".into(),
+        });
+    }
+    for lane in lanes {
+        if !proving_lane_at(root, lane, affected_areas) {
+            findings.push(ExecutionReadinessFinding {
+                code: "validation_lane_non_proving",
+                message: format!(
+                    "validation lane is not executable and governed: {}",
+                    lane.lane
+                ),
+            });
+        }
+        let targets = validator_targets(root, lane);
+        for target in &targets {
+            let exists = root.join(target).is_file();
+            let deferred = explicitly_deferred_validator(
+                root,
+                target,
+                lane,
+                affected_areas,
+                deliverables,
+                failure_policy,
+            );
+            if !exists && !deferred {
+                findings.push(ExecutionReadinessFinding {
+                    code: "validator_target_missing",
+                    message: format!(
+                        "validation lane {} requires unavailable target {target}",
+                        lane.lane
+                    ),
+                });
+            }
+            if affected_areas.iter().any(|owned| owned == target) && (exists || deferred) {
+                issue_specific_denominator = true;
+            }
+        }
+        if targets.is_empty()
+            && lane.argv.iter().any(|argument| {
+                affected_areas.iter().any(|owned| owned == argument)
+                    && root.join(argument).is_file()
+            })
+        {
+            issue_specific_denominator = true;
+        }
+    }
+    let selected_targets = lanes
+        .iter()
+        .flat_map(|lane| validator_targets(root, lane))
+        .collect::<BTreeSet<_>>();
+    for validator in deliverables
+        .iter()
+        .filter(|path| required_validator_deliverable(path))
+    {
+        let exists = root.join(validator).is_file();
+        let deferred = lanes.iter().any(|lane| {
+            explicitly_deferred_validator(
+                root,
+                validator,
+                lane,
+                affected_areas,
+                deliverables,
+                failure_policy,
+            )
+        });
+        if !exists && !deferred && !selected_targets.contains(validator) {
+            findings.push(ExecutionReadinessFinding {
+                code: "validator_target_missing",
+                message: format!("required validator deliverable is unavailable: {validator}"),
+            });
+        }
+    }
+    if !issue_specific_denominator {
+        findings.push(ExecutionReadinessFinding {
+            code: "issue_specific_denominator_missing",
+            message:
+                "validation lanes select no available or explicitly deferred issue-owned target"
+                    .into(),
+        });
+    }
+    findings
 }
 
 pub(crate) fn replace_acceptance_plan(

@@ -4,7 +4,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumIter, EnumString};
 
-use crate::cards::{digest, validate_execution_readiness};
+use crate::cards::{digest, execution_readiness_findings_for_cards};
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{DesignReview, LifecyclePhase};
 use crate::review::evaluate_publication_review_in_repo;
@@ -85,6 +85,22 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
         report.findings.push(finding(error));
         return report;
     }
+    match crate::git::github_remote_repository(store.root(), "origin") {
+        Ok(Some(repository)) if !repository.eq_ignore_ascii_case(&record.repository) => {
+            report.findings.push(Finding {
+                code: "repository_identity_drift".into(),
+                message: format!(
+                    "issue repository {} does not match origin repository {repository}",
+                    record.repository
+                ),
+            });
+        }
+        Ok(_) => {}
+        Err(error) => report.findings.push(Finding {
+            code: "repository_identity_unavailable".into(),
+            message: error.message,
+        }),
+    }
     for (code, path) in [
         ("design_missing", &record.design_path),
         ("diagram_missing", &record.diagram_path),
@@ -96,7 +112,11 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
             });
         }
     }
-    if !report.findings.is_empty() {
+    if report
+        .findings
+        .iter()
+        .any(|finding| matches!(finding.code.as_str(), "design_missing" | "diagram_missing"))
+    {
         report.status = DoctorStatus::Block;
         report.next_operation = Some("repair_design_readiness".into());
         return report;
@@ -114,11 +134,17 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
         report.findings.push(finding(error));
         return report;
     }
-    if let Err(error) = validate_execution_readiness(store.root(), &cards) {
-        report.findings.push(Finding {
+    match execution_readiness_findings_for_cards(store.root(), &cards) {
+        Ok(findings) => report
+            .findings
+            .extend(findings.into_iter().map(|finding| Finding {
+                code: finding.code.into(),
+                message: finding.message,
+            })),
+        Err(error) => report.findings.push(Finding {
             code: "execution_readiness_invalid".into(),
             message: error.message,
-        });
+        }),
     }
     let diagram = fs::read_to_string(store.root().join(&record.diagram_path)).unwrap_or_default();
     let first = diagram

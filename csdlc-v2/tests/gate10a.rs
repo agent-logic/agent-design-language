@@ -358,6 +358,11 @@ fn freshly_installed_stable_edit_binary_is_executable() {
         "flowchart LR\n  A --> B\n",
     )
     .unwrap();
+    fs::write(
+        fixture.path().join("docs/validate.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\ntest -f docs/design.md\n",
+    )
+    .unwrap();
     install_native_authority(fixture.path());
     let store = Store::new(fixture.path());
     csdlc_v2::initialize_native_json(&store, &serde_json::to_vec(&bootstrap_request()).unwrap())
@@ -489,7 +494,7 @@ fn bootstrap_request() -> BootstrapRequest {
             authority_boundary: vec!["no network".into()],
             operator_constraints: vec!["none".into()],
             task_boundary: "Fixture only.".into(),
-            deliverables: vec!["record".into()],
+            deliverables: vec!["docs/validate.sh".into()],
             acceptance_criteria: vec!["editor reapproves".into()],
             dependencies: vec!["none".into()],
             repo_inputs: vec!["docs/design.md".into()],
@@ -501,7 +506,7 @@ fn bootstrap_request() -> BootstrapRequest {
                 acceptance_ids: vec!["AC-1".into()],
                 status: csdlc_v2::cards::StepStatus::Pending,
             }],
-            affected_areas: vec!["docs/design.md".into()],
+            affected_areas: vec!["docs/design.md".into(), "docs/validate.sh".into()],
             invariants: vec!["typed mutation".into()],
             risks: vec!["binary drift".into()],
             planning_profile: csdlc_v2::PlanningProfile::Small,
@@ -514,7 +519,7 @@ fn bootstrap_request() -> BootstrapRequest {
                 resource_profile: csdlc_v2::cards::ResourceProfile::Small,
                 budget_seconds: 120,
                 budget_tokens: 1000,
-                argv: vec!["cargo".into(), "test".into()],
+                argv: vec!["bash".into(), "docs/validate.sh".into()],
                 parallel_group: "local".into(),
                 defer_reason: None,
             }],

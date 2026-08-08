@@ -1,0 +1,85 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 17,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC doctor should reject repository drift and non-executable owned-path plans",
+    "slug": "doctor-execution-readiness",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Add deterministic repository, routing, validator, and issue-specific proof checks with focused fixtures.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "Add failing issue-5795-shaped fixtures for each false-ready condition.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-2",
+          "action": "Implement deterministic fail-closed readiness checks.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-3",
+          "action": "Run focused gate2 and formatting proof.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/doctor.rs",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/git.rs",
+        "csdlc-v2/tests/gate2.rs",
+        ".csdlc/prepared/issues/17/design.md",
+        ".csdlc/prepared/issues/17/diagram.mmd"
+      ],
+      "invariants": [
+        "Diagnosis is local, deterministic, and read-only.",
+        "An unavailable canonical remote does not invent identity drift.",
+        "Unrelated tests and hygiene commands do not satisfy issue-specific proof."
+      ],
+      "risks": [
+        "Over-constraining legitimate future Rust modules",
+        "Misclassifying non-GitHub remotes",
+        "Breaking valid bootstrap fixtures"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The repair requires Runtime product changes.",
+        "Focused fixtures reveal an incompatible typed-card contract."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/17/design.md",
+      "design_digest": "b54e7215fda6338b6fc4a65b1eb3df13b9fd52c9582bed73647e3c6fc18c601f",
+      "diagram_ref": ".csdlc/prepared/issues/17/diagram.mmd",
+      "diagram_digest": "0948ad6e9259e094b47b1034f759aee8594dfcb60b00ac60c3457b6b223f29cd"
+    }
+  }
+}

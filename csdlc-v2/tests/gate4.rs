@@ -40,6 +40,11 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
         "flowchart LR\n A-->B\n",
     )
     .unwrap();
+    std::fs::write(
+        temp.path().join("docs/validate.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\ntest -f docs/design.md\n",
+    )
+    .unwrap();
     let store = Store::new(temp.path());
     initialize_native_json(
         &store,
@@ -61,7 +66,7 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                 authority_boundary: vec!["no runtime".into()],
                 operator_constraints: vec!["typed v2".into()],
                 task_boundary: "prove finalize".into(),
-                deliverables: vec!["finalize".into()],
+                deliverables: vec!["docs/validate.sh".into()],
                 acceptance_criteria: vec!["AC-1: atomic".into()],
                 dependencies: vec!["none".into()],
                 repo_inputs: vec!["csdlc-v2".into()],
@@ -73,7 +78,7 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                     acceptance_ids: vec!["AC-1".into()],
                     status: csdlc_v2::cards::StepStatus::Pending,
                 }],
-                affected_areas: vec!["docs/design.md".into()],
+                affected_areas: vec!["docs/design.md".into(), "docs/validate.sh".into()],
                 invariants: vec!["zero partial writes".into()],
                 risks: vec!["partial state".into()],
                 planning_profile: PlanningProfile::Small,
@@ -86,12 +91,7 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                     resource_profile: csdlc_v2::cards::ResourceProfile::Small,
                     budget_seconds: 30,
                     budget_tokens: 10,
-                    argv: vec![
-                        "cargo".into(),
-                        "test".into(),
-                        "--test".into(),
-                        "gate4".into(),
-                    ],
+                    argv: vec!["bash".into(), "docs/validate.sh".into()],
                     parallel_group: "local".into(),
                     defer_reason: None,
                 }],

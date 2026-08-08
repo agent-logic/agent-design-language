@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 17,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/17-doctor-execution-readiness",
+  "title": "Fix false-positive C-SDLC doctor execution readiness",
+  "body": "Closes #17\n\n## Summary\n- diagnose repository identity drift against the configured GitHub origin\n- reject unroutable owned Rust modules and missing validator targets\n- require a nonzero issue-specific validation denominator\n- resolve Cargo manifest and package-selected validators through production paths\n- add focused issue-5795-shaped regression fixtures\n\n## Validation\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate2`: PASS (1/1)\n- `cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check`: PASS\n- `git diff --check`: PASS\n- typed issue validation and doctor: PASS\n\n## Review\n- independent exact-head review accepted `23551c074b7e39e68626540a98f1dbfcf533a669` with no remaining findings",
+  "draft": true,
+  "revision": "git-blake3:23551c074b7e39e68626540a98f1dbfcf533a669:780d952ed3833563b3c672d08d50608ec08a1951203d0821aa4e1fd3ecfc771f",
+  "commit_sha": "23551c074b7e39e68626540a98f1dbfcf533a669"
+}

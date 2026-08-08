@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 17,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC doctor should reject repository drift and non-executable owned-path plans",
+    "slug": "doctor-execution-readiness",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair the false-ready diagnosis without changing product scope or lifecycle authority.",
+      "deliverables": [
+        "csdlc-v2/src/doctor.rs",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/git.rs",
+        "csdlc-v2/tests/gate2.rs",
+        ".csdlc/prepared/issues/17/design.md",
+        ".csdlc/prepared/issues/17/diagram.mmd"
+      ],
+      "acceptance_criteria": [
+        "Repository identity drift is diagnosed deterministically.",
+        "Owned paths that cannot route a declared new Rust module are diagnosed.",
+        "Missing validators are rejected unless explicitly declared and deferred with fail-closed semantics.",
+        "Validation requires a nonzero issue-specific denominator.",
+        "Focused regression fixtures reproduce issue 5795's false-ready shape."
+      ],
+      "dependencies": [
+        "WP-03 merge b5bcfdfc13a6f454a715cbb9aa64e24bce3b7ba6"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/doctor.rs",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/git.rs",
+        ".csdlc/issues/5795"
+      ],
+      "non_goals": [
+        "Implementing issue 5795",
+        "Running broad or optional validation",
+        "Changing publication or closeout behavior"
+      ]
+    }
+  }
+}

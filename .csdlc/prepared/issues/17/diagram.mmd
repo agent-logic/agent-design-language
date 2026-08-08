@@ -1,0 +1,10 @@
+flowchart LR
+  Cards["Typed issue cards"] --> Identity["Repository identity check"]
+  Cards --> Ownership["Owned path closure"]
+  Cards --> Validators["Validator target resolution"]
+  Identity --> Findings["Deterministic doctor findings"]
+  Ownership --> Findings
+  Validators --> Denominator["Issue-specific denominator"]
+  Denominator --> Findings
+  Findings -->|"none"| Ready["Execution ready"]
+  Findings -->|"one or more"| Blocked["Repair required"]
