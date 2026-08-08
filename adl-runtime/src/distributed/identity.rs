@@ -427,6 +427,7 @@ pub enum EnrollmentStatus {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct EnrollmentRecord {
     pub request: SignedEnrollmentRequest,
+    pub operator_root_public_key: [u8; 32],
     pub status: EnrollmentStatus,
     pub enrolled_at_unix_secs: u64,
 }
@@ -668,6 +669,11 @@ impl DistributedIdentityStore {
 
         let record = EnrollmentRecord {
             request: request.clone(),
+            operator_root_public_key: *self
+                .policy
+                .approved_operator_roots
+                .get(&request.claims.operator_root_id)
+                .ok_or(IdentityError::OperatorRootNotApproved)?,
             status: EnrollmentStatus::Enrolled,
             enrolled_at_unix_secs: now_unix_secs,
         };
@@ -781,7 +787,8 @@ impl DistributedIdentityStore {
         validate_identity_proofs(request)
     }
 
-    fn validate_historical_request(&self, request: &SignedEnrollmentRequest) -> IdentityResult<()> {
+    fn validate_historical_record(&self, record: &EnrollmentRecord) -> IdentityResult<()> {
+        let request = &record.request;
         validate_bounded_request_fields(request)?;
         validate_claim_shape(&request.claims)?;
         validate_signature_lengths(request)?;
@@ -799,6 +806,17 @@ impl DistributedIdentityStore {
         if lifetime == 0 || lifetime > self.policy.max_request_lifetime_secs {
             return Err(IdentityError::RequestLifetimeInvalid);
         }
+        let historical_root = VerifyingKey::from_bytes(&record.operator_root_public_key)
+            .map_err(|_| IdentityError::InvalidOperatorSignature)?;
+        if operator_root_id(&historical_root) != request.claims.operator_root_id {
+            return Err(IdentityError::InvalidOperatorSignature);
+        }
+        verify_signature(
+            &historical_root,
+            &signing_bytes(OPERATOR_SIGNATURE_DOMAIN, &request.claims)?,
+            &request.operator_signature,
+            IdentityError::InvalidOperatorSignature,
+        )?;
         validate_identity_proofs(request)
     }
 
@@ -830,7 +848,7 @@ impl DistributedIdentityStore {
             match self.validate_request(&record.request, None) {
                 Ok(()) => {}
                 Err(IdentityError::OperatorRootNotApproved) => {
-                    self.validate_historical_request(&record.request)
+                    self.validate_historical_record(&record)
                         .map_err(|_| IdentityError::DurableStateCorrupt)?;
                     quarantine = Some(DistributedQuarantineReason::TrustRootMismatch);
                 }
@@ -951,6 +969,28 @@ impl DistributedIdentityStore {
             .map_err(storage_error)?
             .remove(sequence)
             .map_err(storage_error)?;
+        write.commit().map_err(storage_error)
+    }
+
+    #[cfg(test)]
+    pub fn corrupt_enrollment_operator_signature_for_test(
+        &self,
+        node_id: &str,
+    ) -> IdentityResult<()> {
+        let write = self.database.begin_write().map_err(storage_error)?;
+        let mut table = write.open_table(ENROLLMENTS).map_err(storage_error)?;
+        let bytes = table
+            .get(node_id)
+            .map_err(storage_error)?
+            .map(|value| value.value().to_vec())
+            .ok_or(IdentityError::IdentityUnavailable)?;
+        let mut record: EnrollmentRecord = decode(&bytes, IdentityError::DurableStateCorrupt)?;
+        record.request.operator_signature[0] ^= 1;
+        let encoded = encode(&record)?;
+        table
+            .insert(node_id, encoded.as_slice())
+            .map_err(storage_error)?;
+        drop(table);
         write.commit().map_err(storage_error)
     }
 

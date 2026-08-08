@@ -195,6 +195,38 @@ fn rotated_trust_root_quarantines_distributed_enrollment_but_preserves_local_rec
 }
 
 #[test]
+fn rotated_root_does_not_hide_a_corrupt_historical_operator_signature() {
+    let temp = tempfile::tempdir().unwrap();
+    let root_a = signing_key(19);
+    let root_b = signing_key(20);
+    {
+        let store = open_store(&temp, policy(&root_a));
+        let local = store.load_or_create_local_identity(1).unwrap();
+        let request = local
+            .sign_enrollment(
+                GuardianEnrollmentRole::Voter,
+                &root_a,
+                [19; 32],
+                NOW,
+                NOW + 300,
+            )
+            .unwrap();
+        store.enroll(&request, NOW).unwrap();
+        store
+            .corrupt_enrollment_operator_signature_for_test(&request.claims.identity.node_id)
+            .unwrap();
+    }
+
+    assert_eq!(
+        open_error(
+            temp.path().canonicalize().unwrap().join("identity.redb"),
+            policy(&root_b),
+        ),
+        IdentityError::DurableStateCorrupt
+    );
+}
+
+#[test]
 fn wrong_trust_domain_is_rejected_and_audited() {
     let temp = tempfile::tempdir().unwrap();
     let root = signing_key(3);
