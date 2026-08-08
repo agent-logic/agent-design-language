@@ -1,7 +1,7 @@
 {
   "schema": "adl.wp04.negative_cases.v1",
   "issue": 5863,
-  "source_revision": "04025530538e42479af89ebebd11644233b833ff",
+  "source_revision": "9dc6463e6cf994f052849b05cd0f2399f0637ae5",
   "test_output": ".csdlc/evidence/5863/distributed-identity.stdout.log",
   "test_output_sha256": "f6a4ba1d6bcc5a12b86157be996a0d57ef7e28f98ac6b017c282ef8da3d2ce30",
   "source_artifacts": {

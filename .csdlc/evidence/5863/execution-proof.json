@@ -2,7 +2,7 @@
   "schema": "adl.wp04.execution_proof.v2",
   "issue": 5863,
   "wp": "WP-04.01",
-  "source_revision": "04025530538e42479af89ebebd11644233b833ff",
+  "source_revision": "9dc6463e6cf994f052849b05cd0f2399f0637ae5",
   "protected_paths": [
     "adl-runtime/src/distributed/identity.rs",
     "adl-runtime/tests/distributed_identity.rs"
@@ -32,22 +32,22 @@
     }
   ],
   "negative_cases": [
-    {"case": "wrong_trust_domain", "result": "rejected", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "consumed_nonce_replay", "result": "denied", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "node_and_guardian_proof_of_possession", "result": "denied", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "unapproved_root_and_malformed_signature", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "expired_and_future_request", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "duplicate_effective_guardian_control_key", "result": "rejected", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "bounded_nonce_capacity", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "restart_stability", "result": "recovered", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "audit_redaction_and_bound", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "oversized_request_bound", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "durable_corruption_and_audit_gap", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
-    {"case": "symlinked_database_parent", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"}
+    {"case": "wrong_trust_domain", "result": "rejected", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "consumed_nonce_replay", "result": "denied", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "node_and_guardian_proof_of_possession", "result": "denied", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "unapproved_root_and_malformed_signature", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "expired_and_future_request", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "duplicate_effective_guardian_control_key", "result": "rejected", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "bounded_nonce_capacity", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "restart_stability", "result": "recovered", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "audit_redaction_and_bound", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "oversized_request_bound", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "durable_corruption_and_audit_gap", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
+    {"case": "symlinked_database_parent", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5863/negative-cases.json", "evidence_sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"}
   ],
   "artifacts": [
     {"path": ".csdlc/evidence/5863/distributed-identity.stdout.log", "sha256": "f6a4ba1d6bcc5a12b86157be996a0d57ef7e28f98ac6b017c282ef8da3d2ce30"},
-    {"path": ".csdlc/evidence/5863/negative-cases.json", "sha256": "f228d1d4bb4b0a18427764f4802dfb9ef9aa61ddd419ece564033d92fd6a16a8"},
+    {"path": ".csdlc/evidence/5863/negative-cases.json", "sha256": "86969c678ec9297288b674dfb201faaa346c345408804f071c98bb08288a3ecf"},
     {"path": ".csdlc/evidence/5863/runner.txt", "sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"}
   ],
   "native_receipts": []
