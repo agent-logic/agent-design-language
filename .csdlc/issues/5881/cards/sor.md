@@ -125,11 +125,11 @@ Removed active claim lifecycle compatibility, normalized 190 mutable tracked cur
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5881,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5881-remove-csdlc-claims",
+  "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
+  "body": "Closes danielbaustin/agent-design-language#5881\n\nRemoves claim, lease, heartbeat, and recovery authority from the active C-SDLC v2 lifecycle. Canonical issue ownership now derives from bound branch/worktree topology; 190 pre-existing tracked current records were normalized once, claim-specific compatibility code was then deleted, and historical evidence remains immutable. Active repo guidance and the installed adl_pr_cycle skill are synchronized to the claim-free route.\n\nFocused proof: exact schema 3/3; topology migration 9/9; gate2 1/1; gate5 14/14; gate6 6/6; gate_finish 17/17; gate_cleanup 9/9; gate10a 19/19; strict all-target Clippy; installer sync guard; git diff check. Exact-head independent review passed with no P0-P3 findings.",
+  "draft": false,
+  "revision": "git-blake3:33ffc602e4c036c44fd8228789b87c04f8f9b340:3af7f492cb54554035ebb9f0614697e31abcf7c6c9ed5475501b67b04da504f3",
+  "commit_sha": "33ffc602e4c036c44fd8228789b87c04f8f9b340"
+}
