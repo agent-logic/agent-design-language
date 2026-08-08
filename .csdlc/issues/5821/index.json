@@ -3,11 +3,11 @@
   "issue": 5821,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9376933aa08bd1c1708eacda6c1cb876ff925d7a61596daf9f30c8c4e86f245e",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 54,
-  "digest": "31e80aea8d5b55e05d53eecdc4ba213047d38345fa7f4ba3eea1b8ba130611ae",
-  "branch": null,
-  "worktree": null,
+  "digest": "564a1923e246bd9a028166cf7eb06d53b449adcf4ecceb727e4f95f931569ce0",
+  "branch": "codex/5821-v092-distributed-guardian-gate",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5821-wp04-gate",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +75,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -595,6 +609,13 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 75,
+      "generation": 54,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
