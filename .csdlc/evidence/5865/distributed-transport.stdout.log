@@ -1,0 +1,21 @@
+HEAD is now at 0bb407630 fix(runtime): use one rustls crypto provider
+[detached HEAD 2eae188d5] test(runtime): remove transport authorization boundary race
+ Date: Sat Aug 8 13:01:21 2026 -0700
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-5865-transport/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.45s
+────────────
+ Nextest run ID a613dc10-dccb-46e2-8b61-752447e1a413 with nextest profile: default
+    Starting 10 tests across 1 binary
+        PASS [   0.009s] ( 1/10) adl-runtime::distributed_transport dependency_contract_is_exactly_pinned_in_manifest_and_lockfile
+        PASS [   0.009s] ( 2/10) adl-runtime::distributed_transport framing_is_bounded_and_rejects_malformed_or_mismatched_identity
+        PASS [   0.176s] ( 3/10) adl-runtime::distributed_transport non_transport_purpose_cannot_authorize_a_transport_session
+        PASS [   0.202s] ( 4/10) adl-runtime::distributed_transport untrusted_client_certificate_is_rejected_by_mutual_tls
+        PASS [   0.206s] ( 5/10) adl-runtime::distributed_transport certificate_fingerprint_mismatch_fails_closed_after_tls_authentication
+        PASS [   0.218s] ( 6/10) adl-runtime::distributed_transport duplicate_sequence_is_rejected_with_a_bounded_replay_window
+        PASS [   0.222s] ( 7/10) adl-runtime::distributed_transport mutual_tls_loopback_carries_identity_bound_messages_both_ways
+        PASS [   0.226s] ( 8/10) adl-runtime::distributed_transport revocation_closes_an_established_authorized_session
+        PASS [   0.230s] ( 9/10) adl-runtime::distributed_transport authenticated_certificate_cannot_claim_a_different_node_identity
+        PASS [   0.291s] (10/10) adl-runtime::distributed_transport cancellation_and_authorization_expiry_stop_transport_work
+────────────
+     Summary [   0.292s] 10 tests run: 10 passed, 0 skipped

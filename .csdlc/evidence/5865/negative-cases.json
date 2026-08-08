@@ -1,0 +1,23 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5865,
+  "source_revision": "21f9ace034974132f0b4e7af932a0235fb7c2dc6",
+  "test_output": ".csdlc/evidence/5865/distributed-transport.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/transport.rs": "0c10efe1aec8d380e3490be347c59ac6464dffacb085ca0067fbac233285b027",
+    "adl-runtime/tests/distributed_transport.rs": "5f99c89a689e4b639734e32f7018500756f8e336920f7d5707d529908282a851",
+    "adl-runtime/Cargo.toml": "e3c957fa768a2ed063362220a68be82c9f91ff5e2da20a11d2c823fa4e08ed20",
+    "adl-runtime/Cargo.lock": "b2cc814310ed21c07b92909008e4aad25415468173bc7173bf7c7a45da126754"
+  },
+  "cases": [
+    {"case": "untrusted_client_certificate", "test": "untrusted_client_certificate_is_rejected_by_mutual_tls", "result": "rejected"},
+    {"case": "non_transport_certificate_purpose", "test": "non_transport_purpose_cannot_authorize_a_transport_session", "result": "rejected"},
+    {"case": "revoked_established_session", "test": "revocation_closes_an_established_authorized_session", "result": "denied"},
+    {"case": "peer_certificate_fingerprint_mismatch", "test": "certificate_fingerprint_mismatch_fails_closed_after_tls_authentication", "result": "fail_closed"},
+    {"case": "authenticated_peer_identity_mismatch", "test": "authenticated_certificate_cannot_claim_a_different_node_identity", "result": "rejected"},
+    {"case": "duplicate_sequence_replay", "test": "duplicate_sequence_is_rejected_with_a_bounded_replay_window", "result": "rejected"},
+    {"case": "oversized_and_malformed_frame", "test": "framing_is_bounded_and_rejects_malformed_or_mismatched_identity", "result": "fail_closed"},
+    {"case": "cancellation_and_authorization_expiry", "test": "cancellation_and_authorization_expiry_stop_transport_work", "result": "denied"},
+    {"case": "unreviewed_dependency_drift", "test": "dependency_contract_is_exactly_pinned_in_manifest_and_lockfile", "result": "rejected"}
+  ]
+}
