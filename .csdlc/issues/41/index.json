@@ -3,11 +3,11 @@
   "issue": 41,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "771b5ed173830eb20533942fa87b74b8f11779b53aabf509b5e9cc0e34d22b32",
-  "phase": "initialized",
-  "generation": 1,
-  "digest": "5463446d7b635793549f5914a98a414051aa8d31f37e13426e107b9ecebd4cdf",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 4,
+  "digest": "55aeb0938a5aeb6c0eff7530097dc7c5a6f2eb14b7e83ebcd1ebb0ff71074579",
+  "branch": "codex/41-missing-issue-read-diagnostics-preparation",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-41-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -16,40 +16,60 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/41/design.md",
   "diagram_path": ".csdlc/prepared/issues/41/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:41-readiness-review",
+      "revision": "3732d901425c4721a2a10ce1ebfb6b3df1c0d628f30a7bc62994d713e5eca4de"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "787cf3ee7dd8c49a0677ae9b314f4e6fc4a1d315a8267ea3927ba458ad2dc654",
+      "values_digest": "ec0f450a42217b6976b308584d79dfb4ab7ab074fc4af645b90343a662948983",
       "rendered_digest": "f7745872babb8299b9f9c1964c684a2f4246df6a1ea3a19066e420c0976d289d",
       "ast_digest": "3f9c49d932c246af98631b30d404612bd6f3ab99c71e3b9e64354a6280909a8d"
     },
     "stp": {
-      "values_digest": "0563a231477fec85614f02f3a30e9e5e4acba1890a5490f4d30745e4001e0599",
-      "rendered_digest": "f742a16fb248e88d067fc3f34d88416fdfcca9ded4d0a5e6725d4cef64fce1ec",
-      "ast_digest": "8b3018c7cf796e6a23d84ce0eec1ce5758ff6253435f285ccbcde9b48ad25433"
+      "values_digest": "a250cdb50647120867dc8e243c01178eac7f4887f5f426605af51eb4844612c9",
+      "rendered_digest": "9c85cd21d22bea114ce3fbe8f269223ef781c1f5d7ff8f15cf77029c959c39ea",
+      "ast_digest": "6a3d0757edb91ea51a5399303d8c929b9c1eceace677c3c65b151f0256285b35"
     },
     "spp": {
-      "values_digest": "014329c3d255bcd1b8d87120563e6754363add58fd5e1ca9ac3ec5d61a3098fe",
-      "rendered_digest": "8b5ff77c842d61055513d754b1c062021314fdae87c3dff0325807c2ad0710bd",
-      "ast_digest": "3a728cb5c366f44a2ce76d749e4d411c22f8bdecd11e14c0d42f7de3b185eb24"
+      "values_digest": "63d8fe5accc6b48fec72bf42ba4ea8104a44e68b310954db2c512254792e8700",
+      "rendered_digest": "fbafcdce542a034ed431c368eb2344c3fbe103871ddc65cac9f51f8febabcb8a",
+      "ast_digest": "9d1ce2335189bf8a3bcce8a85f9f008d5fa5ae0282f9d4155a7908a625e1d104"
     },
     "vpp": {
-      "values_digest": "cdadb2833e9882582be4340bafbb9c04b8ceef8006db246410ff0550f0bb8e8f",
+      "values_digest": "42ef07cd5ca6bdc1e7dc3678eba89c05fe6dfc46744c404ffa8f39cff16410e9",
       "rendered_digest": "d79f0155f1f4c69a19b7220349e7aa2e33f478ed3c3117ea6af445885ec11dd9",
       "ast_digest": "40d94ac1d2cc4da656effdcb5e7154fbeb46c08a5bda0c1e6e6f3a37e655a49b"
     },
     "srp": {
-      "values_digest": "6ef2d502a9795c1c05f960229c65dd926cf758a104472c114eafd65ec66f4a3d",
+      "values_digest": "f37b5c9ab15503d5ea912432333b4947f9ec46e2121a0059aa5f6ae7bd41f8e5",
       "rendered_digest": "f263c817d430321d6320f7c309c1c859afba3b650676b9c97b0401125aca362e",
       "ast_digest": "c302e395f99cf1463665f5b736d313f2ca300ea7a9b611a9173f917151bd355c"
     },
     "sor": {
-      "values_digest": "92bf28c60f20ad476c007add89b1c2e954640461b84916a7bc42cc5415d39c11",
+      "values_digest": "204552770f8512d6664e1d705b40279ced433123b3e95fa63e74c6602b700a99",
       "rendered_digest": "8277b211253dd0bc3cfd8eba27365edda347ccca511c46d3ca74c619884ec611",
       "ast_digest": "653d53c28b4e335302c6ebd54c5e5a0f94ec806bcefb2d4d3b1360be3c71c6b6"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -64,6 +84,34 @@
       "actor": "codex:41-readiness-preparation",
       "reason": "bind execution readiness to exact repository-owned implementation and proof paths",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/error.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/bin/csdlc-github-issue.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:41-readiness-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "bind the focused loopback validator deliverable to its exact existing repository path",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Stable issue-read remote failure codes and exit mapping\",\"Contextual redacted repository/issue diagnostics\",\"csdlc-v2/tests/gate_github_actions.rs\",\"Exact JSON, exit-code, stdout/stderr, and secret-redaction assertions\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:41-readiness-preparation",
+      "reason": "carry the approved 404 wording, closed rate-limit allowlist, and non-read compatibility into typed acceptance truth",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: HTTP 404 issue reads return remote_not_found with exit 69 and say owner/name#N was not found or is inaccessible, directing the operator to verify repository, issue number, and token access\",\"AC-2: HTTP 401 and ordinary HTTP 403 are typed as authentication or authorization failures and never as not-found\",\"AC-3: HTTP 429 and only the design's closed allowlist of primary or secondary rate-limit HTTP 403 markers are typed as rate-limited; near-match and ordinary HTTP 403 remain authorization\",\"AC-4: HTTP 5xx and connection failures are typed as server or transport failures and never as not-found\",\"AC-5: Successful issue-read request/result JSON and all non-read action readback failure behavior remain unchanged\",\"AC-6: Failure stdout is valid csdlc.error.v1 JSON, exit codes are stable, and stderr remains empty unless stdout writing fails\",\"AC-7: Token value, token path, authorization material, sensitive response-body sentinel, and raw Octocrab error text are absent from stdout and stderr\",\"AC-8: Focused real-binary loopback tests and strict Clippy pass with no unresolved review findings\"]}"
     }
   ]
 }

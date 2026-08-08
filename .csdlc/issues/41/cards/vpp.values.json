@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][GitHub] Classify missing issue reads with actionable repository/404 diagnostics",
     "slug": "github-issue-read-failure-diagnostics",
     "version": "v0.92",
-    "generation": 1
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -89,7 +89,7 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on ambiguous classification, any non-404 mislabeled as not-found, any credential or raw remote detail in output, non-JSON CLI errors, unstable exits, or successful-read drift.",
       "design_ref": ".csdlc/prepared/issues/41/design.md",
-      "design_digest": "ef5b9f44f28020109c5f5e58c1efee1b85c30fe659ca174eec25e7735bdaeddc",
+      "design_digest": "3732d901425c4721a2a10ce1ebfb6b3df1c0d628f30a7bc62994d713e5eca4de",
       "diagram_ref": ".csdlc/prepared/issues/41/diagram.mmd",
       "diagram_digest": "52d77f0feb5517e08f47b3a561bee2b2a42f3532fa2d932e97c31ebb610dbc9e"
     }

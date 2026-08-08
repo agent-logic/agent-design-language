@@ -18,16 +18,16 @@ Add a bounded issue-read failure taxonomy and safe diagnostic mapper plus focuse
 
 - Stable issue-read remote failure codes and exit mapping
 - Contextual redacted repository/issue diagnostics
-- Focused loopback tests for success, 404, authentication, authorization, rate limit, server, and transport behavior
+- csdlc-v2/tests/gate_github_actions.rs
 - Exact JSON, exit-code, stdout/stderr, and secret-redaction assertions
 
 ## Acceptance
 
-1. AC-1: HTTP 404 issue reads return remote_not_found with exit 69 and an actionable owner/name#N diagnostic
+1. AC-1: HTTP 404 issue reads return remote_not_found with exit 69 and say owner/name#N was not found or is inaccessible, directing the operator to verify repository, issue number, and token access
 2. AC-2: HTTP 401 and ordinary HTTP 403 are typed as authentication or authorization failures and never as not-found
-3. AC-3: Rate-limit HTTP 403 or 429 is typed separately from authorization, transport, and not-found
+3. AC-3: HTTP 429 and only the design's closed allowlist of primary or secondary rate-limit HTTP 403 markers are typed as rate-limited; near-match and ordinary HTTP 403 remain authorization
 4. AC-4: HTTP 5xx and connection failures are typed as server or transport failures and never as not-found
-5. AC-5: Successful issue-read request and result JSON remain unchanged
+5. AC-5: Successful issue-read request/result JSON and all non-read action readback failure behavior remain unchanged
 6. AC-6: Failure stdout is valid csdlc.error.v1 JSON, exit codes are stable, and stderr remains empty unless stdout writing fails
 7. AC-7: Token value, token path, authorization material, sensitive response-body sentinel, and raw Octocrab error text are absent from stdout and stderr
 8. AC-8: Focused real-binary loopback tests and strict Clippy pass with no unresolved review findings
