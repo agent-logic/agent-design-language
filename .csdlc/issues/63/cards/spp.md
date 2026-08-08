@@ -16,7 +16,7 @@ Freeze the narrow operation and authorization contract, implement through the ex
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
@@ -104,8 +104,8 @@ Digest: b8f7e332c3b73b50f5124efa9b69be76547178f9ec6bc1c3e751a54185596975
 ## Stop Conditions
 
 - The route requires direct Markdown or raw record mutation
-- Review/publication truth must be cleared by this editor rather than typed recovery
-- Scope expands beyond the two production modules and focused existing regression surface
+- Review/publication truth must be cleared by the editor rather than typed csdlc-review recovery
+- Scope expands beyond cards.rs, review.rs, store.rs, and the two focused existing regression files
 - Old/new scope and reason cannot be retained atomically
 
 ## Handoff

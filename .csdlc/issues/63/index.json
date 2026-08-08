@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "92a81b9bbaf710e41487a09174dc234dfffc8acccf4e348385a5e9ca85263df6",
   "phase": "bound",
-  "generation": 9,
-  "digest": "395a5ca24658914507f2a147c23b61029056d7efe79cb751d1820d1e79030d0e",
+  "generation": 10,
+  "digest": "b0c1113f457a787667bdec4c1cf2ceccc2b2bf732e70cebbb20ac943f5751592",
   "branch": "codex/63-implemented-sip-scope-correction-preparation",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-63-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "13f2eec10f433036cf172a1f83c49d5542ae4085d2e0c0163b65b85577b323a9",
+      "values_digest": "fa36e9a8ac24d602d87460f9689cc155d97a8a4a4c3286ab02f6b53b59425dc9",
       "rendered_digest": "dce16ee8175c62a94b90fa1d7668798328cefe5359a926b2d933307a52fe5e29",
       "ast_digest": "6ce9f3483bb6f4db345918b2011e09b8efe75340845d60d6a25b4f262c65a7bc"
     },
     "stp": {
-      "values_digest": "dad62bc3fd85da57f23eac9b80bbc940d64a03ac0b6cfb5fd7ee1a24f437f629",
+      "values_digest": "1f87645762fa11cf9f4f1641ea5378049605b278b3feb1f5390a51e49d048e93",
       "rendered_digest": "f6bcd90537303314e2f494e3007972dde07e77541016f75089010cc934bf8d83",
       "ast_digest": "11c54393422b8e4426c61a8170fce897701c6a941f2973a8ab2674cb06fe5a51"
     },
     "spp": {
-      "values_digest": "7d14fc4e77b01dc794be69d94696a47bd6812d552ed9c24be63d7b45cdefe2d2",
-      "rendered_digest": "c42a9fb61c0bf7706747058eceab0c4085f954149d2f66503458c972ef5b10f2",
-      "ast_digest": "3002fc329bc3695f10fa7abc6ec638c4f9323536067d8feda4bdfbb9f9ed0a4f"
+      "values_digest": "41b40117fe3961f338ac96eb47ebeea589d06be0638bbeb2cb23f272f3b33a4e",
+      "rendered_digest": "9d04049775a56a27c726aae47dcd38006ad34d0a7d2fa362e5718ab61445e037",
+      "ast_digest": "4a71d407218fec5bec2c49d9ca670cddd63665c7aa44f05e5623920f308d4768"
     },
     "vpp": {
-      "values_digest": "73165411428fc256a3a5ec99fe0da43c83f36a23d5f582bb27a0397e56409f2f",
+      "values_digest": "154868016a828ced7226eedd8f4001e546743a0f8c404043adf0762a95c53280",
       "rendered_digest": "3d9d74ee9cdd21e1ece5d56c9646ae312db2bcdc6c9797d0795e5164d5165ec9",
       "ast_digest": "cff13592ec6ddf3768660134b0c772589f97ac46f26656ef4749069a248882f0"
     },
     "srp": {
-      "values_digest": "9047a03cf37cf1cc17d5dc90c4853126967c39a60c5f508b0207ee03c15fb72f",
+      "values_digest": "86371c4ecdf2ba757e2266f087c93b69406fcef8fb96740f9dc15d15f8918080",
       "rendered_digest": "5a7c9e1a5fcf0c5caad09061b084ee27bcb8f24b207805898b6477f6a6c8344c",
       "ast_digest": "cc58d7e279e01cf0402b89553d137fa12bb1dcaec9fabd0274fc360ebf5d78d4"
     },
     "sor": {
-      "values_digest": "1cd196b14ee8a0b1584b7b91d61b0e8801d105ac9700006be02000f6b56eb0c9",
+      "values_digest": "d669643fae1db93cbcb6a300f9018b1343f4366c8a95310dd2f793ee9d107a32",
       "rendered_digest": "3b1d9c41eae08106ab4d40b145b1b42cff93a2f3d3b9084905983f0f0e839d59",
       "ast_digest": "38c63b22ea7c2f5160423ee9bdc6709bcad899fdc66b251f2e0447cbcbb9ed45"
     }
@@ -147,6 +147,13 @@
       "actor": "codex:63-readiness-preparation",
       "reason": "carry the approved implemented-review recovery seam into executable plan truth",
       "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm the dedicated correction operation, exact phase/card/truth guards, implemented-review recovery seam, and old/new audit contract.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Extend typed review recovery for implemented records carrying review truth, then implement SIP scope correction through the existing AST, render, validation, and atomic commit path.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add focused real-editor and recovery regressions for accepted correction, exact audit, stale input, adjacent phases/cards, recovery, and projection drift.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused validation and exact-head review, resolve findings, publish, shepherd, and finish truthfully.\",\"acceptance_ids\":[\"AC-6\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:63-readiness-preparation",
+      "reason": "align the stop boundary with the approved three production modules including typed review recovery",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"The route requires direct Markdown or raw record mutation\",\"Review/publication truth must be cleared by the editor rather than typed csdlc-review recovery\",\"Scope expands beyond cards.rs, review.rs, store.rs, and the two focused existing regression files\",\"Old/new scope and reason cannot be retained atomically\"]}"
     }
   ]
 }

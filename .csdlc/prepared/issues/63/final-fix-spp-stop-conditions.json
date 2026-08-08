@@ -1,0 +1,18 @@
+{
+  "issue": 63,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "395a5ca24658914507f2a147c23b61029056d7efe79cb751d1820d1e79030d0e",
+  "actor": "codex:63-readiness-preparation",
+  "reason": "align the stop boundary with the approved three production modules including typed review recovery",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "The route requires direct Markdown or raw record mutation",
+      "Review/publication truth must be cleared by the editor rather than typed csdlc-review recovery",
+      "Scope expands beyond cards.rs, review.rs, store.rs, and the two focused existing regression files",
+      "Old/new scope and reason cannot be retained atomically"
+    ]
+  }
+}
