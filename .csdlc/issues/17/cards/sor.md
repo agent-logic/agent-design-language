@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Doctor now fails closed on repository drift, unroutable Rust module plans, unavailable validator targets, and zero issue-specific validation denominators.
+Resolved both bounded review findings without widening issue 17.
 
 ## Artifacts
 
@@ -20,12 +20,18 @@ Doctor now fails closed on repository drift, unroutable Rust module plans, unava
 - csdlc-v2/src/doctor.rs
 - csdlc-v2/src/git.rs
 - csdlc-v2/tests/gate2.rs
+- csdlc-v2/src/cards.rs
+- csdlc-v2/src/doctor.rs
+- csdlc-v2/tests/gate2.rs
 
 ## Execution
 
 - Parse canonical GitHub origin identity and report deterministic repository drift.
 - Return specific execution-readiness finding codes for owned paths, Rust module routes, validator availability, and denominator coverage.
 - Add an issue-5795-shaped gate2 production fixture and repair the baseline fixture ownership contract.
+- Require every declared validator deliverable to exist or have its own selected fail-closed deferred lane.
+- Continue execution-readiness diagnosis after repository drift so one doctor report exposes the combined repair surface.
+- Make the issue-5795-shaped fixture combine stale repository identity, unroutable module ownership, an unselected missing validator, and an unrelated existing test lane.
 
 ## Validation
 
@@ -40,6 +46,19 @@ Doctor now fails closed on repository drift, unroutable Rust module plans, unava
       "gate2"
     ],
     "purpose": "Prove repository drift, unroutable module, missing validator, and nonzero issue-specific denominator doctor behavior through the focused gate2 integration target.",
+    "outcome": "passed",
+    "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2"
+    ],
+    "purpose": "Prove combined issue-5795 repository and execution findings plus per-required-validator enforcement after bounded review cleanup.",
     "outcome": "passed",
     "evidence_ref": "gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed"
   }

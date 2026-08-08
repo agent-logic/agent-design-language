@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ce7a72390c3da02eb291f61abc2642d9eab856af390152b0d5898de5646a09b8",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "82438eebca22f7fd13b80a198d1ac442f5e0cc49c862879fd60c0a4e0937a725",
+  "generation": 5,
+  "digest": "644fd7e8e90a9656e95087011eb67721320c5150bf5a9947e43f3dd0cac9b750",
   "branch": "codex/17-doctor-execution-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-17-doctor-readiness",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6ef3a5da604f285b8c8888de080e49f5185308aa839b348a1f523f1d5986a91a",
+      "values_digest": "f9c2a942dc7eeb45f255de99dbac6e9e55a77d8cb7d80bcb59c7167c6584245a",
       "rendered_digest": "e72b4cda2964938872e2d78baa969536ec92825abdee173948b39f78493ad91c",
       "ast_digest": "cdf21bf65f18a6587e11420b5dddd84e6bf9bd27056e7b20042c3f6c69887a09"
     },
     "stp": {
-      "values_digest": "3f0869f20005fb2aacba51791b257196049527715489616ef68ccba85b51ffe0",
+      "values_digest": "72350108853a391e8464a20db791dea1292b2169bcbff4a63b2db90db11ffc2f",
       "rendered_digest": "5e05a8bc472d7a2e806231380618ccc386804602f6253d588c3fd42b71131d48",
       "ast_digest": "6b515217a0e3d6a9214b6f94844e87e45522bf7c5a9528524cba8966c6ad913b"
     },
     "spp": {
-      "values_digest": "ae1320bebe01c1c94a578be4c1ddf91023eeb5038e9dcf9aaa36d7e96932c078",
+      "values_digest": "a4752eb1c843bf7aaaaf2bb7f5bc1b8aa91506647515d486811e5a2efdc31136",
       "rendered_digest": "da53851d2e3f88b746f70f69220bdcf6bd8133b8e3cacdb385f802328acaadc1",
       "ast_digest": "2f22946cf0d855ab292277f5d1b285e223fd31bae80b4e27f84b511fbf9b6fd6"
     },
     "vpp": {
-      "values_digest": "079976e0a42f52dee05d9b5537737d7a25cda96574f9ac98da0a4aa865b7e806",
+      "values_digest": "7facbcfc7dfabffdb1a5fb96a1e6638d8c50c7fb9f30594865da5d517568096c",
       "rendered_digest": "64ea916b9f57f0ff3862f3aafc0f2fc8bfca44013583fa7a7cb94810e0a3f029",
       "ast_digest": "cf00c15da48770b261126e67b84c532bd36cfb9b4026d97ccc9cf82c348f7885"
     },
     "srp": {
-      "values_digest": "20ed6e17cb8d9df1e504825b93b9d13913af48d63365011734c25f6c6028485a",
+      "values_digest": "9b96a88bd58233d461b4b46c885eb4a058f8e125067319b61169891138dcccd4",
       "rendered_digest": "06e214fdcfd0d6e01c6c50c6e742bbd553d6404c724d3d49c247d9ad6dbd3dd9",
       "ast_digest": "b66d4e7273cef602bc78c1ca03d38b819c18eb07adc3aaf0ef532a13c02bd095"
     },
     "sor": {
-      "values_digest": "76352c5d6f487dc931a43c90707bbfcbeeff5bf8ceb0558a1772b22a610b115d",
-      "rendered_digest": "83298d07ae8390f7e721294ad30dc872c3502f77a1a50be2424bb72a66a8dd2e",
-      "ast_digest": "271865c10819ddb6dbf7a9e94e03a395618e474874ef0e46c19e48dfd120d018"
+      "values_digest": "23e36523d6f4d43202c5c64ab7eb17522cf47e5262145d94bd171ad22584fbdb",
+      "rendered_digest": "db2394afada1ee4e1fb57599756d2f1864a090b1ee493dbe2a8ffdf4357f092c",
+      "ast_digest": "27cf2d107e0ab2692b5a0cf2477ad90d7771d1f1edbdce57857a8e3272900390"
     }
   },
   "transitions": [
@@ -112,6 +112,20 @@
       "actor": "codex:issue-17-doctor-readiness",
       "reason": "Issue 17 implementation and focused validation are complete; advance to exact-head review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Record focused gate2 validation after resolving bounded review findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove combined issue-5795 repository and execution findings plus per-required-validator enforcement after bounded review cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-17-doctor-readiness",
+      "reason": "Record the bounded implementation corrections from pre-PR review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved both bounded review findings without widening issue 17.\",\"changes\":[\"Require every declared validator deliverable to exist or have its own selected fail-closed deferred lane.\",\"Continue execution-readiness diagnosis after repository drift so one doctor report exposes the combined repair surface.\",\"Make the issue-5795-shaped fixture combine stale repository identity, unroutable module ownership, an unselected missing validator, and an unrelated existing test lane.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/tests/gate2.rs\"]}"
     }
   ]
 }

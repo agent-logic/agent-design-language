@@ -1714,13 +1714,24 @@ fn explicitly_deferred_validator(
     deliverables: &[String],
     failure_policy: &str,
 ) -> bool {
-    owned_paths.iter().any(|owned| owned == path)
+    validator_targets(lane).iter().any(|target| target == path)
+        && owned_paths.iter().any(|owned| owned == path)
         && deliverables.iter().any(|deliverable| deliverable == path)
         && lane
             .defer_reason
             .as_deref()
             .is_some_and(|reason| !placeholder(reason))
         && failure_policy.to_ascii_lowercase().contains("fail closed")
+}
+
+fn required_validator_deliverable(path: &str) -> bool {
+    let path = Path::new(path);
+    path.components()
+        .any(|component| component.as_os_str() == "tests")
+        || matches!(
+            path.extension().and_then(|value| value.to_str()),
+            Some("sh" | "py" | "rb" | "js")
+        )
 }
 
 fn rust_module_route_owned(root: &Path, path: &str, owned_paths: &[String]) -> bool {
@@ -1947,6 +1958,31 @@ fn execution_readiness_findings(
             })
         {
             issue_specific_denominator = true;
+        }
+    }
+    let selected_targets = lanes
+        .iter()
+        .flat_map(validator_targets)
+        .collect::<BTreeSet<_>>();
+    for validator in deliverables
+        .iter()
+        .filter(|path| required_validator_deliverable(path))
+    {
+        let exists = root.join(validator).is_file();
+        let deferred = lanes.iter().any(|lane| {
+            explicitly_deferred_validator(
+                validator,
+                lane,
+                affected_areas,
+                deliverables,
+                failure_policy,
+            )
+        });
+        if !exists && !deferred && !selected_targets.contains(validator) {
+            findings.push(ExecutionReadinessFinding {
+                code: "validator_target_missing",
+                message: format!("required validator deliverable is unavailable: {validator}"),
+            });
         }
     }
     if !issue_specific_denominator {

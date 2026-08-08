@@ -112,7 +112,11 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
             });
         }
     }
-    if !report.findings.is_empty() {
+    if report
+        .findings
+        .iter()
+        .any(|finding| matches!(finding.code.as_str(), "design_missing" | "diagram_missing"))
+    {
         report.status = DoctorStatus::Block;
         report.next_operation = Some("repair_design_readiness".into());
         return report;

@@ -159,6 +159,11 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     )
     .expect("shape fixture");
     fs::write(repo.join("csdlc-v2/tests/gate2.rs"), "// focused fixture\n").expect("gate2 fixture");
+    fs::write(
+        repo.join("csdlc-v2/tests/gate4.rs"),
+        "// unrelated fixture\n",
+    )
+    .expect("unrelated gate4 fixture");
     fs::write(repo.join("design/issue-42.md"), "# Approved design\n").expect("design");
     fs::write(
         repo.join("design/issue-42.mmd"),
@@ -330,50 +335,9 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     ));
     assert!(diagnosed.contains("\"ready\": true"));
 
-    let stale_repository_request = temp.path().join("stale-repository-create.json");
-    let mut stale_repository = request();
-    stale_repository.issue = 43;
-    stale_repository.repository = "danielbaustin/agent-design-language".into();
-    stale_repository.design_path = "design/issue-43.md".into();
-    stale_repository.diagram_path = "design/issue-43.mmd".into();
-    fs::write(repo.join("design/issue-43.md"), "# Approved design\n")
-        .expect("stale repository design");
-    fs::write(
-        repo.join("design/issue-43.mmd"),
-        "flowchart LR\n  Plan --> Block\n",
-    )
-    .expect("stale repository diagram");
-    stale_repository.initial.affected_areas[0] = "design/issue-43.md".into();
-    stale_repository.initial.repo_inputs[0] = "design/issue-43.md".into();
-    fs::write(
-        &stale_repository_request,
-        serde_json::to_vec_pretty(&stale_repository).expect("serialize stale repository request"),
-    )
-    .expect("stale repository request");
-    must_succeed(command(
-        &repo,
-        env!("CARGO_BIN_EXE_csdlc-issue"),
-        &[
-            "--root",
-            &repo_text,
-            "create",
-            "--request",
-            &stale_repository_request.to_string_lossy(),
-        ],
-    ));
-    let stale_diagnosis = command(
-        &repo,
-        env!("CARGO_BIN_EXE_csdlc-doctor"),
-        &["--repo", &repo_text, "--issue", "43"],
-    );
-    assert!(!stale_diagnosis.status.success());
-    let stale_diagnosis = String::from_utf8(stale_diagnosis.stdout).expect("UTF-8 diagnosis");
-    assert!(stale_diagnosis.contains("repository_identity_drift"));
-    assert!(stale_diagnosis.contains("danielbaustin/agent-design-language"));
-    assert!(stale_diagnosis.contains("agent-logic/agent-design-language"));
-
     let mut issue_5795_shape = request();
     issue_5795_shape.issue = 44;
+    issue_5795_shape.repository = "danielbaustin/agent-design-language".into();
     issue_5795_shape.design_path = "design/issue-44.md".into();
     issue_5795_shape.diagram_path = "design/issue-44.mmd".into();
     issue_5795_shape.initial.affected_areas[0] = "design/issue-44.md".into();
@@ -402,8 +366,12 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             &issue_5795_request.to_string_lossy(),
         ],
     ));
+    fs::create_dir_all(repo.join("adl-runtime-kernel/tests")).expect("future crate test directory");
     let future_module = "adl-runtime-kernel/src/shepherd.rs";
-    let future_validator = "adl-runtime-kernel/tests/shepherd_live.rs";
+    let present_validator = "adl-runtime-kernel/tests/shepherd_unit.rs";
+    let missing_validator = "adl-runtime-kernel/tests/shepherd_live.rs";
+    fs::write(repo.join(present_validator), "// present but unselected\n")
+        .expect("present issue-owned validator");
     apply_edit(
         &repo,
         temp.path(),
@@ -413,7 +381,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         serde_json::json!({
             "operation": "replace_planning_collection",
             "field": "affected_areas",
-            "values": [future_module, future_validator]
+            "values": [future_module, present_validator, missing_validator]
         }),
     );
     apply_edit(
@@ -425,7 +393,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         serde_json::json!({
             "operation": "replace_planning_collection",
             "field": "deliverables",
-            "values": [future_module, future_validator]
+            "values": [future_module, present_validator, missing_validator]
         }),
     );
     apply_edit(
@@ -437,14 +405,14 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         serde_json::json!({
             "operation": "replace_validation_lanes",
             "lanes": [{
-                "lane": "shepherd-live-focused",
-                "proof_role": "exercise the issue-owned Shepherd validator",
+                "lane": "unrelated-existing-gate",
+                "proof_role": "reproduce the unrelated existing test denominator",
                 "acceptance_ids": ["AC-1", "AC-2"],
                 "deterministic": true,
                 "resource_profile": "small",
                 "budget_seconds": 120,
                 "budget_tokens": 1000,
-                "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "shepherd_live"],
+                "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate4"],
                 "parallel_group": "local",
                 "defer_reason": null
             }]
@@ -459,7 +427,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     let issue_5795_diagnosis =
         String::from_utf8(issue_5795_diagnosis.stdout).expect("UTF-8 diagnosis");
     for code in [
-        "owned_paths_invalid",
+        "repository_identity_drift",
         "owned_rust_module_unroutable",
         "validator_target_missing",
         "issue_specific_denominator_missing",
