@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5865,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5865-maintained-quic-tls-adapter",
+  "title": "[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter",
+  "body": "Closes danielbaustin/agent-design-language#5865\n\n## Summary\n\n- add maintained TLS 1.3 mutual-authentication transport with exact certificate and logical peer binding\n- use AWS-LC as the single Rustls cryptographic provider across Quinn and the existing Tokio/Axum TLS stack\n- bind every session to WP-04.02 Transport-purpose authority with revocation and expiry revalidation\n- reject duplicate and stale sequence replay through a bounded receive window\n- enforce bounded streams, waits, canonical prost framing, cancellation, and exact frame ceilings\n- pin the reviewed quinn 0.11.11, rustls 0.23.42, prost 0.13.5, and openraft 0.9.21 set\n\n## Validation\n\n- focused transport target — 10 passed\n- full adl-runtime parity — 244 passed\n- the two prior TLS-provider failures — passed\n- the two CI authorization-boundary failures — 20 consecutive repetitions passed\n- strict focused Clippy — passed\n- exact v3 proof receipt — passed\n- independent exact-head review — passed with no findings\n\n## Boundary\n\nThis child owns only the transport adapter, its focused tests, and the serialized runtime manifest/lock update. OpenRaft authority-ledger implementation remains with WP-04.07. WP-04.16 must wire generation-update events to the adapter cancellation token and prove immediate closure of already-blocked old-generation sessions.",
+  "draft": false,
+  "revision": "git-blake3:4f43f75df346c66a919a2f78dbda21e0341781e2:14bd10146176644fdb2e3b43b6af3d16d504df9e3ea145ad545904db89f36aa2",
+  "commit_sha": "4f43f75df346c66a919a2f78dbda21e0341781e2"
+}
