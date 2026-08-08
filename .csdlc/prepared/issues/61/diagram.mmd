@@ -8,9 +8,10 @@ flowchart TD
     G --> H[Verify cards and authored artifacts\ncarry retained predicates]
     H --> I{Exact idempotent bind?}
     I -- No, any predicate true --> J[Typed reconciliation_required]
-    I -- Yes --> K[Continue typed bind]
+    I -- Yes --> K[Return existing bind]
     H -- Filesystem failure --> L[Typed error with issue and path context]
-    F --> M[Continue scan]
-    M --> D
+    F --> M{More candidates?}
+    M -- Yes --> D
+    M -- No --> O[Continue normal new bind]
 
     N[Historical #5791 copy\nworktree = .\nmissing local artifacts] -. defect fixture .-> D
