@@ -10,6 +10,8 @@ Usage:
 
 Options:
   --command <shell-command>        Command to run inside the remote ADL checkout. Required.
+  --portable-request <path>       Portable request JSON; mutually exclusive with --command.
+  --portable-runner <path>        adl-remote-validation binary for portable requests.
   --executor <ssh|local>           Execution transport. Defaults to ssh. local is for bounded contract tests.
   --host <host>                    Remote host. Defaults to nessus.local.
   --ssh-user <user>                SSH login user. Defaults to danie.
@@ -55,6 +57,15 @@ quote_remote_single() {
 }
 
 COMMAND_STRING=""
+COMMAND_EXPLICIT=false
+PORTABLE_REQUEST=""
+PORTABLE_RUNNER="${ADL_REMOTE_VALIDATION_BIN:-}"
+PORTABLE_EXPECTED_REVISION=""
+PORTABLE_CPU_CORES=""
+PORTABLE_MEMORY_MIB=""
+PORTABLE_TIMEOUT_SECONDS=""
+PORTABLE_CANCELLATION_FILE=""
+PORTABLE_FALLBACK="disabled"
 EXECUTOR="${ADL_NESSUS_REMOTE_EXECUTOR:-ssh}"
 HOST="${ADL_NESSUS_REMOTE_HOST:-nessus.local}"
 SSH_USER="${ADL_NESSUS_REMOTE_SSH_USER:-danie}"
@@ -74,6 +85,15 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --command)
       COMMAND_STRING="${2:-}"
+      COMMAND_EXPLICIT=true
+      shift 2
+      ;;
+    --portable-request)
+      PORTABLE_REQUEST="${2:-}"
+      shift 2
+      ;;
+    --portable-runner)
+      PORTABLE_RUNNER="${2:-}"
       shift 2
       ;;
     --executor)
@@ -140,8 +160,31 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ -n "$PORTABLE_REQUEST" ]]; then
+  if [[ "$COMMAND_EXPLICIT" == true ]]; then
+    echo "run_nessus_remote_validation: --portable-request and --command are mutually exclusive" >&2
+    exit 2
+  fi
+  if [[ ! -x "$PORTABLE_RUNNER" ]]; then
+    echo "run_nessus_remote_validation: portable runner is missing or not executable" >&2
+    exit 2
+  fi
+  PORTABLE_PLAN="$($PORTABLE_RUNNER adapter-plan nessus "$PORTABLE_REQUEST")" || {
+    echo "run_nessus_remote_validation: portable request was rejected" >&2
+    exit 2
+  }
+  COMMAND_STRING="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
+  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["source_ref"])')"
+  PORTABLE_EXPECTED_REVISION="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
+  PORTABLE_CPU_CORES="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["cpu_cores"])')"
+  PORTABLE_MEMORY_MIB="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["memory_mib"])')"
+  PORTABLE_TIMEOUT_SECONDS="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["timeout_seconds"])')"
+  PORTABLE_CANCELLATION_FILE="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("cancellation_file") or "")')"
+  PORTABLE_FALLBACK="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["fallback"])')"
+fi
+
 if [[ -z "$COMMAND_STRING" ]]; then
-  echo "run_nessus_remote_validation: --command is required" >&2
+  echo "run_nessus_remote_validation: --command or --portable-request is required" >&2
   usage >&2
   exit 2
 fi
@@ -165,6 +208,11 @@ if [[ -z "$RUN_ID" ]]; then
   RUN_ID="$(timestamp_id)"
 fi
 
+if [[ -n "$PORTABLE_CANCELLATION_FILE" && -e "$ROOT_DIR/$PORTABLE_CANCELLATION_FILE" ]]; then
+  echo "run_nessus_remote_validation: cancellation requested before remote execution" >&2
+  exit 130
+fi
+
 COMMAND_B64="$(printf "%s" "$COMMAND_STRING" | base64 | tr -d '\n')"
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/adl-nessus-remote-validation.XXXXXX")"
 REMOTE_SCRIPT="$TMP_DIR/remote_runner.sh"
@@ -183,20 +231,30 @@ SUMMARY_NAME="$6"
 BUILDER_IMAGE="$7"
 BUILDER_RUNTIME="$8"
 BUILDER_PULL_POLICY="$9"
+REQUIRED_CPU_CORES="${10}"
+REQUIRED_MEMORY_MIB="${11}"
+TIMEOUT_SECONDS="${12}"
+EXPECTED_REVISION="${13}"
 APT_SOURCES_LIST="${ADL_NESSUS_APT_SOURCES_LIST:-/etc/apt/sources.list}"
 APT_KUBERNETES_LIST="${ADL_NESSUS_APT_KUBERNETES_LIST:-/etc/apt/sources.list.d/kubernetes.list}"
 COMMAND_STRING="$(printf '%s' "$COMMAND_B64" | base64 -d)"
-RUN_ROOT="$REMOTE_ROOT/logs/$RUN_ID"
+RUN_ROOT="$REMOTE_ROOT/transient/$RUN_ID"
+PUBLISH_ROOT="$REMOTE_ROOT/logs/$RUN_ID"
 REPO_DIR="$REMOTE_ROOT/agent-design-language"
 CACHE_ROOT="$REMOTE_ROOT/cache"
 TARGET_DIR="$CACHE_ROOT/target"
 SCCACHE_DIR="$CACHE_ROOT/sccache"
-SUMMARY_PATH="$RUN_ROOT/$SUMMARY_NAME"
+SUMMARY_PATH="$PUBLISH_ROOT/$SUMMARY_NAME"
 WINDOWS_IDENTITY_FILE="$RUN_ROOT/windows-identity.txt"
 WSL_IDENTITY_FILE="$RUN_ROOT/wsl-identity.txt"
 STATUS="failed"
+FAILURE_CLASS="validation"
 RESOLVED_COMMIT="unknown"
 COMMAND_EXIT=1
+COMMAND_PID=""
+ACTIVE_CONTAINER_NAME=""
+COMMAND_CLEANUP_ATTEMPTED=false
+COMMAND_CLEANUP_COMPLETE=false
 RESOLVED_BUILDER_RUNTIME="none"
 BUILDER_IMAGE_LOCAL_PRESENT=false
 BUILDER_IMAGE_PULL_ATTEMPTED=false
@@ -206,8 +264,29 @@ KUBERNETES_BACKUP=""
 SOURCES_BACKUP=""
 START_EPOCH="$(date +%s)"
 START_ISO="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+CANCELLATION_MARKER="$RUN_ROOT/cancel.request"
+TIMEOUT_MARKER="$RUN_ROOT/timeout.request"
+RUNNER_PID_FILE="$RUN_ROOT/runner.pid"
 
 mkdir -p "$RUN_ROOT" "$CACHE_ROOT" "$TARGET_DIR" "$SCCACHE_DIR"
+printf '%s\n' "$$" >"$RUNNER_PID_FILE"
+
+if [[ -n "$REQUIRED_CPU_CORES" ]]; then
+  if command -v nproc >/dev/null 2>&1; then
+    AVAILABLE_CPU="$(nproc)"
+  else
+    AVAILABLE_CPU="$(getconf _NPROCESSORS_ONLN)"
+  fi
+  if [[ -r /proc/meminfo ]]; then
+    AVAILABLE_MEMORY_MIB="$(awk '/MemTotal:/ { print int($2 / 1024) }' /proc/meminfo)"
+  else
+    AVAILABLE_MEMORY_MIB="$(python3 -c 'import os; print(os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES") // 1024 // 1024)')"
+  fi
+  if (( AVAILABLE_CPU < REQUIRED_CPU_CORES || AVAILABLE_MEMORY_MIB < REQUIRED_MEMORY_MIB )); then
+    echo "remote machine does not satisfy portable CPU/memory request" >&2
+    exit 2
+  fi
+fi
 
 restore_apt_sources() {
   if [[ -n "$KUBERNETES_BACKUP" && -f "$KUBERNETES_BACKUP" ]]; then
@@ -226,10 +305,11 @@ write_summary() {
   end_iso="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   python3 - <<'PY' \
     "$SUMMARY_PATH" "$RUN_ID" "$STATUS" "$exit_code" "$START_ISO" "$end_iso" "$elapsed" \
-    "$REPO_URL" "$GIT_REF" "$RESOLVED_COMMIT" "$COMMAND_STRING" "$REMOTE_ROOT" "$RUN_ROOT" \
+    "$REPO_URL" "$GIT_REF" "$RESOLVED_COMMIT" "$COMMAND_STRING" "$REMOTE_ROOT" "$PUBLISH_ROOT" \
     "$REPO_DIR" "$TARGET_DIR" "$SCCACHE_DIR" "$BUILDER_IMAGE" "$BUILDER_RUNTIME" "$RESOLVED_BUILDER_RUNTIME" \
     "$BUILDER_PULL_POLICY" "$BUILDER_IMAGE_LOCAL_PRESENT" "$BUILDER_IMAGE_PULL_ATTEMPTED" \
-    "$APT_SOURCES_LIST" "$APT_KUBERNETES_LIST"
+    "$APT_SOURCES_LIST" "$APT_KUBERNETES_LIST" "$FAILURE_CLASS" \
+    "$COMMAND_CLEANUP_ATTEMPTED" "$COMMAND_CLEANUP_COMPLETE"
 import json
 import os
 import sys
@@ -260,6 +340,9 @@ from pathlib import Path
     builder_image_pull_attempted,
     apt_sources_list,
     apt_kubernetes_list,
+    failure_class,
+    cleanup_attempted,
+    cleanup_complete,
 ) = sys.argv[1:]
 
 run_root_path = Path(run_root)
@@ -281,12 +364,42 @@ if sccache_stats_path.exists():
         elif normalized.startswith("Cache misses ") and not normalized.startswith("Cache misses ("):
             cache_status["cache_misses"] = normalized.split()[-1]
 
-payload = {
+def redact(value):
+    import re
+    if isinstance(value, dict):
+        return {key: redact(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [redact(item) for item in value]
+    if isinstance(value, str):
+        value = re.sub(
+            r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*",
+            lambda match: f"<machine-path-redacted>/{Path(match.group(0)).name}",
+            value,
+        )
+        value = re.sub(r"arn:aws:[^\s,\"]*", "<aws-arn-redacted>", value)
+        value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
+        value = re.sub(r"\bi-[0-9a-f]{8,17}\b", "<instance-id-redacted>", value)
+        value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
+        value = re.sub(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b", "<aws-access-key-redacted>", value)
+        value = re.sub(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+", r"\1 <credential-redacted>", value)
+        value = re.sub(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b", "<github-token-redacted>", value)
+        value = re.sub(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+", "<secret-assignment-redacted>", value)
+        value = re.sub(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", "<private-key-redacted>", value, flags=re.DOTALL)
+        return value
+    return value
+
+payload = redact({
     "schema_version": "adl.remote_validation_run.v1",
     "runner": "nessus",
     "run_id": run_id,
     "status": status,
     "exit_code": int(exit_code),
+    "failure_class": failure_class,
+    "cleanup": {
+        "attempted": cleanup_attempted == "true",
+        "complete": cleanup_complete == "true",
+        "detail": None if cleanup_complete == "true" else "remote command termination was not observed",
+    },
     "started_at": started_at,
     "finished_at": finished_at,
     "elapsed_seconds": int(elapsed_seconds),
@@ -321,11 +434,83 @@ payload = {
         "windows_identity": os.path.join(run_root, "windows-identity.txt"),
         "wsl_identity": os.path.join(run_root, "wsl-identity.txt"),
     },
-}
+})
 
 with open(summary_path, "w", encoding="utf-8") as handle:
     json.dump(payload, handle, indent=2, sort_keys=True)
     handle.write("\n")
+PY
+}
+
+terminate_active_command() {
+  COMMAND_CLEANUP_ATTEMPTED=true
+  local container_cleanup_complete=true
+  if [[ -n "$ACTIVE_CONTAINER_NAME" ]]; then
+    "$RESOLVED_BUILDER_RUNTIME" rm -f "$ACTIVE_CONTAINER_NAME" >/dev/null 2>&1 || container_cleanup_complete=false
+  fi
+  if [[ -n "$COMMAND_PID" ]] && kill -0 "$COMMAND_PID" 2>/dev/null; then
+    kill -TERM -- "-$COMMAND_PID" 2>/dev/null || kill -TERM "$COMMAND_PID" 2>/dev/null || true
+    for _ in $(seq 1 50); do
+      kill -0 "$COMMAND_PID" 2>/dev/null || break
+      sleep 0.1
+    done
+    if kill -0 "$COMMAND_PID" 2>/dev/null; then
+      kill -KILL -- "-$COMMAND_PID" 2>/dev/null || kill -KILL "$COMMAND_PID" 2>/dev/null || true
+    fi
+    wait "$COMMAND_PID" 2>/dev/null || true
+  fi
+  if { [[ -z "$COMMAND_PID" ]] || ! kill -0 "$COMMAND_PID" 2>/dev/null; } && \
+    [[ "$container_cleanup_complete" == true ]]; then
+    COMMAND_CLEANUP_COMPLETE=true
+  fi
+}
+
+handle_control_signal() {
+  if [[ -e "$TIMEOUT_MARKER" ]]; then
+    STATUS="timed_out"
+    FAILURE_CLASS="timeout"
+    COMMAND_EXIT=124
+  else
+    STATUS="cancelled"
+    FAILURE_CLASS="cancelled"
+    COMMAND_EXIT=130
+  fi
+  terminate_active_command
+  exit "$COMMAND_EXIT"
+}
+
+redact_retained_logs() {
+  python3 - "$RUN_ROOT" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+patterns = (
+    (re.compile(r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*"), "<machine-path-redacted>"),
+    (re.compile(r"arn:aws:[^\s,\"]*"), "<aws-arn-redacted>"),
+    (re.compile(r"\b\d{12}\b"), "<account-id-redacted>"),
+    (re.compile(r"\bi-[0-9a-f]{8,17}\b"), "<instance-id-redacted>"),
+    (re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b"), "<ip-address-redacted>"),
+    (re.compile(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b"), "<aws-access-key-redacted>"),
+    (re.compile(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+"), r"\1 <credential-redacted>"),
+    (re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b"), "<github-token-redacted>"),
+    (re.compile(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+"), "<secret-assignment-redacted>"),
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", re.DOTALL), "<private-key-redacted>"),
+)
+for path in root.glob("*"):
+    if not path.is_file() or path.name in {"runner.pid", "cancel.request", "timeout.request"}:
+        continue
+    text = path.read_text(encoding="utf-8", errors="replace")
+    for pattern, replacement in patterns:
+        if replacement == "<machine-path-redacted>":
+            text = pattern.sub(
+                lambda match: f"<machine-path-redacted>/{Path(match.group(0)).name}",
+                text,
+            )
+        else:
+            text = pattern.sub(replacement, text)
+    path.write_text(text, encoding="utf-8")
 PY
 }
 
@@ -336,11 +521,25 @@ finish() {
     sccache --show-stats >"$RUN_ROOT/sccache-stats.log" 2>&1
   fi
   restore_apt_sources
+  redact_retained_logs
+  mkdir -p "$PUBLISH_ROOT"
+  python3 - "$RUN_ROOT" "$PUBLISH_ROOT" <<'PY'
+import shutil
+import sys
+from pathlib import Path
+
+source, destination = map(Path, sys.argv[1:])
+for path in source.glob("*"):
+    if path.is_file() and path.name not in {"runner.pid", "cancel.request", "timeout.request"}:
+        shutil.copyfile(path, destination / path.name)
+PY
   write_summary "$exit_code"
+  rm -rf "$RUN_ROOT"
   exit "$exit_code"
 }
 
 trap 'finish $?' EXIT
+trap 'handle_control_signal' TERM INT HUP
 
 printf '%s\n' "${ADL_NESSUS_WINDOWS_IDENTITY:-unknown}" >"$WINDOWS_IDENTITY_FILE"
 whoami >"$WSL_IDENTITY_FILE"
@@ -391,6 +590,19 @@ resolve_builder_runtime() {
 
 run_in_builder_image() {
   local command="$1"
+  if [[ -n "$ACTIVE_CONTAINER_NAME" ]]; then
+    "$RESOLVED_BUILDER_RUNTIME" run --rm --name "$ACTIVE_CONTAINER_NAME" \
+      -v "$REPO_DIR:/workspace" \
+      -v "$TARGET_DIR:/workspace/target" \
+      -v "$SCCACHE_DIR:/cache/sccache" \
+      -e CARGO_TARGET_DIR=/workspace/target \
+      -e SCCACHE_DIR=/cache/sccache \
+      -e RUSTC_WRAPPER=sccache \
+      -w /workspace \
+      "$BUILDER_IMAGE" \
+      "$command"
+    return
+  fi
   "$RESOLVED_BUILDER_RUNTIME" run --rm \
     -v "$REPO_DIR:/workspace" \
     -v "$TARGET_DIR:/workspace/target" \
@@ -512,11 +724,16 @@ git -C "$REPO_DIR" reset --hard HEAD >"$RUN_ROOT/git-reset.log" 2>&1
 git -C "$REPO_DIR" clean -fd >"$RUN_ROOT/git-clean.log" 2>&1
 git -C "$REPO_DIR" fetch origin --prune >"$RUN_ROOT/git-fetch.log" 2>&1
 CHECKOUT_REF="$GIT_REF"
-if git -C "$REPO_DIR" show-ref --verify --quiet "refs/remotes/origin/$GIT_REF"; then
-  CHECKOUT_REF="origin/$GIT_REF"
+REMOTE_REF="${GIT_REF#refs/heads/}"
+if git -C "$REPO_DIR" show-ref --verify --quiet "refs/remotes/origin/$REMOTE_REF"; then
+  CHECKOUT_REF="origin/$REMOTE_REF"
 fi
 git -C "$REPO_DIR" checkout --detach "$CHECKOUT_REF" >"$RUN_ROOT/git-checkout.log" 2>&1
 RESOLVED_COMMIT="$(git -C "$REPO_DIR" rev-parse HEAD)"
+if [[ -n "$EXPECTED_REVISION" && "$RESOLVED_COMMIT" != "$EXPECTED_REVISION" ]]; then
+  echo "resolved revision does not match portable request" >&2
+  exit 2
+fi
 
 export CARGO_TARGET_DIR="$TARGET_DIR"
 export SCCACHE_DIR
@@ -535,21 +752,53 @@ if [[ -z "$BUILDER_IMAGE" ]]; then
   fi
 fi
 
+RUN_COMMAND="$COMMAND_STRING"
 if [[ -n "$BUILDER_IMAGE" ]]; then
-  if run_in_builder_image "$COMMAND_STRING" >"$RUN_ROOT/command.log" 2>&1; then
-    COMMAND_EXIT=0
-    STATUS="passed"
-  else
-    COMMAND_EXIT=$?
-    STATUS="failed"
-  fi
-  run_in_builder_image "sccache --show-stats" >"$RUN_ROOT/sccache-stats.log" 2>&1 || true
-elif bash -lc "cd '$REPO_DIR' && $COMMAND_STRING" >"$RUN_ROOT/command.log" 2>&1; then
-  COMMAND_EXIT=0
-  STATUS="passed"
+  ACTIVE_CONTAINER_NAME="adl-nessus-${RUN_ID//[^a-zA-Z0-9_.-]/-}"
+  ACTIVE_CONTAINER_NAME="${ACTIVE_CONTAINER_NAME:0:63}"
+  run_in_builder_image "$RUN_COMMAND" >"$RUN_ROOT/command.log" 2>&1 &
 else
+  if command -v setsid >/dev/null 2>&1; then
+    setsid bash -lc "cd '$REPO_DIR' && $RUN_COMMAND" >"$RUN_ROOT/command.log" 2>&1 &
+  else
+    bash -lc "cd '$REPO_DIR' && $RUN_COMMAND" >"$RUN_ROOT/command.log" 2>&1 &
+  fi
+fi
+COMMAND_PID=$!
+while kill -0 "$COMMAND_PID" 2>/dev/null; do
+  if [[ -e "$CANCELLATION_MARKER" ]]; then
+    STATUS="cancelled"
+    FAILURE_CLASS="cancelled"
+    COMMAND_EXIT=130
+    terminate_active_command
+    break
+  fi
+  if [[ -n "$TIMEOUT_SECONDS" ]] && (( $(date +%s) - START_EPOCH >= TIMEOUT_SECONDS )); then
+    STATUS="timed_out"
+    FAILURE_CLASS="timeout"
+    COMMAND_EXIT=124
+    terminate_active_command
+    break
+  fi
+  sleep 0.1
+done
+if [[ "$COMMAND_EXIT" -ne 124 && "$COMMAND_EXIT" -ne 130 ]]; then
+  set +e
+  wait "$COMMAND_PID"
   COMMAND_EXIT=$?
-  STATUS="failed"
+  set -e
+  COMMAND_CLEANUP_ATTEMPTED=true
+  COMMAND_CLEANUP_COMPLETE=true
+  if [[ "$COMMAND_EXIT" -eq 0 ]]; then
+    STATUS="passed"
+    FAILURE_CLASS="none"
+  else
+    STATUS="failed"
+    FAILURE_CLASS="validation"
+  fi
+fi
+if [[ -n "$BUILDER_IMAGE" ]]; then
+  run_in_builder_image "sccache --show-stats" >"$RUN_ROOT/sccache-stats.log" 2>&1 || true
 fi
 
 exit "$COMMAND_EXIT"
@@ -557,17 +806,18 @@ EOF
 chmod +x "$REMOTE_SCRIPT"
 
 REMOTE_SUMMARY_PATH="$REMOTE_ROOT/logs/$RUN_ID/$SUMMARY_NAME"
-REMOTE_RUN_ROOT="$REMOTE_ROOT/logs/$RUN_ID"
+REMOTE_RUN_ROOT="$REMOTE_ROOT/transient/$RUN_ID"
+REMOTE_PUBLISH_ROOT="$REMOTE_ROOT/logs/$RUN_ID"
 LOCAL_SUMMARY_PATH=""
 
 run_remote() {
   if [[ "$EXECUTOR" == "ssh" ]]; then
     local remote_cmd
-    remote_cmd="wsl.exe -u $WSL_USER -- bash -s -- '$(quote_remote_single "$REMOTE_ROOT")' '$(quote_remote_single "$REPO_URL")' '$(quote_remote_single "$GIT_REF")' '$(quote_remote_single "$RUN_ID")' '$(quote_remote_single "$COMMAND_B64")' '$(quote_remote_single "$SUMMARY_NAME")' '$(quote_remote_single "$BUILDER_IMAGE")' '$(quote_remote_single "$BUILDER_RUNTIME")' '$(quote_remote_single "$BUILDER_PULL_POLICY")'"
+    remote_cmd="wsl.exe -u $WSL_USER -- bash -s -- '$(quote_remote_single "$REMOTE_ROOT")' '$(quote_remote_single "$REPO_URL")' '$(quote_remote_single "$GIT_REF")' '$(quote_remote_single "$RUN_ID")' '$(quote_remote_single "$COMMAND_B64")' '$(quote_remote_single "$SUMMARY_NAME")' '$(quote_remote_single "$BUILDER_IMAGE")' '$(quote_remote_single "$BUILDER_RUNTIME")' '$(quote_remote_single "$BUILDER_PULL_POLICY")' '$(quote_remote_single "$PORTABLE_CPU_CORES")' '$(quote_remote_single "$PORTABLE_MEMORY_MIB")' '$(quote_remote_single "$PORTABLE_TIMEOUT_SECONDS")' '$(quote_remote_single "$PORTABLE_EXPECTED_REVISION")'"
     "$SSH_BIN" -o BatchMode=yes -o ConnectTimeout=15 "${SSH_USER}@${HOST}" "$remote_cmd" <"$REMOTE_SCRIPT"
   else
     ADL_NESSUS_WINDOWS_IDENTITY="local-executor" bash "$REMOTE_SCRIPT" \
-      "$REMOTE_ROOT" "$REPO_URL" "$GIT_REF" "$RUN_ID" "$COMMAND_B64" "$SUMMARY_NAME" "$BUILDER_IMAGE" "$BUILDER_RUNTIME" "$BUILDER_PULL_POLICY"
+      "$REMOTE_ROOT" "$REPO_URL" "$GIT_REF" "$RUN_ID" "$COMMAND_B64" "$SUMMARY_NAME" "$BUILDER_IMAGE" "$BUILDER_RUNTIME" "$BUILDER_PULL_POLICY" "$PORTABLE_CPU_CORES" "$PORTABLE_MEMORY_MIB" "$PORTABLE_TIMEOUT_SECONDS" "$PORTABLE_EXPECTED_REVISION"
   fi
 }
 
@@ -586,10 +836,10 @@ fetch_logs_tarball() {
   local destination="$1"
   if [[ "$EXECUTOR" == "ssh" ]]; then
     local remote_cmd
-    remote_cmd="wsl.exe -u $WSL_USER -- bash -lc 'tar -C '\''$(quote_remote_single "$REMOTE_RUN_ROOT")'\'' -czf - .'"
+    remote_cmd="wsl.exe -u $WSL_USER -- bash -lc 'tar -C '\''$(quote_remote_single "$REMOTE_PUBLISH_ROOT")'\'' -czf - .'"
     "$SSH_BIN" -o BatchMode=yes -o ConnectTimeout=15 "${SSH_USER}@${HOST}" "$remote_cmd" >"$destination"
   else
-    tar -C "$REMOTE_RUN_ROOT" -czf "$destination" .
+    tar -C "$REMOTE_PUBLISH_ROOT" -czf "$destination" .
   fi
 }
 
@@ -622,6 +872,12 @@ payload = {
     "run_id": run_id,
     "status": "failed",
     "exit_code": int(exit_code),
+    "failure_class": "provider_availability",
+    "cleanup": {
+        "attempted": False,
+        "complete": False,
+        "detail": "transport failed before remote process cleanup could be observed",
+    },
     "command": command,
     "repo_url": repo_url,
     "git_ref": git_ref,
@@ -663,16 +919,85 @@ payload = {
     "apt_kubernetes_list": "unknown",
 }
 
+def redact(value):
+    import re
+    if isinstance(value, dict):
+        return {key: redact(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [redact(item) for item in value]
+    if isinstance(value, str):
+        value = re.sub(r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*", "<machine-path-redacted>", value)
+        value = re.sub(r"arn:aws:[^\s,\"]*", "<aws-arn-redacted>", value)
+        value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
+        value = re.sub(r"\bi-[0-9a-f]{8,17}\b", "<instance-id-redacted>", value)
+        value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
+        value = re.sub(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b", "<aws-access-key-redacted>", value)
+        value = re.sub(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+", r"\1 <credential-redacted>", value)
+        value = re.sub(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b", "<github-token-redacted>", value)
+        value = re.sub(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+", "<secret-assignment-redacted>", value)
+        value = re.sub(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", "<private-key-redacted>", value, flags=re.DOTALL)
+    return value
+
 with open(destination, "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2, sort_keys=True)
+    json.dump(redact(payload), handle, indent=2, sort_keys=True)
     handle.write("\n")
 PY
 }
 
+STARTED_UNIX_MS="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"
+signal_remote_stop() {
+  local reason="$1"
+  local marker="$REMOTE_RUN_ROOT/${reason}.request"
+  local pid_file="$REMOTE_RUN_ROOT/runner.pid"
+  if [[ "$EXECUTOR" == "ssh" ]]; then
+    local remote_cmd
+    remote_cmd="wsl.exe -u $WSL_USER -- bash -lc 'mkdir -p '\''$(quote_remote_single "$REMOTE_RUN_ROOT")'\''; touch '\''$(quote_remote_single "$marker")'\''; if [[ -s '\''$(quote_remote_single "$pid_file")'\'' ]]; then kill -TERM \$(cat '\''$(quote_remote_single "$pid_file")'\'') 2>/dev/null || true; fi'"
+    "$SSH_BIN" -o BatchMode=yes -o ConnectTimeout=15 "${SSH_USER}@${HOST}" "$remote_cmd" >/dev/null 2>&1 || return 1
+  else
+    mkdir -p "$REMOTE_RUN_ROOT"
+    touch "$marker"
+    if [[ -s "$pid_file" ]]; then
+      kill -TERM "$(cat "$pid_file")" 2>/dev/null || true
+    fi
+  fi
+}
+
 set +e
-run_remote
+run_remote &
+TRANSPORT_PID=$!
+set -e
+CONTROL_EXIT=""
+while kill -0 "$TRANSPORT_PID" 2>/dev/null; do
+  if [[ -n "$PORTABLE_CANCELLATION_FILE" && -e "$ROOT_DIR/$PORTABLE_CANCELLATION_FILE" ]]; then
+    CONTROL_EXIT=130
+    signal_remote_stop cancel || true
+    break
+  fi
+  if [[ -n "$PORTABLE_TIMEOUT_SECONDS" ]] && \
+    (( $(python3 -c 'import time; print(time.time_ns() // 1000000)') - STARTED_UNIX_MS >= PORTABLE_TIMEOUT_SECONDS * 1000 )); then
+    CONTROL_EXIT=124
+    signal_remote_stop timeout || true
+    break
+  fi
+  sleep 0.1
+done
+if [[ -n "$CONTROL_EXIT" ]]; then
+  for _ in $(seq 1 50); do
+    kill -0 "$TRANSPORT_PID" 2>/dev/null || break
+    sleep 0.1
+  done
+  if kill -0 "$TRANSPORT_PID" 2>/dev/null; then
+    kill -TERM "$TRANSPORT_PID" 2>/dev/null || true
+  fi
+fi
+set +e
+wait "$TRANSPORT_PID"
 RUN_EXIT=$?
 set -e
+if [[ -n "$CONTROL_EXIT" ]]; then
+  RUN_EXIT="$CONTROL_EXIT"
+fi
+FINISHED_UNIX_MS="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"
 
 SUMMARY_FETCH_OK=true
 if [[ -n "$LOCAL_ARTIFACT_DIR" ]]; then
@@ -707,13 +1032,147 @@ if [[ -n "$LOCAL_ARTIFACT_DIR" ]]; then
   fi
 fi
 
-python3 - <<'PY' "$LOCAL_SUMMARY_PATH"
+if [[ -n "$PORTABLE_REQUEST" ]]; then
+  PORTABLE_ARTIFACT_ROOT="${LOCAL_ARTIFACT_DIR:-$TMP_DIR}/portable-artifacts"
+  PORTABLE_EXECUTION="${LOCAL_ARTIFACT_DIR:-$TMP_DIR}/portable-execution.json"
+  PORTABLE_RESULT="${LOCAL_ARTIFACT_DIR:-$TMP_DIR}/portable-result.json"
+  mkdir -p "$PORTABLE_ARTIFACT_ROOT"
+  python3 - "$PORTABLE_REQUEST" "$LOCAL_SUMMARY_PATH" "$PORTABLE_ARTIFACT_ROOT" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+request_path, summary_path, artifact_root = map(Path, sys.argv[1:])
+request = json.loads(request_path.read_text(encoding="utf-8"))
+summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+def redact(value):
+    if isinstance(value, dict):
+        return {key: redact(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [redact(item) for item in value]
+    if isinstance(value, str):
+        value = re.sub(r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*", "<machine-path-redacted>", value)
+        value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
+        value = re.sub(r"arn:aws:[^\s,\"]*", "<aws-arn-redacted>", value)
+        value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
+        value = re.sub(r"\bi-[0-9a-f]{8,17}\b", "<instance-id-redacted>", value)
+        value = re.sub(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b", "<aws-access-key-redacted>", value)
+        value = re.sub(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+", r"\1 <credential-redacted>", value)
+        value = re.sub(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b", "<github-token-redacted>", value)
+        value = re.sub(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+", "<secret-assignment-redacted>", value)
+        value = re.sub(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", "<private-key-redacted>", value, flags=re.DOTALL)
+        return value
+    return value
+
+summary = redact(summary)
+paths = request["artifact_policy"]["paths"]
+for index, relative in enumerate(paths):
+    destination = artifact_root / relative
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if index == 0:
+        destination.write_text(json.dumps(summary, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+PY
+  python3 - "$PORTABLE_EXECUTION" "$PORTABLE_REQUEST" "$PORTABLE_EXPECTED_REVISION" \
+    "$STARTED_UNIX_MS" "$FINISHED_UNIX_MS" "$RUN_EXIT" "$SUMMARY_FETCH_OK" "$EXECUTOR" \
+    "$LOCAL_SUMMARY_PATH" "${LOCAL_ARTIFACT_DIR:-$TMP_DIR}/run-logs.tar.gz" <<'PY'
+import json
+import re
+import sys
+import tarfile
+from pathlib import Path
+
+path, request_path, revision, started, finished, exit_code, summary_fetch, executor, summary_path, archive_path = sys.argv[1:]
+request = json.load(open(request_path, encoding="utf-8"))
+summary = json.load(open(summary_path, encoding="utf-8"))
+exit_code = int(exit_code)
+passed = exit_code == 0 and summary_fetch == "true"
+failure_class = summary.get("failure_class", "unknown")
+cleanup = summary.get("cleanup") or {
+    "attempted": False,
+    "complete": False,
+    "detail": "provider cleanup was not observed",
+}
+if passed:
+    outcome = "passed"
+elif exit_code == 130 or failure_class == "cancelled":
+    outcome = "cancelled"
+elif exit_code == 124 or failure_class == "timeout":
+    outcome = "timed_out"
+elif failure_class in {"provider_availability", "authentication", "capacity"}:
+    outcome = "provider_unavailable"
+else:
+    outcome = "failed"
+fallback_allowed = (
+    outcome == "provider_unavailable"
+    and cleanup.get("complete") is True
+    and request["fallback"] != "disabled"
+)
+sensitive_patterns = tuple(re.compile(pattern) for pattern in (
+    r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/",
+    r"arn:aws:",
+    r"\b\d{12}\b",
+    r"\bi-[0-9a-f]{8,17}\b",
+    r"\b(?:\d{1,3}\.){3}\d{1,3}\b",
+    r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b",
+    r"(?i)\b(?:Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+",
+    r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b",
+    r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+",
+    r"-----BEGIN [A-Z ]*PRIVATE KEY-----",
+))
+retained_text = [json.dumps(summary, sort_keys=True)]
+archive = Path(archive_path)
+if archive.is_file() and tarfile.is_tarfile(archive):
+    with tarfile.open(archive, "r:gz") as handle:
+        for member in handle.getmembers():
+            if not member.isfile():
+                continue
+            extracted = handle.extractfile(member)
+            if extracted is not None:
+                retained_text.append(extracted.read().decode("utf-8", errors="replace"))
+redaction_passed = not any(
+    pattern.search(text)
+    for text in retained_text
+    for pattern in sensitive_patterns
+)
+payload = {
+    "schema": "adl.remote_validation.adapter_execution.v1",
+    "adapter": "nessus",
+    "platform": {
+        "os": request["requested_platform"],
+        "architecture": "x86_64",
+        "native": executor == "ssh",
+        "qualification": "live" if executor == "ssh" else "fixture",
+    },
+    "revision": revision,
+    "started_unix_ms": int(started),
+    "finished_unix_ms": int(finished),
+    "exit_code": exit_code,
+    "outcome": outcome,
+    "redaction_passed": redaction_passed,
+    "cleanup": cleanup,
+    "fallback": {
+        "policy": request["fallback"],
+        "offered": fallback_allowed,
+        "ran": False,
+        "local_profile_digest": None,
+    },
+}
+with open(path, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+  "$PORTABLE_RUNNER" canonical-result "$PORTABLE_REQUEST" "$PORTABLE_EXECUTION" "$PORTABLE_ARTIFACT_ROOT" >"$PORTABLE_RESULT"
+  cat "$PORTABLE_RESULT"
+else
+  python3 - <<'PY' "$LOCAL_SUMMARY_PATH"
 import json
 import sys
 
 summary = json.load(open(sys.argv[1], encoding="utf-8"))
 print(json.dumps(summary, indent=2, sort_keys=True))
 PY
+fi
 
 if [[ "$RUN_EXIT" -ne 0 ]]; then
   if [[ "$SUMMARY_FETCH_OK" == true ]]; then

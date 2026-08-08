@@ -1,0 +1,15 @@
+{
+  "schema": "adl.wp06.operator_authorization.v1",
+  "issue": 5823,
+  "source": "operator instruction in the active Codex task",
+  "authorization": "Operator authorization for #5823: execute the declared native Linux AWS proof now under business profile agent-logic-admin, bounded by the request's 900-second timeout and USD $0.20 maximum. Verify business account identity first, retain receipt, terminate resources immediately after proof, and continue focused validation/publication. Do not use personal/default AWS and do not widen scope.",
+  "authorized_profile": "agent-logic-admin",
+  "timeout_seconds": 900,
+  "maximum_cost_usd": 0.2,
+  "business_identity_verification_required": true,
+  "immediate_resource_cleanup_required": true,
+  "personal_or_default_profile_forbidden": true,
+  "run_id": "adl-wp-5823-linux-native-7868fe91",
+  "recorded_after_run": true,
+  "credentials_retained": false
+}

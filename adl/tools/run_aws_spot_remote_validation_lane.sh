@@ -23,7 +23,19 @@ REGION="${AWS_REGION:-us-west-2}"
 ISSUE="5191"
 RUN_ID="adl-wp-5191-aws-spot-$(date -u +%Y%m%d%H%M%S)"
 COMMAND=""
+COMMAND_EXPLICIT=false
 GIT_REF=""
+GIT_REF_EXPLICIT=false
+PORTABLE_REQUEST=""
+PORTABLE_RUNNER="${ADL_REMOTE_VALIDATION_BIN:-}"
+PORTABLE_MAX_COST_USD=""
+PORTABLE_EXPECTED_REVISION=""
+PORTABLE_CPU_CORES=""
+PORTABLE_MEMORY_MIB=""
+PORTABLE_CANCELLATION_FILE=""
+PORTABLE_FALLBACK=""
+PORTABLE_PROFILE_DIGEST=""
+PORTABLE_ARTIFACT_POLICY_JSON=""
 SOURCE_COMMIT=""
 REPO_URL="https://github.com/agent-logic/agent-design-language.git"
 OUT_PATH=""
@@ -85,6 +97,8 @@ Options:
   --issue <number>              Issue recorded in the summary. Defaults to 5191.
   --run-id <id>                 Stable run id for artifacts.
   --command <shell-command>     Remote validation command to run.
+  --portable-request <path>     Portable request JSON; mutually exclusive with command/ref overrides.
+  --portable-runner <path>      adl-remote-validation binary for portable requests.
   --git-ref <ref>               Remote git ref. Defaults to current branch/ref.
   --repo-url <url>              Remote ADL repository URL.
   --out <path>                  Summary JSON path. Defaults under .adl/tmp.
@@ -172,10 +186,20 @@ while [[ $# -gt 0 ]]; do
       ;;
     --command)
       COMMAND="${2:-}"
+      COMMAND_EXPLICIT=true
+      shift 2
+      ;;
+    --portable-request)
+      PORTABLE_REQUEST="${2:-}"
+      shift 2
+      ;;
+    --portable-runner)
+      PORTABLE_RUNNER="${2:-}"
       shift 2
       ;;
     --git-ref)
       GIT_REF="${2:-}"
+      GIT_REF_EXPLICIT=true
       shift 2
       ;;
     --repo-url)
@@ -319,6 +343,37 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ -n "$PORTABLE_REQUEST" ]]; then
+  if [[ "$COMMAND_EXPLICIT" == true || "$GIT_REF_EXPLICIT" == true ]]; then
+    echo "run_aws_spot_remote_validation_lane: portable request conflicts with command/ref overrides" >&2
+    exit 2
+  fi
+  if [[ ! -x "$PORTABLE_RUNNER" ]]; then
+    echo "run_aws_spot_remote_validation_lane: portable runner is missing or not executable" >&2
+    exit 2
+  fi
+  PORTABLE_PLAN="$($PORTABLE_RUNNER adapter-plan aws "$PORTABLE_REQUEST")" || {
+    echo "run_aws_spot_remote_validation_lane: portable request was rejected" >&2
+    exit 2
+  }
+  COMMAND="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
+  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["source_ref"])')"
+  PORTABLE_EXPECTED_REVISION="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
+  MAX_RUN_SECONDS="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["timeout_seconds"])')"
+  PORTABLE_MAX_COST_USD="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; value=json.load(sys.stdin)["resource_budget"].get("estimated_max_cost_microusd"); print("" if value is None else format(value / 1000000, ".6f"))')"
+  PORTABLE_CPU_CORES="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["cpu_cores"])')"
+  PORTABLE_MEMORY_MIB="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["memory_mib"])')"
+  PORTABLE_CANCELLATION_FILE="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("cancellation_file") or "")')"
+  PORTABLE_FALLBACK="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["fallback"])')"
+  PORTABLE_PROFILE_DIGEST="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["command_profile_digest"])')"
+  PORTABLE_ARTIFACT_POLICY_JSON="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)["artifact_policy"], separators=(",", ":")))')"
+fi
+
+if [[ -n "$PORTABLE_MAX_COST_USD" && -z "$ESTIMATED_HOURLY_COST_USD" && "$RUN" != true && "$ACTION" != "preflight" ]]; then
+  echo "run_aws_spot_remote_validation_lane: portable AWS planning requires --estimated-hourly-cost-usd" >&2
+  exit 2
+fi
+
 if [[ "$ACTION" == "launch" ]]; then
   RUN=true
 elif [[ "$ACTION" == "preflight" ]]; then
@@ -358,6 +413,14 @@ SOURCE_COMMIT="$(git -C "$ROOT" rev-parse "${GIT_REF}^{commit}" 2>/dev/null || t
 if [[ "$RUN" == true && ! "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
   echo "run_aws_spot_remote_validation_lane: --git-ref must resolve to a committed source revision" >&2
   exit 2
+fi
+if [[ -n "$PORTABLE_EXPECTED_REVISION" && "$SOURCE_COMMIT" != "$PORTABLE_EXPECTED_REVISION" ]]; then
+  echo "run_aws_spot_remote_validation_lane: portable source ref does not resolve to requested revision" >&2
+  exit 2
+fi
+if [[ -n "$PORTABLE_CANCELLATION_FILE" && -e "$ROOT/$PORTABLE_CANCELLATION_FILE" ]]; then
+  echo "run_aws_spot_remote_validation_lane: portable cancellation requested before provider use" >&2
+  exit 130
 fi
 
 if [[ -z "$OUT_PATH" ]]; then
@@ -469,6 +532,42 @@ resolve_spot_hourly_cost() {
     echo "run_aws_spot_remote_validation_lane: failed to resolve Spot hourly price" >&2
     return 1
   fi
+}
+
+validate_portable_capacity_and_cost() {
+  [[ -n "$PORTABLE_REQUEST" ]] || return 0
+  [[ "$PORTABLE_MAX_COST_USD" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
+    echo "run_aws_spot_remote_validation_lane: portable AWS request requires a nonzero cost ceiling" >&2
+    return 2
+  }
+  python3 - "$PORTABLE_MAX_COST_USD" "$ESTIMATED_HOURLY_COST_USD" "$MAX_RUN_SECONDS" <<'PY'
+import sys
+ceiling, hourly, seconds = float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3])
+projected = hourly * seconds / 3600.0
+if ceiling <= 0:
+    raise SystemExit("run_aws_spot_remote_validation_lane: portable AWS cost ceiling must be greater than zero")
+if projected > ceiling:
+    raise SystemExit(
+        f"run_aws_spot_remote_validation_lane: projected cost ${projected:.6f} exceeds portable ceiling ${ceiling:.6f}"
+    )
+PY
+  local profile_args=() instance_type capacity
+  if [[ "$PROFILE" != "env" && "$PROFILE" != "environment" ]]; then
+    profile_args=(--profile "$PROFILE")
+  fi
+  for instance_type in "${INSTANCE_TYPES[@]}"; do
+    capacity="$("$AWS_CLI" ec2 describe-instance-types "${profile_args[@]}" --region "$REGION" \
+      --instance-types "$instance_type" --query 'InstanceTypes[0].[VCpuInfo.DefaultVCpus,MemoryInfo.SizeInMiB]' --output text)"
+    python3 - "$instance_type" "$capacity" "$PORTABLE_CPU_CORES" "$PORTABLE_MEMORY_MIB" <<'PY'
+import sys
+instance_type, capacity, required_cpu, required_memory = sys.argv[1:]
+parts = capacity.split()
+if len(parts) != 2 or int(parts[0]) < int(required_cpu) or int(parts[1]) < int(required_memory):
+    raise SystemExit(
+        f"run_aws_spot_remote_validation_lane: instance type {instance_type} does not satisfy portable CPU/memory request"
+    )
+PY
+  done
 }
 
 resolve_and_verify_retained_topology() {
@@ -624,7 +723,8 @@ redact_stream() {
     -e 's/i-[0-9a-f]{8,17}/<ec2-instance-id-redacted>/g' \
     -e 's/vol-[0-9a-f]{8,17}/<ebs-volume-id-redacted>/g' \
     -e 's/(vpc|subnet|sg|sir)-[0-9a-f]{8,17}/<aws-resource-id-redacted>/g' \
-    -e 's/([0-9]{1,3}\.){3}[0-9]{1,3}/<ip-address-redacted>/g'
+    -e 's/([0-9]{1,3}\.){3}[0-9]{1,3}/<ip-address-redacted>/g' \
+    -e 's#/(Users|Volumes|private|tmp)/[^[:space:],"]*#<machine-path-redacted>#g'
 }
 
 manager_is_active() {
@@ -760,6 +860,7 @@ fi
 if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
   resolve_builder_image
   resolve_spot_hourly_cost
+  validate_portable_capacity_and_cost
   resolve_and_verify_retained_topology
   verify_ssh_recovery_key
 fi
@@ -849,6 +950,18 @@ if [[ -n "$MAX_RUN_SECONDS" ]]; then
   cmd+=(--command-timeout-seconds "$MAX_RUN_SECONDS")
 fi
 
+if [[ -n "$PORTABLE_MAX_COST_USD" ]]; then
+  cmd+=(
+    --expected-max-cost-usd "$PORTABLE_MAX_COST_USD"
+    --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD"
+    --total-run-timeout-seconds "$MAX_RUN_SECONDS"
+    --spot-only
+  )
+fi
+if [[ -n "$PORTABLE_CANCELLATION_FILE" ]]; then
+  cmd+=(--cancellation-file "$ROOT/$PORTABLE_CANCELLATION_FILE")
+fi
+
 for instance_type in ${INSTANCE_TYPES[@]+"${INSTANCE_TYPES[@]}"}; do
   cmd+=(--instance-type "$instance_type")
 done
@@ -875,18 +988,25 @@ fi
 
 execute_run() {
   mkdir -p "$(dirname "$OUT_PATH")" "$ARTIFACT_DIR"
+  mkdir -p "$ARTIFACT_DIR/.private"
+  chmod 700 "$ARTIFACT_DIR/.private"
   local runner_stdout="$ARTIFACT_DIR/runner.stdout.log"
   local runner_stderr="$ARTIFACT_DIR/runner.stderr.log"
-  local runner_status finalize_status wrapper_summary
+  local runner_status finalize_status wrapper_summary started_unix_ms finished_unix_ms
+
+  started_unix_ms="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"
 
   set +e
-  # Stream manager output to the live CI log while retaining redacted artifacts.
-  # Do not hide remote progress behind a file-only redirect.
-  "${cmd[@]}" \
-    > >(tee "$runner_stdout") \
-    2> >(tee "$runner_stderr" >&2)
+  # Retain stdout and stderr separately without relying on /dev/fd process
+  # substitution, which is unavailable on some bounded runners.
+  ADL_SSH_KNOWN_HOSTS_FILE="$ARTIFACT_DIR/.private/ssh-known-hosts" \
+    "${cmd[@]}" >"$runner_stdout" 2>"$runner_stderr"
   runner_status="$?"
   set -e
+  if [[ -z "$PORTABLE_REQUEST" ]]; then
+    redact_stream <"$runner_stdout"
+  fi
+  redact_stream <"$runner_stderr" >&2
 
   wrapper_summary="$ARTIFACT_DIR/wrapper-final-summary.json"
   finalize_status=0
@@ -900,41 +1020,97 @@ execute_run() {
     --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD" \
     --runner-exit-code "$runner_status" \
     >"$ARTIFACT_DIR/finalize.out" 2>"$ARTIFACT_DIR/finalize.err" || finalize_status="$?"
+  finished_unix_ms="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"
 
-  python3 - <<'PY' "$runner_stdout"
+  redact_stream <"$ARTIFACT_DIR/finalize.err" >&2
+  printf 'aws_spot_remote_validation_wrapper_summary=%s\n' "$wrapper_summary" | redact_stream >&2
+  if [[ -n "$PORTABLE_REQUEST" ]]; then
+    local portable_artifact_root="$ARTIFACT_DIR/portable-artifacts"
+    local execution_receipt="$ARTIFACT_DIR/portable-execution.json"
+    local portable_result="$ARTIFACT_DIR/portable-result.json"
+    mkdir -p "$portable_artifact_root"
+    python3 - "$PORTABLE_REQUEST" "$wrapper_summary" "$ARTIFACT_DIR" "$portable_artifact_root" <<'PY'
 import json
-import re
+import shutil
 import sys
 from pathlib import Path
 
-path = Path(sys.argv[1])
-text = path.read_text(encoding="utf-8", errors="replace")
-try:
-    payload = json.loads(text)
-except json.JSONDecodeError:
-    redacted = re.sub(r"\b\d{12}\b", "<aws-account-id-redacted>", text)
-    redacted = re.sub(r"arn:aws:[^\s,\"]+", "<aws-arn-redacted>", redacted)
-    print(redacted, end="")
-    raise SystemExit(0)
-
-identity = payload.get("account_identity")
-if isinstance(identity, dict):
-    for key in ("account_id", "arn", "user_id"):
-        if key in identity:
-            identity[key] = "<redacted>"
-for container_key in ("command",):
-    container = payload.get(container_key)
-    if isinstance(container, dict):
-        for key in ("stdout_preview", "stderr_preview", "output_preview"):
-            if key in container and isinstance(container[key], str):
-                container[key] = re.sub(r"\b\d{12}\b", "<aws-account-id-redacted>", container[key])
-                container[key] = re.sub(r"arn:aws:[^\s,\"]+", "<aws-arn-redacted>", container[key])
-print(json.dumps(payload, indent=2, sort_keys=False))
+request_path, wrapper_path, artifact_dir, portable_root = map(Path, sys.argv[1:])
+request = json.loads(request_path.read_text(encoding="utf-8"))
+paths = request["artifact_policy"]["paths"]
+for index, relative in enumerate(paths):
+    destination = portable_root / relative
+    source = artifact_dir / relative
+    if not source.is_file() and index == 0:
+        source = wrapper_path
+    if source.is_file():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, destination)
 PY
-
-  cat "$runner_stderr" >&2
-  cat "$ARTIFACT_DIR/finalize.err" >&2
-  printf 'aws_spot_remote_validation_wrapper_summary=%s\n' "$wrapper_summary" >&2
+    local portable_redaction_status=0
+    python3 "$ROOT/adl/tools/aws_spot_artifact_redaction_verify.py" \
+      "$portable_artifact_root" || portable_redaction_status="$?"
+    python3 - "$execution_receipt" "$PORTABLE_REQUEST" "$SOURCE_COMMIT" \
+      "$started_unix_ms" "$finished_unix_ms" "$runner_status" "$finalize_status" \
+      "$portable_redaction_status" "$OUT_PATH" <<'PY'
+import json
+import sys
+path, request_path, revision, started, finished, runner_status, finalize_status, redaction_status, summary_path = sys.argv[1:]
+request = json.load(open(request_path, encoding="utf-8"))
+summary = json.load(open(summary_path, encoding="utf-8"))
+runner_status, finalize_status = int(runner_status), int(finalize_status)
+passed = runner_status == 0 and finalize_status == 0
+resilience = summary.get("resilience") or {}
+cleanup_complete = resilience.get("cleanup_complete") is True
+failure_reason = str(summary.get("failure_reason") or "").lower()
+fault_class = str(resilience.get("fault_class") or "unknown")
+if passed:
+    outcome = "passed"
+elif not cleanup_complete:
+    outcome = "cleanup_incomplete"
+elif "cancellation" in failure_reason or "cancelled" in failure_reason:
+    outcome = "cancelled"
+elif "deadline" in failure_reason or "timed out" in failure_reason:
+    outcome = "timed_out"
+elif fault_class in {
+    "quota_blocked",
+    "capacity_unavailable",
+    "transient_network",
+    "ssm_unavailable",
+    "spot_interrupted",
+  }:
+    outcome = "provider_unavailable"
+else:
+    outcome = "failed"
+fallback_allowed = (
+    outcome == "provider_unavailable"
+    and cleanup_complete
+    and request["fallback"] != "disabled"
+)
+payload = {
+    "schema": "adl.remote_validation.adapter_execution.v1",
+    "adapter": "aws",
+    "platform": {"os": "linux", "architecture": "x86_64", "native": True, "qualification": "live"},
+    "revision": revision,
+    "started_unix_ms": int(started),
+    "finished_unix_ms": int(finished),
+    "exit_code": 0 if passed else (runner_status or finalize_status),
+    "outcome": outcome,
+    "redaction_passed": int(redaction_status) == 0,
+    "cleanup": {"attempted": True, "complete": cleanup_complete, "detail": None},
+    "fallback": {
+        "policy": request["fallback"],
+        "offered": fallback_allowed,
+        "ran": False,
+        "local_profile_digest": None,
+    },
+}
+with open(path, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+    "$PORTABLE_RUNNER" canonical-result "$PORTABLE_REQUEST" "$execution_receipt" "$portable_artifact_root" >"$portable_result"
+    cat "$portable_result"
+  fi
   if [[ "$runner_status" -ne 0 ]]; then
     printf '%s\n' "$runner_status" >"$ARTIFACT_DIR/manager.exit-code"
     return "$runner_status"

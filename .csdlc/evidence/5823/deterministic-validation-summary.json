@@ -1,0 +1,71 @@
+{
+  "schema": "adl.wp06.deterministic_validation_summary.v1",
+  "subject_revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+  "validation_revision": "96692d23a6fbf106c6da1c5bf8a00fff851fbc10",
+  "storage_policy": "external_volume_only",
+  "live_paid_provider_work_run": true,
+  "lanes": [
+    {
+      "name": "portable-contract",
+      "outcome": "passed",
+      "tests_passed": 12,
+      "receipt": ".csdlc/evidence/5823/portable-contract.log",
+      "receipt_sha256": "2ee929ddf70bcc18956c7d2e181d62cec7d50f6725d3f15d5f19065cc7312ee1"
+    },
+    {
+      "name": "aws-portable-adapter",
+      "outcome": "passed",
+      "tests_passed": 26,
+      "receipt": ".csdlc/evidence/5823/aws-portable-adapter.log",
+      "receipt_sha256": "9751ff02729d3ee23080d3d3cc4aae7d7a0411481896dc724b6ff8d98c442f26"
+    },
+    {
+      "name": "nessus-shell-adapter",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/nessus-adapter.log",
+      "receipt_sha256": "2f60bdac622c227c0eb683d19f27520f4e2f80f23e0ac9dd565f3269e010fd05"
+    },
+    {
+      "name": "aws-shell-adapter",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/aws-shell-adapter.log",
+      "receipt_sha256": "d2602ba8177edaf51b3f43ef06421bfb54c34b7504e418c362704ab1aaf718ac"
+    },
+    {
+      "name": "platform-validator-negative-self-test",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/platform-validator-self-test.log",
+      "receipt_sha256": "a27f6d40280198a934b4c4ea3f04123d88366c0e99bc1b9f37b42d9c0832c1b8"
+    },
+    {
+      "name": "macos-native-local",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/macos-native-result.json",
+      "receipt_sha256": "f31f4ee6a3513f584e900610f0aa769196d42ec2201dd15510d2512b5ec2d052"
+    },
+    {
+      "name": "windows-deterministic-fixture",
+      "outcome": "passed_non_native",
+      "receipt": ".csdlc/evidence/5823/windows-fixture-result.json",
+      "receipt_sha256": "e5d380700a8be8b8c98c33b8c9a97de72996c9d0ebf6616d38d807fd9b27d6a4"
+    },
+    {
+      "name": "linux-native-live",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/linux-native-result.json",
+      "receipt_sha256": "28bdc890feee85d10b265d3f7c7508c87457e5dd640198d89fffd3fd8925ba84",
+      "provider_receipt": ".csdlc/evidence/5823/linux-native-remote-summary.json",
+      "provider_receipt_sha256": "c592b6c10385a17cbffbb8f60f5840df3f6d1b44d2d0d7fa84f744071d2024af",
+      "preflight_receipt": ".csdlc/evidence/5823/aws-preflight.json",
+      "preflight_receipt_sha256": "37eea1edd4bf9f508fbe527d645f30fa8aec8002bfdb6d5ae775360246f42856",
+      "first_attempt_receipt": ".csdlc/evidence/5823/linux-native-first-attempt.json",
+      "first_attempt_receipt_sha256": "6348a956084d00a4fb7ee95459451d79771d985a109e84f522e8ceb363db2ebb",
+      "matrix_validation_receipt": ".csdlc/evidence/5823/platform-matrix-validation.log",
+      "matrix_validation_receipt_sha256": "b2afa3d08006ae384100b8eb2d28f781788b0cfa3be9324825c10bb7f9ce7e70",
+      "request_timeout_seconds": 900,
+      "request_max_cost_usd": 0.2,
+      "estimated_compute_cost_usd": 0.008732,
+      "cleanup_status": "clean"
+    }
+  ]
+}

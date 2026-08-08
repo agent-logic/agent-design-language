@@ -122,9 +122,11 @@ def main() -> int:
     args = parser.parse_args()
 
     raw: dict[str, Any] = {}
-    if args.summary.is_file():
+    retained_private_summary = args.artifact_dir / ".private" / "control-summary.json"
+    summary_source = retained_private_summary if retained_private_summary.is_file() else args.summary
+    if summary_source.is_file():
         try:
-            loaded = json.loads(args.summary.read_text(encoding="utf-8"))
+            loaded = json.loads(summary_source.read_text(encoding="utf-8"))
             if isinstance(loaded, dict):
                 raw = loaded
         except json.JSONDecodeError:

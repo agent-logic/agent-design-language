@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-06] Remote validation/build runner",
     "slug": "v0-92-wp-06-remote-validation-build-runner",
     "version": "v0.92",
-    "generation": 22
+    "generation": 37
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 10,
+      "plan_revision": 11,
       "summary": "Extract a provider-neutral exact-revision request/result contract over current adapters, add deterministic provenance, artifacts, redaction, timeout, cleanup, and no-network fallback, then prove Linux, macOS, Windows, and failure boundaries.",
       "steps": [
         {
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -35,7 +35,7 @@
             "AC-5",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -50,7 +50,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
@@ -66,6 +66,7 @@
         "adl/tools/test_run_nessus_remote_validation.sh",
         "adl/tools/run_aws_spot_remote_validation_lane.sh",
         "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+        "adl/tools/aws_spot_artifact_finalize.py",
         ".csdlc/evidence/5823",
         ".csdlc/prepared/issues/5823/validate-platform-matrix.rb"
       ],

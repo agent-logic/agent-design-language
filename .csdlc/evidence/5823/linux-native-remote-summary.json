@@ -1,0 +1,56 @@
+{
+  "schema": "adl.wp06.aws_native_receipt.v1",
+  "run_id": "adl-wp-5823-linux-native-2c76b1f8-r6",
+  "profile": "agent-logic-admin",
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "source_commit": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+  "request_limits": {
+    "timeout_seconds": 900,
+    "estimated_max_cost_usd": 0.2
+  },
+  "run": {
+    "status": "passed",
+    "purchase_option": "spot",
+    "resolved_commit": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+    "validation_exit_code": 0,
+    "tests_passed": 11,
+    "tests_failed": 0,
+    "started_unix_ms": 1786134859205,
+    "finished_unix_ms": 1786135034599,
+    "total_seconds": 159,
+    "validation_seconds": 2
+  },
+  "builder": {
+    "immutable_image_verified": true,
+    "builder_image_digest_sha256": "a53b2d503af05ac42835c2fc4b9c478cbb3d27f6fd19bfb2ad81b1e9a92b5ee8",
+    "architecture": "amd64",
+    "toolchain_verified": true,
+    "host_validation_tools_installed": false
+  },
+  "cache": {
+    "identity_verified": true,
+    "mount_health_verified": true,
+    "writable": true,
+    "retained_after_cleanup": true
+  },
+  "cleanup": {
+    "instance_terminated": true,
+    "instance_profile_deleted": true,
+    "role_deleted": true,
+    "security_group_deleted": true,
+    "explicit_post_run_status": "clean"
+  },
+  "cost": {
+    "estimated_hourly_usd": 0.1977,
+    "estimated_compute_cost_usd": 0.008732,
+    "estimate_basis": "observed instance lifetime multiplied by pre-run Spot hourly price",
+    "cost_explorer_amount_usd": "0",
+    "cost_explorer_delayed_billing_boundary": true
+  },
+  "redaction": {
+    "credentials_retained": false,
+    "raw_account_identity_retained": false,
+    "raw_resource_identifiers_retained": false,
+    "machine_local_paths_retained": false
+  }
+}

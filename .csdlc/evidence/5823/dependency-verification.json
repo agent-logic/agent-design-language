@@ -1,0 +1,10 @@
+{
+  "schema": "adl.wp06.dependency_verification.v1",
+  "checked_at": "2026-08-07T00:52:02Z",
+  "dependency_issue": 5801,
+  "state": "closed",
+  "terminal_pr": 5893,
+  "terminal_pr_state": "merged",
+  "merge_commit": "2c4ae1f4cd364995352355ec7a01d257a95315cd",
+  "source": "live GitHub issue and pull-request state"
+}

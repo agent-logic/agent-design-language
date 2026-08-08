@@ -1,0 +1,34 @@
+{
+  "schema": "adl.remote_validation.request.v1",
+  "request_id": "wp06-macos-native",
+  "checkout": ".",
+  "revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+  "source_ref": null,
+  "command_profile": {
+    "argv": [
+      "/bin/sh",
+      "-c",
+      "/usr/bin/ruby .csdlc/prepared/issues/5823/validate-platform-matrix.rb --self-test > .csdlc/evidence/5823/macos-native-artifact.txt"
+    ],
+    "working_directory": ".",
+    "environment_allowlist": []
+  },
+  "command_profile_digest": "a69dfcda1353d31af0fa1d5ca029aa5443417f8ce2d1011c41a521b5152ad3ad",
+  "adapter": "local",
+  "requested_platform": "macos",
+  "resource_budget": {
+    "cpu_cores": 1,
+    "memory_mib": 256,
+    "timeout_seconds": 30,
+    "estimated_max_cost_microusd": 0
+  },
+  "artifact_policy": {
+    "paths": [
+      ".csdlc/evidence/5823/macos-native-artifact.txt"
+    ],
+    "required": true,
+    "max_total_bytes": 4096
+  },
+  "cancellation_file": null,
+  "fallback": "disabled"
+}

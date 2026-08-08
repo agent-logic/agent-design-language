@@ -1,0 +1,49 @@
+{
+  "schema": "adl.remote_validation.request.v1",
+  "request_id": "wp06-linux-native-aws",
+  "checkout": ".",
+  "revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+  "source_ref": "refs/heads/codex/5823-wp06-linux-proof-2c76b1f8",
+  "command_profile": {
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "tools/remote_validation/Cargo.toml",
+      "--test",
+      "contract"
+    ],
+    "working_directory": ".",
+    "environment_allowlist": [
+      "PATH",
+      "CARGO_HOME",
+      "RUSTUP_HOME",
+      "CARGO_TARGET_DIR",
+      "SCCACHE_DIR",
+      "TMPDIR",
+      "RUSTC_WRAPPER",
+      "RUSTFLAGS",
+      "CARGO_INCREMENTAL",
+      "AWS_EC2_METADATA_DISABLED"
+    ]
+  },
+  "command_profile_digest": "f2b52c4e07c6b1d533ff363a439893900cb8a99b58c559098f5bd4951b8a6474",
+  "adapter": "aws",
+  "requested_platform": "linux",
+  "resource_budget": {
+    "cpu_cores": 8,
+    "memory_mib": 32768,
+    "timeout_seconds": 900,
+    "estimated_max_cost_microusd": 200000
+  },
+  "artifact_policy": {
+    "paths": [
+      ".csdlc/evidence/5823/linux-native-remote-summary.json"
+    ],
+    "required": true,
+    "max_total_bytes": 1048576
+  },
+  "cancellation_file": null,
+  "fallback": "offer_local"
+}

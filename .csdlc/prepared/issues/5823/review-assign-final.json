@@ -1,0 +1,17 @@
+{
+  "issue": 5823,
+  "expected_generation": 29,
+  "expected_digest": "ddbdd6f3be9d7e0b336d096a42f57221c82fe83f18cdec6eb0b7d98060947fe4",
+  "reviewer": "subagent:wp06-final-review",
+  "assigned_by": "codex:5823-execution",
+  "scope": [
+    ".csdlc/prepared/issues/5823/validate-platform-matrix.rb",
+    "adl/tools/run_aws_spot_remote_validation_lane.sh",
+    "adl/tools/run_nessus_remote_validation.sh",
+    "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+    "adl/tools/test_run_nessus_remote_validation.sh",
+    "tools/aws_remote_validation/src/aws_remote_validation.rs",
+    "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+    "tools/aws_remote_validation/tests/portable_adapter.rs"
+  ]
+}

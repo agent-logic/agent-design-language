@@ -16,7 +16,7 @@ Extract a provider-neutral exact-revision request/result contract over current a
 
 ## Plan
 
-Revision 10
+Revision 11
 
 ## Steps
 
@@ -29,7 +29,7 @@ Revision 10
       "AC-2",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -40,7 +40,7 @@ Revision 10
       "AC-5",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -55,7 +55,7 @@ Revision 10
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
