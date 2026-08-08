@@ -7,15 +7,15 @@
     "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
     "slug": "execution-proof-non-self-referential-revisions",
     "version": "v0.92",
-    "generation": 17
+    "generation": 18
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue 53 two-revision proof contract, shared WP-04 receipt validator, isolated Git regression, compatibility boundary, and fail-closed behavior.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/53\n.csdlc/prepared/issues/53\n.csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      "review_revision": "git-blake3:c7b454b30beec5d537966765a24f33823535f562:02c9a6df9b77454be516081ac0ccb186b97d76a620f8848df0e6a66d755f20ee",
+      "reviewer": "subagent:review-53-exact-head",
       "review_prompts": [
         "Can any accepted v3 receipt omit or fake either exact revision?",
         "Does ancestry verification prevent unrelated or reversed commit pairs?",
@@ -24,8 +24,10 @@
         "Are v2 receipts preserved without silent reinterpretation?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The v3 contract intentionally accepts later commits outside the immutable issue evidence prefix while binding all proof claims to the exact substantive source revision."
+      ],
+      "review_result": "pass"
     }
   }
 }

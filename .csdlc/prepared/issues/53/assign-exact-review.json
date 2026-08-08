@@ -1,0 +1,12 @@
+{
+  "issue": 53,
+  "expected_generation": 17,
+  "expected_digest": "4d34d9ab578659d51ff5e420fdef8ac1991159c67f09c6e3c82809ce9ac9dfe9",
+  "reviewer": "subagent:review-53-exact-head",
+  "assigned_by": "codex:53-execution",
+  "scope": [
+    ".csdlc/issues/53",
+    ".csdlc/prepared/issues/53",
+    ".csdlc/prepared/issues/5862/proof-receipt-contract.rb"
+  ]
+}

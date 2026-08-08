@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Issue 53 two-revision proof contract, shared WP-04 receipt validator, isolated Git regression, compatibility boundary, and fail-closed behavior.
+.csdlc/issues/53
+.csdlc/prepared/issues/53
+.csdlc/prepared/issues/5862/proof-receipt-contract.rb
 
 ## Prompts
 
@@ -32,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The v3 contract intentionally accepts later commits outside the immutable issue evidence prefix while binding all proof claims to the exact substantive source revision.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c7b454b30beec5d537966765a24f33823535f562:02c9a6df9b77454be516081ac0ccb186b97d76a620f8848df0e6a66d755f20ee")
 
-Reviewer: None
+Reviewer: Some("subagent:review-53-exact-head")
 
-Result: pre_review
+Result: pass

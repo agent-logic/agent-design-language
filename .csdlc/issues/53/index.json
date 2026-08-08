@@ -3,13 +3,36 @@
   "issue": 53,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "26c54e5f037839ecd9f4f8a2410a5453e2d4d7ecf5353bec3092a45257b39c61",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "4d34d9ab578659d51ff5e420fdef8ac1991159c67f09c6e3c82809ce9ac9dfe9",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "166036f3289e82ed8ef5578101c664504f9c42c6f25c7cda9ae0e8312b0d5841",
   "branch": "codex/53-execution-proof-receipts",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-53",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:review-53-exact-head",
+    "assigned_by": "codex:53-execution",
+    "revision": "git-blake3:c7b454b30beec5d537966765a24f33823535f562:02c9a6df9b77454be516081ac0ccb186b97d76a620f8848df0e6a66d755f20ee",
+    "scope": [
+      ".csdlc/issues/53",
+      ".csdlc/prepared/issues/53",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review-53-exact-head",
+    "scope": [
+      ".csdlc/issues/53",
+      ".csdlc/prepared/issues/53",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb"
+    ],
+    "reviewed_revision": "git-blake3:c7b454b30beec5d537966765a24f33823535f562:02c9a6df9b77454be516081ac0ccb186b97d76a620f8848df0e6a66d755f20ee",
+    "findings": [],
+    "residual_risks": [
+      "The v3 contract intentionally accepts later commits outside the immutable issue evidence prefix while binding all proof claims to the exact substantive source revision."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3841c9a5aa8be6ae829ae50b89a1a136de55ccdc068178fae2e36609516da244",
+      "values_digest": "51279020d52cb5c7e074d2f5733f2015a212faae7986c7c5c29e82745d377c41",
       "rendered_digest": "f07742dec42f8c6399834b0faa7e562465eb254fa1ca065ee7c3c42be1b9335b",
       "ast_digest": "a65fe820157792afa3e7bc2ad8d2916bccc0a9bda423c08ba289e8e29923cddb"
     },
     "stp": {
-      "values_digest": "6e15b07313e8a38d52af673af3de74b43ac2d915504697f27ff2d5366612afc1",
+      "values_digest": "35087ae0366784af4b8a7a1132872daeca85381d8d3385163f238296407b2e8b",
       "rendered_digest": "01a2ef90056d83800f6a83470ae2095701a0dd622717d37b0028230d7043affa",
       "ast_digest": "4943ac151c925da9bd45db1cc7b32a9d2cfc0688201294a38bcdf5e0b84056d1"
     },
     "spp": {
-      "values_digest": "f1f2de70c9c9c1f80c05a379d36410c0081cdb0a2a7f6e0986cdc7d285407553",
+      "values_digest": "0b6bb20385877f2d782b01e10e43b13629f5911ff29a05b0c2b7b2f8487a5bbc",
       "rendered_digest": "5a5deddd37057c0d1ee177271d66d5097b0891352dfff249d356aeaacbc7d7b6",
       "ast_digest": "f273766ffdfafac9cd8952df47cd0e3374ee4d29438b8d7c26ef74060cbf7cfd"
     },
     "vpp": {
-      "values_digest": "dad3e98bb87f4bfa1c0e79a6eb8d57ecc854a7358f4da850baaa3d8a5f2c3a6f",
+      "values_digest": "b01992c91d98bdc6330699b089685b955697c23d1553fb4c85abab8c8446e8c3",
       "rendered_digest": "7e07c72923a0b2ba2b51107514029a555c3a5a2db403a121665b23249ed266d7",
       "ast_digest": "bf0393884c3c50e31726533a5baa36526cf3acb6c7cf108454ed7bc023c90622"
     },
     "srp": {
-      "values_digest": "ebf44ffa9c441c47e55c51a4f0cf516b1b412021c110ace5de8351fb771c6c19",
-      "rendered_digest": "88d4066fd70908c1503c47f67e9fc6b5fa91c3a7577e86a664514d55b13887b5",
-      "ast_digest": "b30f61a2e4e67d005984797aadb7cee13871ba42a6c300f3c1eea46d306f8810"
+      "values_digest": "1dca289ef9033102d005a0ea957339bda11c5b12db2ad324a0d5a4f9d2203caa",
+      "rendered_digest": "aec552501ed33c31e81d0f1be6e65e666859ffcc79d7cae11b8d589663784769",
+      "ast_digest": "c20209754a235702463fc3d46d2cec0a60c4d7bd90c3a25f379215611b17bf28"
     },
     "sor": {
-      "values_digest": "3921c13335d4cf9af6334cd916f046fd9a493d5b9ff51dffe66f216d722bd903",
+      "values_digest": "80a9ec0af18bb9a91cdbcef5fdb9309f9945a02f183547925d86a15186c5c81a",
       "rendered_digest": "679356b0ff9a7478f455f0b85dc494f9de46529b9bc6c63c510ac98e1e6cca4d",
       "ast_digest": "3240c33f3034b64016804612955efcb117d8f10ebc27ce28d08e93d4226898a3"
     }
@@ -75,6 +98,13 @@
       "to": "implemented",
       "actor": "codex:53-implementation",
       "reason": "Bounded implementation and focused local validation are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-53-exact-head",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -210,6 +240,20 @@
       "actor": "codex:53-review-fix",
       "reason": "Record focused proof after resolving all first-pass review findings.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"],\"purpose\":\"Prove protected test-source tampering and post-evidence tamper-then-revert history fail closed in addition to the original A/B/C and retained-v2 cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-53-review-fix-regression:passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:53-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "subagent:review-53-exact-head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
