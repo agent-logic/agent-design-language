@@ -1602,17 +1602,58 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
     if executable != Some("cargo") {
         return None;
     }
-    let test_index = match argv.get(1).map(String::as_str) {
-        Some("test") => 1,
-        Some(toolchain)
-            if toolchain.starts_with('+')
-                && toolchain.len() > 1
-                && argv.get(2).map(String::as_str) == Some("test") =>
-        {
-            2
+    let mut test_index = 1;
+    if argv
+        .get(test_index)
+        .is_some_and(|value| value.starts_with('+') && value.len() > 1)
+    {
+        test_index += 1;
+    }
+    let global_flags = [
+        "-v",
+        "--verbose",
+        "-q",
+        "--quiet",
+        "--frozen",
+        "--locked",
+        "--offline",
+    ];
+    let global_value_flags = ["--color", "--config", "-Z"];
+    loop {
+        let value = argv.get(test_index)?;
+        if value == "test" {
+            break;
         }
-        _ => return None,
-    };
+        if global_flags.contains(&value.as_str()) {
+            test_index += 1;
+            continue;
+        }
+        if global_value_flags.contains(&value.as_str()) {
+            if argv
+                .get(test_index + 1)
+                .is_none_or(|next| next.starts_with('-'))
+            {
+                return Some(invalid_rust_selector(format!(
+                    "cargo global option `{value}` requires a value before `test`"
+                )));
+            }
+            test_index += 2;
+            continue;
+        }
+        if global_value_flags
+            .iter()
+            .any(|flag| value.starts_with(&format!("{flag}=")))
+        {
+            test_index += 1;
+            continue;
+        }
+        if argv[test_index + 1..].iter().any(|value| value == "test") {
+            return Some(invalid_rust_selector(format!(
+                "unrecognized cargo global option `{value}` before `test`; use a supported typed argv shape"
+            )));
+        }
+        return None;
+    }
 
     let target_flags = [
         "--lib",
@@ -2726,6 +2767,19 @@ mod tests {
             "--list",
         ]);
         let error = validate_validation_lanes(&[separator_bypass]).expect_err("separator bypass");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        let global_option_bypass = lane(&[
+            "cargo",
+            "--locked",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "schema",
+        ]);
+        let error =
+            validate_validation_lanes(&[global_option_bypass]).expect_err("global option bypass");
         assert_eq!(error.code, ErrorCode::CardInvalid);
         assert!(error.message.contains("without a target boundary"));
 

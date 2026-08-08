@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, Cargo toolchain selectors, and truthful broad lanes remain supported.
+Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.
 
 ## Artifacts
 
@@ -24,6 +24,7 @@ Implemented typed exact, intentional-broad, and invalid Rust test selector class
 
 - Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.
 - Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.
+- Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.
 - Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.
 - Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.
 

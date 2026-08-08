@@ -31,6 +31,12 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
             .expect("cargo toolchain test classification");
     assert_eq!(toolchain.posture, RustTestSelectorPosture::ExactTarget);
 
+    let global_options = classify_rust_test_selector(&argv(&[
+        "cargo", "--color", "never", "--locked", "test", "--test", "gate2",
+    ]))
+    .expect("cargo global options test classification");
+    assert_eq!(global_options.posture, RustTestSelectorPosture::ExactTarget);
+
     let broad = classify_rust_test_selector(&argv(&[
         "cargo",
         "test",
@@ -44,6 +50,7 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
         argv(&["cargo", "test", "schema"]),
         argv(&["cargo", "test", "--", "schema", "--list"]),
         argv(&["cargo", "+stable", "test", "schema"]),
+        argv(&["cargo", "--locked", "test", "schema"]),
         argv(&["cargo", "test", "--test"]),
         argv(&["cargo", "test", "--lib", "--test", "gate2"]),
     ] {
