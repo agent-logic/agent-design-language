@@ -1,0 +1,10 @@
+flowchart LR
+  Packet["Native receipt packet"] --> Roles["Canonical role-set check"]
+  Roles --> Unique["Unique role invariant"]
+  Packet --> Revision["Proof revision"]
+  Revision --> GitDiff["Git changed paths"]
+  GitDiff --> Allowlist["Verifier-only allowlist"]
+  Allowlist --> ProductGate["Reject runtime or product drift"]
+  Unique --> Digests["Digest and platform checks"]
+  ProductGate --> Digests
+  Digests --> Result["Acceptance result"]
