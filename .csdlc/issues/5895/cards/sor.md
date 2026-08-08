@@ -56,11 +56,11 @@ Proved that the retired csdlc-migrate binary is absent from active authority and
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
