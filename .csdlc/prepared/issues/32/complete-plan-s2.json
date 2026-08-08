@@ -1,0 +1,9 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "f13a3816df02ed507311dd46797d371de36fe571e93b14c76b6b41aaae78236e",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record completed native GitHub inspection.",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"}
+}

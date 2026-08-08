@@ -28,6 +28,7 @@ use crate::readiness::{ReadinessReport, ReadinessRequest};
 use crate::review::{
     PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest, ReviewRecoveryRequest,
 };
+use crate::runner_preflight::{RunnerPreflightPacket, RunnerPreflightRequest};
 use crate::store::ApproveDesignRequest;
 use crate::store::{BootstrapRequest, EditRequest};
 
@@ -51,6 +52,8 @@ pub fn public_schema_bundle() -> Value {
         "github_action_result": schemars::schema_for!(GithubActionResult),
         "github_issue_packet": schemars::schema_for!(GithubIssuePacket),
         "github_pr_state_packet": schemars::schema_for!(PrStatePacket),
+        "github_runner_preflight_request": schemars::schema_for!(RunnerPreflightRequest),
+        "github_runner_preflight_packet": schemars::schema_for!(RunnerPreflightPacket),
         "closing_pull_request_identity": schemars::schema_for!(ClosingPullRequestIdentity),
         "pvf_manifest": schemars::schema_for!(PvfManifest),
         "pvf_execution_request": schemars::schema_for!(ExecutionRequest),
@@ -110,5 +113,15 @@ mod tests {
         assert!(schema.contains(r#"^[^/]+/[^/]+$"#));
         assert!(schema.contains(r#"^(?:[0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})$"#));
         assert!(schema.contains(r#""additionalProperties":false"#));
+    }
+
+    #[test]
+    fn includes_runner_preflight_request_and_packet() {
+        let bundle = public_schema_bundle();
+        assert!(bundle.get("github_runner_preflight_request").is_some());
+        assert!(bundle.get("github_runner_preflight_packet").is_some());
+        let request = bundle["github_runner_preflight_request"].to_string();
+        assert!(request.contains("runner_group_id"));
+        assert!(request.contains("queue_timeout_seconds"));
     }
 }

@@ -1,0 +1,24 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 21,
+  "expected_digest": "9a58031e31647a238c2b2e7cf59313d471a59183297d37bf2e108a2a06c39511",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record the exact reviewed implementation and typed remediation surfaces.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate_runner_preflight.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      ".csdlc/prepared/issues/32",
+      ".csdlc/issues/32"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "f3f37b73b68c49a1dddb20665920f5812bda0c626813537ad8fe2d54b10507db",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Replace descriptive areas with exact repository-owned implementation and proving paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/Cargo.toml",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/prepared/issues/32",
+      ".csdlc/issues/32"
+    ]
+  },
+  "fail_after_backup": false
+}

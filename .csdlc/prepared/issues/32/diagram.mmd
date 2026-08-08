@@ -1,0 +1,26 @@
+flowchart LR
+  Q["Typed preflight request"] --> H["GitHub Actions APIs via Octocrab"]
+  H --> R["Hosted runner inventory"]
+  H --> G["Runner group policy"]
+  H --> A["Selected repository access"]
+  H --> W["Selected workflow refs"]
+  R --> C{"Capacity ready?"}
+  G --> P{"Workflow restriction off?"}
+  A --> S{"Target repo selected?"}
+  W --> T["Stale-ref diagnostics"]
+  P -->|"no"| I["policy_ineligible"]
+  S -->|"no"| I
+  P -->|"yes"| E{"Policy eligible"}
+  S -->|"yes"| E
+  E -->|"yes"| C
+  C -->|"yes"| D{"Canary assigned to expected label?"}
+  D -->|"yes"| OK["eligible"]
+  D -->|"no, within bound"| N["configuration eligible; dispatch unproven"]
+  D -->|"no, timed out"| X["dispatch_unavailable"]
+  C -->|"no"| U["capacity_unavailable"]
+  T --> O["Redacted typed packet"]
+  I --> O
+  OK --> O
+  N --> O
+  X --> O
+  U --> O

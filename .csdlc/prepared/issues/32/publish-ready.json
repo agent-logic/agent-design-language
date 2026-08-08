@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 32,
+  "expected_generation": 28,
+  "expected_digest": "4659af901ca25cc2c51b9ad61f131f18141ad0b488d8da8e68347d116ee438c4",
+  "actor": "codex:32-runner-policy-preflight",
+  "repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/32-runner-policy-preflight",
+  "title": "[v0.92][CI][runners] Make larger-runner eligibility branch-independent and observable (#32)",
+  "body": "## Summary\n\nAdds a focused read-only `csdlc-github runner-preflight` operation that distinguishes larger-runner capacity, runner-group policy, and live dispatchability. It preserves selected-repository scope while requiring branch-independent workflow eligibility, reports stale workflow references without treating authorization uncertainty as absence, and refuses to accept a stale or unrelated canary.\n\n## Proof\n\n- 11 focused runner-preflight classifier/schema tests pass.\n- The API/CLI integration test proves paginated runner and repository discovery, JSON stdout, fail-closed exit behavior, and credential redaction.\n- Existing GitHub action boundary tests and strict Clippy pass.\n- Live terminal canary: run 31236518300, job 93054382571, exact head 3558f41b2395e9cb80f2804ba09f68914e9690ec, expected label and runner group, completed success.\n- Exact-head independent review passed with no P0-P3 findings.\n\nCloses #32",
+  "draft": false,
+  "remote": "origin",
+  "token_file": "/Users/daniel/keys/github.token"
+}

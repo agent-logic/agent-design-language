@@ -1,0 +1,23 @@
+{
+  "issue": 32,
+  "card": "spp",
+  "expected_generation": 22,
+  "expected_digest": "fd448becedd9a561e457a74443d95b2537c7f8b0f2ce80da2f20b96d3ec1edba",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Keep the final issue scope limited to the runner preflight and its direct proof surfaces.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_runner_preflight.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      ".csdlc/prepared/issues/32",
+      ".csdlc/issues/32"
+    ]
+  }
+}

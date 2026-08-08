@@ -1,0 +1,13 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "organization": "agent-logic",
+  "runner_group_id": 3,
+  "expected_label": "adl-ubuntu-24.04-16core",
+  "workflow_path": ".github/workflows/ci.yaml",
+  "canary_job_id": 93054382571,
+  "expected_run_id": 31236518300,
+  "expected_head_sha": "3558f41b2395e9cb80f2804ba09f68914e9690ec",
+  "expected_pull_request": null,
+  "queue_timeout_seconds": 300,
+  "token_file": null
+}

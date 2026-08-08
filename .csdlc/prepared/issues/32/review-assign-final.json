@@ -1,0 +1,16 @@
+{
+  "issue": 32,
+  "expected_generation": 27,
+  "expected_digest": "a625713925b949c2ec5baeefc2065eaa67b27e2c7ce0a119e9257d2f9df62f98",
+  "reviewer": "review_32_implementation",
+  "assigned_by": "codex:32-runner-policy-preflight",
+  "scope": [
+    "csdlc-v2/src/bin/csdlc-github.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/src/runner_preflight.rs",
+    "csdlc-v2/src/schema.rs",
+    "csdlc-v2/tests/gate_runner_preflight.rs",
+    "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+    "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md"
+  ]
+}

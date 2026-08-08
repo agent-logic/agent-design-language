@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 32,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
+    "slug": "runner-policy-preflight",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make larger-runner eligibility branch-independent while retaining repository scope and providing fast native diagnostics for capacity versus policy failures.",
+      "required_outcome": "A typed read-only Rust preflight proves runner label and capacity, group visibility, selected repository access, workflow restriction state, and stale workflow references, while PR branches remain eligible without allowlist mutation.",
+      "declared_scope": [
+        "csdlc-v2/src/bin/csdlc-github.rs",
+        "csdlc-v2/src/lib.rs",
+        "csdlc-v2/src/runner_preflight.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/tests/gate_runner_preflight.rs",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+        "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+        ".csdlc/prepared/issues/32",
+        ".csdlc/issues/32"
+      ],
+      "authority_boundary": [
+        "GitHub organization runner and runner-group settings remain external authority.",
+        "The preflight is read-only and reports observed state without mutating it.",
+        "Repository scoping remains mandatory while workflow restriction must be disabled for branch-independent eligibility."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue changes on main.",
+        "Use Rust and existing COTS crates; do not add shell or Python control-plane logic.",
+        "Do not use AWS.",
+        "PR body must include Closes #32."
+      ]
+    }
+  }
+}

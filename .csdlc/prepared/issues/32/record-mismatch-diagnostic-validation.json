@@ -1,0 +1,17 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 26,
+  "expected_digest": "6b8360d2183db1a7d2ece51532b77e69ff27dadcbe45b9e19ba56fda565cc7ee",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record the final review fix for complete mismatch diagnostics.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "runner_preflight"],
+      "purpose": "Prove that a mismatched canary cannot pass and its diagnostic names every enforced identity dimension.",
+      "outcome": "passed",
+      "evidence_ref": "Eleven focused tests passed; stale_job_context_cannot_prove_dispatch asserts the diagnostic covers run, workflow, head, PR, label, and runner group."
+    }
+  }
+}

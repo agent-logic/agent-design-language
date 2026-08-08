@@ -1,0 +1,25 @@
+{
+  "issue": 32,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "5b120b3f864c1e68c5885ba1dfc1e80474541516cad1626163005bcf22e7f57b",
+  "actor": "codex:32-runner-policy-preflight",
+  "reason": "Record the bounded native larger-runner policy and dispatch preflight implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added a typed csdlc-github runner-preflight operation that reads GitHub runner, runner-group, repository, workflow-restriction, selected-workflow, and optional canary-job state without mutation. It reports capacity, policy eligibility, stale workflow references, and live dispatchability separately so a Ready runner is never treated as dispatch proof.",
+    "changes": [
+      "csdlc-v2/src/runner_preflight.rs",
+      "csdlc-v2/src/bin/csdlc-github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/32/design.md",
+      ".csdlc/prepared/issues/32/diagram.mmd",
+      ".csdlc/prepared/issues/32/live-preflight.json"
+    ]
+  }
+}

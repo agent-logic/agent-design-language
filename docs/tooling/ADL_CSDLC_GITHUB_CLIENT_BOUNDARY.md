@@ -20,6 +20,9 @@ The current command surface is split by responsibility:
 - `csdlc-finish` is the sole exact-head merge and derived-terminal authority.
 - `csdlc-github` remains a compatibility facade while callers migrate to the
   narrower owner binaries.
+  It also owns the read-only organization larger-runner preflight because that
+  observation spans hosted runners, runner groups, selected repositories,
+  workflow refs, and Actions job dispatch rather than issue or PR lifecycle.
 
 Every issue/comment mutation must carry an `operation_key`. The GitHub command
 surface renders it as a stable marker, reads back remote state, and fails closed
@@ -91,6 +94,9 @@ or built from stale provenance.
   for PR observation.
 - Keep `csdlc-github run --request <request.json>` only as compatibility during
   migration.
+- Use `csdlc-github runner-preflight --request <request.json>` for the bounded,
+  read-only larger-runner eligibility and dispatch diagnostic documented in
+  `docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md`.
 - Do not add new issue actions to `csdlc-github-pr`.
 - Do not add new PR actions to `csdlc-github-issue`.
 - Do not route publication or terminal operations through connector actions;
