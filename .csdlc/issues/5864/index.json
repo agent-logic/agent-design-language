@@ -3,13 +3,29 @@
   "issue": 5864,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "db0e5aacc3bd84b4d244fb3f7f92c9a9f574f233a61127d362ee779303ed6902",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "dedaf05b7bb7b5648d4fc65441b08e1c29349c32a780ab3ce2366e10b0bccc2f",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "772d1f8e1146cdb8ec3dc15202a5c65c4acba615cceb1122d80581e996b8d86e",
   "branch": "codex/5864-distributed-certificate-lifecycle",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5864-certificates",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "scope": [
+      "adl-runtime/src/distributed/certificates.rs",
+      "adl-runtime/tests/distributed_certificates.rs",
+      ".csdlc/evidence/5864",
+      ".csdlc/issues/5864"
+    ],
+    "reviewed_revision": "git-blake3:12667941a3a4a4f9c0caeb70a05fcc8db595ab7c:589bede7a3036175890c1b981b28a74cafc1dfcd4ce894e82f62b3725543460a",
+    "findings": [],
+    "residual_risks": [
+      "Certificate policy is integrated into maintained QUIC/TLS transport by dependent child #5865; this child proves the standalone authority contract only.",
+      "The shared proof validator self-reference is tracked separately under agent-logic/agent-design-language#53; this issue uses the approved product-parent/evidence-child binding."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1c5c5e96384509b5e125e013a676b14659fb06f29b485443c97a82311c7dc69f",
+      "values_digest": "eed6e78cea1387c71e3a08b9231c68473f31c755bc37196ee2b76a6f95d6d7c5",
       "rendered_digest": "c13f997eccc784fb294a679519aea197c424e5003d637aa2fa97baa88d1e149a",
       "ast_digest": "e6fd6cd40cf16ecd38a289bea4b9ba09d1d49e3f36eba30d98623e4a8df204e8"
     },
     "stp": {
-      "values_digest": "32ef31f0ce429c816ded53f32c264bea44ae8604bca6e6628bef70c113857eb0",
+      "values_digest": "4deb30c1f6caa5b9476cec855919ac63c21a0fe04567e98103dc2fe3b0941692",
       "rendered_digest": "053b69379f15ab90efb27281fd49535cdd076dd168a5e4c6905ea581c4ae1723",
       "ast_digest": "ab1b4100460e772393a9f922e2655d5b0fd1d63ee55253973ded7a0b2a6b4d78"
     },
     "spp": {
-      "values_digest": "3504e8f186474d45b7e6fb105bf0663a0f50738318a5d2b17387b5fb224fcba3",
+      "values_digest": "7b9e033968d17c345b64a6ad4d98d4042e42dff53b58e8b53dab45de893c6b52",
       "rendered_digest": "c3e422d5b4afde4d3c7b979e5a58fb3d2a98b49e196701631bb6443798ea5ced",
       "ast_digest": "d44dfe4dcdea8f59e3670d19fb791cbcf93f9ff8d096bd314dcbda5ecd470ff5"
     },
     "vpp": {
-      "values_digest": "bbe3f7fa06b5ee5c3d0f561c5a5b5110e38981804d24f0e77e66c9ca91aa1d9e",
+      "values_digest": "bc865cce1e1e974c891e5c7817e6f97e3dc91aa8aa64f884199a44bc837d604c",
       "rendered_digest": "8b9089360c2e37d6fe6fa472b98dc9df59b2f65f790157899be7ab294ca79563",
       "ast_digest": "3aa4ceaab8c40f69a7c5c51b41d844a91d0b09f6089266cf30f51ce5b3937baa"
     },
     "srp": {
-      "values_digest": "8ed893f5515967580826561c7431aecbd8552def7a6351b394afd30689fd9032",
-      "rendered_digest": "0d1cc464df0e281548a6a8cfccee8afeca05bba921f75d3284c5b1b0e53188fd",
-      "ast_digest": "be1be1ad32f2d064a1e05e8055ebff531a873f6720fb9ef7a6b4985318f39428"
+      "values_digest": "78a2404204f417d3ba42d9853e83c716fe3c1c454c66ce76b2b231b68d505759",
+      "rendered_digest": "c72889b20ecba81f4c22ee4cff6ceb61d9a990cd7a3d96fb4443d7aafdf9f335",
+      "ast_digest": "01f54a3e54923b5384b0c1d114e875d1442fd90363e3ad2a8bf05276df1576d9"
     },
     "sor": {
-      "values_digest": "d3420ca67c428600c36931943286695bbeb77f3a5f4a8f01f6192b6f910e7db4",
+      "values_digest": "40b72c8e1d717ec3c1f32ed8a52df021819bb66bd4bf71626e0066aaf6d1040d",
       "rendered_digest": "b374257ef070a5f2dc3b69d2f8470d2113c5d0ae0435442d87b56d8fc9281d3e",
       "ast_digest": "3a8b3cd26336cbe6c22ca5d436141e4edf5645af5b7e79d1977d59d678e67655"
     }
@@ -96,6 +112,13 @@
       "to": "implemented",
       "actor": "codex:sprint-5862-conductor",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -329,6 +352,13 @@
       "actor": "codex:sprint-5862-conductor",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 34,
+      "generation": 15,
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.02] Distributed certificate purposes and lifecycle",
     "slug": "v0-92-wp-04-02-certificate-lifecycle",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.02 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/certificates.rs\nadl-runtime/tests/distributed_certificates.rs\n.csdlc/evidence/5864\n.csdlc/issues/5864",
+      "review_revision": "git-blake3:12667941a3a4a4f9c0caeb70a05fcc8db595ab7c:589bede7a3036175890c1b981b28a74cafc1dfcd4ce894e82f62b3725543460a",
+      "reviewer": "Codex independent review subagent /root/review_5864",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,11 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Certificate policy is integrated into maintained QUIC/TLS transport by dependent child #5865; this child proves the standalone authority contract only.",
+        "The shared proof validator self-reference is tracked separately under agent-logic/agent-design-language#53; this issue uses the approved product-parent/evidence-child binding."
+      ],
+      "review_result": "pass"
     }
   }
 }
