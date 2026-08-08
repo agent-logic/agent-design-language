@@ -153,8 +153,8 @@ acquire_run_lock() {
   response="$(aws_cli s3api put-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
     --body "$lock_file" --content-type application/json --if-none-match '*' \
     --output json)"
-  LOCK_VERSION_ID="$(jq -er '.VersionId | select(type == "string" and length > 0)' <<<"$response")"
   LOCK_ACQUIRED=true
+  LOCK_VERSION_ID="$(jq -er '.VersionId | select(type == "string" and length > 0)' <<<"$response")"
 }
 
 release_run_lock() {
@@ -263,6 +263,7 @@ download_artifact_manifest() {
 
 preflight() {
   local actual_account expected_account ami subnet quota active profile_roles deadline_role_arn
+  local bucket_versioning
   local artifact_manifest artifact_model_digest hourly_price
   [[ "$PROFILE" == "agent-logic-admin" ]] || {
     echo "AWS profile must be agent-logic-admin" >&2
@@ -294,6 +295,12 @@ preflight() {
     echo "required permanent deadline scheduler role is unavailable" >&2
     return 2
   }
+  bucket_versioning="$(aws_cli s3api get-bucket-versioning \
+    --bucket "$ARTIFACT_BUCKET" --query Status --output text)"
+  [[ "$bucket_versioning" == "Enabled" ]] || {
+    echo "artifact bucket versioning must be enabled" >&2
+    return 2
+  }
   artifact_manifest="$STATE_ROOT/preflight-artifact-manifest.json"
   download_artifact_manifest "$artifact_manifest"
   artifact_model_digest="$(jq -er '.model_digest_sha256' "$artifact_manifest")"
@@ -311,6 +318,7 @@ preflight() {
     --arg subnet_sha256 "$(sha256_text "$subnet")" \
     --arg instance_profile "$INSTANCE_PROFILE" \
     --arg deadline_scheduler_role "$DEADLINE_SCHEDULER_ROLE" \
+    --arg bucket_versioning "$bucket_versioning" \
     --arg gpu_instance_type "$GPU_INSTANCE_TYPE" \
     --arg model_identity "$MODEL_IDENTITY" \
     --arg model_artifact_sha256 "$artifact_model_digest" \
@@ -324,6 +332,7 @@ preflight() {
       account_sha256:$account_sha256, ami_sha256:$ami_sha256,
       subnet_sha256:$subnet_sha256, instance_profile:$instance_profile,
       deadline_scheduler_role:$deadline_scheduler_role,
+      bucket_versioning:$bucket_versioning,
       gpu_instance_type:$gpu_instance_type, model_identity:$model_identity,
       model_artifact_sha256:$model_artifact_sha256,
       artifact_manifest_sha256:$artifact_manifest_sha256,

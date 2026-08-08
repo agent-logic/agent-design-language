@@ -7,6 +7,7 @@
   "subnet_sha256": "83fe4e890405df0a3c1aeb6da6353f869fd688e7894bfd0aade4e8f7ff19866e",
   "instance_profile": "ADLRemoteValidationPermanentProfile",
   "deadline_scheduler_role": "ADLWP5795GpuDeadlineSchedulerRole",
+  "bucket_versioning": "Enabled",
   "gpu_instance_type": "g6.xlarge",
   "model_identity": "gemma4:12b",
   "model_artifact_sha256": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
