@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/47/diagram.mmd
 [
   {
     "lane": "rust-selector-contract",
-    "proof_role": "The issue-owned focused integration target will prove exact, broad, and invalid selector classification plus actionable diagnostics after implementation creates it.",
+    "proof_role": "The issue-owned focused integration target proves exact, intentional-broad, and invalid selector classification plus actionable diagnostics.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -46,7 +46,7 @@ Diagram: .csdlc/prepared/issues/47/diagram.mmd
       "validation_selectors"
     ],
     "parallel_group": "local",
-    "defer_reason": "Deferred until issue #47 implementation creates the declared owned target csdlc-v2/tests/validation_selectors.rs; execution must fail closed if the target is still absent."
+    "defer_reason": null
   },
   {
     "lane": "exact-schema-selection",

@@ -7,15 +7,16 @@
     "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
     "slug": "exact-rust-test-selectors",
     "version": "v0.92",
-    "generation": 13
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substring lanes fail before execution while explicit Cargo target boundaries and truthful broad lanes remain supported.",
+      "summary": "Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, Cargo toolchain selectors, and truthful broad lanes remain supported.",
       "actual_changes": [
         "Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.",
+        "Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.",
         "Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.",
         "Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction."
       ],

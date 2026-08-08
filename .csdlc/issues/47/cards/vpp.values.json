@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
     "slug": "exact-rust-test-selectors",
     "version": "v0.92",
-    "generation": 13
+    "generation": 15
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "rust-selector-contract",
-          "proof_role": "The issue-owned focused integration target will prove exact, broad, and invalid selector classification plus actionable diagnostics after implementation creates it.",
+          "proof_role": "The issue-owned focused integration target proves exact, intentional-broad, and invalid selector classification plus actionable diagnostics.",
           "acceptance_ids": [
             "AC-3",
             "AC-4",
@@ -38,7 +38,7 @@
             "validation_selectors"
           ],
           "parallel_group": "local",
-          "defer_reason": "Deferred until issue #47 implementation creates the declared owned target csdlc-v2/tests/validation_selectors.rs; execution must fail closed if the target is still absent."
+          "defer_reason": null
         },
         {
           "lane": "exact-schema-selection",

@@ -1599,12 +1599,24 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         .first()
         .and_then(|value| Path::new(value).file_name())
         .and_then(|value| value.to_str());
-    if executable != Some("cargo") || argv.get(1).map(String::as_str) != Some("test") {
+    if executable != Some("cargo") {
         return None;
     }
+    let test_index = match argv.get(1).map(String::as_str) {
+        Some("test") => 1,
+        Some(toolchain)
+            if toolchain.starts_with('+')
+                && toolchain.len() > 1
+                && argv.get(2).map(String::as_str) == Some("test") =>
+        {
+            2
+        }
+        _ => return None,
+    };
 
     let target_flags = [
         "--lib",
+        "--doc",
         "--bins",
         "--tests",
         "--examples",
@@ -1629,10 +1641,43 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
     ];
     let mut target_boundaries = 0_u8;
     let mut filter = None;
-    let mut index = 2;
+    let mut libtest_filter = None;
+    let mut index = test_index + 1;
     while index < argv.len() {
         let value = &argv[index];
         if value == "--" {
+            index += 1;
+            let libtest_value_flags = ["--skip", "--test-threads", "--format", "--color", "-Z"];
+            while index < argv.len() {
+                let value = &argv[index];
+                if libtest_value_flags.contains(&value.as_str()) {
+                    if argv.get(index + 1).is_none_or(|next| next.starts_with('-')) {
+                        return Some(invalid_rust_selector(format!(
+                            "cargo test libtest option `{value}` requires a value"
+                        )));
+                    }
+                    index += 2;
+                    continue;
+                }
+                if libtest_value_flags
+                    .iter()
+                    .any(|flag| value.starts_with(&format!("{flag}=")))
+                {
+                    index += 1;
+                    continue;
+                }
+                if value.starts_with('-') {
+                    index += 1;
+                    continue;
+                }
+                if libtest_filter.replace(value.as_str()).is_some() {
+                    return Some(invalid_rust_selector(
+                        "cargo test lane contains multiple libtest substring selectors; declare one exact Cargo target boundary"
+                            .into(),
+                    ));
+                }
+                index += 1;
+            }
             break;
         }
         if target_flags.contains(&value.as_str()) {
@@ -1704,7 +1749,7 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         ));
     }
     if target_boundaries == 0 {
-        if let Some(filter) = filter {
+        if let Some(filter) = filter.or(libtest_filter) {
             return Some(invalid_rust_selector(format!(
                 "cargo test lane uses free substring selector `{}` without a target boundary; use `--lib {}` or `--test <target>`",
                 filter, filter
@@ -2668,6 +2713,19 @@ mod tests {
             "schema",
         ]);
         let error = validate_validation_lanes(&[ambiguous]).expect_err("ambiguous selector");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        let separator_bypass = lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--",
+            "schema",
+            "--list",
+        ]);
+        let error = validate_validation_lanes(&[separator_bypass]).expect_err("separator bypass");
         assert_eq!(error.code, ErrorCode::CardInvalid);
         assert!(error.message.contains("without a target boundary"));
 
