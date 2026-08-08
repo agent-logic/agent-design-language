@@ -1,9 +1,14 @@
 flowchart LR
     CLI[csdlc-github-issue\nrun --request] --> PARSE[Typed request validation]
     PARSE --> OCTO[Existing Octocrab client]
-    OCTO --> READ[GET owner/name issues/N]
-    READ -->|200| SUCCESS[Existing GithubIssuePacket\nunchanged JSON and exit 0]
-    READ -->|Octocrab error| CLASSIFY[Issue-read failure classifier]
+    OCTO --> FETCH[fetch_issue_value\nstructured Octocrab result]
+    FETCH --> CALLER{Caller}
+    CALLER -->|Explicit IssueRead success| NORMALIZE[Existing normalize_issue]
+    NORMALIZE --> SUCCESS[Existing GithubIssuePacket\nunchanged JSON and exit 0]
+    CALLER -->|Explicit IssueRead error| CLASSIFY[Issue-read failure classifier]
+    CALLER -->|Create update comment close readback| SHARED[Existing read_issue_packet]
+    SHARED -->|error| GENERIC[Existing remote_failure]
+    SHARED -->|success| NORMALIZE
 
     CLASSIFY --> N404[404\nremote_not_found\nexit 69]
     CLASSIFY --> AUTH[401 or ordinary 403\nremote_authentication or authorization\nexit 77]
@@ -18,7 +23,9 @@ flowchart LR
     SERVER --> SAFE
     TRANSPORT --> SAFE
     OTHER --> SAFE
+    GENERIC --> SAFE
 
     SAFE --> REDACT[Only owner/name and issue N\nNo token path value header or raw body]
     TEST[Loopback binary proof\n200 404 401 403 429 500 dropped connection] -. verifies .-> SUCCESS
     TEST -. verifies .-> REDACT
+    TEST -. verifies non-read compatibility .-> GENERIC

@@ -4,13 +4,24 @@
 
 Keep the existing `GithubAction::IssueRead` request and successful
 `GithubActionResult` unchanged. Add one issue-read-specific Octocrab error
-classifier only in the explicit `GithubAction::IssueRead` match arm: that arm
-maps an error returned by `read_issue_packet`, while the shared helper itself
-and every create/update/comment/close reconciliation call remain unchanged.
-The classifier returns stable `ErrorCode` variants and constructs its own
-bounded diagnostic from the already-validated repository identity and issue
-number. It must never interpolate the Octocrab error display, GitHub response
-body, authorization header, token path, or token value.
+classifier at an exact lower-level seam:
+
+1. extract only the existing `crab.get(...)` expression into
+   `fetch_issue_value(...) -> Result<serde_json::Value, octocrab::Error>`;
+2. keep `read_issue_packet` as the shared compatibility helper by calling
+   `fetch_issue_value(...).await.map_err(remote)?` and then the existing
+   `normalize_issue`;
+3. in the explicit `GithubAction::IssueRead` arm only, call
+   `fetch_issue_value` directly, map its still-structured `octocrab::Error`
+   through `classify_issue_read_error`, and pass a successful value to the same
+   `normalize_issue` function.
+
+Every create/update/comment/close reconciliation call continues using
+`read_issue_packet` and therefore retains its existing generic `remote_failure`
+mapping. The classifier constructs its own bounded diagnostic from the
+already-validated repository identity and issue number. It must never
+interpolate the Octocrab error display, GitHub response body, authorization
+header, token path, or token value.
 
 The minimum failure taxonomy is:
 
@@ -52,10 +63,13 @@ source message or URL.
 
 1. `csdlc-github-issue` parses the existing typed request.
 2. `execute_github_action` validates `owner/name` and the positive issue
-   number, resolves the approved token source, and calls Octocrab.
-3. Successful reads return the existing packet byte shape.
-4. Failed reads pass only the Octocrab error plus validated repository and
-   issue identity to the classifier.
+   number, resolves the approved token source, and calls
+   `fetch_issue_value` from the explicit read arm.
+3. Successful values pass through existing `normalize_issue`, preserving the
+   packet byte shape.
+4. Failed explicit reads pass the still-structured Octocrab error plus
+   validated repository and issue identity to the classifier; shared readbacks
+   continue through `read_issue_packet` and existing `remote` normalization.
 5. The CLI serializes the existing `csdlc.error.v1` envelope on stdout and
    exits with the code owned by the classified `ErrorCode`; stderr remains
    empty unless stdout itself cannot be written.
