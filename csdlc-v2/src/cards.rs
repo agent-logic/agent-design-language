@@ -1665,9 +1665,8 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         return None;
     }
 
-    let target_flags = [
-        "--lib",
-        "--doc",
+    let exact_target_flags = ["--lib", "--doc"];
+    let broad_target_flags = [
         "--bins",
         "--tests",
         "--examples",
@@ -1694,6 +1693,7 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         "-Z",
     ];
     let mut target_boundaries = 0_u8;
+    let mut broad_target_sets = 0_u8;
     let mut filter = None;
     let mut libtest_filter = None;
     let mut index = test_index + 1;
@@ -1734,8 +1734,13 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
             }
             break;
         }
-        if target_flags.contains(&value.as_str()) {
+        if exact_target_flags.contains(&value.as_str()) {
             target_boundaries += 1;
+            index += 1;
+            continue;
+        }
+        if broad_target_flags.contains(&value.as_str()) {
+            broad_target_sets += 1;
             index += 1;
             continue;
         }
@@ -1799,7 +1804,7 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         index += 1;
     }
 
-    if target_boundaries > 1 {
+    if target_boundaries + broad_target_sets > 1 {
         return Some(invalid_rust_selector(
             "cargo test lane has conflicting target selectors; declare exactly one target boundary"
                 .into(),
@@ -2796,6 +2801,19 @@ mod tests {
         ]);
         let error =
             validate_validation_lanes(&[global_option_bypass]).expect_err("global option bypass");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        let broad_target_bypass = lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--tests",
+            "schema",
+        ]);
+        let error =
+            validate_validation_lanes(&[broad_target_bypass]).expect_err("broad target bypass");
         assert_eq!(error.code, ErrorCode::CardInvalid);
         assert!(error.message.contains("without a target boundary"));
 

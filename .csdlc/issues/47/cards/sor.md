@@ -28,6 +28,7 @@ Implemented typed exact, intentional-broad, and invalid Rust test selector class
 - Handled Cargo's documented t alias and repeated verbosity flags without reopening substring fan-out.
 - Handled documented Cargo -C, -F, and lockfile-path value options without misclassifying their values as test filters.
 - Handled attached short-value forms for Cargo global and test options while preserving missing-value rejection.
+- Distinguished singular exact targets from plural broad target sets so target-set substring filters cannot fan out across unrelated binaries.
 - Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.
 - Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.
 

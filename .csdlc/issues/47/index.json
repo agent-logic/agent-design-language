@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "02c00618041980e4134da2133fcc575c5f46347ca1100d5f881a908fecaae6a3",
+  "generation": 20,
+  "digest": "a5c4c85a7b71e6116d482526f44368b43966399268fc6a09c2d35ce3d26f94fc",
   "branch": "codex/47-exact-rust-test-selectors",
   "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
   "review_assignment": {
@@ -34,34 +34,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "094f6cb3e87cbc295af2d4c8e55b7e8c7d36347d171e4ca609b92d173cc8fe25",
+      "values_digest": "2cf45a94092287a4f232022c4afd5c3bb76514bccfe5adb89a0c8bd9b8bf843a",
       "rendered_digest": "733dcb06dddaa768a73faa1ce4928177e0ce93e8ac263f639b031e7ae19f27a0",
       "ast_digest": "8a86d67f40e75fc0a5c5b396b0986ead341adcbf45cac53f52dec21a089d6842"
     },
     "stp": {
-      "values_digest": "42f34934471e4f39f5e8066b141e17a34a9bd1823d0785a042910a91e133f0ed",
+      "values_digest": "cc86255d537365ea4b04071594dda33ca37542661a4f52692e3088ac288fce02",
       "rendered_digest": "9f6504856f62e79caa56903268cba3255da962282736b6383619187da3435e36",
       "ast_digest": "c6286d6fbf8d4bfe0141d8958ce38d4e961782ff7fd66716bc21a3d15ebcd30b"
     },
     "spp": {
-      "values_digest": "3457c487d72a9580898ad364e7e577c402c5ab6d346ec2e2284735e45e51cac7",
+      "values_digest": "ba7f5d845720d17ffe06bd2819b2ec973d931aab7a0465fa92f0e3e5355392d2",
       "rendered_digest": "78e97ec06ef44554a574d31006d4cecf03b6018ac43ef80eec6096ca788ac4c0",
       "ast_digest": "6624cef99b9e7e83362689bc09a39bca749bad71a1bea1898690a2e4303fd3f0"
     },
     "vpp": {
-      "values_digest": "48c79e09af1e078ec509d99d6afac7b3ae66186add955f5004afd500210d2949",
+      "values_digest": "ce522a90469e045a0379520c92d0a7574a6b5307670178dbc2689119a69178c7",
       "rendered_digest": "32487a992c5e8912313257d2ce77333eee2d5f6680b71a6c4eea824ed52a664e",
       "ast_digest": "841d097fb38eaf4a904ac3b9fd9e4e57df237b22a6c8394d97d487e8f8a5caad"
     },
     "srp": {
-      "values_digest": "34d3bb5ff17f2a77f666cd886a19aa9b185e2d6118c01025ed15efccb92da06b",
+      "values_digest": "df59332f3327befcbe4732f8f766e4890ca12addb5db04b441625a12ae61da52",
       "rendered_digest": "2544c3b46d0b0b54dc4dc3e723e60249b13ee30c3076ade2b3af991f955a6d9e",
       "ast_digest": "f613b6aab0d36660f93e69eb359248bdaf44c5d0220c2e65068827a05298abbe"
     },
     "sor": {
-      "values_digest": "b1258449ba3713bb1d5c01ac0cbe09e5bef95e27dcf584c3852a197bc8d19a7e",
-      "rendered_digest": "be9c4857c767c5c5d7f80d7c1c282e770545444e2f4a204fca1bc3ea8ebb9777",
-      "ast_digest": "a7dd717f2412c4377d9aad5a7263bc65c6ddbaec825f08743f027bf3187796b8"
+      "values_digest": "2a9c571f50b52a9b016892fed38a2cb085a17589281e1bbf565be7f1b7e8c20f",
+      "rendered_digest": "984d37b4ce941d41bcb3e70587008417b818faefed1079510e84a9cd2e09cf8e",
+      "ast_digest": "0c1bbabef2abb0232528a89f448b5f26c06c2c0478ca715f922f697844b58bcb"
     }
   },
   "transitions": [
@@ -276,6 +276,13 @@
       "actor": "codex:issue-47-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record the implemented selector contract and exact focused validation before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, the test/t aliases, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.\",\"changes\":[\"Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.\",\"Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.\",\"Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.\",\"Handled Cargo's documented t alias and repeated verbosity flags without reopening substring fan-out.\",\"Handled documented Cargo -C, -F, and lockfile-path value options without misclassifying their values as test filters.\",\"Handled attached short-value forms for Cargo global and test options while preserving missing-value rejection.\",\"Distinguished singular exact targets from plural broad target sets so target-set substring filters cannot fan out across unrelated binaries.\",\"Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.\",\"Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/validation_selectors.rs\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"validation_lane_rejects_free_rust_test_substring_before_execution\"],\"purpose\":\"Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"validation_selectors\"],\"purpose\":\"Prove selector classification and exact nonzero schema selection without launching estimation_contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/validation_selectors.rs\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove the exact schema library lane selects its three intended unit tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all C-SDLC v2 targets remain warning-free after the selector change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting on the changed crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/47/cards/sor.md\"}]}"
     }
   ]
 }

@@ -92,6 +92,22 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
     .expect("cargo test classification");
     assert_eq!(broad.posture, RustTestSelectorPosture::IntentionalBroad);
 
+    for broad_target_set in [
+        "--bins",
+        "--tests",
+        "--examples",
+        "--benches",
+        "--all-targets",
+    ] {
+        let classification =
+            classify_rust_test_selector(&argv(&["cargo", "test", broad_target_set]))
+                .expect("cargo broad target set classification");
+        assert_eq!(
+            classification.posture,
+            RustTestSelectorPosture::IntentionalBroad
+        );
+    }
+
     for invalid in [
         argv(&["cargo", "test", "schema"]),
         argv(&["cargo", "test", "--", "schema", "--list"]),
@@ -99,6 +115,11 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
         argv(&["cargo", "--locked", "test", "schema"]),
         argv(&["cargo", "t", "schema"]),
         argv(&["cargo", "+stable", "t", "schema"]),
+        argv(&["cargo", "test", "--bins", "schema"]),
+        argv(&["cargo", "test", "--tests", "schema"]),
+        argv(&["cargo", "test", "--examples", "schema"]),
+        argv(&["cargo", "test", "--benches", "schema"]),
+        argv(&["cargo", "test", "--all-targets", "--", "schema"]),
         argv(&["cargo", "test", "--test"]),
         argv(&["cargo", "test", "--lib", "--test", "gate2"]),
     ] {
