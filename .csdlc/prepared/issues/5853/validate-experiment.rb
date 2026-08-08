@@ -209,7 +209,9 @@ abort "final-state runner drifted" unless final_state["production_runner"] == RU
 abort "proof semantics changed" unless final_state["required_check_identity_preserved"] &&
   final_state["validation_breadth_preserved"] && final_state["validation_breadth_contract_preserved"]
 abort "security boundary drifted" unless final_state["selected_repository_access"] && !final_state["untrusted_fork_privilege"]
-abort "terminal canary gate missing" unless final_state.dig("production_canary", "terminal_gate")&.include?("final reviewed PR head")
+terminal_gate = final_state.dig("production_canary", "terminal_gate")
+abort "terminal canary gate missing" unless terminal_gate&.include?("final reviewed PR head") &&
+  terminal_gate.include?("direct test and doc-test steps")
 abort "terminal canary acceptance missing" unless final_state.dig("production_canary", "terminal_acceptance") == true
 abort "final-state still records a remaining action" if final_state.key?("remaining_action")
 

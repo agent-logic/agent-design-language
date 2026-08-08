@@ -38,7 +38,7 @@ class Wp02bEvidenceContractTest < Minitest::Test
     )
   end
 
-  def test_accepts_fully_successful_authoritative_coverage_replacement
+  def test_rejects_coverage_as_a_substitute_for_direct_steps
     canary = base_canary
     canary["proof_paths"]["direct_test"] = {
       "test_step_conclusion" => "skipped",
@@ -54,9 +54,10 @@ class Wp02bEvidenceContractTest < Minitest::Test
       { "name" => "adl-coverage", "conclusion" => "success" }
     ]
 
-    assert_nil Wp02bEvidenceContract.production_canary_error(
-      canary, expected_head: HEAD, runner_label: RUNNER
-    )
+    assert_match(/direct test and doc-test steps did not complete successfully/,
+                 Wp02bEvidenceContract.production_canary_error(
+                   canary, expected_head: HEAD, runner_label: RUNNER
+                 ))
   end
 
   def test_rejects_skipped_direct_steps_and_failed_coverage
@@ -75,7 +76,7 @@ class Wp02bEvidenceContractTest < Minitest::Test
       { "name" => "adl-coverage", "conclusion" => "failure" }
     ]
 
-    assert_match(/neither direct test\/doc-test steps nor the authoritative coverage replacement/,
+    assert_match(/direct test and doc-test steps did not complete successfully/,
                  Wp02bEvidenceContract.production_canary_error(
                    canary, expected_head: HEAD, runner_label: RUNNER
                  ))

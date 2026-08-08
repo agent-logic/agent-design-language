@@ -2,13 +2,6 @@
 
 module Wp02bEvidenceContract
   PRODUCTION_CANARY_SCHEMA = "adl.wp02b.production_canary.v2"
-  REQUIRED_COVERAGE_PRODUCERS = [
-    "adl-coverage-runtime-hosted",
-    "adl-coverage-workspace-hosted (1/2)",
-    "adl-coverage-workspace-hosted (2/2)"
-  ].freeze
-  REQUIRED_COVERAGE_AGGREGATORS = %w[adl-coverage-hosted adl-coverage].freeze
-
   module_function
 
   def successful_paid_run?(outcome)
@@ -30,18 +23,9 @@ module Wp02bEvidenceContract
     direct_passed = direct["test_step_conclusion"] == "success" &&
       direct["doc_test_step_conclusion"] == "success"
 
-    coverage = canary.fetch("proof_paths", {}).fetch("coverage_replacement", {})
-    producers = coverage.fetch("producer_jobs", [])
-    aggregators = coverage.fetch("aggregator_jobs", [])
-    coverage_passed = coverage["authoritative"] == true &&
-      producers.map { |job| job["name"] }.sort == REQUIRED_COVERAGE_PRODUCERS.sort &&
-      aggregators.map { |job| job["name"] }.sort == REQUIRED_COVERAGE_AGGREGATORS.sort &&
-      producers.all? { |job| job["conclusion"] == "success" } &&
-      aggregators.all? { |job| job["conclusion"] == "success" }
-
     return "production canary terminal acceptance is false" unless canary["terminal_acceptance"] == true
-    return nil if direct_passed || coverage_passed
+    return nil if direct_passed
 
-    "neither direct test/doc-test steps nor the authoritative coverage replacement completed successfully"
+    "direct test and doc-test steps did not complete successfully"
   end
 end
