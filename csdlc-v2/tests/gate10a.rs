@@ -495,7 +495,7 @@ fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
         verify_coexistence(&repo, &destination, &CoexistenceInventory::load().unwrap()).unwrap();
     assert!(coexistence.pass);
     assert!(coexistence.missing_v2_binaries.is_empty());
-    assert!(coexistence.forbidden_v1_paths_present.is_empty());
+    assert!(coexistence.present_forbidden_v1_paths.is_empty());
     assert!(!destination.join("csdlc-migrate").exists());
 
     let temp = tempfile::tempdir().unwrap();
