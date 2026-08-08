@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][GitHub] Classify missing issue reads with actionable repository/404 diagnostics",
     "slug": "github-issue-read-failure-diagnostics",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
@@ -55,8 +55,8 @@
           "evidence_ref": "local issue worktree: strict all-target Clippy, cargo fmt --check, and git diff --check passed"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
