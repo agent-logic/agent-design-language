@@ -1,0 +1,17 @@
+{
+  "issue": 63,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "b74fa5a36c6fc0ecfaeffef7efbb3509e99b61c9a41134fcf93a171f982d15d2",
+  "actor": "codex:63-readiness-preparation",
+  "reason": "bind execution readiness to exact owned implementation and proof paths",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ]
+  }
+}

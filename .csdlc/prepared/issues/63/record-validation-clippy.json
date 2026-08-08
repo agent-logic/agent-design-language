@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "88706941d75f72907b9e7223311c27ab58cc532600826b080b8e9dc9a16f8d50",
+  "actor": "codex:63-validation",
+  "reason": "Record focused strict Clippy proof.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","clippy","--manifest-path","csdlc-v2/Cargo.toml","--lib","--bin","csdlc-edit","--","-D","warnings"],"purpose":"Reject type, match-exhaustiveness, store, and editor binary warnings for the bounded implementation.","outcome":"passed","evidence_ref":"local:issue-63-clippy:passed"}}
+}

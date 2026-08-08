@@ -574,6 +574,9 @@ pub enum SemanticOperation {
     CorrectReviewPromptsAfterRecovery {
         values: Vec<String>,
     },
+    CorrectDeclaredScopeBeforePublication {
+        values: Vec<String>,
+    },
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
@@ -914,6 +917,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Srp(value) => value.review_prompts = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_review_prompts_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectDeclaredScopeBeforePublication {
+            values: replacement,
+        } => {
+            validate_replacement(replacement, "declared scope")?;
+            match &mut values.content {
+                CardContent::Sip(value) => value.declared_scope = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_declared_scope_before_publication"),
             }
             Ok(None)
         }

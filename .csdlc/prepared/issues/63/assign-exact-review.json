@@ -1,0 +1,15 @@
+{
+  "issue": 63,
+  "expected_generation": 20,
+  "expected_digest": "12e2256fe08d6819f947bc594ac7097c2a5241f813ec0594641361de12f596fc",
+  "reviewer": "subagent:63-exact-head-review",
+  "assigned_by": "codex:63-implementation",
+  "scope": [
+    "csdlc-v2/src/cards.rs",
+    "csdlc-v2/src/store.rs",
+    "csdlc-v2/tests/gate2.rs",
+    "csdlc-v2/tests/gate5.rs",
+    ".csdlc/issues/63",
+    ".csdlc/prepared/issues/63"
+  ]
+}

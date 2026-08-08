@@ -1026,13 +1026,17 @@ impl Store {
                 "review recovery record changed before commit",
             ));
         }
-        if !matches!(
-            record.phase,
-            LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
-        ) {
+        let implemented_with_review_truth = record.phase == LifecyclePhase::Implemented
+            && (record.review_assignment.is_some() || record.review.is_some());
+        if !implemented_with_review_truth
+            && !matches!(
+                record.phase,
+                LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
+            )
+        {
             return Err(V2Error::new(
                 ErrorCode::InvalidTransition,
-                "review recovery requires reviewed phase",
+                "review recovery requires review truth or a reviewed/published phase",
             ));
         }
         let mut cards = self.load_cards(issue)?;
@@ -1054,7 +1058,9 @@ impl Store {
             sor.merge_state = crate::cards::MergeState::NotMerged;
             sor.closeout_state = crate::cards::CloseoutState::NotStarted;
         }
-        record.advance(LifecyclePhase::Implemented, actor.clone(), reason.clone())?;
+        if record.phase != LifecyclePhase::Implemented {
+            record.advance(LifecyclePhase::Implemented, actor.clone(), reason.clone())?;
+        }
         record.review_assignment = None;
         record.review = None;
         record.publication = None;
@@ -1375,6 +1381,27 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             ));
         }
     }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectDeclaredScopeBeforePublication { .. }
+    ) {
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "implemented SIP scope correction requires actor and reason",
+            ));
+        }
+        if record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "implemented SIP scope correction requires cleared review and publication truth",
+            ));
+        }
+    }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
             cards
@@ -1384,6 +1411,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         )?),
         _ => None,
     };
+    let declared_scope_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectDeclaredScopeBeforePublication { .. }
+    ) {
+        match &cards[&CardKind::Sip].content {
+            CardContent::Sip(value) => Some(value.declared_scope.clone()),
+            _ => unreachable!("SIP"),
+        }
+    } else {
+        None
+    };
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -1392,6 +1430,14 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "new_value": value,
         })
         .to_string(),
+        (SemanticOperation::CorrectDeclaredScopeBeforePublication { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_declared_scope_before_publication",
+                "previous_values": declared_scope_before.expect("scope correction snapshot"),
+                "new_values": values,
+            })
+            .to_string()
+        }
         _ => serde_json::to_string(&request.operation)?,
     };
     if identity_update {
@@ -1892,7 +1938,8 @@ fn authorize_card_operation(
                 | SemanticOperation::ReplacePlanningCollection {
                     field: crate::cards::PlanningCollectionField::AuthorityBoundary,
                     ..
-                },
+                }
+                | SemanticOperation::CorrectDeclaredScopeBeforePublication { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Stp,
@@ -2435,7 +2482,7 @@ mod edit_authorization_tests {
     }
 
     #[test]
-    fn implemented_spp_review_remediation_authorizes_only_bounded_replacements() {
+    fn implemented_review_remediation_authorizes_only_bounded_operations() {
         for operation in [
             SemanticOperation::ReplacePlanSteps {
                 steps: replacement_steps(),
@@ -2462,6 +2509,44 @@ mod edit_authorization_tests {
             },
         )
         .expect_err("unbounded SPP collection remains rejected");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+
+        authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            &SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/current.rs".into()],
+            },
+        )
+        .expect("implemented SIP scope correction");
+        for phase in [
+            LifecyclePhase::Initialized,
+            LifecyclePhase::Ready,
+            LifecyclePhase::Bound,
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            let error = authorize_card_operation(
+                phase,
+                CardKind::Sip,
+                &SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                    values: vec!["src/late.rs".into()],
+                },
+            )
+            .expect_err("scope correction is implemented-only");
+            assert_eq!(error.code, ErrorCode::InvalidTransition);
+        }
+        let error = authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            &SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/wrong-card.rs".into()],
+            },
+        )
+        .expect_err("scope correction is SIP-only");
         assert_eq!(error.code, ErrorCode::InvalidTransition);
     }
 

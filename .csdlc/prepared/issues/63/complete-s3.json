@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "5cb5e7ea6f0a83cfde5056ebd5862d3c0df2b20819090e6823e0ac92fc2ecc4a",
+  "actor": "codex:63-implementation",
+  "reason": "Focused real-editor, validator, authorization, and review-recovery regressions pass.",
+  "operation": {"operation":"update_plan_step","step_id":"S3","status":"completed"}
+}

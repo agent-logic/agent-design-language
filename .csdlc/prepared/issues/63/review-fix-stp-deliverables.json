@@ -1,0 +1,19 @@
+{
+  "issue": 63,
+  "card": "stp",
+  "expected_generation": 6,
+  "expected_digest": "1d3a0f6bee793fd9604708672c786d6bfb651bb1063c6517046f6fff0f378c2a",
+  "actor": "codex:63-readiness-preparation",
+  "reason": "add the focused review-recovery regression deliverable required by the approved design",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Dedicated correct_declared_scope_before_publication typed semantic operation",
+      "Exact implemented/SIP/cleared-truth authorization and actor/reason guards",
+      "Audit operation retaining previous and replacement scope",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  }
+}
