@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 45,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/45-doctor-split-repository-authority",
+  "title": "[C-SDLC v2] Make doctor honor split repository authority",
+  "body": "Closes #45\n\n## Summary\n\n- record optional canonical code-repository authority during typed bind\n- accept same-repository and explicit split routes while rejecting missing, unparseable, substituted, or mismatched authority\n- preserve digest compatibility for pre-field live indexes and retained terminal receipts\n- update active bind, doctor, publish, and runbook contracts\n\n## Validation\n\n- gate2 split-authority integration: pass\n- legacy index and terminal-receipt digest regression: pass\n- source-built typed issue validation at generation 12: pass\n- public schema gate6 check: pass\n- full gate6 6/6 and gate_finish 17/17: pass\n- strict all-target Clippy, formatting, installer contract, and diff hygiene: pass\n- independent exact-head rereview at d09397d7: pass with no material findings",
+  "draft": false,
+  "revision": "git-blake3:c10cc05a3d0476e532f519693183c4bb962ee830:890ded5ffe28d454c2cb5293b9de041641c9f46e10bc9238d9c177bc8018131a",
+  "commit_sha": "c10cc05a3d0476e532f519693183c4bb962ee830"
+}
