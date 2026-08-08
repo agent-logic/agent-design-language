@@ -12,7 +12,61 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5863/cards/sip.values.json
+.csdlc/issues/5863/cards/spp.values.json
+.csdlc/issues/5863/cards/stp.values.json
+.csdlc/issues/5863/cards/vpp.values.json
+.csdlc/issues/5863/index.json
+.csdlc/issues/5864/cards/sip.values.json
+.csdlc/issues/5864/cards/spp.values.json
+.csdlc/issues/5864/cards/stp.values.json
+.csdlc/issues/5864/cards/vpp.values.json
+.csdlc/issues/5864/index.json
+.csdlc/issues/5865/cards/sip.values.json
+.csdlc/issues/5865/cards/spp.values.json
+.csdlc/issues/5865/cards/stp.values.json
+.csdlc/issues/5865/cards/vpp.values.json
+.csdlc/issues/5865/index.json
+.csdlc/issues/5867/cards/sip.values.json
+.csdlc/issues/5867/cards/spp.values.json
+.csdlc/issues/5867/cards/stp.values.json
+.csdlc/issues/5867/cards/vpp.values.json
+.csdlc/issues/5867/index.json
+.csdlc/issues/5869/cards/sip.values.json
+.csdlc/issues/5869/cards/spp.values.json
+.csdlc/issues/5869/cards/stp.values.json
+.csdlc/issues/5869/cards/vpp.values.json
+.csdlc/issues/5869/index.json
+.csdlc/issues/5870/cards/sip.values.json
+.csdlc/issues/5870/cards/spp.values.json
+.csdlc/issues/5870/cards/stp.values.json
+.csdlc/issues/5870/cards/vpp.values.json
+.csdlc/issues/5870/index.json
+.csdlc/issues/5875/cards/sip.values.json
+.csdlc/issues/5875/cards/spp.values.json
+.csdlc/issues/5875/cards/stp.values.json
+.csdlc/issues/5875/cards/vpp.values.json
+.csdlc/issues/5875/index.json
+.csdlc/issues/5876/cards/sip.values.json
+.csdlc/issues/5876/cards/spp.values.json
+.csdlc/issues/5876/cards/stp.values.json
+.csdlc/issues/5876/cards/vpp.values.json
+.csdlc/issues/5876/index.json
+.csdlc/prepared/issues/5821/design.md
+.csdlc/prepared/issues/5821/validate-architecture-security-review.rb
+.csdlc/prepared/issues/5821/validate-child-wave.rb
+.csdlc/prepared/issues/5863/design.md
+.csdlc/prepared/issues/5864/design.md
+.csdlc/prepared/issues/5865/design.md
+.csdlc/prepared/issues/5867/design.md
+.csdlc/prepared/issues/5869/design.md
+.csdlc/prepared/issues/5870/design.md
+.csdlc/prepared/issues/5875/design.md
+.csdlc/prepared/issues/5876/design.md
+docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md
+docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md
+docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md
+docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md
 
 ## Prompts
 
@@ -32,12 +86,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This gate proves architecture, security, dependency ownership, and child-wave contract readiness; runtime implementation and distributed failure proofs remain assigned to the WP-04 implementation children.
+- Claude supplemental review was attempted through the documented provider route but returned no usable text and is not counted as an approval.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b7035e934dc8c69c2b20fbaf1680aeac0c305bc6:5271cc39809768e1fcd0656636747bc69bde3b913f5bc96c9007b3c048ab2b9d")
 
-Reviewer: None
+Reviewer: Some("openai-codex:gpt-5:wp04-authority-certificate-independent-review:2026-08-08")
 
-Result: pre_review
+Result: pass
