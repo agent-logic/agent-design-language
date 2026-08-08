@@ -3,11 +3,11 @@
   "issue": 5863,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "11c8c3af9d6da39dbef1a1346e9367fa8bc5fc51f5d1989c22c14ee7432e16bd",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 14,
-  "digest": "6fedaffd568d9eff9a5954f7dce24d6b6771086ab84b9ca37365d18f5a17c2f0",
-  "branch": null,
-  "worktree": null,
+  "digest": "a361f336863233bf585d3f8de59a1bcc2676ed145782e8f6f8e716e801dbc0f1",
+  "branch": "codex/5863-node-identity-enrollment",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5863-node-identity",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +75,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -301,6 +315,13 @@
       "actor": "codex:5821-wp04-key-uniqueness-repair",
       "reason": "Require exact negative enrollment proof for duplicate effective voter keys.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_identity proves identity creation, signed enrollment, rejection of the same effective Guardian control public key under a second active or enrolled voter identity, one-key-one-quorum-voter enforcement, wrong-domain rejection, replay rejection, and restart-stable identity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=1877c7f5a4719e7474f10c2537728fdf664538296da02dade1d3e91c8d88fedd]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5863/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 14,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
