@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 53,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
+    "slug": "execution-proof-non-self-referential-revisions",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 53 two-revision proof contract, shared WP-04 receipt validator, isolated Git regression, compatibility boundary, and fail-closed behavior.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any accepted v3 receipt omit or fake either exact revision?",
+        "Does ancestry verification prevent unrelated or reversed commit pairs?",
+        "Can source-to-evidence diff filtering hide a product change?",
+        "Do all preexisting digest and provenance checks remain mandatory?",
+        "Are v2 receipts preserved without silent reinterpretation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

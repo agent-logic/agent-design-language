@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 53,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
+    "slug": "execution-proof-non-self-referential-revisions",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make tracked execution-proof receipts bind distinct substantive and evidence revisions without weakening exact-revision or digest verification.",
+      "required_outcome": "A committed receipt names machine-verified substantive and evidence revisions with valid ancestry and evidence-only intervening changes, while all existing proof digests remain fail closed.",
+      "declared_scope": [
+        ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+        "adl/tools/test_wp04_proof_receipt_contract.rb",
+        ".csdlc/prepared/issues/53",
+        ".csdlc/issues/53"
+      ],
+      "authority_boundary": [
+        "Issue and code authority are agent-logic/agent-design-language#53",
+        "Retained v2 receipts remain immutable and keep their existing validation semantics",
+        "Only the shared WP-04 proof receipt contract and issue-local regression are implementation scope",
+        "No distributed Runtime product behavior is owned"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write on main",
+        "Do not weaken exact revision or artifact digest verification",
+        "Use the typed C-SDLC v2 lifecycle",
+        "Publish only after exact-head independent review"
+      ]
+    }
+  }
+}

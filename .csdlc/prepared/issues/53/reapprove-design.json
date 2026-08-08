@@ -1,0 +1,6 @@
+{
+  "issue": 53,
+  "expected_generation": 5,
+  "expected_digest": "2dd80608e754cb831752eff3331e217448c3f9f394dbd7f137efa3c910c0b902",
+  "reviewer": "codex:53-design-review-v2"
+}

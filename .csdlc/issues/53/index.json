@@ -1,0 +1,194 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 53,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "26c54e5f037839ecd9f4f8a2410a5453e2d4d7ecf5353bec3092a45257b39c61",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "a6c1f6c81b615de664e377551c87ce5e0847232a2af3c00e49d508963078181c",
+  "branch": "codex/53-execution-proof-receipts",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-53",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/53/design.md",
+  "diagram_path": ".csdlc/prepared/issues/53/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:53-design-review-v2",
+      "revision": "41ea7f573d657eb50129ac512fefcaece259ba1d2cedb0b37d6651c8373a2746"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "313c1e360b1127c9e9a6b718095340b91db356ef2453f60206975ea510974e69",
+      "rendered_digest": "9ed34e343bf1521f1e2f03f5634e53f00040a367d73c9ad839cf921c06eab0b6",
+      "ast_digest": "dc315ad176e4f345a70d7989e6ec86117653621f7c03950c136a492b80cce6c4"
+    },
+    "stp": {
+      "values_digest": "559423e27429d67239fd5d433a4cdb542c9cf6a7c35d8ed3baed84b2f65d500c",
+      "rendered_digest": "f899fbc777d770eaf90600e37865860b64619eaf98dff767382142d13d6a8e71",
+      "ast_digest": "1e2c06d7118c6bac7669984228f71165d5aaf73590564c9857d6deca4626723c"
+    },
+    "spp": {
+      "values_digest": "2c2da9ea6e10f10c4497a644ea783cb92ed8f878c9d90b145c37a75c62a9f0cf",
+      "rendered_digest": "5a5deddd37057c0d1ee177271d66d5097b0891352dfff249d356aeaacbc7d7b6",
+      "ast_digest": "f273766ffdfafac9cd8952df47cd0e3374ee4d29438b8d7c26ef74060cbf7cfd"
+    },
+    "vpp": {
+      "values_digest": "2ed91e6a0072206e8fa4479c9903c57aa9ff880b844219bc746a5311c025b765",
+      "rendered_digest": "7e07c72923a0b2ba2b51107514029a555c3a5a2db403a121665b23249ed266d7",
+      "ast_digest": "bf0393884c3c50e31726533a5baa36526cf3acb6c7cf108454ed7bc023c90622"
+    },
+    "srp": {
+      "values_digest": "3b091333de7d811f3bcd67b7de20f75288fd6de06e3c09c649661c1956738ad6",
+      "rendered_digest": "88d4066fd70908c1503c47f67e9fc6b5fa91c3a7577e86a664514d55b13887b5",
+      "ast_digest": "b30f61a2e4e67d005984797aadb7cee13871ba42a6c300f3c1eea46d306f8810"
+    },
+    "sor": {
+      "values_digest": "ece2949e8d7c41e5537c79aecc1e704184e5088fc88b8756fbdc8b29849dbf8b",
+      "rendered_digest": "f6d262e3803379d69daed29fea9e52d34dcf7b9f2b37ceedbe631ee73916a083",
+      "ast_digest": "3067042589da07cce19fe01e3eb09bac7874f871fd7fcb52c86bac470ffee58f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:53-implementation",
+      "reason": "Bounded implementation and focused local validation are complete; exact-head review is next."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:53-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:53-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Declare the owned focused regression path required for execution readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\"adl/tools/test_wp04_proof_receipt_contract.rb\",\".csdlc/prepared/issues/53\",\".csdlc/issues/53\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Replace prose affected areas with safe repository-owned implementation and proof paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Name the exact implementation and focused validator deliverables used by readiness proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/design.md\",\".csdlc/prepared/issues/53/diagram.mmd\",\"Exact-head review and qualified issue-closing implementation PR\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Declare the issue-owned regression target as fail-closed deferred until implementation creates it.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"proof-receipt-contract-regression\",\"proof_role\":\"Prove A/B/C acceptance and fail-closed ancestry, scope, and tamper behavior in an isolated Git repository.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2200,\"argv\":[\"ruby\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Fail-closed implementation gate: the issue-owned validator target is created during bounded implementation and must pass before review.\"},{\"lane\":\"issue-hygiene\",\"proof_role\":\"Reject malformed cards, whitespace damage, and unintended scope before exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":600,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:53-design-review-v2",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:53-implementation",
+      "reason": "Finalized the non-self-referential derived evidence-revision contract.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:53-implementation",
+      "reason": "Implemented strict v3 resolution, ancestry, evidence-only diff, no-drift, and v2 compatibility behavior.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:53-implementation",
+      "reason": "Focused A/B/C, retained-v2, ancestry, scope, and tamper regression passes.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:53-implementation",
+      "reason": "Implementation proof is ready for exact-head independent review and publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:53-implementation",
+      "reason": "Record the bounded non-self-referential execution-proof receipt implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added an explicit v3 receipt contract that derives the evidence commit from the receipt introduction while preserving v2 exact-HEAD semantics.\",\"changes\":[\"Resolve the exact substantive source commit and machine-derive the unique evidence commit without embedding a self-referential evidence SHA.\",\"Require source-to-evidence ancestry, evidence-to-HEAD ancestry, evidence-only A..B changes, and zero later evidence drift.\",\"Validate source artifacts at the substantive commit and retain all command, log, negative, artifact, runner, and native-receipt checks.\",\"Add one focused temporary-repository regression for A/B/C success, v2 compatibility, and named fail-closed cases.\"],\"artifacts\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/design.md\",\".csdlc/prepared/issues/53/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:53-validation",
+      "reason": "Record focused receipt-contract regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"],\"purpose\":\"Prove non-self-referential A/B/C success, retained-v2 exact-HEAD behavior, and fail-closed ancestry, scope, source, receipt, and log tamper cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-53-receipt-regression:passed\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:53-validation",
+      "reason": "Record focused diff and typed issue validation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed tracked changes before exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-53-diff-check:passed\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:53-implementation",
+      "reason": "Bounded implementation and focused local validation are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+flowchart LR
+    A[Substantive commit A] -->|source_revision| R[Execution proof v3]
+    A --> B[Evidence-only commit B]
+    R -->|first tracked in| B
+    V -->|derive introduction commit| B
+    B --> C[Later lifecycle metadata C]
+    V[Proof validator] --> A
+    V --> B
+    V --> C
+    V --> D[Artifact and log digests]
+    V --> P{A ancestor B ancestor HEAD?}
+    V --> Q{A..B changes evidence-only?}
+    P -->|yes| PASS[Accept]
+    Q -->|yes| PASS
+    P -->|no| FAIL[Fail closed]
+    Q -->|no| FAIL
