@@ -1,0 +1,16 @@
+flowchart TD
+  A["Record pre-dispatch task inventory"] --> B["Run one bounded dispatch"]
+  B --> C{"Terminal result"}
+  C -->|"Task ID"| D["Read back task identity"]
+  C -->|"Typed failure or timeout"| E["Record failure class"]
+  C -->|"Indeterminate"| F["Stop without retry"]
+  D --> G{"Canary and prompt match; repo, issue, worktree absent"}
+  G -->|"Yes"| H["Transfer ownership to no-op canary"]
+  G -->|"No"| F
+  E --> I["Retain complete paginated post-inventory receipt"]
+  I --> J{"Typed failure and derived delta empty"}
+  J -->|"Yes"| K["Retry may be authorized"]
+  J -->|"Timeout, indeterminate, new, or duplicate task"| F
+  H --> L["Retain portable evidence"]
+  K --> L
+  F --> L

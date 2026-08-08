@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 35,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/35-codex-background-task-dispatch",
+  "title": "[tooling] Prove bounded Codex background dispatch (#35)",
+  "body": "Closes #35\n\n## Summary\n\n- run one bounded project-discovery probe and one projectless no-op dispatch canary\n- retain sanitized digest-bound inventory, readback, and ownership evidence\n- document success, reconciliation, retry, escalation, upstream ownership, and non-claims\n- add no ADL product code, scheduler, claim, lease, heartbeat, or retry wrapper\n\n## Validation\n\n- `ruby .csdlc/prepared/issues/35/validate-dispatch-evidence.rb evidence`\n- `ruby .csdlc/prepared/issues/35/validate-dispatch-evidence.rb docs`\n- `ruby .csdlc/prepared/issues/35/validate-dispatch-evidence.rb review`\n- `csdlc-validate --root . issue --issue 35`\n- `git diff --check`\n- independent exact-revision review: PASS, zero findings\n\nThe canary proves the current bounded happy path; it does not claim every historical UI hang is globally fixed.",
+  "draft": false,
+  "revision": "git-blake3:68be18eb22c46388ae8637d1a5058e48429e5a5e:e51686c213dbef492f34149705f3063f651c3db1ff3eee8f85379d47231d1987",
+  "commit_sha": "68be18eb22c46388ae8637d1a5058e48429e5a5e"
+}

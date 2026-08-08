@@ -1,0 +1,107 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 35,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Codex background task dispatch hangs without returning ownership",
+    "slug": "codex-background-task-dispatch-bounded-ownership",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 5,
+      "summary": "Establish the canary and timeout contract, run one project-discovery and one projectless-dispatch probe, reconcile live task ownership, classify the owning component, retain portable evidence and guidance, then obtain independent review.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "Define the disposable canary, timeout, terminal result schema, and pre-dispatch live task inventory.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-2",
+          "action": "Run one bounded project-discovery probe and one bounded projectless task-creation probe.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-3",
+          "action": "Read back any returned task identity and reconcile pre/post live inventories before transferring or retrying ownership.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-4",
+          "action": "Retain portable evidence, classify the owning component, and write bounded operator guidance or an actionable upstream report.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-5",
+          "action": "Run focused validation and independent ownership/safety review.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+        ".csdlc/evidence/35/background-task-dispatch-reproduction.json",
+        ".csdlc/evidence/35/ownership-reconciliation.json",
+        ".csdlc/evidence/35/task-inventory-receipts.json",
+        ".csdlc/evidence/35/task-readback-receipt.json",
+        "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md",
+        "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md"
+      ],
+      "invariants": [
+        "Ownership transfers only after a returned task ID is derived from complete task inventory receipts and verified through a digest-bound codex.read_thread receipt.",
+        "A timeout, indeterminate result, missing task ID, incomplete inventory, or unverified new task prohibits retry and is never implicit success.",
+        "Only an explicit typed failure with a complete empty task-ID delta may authorize retry.",
+        "Evidence contains no credentials, personal data, raw prompt content, or machine-local absolute paths.",
+        "Independent review authority comes from the canonical issue-35 review assignment and completed review, not a self-authored evidence assertion."
+      ],
+      "risks": [
+        "A late task creation response could appear after the caller times out.",
+        "Project discovery and task creation may fail in different components.",
+        "A canary could accidentally target a live issue if selection is not fail closed.",
+        "The owning defect may be upstream and not repairable in this repository."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "No disposable canary target is available.",
+        "The task API cannot provide a live inventory for ownership reconciliation.",
+        "A probe returns indeterminate state and duplicate ownership cannot be excluded.",
+        "The proposed change would modify unrelated ADL lifecycle or product code."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/35/design.md",
+      "design_digest": "87b8cf57616431515a1cf5967d3aed328fdcb8b64bfed397cf2fcdff68922a0b",
+      "diagram_ref": ".csdlc/prepared/issues/35/diagram.mmd",
+      "diagram_digest": "c7bac06fe66dfd1d4d31d440f38a2be93ea825eb4cc8daf9732a36991b9cbbf2"
+    }
+  }
+}

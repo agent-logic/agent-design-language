@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 35,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Codex background task dispatch hangs without returning ownership",
+    "slug": "codex-background-task-dispatch-bounded-ownership",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make Codex background task dispatch terminate with an observable task identity or a bounded typed failure without leaving hidden ownership.",
+      "required_outcome": "Reproduce and classify project discovery and projectless dispatch, retain timing and ownership evidence, define the smallest actionable upstream or local repair boundary, and prove failed dispatch cannot create hidden or duplicate issue ownership.",
+      "declared_scope": [
+        "Codex background task dispatch and project discovery behavior for one bounded ADL issue handoff",
+        "retained dispatch timing, result, and ownership evidence",
+        "operator guidance for safe failure and retry behavior"
+      ],
+      "authority_boundary": [
+        "Codex task creation and project discovery are external application behavior and are not implemented inside ADL",
+        "ADL repository changes are limited to durable evidence and bounded operator guidance unless a concrete repository-owned defect is proven",
+        "no successful task identity means no ownership transfer"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use one uniquely identified projectless no-op canary that owns no repository, issue, or worktree and forbids all mutation or child dispatch.",
+        "Never retry a timeout or indeterminate dispatch; retry an explicit typed failure only after complete paginated inventory receipts prove an empty task-ID delta.",
+        "Do not create wrappers, polling state machines, claims, leases, or hidden ownership records.",
+        "Do not use AWS, remote builders, or /private/tmp."
+      ]
+    }
+  }
+}
