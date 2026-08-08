@@ -3,13 +3,89 @@
   "issue": 45,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "18b2eea1adfa602448a1bd5ce457a9d6d59102aa1e82a2e784393891fff8876b",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "b002e1d00909304239a9b101144bed11960cbbf83c210dceb2d17f32baaf6685",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "89cbe036651daccbbc1e76cd5f364814bbb2bb2f2e05b467a363ba2dd89926f5",
   "branch": "codex/45-doctor-split-repository-authority",
   "worktree": "/Volumes/FastWork/adl-issue-45-doctor-split-authority",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:issue45_exact_head_review",
+    "scope": [
+      ".csdlc/issues/45",
+      ".csdlc/evidence/45",
+      ".csdlc/prepared/issues/45",
+      "adl/tools/test_install_adl_pr_cycle_skill.sh",
+      "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/gate_cleanup.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+      "docs/tooling/adl_pr_cycle_skill.md"
+    ],
+    "reviewed_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
+    "findings": [
+      {
+        "id": "P1-legacy-record-receipt-digest-compatibility",
+        "severity": "p1",
+        "summary": "Absent code_repository is omitted from serialization so pre-field live indexes and retained terminal receipts preserve their canonical digests.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
+        "route": null
+      },
+      {
+        "id": "P2-explicit-split-missing-origin-evidence",
+        "severity": "p2",
+        "summary": "Explicit split authority now fails closed when effective origin is absent or not an exact GitHub repository identity.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
+        "route": null
+      },
+      {
+        "id": "P2-rebind-request-authority-substitution",
+        "severity": "p2",
+        "summary": "Recorded code authority takes precedence and idempotent bind rejects a retry-supplied repository identity mismatch.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
+        "route": null
+      },
+      {
+        "id": "P2-ac6-typed-card-schema-evidence",
+        "severity": "p2",
+        "summary": "VPP, SOR, and retained evidence now include direct current-source typed issue validation, schema proof, and legacy compatibility proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d09397d7a1a9d0413a5cb5c47ad3de1e40a6b65f:9a08cc12a392389a906567b3d440c89c56bdd3823f55b3725b4f47cfed3020bf",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Split-publication consistency remains primarily code-inspection and existing Gate 6 coverage rather than a new network-backed publication integration test.",
+      "The compatibility regression proves serialization and digest stability directly but does not exercise every historical terminal receipt in the repository.",
+      "Same-repository operation without an origin retains preexisting behavior; fail-closed unavailable-origin handling is scoped to explicit split authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +100,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9dd2bf5003e3d26926e0c9db32865725687c8b76ee2bdef7ef2a3be18548a36e",
+      "values_digest": "4d32ad31248d7374a3b176f6e2e97dd317ed42f3a07f73681c8c6ec88b3eeaca",
       "rendered_digest": "77186a4f08a7269344c31f0318ad8225000c28019811382fb9fd61abb88d56d0",
       "ast_digest": "604d9fad4d60da84ad5f91948d8a84eb3f353255613dd283c3ea977975ba39ae"
     },
     "stp": {
-      "values_digest": "565ab14127adfcf1f68022a81fc605779e6d8e81284b2e519fa11ac863ea2a43",
+      "values_digest": "5764bb1cfdfe435b587698f8f8c5db28bb6627271222082da9aa56b5e2d34ff0",
       "rendered_digest": "4c6ee7704c6893c3ae0bdf5cb4a0308bfb1102c31b16ce93e32992d7a17114ed",
       "ast_digest": "7af27d411db2c82982c6721d16e4502f7368421ecfc5db81e99b64150f96b58c"
     },
     "spp": {
-      "values_digest": "dd78312df999fb644df938adfa9bc12200cecbf562da43afa5271958219edbd7",
+      "values_digest": "5f9eb1352b0711625c679dc7486c719b5492084770e31200d22f1045bb41d133",
       "rendered_digest": "98ccc699c2acfa13d7c4d3d511d3d0f7659e1885177eb64f4f6023788169aae5",
       "ast_digest": "4260b239b9b4218400059a86090c9204011dd37802ffcd269e4c41bc8d1f406a"
     },
     "vpp": {
-      "values_digest": "cac96943e84dddc7d51c452bb1efce84071a23f2662fd45b3a7be91bb8940ca9",
+      "values_digest": "f17d47d45a4e3e5e79449e33b93c66c21c304d8ed7c9cfefef06d73576e7901b",
       "rendered_digest": "fc39c049ecc95a5af0c0f127358babb25f8a7081fdf3eb16311aabf9f0a9cb3b",
       "ast_digest": "ca6b93390293230b030d25a60d8e3601f476ff102337d44e93d0ae70fb2e1448"
     },
     "srp": {
-      "values_digest": "0ef98ce263737e9bd3ae93f25c1e880a0e4a54df204a350c18aa1a396477a02a",
-      "rendered_digest": "24a521b4506118e9a4db9e0ccaf9433e2bf0a7b65b5837e639c1880e9617f647",
-      "ast_digest": "3d124ae8585375ddb3ae49ada3d91c50ce17d04e92f8a8f8a2c18c8aa1a62652"
+      "values_digest": "49222e2d470560b38503cbfbdfe956d58a59030fb7f305a950a6193e3a36c3cc",
+      "rendered_digest": "0e52501a4eb9773273a99d7a11467875d5e1b45bd2e2f126996cd83770260e00",
+      "ast_digest": "ca8ead992ec5b25d3e51e26c43fe31901583dfd34110978f06841bbbb6362e65"
     },
     "sor": {
-      "values_digest": "6246f74d301de982e69bb2700a53a67d32d01c2e57c7a5d9cac50a2007d35a57",
+      "values_digest": "c104c2ffee7e0e9a93467063b17571f79dfbbdadac0786a0ab687ebf1f0b813f",
       "rendered_digest": "7b3b0317a6464b5c7d13675cb541299ebcce1d24e639954c136ebd5201c7fffc",
       "ast_digest": "2aec40fc266905a5d5ddc361924d40f864f04c82d23b0d4f3b12c8e3414489f7"
     }
@@ -75,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:issue-45-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -175,6 +258,13 @@
       "actor": "codex:issue-45-review-remediation",
       "reason": "Retain direct public schema proof required by AC-6.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate6\",\"public_schema_keeps_publication_and_drops_merged_reconciliation\"],\"purpose\":\"Prove the publication-facing schema contract remains valid after adding split authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/45/review-remediation-validation.md\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
