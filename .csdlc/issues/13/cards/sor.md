@@ -54,7 +54,7 @@ Added canonical Runtime, fast-workspace, and full-workspace producer selectors; 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

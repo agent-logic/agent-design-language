@@ -7,14 +7,14 @@
     "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
     "slug": "wp-02a-optional-coverage-producer-routing",
     "version": "v0.92",
-    "generation": 7
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".github/workflows/ci.yaml\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/ci_path_policy.sh\nadl/tools/verify_coverage_producer_results.sh\nadl/tools/test_verify_coverage_producer_results.sh\nadl/tools/test_ci_path_policy.sh\nadl/tools/test_ci_runtime_contracts.sh\n.csdlc/issues/13\n.csdlc/prepared/issues/13",
-      "review_revision": "git-blake3:97551f8bfd0685a7c3548efc75fe96b600199117:f3734d83b289b1d2e8720b63bade14b679fa4de45182ddb0553f2e99f39c0e98",
+      "review_revision": "git-blake3:241a39d0711a83965d481e2ed0d774fca37ab81f:7662d6413c8465459886e33190c5c7d16f0037f527112e83e8dd0a9d00c22791",
       "reviewer": "subagent:review_13_implementation",
       "review_prompts": [
         "Can an unselected coverage producer still acquire a runner or install tools?",
