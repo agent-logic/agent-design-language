@@ -3,50 +3,55 @@
 ## Review Identity
 
 - Issue: #5821, v0.92 WP-04 Distributed Guardian architecture and security gate
-- Reviewed revision: `e4f1572cf35b62f445d6aef54142f68da7d28cf6`
-- Reviewer: `openai-codex:gpt-5:wp04-openraft-contract-independent-review:2026-08-08`
-- Agent ID: `019fdf4a-5f9f-7420-9cfd-418ed63dee8c`
+- Reviewed revision: `29243a6a5400467ceb0fe98b69baf855f8249b54`
+- Reviewer: `openai-codex:gpt-5:wp04-authority-certificate-independent-review:2026-08-08`
+- Agent ID: `codex-independent-review:29243a6a5400467ceb0fe98b69baf855f8249b54`
 - Review role: independent architecture and security reviewer
 - Review date: 2026-08-08
 
 ## Reviewed Scope
 
-- `docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md`
-- `docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md`
-- `.csdlc/prepared/issues/5821/design.md`
-- `docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md`
-- `docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md`
-- `.csdlc/prepared/issues/5821/validate-architecture-security-review.rb`
-- `.csdlc/prepared/issues/5821/validate-child-wave.rb`
-- Canonical approved designs, typed indexes, and SIP/STP/VPP values for issues #5865, #5869, #5870, #5875, and #5876
-- Live WP-04-IMP issue #5862 and child issue #5863 through #5878 contract validation
+- The WP-04 architecture, threat model, parent design, feature contract, ADR, and both focused validators.
+- The approved designs, typed indexes, and SIP/STP/SPP/VPP values for safety-relevant children #5863, #5864, #5865, #5867, #5869, #5870, #5875, and #5876.
+- The live WP-04-IMP umbrella #5862 and all child issues #5863 through #5878.
 
-The review was pinned to the committed content at the revision above. The authoritative surface had neither unstaged nor staged changes during review.
+The review was pinned to the committed content at the revision above. The exact-review manifest contains 55 authoritative paths: seven parent surfaces and six surfaces for each of eight safety-relevant children. Every reviewed SPP is therefore included in the exact artifact digest.
 
-## Prior Finding Dispositions
+## Finding Dispositions
 
-1. **`authority-linearization`: One-owner authority lacked an authoritative serialization point - resolved.** The architecture now assigns authority to a minimum three-voter, majority-replicated OpenRaft ledger with joint membership, committed-index linearization, fail-closed quorum loss, and explicit mutation-sink enforcement.
-2. **`activation-incarnation`: Cloned state was indistinguishable from the legitimate holder - resolved.** Authority is bound to a fresh non-persistent activation incarnation, proof of possession, a committed epoch, and a lease safety window.
-3. **`certificate-session-lifecycle`: Established sessions could outlive certificate expiry or revocation - resolved.** Session lifetime is bounded, revocation and generation changes close sessions, and every authority-bearing operation revalidates purpose, generation, revocation, and expiry.
-4. **`maintained-transport`: The maintained transport and framing choice was unspecified - resolved.** The architecture selects `quinn`, supported `rustls` integration, and length-delimited `prost`, with reviewed lockfile pinning and no custom cryptography or wire framing.
-5. **`candidate-status`: Architecture and threat documents prematurely claimed frozen status - resolved.** Both identify themselves as candidate gates pending independent review and retain explicit non-claims.
-6. **`authority-certificate-definition`: Authority certificates were not cryptographically defined - resolved.** `AuthorityCertificateV1` defines canonical signed fields, a domain-separated SHA-256 digest, strict-majority distinct control-key endorsements, voter-generation binding, certificate lifecycle checks, activation possession, and malicious-leader/minority denial.
-7. **`child-authority-contracts`: Child ownership, proof, and rollback contracts did not carry the repaired authority guarantees - resolved.** The parent ledger, reapproved child designs, typed SIP/STP/VPP records, and live contracts now assign and prove majority authority, joint membership, canonical certificates, activation possession, monotonic-time safety, mutation-sink enforcement, fence-boundary migration, and quorum-only recovery.
-8. **`review-identity-and-revision`: Retained review evidence was not exact-revision or independently identity-bound - resolved.** Validation pins the latest authoritative revision, the actual nonempty reviewer and agent provenance, independent role, author separation, report digest, authoritative Git blobs, and finding dispositions while rejecting superseded revisions and authoritative drift.
-9. **`staged-authoritative-drift`: Staged authoritative changes were not rejected - resolved.** Validation checks both worktree-versus-index and index-versus-HEAD drift across the complete authoritative review surface.
-10. **`normalized-possession-contract`: Enrollment possession validation used an over-broad normalized term - resolved.** The section-term gate now normalizes whitespace while requiring the exact phrase `proves possession`, so unrelated proof language cannot satisfy the enrollment possession requirement.
-11. **`openraft-cots-contract-parity`: WP-04.03 could omit OpenRaft despite sole manifest ownership - resolved.** Issue #5865's design and typed SIP/STP/SPP/VPP now require the reviewed `quinn`, `rustls`, `prost`, and `openraft` set, preserve WP-04.07 source ownership, and are digest-bound by the architecture review validator and checked by the live child-wave validator.
+1. **`authority-linearization`: resolved.** Authority is serialized by a minimum three-voter OpenRaft ledger with committed-index linearization and fail-closed quorum loss.
+2. **`activation-incarnation`: resolved.** Authority binds to a fresh activation incarnation, proof of possession, committed epoch, and lease safety window.
+3. **`certificate-session-lifecycle`: resolved.** Session lifetime, revocation, generation changes, and per-operation revalidation are explicit.
+4. **`maintained-transport`: resolved.** The contract selects pinned `quinn`, `rustls`, `prost`, and `openraft` surfaces and prohibits custom cryptography or framing.
+5. **`candidate-status`: resolved.** Architecture and threat documents retain truthful candidate-gate and non-claim language.
+6. **`authority-certificate-definition`: resolved.** The certificate body, endorsement, payload, exact protobuf fields, two-stage domain separation, Ed25519 strict verification, encodings, ordering, and rejection rules are frozen.
+7. **`child-authority-contracts`: resolved.** Child designs and typed cards carry the repaired authority, possession, fencing, recovery, and proof obligations.
+8. **`review-identity-and-revision`: resolved.** Review evidence is independently attributed and pinned to the latest authoritative revision and exact Git blobs.
+9. **`staged-authoritative-drift`: resolved.** The validator rejects both staged and unstaged authoritative drift.
+10. **`normalized-possession-contract`: resolved.** Enrollment requires the exact normalized phrase `proves possession`.
+11. **`openraft-cots-contract-parity`: resolved.** #5865 and the live validator require the same four-dependency COTS set while preserving source ownership boundaries.
+12. **`spp-exact-review-scope`: resolved.** All eight safety-relevant SPP values files are included in the authoritative manifest and artifact digests.
+13. **`joint-membership-certificate-quorum`: resolved.** Stable membership requires a strict majority of committed voters; joint membership requires strict majorities of both old and new configurations. A union majority missing either constituent majority is rejected.
+14. **`certificate-signature-suite`: resolved.** The algorithm identifier, Ed25519 key/signature widths, strict verifier, canonical protobuf restrictions, domain bytes, and exact signed payload are specified.
+15. **`threat-joint-quorum-parity`: resolved.** T3 and T10 use the same majority-of-both rule and union-majority negative case as the architecture.
+16. **`certificate-wire-canonicalization`: resolved.** Closed operation values, minimal varints, field order, unknown-field rejection, duplicate rejection, and decode/re-encode equality are required.
+17. **`endorsement-signer-binding`: resolved.** Endorsements cover the body digest, signer identity, certificate generation, and algorithm; no endorsement metadata remains unsigned.
+18. **`duplicate-effective-control-key`: resolved.** Enrollment, promotion, rotation, and quorum verification reject duplicate effective control keys and deduplicate by both voter identity and key.
+19. **`per-surface-contract-validation`: resolved.** The child-wave validator checks each design and typed card surface independently, including SPP, rather than allowing aggregate keyword masking.
+20. **`domain-separation-parity`: resolved.** Child contracts use the two frozen certificate-body and endorsement domains, and the validator rejects the superseded single-domain spelling except in explicit negative tests.
+21. **`owner-contract-propagation`: resolved.** Enrollment, rotation, promotion/snapshot/replay, and lease-verification owners carry the key-uniqueness and joint-quorum obligations in their own typed records.
 
 ## Validation Performed
 
-- Confirmed the exact authoritative review revision is `e4f1572cf35b62f445d6aef54142f68da7d28cf6`.
-- Confirmed the latest authoritative revision resolves to the same full commit.
-- Parsed the five reviewed child indexes and SIP/STP/VPP values as JSON.
-- Confirmed #5865's distributed COTS design is reapproved, the four authority designs remain reapproved, and all five child records have null claim, branch, and worktree state.
-- Ran `validate-child-wave.rb`: it passed the live umbrella and sixteen-child mapping, 38 exclusive paths, dependency graph, authority contracts, proof targets, and rollback checks.
-- Checked both review validators for Ruby syntax.
-- Confirmed both unstaged and staged authoritative surfaces were clean.
-- Re-reviewed partition, replay, stale lease, cloned state, wrong trust domain, certificate compromise and expiry, relocation and rollback failure, split brain, child ownership, the four-dependency COTS contract, proof boundaries, and unsupported completion claims.
+- Confirmed the latest authoritative revision is `29243a6a5400467ceb0fe98b69baf855f8249b54`.
+- Confirmed all 55 authoritative files are present and digest-bound at that revision.
+- Ran `validate-child-wave.rb`: PASS for live #5862 plus sixteen children and 38 exclusive implementation paths.
+- Ran the focused architecture validator through all contract checks; before this evidence refresh its only expected failure was stale retained-review revision.
+- Ran typed doctors for #5821, #5863, #5864, #5867, and #5869: PASS.
+- Checked both Ruby validators for syntax and ran `git diff --check`: PASS.
+- Independent Codex exact-head review: accepted with no actionable findings.
+- Gemini 3.1 Pro exact-head review: accepted with no actionable findings.
+- Claude review was attempted through the documented ADL provider route. The endpoint was reachable, but the bounded attempts consumed their response budget as reasoning and returned no usable review text. Claude is recorded as unavailable and is not counted as an approval.
 
 ## Residual Risks
 
@@ -55,7 +60,7 @@ The review was pinned to the committed content at the revision above. The author
 - Host compromise can expose active purpose-bound keys until revocation and fencing propagate.
 - Severe clock uncertainty can reduce availability; nodes outside the configured bound become non-authoritative.
 - Simultaneous durable-store loss can leave a lineage unavailable and require recovery from retained audit and continuity evidence.
-- Vulnerabilities or abandonment in OpenRaft, quinn, rustls, prost, or other maintained dependencies remain supply-chain risks governed by pinned-version review and replacement policy.
+- Dependency vulnerabilities or abandonment remain supply-chain risks governed by pinned-version review and replacement policy.
 - This architecture review does not prove implementation, deployment security, multi-node behavior, or native portability; those remain child and WP-04.16 obligations.
 
 ## Outcome
