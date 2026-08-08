@@ -83,11 +83,11 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route.
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
