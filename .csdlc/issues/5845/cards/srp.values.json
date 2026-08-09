@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
     "slug": "v0-92-wp-24a-podcast-studio-first-ten-episodes",
     "version": "v0.92",
-    "generation": 46
+    "generation": 53
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review all ten episode packages, final audio and manifests, feed parity, guest and consent truth, redaction, artwork/ID3 metadata, platform evidence, route/storage boundary, and exact candidate paths for completeness and no publication overclaim.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".",
+      "review_revision": "git-blake3:7cf08aedacab6c290d9230051254a53493094f8c:cdae9a1d2e9f9243f5e9b6000a75477e3b9e0068a5bc6cc1d3e87b8fccf79aa2",
+      "reviewer": "openai-codex:gpt-5:pr69-remediation-independent-rereview:2026-08-08",
       "review_prompts": [
         "Is every episode a complete final production package rather than a topic card or smoke artifact?",
         "Do audio, manifest, ID3/artwork, enclosure, transcript, and feed values agree exactly?",
@@ -23,8 +23,11 @@
         "Does platform evidence prove playback without implying deployment or publication?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "This PR is an Episode 001 incremental checkpoint and does not complete the ten-episode WP-24A parent.",
+        "Deployment, public publication, mailbox acceptance, branded-host verification, and directory submission remain outside this checkpoint."
+      ],
+      "review_result": "pass"
     }
   }
 }

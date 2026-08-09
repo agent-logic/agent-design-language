@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
     "slug": "v0-92-wp-24a-podcast-studio-first-ten-episodes",
     "version": "v0.92",
-    "generation": 46
+    "generation": 53
   },
   "status": "ready",
   "content": {
@@ -179,7 +179,7 @@
       "planned_validation_tokens": 80000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5845/design.md",
-      "design_digest": "e577c1d95f46d4de635fce4f2afc6d5697cde482e44599380b9b15698a73715f",
+      "design_digest": "5da2961651c5678c3494dfd5d4cc5c9ad9eba260a5c4fd40942f5a1cf414ed17",
       "diagram_ref": ".csdlc/prepared/issues/5845/diagram.mmd",
       "diagram_digest": "f93e767ad01814319f03d67e71121eeca0bbbaf725dbabb2e0997aaf7f37ccce"
     }
