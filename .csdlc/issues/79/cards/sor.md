@@ -61,6 +61,38 @@ Made deferred Rust source and test targets bindable only through an initialized,
     "purpose": "Run strict lint on the bounded readiness and regression surfaces.",
     "outcome": "passed",
     "evidence_ref": "csdlc-gate2-strict-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2"
+    ],
+    "purpose": "Prove live child normalization before bind and explicit rejection of unowned validator deliverables.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/79/review-remediation/review-remediation-gate2.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib",
+      "--test",
+      "gate2",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warnings in the remediated readiness and regression surfaces.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/79/review-remediation/review-remediation-strict-clippy.log"
   }
 ]
 

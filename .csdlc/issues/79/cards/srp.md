@@ -24,7 +24,28 @@ Issue #79 readiness predicates in cards.rs, focused Gate 2 regressions, lifecycl
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-live-child-shape",
+    "severity": "p1",
+    "summary": "The positive fixture initially skipped the live prose and null-deferral preparation state.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "f92980305e38d329444deab4e602869fe5a8f14e",
+    "route": null
+  },
+  {
+    "id": "P2-unowned-validator-deliverable",
+    "severity": "p2",
+    "summary": "A path-shaped missing validator deliverable outside affected-area ownership could be hidden by another proving lane.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "f92980305e38d329444deab4e602869fe5a8f14e",
+    "route": null
+  }
+]
 
 ## Dispositions
 

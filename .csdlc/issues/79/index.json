@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6ca8c33b28e59a6a40eaab39a2d87336a89a8fa78fe98b020e81708264e15196",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "e053121e43ddd0eadcbd5c5dddcab8d325fa28fdd66acff83b7dcf00651fc4e0",
+  "generation": 8,
+  "digest": "391aa1e3bcfb5de9def5236c4fddeaab117b6dbcd3ee92da004488fce83e3412",
   "branch": "codex/79-bind-safe-deferred-targets",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-79-bind-safe-deferred-targets",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f6fbf49a3643e68386b91a4db6fc4cc07d6bbd71033edc4b685321bb4786eafb",
+      "values_digest": "bb80c0ff9649c5648e1d48de89fc4aea6dc0ca8192f73f8c383962d9b0e38e8b",
       "rendered_digest": "b104b0517b1468f2efa15e5c6995152fa62fc86a9c851d5c8ed58e0e416c2508",
       "ast_digest": "2f4327a8edb238dd15836002c65d2c53e2b1fb671e76fc190b830a0c527350d4"
     },
     "stp": {
-      "values_digest": "eb871ec7910f1fcbdc47b1ae66536533cd11cd4045ad9c6e997f8b49e7a61375",
+      "values_digest": "3ea9e84ff201d6339ad61fcd6b39bb693642baa44ca8923b99bc4fdaeb88329c",
       "rendered_digest": "ddad4b63c949e93ce1c96451098897c42678f6998443048b2470d2f052c330a4",
       "ast_digest": "e901f6253ecefb41a514f3159bc684c27a0d9015a88a505a73214af74f89ae07"
     },
     "spp": {
-      "values_digest": "5d4963f7177d82eaaf510e74d1dbddf98881fbbd6a65cdae9378a3754eae56a3",
+      "values_digest": "da77fcd8aafc1083aef54b948b7602d3c0c45de16c0773fb4e73959b56920d63",
       "rendered_digest": "9effcacae57796296193ac315866f7675e65c50bdcba13d1bf31a3cc83e71894",
       "ast_digest": "3daf01da82ba41f986e6ffbee6a50fdf65c0bdb7c5bcb13cdd61782798937d10"
     },
     "vpp": {
-      "values_digest": "41fa611cfd86c0ad6675ef4b938ff18f394e5f2303fd8ca37f93e0eca7c0ca2f",
+      "values_digest": "836e64a1a0845c6cee317f1f8153465c47062471e8d883e618964c5cb83045dd",
       "rendered_digest": "d5671d16beaded6df3f6e164356f79a413cf8f702b8f7fe9d67fb16eecbd9923",
       "ast_digest": "62d4b7d0b0ecc49ea45c07ce0aa98e92f58653430e2baa6c2204f8fc064c04d3"
     },
     "srp": {
-      "values_digest": "cf11fd927c1cda9d8fdcd783c7aa2b155ff4578e8a7f6cd612a4f5f9080bc442",
-      "rendered_digest": "e3a36da0496288ad4865a5c529d4a91ebd609d67d71e6e3f77706ebcf275973f",
-      "ast_digest": "6b9a6d6ac3e30f0b94b20723494eef0a26c4320e3fa41c4eac60bd5cd797567b"
+      "values_digest": "8cea5cce9aae161277e238aa80a7fd495b86787bbaae1894c1de63fb5d1c7107",
+      "rendered_digest": "e743d3c1596cdb51a18ec2cc70e11f8e572de6a570aa55857f3fe7e019204957",
+      "ast_digest": "af4d8dbb90aa77a6a5a0db8a2f47601d4be565592ef3813ac61f9ff385247a38"
     },
     "sor": {
-      "values_digest": "ca291f028ba9b9114d426fff5a6eff4650fe93135319438dd3114ff15134fd64",
-      "rendered_digest": "335dc9aa3fac7af475102013dcb76838902b10e498b0437e917004f695c6a983",
-      "ast_digest": "da546dc72f28e9c28560149337753cee22a6ff0b512a9a502a96962028533a5f"
+      "values_digest": "4b365f65f7fad4e2945577c24a0c26d21f7fb5ab1bc6051f316e2df206c2ea87",
+      "rendered_digest": "9ad3bf92cd2464b49271d0ee0ae706e09462e5b5578383130e83babde6b21416",
+      "ast_digest": "43aeaa276a836d48b8e7a02830f91b82af5c76baac1199e0c974cffa453eae13"
     }
   },
   "transitions": [
@@ -120,6 +120,34 @@
       "actor": "codex:79-bind-safe-deferred-targets",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Retain focused P1 and P2 review-remediation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove live child normalization before bind and explicit rejection of unowned validator deliverables.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/79/review-remediation/review-remediation-gate2.log\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Retain strict lint proof after P1 and P2 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--test\",\"gate2\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in the remediated readiness and regression surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/79/review-remediation/review-remediation-strict-clippy.log\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Record and resolve the exact-live-child fixture finding with typed normalization proof.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"P1-live-child-shape\",\"severity\":\"p1\",\"summary\":\"The positive fixture initially skipped the live prose and null-deferral preparation state.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"f92980305e38d329444deab4e602869fe5a8f14e\",\"route\":null}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Record and resolve the unowned validator deliverable false-readiness finding.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"P2-unowned-validator-deliverable\",\"severity\":\"p2\",\"summary\":\"A path-shaped missing validator deliverable outside affected-area ownership could be hidden by another proving lane.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"f92980305e38d329444deab4e602869fe5a8f14e\",\"route\":null}}"
     }
   ]
 }
