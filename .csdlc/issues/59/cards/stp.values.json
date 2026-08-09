@@ -7,7 +7,7 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 7
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -26,8 +26,8 @@
         "AC-2: The routing result names the OpenAI Codex goal-tool service as external mutation authority unless a concrete repo-owned seam is found",
         "AC-3: The historical blocked goal remains blocked with its status and accounting preserved",
         "AC-4: The exact upstream contract covers explicit replacement or supersession, history retention, accounting retention, and fail-closed active-goal overwrite",
-        "AC-5: No ADL code, policy workaround, local goal store, or implementation PR is introduced without repository code authority",
-        "AC-6: Design, diagram, six typed cards, deterministic validation, and independent readiness review are current and truthful"
+        "AC-5: The checkpoint PR uses typed part_of linkage, contains no closing keyword, and introduces no ADL implementation code, policy workaround, or local goal store",
+        "AC-6: Design, diagram, six typed cards, deterministic validation, and exact-head independent review are current and truthful"
       ],
       "dependencies": [
         "agent-logic/agent-design-language#59",

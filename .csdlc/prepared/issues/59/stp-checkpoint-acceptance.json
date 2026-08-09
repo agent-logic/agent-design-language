@@ -1,0 +1,20 @@
+{
+  "issue": 59,
+  "card": "stp",
+  "expected_generation": 7,
+  "expected_digest": "0e40c03730e556f98a46eea9064cdb5b7e1eb13e2d9d063670d3d019d4d99805",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Require typed non-closing linkage and forbid an ADL implementation claim",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: Repository evidence distinguishes ADL policy and telemetry consumers from the implementation that admits or rejects create_goal",
+      "AC-2: The routing result names the OpenAI Codex goal-tool service as external mutation authority unless a concrete repo-owned seam is found",
+      "AC-3: The historical blocked goal remains blocked with its status and accounting preserved",
+      "AC-4: The exact upstream contract covers explicit replacement or supersession, history retention, accounting retention, and fail-closed active-goal overwrite",
+      "AC-5: The checkpoint PR uses typed part_of linkage, contains no closing keyword, and introduces no ADL implementation code, policy workaround, or local goal store",
+      "AC-6: Design, diagram, six typed cards, deterministic validation, and exact-head independent review are current and truthful"
+    ]
+  },
+  "fail_after_backup": false
+}

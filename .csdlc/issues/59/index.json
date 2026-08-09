@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
   "phase": "bound",
-  "generation": 7,
-  "digest": "0e40c03730e556f98a46eea9064cdb5b7e1eb13e2d9d063670d3d019d4d99805",
+  "generation": 13,
+  "digest": "ba2104ac3251b4f45c2878f54ccf526bc0484adbabd7a1e646a0e969259730f4",
   "branch": "codex/59-codex-goal-replacement-readiness",
   "worktree": "/Volumes/FastWork/adl-issue-59-codex-goal-replacement",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bc9b1ee75d56ebc984465dab4655671c8739e596c05d7084e366104cbc57c7f1",
+      "values_digest": "c2188d4cfbc68f9a13b9c392584aed0854b6a624635e1bf18a16a83cbd2e8cb9",
       "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
       "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
     },
     "stp": {
-      "values_digest": "7fce8949859c1539e409dce0bb91d35e87109c612777fae4924b385630c25b3e",
-      "rendered_digest": "f104b49caa60a571141d70650c9082f774039005d42f09bfd23212523eb1d18c",
-      "ast_digest": "d7c8605c0f242785dc6cd480d72cb1fe875aadea180eca30e734d52d0c1c980a"
+      "values_digest": "4ff75f7ae878917c506b3602b2b4ea0d52a28ea7468be438877974bc76a6fc62",
+      "rendered_digest": "5706339d6f1551094d2aa275b844fb71b6d340363ea3f2a5af186724c62d4f4c",
+      "ast_digest": "e1106bd67c9fc776ec89d122ace1c638d7bf81be92ea1917b30ca53f2f7a4d7e"
     },
     "spp": {
-      "values_digest": "089572e5e18bdafa8a1fde456e054b2480974c2c3d5b2793f939f81a1455f8d3",
-      "rendered_digest": "809c626fa7c6ed301ae15e3b422c1d1704676e68201397674fcf14e6879b26e2",
-      "ast_digest": "afc7e115a1566eab7aec6d6456332c9c1b9c89a57e2ef5dc60029e42832eeac7"
+      "values_digest": "6d9af9220eb97979d58ab7aee93045826e764eb30b0ad01c0306a6b079d1b440",
+      "rendered_digest": "1d9a2bbc71da8d2fc9c918621c6535351efea2e46bec90f574f1d919f5067535",
+      "ast_digest": "ef41014052cf5e4377704f74f1e0b3a31180725e4393fd5bd270c0d622d908e7"
     },
     "vpp": {
-      "values_digest": "4155160f8aef87a609cae6780f2d21213f6ac34078d86ad491c23b919f685b9d",
+      "values_digest": "df4ece59773318271ea7bd31ec1051630672afc97dd42e4a4cbc0ad6f5ea1753",
       "rendered_digest": "32afc2cd668d2e9175d1c99152e40f78f428cf4f816895af2bba42689aff6ce8",
       "ast_digest": "d803d68e1b5285e4c4adc4e2dc19150e8fc598cb0eb07b1ef49d1fffa1a2d589"
     },
     "srp": {
-      "values_digest": "1c17def03b12b220a99f45c9a181475eeba70fe2f1600e17e186e1f282b7cebe",
-      "rendered_digest": "f50abc0afdd64487b2862a1582017a3114579aea5c7a10203d61d422c5496688",
-      "ast_digest": "2070043ae410de07e121cc484eee1284d2b78e96e46ff2a8ca1978360f6e4f5f"
+      "values_digest": "27f75c6ca0ad5c7a314762c7df838ff8e73e60974f6b56f6b12f4f570af014c2",
+      "rendered_digest": "d8065f996be600c9126d93051f03a38bdec02689ebf424a3492667142b3fb20f",
+      "ast_digest": "d224fde955c458f29b74cd6116ace61781b042a6da2a89e8c84e07386a6bd5f8"
     },
     "sor": {
-      "values_digest": "e95c8ecae35152599fc9dd7937dd7e2bc72a1c0326b1d31cbbe4061f247a8b25",
+      "values_digest": "cf2471c819e2591b3e8bbf6b3f15fd4af32d5149489fc0c5b87c2fdbea756d3c",
       "rendered_digest": "e5766b73478f755ea4d615a0f1a21fc856d057dd7e2ffa8f81f23e01a5757ace",
       "ast_digest": "6c27a8a040dbf4e5fc383ae59ff385dbafaff9ee00d0775b51c1bdb791503d24"
     }
@@ -133,6 +133,48 @@
       "actor": "codex:59-authority-checkpoint",
       "reason": "Authorize only a non-closing authority-routing checkpoint after issue 75 supplies typed part_of linkage",
       "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Publish the reviewed external-authority routing packet as a non-closing checkpoint using typed part_of linkage; do not implement or claim the Codex platform fix in ADL.\",\"operation\":\"replan\",\"previous_value\":\"Classify code authority and produce a truthful reviewed routing result; implement only if an actual repository-owned goal replacement seam exists.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Require typed non-closing linkage and forbid an ADL implementation claim",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Repository evidence distinguishes ADL policy and telemetry consumers from the implementation that admits or rejects create_goal\",\"AC-2: The routing result names the OpenAI Codex goal-tool service as external mutation authority unless a concrete repo-owned seam is found\",\"AC-3: The historical blocked goal remains blocked with its status and accounting preserved\",\"AC-4: The exact upstream contract covers explicit replacement or supersession, history retention, accounting retention, and fail-closed active-goal overwrite\",\"AC-5: The checkpoint PR uses typed part_of linkage, contains no closing keyword, and introduces no ADL implementation code, policy workaround, or local goal store\",\"AC-6: Design, diagram, six typed cards, deterministic validation, and exact-head independent review are current and truthful\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Plan the non-closing authority checkpoint without widening into external product implementation",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then publish it with typed part_of linkage as a non-closing checkpoint for the Codex platform owner.\",\"operation\":\"replan\",\"previous_value\":\"Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then route the bounded product contract to the Codex platform owner without an ADL implementation PR.\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Make typed non-closing publication the bounded repository handoff",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Inspect repository code, policies, and retained telemetry consumers to locate or rule out a repo-owned create_goal admission and persistence seam.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Record the authority boundary, invariants, external owner, and exact replacement or supersession contract in the design and diagram.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Validate the typed package and obtain independent exact-head review, resolving every actionable finding without widening into fabricated implementation.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Publish the reviewed packet with linkage_mode part_of and exact body line Part of agent-logic/agent-design-language#59; leave issue 59 open for the Codex platform fix and live canary.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Preserve issue liveness and non-closing publication truth",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Blocked historical goal truth and accounting are never rewritten\",\"ADL does not shadow Codex thread-goal state\",\"Active goals remain protected from accidental overwrite\",\"Repository policy is not weakened as a workaround\",\"No code implementation proceeds without owning source authority\",\"The checkpoint uses linkage_mode part_of and never closes issue 59\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Review the exact non-closing publication boundary and stacked publisher contract",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, inherited issue 75 part_of publisher contract, exact qualified relationship line, and no-closing/no-fabricated-implementation boundary.\",\"operation\":\"replan\",\"previous_value\":\"Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, upstream contract, and no-fabricated-implementation boundary.\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Add exact non-closing relationship checks to review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does any repository executable actually implement create_goal admission or thread-goal persistence?\",\"Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?\",\"Would any proposed workaround falsify the old blocked goal or create divergent state?\",\"Is the upstream replacement or supersession contract precise enough for a product owner to implement and test?\",\"Does publication use linkage_mode part_of with the exact qualified Part of agent-logic/agent-design-language#59 line and no closing keyword?\",\"Are the estimates, stop boundary, changed paths, and exact next action explicit?\"]}"
     }
   ]
 }

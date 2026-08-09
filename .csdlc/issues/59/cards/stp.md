@@ -28,8 +28,8 @@ Publish the reviewed external-authority routing packet as a non-closing checkpoi
 2. AC-2: The routing result names the OpenAI Codex goal-tool service as external mutation authority unless a concrete repo-owned seam is found
 3. AC-3: The historical blocked goal remains blocked with its status and accounting preserved
 4. AC-4: The exact upstream contract covers explicit replacement or supersession, history retention, accounting retention, and fail-closed active-goal overwrite
-5. AC-5: No ADL code, policy workaround, local goal store, or implementation PR is introduced without repository code authority
-6. AC-6: Design, diagram, six typed cards, deterministic validation, and independent readiness review are current and truthful
+5. AC-5: The checkpoint PR uses typed part_of linkage, contains no closing keyword, and introduces no ADL implementation code, policy workaround, or local goal store
+6. AC-6: Design, diagram, six typed cards, deterministic validation, and exact-head independent review are current and truthful
 
 ## Dependencies
 

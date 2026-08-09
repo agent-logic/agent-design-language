@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, upstream contract, and no-fabricated-implementation boundary.
+Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, inherited issue 75 part_of publisher contract, exact qualified relationship line, and no-closing/no-fabricated-implementation boundary.
 
 ## Prompts
 
@@ -20,7 +20,8 @@ Issue 59 authority evidence, design, diagram, six typed cards, historical-truth 
 - Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?
 - Would any proposed workaround falsify the old blocked goal or create divergent state?
 - Is the upstream replacement or supersession contract precise enough for a product owner to implement and test?
-- Are the estimates, stop boundary, and exact next action explicit?
+- Does publication use linkage_mode part_of with the exact qualified Part of agent-logic/agent-design-language#59 line and no closing keyword?
+- Are the estimates, stop boundary, changed paths, and exact next action explicit?
 
 ## Findings
 

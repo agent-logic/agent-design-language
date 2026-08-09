@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then route the bounded product contract to the Codex platform owner without an ADL implementation PR.
+Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then publish it with typed part_of linkage as a non-closing checkpoint for the Codex platform owner.
 
 ## Plan
 
-Revision 3
+Revision 6
 
 ## Steps
 
@@ -36,14 +36,13 @@ Revision 3
     "acceptance_ids": [
       "AC-2",
       "AC-3",
-      "AC-4",
-      "AC-5"
+      "AC-4"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Validate the typed package and obtain independent readiness review, resolving every actionable finding without widening into a fabricated implementation.",
+    "action": "Validate the typed package and obtain independent exact-head review, resolving every actionable finding without widening into fabricated implementation.",
     "acceptance_ids": [
       "AC-5",
       "AC-6"
@@ -52,10 +51,11 @@ Revision 3
   },
   {
     "id": "S4",
-    "action": "Route the reviewed defect contract to the OpenAI Codex goal-tool owner and await a platform fix before running the live replacement canary.",
+    "action": "Publish the reviewed packet with linkage_mode part_of and exact body line Part of agent-logic/agent-design-language#59; leave issue 59 open for the Codex platform fix and live canary.",
     "acceptance_ids": [
       "AC-3",
-      "AC-4"
+      "AC-4",
+      "AC-5"
     ],
     "status": "pending"
   }
@@ -68,6 +68,7 @@ Revision 3
 - Active goals remain protected from accidental overwrite
 - Repository policy is not weakened as a workaround
 - No code implementation proceeds without owning source authority
+- The checkpoint uses linkage_mode part_of and never closes issue 59
 
 ## Risks
 

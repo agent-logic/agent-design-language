@@ -9,9 +9,12 @@ the agent by the Codex platform. This repository contains policies that call
 goal telemetry, but it does not contain the implementation, persistence model,
 or API dispatcher that rejects a replacement goal.
 
-Issue 59 therefore ends as an externally routed readiness result. The existing
-blocked goal remains historically truthful. No ADL code, policy exception, or
-fake `complete` transition is introduced to work around the platform rule.
+Issue 59 therefore publishes an externally routed readiness checkpoint. The
+existing blocked goal remains historically truthful. The checkpoint PR contains
+only the reviewed authority packet, uses the typed non-closing `part_of`
+relationship to `agent-logic/agent-design-language#59`, and does not claim that
+ADL implements the platform fix. No ADL code, policy exception, or fake
+`complete` transition is introduced to work around the platform rule.
 
 ## Authority evidence
 
@@ -45,7 +48,8 @@ goal-tool owner:
    replacement admission, and rejection of accidental active-goal overwrite.
 
 Once the platform ships that contract, ADL can verify it with a live canary and
-then close issue 59 without changing repository implementation code.
+then close issue 59 without changing repository implementation code. Until
+then, the checkpoint PR must not close issue 59.
 
 ## Boundary diagram
 
@@ -60,7 +64,8 @@ transition. ADL policy is a caller and consumer; it is not the state owner.
   goal.
 - ADL does not shadow or fork Codex thread-goal state.
 - No repository policy is weakened to bypass the issue-bound-goal requirement.
-- No implementation PR is opened when the repository has no owning code seam.
+- Any repository PR is an authority-routing checkpoint, never an implementation
+  or completion claim, and uses a typed non-closing relationship.
 
 ## Non-goals
 
@@ -70,10 +75,13 @@ transition. ADL policy is a caller and consumer; it is not the state owner.
 - Removing the ADL issue-bound session-goal policy.
 - Implementing nested sprint-goal accounting.
 - Guessing at an undocumented Codex storage or API implementation.
+- Closing issue 59 before the product-owned fix and live canary exist.
 
 ## Readiness and estimate
 
-This is a bounded authority-classification package, not a code implementation.
+This is a bounded authority-classification checkpoint, not a code
+implementation. Publication is authorized only through the typed `part_of`
+linkage supplied by issue 75; a closing keyword is forbidden.
 The typed cards retain the `small` profile's reviewable upper bounds: 7,200
 elapsed seconds, 40,000 total tokens, 1,200 validation seconds, and 10,000
 validation tokens. The single deterministic routing lane itself is bounded to
