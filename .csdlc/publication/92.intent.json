@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 92,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/92-runtime-tls-standardization",
+  "title": "runtime: standardize TLS and mTLS on Axum and Rustls",
+  "body": "## Summary\n\n- use one shared Rustls identity and trust policy across Runtime transports\n- use Axum for HTTP, HTTPS, and WSS while retaining Quinn only for Guardian QUIC\n- remove Runtime-owned self-signed issuance, host trust-store mutation, and duplicate TLS proof machinery\n- consume externally provisioned certificate, key, and CA files with standard WebPKI verification\n\n## Validation\n\n- focused Axum control, Runtime WSS, Quinn mTLS, protocol mTLS, certificate-policy, lifecycle-fixture, and OpenAPI contract lanes pass\n- independent exact-head review: PASS\n- diff hygiene: PASS\n\nCloses #92",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:db3470334cc89f6d0398941e867fe93782a061c6:d3a9aca5a70d5b6409d302fbe3bef17203736b21d8e9d2b5dee8c64420acdbb9",
+  "commit_sha": "db3470334cc89f6d0398941e867fe93782a061c6"
+}
