@@ -17,3 +17,4 @@
 {"sequence":17,"generation":12,"actor":"codex:sprint-2-closeout-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":13,"actor":"openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":19,"generation":14,"actor":"codex:sprint-2-closeout-review-reconciliation","reason":"Reconcile exact-head review through metadata-only commits so publication can verify forward review evidence without a tracked request-file loop.","operation":"recover_review"}
+{"sequence":20,"generation":14,"actor":"codex:sprint-2-closeout-review-reconciliation","reason":"assign bounded exact-revision review","operation":"assign_review"}

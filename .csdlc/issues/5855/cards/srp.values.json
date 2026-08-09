@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/5855\n.csdlc/prepared/issues/5855/sprint-execution-packet.yaml\n.csdlc/prepared/issues/5855/sprint-execution-packet.md\n.csdlc/prepared/issues/5855/validate-sprint-readiness.rb\n.csdlc/evidence/5855",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

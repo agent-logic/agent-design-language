@@ -5,10 +5,21 @@
   "initialization_digest": "a270f26590e5bc852e05a9eacf23bc22b7c06f282d28da0bda5fd1183ce8697a",
   "phase": "implemented",
   "generation": 14,
-  "digest": "5e4cc25e3b6d1ca4b6450beb2b5e57a0ea70bd75a1df30e91c0b46719989f504",
+  "digest": "f416ef62fd352e097d7228df819a3234c49fdc2ce4540b48da79e0a558812604",
   "branch": "codex/5855-sprint2-final-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprint-5855-final-readiness",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812",
+    "assigned_by": "codex:sprint-2-closeout-review-reconciliation",
+    "revision": "git-blake3:8d270c2c35c215723dbefbdf058fede3eaaaeea5:321d02b1e9b53c16ccf1c3f487b2fa4004324ec3e6894678d8a53883342a1e7b",
+    "scope": [
+      ".csdlc/issues/5855",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+      ".csdlc/evidence/5855"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "701b7e6d9789f5fba600b4051d3d9cd09bebcf704270b422225b471ad1cb9449"
     },
     "srp": {
-      "values_digest": "0dd666ffe6926638a53225b26ced51bf9049ab9f41061ac3d1bde44b4b95a1cd",
-      "rendered_digest": "968d74f70fa4e16312aa2b4d27ad547dcc610717eb51fcf580aba4a0eac93e27",
-      "ast_digest": "9e538a79e8a3d081ba6cee86c086769b3a199ca65e29efdac214253ae01b3d1c"
+      "values_digest": "b90e3049cd015e081aedf1420d96fd603a52d22aceb86baf7fd7dc7b48c69c0f",
+      "rendered_digest": "2d8512ea4aa1f60373803525fc804de9def56ea556646f49e551727ca00269b6",
+      "ast_digest": "ca91b576612f64af236df6536be2dce8c84a1b6a2dfb27fd2252a5fae18ab097"
     },
     "sor": {
       "values_digest": "ccc4c8277b4e80b68adfa119a500b607ce9367f79247bde9fd4538a9397c97af",
@@ -224,6 +235,13 @@
       "actor": "codex:sprint-2-closeout-review-reconciliation",
       "reason": "Reconcile exact-head review through metadata-only commits so publication can verify forward review evidence without a tracked request-file loop.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:sprint-2-closeout-review-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
