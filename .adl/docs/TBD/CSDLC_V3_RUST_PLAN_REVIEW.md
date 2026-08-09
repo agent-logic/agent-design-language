@@ -222,12 +222,19 @@ Evidence: `.csdlc/evidence/73/pre-pr-review.md`
 
 Initial decision: `REQUEST_CHANGES`
 
+Final reviewed target: `64b6360bfb3da05af4af4a149775d894e13cadeb`
+
+Final decision: `PASS`, no remaining P0-P3 findings
+
 Two P1 architecture findings were incorporated: the reviewer-identity adapter
 dependency is now acyclic, and intent journals are explicitly separated from
 lifecycle/card-state authority. One P2 validation-evidence finding is being
 resolved with exact retained commands. The remaining P2 STP wording is retained
 as initial planning history because the typed v2 editor rejects that collection
 mutation in `implemented`; no direct card edit or lifecycle bypass is allowed.
+
+The final re-review also confirmed the exact AC-6 proof: repository-local link
+existence, all ten pinned upstream source paths, and a retained Mermaid render.
 
 ### Post-Pre-PR Exact Verification
 
