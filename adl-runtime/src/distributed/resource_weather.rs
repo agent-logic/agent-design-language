@@ -22,12 +22,12 @@ pub const RESOURCE_WEATHER_SCHEMA: &str = "adl.distributed.resource_weather.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-RESOURCE-WEATHER-V1\0";
 const SIGNATURE_LEN: usize = 64;
 const MAX_TEXT_LEN: usize = 128;
-const MAX_OBSERVATION_LIFETIME_SECS: u64 = 600;
-const MAX_FUTURE_SKEW_SECS: u64 = 30;
-const MAX_PAYLOAD_BYTES: usize = 64 * 1024;
+pub const MAX_OBSERVATION_LIFETIME_SECS: u64 = 600;
+pub const MAX_FUTURE_SKEW_SECS: u64 = 30;
+pub const MAX_PAYLOAD_BYTES: usize = 64 * 1024;
 const MAX_DURABLE_RECORD_BYTES: usize = MAX_PAYLOAD_BYTES + 1024;
-const MAX_HOLDERS: u64 = 16_384;
-const MAX_AVAILABLE_SLOTS: u16 = 16_384;
+pub const MAX_HOLDERS: u64 = 16_384;
+pub const MAX_AVAILABLE_SLOTS: u16 = 16_384;
 pub const MAX_UTILIZATION_PERMILLE: u16 = 1_000;
 const WEATHER: TableDefinition<&str, &[u8]> =
     TableDefinition::new("distributed_resource_weather_v1");

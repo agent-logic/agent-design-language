@@ -15,7 +15,8 @@ use redb::{Database, ReadableDatabase, TableDefinition};
 use resource_weather::{
     MetricValue, NormalizedResourceMetrics, ObservationWindow, PlacementWeather,
     RawResourceMetrics, ResourceWeatherClaims, ResourceWeatherPolicy, ResourceWeatherStore,
-    SignedResourceWeather, WeatherAction, WeatherAvailability, WeatherError,
+    SignedResourceWeather, WeatherAction, WeatherAvailability, WeatherError, MAX_AVAILABLE_SLOTS,
+    MAX_FUTURE_SKEW_SECS, MAX_HOLDERS, MAX_OBSERVATION_LIFETIME_SECS, MAX_PAYLOAD_BYTES,
     RESOURCE_WEATHER_SCHEMA,
 };
 use tempfile::TempDir;
@@ -586,11 +587,11 @@ fn certificate_window_revocation_rotation_and_refresh_bound_cached_weather() {
 #[test]
 fn resource_weather_policy_rejects_platform_maxima() {
     for bounds in [
-        (601, 2, 4_096, 8, 64),
-        (60, 31, 4_096, 8, 64),
-        (60, 2, 65_537, 8, 64),
-        (60, 2, 4_096, 16_385, 64),
-        (60, 2, 4_096, 8, 16_385),
+        (MAX_OBSERVATION_LIFETIME_SECS + 1, 2, 4_096, 8, 64),
+        (60, MAX_FUTURE_SKEW_SECS + 1, 4_096, 8, 64),
+        (60, 2, MAX_PAYLOAD_BYTES + 1, 8, 64),
+        (60, 2, 4_096, MAX_HOLDERS + 1, 64),
+        (60, 2, 4_096, 8, MAX_AVAILABLE_SLOTS + 1),
     ] {
         assert!(matches!(
             ResourceWeatherPolicy::new(DOMAIN)
