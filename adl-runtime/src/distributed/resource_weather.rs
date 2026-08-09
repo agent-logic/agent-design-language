@@ -6,7 +6,7 @@
 
 use std::{
     fmt, fs,
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
 };
 
 use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
@@ -399,14 +399,14 @@ impl ResourceWeatherStore {
         if !database_path.is_absolute() {
             return Err(WeatherError::RelativeDatabasePath);
         }
-        reject_symlink(database_path)?;
+        reject_symlink_components(database_path)?;
         fs::create_dir_all(
             database_path
                 .parent()
                 .ok_or(WeatherError::RelativeDatabasePath)?,
         )
         .map_err(storage_error)?;
-        reject_symlink(database_path)?;
+        reject_symlink_components(database_path)?;
         let database = Database::create(database_path).map_err(storage_error)?;
         {
             let write = database.begin_write().map_err(storage_error)?;
@@ -779,9 +779,25 @@ fn validate_text(value: &str, error: WeatherError) -> WeatherResult<()> {
     Ok(())
 }
 
-fn reject_symlink(path: &Path) -> WeatherResult<()> {
-    if fs::symlink_metadata(path).is_ok_and(|metadata| metadata.file_type().is_symlink()) {
-        return Err(WeatherError::DatabasePathIsSymlink);
+fn reject_symlink_components(path: &Path) -> WeatherResult<()> {
+    let mut current = PathBuf::new();
+    for component in path.components() {
+        match component {
+            Component::RootDir | Component::Prefix(_) | Component::Normal(_) => {
+                current.push(component.as_os_str());
+            }
+            Component::CurDir | Component::ParentDir => {
+                return Err(WeatherError::RelativeDatabasePath);
+            }
+        }
+        match fs::symlink_metadata(&current) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(WeatherError::DatabasePathIsSymlink);
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => break,
+            Err(error) => return Err(storage_error(error)),
+        }
     }
     Ok(())
 }

@@ -106,6 +106,43 @@ fn open_weather(temp: &TempDir, max_holders: u64) -> ResourceWeatherStore {
     ResourceWeatherStore::open(weather_path(temp), weather_policy(max_holders)).unwrap()
 }
 
+fn assert_weather_open_error(path: impl AsRef<std::path::Path>, expected: WeatherError) {
+    match ResourceWeatherStore::open(path, weather_policy(8)) {
+        Ok(_) => panic!("unsafe resource-weather database path unexpectedly opened"),
+        Err(error) => assert_eq!(error, expected),
+    }
+}
+
+#[test]
+fn database_path_rejects_relative_paths() {
+    assert_weather_open_error("weather.redb", WeatherError::RelativeDatabasePath);
+}
+
+#[cfg(unix)]
+#[test]
+fn database_path_rejects_symlinked_ancestors_and_final_component() {
+    use std::os::unix::fs::symlink;
+
+    let temp = tempfile::tempdir().unwrap();
+    let root = temp.path().canonicalize().unwrap();
+    let real_parent = root.join("real-parent");
+    std::fs::create_dir(&real_parent).unwrap();
+
+    let linked_parent = root.join("linked-parent");
+    symlink(&real_parent, &linked_parent).unwrap();
+    assert_weather_open_error(
+        linked_parent.join("weather.redb"),
+        WeatherError::DatabasePathIsSymlink,
+    );
+
+    let target = root.join("target.redb");
+    let target_store = ResourceWeatherStore::open(&target, weather_policy(8)).unwrap();
+    drop(target_store);
+    let linked_database = root.join("linked-weather.redb");
+    symlink(&target, &linked_database).unwrap();
+    assert_weather_open_error(linked_database, WeatherError::DatabasePathIsSymlink);
+}
+
 fn mutate_durable_record(path: &std::path::Path, mutate: impl FnOnce(&mut serde_json::Value)) {
     let database = Database::create(path).unwrap();
     let bytes = {
