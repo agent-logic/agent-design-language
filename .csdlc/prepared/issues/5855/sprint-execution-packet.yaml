@@ -2,7 +2,8 @@ sprint_issue: 5855
 version: v0.92
 slug: runtime-observatory-polis-protocol
 execution_mode: hybrid
-ordered_issue_numbers: [5800, 5820, 5821, 5832, 5795, 5837]
+status: complete
+ordered_issue_numbers: [5800, 5820, 5821, 5832, 5795]
 launch_baseline:
   issue: 5800
   state: merged
@@ -10,18 +11,17 @@ launch_baseline:
   closeout_policy: asynchronous and non-blocking for product execution
 safe_parallel_lanes:
   - issues: [5820]
-    gate: merged issue 5800 TLS baseline is ancestral
-    boundary: Runtime launch and resilience owns the first active product lane.
+    gate: satisfied by ancestral issue 5800 TLS merge
+    boundary: Runtime launch and resilience completed as the first product lane.
   - issues: [5795]
-    gate: preparation only until issues 5820 and 5832 stabilize Runtime and protocol contracts
-    boundary: Local-provider preparation cannot redefine Runtime, Observatory, or protocol contracts.
+    gate: satisfied after terminal issues 5820 and 5832
+    boundary: Local-provider work completed without redefining Runtime or protocol contracts.
 serial_gates:
-  - merged issue 5800 supplies the trusted TLS baseline; issue 5820 completes Runtime launch and resilience
-  - issue 5821 follows stable issue 5820 Runtime ingress and gates the separate issue 5862 implementation sprint
-  - issue 5832 follows terminal issues 5821 and 5862
-  - issue 5795 integrates after issues 5800 and 5820 plus WP-14 issue 5832 contract stability
-  - issue 5837 integrates after issues 5820 and 5832 and its WP-18 dependency
+  - "satisfied: issue 5800 supplied the trusted TLS baseline before issue 5820 Runtime resilience"
+  - "satisfied: issue 5821 followed stable issue 5820 Runtime ingress and released the separate issue 5862 implementation sprint"
+  - "satisfied: issue 5832 completed the protocol contract after the issue 5821 architecture gate"
+  - "satisfied: issue 5795 integrated after stable issues 5820 and 5832"
 review_path: .csdlc/evidence/5855/sprint-review.md
 activity_log_path: .csdlc/evidence/5855/activity.jsonl
 child_goal_rule: Each dependency-ready child session binds or verifies its dedicated FastWork branch/worktree with current typed csdlc-bind, then creates an issue-bound goal before implementation.
-closeout_rule: Review the integrated Runtime and Observatory path before umbrella closeout.
+closeout_rule: Close after exact merge ancestry and live closed-state verification for all five retained children; issue 5837 and its HTML and Unity children are outside Sprint 2.
