@@ -3,9 +3,9 @@
   "issue": 75,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0dd81b234af2b9cfa011f8f1ebc56362595c1988b7e83137501e84345d8eff9e",
-  "phase": "bound",
-  "generation": 3,
-  "digest": "2facf7958d37e94b805d34404181f2fb83b28d620f12a0706dac084601aaa9c4",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "2bea2f6a75fed1628a1ac82b9afeb3c80bd6cbd5cf49eb154160ffff30b45907",
   "branch": "codex/75-incremental-publication-linkage",
   "worktree": "/Volumes/FastWork/adl-issue-75-incremental-publication-linkage",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a419166de86eabe149b8d584648a23ad35b8ac266354c4732f6e4cd8ad901a17",
+      "values_digest": "9c07d85ccaeef6352c24e2b3ce1ae24086392acc714550b736d87f5cdf344720",
       "rendered_digest": "46326d6d4d5b10585464af51e393b966d24bce99dfc8befcc6b3721e58e1b527",
       "ast_digest": "d634c842915f091cf9916a653c1de465e148bc5a4bcd0fcb08a243c5f57ad7c3"
     },
     "stp": {
-      "values_digest": "b8a9ecbb48168600e2ef8f88db66419170ecc76ada50a9c3b29069671679e206",
+      "values_digest": "f626f49b3a6007d23089acdf4c83e68ad6a77aa4873f8ad384b2266dbf884624",
       "rendered_digest": "69c03b16c0d338993470c5ffb560cbdd938d4d86becd19ee77616b7ebbad40b8",
       "ast_digest": "1f8435c207cec1d1fcac22dee9e725c14c72c9ce638051de2f803ba4f4b54018"
     },
     "spp": {
-      "values_digest": "7101b844230a3b8fc6cec4801295c39dd6590daf8671faa21ff75fb0fac5dd49",
+      "values_digest": "718f42ba07a412ffecfa46b8cfe717abd60388bb127618733a1ff3fae932ceca",
       "rendered_digest": "b0f445bfac18a76c68f3ff51745b03065eb6ec41dd1010f52893f50c58b80105",
       "ast_digest": "ae8d01dfe7b5252e51fed5f347fa86b69ec200e0d964cba60565ffc53f080d7c"
     },
     "vpp": {
-      "values_digest": "9cdee0dc62335732c319699e94af5d6918c9ef4d56689d0064a507966526f32b",
+      "values_digest": "f80d0d8f73e2f68c4a3d42596d4ec4bdf5901032b27ef071cbbc14fb679523ce",
       "rendered_digest": "070ebfb3895fd69ee9c4d3c8bd65f48506a90df6bffafea8b47c8d70472cb43f",
       "ast_digest": "e1e534296c7a417e2a0d62c5093ccc6e73270fe70f6e5fa7014c24d0f241abbd"
     },
     "srp": {
-      "values_digest": "f678b98e5fc1fd3cdf0565bb51c2dfece76e1aa7011e1faaf10124dab31a96f3",
+      "values_digest": "c4e19330b17fa916598e29e462ba856465bc5fbf8f34b86d87d47121985e6049",
       "rendered_digest": "0e30949331ccccd1897e12b3303a31a20824c20facc9bfaab5a2fef7254f0529",
       "ast_digest": "22c5955404da0f1c15db787710fca40919f25e7531f6d33d6a5a7ad84dd6081b"
     },
     "sor": {
-      "values_digest": "af5c739a0653f8b865a0b0577944e5ceeaa3c95b97180081bf525cea1a105f05",
-      "rendered_digest": "46f1bfe5bf222da782621bcec54168f3f1118091e67490c9e4142428c1bfeb02",
-      "ast_digest": "abffdb6a1dd74e0270b9b8e497a48419b8f8cb750afe133bb1ad03a7cfbda263"
+      "values_digest": "a1520b02df265d919d420d520b7a0f87c2d112b05b601f54ff0ccb5122f5883a",
+      "rendered_digest": "6b079694db3be2a311691c065aaf594e7acabe6b2d348cfdf4f38fda2abe5ac1",
+      "ast_digest": "7cd53e338f0a5240479895de57007c0383c9e6744bdde8dced26313671b22cb7"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:execute_75_to_pr",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -105,6 +112,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:execute_75_to_pr",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

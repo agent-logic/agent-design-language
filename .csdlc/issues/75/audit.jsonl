@@ -3,3 +3,4 @@
 {"sequence":3,"generation":2,"actor":"codex:75-readiness","reason":"Bind deliverables to concrete owned implementation and test targets","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/gate_finish.rs\"]}"}
 {"sequence":4,"generation":3,"actor":"subagent:prepare-75-readiness-review","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":5,"generation":3,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":6,"generation":4,"actor":"codex:execute_75_to_pr","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
