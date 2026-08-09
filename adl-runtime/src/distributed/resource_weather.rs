@@ -379,9 +379,9 @@ struct DurableWeatherRecord {
     holder_id: String,
     certificate_generation: u64,
     sequence: u64,
-    authorization_deadline_unix_secs: Option<u64>,
-    advertisement_digest: Option<String>,
-    advertisement: Option<SignedResourceWeather>,
+    authorization_deadline_unix_secs: u64,
+    advertisement_digest: String,
+    advertisement: SignedResourceWeather,
 }
 
 pub struct ResourceWeatherStore {
@@ -462,21 +462,9 @@ impl ResourceWeatherStore {
             holder_id: holder_id.clone(),
             certificate_generation: generation,
             sequence,
-            authorization_deadline_unix_secs: Some(authorization_deadline),
-            advertisement_digest: Some(advertisement_digest),
-            advertisement: match advertisement.claims.action {
-                WeatherAction::Observe(_) => Some(advertisement),
-                WeatherAction::Withdraw => None,
-            },
-        };
-        let stored = if stored.advertisement.is_none() {
-            DurableWeatherRecord {
-                authorization_deadline_unix_secs: None,
-                advertisement_digest: None,
-                ..stored
-            }
-        } else {
-            stored
+            authorization_deadline_unix_secs: authorization_deadline,
+            advertisement_digest,
+            advertisement,
         };
         let encoded = serde_jcs::to_vec(&stored).map_err(encoding_error)?;
         if encoded.len() > MAX_DURABLE_RECORD_BYTES {
@@ -508,13 +496,8 @@ impl ResourceWeatherStore {
             return Ok(PlacementWeather::no_data(holder_id));
         };
         self.validate_record(&record, holder_id)?;
-        let Some(advertisement) = record.advertisement else {
-            return Ok(PlacementWeather::no_data(holder_id));
-        };
-        if now_unix_secs
-            >= record
-                .authorization_deadline_unix_secs
-                .ok_or(WeatherError::DurableStateCorrupt)?
+        let advertisement = record.advertisement;
+        if now_unix_secs >= record.authorization_deadline_unix_secs
             || self
                 .verify(&advertisement, certificates, now_unix_secs)
                 .is_err()
@@ -538,11 +521,8 @@ impl ResourceWeatherStore {
             let record = decode_record(value.value())?;
             self.validate_record(&record, &holder)?;
             let projection = match record.advertisement {
-                Some(advertisement)
-                    if now_unix_secs
-                        < record
-                            .authorization_deadline_unix_secs
-                            .ok_or(WeatherError::DurableStateCorrupt)?
+                advertisement
+                    if now_unix_secs < record.authorization_deadline_unix_secs
                         && self
                             .verify(&advertisement, certificates, now_unix_secs)
                             .is_ok() =>
@@ -670,14 +650,7 @@ impl ResourceWeatherStore {
         {
             return Err(WeatherError::DurableStateCorrupt);
         }
-        let Some(advertisement) = &record.advertisement else {
-            if record.authorization_deadline_unix_secs.is_some()
-                || record.advertisement_digest.is_some()
-            {
-                return Err(WeatherError::DurableStateCorrupt);
-            }
-            return Ok(());
-        };
+        let advertisement = &record.advertisement;
         let claims = &advertisement.claims;
         let body = &advertisement.certificate.body;
         let digest = advertisement
@@ -687,9 +660,7 @@ impl ResourceWeatherStore {
             .certificate
             .certificate_id()
             .map_err(|_| WeatherError::DurableStateCorrupt)?;
-        let deadline = record
-            .authorization_deadline_unix_secs
-            .ok_or(WeatherError::DurableStateCorrupt)?;
+        let deadline = record.authorization_deadline_unix_secs;
         if claims.schema != RESOURCE_WEATHER_SCHEMA
             || claims.trust_domain != self.policy.trust_domain
             || claims.holder_id != record.holder_id
@@ -708,7 +679,7 @@ impl ResourceWeatherStore {
             || claims.expires_at_unix_secs > body.expires_at_unix_secs
             || deadline > claims.expires_at_unix_secs
             || deadline > body.expires_at_unix_secs
-            || record.advertisement_digest.as_deref() != Some(digest.as_str())
+            || record.advertisement_digest != digest
             || serde_jcs::to_vec(advertisement)
                 .map_err(|_| WeatherError::DurableStateCorrupt)?
                 .len()

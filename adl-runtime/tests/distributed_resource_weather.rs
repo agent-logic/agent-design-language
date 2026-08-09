@@ -877,6 +877,8 @@ fn holder_capacity_payload_and_durable_corruption_fail_closed() {
         ("claims", "claims"),
         ("signature", "signature"),
         ("digest", "digest"),
+        ("null-withdrawal", "null-withdrawal"),
+        ("forged-high-withdrawal", "forged-high-withdrawal"),
     ] {
         let path = temp
             .path()
@@ -904,6 +906,13 @@ fn holder_capacity_payload_and_durable_corruption_fail_closed() {
             "claims" => record["advertisement"]["claims"]["sequence"] = 999.into(),
             "signature" => record["advertisement"]["signature"][0] = 255.into(),
             "digest" => record["advertisement_digest"] = "weather_tampered".into(),
+            "null-withdrawal" => record["advertisement"] = serde_json::Value::Null,
+            "forged-high-withdrawal" => {
+                record["sequence"] = 999.into();
+                record["advertisement"]["claims"]["sequence"] = 999.into();
+                record["advertisement"]["claims"]["action"] =
+                    serde_json::json!({"action": "withdraw"});
+            }
             _ => unreachable!(),
         });
         match ResourceWeatherStore::open(&path, weather_policy(8)) {
