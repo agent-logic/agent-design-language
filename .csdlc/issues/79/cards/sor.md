@@ -98,11 +98,11 @@ Made deferred Rust source and test targets bindable only through an initialized,
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
