@@ -1,0 +1,12 @@
+flowchart LR
+  I["Initialized issue"] --> O{"Exact future paths owned and deliverable?"}
+  O -->|"No"| R["Reject readiness"]
+  O -->|"Yes"| F{"Fail-closed lane with meaningful deferral?"}
+  F -->|"No"| R
+  F -->|"Yes"| H{"Issue-owned temporary test harness routes module?"}
+  H -->|"No"| R
+  H -->|"Yes"| B["Permit bind"]
+  B --> E["Implement declared source and test"]
+  E --> P{"Targets exist, tests selected, proof passes?"}
+  P -->|"No"| R
+  P -->|"Yes"| V["Implemented validation truth"]

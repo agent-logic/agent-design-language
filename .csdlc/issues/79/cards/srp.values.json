@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 79,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][blocker] Permit bind-safe deferred new module and test targets",
+    "slug": "bind-safe-deferred-targets",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #79 readiness predicates in cards.rs, focused Gate 2 regressions, lifecycle truth, and no Distributed Guardian product implementation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the exception impossible outside initialized pre-bind admission?",
+        "Does every deferred source and test path require exact ownership and deliverable equality?",
+        "Is the temporary path harness route issue-owned, focused, and incapable of registering an arbitrary production module?",
+        "Do negative tests independently prove each required fail-closed predicate?",
+        "Can prose still be mistaken for a required validator path?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
