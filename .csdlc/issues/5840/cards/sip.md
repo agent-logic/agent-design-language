@@ -33,7 +33,8 @@ The demo matrix, feature coverage table, activation ledger, and AEE artifact ind
 - WP-20 owns integrated demo, AEE, and proof-index truth
 - Child issues own their feature behavior and primary evidence
 - WP-21/WP-21A own reduction and refactoring
-- WP-23/WP-30 own final quality and release decisions
+- Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
+- Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
 
 ## Assumptions
 

@@ -36,7 +36,8 @@ A real Runtime-produced birthday packet, deterministic validator, retained revie
 - WP-18 owns the integrated birthday demo and negative suite
 - #5837 owns Observatory/Unity consumers
 - #5838 owns provider-neutral comparison
-- #5839 and release-tail issues own governance and publication
+- Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
+- Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
 
 ## Assumptions
 

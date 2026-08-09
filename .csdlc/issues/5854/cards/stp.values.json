@@ -7,7 +7,7 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 0
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,9 @@
       "deliverables": [
         "Issue-specific six-card sprint record",
         "Sprint Execution Packet with membership, lanes, gates, review path, and activity log",
-        "Integrated sprint review and truthful umbrella closeout record"
+        "Integrated sprint review and truthful umbrella closeout record",
+        ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb",
+        ".csdlc/evidence/5854/live-gates.json"
       ],
       "acceptance_criteria": [
         "AC-1: The Sprint Execution Packet records exact child membership and dependency order.",

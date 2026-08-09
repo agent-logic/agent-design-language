@@ -19,6 +19,8 @@ Prepare and operate only the demonstration-handoff-publication sprint umbrella; 
 - Issue-specific six-card sprint record
 - Sprint Execution Packet with membership, lanes, gates, review path, and activity log
 - Integrated sprint review and truthful umbrella closeout record
+- .csdlc/prepared/issues/5854/validate-sprint-readiness.rb
+- .csdlc/evidence/5854/live-gates.json
 
 ## Acceptance
 

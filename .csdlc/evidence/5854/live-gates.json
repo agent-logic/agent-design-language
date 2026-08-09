@@ -1,0 +1,29 @@
+{
+  "schema": "adl.v092.sprint_5854_live_gates.v1",
+  "observed_at": "2026-08-09T23:26:40Z",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "issues": [
+    {"repository": "danielbaustin/agent-design-language", "issue": 5819, "state": "closed"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5832, "state": "closed"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5834, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5835, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5836, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5837, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5838, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5839, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5840, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5843, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5844, "state": "closed"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5845, "state": "open"},
+    {"repository": "danielbaustin/agent-design-language", "issue": 5854, "state": "open"}
+  ],
+  "pull_requests": [
+    {"repository": "agent-logic/agent-design-language", "pull_request": 14, "state": "merged", "merge_sha": "b4f23892fa5c7b23816c8c38903ed4c73395afde", "closes_issue": 10},
+    {"repository": "agent-logic/agent-design-language", "pull_request": 69, "state": "merged", "merge_sha": "63f2dccdbb07de8f3c2f1947afe2e4ce345588e3", "part_of_issue": 5845, "checkpoint": "episode-001"}
+  ],
+  "publication_authorization": {
+    "status": "not_authorized",
+    "reason": "Readiness and private episode checkpoints do not authorize public deployment or release claims."
+  }
+}

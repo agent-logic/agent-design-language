@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5854/diagram.mmd
 
 [
   {
-    "lane": "v092-sprint-package",
-    "proof_role": "Sprint membership, packet completeness, child authority boundaries, and review-ready coordination truth",
+    "lane": "v092-sprint5-readiness",
+    "proof_role": "Prove current Sprint 5 membership, state classification, bind-safe child contracts, dependency gates, publication boundaries, and umbrella ownership.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -39,7 +39,7 @@ Diagram: .csdlc/prepared/issues/5854/diagram.mmd
     "budget_tokens": 3000,
     "argv": [
       "ruby",
-      ".csdlc/prepared/issues/5817/validate-v092-package.rb"
+      ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb"
     ],
     "parallel_group": "v092-docs",
     "defer_reason": null
@@ -58,7 +58,7 @@ Tokens: 25000
 
 ## Commands
 
-- `ruby .csdlc/prepared/issues/5817/validate-v092-package.rb`
+- `ruby .csdlc/prepared/issues/5854/validate-sprint-readiness.rb`
 
 ## Failure Semantics
 

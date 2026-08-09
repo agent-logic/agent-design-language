@@ -20,6 +20,7 @@ Author the WP-19 handoff map and evidence-grounded ADR-plan update without assig
 - Allowed-use and forbidden-inference matrix
 - Unresolved-decision and blocker register
 - Evidence-grounded ADR 0033 planning update
+- .csdlc/evidence/5839/validate-governance-handoff.rb
 
 ## Acceptance
 

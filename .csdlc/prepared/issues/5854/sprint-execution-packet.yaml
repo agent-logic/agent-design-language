@@ -1,24 +1,27 @@
 sprint_issue: 5854
 version: v0.92
 slug: demonstration-handoff-publication
+status: ready_for_execution
 execution_mode: hybrid
-ordered_issue_numbers: [5835, 5836, 5838, 5839, 5840, 5844, 5845]
+ordered_issue_numbers: [5835, 5836, 5838, 5839, 5840]
+active_checkpoint_issue_numbers: [5845]
+completed_legacy_issue_numbers: [5844]
+completed_canonical_issue_numbers: [10]
 safe_parallel_lanes:
-  - issues: [5844, 5845]
-    gate: issue 5819 complete
-    boundary: Articles and podcasts are independently reviewable publication packages.
   - issues: [5835, 5836]
     gate: issue 5834 and each remaining declared child dependency are complete
     boundary: Demo and migration planning retain separate child worktrees.
-  - issues: [5839]
-    gate: issues 5834 and 5835 and the v0.93 allocation are complete
-    boundary: Governance handoff starts only after its migration-planning dependency.
+  - issues: [5845]
+    gate: each episode is a non-closing checkpoint within WP-24A
+    boundary: Episode packages remain private and unpublished until separately authorized.
 serial_gates:
   - issues 5835 and 5836 follow issue 5834
   - issue 5838 follows issues 5832, 5834, and 5836
+  - issue 5839 follows issues 5834 and 5835 plus the v0.93 allocation
   - issue 5840 follows issues 5836, 5837, 5838, and 5839
-  - final publication claims align only after issue 5843
+  - final publication claims align only after issue 5843 and explicit operator authorization
 review_path: .csdlc/evidence/5854/sprint-review.md
 activity_log_path: .csdlc/evidence/5854/activity.jsonl
-child_goal_rule: After WP-01 releases its publication claim, each child session registers its worktree, reacquires the exact issue-local claim, binds, and creates an issue-bound goal before implementation.
+live_gate_path: .csdlc/evidence/5854/live-gates.json
+child_goal_rule: Each unbound child uses its own FastWork worktree, typed split-repository bind request, and issue-bound goal before implementation.
 closeout_rule: Review real proof artifacts and publication truth before umbrella closeout.

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "846869967e550e7f6dc78805815062a71d7c828653ce0a668e7c479663588d00",
   "phase": "initialized",
-  "generation": 39,
-  "digest": "879d9d30eaee6c70f052d1de0363369a5bd11117931d865c73d5c51c9bdea22d",
+  "generation": 43,
+  "digest": "42dd645fa4fb8fe14a504ee940e19013cb943a87b16fd0b6734c39d6669c4ef2",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2795e8bac9d5a27584a8c4e56482e45e092b7367da6f4c882ef0b54117c812b9",
-      "rendered_digest": "17414a5a6263a1d8bbb37cc555577f182a41c0d98cda8b7525b8976cb3d8e97c",
-      "ast_digest": "848b2b0d3edc6e0d317ca14397c03c92a6e283874f0070e8f69fb72bcadd6d56"
+      "values_digest": "450977dc3785ace511b080eeb046b986c7122092633e8da50844a98b5de577ca",
+      "rendered_digest": "cf25b08aaf103ec4b9a16a6f9611137d9db493195b09c0e61fa9ae260140eb6d",
+      "ast_digest": "a4b5bdf34afaacafffabefd4738a841b96ab5b0188e9dba15004eb3357f816fb"
     },
     "stp": {
-      "values_digest": "351f1d0c925c8dc2eed61536f82337a6337879ad60e2a9b681597a8e868b366f",
-      "rendered_digest": "f8ec1fc6951913c6b6551ad187ce364a445a5a02fc21bf3da883ec2bfb413c1f",
-      "ast_digest": "518d360372d9e4d4d7992bd9715a0a5b610771c99035f13a1a67e28d4c615861"
+      "values_digest": "f1a4746c3e5b3d49358a69872eaaa757cf5b624c3bc9765ffe561adfb3ec43fc",
+      "rendered_digest": "bac768f1314888c3a9dce9b91c49880202f07dfc40f6e9cd1d24d6193ecdf7d6",
+      "ast_digest": "c8abf100604c7971c18e3938fe840751c8d9ba0229b5277f43e50428d155fc84"
     },
     "spp": {
-      "values_digest": "e4a1d2027805cbe289d2df4478d782829aba4e8f00431d49d1cb2116c260de32",
-      "rendered_digest": "6debdf5699666244443ffe6a11d675a6159c6fd37fa16cf5f53702edab7762ed",
-      "ast_digest": "4b46614d8a5c25c972cf7c6b843951c12e95ff73e641256cb37393e9068dd2e3"
+      "values_digest": "400ade8598344b1257f30de5b3e13548979f1d1b30eff097b31473a7d3727fde",
+      "rendered_digest": "d64e4bed430891c63478ad56792dc3add3929b20b371544916ac8e6474a29f5e",
+      "ast_digest": "b0578ac2a5475c2a1cf7ec87e7400b5fcb621d1e615bc717e214085b231219f6"
     },
     "vpp": {
-      "values_digest": "48452216de8182d7ea9aa1e0062db5c565b454d30c30843a4e67ad050883e112",
-      "rendered_digest": "133d8a0fe1a188b4463edadffcab16d3b6cbdd214d351431d76853dc49e62b93",
-      "ast_digest": "4f3ab139da95c092ee0e6c3ef9d98b7c5ad333a836fa9d364b51adbd63a99ed5"
+      "values_digest": "ad689a7fe5b242f33ba81bf1cdc0a69d5f651bc1a09bfd8fb324631352453636",
+      "rendered_digest": "78cb138cbb603ada758208bf16a9c4fc559098a6464b3e3ed5d9da267ab5ab31",
+      "ast_digest": "c1f5b3d7fdd706dd37c027a59e54469e09f7decf628c43aa7afe8ecbbd20eef6"
     },
     "srp": {
-      "values_digest": "6982c3c2f302ca58257f0edd947beab64ac76f247e693c4dd37e1a1930d1f821",
+      "values_digest": "fc1f8acecdd8a0c3f7156cee321c1ad785cf5372fb67eaf70dc2db9abfded3c5",
       "rendered_digest": "effeb2dc571ff39b68bafbe764b5b12d19286a0a856df06d3b68a4d1948ec4ee",
       "ast_digest": "c1221ba532e8cde1ffa3ae6f0e93463333da42ae174fea0d11d2a7c23c1e2198"
     },
     "sor": {
-      "values_digest": "3120673214da91bffebce8be550cf4654f1de98a4000a8069ca35f43b8817850",
+      "values_digest": "0a533aab035c62cb88e0d14a4312e783003aee38cd14d640abcc91e4ee946d22",
       "rendered_digest": "4fbc680667c00745e3761cbb9cc6d40c3b11080eee395b41fa5972125cafb61b",
       "ast_digest": "63699a396361f0a5b765229460953191b0069437f235102e2abcd22d70aca6e7"
     }
@@ -462,6 +462,34 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 56,
+      "generation": 40,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Normalize Sprint 5 child ownership to safe repository paths and explicit deferred validators.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/tools/demo_v092_first_birthday.sh\",\"adl/tools/validate_v092_first_birthday_packet.py\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"demos/v0.92/first-birthday\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md\",\"docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md\",\"docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\".csdlc/evidence/5836\",\".csdlc/evidence/5836/validate-publication-gate.rb\"]}"
+    },
+    {
+      "sequence": 57,
+      "generation": 41,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Declare every issue-owned future validator as an explicit execution deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runnable integrated first-birthday command\",\"Runtime-produced positive packet and deterministic validator\",\"Not-a-birthday fixture matrix and rejection report\",\"Reviewer index and D1-D6 exact command/artifact updates\",\"Reconciled PUBLIC_LAUNCH_COPY_v0.92.md\",\"Reconciled REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\"Machine-readable publication-gate checklist and fail-closed validator\",\"adl/tools/test_v092_first_birthday_demo.sh\",\".csdlc/evidence/5836/validate-publication-gate.rb\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 42,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Defer unavailable issue-owned validators only until the bound child implements them; preserve fail-closed proof semantics.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp18-positive-runtime\",\"proof_role\":\"Prove the integrated Runtime emits one complete birthday packet.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--positive\"],\"parallel_group\":\"birthday\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-negative-replay\",\"proof_role\":\"Prove all not-a-birthday, interruption, replay, and redaction cases fail closed.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--negative\"],\"parallel_group\":\"birthday\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-native-macos\",\"proof_role\":\"Run the packet contract on a native macOS host and pin host class, source revision, argv, result, and artifact digests.\",\"acceptance_ids\":[\"AC-3\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--native-platform\",\"macos\"],\"parallel_group\":\"platform\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-native-linux\",\"proof_role\":\"Run the packet contract on a native Linux host and pin host class, source revision, argv, result, and artifact digests.\",\"acceptance_ids\":[\"AC-3\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--native-platform\",\"linux\"],\"parallel_group\":\"platform\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-publication-gate\",\"proof_role\":\"Validate both canonical launch documents and fail closed on missing accepted proof, stale review, unsupported claims, unresolved negatives, or absent operator authorization without publishing.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/evidence/5836/validate-publication-gate.rb\",\"--check-only\"],\"parallel_group\":\"publication\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"}]}"
+    },
+    {
+      "sequence": 59,
+      "generation": 43,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Replace sunset claim language with current typed C-SDLC v2 Git topology authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-18 owns the integrated birthday demo and negative suite\",\"#5837 owns Observatory/Unity consumers\",\"#5838 owns provider-neutral comparison\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\"]}"
     }
   ]
 }

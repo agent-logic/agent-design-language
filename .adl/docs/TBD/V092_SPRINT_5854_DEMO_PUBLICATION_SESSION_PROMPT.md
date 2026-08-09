@@ -7,8 +7,9 @@ session.
 You own v0.92 sprint coordination issue #5854, Demonstration, Handoff, and
 Publication.
 
-Read root AGENTS.md first. Use typed C-SDLC v2 only, keep main clean, never use
-/private/tmp, and give every child its own bound worktree and session goal.
+Read root AGENTS.md first. Use typed C-SDLC v2 only, keep main clean, use
+FastWork for child worktrees and substantial artifacts, and give every child
+its own bound worktree and session goal.
 The umbrella coordinates and reviews; it does not author child deliverables in
 the umbrella worktree.
 
@@ -21,11 +22,10 @@ Startup:
    never recreate initialized cards through a sunset .adl task-bundle route.
 4. Prepare all child plans, but execute only lanes with satisfied dependencies.
 
-WP-01 published the initialized child records under its own temporary publication
-claim. After WP-01 releases that claim, create and register each real child
-worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact
-issue-local paths, then run the normal bind and goal sequence. Do not assume the
-bootstrap reservation is still active.
+For each unbound child, use a dedicated FastWork worktree and a typed
+`csdlc-bind` request that records `agent-logic/agent-design-language` as the
+code repository. Claims, leases, heartbeats, and protected-path ledgers are
+historical compatibility evidence and do not control execution.
 
 Exact child wave:
 
@@ -34,8 +34,9 @@ Exact child wave:
 - #5838, WP-18B: provider-neutral multi-agent proof
 - #5839, WP-19: birthday-to-governance handoff
 - #5840, WP-20: demo matrix, AEE proof, and proof coverage
-- #5844, WP-24: all ten launch articles, complete and review-ready
-- #5845, WP-24A: the first ten podcast episodes, complete and review-ready
+- #5844, WP-24: terminal; the canonical ten-article package is merged
+- #5845, WP-24A: active; episode 001 is a merged non-closing checkpoint and
+  episodes 002-010 remain
 
 Serial gates:
 
@@ -44,11 +45,10 @@ Serial gates:
 - #5840 follows #5836, #5837, #5838, and #5839.
 - Final publication claims align with release truth only after #5843.
 
-Early safe lane:
+Active safe lane:
 
-- After repository migration #5819, #5844 and #5845 may run in parallel in
-  separate child worktrees. Each must produce ten complete review-ready works,
-  not outlines, topic cards, or placeholders.
+- #5845 may continue as bounded, non-closing episode checkpoints. One episode
+  never implies WP-24A completion, deployment, or public publication.
 
 Other demo and handoff preparation may proceed separately as dependencies
 stabilize, but no demo may claim unlanded Runtime, birthday, provider, or

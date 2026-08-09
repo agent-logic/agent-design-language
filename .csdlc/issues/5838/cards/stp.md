@@ -20,6 +20,8 @@ Implement only the WP-18B provider-neutral harness, validator, proof matrix, tra
 - Provider-neutral matrix with at least two positive columns
 - Redacted ACIP traces and artifact digests
 - Malformed, denied, interrupted, unavailable, loss, and substitution proof
+- adl/tools/demo_v092_provider_neutral_birthday.sh
+- adl/tools/test_v092_provider_neutral_proof.sh
 
 ## Acceptance
 

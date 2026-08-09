@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
     "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,8 @@
         "Reconciled demo matrix and feature coverage table",
         "Exact-revision AEE and artifact index",
         "Corrected WP-20 versus WP-21/WP-21A ownership",
-        "Fail-closed coverage validator and focused tests"
+        "Fail-closed coverage validator and focused tests",
+        "adl/tools/test_v092_demo_proof_coverage.sh"
       ],
       "acceptance_criteria": [
         "AC-1: Matrix, coverage, activation-ledger, and artifact-index rows agree on owner, command, status, and exact revision.",

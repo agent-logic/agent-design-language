@@ -26,7 +26,10 @@ A reviewable sprint coordination lane can route #5835, #5836, #5838, #5839, #584
 
 ## Authority
 
-- Sprint coordination records only; child issues own implementation and evidence.
+- Sprint coordination records only; child issues own implementation, evidence, review, publication, and closeout.
+- Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
+- Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
+- The operator retains external deployment and publication authority.
 
 ## Assumptions
 
