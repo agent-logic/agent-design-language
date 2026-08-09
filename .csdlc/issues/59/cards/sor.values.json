@@ -7,16 +7,47 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 13
+    "generation": 18
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Prepared a reviewed, non-closing authority-routing checkpoint for the externally owned Codex blocked-goal replacement defect and stacked it on the typed issue 75 part_of publisher contract.",
+      "actual_changes": [
+        ".csdlc/issues/59",
+        ".csdlc/prepared/issues/59"
+      ],
+      "artifacts": [
+        ".csdlc/prepared/issues/59/design.md",
+        ".csdlc/prepared/issues/59/diagram.mmd",
+        "inherited issue 75 typed part_of publication contract at c405895a10440eb4a163ed7ebd084c4e8c617be7"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject malformed authority-routing packet changes.",
+          "outcome": "passed",
+          "evidence_ref": "git diff --check passed at the issue 59 checkpoint candidate."
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate6"
+          ],
+          "purpose": "Prove default closing compatibility, explicit part_of linkage, qualified split-authority references, retained evidence, and mixed-linkage rejection.",
+          "outcome": "passed",
+          "evidence_ref": "gate6 passed 10 tests with 0 failures on the stacked issue 75 implementation."
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

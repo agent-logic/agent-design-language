@@ -1,0 +1,13 @@
+{
+  "issue": 59,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "6682c169ad512011a79d362b7534174607cd65e289815daf8924762b25635dae",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "The non-closing authority checkpoint and its focused local proof are complete; the external platform fix remains outstanding.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}
