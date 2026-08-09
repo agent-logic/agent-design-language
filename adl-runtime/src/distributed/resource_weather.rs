@@ -1,3 +1,8 @@
+//! Authenticated, advisory-only resource-weather evidence.
+//!
+//! This module intentionally remains unregistered until integration issue #5878; it does not
+//! grant scheduling authority or mutate scheduler state.
+
 use std::{
     fmt, fs,
     path::{Path, PathBuf},
