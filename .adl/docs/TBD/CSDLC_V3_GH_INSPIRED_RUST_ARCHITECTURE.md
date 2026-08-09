@@ -1146,6 +1146,7 @@ flowchart TD
     P02 --> P03["V3-03 Single-binary foundation"]
     P03 --> P04["V3-04 Application context"]
     P03 --> P05["V3-05 Repository context and importer"]
+    P04 --> P05
     P04 --> P06["V3-06 Canonical state and cards"]
     P05 --> P06
     P06 --> P07["V3-07 Lifecycle kernel"]
@@ -1183,6 +1184,7 @@ flowchart TD
     P09 --> P14
     P12 --> P14
     P14 --> P15["V3-15 Finish and clean"]
+    P13 --> P15
     P08 --> P15
     P09 --> P15
     P12 --> P15
