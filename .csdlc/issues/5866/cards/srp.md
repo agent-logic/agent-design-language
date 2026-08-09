@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/discovery.rs
-adl-runtime/tests/distributed_discovery.rs
-.csdlc/evidence/5866/replay-window
-.csdlc/prepared/issues/5866/replay-window-vpp.json
-.csdlc/prepared/issues/5866/replay-window-sor.json
-.csdlc/prepared/issues/5866/replay-window-finalize.json
+
 
 ## Prompts
 
@@ -36,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Discovery remains intentionally unregistered until issue #5878 owns distributed module integration.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:7e35677fef08ae4edb59f74c16d1501e63d173d4:ce60d0389ab6fb97c3b0f4af1976cdb60f9d4d087cbfe428bbbcffba21489540")
+Revision: None
 
-Reviewer: Some("/root/issue_79/exact_head_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

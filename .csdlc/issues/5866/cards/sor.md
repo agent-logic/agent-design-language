@@ -78,11 +78,11 @@ Implemented bounded authenticated seed discovery with atomic request-plus-propos
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

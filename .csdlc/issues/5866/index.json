@@ -4,53 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a545ca23817c4e3efccce73310fea81472dff567846aa9fb04fac11418bbde6a",
-  "phase": "published",
-  "generation": 24,
-  "digest": "f2ed9f3adcf48034f392477e9701043e428851b8b486fdd23464884091a34725",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "f48e293aa6174a7dcf8e6ccea02103726bdd977d48a982e58afaf67d0d653b2f",
   "branch": "codex/5866-distributed-discovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
-  "review_assignment": {
-    "reviewer": "/root/issue_79/exact_head_review",
-    "assigned_by": "codex:5866-distributed-discovery",
-    "revision": "git-blake3:7e35677fef08ae4edb59f74c16d1501e63d173d4:ce60d0389ab6fb97c3b0f4af1976cdb60f9d4d087cbfe428bbbcffba21489540",
-    "scope": [
-      "adl-runtime/src/distributed/discovery.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      ".csdlc/evidence/5866/replay-window",
-      ".csdlc/prepared/issues/5866/replay-window-vpp.json",
-      ".csdlc/prepared/issues/5866/replay-window-sor.json",
-      ".csdlc/prepared/issues/5866/replay-window-finalize.json"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/issue_79/exact_head_review",
-    "scope": [
-      "adl-runtime/src/distributed/discovery.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      ".csdlc/evidence/5866/replay-window",
-      ".csdlc/prepared/issues/5866/replay-window-vpp.json",
-      ".csdlc/prepared/issues/5866/replay-window-sor.json",
-      ".csdlc/prepared/issues/5866/replay-window-finalize.json"
-    ],
-    "reviewed_revision": "git-blake3:7e35677fef08ae4edb59f74c16d1501e63d173d4:ce60d0389ab6fb97c3b0f4af1976cdb60f9d4d087cbfe428bbbcffba21489540",
-    "findings": [],
-    "residual_risks": [
-      "Discovery remains intentionally unregistered until issue #5878 owns distributed module integration."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5866,
-    "pull_request": 88,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/88",
-    "base": "main",
-    "head": "codex/5866-distributed-discovery",
-    "revision": "git-blake3:6f253bced91f12a88c96c778d9edf1ee43473a6e:2d69688e1cb809b7251359cac0aaee0024accda8417efab7993a85aa2af23416",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "75f8f0ead7d997c47feb9c22f489e204916b0013a9f882f3a4f7d6d6bca67038",
+      "values_digest": "e7dbd49f26d06c97c179ac0515f5385dd3bbf8c6bf0025f0d0c7ec45bb37741a",
       "rendered_digest": "6edde9877a679aa8137562e451dcf42a97d1752a726de69edf5fe1d3e1aa9292",
       "ast_digest": "54dff07d44a80d7c7591cb929f3cc32d18899c13934f570fe82687c25473d639"
     },
     "stp": {
-      "values_digest": "938b54c5ded6e15eff4c482f14916d77cee97a20ffef3e0d04e86c41b5de8e92",
+      "values_digest": "dee945bcec01f9258d395a39f1eefee37695bc1f799f6cc8b0498c11db50a367",
       "rendered_digest": "5c2f6f7e75055df76b81f86381236400afa8cff2a83bb7c8bbf3d9d035ccbbc8",
       "ast_digest": "bbe33a414fd219c8472a5493f94b769c4a459750e39278331d56b3e2d2a5804c"
     },
     "spp": {
-      "values_digest": "28d23918a4f305de5004c6bd1a430784eb520a7ea9ecbbd69218140151d4616d",
+      "values_digest": "782ef9b96d8a698fca4c843d09329103834504d9766d9a918627101a082caaef",
       "rendered_digest": "06039fe18555456e65b78378c039a41455e8130f5a4a551604ae8773e9b9ef4f",
       "ast_digest": "a9be98918825c7954e8473c3ae921e95dbc63e49c1e496a8cc40152482b0137a"
     },
     "vpp": {
-      "values_digest": "d71727356f1778bcc1d31f254a83c5f16bfaa2be80c43fc9a0b1e5b14329dde4",
+      "values_digest": "4032e3c9db5af5b73283d1e7667fa964390da1bb07c2acc2ff475ece4014ff4a",
       "rendered_digest": "f3bf23a4523dfd31de42d1582b386c44101149320443406724973f30fb4ab3a0",
       "ast_digest": "33976fdb6fd98e66fdbb9b095eae23b24046bed46566e67b18bb6192c7cfa72f"
     },
     "srp": {
-      "values_digest": "72762415e174b3d589f2b63e3679809dfbcff3297e8fd9291ba37be7dce34805",
-      "rendered_digest": "6ba2ede76b4959fd131782b89f3ba44fcd277b67fabeb7027536e52c8daf5673",
-      "ast_digest": "ee9310e114995cae392cd0aa75440b1ee20f7f755201a2ccee814971f5cbb7a5"
+      "values_digest": "6ca87fee0b8b12cf7742bd2e3d5a1457fec692fedf681040a4b31a6a495d0a8a",
+      "rendered_digest": "4c1bf34d9ba640291a5ab6305d5e95ccc85127f06964db13c088db795943c4d1",
+      "ast_digest": "e53fbb1edf892eebf1e6e00d42da2196d8fb10fc979900a1c7856927e656c9dc"
     },
     "sor": {
-      "values_digest": "7fe88cec2545ecb3fd34bef1bbe48a41f7de582db76f8aa51011192068b346d7",
-      "rendered_digest": "6e81c9d86e635150f1687e60a39b28e811358788df427283709825d2880a77b1",
-      "ast_digest": "4a1a498ca0cf131b4c4ce083870429431c8e9d994271ba0027fe006a36569afa"
+      "values_digest": "e04eaed24e8502b145fbcd2b133262d9302b8c74181ef6a057a1727103e7e9f7",
+      "rendered_digest": "180984d10c8c26fb7632000679db6abd863a0a5402104122c3e7587307f8e22d",
+      "ast_digest": "663c7a5e2821e5efed4bd93dbb3f5fb293866b8958929e2558a1ad74fafe8d46"
     }
   },
   "transitions": [
@@ -199,6 +160,13 @@
       "to": "published",
       "actor": "codex:5866-distributed-discovery",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:sprint-5862-child-5866-review-remediation",
+      "reason": "Recover published review truth to address exact-head findings requiring full identity and transport generation binding, canonical bounded Prost discovery messages, and durable replay admission across restart before republishing PR #88."
     }
   ],
   "audit": [
@@ -530,6 +498,13 @@
       "actor": "codex:5866-distributed-discovery",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 48,
+      "generation": 25,
+      "actor": "codex:sprint-5862-child-5866-review-remediation",
+      "reason": "Recover published review truth to address exact-head findings requiring full identity and transport generation binding, canonical bounded Prost discovery messages, and durable replay admission across restart before republishing PR #88.",
+      "operation": "recover_review"
     }
   ]
 }

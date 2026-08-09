@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.04] Seed discovery and authenticated join",
     "slug": "v0-92-wp-04-04-seed-discovery-join",
     "version": "v0.92",
-    "generation": 24
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/discovery.rs\nadl-runtime/tests/distributed_discovery.rs\n.csdlc/evidence/5866/replay-window\n.csdlc/prepared/issues/5866/replay-window-vpp.json\n.csdlc/prepared/issues/5866/replay-window-sor.json\n.csdlc/prepared/issues/5866/replay-window-finalize.json",
-      "review_revision": "git-blake3:7e35677fef08ae4edb59f74c16d1501e63d173d4:ce60d0389ab6fb97c3b0f4af1976cdb60f9d4d087cbfe428bbbcffba21489540",
-      "reviewer": "/root/issue_79/exact_head_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,10 +23,8 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Discovery remains intentionally unregistered until issue #5878 owns distributed module integration."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
