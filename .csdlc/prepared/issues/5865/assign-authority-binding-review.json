@@ -1,7 +1,7 @@
 {
   "issue": 5865,
-  "expected_generation": 20,
-  "expected_digest": "2031c5f5a24b392819a2cd770d06a42534078ded5166d65413e9d66bc01e5f0b",
+  "expected_generation": 23,
+  "expected_digest": "fb56297516cfc5336e7a045a56a0907b70fe5c27f1af52ed6156b2ae5f646041",
   "reviewer": "Codex independent review subagent /root/review_5864",
   "assigned_by": "codex:5862-sprint3-conductor",
   "scope": [
