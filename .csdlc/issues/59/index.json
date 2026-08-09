@@ -5,10 +5,18 @@
   "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
   "phase": "implemented",
   "generation": 18,
-  "digest": "0f5ea7094f1556e829e39de709ac67a31c146b0049544046e5156bf080959244",
+  "digest": "1bc5aa43afbf35ae36e2d619460c6c6a78e44c144598ac9684b9bcb299f65cd5",
   "branch": "codex/59-codex-goal-replacement-readiness",
   "worktree": "/Volumes/FastWork/adl-issue-59-codex-goal-replacement",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:execute_74_to_pr",
+    "assigned_by": "codex:59-authority-checkpoint",
+    "revision": "git-blake3:1e096475d43143aef7b06a75a09e764145e53977:bb54bf1ceed431b295e4858662b61d456c22cb1655de77a62a0247262e4fd680",
+    "scope": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +52,9 @@
       "ast_digest": "d803d68e1b5285e4c4adc4e2dc19150e8fc598cb0eb07b1ef49d1fffa1a2d589"
     },
     "srp": {
-      "values_digest": "4d05c3192a001aefc7da0b6abe3c4387c162ada8af9f2fc8b447482ca43ef9dd",
-      "rendered_digest": "d8065f996be600c9126d93051f03a38bdec02689ebf424a3492667142b3fb20f",
-      "ast_digest": "d224fde955c458f29b74cd6116ace61781b042a6da2a89e8c84e07386a6bd5f8"
+      "values_digest": "53e275a482338cf3f6dc1abe8eb92789ccd51ef61c8ddd89eb50c2ea4e6e6156",
+      "rendered_digest": "340ca00b5c65ac0c1f73af5651d3be75736b80094c4771f97418e892ff5c24a7",
+      "ast_digest": "311bdc94a5d7555e82dde5ace164518e61adf346faa2dc1cf84ccef85124a018"
     },
     "sor": {
       "values_digest": "db39d14b80bd3ed0b6df3348b3faf5a4f51ea7bd5dfa737af22c43a5f142ae22",
@@ -217,6 +225,13 @@
       "actor": "codex:59-authority-checkpoint",
       "reason": "The non-closing authority checkpoint and its focused local proof are complete; the external platform fix remains outstanding.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

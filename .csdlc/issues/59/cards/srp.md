@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, inherited issue 75 part_of publisher contract, exact qualified relationship line, and no-closing/no-fabricated-implementation boundary.
+.csdlc/issues/59
+.csdlc/prepared/issues/59
 
 ## Prompts
 

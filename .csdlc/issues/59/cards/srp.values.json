@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, inherited issue 75 part_of publisher contract, exact qualified relationship line, and no-closing/no-fabricated-implementation boundary.",
+      "review_scope": ".csdlc/issues/59\n.csdlc/prepared/issues/59",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
