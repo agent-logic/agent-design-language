@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "520dd58cbee72c0fd348d8f76eee5dab869387323adc0dd24950debf1ab8f532",
+  "generation": 21,
+  "digest": "ee25dbde61b53e51a55040887f3797b6977cb927f6f932af6c6cf7ab5ac76de0",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "df1bc6392e8170c9a1b35f03768c1fa6b7df57a4015c5f44c150ce4695de3418",
+      "values_digest": "7779a9efd396d3e3a9a7443655e720e6456308e4d8885f1ce1cb75d7d4b769c2",
       "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
       "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
     },
     "stp": {
-      "values_digest": "61e3b7aeb2f5edc797e5b17e0901d1cb574062e45b4183950a1cab745074f0da",
+      "values_digest": "af4dba23eed833c82220114d3481d547c1e7d9d481d0176ca3a150ca92a1f224",
       "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
       "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
     },
     "spp": {
-      "values_digest": "d6be85df969bc5bfbd44d5b5dbe7039181e9466860038bffded79041da45afb2",
+      "values_digest": "688c4e5f411c9423c42873d2eabeebfe59d6b2422d8efbcf2dd9b97a3dd0085c",
       "rendered_digest": "8edfba55bdc2f54cee7cc11fe1504d98794e9572932f0c7ff22d71dfb3c6ddaa",
       "ast_digest": "878ba9e971dbb462c5db1f1dce666b4a39ee0b9dc03b5f3b681057a2ae806aef"
     },
     "vpp": {
-      "values_digest": "9a6654aa0451ca0cffd3668060c5ef0db27831e6fa1f01b86a90e86e50ab2bf8",
+      "values_digest": "e75f173740bb1b18a1c64825d94cc796e49fabc6f0af026587f2487982e7d2d3",
       "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "24499a12fe97df8982a0e834b25076d30cf763b3ba521a4dad16ca929daccc71",
+      "values_digest": "b6bb0ca9aed1576d9e25d92ddfb103b8887440133b4457badf3b3d6c2b9ece7c",
       "rendered_digest": "8bc12b5f893c02d26e26e713ffcdcad094ffb4c0fdbb3077b5f715cbcc1aaba0",
       "ast_digest": "5019e1b288db370ec49978e4fbe71b58e085ef8253986a24e21e34d56060c92e"
     },
     "sor": {
-      "values_digest": "38d3037d1c3dab6da5a66b2afde6156c2808bf4d546a4ee4c034d6a8a9e7c126",
-      "rendered_digest": "ec8ee9427083e33d86a6e9c464031808d751af14c26e0c38b8140da7b1fe0bfe",
-      "ast_digest": "46f0e49688abd48bd2d69edbadbfa096755da925ebc4ac38bf01bb5113fd9ae8"
+      "values_digest": "9bb2a67ee447492454cd46c72ac95afabc5b5da0a7ae956374656147ea056bb0",
+      "rendered_digest": "e7c4e402c57dd43d2d74f54b56353763d8163f80c01dec4b6e5afad76ec6f396",
+      "ast_digest": "7eb8caf98bd6e870cfb01aa3d6f2bd2b47a27e29da22011da138dc5ff6ba616f"
     }
   },
   "transitions": [
@@ -273,6 +273,20 @@
       "actor": "codex:74-regression-repair",
       "reason": "Implementation and focused proof are complete; exact-head review and publication remain.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:74-regression-repair",
+      "reason": "Refresh Gate 2 evidence at the exact implementation head after the malformed-topology strictness correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the same-issue topology-free stale projection is ignored without mutation while malformed, partial, and genuine ownership topology remains fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:da8074f0224b52c0212e05a8ca9734c30d740b8e:gate2:5-passed\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:74-regression-repair",
+      "reason": "Refresh strict compilation and lint evidence at the exact implementation head.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject compilation, ownership, error-path, test, and lint regressions across the complete C-SDLC v2 package.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:da8074f0224b52c0212e05a8ca9734c30d740b8e:strict-clippy:passed\"}}"
     }
   ]
 }

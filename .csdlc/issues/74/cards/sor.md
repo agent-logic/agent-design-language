@@ -76,6 +76,36 @@ Fixed csdlc-bind so stale same-issue projections without Git topology authority 
     "purpose": "Reject compilation, ownership, error-path, test, and lint regressions across the C-SDLC v2 package.",
     "outcome": "passed",
     "evidence_ref": "local:issue-74-regression-strict-clippy:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2"
+    ],
+    "purpose": "Prove the same-issue topology-free stale projection is ignored without mutation while malformed, partial, and genuine ownership topology remains fail closed.",
+    "outcome": "passed",
+    "evidence_ref": "local:da8074f0224b52c0212e05a8ca9734c30d740b8e:gate2:5-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject compilation, ownership, error-path, test, and lint regressions across the complete C-SDLC v2 package.",
+    "outcome": "passed",
+    "evidence_ref": "local:da8074f0224b52c0212e05a8ca9734c30d740b8e:strict-clippy:passed"
   }
 ]
 
