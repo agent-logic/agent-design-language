@@ -7,15 +7,15 @@
     "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
     "slug": "acip-minor-version-strict-clippy",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue 87 ACIP predicate, colocated focused tests, exact validation evidence, and lifecycle truth.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/acip.rs\nadl-runtime/tests/acip_version_negotiation.rs\n.csdlc/issues/87\n.csdlc/evidence/87",
+      "review_revision": "git-blake3:ce59b8e2c1e1b3df132c9dc89bedf9c5057c1eb1:9671614baee83a92dee045349b58a43d4412a94461044ee56d5d7420830de316",
+      "reviewer": "subagent:/root/start_sprint_4_5862",
       "review_prompts": [
         "Is the removed comparison mathematically redundant for the current u32 local minor without weakening inclusive-range semantics?",
         "Do focused tests cover exact, wider-compatible, future-only, and malformed ranges?",
@@ -23,8 +23,10 @@
         "Do both issue-named strict Clippy commands pass at the exact reviewed head?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains the final integration confirmation across the concurrently published Sprint 4 branches."
+      ],
+      "review_result": "pass"
     }
   }
 }
