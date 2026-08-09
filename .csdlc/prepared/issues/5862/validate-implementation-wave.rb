@@ -35,6 +35,7 @@ MEDIUM_ESTIMATES = {
 }.freeze
 SHA = /\A[0-9a-f]{40}\z/
 SHA256 = /\A[0-9a-f]{64}\z/
+RFC3339 = /\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})\z/
 PREFLIGHT = ARGV.delete("--preflight")
 TOPOLOGY_REQUEST_INDEX = ARGV.index("--validate-topology")
 TOPOLOGY_REQUEST = if TOPOLOGY_REQUEST_INDEX
@@ -122,6 +123,7 @@ def validate_historical_command!(repo, head, issue, command, label)
   abort "#{label} command failed" unless command["exit_code"] == 0
   abort "#{label} start time missing" if command["started_at"].to_s.empty?
   abort "#{label} finish time missing" if command["finished_at"].to_s.empty?
+  abort "#{label} timestamps are not RFC3339" unless command["started_at"].to_s.match?(RFC3339) && command["finished_at"].to_s.match?(RFC3339)
   begin
     started_at = Time.iso8601(command["started_at"])
     finished_at = Time.iso8601(command["finished_at"])

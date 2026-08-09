@@ -30,7 +30,7 @@ def write(path, content)
   File.write(path, content)
 end
 
-def fixture(product_drift: false, evidence_drift: false, fake_source: false, transient_product: false, transient_evidence: false, unsafe_evidence: false, merge_product_drift: false, candidate_evidence_drift: false, split_evidence: false, issue: ISSUE, integrated: false, invalid_native_digest: false, file_evidence_mapping: false, late_integrated_artifact: false, sibling_late_artifact: false, product_directory: false, missing_runner: false, missing_v3_strategy: false, wrong_wp: false, invalid_negative_result: false, duplicate_native_run: false, fake_test_command: false, malformed_timestamp: false, reversed_timestamp: false, schema: "adl.wp04.execution_proof.v3")
+def fixture(product_drift: false, evidence_drift: false, fake_source: false, transient_product: false, transient_evidence: false, unsafe_evidence: false, merge_product_drift: false, candidate_evidence_drift: false, split_evidence: false, issue: ISSUE, integrated: false, invalid_native_digest: false, file_evidence_mapping: false, late_integrated_artifact: false, sibling_late_artifact: false, product_directory: false, missing_runner: false, missing_v3_strategy: false, wrong_wp: false, invalid_negative_result: false, duplicate_native_run: false, fake_test_command: false, malformed_timestamp: false, timezone_less_timestamp: false, reversed_timestamp: false, schema: "adl.wp04.execution_proof.v3")
   root = Dir.mktmpdir("adl-wave-topology")
   run!("git", "init", "-q", chdir: root)
   run!("git", "config", "user.email", "fixture@example.invalid", chdir: root)
@@ -119,6 +119,7 @@ def fixture(product_drift: false, evidence_drift: false, fake_source: false, tra
   commands[0].delete("runner") if missing_runner
   commands[0]["argv"][0] = "fake" if fake_test_command
   commands[0]["started_at"] = "not-a-time" if malformed_timestamp
+  commands[0]["started_at"] = "2026-08-09T00:00:00" if timezone_less_timestamp
   if reversed_timestamp
     commands[0]["started_at"] = "2026-08-09T00:00:02Z"
     commands[0]["finished_at"] = "2026-08-09T00:00:01Z"
@@ -236,6 +237,7 @@ expect_reject("wrong WP mapping", "proof WP mapping drift", wrong_wp: true)
 expect_reject("invalid negative result", "no proving result", invalid_negative_result: true)
 expect_reject("fake exact test command", "missing or duplicate exact nonzero test command", fake_test_command: true)
 expect_reject("malformed timestamp", "timestamps are not RFC3339", malformed_timestamp: true)
+expect_reject("timezone-less timestamp", "timestamps are not RFC3339", timezone_less_timestamp: true)
 expect_reject("reversed timestamp", "finish time precedes start time", reversed_timestamp: true)
 expect_reject("sibling late referenced artifact", "outside frozen mapping", issue: 5878, integrated: true, sibling_late_artifact: true)
 
@@ -293,4 +295,4 @@ _stdout, _stderr, status = Open3.capture3("ruby", VALIDATOR, "--validate-authori
 raise "real #5863 old-repository PR alias unexpectedly passed" if status.success?
 FileUtils.remove_entry(File.dirname(authority_request))
 
-puts "PASS: 33 generated v3/legacy topology, integrated-native, and split-authority cases, real #5863 legacy/split shape, plus sixteen-child and exact-DAG guards"
+puts "PASS: 34 generated v3/legacy topology, integrated-native, and split-authority cases, real #5863 legacy/split shape, plus sixteen-child and exact-DAG guards"
