@@ -22,6 +22,12 @@ pub const RESOURCE_WEATHER_SCHEMA: &str = "adl.distributed.resource_weather.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-RESOURCE-WEATHER-V1\0";
 const SIGNATURE_LEN: usize = 64;
 const MAX_TEXT_LEN: usize = 128;
+const MAX_OBSERVATION_LIFETIME_SECS: u64 = 600;
+const MAX_FUTURE_SKEW_SECS: u64 = 30;
+const MAX_PAYLOAD_BYTES: usize = 64 * 1024;
+const MAX_DURABLE_RECORD_BYTES: usize = MAX_PAYLOAD_BYTES + 1024;
+const MAX_HOLDERS: u64 = 16_384;
+const MAX_AVAILABLE_SLOTS: u16 = 16_384;
 pub const MAX_UTILIZATION_PERMILLE: u16 = 1_000;
 const WEATHER: TableDefinition<&str, &[u8]> =
     TableDefinition::new("distributed_resource_weather_v1");
@@ -351,6 +357,11 @@ impl ResourceWeatherPolicy {
             || max_payload_bytes == 0
             || max_holders == 0
             || max_available_slots == 0
+            || max_observation_lifetime_secs > MAX_OBSERVATION_LIFETIME_SECS
+            || max_future_skew_secs > MAX_FUTURE_SKEW_SECS
+            || max_payload_bytes > MAX_PAYLOAD_BYTES
+            || max_holders > MAX_HOLDERS
+            || max_available_slots > MAX_AVAILABLE_SLOTS
         {
             return Err(WeatherError::ResourceExhausted);
         }
@@ -368,6 +379,8 @@ struct DurableWeatherRecord {
     holder_id: String,
     certificate_generation: u64,
     sequence: u64,
+    authorization_deadline_unix_secs: Option<u64>,
+    advertisement_digest: Option<String>,
     advertisement: Option<SignedResourceWeather>,
 }
 
@@ -419,7 +432,7 @@ impl ResourceWeatherStore {
         certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> WeatherResult<PlacementWeather> {
-        self.verify(&advertisement, certificates, now_unix_secs)?;
+        let authorization_deadline = self.verify(&advertisement, certificates, now_unix_secs)?;
         let holder_id = advertisement.claims.holder_id.clone();
         let generation = advertisement.claims.certificate_generation;
         let sequence = advertisement.claims.sequence;
@@ -444,16 +457,31 @@ impl ResourceWeatherStore {
             return Err(WeatherError::ResourceExhausted);
         }
         let projection = project(&advertisement.claims);
+        let advertisement_digest = advertisement.observation_id()?;
         let stored = DurableWeatherRecord {
             holder_id: holder_id.clone(),
             certificate_generation: generation,
             sequence,
+            authorization_deadline_unix_secs: Some(authorization_deadline),
+            advertisement_digest: Some(advertisement_digest),
             advertisement: match advertisement.claims.action {
                 WeatherAction::Observe(_) => Some(advertisement),
                 WeatherAction::Withdraw => None,
             },
         };
+        let stored = if stored.advertisement.is_none() {
+            DurableWeatherRecord {
+                authorization_deadline_unix_secs: None,
+                advertisement_digest: None,
+                ..stored
+            }
+        } else {
+            stored
+        };
         let encoded = serde_jcs::to_vec(&stored).map_err(encoding_error)?;
+        if encoded.len() > MAX_DURABLE_RECORD_BYTES {
+            return Err(WeatherError::PayloadTooLarge);
+        }
         table
             .insert(holder_id.as_str(), encoded.as_slice())
             .map_err(storage_error)?;
@@ -465,6 +493,7 @@ impl ResourceWeatherStore {
     pub fn weather_for(
         &self,
         holder_id: &str,
+        certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> WeatherResult<PlacementWeather> {
         validate_text(holder_id, WeatherError::InvalidHolder)?;
@@ -475,14 +504,31 @@ impl ResourceWeatherStore {
             .map_err(storage_error)?
             .map(|value| decode_record(value.value()))
             .transpose()?;
-        Ok(record
-            .and_then(|record| record.advertisement)
-            .filter(|advertisement| now_unix_secs < advertisement.claims.expires_at_unix_secs)
-            .map(|advertisement| project(&advertisement.claims))
-            .unwrap_or_else(|| PlacementWeather::no_data(holder_id)))
+        let Some(record) = record else {
+            return Ok(PlacementWeather::no_data(holder_id));
+        };
+        self.validate_record(&record, holder_id)?;
+        let Some(advertisement) = record.advertisement else {
+            return Ok(PlacementWeather::no_data(holder_id));
+        };
+        if now_unix_secs
+            >= record
+                .authorization_deadline_unix_secs
+                .ok_or(WeatherError::DurableStateCorrupt)?
+            || self
+                .verify(&advertisement, certificates, now_unix_secs)
+                .is_err()
+        {
+            return Ok(PlacementWeather::no_data(holder_id));
+        }
+        Ok(project(&advertisement.claims))
     }
 
-    pub fn snapshot(&self, now_unix_secs: u64) -> WeatherResult<Vec<PlacementWeather>> {
+    pub fn snapshot(
+        &self,
+        certificates: &DistributedCertificateStore,
+        now_unix_secs: u64,
+    ) -> WeatherResult<Vec<PlacementWeather>> {
         let read = self.database.begin_read().map_err(storage_error)?;
         let table = read.open_table(WEATHER).map_err(storage_error)?;
         let mut rows = Vec::new();
@@ -490,15 +536,22 @@ impl ResourceWeatherStore {
             let (holder, value) = entry.map_err(storage_error)?;
             let holder = holder.value().to_owned();
             let record = decode_record(value.value())?;
-            rows.push(
-                record
-                    .advertisement
-                    .filter(|advertisement| {
-                        now_unix_secs < advertisement.claims.expires_at_unix_secs
-                    })
-                    .map(|advertisement| project(&advertisement.claims))
-                    .unwrap_or_else(|| PlacementWeather::no_data(holder)),
-            );
+            self.validate_record(&record, &holder)?;
+            let projection = match record.advertisement {
+                Some(advertisement)
+                    if now_unix_secs
+                        < record
+                            .authorization_deadline_unix_secs
+                            .ok_or(WeatherError::DurableStateCorrupt)?
+                        && self
+                            .verify(&advertisement, certificates, now_unix_secs)
+                            .is_ok() =>
+                {
+                    project(&advertisement.claims)
+                }
+                _ => PlacementWeather::no_data(holder),
+            };
+            rows.push(projection);
         }
         Ok(rows)
     }
@@ -508,7 +561,7 @@ impl ResourceWeatherStore {
         advertisement: &SignedResourceWeather,
         certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
-    ) -> WeatherResult<()> {
+    ) -> WeatherResult<u64> {
         let encoded = serde_jcs::to_vec(advertisement).map_err(encoding_error)?;
         if encoded.len() > self.policy.max_payload_bytes {
             return Err(WeatherError::PayloadTooLarge);
@@ -562,6 +615,11 @@ impl ResourceWeatherStore {
         {
             return Err(WeatherError::CertificateMismatch);
         }
+        if claims.sampled_at_unix_secs < body.issued_at_unix_secs
+            || claims.expires_at_unix_secs > body.expires_at_unix_secs
+        {
+            return Err(WeatherError::InvalidLifetime);
+        }
         let authorized = certificates
             .authorize(
                 &claims.holder_id,
@@ -581,7 +639,11 @@ impl ResourceWeatherStore {
         let key = VerifyingKey::from_bytes(&body.subject_public_key)
             .map_err(|_| WeatherError::CertificateRejected)?;
         key.verify_strict(&signing_bytes(claims)?, &signature)
-            .map_err(|_| WeatherError::InvalidSignature)
+            .map_err(|_| WeatherError::InvalidSignature)?;
+        Ok(authorized
+            .authorization_deadline_unix_secs
+            .min(claims.expires_at_unix_secs)
+            .min(body.expires_at_unix_secs))
     }
 
     fn validate_durable_state(&self) -> WeatherResult<()> {
@@ -592,15 +654,85 @@ impl ResourceWeatherStore {
         }
         for entry in table.iter().map_err(storage_error)? {
             let (holder, value) = entry.map_err(storage_error)?;
+            if value.value().len() > MAX_DURABLE_RECORD_BYTES {
+                return Err(WeatherError::DurableStateCorrupt);
+            }
             let record = decode_record(value.value())?;
-            if holder.value() != record_holder(&record)
-                || record.certificate_generation == 0
-                || record.sequence == 0
+            self.validate_record(&record, holder.value())?;
+        }
+        Ok(())
+    }
+
+    fn validate_record(&self, record: &DurableWeatherRecord, holder: &str) -> WeatherResult<()> {
+        if holder != record_holder(record)
+            || record.certificate_generation == 0
+            || record.sequence == 0
+        {
+            return Err(WeatherError::DurableStateCorrupt);
+        }
+        let Some(advertisement) = &record.advertisement else {
+            if record.authorization_deadline_unix_secs.is_some()
+                || record.advertisement_digest.is_some()
             {
                 return Err(WeatherError::DurableStateCorrupt);
             }
+            return Ok(());
+        };
+        let claims = &advertisement.claims;
+        let body = &advertisement.certificate.body;
+        let digest = advertisement
+            .observation_id()
+            .map_err(|_| WeatherError::DurableStateCorrupt)?;
+        let certificate_id = advertisement
+            .certificate
+            .certificate_id()
+            .map_err(|_| WeatherError::DurableStateCorrupt)?;
+        let deadline = record
+            .authorization_deadline_unix_secs
+            .ok_or(WeatherError::DurableStateCorrupt)?;
+        if claims.schema != RESOURCE_WEATHER_SCHEMA
+            || claims.trust_domain != self.policy.trust_domain
+            || claims.holder_id != record.holder_id
+            || claims.certificate_generation != record.certificate_generation
+            || claims.sequence != record.sequence
+            || claims.sequence == 0
+            || claims.expires_at_unix_secs <= claims.sampled_at_unix_secs
+            || claims.expires_at_unix_secs - claims.sampled_at_unix_secs
+                > self.policy.max_observation_lifetime_secs
+            || body.purpose != CertificatePurpose::AdvertisementSigning
+            || body.trust_domain != claims.trust_domain
+            || body.holder_id != claims.holder_id
+            || body.generation != claims.certificate_generation
+            || claims.certificate_id != certificate_id
+            || claims.sampled_at_unix_secs < body.issued_at_unix_secs
+            || claims.expires_at_unix_secs > body.expires_at_unix_secs
+            || deadline > claims.expires_at_unix_secs
+            || deadline > body.expires_at_unix_secs
+            || record.advertisement_digest.as_deref() != Some(digest.as_str())
+            || serde_jcs::to_vec(advertisement)
+                .map_err(|_| WeatherError::DurableStateCorrupt)?
+                .len()
+                > self.policy.max_payload_bytes
+        {
+            return Err(WeatherError::DurableStateCorrupt);
         }
-        Ok(())
+        if let WeatherAction::Observe(metrics) = &claims.action {
+            metrics
+                .validate(self.policy.max_available_slots)
+                .map_err(|_| WeatherError::DurableStateCorrupt)?;
+        }
+        if advertisement.signature.len() != SIGNATURE_LEN {
+            return Err(WeatherError::DurableStateCorrupt);
+        }
+        let signature = Signature::from_slice(&advertisement.signature)
+            .map_err(|_| WeatherError::DurableStateCorrupt)?;
+        let key = VerifyingKey::from_bytes(&body.subject_public_key)
+            .map_err(|_| WeatherError::DurableStateCorrupt)?;
+        key.verify_strict(
+            &signing_bytes(claims).map_err(|_| WeatherError::DurableStateCorrupt)?,
+            &signature,
+        )
+        .map_err(|_| WeatherError::DurableStateCorrupt)
     }
 }
 

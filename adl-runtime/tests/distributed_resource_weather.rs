@@ -11,7 +11,7 @@ use certificates::{
     CertificateValidity, DistributedCertificateStore, RevocationReason,
 };
 use ed25519_dalek::SigningKey;
-use redb::{Database, TableDefinition};
+use redb::{Database, ReadableDatabase, TableDefinition};
 use resource_weather::{
     MetricValue, NormalizedResourceMetrics, ObservationWindow, PlacementWeather,
     RawResourceMetrics, ResourceWeatherClaims, ResourceWeatherPolicy, ResourceWeatherStore,
@@ -30,7 +30,7 @@ fn key(seed: u8) -> SigningKey {
 fn certificate_policy(root: &SigningKey) -> CertificatePolicy {
     CertificatePolicy::new(DOMAIN, [root.verifying_key()])
         .unwrap()
-        .with_bounds(3_600, 30, 10, 64, 64)
+        .with_bounds(3_600, 1, 10, 64, 64)
         .unwrap()
 }
 
@@ -52,6 +52,26 @@ fn issue_certificate(
     purpose: CertificatePurpose,
     generation: u64,
 ) -> AuthorityCertificate {
+    issue_certificate_with_validity(
+        root,
+        signer,
+        holder,
+        purpose,
+        generation,
+        NOW - 10,
+        NOW + 300,
+    )
+}
+
+fn issue_certificate_with_validity(
+    root: &SigningKey,
+    signer: &SigningKey,
+    holder: &str,
+    purpose: CertificatePurpose,
+    generation: u64,
+    issued_at_unix_secs: u64,
+    expires_at_unix_secs: u64,
+) -> AuthorityCertificate {
     AuthorityCertificate::issue(
         CertificateBody::new(
             DOMAIN,
@@ -59,8 +79,8 @@ fn issue_certificate(
             purpose,
             generation,
             CertificateValidity {
-                issued_at_unix_secs: NOW - 10,
-                expires_at_unix_secs: NOW + 300,
+                issued_at_unix_secs,
+                expires_at_unix_secs,
             },
             signer.verifying_key(),
             &root.verifying_key(),
@@ -83,6 +103,31 @@ fn weather_path(temp: &TempDir) -> std::path::PathBuf {
 
 fn open_weather(temp: &TempDir, max_holders: u64) -> ResourceWeatherStore {
     ResourceWeatherStore::open(weather_path(temp), weather_policy(max_holders)).unwrap()
+}
+
+fn mutate_durable_record(path: &std::path::Path, mutate: impl FnOnce(&mut serde_json::Value)) {
+    let database = Database::create(path).unwrap();
+    let bytes = {
+        let read = database.begin_read().unwrap();
+        let table = read
+            .open_table(TableDefinition::<&str, &[u8]>::new(
+                "distributed_resource_weather_v1",
+            ))
+            .unwrap();
+        table.get("node-a").unwrap().unwrap().value().to_vec()
+    };
+    let mut value: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+    mutate(&mut value);
+    let encoded = serde_json::to_vec(&value).unwrap();
+    let write = database.begin_write().unwrap();
+    let mut table = write
+        .open_table(TableDefinition::<&str, &[u8]>::new(
+            "distributed_resource_weather_v1",
+        ))
+        .unwrap();
+    table.insert("node-a", encoded.as_slice()).unwrap();
+    drop(table);
+    write.commit().unwrap();
 }
 
 fn normalized(base: u16, slots: Option<u16>) -> NormalizedResourceMetrics {
@@ -166,7 +211,12 @@ fn certificate_authorized_weather_is_durable_deterministic_and_advisory() {
     };
     let restarted = open_weather(&temp, 8);
     assert_eq!(restarted.database_path(), weather_path(&temp));
-    assert_eq!(restarted.weather_for("node-a", NOW + 1).unwrap(), expected);
+    assert_eq!(
+        restarted
+            .weather_for("node-a", &certificates, NOW + 1)
+            .unwrap(),
+        expected
+    );
 }
 
 #[test]
@@ -414,6 +464,144 @@ fn freshness_lifetime_and_normalization_bounds_are_explicit() {
 }
 
 #[test]
+fn certificate_window_revocation_rotation_and_refresh_bound_cached_weather() {
+    let temp = tempfile::tempdir().unwrap();
+    let root = key(20);
+    let signer_a = key(21);
+    let signer_b = key(22);
+    let certificate_a = issue_certificate(
+        &root,
+        &signer_a,
+        "node-a",
+        CertificatePurpose::AdvertisementSigning,
+        1,
+    );
+    let certificate_b = issue_certificate(
+        &root,
+        &signer_b,
+        "node-a",
+        CertificatePurpose::AdvertisementSigning,
+        2,
+    );
+    let certificates = open_certificates(&temp, &root);
+    certificates.activate(&certificate_a, NOW).unwrap();
+    let weather = open_weather(&temp, 8);
+    weather
+        .admit(
+            signed(
+                "node-a",
+                1,
+                1,
+                WeatherAction::Observe(normalized(100, Some(1))),
+                &certificate_a,
+                &signer_a,
+            ),
+            &certificates,
+            NOW,
+        )
+        .unwrap();
+    assert_ne!(
+        weather
+            .weather_for("node-a", &certificates, NOW + 1)
+            .unwrap(),
+        PlacementWeather::no_data("node-a")
+    );
+    certificates.activate(&certificate_b, NOW + 1).unwrap();
+    assert_eq!(
+        weather
+            .weather_for("node-a", &certificates, NOW + 2)
+            .unwrap(),
+        PlacementWeather::no_data("node-a")
+    );
+
+    let revoked_temp = tempfile::tempdir().unwrap();
+    let revoked_certificates = open_certificates(&revoked_temp, &root);
+    revoked_certificates.activate(&certificate_a, NOW).unwrap();
+    let revoked_weather = open_weather(&revoked_temp, 8);
+    revoked_weather
+        .admit(
+            signed(
+                "node-a",
+                1,
+                1,
+                WeatherAction::Observe(normalized(100, Some(1))),
+                &certificate_a,
+                &signer_a,
+            ),
+            &revoked_certificates,
+            NOW,
+        )
+        .unwrap();
+    revoked_certificates
+        .revoke(
+            &certificate_a.certificate_id().unwrap(),
+            NOW + 1,
+            RevocationReason::OperatorRevoked,
+        )
+        .unwrap();
+    assert_eq!(
+        revoked_weather
+            .weather_for("node-a", &revoked_certificates, NOW + 1)
+            .unwrap(),
+        PlacementWeather::no_data("node-a")
+    );
+
+    let short_certificate = issue_certificate_with_validity(
+        &root,
+        &signer_a,
+        "node-c",
+        CertificatePurpose::AdvertisementSigning,
+        1,
+        NOW + 1,
+        NOW + 20,
+    );
+    let short_temp = tempfile::tempdir().unwrap();
+    let short_certificates = open_certificates(&short_temp, &root);
+    short_certificates
+        .activate(&short_certificate, NOW + 1)
+        .unwrap();
+    let short_weather = open_weather(&short_temp, 8);
+    let claims = ResourceWeatherClaims::new(
+        DOMAIN,
+        "node-c",
+        short_certificate.certificate_id().unwrap(),
+        1,
+        1,
+        ObservationWindow {
+            sampled_at_unix_secs: NOW,
+            expires_at_unix_secs: NOW + 21,
+        },
+        WeatherAction::Observe(normalized(100, Some(1))),
+    );
+    let outside_certificate =
+        SignedResourceWeather::sign(claims, short_certificate, &signer_a).unwrap();
+    assert_eq!(
+        short_weather
+            .admit(outside_certificate, &short_certificates, NOW + 1)
+            .unwrap_err(),
+        WeatherError::InvalidLifetime
+    );
+}
+
+#[test]
+fn resource_weather_policy_rejects_platform_maxima() {
+    for bounds in [
+        (601, 2, 4_096, 8, 64),
+        (60, 31, 4_096, 8, 64),
+        (60, 2, 65_537, 8, 64),
+        (60, 2, 4_096, 16_385, 64),
+        (60, 2, 4_096, 8, 16_385),
+    ] {
+        assert!(matches!(
+            ResourceWeatherPolicy::new(DOMAIN)
+                .unwrap()
+                .with_bounds(bounds.0, bounds.1, bounds.2, bounds.3, bounds.4),
+            Err(WeatherError::ResourceExhausted)
+        ));
+    }
+}
+
+#[test]
 fn replay_floor_survives_restart_rotation_and_invalid_high_sequence() {
     let temp = tempfile::tempdir().unwrap();
     let root = key(9);
@@ -562,7 +750,7 @@ fn signed_withdrawal_is_durable_no_data_and_cannot_be_replayed() {
     }
     let weather = open_weather(&temp, 8);
     assert_eq!(
-        weather.weather_for("node-a", NOW).unwrap(),
+        weather.weather_for("node-a", &certificates, NOW).unwrap(),
         PlacementWeather::no_data("node-a")
     );
     assert_eq!(
@@ -683,6 +871,45 @@ fn holder_capacity_payload_and_durable_corruption_fail_closed() {
         Ok(_) => panic!("corrupt durable weather unexpectedly opened"),
         Err(error) => assert_eq!(error, WeatherError::DurableStateCorrupt),
     }
+
+    for (name, mutation) in [
+        ("claims", "claims"),
+        ("signature", "signature"),
+        ("digest", "digest"),
+    ] {
+        let path = temp
+            .path()
+            .canonicalize()
+            .unwrap()
+            .join(format!("semantic-{name}.redb"));
+        {
+            let weather = ResourceWeatherStore::open(&path, weather_policy(8)).unwrap();
+            weather
+                .admit(
+                    signed(
+                        "node-a",
+                        1,
+                        3,
+                        WeatherAction::Observe(normalized(100, Some(1))),
+                        &certificate_a,
+                        &signer_a,
+                    ),
+                    &certificates,
+                    NOW,
+                )
+                .unwrap();
+        }
+        mutate_durable_record(&path, |record| match mutation {
+            "claims" => record["advertisement"]["claims"]["sequence"] = 999.into(),
+            "signature" => record["advertisement"]["signature"][0] = 255.into(),
+            "digest" => record["advertisement_digest"] = "weather_tampered".into(),
+            _ => unreachable!(),
+        });
+        match ResourceWeatherStore::open(&path, weather_policy(8)) {
+            Ok(_) => panic!("semantic durable corruption unexpectedly opened"),
+            Err(error) => assert_eq!(error, WeatherError::DurableStateCorrupt),
+        }
+    }
 }
 
 #[test]
@@ -728,7 +955,7 @@ fn snapshots_are_sorted_and_serialized_surfaces_are_redacted() {
             )
             .unwrap();
     }
-    let snapshot = weather.snapshot(NOW).unwrap();
+    let snapshot = weather.snapshot(&certificates, NOW).unwrap();
     assert_eq!(snapshot[0].holder_id, "node-a");
     assert_eq!(snapshot[1].holder_id, "node-b");
     let encoded = serde_json::to_string(&snapshot).unwrap();
