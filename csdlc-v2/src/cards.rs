@@ -577,6 +577,9 @@ pub enum SemanticOperation {
     CorrectDeclaredScopeBeforePublication {
         values: Vec<String>,
     },
+    CorrectStpDeliverablesAfterRecovery {
+        values: Vec<String>,
+    },
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
@@ -927,6 +930,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Sip(value) => value.declared_scope = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_declared_scope_before_publication"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP deliverables")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.deliverables = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_deliverables_after_recovery"),
             }
             Ok(None)
         }
@@ -1486,6 +1499,22 @@ fn validate_replacement(values: &[String], field: &str) -> Result<()> {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
             format!("{field} replacement cannot be empty"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_unique_replacement(values: &[String], field: &str) -> Result<()> {
+    validate_replacement(values, field)?;
+    let mut normalized = BTreeSet::new();
+    if values
+        .iter()
+        .map(|value| value.trim())
+        .any(|value| !normalized.insert(value))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            format!("{field} replacement cannot contain duplicates"),
         ));
     }
     Ok(())

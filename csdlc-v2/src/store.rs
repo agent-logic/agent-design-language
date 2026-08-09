@@ -1402,6 +1402,35 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             ));
         }
     }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
+    ) {
+        let latest_review_operation = record.audit.iter().rev().find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        });
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "post-recovery STP deliverable correction requires actor and reason",
+            ));
+        }
+        if latest_review_operation.is_none_or(|event| event.operation != "recover_review")
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery STP deliverable correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
             cards
@@ -1422,6 +1451,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let stp_deliverables_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Stp].content {
+            CardContent::Stp(value) => Some(value.deliverables.clone()),
+            _ => unreachable!("STP"),
+        }
+    } else {
+        None
+    };
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -1434,6 +1474,15 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             serde_json::json!({
                 "operation": "correct_declared_scope_before_publication",
                 "previous_values": declared_scope_before.expect("scope correction snapshot"),
+                "new_values": values,
+            })
+            .to_string()
+        }
+        (SemanticOperation::CorrectStpDeliverablesAfterRecovery { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_stp_deliverables_after_recovery",
+                "previous_values": stp_deliverables_before
+                    .expect("STP deliverable correction snapshot"),
                 "new_values": values,
             })
             .to_string()
@@ -1943,7 +1992,8 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Stp,
-            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+            SemanticOperation::ReplaceAcceptanceCriteria { .. }
+                | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Srp,
@@ -2547,6 +2597,44 @@ mod edit_authorization_tests {
             },
         )
         .expect_err("scope correction is SIP-only");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+
+        authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/current.rs".into()],
+            },
+        )
+        .expect("implemented STP correction reaches recovery-sensitive guard");
+        for phase in [
+            LifecyclePhase::Initialized,
+            LifecyclePhase::Ready,
+            LifecyclePhase::Bound,
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            let error = authorize_card_operation(
+                phase,
+                CardKind::Stp,
+                &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                    values: vec!["src/late.rs".into()],
+                },
+            )
+            .expect_err("STP deliverable correction is implemented-only");
+            assert_eq!(error.code, ErrorCode::InvalidTransition);
+        }
+        let error = authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/wrong-card.rs".into()],
+            },
+        )
+        .expect_err("STP deliverable correction is STP-only");
         assert_eq!(error.code, ErrorCode::InvalidTransition);
     }
 
