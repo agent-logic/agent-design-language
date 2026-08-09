@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-14] ACIP and A2A contract reconciliation",
     "slug": "v0-92-wp-14-acip-and-a2a-contract-reconciliation",
     "version": "v0.92",
-    "generation": 50
+    "generation": 51
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 17,
+      "plan_revision": 18,
       "summary": "After WP-04 lands, inventory existing ACIP/A2A/WSS/trace contracts, freeze one semantic envelope and compatibility policy, implement protobuf/catalog/deterministic JSON parity, harden authenticated bounded WSS admission and reconnect behavior, then run round-trip, denial, replay, malformed, real-carrier, platform, and exact-head proof.",
       "steps": [
         {
@@ -63,6 +63,7 @@
         }
       ],
       "affected_areas": [
+        ".github/workflows/wp14-native-acip.yml",
         "adl-runtime/src/acip.rs",
         "adl-runtime/src/runtime_api.rs",
         "adl-runtime/src/runtime_api_auth.rs",

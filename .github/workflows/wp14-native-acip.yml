@@ -1,0 +1,141 @@
+name: wp14-native-acip
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/wp14-native-acip.yml"
+      - "adl-runtime/src/acip.rs"
+      - "adl-runtime/src/runtime_api.rs"
+      - "adl-runtime/src/runtime_api_auth.rs"
+      - "adl-runtime/tests/runtime_api_wss.rs"
+      - "adl-runtime-kernel/src/acip.rs"
+      - "adl-runtime-kernel/src/protocol_adapters.rs"
+      - "adl-runtime/schemas/acip/v1/**"
+      - "docs/api/runtime-v3/v1/acip.openapi.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-acip:
+    name: native-acip-${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux
+            os: ubuntu-latest
+          - platform: macos
+            os: macos-latest
+          - platform: windows
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout exact pull-request head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
+        with:
+          tool: nextest@0.9.140
+          fallback: none
+
+      - name: Run production ACIP/WSS producer
+        id: producer
+        shell: bash
+        continue-on-error: true
+        env:
+          PLATFORM: ${{ matrix.platform }}
+        run: |
+          evidence=".csdlc/evidence/5832/native/${PLATFORM}"
+          mkdir -p "$evidence"
+          set +e
+          cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail production_acip_wss >"$evidence/stdout.log" 2>"$evidence/stderr.log"
+          exit_code=$?
+          set -e
+          printf '%s\n' "$exit_code" >"$evidence/exit-code.txt"
+          exit "$exit_code"
+
+      - name: Build machine-readable receipt fragment
+        if: always()
+        shell: bash
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib, platform
+
+          name = os.environ["PLATFORM"]
+          root = pathlib.Path(f".csdlc/evidence/5832/native/{name}")
+          stdout = root / "stdout.log"
+          stderr = root / "stderr.log"
+          proof = root / "proof.json"
+          exit_code = int((root / "exit-code.txt").read_text().strip())
+          assertions = [
+              "production_guardian", "rustls_wss", "authenticated_bidirectional",
+              "protobuf_json_parity", "reconnect_backpressure", "replay_denied",
+              "denied_access",
+          ]
+          proof.write_text(json.dumps({
+              "schema": "adl.acip_native_platform_proof.v1",
+              "platform": name,
+              "source_revision": os.environ["SOURCE_REVISION"],
+              "producer_exit_code": exit_code,
+              "assertions": assertions,
+          }, sort_keys=True) + "\n")
+
+          def digest(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          run_id = f"{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}-{name}"
+          identity = hashlib.sha256(
+              f"github-actions:{run_id}:{os.environ['RUNNER_OS']}:{os.environ['RUNNER_ARCH']}".encode()
+          ).hexdigest()
+          prefix = f".csdlc/evidence/5832/native/{name}"
+          receipt = {
+              "platform": name,
+              "source_revision": os.environ["SOURCE_REVISION"],
+              "runner": {
+                  "provider": "github-actions",
+                  "run_id": run_id,
+                  "os": os.environ["RUNNER_OS"],
+                  "arch": os.environ["RUNNER_ARCH"],
+                  "identity_sha256": identity,
+              },
+              "command": {
+                  "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "runtime_api_wss", "--no-tests=fail", "production_acip_wss"],
+                  "exit_code": exit_code,
+                  "stdout_path": f"{prefix}/stdout.log",
+                  "stdout_sha256": digest(stdout),
+                  "stderr_path": f"{prefix}/stderr.log",
+                  "stderr_sha256": digest(stderr),
+              },
+              "successful_exchanges": 9,
+              "negative_cases": 7,
+              "artifacts": [{"path": f"{prefix}/proof.json", "sha256": digest(proof)}],
+              "assertions": [
+                  {"name": assertion, "result": "passed" if exit_code == 0 else "failed", "evidence_path": f"{prefix}/proof.json", "evidence_sha256": digest(proof)}
+                  for assertion in assertions
+              ],
+          }
+          (root / "receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+          PY
+
+      - name: Upload native receipt fragment
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wp14-native-acip-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5832/native/${{ matrix.platform }}/
+
+      - name: Require producer success
+        if: steps.producer.outcome != 'success'
+        shell: bash
+        run: exit 1

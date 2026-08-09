@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8d41f336d8a8940f446bc1a8cc646c2998249b1f4bddb564ab78aa91dfb005b4",
   "phase": "ready",
-  "generation": 50,
-  "digest": "3631a60a84cd61a2c2f77f834e9a1b4e2419db5259e3022361e37f2d66843ea8",
+  "generation": 51,
+  "digest": "98fdbf34c22e90f2c28a68baa892d81c9fdc6b51c075e16be54ea510c26b7ea1",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "66da97c1cc5dafd7d2447c4befc0444a75b2b0cc89b7037263e6b90eaa60c900",
+      "values_digest": "a08672ad1c5cfb0baf4a9ce36d5688bf70b422ee88a8c7ea8af83917bf091389",
       "rendered_digest": "826d262e4aaf4db6481842387902e694ae33804194702ef314841f9c7ecc180b",
       "ast_digest": "768d885615cf498f49a3439c76d8064db8b0ea7143b113bb9cf0b96f5e0e8113"
     },
     "stp": {
-      "values_digest": "7dba17d228736f655fc44d3a6150f7e3241af62944a24457f6816eaedc101fe7",
+      "values_digest": "2e89feddf7c5ce47599b39f8026a36ee1394de0dc643d259dd64bd387cb7dfb1",
       "rendered_digest": "21da28dfeb341ae979bcfac6d6a3be1931a855b67dbe72eca4c429a618df8339",
       "ast_digest": "3b0cdc845dda6c5f833f8d2e142c0a4902f553964bf2ff7c10e201b2f2e5d3f9"
     },
     "spp": {
-      "values_digest": "10c4412a632e3ddb25ac96e0c21ed410893ba4024050154edef03f03aae21e24",
-      "rendered_digest": "193e8f92ea926deb084789a52d80d380a7a6abd65f43023ca4ee5f4eaa13a618",
-      "ast_digest": "7c442693d29ac8d65aa6dd892ee17f3f05d07aa7bfeed03ba73f60aa38276c87"
+      "values_digest": "9eb982053bc4413fb64debee63ac0c61eb92cde367892412c729ee770365a2ea",
+      "rendered_digest": "56f26c20f2f108a30e23c45764e088f75ca6b20c741f56292a983365e1ccc5e8",
+      "ast_digest": "4c38d7ea815b8acb0b55066ca0d1af6bf24c6d64a816686634435aaf4652c119"
     },
     "vpp": {
-      "values_digest": "ce8a41733c1c5bc19d5157f9a2835aa7b62b1197659f84987146b25537eb6db3",
+      "values_digest": "21b1c49c368253b438db61e58088a6938c5b7218f7dca456f34e0590612be064",
       "rendered_digest": "975791317dd0ac834cb2364d3457195f3f2c296e0f9be0b7fb6f455a1f5df885",
       "ast_digest": "9db2e09da27c49ab52b9b5ff5be612189b08af0e2e23a2f93d8ab5cf550cb49d"
     },
     "srp": {
-      "values_digest": "9f7e6b037792b7856914e624a2f6d34b78373f5ce87b7d0e06e8384f212685e5",
+      "values_digest": "c29c3400d32c8fb60dfa4e768f36950dec241f46d7312e7be5327048b7466619",
       "rendered_digest": "392116f8b2844eb2b47b558a12a08332f1744646fdb5b0f4bc7c416cac8c3a6f",
       "ast_digest": "a48218debfd779486aad8db28be59e8799ba3c84d1f15ddd8d17c336df8a86a7"
     },
     "sor": {
-      "values_digest": "156e7d141d6e26275be1401686d7d1cafa161d69d9f04059d3042ed5324889f8",
+      "values_digest": "35f90ea708517fc281cdd419e6902f501acb363e8c053aa7712bd45df61b6a37",
       "rendered_digest": "ca00a3cb3f454ba45ff64b773e445a3beb4be7e3336cfbe573de8d542dc1488c",
       "ast_digest": "805bf932776db506a84bc733ada010a45567e55b0d7223d73fd194d885406962"
     }
@@ -532,6 +532,13 @@
       "actor": "codex:5832-independent-sequencing",
       "reason": "Remove the stale reverse dependency on the distributed sprint while preserving real protocol and platform-proof stop conditions.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issue 5821 architecture/security gate is not terminal\",\"Semantic envelope, schema, catalog, JSON, or WSS authority remains ambiguous\",\"Any declared path overlaps an active owner\",\"Native macOS, Linux, or Windows proof cannot be produced\"]}"
+    },
+    {
+      "sequence": 65,
+      "generation": 51,
+      "actor": "codex:5832-native-platform-proof",
+      "reason": "Own the bounded pull-request-only matrix that produces the required Linux, macOS, and native Windows ACIP receipts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/wp14-native-acip.yml\",\"adl-runtime/src/acip.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/src/runtime_api_auth.rs\",\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/src/protocol_adapters.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime/schemas/acip/v1/acip.proto\",\"adl-runtime/schemas/acip/v1/catalog.json\",\"docs/api/runtime-v3/v1/acip.openapi.json\",\".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb\"]}"
     }
   ]
 }

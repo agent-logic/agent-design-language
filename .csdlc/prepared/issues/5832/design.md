@@ -52,6 +52,7 @@ logs, fixtures, or committed artifacts.
 
 ## Owned Paths
 
+- `.github/workflows/wp14-native-acip.yml`
 - `adl-runtime/src/acip.rs`
 - `adl-runtime/src/runtime_api.rs`
 - `adl-runtime/src/runtime_api_auth.rs`
@@ -114,7 +115,9 @@ schema drift, or auth bypass without adding a second shell-owned launch path.
 `.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb` requires distinct macOS,
 Linux, and native Windows receipts bound to source revision, binary/schema
 digests, exact argv, runner identity, nonzero exchanges, negative-case counts,
-and output artifacts. These native receipts complete WP-14 independently and
+and output artifacts. The pull-request-only
+`.github/workflows/wp14-native-acip.yml` matrix produces those receipts without
+running after merge. These native receipts complete WP-14 independently and
 become inputs to later distributed interoperability in #5862.
 Consumer rendering remains deferred to #5837.
 

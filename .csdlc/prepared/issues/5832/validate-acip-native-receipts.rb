@@ -30,12 +30,19 @@ abort "wrong schema" unless packet["schema"] == "adl.acip_native_receipts.v2"
 head, status = Open3.capture2("git", "rev-parse", "HEAD")
 abort "cannot resolve HEAD" unless status.success?
 head = head.strip
-abort "stale packet" unless packet["source_revision"] == head
+source_revision = packet["source_revision"].to_s
+abort "invalid source revision" unless source_revision.match?(/\A[0-9a-f]{40}\z/)
+_, status = Open3.capture2("git", "merge-base", "--is-ancestor", source_revision, head)
+abort "source revision is not an ancestor of HEAD" unless status.success?
+changed, status = Open3.capture2("git", "diff", "--name-only", "#{source_revision}..#{head}")
+abort "cannot inspect post-proof changes" unless status.success?
+post_proof_paths = changed.lines.map(&:strip).reject(&:empty?)
+abort "product changed after native proof" unless post_proof_paths.all? { |entry| entry.start_with?(".csdlc/evidence/#{ISSUE}/") }
 receipts = Array(packet["receipts"])
 abort "platform denominator drift" unless receipts.map { |entry| entry["platform"] }.sort == %w[linux macos windows]
 receipts.each do |receipt|
   platform = receipt.fetch("platform")
-  abort "stale #{platform} receipt" unless receipt["source_revision"] == head
+  abort "stale #{platform} receipt" unless receipt["source_revision"] == source_revision
   runner = receipt.fetch("runner")
   %w[provider run_id os arch].each { |field| abort "missing #{platform} runner #{field}" if runner[field].to_s.empty? }
   abort "invalid runner identity" unless runner["identity_sha256"].to_s.match?(SHA256)

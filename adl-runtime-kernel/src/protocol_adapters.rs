@@ -916,7 +916,7 @@ impl ProtocolFrame {
         self.schema == PROTOCOL_FRAME_SCHEMA
             && self.protocol_family == PROTOCOL_FAMILY
             && self.version_major == PROTOCOL_VERSION_MAJOR
-            && self.version_minor <= PROTOCOL_VERSION_MINOR
+            && self.version_minor == PROTOCOL_VERSION_MINOR
             && self.operation == self.adapter.operation_name()
             && self.capability == self.adapter.service_name()
             && !self.request_id.trim().is_empty()

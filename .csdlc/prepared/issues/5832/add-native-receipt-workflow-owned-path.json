@@ -1,0 +1,25 @@
+{
+  "issue": 5832,
+  "card": "spp",
+  "expected_generation": 50,
+  "expected_digest": "3631a60a84cd61a2c2f77f834e9a1b4e2419db5259e3022361e37f2d66843ea8",
+  "actor": "codex:5832-native-platform-proof",
+  "reason": "Own the bounded pull-request-only matrix that produces the required Linux, macOS, and native Windows ACIP receipts.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".github/workflows/wp14-native-acip.yml",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/protocol_adapters.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl-runtime/schemas/acip/v1/acip.proto",
+      "adl-runtime/schemas/acip/v1/catalog.json",
+      "docs/api/runtime-v3/v1/acip.openapi.json",
+      ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"
+    ]
+  }
+}
