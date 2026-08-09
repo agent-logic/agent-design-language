@@ -38,7 +38,6 @@ Prepare and operate only the demonstration-handoff-publication sprint umbrella; 
 - #5839
 - #5840
 - #5844
-- #5845
 
 ## Inputs
 
@@ -51,7 +50,6 @@ Prepare and operate only the demonstration-handoff-publication sprint umbrella; 
 - #5839
 - #5840
 - #5844
-- #5845
 
 ## Non Goals
 

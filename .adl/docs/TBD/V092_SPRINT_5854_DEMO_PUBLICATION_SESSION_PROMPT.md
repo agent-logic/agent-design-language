@@ -35,20 +35,19 @@ Exact child wave:
 - #5839, WP-19: birthday-to-governance handoff
 - #5840, WP-20: demo matrix, AEE proof, and proof coverage
 - #5844, WP-24: terminal; the canonical ten-article package is merged
-- #5845, WP-24A: active; episode 001 is a merged non-closing checkpoint and
-  episodes 002-010 remain
+
+WP-24A `#5845` is not part of this sprint's dependency graph. It is an
+independent out-of-band stream with no Sprint 5 dependencies and cannot block
+Sprint 5 readiness, execution, review, or closeout. Do not start or coordinate
+WP-24A from this session.
 
 Serial gates:
 
-- #5835 and #5836 follow the integrated birthday packet #5834.
+- #5835 follows #5826, #5827, and #5834.
+- #5836 follows #5825-#5830 and #5832-#5834.
 - #5838 follows #5832, #5834, and #5836.
 - #5840 follows #5836, #5837, #5838, and #5839.
 - Final publication claims align with release truth only after #5843.
-
-Active safe lane:
-
-- #5845 may continue as bounded, non-closing episode checkpoints. One episode
-  never implies WP-24A completion, deployment, or public publication.
 
 Other demo and handoff preparation may proceed separately as dependencies
 stabilize, but no demo may claim unlanded Runtime, birthday, provider, or
@@ -56,7 +55,8 @@ governance behavior.
 
 For each ready child: bind, create its goal, complete the deliverable, run real
 proof or bounded source-grounded documentation validation, obtain exact-head
-review, fix findings, and publish with `Closes #<child>`. Packet and proof links
+review, fix findings, and publish with
+`Closes danielbaustin/agent-design-language#<child>`. Packet and proof links
 that should be viewed independently must remain usable outside chat context.
 
 Maintain watchers for waiting PRs and continue independent work. Preserve the
@@ -67,6 +67,7 @@ Maintain:
 - .csdlc/evidence/5854/activity.jsonl
 - .csdlc/evidence/5854/sprint-review.md
 
-Close #5854 only after real demos, handoff truth, proof coverage, ten articles,
-and ten podcast packages are reviewed and all child outcomes are terminal.
+Close #5854 only after the five operative children have truthful terminal
+outcomes and release-truth gates are satisfied. WP-24A is excluded and cannot
+block this closeout.
 ```

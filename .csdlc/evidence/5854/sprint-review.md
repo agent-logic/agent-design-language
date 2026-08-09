@@ -6,9 +6,9 @@ The Sprint 5 coordination packet is ready for independent pre-PR review. This is
 
 ## Current Classification
 
-- Bind-ready after this readiness change: `#5835`, `#5836`, `#5838`, `#5839`, `#5840`.
-- Terminal and excluded from execution: legacy `#5844`, represented canonically by merged issue `#10` and PR `#14`.
-- Active non-closing checkpoint lane: `#5845`; episode 001 landed in PR `#69`, and episodes 002-010 remain.
+- Prepared and unbound: `#5835`, `#5836`, `#5838`, `#5839`, `#5840`; none may bind until its complete STP dependency set is terminal.
+- Product/GitHub complete and excluded from execution: legacy `#5844`, represented canonically by merged issue `#10` and PR `#14`; typed closeout remains asynchronous.
+- Independent out-of-band stream: `#5845`; it has no Sprint 5 dependency and cannot gate readiness, execution, review, or closeout.
 - Open serial gates: `#5834`, `#5837`, and `#5843`, plus downstream child dependencies recorded in the packet.
 
 ## Proof Boundary

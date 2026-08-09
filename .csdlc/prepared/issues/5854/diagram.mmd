@@ -1,9 +1,11 @@
 flowchart LR
-  A["WP-16 / #5834 gate"] --> B["WP-17 / #5835"]
-  A --> C["WP-18 / #5836"] --> D["WP-18B / #5838"]
+  J["WP-09 + WP-10"] --> B["WP-17 / #5835"]
+  A["WP-16 / #5834 gate"] --> B
+  K["WP-08 through WP-15"] --> C["WP-18 / #5836"]
+  A --> C --> D["WP-18B / #5838"]
   B --> E["WP-19 / #5839"]
   C --> F["WP-20 / #5840"]
   D --> F
   E --> F
-  G["WP-24 terminal"] --> H["WP-23 release-truth gate"]
-  I["WP-24A episode checkpoints"] --> H
+  G["WP-24 product complete / typed closeout async"] --> H["WP-23 release-truth gate"]
+  I["WP-24A independent out-of-band stream"]

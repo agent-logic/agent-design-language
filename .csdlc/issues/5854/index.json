@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
   "phase": "bound",
-  "generation": 8,
-  "digest": "420389e0e60a9d2028bf5a54ba5ef555c8728a252ad1232a9a233e4e0caab65e",
+  "generation": 14,
+  "digest": "c51ec1cbd7c3738535c4e8b650070887cb3a7e108d0f05a364b8a989e1dc3703",
   "branch": "codex/5854-sprint5-readiness-current",
   "worktree": "/Volumes/FastWork/adl-standalone-5854",
   "review_assignment": null,
@@ -20,37 +20,37 @@
   "design_review": {
     "approved": {
       "reviewer": "codex:5854-sprint5-readiness-design-review",
-      "revision": "4a4452dcdc0f6771737d568114992cd63d0bdc95a16803360f5845dcea5049be"
+      "revision": "8d0df302d445b11a2e4f6b17a5a958d4960130e452c499170e44a80cd20af9c6"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "ac8b2599ab9fe41f6ea5775fac92b988e6901bc99c71aad25129a5fef37f859f",
-      "rendered_digest": "d3df0ef11d865901402c525fce77e4cd00fdcc3cb88022a725c657c136d4c37e",
-      "ast_digest": "8ba7e039806c0a9fd3e854c75056dd2a777f535badeef6791d8e5414ac24bbcf"
+      "values_digest": "1bdb3fc0184abe26a57205bd7e8d1f76e0950b73cb8f605a6d990cc6ffd83940",
+      "rendered_digest": "8e60bae838bbf26c627c83cf48972b8f8fb1991686a33689be97f5ca7891361e",
+      "ast_digest": "d00dfe284b4358626040d840749447ae53c3dfc55071dcaab9c676c4ccc6dc6b"
     },
     "stp": {
-      "values_digest": "9c317cb02f7bc082d0237d207efd6806dd614199f0339b9d77f7192dfb674ed3",
-      "rendered_digest": "c7f60e117f8ab8f7e72fe3db779341549428f0a9e699b59b8a3cc567f6fba9e3",
-      "ast_digest": "91e1866856052c759ece29c863e93703f6620c385f4098ff30d3924c8d4090ed"
+      "values_digest": "e60e59c7cbf31bba6442ed9b149bdd1cdd55ac51cfa8e9a867550dd0a47e1eee",
+      "rendered_digest": "0feda27b7ab36823eeecd5112f514f35f617f5ca1e3165d2c7413310a8922b7f",
+      "ast_digest": "e3dcbe0b0d3c69df8acc50059f2a2ff21471559a7db5e2d73456ca4cd85f98a9"
     },
     "spp": {
-      "values_digest": "07abb97e467731b190f26ceca46b96ea831f42491d30b36e811ca3be587154f1",
-      "rendered_digest": "4f86890cd83ce6798db8c7662cc094a59414bb9e348cd17e35810be7bd7d9ad9",
-      "ast_digest": "495d9224da98dd86cacc04f34e9bb97e6bc205361c08d4fe13a167adcacbebae"
+      "values_digest": "faa5c2b584b729443065aaa894712e1d77c42cac61e33eb5da2e0bc6034d4e5e",
+      "rendered_digest": "956c233c1c04b8cbf995325f5151bf74b95c63c6c87c92f1ed048de900c0adc1",
+      "ast_digest": "41c94efd2e28dd475a43fcc29301587fe8635aa6dd03dc56ad6c3b67f54f703a"
     },
     "vpp": {
-      "values_digest": "70f31b3d64fa574e6764a00bb87933f8dd8a87e45591c70f53361d96679b700f",
+      "values_digest": "a73dafff1e94cd5f5a09d969484e7bd6a7aa287df7beb1b402edfdff910c9c08",
       "rendered_digest": "cd02de26115a4c48a006acffa498715d4ede77fc8f01d353b724c1f5ade5e141",
       "ast_digest": "f0d2f73b3131227d9ecd3d2b948bd038d4380d6a4782d08a11fb5b095911a7f1"
     },
     "srp": {
-      "values_digest": "45b019fb18cf77da5a599c17cf5def0e46ffd676d6bed3c49ae9e45e54a1a86d",
+      "values_digest": "d8ea7734ace6ed9659c2cf5b77bf314b287fae0f8822abb8736498305e41ea33",
       "rendered_digest": "2621169d053775c3fbb79b5a99e4b6ca2d698fceae1922c9d7a9ea2614ba752e",
       "ast_digest": "564fe2070cc89dc485d48954a81c75f52c9df151b43b22ebb473e1ac384604c2"
     },
     "sor": {
-      "values_digest": "0de31d373fca139b220e4cbb282c9faa65451f052181f1b309e3db70c39399ac",
+      "values_digest": "ebd6e7d0093df9f73c8b9f2ab795204e50d91c94fd1acff9d497e29da8461716",
       "rendered_digest": "44ed072e7d9f0a8ea2c95aa550d4550e836f42136c747eccd8dc2d9d8a236b24",
       "ast_digest": "2a386f63994e6887eb04d5c2772de1d185d93d9de2294432bbb7849ce6b62f71"
     }
@@ -148,6 +148,48 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Reconcile the plan with current terminal, active-checkpoint, and dependency-gated child truth.",
       "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Validate the current child wave, preserve terminal WP-24, continue WP-24A as non-closing checkpoints, route only dependency-satisfied children to separate FastWork sessions, and synthesize one integrated sprint review after terminal child truth.\",\"operation\":\"replan\",\"previous_value\":\"Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Record the operator's direction that WP-24A is an independent out-of-band stream and cannot gate Sprint 5 readiness or closeout.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"A reviewed Sprint 5 coordination packet routes bind-ready #5835, #5836, #5838, #5839, and #5840, preserves terminal WP-24, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, or closeout.\",\"operation\":\"replan\",\"previous_value\":\"A reviewed Sprint 5 coordination packet routes bind-ready #5835, #5836, #5838, #5839, and #5840, preserves terminal WP-24, and tracks WP-24A episode checkpoints without false completion or publication claims.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Remove out-of-band WP-24A from Sprint 5 dependencies so it cannot gate readiness, execution, or closeout.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5835\",\"#5836\",\"#5838\",\"#5839\",\"#5840\",\"#5844\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Remove WP-24A from operative Sprint 5 inputs while retaining it only as non-gating informational context.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\"#5835\",\"#5836\",\"#5838\",\"#5839\",\"#5840\",\"#5844\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Exclude WP-24A from Sprint 5 routing and closeout while retaining non-gating informational visibility.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, #5839, and #5840 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated sprint review after the five operative children complete.\",\"operation\":\"replan\",\"previous_value\":\"Validate the current child wave, preserve terminal WP-24, continue WP-24A as non-closing checkpoints, route only dependency-satisfied children to separate FastWork sessions, and synthesize one integrated sprint review after terminal child truth.\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:5854-sprint5-readiness-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Distinguish completed WP-24 product and GitHub truth from its asynchronous nonterminal typed closeout.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"A reviewed Sprint 5 coordination packet routes prepared #5835, #5836, #5838, #5839, and #5840 without starting them, preserves WP-24 product and GitHub completion while typed closeout remains asynchronous, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, review, or closeout.\",\"operation\":\"replan\",\"previous_value\":\"A reviewed Sprint 5 coordination packet routes bind-ready #5835, #5836, #5838, #5839, and #5840, preserves terminal WP-24, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, or closeout.\"}"
     }
   ]
 }

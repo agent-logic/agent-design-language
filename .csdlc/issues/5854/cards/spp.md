@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Validate the current child wave, preserve terminal WP-24, continue WP-24A as non-closing checkpoints, route only dependency-satisfied children to separate FastWork sessions, and synthesize one integrated sprint review after terminal child truth.
+Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, #5839, and #5840 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated sprint review after the five operative children complete.
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -77,13 +77,13 @@ Revision 3
 
 .csdlc/prepared/issues/5854/design.md
 
-Digest: 4a4452dcdc0f6771737d568114992cd63d0bdc95a16803360f5845dcea5049be
+Digest: 8d0df302d445b11a2e4f6b17a5a958d4960130e452c499170e44a80cd20af9c6
 
 ## Diagram
 
 .csdlc/prepared/issues/5854/diagram.mmd
 
-Digest: 6da61030661e8bad5f192bf3209daaf356c8e6e3d89d88cda872683a0824a9b8
+Digest: 18ce9d40dd473f07a2fee4d52ebcdeae0635b197e62c970ec5d507c77ca279d8
 
 ## Stop Conditions
 

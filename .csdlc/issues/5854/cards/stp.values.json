@@ -7,7 +7,7 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 8
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -34,8 +34,7 @@
         "#5838",
         "#5839",
         "#5840",
-        "#5844",
-        "#5845"
+        "#5844"
       ],
       "repo_inputs": [
         "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
@@ -46,8 +45,7 @@
         "#5838",
         "#5839",
         "#5840",
-        "#5844",
-        "#5845"
+        "#5844"
       ],
       "non_goals": [
         "Implementing child issue code",

@@ -16,7 +16,7 @@ Coordinate real demonstrations, consumer proofs, governance handoff, proof cover
 
 ## Required Outcome
 
-A reviewed Sprint 5 coordination packet routes bind-ready #5835, #5836, #5838, #5839, and #5840, preserves terminal WP-24, and tracks WP-24A episode checkpoints without false completion or publication claims.
+A reviewed Sprint 5 coordination packet routes prepared #5835, #5836, #5838, #5839, and #5840 without starting them, preserves WP-24 product and GitHub completion while typed closeout remains asynchronous, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, review, or closeout.
 
 ## Scope
 

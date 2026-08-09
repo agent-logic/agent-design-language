@@ -7,14 +7,14 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 8
+    "generation": 14
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Coordinate real demonstrations, consumer proofs, governance handoff, proof coverage, and complete launch media.",
-      "required_outcome": "A reviewed Sprint 5 coordination packet routes bind-ready #5835, #5836, #5838, #5839, and #5840, preserves terminal WP-24, and tracks WP-24A episode checkpoints without false completion or publication claims.",
+      "required_outcome": "A reviewed Sprint 5 coordination packet routes prepared #5835, #5836, #5838, #5839, and #5840 without starting them, preserves WP-24 product and GitHub completion while typed closeout remains asynchronous, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, review, or closeout.",
       "declared_scope": [
         ".csdlc/issues/5854",
         ".csdlc/prepared/issues/5854",
