@@ -1,0 +1,15 @@
+{
+  "issue": 5865,
+  "expected_generation": 20,
+  "expected_digest": "2031c5f5a24b392819a2cd770d06a42534078ded5166d65413e9d66bc01e5f0b",
+  "reviewer": "Codex independent review subagent /root/review_5864",
+  "assigned_by": "codex:5862-sprint3-conductor",
+  "scope": [
+    "adl-runtime/src/distributed/transport.rs",
+    "adl-runtime/tests/distributed_transport.rs",
+    "adl-runtime/Cargo.toml",
+    "adl-runtime/Cargo.lock",
+    ".csdlc/evidence/5865",
+    ".csdlc/issues/5865"
+  ]
+}
