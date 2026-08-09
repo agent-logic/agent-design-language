@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 67
+    "generation": 70
   },
   "status": "ready",
   "content": {
@@ -15,10 +15,16 @@
     "values": {
       "task_boundary": "Deliver the WP-08 birthday-decision contract, complete negative fixture matrix, validator, and retained exact-revision report.",
       "deliverables": [
-        "Versioned birthday contract and deterministic validator",
-        "One structurally complete valid fixture",
-        "Disqualifying fixtures for lifecycle lookalikes and every required-evidence omission",
-        "Retained focused, negative, and claim-boundary validation report"
+        "adl-runtime-kernel/src/birthday.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/birthday.rs",
+        "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+        ".csdlc/prepared/issues/5825/validate-native-receipts.rb",
+        ".csdlc/prepared/issues/5825/produce-native-receipt.rb",
+        "Complete valid and disqualifying fixture matrix under the owned birthday fixture directory",
+        "Focused positive and fail-closed negative tests",
+        "Digest-bound native macOS and Linux exact-revision proof",
+        "Independent exact-head review and rollback evidence"
       ],
       "acceptance_criteria": [
         "The WP-08 birth-decision contract accepts one structurally complete candidate and emits stable rejection reasons for every declared lifecycle lookalike or missing evidence surface.",

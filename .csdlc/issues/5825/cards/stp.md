@@ -16,10 +16,16 @@ Deliver the WP-08 birthday-decision contract, complete negative fixture matrix, 
 
 ## Deliverables
 
-- Versioned birthday contract and deterministic validator
-- One structurally complete valid fixture
-- Disqualifying fixtures for lifecycle lookalikes and every required-evidence omission
-- Retained focused, negative, and claim-boundary validation report
+- adl-runtime-kernel/src/birthday.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/birthday.rs
+- docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
+- .csdlc/prepared/issues/5825/validate-native-receipts.rb
+- .csdlc/prepared/issues/5825/produce-native-receipt.rb
+- Complete valid and disqualifying fixture matrix under the owned birthday fixture directory
+- Focused positive and fail-closed negative tests
+- Digest-bound native macOS and Linux exact-revision proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

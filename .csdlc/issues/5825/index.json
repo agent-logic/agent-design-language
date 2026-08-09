@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "904390dda83597a867777bbf16ebbe9907f65b6d6481c7be13b55d2ed2e2de2d",
   "phase": "initialized",
-  "generation": 67,
-  "digest": "60737859539f5dd63c6ef388ebbda06689edbceed5e7fc56983521ff642ca383",
+  "generation": 70,
+  "digest": "cbb4cc25aaf2eda9677eb3e230e2d8aab5fc41fbe4b23f64235533f45d23c88e",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "805a1b7979b7fa857a66625b517322e00858e131a28dd946cc9b7582b54b3432",
+      "values_digest": "444ee2e91cfb68f0a46cdff60acdcc7c3adad7cdc0d32daad4183ab15c634ad1",
       "rendered_digest": "d6a522f9b96a13db366a0ee6b8ce2cdab3049852134faabe28fe9a42af07fe66",
       "ast_digest": "8d6bf8fbed7abdd44c892e87970e36f564d7ffc9fc248f3cae3aa1c0b8185d8a"
     },
     "stp": {
-      "values_digest": "cd9108878a033302cc1762ee34fb4ebd35c1506ae43eaf6c4b17efe370661961",
-      "rendered_digest": "9b4a0528dca8794b600709aeeae7acd7726325f47dd2975721db6e5156dcc245",
-      "ast_digest": "013473c072130c1eb36860a8ccbf49a7b8b4acb815224e3e298125a880502aa6"
+      "values_digest": "acd2947163ae61d149f91d70d092afeb7e3f4c8aac6814af782f7d74e8570caf",
+      "rendered_digest": "7f2ed62aa061ee33c6e06ddc3acfce0107c77caed88d88e2f317f3d1bc6f20a1",
+      "ast_digest": "cb270301e62edfc3d61461b34ba1c12e046d6f9c153bc1d44a45b1e05ec76eed"
     },
     "spp": {
-      "values_digest": "626778670745267b2b37ccf9d3b689cc1d3427305c9c0ecaa40e03a9732648a4",
+      "values_digest": "013268e5932bd5c4c0120f740ab49010e43cc6104ca3b0098ef2cfd8f6f8776a",
       "rendered_digest": "3892d59c3fdb136316095e6b74bcfec0a0446f019f7cb3729b9aee3bc07ae1e2",
       "ast_digest": "a74b944fa96ab68704d950730a43b42959ad57d22e0660f2d1700ec7b3701300"
     },
     "vpp": {
-      "values_digest": "54d66ed463f4bdf391c8cbca832d4948edea1ef9f2b94a745cb090c0639d16e4",
-      "rendered_digest": "99bfa9cb57e3bce8a94bfa4265fa7a503aa89e00d653fbe0317b74a0bd3c4754",
-      "ast_digest": "800cdc9faf9d9e8150d11b8b7cc41d660c8619ab66d8fb3f17913ec956c5f6e9"
+      "values_digest": "89c78b056013513aee07e337a7dbadb812bbad1347f1b9a43ce19b5e08b39e5f",
+      "rendered_digest": "f10ef4bf9248aa037f3950b132e6e48c220fae1dc701716c33dc36b618bef20c",
+      "ast_digest": "54a4638b17bef7109eaf8091f872e2f6f46f0628cbd0d4cffc752421f6e8eba3"
     },
     "srp": {
-      "values_digest": "8eae364fb40555534e8a678193f496d4352ec7e4805a4dea1f3b9a53aea6b48a",
+      "values_digest": "5a108aa5a8027f4127138bafceec0f1407d1ac2e6b6e26a4d1fbaa089f3154d7",
       "rendered_digest": "656f33b83ff10ead3fa1cb155ab9ef8be5b90d51a2e442224b85d9fbfe76b2b4",
       "ast_digest": "ecc45c5df390f8f354a35abfe2e442480c22c6a4d71cbba8d76a340898994d13"
     },
     "sor": {
-      "values_digest": "367f0fea93cb8ce7a593297429bab5e465cd9fa3910d01e7ce712222a24b508b",
+      "values_digest": "3cb6e7a78559b55428ac8a69d578d7e4cb004dbdc8f14b375c433b5c9725490f",
       "rendered_digest": "e3a6c6ec76708b4213ad79897d6cf48fe48bcaecd057a5a4c8601d59795a6d41",
       "ast_digest": "bf6ffc3401c9b3afd0a0dc0839121b241979dfa196064dffb3a6f233a26d1799"
     }
@@ -700,6 +700,27 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"The source contract changes required birth evidence or disqualifiers.\",\"Execution requires a shared Runtime v3 schema change outside the exact declared paths.\",\"A reviewer identifies an uncovered lifecycle lookalike or unsupported public claim.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5825-birthday-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\\\"],\\\"issues\\\":[5825,5843],\\\"order\\\":[5825,5843]}\"]}"
+    },
+    {
+      "sequence": 90,
+      "generation": 68,
+      "actor": "codex:5825-birthday-execution",
+      "reason": "Declare exact issue-owned implementation and test deliverables before bind-safe deferred-target admission.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/evidence/5825\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 91,
+      "generation": 69,
+      "actor": "codex:5825-birthday-execution",
+      "reason": "Declare the issue-owned birthday target as bind-safe deferred until implementation creates the exact source and nonzero test target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5825-core\",\"defer_reason\":\"Deferred only until this issue creates owned source adl-runtime-kernel/src/birthday.rs and exact owned target adl-runtime-kernel/tests/birthday.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests.\"},{\"lane\":\"birthday-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5825/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/macos-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5825/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/linux-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=0ca36480e629a794cd9bb5c2a43756fde84052f1eb88e3bac3077c3b7c669cc9]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/native-platform/macos.json\",\".csdlc/evidence/5825/native-platform/linux.json\"],\"parallel_group\":\"5825-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 92,
+      "generation": 70,
+      "actor": "codex:5825-birthday-execution",
+      "reason": "Keep the exact Rust target deliverable explicit without misclassifying the future fixture directory as an executable validator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"Complete valid and disqualifying fixture matrix under the owned birthday fixture directory\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }
