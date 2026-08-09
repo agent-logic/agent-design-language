@@ -1,0 +1,24 @@
+{
+  "issue": 5865,
+  "expected_generation": 23,
+  "expected_digest": "f6300b2bd15f1bb41188d010bf3ec000a01287b6a1bb9c2713c37ee83c2d0295",
+  "actor": "codex:5862-sprint3-conductor",
+  "evidence": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "scope": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      ".csdlc/evidence/5865",
+      ".csdlc/issues/5865"
+    ],
+    "reviewed_revision": "git-blake3:030838da71b769d244073665484b4a8cb26c278a:4c95f66b5d8e6b83bb3dabe44f6dda54176b082b887547f4b6eda0415e32adb3",
+    "findings": [],
+    "residual_risks": [
+      "Repository split metadata and generic validator-target readiness drift remain separate control-plane follow-up concerns; the existing qualified PR route and exact retained implementation proof are valid."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
