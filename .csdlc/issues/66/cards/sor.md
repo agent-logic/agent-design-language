@@ -93,6 +93,24 @@ Added typed Deepgram batch synthesis and prerecorded transcription support with 
     "purpose": "Reject malformed whitespace and confirm the operator Deepgram credential value is absent from tracked and untracked issue files.",
     "outcome": "passed",
     "evidence_ref": "local:issue-66-diff-and-credential-scan:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "llvm-cov",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--test",
+      "provider_tests",
+      "--json",
+      "--output-path",
+      "deepgram-coverage.json",
+      "--",
+      "deepgram_"
+    ],
+    "purpose": "Prove deterministic Deepgram configuration, credential, and request-validation branches while satisfying the changed-source per-file coverage gate; 10 passed, 1 ignored, 0 failed, deepgram.rs 422/510 lines (82.745 percent).",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-66-focused-deepgram-coverage:422-of-510"
   }
 ]
 

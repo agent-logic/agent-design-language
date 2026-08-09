@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "90e59f922e4766e5aa4b7d8061e4752b5386a7fff1ba42c65e132209be0ed71d",
   "phase": "published",
-  "generation": 26,
-  "digest": "68891f38886e66ce3cfeaec60cb47e67950607d49afaa051ea884d8742baff19",
+  "generation": 30,
+  "digest": "ded667cf4dfdb76ecc0e58c2d141bf52e538844ce0182b8c81ef583f1d8440ee",
   "branch": "codex/66-deepgram-speech-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-66-deepgram-speech-provider",
   "review_assignment": {
-    "reviewer": "subagent:66-final-review",
-    "assigned_by": "codex:66-ci-remediation",
-    "revision": "git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4",
+    "reviewer": "subagent:66-coverage-review",
+    "assigned_by": "codex:66-coverage-remediation",
+    "revision": "git-blake3:eb841f84b071cb5a0c7ded29ead29fe6987a83cb:9a97fad8642d80cf73b4fe9093944749d959a51ea2d093ef6a5fff1bbdfad203",
     "scope": [
       "adl/src/provider/deepgram.rs",
       "adl/src/provider/mod.rs",
@@ -27,7 +27,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:66-final-review",
+    "reviewer": "subagent:66-coverage-review",
     "scope": [
       "adl/src/provider/deepgram.rs",
       "adl/src/provider/mod.rs",
@@ -41,7 +41,7 @@
       "docs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json",
       ".csdlc/evidence/66"
     ],
-    "reviewed_revision": "git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4",
+    "reviewed_revision": "git-blake3:eb841f84b071cb5a0c7ded29ead29fe6987a83cb:9a97fad8642d80cf73b4fe9093944749d959a51ea2d093ef6a5fff1bbdfad203",
     "findings": [],
     "residual_risks": [
       "The live canary proves one bounded Pluto-to-Nova-3 round trip; ongoing provider availability and future response-schema changes remain external operational risks."
@@ -56,7 +56,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/95",
     "base": "main",
     "head": "codex/66-deepgram-speech-provider",
-    "revision": "git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4",
+    "revision": "git-blake3:eb841f84b071cb5a0c7ded29ead29fe6987a83cb:9a97fad8642d80cf73b4fe9093944749d959a51ea2d093ef6a5fff1bbdfad203",
     "draft": false,
     "observed_state": "open"
   },
@@ -73,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "315f9c7e08d4d2a701bb80668796e269f904f4cca59379804f1ed88e056e5bee",
+      "values_digest": "4dc1ac051e6df08f1fca29777af0eaa90659750265abecc8f4ecc168258d3b7e",
       "rendered_digest": "226262d91ad557fb76edf99821d10d77240c7036bfe5a49910b568180aa40ce9",
       "ast_digest": "dcf435c9562816ed96640d50374fbdfe238a8630c65a1f47ea16561a676a3913"
     },
     "stp": {
-      "values_digest": "4d908f413e3c9346bad6e5242f0c7041b1f9e872c84c5898732d95ffe57bd21f",
+      "values_digest": "871cd3d73c451581e59a99d3b8caf45818a9136188a2e9a94fde0b42e8eb794b",
       "rendered_digest": "5e5100417c10ad054310a21f3f1e8a7cef52f0029b473aa80bb288787903d09c",
       "ast_digest": "b75035db71def7c53cb6b71bb1977615ecca40c037830d939045e74f0c77271c"
     },
     "spp": {
-      "values_digest": "2678f04bda569841569cfe5d34c076a1cef473595fcba775f9b42361c758194b",
+      "values_digest": "4e14260aeb8b0435ee5e25edb1b1e6cf8a47b7a751d552a79a0222937a2a6c2b",
       "rendered_digest": "2854a9958cfc898be0439612fd8c73b24bb5047d2f6a6d5a375b88f5131d01e4",
       "ast_digest": "48efa68f36e26d1f53abe9c96d36a7bb672e7baf4e1ea8e3a6eeba9573ca06bd"
     },
     "vpp": {
-      "values_digest": "efc2fe7296fe98eb069e282e9404db7b7c1cc9f887cafbd9c08168e923a1ca8b",
+      "values_digest": "72764de8101f4adc584c2b44c8c05541ff68e3a8b2c0647f3669338f0f9d7c9e",
       "rendered_digest": "28b921e6623edcfa3f0045f6b6843634eb7a131d3650c895820c7ba036eace2c",
       "ast_digest": "4295261bb6bcaecd0f4c4c3876a2da5a119db3ab1aa9b5f355b6e3841890a39b"
     },
     "srp": {
-      "values_digest": "c0a23a56be4cb8aaf70e1d3a6c53c25431bd1e64da88537426de93324b466aa9",
-      "rendered_digest": "61f992ed5ff31e122d8a782f324f851f655b1105618a7e83ed512c8562848a12",
-      "ast_digest": "baf9ca2b14f48a03e81a4017c643d86187b588954ad8d200abe4763d5ded59d4"
+      "values_digest": "a3e6ff987375c535c18a2af85694908fa36608821a2d74847047125454d2c7d9",
+      "rendered_digest": "5e229bf68af54af459d9140a224f7f421941d52d01132357f03fafde10d52e00",
+      "ast_digest": "82db9a22db71112a46815cf29b97b58a46d3ab1c2c4ad8b6d5ea09688964c9f0"
     },
     "sor": {
-      "values_digest": "e6cb26c6d64e48a165d57681102ba1ea329f45766f65b7124fc54fda7d22ed87",
-      "rendered_digest": "611482da75bc7bde1af1fc70d150f38a91c28680e6fefb49b1b1d5d83840a28e",
-      "ast_digest": "3e353a2ada8869cf55b6b48814c5fdd5fa7d53de80b13686ef0417504d468fd3"
+      "values_digest": "ffcf8132f2969a9a36bbe44effda83e17b4c681e3321ea15cf857ee2e3d044d9",
+      "rendered_digest": "910043bcc7dda64b31ebab9584c2cae0efb9458c55df05de58b39debd15415a3",
+      "ast_digest": "848f2c5740584f5ec362422bc8fe1f14e822dc34b1bc1b217073adace23f1d71"
     }
   },
   "transitions": [
@@ -172,6 +172,27 @@
       "from": "reviewed",
       "to": "published",
       "actor": "codex:66-ci-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:66-coverage-remediation",
+      "reason": "The final hosted coverage gate measured deepgram.rs below the required per-file threshold. Recover to implemented so deterministic fail-closed tests, focused coverage proof above 80 percent, and the unchanged provider implementation receive current exact review and publication truth."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:66-coverage-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:66-coverage-remediation",
       "reason": "observed exact PR after current review"
     }
   ],
@@ -390,6 +411,41 @@
       "sequence": 31,
       "generation": 26,
       "actor": "codex:66-ci-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex:66-coverage-remediation",
+      "reason": "The final hosted coverage gate measured deepgram.rs below the required per-file threshold. Recover to implemented so deterministic fail-closed tests, focused coverage proof above 80 percent, and the unchanged provider implementation receive current exact review and publication truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "codex:66-coverage-remediation",
+      "reason": "Record focused Deepgram fail-closed test and per-file coverage proof after the hosted coverage gate exposed the missing branches.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"llvm-cov\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_tests\",\"--json\",\"--output-path\",\"deepgram-coverage.json\",\"--\",\"deepgram_\"],\"purpose\":\"Prove deterministic Deepgram configuration, credential, and request-validation branches while satisfying the changed-source per-file coverage gate; 10 passed, 1 ignored, 0 failed, deepgram.rs 422/510 lines (82.745 percent).\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-66-focused-deepgram-coverage:422-of-510\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "codex:66-coverage-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "subagent:66-coverage-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "codex:66-coverage-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
     }
