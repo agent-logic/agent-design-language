@@ -7,14 +7,14 @@
     "title": "Add first-class Deepgram speech provider",
     "slug": "deepgram-speech-provider",
     "version": "v0.92",
-    "generation": 23
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/deepgram.rs\nadl/src/provider/mod.rs\nadl/src/provider/profiles.rs\nadl/src/provider_substrate.rs\nadl/src/provider/http_family/tests.rs\nadl/tests/provider_tests.rs\nadl/tests/provider_tests/deepgram.rs\ndocs/tooling/PROVIDER_SETUP.md\ndemos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md\n.csdlc/evidence/66",
-      "review_revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
+      "review_scope": "adl/src/provider/deepgram.rs\nadl/src/provider/mod.rs\nadl/src/provider/profiles.rs\nadl/src/provider_substrate.rs\nadl/src/provider/http_family/tests.rs\nadl/tests/provider_tests.rs\nadl/tests/provider_tests/deepgram.rs\ndocs/tooling/PROVIDER_SETUP.md\ndemos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md\ndocs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json\n.csdlc/evidence/66",
+      "review_revision": "git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4",
       "reviewer": "subagent:66-final-review",
       "review_prompts": [
         "Can any credential or authorization value appear in Debug, error, log, fixture, request identity, or retained evidence?",

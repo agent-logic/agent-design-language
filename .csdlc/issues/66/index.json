@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "90e59f922e4766e5aa4b7d8061e4752b5386a7fff1ba42c65e132209be0ed71d",
   "phase": "published",
-  "generation": 23,
-  "digest": "dc55d9046dca8a7f10d25b86bb8130a927a4fdc133703de95e53cd5f9e9a2c6f",
+  "generation": 26,
+  "digest": "68891f38886e66ce3cfeaec60cb47e67950607d49afaa051ea884d8742baff19",
   "branch": "codex/66-deepgram-speech-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-66-deepgram-speech-provider",
   "review_assignment": {
     "reviewer": "subagent:66-final-review",
-    "assigned_by": "codex:66-implementation",
-    "revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
+    "assigned_by": "codex:66-ci-remediation",
+    "revision": "git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4",
     "scope": [
       "adl/src/provider/deepgram.rs",
       "adl/src/provider/mod.rs",
@@ -22,6 +22,7 @@
       "adl/tests/provider_tests/deepgram.rs",
       "docs/tooling/PROVIDER_SETUP.md",
       "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      "docs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json",
       ".csdlc/evidence/66"
     ]
   },
@@ -37,9 +38,10 @@
       "adl/tests/provider_tests/deepgram.rs",
       "docs/tooling/PROVIDER_SETUP.md",
       "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      "docs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json",
       ".csdlc/evidence/66"
     ],
-    "reviewed_revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
+    "reviewed_revision": "git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4",
     "findings": [],
     "residual_risks": [
       "The live canary proves one bounded Pluto-to-Nova-3 round trip; ongoing provider availability and future response-schema changes remain external operational risks."
@@ -54,7 +56,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/95",
     "base": "main",
     "head": "codex/66-deepgram-speech-provider",
-    "revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
+    "revision": "git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4",
     "draft": false,
     "observed_state": "open"
   },
@@ -71,32 +73,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aaef2bcc4d749063ee28350cb75856fde980a8b9a8b4db8f186fa769c40d6770",
+      "values_digest": "315f9c7e08d4d2a701bb80668796e269f904f4cca59379804f1ed88e056e5bee",
       "rendered_digest": "226262d91ad557fb76edf99821d10d77240c7036bfe5a49910b568180aa40ce9",
       "ast_digest": "dcf435c9562816ed96640d50374fbdfe238a8630c65a1f47ea16561a676a3913"
     },
     "stp": {
-      "values_digest": "cdfdb40c7f5e4b06745ff1b5c59da6de81f89766a87ec375435cc9995a508646",
+      "values_digest": "4d908f413e3c9346bad6e5242f0c7041b1f9e872c84c5898732d95ffe57bd21f",
       "rendered_digest": "5e5100417c10ad054310a21f3f1e8a7cef52f0029b473aa80bb288787903d09c",
       "ast_digest": "b75035db71def7c53cb6b71bb1977615ecca40c037830d939045e74f0c77271c"
     },
     "spp": {
-      "values_digest": "4f9e3c007874a2a8d02b78b7de45ff54db55e0832ccaf8acbc7d3b7c4e8b5fd9",
+      "values_digest": "2678f04bda569841569cfe5d34c076a1cef473595fcba775f9b42361c758194b",
       "rendered_digest": "2854a9958cfc898be0439612fd8c73b24bb5047d2f6a6d5a375b88f5131d01e4",
       "ast_digest": "48efa68f36e26d1f53abe9c96d36a7bb672e7baf4e1ea8e3a6eeba9573ca06bd"
     },
     "vpp": {
-      "values_digest": "c312ef60e26765c03b7d533717cb9ae057df7a6a3aae36e9f9e24fa1a10257d3",
+      "values_digest": "efc2fe7296fe98eb069e282e9404db7b7c1cc9f887cafbd9c08168e923a1ca8b",
       "rendered_digest": "28b921e6623edcfa3f0045f6b6843634eb7a131d3650c895820c7ba036eace2c",
       "ast_digest": "4295261bb6bcaecd0f4c4c3876a2da5a119db3ab1aa9b5f355b6e3841890a39b"
     },
     "srp": {
-      "values_digest": "ed740abaa6645c6e96998ad17fec3b27bdfde8c1e43f1460b2c9e08b4e9f1f57",
-      "rendered_digest": "17137c3be5dd9004c6dd36ceafe515f984e9964eb4725bb07edab27b7d2da1cf",
-      "ast_digest": "a2865b3f3d82b4623460bdad3490f308091cfe14b80a0406d2d0ffe631030909"
+      "values_digest": "c0a23a56be4cb8aaf70e1d3a6c53c25431bd1e64da88537426de93324b466aa9",
+      "rendered_digest": "61f992ed5ff31e122d8a782f324f851f655b1105618a7e83ed512c8562848a12",
+      "ast_digest": "baf9ca2b14f48a03e81a4017c643d86187b588954ad8d200abe4763d5ded59d4"
     },
     "sor": {
-      "values_digest": "ac111548efbb649ebe587a4eb25c20bd220d248be0d486c387ea2174619033b0",
+      "values_digest": "e6cb26c6d64e48a165d57681102ba1ea329f45766f65b7124fc54fda7d22ed87",
       "rendered_digest": "611482da75bc7bde1af1fc70d150f38a91c28680e6fefb49b1b1d5d83840a28e",
       "ast_digest": "3e353a2ada8869cf55b6b48814c5fdd5fa7d53de80b13686ef0417504d468fd3"
     }
@@ -149,6 +151,27 @@
       "from": "reviewed",
       "to": "published",
       "actor": "codex:66-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:66-ci-remediation",
+      "reason": "CI exposed a deterministic tracked provider-comparison snapshot mismatch after speech capability fields were added. Recover to implemented so the exact corrected snapshot and unchanged provider implementation can receive current review and publication truth."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:66-final-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:66-ci-remediation",
       "reason": "observed exact PR after current review"
     }
   ],
@@ -339,6 +362,34 @@
       "sequence": 27,
       "generation": 23,
       "actor": "codex:66-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:66-ci-remediation",
+      "reason": "CI exposed a deterministic tracked provider-comparison snapshot mismatch after speech capability fields were added. Recover to implemented so the exact corrected snapshot and unchanged provider implementation can receive current review and publication truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "codex:66-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "subagent:66-final-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex:66-ci-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
     }

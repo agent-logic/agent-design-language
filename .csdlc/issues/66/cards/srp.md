@@ -21,6 +21,7 @@ adl/tests/provider_tests.rs
 adl/tests/provider_tests/deepgram.rs
 docs/tooling/PROVIDER_SETUP.md
 demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md
+docs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json
 .csdlc/evidence/66
 
 ## Prompts
@@ -45,7 +46,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d")
+Revision: Some("git-blake3:7146223b1bbf6cf021a5633946b674cac018ae92:0da2116e1d82ceeec63eaa117c6194aba4dccf9b3445262a000684ad03afcaf4")
 
 Reviewer: Some("subagent:66-final-review")
 
