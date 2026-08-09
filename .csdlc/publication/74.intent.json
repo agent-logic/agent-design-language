@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 74,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/74-stale-claim-topology-regression",
+  "title": "[v0.92][C-SDLC v2] Prove stale claim records do not block bind",
+  "body": "Closes #74\n\nAdds the exact real-binary regression for the stale foreign topology failure: an unrelated legacy issue projection containing the retired claim field is skipped and remains byte-for-byte unchanged. The same retired field on the relevant issue still fails closed, and existing same-issue, branch, and canonical-worktree collision checks remain enforced.\n\nNo production code changed because the relevance-first implementation already satisfies the reported behavior.\n\nValidation: cargo fmt; focused Gate 2 csdlc-bind regression 1/1 passed; git diff --check; typed csdlc-validate passed at reviewed generation 9. Independent exact-revision review completed with no findings; broader topology integration remains GitHub CI evidence.",
+  "draft": false,
+  "revision": "git-blake3:55399e7a349097a189ff2c9a87a4121a850639f2:e696223e651ccb1bb9f7bdaf8ddd14e20a17e2722563dfecddc1d8c3e325f1a2",
+  "commit_sha": "55399e7a349097a189ff2c9a87a4121a850639f2"
+}
