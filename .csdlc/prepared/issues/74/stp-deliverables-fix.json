@@ -1,0 +1,18 @@
+{
+  "issue": 74,
+  "card": "stp",
+  "expected_generation": 0,
+  "expected_digest": "721af80b28a93fb3c8df3884736b176d7282229fe59e0f17b0108998e0071e11",
+  "actor": "codex:74-readiness",
+  "reason": "Bind deliverables to the concrete focused topology test and owner code",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "csdlc-v2/tests/gate2.rs claim-bearing foreign topology regression",
+      "csdlc-v2/src/lifecycle.rs relevance-first topology behavior if the canary exposes a defect",
+      "csdlc-v2/src/store.rs strict relevant-record verification if the canary exposes a defect"
+    ]
+  },
+  "fail_after_backup": false
+}

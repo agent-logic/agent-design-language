@@ -1,0 +1,21 @@
+{
+  "issue": 74,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "458634ecf760980e8263157984ada1b2e03e68af6d98f520e29e6d09fd276a3c",
+  "actor": "codex:74-implementation",
+  "reason": "Record the bounded exact legacy-claim topology regression.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added the exact claim-bearing foreign topology regression without changing production behavior.",
+    "changes": [
+      "Extended the real csdlc-bind Gate 2 canary with an unrelated legacy projection containing the retired claim field.",
+      "Proved bind leaves the unrelated claim-bearing projection byte-for-byte unchanged.",
+      "Proved the same retired field on the relevant issue remains strict corruption while existing collision checks remain fail closed."
+    ],
+    "artifacts": [
+      "csdlc-v2/tests/gate2.rs"
+    ]
+  },
+  "fail_after_backup": false
+}

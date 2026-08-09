@@ -1581,6 +1581,19 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         .expect("repository root")
         .join(".csdlc/issues/5791");
     copy_directory(&retained_5791, &success_worktree.join(".csdlc/issues/5791"));
+    let foreign_index_path = success_worktree.join(".csdlc/issues/5791/index.json");
+    let mut foreign_index: serde_json::Value =
+        serde_json::from_slice(&fs::read(&foreign_index_path).expect("read foreign issue index"))
+            .expect("parse foreign issue index");
+    foreign_index["claim"] = serde_json::json!({
+        "owner": "retired-session",
+        "lease": "stale",
+        "heartbeat": "2026-01-01T00:00:00Z"
+    });
+    let foreign_index_with_claim =
+        serde_json::to_vec_pretty(&foreign_index).expect("serialize claim-bearing index");
+    fs::write(&foreign_index_path, &foreign_index_with_claim)
+        .expect("write claim-bearing foreign issue index");
     assert!(!success_worktree
         .join(".adl/local-artifacts/5791-bootstrap/design.md")
         .exists());
@@ -1616,6 +1629,37 @@ fn bind_topology_scan_uses_canonical_record_identity() {
             .to_string_lossy()
             .as_ref()
     );
+    assert_eq!(
+        fs::read(&foreign_index_path).expect("reread foreign issue index"),
+        foreign_index_with_claim,
+        "bind must not rewrite an unrelated legacy claim-bearing projection"
+    );
+
+    // The same retired field remains corruption when it appears on a relevant
+    // record; relevance-first scanning must not weaken strict IssueRecord
+    // verification for the issue being bound.
+    let relevant_index_path = success_worktree.join(".csdlc/issues/42/index.json");
+    let relevant_index_before = fs::read(&relevant_index_path).expect("read relevant issue index");
+    let mut relevant_index: serde_json::Value =
+        serde_json::from_slice(&relevant_index_before).expect("parse relevant issue index");
+    relevant_index["claim"] = serde_json::json!({"owner": "retired-session"});
+    fs::write(
+        &relevant_index_path,
+        serde_json::to_vec_pretty(&relevant_index).expect("serialize malformed relevant index"),
+    )
+    .expect("write malformed relevant issue index");
+    let claim_on_relevant_record = command(
+        &success_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &success_worktree.to_string_lossy(),
+            "--request",
+            &success_bind.to_string_lossy(),
+        ],
+    );
+    assert!(!claim_on_relevant_record.status.success());
+    fs::write(&relevant_index_path, relevant_index_before).expect("restore relevant issue index");
 
     // A genuinely relevant same-issue record is still fully verified.
     fs::remove_file(success_worktree.join("design/issue-42.md")).expect("remove issue design");
