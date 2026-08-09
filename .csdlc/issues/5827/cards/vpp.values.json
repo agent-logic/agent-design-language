@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 53
+    "generation": 56
   },
   "status": "ready",
   "content": {
@@ -45,7 +45,7 @@
             "all"
           ],
           "parallel_group": "5827-core",
-          "defer_reason": null
+          "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/birthday_continuity.rs and exact owned target adl-runtime-kernel/tests/birthday_continuity.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
         },
         {
           "lane": "birthday_continuity-macos-native-ci-producer",

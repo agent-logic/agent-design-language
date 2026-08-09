@@ -16,10 +16,17 @@ Deliver only the WP-13 ACP schema, update semantics, fixtures, validator, privac
 
 ## Deliverables
 
-- Versioned ACP schema and deterministic update/revision contract
-- Canonical internal and public projection fixtures
-- Negative fixtures for stale/forbidden evidence, root mismatch, leakage, and unsupported labels
-- Retained focused, privacy, and non-reputation report
+- adl-runtime-kernel/src/cognitive_profile.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/cognitive_profile.rs
+- docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
+- .csdlc/prepared/issues/5830/validate-native-receipts.rb
+- .csdlc/prepared/issues/5830/produce-native-receipt.rb
+- .csdlc/evidence/5830
+- Complete canonical internal/public projection, stale-evidence, forbidden-evidence, root-mismatch, leakage, unsupported-label, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/cognitive_profile/
+- Focused deterministic revision, replay, privacy, non-reputation, and negative tests
+- Digest-bound native macOS and Linux exact-revision proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

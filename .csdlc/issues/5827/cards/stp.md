@@ -16,10 +16,17 @@ Deliver only the WP-10 multi-cycle continuity chain, fixtures, validator, and re
 
 ## Deliverables
 
-- Versioned continuity-chain schema and canonical head derivation
-- Two-or-more-cycle valid fixtures and deterministic replay proof
-- Negative fixtures for substitution, discontinuity, duplicates, reorder, and copied state
-- Retained focused, negative, and portability report
+- adl-runtime-kernel/src/birthday_continuity.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/birthday_continuity.rs
+- docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
+- .csdlc/prepared/issues/5827/validate-native-receipts.rb
+- .csdlc/prepared/issues/5827/produce-native-receipt.rb
+- .csdlc/evidence/5827
+- Complete canonical multi-cycle, substitution, discontinuity, duplicate, reorder, copied-state, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_continuity/
+- Focused deterministic replay, continuity-head, and negative tests
+- Digest-bound native macOS and Linux exact-revision proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

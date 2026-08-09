@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "initialized",
-  "generation": 54,
-  "digest": "b80b71fccc915170659cbb8ba12c7e79291ccb174c8b9b5f431d5bccf77fccf6",
+  "generation": 57,
+  "digest": "575f22d37d17bf06987af34f3ce9c0cf18a3e4a34d568e61c5a50c669eef95d1",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7ae9486f51ad870f1c81a2e93e9d20661d628fbea39f0a80ff128ec6bec3a9b3",
+      "values_digest": "1f9b4a25f5dcf6919e0c5499852444149aa1bc1bb1e80d3a0f30f9a1f857bb50",
       "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
       "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
     },
     "stp": {
-      "values_digest": "1c589aa1353439706a4301633705af2d088807f2980fffa8ad5a3dd6b8f10ba0",
-      "rendered_digest": "54ee94bfd886753ce3703f62038afafdf66ba4f2f889edbb20b50a2a414ca4d6",
-      "ast_digest": "c70418e11662fa1b5302c94461554c338552e9a9ff0477f19cfd50fe52c56390"
+      "values_digest": "3a5f2d4e6cea866cda1b494b911bdb7b95600496e2525a7737686320ac8689ba",
+      "rendered_digest": "8e58da02564b446cbc1f1f09c884b2094622a37c6f1e7068415463444a54402a",
+      "ast_digest": "3f399e2e17f75526ea6b9d13f63240d427fc0566a6c6b4669257d669ff6413cb"
     },
     "spp": {
-      "values_digest": "18ecb147d21ac4d3f24734366be5f116e713645e30c0f56d33470551a24e7132",
+      "values_digest": "361dc6284dbf055c7d2134d1035d66bf4a20033da3106b3e9a7d34163fbfa2fe",
       "rendered_digest": "4f492dd23f107572e951d5ebd5a488200cb04db8e10502bc71a4c35a82bdbd4e",
       "ast_digest": "0255899e103025cbe10e3b123521dfb10c924ec349749278ff8cc12388afeba9"
     },
     "vpp": {
-      "values_digest": "83aa857636932eeb974c472f98304bd539e7155b1a897f82a186f45968907605",
-      "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
-      "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
+      "values_digest": "126669975e226ba44b2262a45d9c370cc42dee6bce8c18a55aff043e185af348",
+      "rendered_digest": "6bb3189aa2e8a52c48c8760d766a4de833c0fd2bf81cc1af62be450b4912e47e",
+      "ast_digest": "ddead448267b11c0fc5591368368fbcd802a9c03ca21e6204d857399e39fd4f7"
     },
     "srp": {
-      "values_digest": "c5dec2d5594bd8c65b3b10e6d5b8336f619c26ee0cff07c22e7b030c0c608b5d",
+      "values_digest": "ceaf2dfeb6c1a2741716ca83b65e665e1dbb1ddb760cdc4b270b9a97155401ab",
       "rendered_digest": "f4d1b50f223cce6785b4a476d683618378921ceb30e3306785901a4454c0388b",
       "ast_digest": "ad48467373a00ab4134a625bb5c40e297dafeb7fbf5288f5b2ee8ba6761586e6"
     },
     "sor": {
-      "values_digest": "8a4ff32040df877ef1fc6511bc3618b9b3787db85439bfd8965822cbb3d2088f",
+      "values_digest": "bb32c7dfe92fa67710a86494b897b4b43541e4bf197259d1dc02a79a6c847285",
       "rendered_digest": "08069e5c4ac156b5d0d9ee35747632ff67581e203f0aeeaa7d12f41a60e986e9",
       "ast_digest": "1cef938010dcb5de447f8e1c7722d1462c72d177b4688fbe8c531ab97ef18a7c"
     }
@@ -609,6 +609,27 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"Current graph or loop contracts require a versioned compatibility bridge.\",\"Runtime v3 integration cannot use the narrow command surface.\",\"Review finds mutation before policy decision or an incomplete durable-history edge.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5831-adaptive-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\\\"],\\\"issues\\\":[5831,5843],\\\"order\\\":[5831,5843]}\"]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 55,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Declare exact issue-owned WP-13A paths and proof deliverables for bind-safe readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/evidence/5831\",\"Complete canonical evaluation, adaptation-delta, proposal, accepted/rejected decision, replay, rollback, and fail-closed negative fixture matrix\",\"Focused deterministic graph-history, rollback, bounded-resource, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 78,
+      "generation": 56,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Declare the bind-safe deferred issue-owned Rust target for Sprint 4 child #5831 while preserving every other validation lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"adaptive_learning-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5831-core\",\"defer_reason\":\"Deferred only until this issue creates owned source adl-runtime-kernel/src/adaptive_learning.rs and exact owned target adl-runtime-kernel/tests/adaptive_learning.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests.\"},{\"lane\":\"adaptive_learning-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5831/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5831/native-platform/macos-semantic.json\"],\"parallel_group\":\"5831-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"adaptive_learning-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5831/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5831/native-platform/linux-semantic.json\"],\"parallel_group\":\"5831-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"adaptive_learning-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=0a5aff005083397b6349dca44da4b6011d120bf22f1a940712e7373301d291d1]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/evidence/5831/native-platform/macos.json\",\".csdlc/evidence/5831/native-platform/linux.json\"],\"parallel_group\":\"5831-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 79,
+      "generation": 57,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Represent the future fixture directory for #5831 as bounded proof prose so only the missing exact Rust test target is bind-safely deferred.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/evidence/5831\",\"Complete canonical evaluation, adaptation-delta, proposal, accepted/rejected decision, replay, rollback, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/adaptive_learning/\",\"Focused deterministic graph-history, rollback, bounded-resource, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }

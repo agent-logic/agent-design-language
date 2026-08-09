@@ -16,10 +16,17 @@ Deliver only WP-15 witness and receipt schemas, validators, fixtures, security/p
 
 ## Deliverables
 
-- Versioned witness-set schema and validator
-- Deterministic accepted/rejected citizen receipt contract
-- Equivocation, duplicate, stale, forged, mismatch, authority, and redaction fixtures
-- Retained focused, security, privacy, and premature-claim evidence
+- adl-runtime-kernel/src/birth_witness.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/birth_witness.rs
+- docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md
+- .csdlc/prepared/issues/5833/validate-native-receipts.rb
+- .csdlc/prepared/issues/5833/produce-native-receipt.rb
+- .csdlc/evidence/5833
+- Complete accepted/rejected citizen receipt, equivocation, duplicate, stale, forged, mismatch, authority, redaction, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birth_witness/
+- Focused deterministic witness-set, security, privacy, premature-claim, and negative tests
+- Digest-bound native macOS and Linux exact-revision proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

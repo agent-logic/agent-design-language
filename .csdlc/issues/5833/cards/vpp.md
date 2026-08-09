@@ -54,7 +54,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       "all"
     ],
     "parallel_group": "5833-core",
-    "defer_reason": null
+    "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/birth_witness.rs and exact owned target adl-runtime-kernel/tests/birth_witness.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
   },
   {
     "lane": "birth_witness-macos-native-ci-producer",

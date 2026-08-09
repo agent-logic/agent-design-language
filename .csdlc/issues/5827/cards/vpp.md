@@ -53,7 +53,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       "all"
     ],
     "parallel_group": "5827-core",
-    "defer_reason": null
+    "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/birthday_continuity.rs and exact owned target adl-runtime-kernel/tests/birthday_continuity.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
   },
   {
     "lane": "birthday_continuity-macos-native-ci-producer",

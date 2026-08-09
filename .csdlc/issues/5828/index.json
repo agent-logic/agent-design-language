@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "initialized",
-  "generation": 49,
-  "digest": "9f38d27d18e1769f9ae2f4a9951691b6a16f1e0288007cac6d47d957ec642c94",
+  "generation": 52,
+  "digest": "98fcc033ecb67112f87f9ce19b756e69acb2c988f4b483d9e58a4ce1c54e74eb",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b208ca26476c0fb7a37f861698a5f1a4dbd7e1f28c3b6cf9e60e1a74000a3bfb",
+      "values_digest": "dc5f5ceba03f17d2c8bbc1701569717f2d38e3a6da977f229801a8b757455468",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "5cd10edba4a4663bb83bb99f98575da3ceb2af43dcf757f0f9ae708751ffa9b0",
-      "rendered_digest": "104aed4d404a80b7bce439695d55e687bbd95d190c73e02a62e301ad655750d8",
-      "ast_digest": "1d5cd64db9a9fbdc4e89d7ab572fec06632a9d5772f5398bb18708eb26ae6d72"
+      "values_digest": "5b76ff9218cec496fd382d13ce827a19f96602563c410bcb855547a0e74b2c14",
+      "rendered_digest": "431ab54df25be93738380daff3cd8598bbb9da5e19c3dd09e87e38a202792aa9",
+      "ast_digest": "81fe032b64fdfd56e7e57972839647ea9d06ee80389f6380f5613398fe63ce42"
     },
     "spp": {
-      "values_digest": "b55988f33cbbb4e4e2bdeab3a65ad572a3b6751ab3930aefea76705a88728fac",
+      "values_digest": "f9c95931131e51fd62983a31ac43413641e9150eb3b48247dc36a571324e1c10",
       "rendered_digest": "6995345221b37e3126cfa43ea99b7f2b4936e145ac88d307f5fd49caf6efde55",
       "ast_digest": "36d7d94e1350b31e66e1ebc852781f9cb74c400c5b75c4fe66381af97fe67623"
     },
     "vpp": {
-      "values_digest": "bc2b3515a14fc36b6f7c5c9508ef49c4c7950227bc7e9ab2e4915b90e4f6217a",
-      "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
-      "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
+      "values_digest": "6b4e469262e8794a2936a937d5465f2a3f033a3a8fd17926a7ba93548f2d8b8b",
+      "rendered_digest": "d3c3d755bf9718bee42ed47a5e7fa3ea32fa467164d5ee2388dbd58769e02ac3",
+      "ast_digest": "508bd96d5bde486223a4afa74b493e9fde9fb612e7e06c3d870098129718772e"
     },
     "srp": {
-      "values_digest": "959058f64f8d67619122cb19354d3076906f09853563ed8c598941591d428e13",
+      "values_digest": "070396fb5c54a34b4a0ef8204d44475f833b08587945de331d0538d3dd9869a1",
       "rendered_digest": "a386a7a66824d71565a419f005749b9fb09aecb865c20be51cd73937a0f0036b",
       "ast_digest": "c653e05218569adeb17f8286178b1b2df6e1868a2d4c71939cd7a8d74d0db880"
     },
     "sor": {
-      "values_digest": "cccc8f1348b820c940049f1527a52cbc0ec9f2fad96d73c7089fd638dc2814cb",
+      "values_digest": "531acce25cfeba16dc88bdb07ab077bb3c07fc74d9fa3921262c5bcda3756b64",
       "rendered_digest": "9c018b2ba3e28cf57fd83b5636f3fe930ff2346d6d8213436593e71770fb5b88",
       "ast_digest": "afb543ca8a8e6c1b8d2315e85b515c56d417ee01ccc5525600001b34d79b4f05"
     }
@@ -574,6 +574,27 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"The current packet schema cannot carry identity/continuity bindings compatibly.\",\"Observed context-time semantics require a new deterministic input.\",\"Review identifies an unbounded or unauthorized retrieval path.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5828-memory-palace-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\\\"],\\\"issues\\\":[5828,5843],\\\"order\\\":[5828,5843]}\"]}"
+    },
+    {
+      "sequence": 72,
+      "generation": 50,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Declare exact issue-owned WP-11 paths and proof deliverables for bind-safe readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/memory_palace.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/memory_palace.rs\",\"adl-runtime-kernel/tests/fixtures/memory_palace\",\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\".csdlc/evidence/5828\",\"Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix\",\"Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 73,
+      "generation": 51,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Declare the bind-safe deferred issue-owned Rust target for Sprint 4 child #5828 while preserving every other validation lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"memory_palace-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"memory_palace\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5828-core\",\"defer_reason\":\"Deferred only until this issue creates owned source adl-runtime-kernel/src/memory_palace.rs and exact owned target adl-runtime-kernel/tests/memory_palace.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests.\"},{\"lane\":\"memory-palace-obsmem-trace-binding\",\"proof_role\":\"Recompute the exact ObsMem, Runtime v3 observability/proof, fixture, output, source-SHA, argv, runner, trace, and citation bindings in the integration receipt. [preexec_rejection exit=1 diagnostic_sha256=c3ce76747b2b2ce17fa9746fb2794051041bebcd310d9f4ccc7f7a16dd8c5f6e]\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/evidence/5828/obsmem-trace-integration-receipt.json\"],\"parallel_group\":\"5828-integration\",\"defer_reason\":null},{\"lane\":\"memory_palace-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5828/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5828/native-platform/macos-semantic.json\"],\"parallel_group\":\"5828-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"memory_palace-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5828/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5828/native-platform/linux-semantic.json\"],\"parallel_group\":\"5828-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"memory_palace-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=5dff561a38429e71f769ab6ddc31cf4e13684da2496190a046598e1b3cc281db]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/evidence/5828/native-platform/macos.json\",\".csdlc/evidence/5828/native-platform/linux.json\"],\"parallel_group\":\"5828-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 74,
+      "generation": 52,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Represent the future fixture directory for #5828 as bounded proof prose so only the missing exact Rust test target is bind-safely deferred.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/memory_palace.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/memory_palace.rs\",\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\".csdlc/evidence/5828\",\"Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/memory_palace/\",\"Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }

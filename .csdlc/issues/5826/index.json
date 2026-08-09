@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
   "phase": "initialized",
-  "generation": 54,
-  "digest": "17c00db81eb9026194755ddbaced41faef7f5f02703b5d3dacb01cdde6c5ef56",
+  "generation": 57,
+  "digest": "43fc57d1f554ae195ae71a418e057e8bfa7d825875cfd8eb90a4d38869b3d24f",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9c74f967231252414cbbc08c180b9d9d4da17101990e9e138a9b8203ac6eec9a",
+      "values_digest": "2ca8a102ba4ceb25ce29c716bae669b40b9f83893ca8ce3fa0dd12b88fa2d4cc",
       "rendered_digest": "4d6883dc887631fca3e3cc56735a43aa8d4e52499d6a201bdb17b9872178282b",
       "ast_digest": "9f49fdd6b50b3ed26db9a41e22370c5568a5d071bec8fef8b05e8c5251fd9c6d"
     },
     "stp": {
-      "values_digest": "db2c0b1fdb6db18335b50ffad19f9160c00a017c4872ccbf9dea0f332086d9a1",
-      "rendered_digest": "3f3295be0def022de32df4e069c949b2d588214c7440de52603ef21115b883f6",
-      "ast_digest": "29238666ae341873bf753b14a92c0b07ac5c3b1c9f132794acd1cc52529a2cf4"
+      "values_digest": "c24f47351693dfd592061e8632fa5013b805a5ce13989b99d784e7c924a58e1d",
+      "rendered_digest": "64c5bccf8042915ff482cb4696168dea7e3aca05e2d6fdc54a7f5aaccf2c2614",
+      "ast_digest": "d326a66a848947163a180a7d1e8c0e08d6b572f1ba38aa3c7d77ae1211a18ae4"
     },
     "spp": {
-      "values_digest": "eb4c67709d0af2b1a30bab8b174b8d06636aafc9801a28152b8231d4abe36f23",
+      "values_digest": "52dc31b794883b218692e353cb413481c8e2025e2cc135df43ed1bec175f7e0f",
       "rendered_digest": "32a5e42a026eb12e19315c7359f82f9a3f098835acb29842446330810d1842fb",
       "ast_digest": "0e4471a6864f68cc2762ff4492cbd2da9d25a6b24d1e7be3bd5bb6d0404e7449"
     },
     "vpp": {
-      "values_digest": "cb6bc5603551e76df4b4e02b5fad55717cdf65054711cbeff3fb663617ef7cdf",
-      "rendered_digest": "4f8bcb0978d981caec7c2dbc395f5c7bb0cbd34633909619f540afa034159428",
-      "ast_digest": "cc86f97600515eaca70aa6f44b4d7e2cf9e7727cbefd9fc42991f24a5dd540ca"
+      "values_digest": "12b40a031db1d19f829309851cfe7dc6b028a473fd30d2e01806d91be05b576f",
+      "rendered_digest": "0199d4a09d98bec05128feb31510eba1511caa76ef43e4fad8c3b474559e70b8",
+      "ast_digest": "856ea05048e3eee472e2c5aeae2beeca31444c8c50323db393a38d7b31c800c9"
     },
     "srp": {
-      "values_digest": "b874ce4013b9b1dbb44545a1228b5daabe027997592920978ca08312fd62e696",
+      "values_digest": "30023d6d702ab1c230bcb290cc1a460f705ba23064d2a4da6effb86af54fe0dd",
       "rendered_digest": "f0e9b963f02bbd8867ff6ecc4de02958433c3ddfaaf01c327402594a46d267dc",
       "ast_digest": "65f6b23f51b9fa521a69b132fb0c73f834514dcf3ee2be2ebd378966acae6071"
     },
     "sor": {
-      "values_digest": "6e7c9026225f66f77c7eb552193eb2f81e8d0d05d8e7c1272f9727aef54dbf9d",
+      "values_digest": "8b3f948d8b08017b8fde360facceb63fa4274524583c9ee505fc8dbf35450c1f",
       "rendered_digest": "73285c147df2070352a736b49dc7cc813558574b83098912c14f34893ea55a9a",
       "ast_digest": "bfc21804e100d80c16cdcb8e3e07b883c104866725478b9e1cc69a392af6a002"
     }
@@ -609,6 +609,27 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"The continuity-head contract changes before implementation.\",\"Existing lineage APIs require a versioned adapter rather than a narrow record.\",\"Review finds an unmodeled alias or provenance ambiguity.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-identity-feature-doc-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\\\"],\\\"issues\\\":[5826,5827],\\\"order\\\":[5826,5827]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5826-identity-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\\\"],\\\"issues\\\":[5826,5843],\\\"order\\\":[5826,5843]}\"]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 55,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Declare exact issue-owned WP-09 paths and proof deliverables for bind-safe readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, and fail-closed negative fixture matrix\",\"Focused deterministic root, canonicalization, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 78,
+      "generation": 56,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Declare the bind-safe deferred issue-owned Rust target for Sprint 4 child #5826 while preserving every other validation lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday_identity-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday_identity\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5826-core\",\"defer_reason\":\"Deferred only until this issue creates owned source adl-runtime-kernel/src/birthday_identity.rs and exact owned target adl-runtime-kernel/tests/birthday_identity.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests.\"},{\"lane\":\"birthday_identity-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5826/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5826/native-platform/macos-semantic.json\"],\"parallel_group\":\"5826-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday_identity-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5826/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5826/native-platform/linux-semantic.json\"],\"parallel_group\":\"5826-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday_identity-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=c8b24d2558afe0de9854c441b4a8c953221c2ec951c699811e323fada9a5c917]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/evidence/5826/native-platform/macos.json\",\".csdlc/evidence/5826/native-platform/linux.json\"],\"parallel_group\":\"5826-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 79,
+      "generation": 57,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Represent the future fixture directory for #5826 as bounded proof prose so only the missing exact Rust test target is bind-safely deferred.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"Focused deterministic root, canonicalization, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }

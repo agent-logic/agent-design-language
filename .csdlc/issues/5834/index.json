@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2f8a9edc733d36518cfdfe54639ecbf45210e8028e1a884bf5e25a2d1d52408c",
   "phase": "initialized",
-  "generation": 51,
-  "digest": "953ce79839f065570c7b1ba4f6b1a1db1b98aaba09bc4bb9a7b69eb746171fea",
+  "generation": 52,
+  "digest": "bc8b0e5fac3a6144ae09d7a9b5c5567883b3b1a5f345e22a915fa51b44e58fa1",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "83e5f87ac7c0d85357b8b4cfa4a2762c8a288ee97ebdbab7e9bd5a17d5ad6645",
+      "values_digest": "775d35af1494f8f42edae793630b7100df2d2b511bf3594f51ca80dd75e6d824",
       "rendered_digest": "75fcd7a9ca988fb75b97169b64a72b3a7bcdb5b033e0ae15536b2cffa73ff6c6",
       "ast_digest": "725fd3bcdf422bf6c8117264e314f2fd76083afc31e9d67608c1aa8fbdac63f6"
     },
     "stp": {
-      "values_digest": "871d92b4d8f6c142f17fa5a7a8f91c8e7f1c49d83589b3ad7819c48ab9b9db4e",
-      "rendered_digest": "8827b3a7cdd999e4beeb34f4a4acc83e599697915de0c15b2ff7c602e4476e88",
-      "ast_digest": "7df437a7adc6cf8269fbc8198fbc546a30dbbf6372d1579e4468bd0aa104747c"
+      "values_digest": "20dba3b10d9c96e8c405da0a05a5d86f26a7681b255647993226999b412375d8",
+      "rendered_digest": "bf620befcd5aa5fe4e469dc9247e29721ebea0f28c716e41acd6d1078ed24e25",
+      "ast_digest": "74ee25d4ad4cc90b6c9560274c22fe048f3e4785b9f5a680e61765250bee9998"
     },
     "spp": {
-      "values_digest": "71407f615543068346bceab50cb942c6ba945935fba99ed270c78fa0f4cf7dac",
+      "values_digest": "b93c65ef24c54b4301cf53253ec97ece9f82acd024c3ba217ff34dd224545ea9",
       "rendered_digest": "5055eebd16e2eb6aba19b5fc9e2fda283fea82ed26154a19c142a6c03a3d13d1",
       "ast_digest": "5497b61c335c7a1337fec7c65a71fa8e4fcd2c66b37997f3745288b042ad3b0c"
     },
     "vpp": {
-      "values_digest": "0210caf76ad14a95fba0346305cea79960c4fda058bdfa367aa3f4f54d2c0467",
+      "values_digest": "d06c84184168bf4d598d33eccf8f38706c63ed00b49564941accafa547950f85",
       "rendered_digest": "2dfb6d7bc24e9dac49d728129d79e336a0b9df3982aa7e17dce99c1ea1a52966",
       "ast_digest": "b49b2b680a76314daa9af47da607411f5ef2cdebd31391702f63c6328e77c29c"
     },
     "srp": {
-      "values_digest": "0f363a8f523cf8127b127f0c3a74edfa9759a7a4a1f7d0a21930d35ff6ba2225",
+      "values_digest": "e54de2ff0c5122bdec170339ab7bf49ddaf00e56183359162ad4f0857558cc4b",
       "rendered_digest": "17190932d0bba5d9191d53a975465fddac37eb89830aaaa38ebd756d964599a3",
       "ast_digest": "137e5f2ec6e6c6f2da3c450deb1eebac5ae35339e1bd543c1dfc7d6abc733269"
     },
     "sor": {
-      "values_digest": "c933f117390c066ac7aa5b9508e6e2da77046e24d5f00f49ecfb40cbc9300d66",
+      "values_digest": "051b2c946746d0dafeaf1a83ae174edb165060260605e8ba395f583d684ab25b",
       "rendered_digest": "9c5f2b3c80e1c6fef456129710248d984e21f19b8959152442c897af648beca7",
       "ast_digest": "1e76b8e18e111f25a6ef160b34eb5df0a73d783efe16a58ce5209f6e8b6697a4"
     }
@@ -574,6 +574,13 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"A child republishes or supersedes its canonical exact-head proof.\",\"The packet schema needs a new blocked disposition or redaction class.\",\"Review finds duplicate authority or a presentation-only proof substitution.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-demo-matrix-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\\\"],\\\"issues\\\":[5834,5836,5840],\\\"order\\\":[5834,5836,5840]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5834-demo-matrix-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\\\"],\\\"issues\\\":[5834,5843],\\\"order\\\":[5834,5843]}\"]}"
+    },
+    {
+      "sequence": 72,
+      "generation": 52,
+      "actor": "codex:sprint4-readiness-repair",
+      "reason": "Declare exact issue-owned WP-16 paths and proof deliverables for bind-safe readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"docs/milestones/v0.92/review/first-birthday-review-packet.schema.json\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\",\".csdlc/evidence/5834\",\"Exact-revision and digest inventory for every required WP-08 through WP-15 proof, caveat, reviewer question, redacted projection, and public non-claim\",\"Complete missing, stale, contradictory, nonterminal, unreviewed, duplicate-digest, private-path, and overclaiming negative fixture matrix\",\"Focused reproducible schema, link, digest, uniqueness, completeness, redaction, and claim-boundary proof\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }

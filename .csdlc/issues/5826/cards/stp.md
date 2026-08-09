@@ -16,10 +16,17 @@ Deliver only the WP-09 stable-name and identity-root contract, validation fixtur
 
 ## Deliverables
 
-- Versioned identity-record schema and deterministic root derivation
-- Canonical valid and alias/provenance fixtures
-- Negative fixtures for empty roots, collisions, substituted continuity, and disclosure
-- Retained focused, privacy, and portability report
+- adl-runtime-kernel/src/birthday_identity.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/birthday_identity.rs
+- docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
+- .csdlc/prepared/issues/5826/validate-native-receipts.rb
+- .csdlc/prepared/issues/5826/produce-native-receipt.rb
+- .csdlc/evidence/5826
+- Complete canonical identity, alias, provenance, collision, substitution, disclosure, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_identity/
+- Focused deterministic root, canonicalization, privacy, and negative tests
+- Digest-bound native macOS and Linux exact-revision proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

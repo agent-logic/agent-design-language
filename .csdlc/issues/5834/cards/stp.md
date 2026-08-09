@@ -16,10 +16,16 @@ Deliver only the WP-16 integrated reviewer packet, schema/link/digest validator,
 
 ## Deliverables
 
-- Reviewer packet schema and exact revision/digest inventory
-- WP-08 through WP-15 proof links, caveats, questions, and redacted projections
-- Validator and negative fixtures for missing, stale, contradictory, private, and overclaiming inputs
-- Retained completeness, digest/link, and claim-boundary report
+- docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md
+- docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json
+- docs/milestones/v0.92/review/first-birthday-review-packet.schema.json
+- docs/milestones/v0.92/DEMO_MATRIX_v0.92.md
+- .csdlc/prepared/issues/5834/validate-review-packet.rb
+- .csdlc/evidence/5834
+- Exact-revision and digest inventory for every required WP-08 through WP-15 proof, caveat, reviewer question, redacted projection, and public non-claim
+- Complete missing, stale, contradictory, nonterminal, unreviewed, duplicate-digest, private-path, and overclaiming negative fixture matrix
+- Focused reproducible schema, link, digest, uniqueness, completeness, redaction, and claim-boundary proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

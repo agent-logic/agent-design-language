@@ -54,7 +54,7 @@ Diagram: .csdlc/prepared/issues/5829/diagram.mmd
       "all"
     ],
     "parallel_group": "5829-core",
-    "defer_reason": null
+    "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/capability_envelope.rs and exact owned target adl-runtime-kernel/tests/capability_envelope.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
   },
   {
     "lane": "capability_envelope-macos-native-ci-producer",

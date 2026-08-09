@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 54
+    "generation": 57
   },
   "status": "ready",
   "content": {
@@ -45,7 +45,7 @@
             "all"
           ],
           "parallel_group": "5826-core",
-          "defer_reason": null
+          "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/birthday_identity.rs and exact owned target adl-runtime-kernel/tests/birthday_identity.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
         },
         {
           "lane": "birthday_identity-macos-native-ci-producer",

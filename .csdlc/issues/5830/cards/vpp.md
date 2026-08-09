@@ -53,7 +53,7 @@ Diagram: .csdlc/prepared/issues/5830/diagram.mmd
       "all"
     ],
     "parallel_group": "5830-core",
-    "defer_reason": null
+    "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/cognitive_profile.rs and exact owned target adl-runtime-kernel/tests/cognitive_profile.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
   },
   {
     "lane": "cognitive_profile-macos-native-ci-producer",

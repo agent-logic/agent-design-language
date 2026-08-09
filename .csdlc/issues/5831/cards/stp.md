@@ -16,10 +16,17 @@ Deliver only the WP-13A Runtime v3 adaptive-learning graph path, focused integra
 
 ## Deliverables
 
-- Evaluation and adaptation-delta contracts
-- Graph proposal and accepted/rejected policy-decision path
-- Durable history, deterministic replay, and rollback/inverse record
-- Focused Runtime v3, negative replay, and bounded-resource evidence
+- adl-runtime-kernel/src/adaptive_learning.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/adaptive_learning.rs
+- docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md
+- .csdlc/prepared/issues/5831/validate-native-receipts.rb
+- .csdlc/prepared/issues/5831/produce-native-receipt.rb
+- .csdlc/evidence/5831
+- Complete canonical evaluation, adaptation-delta, proposal, accepted/rejected decision, replay, rollback, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/adaptive_learning/
+- Focused deterministic graph-history, rollback, bounded-resource, and negative tests
+- Digest-bound native macOS and Linux exact-revision proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 
