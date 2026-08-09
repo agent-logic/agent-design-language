@@ -57,11 +57,11 @@ Implemented bounded, canonical, signed capability advertisement evidence with du
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

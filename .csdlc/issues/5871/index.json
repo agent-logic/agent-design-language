@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "62c5b9866843c2db3ce1943c0f9290e4a52dff77a6dbbbabc98c33aaaca09233",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "87e84042e8931b80e0b9f6463b10ef3b7f22e088b63edb0b0cb105f583aba114",
+  "phase": "published",
+  "generation": 12,
+  "digest": "accf08304fb3d4058a74a65e580c91051278658fb51e6f9c03d43123c31527fe",
   "branch": "codex/5871-capability-advertisement",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5871-capability-advertisement",
   "review_assignment": {
@@ -30,7 +30,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5871,
+    "pull_request": 89,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/89",
+    "base": "main",
+    "head": "codex/5871-capability-advertisement",
+    "revision": "git-blake3:66d2b95f62e6569a5ba322ac61af4ed452a7283d:03c46685544ec699a9385a14d6847278fc9a04a0caf76f776a6307cb5aa22ad0",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -44,34 +54,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cf0a8bc4bbc229e0f996edaa5eb447b2ee6eb9ddc48cdc35da9b7e5237d2a962",
+      "values_digest": "acfb7ffb6e504f8c18439f9f4d242e3b0f45f895d985ba07da29bdcb07b0d583",
       "rendered_digest": "b074be626e91de3cf084cccf24612575fb38e7b8826b2da9b207a23d2c1628bc",
       "ast_digest": "a5418b5c112f910fcf70079f72192c6c343e253e8f24a5ffcac453b09ce01493"
     },
     "stp": {
-      "values_digest": "7e9763e226aa1fe24012324465176f52f969d3c563442daf8432b7cbc645cbca",
+      "values_digest": "720f07ece025542784facf9743294d9a56f8c223d00b0c93103a84367eec4464",
       "rendered_digest": "6cb0694d5d9ed2ac8e0fb10ae931762e9359708cc51a735a67ed7bb2bf7b7b99",
       "ast_digest": "66efde7605a813e0157483402005d3c318551cb6650e8dd1e737b7b5512a2bab"
     },
     "spp": {
-      "values_digest": "81a63150386449c3cc86b95dc64a62b7687c606c17c1bae889bc0e8132d37538",
+      "values_digest": "a498a05b5b427c7aa0fd043285f077d1a3c5ada121008492c1b1a01db3386b28",
       "rendered_digest": "1f8d91dd68a84c217a42e2cc095a798cab98113a0cfb3b1b64abd4c7408f7ff5",
       "ast_digest": "9eba2692b991b3777af983414b1e9e228697eac87ce86a492c1d8fc24fa015af"
     },
     "vpp": {
-      "values_digest": "7ae93bbf1aec8e7cfddee90b19f4367e78404be8c47d8dab2e3153cfd81801e0",
+      "values_digest": "4ee2f34543e7d57bea90e9c363aa27cc7de99bf99d7b9eb3c8f2d235a3c4ceeb",
       "rendered_digest": "22a4b1529f7f23c263a6a15dc2a7ae7831d9ddad2c0bd3da5f6f099479b1d35a",
       "ast_digest": "8363472267f9fcfb98b185498595768e6b310e4b9e20803137fea8b8b2f9ab75"
     },
     "srp": {
-      "values_digest": "ea871e89ae598388f144c40ff849a571904247f7f16fbea5d6195a5d27012902",
+      "values_digest": "f7b2f988a73660147514c8967414dcc461494276776a6d7e3471a3ecd06d8d4a",
       "rendered_digest": "11fa658e6c82be1e60965e08f6ce7c2885710fefcd6f0c299f57e343934ade4b",
       "ast_digest": "e08eccc723de395ef04730ec759b908bdf467693bd26032b3265b2412dd60be9"
     },
     "sor": {
-      "values_digest": "325346d6614ed8ba81e6f7b2a7a2e7458638e0711264a68ff73d84f9e0cbe4cf",
-      "rendered_digest": "4fdd14196ead351e9bf35ef673f249f7a608d58b0eec134d207c7f9a7a7f4c29",
-      "ast_digest": "e2b3afc1beb652698cdc2938750bcb32277e7f3709374a025dc7ba37d9244580"
+      "values_digest": "82f39850ec733bfe99b592d90f4318673b199a4b107bd17973afee40008aa64c",
+      "rendered_digest": "dcfe408a61af6c4ca79bdd96898dc4ab2c1f8ca2d21383df1a0e71cf7db01ea9",
+      "ast_digest": "28f2e0452dfe8dc1c5d903d4ba5c382eac5b88ca7171efe182d22379b45cb50a"
     }
   },
   "transitions": [
@@ -123,6 +133,13 @@
       "to": "reviewed",
       "actor": "independent exact-head reviewer:/root/issue_79/child_fixture_analysis",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5871-capability-advertisement",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -328,6 +345,13 @@
       "actor": "independent exact-head reviewer:/root/issue_79/child_fixture_analysis",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 12,
+      "actor": "codex:5871-capability-advertisement",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
