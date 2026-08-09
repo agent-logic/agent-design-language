@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nonzero target proves bounded authenticated discovery, atomic request and proposal replay denial across seeds, live-window capacity denial, expiry recovery, and real Quinn/rustls positive behavior.",
+    "proof_role": "Exact nonzero target proves candidate and seed identity plus transport-certificate generation binding across await, canonical bounded Prost messages, durable replay rejection across restart, cross-seed request replay denial, bounded live-window capacity, expiry recovery, and real Quinn/rustls positive behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,11 +47,11 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": "The issue-owned temporary path harness routes the source until issue #5878 owns module registration."
+    "defer_reason": null
   },
   {
     "lane": "exact-revision-proof-receipt",
-    "proof_role": "Validate the final two-revision replay-window source, command, nonzero test, negative-case, runner, and artifact bindings.",
+    "proof_role": "Validate the final two-revision generation-bound protobuf and durable-replay source, command, nonzero test, negative-case, runner, and artifact bindings.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -65,7 +65,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5866/validate-proof-receipt.rb",
-      ".csdlc/evidence/5866/replay-window/execution-proof.json"
+      ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json"
     ],
     "parallel_group": "receipt",
     "defer_reason": null
@@ -85,7 +85,7 @@ Tokens: 25000
 ## Commands
 
 - `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_discovery --no-tests=fail`
-- `ruby .csdlc/prepared/issues/5866/validate-proof-receipt.rb .csdlc/evidence/5866/replay-window/execution-proof.json`
+- `ruby .csdlc/prepared/issues/5866/validate-proof-receipt.rb .csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json`
 
 ## Failure Semantics
 

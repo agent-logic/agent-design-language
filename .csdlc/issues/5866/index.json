@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a545ca23817c4e3efccce73310fea81472dff567846aa9fb04fac11418bbde6a",
   "phase": "implemented",
-  "generation": 25,
-  "digest": "f48e293aa6174a7dcf8e6ccea02103726bdd977d48a982e58afaf67d0d653b2f",
+  "generation": 27,
+  "digest": "65f917e9524c76d9f78eeba7b437366bd18a54a8e91c250265433fd00830614e",
   "branch": "codex/5866-distributed-discovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e7dbd49f26d06c97c179ac0515f5385dd3bbf8c6bf0025f0d0c7ec45bb37741a",
+      "values_digest": "b927226219ab198f78c41034ecccd4eba9e3b0f4d1064b1379ddc637102fa9b1",
       "rendered_digest": "6edde9877a679aa8137562e451dcf42a97d1752a726de69edf5fe1d3e1aa9292",
       "ast_digest": "54dff07d44a80d7c7591cb929f3cc32d18899c13934f570fe82687c25473d639"
     },
     "stp": {
-      "values_digest": "dee945bcec01f9258d395a39f1eefee37695bc1f799f6cc8b0498c11db50a367",
+      "values_digest": "6041a363a67ee405f2a9b474079d9493617bc233caa4f9d5d1a1522801fcbe68",
       "rendered_digest": "5c2f6f7e75055df76b81f86381236400afa8cff2a83bb7c8bbf3d9d035ccbbc8",
       "ast_digest": "bbe33a414fd219c8472a5493f94b769c4a459750e39278331d56b3e2d2a5804c"
     },
     "spp": {
-      "values_digest": "782ef9b96d8a698fca4c843d09329103834504d9766d9a918627101a082caaef",
+      "values_digest": "5150c09b941536101f08283391e8a1cf6d5bbd517e4fcf013dd06f4cb7695158",
       "rendered_digest": "06039fe18555456e65b78378c039a41455e8130f5a4a551604ae8773e9b9ef4f",
       "ast_digest": "a9be98918825c7954e8473c3ae921e95dbc63e49c1e496a8cc40152482b0137a"
     },
     "vpp": {
-      "values_digest": "4032e3c9db5af5b73283d1e7667fa964390da1bb07c2acc2ff475ece4014ff4a",
-      "rendered_digest": "f3bf23a4523dfd31de42d1582b386c44101149320443406724973f30fb4ab3a0",
-      "ast_digest": "33976fdb6fd98e66fdbb9b095eae23b24046bed46566e67b18bb6192c7cfa72f"
+      "values_digest": "ee5fe7dab19592443d534f23f6017496d91eae18d3e5f933d6c6fd16b5db0a0c",
+      "rendered_digest": "30cba798c81147bf0c33058e98b4b5f854fbad6ce943912d99bd6adef7a8544d",
+      "ast_digest": "566bb7b78b24865f868ba1b70c2ccc0cf9e2034178b383d7a85c8600aa83c614"
     },
     "srp": {
-      "values_digest": "6ca87fee0b8b12cf7742bd2e3d5a1457fec692fedf681040a4b31a6a495d0a8a",
+      "values_digest": "29022b673cfde30d0e9a26899a59eff2e5a72fa81f104f75fae5e28329beb7e7",
       "rendered_digest": "4c1bf34d9ba640291a5ab6305d5e95ccc85127f06964db13c088db795943c4d1",
       "ast_digest": "e53fbb1edf892eebf1e6e00d42da2196d8fb10fc979900a1c7856927e656c9dc"
     },
     "sor": {
-      "values_digest": "e04eaed24e8502b145fbcd2b133262d9302b8c74181ef6a057a1727103e7e9f7",
-      "rendered_digest": "180984d10c8c26fb7632000679db6abd863a0a5402104122c3e7587307f8e22d",
-      "ast_digest": "663c7a5e2821e5efed4bd93dbb3f5fb293866b8958929e2558a1ad74fafe8d46"
+      "values_digest": "b6d44c909571d0cf82297b9a7dc8c2177ce2474f7abf3fad4a42914e1fb5a5ae",
+      "rendered_digest": "9a314df9286b77fd325036cf132465a5df1099d57bea7308e0670069a091ac82",
+      "ast_digest": "5d41b39c2ee8f06da4cc516465224756387e36d284f1ffcfa14552e4a92c6089"
     }
   },
   "transitions": [
@@ -505,6 +505,20 @@
       "actor": "codex:sprint-5862-child-5866-review-remediation",
       "reason": "Recover published review truth to address exact-head findings requiring full identity and transport generation binding, canonical bounded Prost discovery messages, and durable replay admission across restart before republishing PR #88.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 26,
+      "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
+      "reason": "Replace superseded replay-only validation planning with the exact generation-bound protobuf and durable-replay proof lanes required by the latest review findings.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero target proves candidate and seed identity plus transport-certificate generation binding across await, canonical bounded Prost messages, durable replay rejection across restart, cross-seed request replay denial, bounded live-window capacity, expiry recovery, and real Quinn/rustls positive behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Validate the final two-revision generation-bound protobuf and durable-replay source, command, nonzero test, negative-case, runner, and artifact bindings.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 27,
+      "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
+      "reason": "Replace superseded replay-only execution truth with the reviewed-finding remediation and its exact generation-bound protobuf and durable-replay proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded authenticated seed discovery with complete identity and transport-generation binding, canonical Prost messages, and immediate-durability replay admission across restart.\",\"changes\":[\"Bind candidate and seed identity plus transport-certificate generations into JoinRequest, JoinProposal, proposal identifiers, authenticated envelopes, live enrollment checks, and post-await admission.\",\"Encode bounded typed discovery request and proposal messages with Prost and reject malformed, unknown-field, duplicate, reordered, or otherwise noncanonical protobuf encodings.\",\"Persist request and proposal replay high-water entries in immediate-durability redb state, retain them through signed validity, validate durable state on open, and reject replay after restart.\",\"Preserve configured seeds as bounded hints only and fail closed on rotation, revocation, wrong domain, stale generations, replay, timeout, cancellation, malformed input, unsafe database paths, corruption, and resource exhaustion.\"],\"artifacts\":[\"adl-runtime/src/distributed/discovery.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\",\".csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"purpose\":\"Run the exact issue-owned positive and fail-closed discovery target including generation rotation, canonical protobuf, and durable restart replay coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--\",\"-D\",\"warnings\",\"-A\",\"clippy::absurd_extreme_comparisons\"],\"purpose\":\"Run strict focused Clippy while allowing only the qualified pre-existing ACIP lint.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:strict-focused-clippy\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\"],\"purpose\":\"Validate the final two-revision generation-bound protobuf and durable-replay receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\"}]}"
     }
   ]
 }

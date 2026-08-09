@@ -12,21 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Implemented bounded authenticated seed discovery with atomic request-plus-proposal replay admission and expiry-bounded caller-retained replay state.
+Implemented bounded authenticated seed discovery with complete identity and transport-generation binding, canonical Prost messages, and immediate-durability replay admission across restart.
 
 ## Artifacts
 
 - adl-runtime/src/distributed/discovery.rs
 - adl-runtime/tests/distributed_discovery.rs
-- .csdlc/evidence/5866/replay-window/execution-proof.json
-- .csdlc/evidence/5866/replay-window/negative-cases.json
+- .csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json
+- .csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json
 
 ## Execution
 
-- Treat configured seeds only as bounded addresses and expected peer identities, never as enrollment or membership authority.
-- Atomically retain accepted request and proposal identifiers so the same request cannot bypass replay denial through a different valid seed.
-- Retain live replay entries through their signed validity horizon, deny capacity overflow while all entries are live, and recover capacity only after trusted time passes expiry.
-- Fail closed on duplicate seeds, stale certificate generations, cross-call replay, timeout, cancellation, malformed input, wrong domain, revocation, rotation, expiry, and resource exhaustion.
+- Bind candidate and seed identity plus transport-certificate generations into JoinRequest, JoinProposal, proposal identifiers, authenticated envelopes, live enrollment checks, and post-await admission.
+- Encode bounded typed discovery request and proposal messages with Prost and reject malformed, unknown-field, duplicate, reordered, or otherwise noncanonical protobuf encodings.
+- Persist request and proposal replay high-water entries in immediate-durability redb state, retain them through signed validity, validate durable state on open, and reject replay after restart.
+- Preserve configured seeds as bounded hints only and fail closed on rotation, revocation, wrong domain, stale generations, replay, timeout, cancellation, malformed input, unsafe database paths, corruption, and resource exhaustion.
 
 ## Validation
 
@@ -42,9 +42,9 @@ Implemented bounded authenticated seed discovery with atomic request-plus-propos
       "distributed_discovery",
       "--no-tests=fail"
     ],
-    "purpose": "Run the exact issue-owned positive and fail-closed discovery target including cross-seed replay and bounded-window recovery.",
+    "purpose": "Run the exact issue-owned positive and fail-closed discovery target including generation rotation, canonical protobuf, and durable restart replay coverage.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5866/replay-window/distributed-discovery.stdout.log"
+    "evidence_ref": ".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log"
   },
   {
     "command": [
@@ -60,7 +60,7 @@ Implemented bounded authenticated seed discovery with atomic request-plus-propos
       "-A",
       "clippy::absurd_extreme_comparisons"
     ],
-    "purpose": "Run strict focused Clippy for the final discovery surface while allowing only the qualified pre-existing ACIP lint.",
+    "purpose": "Run strict focused Clippy while allowing only the qualified pre-existing ACIP lint.",
     "outcome": "passed",
     "evidence_ref": "local:strict-focused-clippy"
   },
@@ -68,11 +68,11 @@ Implemented bounded authenticated seed discovery with atomic request-plus-propos
     "command": [
       "ruby",
       ".csdlc/prepared/issues/5866/validate-proof-receipt.rb",
-      ".csdlc/evidence/5866/replay-window/execution-proof.json"
+      ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json"
     ],
-    "purpose": "Validate the final two-revision replay-window receipt.",
+    "purpose": "Validate the final two-revision generation-bound protobuf and durable-replay receipt.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5866/replay-window/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json"
   }
 ]
 
