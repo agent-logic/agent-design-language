@@ -1,0 +1,1 @@
+{"issue":53,"card":"sor","expected_generation":13,"expected_digest":"82b4cee047d42dfa0ae110d0e240258ae9b06ff6b588b31b58b2edac898e91ff","actor":"codex:53-implementation","reason":"Bounded implementation and focused local validation are complete; exact-head review is next.","operation":{"operation":"advance_phase","phase":"implemented"},"fail_after_backup":false}

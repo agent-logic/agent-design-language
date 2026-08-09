@@ -1,0 +1,400 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 73,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c2f9e8eb1a1614066f9910afdfc20e395fbb4e6c04c4e9235753decdc3850f07",
+  "phase": "implemented",
+  "generation": 37,
+  "digest": "319d8750b9ec96b63bee84108f784f4f3c7093e53a50a91ca35ddf9fe0e397dc",
+  "branch": "codex/csdlc-v3-gh-architecture",
+  "worktree": "/Volumes/FastWork/adl-csdlc-v3-gh-architecture",
+  "review_assignment": {
+    "reviewer": "codex-subagent:019fe57d-c0d4-77c2-bb98-760ec89c030e",
+    "assigned_by": "codex:issue-73-final-publication",
+    "revision": "git-blake3:23578febd80d7660c8e083ab06d8306b221bbf80:be53beaf23dfa16e0cced6d6e1a978ad1a1cd17498a220687237802ccf4740fa",
+    "scope": [
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md",
+      ".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md"
+    ]
+  },
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+  "diagram_path": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:pr77-final-exact-head-approved",
+      "revision": "9a1bcd583376146b304ce24e3fc5aafa095b340e090da16048bbe06e27a7645e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1d212d464b5e4ff65991a69d77ef755e0e279e8dab6b68af6d2c9bd3cf5ce74f",
+      "rendered_digest": "09da92d9741a8bc2b3d453937f2db76fa35a90fd0ed36fd415a538825a26f73a",
+      "ast_digest": "c977acd6eec2433fc73f9918084cf1438189c708aba796baa4c8f15f35950afa"
+    },
+    "stp": {
+      "values_digest": "637fafc7dd62154ead69fd6fad12a1b6e0fe0dc38f167ef0567257452ac3792a",
+      "rendered_digest": "c80009eefc58c5ee771cd8038752a790b5b3d86f6e7bf1f73abca37c7f5625e9",
+      "ast_digest": "f32e31f4c47521eb4673a0767b7e575cbf4e0be6865990f93c6325dc7c5b4f24"
+    },
+    "spp": {
+      "values_digest": "9d2890326c9ccfb5e3a5d5e80542f86174a157403e5d2828d977769e1349ecd5",
+      "rendered_digest": "fd4f0cb9ef75ff82d118029c3024de39dcb6bd2bb296ce3cca9897a4c7eff23e",
+      "ast_digest": "46ab07e6b99a6cbf1ea2d8adfb624f7e0906fd6154c48c1f69fa93fdd513ec73"
+    },
+    "vpp": {
+      "values_digest": "9e71725e61df00e4a1af4f72f023f102df95f6b8229654e68f83ba225bced069",
+      "rendered_digest": "dfa4c10307b59924e46926d0b8d90050ddf513019cf404a87db9eb9f3a32dbac",
+      "ast_digest": "a5c7d2ff5f24f0970bb83927ebf3029e45e4c88e234869d1d50d95faf6f4df0e"
+    },
+    "srp": {
+      "values_digest": "3c8a1d06dff3eba1adce52642ac6fcacf2833cf414e5e5178011a16773e2e3d6",
+      "rendered_digest": "ee1dcecf12be9648bab90415ad43fb657dd7618c19a1c24865dccf9ef52b3047",
+      "ast_digest": "9fc56e09c0ca7c6f4300f00387977696563806bbb3394aa944d023cd977b3268"
+    },
+    "sor": {
+      "values_digest": "2b1f96a434f08a143cd495c3b9504663f3eb087cd6efc7d81359ebf72c5cc2c9",
+      "rendered_digest": "6122c328a603ea49e04914e4ab66136f5e07d8d8dc1a4fb650b88a43df645e21",
+      "ast_digest": "fd458af909012ba9e0a0927ae6f5ed5d3caac26032f84be12f0d58f1e765c0c6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-73-planning",
+      "reason": "Advance the planning issue after all plan steps, independent exact-revision reviews, and focused validation passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fe48f-f585-7623-8263-23de39a1b930",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-73-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-73-review-remediation",
+      "reason": "PR #77 exact-head review found missing non-closing publication linkage, a stale STP issue denominator, and a machine-local VPP source checkout path; recover typed review and publication truth before repair and re-review."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:73-planning",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:approved-planning-scope",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:73-planning",
+      "reason": "replace the conceptual external-review command with an executable retained-review-record proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-structure\",\"proof_role\":\"Verify required architecture and issue-plan sections, links, and repository-relative source references.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"rg\",\"--line-number\",\"Implementation Issue Plan\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review\",\"proof_role\":\"Verify the retained record contains findings-first Claude and Gemini reviews over the exact plan revision and their dispositions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"rg\",\"--line-number\",\"Claude Review|Gemini Review|Reviewed revision|Disposition\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\"],\"parallel_group\":\"external-review\",\"defer_reason\":\"The retained review record is produced after both live provider reviews complete.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:initial-review-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-73-planning",
+      "reason": "The Rust architecture, effect targets, migration boundaries, diagram, and full issue decomposition are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-73-planning",
+      "reason": "Independent findings-first reviews completed with Gemini 3.1 Pro Preview and Claude Sonnet 4.6 over revision 13aad5fd8039661f1bbbcaff703ee8d50f17c330.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-73-review-reconciliation",
+      "reason": "Reconcile the review denominator with the independently reviewed issue splits.",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Issue #73 Rust architecture, effect targets, diagram, eighteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.\",\"operation\":\"replan\",\"previous_value\":\"Issue #73 Rust architecture, effect targets, diagram, fourteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:verification-round-1-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:verification-round-2-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-73-planning",
+      "reason": "Every Claude and Gemini finding was incorporated, and both providers passed exact revision 3d9bb25a01ad704722bae4e383d648a4264c9574 with no unresolved P0/P1 findings.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-73-planning",
+      "reason": "The complete planning packet passed diff hygiene, structure and review-record checks, exact reviewed-scope comparison, Mermaid rendering, and typed doctor validation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-73-planning",
+      "reason": "Record the completed Rust C-SDLC v3 architecture and independently reviewed implementation issue plan.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the Rust C-SDLC v3 architecture, quantified effect model, migration and safety boundaries, dependency diagram, and 18-issue implementation plan plus deferred v2 retirement; Claude Sonnet 4.6 and Gemini 3.1 Pro Preview passed the same exact architecture revision.\",\"changes\":[\"Modeled the single-binary Rust command architecture on the official GitHub CLI source baseline.\",\"Defined state, transaction, cancellation, Git, GitHub, review, publication, finish, cleanup, migration, portability, security, validation, and observability contracts.\",\"Expanded and sequenced 18 independently bounded implementation issues plus V3-R01 deferred retirement.\",\"Incorporated every actionable Claude and Gemini finding through three exact-revision verification rounds.\",\"Updated canonical issue #73 to the final planning denominator without creating implementation children.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\".csdlc/evidence/73/provider-reviews/final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-claude-sonnet-result.json\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-73-planning",
+      "reason": "Record focused planning diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue-73 local exact-revision validation: git diff --check passed\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-73-planning",
+      "reason": "Record focused architecture and issue-specification structure proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"--line-number\",\"Implementation Issue Plan\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Verify the implementation plan exists and all 19 specifications expose every required field.\",\"outcome\":\"passed\",\"evidence_ref\":\"19 specification headings and 19 each of objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions; balanced fences and ASCII check passed\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-73-planning",
+      "reason": "Record independent exact-revision provider review proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"--line-number\",\"Claude Review|Gemini Review|Reviewed revision|Disposition\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\"],\"purpose\":\"Verify retained Claude and Gemini reviews, exact reviewed revision, and finding dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\"Claude Sonnet 4.6 and Gemini 3.1 Pro Preview both passed architecture revision 3d9bb25a01ad704722bae4e383d648a4264c9574 with no unresolved P0/P1 findings\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:issue-73-planning",
+      "reason": "Record final dependency-diagram syntax and render proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\"architecture.svg\"],\"purpose\":\"Verify the final 18-issue dependency graph and Decision 11 gate render successfully.\",\"outcome\":\"passed\",\"evidence_ref\":\"Final Mermaid render passed from the exact reviewed diagram; transient rendered output was retained outside the repository\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:issue-73-planning",
+      "reason": "Advance the planning issue after all plan steps, independent exact-revision reviews, and focused validation passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:issue-73-review-reconciliation",
+      "reason": "Reconcile the typed planning scope with the independently reviewed split from fourteen to eighteen implementation issues.",
+      "operation": "{\"new_values\":[\"Rust C-SDLC v3 architecture modeled on the official GitHub CLI\",\"Measured v2 baseline and bounded effect estimates\",\"Eighteen implementation issue specifications plus one deferred v2-retirement issue\",\"Independent Claude and Gemini architecture review with finding dispositions\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"Rust C-SDLC v3 architecture modeled on the official GitHub CLI\",\"Measured v2 baseline and bounded effect estimates\",\"Fourteen implementation issue specifications plus one deferred v2-retirement issue\",\"Independent Claude and Gemini architecture review with finding dispositions\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:issue-73-review-reconciliation",
+      "reason": "Reconcile the acceptance denominator with the independently reviewed issue splits before formal review.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The plan fixes Rust as the implementation language and records the exact official cli/cli source baseline.\",\"AC-2: The architecture completely defines command, application-context, domain, state, card, adapter, validation, review, publication, finish, cleanup, security, testing, observability, and dependency boundaries.\",\"AC-3: The plan contains eighteen sequenced implementation issue specifications and one deferred retirement issue, each with objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions.\",\"AC-4: Quantified effects are labeled as targets or estimates until measured by the construction spike.\",\"AC-5: Claude and Gemini review the same exact plan revision and every actionable finding is incorporated or explicitly dispositioned.\",\"AC-6: Formatting, links, source references, repository-relative paths, and diff hygiene validate.\",\"AC-7: No v3 code, implementation child issue, selector change, live migration, authority cutover, or v2 deletion is produced by this planning issue.\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:pre-pr-review-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:issue-73-pre-pr-evidence-repair",
+      "reason": "Replace weak heading and prose scans with the exact commands that prove specification completeness, provider decisions, and reviewed-scope stability.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:issue-73-pre-pr-evidence-repair",
+      "reason": "Replace the earlier over-broad evidence references with the exact commands and post-pre-PR provider receipts that prove the final packet.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed and independently reviewed the Rust C-SDLC v3 architecture, quantified effect model, safety and migration boundaries, dependency diagram, and 18-issue implementation plan plus deferred v2 retirement.\",\"changes\":[\"Modeled the one-binary Rust command architecture on the pinned official GitHub CLI source baseline.\",\"Defined lifecycle state, pending intent journals, transactions, cancellation, Git, GitHub, review, publication, finish, cleanup, migration, portability, security, validation, and observability contracts.\",\"Sequenced 18 independently bounded implementation issues plus V3-R01 deferred retirement.\",\"Incorporated every actionable Claude, Gemini, and pre-PR subagent finding.\",\"Updated canonical issue #73 to the final planning denominator without creating implementation children.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\".csdlc/evidence/73/pre-pr-review.md\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact final worktree diff hygiene passed.\"},{\"command\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{print s,o,sc,ng,d,dl,ac,v,st,f; exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Prove all 19 specifications contain every required field and code fences are balanced.\",\"outcome\":\"passed\",\"evidence_ref\":\"Output was 19 19 19 19 19 19 19 19 19 36.\"},{\"command\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"purpose\":\"Prove both provider receipts completed, bind the reviewed revision, and contain PASS decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"The exact retained Gemini and Claude receipts evaluated true.\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"purpose\":\"Prove the architecture and diagram remain unchanged from the exact revision passed by both providers.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact reviewed-scope diff was empty.\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:issue-73-pre-pr-evidence-repair",
+      "reason": "Replace weak heading and prose scans with the exact commands that prove specification completeness, provider decisions, and reviewed-scope stability.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"local-link-existence\",\"proof_role\":\"Verify the architecture's repository-local comparative-document link resolves.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":10,\"budget_tokens\":1000,\"argv\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"upstream-source-paths\",\"proof_role\":\"Verify every cited official cli/cli source path exists at the pinned upstream revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"-C\",\"/Users/daniel/git/cli\",\"ls-tree\",\"--name-only\",\"-r\",\"9fc0f70e0ef97446de9166febce546e955675bc3\",\"--\",\"cmd/gh/main.go\",\"internal/ghcmd/cmd.go\",\"pkg/cmd/root/root.go\",\"pkg/cmdutil/factory.go\",\"pkg/cmd/factory/default.go\",\"pkg/cmd/issue/list/list.go\",\"pkg/iostreams/iostreams.go\",\"pkg/cmdutil/errors.go\",\"pkg/httpmock/registry.go\",\"cmd/gen-docs/main.go\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diagram-render\",\"proof_role\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:issue-73-pre-pr-evidence-repair",
+      "reason": "Replace the earlier over-broad evidence references with the exact commands and post-pre-PR provider receipts that prove the final packet.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed and independently reviewed the Rust C-SDLC v3 architecture, quantified effect model, safety and migration boundaries, dependency diagram, and 18-issue implementation plan plus deferred v2 retirement.\",\"changes\":[\"Modeled the one-binary Rust command architecture on the pinned official GitHub CLI source baseline.\",\"Defined lifecycle state, pending intent journals, transactions, cancellation, Git, GitHub, review, publication, finish, cleanup, migration, portability, security, validation, and observability contracts.\",\"Sequenced 18 independently bounded implementation issues plus V3-R01 deferred retirement.\",\"Incorporated every actionable Claude, Gemini, and pre-PR subagent finding.\",\"Updated canonical issue #73 to the final planning denominator without creating implementation children.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\".csdlc/evidence/73/pre-pr-review.md\",\".csdlc/evidence/73/architecture.svg\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact final worktree diff hygiene passed.\"},{\"command\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{print s,o,sc,ng,d,dl,ac,v,st,f; exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Prove all 19 specifications contain every required field and code fences are balanced.\",\"outcome\":\"passed\",\"evidence_ref\":\"Output was 19 19 19 19 19 19 19 19 19 36.\"},{\"command\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"purpose\":\"Prove both provider receipts completed, bind the reviewed revision, and contain PASS decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"The exact retained Gemini and Claude receipts evaluated true.\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"purpose\":\"Prove the architecture and diagram remain unchanged from the exact revision passed by both providers.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact reviewed-scope diff was empty.\"},{\"command\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"purpose\":\"Prove the architecture's repository-local comparative-document link resolves.\",\"outcome\":\"passed\",\"evidence_ref\":\"The linked comparative Go architecture exists at the declared repository-local path.\"},{\"command\":[\"git\",\"-C\",\"/Users/daniel/git/cli\",\"ls-tree\",\"--name-only\",\"-r\",\"9fc0f70e0ef97446de9166febce546e955675bc3\",\"--\",\"cmd/gh/main.go\",\"internal/ghcmd/cmd.go\",\"pkg/cmd/root/root.go\",\"pkg/cmdutil/factory.go\",\"pkg/cmd/factory/default.go\",\"pkg/cmd/issue/list/list.go\",\"pkg/iostreams/iostreams.go\",\"pkg/cmdutil/errors.go\",\"pkg/httpmock/registry.go\",\"cmd/gen-docs/main.go\"],\"purpose\":\"Prove every cited official cli/cli source path exists at the pinned upstream revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"The command returned all ten declared upstream source paths.\"},{\"command\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"purpose\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Mermaid rendered the final graph successfully; the SVG is retained in issue evidence.\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:issue-73-planning",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex-subagent:019fe48f-f585-7623-8263-23de39a1b930",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 25,
+      "actor": "codex:issue-73-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 26,
+      "actor": "codex:issue-73-review-remediation",
+      "reason": "PR #77 exact-head review found missing non-closing publication linkage, a stale STP issue denominator, and a machine-local VPP source checkout path; recover typed review and publication truth before repair and re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:pr77-review-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:issue-73-review-remediation",
+      "reason": "Replace the machine-local cli/cli checkout path with a portable repository-relative manifest of the pinned upstream Git objects.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"local-link-existence\",\"proof_role\":\"Verify the architecture's repository-local comparative-document link resolves.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":10,\"budget_tokens\":1000,\"argv\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"upstream-source-baseline\",\"proof_role\":\"Verify the portable retained cli/cli source manifest binds every cited path and Git object to the pinned revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\".schema == \\\"adl.external_source_baseline.v1\\\" and .repository == \\\"https://github.com/cli/cli\\\" and .revision == \\\"9fc0f70e0ef97446de9166febce546e955675bc3\\\" and (.objects | length == 10) and (all(.objects[]; .kind == \\\"blob\\\" and (.oid | test(\\\"^[0-9a-f]{40}$\\\")))) and ([.objects[].path] | sort == [\\\"cmd/gen-docs/main.go\\\",\\\"cmd/gh/main.go\\\",\\\"internal/ghcmd/cmd.go\\\",\\\"pkg/cmd/factory/default.go\\\",\\\"pkg/cmd/issue/list/list.go\\\",\\\"pkg/cmd/root/root.go\\\",\\\"pkg/cmdutil/errors.go\\\",\\\"pkg/cmdutil/factory.go\\\",\\\"pkg/httpmock/registry.go\\\",\\\"pkg/iostreams/iostreams.go\\\"])\",\".csdlc/evidence/73/official-cli-source-baseline.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diagram-render\",\"proof_role\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "codex:73-review-remediation",
+      "reason": "Resolve the exact-head review finding by aligning the canonical STP deliverable denominator with AC-3 and the approved 18-issue implementation plan plus deferred retirement issue.",
+      "operation": "{\"new_values\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md as comparative source material\",\"A retained Claude and Gemini review record with findings and dispositions\",\"Eighteen complete implementation issue specifications and one deferred retirement specification\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md as comparative source material\",\"A retained Claude and Gemini review record with findings and dispositions\",\"Fourteen complete implementation issue specifications and one deferred retirement specification\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 30,
+      "actor": "codex:pr77-final-exact-head-approved",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 34,
+      "generation": 31,
+      "actor": "codex:73-pr77-final-review",
+      "reason": "bind VPP review and scope-stability lanes to the final exact-head approval set and portable source manifest",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"7c488b9e\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"7c488b9eea47cd642128fb0d0b38618083c2693d\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"local-link-existence\",\"proof_role\":\"Verify the architecture's repository-local comparative-document link resolves.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":10,\"budget_tokens\":1000,\"argv\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"upstream-source-baseline\",\"proof_role\":\"Verify the portable retained cli/cli source manifest binds every cited path and Git object to the pinned revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\".schema == \\\"adl.external_source_baseline.v1\\\" and .repository == \\\"https://github.com/cli/cli\\\" and .revision == \\\"9fc0f70e0ef97446de9166febce546e955675bc3\\\" and (.objects | length == 10) and (all(.objects[]; .kind == \\\"blob\\\" and (.oid | test(\\\"^[0-9a-f]{40}$\\\")))) and ([.objects[].path] | sort == [\\\"cmd/gen-docs/main.go\\\",\\\"cmd/gh/main.go\\\",\\\"internal/ghcmd/cmd.go\\\",\\\"pkg/cmd/factory/default.go\\\",\\\"pkg/cmd/issue/list/list.go\\\",\\\"pkg/cmd/root/root.go\\\",\\\"pkg/cmdutil/errors.go\\\",\\\"pkg/cmdutil/factory.go\\\",\\\"pkg/httpmock/registry.go\\\",\\\"pkg/iostreams/iostreams.go\\\"])\",\".schema == \\\"adl.external_source_baseline.v1\\\" and .repository == \\\"https://github.com/cli/cli\\\" and .default_branch == \\\"trunk\\\" and .revision == \\\"9fc0f70e0ef97446de9166febce546e955675bc3\\\" and (.objects | length == 10) and (all(.objects[]; .kind == \\\"blob\\\" and (.oid | test(\\\"^[0-9a-f]{40}$\\\")))) and ([.objects[].path] | sort == [\\\"cmd/gen-docs/main.go\\\",\\\"cmd/gh/main.go\\\",\\\"internal/ghcmd/cmd.go\\\",\\\"pkg/cmd/factory/default.go\\\",\\\"pkg/cmd/issue/list/list.go\\\",\\\"pkg/cmd/root/root.go\\\",\\\"pkg/cmdutil/errors.go\\\",\\\"pkg/cmdutil/factory.go\\\",\\\"pkg/httpmock/registry.go\\\",\\\"pkg/iostreams/iostreams.go\\\"])\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diagram-render\",\"proof_role\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 32,
+      "actor": "codex:73-pr77-vpp-correction",
+      "reason": "correct the upstream-source-baseline argv after the prior typed request replaced the input-file slot instead of the jq-expression slot",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"7c488b9e\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"7c488b9eea47cd642128fb0d0b38618083c2693d\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"local-link-existence\",\"proof_role\":\"Verify the architecture's repository-local comparative-document link resolves.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":10,\"budget_tokens\":1000,\"argv\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"upstream-source-baseline\",\"proof_role\":\"Verify the portable retained cli/cli source manifest binds every cited path and Git object to the pinned revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\".schema == \\\"adl.external_source_baseline.v1\\\" and .repository == \\\"https://github.com/cli/cli\\\" and .default_branch == \\\"trunk\\\" and .revision == \\\"9fc0f70e0ef97446de9166febce546e955675bc3\\\" and (.objects | length == 10) and (all(.objects[]; .kind == \\\"blob\\\" and (.oid | test(\\\"^[0-9a-f]{40}$\\\")))) and ([.objects[].path] | sort == [\\\"cmd/gen-docs/main.go\\\",\\\"cmd/gh/main.go\\\",\\\"internal/ghcmd/cmd.go\\\",\\\"pkg/cmd/factory/default.go\\\",\\\"pkg/cmd/issue/list/list.go\\\",\\\"pkg/cmd/root/root.go\\\",\\\"pkg/cmdutil/errors.go\\\",\\\"pkg/cmdutil/factory.go\\\",\\\"pkg/httpmock/registry.go\\\",\\\"pkg/iostreams/iostreams.go\\\"])\",\".csdlc/evidence/73/official-cli-source-baseline.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diagram-render\",\"proof_role\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 33,
+      "actor": "codex:issue-73-final-review-reconciliation",
+      "reason": "Replace stale pre-remediation execution proof with the exact final architecture, portable source baseline, final provider receipts, and freshly replayed VPP lanes.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed and independently reviewed the Rust C-SDLC v3 architecture, robustness contracts, migration boundaries, dependency graph, 18-issue implementation plan, and separately authorized deferred v2 retirement specification.\",\"changes\":[\"Modeled the one-binary Rust command architecture on the pinned official GitHub CLI source baseline.\",\"Defined typed closing and part_of publication linkage, durable intent and transaction semantics, cancellation, Git and GitHub adapters, validation, review, finish, cleanup, migration, portability, security, and observability contracts.\",\"Defined closed capability and operator-disposition models, exact watch and finish stability rules, reproducible state sizing, and portable validation inputs.\",\"Sequenced 18 independently bounded implementation specifications plus V3-R01 deferred retirement.\",\"Incorporated all actionable PR #77 findings and obtained exact-scope PASS decisions from Claude, Gemini, and the bounded pre-PR subagent review.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\".csdlc/evidence/73/final-exact-head-review.md\",\".csdlc/evidence/73/architecture.svg\",\".csdlc/evidence/73/official-cli-source-baseline.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the final planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh replay completed with exit 0.\"},{\"command\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Prove all 19 specifications contain every required field and code fences are balanced.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh exact VPP replay completed with exit 0.\"},{\"command\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"7c488b9e\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\"],\"purpose\":\"Prove the retained Claude and Gemini receipts completed successfully and bind the passed architecture revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"The exact retained provider receipts evaluated true.\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"7c488b9eea47cd642128fb0d0b38618083c2693d\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"purpose\":\"Prove the architecture and diagram remain byte-unchanged from the exact revision passed by both providers.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh exact reviewed-scope comparison completed with exit 0.\"},{\"command\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"purpose\":\"Prove the comparative Go architecture link resolves.\",\"outcome\":\"passed\",\"evidence_ref\":\"The repository-local comparative architecture exists.\"},{\"command\":[\"jq\",\"-e\",\".schema == \\\"adl.external_source_baseline.v1\\\" and .repository == \\\"https://github.com/cli/cli\\\" and .default_branch == \\\"trunk\\\" and .revision == \\\"9fc0f70e0ef97446de9166febce546e955675bc3\\\" and (.objects | length == 10) and (all(.objects[]; .kind == \\\"blob\\\" and (.oid | test(\\\"^[0-9a-f]{40}$\\\"))))\",\".csdlc/evidence/73/official-cli-source-baseline.json\"],\"purpose\":\"Prove the portable retained cli/cli manifest binds the pinned source revision and all ten cited blobs.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh portable source-baseline validation completed with exit 0.\"},{\"command\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"purpose\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Mermaid CLI 11.15.0 rendered the graph successfully with local Chrome.\"}]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 33,
+      "actor": "codex:issue-73-final-publication",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 34,
+      "actor": "codex:73-pr77-exact-object-proof",
+      "reason": "replace the shape-only source-manifest check with portable exact remote commit, tree path/OID, and blob readback proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"7c488b9e\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"7c488b9eea47cd642128fb0d0b38618083c2693d\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"local-link-existence\",\"proof_role\":\"Verify the architecture's repository-local comparative-document link resolves.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":10,\"budget_tokens\":1000,\"argv\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"upstream-source-baseline\",\"proof_role\":\"Verify the portable retained cli/cli source manifest binds every cited path and Git object to the pinned revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/verify_external_git_baseline.sh\",\".csdlc/evidence/73/official-cli-source-baseline.json\"],\"parallel_group\":\"external-source\",\"defer_reason\":null},{\"lane\":\"diagram-render\",\"proof_role\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 35,
+      "actor": "codex:issue-73-exact-object-evidence",
+      "reason": "Record the final portable exact Git commit, tree path/OID, and blob readback proof after bounded review found the previous shape-only check insufficient.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed and independently reviewed the Rust C-SDLC v3 architecture, robustness contracts, migration boundaries, dependency graph, 18-issue implementation plan, and separately authorized deferred v2 retirement specification.\",\"changes\":[\"Modeled the one-binary Rust command architecture on the pinned official GitHub CLI source baseline.\",\"Defined typed closing and part_of publication linkage, durable intent and transaction semantics, cancellation, Git and GitHub adapters, validation, review, finish, cleanup, migration, portability, security, and observability contracts.\",\"Defined closed capability and operator-disposition models, exact watch and finish stability rules, reproducible state sizing, and portable validation inputs.\",\"Sequenced 18 independently bounded implementation specifications plus V3-R01 deferred retirement.\",\"Incorporated all actionable PR #77 findings and obtained exact-scope PASS decisions from Claude, Gemini, and the bounded pre-PR subagent review.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\"adl/tools/verify_external_git_baseline.sh\",\".csdlc/evidence/73/final-exact-head-review.md\",\".csdlc/evidence/73/architecture.svg\",\".csdlc/evidence/73/official-cli-source-baseline.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the final planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh replay completed with exit 0.\"},{\"command\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Prove all 19 specifications contain every required field and code fences are balanced.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh exact VPP replay completed with exit 0.\"},{\"command\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"7c488b9e\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\"],\"purpose\":\"Prove the retained Claude and Gemini receipts completed successfully and bind the passed architecture revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"The exact retained provider receipts evaluated true.\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"7c488b9eea47cd642128fb0d0b38618083c2693d\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"purpose\":\"Prove the architecture and diagram remain byte-unchanged from the exact revision passed by both providers.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh exact reviewed-scope comparison completed with exit 0.\"},{\"command\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"purpose\":\"Prove the comparative Go architecture link resolves.\",\"outcome\":\"passed\",\"evidence_ref\":\"The repository-local comparative architecture exists.\"},{\"command\":[\"bash\",\"adl/tools/verify_external_git_baseline.sh\",\".csdlc/evidence/73/official-cli-source-baseline.json\"],\"purpose\":\"Fetch the pinned cli/cli commit through a bounded partial clone, verify the remote default branch and exact commit, compare every manifest path/OID pair with ls-tree, and prove every referenced blob with cat-file.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh remote readback verified all 10 objects at 9fc0f70e0ef97446de9166febce546e955675bc3 on trunk.\"},{\"command\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"purpose\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Mermaid CLI 11.15.0 rendered the graph successfully with local Chrome.\"}]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 36,
+      "actor": "codex:73-pr77-governed-exact-object-proof",
+      "reason": "route the exact-object validator through its checked-in executable path so the VPP lane satisfies v2 governed-script ownership",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"7c488b9e\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"7c488b9eea47cd642128fb0d0b38618083c2693d\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"local-link-existence\",\"proof_role\":\"Verify the architecture's repository-local comparative-document link resolves.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":10,\"budget_tokens\":1000,\"argv\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"upstream-source-baseline\",\"proof_role\":\"Verify the portable retained cli/cli source manifest binds every cited path and Git object to the pinned revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"adl/tools/verify_external_git_baseline.sh\",\".csdlc/evidence/73/official-cli-source-baseline.json\"],\"parallel_group\":\"external-source\",\"defer_reason\":null},{\"lane\":\"diagram-render\",\"proof_role\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 37,
+      "actor": "codex:issue-73-exact-object-evidence",
+      "reason": "Record the final portable exact Git commit, tree path/OID, and blob readback proof after bounded review found the previous shape-only check insufficient.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed and independently reviewed the Rust C-SDLC v3 architecture, robustness contracts, migration boundaries, dependency graph, 18-issue implementation plan, and separately authorized deferred v2 retirement specification.\",\"changes\":[\"Modeled the one-binary Rust command architecture on the pinned official GitHub CLI source baseline.\",\"Defined typed closing and part_of publication linkage, durable intent and transaction semantics, cancellation, Git and GitHub adapters, validation, review, finish, cleanup, migration, portability, security, and observability contracts.\",\"Defined closed capability and operator-disposition models, exact watch and finish stability rules, reproducible state sizing, and portable validation inputs.\",\"Sequenced 18 independently bounded implementation specifications plus V3-R01 deferred retirement.\",\"Incorporated all actionable PR #77 findings and obtained exact-scope PASS decisions from Claude, Gemini, and the bounded pre-PR subagent review.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\"adl/tools/verify_external_git_baseline.sh\",\".csdlc/evidence/73/final-exact-head-review.md\",\".csdlc/evidence/73/architecture.svg\",\".csdlc/evidence/73/official-cli-source-baseline.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the final planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh replay completed with exit 0.\"},{\"command\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Prove all 19 specifications contain every required field and code fences are balanced.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh exact VPP replay completed with exit 0.\"},{\"command\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"7c488b9e\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json\"],\"purpose\":\"Prove the retained Claude and Gemini receipts completed successfully and bind the passed architecture revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"The exact retained provider receipts evaluated true.\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"7c488b9eea47cd642128fb0d0b38618083c2693d\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"purpose\":\"Prove the architecture and diagram remain byte-unchanged from the exact revision passed by both providers.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh exact reviewed-scope comparison completed with exit 0.\"},{\"command\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"purpose\":\"Prove the comparative Go architecture link resolves.\",\"outcome\":\"passed\",\"evidence_ref\":\"The repository-local comparative architecture exists.\"},{\"command\":[\"adl/tools/verify_external_git_baseline.sh\",\".csdlc/evidence/73/official-cli-source-baseline.json\"],\"purpose\":\"Fetch the pinned cli/cli commit through a bounded partial clone, verify the remote default branch and exact commit, compare every manifest path/OID pair with ls-tree, and prove every referenced blob with cat-file.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh remote readback verified all 10 objects at 9fc0f70e0ef97446de9166febce546e955675bc3 on trunk.\"},{\"command\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"purpose\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Mermaid CLI 11.15.0 rendered the graph successfully with local Chrome.\"}]}"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "issue": 41,
+  "base_branch": "main",
+  "branch": "codex/41-missing-issue-read-diagnostics-preparation",
+  "worktree": "."
+}

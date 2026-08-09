@@ -1,0 +1,3 @@
+command: cargo fmt --manifest-path adl-runtime/Cargo.toml --check
+exit_code: 0
+stdout_stderr: empty

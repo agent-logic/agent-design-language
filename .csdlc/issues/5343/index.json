@@ -5,8 +5,9 @@
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
   "phase": "closed_out",
   "generation": 24,
-  "digest": "fd211d79e62ec310c630880ce21d3ca133a781c092bc2a3cb0b079611b0a264d",
-  "claim": null,
+  "digest": "b9e2fd26e9af9dbc826b6db8d3ac294d7b04d1d0a8c091ce674e7fcbe29aab74",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:gpt-5.5:Anscombe",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -183,15 +184,8 @@
     "observed_sha": "e4bbc988cad682cbb2ff8d24085e1a99bccec1ce",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5343.json",
-    "released_branch": "codex/5343-v0918-wp12-reversible-default-switch",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5343",
-      ".csdlc/issues/5343",
-      ".csdlc/locks/5343.lock",
-      ".csdlc/prepared/issues/5343",
-      "docs/milestones/v0.91.8/evidence/wp12/cutover-5343"
-    ]
+    "branch": "codex/5343-v0918-wp12-reversible-default-switch",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5343/retained/design.md",

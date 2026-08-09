@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 53,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
+    "slug": "execution-proof-non-self-referential-revisions",
+    "version": "v0.92",
+    "generation": 21
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/53\n.csdlc/prepared/issues/53\n.csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      "review_revision": "git-blake3:83a3228936c7bfcf35a0c7fd13dc446268699c64:1bab14bd88c7fe129f9036e51c1f49d7464517eedd7bdbb684b18d39b158b64c",
+      "reviewer": "subagent:review-53-metadata-head",
+      "review_prompts": [
+        "Can any accepted v3 receipt omit or fake either exact revision?",
+        "Does ancestry verification prevent unrelated or reversed commit pairs?",
+        "Can source-to-evidence diff filtering hide a product change?",
+        "Do all preexisting digest and provenance checks remain mandatory?",
+        "Are v2 receipts preserved without silent reinterpretation?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The v3 contract intentionally accepts later commits outside the immutable issue evidence prefix while binding all proof claims to the exact substantive source revision."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

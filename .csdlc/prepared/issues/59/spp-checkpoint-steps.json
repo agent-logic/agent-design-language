@@ -1,0 +1,18 @@
+{
+  "issue": 59,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "6d803bb43de7e62a9b9080f5c4eb2d598afebf3c17ab8ddb3c45087afb9f1895",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Make typed non-closing publication the bounded repository handoff",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {"id":"S1","action":"Inspect repository code, policies, and retained telemetry consumers to locate or rule out a repo-owned create_goal admission and persistence seam.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S2","action":"Record the authority boundary, invariants, external owner, and exact replacement or supersession contract in the design and diagram.","acceptance_ids":["AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S3","action":"Validate the typed package and obtain independent exact-head review, resolving every actionable finding without widening into fabricated implementation.","acceptance_ids":["AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Publish the reviewed packet with linkage_mode part_of and exact body line Part of agent-logic/agent-design-language#59; leave issue 59 open for the Codex platform fix and live canary.","acceptance_ids":["AC-3","AC-4","AC-5"],"status":"pending"}
+    ]
+  },
+  "fail_after_backup": false
+}

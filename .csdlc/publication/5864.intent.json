@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5864,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5864-distributed-certificate-lifecycle",
+  "title": "[v0.92][WP-04.02] Distributed certificate purposes and lifecycle",
+  "body": "Closes danielbaustin/agent-design-language#5864\n\n## Summary\n\n- add five purpose-separated distributed certificate authorities\n- enforce monotonic bounded rotation and one identity per quorum vote\n- enforce expiry, immediate revocation, and atomic identity-wide compromise fencing\n- validate durable state and resource ceilings fail closed\n\n## Validation\n\n- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_certificates --no-tests=fail` — 10 passed\n- `cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_certificates -- -D warnings` — passed\n- exact proof-receipt validator — passed\n- independent exact-head review — passed with no findings\n\n## Boundary\n\nThis child owns only `adl-runtime/src/distributed/certificates.rs` and `adl-runtime/tests/distributed_certificates.rs`. QUIC/TLS integration remains with dependent child #5865.",
+  "draft": false,
+  "revision": "git-blake3:12da1947588f8c64fca8558e0c0e9546456a07f1:b5c01e151847e24ec85758c49ec2174f61cc0d6a8c2ca2cb559a85253d84a446",
+  "commit_sha": "12da1947588f8c64fca8558e0c0e9546456a07f1"
+}

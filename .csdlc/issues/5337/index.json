@@ -5,8 +5,9 @@
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
   "phase": "closed_out",
   "generation": 66,
-  "digest": "eb42ad00161bbfdcf49764ca65ec949ef0d364b32f86d868a9137e587d6cfc67",
-  "claim": null,
+  "digest": "aa416401436732983493c84ac7e809775a5e16bcf721136b4b745339492cc13a",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
     "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
@@ -159,14 +160,8 @@
     "observed_sha": "73665c0571d417dedf689f3afeb009df7cbeea1f",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5337.json",
-    "released_branch": "codex/5337-v0918-wp03-preparation",
-    "released_worktree": ".worktrees/adl-wp-5337",
-    "released_protected_paths": [
-      ".csdlc/evidence/5337",
-      ".csdlc/issues/5337",
-      ".csdlc/prepared/issues/5337",
-      "adl-characterization"
-    ]
+    "branch": "codex/5337-v0918-wp03-preparation",
+    "worktree": ".worktrees/adl-wp-5337"
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5337/design.md",

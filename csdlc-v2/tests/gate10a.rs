@@ -57,6 +57,52 @@ fn current_operator_guidance_has_no_sunset_v1_route() {
 }
 
 #[test]
+fn retired_init_is_absent_from_active_authority() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let manifest = SkillManifest::load().unwrap();
+    assert!(!manifest.required_binaries().contains("csdlc-init"));
+
+    let inventory = CoexistenceInventory::load().unwrap();
+    assert!(!inventory
+        .required_v2_binaries
+        .contains(&"csdlc-init".to_owned()));
+    assert_eq!(inventory.forbidden_v2_binaries, vec!["csdlc-init"]);
+
+    let active_authority = [
+        "CONTRIBUTING.md",
+        "csdlc-v2/Cargo.toml",
+        "csdlc-v2/README.md",
+        "csdlc-v2/operator/skills.json",
+        "adl/tools/README.md",
+        "adl/tools/codex_pr.sh",
+        "adl/tools/editor_action.sh",
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/tools/skills/adl-milestone-creator/SKILL.md",
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+        "adl/tools/skills/pr-init/adl-skill.yaml",
+        "adl/tools/skills/pr-init/references/init-playbook.md",
+        "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md",
+        "docs/architecture/adl_pr_cycle_v2_skill.mmd",
+        "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.mmd",
+        "docs/architecture/csdlc-v2/csdlc_v2_contracts_and_cots.v1.json",
+        "docs/architecture/csdlc-v2/csdlc_v2_public_contracts.v1.json",
+        "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+        "docs/tooling/adl_pr_cycle_skill.md",
+        "docs/tooling/editor/command_adapter.md",
+        "docs/tooling/editor/current_skill_wiring_demo.md",
+        "docs/tooling/structured-prompt-validator-binary-resolution.md",
+    ];
+    for relative in active_authority {
+        let text = fs::read_to_string(repo.join(relative)).unwrap();
+        assert!(
+            !text.contains("csdlc-init"),
+            "active authority still names retired csdlc-init: {relative}"
+        );
+    }
+    assert!(!repo.join("csdlc-v2/src/bin/csdlc-init.rs").exists());
+}
+
+#[test]
 fn current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let current_guidance = [
@@ -82,6 +128,73 @@ fn current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper() {
                 ),
             "current bootstrap guidance calls deleted prompt wrapper: {relative}"
         );
+    }
+}
+
+#[test]
+fn current_records_and_operator_routes_are_claim_free() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    for entry in fs::read_dir(repo.join(".csdlc/issues")).unwrap() {
+        let entry = entry.unwrap();
+        let index = entry.path().join("index.json");
+        if !index.is_file() {
+            continue;
+        }
+        let value: serde_json::Value = serde_json::from_slice(&fs::read(&index).unwrap()).unwrap();
+        assert!(
+            value.get("claim").is_none(),
+            "current record retains claim state: {}",
+            index.display()
+        );
+        if let Some(terminal) = value.get("terminal").and_then(serde_json::Value::as_object) {
+            for retired in [
+                "released_branch",
+                "released_worktree",
+                "released_protected_paths",
+            ] {
+                assert!(
+                    !terminal.contains_key(retired),
+                    "current terminal record retains {retired}: {}",
+                    index.display()
+                );
+            }
+        }
+    }
+
+    let store = fs::read_to_string(repo.join("csdlc-v2/src/store.rs")).unwrap();
+    for retired in [
+        "struct LegacyClaim",
+        "struct LegacyIssueRecord",
+        "normalize_legacy_record_json",
+        "verify_legacy_record_json",
+    ] {
+        assert!(
+            !store.contains(retired),
+            "claim-specific production decoder remains: {retired}"
+        );
+    }
+
+    for relative in [
+        "docs/tooling/adl_pr_cycle_skill.md",
+        "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md",
+        "docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md",
+        "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+        "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+    ] {
+        let text = fs::read_to_string(repo.join(relative)).unwrap();
+        for retired in [
+            "session claim",
+            "issue claim",
+            "claim owner",
+            "stale claim",
+            "stale-claim",
+            "session-ledger claims",
+        ] {
+            assert!(
+                !text.contains(retired),
+                "current operator guidance retains {retired}: {relative}"
+            );
+        }
     }
 }
 
@@ -181,19 +294,8 @@ fn installer_records_provenance_without_replacing_other_files() {
     assert!(destination.join("csdlc-github-pr").is_file());
     assert!(destination.join("csdlc-issue").is_file());
     assert!(destination.join("csdlc-install").is_file());
+    assert!(!destination.join("csdlc-init").exists());
     assert!(!destination.join("csdlc-merge").exists());
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt;
-        assert_ne!(
-            fs::metadata(destination.join("csdlc-init"))
-                .unwrap()
-                .permissions()
-                .mode()
-                & 0o111,
-            0
-        );
-    }
     stamp_current_revision(&repo, &destination);
     let inventory = CoexistenceInventory::load().unwrap();
     assert!(
@@ -212,7 +314,7 @@ fn installer_records_provenance_without_replacing_other_files() {
     fs::write(destination.join("csdlc-init"), b"tampered").unwrap();
     let tampered = verify_coexistence(&repo, &destination, &inventory).unwrap();
     assert!(!tampered.pass);
-    assert!(tampered.missing_v2_binaries.contains(&"csdlc-init".into()));
+    assert_eq!(tampered.present_forbidden_v2_binaries, vec!["csdlc-init"]);
 
     #[cfg(unix)]
     {
@@ -415,6 +517,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
             base_branch: "main".into(),
             branch: "issue-42".into(),
             worktree: ".".into(),
+            code_repository: None,
         },
     )
     .unwrap();
@@ -813,18 +916,17 @@ fn shared_destination_and_non_executable_sources_are_rejected_without_mutation()
 
 #[cfg(unix)]
 #[test]
-fn symlinked_installed_binaries_fail_coexistence() {
+fn retired_symlinked_binary_fails_coexistence() {
     use std::os::unix::fs::symlink;
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let bins = parent.path().join("csdlc-v2");
     install_binaries(prebuilt_binaries(), &bins).unwrap();
     stamp_current_revision(&repo, &bins);
-    fs::remove_file(bins.join("csdlc-init")).unwrap();
     symlink("/bin/true", bins.join("csdlc-init")).unwrap();
     let report = verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap();
     assert!(!report.pass);
-    assert_eq!(report.missing_v2_binaries, vec!["csdlc-init"]);
+    assert_eq!(report.present_forbidden_v2_binaries, vec!["csdlc-init"]);
 }
 
 fn prebuilt_binaries() -> &'static std::path::Path {

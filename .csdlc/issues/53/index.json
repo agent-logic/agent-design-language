@@ -1,0 +1,318 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 53,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "26c54e5f037839ecd9f4f8a2410a5453e2d4d7ecf5353bec3092a45257b39c61",
+  "phase": "published",
+  "generation": 21,
+  "digest": "7b1df5e0aebf7ab6df1b0b9571a5652e1fd414fc09178dceb480f991c10c2e58",
+  "branch": "codex/53-execution-proof-receipts",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-issue-53",
+  "review_assignment": {
+    "reviewer": "subagent:review-53-metadata-head",
+    "assigned_by": "codex:53-publication-recovery",
+    "revision": "git-blake3:83a3228936c7bfcf35a0c7fd13dc446268699c64:1bab14bd88c7fe129f9036e51c1f49d7464517eedd7bdbb684b18d39b158b64c",
+    "scope": [
+      ".csdlc/issues/53",
+      ".csdlc/prepared/issues/53",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review-53-metadata-head",
+    "scope": [
+      ".csdlc/issues/53",
+      ".csdlc/prepared/issues/53",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb"
+    ],
+    "reviewed_revision": "git-blake3:83a3228936c7bfcf35a0c7fd13dc446268699c64:1bab14bd88c7fe129f9036e51c1f49d7464517eedd7bdbb684b18d39b158b64c",
+    "findings": [],
+    "residual_risks": [
+      "The v3 contract intentionally accepts later commits outside the immutable issue evidence prefix while binding all proof claims to the exact substantive source revision."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 53,
+    "pull_request": 65,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/65",
+    "base": "main",
+    "head": "codex/53-execution-proof-receipts",
+    "revision": "git-blake3:f327fde0f65661a87645418fa0aa371058081e64:ff8397b167cf0316869a2444e4ad4752dc548e002bc0ff38230fe5b2de3b80bd",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/53/design.md",
+  "diagram_path": ".csdlc/prepared/issues/53/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:53-design-review-v2",
+      "revision": "41ea7f573d657eb50129ac512fefcaece259ba1d2cedb0b37d6651c8373a2746"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "45611bad78b8800bb5b1d1246046649fb50d125ad1b0b65c92bde0a00634c73c",
+      "rendered_digest": "f07742dec42f8c6399834b0faa7e562465eb254fa1ca065ee7c3c42be1b9335b",
+      "ast_digest": "a65fe820157792afa3e7bc2ad8d2916bccc0a9bda423c08ba289e8e29923cddb"
+    },
+    "stp": {
+      "values_digest": "066ae8547a791461874d0a05ce1e299b1e99108153b30606d72d00091ca68a90",
+      "rendered_digest": "01a2ef90056d83800f6a83470ae2095701a0dd622717d37b0028230d7043affa",
+      "ast_digest": "4943ac151c925da9bd45db1cc7b32a9d2cfc0688201294a38bcdf5e0b84056d1"
+    },
+    "spp": {
+      "values_digest": "9411539415a26afec62136155d2ff7c461c2e3bd44cfb3a4e35d5055a86f2180",
+      "rendered_digest": "5a5deddd37057c0d1ee177271d66d5097b0891352dfff249d356aeaacbc7d7b6",
+      "ast_digest": "f273766ffdfafac9cd8952df47cd0e3374ee4d29438b8d7c26ef74060cbf7cfd"
+    },
+    "vpp": {
+      "values_digest": "faf44a153e5b92d447061612e889b2b64888da9f7611a778f396998492140210",
+      "rendered_digest": "7e07c72923a0b2ba2b51107514029a555c3a5a2db403a121665b23249ed266d7",
+      "ast_digest": "bf0393884c3c50e31726533a5baa36526cf3acb6c7cf108454ed7bc023c90622"
+    },
+    "srp": {
+      "values_digest": "10fa980ab08d0b9f212b692f2c2d846d918dfc57159a241b43f5d446e1edd6bb",
+      "rendered_digest": "0e9fa914dd075af8c59ef7e4ecdfc2e861677c90292df51a3500ff5090fd6cad",
+      "ast_digest": "5b571ebf9a63fbf93703ef0ff86e2cbf4afc81f25abff89545efa248842298a5"
+    },
+    "sor": {
+      "values_digest": "c98cf69f8322daf49d291b649d96374025f5588330e6fc4dfe20f8bf88c163a7",
+      "rendered_digest": "cdb3bbf0fb45f6da65321d626022e5b3e502f63aa903ccaf834702433b77b1ff",
+      "ast_digest": "57fbd9645d4eee97f3229bb5e65c0ffdfbe3155024ca731700da58c6e9e529ff"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:53-implementation",
+      "reason": "Bounded implementation and focused local validation are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-53-exact-head",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:53-publication-recovery",
+      "reason": "Recover stale review after the tracked typed review request metadata advanced HEAD; exact metadata head 83a3228936c7bfcf35a0c7fd13dc446268699c64 has been independently re-reviewed and approved."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-53-metadata-head",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:53-publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:53-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:53-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Declare the owned focused regression path required for execution readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\"adl/tools/test_wp04_proof_receipt_contract.rb\",\".csdlc/prepared/issues/53\",\".csdlc/issues/53\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Replace prose affected areas with safe repository-owned implementation and proof paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Name the exact implementation and focused validator deliverables used by readiness proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/design.md\",\".csdlc/prepared/issues/53/diagram.mmd\",\"Exact-head review and qualified issue-closing implementation PR\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:53-readiness-repair",
+      "reason": "Declare the issue-owned regression target as fail-closed deferred until implementation creates it.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"proof-receipt-contract-regression\",\"proof_role\":\"Prove A/B/C acceptance and fail-closed ancestry, scope, and tamper behavior in an isolated Git repository.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2200,\"argv\":[\"ruby\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Fail-closed implementation gate: the issue-owned validator target is created during bounded implementation and must pass before review.\"},{\"lane\":\"issue-hygiene\",\"proof_role\":\"Reject malformed cards, whitespace damage, and unintended scope before exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":600,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:53-design-review-v2",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:53-implementation",
+      "reason": "Finalized the non-self-referential derived evidence-revision contract.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:53-implementation",
+      "reason": "Implemented strict v3 resolution, ancestry, evidence-only diff, no-drift, and v2 compatibility behavior.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:53-implementation",
+      "reason": "Focused A/B/C, retained-v2, ancestry, scope, and tamper regression passes.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:53-implementation",
+      "reason": "Implementation proof is ready for exact-head independent review and publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:53-implementation",
+      "reason": "Record the bounded non-self-referential execution-proof receipt implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added an explicit v3 receipt contract that derives the evidence commit from the receipt introduction while preserving v2 exact-HEAD semantics.\",\"changes\":[\"Resolve the exact substantive source commit and machine-derive the unique evidence commit without embedding a self-referential evidence SHA.\",\"Require source-to-evidence ancestry, evidence-to-HEAD ancestry, evidence-only A..B changes, and zero later evidence drift.\",\"Validate source artifacts at the substantive commit and retain all command, log, negative, artifact, runner, and native-receipt checks.\",\"Add one focused temporary-repository regression for A/B/C success, v2 compatibility, and named fail-closed cases.\"],\"artifacts\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/design.md\",\".csdlc/prepared/issues/53/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:53-validation",
+      "reason": "Record focused receipt-contract regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"],\"purpose\":\"Prove non-self-referential A/B/C success, retained-v2 exact-HEAD behavior, and fail-closed ancestry, scope, source, receipt, and log tamper cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-53-receipt-regression:passed\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:53-validation",
+      "reason": "Record focused diff and typed issue validation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed tracked changes before exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-53-diff-check:passed\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:53-implementation",
+      "reason": "Bounded implementation and focused local validation are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:53-review-fix",
+      "reason": "Restore the live issue's explicit test-tampering acceptance boundary.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A tracked execution-proof receipt can be committed without requiring an infinite sequence of HEAD rewrites\",\"AC-2: The validator distinguishes substantive source revision from evidence-only commit revision\",\"AC-3: Both revisions and their ancestry are machine-verified\",\"AC-4: Every A..B changed path is confined to declared issue evidence and receipt paths\",\"AC-5: Tampering with source, test, logs, or receipt still fails closed\",\"AC-6: Focused regression covers substantive commit A followed by evidence-only commit B plus later metadata C and named rejection cases\",\"AC-7: Retained v2 receipts are not reinterpreted or migrated\",\"AC-8: Exact-head review has no unresolved actionable findings\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:53-review-fix",
+      "reason": "Replace the stale nonexistent test path with the implemented focused regression path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\",\".csdlc/prepared/issues/53\",\".csdlc/issues/53\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:53-review-fix",
+      "reason": "Record focused proof after resolving all first-pass review findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/53/test-proof-receipt-contract.rb\"],\"purpose\":\"Prove protected test-source tampering and post-evidence tamper-then-revert history fail closed in addition to the original A/B/C and retained-v2 cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-53-review-fix-regression:passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:53-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "subagent:review-53-exact-head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:53-publication-recovery",
+      "reason": "Recover stale review after the tracked typed review request metadata advanced HEAD; exact metadata head 83a3228936c7bfcf35a0c7fd13dc446268699c64 has been independently re-reviewed and approved.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:53-publication-recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "subagent:review-53-metadata-head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:53-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

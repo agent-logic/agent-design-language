@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5883,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
+    "slug": "retire-csdlc-init",
+    "version": "backlog",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Delete only the duplicate creation entrypoint and active references while preserving creation and binding semantics.",
+      "deliverables": [
+        "Deleted csdlc-init binary declaration and source",
+        "Updated active installed/coexistence/proof inventories",
+        "Updated current operator skills and docs",
+        "Focused real-binary creation parity proof",
+        "Installed create/validate/doctor/bind canary"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Active operator guidance and callers use csdlc-issue create",
+        "AC-2: csdlc-init is absent from Cargo, declared and installed inventories, and focused proof fixtures",
+        "AC-3: Current non-historical documentation contains no csdlc-init creation instruction",
+        "AC-4: Historical evidence is unchanged",
+        "AC-5: Real-binary create behavior preserves validation, idempotence, rollback, and conflict rejection",
+        "AC-6: Installed create/validate/doctor/bind workflow passes without claims or compatibility routing"
+      ],
+      "dependencies": [
+        "#5861 claim-free issue creation and binding",
+        "#5895 must settle first because installer/coexistence proof overlaps"
+      ],
+      "repo_inputs": [
+        "danielbaustin/agent-design-language#5883",
+        "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+        "csdlc-v2/operator/coexistence.json",
+        "csdlc-v2/operator/skills.json",
+        "csdlc-v2/tests/gate2.rs",
+        "csdlc-v2/tests/gate10a.rs"
+      ],
+      "non_goals": [
+        "Change card semantics",
+        "Change bind topology",
+        "Reintroduce claims or preparation",
+        "Add an alias or wrapper",
+        "Rewrite historical evidence"
+      ]
+    }
+  }
+}

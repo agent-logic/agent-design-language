@@ -1,0 +1,24 @@
+{
+  "issue": 5845,
+  "card": "stp",
+  "expected_generation": 42,
+  "expected_digest": "3a7ca20280ceb3b2248859b7468beaed136670567f0a71855536e5cb175ab8d3",
+  "actor": "codex:5845-readiness-repair",
+  "reason": "Make WP-24A validator deliverables exact and remove wording that the readiness validator misclassifies as a missing path.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Ten complete episode directories",
+      "Ten final MP3 and archive-audio artifacts with manifests",
+      "Validated feed and enclosure records",
+      "Audio, redaction, guest, metadata, playback, and listening QA evidence",
+      "Exact-head editorial and audio review",
+      "adl/tools/test_podcast_launch_packet.sh",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      ".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb"
+    ]
+  }
+}

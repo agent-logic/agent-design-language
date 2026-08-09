@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 53,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
+    "slug": "execution-proof-non-self-referential-revisions",
+    "version": "v0.92",
+    "generation": 21
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "proof-receipt-contract-regression",
+          "proof_role": "Prove A/B/C acceptance and fail-closed ancestry, scope, and tamper behavior in an isolated Git repository.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2200,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": "Fail-closed implementation gate: the issue-owned validator target is created during bounded implementation and must pass before review."
+        },
+        {
+          "lane": "issue-hygiene",
+          "proof_role": "Reject malformed cards, whitespace damage, and unintended scope before exact-head review.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 600,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on unresolved revisions, invalid ancestry, non-evidence A..B changes, digest mismatch, retained-v2 mutation, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/53/design.md",
+      "design_digest": "41ea7f573d657eb50129ac512fefcaece259ba1d2cedb0b37d6651c8373a2746",
+      "diagram_ref": ".csdlc/prepared/issues/53/diagram.mmd",
+      "diagram_digest": "f94a69f5b37cac71634f7e74d31c4d66d09efa737e8f580ee71faf9c7b78a6a4"
+    }
+  }
+}

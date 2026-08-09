@@ -5,8 +5,9 @@
   "initialization_digest": "8a868f7f1c699671b7c60dd6bcfe05caaacf4325c016d16985f480282293ebac",
   "phase": "closed_out",
   "generation": 11,
-  "digest": "173fadfb77c6e8ff7a7f864d66a501cec1efc6467b474ce7d2349809770248b9",
-  "claim": null,
+  "digest": "ae740dd27c4ee169531f03293811cf2065c3a4340fa8281b46678d2c8920243e",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:sagan",
@@ -162,17 +163,8 @@
     "observed_sha": "15dc921db1f594c1ff8f2ccf35b6bef851ac64c7",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5666.json",
-    "released_branch": "codex/5666-throughput-fast-lane",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5666",
-      ".csdlc/issues/5666",
-      ".csdlc/locks/5666.lock",
-      ".csdlc/prepared/issues/5666",
-      "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
-      "docs/tooling/VALIDATION_PLATFORM_ROUTING.md",
-      "adl/tools/test_developer_throughput_fast_lane.sh"
-    ]
+    "branch": "codex/5666-throughput-fast-lane",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5666/retained/design.md",

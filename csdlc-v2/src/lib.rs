@@ -89,7 +89,7 @@ pub use output::write_json_stdout;
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
     prepare_publication, reconcile_action, record_publication, PublicationAction,
-    PublicationIntent, PublicationRequest, RemotePullRequest,
+    PublicationIntent, PublicationLinkageMode, PublicationRequest, RemotePullRequest,
 };
 pub use pvf::{
     classify_schedule, classify_shepherd, execute, finalize, select, ExecutionRequest,

@@ -69,7 +69,7 @@
     "doctor_rejects": ["missing", "generic", "stale", "invalid_mermaid", "unreferenced", "unreviewed"]
   },
   "binaries": {
-    "csdlc-init": {"mutates": true, "purpose": "initialize identity, index, design surfaces, and all six cards"},
+    "csdlc-issue create": {"mutates": true, "purpose": "initialize identity, index, design surfaces, and all six cards"},
     "csdlc-doctor": {"mutates": false, "purpose": "local invariant/readiness diagnosis; remote refresh explicit"},
     "csdlc-edit": {"mutates": true, "purpose": "sole general card transaction boundary"},
     "csdlc-bind": {"mutates": true, "purpose": "bind branch, worktree, and claim"},

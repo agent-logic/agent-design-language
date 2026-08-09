@@ -5,8 +5,9 @@
   "initialization_digest": "dae4cdfe09611326641a8b4a1e8ec7422cdcea55c5d19cb248bbec82a95bfd8f",
   "phase": "closed_out",
   "generation": 15,
-  "digest": "8a5ca5a27eca2f3854b40a9a1bae8a25a3b3ed2e0b34de6cae653ffe7fb2da78",
-  "claim": null,
+  "digest": "5bc9ee26cb500d898a3c6735b16c2495a0a5843a9af84a6b1d3e16cf838b27fe",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex:closeout-audit",
@@ -84,14 +85,8 @@
     "observed_sha": "3106dcdde0d3f89bcacb2d1c2dee954a48127881",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5569.json",
-    "released_branch": "codex/5547-closeout-audit",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5547",
-      ".csdlc/issues/5569",
-      ".csdlc/prepared/issues/5547",
-      ".csdlc/prepared/issues/5569"
-    ]
+    "branch": "codex/5547-closeout-audit",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5569/retained/design.md",

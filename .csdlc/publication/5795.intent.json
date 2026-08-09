@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5795,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5795-local-gemma-mlx-shepherd",
+  "title": "[v0.92][runtime][shepherd] Add bounded local Gemma Shepherd foundation",
+  "body": "Closes danielbaustin/agent-design-language#5795\n\n## Summary\n- adds a bounded local Shepherd executor with governed admission and exact runner, model, nonce, backend, and artifact binding\n- enforces timeout, cancellation, concurrency, memory, output, process-group, and observed-descendant isolation within the trusted-runner contract\n- proves the real local Gemma MLX path and retains deterministic negative and stability evidence\n- adds a quota-gated AWS CUDA proof runner using one tagged instance and one SSM bootstrap script to restore the exact S3 model bundle, install dependencies, build the exact commit, run proof, and clean up\n\n## Validation\n- focused Shepherd contract suite: 24 passed\n- 20 consecutive standard-parallel Shepherd suite passes\n- kernel and runtime Clippy with warnings denied: passed\n- real local Gemma MLX smoke: passed\n- AWS runner syntax, preflight, lock, reaper, artifact, and zero-resource checks: passed\n- typed C-SDLC validation and doctor: passed\n- independent exact-head review: passed with no actionable findings\n\n## Deferred proof\n- AWS CUDA execution remains deferred until us-west-2 On-Demand G and VT quota reaches four vCPUs; no paid instance was launched\n- authenticated WSS and Observatory browser integration remain owned by issue #5832 and are not claimed here",
+  "draft": false,
+  "revision": "git-blake3:64e93ab399701f9b5a5e88a08b50874b8d748094:d992401cb79aeedd1bcafb4eac034125deeb6cdbcdeaeda911c27c2986abc1cf",
+  "commit_sha": "64e93ab399701f9b5a5e88a08b50874b8d748094"
+}

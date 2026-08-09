@@ -7,18 +7,121 @@
     "title": "[v0.92][runtime][shepherd] Pull local Gemma/MLX Shepherd MVP forward",
     "slug": "v0-92-local-gemma-mlx-shepherd-mvp",
     "version": "v0.92",
-    "generation": 31
+    "generation": 50
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "summary": "Implemented the bounded local Gemma Shepherd foundation with governed admission, exact runner and model binding, failure isolation, real local MLX proof, and a quota-gated one-instance AWS CUDA proof runner.",
+      "actual_changes": [
+        "Added the bounded LocalShepherdExecutor and governed operation contract.",
+        "Added process-group and observed-descendant cleanup plus cancellation, timeout, output, memory, and concurrency enforcement under the trusted-runner contract.",
+        "Added exact runner-byte, nonce, backend, model, and artifact attestation.",
+        "Added real local MLX smoke proof and a pinned portable CUDA artifact bundle contract.",
+        "Added a one-instance, one-bootstrap AWS proof runner with owner-bound locking and three cleanup layers."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/5795/foundation/shepherd-contract.log",
+        ".csdlc/evidence/5795/foundation/kernel-clippy.log",
+        ".csdlc/evidence/5795/foundation/runtime-clippy.log",
+        ".csdlc/evidence/5795/foundation/mac-mlx-real-local-model-smoke.json",
+        ".csdlc/evidence/5795/foundation/aws-gpu-preflight.json",
+        ".csdlc/evidence/5795/foundation/aws-deadline-reaper.json",
+        ".csdlc/evidence/5795/foundation/aws-lock-collision.json",
+        ".csdlc/evidence/5795/foundation/portable-model-publication.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            "-n",
+            "adl/tools/run_wp5795_aws_gpu_proof.sh"
+          ],
+          "purpose": "Parse the bounded AWS proof runner without executing it.",
+          "outcome": "passed",
+          "evidence_ref": "aws-runner-syntax.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run exact-head diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head-hygiene.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "shepherd_local_model",
+            "real_local_model_smoke",
+            "--",
+            "--ignored",
+            "--exact",
+            "--nocapture"
+          ],
+          "purpose": "Run the ignored real-local-model smoke against the configured local Ollama endpoint.",
+          "outcome": "passed",
+          "evidence_ref": "mac-mlx-real-local-model-smoke.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "shepherd"
+          ],
+          "purpose": "Run the focused Shepherd kernel contract suite.",
+          "outcome": "passed",
+          "evidence_ref": "shepherd-foundation-contract.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "shepherd",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run focused kernel Clippy with warnings denied.",
+          "outcome": "passed",
+          "evidence_ref": "shepherd-kernel-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "shepherd_local_model",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run focused runtime Clippy with warnings denied.",
+          "outcome": "passed",
+          "evidence_ref": "shepherd-runtime-clippy.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

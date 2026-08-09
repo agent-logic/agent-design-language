@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package agentlogic.acip.v1;
+
+// Canonical ACIP/A2A v1 semantic envelope. Fields are append-only within v1.
+message Envelope {
+  string schema = 1;
+  string message_id = 2;
+  string source = 3;
+  string target = 4;
+  string route = 5;
+  string payload_json = 6;
+  uint64 monotonic_sequence = 7;
+  string protocol_family = 8;
+  uint32 version_major = 9;
+  uint32 version_minor = 10;
+  string runtime_id = 11;
+  string correlation_id = 12;
+  string causation_id = 13;
+  string trace_id = 14;
+  string replay_id = 15;
+  string capability = 16;
+  string authority = 17;
+  string payload_type = 18;
+  bool acknowledgement_requested = 19;
+  optional string error_code = 20;
+  repeated string required_features = 21;
+}
+
+message NegotiationOffer {
+  string protocol_family = 1;
+  uint32 supported_major = 2;
+  uint32 minimum_minor = 3;
+  uint32 maximum_minor = 4;
+  repeated string required_features = 5;
+}
+
+message NegotiatedVersion {
+  string protocol_family = 1;
+  uint32 version_major = 2;
+  uint32 version_minor = 3;
+  repeated string features = 4;
+}
+
+message Error {
+  string code = 1;
+  string message = 2;
+  string correlation_id = 3;
+  bool retryable = 4;
+}

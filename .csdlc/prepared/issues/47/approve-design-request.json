@@ -1,0 +1,6 @@
+{
+  "issue": 47,
+  "expected_generation": 0,
+  "expected_digest": "52c423ea5fe86416dc3403af42f73c7c30605937c008664be2f78770666fecd9",
+  "reviewer": "codex:issue-47-capacity-bounded-readiness-audit"
+}

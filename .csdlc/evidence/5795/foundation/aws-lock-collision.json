@@ -1,0 +1,11 @@
+{
+  "schema": "adl.wp5795.aws_gpu_lock_collision.v2",
+  "loser_rejected": true,
+  "wrong_owner_cleanup_rejected": true,
+  "winner_lock_version_retained_before_cleanup": true,
+  "exact_owner_cleanup_passed": true,
+  "active_instance_count": 0,
+  "temporary_volume_count": 0,
+  "exact_lock_version_absent_after_cleanup": true,
+  "outcome": "passed"
+}

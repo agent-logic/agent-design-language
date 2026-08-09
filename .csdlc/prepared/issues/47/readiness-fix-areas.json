@@ -1,0 +1,22 @@
+{
+  "issue": 47,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "8922c0d56494db32b5401b6363c2a5d7185611ef0cf1f41b3f603f25f6dceb8d",
+  "actor": "codex:issue-47-readiness-remediation",
+  "reason": "Own the existing selector implementation routes and the explicitly deferred focused test target.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/validation_selectors.rs",
+      "csdlc-v2/operator/skills",
+      "docs/tooling",
+      ".csdlc/issues/47",
+      ".csdlc/prepared/issues/47"
+    ]
+  }
+}

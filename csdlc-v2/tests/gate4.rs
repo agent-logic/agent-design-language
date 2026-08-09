@@ -116,6 +116,7 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
             base_branch: "main".into(),
             branch: "codex/5627".into(),
             worktree: ".".into(),
+            code_repository: None,
         },
     )
     .expect("bind");
@@ -347,9 +348,30 @@ fn invalid_cycle_network_credentials_and_budget_fail_closed() {
 #[test]
 fn independent_lanes_run_concurrently_and_converge_with_typed_evidence() {
     let temp = tempfile::tempdir().expect("temp");
-    let started = Instant::now();
+    let barrier = temp.path().join("barrier.sh");
+    std::fs::write(
+        &barrier,
+        concat!(
+            "set -eu\n",
+            "barrier_dir=$1\n",
+            "lane=$2\n",
+            "peer=$3\n",
+            "touch \"$barrier_dir/$lane\"\n",
+            "while test ! -f \"$barrier_dir/$peer\"; do sleep 0.01; done\n",
+        ),
+    )
+    .expect("write barrier");
+    let barrier_dir = temp.path().join("barrier");
+    std::fs::create_dir(&barrier_dir).expect("create barrier dir");
+    let barrier = barrier.to_string_lossy().into_owned();
+    let barrier_dir = barrier_dir.to_string_lossy().into_owned();
+    let mut lanes = manifest();
+    lanes.lanes[0].executable = "/bin/sh".into();
+    lanes.lanes[0].argv = vec![barrier.clone(), barrier_dir.clone(), "a".into(), "b".into()];
+    lanes.lanes[1].executable = "/bin/sh".into();
+    lanes.lanes[1].argv = vec![barrier, barrier_dir, "b".into(), "a".into()];
     let report = execute(ExecutionRequest {
-        manifest: manifest(),
+        manifest: lanes,
         selection: SelectionRequest {
             requested_lanes: vec!["c".into()],
             allow_network: false,
@@ -368,10 +390,6 @@ fn independent_lanes_run_concurrently_and_converge_with_typed_evidence() {
     .expect("execute");
     assert_eq!(report.disposition, ValidationDisposition::LocalPass);
     assert_eq!(report.evidence.len(), 3);
-    assert!(
-        started.elapsed().as_millis() < 190,
-        "parallel wave was serialized"
-    );
     assert!(report
         .evidence
         .iter()

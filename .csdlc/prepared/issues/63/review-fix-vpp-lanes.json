@@ -1,0 +1,61 @@
+{
+  "issue": 63,
+  "card": "vpp",
+  "expected_generation": 7,
+  "expected_digest": "761d5fc66415d3eab47f4f6b97ef71a4049b1ee951796104d038f16e6484c7f1",
+  "actor": "codex:63-readiness-preparation",
+  "reason": "prove both the real editor correction and the bounded implemented-review recovery seam",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "implemented-sip-scope-editor-contract",
+        "proof_role": "Exercise the real typed editor/store/renderer/validator path for accepted correction, exact audit, concurrency, card/phase guards, and projection drift.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3500,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2", "implemented_sip_scope_correction"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "implemented-review-recovery-contract",
+        "proof_role": "Prove assignment-only and changes-required implemented recovery clears review truth without an invalid same-phase transition, while clean implemented recovery fails closed.",
+        "acceptance_ids": ["AC-4"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2500,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate5", "implemented_review_recovery_clears_truth"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "focused-editor-clippy",
+        "proof_role": "Reject Rust type, match exhaustiveness, review recovery, and editor binary regressions on the bounded library and csdlc-edit target.",
+        "acceptance_ids": ["AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 420,
+        "budget_tokens": 2500,
+        "argv": ["cargo", "clippy", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib", "--bin", "csdlc-edit", "--", "-D", "warnings"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      }
+    ]
+  }
+}

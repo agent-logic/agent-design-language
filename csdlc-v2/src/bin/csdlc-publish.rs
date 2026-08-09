@@ -133,20 +133,13 @@ fn existing_pr_matches_governed_mode(
     intent: &PublicationIntent,
     value: &RemotePullRequest,
 ) -> bool {
-    let linked = if intent.repository != intent.issue_repository {
-        csdlc_v2::publication::body_has_qualified_github_closing_keyword(
-            &value.body,
-            intent.issue,
-            &intent.issue_repository,
-        )
-    } else {
-        csdlc_v2::publication::body_has_github_closing_keyword(
-            &value.body,
-            intent.issue,
-            &intent.issue_repository,
-        )
-    };
-    linked && value.draft == intent.draft
+    csdlc_v2::publication::body_has_exact_publication_linkage(
+        &value.body,
+        intent.issue,
+        &intent.issue_repository,
+        intent.repository != intent.issue_repository,
+        intent.linkage_mode,
+    ) && value.draft == intent.draft
 }
 
 fn resolve_token(request: &PublicationRequest) -> csdlc_v2::Result<String> {
@@ -294,6 +287,7 @@ fn normalize(
         head: head.ref_field.clone(),
         title: pr.title.clone().unwrap_or_default(),
         body: pr.body.clone().unwrap_or_default(),
+        linkage_mode: intent.linkage_mode,
         draft: pr.draft.unwrap_or(false),
         state: normalized_remote_state(pr).into(),
         head_sha: head.sha.clone(),
@@ -400,7 +394,7 @@ mod tests {
         existing_pr_matches_governed_mode, reconcile_create_observation, remote_url_matches,
         remote_urls_match, select_unique, validate_observed_repository_identity, verify_git_remote,
     };
-    use csdlc_v2::{PublicationIntent, RemotePullRequest};
+    use csdlc_v2::{PublicationIntent, PublicationLinkageMode, RemotePullRequest};
     use std::process::Command;
 
     fn git(root: &std::path::Path, args: &[&str]) {
@@ -484,6 +478,7 @@ mod tests {
             head: "codex/3".into(),
             title: "title".into(),
             body: "Closes danielbaustin/agent-design-language#3".into(),
+            linkage_mode: PublicationLinkageMode::Closing,
             draft: false,
             revision: "revision".into(),
             commit_sha: "sha".into(),
@@ -528,6 +523,7 @@ mod tests {
             head: "codex/5466".into(),
             title: "title".into(),
             body: "Resolves #5466".into(),
+            linkage_mode: PublicationLinkageMode::Closing,
             draft: false,
             revision: "revision".into(),
             commit_sha: "sha".into(),
@@ -559,6 +555,7 @@ mod tests {
             head: "codex/5901".into(),
             title: "title".into(),
             body: "Closes danielbaustin/agent-design-language#5901".into(),
+            linkage_mode: PublicationLinkageMode::Closing,
             draft: false,
             revision: "revision".into(),
             commit_sha: "sha".into(),
@@ -571,6 +568,7 @@ mod tests {
             head: intent.head.clone(),
             title: intent.title.clone(),
             body: intent.body.clone(),
+            linkage_mode: intent.linkage_mode,
             draft: false,
             state: "open".into(),
             head_sha: intent.commit_sha.clone(),

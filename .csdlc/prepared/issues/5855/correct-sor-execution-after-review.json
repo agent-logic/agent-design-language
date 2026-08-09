@@ -1,0 +1,33 @@
+{
+  "actor": "codex:sprint-2-closeout-remediation",
+  "card": "sor",
+  "expected_digest": "09be01c095488c3f1008154bd11562782f1bed88a6d8945afce8adc78feb008e",
+  "expected_generation": 11,
+  "issue": 5855,
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Prepared a truthful Sprint 2 closeout candidate for five terminal child issues with exact merge, ancestry, membership, and pre-publication review evidence.",
+    "changes": [
+      "Recorded the actual terminal order #5800, #5820, #5821, #5795, then #5832 without inventing a reverse dependency.",
+      "Removed #5837 from Sprint 2 membership and documented #5837, #83, and #84 as independent follow-on work.",
+      "Strengthened the deterministic closeout validator to bind each issue to its exact PR, reviewed head, merge SHA, closure claim, merge parentage, and ancestry.",
+      "Retained closeout_candidate status until qualified PR merge, live umbrella closure, and csdlc-finish terminal truth."
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+      ".csdlc/evidence/5855/activity.jsonl",
+      ".csdlc/evidence/5855/sprint-review.md"
+    ],
+    "validation": [
+      {
+        "command": ["/usr/bin/ruby", ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb"],
+        "evidence_ref": "v092-sprint2-closeout.log",
+        "outcome": "passed",
+        "purpose": "Validate exact Sprint 2 membership and terminal merge ancestry."
+      }
+    ]
+  },
+  "reason": "Resolve F-5855-1, F-5855-2, and F-5855-4 without overstating pre-publication completion."
+}

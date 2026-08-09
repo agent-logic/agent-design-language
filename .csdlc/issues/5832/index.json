@@ -3,9 +3,9 @@
   "issue": 5832,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8d41f336d8a8940f446bc1a8cc646c2998249b1f4bddb564ab78aa91dfb005b4",
-  "phase": "initialized",
-  "generation": 43,
-  "digest": "5107531dc8404ff78bfa73e5f4494184509e2be7271d2ff5755137eba285f644",
+  "phase": "ready",
+  "generation": 51,
+  "digest": "98fdbf34c22e90f2c28a68baa892d81c9fdc6b51c075e16be54ea510c26b7ea1",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5832/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5855-final-readiness-design-review",
-      "revision": "bd21d38eef975ac519335677bb29386abd1812116cce63c9567daefcdcbc4428"
+      "reviewer": "operator-authorized-scheduling-correction",
+      "revision": "1acbe4bd1796cc4f7726ba5d9d8c796ed735bcbc9344271518d392bcb65109b0"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "511d3cbdecf7edc84c27a9a533a1c5592abdb6f1bf95a9785ccff448b9f8dbdd",
+      "values_digest": "a08672ad1c5cfb0baf4a9ce36d5688bf70b422ee88a8c7ea8af83917bf091389",
       "rendered_digest": "826d262e4aaf4db6481842387902e694ae33804194702ef314841f9c7ecc180b",
       "ast_digest": "768d885615cf498f49a3439c76d8064db8b0ea7143b113bb9cf0b96f5e0e8113"
     },
     "stp": {
-      "values_digest": "dc55b9c618819caac40584a549c844a56dc317f15a1f9208329aa6fb62ef6096",
-      "rendered_digest": "fcb8960a6808bfb4ae273696e3fb36104e228b63a57ef7bdea598f55f404cd31",
-      "ast_digest": "b09d7af57f31e4e58dce94f9831bf8deff19c6a8c2c8a7b40c68ada28195ca65"
+      "values_digest": "2e89feddf7c5ce47599b39f8026a36ee1394de0dc643d259dd64bd387cb7dfb1",
+      "rendered_digest": "21da28dfeb341ae979bcfac6d6a3be1931a855b67dbe72eca4c429a618df8339",
+      "ast_digest": "3b0cdc845dda6c5f833f8d2e142c0a4902f553964bf2ff7c10e201b2f2e5d3f9"
     },
     "spp": {
-      "values_digest": "b956a5d4ec2c73e817c0adf771dfbc7ef52be92cc7ced802a9867bb1c5bc7a5c",
-      "rendered_digest": "f8b3dfc4f77d2e31798be69c384dfd5f7dbed2fd48d61aa94ec38d05b4c87148",
-      "ast_digest": "2a616a32b6ce75d7b025690f4f1c276dc1253dce10a4371c0c71c5067b9bfbf7"
+      "values_digest": "9eb982053bc4413fb64debee63ac0c61eb92cde367892412c729ee770365a2ea",
+      "rendered_digest": "56f26c20f2f108a30e23c45764e088f75ca6b20c741f56292a983365e1ccc5e8",
+      "ast_digest": "4c38d7ea815b8acb0b55066ca0d1af6bf24c6d64a816686634435aaf4652c119"
     },
     "vpp": {
-      "values_digest": "02bd4776d6b8f9d723316c5f1d8b2771cc86a012dc2c7830115a9b7150b739d7",
+      "values_digest": "21b1c49c368253b438db61e58088a6938c5b7218f7dca456f34e0590612be064",
       "rendered_digest": "975791317dd0ac834cb2364d3457195f3f2c296e0f9be0b7fb6f455a1f5df885",
       "ast_digest": "9db2e09da27c49ab52b9b5ff5be612189b08af0e2e23a2f93d8ab5cf550cb49d"
     },
     "srp": {
-      "values_digest": "117df6644d717d0c96cca22ee2a6b9081599898b8718160ed3c52b77d164d305",
+      "values_digest": "c29c3400d32c8fb60dfa4e768f36950dec241f46d7312e7be5327048b7466619",
       "rendered_digest": "392116f8b2844eb2b47b558a12a08332f1744646fdb5b0f4bc7c416cac8c3a6f",
       "ast_digest": "a48218debfd779486aad8db28be59e8799ba3c84d1f15ddd8d17c336df8a86a7"
     },
     "sor": {
-      "values_digest": "62773ac1f0b9c8d092cc8722701b89735a834ca32f0f1123bb586d10a7e16b89",
+      "values_digest": "35f90ea708517fc281cdd419e6902f501acb363e8c053aa7712bd45df61b6a37",
       "rendered_digest": "ca00a3cb3f454ba45ff64b773e445a3beb4be7e3336cfbe573de8d542dc1488c",
       "ast_digest": "805bf932776db506a84bc733ada010a45567e55b0d7223d73fd194d885406962"
     }
@@ -75,6 +75,13 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5832-scheduling-correction",
+      "reason": "Activate the operator-approved independent protocol lane while preserving the final distributed integration gate."
     }
   ],
   "audit": [
@@ -476,6 +483,62 @@
       "actor": "codex:5855-final-readiness-design-review",
       "reason": "reapprove stale initialized issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 58,
+      "generation": 44,
+      "actor": "operator-authorized-scheduling-correction",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 59,
+      "generation": 45,
+      "actor": "codex:5832-scheduling-correction",
+      "reason": "Activate the operator-approved independent protocol lane while preserving the final distributed integration gate.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 60,
+      "generation": 46,
+      "actor": "codex:5832-scheduling-correction",
+      "reason": "Keep deliverable prose distinct from validator file targets while preserving the accepted protocol outcome.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Frozen versioned semantic envelope and compatibility/negotiation policy\",\"Canonical protobuf files plus schema-derived public message catalog\",\"Deterministic JSON projection and protobuf/JSON semantic round-trip fixtures\",\"Authenticated Rustls WSS bidirectional carrier with limits, backpressure, reconnect, error, replay, and denied-access evidence\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 47,
+      "actor": "codex:5832-scheduling-correction",
+      "reason": "Record independent sprint sequencing and isolate optional AWS work from the WP-14 critical path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-04 gate issue 5821 terminal\",\"WP-04-IMP issue 5862 gates only final distributed exact-head integration and native receipt reconciliation\",\"WP-14 protocol, schema, catalog, negotiation, authentication, and WSS work proceeds independently before final integration\",\"Issue 5795 consumes terminal WP-14 for final browser-to-Shepherd integration\",\"AWS GPU Shepherd sidecar issue 5907 follows terminal WP-14 and local issue 5795 and does not gate either lane\"]}"
+    },
+    {
+      "sequence": 62,
+      "generation": 48,
+      "actor": "codex:5832-production-carrier-review",
+      "reason": "Own the production WSS handler required to enforce ACIP admission before dispatch rather than proving a detached policy helper.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/acip.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/src/runtime_api_auth.rs\",\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/src/protocol_adapters.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime/schemas/acip/v1/acip.proto\",\"adl-runtime/schemas/acip/v1/catalog.json\",\"docs/api/runtime-v3/v1/acip.openapi.json\",\".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb\"]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 49,
+      "actor": "codex:5832-independent-sequencing",
+      "reason": "Make WP-14 independently terminal and establish its protocol contract as a one-way input to the later distributed sprint and AWS sidecar.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-04 gate issue 5821 terminal\",\"WP-14 executes and closes independently before WP-04-IMP issue 5862 consumes its terminal protocol contract\",\"Current ACIP stream and trace/replay baselines requalified at the implementation revision\",\"Issue 5795 consumes terminal WP-14 for final browser-to-Shepherd integration\",\"AWS GPU Shepherd sidecar issue 5907 follows terminal WP-14 and local issue 5795 and does not gate either lane\"]}"
+    },
+    {
+      "sequence": 64,
+      "generation": 50,
+      "actor": "codex:5832-independent-sequencing",
+      "reason": "Remove the stale reverse dependency on the distributed sprint while preserving real protocol and platform-proof stop conditions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issue 5821 architecture/security gate is not terminal\",\"Semantic envelope, schema, catalog, JSON, or WSS authority remains ambiguous\",\"Any declared path overlaps an active owner\",\"Native macOS, Linux, or Windows proof cannot be produced\"]}"
+    },
+    {
+      "sequence": 65,
+      "generation": 51,
+      "actor": "codex:5832-native-platform-proof",
+      "reason": "Own the bounded pull-request-only matrix that produces the required Linux, macOS, and native Windows ACIP receipts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/wp14-native-acip.yml\",\"adl-runtime/src/acip.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/src/runtime_api_auth.rs\",\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/src/protocol_adapters.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime/schemas/acip/v1/acip.proto\",\"adl-runtime/schemas/acip/v1/catalog.json\",\"docs/api/runtime-v3/v1/acip.openapi.json\",\".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb\"]}"
     }
   ]
 }

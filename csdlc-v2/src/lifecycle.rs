@@ -16,11 +16,14 @@ use crate::store::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
 pub struct BindRequest {
     pub issue: u64,
     pub base_branch: String,
     pub branch: String,
     pub worktree: String,
+    #[serde(default)]
+    pub code_repository: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -35,6 +38,11 @@ fn clean_relative(value: &str) -> bool {
         && Path::new(value)
             .components()
             .all(|part| matches!(part, Component::Normal(_)))
+}
+
+fn valid_repository_identity(value: &str) -> bool {
+    let mut parts = value.split('/');
+    matches!((parts.next(), parts.next(), parts.next()), (Some(owner), Some(repo), None) if !owner.is_empty() && !repo.is_empty())
 }
 
 fn requested_worktree(root: &Path, value: &str) -> Result<PathBuf> {
@@ -101,16 +109,91 @@ fn branch_exists(root: &Path, branch: &str) -> bool {
         .is_ok_and(|status| status.success())
 }
 
-fn same_worktree(root: &Path, recorded: &str, requested: &Path) -> bool {
-    requested_worktree(root, recorded).is_ok_and(|path| path == requested)
+#[derive(Debug)]
+struct TopologyRecordMatch {
+    record: crate::IssueRecord,
+    same_issue: bool,
+    same_stored_branch: bool,
+    same_canonical_worktree: bool,
+}
+
+fn topology_error(issue: u64, path: &Path, context: &str, error: V2Error) -> V2Error {
+    V2Error::new(
+        error.code,
+        format!(
+            "issue {issue} topology {context} at {}: {}",
+            path.display(),
+            error.message
+        ),
+    )
+}
+
+fn canonical_topology_root(invocation_root: &Path, listed: &[(String, String)]) -> Result<PathBuf> {
+    let primary_text = listed.first().map(|(_, path)| path).ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "Git worktree topology has no primary checkout",
+        )
+    })?;
+    let primary = Path::new(primary_text).canonicalize().map_err(|error| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("canonicalize primary Git worktree {primary_text}: {error}"),
+        )
+    })?;
+    if !primary.is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "primary Git worktree is not a directory: {}",
+                primary.display()
+            ),
+        ));
+    }
+    let invocation_common = PathBuf::from(
+        git::run(
+            invocation_root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout,
+    )
+    .canonicalize()
+    .map_err(|error| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("canonicalize invocation Git common directory: {error}"),
+        )
+    })?;
+    let primary_common = PathBuf::from(
+        git::run(
+            &primary,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout,
+    )
+    .canonicalize()
+    .map_err(|error| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("canonicalize primary Git common directory: {error}"),
+        )
+    })?;
+    if invocation_common != primary_common {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "primary and invocation worktrees do not share one Git common directory",
+        ));
+    }
+    Ok(primary)
 }
 
 fn issue_records(
     store: &Store,
+    topology_root: &Path,
     requested_issue: u64,
     requested_branch: &str,
-    requested_worktree: &Path,
-) -> Result<Vec<crate::IssueRecord>> {
+    requested_path: &Path,
+) -> Result<Vec<TopologyRecordMatch>> {
     let issues = store.root().join(".csdlc/issues");
     if !issues.exists() {
         return Ok(Vec::new());
@@ -126,23 +209,55 @@ fn issue_records(
             continue;
         };
         if entry.path().join("index.json").exists() {
-            let value: serde_json::Value =
-                serde_json::from_slice(&fs::read(entry.path().join("index.json"))?)?;
+            let index_path = entry.path().join("index.json");
+            let bytes = fs::read(&index_path).map_err(|error| {
+                topology_error(issue, &index_path, "metadata read", error.into())
+            })?;
+            let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
+                topology_error(issue, &index_path, "metadata parse", error.into())
+            })?;
             let branch = value.get("branch").and_then(serde_json::Value::as_str);
             let worktree = value.get("worktree").and_then(serde_json::Value::as_str);
-            let relevant = issue == requested_issue
-                || branch == Some(requested_branch)
-                || worktree
-                    .is_some_and(|value| same_worktree(store.root(), value, requested_worktree));
-            if !relevant {
+            let same_issue = issue == requested_issue;
+            let same_stored_branch = branch == Some(requested_branch);
+            let same_canonical_worktree = worktree
+                .map(|value| requested_worktree(topology_root, value))
+                .transpose()
+                .map_err(|error| {
+                    topology_error(issue, &index_path, "worktree normalization", error)
+                })?
+                .is_some_and(|path| path == requested_path);
+            if !(same_issue || same_stored_branch || same_canonical_worktree) {
                 continue;
             }
-            let record = store.load_record_for_topology_scan(issue)?;
+            let record = store
+                .load_record_for_topology_scan(issue)
+                .map_err(|error| topology_error(issue, &index_path, "record read", error))?;
             if record.branch.is_none() && record.worktree.is_none() {
                 continue;
             }
-            crate::store::verify_cards(store, &record, &store.load_cards(issue)?)?;
-            records.push(record);
+            let cards_path = store.issue_dir(issue).join("cards");
+            let cards = store
+                .load_cards(issue)
+                .map_err(|error| topology_error(issue, &cards_path, "card read", error))?;
+            crate::store::verify_cards(store, &record, &cards).map_err(|error| {
+                let artifact_context = store.root().join(&record.design_path);
+                topology_error(
+                    issue,
+                    &artifact_context,
+                    &format!(
+                        "card/artifact verification (diagram {})",
+                        store.root().join(&record.diagram_path).display()
+                    ),
+                    error,
+                )
+            })?;
+            records.push(TopologyRecordMatch {
+                record,
+                same_issue,
+                same_stored_branch,
+                same_canonical_worktree,
+            });
         }
     }
     Ok(records)
@@ -432,6 +547,10 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         || request.branch == request.base_branch
         || !valid_branch(store.root(), &request.branch)
         || !valid_branch(store.root(), &request.base_branch)
+        || request
+            .code_repository
+            .as_deref()
+            .is_some_and(|repository| !valid_repository_identity(repository))
     {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
@@ -447,7 +566,11 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 
     let _lock = store.binding_lock()?;
     let _issue_lock = store.authority_projection_lock(request.issue)?;
-    let source_diagnosis = crate::diagnose(store, request.issue);
+    let source_diagnosis = crate::doctor::diagnose_with_code_repository(
+        store,
+        request.issue,
+        request.code_repository.as_deref(),
+    );
     let source_phase = source_diagnosis.phase;
     let source_is_bindable = source_diagnosis.status == DoctorStatus::Pass
         && matches!(
@@ -473,37 +596,45 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         ));
     }
     let listed = git::worktrees(store.root())?;
-    for (branch, path) in &listed {
+    let topology_root = canonical_topology_root(store.root(), &listed)?;
+    let mut idempotent_match = false;
+    for (_, path) in &listed {
         let path = Path::new(path);
         if !path.exists() {
             continue;
         }
-        for record in issue_records(&Store::new(path), request.issue, &request.branch, &wanted)? {
+        for candidate in issue_records(
+            &Store::new(path),
+            &topology_root,
+            request.issue,
+            &request.branch,
+            &wanted,
+        )? {
+            let record = candidate.record;
             if record.branch.is_none() && record.worktree.is_none() {
                 continue;
             }
-            if record.issue == request.issue {
-                if branch == &request.branch
-                    && path == wanted
-                    && record.branch.as_deref() == Some(request.branch.as_str())
-                    && record
-                        .worktree
-                        .as_deref()
-                        .is_some_and(|value| same_worktree(store.root(), value, &wanted))
+            if candidate.same_issue {
+                if candidate.same_stored_branch
+                    && candidate.same_canonical_worktree
+                    && request.code_repository.as_deref().is_none_or(|requested| {
+                        record
+                            .code_repository
+                            .as_deref()
+                            .unwrap_or(&record.repository)
+                            .eq_ignore_ascii_case(requested)
+                    })
                     && record.phase == crate::LifecyclePhase::Bound
                 {
-                    return Ok(BindResult {
-                        created: false,
-                        branch: request.branch,
-                        worktree: wanted_text,
-                    });
+                    idempotent_match = true;
+                    continue;
                 }
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
                     "issue is already bound to different Git topology",
                 ));
             }
-            if branch == &request.branch || path == wanted {
+            if candidate.same_stored_branch || candidate.same_canonical_worktree {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
                     "requested Git topology is already bound to another issue",
@@ -531,6 +662,22 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                 "requested branch belongs to a different worktree",
             ));
         }
+    }
+    if idempotent_match {
+        let live_topology_matches = listed
+            .iter()
+            .any(|(branch, path)| branch == &request.branch && path == &wanted_text);
+        if !live_topology_matches {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "stored bind is not registered at the requested Git topology",
+            ));
+        }
+        return Ok(BindResult {
+            created: false,
+            branch: request.branch,
+            worktree: wanted_text,
+        });
     }
 
     let new_branch = !branch_exists(store.root(), &request.branch);
@@ -586,6 +733,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         }
         record.branch = Some(request.branch.clone());
         record.worktree = Some(wanted_text.clone());
+        record.code_repository = request.code_repository.clone();
         if record.phase == crate::LifecyclePhase::Ready {
             record.advance(
                 crate::LifecyclePhase::Bound,

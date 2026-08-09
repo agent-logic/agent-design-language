@@ -16,7 +16,7 @@ Run ten 7.5-hour/64,000-token episode waves plus a separately scheduled 5-hour/6
 
 ## Plan
 
-Revision 19
+Revision 20
 
 ## Steps
 
@@ -118,7 +118,7 @@ Revision 19
 
 .csdlc/prepared/issues/5845/design.md
 
-Digest: e577c1d95f46d4de635fce4f2afc6d5697cde482e44599380b9b15698a73715f
+Digest: 5da2961651c5678c3494dfd5d4cc5c9ad9eba260a5c4fd40942f5a1cf414ed17
 
 ## Diagram
 

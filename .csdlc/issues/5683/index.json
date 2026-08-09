@@ -5,8 +5,9 @@
   "initialization_digest": "b8d92d7710c00944967def4c4d3e923aa274554cc31b48a8fa49da34b6a77d97",
   "phase": "closed_out",
   "generation": 23,
-  "digest": "0968122bf921b30d5e795c7bf917a2f67cd0a96dd6797db9e91813327955b81d",
-  "claim": null,
+  "digest": "dbd0eaead004d0b49d649dae75945785e960354cfdaf613f191f49c0ce2347aa",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "Hooke",
     "assigned_by": "codex:issue-5683-unity-remediation",
@@ -219,24 +220,8 @@
     "observed_sha": "cc19f5a187e73cf6110958b05bd347b6855bf92f",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5683.json",
-    "released_branch": "codex/5683-v0918-unity-observatory-visual-remediation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5683",
-      ".csdlc/issues/5683",
-      ".csdlc/locks/5683.lock",
-      ".csdlc/prepared/issues/5683",
-      "adl/tools/test_v0916_unity_observatory_contract.sh",
-      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
-      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
-      "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
-      "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
-      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
-      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
-      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
-      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
-      "demos/v0.91.6/unity-observatory/PROOF_PACKET.md"
-    ]
+    "branch": "codex/5683-v0918-unity-observatory-visual-remediation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5683/retained/design.md",

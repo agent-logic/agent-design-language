@@ -1,0 +1,17 @@
+{
+  "issue": 53,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "2443c30fbf914f7e334c4c54a7720cb5de86502f80cacd47296e42931c876281",
+  "actor": "codex:53-readiness-repair",
+  "reason": "Replace prose affected areas with safe repository-owned implementation and proof paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb"
+    ]
+  },
+  "fail_after_backup": false
+}

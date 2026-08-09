@@ -5,8 +5,9 @@
   "initialization_digest": "394bba5966d294aa1e6c625a47c1d6eb772859f24604de62017d743d4d22e639",
   "phase": "closed_out",
   "generation": 12,
-  "digest": "8e0c0ba503a0189dd8045043fe9f5f51c6c0adc9c76ef604419dd1d529eae984",
-  "claim": null,
+  "digest": "e17893beca50d69a0ed1dcfc8d55f54fabc8e3841482bd7564fa229b256299c1",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-review",
     "assigned_by": "codex",
@@ -132,14 +133,8 @@
     "observed_sha": "289015763c35d1516ca486359d3241633bf0dad5",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5427.json",
-    "released_branch": "codex/5427-v0-91-7-card-identity-repair",
-    "released_worktree": ".worktrees/adl-wp-5427",
-    "released_protected_paths": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/5353/cards"
-    ]
+    "branch": "codex/5427-v0-91-7-card-identity-repair",
+    "worktree": ".worktrees/adl-wp-5427"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5427/retained/design.md",

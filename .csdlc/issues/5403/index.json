@@ -5,8 +5,9 @@
   "initialization_digest": "a6b5bfcabf02fb1660f8f012ad84f66ce29939f56a959143631affd26775de9b",
   "phase": "closed_out",
   "generation": 32,
-  "digest": "db301927a41ec0f82ddb621f58b228ee839335f9b33c11f3c1c3b64422b4557c",
-  "claim": null,
+  "digest": "47bbea0d07b8fc7ee63dd8c5823d958b66c1c3fa5ff05006a13f8045e04f4af9",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-subagent-mill",
     "assigned_by": "codex",
@@ -113,13 +114,8 @@
     "observed_sha": "8924e4a572aa1b0d53afaaa8e172d1d396722dc3",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5403.json",
-    "released_branch": "codex/5403-remaining-sprint-reviews",
-    "released_worktree": ".worktrees/adl-wp-5403",
-    "released_protected_paths": [
-      "docs/reviews/v0.91.7/remaining-sprints-5403",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      ".csdlc/issues/5403"
-    ]
+    "branch": "codex/5403-remaining-sprint-reviews",
+    "worktree": ".worktrees/adl-wp-5403"
   },
   "migration": null,
   "design_path": "docs/reviews/v0.91.7/remaining-sprints-5403/DESIGN.md",

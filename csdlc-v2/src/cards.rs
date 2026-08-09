@@ -347,6 +347,18 @@ pub struct ValidationLane {
     pub defer_reason: Option<String>,
 }
 
+closed_enum!(RustTestSelectorPosture {
+    ExactTarget,
+    IntentionalBroad,
+    Invalid,
+});
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RustTestSelectorClassification {
+    pub posture: RustTestSelectorPosture,
+    pub diagnostic: Option<String>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct VppValues {
     pub summary: String,
@@ -560,6 +572,12 @@ pub enum SemanticOperation {
         values: Vec<String>,
     },
     CorrectReviewPromptsAfterRecovery {
+        values: Vec<String>,
+    },
+    CorrectDeclaredScopeBeforePublication {
+        values: Vec<String>,
+    },
+    CorrectStpDeliverablesAfterRecovery {
         values: Vec<String>,
     },
     ReplacePlanSteps {
@@ -902,6 +920,26 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Srp(value) => value.review_prompts = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_review_prompts_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectDeclaredScopeBeforePublication {
+            values: replacement,
+        } => {
+            validate_replacement(replacement, "declared scope")?;
+            match &mut values.content {
+                CardContent::Sip(value) => value.declared_scope = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_declared_scope_before_publication"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP deliverables")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.deliverables = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_deliverables_after_recovery"),
             }
             Ok(None)
         }
@@ -1466,6 +1504,22 @@ fn validate_replacement(values: &[String], field: &str) -> Result<()> {
     Ok(())
 }
 
+fn validate_unique_replacement(values: &[String], field: &str) -> Result<()> {
+    validate_replacement(values, field)?;
+    let mut normalized = BTreeSet::new();
+    if values
+        .iter()
+        .map(|value| value.trim())
+        .any(|value| !normalized.insert(value))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            format!("{field} replacement cannot contain duplicates"),
+        ));
+    }
+    Ok(())
+}
+
 fn replace_planning_collection(
     values: &mut CardValues,
     field: PlanningCollectionField,
@@ -1567,7 +1621,260 @@ fn validate_validation_lanes(lanes: &[ValidationLane]) -> Result<()> {
             "validation lanes must be unique and complete",
         ));
     }
+    for lane in lanes {
+        if let Some(classification) = classify_rust_test_selector(&lane.argv) {
+            if classification.posture == RustTestSelectorPosture::Invalid {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    classification
+                        .diagnostic
+                        .unwrap_or_else(|| "invalid Rust test selector".into()),
+                ));
+            }
+        }
+    }
     Ok(())
+}
+
+pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorClassification> {
+    let executable = argv
+        .first()
+        .and_then(|value| Path::new(value).file_name())
+        .and_then(|value| value.to_str());
+    if executable != Some("cargo") {
+        return None;
+    }
+    let mut test_index = 1;
+    if argv
+        .get(test_index)
+        .is_some_and(|value| value.starts_with('+') && value.len() > 1)
+    {
+        test_index += 1;
+    }
+    let global_flags = [
+        "-v",
+        "--verbose",
+        "-q",
+        "--quiet",
+        "--frozen",
+        "--locked",
+        "--offline",
+    ];
+    let global_value_flags = ["--color", "--config", "-C", "-Z"];
+    loop {
+        let value = argv.get(test_index)?;
+        if value == "test" || value == "t" {
+            break;
+        }
+        if global_flags.contains(&value.as_str())
+            || (value.starts_with('-')
+                && value.len() > 2
+                && value[1..].chars().all(|character| character == 'v'))
+        {
+            test_index += 1;
+            continue;
+        }
+        if global_value_flags.contains(&value.as_str()) {
+            if argv
+                .get(test_index + 1)
+                .is_none_or(|next| next.starts_with('-'))
+            {
+                return Some(invalid_rust_selector(format!(
+                    "cargo global option `{value}` requires a value before `test`"
+                )));
+            }
+            test_index += 2;
+            continue;
+        }
+        if global_value_flags
+            .iter()
+            .any(|flag| value.starts_with(&format!("{flag}=")))
+            || ["-C", "-Z"]
+                .iter()
+                .any(|flag| value.starts_with(flag) && value.len() > flag.len())
+        {
+            test_index += 1;
+            continue;
+        }
+        if argv[test_index + 1..]
+            .iter()
+            .any(|value| value == "test" || value == "t")
+        {
+            return Some(invalid_rust_selector(format!(
+                "unrecognized cargo global option `{value}` before `test`/`t`; use a supported typed argv shape"
+            )));
+        }
+        return None;
+    }
+
+    let exact_target_flags = ["--lib", "--doc"];
+    let broad_target_flags = [
+        "--bins",
+        "--tests",
+        "--examples",
+        "--benches",
+        "--all-targets",
+    ];
+    let named_target_flags = ["--test", "--bin", "--example", "--bench"];
+    let value_flags = [
+        "--manifest-path",
+        "--package",
+        "-p",
+        "--exclude",
+        "--features",
+        "-F",
+        "--target",
+        "--target-dir",
+        "--lockfile-path",
+        "--profile",
+        "--jobs",
+        "-j",
+        "--color",
+        "--config",
+        "--message-format",
+        "-Z",
+    ];
+    let mut target_boundaries = 0_u8;
+    let mut broad_target_sets = 0_u8;
+    let mut filter = None;
+    let mut libtest_filter = None;
+    let mut index = test_index + 1;
+    while index < argv.len() {
+        let value = &argv[index];
+        if value == "--" {
+            index += 1;
+            let libtest_value_flags = ["--skip", "--test-threads", "--format", "--color", "-Z"];
+            while index < argv.len() {
+                let value = &argv[index];
+                if libtest_value_flags.contains(&value.as_str()) {
+                    if argv.get(index + 1).is_none_or(|next| next.starts_with('-')) {
+                        return Some(invalid_rust_selector(format!(
+                            "cargo test libtest option `{value}` requires a value"
+                        )));
+                    }
+                    index += 2;
+                    continue;
+                }
+                if libtest_value_flags
+                    .iter()
+                    .any(|flag| value.starts_with(&format!("{flag}=")))
+                {
+                    index += 1;
+                    continue;
+                }
+                if value.starts_with('-') {
+                    index += 1;
+                    continue;
+                }
+                if libtest_filter.replace(value.as_str()).is_some() {
+                    return Some(invalid_rust_selector(
+                        "cargo test lane contains multiple libtest substring selectors; declare one exact Cargo target boundary"
+                            .into(),
+                    ));
+                }
+                index += 1;
+            }
+            break;
+        }
+        if exact_target_flags.contains(&value.as_str()) {
+            target_boundaries += 1;
+            index += 1;
+            continue;
+        }
+        if broad_target_flags.contains(&value.as_str()) {
+            broad_target_sets += 1;
+            index += 1;
+            continue;
+        }
+        if named_target_flags.contains(&value.as_str()) {
+            let Some(name) = argv.get(index + 1).filter(|name| !name.starts_with('-')) else {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test selector `{value}` requires a target name"
+                )));
+            };
+            if name.trim().is_empty() {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test selector `{value}` requires a non-empty target name"
+                )));
+            }
+            target_boundaries += 1;
+            index += 2;
+            continue;
+        }
+        if named_target_flags
+            .iter()
+            .any(|flag| value.starts_with(&format!("{flag}=")))
+        {
+            if value.ends_with('=') {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test selector `{value}` requires a target name"
+                )));
+            }
+            target_boundaries += 1;
+            index += 1;
+            continue;
+        }
+        if value_flags.contains(&value.as_str()) {
+            if argv.get(index + 1).is_none_or(|next| next.starts_with('-')) {
+                return Some(invalid_rust_selector(format!(
+                    "cargo test option `{value}` requires a value"
+                )));
+            }
+            index += 2;
+            continue;
+        }
+        if value_flags
+            .iter()
+            .any(|flag| value.starts_with(&format!("{flag}=")))
+            || ["-p", "-F", "-j", "-Z"]
+                .iter()
+                .any(|flag| value.starts_with(flag) && value.len() > flag.len())
+        {
+            index += 1;
+            continue;
+        }
+        if value.starts_with('-') {
+            index += 1;
+            continue;
+        }
+        if filter.replace(value.as_str()).is_some() {
+            return Some(invalid_rust_selector(
+                "cargo test lane contains multiple free substring selectors; declare one exact target with `--lib`, `--test <name>`, `--bin <name>`, `--example <name>`, or `--bench <name>`"
+                    .into(),
+            ));
+        }
+        index += 1;
+    }
+
+    if target_boundaries + broad_target_sets > 1 {
+        return Some(invalid_rust_selector(
+            "cargo test lane has conflicting target selectors; declare exactly one target boundary"
+                .into(),
+        ));
+    }
+    if target_boundaries == 0 {
+        if let Some(filter) = filter.or(libtest_filter) {
+            return Some(invalid_rust_selector(format!(
+                "cargo test lane uses free substring selector `{}` without a target boundary; use `--lib {}` or `--test <target>`",
+                filter, filter
+            )));
+        }
+    }
+    Some(RustTestSelectorClassification {
+        posture: if target_boundaries == 0 {
+            RustTestSelectorPosture::IntentionalBroad
+        } else {
+            RustTestSelectorPosture::ExactTarget
+        },
+        diagnostic: None,
+    })
+}
+
+fn invalid_rust_selector(diagnostic: String) -> RustTestSelectorClassification {
+    RustTestSelectorClassification {
+        posture: RustTestSelectorPosture::Invalid,
+        diagnostic: Some(diagnostic),
+    }
 }
 
 fn placeholder(value: &str) -> bool {
@@ -1776,10 +2083,12 @@ fn explicitly_deferred_validator(
     owned_paths: &[String],
     deliverables: &[String],
     failure_policy: &str,
+    allow_deferred: bool,
 ) -> bool {
-    validator_targets(root, lane)
-        .iter()
-        .any(|target| target == path)
+    allow_deferred
+        && validator_targets(root, lane)
+            .iter()
+            .any(|target| target == path)
         && owned_paths.iter().any(|owned| owned == path)
         && deliverables.iter().any(|deliverable| deliverable == path)
         && lane
@@ -1805,6 +2114,14 @@ fn fail_closed_policy(value: &str) -> bool {
 }
 
 fn required_validator_deliverable(path: &str) -> bool {
+    if path.chars().any(char::is_whitespace)
+        || !Path::new(path)
+            .components()
+            .all(|component| matches!(component, Component::Normal(_)))
+        || !(path.contains('/') || Path::new(path).extension().is_some())
+    {
+        return false;
+    }
     let path = Path::new(path);
     let validator_words = [
         "test",
@@ -1829,6 +2146,94 @@ fn required_validator_deliverable(path: &str) -> bool {
             stem.split(|character: char| !character.is_ascii_alphanumeric())
                 .any(|word| validator_words.contains(&word.to_ascii_lowercase().as_str()))
         })
+}
+
+fn rust_source_crate_root(root: &Path, path: &str) -> Option<PathBuf> {
+    let relative = Path::new(path);
+    if relative.extension().and_then(|value| value.to_str()) != Some("rs") {
+        return None;
+    }
+    let components = relative.components().collect::<Vec<_>>();
+    let src_index = components
+        .iter()
+        .enumerate()
+        .find_map(|(index, component)| {
+            if component.as_os_str() != "src" || index + 1 >= components.len() {
+                return None;
+            }
+            let crate_root = components[..index]
+                .iter()
+                .fold(PathBuf::new(), |mut path, part| {
+                    path.push(part.as_os_str());
+                    path
+                });
+            root.join(&crate_root)
+                .join("Cargo.toml")
+                .is_file()
+                .then_some(crate_root)
+        });
+    src_index
+}
+
+fn explicitly_deferred_rust_path_harness(
+    root: &Path,
+    source_path: &str,
+    lanes: &[ValidationLane],
+    owned_paths: &[String],
+    deliverables: &[String],
+    failure_policy: &str,
+    allow_deferred: bool,
+) -> bool {
+    if !allow_deferred
+        || owned_paths
+            .iter()
+            .filter(|path| !rust_module_route_owned(root, path, owned_paths))
+            .count()
+            != 1
+        || root.join(source_path).exists()
+        || !owned_paths.iter().any(|owned| owned == source_path)
+        || !deliverables
+            .iter()
+            .any(|deliverable| deliverable == source_path)
+    {
+        return false;
+    }
+    let Some(crate_root) = rust_source_crate_root(root, source_path) else {
+        return false;
+    };
+    let tests_root = crate_root.join("tests");
+    lanes.iter().any(|lane| {
+        let is_exact_nextest_lane = matches!(lane.argv.as_slice(), [cargo, nextest, run, ..]
+            if cargo == "cargo" && nextest == "nextest" && run == "run")
+            && lane
+                .argv
+                .iter()
+                .any(|argument| argument == "--no-tests=fail");
+        let targets = validator_targets(root, lane);
+        let Some(target) = targets.first() else {
+            return false;
+        };
+        let target_path = Path::new(target);
+        let exact_same_crate_test = targets.len() == 1
+            && target_path.parent() == Some(tests_root.as_path())
+            && target_path.extension().and_then(|value| value.to_str()) == Some("rs");
+        let explicit_harness = lane.defer_reason.as_deref().is_some_and(|reason| {
+            reason.contains("#[path") && reason.contains(source_path) && !placeholder(reason)
+        });
+        is_exact_nextest_lane
+            && exact_same_crate_test
+            && explicit_harness
+            && proving_lane_at(root, lane, owned_paths)
+            && explicitly_deferred_validator(
+                root,
+                target,
+                lane,
+                owned_paths,
+                deliverables,
+                failure_policy,
+                allow_deferred,
+            )
+    })
 }
 
 fn rust_module_route_owned(root: &Path, path: &str, owned_paths: &[String]) -> bool {
@@ -1997,6 +2402,7 @@ fn owned_path_at(root: &Path, value: &str) -> bool {
 pub(crate) fn execution_readiness_findings_for_cards(
     root: &Path,
     cards: &BTreeMap<CardKind, CardValues>,
+    phase: LifecyclePhase,
 ) -> Result<Vec<ExecutionReadinessFinding>> {
     let affected_areas = match &cards
         .get(&CardKind::Spp)
@@ -2033,6 +2439,7 @@ pub(crate) fn execution_readiness_findings_for_cards(
         &vpp.lanes,
         &vpp.failure_policy,
         owned_paths_are_valid,
+        phase == LifecyclePhase::Initialized,
     ))
 }
 
@@ -2043,6 +2450,7 @@ fn execution_readiness_findings(
     lanes: &[ValidationLane],
     failure_policy: &str,
     owned_paths_are_valid: bool,
+    allow_deferred: bool,
 ) -> Vec<ExecutionReadinessFinding> {
     let mut findings = Vec::new();
     if !owned_paths_are_valid {
@@ -2052,7 +2460,17 @@ fn execution_readiness_findings(
         });
     }
     for path in affected_areas {
-        if !rust_module_route_owned(root, path, affected_areas) {
+        if !rust_module_route_owned(root, path, affected_areas)
+            && !explicitly_deferred_rust_path_harness(
+                root,
+                path,
+                lanes,
+                affected_areas,
+                deliverables,
+                failure_policy,
+                allow_deferred,
+            )
+        {
             findings.push(ExecutionReadinessFinding {
                 code: "owned_rust_module_unroutable",
                 message: format!("new Rust module requires an owned existing module route: {path}"),
@@ -2086,6 +2504,7 @@ fn execution_readiness_findings(
                 affected_areas,
                 deliverables,
                 failure_policy,
+                allow_deferred,
             );
             if !exists && !deferred {
                 findings.push(ExecutionReadinessFinding {
@@ -2117,6 +2536,15 @@ fn execution_readiness_findings(
         .iter()
         .filter(|path| required_validator_deliverable(path))
     {
+        if !affected_areas.iter().any(|owned| owned == validator) {
+            findings.push(ExecutionReadinessFinding {
+                code: "validator_deliverable_unowned",
+                message: format!(
+                    "required validator deliverable is not an issue-owned path: {validator}"
+                ),
+            });
+            continue;
+        }
         let exists = root.join(validator).is_file();
         let deferred = lanes.iter().any(|lane| {
             explicitly_deferred_validator(
@@ -2126,6 +2554,7 @@ fn execution_readiness_findings(
                 affected_areas,
                 deliverables,
                 failure_policy,
+                allow_deferred,
             )
         });
         if !exists && !deferred && !selected_targets.contains(validator) {
@@ -2408,8 +2837,8 @@ mod tests {
     use std::fs;
 
     use super::{
-        owned_path_at, proving_lane_at, terminal_validation_passed, EvidenceOutcome,
-        ResourceProfile, ValidationLane, ValidationResult,
+        owned_path_at, proving_lane_at, terminal_validation_passed, validate_validation_lanes,
+        ErrorCode, EvidenceOutcome, ResourceProfile, ValidationLane, ValidationResult,
     };
 
     fn lane(argv: &[&str]) -> ValidationLane {
@@ -2498,6 +2927,76 @@ mod tests {
             &lane(&["bash", "../outside.sh"]),
             &["../outside.sh".into()]
         ));
+    }
+
+    #[test]
+    fn validation_lane_rejects_free_rust_test_substring_before_execution() {
+        let ambiguous = lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "schema",
+        ]);
+        let error = validate_validation_lanes(&[ambiguous]).expect_err("ambiguous selector");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        let separator_bypass = lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--",
+            "schema",
+            "--list",
+        ]);
+        let error = validate_validation_lanes(&[separator_bypass]).expect_err("separator bypass");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        let global_option_bypass = lane(&[
+            "cargo",
+            "--locked",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "schema",
+        ]);
+        let error =
+            validate_validation_lanes(&[global_option_bypass]).expect_err("global option bypass");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        let broad_target_bypass = lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--tests",
+            "schema",
+        ]);
+        let error =
+            validate_validation_lanes(&[broad_target_bypass]).expect_err("broad target bypass");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+        assert!(error.message.contains("without a target boundary"));
+
+        assert!(validate_validation_lanes(&[lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+        ])])
+        .is_ok());
+        assert!(validate_validation_lanes(&[lane(&[
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "schema::tests",
+        ])])
+        .is_ok());
     }
 
     #[cfg(unix)]

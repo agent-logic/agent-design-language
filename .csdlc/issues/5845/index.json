@@ -3,13 +3,26 @@
   "issue": 5845,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "62cfffa47d080caf69fa1b1d20e49542e7f455d7c847aae132ae93191d1913fd",
-  "phase": "initialized",
-  "generation": 42,
-  "digest": "3a7ca20280ceb3b2248859b7468beaed136670567f0a71855536e5cb175ab8d3",
-  "branch": null,
-  "worktree": null,
+  "phase": "reviewed",
+  "generation": 53,
+  "digest": "ef1280fb22cf89ad7a43b5027b3396a0585d6dabdd5be0fb0f392f286d38981a",
+  "branch": "codex/5845-v092-wp24a-readiness",
+  "worktree": "/Volumes/FastWork/adl-wp-5845-v092-wp24a",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "openai-codex:gpt-5:pr69-remediation-independent-rereview:2026-08-08",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:7cf08aedacab6c290d9230051254a53493094f8c:cdae9a1d2e9f9243f5e9b6000a75477e3b9e0068a5bc6cc1d3e87b8fccf79aa2",
+    "findings": [],
+    "residual_risks": [
+      "This PR is an Episode 001 incremental checkpoint and does not complete the ten-episode WP-24A parent.",
+      "Deployment, public publication, mailbox acceptance, branded-host verification, and directory submission remain outside this checkpoint."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -18,40 +31,40 @@
   "diagram_path": ".csdlc/prepared/issues/5845/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-birthday-publication-final-design-review",
-      "revision": "e577c1d95f46d4de635fce4f2afc6d5697cde482e44599380b9b15698a73715f"
+      "reviewer": "openai-codex:gpt-5:issue-5845-studio-ownership-design-review:2026-08-08",
+      "revision": "5da2961651c5678c3494dfd5d4cc5c9ad9eba260a5c4fd40942f5a1cf414ed17"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "9246a744dec1381435b38556b372ff7c396000459782fb1a5428215368ee743e",
-      "rendered_digest": "6404ed059784ae16bb1ddf0594e48c6834b7272f82bfacbfb2883e1fe7d75f6b",
-      "ast_digest": "82b54069472e970a520197f3752ed83b93ad00cad4394a3940e60b24e268e29d"
+      "values_digest": "dcfce0593048f4ec42b63ea056563dc8da9ca2b881ee7dc15d28af1a99c15a31",
+      "rendered_digest": "d4dec2ded3a6bfdcd6709c3e32e1e9f36bbb75700f3b5f37ae51c775267cb895",
+      "ast_digest": "b77048965f224857095e58e165a5c934557cde7c6d0914a8456834e081a83329"
     },
     "stp": {
-      "values_digest": "bc149571079fd1e81eec5c84597a521b417f33ad18342a277cc106dca2a137fc",
-      "rendered_digest": "ddcb9be2d795a2f4a1fd7441eaed975b890b9891cd5386a4248367997c2e61a4",
-      "ast_digest": "1aa5c3754e51b7cbaafe8b13053bfff94e8148250b1efe3064fab28e194b2ed5"
+      "values_digest": "ee6956eb448569189c45a5023db2f32ed65d5f59768d427a17ac318d8a84e18c",
+      "rendered_digest": "12b7ad981e63ce1b111a64b81a10c16211807abd70e67655d5356a6bca9a5555",
+      "ast_digest": "7c1c2191d34ea6ad641e3deb975bbcf0d5d0e6a0e753e66a38c4bfdd1fabf7cf"
     },
     "spp": {
-      "values_digest": "f0ec2663dd2ae0be398d4cd1c3d06d3f441a7c2c6db9df6e977d40307e06f7a8",
-      "rendered_digest": "75a0e3a68c28cc7efca27b2fdd9a8a46738d5372efbe3cad41b1a52932e39c9a",
-      "ast_digest": "ed00f5662067a705d71b845db3f67792210265240994cd8d849d59e245ae52de"
+      "values_digest": "86e4a77c9a1ce9bd2d9b96b5444e5f4a3032285bbae19e7bf0c258e98ba4f546",
+      "rendered_digest": "56e968e3fa46f02372b9ece582a408a4152bde5976ebc05a254fe088d1aedce4",
+      "ast_digest": "bf24028bfc20fbbadcc38926def799ba54e8968ca2c9138a889da48366e6aaff"
     },
     "vpp": {
-      "values_digest": "96298dfe10b1404d703be8f655672f37f23475bbb7dfe23feb8a73abd6232f93",
-      "rendered_digest": "8dcbaf06f803151271de4611248e207faa20a84251abfa9931fb19e6c5494990",
-      "ast_digest": "850ee1972136ffcac851c5292aaeee2ed6664c495d9d88a5e15bda63ea249bf0"
+      "values_digest": "f3415988f0ccd9f3a91c7dec8b69e795cbe3bcdaf8bdf34e6104327949578013",
+      "rendered_digest": "edf0864946a8a347556af42b4e1aa7e56b5020d0f90cafc9573134f5e49d123f",
+      "ast_digest": "786f4e5c5f3ff082c52f2654dfe40cdaaf337cd65dcf4ecb49b4062c447c0673"
     },
     "srp": {
-      "values_digest": "becadf3a9af24a0d14549ff61ba524b301c424255912ed7e08da84239b566ec6",
-      "rendered_digest": "66584b02c22d0bbd0817ef755e84c0fd40420199f03ce8fe7b33a5b7b8a75a9f",
-      "ast_digest": "f5b2ec19198beddd171eda9407d02c311e89b54ced36ac7aaead57db2f9f06a0"
+      "values_digest": "84f3bfd92839e2a07fc8b3a794cfa42151d9dbe8e9c29b36e9ee0ca0233dd5d0",
+      "rendered_digest": "2e3d7db4800562eb435d5d6d6bdae4f5c06b28faf5b73594a1f9a043bac6d77d",
+      "ast_digest": "17ebd9a0bcdd15b5755ae6dfda8452d1859dc0063ca9bbddb76ed79c8530e171"
     },
     "sor": {
-      "values_digest": "fc330f251c370c1cc6bb8f23eb9104de642412a2a39b5a94da4c23ed311e107d",
-      "rendered_digest": "b6559a50b406e113d4bdecd7b46d6236777db7e3bd028391abdfeba5acae375d",
-      "ast_digest": "63307f804d1711e04428b4b653b5230947299d891caf3ed6bdf972e7f4042d49"
+      "values_digest": "0a02344161c17ee613dd53779c65a09b98325e1f758a294c041c5a2e9e86cd28",
+      "rendered_digest": "c02b4fc742b8497ca0fb16a8b9db0c7cb272891bd32eb9ef8ffe50814d151110",
+      "ast_digest": "c2a0d258e7437d05cd06518af5e42ca7100a1ee39a495fcd6e76c941df0bc59a"
     }
   },
   "transitions": [
@@ -75,6 +88,34 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "openai-codex:gpt-5:pr69-remediation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -511,6 +552,90 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 63,
+      "generation": 43,
+      "actor": "codex:5845-readiness-repair",
+      "reason": "Make WP-24A validator deliverables exact and remove wording that the readiness validator misclassifies as a missing path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Ten complete episode directories\",\"Ten final MP3 and archive-audio artifacts with manifests\",\"Validated feed and enclosure records\",\"Audio, redaction, guest, metadata, playback, and listening QA evidence\",\"Exact-head editorial and audio review\",\"adl/tools/test_podcast_launch_packet.sh\",\"adl/tools/record_podcast_native_playback.sh\",\"adl/tools/record_podcast_browser_playback.mjs\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb\"]}"
+    },
+    {
+      "sequence": 64,
+      "generation": 44,
+      "actor": "codex:5845-readiness-repair",
+      "reason": "Use executable issue-owned validation routes and explicitly defer implementation-delivered playback validators until they exist.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24a-package-positive\",\"proof_role\":\"Prove all ten packages, final audio manifests, and feed records are complete and internally consistent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/test_podcast_launch_packet.sh\",\"--ten-episode-positive\"],\"parallel_group\":\"podcast\",\"defer_reason\":null},{\"lane\":\"wp24a-package-negative\",\"proof_role\":\"Reject missing or silent audio, digest and metadata mismatch, local feed paths, draft guests, unsafe text, and publication overclaims.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/test_podcast_launch_packet.sh\",\"--ten-episode-negative\"],\"parallel_group\":\"podcast\",\"defer_reason\":null},{\"lane\":\"wp24a-macos-playback\",\"proof_role\":\"Produce a non-synthetic macOS native playback receipt and capture bound to the exact candidate HEAD.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/record_podcast_native_playback.sh\",\"--platform\",\"macos\",\"--source-sha-from-git-head\",\"--episode\",\"demos/podcast/episodes/001-meet-the-ai-coworkers/episode.mp3\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/macos-native\"],\"parallel_group\":\"platform-native\",\"defer_reason\":\"The issue must implement this owned validator before validation; a missing producer blocks review readiness.\"},{\"lane\":\"wp24a-linux-playback\",\"proof_role\":\"Produce a non-synthetic Linux native playback receipt and capture bound to the exact candidate HEAD.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/record_podcast_native_playback.sh\",\"--platform\",\"linux\",\"--source-sha-from-git-head\",\"--episode\",\"demos/podcast/episodes/001-meet-the-ai-coworkers/episode.mp3\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/linux-native\"],\"parallel_group\":\"platform-native\",\"defer_reason\":\"The issue must implement this owned validator before validation; a missing producer blocks review readiness.\"},{\"lane\":\"wp24a-desktop-chromium-playback\",\"proof_role\":\"Produce a desktop Chromium playback receipt and capture bound to the exact candidate HEAD and loopback episode route.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"node\",\"adl/tools/record_podcast_browser_playback.mjs\",\"--browser\",\"chromium\",\"--source-sha-from-git-head\",\"--episode-url\",\"http://127.0.0.1:4173/podcast/episodes/001/episode.mp3\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/desktop-chromium\"],\"parallel_group\":\"platform-browser\",\"defer_reason\":\"The issue must implement this owned validator before validation; a missing producer blocks review readiness.\"},{\"lane\":\"wp24a-ios-safari-playback\",\"proof_role\":\"Produce a physical-device iOS Safari playback receipt at exact candidate HEAD while retaining only a hashed device identity.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\"--source-sha-from-git-head\",\"--device-id-hash-env\",\"ADL_IOS_DEVICE_ID_SHA256\",\"--episode-url-env\",\"ADL_IOS_EPISODE_URL\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/ios-safari-device\"],\"parallel_group\":\"platform-browser\",\"defer_reason\":\"The issue must implement this owned validator before validation; missing physical-device proof blocks review readiness.\"},{\"lane\":\"wp24a-platform-receipt-binding\",\"proof_role\":\"Recompute canonical receipt, media, and capture digests and require all four exact platform identities at candidate HEAD.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb\",\"--source-sha-from-git-head\"],\"parallel_group\":\"platform-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 65,
+      "generation": 45,
+      "actor": "codex:5845-readiness-review-fix",
+      "reason": "Record the established split issue/code repository publication authority for WP-24A.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-24A owns ten review-ready local episode packages\",\"Issue authority remains danielbaustin/agent-design-language#5845\",\"Code and pull-request publication target agent-logic/agent-design-language\",\"The implementation PR must use Closes danielbaustin/agent-design-language#5845\",\"#5819 and the route/storage decision identify any canonical public destination\",\"#3223/#3256 provide retained production-pipeline proof\",\"The operator retains deployment and publication authority\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 46,
+      "actor": "codex:5845-readiness-review-fix",
+      "reason": "Use executable issue-owned routes and defer package and playback lanes until their issue-owned mode and bounded-temporary-storage contracts exist.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24a-package-positive\",\"proof_role\":\"Prove all ten packages, final audio manifests, and feed records are complete and internally consistent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/test_podcast_launch_packet.sh\",\"--ten-episode-positive\"],\"parallel_group\":\"podcast\",\"defer_reason\":\"Implementation must first add ten-episode positive-mode parsing and enforce temporary storage beneath .csdlc/evidence/5845; running the current legacy smoke is not acceptance proof.\"},{\"lane\":\"wp24a-package-negative\",\"proof_role\":\"Reject missing or silent audio, digest and metadata mismatch, local feed paths, draft guests, unsafe text, and publication overclaims.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/test_podcast_launch_packet.sh\",\"--ten-episode-negative\"],\"parallel_group\":\"podcast\",\"defer_reason\":\"Implementation must first add a distinct fail-closed ten-episode negative mode and enforce temporary storage beneath .csdlc/evidence/5845; the current legacy smoke cannot satisfy this lane.\"},{\"lane\":\"wp24a-macos-playback\",\"proof_role\":\"Produce a non-synthetic macOS native playback receipt and capture bound to the exact candidate HEAD.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/record_podcast_native_playback.sh\",\"--platform\",\"macos\",\"--source-sha-from-git-head\",\"--episode\",\"demos/podcast/episodes/001-meet-the-ai-coworkers/episode.mp3\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/macos-native\"],\"parallel_group\":\"platform-native\",\"defer_reason\":\"The issue must implement this owned validator before validation; a missing producer blocks review readiness.\"},{\"lane\":\"wp24a-linux-playback\",\"proof_role\":\"Produce a non-synthetic Linux native playback receipt and capture bound to the exact candidate HEAD.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/record_podcast_native_playback.sh\",\"--platform\",\"linux\",\"--source-sha-from-git-head\",\"--episode\",\"demos/podcast/episodes/001-meet-the-ai-coworkers/episode.mp3\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/linux-native\"],\"parallel_group\":\"platform-native\",\"defer_reason\":\"The issue must implement this owned validator before validation; a missing producer blocks review readiness.\"},{\"lane\":\"wp24a-desktop-chromium-playback\",\"proof_role\":\"Produce a desktop Chromium playback receipt and capture bound to the exact candidate HEAD and loopback episode route.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"node\",\"adl/tools/record_podcast_browser_playback.mjs\",\"--browser\",\"chromium\",\"--source-sha-from-git-head\",\"--episode-url\",\"http://127.0.0.1:4173/podcast/episodes/001/episode.mp3\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/desktop-chromium\"],\"parallel_group\":\"platform-browser\",\"defer_reason\":\"The issue must implement this owned validator before validation; a missing producer blocks review readiness.\"},{\"lane\":\"wp24a-ios-safari-playback\",\"proof_role\":\"Produce a physical-device iOS Safari playback receipt at exact candidate HEAD while retaining only a hashed device identity.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\"--source-sha-from-git-head\",\"--device-id-hash-env\",\"ADL_IOS_DEVICE_ID_SHA256\",\"--episode-url-env\",\"ADL_IOS_EPISODE_URL\",\"--evidence-dir\",\".csdlc/evidence/5845/platform/ios-safari-device\"],\"parallel_group\":\"platform-browser\",\"defer_reason\":\"The issue must implement this owned validator before validation; missing physical-device proof blocks review readiness.\"},{\"lane\":\"wp24a-platform-receipt-binding\",\"proof_role\":\"Recompute canonical receipt, media, and capture digests and require all four exact platform identities at candidate HEAD.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb\",\"--source-sha-from-git-head\"],\"parallel_group\":\"platform-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 67,
+      "generation": 46,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 68,
+      "generation": 47,
+      "actor": "openai-codex:gpt-5:issue-5845-bounded-design-rereview:2026-08-08",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 69,
+      "generation": 48,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "Align typed scope with the approved incremental Episode 001 checkpoint and all paths already carried by PR 69.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"demos/podcast/episodes/001-meet-the-ai-coworkers/ through 010-what-does-a-weekly-ai-studio-look-like/\",\"demos/podcast/audio/\",\"demos/podcast/artwork.png\",\"demos/podcast/feed.xml\",\"demos/podcast/index.html\",\"demos/_preview/podcast/index.html\",\"demos/podcast/episodes/meet-the-ai-coworkers/index.html\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/S3_CLOUDFRONT_RUNBOOK.md\",\"adl/tools/demo_v0911_multiagent_podcast_audio.sh\",\"adl/tools/generate_podcast_launch_packet.py\",\"adl/tools/validate_podcast_launch_packet.py\",\"adl/tools/test_podcast_launch_packet.sh\",\"adl/tools/record_podcast_native_playback.sh\",\"adl/tools/record_podcast_browser_playback.mjs\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\".csdlc/prepared/issues/5845/design.md\",\".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb\",\".csdlc/prepared/issues/5845/validate-second-pass-readiness.rb\",\".csdlc/issues/5845/\",\".csdlc/evidence/5845/\",\"docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json\"]}"
+    },
+    {
+      "sequence": 70,
+      "generation": 49,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "Record truthful incremental publication authority: checkpoint PRs remain non-closing and terminal WP-24A closure is reserved for all ten packages.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-24A owns ten review-ready local episode packages and may land complete episode checkpoints incrementally\",\"Issue authority remains danielbaustin/agent-design-language#5845\",\"Code and pull-request publication target agent-logic/agent-design-language\",\"Incremental checkpoint PRs must use Part of danielbaustin/agent-design-language#5845 and leave the parent open\",\"Only the terminal all-ten-episodes PR may use Closes danielbaustin/agent-design-language#5845\",\"#5819 and the route/storage decision identify any canonical public destination\",\"#3223/#3256 provide retained production-pipeline proof\",\"The operator retains deployment and publication authority\"]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 50,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "Align the operative plan's affected areas with the reapproved design and Episode 001 checkpoint surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/episodes/001-meet-the-ai-coworkers\",\"demos/podcast/episodes/002-can-an-ai-be-a-good-teammate\",\"demos/podcast/episodes/003-the-promise-and-weirdness-of-talking-to-machines\",\"demos/podcast/episodes/004-what-should-we-let-ai-do-for-us\",\"demos/podcast/episodes/005-can-ai-help-us-think-better\",\"demos/podcast/episodes/006-the-new-creative-room\",\"demos/podcast/episodes/007-trust-receipts-and-proof\",\"demos/podcast/episodes/008-local-ai-vs-cloud-ai\",\"demos/podcast/episodes/009-when-ai-gets-stuck\",\"demos/podcast/episodes/010-what-does-a-weekly-ai-studio-look-like\",\"demos/podcast/audio\",\"demos/podcast/artwork.png\",\"demos/podcast/feed.xml\",\"demos/podcast/index.html\",\"demos/_preview/podcast/index.html\",\"demos/podcast/episodes/meet-the-ai-coworkers/index.html\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/S3_CLOUDFRONT_RUNBOOK.md\",\"adl/tools/demo_v0911_multiagent_podcast_audio.sh\",\"adl/tools/generate_podcast_launch_packet.py\",\"adl/tools/validate_podcast_launch_packet.py\",\"adl/tools/test_podcast_launch_packet.sh\",\"adl/tools/record_podcast_native_playback.sh\",\"adl/tools/record_podcast_browser_playback.mjs\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\".csdlc/prepared/issues/5845/design.md\",\".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb\",\".csdlc/prepared/issues/5845/validate-second-pass-readiness.rb\",\".csdlc/issues/5845\",\".csdlc/evidence/5845\",\"docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json\"]}"
+    },
+    {
+      "sequence": 72,
+      "generation": 51,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 73,
+      "generation": 52,
+      "actor": "openai-codex:gpt-5:issue-5845-studio-ownership-design-review:2026-08-08",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 74,
+      "generation": 53,
+      "actor": "openai-codex:gpt-5:pr69-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

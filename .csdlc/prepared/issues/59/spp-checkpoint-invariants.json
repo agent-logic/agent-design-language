@@ -1,0 +1,21 @@
+{
+  "issue": 59,
+  "card": "spp",
+  "expected_generation": 10,
+  "expected_digest": "baaa7cfe2a13a6a0589804426a3a2bd49069607df56f69f6c747a178427ae33b",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Preserve issue liveness and non-closing publication truth",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Blocked historical goal truth and accounting are never rewritten",
+      "ADL does not shadow Codex thread-goal state",
+      "Active goals remain protected from accidental overwrite",
+      "Repository policy is not weakened as a workaround",
+      "No code implementation proceeds without owning source authority",
+      "The checkpoint uses linkage_mode part_of and never closes issue 59"
+    ]
+  },
+  "fail_after_backup": false
+}

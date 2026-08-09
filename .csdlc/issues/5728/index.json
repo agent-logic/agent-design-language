@@ -5,8 +5,9 @@
   "initialization_digest": "1f206dffb8c87f6c95e7c98a2838af5de859dc58673f4b6d662a69612ca25910",
   "phase": "closed_out",
   "generation": 7,
-  "digest": "b389473daa56458d1a69f295820b855cbcff553f2e0e51bf430ef2299846c35b",
-  "claim": null,
+  "digest": "bf7273f4d9f039db4ee50029a9a88f3f225ae0fdba2323ae70f17ecf08ccbdce",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-subagent:closeout-missing-records",
     "assigned_by": "codex-subagent:closeout-missing-records",
@@ -167,13 +168,8 @@
     "observed_sha": "f62e36f1a70cae3adee71c715a3f5456df08f917",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5728.json",
-    "released_branch": "codex/5728-v0918-adr-set",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5728",
-      ".csdlc/locks/5728.lock",
-      ".csdlc/prepared/issues/5728"
-    ]
+    "branch": "codex/5728-v0918-adr-set",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5728/retained/design.md",

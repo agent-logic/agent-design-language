@@ -5,8 +5,9 @@
   "initialization_digest": "8389c08811378222f293ccc0d9046c6ca438c358e387a9db2258defe952f0fd5",
   "phase": "closed_out",
   "generation": 11,
-  "digest": "14884c5c8119b4932600b35497a58fe0ecb6e199dea49802562964b1071b8e47",
-  "claim": null,
+  "digest": "9c2693308bf01ec06c4fed18baf55e028324713a31baea8d67e28eb21116bbbb",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex:gpt-5.5-claim-authority-review",
     "assigned_by": "codex:5737-execution",
@@ -158,18 +159,8 @@
     "observed_sha": "86c2d7ae8f25cc890d6e8d892b3539a663d902f6",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5737.json",
-    "released_branch": "codex/5737-csdlc-authority-recovery",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5737",
-      ".csdlc/locks/5737.lock",
-      ".csdlc/prepared/issues/5737",
-      ".csdlc/evidence/5737",
-      ".csdlc/publication/5737.intent.json",
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate2.rs"
-    ]
+    "branch": "codex/5737-csdlc-authority-recovery",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5737/retained/design.md",

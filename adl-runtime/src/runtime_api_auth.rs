@@ -1,6 +1,8 @@
+use std::collections::{BTreeSet, VecDeque};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
@@ -24,6 +26,168 @@ pub const CSM_RUNTIME_API_CREDENTIAL_OVERLAP_SECS: u64 = 5 * 60;
 pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_SCHEMA: &str = "adl.csm.runtime_api.gateway_identity.v1";
 pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_AUDIENCE: &str = "csm-runtime-api";
 pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_MAX_TTL_SECS: u64 = 300;
+pub const CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES: usize = 64 * 1024;
+pub const CSM_RUNTIME_API_WSS_MAX_REPLAY_ENTRIES: usize = 1024;
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RuntimeApiWssAdmissionRequest<'a> {
+    pub authorization: Option<&'a str>,
+    pub origin: Option<&'a str>,
+    pub runtime_id: &'a str,
+    pub frame_bytes: usize,
+    pub replay_id: &'a str,
+    pub monotonic_sequence: u64,
+    pub capability: &'a str,
+    pub authority: &'a str,
+    pub control_payload: &'a [u8],
+    pub control_signature: Option<&'a str>,
+}
+
+#[derive(Debug, Clone, Serialize, PartialEq, Eq)]
+pub struct RuntimeApiWssAdmission {
+    pub credential_generation: u64,
+    pub runtime_id: String,
+    pub replay_id: String,
+    pub dispatch_allowed: bool,
+}
+
+#[derive(Debug)]
+struct RuntimeApiWssReplayState {
+    seen: BTreeSet<String>,
+    order: VecDeque<String>,
+    highest_sequence: Option<u64>,
+}
+
+#[derive(Debug)]
+pub struct RuntimeApiWssAdmissionPolicy {
+    runtime_id: String,
+    allowed_origins: BTreeSet<String>,
+    allowed_capabilities: BTreeSet<String>,
+    allowed_authorities: BTreeSet<String>,
+    replay: Mutex<RuntimeApiWssReplayState>,
+}
+
+impl RuntimeApiWssAdmissionPolicy {
+    pub fn new(
+        runtime_id: impl Into<String>,
+        allowed_origins: impl IntoIterator<Item = String>,
+        allowed_capabilities: impl IntoIterator<Item = String>,
+        allowed_authorities: impl IntoIterator<Item = String>,
+    ) -> Result<Self, String> {
+        let runtime_id = runtime_id.into();
+        if runtime_id.trim().is_empty() {
+            return Err("runtime_id_required".to_string());
+        }
+        let allowed_origins = allowed_origins.into_iter().collect::<BTreeSet<_>>();
+        if allowed_origins.is_empty()
+            || allowed_origins
+                .iter()
+                .any(|origin| !origin.starts_with("https://") || origin.contains('*'))
+        {
+            return Err("allowed_origins_must_be_exact_https_origins".to_string());
+        }
+        let allowed_capabilities = allowed_capabilities.into_iter().collect::<BTreeSet<_>>();
+        if allowed_capabilities.is_empty()
+            || allowed_capabilities
+                .iter()
+                .any(|capability| capability.trim().is_empty())
+        {
+            return Err("allowed_capabilities_required".to_string());
+        }
+        let allowed_authorities = allowed_authorities.into_iter().collect::<BTreeSet<_>>();
+        if allowed_authorities.is_empty()
+            || allowed_authorities
+                .iter()
+                .any(|authority| authority.trim().is_empty())
+        {
+            return Err("allowed_authorities_required".to_string());
+        }
+        Ok(Self {
+            runtime_id,
+            allowed_origins,
+            allowed_capabilities,
+            allowed_authorities,
+            replay: Mutex::new(RuntimeApiWssReplayState {
+                seen: BTreeSet::new(),
+                order: VecDeque::new(),
+                highest_sequence: None,
+            }),
+        })
+    }
+
+    pub fn authorize_session(
+        &self,
+        credentials: &RuntimeApiCredentialStore,
+        authorization: Option<&str>,
+        origin: Option<&str>,
+    ) -> Result<RuntimeApiCredentialMetadata, &'static str> {
+        let metadata = match credentials.authorize(authorization) {
+            RuntimeApiAuthDecision::Authenticated(metadata) => metadata,
+            RuntimeApiAuthDecision::Rejected { reason, .. } => return Err(reason),
+            RuntimeApiAuthDecision::Unavailable { .. } => return Err("credential_unavailable"),
+        };
+        let Some(origin) = origin else {
+            return Err("origin_required");
+        };
+        if !self.allowed_origins.contains(origin) {
+            return Err("origin_refused");
+        }
+        Ok(metadata)
+    }
+
+    pub fn admit(
+        &self,
+        credentials: &RuntimeApiCredentialStore,
+        request: RuntimeApiWssAdmissionRequest<'_>,
+    ) -> Result<RuntimeApiWssAdmission, &'static str> {
+        let metadata =
+            self.authorize_session(credentials, request.authorization, request.origin)?;
+        if request.runtime_id != self.runtime_id {
+            return Err("wrong_runtime");
+        }
+        if request.frame_bytes == 0 || request.frame_bytes > CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES {
+            return Err("frame_size_refused");
+        }
+        credentials.verify_wss_control_signature(
+            request.authorization,
+            request.control_payload,
+            request.control_signature,
+        )?;
+        if !self.allowed_capabilities.contains(request.capability) {
+            return Err("capability_denied");
+        }
+        if !self.allowed_authorities.contains(request.authority) {
+            return Err("authority_denied");
+        }
+        if request.replay_id.trim().is_empty() {
+            return Err("replay_id_required");
+        }
+        let mut replay = self.replay.lock().map_err(|_| "replay_state_unavailable")?;
+        if replay.seen.contains(request.replay_id) {
+            return Err("replay_refused");
+        }
+        if replay
+            .highest_sequence
+            .is_some_and(|highest| request.monotonic_sequence <= highest)
+        {
+            return Err("sequence_replay_refused");
+        }
+        if replay.seen.len() >= CSM_RUNTIME_API_WSS_MAX_REPLAY_ENTRIES {
+            let oldest = replay.order.pop_front().ok_or("replay_state_unavailable")?;
+            replay.seen.remove(&oldest);
+        }
+        let replay_id = request.replay_id.to_string();
+        replay.seen.insert(replay_id.clone());
+        replay.order.push_back(replay_id);
+        replay.highest_sequence = Some(request.monotonic_sequence);
+        Ok(RuntimeApiWssAdmission {
+            credential_generation: metadata.generation,
+            runtime_id: self.runtime_id.clone(),
+            replay_id: request.replay_id.to_string(),
+            dispatch_allowed: true,
+        })
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -259,6 +423,33 @@ impl RuntimeApiCredentialStore {
     pub fn with_bearer_token<T>(&self, use_token: impl FnOnce(&str) -> T) -> Result<T, String> {
         self.bearer_token()
             .map(|token| use_token(token.expose_secret()))
+    }
+
+    pub fn sign_wss_control(&self, payload: &[u8]) -> Result<String, String> {
+        self.with_bearer_token(|token| wss_control_signature(token, payload))?
+    }
+
+    pub fn verify_wss_control_signature(
+        &self,
+        authorization: Option<&str>,
+        payload: &[u8],
+        signature: Option<&str>,
+    ) -> Result<(), &'static str> {
+        let Some(raw) = authorization else {
+            return Err("missing_bearer_token");
+        };
+        let Some(token) = raw.strip_prefix("Bearer ") else {
+            return Err("invalid_authorization_scheme");
+        };
+        let Some(signature) = signature else {
+            return Err("unsigned_control_refused");
+        };
+        let expected =
+            wss_control_signature(token, payload).map_err(|_| "control_signature_unavailable")?;
+        if expected.as_bytes().ct_eq(signature.as_bytes()).unwrap_u8() != 1 {
+            return Err("control_signature_invalid");
+        }
+        Ok(())
     }
 
     pub fn sign_gateway_identity(
@@ -539,6 +730,14 @@ fn gateway_identity_signature(token: &str, encoded_claims: &str) -> Result<Strin
     let mut mac = Hmac::<Sha256>::new_from_slice(token.as_bytes())
         .map_err(|_| "initialize gateway identity signer".to_string())?;
     mac.update(encoded_claims.as_bytes());
+    Ok(URL_SAFE_NO_PAD.encode(mac.finalize().into_bytes()))
+}
+
+fn wss_control_signature(token: &str, payload: &[u8]) -> Result<String, String> {
+    let mut mac = Hmac::<Sha256>::new_from_slice(token.as_bytes())
+        .map_err(|_| "initialize runtime API WSS control signer".to_string())?;
+    mac.update(b"adl.runtime_api.wss_control.v1\0");
+    mac.update(payload);
     Ok(URL_SAFE_NO_PAD.encode(mac.finalize().into_bytes()))
 }
 
@@ -1077,6 +1276,131 @@ mod tests {
                 .verify_gateway_identity(Some(&encoded), Some(&signature), &first)
                 .unwrap_err(),
             "runtime API credential is revoked"
+        );
+    }
+
+    #[test]
+    fn wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay() {
+        let root = tempdir().unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(root.path());
+        store.ensure().unwrap();
+        let token = store.with_bearer_token(str::to_owned).unwrap();
+        let authorization = format!("Bearer {token}");
+        let policy = RuntimeApiWssAdmissionPolicy::new(
+            "runtime-a",
+            ["https://observatory.local".to_string()],
+            ["runtime.inspect".to_string()],
+            ["permit-1".to_string()],
+        )
+        .unwrap();
+        let payload = b"canonical-control-payload";
+        let signature = store.sign_wss_control(payload).unwrap();
+        let request = |replay_id: &'static str, monotonic_sequence| RuntimeApiWssAdmissionRequest {
+            authorization: Some(&authorization),
+            origin: Some("https://observatory.local"),
+            runtime_id: "runtime-a",
+            frame_bytes: 128,
+            replay_id,
+            monotonic_sequence,
+            capability: "runtime.inspect",
+            authority: "permit-1",
+            control_payload: payload,
+            control_signature: Some(&signature),
+        };
+
+        assert!(
+            policy
+                .admit(&store, request("replay-1", 1))
+                .unwrap()
+                .dispatch_allowed
+        );
+        assert_eq!(
+            policy.admit(&store, request("replay-1", 1)),
+            Err("replay_refused")
+        );
+        assert_eq!(
+            policy.admit(
+                &store,
+                RuntimeApiWssAdmissionRequest {
+                    origin: Some("https://attacker.invalid"),
+                    replay_id: "replay-2",
+                    ..request("unused", 2)
+                }
+            ),
+            Err("origin_refused")
+        );
+        assert_eq!(
+            policy.admit(
+                &store,
+                RuntimeApiWssAdmissionRequest {
+                    control_signature: None,
+                    replay_id: "replay-3",
+                    ..request("unused", 3)
+                }
+            ),
+            Err("unsigned_control_refused")
+        );
+        assert_eq!(
+            policy.admit(
+                &store,
+                RuntimeApiWssAdmissionRequest {
+                    capability: "runtime.admin",
+                    replay_id: "replay-4",
+                    ..request("unused", 4)
+                }
+            ),
+            Err("capability_denied")
+        );
+        assert_eq!(
+            policy.admit(
+                &store,
+                RuntimeApiWssAdmissionRequest {
+                    authority: "forged-permit",
+                    replay_id: "replay-authority",
+                    ..request("unused", 5)
+                }
+            ),
+            Err("authority_denied")
+        );
+        assert_eq!(
+            policy.admit(
+                &store,
+                RuntimeApiWssAdmissionRequest {
+                    runtime_id: "runtime-b",
+                    replay_id: "replay-5",
+                    ..request("unused", 6)
+                }
+            ),
+            Err("wrong_runtime")
+        );
+
+        for index in 0..CSM_RUNTIME_API_WSS_MAX_REPLAY_ENTRIES {
+            let replay_id = format!("rolling-{index}");
+            policy
+                .admit(
+                    &store,
+                    RuntimeApiWssAdmissionRequest {
+                        replay_id: &replay_id,
+                        monotonic_sequence: index as u64 + 2,
+                        ..request("unused", 0)
+                    },
+                )
+                .unwrap();
+        }
+        assert_eq!(
+            policy.admit(
+                &store,
+                RuntimeApiWssAdmissionRequest {
+                    replay_id: "rolling-1023",
+                    monotonic_sequence: CSM_RUNTIME_API_WSS_MAX_REPLAY_ENTRIES as u64 + 1,
+                    ..request("unused", 0)
+                }
+            ),
+            Err("replay_refused")
+        );
+        assert_eq!(
+            policy.admit(&store, request("replay-1", 1)),
+            Err("sequence_replay_refused")
         );
     }
 }

@@ -1,0 +1,167 @@
+{
+  "issue": 63,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:63-readiness-preparation",
+  "design_path": ".csdlc/prepared/issues/63/design.md",
+  "diagram_path": ".csdlc/prepared/issues/63/diagram.mmd",
+  "design_reviewer": "subagent:63-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "C-SDLC editor cannot correct SIP scope after implemented review finding",
+    "slug": "implemented-sip-scope-correction",
+    "version": "v0.92",
+    "goal": "Provide one audited typed route to correct SIP declared scope after implementation and before publication without weakening card or lifecycle authority.",
+    "required_outcome": "A dedicated csdlc-edit operation corrects implemented-phase SIP declared_scope only when review/publication truth is clear, records the old and new scope plus reason, preserves typed card invariants, and remains unavailable after publication without typed recovery.",
+    "declared_scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/prepared/issues/63",
+      ".csdlc/issues/63"
+    ],
+    "authority_boundary": [
+      "Issue and code authority are agent-logic/agent-design-language#63",
+      "Only the typed csdlc-edit semantic operation may correct implemented SIP declared_scope",
+      "Canonical values JSON and the markdown.rs-backed renderer remain card truth; Markdown is never mutated directly",
+      "csdlc-review remains the sole authority for clearing review and publication truth during recovery"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Use the independent Rust C-SDLC v2 binaries and typed editor route",
+      "Require an actor and human reason and retain full previous and replacement scope arrays in audit truth",
+      "Use focused deterministic repository-local proof; do not run broad test suites",
+      "Do not mutate issue #53 or historical lifecycle evidence"
+    ],
+    "task_boundary": "Add an exact implemented-phase SIP declared_scope correction operation and focused invariant proof; do not broaden implemented-phase planning authority or redesign recovery.",
+    "deliverables": [
+      "Dedicated correct_declared_scope_before_publication typed semantic operation",
+      "Exact implemented/SIP/cleared-truth authorization and actor/reason guards",
+      "Audit operation retaining previous and replacement scope",
+      "Focused real-editor and validator regression coverage"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The typed editor accepts a nonempty SIP declared_scope correction in implemented phase and advances generation/digest exactly once",
+      "AC-2: The audit records actor, reason, complete previous scope, and complete replacement scope",
+      "AC-3: Stale generation/digest, empty actor/reason/scope, wrong card, and non-implemented phases fail without mutation",
+      "AC-4: Reviewed, published, merge-ready, or retained review/publication/readiness truth rejects correction; a typed recovery to clean implemented state permits it",
+      "AC-5: Values JSON, rendered Markdown, cross-card identity, and validator invariants remain coherent; direct Markdown drift remains rejected",
+      "AC-6: Focused Rust tests, strict focused Clippy, diff hygiene, and exact-head independent review pass"
+    ],
+    "dependencies": [
+      "agent-logic/agent-design-language#63",
+      "Existing SemanticOperation and EditRequest contracts",
+      "Existing store optimistic concurrency, audit, render, and atomic commit path",
+      "Existing csdlc-review recovery semantics"
+    ],
+    "repo_inputs": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "docs/templates/prompts/current.json"
+    ],
+    "non_goals": [
+      "Direct Markdown editing",
+      "Arbitrary implemented-phase SIP mutation",
+      "Automatic semantic classification of scope widening",
+      "A new lifecycle recovery transition",
+      "Changes to issue #53 receipt-contract work"
+    ],
+    "plan_summary": "Freeze the narrow operation and authorization contract, implement through the existing typed AST/render/atomic-commit pipeline, prove accepted correction and all adjacent fail-closed states, validate narrowly, resolve exact-head review, and publish a qualified closing PR.",
+    "affected_areas": [
+      "C-SDLC v2 semantic card operations",
+      "Implemented-phase editor authorization",
+      "SIP audit and projection truth",
+      "Focused editor validation proof"
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Confirm the dedicated operation, exact phase/card/truth guards, and old/new audit contract.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement the semantic operation and store authorization through the existing typed AST, render, validation, and atomic commit path.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add focused real-editor regressions for accepted correction, exact audit, stale input, adjacent phases/cards, recovery, and projection drift.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation and exact-head review, resolve findings, publish, shepherd, and finish truthfully.",
+        "acceptance_ids": ["AC-6"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Only SIP declared_scope changes through the new operation",
+      "No correction occurs with stale concurrency input or retained review/publication/readiness truth",
+      "Every correction exposes its actor, reason, previous scope, and replacement scope in canonical audit truth",
+      "Values and rendered Markdown remain generated and cross-card coherent",
+      "Normal planning edits and recovery authority remain unchanged"
+    ],
+    "risks": [
+      "An overly broad match could authorize adjacent implemented-phase SIP fields",
+      "Phase-only authorization could permit mutation while stale review or publication evidence remains",
+      "Generic audit serialization would omit the previous scope",
+      "A test that calls only a helper could miss real csdlc-edit and validator behavior"
+    ],
+    "planning_profile": "small",
+    "stop_conditions": [
+      "The route requires direct Markdown or raw record mutation",
+      "Review/publication truth must be cleared by this editor rather than typed recovery",
+      "Scope expands beyond the two production modules and focused existing regression surface",
+      "Old/new scope and reason cannot be retained atomically"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "implemented-sip-scope-editor-contract",
+        "proof_role": "Exercise the real typed editor/store/renderer/validator path for accepted correction, audit truth, concurrency, phase/card guards, recovery, and projection drift.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "issue-local",
+        "budget_seconds": 420,
+        "budget_tokens": 5000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2", "implemented_sip_scope_correction"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "lane": "focused-editor-clippy",
+        "proof_role": "Reject Rust type, match exhaustiveness, and editor binary regressions on the bounded library and csdlc-edit target.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "issue-local",
+        "budget_seconds": 420,
+        "budget_tokens": 2500,
+        "argv": ["cargo", "clippy", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib", "--bin", "csdlc-edit", "--", "-D", "warnings"],
+        "acceptance_ids": ["AC-5", "AC-6"]
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "issue-local",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-6"]
+      }
+    ],
+    "failure_policy": "Fail closed on stale concurrency truth, empty justification, wrong card or phase, retained review/publication/readiness truth, audit omission, direct Markdown drift, or validator failure.",
+    "review_prompts": [
+      "Can any implemented-phase SIP field other than declared_scope be changed through this route?",
+      "Can correction occur while review, publication, or readiness truth remains attached?",
+      "Does the audit retain exact previous and replacement arrays plus actor and reason?",
+      "Do real editor and validator tests prove rendered-card and stale-input behavior?",
+      "Does post-publication recovery remain owned by csdlc-review rather than this operation?"
+    ],
+    "review_scope": "Issue 63 design, exact semantic-operation boundary, phase/card/recovery authorization, audit old/new truth, AST/render/validator invariants, focused proof, and no-widening constraints."
+  }
+}

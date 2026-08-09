@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 74,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records",
+    "slug": "stale-foreign-topology-records",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/tests/gate2.rs\n.csdlc/issues/74\n.csdlc/prepared/issues/74",
+      "review_revision": "git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be",
+      "reviewer": "subagent:74-exact-head-rereview",
+      "review_prompts": [
+        "Does the test contain the exact retired claim field from the report?",
+        "Is skipping based only on issue, branch, and canonical worktree irrelevance?",
+        "Do relevant corruption and genuine collisions remain fail closed?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

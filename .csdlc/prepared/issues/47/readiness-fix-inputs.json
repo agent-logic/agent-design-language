@@ -1,0 +1,21 @@
+{
+  "issue": 47,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "50153c88499e43af986e7358991f73aa389cd949972bd53cdff082e595302009",
+  "actor": "codex:issue-47-readiness-remediation",
+  "reason": "Remove the nonexistent validation module and route planning through existing owned selector surfaces.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/operator/skills",
+      "docs/tooling"
+    ]
+  }
+}

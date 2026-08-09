@@ -1,0 +1,8 @@
+flowchart LR
+  P1[Workspace coverage producer 1] --> A[adl-coverage-hosted\n16-core selected runner]
+  P2[Workspace coverage producer 2] --> A
+  R[Runtime coverage producer] --> A
+  A --> C[Coverage policy and Codecov boundary]
+  C --> S[adl-coverage\nlightweight stable status]
+  H[Existing heavy runner selector] --> A
+  X[Spot remains opt-in and unchanged] -.-> P1

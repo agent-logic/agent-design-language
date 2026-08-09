@@ -1,0 +1,6 @@
+{
+  "issue": 74,
+  "base_branch": "main",
+  "branch": "codex/74-stale-claim-topology-regression",
+  "worktree": "."
+}

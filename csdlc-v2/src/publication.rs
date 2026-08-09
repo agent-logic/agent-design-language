@@ -7,6 +7,28 @@ use crate::model::{IssueRecord, LifecyclePhase, PublicationEvidence};
 use crate::review::evaluate_publication_review_in_repo;
 use crate::Store;
 
+#[derive(
+    Debug,
+    Default,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    JsonSchema,
+    Display,
+    EnumString,
+    AsRefStr,
+)]
+#[serde(rename_all = "snake_case")]
+#[strum(serialize_all = "snake_case")]
+pub enum PublicationLinkageMode {
+    #[default]
+    Closing,
+    PartOf,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct PublicationRequest {
     pub schema: String,
@@ -21,6 +43,8 @@ pub struct PublicationRequest {
     pub head: String,
     pub title: String,
     pub body: String,
+    #[serde(default)]
+    pub linkage_mode: PublicationLinkageMode,
     #[serde(default)]
     pub draft: bool,
     pub remote: String,
@@ -37,6 +61,8 @@ pub struct PublicationIntent {
     pub head: String,
     pub title: String,
     pub body: String,
+    #[serde(default)]
+    pub linkage_mode: PublicationLinkageMode,
     pub draft: bool,
     pub revision: String,
     pub commit_sha: String,
@@ -51,6 +77,8 @@ pub struct RemotePullRequest {
     pub head: String,
     pub title: String,
     pub body: String,
+    #[serde(default)]
+    pub linkage_mode: PublicationLinkageMode,
     pub draft: bool,
     pub state: String,
     pub head_sha: String,
@@ -67,6 +95,68 @@ pub fn body_has_github_closing_keyword(body: &str, issue: u64, repository: &str)
 pub fn body_has_qualified_github_closing_keyword(body: &str, issue: u64, repository: &str) -> bool {
     let qualified_issue_ref = format!("{repository}#{issue}").to_ascii_lowercase();
     body_has_closing_reference(body, |token| token == qualified_issue_ref)
+}
+
+pub fn body_has_github_part_of_reference(body: &str, issue: u64, repository: &str) -> bool {
+    let issue_ref = format!("#{issue}");
+    let qualified_issue_ref = format!("{repository}#{issue}").to_ascii_lowercase();
+    body_has_part_of_reference(body, |token| {
+        token == issue_ref || token == qualified_issue_ref
+    })
+}
+
+pub fn body_has_qualified_github_part_of_reference(
+    body: &str,
+    issue: u64,
+    repository: &str,
+) -> bool {
+    let qualified_issue_ref = format!("{repository}#{issue}").to_ascii_lowercase();
+    body_has_part_of_reference(body, |token| token == qualified_issue_ref)
+}
+
+fn body_has_part_of_reference(body: &str, references_issue: impl Fn(&str) -> bool) -> bool {
+    body.lines().any(|line| {
+        let tokens = line
+            .split_whitespace()
+            .map(|token| {
+                token
+                    .trim_matches(|c: char| {
+                        matches!(
+                            c,
+                            ':' | ',' | ';' | '.' | '(' | ')' | '[' | ']' | '"' | '\''
+                        )
+                    })
+                    .to_ascii_lowercase()
+            })
+            .collect::<Vec<_>>();
+        tokens.len() == 3
+            && tokens[0] == "part"
+            && tokens[1] == "of"
+            && references_issue(&tokens[2])
+    })
+}
+
+pub fn body_has_exact_publication_linkage(
+    body: &str,
+    issue: u64,
+    repository: &str,
+    split_authority: bool,
+    mode: PublicationLinkageMode,
+) -> bool {
+    let closing = if split_authority {
+        body_has_qualified_github_closing_keyword(body, issue, repository)
+    } else {
+        body_has_github_closing_keyword(body, issue, repository)
+    };
+    let part_of = if split_authority {
+        body_has_qualified_github_part_of_reference(body, issue, repository)
+    } else {
+        body_has_github_part_of_reference(body, issue, repository)
+    };
+    match mode {
+        PublicationLinkageMode::Closing => closing && !part_of,
+        PublicationLinkageMode::PartOf => part_of && !closing,
+    }
 }
 
 fn body_has_closing_reference(body: &str, references_issue: impl Fn(&str) -> bool) -> bool {
@@ -149,11 +239,13 @@ pub fn prepare_publication(
         .code_repository
         .as_deref()
         .is_some_and(|repository| repository != request.repository);
-    let closing_linkage_ok = if split_authority {
-        body_has_qualified_github_closing_keyword(&request.body, request.issue, &request.repository)
-    } else {
-        body_has_github_closing_keyword(&request.body, request.issue, &request.repository)
-    };
+    let linkage_ok = body_has_exact_publication_linkage(
+        &request.body,
+        request.issue,
+        &request.repository,
+        split_authority,
+        request.linkage_mode,
+    );
     if request.schema != "csdlc.publication_request.v1"
         || request.repository.split_once('/').is_none()
         || request
@@ -163,7 +255,7 @@ pub fn prepare_publication(
         || request.base.trim().is_empty()
         || request.head.trim().is_empty()
         || request.title.trim().is_empty()
-        || !closing_linkage_ok
+        || !linkage_ok
         || !valid_remote_name(&request.remote)
         || !valid_ref_name(&request.base)
         || !valid_ref_name(&request.head)
@@ -216,6 +308,7 @@ pub fn prepare_publication(
         head: request.head.clone(),
         title: request.title.clone(),
         body: request.body.clone(),
+        linkage_mode: request.linkage_mode,
         draft: request.draft,
         revision,
         commit_sha,
@@ -223,14 +316,23 @@ pub fn prepare_publication(
 }
 
 fn verify_record(record: &IssueRecord, request: &PublicationRequest) -> Result<()> {
+    let record_code_repository = record
+        .code_repository
+        .as_deref()
+        .unwrap_or(&record.repository);
+    let request_code_repository = request
+        .code_repository
+        .as_deref()
+        .unwrap_or(&request.repository);
     if record.issue != request.issue
         || record.repository != request.repository
+        || !record_code_repository.eq_ignore_ascii_case(request_code_repository)
         || record.generation != request.expected_generation
         || record.digest != request.expected_digest
     {
         return Err(V2Error::new(
             ErrorCode::StaleDigest,
-            "publication request does not match canonical record",
+            "publication request does not match canonical issue or code repository identity",
         ));
     }
     if !matches!(
@@ -261,19 +363,18 @@ pub fn validate_remote(intent: &PublicationIntent, remote: &RemotePullRequest) -
 }
 
 fn validate_remote_identity(intent: &PublicationIntent, remote: &RemotePullRequest) -> Result<()> {
-    let closing_linkage_ok = if intent.repository != intent.issue_repository {
-        body_has_qualified_github_closing_keyword(
-            &remote.body,
-            intent.issue,
-            &intent.issue_repository,
-        )
-    } else {
-        body_has_github_closing_keyword(&remote.body, intent.issue, &intent.issue_repository)
-    };
+    let linkage_ok = body_has_exact_publication_linkage(
+        &remote.body,
+        intent.issue,
+        &intent.issue_repository,
+        intent.repository != intent.issue_repository,
+        intent.linkage_mode,
+    );
     if remote.repository != intent.repository
         || remote.base != intent.base
         || remote.head != intent.head
-        || !closing_linkage_ok
+        || remote.linkage_mode != intent.linkage_mode
+        || !linkage_ok
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -325,6 +426,7 @@ fn publication_evidence(
         base: remote.base,
         head: remote.head,
         revision: intent.revision.clone(),
+        linkage_mode: Some(intent.linkage_mode),
         draft: remote.draft,
         observed_state: remote.state,
     }

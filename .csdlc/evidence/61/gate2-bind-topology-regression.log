@@ -1,0 +1,8 @@
+
+running 1 test
+test bind_topology_scan_uses_canonical_record_identity ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.88s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/gate2.rs (csdlc-v2/target/debug/deps/gate2-dce5b3b484f69272)

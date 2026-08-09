@@ -1,0 +1,33 @@
+{
+  "issue": 5865,
+  "expected_generation": 20,
+  "expected_digest": "442f324d2f0e2a1c1abdf1d6c815840c8e2b18c523af08782279ddf9bc4fa356",
+  "actor": "codex:5862-sprint3-conductor",
+  "evidence": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "scope": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      ".csdlc/evidence/5865",
+      ".csdlc/issues/5865"
+    ],
+    "reviewed_revision": "git-blake3:3888951c86d9d299769aab7d83511749d480bca9:b7c10f66e5f9ef79d0c6f6405598ef49b07ada502a18c4371b7a309fbb0a1513",
+    "findings": [
+      {
+        "id": "5865-review-sor-current-repair-truth",
+        "severity": "p1",
+        "summary": "SOR omits the current authority-to-TLS binding repair and replay-window and stream-ceiling proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

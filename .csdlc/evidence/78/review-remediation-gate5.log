@@ -1,0 +1,23 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.16s
+     Running tests/gate5.rs (/Volumes/FastWork/adl-builds/78/csdlc-v2-target/debug/deps/gate5-b04f0ab7038d8c4f)
+
+running 17 tests
+test guard_rejects_malformed_fixed_and_accepted_risk_evidence ... ok
+test exact_completed_review_with_resolved_findings_is_publishable ... ok
+test missing_incomplete_stale_and_unresolved_review_fail_closed ... ok
+test out_of_scope_finding_must_remain_visible_and_routed ... ok
+test guard_cli_is_read_only_and_returns_typed_truth ... ok
+test non_substantive_exception_is_narrow_and_machine_proven ... ok
+test substantive_revision_honors_review_scope_pathspecs ... ok
+test typed_publication_metadata_commit_does_not_stale_review_but_source_drift_does ... ok
+test dirty_substantive_tree_is_rejected_before_review_assignment ... ok
+test direct_exact_review_records_and_advances_without_assignment ... ok
+test assignment_and_recording_update_index_and_srp_without_publication_side_effect ... ok
+test stp_deliverable_correction_rejects_projection_drift ... ok
+test doctor_accepts_committed_typed_metadata_after_review ... ok
+test metadata_only_changes_do_not_stale_a_clean_review ... ok
+test recovered_implemented_issue_can_correct_only_stp_deliverables ... ok
+test reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview ... ok
+test implemented_review_recovery_clears_truth ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.54s

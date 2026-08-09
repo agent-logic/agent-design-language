@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 59,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
+    "slug": "codex-blocked-goal-replacement",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Identify the truthful implementation authority for blocked-goal replacement and route the defect without falsifying historical goal state or inventing an ADL-local substitute.",
+      "required_outcome": "A reviewed typed readiness package proves whether ADL owns the failing transition and, if it does not, names the external authority and exact upstream contract needed before a live canary can close the issue.",
+      "declared_scope": [
+        ".csdlc/prepared/issues/59",
+        ".csdlc/issues/59"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#59",
+        "Thread-goal mutation authority is the OpenAI Codex goal-tool service",
+        "ADL owns policy and retained telemetry consumers, not create_goal admission or persistence",
+        "No implementation is authorized unless a repository-owned admission seam is discovered and independently reviewed"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main or under /private/tmp",
+        "Use the typed C-SDLC v2 lifecycle and Rust-only control plane",
+        "Do not mark the historical blocked goal complete",
+        "Do not weaken the ADL issue-bound goal policy",
+        "Do not invent an ADL-local goal service or shadow state",
+        "Do not use AWS"
+      ]
+    }
+  }
+}

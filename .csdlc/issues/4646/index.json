@@ -5,8 +5,9 @@
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
   "phase": "closed_out",
   "generation": 33,
-  "digest": "60d14e41739977088d858db8760e2fa4c5328422f2e39f836e2ff514756800f4",
-  "claim": null,
+  "digest": "866f3b342613e39369bbe53827be3fc69dfb1c8b4f3aa1990b21ecd48f2706bb",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
     "assigned_by": "codex:issue-4646",
@@ -95,13 +96,8 @@
     "observed_sha": "defbbd89ec5760ee437e545167d333ec886e8573",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4646.json",
-    "released_branch": "codex/4646-v0917-external-review",
-    "released_worktree": ".worktrees/adl-wp-4646",
-    "released_protected_paths": [
-      "docs/milestones/v0.91.7/review/external_review_4646",
-      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_4646.md",
-      ".csdlc/issues/4646"
-    ]
+    "branch": "codex/4646-v0917-external-review",
+    "worktree": ".worktrees/adl-wp-4646"
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/4646/design.md",

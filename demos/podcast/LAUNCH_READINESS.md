@@ -1,6 +1,7 @@
-# Synthetic Minds Podcast Launch Readiness
+# Cognitive Spacetime: The Agent Logic Podcast Launch Readiness
 
-This packet prepares the podcast surface for hidden-route testing before launch.
+This packet prepares the complete first episode for final human review and
+public-feed deployment.
 
 ## Routes
 
@@ -18,19 +19,23 @@ declares `noindex,nofollow`.
 | --- | --- | --- |
 | Hidden test URL | Ready | `demos/_preview/podcast/index.html` |
 | Production route target | Ready | `demos/podcast/index.html` |
-| RSS feed | Ready for local/feed-reader smoke | `demos/podcast/feed.xml` |
-| Audio playback | Ready for smoke | `demos/podcast/audio/meet-the-ai-coworkers.wav` |
+| RSS feed | Apple-registration-ready source | `demos/podcast/feed.xml` |
+| Episode 001 MP3 | Complete, held for human review | `demos/podcast/audio/meet-the-ai-coworkers.mp3` |
+| Episode 001 WAV archive | Complete | `demos/podcast/audio/meet-the-ai-coworkers.wav` |
+| Show artwork | Complete, 3000 x 3000 RGB PNG | `demos/podcast/artwork.png` |
+| Transcript and notes | Reconciled to final script | `demos/podcast/episodes/001-meet-the-ai-coworkers/` |
 | First ten topics | Drafted | episode list in `demos/podcast/index.html` |
 | Guest workflow | Page-ready | contact button uses `mailto:podcast@agent-logic.ai`; FAQ invites guest suggestions |
-| Contact path | Ready pending mailbox verification | `podcast@agent-logic.ai` appears only in CTA/FAQ/feed owner metadata |
+| Contact path | Address configured; mailbox verification deferred | `podcast@agent-logic.ai` appears only in CTA/FAQ/feed owner metadata |
 | Final launch route | Planned | promote `/podcast/` as the public route after review |
 
 ## Audio Truth
 
-The current audio file is a short WAV smoke sample, not a full final episode.
-It is used to prove browser playback and RSS enclosure wiring. Final launch
-audio can replace the file at the same route or switch the feed enclosure to a
-production MP3/M4A export once the production audio pipeline emits one.
+Episode 001 is a complete 18 minute, 32 second four-act conversation. The feed
+encloses a 160 kbps MP3 with embedded cover art. The WAV file is the 24 kHz mono
+archive master. ChatGPT, Gemini, and Claude authored their respective dialogue;
+the production metadata separately identifies the synthetic voice provider for
+each speaker.
 
 ## Directory Submission Prerequisites
 
@@ -39,18 +44,20 @@ live public hosting and account-side setup after this PR lands. Before
 submission, verify:
 
 - `https://agent-logic.ai/podcast/feed.xml` is publicly reachable over HTTPS.
-- `https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.wav` or its
-  production replacement is publicly reachable and stable.
-- `podcast@agent-logic.ai` receives verification mail for RSS ownership checks.
-- Final show artwork is present in the feed and satisfies directory artwork
-  requirements.
+- `https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3` is publicly
+  reachable and returns the complete file.
+- `https://agent-logic.ai/podcast/artwork.png` is publicly reachable and
+  returns the 3000 x 3000 RGB PNG.
+- `podcast@agent-logic.ai` receives directory verification mail; this remains a
+  launch-issue check and is not claimed by WP-24A.
 - The first submitted episode uses final approved audio, title, description,
   publish date, and content-rights truth.
 
-Directory availability is not claimed by this packet. It prepares the source
-routes and feed shape that those submissions will consume.
+Directory availability is not claimed by this packet. Deployment and directory
+submission require separate operator approval.
 
 ## Human Review
 
-Human review is intentionally after PR publication. This packet does not claim
-that the page, episode order, or final launch copy has had final human approval.
+The completed episode remains held for human review. This packet does not claim
+that the audio, page, episode order, or final launch copy has final publication
+approval.

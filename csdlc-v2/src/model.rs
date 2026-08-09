@@ -100,6 +100,8 @@ pub struct PublicationEvidence {
     pub base: String,
     pub head: String,
     pub revision: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub linkage_mode: Option<crate::publication::PublicationLinkageMode>,
     pub draft: bool,
     pub observed_state: String,
 }
@@ -191,6 +193,8 @@ pub struct IssueRecord {
     pub schema: String,
     pub issue: u64,
     pub repository: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub code_repository: Option<String>,
     pub initialization_digest: String,
     pub phase: LifecyclePhase,
     pub generation: u64,

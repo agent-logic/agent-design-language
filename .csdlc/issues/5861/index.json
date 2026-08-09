@@ -5,25 +5,9 @@
   "initialization_digest": "bd0f74de382b941c962968626ec47c9841184670eb31eb9e17a30d7c0f0f6cee",
   "phase": "published",
   "generation": 6,
-  "digest": "a283596e4e47b741a67fee9e289f8588268e1d7954e6289fac169975ca9088b7",
-  "claim": {
-    "id": "claim-5861-v092-simple-preparation-binding",
-    "owner": "codex:5861",
-    "generation": 6,
-    "acquired_unix_seconds": 1785950070,
-    "expires_unix_seconds": 1786554870,
-    "heartbeat_unix_seconds": 1785950070,
-    "branch": "codex/5861-v092-csdlc-preparation",
-    "worktree": ".worktrees/adl-wp-5861-preparation",
-    "protected_paths": [
-      "csdlc-v2",
-      "docs/architecture/csdlc-v2",
-      ".csdlc/issues/5861",
-      ".csdlc/prepared/issues/5861",
-      ".csdlc/evidence/5861"
-    ],
-    "purpose": "Implement claim-free preparation and recoverable execution binding after explicit operator authorization"
-  },
+  "digest": "f2f2ea49164e326f8a75f3950c0addb156e6b9eb5bedb9842527c322f43e305e",
+  "branch": "codex/5861-v092-csdlc-preparation",
+  "worktree": ".worktrees/adl-wp-5861-preparation",
   "review_assignment": null,
   "review": {
     "reviewer": "multi-model:claude-opus-5+gemini-3.1-pro+subagent",

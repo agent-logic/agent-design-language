@@ -8,13 +8,75 @@ module Wp04ProofReceiptContract
   module_function
 
   SHA256 = /\A[0-9a-f]{64}\z/
+  GIT_OID = /\A[0-9a-f]{40,64}\z/
+
+  def git(*args)
+    stdout, stderr, status = Open3.capture3("git", *args)
+    abort "git #{args.join(' ')} failed: #{stderr.strip}" unless status.success?
+    stdout
+  end
+
+  def exact_commit(revision, label)
+    abort "#{label} revision malformed" unless revision.to_s.match?(GIT_OID)
+    resolved = git("rev-parse", "--verify", "#{revision}^{commit}").strip
+    abort "#{label} revision is not exact" unless resolved == revision
+    resolved
+  end
+
+  def ancestor?(older, newer)
+    _stdout, _stderr, status = Open3.capture3("git", "merge-base", "--is-ancestor", older, newer)
+    status.success?
+  end
+
+  def safe_repository_path?(path)
+    !path.to_s.empty? && !path.start_with?("/") && !path.split("/").include?("..")
+  end
 
   def digest_file(path, expected, label, allow_empty: false)
-    abort "#{label} path must be repository-relative" if path.to_s.empty? || path.start_with?("/") || path.split("/").include?("..")
+    abort "#{label} path must be repository-relative" unless safe_repository_path?(path)
     abort "missing #{label}: #{path}" unless File.file?(path)
     abort "empty #{label}: #{path}" if !allow_empty && File.zero?(path)
     abort "invalid #{label} digest" unless expected.to_s.match?(SHA256)
     abort "#{label} digest mismatch: #{path}" unless Digest::SHA256.file(path).hexdigest == expected
+  end
+
+  def validate_source_artifacts(artifacts, paths, revision)
+    entries = Array(artifacts)
+    abort "source artifacts missing" if entries.empty?
+    abort "source artifact paths mismatch" unless entries.map { |entry| entry["path"] } == paths
+    entries.each do |artifact|
+      path = artifact.fetch("path")
+      expected = artifact.fetch("sha256")
+      abort "source artifact path must be repository-relative" unless safe_repository_path?(path)
+      abort "invalid source artifact digest" unless expected.to_s.match?(SHA256)
+      bytes = git("show", "#{revision}:#{path}")
+      abort "source artifact digest mismatch: #{path}" unless Digest::SHA256.hexdigest(bytes) == expected
+    end
+  end
+
+  def validate_v3_revisions(issue, proof, evidence_path, head)
+    prefix = ".csdlc/evidence/#{issue}/"
+    abort "execution proof path escapes issue evidence" unless safe_repository_path?(evidence_path) && evidence_path.start_with?(prefix)
+    abort "wrong evidence revision strategy" unless proof["evidence_revision_strategy"] == "derive_from_receipt_introduction"
+    abort "stored evidence revision is self-referential" if proof.key?("evidence_revision")
+    source = exact_commit(proof["source_revision"], "source")
+    introductions = git(
+      "log", "--format=%H", "--diff-filter=A", "--reverse", "#{source}..#{head}", "--", evidence_path
+    ).lines.map(&:strip).reject(&:empty?)
+    abort "receipt must have exactly one introduction commit after source" unless introductions.length == 1
+    evidence = exact_commit(introductions.fetch(0), "evidence")
+    abort "source revision is not an ancestor of evidence revision" unless ancestor?(source, evidence)
+    abort "evidence revision is not an ancestor of HEAD" unless ancestor?(evidence, head)
+    committed_receipt = git("show", "#{evidence}:#{evidence_path}")
+    abort "receipt content differs from evidence revision" unless committed_receipt == File.binread(evidence_path)
+
+    changed = git("diff", "--name-only", source, evidence, "--").lines.map(&:strip).reject(&:empty?)
+    abort "source-to-evidence diff is empty" if changed.empty?
+    escaped = changed.reject { |path| path.start_with?(prefix) }
+    abort "source-to-evidence diff escapes issue evidence: #{escaped.join(', ')}" unless escaped.empty?
+    later_touches = git("log", "--format=%H", "#{evidence}..#{head}", "--", prefix).lines.map(&:strip).reject(&:empty?)
+    abort "evidence changed after its introduction: #{later_touches.join(', ')}" unless later_touches.empty?
+    [source, evidence]
   end
 
   def validate_runner(runner, label)
@@ -63,13 +125,20 @@ module Wp04ProofReceiptContract
     evidence_path = ARGV.fetch(0, ".csdlc/evidence/#{issue}/execution-proof.json")
     abort "missing execution proof: #{evidence_path}" unless File.file?(evidence_path)
     proof = JSON.parse(File.read(evidence_path))
-    abort "wrong schema" unless proof["schema"] == "adl.wp04.execution_proof.v2"
+    schema = proof["schema"]
+    abort "wrong schema" unless %w[adl.wp04.execution_proof.v2 adl.wp04.execution_proof.v3].include?(schema)
     abort "wrong issue" unless proof["issue"] == issue
     abort "wrong WP" unless proof["wp"] == wp
-    head, status = Open3.capture2("git", "rev-parse", "HEAD")
-    abort "cannot resolve HEAD" unless status.success?
-    abort "stale source revision" unless proof["source_revision"] == head.strip
+    head = git("rev-parse", "HEAD").strip
+    source_revision, evidence_revision = if schema == "adl.wp04.execution_proof.v2"
+      source = exact_commit(proof["source_revision"], "source")
+      abort "stale source revision" unless source == head
+      [source, head]
+    else
+      validate_v3_revisions(issue, proof, evidence_path, head)
+    end
     abort "protected path drift" unless proof["protected_paths"] == paths
+    validate_source_artifacts(proof["source_artifacts"], paths, source_revision) if schema == "adl.wp04.execution_proof.v3"
 
     commands = Array(proof["commands"])
     test_commands = commands.select do |command|
@@ -88,12 +157,12 @@ module Wp04ProofReceiptContract
     abort "unexpected native receipt denominator" unless receipts.map { |entry| entry["platform"] }.sort == platforms.sort
     receipts.each do |receipt|
       platform = receipt.fetch("platform")
-      abort "stale native receipt for #{platform}" unless receipt["source_revision"] == head.strip
+      abort "stale native receipt for #{platform}" unless receipt["source_revision"] == source_revision
       validate_command(receipt["command"], "#{platform} native")
       validate_artifacts(receipt["artifacts"], issue, "#{platform} native")
     end
     run_ids = receipts.map { |receipt| receipt.dig("command", "runner", "run_id") }
     abort "native runner runs are not distinct" unless run_ids.uniq.length == run_ids.length
-    puts "PASS: #{wp} exact-head logs, artifacts, negatives, and native receipts"
+    puts "PASS: #{wp} source #{source_revision} evidence #{evidence_revision} logs, artifacts, negatives, and native receipts"
   end
 end

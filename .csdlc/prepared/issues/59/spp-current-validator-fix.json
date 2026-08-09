@@ -1,0 +1,20 @@
+{
+  "issue": 59,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "df6957091643d4c20b20f3999c3d775a673efca08ee64a68184aae4fc20426fb",
+  "actor": "codex:59-readiness-refresh",
+  "reason": "Name exact issue-owned authority packet files as the only repository work surface",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/prepared/issues/59/design.md",
+      ".csdlc/prepared/issues/59/diagram.mmd",
+      ".csdlc/issues/59/cards/stp.md",
+      ".csdlc/issues/59/cards/vpp.md",
+      ".csdlc/issues/59/cards/srp.md"
+    ]
+  },
+  "fail_after_backup": false
+}

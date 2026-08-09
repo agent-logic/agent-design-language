@@ -1,0 +1,22 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5872,
+  "source_revision": "0e624aa6776660679ff4145e8d617423f3e0b7d9",
+  "cases": [
+    {"case": "wrong_domain_holder_certificate_or_signature", "result": "rejected"},
+    {"case": "wrong_purpose_revoked_or_unapproved_certificate", "result": "denied"},
+    {"case": "future_expired_or_overlong_observation", "result": "rejected"},
+    {"case": "nonfinite_out_of_range_or_inconsistent_metrics", "result": "rejected"},
+    {"case": "duplicate_old_generation_or_invalid_high_sequence_replay", "result": "denied"},
+    {"case": "signed_withdrawal_and_restart_no_data", "result": "recovered"},
+    {"case": "oversize_capacity_or_corrupt_durable_state", "result": "fail_closed"},
+    {"case": "valid_json_semantic_durable_corruption", "result": "fail_closed"},
+    {"case": "observation_to_null_withdrawal_corruption", "result": "fail_closed"},
+    {"case": "forged_high_water_withdrawal_corruption", "result": "fail_closed"},
+    {"case": "cached_revoked_rotated_expired_or_stale_authorization", "result": "denied"},
+    {"case": "platform_maximum_policy_bounds", "result": "rejected"},
+    {"case": "relative_database_path", "result": "rejected"},
+    {"case": "symlinked_database_ancestor_or_final_component", "result": "rejected"},
+    {"case": "raw_path_provider_observability_or_secret_redaction", "result": "denied"}
+  ]
+}

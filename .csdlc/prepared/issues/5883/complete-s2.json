@@ -1,0 +1,1 @@
+{"issue":5883,"card":"spp","expected_generation":2,"expected_digest":"c1517144bcc4e51936a28da1151bd87e713bde8987614112ccb66a71897e27be","actor":"codex:5883-implementation","reason":"Deleted the duplicate binary and removed active requirements.","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"},"fail_after_backup":false}

@@ -40,6 +40,7 @@ fn record(phase: LifecyclePhase) -> IssueRecord {
         schema: "csdlc.issue.index.v1".into(),
         issue: ISSUE,
         repository: "owner/repo".into(),
+        code_repository: None,
         initialization_digest: "initialization".into(),
         phase,
         generation: 1,

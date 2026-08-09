@@ -1,0 +1,7 @@
+flowchart LR
+  S["Enumerate topology projection"] --> I["Read minimal issue, branch, worktree identity"]
+  I --> R{"Relevant to requested issue, branch, or path?"}
+  R -->|"no"| K["Skip without legacy decoding"]
+  R -->|"yes"| V["Strict record and card verification"]
+  V -->|"valid, no collision"| B["Continue bind"]
+  V -->|"malformed or collision"| X["Fail closed"]

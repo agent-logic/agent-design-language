@@ -177,6 +177,14 @@ pub enum OperationError {
 pub trait OperationExecutor: Send + Sync + 'static {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError>;
 
+    fn replay_payload(&self, payload: &[u8]) -> Result<Vec<u8>, ExecutorError> {
+        Ok(payload.to_vec())
+    }
+
+    fn replay_error_message(&self, message: &str) -> Result<String, ExecutorError> {
+        Ok(message.to_owned())
+    }
+
     async fn shutdown(&self) -> Result<(), ExecutorError> {
         Ok(())
     }
@@ -470,7 +478,7 @@ impl OperationalAdapter {
             .cloned()
         {
             return if completed.fingerprint == fingerprint {
-                completed.result
+                replay_completed_outcome(self.executor.as_ref(), completed.result)
             } else {
                 Err(OperationError::InvalidRequest)
             };
@@ -711,6 +719,46 @@ impl OperationalAdapter {
             outputs: spec.outputs,
             failure_policy: spec.failure_policy,
         }
+    }
+}
+
+fn replay_completed_outcome(
+    executor: &dyn OperationExecutor,
+    outcome: OperationOutcome,
+) -> OperationOutcome {
+    match outcome {
+        Ok(mut result) => {
+            result.payload = executor
+                .replay_payload(&result.payload)
+                .map_err(map_executor_error)?;
+            Ok(result)
+        }
+        Err(OperationError::Degraded(message)) => match executor.replay_error_message(&message) {
+            Ok(message) => Err(OperationError::Degraded(message)),
+            Err(error) => Err(map_executor_error(error)),
+        },
+        Err(OperationError::Fatal(message)) => match executor.replay_error_message(&message) {
+            Ok(message) => Err(OperationError::Fatal(message)),
+            Err(error) => Err(map_executor_error(error)),
+        },
+        Err(OperationError::Exhausted { attempts, message }) => {
+            match executor.replay_error_message(&message) {
+                Ok(message) => Err(OperationError::Exhausted { attempts, message }),
+                Err(error) => Err(map_executor_error(error)),
+            }
+        }
+        Err(error) => Err(error),
+    }
+}
+
+fn map_executor_error(error: ExecutorError) -> OperationError {
+    match error.class {
+        FailureClass::Retryable => OperationError::Exhausted {
+            attempts: 1,
+            message: error.message,
+        },
+        FailureClass::Degraded => OperationError::Degraded(error.message),
+        FailureClass::Fatal => OperationError::Fatal(error.message),
     }
 }
 

@@ -5,8 +5,9 @@
   "initialization_digest": "8cb0d0afdcbaed1cf35b1b2acff6481c7e7e263056d01af50bcea90452747ec0",
   "phase": "closed_out",
   "generation": 22,
-  "digest": "e53b65f573e82e7d926749ac460a97aab90b0137b762dc37a88bfa14c9e48069",
-  "claim": null,
+  "digest": "383c0b537cb49057e3d6f702b97633a5ae55d2687e568c6161fa7508e8c377c2",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:/root/review_5339_impl",
     "assigned_by": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
@@ -159,14 +160,8 @@
     "observed_sha": "ba604e5f0ee16af901a4d8d7cb801c323500828d",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5339.json",
-    "released_branch": "codex/5339-v0918-wp04-language-core",
-    "released_worktree": ".worktrees/adl-wp-5339",
-    "released_protected_paths": [
-      ".csdlc/issues/5339",
-      ".csdlc/prepared/issues/5339",
-      ".csdlc/evidence/5339",
-      "adl-v2/crates/adl-language"
-    ]
+    "branch": "codex/5339-v0918-wp04-language-core",
+    "worktree": ".worktrees/adl-wp-5339"
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5339/design.md",

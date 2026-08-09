@@ -16,8 +16,9 @@ integration (5837), or cloud signal bridges.
 
 - `adl-runtime/src/acip.rs` and `adl-runtime-kernel/src/acip.rs` are current
   Runtime v3 ACIP semantic owners.
-- `adl-runtime/src/runtime_api.rs`, `runtime_api_auth.rs`, and
-  `tests/runtime_api_wss.rs` own authenticated full-duplex WSS transport.
+- `adl-runtime/src/runtime_api_auth.rs` and
+  `adl-runtime/tests/runtime_api_wss.rs` own this issue's authenticated
+  full-duplex WSS contract and focused proof surface.
 - `adl-runtime-kernel/src/protocol_adapters.rs`, `ingress.rs`, `control.rs`,
   and `operations.rs` own governed protocol admission and adapter dispatch.
 - `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`
@@ -51,7 +52,9 @@ logs, fixtures, or committed artifacts.
 
 ## Owned Paths
 
+- `.github/workflows/wp14-native-acip.yml`
 - `adl-runtime/src/acip.rs`
+- `adl-runtime/src/runtime_api.rs`
 - `adl-runtime/src/runtime_api_auth.rs`
 - `adl-runtime-kernel/src/acip.rs`
 - `adl-runtime-kernel/src/protocol_adapters.rs`
@@ -78,12 +81,22 @@ logs, fixtures, or committed artifacts.
 
 ## Dependencies And Coordination
 
-WP-04 gate issue #5821 must be terminal and WP-04-IMP issue #5862 must produce
-terminal integrated distributed output from all sixteen children before final
-implementation begins. Existing ACIP stream and trace/replay baselines must be
-requalified at the current revision. Issue 5795 waits for stable command
-semantics; issue 5837 waits for the stable API/WSS consumer contract. Their
-implementation files remain out of scope here.
+WP-04 gate issue #5821 must be terminal. WP-14 is an independent protocol lane
+and its disjoint protocol, schema, catalog, deterministic JSON/protobuf
+projection, negotiation, authentication, bounded WSS, and focused proof may
+proceed immediately against current `main`. WP-04-IMP issue #5862 remains an
+independent distributed sprint and consumes terminal WP-14 protocol evidence;
+WP-14 has no reverse dependency on #5862.
+
+Issue #5795 final browser integration consumes terminal #5832 merge evidence.
+AWS GPU Shepherd sidecar #5907 follows terminal #5832 and local #5795; it is
+independent and never gates either lane.
+Each lane has its own branch, worktree, PR, focused proof, review, and closeout.
+The lanes never share worktrees, cross owned-path boundaries, or close
+provisionally. Handoffs are exact merged revisions and stable contracts only.
+Existing ACIP stream and trace/replay baselines must be requalified at the
+current implementation revision. Issue #5837 waits for the stable API/WSS
+consumer contract. Consumer implementation files remain out of scope here.
 
 ## Validation Boundary
 
@@ -92,17 +105,25 @@ golden compatibility fixtures, ordering, limits, unsupported versions,
 malformed frames, replay, and denied access. The issue-owned
 `acip_schema_roundtrip_negatives` test is the mandatory nonzero denominator for
 that lane.
-The `runtime_api_wss` production target launches the production
-Guardian/kernel, uses the real Rustls endpoint, performs authenticated
+The `runtime_api_wss` native target launches the issue-owned `RuntimeApiService`
+listener, uses a real Rustls endpoint, performs authenticated
 bidirectional binary and JSON exchanges, reconnects under backpressure,
 verifies trace/replay identity, and retains exact-revision transcript digests.
-It fails on fixture servers, plaintext, direct-kernel launch, zero exchanges,
-schema drift, or auth bypass without adding a second shell-owned launch path.
+It does not claim to launch the Guardian or kernel process. It fails on fixture
+servers, plaintext, zero exchanges, schema drift, or auth bypass without adding
+a second shell-owned launch path. The kernel control server's distinct binary
+carrier remains documented by `docs/api/runtime-v3/v1/openapi.json`; the
+issue-owned negotiated text carrier serves
+`docs/api/runtime-v3/v1/acip.openapi.json` at `/v1/acip/openapi.json`.
 
 `.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb` requires distinct macOS,
 Linux, and native Windows receipts bound to source revision, binary/schema
 digests, exact argv, runner identity, nonzero exchanges, negative-case counts,
-and output artifacts. Consumer rendering remains deferred to #5837.
+and output artifacts. The pull-request-only
+`.github/workflows/wp14-native-acip.yml` matrix produces those receipts without
+running after merge. These native receipts complete WP-14 independently and
+become inputs to later distributed interoperability in #5862.
+Consumer rendering remains deferred to #5837.
 
 ## Rollback
 

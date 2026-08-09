@@ -22,16 +22,34 @@ Each of the first ten episodes is independently reviewable and contains final sc
 
 - demos/podcast/episodes/001-meet-the-ai-coworkers/ through 010-what-does-a-weekly-ai-studio-look-like/
 - demos/podcast/audio/
+- demos/podcast/artwork.png
 - demos/podcast/feed.xml
+- demos/podcast/index.html
+- demos/_preview/podcast/index.html
+- demos/podcast/episodes/meet-the-ai-coworkers/index.html
 - demos/podcast/LAUNCH_READINESS.md
+- demos/podcast/S3_CLOUDFRONT_RUNBOOK.md
+- adl/tools/demo_v0911_multiagent_podcast_audio.sh
 - adl/tools/generate_podcast_launch_packet.py
 - adl/tools/validate_podcast_launch_packet.py
 - adl/tools/test_podcast_launch_packet.sh
+- adl/tools/record_podcast_native_playback.sh
+- adl/tools/record_podcast_browser_playback.mjs
+- adl/tools/record_podcast_ios_safari_playback.sh
+- .csdlc/prepared/issues/5845/design.md
+- .csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb
+- .csdlc/prepared/issues/5845/validate-second-pass-readiness.rb
+- .csdlc/issues/5845/
 - .csdlc/evidence/5845/
+- docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json
 
 ## Authority
 
-- WP-24A owns ten review-ready local episode packages
+- WP-24A owns ten review-ready local episode packages and may land complete episode checkpoints incrementally
+- Issue authority remains danielbaustin/agent-design-language#5845
+- Code and pull-request publication target agent-logic/agent-design-language
+- Incremental checkpoint PRs must use Part of danielbaustin/agent-design-language#5845 and leave the parent open
+- Only the terminal all-ten-episodes PR may use Closes danielbaustin/agent-design-language#5845
 - #5819 and the route/storage decision identify any canonical public destination
 - #3223/#3256 provide retained production-pipeline proof
 - The operator retains deployment and publication authority

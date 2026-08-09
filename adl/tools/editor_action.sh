@@ -37,7 +37,7 @@ supported_actions:
       - run
       - finish
 unsupported_browser_direct_actions:
-  - csdlc-init
+  - csdlc-issue create
   - csdlc-doctor
   - csdlc-bind
   - csdlc-validate
@@ -83,7 +83,7 @@ emit_contract_json() {
   ],
   "legacy_compatibility_actions": [],
   "unsupported_browser_direct_actions": [
-    "csdlc-init",
+    "csdlc-issue create",
     "csdlc-doctor",
     "csdlc-bind",
     "csdlc-validate",
@@ -129,7 +129,7 @@ emit_prepare_command() {
   local phase="$1" issue="$2" slug="$3" version="$4" title="$5" paths="$6"
   case "$phase" in
     init)
-      printf '.adl/bin/csdlc-v2/csdlc-init --root <worktree> --request <bootstrap-request.json>\n'
+      printf '.adl/bin/csdlc-v2/csdlc-issue --root <repo> create --request <bootstrap-request.json>\n'
       ;;
     doctor-ready)
       printf '.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue %s\n' "$issue"

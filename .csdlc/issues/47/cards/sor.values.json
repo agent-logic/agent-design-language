@@ -1,0 +1,123 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 47,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
+    "slug": "exact-rust-test-selectors",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented typed exact, intentional-broad, and invalid Rust test selector classification so misleading free substrings before or after the libtest separator fail before execution while explicit Cargo target boundaries, the test/t aliases, Cargo toolchain and global-option prefixes, and truthful broad lanes remain supported.",
+      "actual_changes": [
+        "Added strum-backed RustTestSelectorPosture classification and actionable fail-closed validation at the typed VPP lane boundary.",
+        "Recognized --doc and cargo +toolchain test target routes while rejecting post-separator substring fan-out without a Cargo target boundary.",
+        "Parsed supported Cargo global options before the test subcommand and rejected ambiguous pre-subcommand shapes instead of bypassing validation.",
+        "Handled Cargo's documented t alias and repeated verbosity flags without reopening substring fan-out.",
+        "Handled documented Cargo -C, -F, and lockfile-path value options without misclassifying their values as test filters.",
+        "Handled attached short-value forms for Cargo global and test options while preserving missing-value rejection.",
+        "Distinguished singular exact targets from plural broad target sets so target-set substring filters cannot fan out across unrelated binaries.",
+        "Added an issue-owned regression target proving exact, broad, missing-name, conflicting-selector, nonzero schema, and unrelated-integration exclusion behavior.",
+        "Updated active csdlc-v2 validation skill guidance with exact target examples and the intentional broad-lane distinction."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/tests/validation_selectors.rs",
+        "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "validation_lane_rejects_free_rust_test_substring_before_execution"
+          ],
+          "purpose": "Prove the typed VPP validation boundary rejects a misleading free substring while accepting exact and intentional broad routes.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/47/cards/sor.md"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "validation_selectors"
+          ],
+          "purpose": "Prove selector classification and exact nonzero schema selection without launching estimation_contracts.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2/tests/validation_selectors.rs"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "schema::tests"
+          ],
+          "purpose": "Prove the exact schema library lane selects its three intended unit tests.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/47/cards/sor.md"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove all C-SDLC v2 targets remain warning-free after the selector change.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/47/cards/sor.md"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "purpose": "Prove Rust formatting on the changed crate.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/47/cards/sor.md"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject whitespace errors in the bounded issue diff.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/47/cards/sor.md"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

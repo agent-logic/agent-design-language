@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 78,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
+    "slug": "stp-post-review-recovery-correction",
+    "version": "unversioned",
+    "generation": 16
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/78\n.csdlc/issues/78\n.csdlc/prepared/issues/78\ncsdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs",
+      "review_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+      "reviewer": "codex-subagent:Volta",
+      "review_prompts": [
+        "Can any issue without typed review recovery invoke the operation?",
+        "Can the operation modify any field other than STP deliverables?",
+        "Does audit evidence retain both exact previous and replacement values?",
+        "Do negative tests cover every phase, wrong card, stale CAS, malformed input, and projection drift?",
+        "Does the design avoid weakening review and publication authority?"
+      ],
+      "findings": [
+        {
+          "id": "F-78-1",
+          "severity": "p2",
+          "summary": "SPP steps S1-S3 remained pending after implementation and validation completed.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+          "route": null
+        },
+        {
+          "id": "F-78-2",
+          "severity": "p2",
+          "summary": "Focused proof covered stale generation but not stale digest and unchanged durable state.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "The operation is intentionally narrow; broader lifecycle correction completeness belongs to the separately planned C-SDLC v3 robustness work."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

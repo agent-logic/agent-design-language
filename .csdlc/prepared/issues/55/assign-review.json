@@ -1,0 +1,12 @@
+{
+  "issue":55,
+  "expected_generation":14,
+  "expected_digest":"ad700c933ced854bfbc89c0cc91aedc9a797375da89ae3aef789c7447f3438db",
+  "assigned_by":"codex:issue-55-implementation",
+  "reviewer":"codex:review_55_exact_head",
+  "scope":[
+    "Heavyweight adl_coverage_hosted selected-runner route",
+    "Focused regression assertions and preserved surrounding CI semantics",
+    "Typed issue evidence at exact implementation revision"
+  ]
+}

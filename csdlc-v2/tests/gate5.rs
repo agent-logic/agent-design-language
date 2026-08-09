@@ -150,6 +150,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
             base_branch: "main".into(),
             branch: "issue-7".into(),
             worktree: ".".into(),
+            code_repository: None,
         },
     )
     .expect("bind");
@@ -541,6 +542,388 @@ fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
     )
     .expect("reassign after clean finalize");
     assert!(reassigned.review_assignment.is_some());
+}
+
+#[test]
+fn implemented_review_recovery_clears_truth() {
+    let (_temp, clean_store, clean) = implemented_fixture();
+    let clean_error = csdlc_v2::recover_review(
+        &clean_store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: clean.generation,
+            expected_digest: clean.digest,
+            actor: "operator".into(),
+            reason: "clean implemented records have nothing to recover".into(),
+        },
+    )
+    .expect_err("clean implemented recovery must fail closed");
+    assert_eq!(clean_error.code, ErrorCode::InvalidTransition);
+
+    let (_temp, assigned_store, implemented) = implemented_fixture();
+    let assigned = assign_review(
+        &assigned_store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["docs".into()],
+        },
+    )
+    .expect("assign review");
+    assert_eq!(assigned.phase, LifecyclePhase::Implemented);
+    let correction_error = edit_issue(
+        &assigned_store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest.clone(),
+            actor: "operator".into(),
+            reason: "correct scope".into(),
+            operation: SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/lib.rs".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("scope correction must wait for typed review recovery");
+    assert_eq!(correction_error.code, ErrorCode::InvalidTransition);
+    let transition_count = assigned.transitions.len();
+    let recovered_assignment = csdlc_v2::recover_review(
+        &assigned_store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "correct declared scope before review".into(),
+        },
+    )
+    .expect("recover assignment-only implemented state");
+    assert_eq!(recovered_assignment.phase, LifecyclePhase::Implemented);
+    assert_eq!(recovered_assignment.transitions.len(), transition_count);
+    assert!(recovered_assignment.review_assignment.is_none());
+    assert!(recovered_assignment.review.is_none());
+    assert!(recovered_assignment.publication.is_none());
+    assert!(recovered_assignment.readiness.is_none());
+    assert!(recovered_assignment
+        .audit
+        .last()
+        .is_some_and(|event| event.operation == "recover_review"));
+    let corrected = edit_issue(
+        &assigned_store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered_assignment.generation,
+            expected_digest: recovered_assignment.digest,
+            actor: "operator".into(),
+            reason: "correct scope after typed recovery".into(),
+            operation: SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/lib.rs".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct scope after recovery");
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+
+    let (_temp, reviewed_store, implemented) = implemented_fixture();
+    let assigned = assign_review(
+        &reviewed_store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["docs".into()],
+        },
+    )
+    .expect("assign review");
+    let revision = assigned
+        .review_assignment
+        .as_ref()
+        .expect("assignment")
+        .revision
+        .clone();
+    let changes_required = record_review(
+        &reviewed_store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            evidence: ReviewEvidence {
+                reviewer: "subagent".into(),
+                scope: vec!["docs".into()],
+                reviewed_revision: revision,
+                findings: vec![ReviewFindingEvidence {
+                    id: "scope-path".into(),
+                    severity: FindingSeverity::P1,
+                    summary: "declared scope names a stale path".into(),
+                    actionable: true,
+                    in_scope: true,
+                    disposition: FindingDisposition::Open,
+                    fix_revision: None,
+                    route: None,
+                }],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record changes-required review");
+    assert_eq!(changes_required.phase, LifecyclePhase::Implemented);
+    assert!(changes_required.review.is_some());
+    let transition_count = changes_required.transitions.len();
+    let recovered_review = csdlc_v2::recover_review(
+        &reviewed_store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: changes_required.generation,
+            expected_digest: changes_required.digest,
+            actor: "operator".into(),
+            reason: "repair the declared scope finding".into(),
+        },
+    )
+    .expect("recover changes-required implemented state");
+    assert_eq!(recovered_review.phase, LifecyclePhase::Implemented);
+    assert_eq!(recovered_review.transitions.len(), transition_count);
+    assert!(recovered_review.review_assignment.is_none());
+    assert!(recovered_review.review.is_none());
+}
+
+#[test]
+fn recovered_implemented_issue_can_correct_only_stp_deliverables() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let before_cards = store.load_cards(7).expect("load cards before correction");
+    let csdlc_v2::cards::CardContent::Stp(before_stp) =
+        before_cards[&CardKind::Stp].content.clone()
+    else {
+        panic!("STP")
+    };
+    let replacement = vec!["src/lib.rs".into(), "src/validate.sh".into()];
+
+    let unrecovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            actor: "operator".into(),
+            reason: "correct reviewed denominator".into(),
+            operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("ordinary implemented issue must not imply recovery");
+    assert_eq!(unrecovered.code, ErrorCode::InvalidTransition);
+
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["csdlc-v2".into()],
+        },
+    )
+    .expect("assign review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "repair contradictory STP deliverables".into(),
+        },
+    )
+    .expect("recover review");
+
+    let stale = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation - 1,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "stale request".into(),
+            operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("stale generation must fail closed");
+    assert_eq!(stale.code, ErrorCode::StaleGeneration);
+
+    let durable_before_stale_digest =
+        std::fs::read(store.issue_dir(7).join("index.json")).expect("read durable record");
+    let stale_digest = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation,
+            expected_digest: "0".repeat(64),
+            actor: "operator".into(),
+            reason: "stale digest request".into(),
+            operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("stale digest must fail closed");
+    assert_eq!(stale_digest.code, ErrorCode::StaleDigest);
+    assert_eq!(
+        std::fs::read(store.issue_dir(7).join("index.json")).expect("reread durable record"),
+        durable_before_stale_digest
+    );
+
+    for invalid in [
+        Vec::<String>::new(),
+        vec![" ".into()],
+        vec!["src/lib.rs".into(), " src/lib.rs ".into()],
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Stp,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "reject malformed replacement".into(),
+                operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                    values: invalid,
+                },
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("malformed replacement must fail closed");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+    }
+
+    let wrong_card = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject wrong card".into(),
+            operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("non-STP card must fail closed");
+    assert_eq!(wrong_card.code, ErrorCode::InvalidTransition);
+
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "align deliverables with reviewed plan".into(),
+            operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct STP deliverables after recovery");
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+    let after_cards = store.load_cards(7).expect("load corrected cards");
+    let csdlc_v2::cards::CardContent::Stp(after_stp) = after_cards[&CardKind::Stp].content.clone()
+    else {
+        panic!("STP")
+    };
+    let mut expected_stp = before_stp.clone();
+    expected_stp.deliverables = replacement.clone();
+    assert_eq!(after_stp, expected_stp);
+
+    let audit: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured audit operation");
+    assert_eq!(
+        audit["operation"],
+        "correct_stp_deliverables_after_recovery"
+    );
+    assert_eq!(
+        audit["previous_values"],
+        serde_json::json!(before_stp.deliverables)
+    );
+    assert_eq!(audit["new_values"], serde_json::json!(replacement));
+}
+
+#[test]
+fn stp_deliverable_correction_rejects_projection_drift() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["csdlc-v2".into()],
+        },
+    )
+    .expect("assign review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "repair contradictory STP deliverables".into(),
+        },
+    )
+    .expect("recover review");
+    std::fs::write(
+        store.issue_dir(7).join("cards/stp.md"),
+        "# drifted projection\n",
+    )
+    .expect("drift STP projection");
+
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "must reject drift".into(),
+            operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/lib.rs".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("projection drift must fail closed");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 fn git(root: &std::path::Path, args: &[&str]) {
     let output = std::process::Command::new("git")

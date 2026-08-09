@@ -1,0 +1,13 @@
+{
+  "issue": 5881,
+  "card": "sip",
+  "expected_generation": 7,
+  "expected_digest": "ff4d5a4a839808ccbaa14be69064d63dff1e61b2dcd1317f31ecb558a54cd18d",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Distinguish mutable current legacy-format records from immutable historical evidence.",
+  "operation": {
+    "operation": "replan",
+    "field": "required_outcome",
+    "value": "No active schema, command, gate, skill, or current operator document requires claim state; current claim-bearing legacy-format records normalize into canonical topology, historical evidence remains immutable, and the full lifecycle works from branch/worktree binding alone."
+  }
+}

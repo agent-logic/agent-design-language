@@ -4,20 +4,23 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_DIR="${1:-$ROOT_DIR/artifacts/v0911/multiagent_podcast_pilot_audio}"
 SOURCE_DIR="${ADL_PODCAST_AUDIO_SOURCE_DIR:-$OUT_DIR/source_episode}"
+DIALOGUE_SCRIPT="${ADL_PODCAST_DIALOGUE_SCRIPT:-$SOURCE_DIR/script.md}"
 SEGMENTS_DIR="$OUT_DIR/audio/segments"
 AUDIO_MANIFEST="$OUT_DIR/audio_manifest.json"
 AUDIO_PACKET="$OUT_DIR/audio_packet.md"
 EPISODE_AUDIO="$OUT_DIR/episode.wav"
 OPENAI_KEY_FILE="${ADL_OPENAI_KEY_FILE:-$HOME/keys/openai2.key}"
 GEMINI_KEY_FILE="${ADL_GEMINI_KEY_FILE:-$HOME/keys/gcp-ace-2023.key}"
+DEEPGRAM_KEY_FILE="${ADL_DEEPGRAM_KEY_FILE:-$HOME/keys/adl-deepgram-01.key}"
 OPENAI_TTS_MODEL="${ADL_PODCAST_OPENAI_TTS_MODEL:-gpt-4o-mini-tts}"
-GEMINI_TTS_MODEL="${ADL_PODCAST_GEMINI_TTS_MODEL:-gemini-2.5-flash-preview-tts}"
+GEMINI_TTS_MODEL="${ADL_PODCAST_GEMINI_TTS_MODEL:-gemini-3.1-flash-tts-preview}"
+TTS_TIMEOUT_SECS="${ADL_PODCAST_TTS_TIMEOUT_SECS:-300}"
 CHATGPT_VOICE="${ADL_PODCAST_CHATGPT_VOICE:-coral}"
 GEMINI_VOICE="${ADL_PODCAST_GEMINI_VOICE:-Kore}"
 GEMINI_AUDIO_PROVIDER="${ADL_PODCAST_GEMINI_AUDIO_PROVIDER:-gemini}"
 GEMINI_OPENAI_SURROGATE_VOICE="${ADL_PODCAST_GEMINI_OPENAI_SURROGATE_VOICE:-echo}"
-CLAUDE_SURROGATE_PROVIDER="${ADL_PODCAST_CLAUDE_SURROGATE_PROVIDER:-openai}"
-CLAUDE_SURROGATE_VOICE="${ADL_PODCAST_CLAUDE_SURROGATE_VOICE:-onyx}"
+CLAUDE_SURROGATE_PROVIDER="${ADL_PODCAST_CLAUDE_SURROGATE_PROVIDER:-deepgram}"
+CLAUDE_SURROGATE_VOICE="${ADL_PODCAST_CLAUDE_SURROGATE_VOICE:-aura-2-pluto-en}"
 
 if [[ "$GEMINI_AUDIO_PROVIDER" == "openai" ]]; then
   GEMINI_RENDER_VOICE="$GEMINI_OPENAI_SURROGATE_VOICE"
@@ -27,15 +30,15 @@ else
   GEMINI_SURROGATE="false"
 fi
 
-CHATGPT_INSTRUCTIONS="Speak warmly, thoughtfully, and with grounded podcast-host clarity."
+CHATGPT_INSTRUCTIONS="${ADL_PODCAST_CHATGPT_INSTRUCTIONS:-Speak warmly, thoughtfully, and with grounded podcast-host clarity.}"
 if [[ "$GEMINI_SURROGATE" == "true" ]]; then
-  GEMINI_INSTRUCTIONS="Speak with bright, quick, lightly androgynous analytical precision. Keep the cadence brisk, the consonants crisp, and the energy forward so you sound clearly distinct from the other speakers."
+  GEMINI_INSTRUCTIONS="${ADL_PODCAST_GEMINI_INSTRUCTIONS:-Speak with bright, quick, lightly androgynous analytical precision. Keep the cadence brisk, the consonants crisp, and the energy forward so you sound clearly distinct from the other speakers.}"
 else
-  GEMINI_INSTRUCTIONS="Speak brightly, clearly, and incisively, like a fast systems analyst on a podcast."
+  GEMINI_INSTRUCTIONS="${ADL_PODCAST_GEMINI_INSTRUCTIONS:-Speak brightly, clearly, and incisively, like a fast systems analyst on a podcast.}"
 fi
-CLAUDE_INSTRUCTIONS="Speak reflectively and slightly formally, with calm measured emphasis."
+CLAUDE_INSTRUCTIONS="${ADL_PODCAST_CLAUDE_INSTRUCTIONS:-Speak reflectively and slightly formally, with calm measured emphasis.}"
 if [[ "$CLAUDE_SURROGATE_PROVIDER" == "openai" ]]; then
-  CLAUDE_INSTRUCTIONS="Speak lower, slower, and more resonantly than the other speakers, with reflective pauses, formal diction, and calm measured emphasis."
+  CLAUDE_INSTRUCTIONS="${ADL_PODCAST_CLAUDE_INSTRUCTIONS:-Speak naturally and conversationally, with reflective warmth, clear phrasing, and restrained emphasis.}"
 fi
 
 load_key() {
@@ -93,7 +96,7 @@ PY
 )"
   curl -sS https://api.openai.com/v1/audio/speech \
     --connect-timeout 10 \
-    --max-time 120 \
+    --max-time "$TTS_TIMEOUT_SECS" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -H "Content-Type: application/json" \
     -d "$payload" \
@@ -127,7 +130,7 @@ PY
 )"
   curl -sS "https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_TTS_MODEL}:generateContent" \
     --connect-timeout 10 \
-    --max-time 120 \
+    --max-time "$TTS_TIMEOUT_SECS" \
     -H "x-goog-api-key: $GEMINI_API_KEY" \
     -H "Content-Type: application/json" \
     -d "$payload" \
@@ -154,36 +157,117 @@ PY
   rm -f "$response_json"
 }
 
+render_deepgram_wav() {
+  local text="$1"
+  local voice="$2"
+  local out_path="$3"
+  local payload
+  payload="$(python3 - "$text" <<'PY'
+import json, sys
+print(json.dumps({'text': sys.argv[1]}))
+PY
+)"
+  curl -sS --fail-with-body \
+    "https://api.deepgram.com/v1/speak?model=${voice}&encoding=linear16&container=wav" \
+    --connect-timeout 10 \
+    --max-time "$TTS_TIMEOUT_SECS" \
+    -H "Authorization: Token $DEEPGRAM_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "$payload" \
+    --output "$out_path"
+}
+
 if [[ "${ADL_PODCAST_AUDIO_TEST_TONES:-0}" != "1" ]]; then
   load_key OPENAI_API_KEY "$OPENAI_KEY_FILE"
   if [[ "$GEMINI_AUDIO_PROVIDER" == "gemini" ]]; then
     load_key GEMINI_API_KEY "$GEMINI_KEY_FILE"
+  fi
+  if [[ "$CLAUDE_SURROGATE_PROVIDER" == "deepgram" ]]; then
+    load_key DEEPGRAM_API_KEY "$DEEPGRAM_KEY_FILE"
   fi
 fi
 
 rm -rf "$OUT_DIR"
 mkdir -p "$SEGMENTS_DIR"
 
-if [[ ! -f "$SOURCE_DIR/transcript.md" ]]; then
+if [[ ! -f "$SOURCE_DIR/transcript.md" && ! -f "$DIALOGUE_SCRIPT" ]]; then
   bash "$ROOT_DIR/adl/tools/demo_v0911_multiagent_podcast_pilot.sh" "$SOURCE_DIR"
 fi
 
-TURN_FILES=(
-  "01-chatgpt-opening.md|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS"
-  "02-gemini-challenge.md|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS"
-  "03-claude-reframe.md|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS"
-  "04-chatgpt-bridge.md|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS"
-  "05-gemini-deepening.md|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS"
-  "06-claude-closure.md|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS"
-)
+TURN_FILES=()
+TURN_SOURCES_DIR="$SOURCE_DIR/out/podcast"
+if [[ -f "$DIALOGUE_SCRIPT" ]]; then
+  TURN_SOURCES_DIR="$OUT_DIR/script_turns"
+  TURN_INDEX="$OUT_DIR/turn-index.tsv"
+  mkdir -p "$TURN_SOURCES_DIR"
+  python3 - "$DIALOGUE_SCRIPT" "$TURN_SOURCES_DIR" "$TURN_INDEX" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+script_path = Path(sys.argv[1])
+output_dir = Path(sys.argv[2])
+index_path = Path(sys.argv[3])
+speaker = None
+paragraphs = []
+turns = []
+
+def flush():
+    global paragraphs
+    text = "\n\n".join(paragraphs).strip()
+    if speaker and text:
+        turns.append((speaker, text))
+    paragraphs = []
+
+for line in script_path.read_text(encoding="utf-8").splitlines():
+    match = re.fullmatch(r"### (ChatGPT|Gemini|Claude)", line.strip())
+    if match:
+        flush()
+        speaker = match.group(1)
+    elif line.startswith("## "):
+        flush()
+        speaker = None
+    elif speaker is not None:
+        paragraphs.append(line)
+flush()
+
+if not turns:
+    raise SystemExit(f"no dialogue turns found in {script_path}")
+
+output_dir.mkdir(parents=True, exist_ok=True)
+index_lines = []
+for index, (name, text) in enumerate(turns, 1):
+    filename = f"{index:02d}-{name.lower()}.md"
+    (output_dir / filename).write_text(text + "\n", encoding="utf-8")
+    index_lines.append(f"{filename}\t{name}\tscript.md#turn-{index:02d}")
+index_path.write_text("\n".join(index_lines) + "\n", encoding="utf-8")
+PY
+  while IFS=$'\t' read -r filename speaker source_ref; do
+    case "$speaker" in
+      ChatGPT) TURN_FILES+=("$filename|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS|$source_ref") ;;
+      Gemini) TURN_FILES+=("$filename|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS|$source_ref") ;;
+      Claude) TURN_FILES+=("$filename|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS|$source_ref") ;;
+      *) echo "unsupported dialogue speaker: $speaker" >&2; exit 1 ;;
+    esac
+  done < "$TURN_INDEX"
+else
+  TURN_FILES=(
+    "01-chatgpt-opening.md|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS|out/podcast/01-chatgpt-opening.md"
+    "02-gemini-challenge.md|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS|out/podcast/02-gemini-challenge.md"
+    "03-claude-reframe.md|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS|out/podcast/03-claude-reframe.md"
+    "04-chatgpt-bridge.md|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS|out/podcast/04-chatgpt-bridge.md"
+    "05-gemini-deepening.md|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS|out/podcast/05-gemini-deepening.md"
+    "06-claude-closure.md|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS|out/podcast/06-claude-closure.md"
+  )
+fi
 
 SEGMENT_MANIFEST_TMP="$OUT_DIR/segment_manifest.jsonl"
 : > "$SEGMENT_MANIFEST_TMP"
 SPEAKERS_INTRODUCED="|"
 
 for spec in "${TURN_FILES[@]}"; do
-  IFS='|' read -r filename speaker role voice provider surrogate instructions <<< "$spec"
-  original_text="$(cat "$SOURCE_DIR/out/podcast/$filename")"
+  IFS='|' read -r filename speaker role voice provider surrogate instructions source_ref <<< "$spec"
+  original_text="$(cat "$TURN_SOURCES_DIR/$filename")"
   if [[ "$SPEAKERS_INTRODUCED" != *"|$speaker|"* ]]; then
     if python3 - "$speaker" "$original_text" <<'PY'
 import re
@@ -237,18 +321,20 @@ PY
     render_openai_wav "$text" "$voice" "$instructions" "$out_wav"
   elif [[ "$provider" == "gemini" ]]; then
     render_gemini_wav "$text" "$voice" "$out_wav"
+  elif [[ "$provider" == "deepgram" ]]; then
+    render_deepgram_wav "$text" "$voice" "$out_wav"
   else
     echo "unsupported provider for audio segment: $provider" >&2
     exit 1
   fi
-  python3 - "$SEGMENT_MANIFEST_TMP" "$speaker" "$role" "$filename" "$(basename "$out_wav")" "$provider" "$voice" "$surrogate" <<'PY'
+  python3 - "$SEGMENT_MANIFEST_TMP" "$speaker" "$role" "$source_ref" "$(basename "$out_wav")" "$provider" "$voice" "$surrogate" <<'PY'
 import json, sys
 path, speaker, role, source_file, audio_file, provider, voice, surrogate = sys.argv[1:9]
 with open(path, 'a', encoding='utf-8') as f:
     f.write(json.dumps({
         'speaker': speaker,
         'role': role,
-        'source_text_file': f'out/podcast/{source_file}',
+        'source_text_file': source_file,
         'audio_file': audio_file,
         'provider': provider,
         'voice': voice,
@@ -525,7 +611,7 @@ manifest = {
                 'surrogate': {
                     'provider': claude_provider,
                     'voice': claude_voice,
-                    'intent': 'lower, slower, resonant reflective contrast',
+                    'intent': 'calm, empathetic, conversational baritone contrast',
                 },
             },
         },
@@ -587,7 +673,7 @@ packet = [
 if gemini_provider == 'gemini':
     packet.insert(-5, '- Gemini rendered natively in this run, so the surrogate fallback casting lane remained available but inactive')
 else:
-    packet.insert(-5, '- fallback casting is active in this run so Gemini stays brighter and quicker while Claude stays lower and more resonant')
+    packet.insert(-5, '- fallback casting is active in this run so Gemini stays brighter and quicker while Claude stays calm and empathetic')
 Path(packet_path).write_text('\n'.join(packet).rstrip() + '\n', encoding='utf-8')
 PY
 rm -f "$SEGMENT_MANIFEST_TMP"

@@ -1,0 +1,335 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 45,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "18b2eea1adfa602448a1bd5ce457a9d6d59102aa1e82a2e784393891fff8876b",
+  "phase": "published",
+  "generation": 17,
+  "digest": "a37ca9674472f74a588cbb97bcdbd079e69b15029bf75972d2cc91b769cc667e",
+  "branch": "codex/45-doctor-split-repository-authority",
+  "worktree": "/Volumes/FastWork/adl-issue-45-doctor-split-authority",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:issue45_exact_head_review",
+    "scope": [
+      ".csdlc/issues/45",
+      ".csdlc/evidence/45",
+      ".csdlc/prepared/issues/45",
+      "adl/tools/test_install_adl_pr_cycle_skill.sh",
+      "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/gate_cleanup.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+      "docs/tooling/adl_pr_cycle_skill.md"
+    ],
+    "reviewed_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+    "findings": [
+      {
+        "id": "P1-legacy-record-receipt-digest-compatibility",
+        "severity": "p1",
+        "summary": "Absent code_repository remains omitted from claim-free current serialization so pre-field index and retained receipt digests stay stable after main reconciliation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      },
+      {
+        "id": "P2-explicit-split-missing-origin-evidence",
+        "severity": "p2",
+        "summary": "Explicit split authority fails closed when effective origin is absent or not an exact GitHub identity.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      },
+      {
+        "id": "P2-rebind-request-authority-substitution",
+        "severity": "p2",
+        "summary": "Recorded code authority takes precedence and idempotent bind rejects retry identity substitution after claim removal.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      },
+      {
+        "id": "P2-ac6-typed-card-schema-evidence",
+        "severity": "p2",
+        "summary": "Current typed cards, schema, compatibility, lint, formatting, and installer proof remain green after main reconciliation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d2ec58d032722300871b0edbffe58844dc0ddda:7b5b5a386db8bc2a9459e0a8722e96514c31d2b09d2daccfbc85784887977ccc",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The read-only rereview did not perform live GitHub publication; typed publish and shepherd own that observation.",
+      "The compatibility regression proves representative pre-field record and retained-receipt digest stability rather than loading every historical receipt."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 45,
+    "pull_request": 58,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/58",
+    "base": "main",
+    "head": "codex/45-doctor-split-repository-authority",
+    "revision": "git-blake3:fbc2b99bf63439cb0431df0553d3e1d239b6745f:f07d0b36ceafc11d520392ea10648227641a4d7468d414ae9149fe08151c74f5",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/45/design.md",
+  "diagram_path": ".csdlc/prepared/issues/45/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-45-capacity-bounded-readiness-audit",
+      "revision": "3ba9b8f651c2fba7b1e2248b446c6ac9596ec381118a45a0f4be0cc726d765a2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "80b854b0acfa4a20cd826c520e549e99064d747bcf4ca9636246fa92f1d719b9",
+      "rendered_digest": "77186a4f08a7269344c31f0318ad8225000c28019811382fb9fd61abb88d56d0",
+      "ast_digest": "604d9fad4d60da84ad5f91948d8a84eb3f353255613dd283c3ea977975ba39ae"
+    },
+    "stp": {
+      "values_digest": "c0540d5fdf94cc8aab89daad5961cf8ad86e90e894a71295a3a631b4b998e426",
+      "rendered_digest": "4c6ee7704c6893c3ae0bdf5cb4a0308bfb1102c31b16ce93e32992d7a17114ed",
+      "ast_digest": "7af27d411db2c82982c6721d16e4502f7368421ecfc5db81e99b64150f96b58c"
+    },
+    "spp": {
+      "values_digest": "e329113a3c11450b3132d087d09d7fec6155ee3c063595d98790d1d8feeb0041",
+      "rendered_digest": "98ccc699c2acfa13d7c4d3d511d3d0f7659e1885177eb64f4f6023788169aae5",
+      "ast_digest": "4260b239b9b4218400059a86090c9204011dd37802ffcd269e4c41bc8d1f406a"
+    },
+    "vpp": {
+      "values_digest": "29aa6200416863d98c3f6b8b168d45305c20892cf5c440b5999546016ef63667",
+      "rendered_digest": "fc39c049ecc95a5af0c0f127358babb25f8a7081fdf3eb16311aabf9f0a9cb3b",
+      "ast_digest": "ca6b93390293230b030d25a60d8e3601f476ff102337d44e93d0ae70fb2e1448"
+    },
+    "srp": {
+      "values_digest": "eaaaa9f161d843566d3b75455cbbf679aae7f64b51e6919a2f200064ca60aa9b",
+      "rendered_digest": "04da184deee17ae952b9e46a4a8470de6a4ade97aa02905410fc38f4305af2fe",
+      "ast_digest": "27684546dfda02e25d873b08bfb7499d2423f389ab2ef5e4b153658d7eeb5c88"
+    },
+    "sor": {
+      "values_digest": "55a3a1ddd876fd626461516bfb56d9ad3a97af9e86843b59c92ec778bd0981fc",
+      "rendered_digest": "e6efe2492a0de1cde8f24ad88c0b596815ac8592cf2e8b3c71f483c2f47988b7",
+      "ast_digest": "bd37db6d66ec876725ac80da707d14c9312766ce20d946b55523e37cc212446e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-45-execution",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-45-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-45-main-reconciliation",
+      "reason": "Recover published review truth after reconciling merged main claim-removal changes and resolving four bounded conflicts."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-45-publication-reconciliation",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-45-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-45-capacity-bounded-readiness-audit",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-45-capacity-bounded-readiness-audit",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-45-readiness-remediation",
+      "reason": "Remove post-execution review and validation evidence from pre-bind deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed split-authority identity contract available to doctor\",\"Fail-closed doctor decision logic with specific drift diagnostics\",\"Focused three-case regression coverage in csdlc-v2/tests/gate2.rs\",\"Updated active skills and operator runbooks\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-45-readiness-remediation",
+      "reason": "Declare the existing issue-owned gate2 integration target for all three repository identity cases.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/operator/skills\",\"docs/tooling\",\".csdlc/issues/45\",\".csdlc/prepared/issues/45\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-45-readiness-remediation",
+      "reason": "Align STP acceptance, SPP steps, and VPP lanes on the existing gate2 target.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Doctor accepts a same-repository lifecycle record whose issue repository and effective code remote normalize to the same identity\",\"AC-2: Doctor accepts the supported split route only when issue repository danielbaustin/agent-design-language and code repository agent-logic/agent-design-language are both explicit and consistent\",\"AC-3: Doctor rejects absent, partial, substituted, or mismatched split-authority identity with repository_identity_drift and a specific diagnostic\",\"AC-4: csdlc-v2/tests/gate2.rs deterministically covers same-repository acceptance, valid split-repository acceptance, and invalid drift rejection\",\"AC-5: Active C-SDLC v2 skills and runbooks consistently explain separate issue and code repository authority without reviving claims or sunset v1 routes\",\"AC-6: Typed card, focused gate2 Rust, schema, and strict lint validation pass within recorded reviewable budgets\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Trace the current doctor, record, publication, and Git-remote identity flow and select the smallest typed split-authority representation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement same-repository and explicit split-repository validation with specific fail-closed drift diagnostics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Extend csdlc-v2/tests/gate2.rs with deterministic same-repository, valid split-authority, and invalid-drift fixtures.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Update every active skill and runbook affected by repository identity, then run the planned focused validation and exact-head review.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"doctor-repository-identity\",\"proof_role\":\"The existing issue-owned gate2 integration target proves same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"doctor-contract-and-lint\",\"proof_role\":\"Typed validation, active guidance scans, and strict Clippy prove schema and operator-contract consistency.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-45-execution",
+      "reason": "Record the bounded split-repository doctor implementation and focused local proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added explicit typed code-repository identity at bind time so doctor accepts same-repository and declared split-authority routes while rejecting absent or mismatched repository drift.\",\"changes\":[\"Record optional code_repository identity in canonical issue state through csdlc-bind.\",\"Compare doctor Git origin evidence against explicit code authority without inferring a split from remote names.\",\"Reject publication-time code repository substitution against the bound canonical record.\",\"Add deterministic gate2 coverage for same-repository, valid split, absent split, and mismatched split cases.\",\"Update active typed skills, lifecycle runbooks, and adl_pr_cycle installation contract.\"],\"artifacts\":[\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/operator/skills\",\"docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"docs/tooling/adl_pr_cycle_skill.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-45-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Replace descriptive deliverables with exact tracked product, regression, skill, and runbook paths so typed card validation is executable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Record explicit typed-card, schema, and retained-record compatibility lanes required by AC-6 and exact-head review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"doctor-repository-identity\",\"proof_role\":\"Prove same-repository, declared split, absent origin, unparseable origin, mismatched identity, and rebind substitution behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"legacy-record-receipt-compatibility\",\"proof_role\":\"Prove missing code_repository preserves pre-field index and retained terminal-receipt digest bytes.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"absent_code_repository_preserves_pre_field_record_and_receipt_digests\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"typed-card-validation\",\"proof_role\":\"Run the source-built typed validator against issue 45 canonical cards and lifecycle state.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-validate\",\"--\",\"--root\",\".\",\"issue\",\"--issue\",\"45\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"public-schema-contract\",\"proof_role\":\"Prove the public publication schema remains available and terminal mutation schemas remain absent.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate6\",\"public_schema_keeps_publication_and_drops_merged_reconciliation\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"doctor-contract-and-lint\",\"proof_role\":\"Strict Clippy proves warning-free schema, lifecycle, guidance, and regression changes across all targets.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Retain backward-compatible live-index and terminal-receipt digest proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"absent_code_repository_preserves_pre_field_record_and_receipt_digests\"],\"purpose\":\"Prove records and retained receipts written before code_repository remain digest-compatible.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/45/review-remediation-validation.md\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Retain direct source-built typed card and issue-state validation required by AC-6.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-validate\",\"--\",\"--root\",\".\",\"issue\",\"--issue\",\"45\"],\"purpose\":\"Prove all six typed cards and canonical issue state pass current-source validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/45/review-remediation-validation.md\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-45-review-remediation",
+      "reason": "Retain direct public schema proof required by AC-6.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate6\",\"public_schema_keeps_publication_and_drops_merged_reconciliation\"],\"purpose\":\"Prove the publication-facing schema contract remains valid after adding split authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/45/review-remediation-validation.md\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-45-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:issue-45-main-reconciliation",
+      "reason": "Recover published review truth after reconciling merged main claim-removal changes and resolving four bounded conflicts.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "subagent:issue45_exact_head_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:issue-45-publication-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

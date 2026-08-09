@@ -5,8 +5,9 @@
   "initialization_digest": "4cd0d8a97a8b7d3afd28be679d16291fe95cd477e824555b1d506ac0a4e9d96e",
   "phase": "closed_out",
   "generation": 15,
-  "digest": "42033fcac67391e790a017cec7a8ba08801609a27c4ac8c266d9a4d4c571446f",
-  "claim": null,
+  "digest": "4fa8ebfcae85a3075c99e6194bab51fb26699010e84b561f0adebdac1c056f2b",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "codex-subagent:review-5695",
@@ -144,15 +145,8 @@
     "observed_sha": "fad9aaa4e7c706d734848e95c53743e294f7dc22",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5695.json",
-    "released_branch": "codex/5695-pr-state-mergeability",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5695",
-      ".csdlc/issues/5695",
-      ".csdlc/locks/5695.lock",
-      ".csdlc/prepared/issues/5695",
-      "csdlc-v2/src/github.rs"
-    ]
+    "branch": "codex/5695-pr-state-mergeability",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5695/retained/design.md",

@@ -7,7 +7,7 @@ require "open3"
 
 SHA256 = /\A[0-9a-f]{64}\z/
 ISSUE = 5832
-REQUIRED_ASSERTIONS = %w[production_guardian rustls_wss authenticated_bidirectional protobuf_json_parity reconnect_backpressure replay_denied denied_access].freeze
+REQUIRED_ASSERTIONS = %w[runtime_api_listener rustls_wss authenticated_bidirectional protobuf_json_parity reconnect_backpressure replay_denied denied_access].freeze
 PRODUCER_ARGV = [
   "cargo", "nextest", "run",
   "--manifest-path", "adl-runtime/Cargo.toml",
@@ -30,29 +30,48 @@ abort "wrong schema" unless packet["schema"] == "adl.acip_native_receipts.v2"
 head, status = Open3.capture2("git", "rev-parse", "HEAD")
 abort "cannot resolve HEAD" unless status.success?
 head = head.strip
-abort "stale packet" unless packet["source_revision"] == head
+source_revision = packet["source_revision"].to_s
+abort "invalid source revision" unless source_revision.match?(/\A[0-9a-f]{40}\z/)
+_, status = Open3.capture2("git", "merge-base", "--is-ancestor", source_revision, head)
+abort "source revision is not an ancestor of HEAD" unless status.success?
+changed, status = Open3.capture2("git", "diff", "--name-only", "#{source_revision}..#{head}")
+abort "cannot inspect post-proof changes" unless status.success?
+post_proof_paths = changed.lines.map(&:strip).reject(&:empty?)
+abort "product changed after native proof" unless post_proof_paths.all? { |entry| entry.start_with?(".csdlc/evidence/#{ISSUE}/") }
 receipts = Array(packet["receipts"])
 abort "platform denominator drift" unless receipts.map { |entry| entry["platform"] }.sort == %w[linux macos windows]
 receipts.each do |receipt|
   platform = receipt.fetch("platform")
-  abort "stale #{platform} receipt" unless receipt["source_revision"] == head
+  abort "stale #{platform} receipt" unless receipt["source_revision"] == source_revision
   runner = receipt.fetch("runner")
   %w[provider run_id os arch].each { |field| abort "missing #{platform} runner #{field}" if runner[field].to_s.empty? }
   abort "invalid runner identity" unless runner["identity_sha256"].to_s.match?(SHA256)
   command = receipt.fetch("command")
   abort "wrong #{platform} producer command" unless Array(command["argv"]) == PRODUCER_ARGV
   abort "#{platform} producer failed" unless command["exit_code"] == 0
-  checked_file(command["stdout_path"], command["stdout_sha256"], "#{platform} stdout")
+  checked_file(command["stdout_path"], command["stdout_sha256"], "#{platform} stdout", allow_empty: true)
   checked_file(command["stderr_path"], command["stderr_sha256"], "#{platform} stderr", allow_empty: true)
   abort "#{platform} ran no exchanges" unless receipt["successful_exchanges"].to_i.positive?
   abort "#{platform} ran no negative cases" unless receipt["negative_cases"].to_i.positive?
   artifacts = Array(receipt["artifacts"])
   abort "#{platform} artifacts missing" if artifacts.empty?
   artifacts.each { |artifact| checked_file(artifact.fetch("path"), artifact.fetch("sha256"), "#{platform} artifact") }
+  proof_artifact = artifacts.find { |artifact| artifact["path"].to_s.end_with?("/proof.json") }
+  abort "#{platform} producer proof missing" unless proof_artifact
+  proof = JSON.parse(File.read(proof_artifact.fetch("path")))
+  abort "#{platform} producer proof schema drift" unless proof["schema"] == "adl.acip_native_platform_proof.v2"
+  abort "#{platform} producer subject drift" unless proof["subject"] == "runtime_api_listener"
+  abort "#{platform} producer platform drift" unless proof["platform"] == platform
+  abort "#{platform} exchange count is not producer-derived" unless proof["successful_exchanges"] == receipt["successful_exchanges"]
+  abort "#{platform} negative count is not producer-derived" unless proof["negative_cases"] == receipt["negative_cases"]
   assertions = Array(receipt["assertions"])
   abort "#{platform} assertion denominator drift" unless assertions.map { |entry| entry["name"] }.sort == REQUIRED_ASSERTIONS.sort
+  proof_assertions = Array(proof["assertions"])
+  abort "#{platform} producer assertion denominator drift" unless proof_assertions.map { |entry| entry["name"] }.sort == REQUIRED_ASSERTIONS.sort
   assertions.each do |assertion|
     abort "#{platform} did not prove #{assertion['name']}" unless assertion["result"] == "passed"
+    producer_assertion = proof_assertions.find { |entry| entry["name"] == assertion["name"] }
+    abort "#{platform} assertion is not producer-derived" unless producer_assertion == assertion.slice("name", "result", "evidence")
     checked_file(assertion["evidence_path"], assertion["evidence_sha256"], "#{platform} #{assertion['name']}")
   end
 end

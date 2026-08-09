@@ -1,0 +1,13 @@
+{
+  "actor": "codex:sprint-2-closeout",
+  "card": "spp",
+  "expected_digest": "d35ecee0eff06e4dfc43c42f8e1a9ff90ac1a0482ff1d296833d44bf13d2a997",
+  "expected_generation": 4,
+  "issue": 5855,
+  "operation": {
+    "operation": "update_plan_step",
+    "status": "completed",
+    "step_id": "coordinate"
+  },
+  "reason": "All five in-scope Sprint 2 child issues reached terminal merged state in dependency order."
+}

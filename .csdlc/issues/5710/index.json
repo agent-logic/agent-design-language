@@ -5,8 +5,9 @@
   "initialization_digest": "7c3adf5e43576041be529f56740c9816a7a123b1ff42dc61cf48c6ef8846a57c",
   "phase": "closed_out",
   "generation": 11,
-  "digest": "93aaf8c187c9f043863e95cc3feb9ecc929883c4c58d78cb5effc93745514434",
-  "claim": null,
+  "digest": "695f679260935f03018c061d4fc14fdad9291710a22ed1dceb8a4295353596eb",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:019faf31-2faf-7740-b22c-9bfd9714e9cf",
@@ -209,21 +210,8 @@
     "observed_sha": "f040c21b6b1583c3709427781f5913c633bf7c62",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5710.json",
-    "released_branch": "codex/5710-csdlc-v2-closeout-safe-prune-recovery",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5710",
-      ".csdlc/issues/5710",
-      ".csdlc/locks/5710.lock",
-      ".csdlc/prepared/issues/5710",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/src/git.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/readiness.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      "docs/milestones/v0.91.8/review/closeout_recovery"
-    ]
+    "branch": "codex/5710-csdlc-v2-closeout-safe-prune-recovery",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5710/retained/design.md",

@@ -1,0 +1,22 @@
+{
+  "issue": 45,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "fb0b8e5c3be7d92e8c6ea5da6a13eca7c5b2bbcf5dcf3f40bf944f7713c36808",
+  "actor": "codex:issue-45-readiness-remediation",
+  "reason": "Declare the existing issue-owned gate2 integration target for all three repository identity cases.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/operator/skills",
+      "docs/tooling",
+      ".csdlc/issues/45",
+      ".csdlc/prepared/issues/45"
+    ]
+  }
+}

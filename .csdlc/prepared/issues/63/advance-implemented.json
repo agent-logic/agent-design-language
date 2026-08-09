@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "sor",
+  "expected_generation": 19,
+  "expected_digest": "8c937d7675cee5ef6d0b0078dbd80ddc3807bb49c2cc48b11c49ccd8e42706d4",
+  "actor": "codex:63-implementation",
+  "reason": "Bounded implementation and focused local proof are complete; exact-head review is next.",
+  "operation": {"operation":"advance_phase","phase":"implemented"}
+}

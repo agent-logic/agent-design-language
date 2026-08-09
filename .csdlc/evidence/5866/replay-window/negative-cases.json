@@ -1,0 +1,19 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5866,
+  "source_revision": "ed9717db068b1b3984dee1b0553f66afa5149f00",
+  "test_output": ".csdlc/evidence/5866/replay-window/distributed-discovery.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/discovery.rs": "1090396809356bb015f1f7d5a31e35fb074b8e5ad6a64cc55bb358b03589a9f2",
+    "adl-runtime/tests/distributed_discovery.rs": "d76be23b89c1d301b8b96b606ddb53eb263adcc884e6be60d4ff32232f61c291"
+  },
+  "cases": [
+    {"case": "cross_seed_same_request_replay", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "live_replay_window_capacity", "test": "replay_window_denies_live_entries_and_recovers_capacity_after_expiry", "result": "denied"},
+    {"case": "expired_replay_window_capacity_recovery", "test": "replay_window_denies_live_entries_and_recovers_capacity_after_expiry", "result": "recovered"},
+    {"case": "duplicate_configured_seed", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "stale_seed_transport_generation", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "malformed_unauthorized_or_resource_exhausted", "test": "seed_and_message_resource_bounds_reject_before_work", "result": "fail_closed"},
+    {"case": "timeout_cancellation_revocation_rotation_expiry", "test": "expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed", "result": "denied"}
+  ]
+}

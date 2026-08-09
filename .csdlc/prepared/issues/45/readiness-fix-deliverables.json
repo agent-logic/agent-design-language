@@ -1,0 +1,18 @@
+{
+  "issue": 45,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "5c614a5ad4311a8368ec905b9d78cc832bcb081f8d9fa8f836668f9ac01f71c6",
+  "actor": "codex:issue-45-readiness-remediation",
+  "reason": "Remove post-execution review and validation evidence from pre-bind deliverables.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Typed split-authority identity contract available to doctor",
+      "Fail-closed doctor decision logic with specific drift diagnostics",
+      "Focused three-case regression coverage in csdlc-v2/tests/gate2.rs",
+      "Updated active skills and operator runbooks"
+    ]
+  }
+}

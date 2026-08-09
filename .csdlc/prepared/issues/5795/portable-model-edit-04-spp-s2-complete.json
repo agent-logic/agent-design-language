@@ -1,0 +1,13 @@
+{
+  "issue": 5795,
+  "card": "spp",
+  "expected_generation": 38,
+  "expected_digest": "e6ac1acde1e7acf0e41437107c9087fb0ac614e436ecbd5d69d2e00d8a81e3be",
+  "actor": "openai-codex:gpt-5:issue-5795-portable-model",
+  "reason": "Record the completed bounded Shepherd adapter implementation.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  }
+}

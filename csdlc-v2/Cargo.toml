@@ -19,10 +19,6 @@ name = "csdlc-doctor"
 path = "src/bin/csdlc-doctor.rs"
 
 [[bin]]
-name = "csdlc-init"
-path = "src/bin/csdlc-init.rs"
-
-[[bin]]
 name = "csdlc-issue"
 path = "src/bin/csdlc-issue.rs"
 

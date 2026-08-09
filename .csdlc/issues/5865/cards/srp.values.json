@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter",
     "slug": "v0-92-wp-04-03-quic-tls-transport",
     "version": "v0.92",
-    "generation": 16
+    "generation": 24
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.03 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/transport.rs\nadl-runtime/tests/distributed_transport.rs\nadl-runtime/Cargo.toml\nadl-runtime/Cargo.lock\n.csdlc/evidence/5865\n.csdlc/issues/5865",
+      "review_revision": "git-blake3:030838da71b769d244073665484b4a8cb26c278a:4c95f66b5d8e6b83bb3dabe44f6dda54176b082b887547f4b6eda0415e32adb3",
+      "reviewer": "Codex independent review subagent /root/review_5864",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Repository split metadata and generic validator-target readiness drift remain separate control-plane follow-up concerns; the existing qualified PR route and exact retained implementation proof are valid."
+      ],
+      "review_result": "pass"
     }
   }
 }

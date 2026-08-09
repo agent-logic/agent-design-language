@@ -1,0 +1,19 @@
+{
+  "issue": 5881,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "da8307b867ab5048d571601782ab3711b0fb82c7ec1a7b6d298a59db238e2d27",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Clarify that only current legacy-format records normalize while historical evidence remains immutable.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "risks",
+    "values": [
+      "Deleting temporary normalization support before current claim-bearing legacy-format records normalize",
+      "Failing to delete claim-specific production logic after normalization",
+      "Treating ordinary evidence claims as lifecycle claims",
+      "Overlapping #5895 or #5883 operator edits",
+      "Leaving an installed skill or schema route stale"
+    ]
+  }
+}

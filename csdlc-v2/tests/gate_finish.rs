@@ -10,7 +10,7 @@ use csdlc_v2::github::PrStatePacket;
 use csdlc_v2::{
     ClosingPullRequestIdentity, DesignReview, FinishDisposition, FinishRequest,
     HistoricalFinishRequest, IssueRecord, IssueTerminalObservation, LifecyclePhase, MergeMethod,
-    PublicationEvidence, ReviewEvidence,
+    PublicationEvidence, PublicationLinkageMode, ReviewEvidence,
 };
 
 fn record(phase: LifecyclePhase, publication: Option<PublicationEvidence>) -> IssueRecord {
@@ -18,6 +18,7 @@ fn record(phase: LifecyclePhase, publication: Option<PublicationEvidence>) -> Is
         schema: "csdlc.issue.v2".into(),
         issue: 5778,
         repository: "owner/repo".into(),
+        code_repository: None,
         initialization_digest: "initialization".into(),
         phase,
         generation: 8,
@@ -327,6 +328,7 @@ fn canonical_code_pr_derives_terminal_for_legacy_issue_authority() {
             base: "main".into(),
             head: "codex/5778".into(),
             revision: csdlc_v2::git::clean_commit_revision(&"a".repeat(40)),
+            linkage_mode: Some(PublicationLinkageMode::Closing),
             draft: false,
             observed_state: "open".into(),
         }),
@@ -372,6 +374,34 @@ fn canonical_code_pr_derives_terminal_for_legacy_issue_authority() {
     assert_eq!(envelope.pull_request, Some(9));
     assert_eq!(envelope.disposition, FinishDisposition::Merged);
     assert!(envelope_matches_record(&envelope, &record).expect("canonical match"));
+}
+
+#[test]
+fn part_of_publication_cannot_authorize_finish() {
+    let mut publication = PublicationEvidence {
+        repository: "owner/repo".into(),
+        issue: 5778,
+        pull_request: 9,
+        url: "https://example.test/pull/9".into(),
+        base: "main".into(),
+        head: "codex/5778".into(),
+        revision: csdlc_v2::git::clean_commit_revision(&"a".repeat(40)),
+        linkage_mode: Some(PublicationLinkageMode::PartOf),
+        draft: false,
+        observed_state: "open".into(),
+    };
+    let part_of_record = record(LifecyclePhase::Published, Some(publication.clone()));
+    let mut request = no_pr_request();
+    request.pull_request = Some(9);
+    request.base = Some("main".into());
+    request.head = Some("codex/5778".into());
+    request.expected_head_sha = Some("a".repeat(40));
+    request.approved_no_pr_reason = None;
+    assert!(csdlc_v2::finish::validate_canonical_identity(&part_of_record, &request).is_err());
+
+    publication.linkage_mode = Some(PublicationLinkageMode::Closing);
+    let closing = record(LifecyclePhase::Published, Some(publication));
+    assert!(csdlc_v2::finish::validate_canonical_identity(&closing, &request).is_ok());
 }
 
 #[test]
@@ -628,6 +658,7 @@ fn published_finish_accepts_matching_git_topology() {
             base: "main".into(),
             head: "codex/5778".into(),
             revision: csdlc_v2::git::clean_commit_revision("abc"),
+            linkage_mode: Some(PublicationLinkageMode::Closing),
             draft: false,
             observed_state: "open".into(),
         }),
@@ -702,6 +733,7 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
         base: "main".into(),
         head: "codex/5778".into(),
         revision: csdlc_v2::git::clean_commit_revision(&published),
+        linkage_mode: Some(PublicationLinkageMode::Closing),
         draft: false,
         observed_state: "open".into(),
     });

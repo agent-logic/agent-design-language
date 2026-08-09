@@ -5,21 +5,9 @@
   "initialization_digest": "681c1ac4b68abe097bfd58b7f23f1b74ad60ba465cc4b8f085c4bc91d31d9c9c",
   "phase": "published",
   "generation": 8,
-  "digest": "bb0e8a312e07078b6b3f0ecde21c5f61c02c5837c7368ab670daab0619d06231",
-  "claim": {
-    "id": "claim-5614-secret-scanning-fixtures",
-    "owner": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
-    "generation": 8,
-    "acquired_unix_seconds": 1784665090,
-    "expires_unix_seconds": 1784751490,
-    "heartbeat_unix_seconds": 1784665090,
-    "branch": "codex/5614-secret-scanning-fixtures",
-    "worktree": ".",
-    "protected_paths": [
-      "adl/tools/test_run_aws_spot_ci_profile.sh"
-    ],
-    "purpose": "Remove AWS temporary access-key literals from test fixtures"
-  },
+  "digest": "2bdd5649cc161ae1de90fb198c28d3efd07c6097c1b0ee22b53cff27ad457a1b",
+  "branch": "codex/5614-secret-scanning-fixtures",
+  "worktree": ".",
   "review_assignment": {
     "reviewer": "subagent:review_5614",
     "assigned_by": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",

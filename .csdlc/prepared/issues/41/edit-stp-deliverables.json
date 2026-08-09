@@ -1,0 +1,18 @@
+{
+  "issue": 41,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "8d8827265d9205b2b94c3953298cb77402d3b65c5c847e609f835a190326bfec",
+  "actor": "codex:41-readiness-preparation",
+  "reason": "bind the focused loopback validator deliverable to its exact existing repository path",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Stable issue-read remote failure codes and exit mapping",
+      "Contextual redacted repository/issue diagnostics",
+      "csdlc-v2/tests/gate_github_actions.rs",
+      "Exact JSON, exit-code, stdout/stderr, and secret-redaction assertions"
+    ]
+  }
+}

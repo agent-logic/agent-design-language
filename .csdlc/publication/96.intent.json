@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 96,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/96-v3-umbrella-receipt-topology",
+  "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
+  "body": "Closes #96\n\n## Summary\n- validates exact historical S, E, H, merge, and umbrella-candidate Git topology for all sixteen WP-04 children\n- preserves full ordinary-blob product immutability, evidence-prefix introduction and immutability, derived terminality, split repository authority, and the frozen dependency DAG\n- validates canonical generic and WP-04.16 proof receipts, including exact nonzero tests, nested runners, ordered RFC3339 timestamps, logs, artifacts, negatives, and macOS/Linux/Windows native receipts\n- supports the bounded real #5863 legacy v2 refresh topology without accepting collapsed or self-referential receipts\n\n## Validation\n- focused generated-history regression: 34 cases passed, including representative current #5863 legacy and split-repository shapes\n- Ruby syntax checks: passed for validator and regression\n- full git diff check: passed\n- typed C-SDLC validation and doctor: passed at implemented generation 7\n- independent exact-head security/correctness review: passed at 652cb88d7e196858491e28f57c73bdd36449ebde with no actionable findings\n\n## Boundary\n- no runtime or distributed product files changed\n- the live sixteen-child merged terminal manifest remains the future umbrella integration proof; this PR repairs and proves the validator without accepting unmerged children",
+  "draft": false,
+  "revision": "git-blake3:12b51e28d892ae4433b8ec7d72191c786f8a8da2:2ba0cffba016b92e3442805580fdeca146c0ff96cbdc1efa3b65152487477ee3",
+  "commit_sha": "12b51e28d892ae4433b8ec7d72191c786f8a8da2"
+}

@@ -1,0 +1,204 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 79,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6ca8c33b28e59a6a40eaab39a2d87336a89a8fa78fe98b020e81708264e15196",
+  "phase": "published",
+  "generation": 10,
+  "digest": "52fb8d77e00e944df1db0e04209bdf2259652c51c6bf8fec6c98bd78d1008c9b",
+  "branch": "codex/79-bind-safe-deferred-targets",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-79-bind-safe-deferred-targets",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:exact_head_review",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:c1997952884fc509338dfd9b0116353fc16d7bd2:7be01b30738dc9219a9c2d24bd4fa546f7bb7be92de7f6fcae6d63d0d66a0db9",
+    "findings": [],
+    "residual_risks": [
+      "The pre-bind #[path] contract is a textual declaration until the test file exists; post-bind target existence and execution remain the proving boundary.",
+      "The live child cards require the demonstrated typed STP/VPP normalization before binding; issue #79 enables but does not mutate child-owned records."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 79,
+    "pull_request": 81,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/81",
+    "base": "main",
+    "head": "codex/79-bind-safe-deferred-targets",
+    "revision": "git-blake3:10b8fb6f53d358b149932e58e762136dee8d81c9:52338a3e9ba3e1f7a2cbe2b4f58c613417368098bb13938770b9187148e075f3",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/79/design.md",
+  "diagram_path": ".csdlc/prepared/issues/79/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-79-authored-acceptance",
+      "revision": "f1681d69a252c91e7c41835000fd59d22d728531ebb467b641e6b6320ad8b7c3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6805967a2bdfffa9b636bb9210bbb5016182f02a0042f29e9e8b88d8d5f4127f",
+      "rendered_digest": "b104b0517b1468f2efa15e5c6995152fa62fc86a9c851d5c8ed58e0e416c2508",
+      "ast_digest": "2f4327a8edb238dd15836002c65d2c53e2b1fb671e76fc190b830a0c527350d4"
+    },
+    "stp": {
+      "values_digest": "c427bc4325efa5e292c521fdcdae918eebdbb1b84496d530ab818c7ac5789394",
+      "rendered_digest": "ddad4b63c949e93ce1c96451098897c42678f6998443048b2470d2f052c330a4",
+      "ast_digest": "e901f6253ecefb41a514f3159bc684c27a0d9015a88a505a73214af74f89ae07"
+    },
+    "spp": {
+      "values_digest": "338f75eab6ebc64c34902710b669a77d7e402fb45f23730aaff57379237c5d1e",
+      "rendered_digest": "9effcacae57796296193ac315866f7675e65c50bdcba13d1bf31a3cc83e71894",
+      "ast_digest": "3daf01da82ba41f986e6ffbee6a50fdf65c0bdb7c5bcb13cdd61782798937d10"
+    },
+    "vpp": {
+      "values_digest": "3a52f62886d9fc9a1aa4b5aeeb5fafe04a781624c618a9165416ac34d75f64e1",
+      "rendered_digest": "d5671d16beaded6df3f6e164356f79a413cf8f702b8f7fe9d67fb16eecbd9923",
+      "ast_digest": "62d4b7d0b0ecc49ea45c07ce0aa98e92f58653430e2baa6c2204f8fc064c04d3"
+    },
+    "srp": {
+      "values_digest": "26ee67a562167a7efcfa8fe82a0f50262ab552b62d567caca248b226b38cb23c",
+      "rendered_digest": "82032f74d93619c4bb2ed66ac2a8e398dc4cf1ca23bf19624fe5780f6103e82b",
+      "ast_digest": "4815f4f300e1142e4ce728b5ebc179a54f11ed34b33e87c68d6542e69ead695d"
+    },
+    "sor": {
+      "values_digest": "ee40291fd30b01d20a2043f9e972807bac4b40a63f059d076edad594bdae7c89",
+      "rendered_digest": "55c1dff5e4fd544c0af43703e8ef8e00b0e6929df8d94d9994ef01fa726aaff2",
+      "ast_digest": "e27f85b6a81b1420375f32390d5fe449c8385a5da3228a414c229a6cf3e5f1ab"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Characterized all three blocked child shapes and encoded the exact admission predicates.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Implemented phase-limited exact deferred target and temporary path-harness admission.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Added three child-shaped positives and independent false-readiness negative mutations.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Retain focused P1 and P2 review-remediation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove live child normalization before bind and explicit rejection of unowned validator deliverables.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/79/review-remediation/review-remediation-gate2.log\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Retain strict lint proof after P1 and P2 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--test\",\"gate2\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in the remediated readiness and regression surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/79/review-remediation/review-remediation-strict-clippy.log\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Record and resolve the exact-live-child fixture finding with typed normalization proof.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"P1-live-child-shape\",\"severity\":\"p1\",\"summary\":\"The positive fixture initially skipped the live prose and null-deferral preparation state.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"f92980305e38d329444deab4e602869fe5a8f14e\",\"route\":null}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "Record and resolve the unowned validator deliverable false-readiness finding.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"P2-unowned-validator-deliverable\",\"severity\":\"p2\",\"summary\":\"A path-shaped missing validator deliverable outside affected-area ownership could be hidden by another proving lane.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"f92980305e38d329444deab4e602869fe5a8f14e\",\"route\":null}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

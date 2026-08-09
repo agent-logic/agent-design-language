@@ -2,15 +2,55 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5872,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "adf39c5606f55bcef0a49e3afbd97b581c1a51252903f99636d67694c7df4f40",
-  "phase": "initialized",
-  "generation": 7,
-  "digest": "98af95baf34d27673c6bb24583d938153350f5371cd2fd2cc5417ab78da00e1b",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 12,
+  "digest": "d04c78e8be1e37def5c836690761d24f3dba25636dcd4f946fe1815a85867e3b",
+  "branch": "codex/5872-resource-weather",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5872-resource-weather",
+  "review_assignment": {
+    "reviewer": "/root/issue_79/child_fixture_analysis",
+    "assigned_by": "codex:issue-5872",
+    "revision": "git-blake3:204d1d734050b12845a1d03dc7f7816129185c04:bd38127e039a56b2c1e519a5d2d9552b95b872f86ded0e9032c992feeb73b6af",
+    "scope": [
+      "adl-runtime/src/distributed/resource_weather.rs",
+      "adl-runtime/tests/distributed_resource_weather.rs",
+      ".csdlc/evidence/5872/execution-proof.json",
+      ".csdlc/evidence/5872/negative-cases.json",
+      ".csdlc/evidence/5872/exact-child-tests.log",
+      ".csdlc/evidence/5872/exact-revision-proof-receipt.log"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/issue_79/child_fixture_analysis",
+    "scope": [
+      "adl-runtime/src/distributed/resource_weather.rs",
+      "adl-runtime/tests/distributed_resource_weather.rs",
+      ".csdlc/evidence/5872/execution-proof.json",
+      ".csdlc/evidence/5872/negative-cases.json",
+      ".csdlc/evidence/5872/exact-child-tests.log",
+      ".csdlc/evidence/5872/exact-revision-proof-receipt.log"
+    ],
+    "reviewed_revision": "git-blake3:204d1d734050b12845a1d03dc7f7816129185c04:bd38127e039a56b2c1e519a5d2d9552b95b872f86ded0e9032c992feeb73b6af",
+    "findings": [],
+    "residual_risks": [
+      "Stable-state path checks reject relative and symlinked components but do not claim race-free filesystem confinement; production registration and cross-child integration remain deferred to #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5872,
+    "pull_request": 93,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/93",
+    "base": "main",
+    "head": "codex/5872-resource-weather",
+    "revision": "git-blake3:b424aad19b323a4621e70453c16d08b1bb83d443:fd689c5c0122d60ff363bca9b56586d5f4f5e53c31c61fb6dfc217e5804a0eee",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +64,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1c29747c8aa5d2ffbc809c531aca6d1b587385be4cbe596e04447cf2da2e017f",
+      "values_digest": "32aace9c9ff55ce2da66ef0f84eff1c28c86d77c414c49e520699b950e3e608a",
       "rendered_digest": "e969f6a2648182a7f34556edf02f2c11dc5d6caf4edbd833292adfeee4cf5250",
       "ast_digest": "c6de336845178918ee8d75c882c9ae3a1df8f0ea3b5a7d09b3df6eb0f2525d1c"
     },
     "stp": {
-      "values_digest": "14cbfd8429a22b3a784bbdf069afcec2d005daa576b0e90a52793db0564e4210",
-      "rendered_digest": "c9367db4090ffbf565b2116614bf9b04e5021383acf2e60dc2c10aac281dc07a",
-      "ast_digest": "8d58e43ec1205d132f1441fa3df49635d79d6b986a76af5f68e2c2f7ad215eaf"
+      "values_digest": "df4023eb08173c700c9c5557d2e159b7b2d8cea05493173c8ec1791771acc86d",
+      "rendered_digest": "378f4991754c4fed3e0aceba8d8794f007fbb9dbc222d0529c8299cbdc09c68f",
+      "ast_digest": "c34da0ffa852649da90e4d70b6c6e5c2bb006e00fcd475e111e9a7cb0e951ad3"
     },
     "spp": {
-      "values_digest": "64d87314b6ffad1fbae0777636313c890fd9cc841dae0ee9782853ebd6b562da",
+      "values_digest": "42f019c6bc6ae520cf7fc7dd4fbddb973638ed144b34a6a7a4b5fa86c890b32e",
       "rendered_digest": "cee45d603bce939f93f98478201ade8735a3142b2de1024b8e278a34365b0b20",
       "ast_digest": "ae708aac6b2c9088f83b570d1e029fc5b71739a3af0921404fe2eea51f97cab6"
     },
     "vpp": {
-      "values_digest": "c276625153ceeee179c22720e23342e67ae977d5461e24bc69248af204f93280",
-      "rendered_digest": "3103dd4fbd90cde97201eaa76cdeada4bfb4eb8cc81b17c4d757d750b1ef813d",
-      "ast_digest": "d675cddf1d1f4c3d8097704fa1635db4c954cb9a835df02e336b01fc746e99e2"
+      "values_digest": "69e1055036146d51139f850cf4d35986721b5bffc8399fcbd636f6a15983c79f",
+      "rendered_digest": "446ef06c3d27a4e763226c5ac909de2f9a6929983859f5bb463349abb58180ed",
+      "ast_digest": "214e97eb52f65a4cca55f57e7569e758e19e0fbaf2aa0dbd7e39427f26255b20"
     },
     "srp": {
-      "values_digest": "5aa8c05a8748bb7c6cc2769023a88259022f7cb7b667552c046a6d202dea33b9",
-      "rendered_digest": "ae75642b670b879f969ae9aab8ef944ccf1e4ab4276b04c9bfb545cea91253ec",
-      "ast_digest": "8b71811fb20bfbea6d77b4981603a496f30813e10a59f3ab8edbb5a4d6f7a331"
+      "values_digest": "1c94856f6d46208c98ac38cbb826dda9d5009e4a1af69e6bdda1cb09e6ae8d83",
+      "rendered_digest": "96e6225e7eb7b47395ac2c3c2d6fef1bff5cb809a5151ae03c0ca6f2324eb27f",
+      "ast_digest": "388a3ed842b72fac518edb57921aa5df44ece635c97ba3b8449474cbd0f1d308"
     },
     "sor": {
-      "values_digest": "92b1ea0e04398225b4c32d803edac532295d08559a263f64421d9619ac030f3e",
-      "rendered_digest": "f5eaa76c1068192e39950c65cd0bb8bdc01da5bf1230b3179d0407534de9954c",
-      "ast_digest": "6875c60ad0a12c9cc4ff8ebc6963b27c4f6f5f7f3eb7aa5110c9261b67e1e38a"
+      "values_digest": "bf5893bec7961aad00efde7452c08efee8b70384491f530993554a4652cbdd12",
+      "rendered_digest": "5a705b11841a3da8d021311d038a02608d77963073e1126d634b2793e5593288",
+      "ast_digest": "cb60f94eb7ce1333efec93808eced209e85dadc4f5da8035030bf01c7b81186e"
     }
   },
   "transitions": [
@@ -75,6 +115,41 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5872",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5872",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5872",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -238,6 +313,55 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:5872-resource-weather",
+      "reason": "Declare the exact issue-owned future source and temporary harness deliverables required for bind-safe admission.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"Focused positive and negative tests\",\"Digest-bound execution proof\",\"Reviewed rollback evidence\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 9,
+      "actor": "codex:5872-resource-weather",
+      "reason": "Declare the issue-owned temporary path harness for bind-safe admission while retaining the exact proof-receipt lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_resource_weather proves signatures, freshness, bounds, replay denial, unavailable metrics, redaction, and deterministic projection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_resource_weather\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/resource_weather.rs\\\"] harness in adl-runtime/tests/distributed_resource_weather.rs will route adl-runtime/src/distributed/resource_weather.rs until integration issue #5878 registers the production module.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=c50f541f8c9f46f586bf1f2ca19366cfe5a23e71b9f64fef0bb3e0fa0c2a0b0f]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5872/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 9,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 27,
+      "generation": 10,
+      "actor": "codex:issue-5872",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:issue-5872",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 11,
+      "actor": "codex:issue-5872",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 12,
+      "actor": "codex:issue-5872",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

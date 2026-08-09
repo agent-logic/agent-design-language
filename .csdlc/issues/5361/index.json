@@ -5,8 +5,9 @@
   "initialization_digest": "ebdd95a3dd79978c1931a478ce8e543a15106fe5d6856db8975346413279baaa",
   "phase": "closed_out",
   "generation": 24,
-  "digest": "f35c882e4f991aa344d7412c00b7906eeb14c1ee067293bb6b64ec44a1c44c3c",
-  "claim": null,
+  "digest": "abae84e4d28ecf36995e417c7ce453f2fd31f479435b295b62fa0b5bb243a5ca",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "gpt-5.5:required-pre-pr-review",
     "assigned_by": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
@@ -157,15 +158,8 @@
     "observed_sha": "f7fc71421f4bcf70039b910c9b88b538bb111400",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5361.json",
-    "released_branch": "codex/5361-v0918-runtime-v3-acceptance-readiness",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5361",
-      ".csdlc/issues/5361",
-      ".csdlc/locks/5361.lock",
-      ".csdlc/prepared/issues/5361",
-      "adl-runtime/src/cav.rs"
-    ]
+    "branch": "codex/5361-v0918-runtime-v3-acceptance-readiness",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5361/retained/design.md",

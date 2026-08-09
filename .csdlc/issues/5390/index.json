@@ -5,8 +5,9 @@
   "initialization_digest": "a1ce191172a445886835ae006aeeacd5a05ac2cd4c6ee5ee10060bcd8436f21f",
   "phase": "closed_out",
   "generation": 41,
-  "digest": "c975bd65a55a4cd2e4b01d039a3ee337c2e6ce7cc246d804c15b8112b1af7b80",
-  "claim": null,
+  "digest": "da03000511fdb05f7beb904cbcf8081d0bfdc297c91c2fd467443d1604da8b07",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagents-019f66d7-019f66f8-and-019f671d",
     "assigned_by": "codex",
@@ -234,20 +235,8 @@
     "observed_sha": "699da9a4c5ea9643e64da599bf06f5d1b7286040",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5390.json",
-    "released_branch": "codex/5390-runtime-v3-local-https-bound-address",
-    "released_worktree": ".worktrees/adl-wp-5390",
-    "released_protected_paths": [
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/Cargo.lock",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "demos/v0.91.7/html-observatory/app.js",
-      "infra/runtime-v3/runtime-init.toml",
-      "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md"
-    ]
+    "branch": "codex/5390-runtime-v3-local-https-bound-address",
+    "worktree": ".worktrees/adl-wp-5390"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5390/retained/design.md",

@@ -7,27 +7,27 @@
     "title": "[v0.92][runtime][shepherd] Pull local Gemma/MLX Shepherd MVP forward",
     "slug": "v0-92-local-gemma-mlx-shepherd-mvp",
     "version": "v0.92",
-    "generation": 31
+    "generation": 50
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 12,
-      "summary": "After 5800/5820 and stable 5832 contracts, narrow the governed operation and consumer files, add an explicit bounded local MLX adapter and truthful execution classification, preserve Runtime usability on all failures, then prove deterministic negatives, one real model round trip, browser correlation, and exact-head review.",
+      "plan_revision": 17,
+      "summary": "Implement and prove the bounded Shepherd foundation on Mac with the configured MLX model, retain one immutable portable Ollama/CUDA model bundle in versioned S3 for AWS and distributed Polis hosts, and run the fixed g6.xlarge CUDA proof after quota approval. Keep authenticated WSS, Observatory projection, and browser round-trip explicitly deferred behind issue 5832.",
       "steps": [
         {
           "id": "S1",
-          "action": "Verify 5800/5820 and stable 5832 gates, inventory governed ingress/provider ownership, and narrow disjoint Runtime and Observatory files.",
+          "action": "Confirm issues 5800 and 5820 are stable, identify issue 5832 as unresolved, and restrict this pass to the bounded Shepherd foundation and portable model proof surfaces.",
           "acceptance_ids": [
             "AC-2",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
-          "action": "Implement the explicit bounded local adapter, governed admission, truthful execution classification, and correlated response projection.",
+          "action": "Implement the explicitly configured bounded local process adapter with truthful execution classification, cleared environment, strict bounds, concurrency control, timeout, cancellation, child reaping, runner-byte pinning, and redacted failures.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -35,36 +35,53 @@
             "AC-4",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
-          "action": "Run deterministic admission/adapter negatives, real MLX/Gemma smoke, and live browser-to-Runtime round trip while verifying post-failure usability.",
+          "action": "Complete focused Rust and Mac MLX proof, retain the portable Ollama/CUDA model bundle by exact S3 object versions, and validate the no-launch AWS GPU preflight with zero residual resources.",
           "acceptance_ids": [
             "AC-1",
             "AC-3",
             "AC-4",
             "AC-5",
-            "AC-6"
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "After the us-west-2 On-Demand G and VT quota reaches four vCPUs, run the fixed g6.xlarge CUDA proof against the exact model manifest and exact source head, then prove automatic instance and volume cleanup.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-6",
+            "AC-7"
           ],
           "status": "pending"
         },
         {
-          "id": "S4",
-          "action": "Resolve exact-head review and publish with truthful local-only claims and closing linkage.",
+          "id": "S5",
+          "action": "After issue 5832 freezes the command and WSS contract, complete authenticated Runtime and Observatory integration, live browser proof, exact-head review, and final publication.",
           "acceptance_ids": [
+            "AC-2",
+            "AC-5",
+            "AC-6",
             "AC-8"
           ],
           "status": "pending"
         }
       ],
       "affected_areas": [
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/src/operations.rs",
         "adl-runtime-kernel/src/shepherd.rs",
         "adl-runtime-kernel/tests/shepherd.rs",
         "adl-runtime/tests/shepherd_local_model.rs",
-        "demos/html-observatory/shepherd.js",
-        "demos/html-observatory/index.html",
-        "adl/tools/validate_v092_shepherd_browser_roundtrip.mjs"
+        "adl/tools/run_wp5795_aws_gpu_proof.sh",
+        ".csdlc/evidence/5795/foundation"
       ],
       "invariants": [
         "Unsigned, unauthorized, malformed, oversized, or wrong-runtime messages fail before model invocation",
@@ -98,7 +115,7 @@
         "Runtime provider-adapter ownership moves before implementation"
       ],
       "design_ref": ".csdlc/prepared/issues/5795/design.md",
-      "design_digest": "89fe1dc1292243e40a2ec48d47040e901ac91451a8d5d99945fb154d8b3d1037",
+      "design_digest": "aacf30a17e71c738bfab5b0b0477b80a6e9d14ab8cc7d83bc1e052fa06ff101f",
       "diagram_ref": ".csdlc/prepared/issues/5795/diagram.mmd",
       "diagram_digest": "7db206956bb1d4ac5d32aae7445ca356c16a90e7d8cc28bb40054e448880a2dd"
     }

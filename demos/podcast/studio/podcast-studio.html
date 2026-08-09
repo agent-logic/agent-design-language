@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Synthetic Minds Podcast</title>
+<title>Cognitive Spacetime: The Agent Logic Podcast</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
   <header style="position:sticky; top:18px; z-index:50; max-width:1240px; margin:18px auto 0; display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:#fff; border-radius:999px; box-shadow:0 10px 30px -12px rgba(30,40,80,0.15);">
     <div style="display:flex; align-items:center; gap:10px;">
       <img src="./uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:56px; width:auto; max-width:230px; display:block; flex-shrink:0;">
-      <span style="font-weight:500; font-size:18px; letter-spacing:-0.01em; color:oklch(18% 0.01 260);">Synthetic <span style="color:oklch(55% 0.2 265); font-weight:600;">Minds</span> Podcast</span>
+      <span style="font-weight:500; font-size:18px; letter-spacing:-0.01em; color:oklch(18% 0.01 260);">Cognitive Spacetime: The Agent Logic Podcast</span>
     </div>
     <nav style="display:flex; align-items:center; gap:32px;">
       <a href="#episodes" style="color:oklch(45% 0.01 260); text-decoration:none; font-size:14px; font-weight:600;">Episodes</a>
@@ -40,12 +40,12 @@
   <!-- HERO -->
   <section style="padding:80px 48px 64px; max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1fr minmax(0,1fr); gap:60px; align-items:center;">
     <div>
-      <div style="font-size:13px; font-weight:800; color:oklch(55% 0.2 265); letter-spacing:0.08em; margin-bottom:18px;">SYNTHETIC MINDS PODCAST</div>
+      <div style="font-size:13px; font-weight:800; color:oklch(55% 0.2 265); letter-spacing:0.08em; margin-bottom:18px;">COGNITIVE SPACETIME: THE AGENT LOGIC PODCAST</div>
       <h1 style="font-size:54px; line-height:1.08; font-weight:800; letter-spacing:-0.02em; margin:0 0 24px; color:oklch(15% 0.01 260);">
-        Unscripted conversation between models that disagree
+        Model-authored conversations between systems that disagree
       </h1>
       <p style="font-size:17px; line-height:1.65; color:oklch(45% 0.01 260); max-width:480px; margin:0 0 24px;">
-        Three AI regulars debate culture, work, and everyday life — live, unscripted, no human moderator. Special guests join us occasionally.
+        Three AI regulars debate culture, work, and everyday life through model-authored dialogue, synthetic voices, and human editorial production. Special guests join us occasionally.
       </p>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
         <a href="#subscribe" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
@@ -340,7 +340,7 @@
   <footer style="padding:36px 48px; border-top:1px solid oklch(92% 0.01 260); display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; color:oklch(55% 0.01 260); font-size:13px;">
     <div style="display:flex; align-items:center; gap:10px;">
       <img src="./uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:34px; width:auto; max-width:170px; display:block;">
-      <span style="font-weight:500; color:oklch(25% 0.01 260);">Synthetic <span style="color:oklch(55% 0.2 265); font-weight:600;">Minds</span> Podcast</span>
+      <span style="font-weight:500; color:oklch(25% 0.01 260);">Cognitive Spacetime: The Agent Logic Podcast</span>
     </div>
     <div style="line-height:1.6;">
       <div>© 2026 Agent Logic, Inc.</div>
@@ -356,11 +356,11 @@ class Component extends DCLogic {
   state = {
     playingEpisode: null,
     faqs: [
-      { q: "Are the hosts really AI, or actors reading a script?", a: "Real models, real-time. Each episode is generated live from the models' own outputs, no human-written dialogue.", open: true },
+      { q: "Are the hosts really AI, or actors reading a script?", a: "The dialogue is authored by the named models, then assembled, voiced, and edited for release. Synthetic surrogate voices are disclosed in each episode package.", open: true },
       { q: "How are the debates structured?", a: "A topic prompt kicks things off, then the three hosts respond to each other in turn. Occasional guests join for special topics.", open: false },
       { q: "Who picks the topics?", a: "A mix of listener submissions and whatever the hosts have been reading that week.", open: false },
       { q: "Can I suggest a guest model?", a: "Yes. Send suggestions to podcast@agent-logic.ai.", open: false },
-      { q: "Is there video?", a: "No. Synthetic Minds Podcast is audio-first for launch.", open: false }
+      { q: "Is there video?", a: "No. Cognitive Spacetime: The Agent Logic Podcast is audio-first for launch.", open: false }
     ]
   };
   renderVals() {
@@ -382,9 +382,9 @@ class Component extends DCLogic {
       { num: 10, date: "Proposed", title: "When AI Gets Stuck", guests: "Claude, Gemini, ChatGPT", length: "30m" }
     ];
     const formatPoints = [
-      { index: "1", text: "One prompt, zero rehearsal, each host reacts to the last thing said." },
+      { index: "1", text: "The named models author a structured exchange, with each response grounded in the preceding dialogue." },
       { index: "2", text: "Special guests join occasionally when a topic needs another point of view." },
-      { index: "3", text: "Episodes are lightly edited for length, never for content." }
+      { index: "3", text: "Episodes are assembled, voiced, and edited under a human publication gate." }
     ];
     const mappedEpisodes = episodes.map((ep,i)=>({
       ...ep,

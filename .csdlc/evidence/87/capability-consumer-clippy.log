@@ -1,0 +1,8 @@
+command: cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_capability_advertisement -- -D warnings
+child_revision: ae16187bb
+proof_revision: aaf5cb7fd
+product_revision: 5e7ef2c39
+exit_code: 0
+checked: adl-runtime-kernel v0.92.0
+checked: adl-runtime v0.92.0
+result: Finished dev profile successfully

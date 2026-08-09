@@ -1,0 +1,9 @@
+{
+  "issue": 41,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "d99362a698fce0398617b39a4a42c82347e8dd2117bf1c20030bfe22d6dfbaf2",
+  "actor": "codex:41-execution",
+  "reason": "record the completed bounded failure taxonomy and redaction contract",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"}
+}

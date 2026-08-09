@@ -5,8 +5,9 @@
   "initialization_digest": "36807e223cd3ec8843cd05ba70c0fcb97781b607454c3b9886199b0050236dca",
   "phase": "closed_out",
   "generation": 21,
-  "digest": "708374cfa091a198eb2e4c1ee71d32c2d7e0b890ccb08c17556dd2e76148ab91",
-  "claim": null,
+  "digest": "6fe92e51c74f6e7134318f55cdbeb2ad3eed818e7b7d437d373fe27bc1221d51",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-review:4761-capability-envelope",
     "assigned_by": "codex:gpt-5.5-execution-4761",
@@ -159,16 +160,8 @@
     "observed_sha": "8c3ef0336570238d26eab0fd49a9a2ff9c1a0c09",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4761.json",
-    "released_branch": "codex/4761-v0918-wp14-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/4761",
-      ".csdlc/prepared/issues/4761",
-      ".csdlc/evidence/4761/capability-envelope",
-      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
-      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
-      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
-    ]
+    "branch": "codex/4761-v0918-wp14-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/4761/retained/design.md",

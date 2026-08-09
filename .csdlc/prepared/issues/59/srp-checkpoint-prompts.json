@@ -1,0 +1,21 @@
+{
+  "issue": 59,
+  "card": "srp",
+  "expected_generation": 12,
+  "expected_digest": "984994fab1ac49e4c81ec0ee3a88220d7fd74b224f06994630674c9a38507bdc",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Add exact non-closing relationship checks to review",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Does any repository executable actually implement create_goal admission or thread-goal persistence?",
+      "Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?",
+      "Would any proposed workaround falsify the old blocked goal or create divergent state?",
+      "Is the upstream replacement or supersession contract precise enough for a product owner to implement and test?",
+      "Does publication use linkage_mode part_of with the exact qualified Part of agent-logic/agent-design-language#59 line and no closing keyword?",
+      "Are the estimates, stop boundary, changed paths, and exact next action explicit?"
+    ]
+  },
+  "fail_after_backup": false
+}

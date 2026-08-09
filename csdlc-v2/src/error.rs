@@ -19,6 +19,12 @@ pub enum ErrorCode {
     InvalidManifest,
     ValidationFailed,
     RemoteFailure,
+    RemoteNotFound,
+    RemoteAuthentication,
+    RemoteAuthorization,
+    RemoteRateLimited,
+    RemoteServer,
+    RemoteTransport,
     FieldOwnership,
     CardInvalid,
     CorruptRecord,
@@ -33,9 +39,15 @@ impl ErrorCode {
             Self::InvalidTransition | Self::FieldOwnership => 65,
             Self::StaleGeneration | Self::StaleDigest => 66,
             Self::CardInvalid | Self::CorruptRecord => 68,
-            Self::InterruptedTransaction => 69,
+            Self::InterruptedTransaction | Self::RemoteNotFound => 69,
             Self::UnsafeCheckout => 73,
-            Self::Io | Self::GitFailure | Self::RemoteFailure => 74,
+            Self::Io
+            | Self::GitFailure
+            | Self::RemoteFailure
+            | Self::RemoteRateLimited
+            | Self::RemoteServer
+            | Self::RemoteTransport => 74,
+            Self::RemoteAuthentication | Self::RemoteAuthorization => 77,
             Self::ReconciliationRequired => 75,
             Self::ValidationFailed => 76,
         }

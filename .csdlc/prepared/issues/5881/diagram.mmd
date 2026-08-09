@@ -1,0 +1,13 @@
+flowchart LR
+    I["Old-repo issue #5881"] --> B["Atomic issue to branch/worktree bind"]
+    B --> S["Canonical claim-free issue state"]
+    L["Historical record with claim"] --> N["Private bounded normalizer"]
+    N --> S
+    S --> E["Edit and validate"]
+    E --> R["Exact-head review"]
+    R --> P["PR in agent-logic/agent-design-language"]
+    P --> F["Finish and cleanup from topology"]
+    P -. "Closes danielbaustin/...#5881" .-> I
+    X["Claims, leases, heartbeats, protected paths"]:::retired
+    X -. "deleted from active authority" .-> S
+    classDef retired fill:#f5f5f5,stroke:#999,stroke-dasharray: 4 3

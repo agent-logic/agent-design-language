@@ -1,0 +1,22 @@
+{
+  "issue": 59,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "caa37cb355ccf291fdf0e52eafde1656166eba0b5d0f5a02a94ce04435e1cc3a",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Record the bounded authority-routing checkpoint without claiming external product implementation",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Prepared a reviewed, non-closing authority-routing checkpoint for the externally owned Codex blocked-goal replacement defect and stacked it on the typed issue 75 part_of publisher contract.",
+    "changes": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/59/design.md",
+      ".csdlc/prepared/issues/59/diagram.mmd",
+      "inherited issue 75 typed part_of publication contract at c405895a10440eb4a163ed7ebd084c4e8c617be7"
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -7,6 +7,9 @@ or smoke artifacts. Every episode includes final script, transcript, show
 notes, final MP3 plus archive audio, QA and listen-check evidence, guest truth,
 artwork/ID3 metadata, RSS-ready enclosure data, redaction results, and
 editorial/audio review. Publication and deployment remain separately gated.
+The ten-episode issue may land review-ready episode checkpoints incrementally,
+but each checkpoint must be complete for the episode it claims and must not
+close WP-24A until all ten packages and the integration proof are complete.
 
 ## Source Baseline
 
@@ -32,6 +35,15 @@ editorial/audio review. Publication and deployment remain separately gated.
 - `demos/podcast/episodes/010-what-does-a-weekly-ai-studio-look-like`
 - `demos/podcast/feed.xml`
 - `demos/podcast/LAUNCH_READINESS.md`
+- `demos/podcast/index.html`
+- `demos/_preview/podcast/index.html`
+- `demos/podcast/episodes/meet-the-ai-coworkers/index.html`
+- `demos/podcast/audio/`
+- `demos/podcast/artwork.png`
+- `demos/podcast/S3_CLOUDFRONT_RUNBOOK.md`
+- `demos/podcast/studio`
+- `demos/podcast/studio-reference`
+- `adl/tools/demo_v0911_multiagent_podcast_audio.sh`
 - `adl/tools/generate_podcast_launch_packet.py`
 - `adl/tools/validate_podcast_launch_packet.py`
 - `adl/tools/test_podcast_launch_packet.sh`
@@ -40,7 +52,10 @@ editorial/audio review. Publication and deployment remain separately gated.
 - `adl/tools/record_podcast_ios_safari_playback.sh`
 - `.csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb`
 - `.csdlc/prepared/issues/5845/validate-second-pass-readiness.rb`
+- `.csdlc/prepared/issues/5845/design.md`
+- `.csdlc/issues/5845`
 - `.csdlc/evidence/5845`
+- `docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json`
 
 ## Read-Only Inputs
 
@@ -49,13 +64,23 @@ editorial/audio review. Publication and deployment remain separately gated.
 
 ## Episode Package Contract
 
-Each numbered directory contains `episode.yaml`, `source-packet.md`,
-`script.md`, `transcript.md`, `show-notes.md`, `episode.mp3`, archive audio,
-`audio-manifest.json`, `qa-report.md`, `guest-metadata.json`, artwork,
-`rss-enclosure.json`, `redaction-report.md`, and `review.md`. Provider/model,
-source digest, output digest, duration, sample rate, channels, loudness, peak,
-ID3 version/tags, artwork digest, and listen-check result are recorded without
-credentials.
+Each numbered directory contains canonical `episode.json`, `source-packet.md`,
+`script.md`, `transcript.md`, `show-notes.md`, `audio-manifest.json`,
+`qa-report.md`, `guest-metadata.json`, artwork, `rss-enclosure.json`,
+`redaction-report.md`, and `review.md`. Distribution MP3 and archive WAV files
+may live in the shared `demos/podcast/audio/` route when `episode.json`, the
+audio manifest, and the enclosure record bind their exact paths, byte counts,
+and SHA-256 digests. Provider/model, source digest, output digest, duration,
+sample rate, channels, loudness, peak, ID3 version/tags, artwork digest, and
+listen-check result are recorded without credentials.
+
+An incremental checkpoint must include all required artifacts for every
+episode it labels complete, pass the same negative validators as the eventual
+ten-episode integration, use `Part of` rather than a closing keyword, and leave
+the parent issue open. Shared launch pages and private archive documentation
+may be updated only as review candidates; live deployment, mailbox
+verification, branded-host configuration, and directory submission remain
+owned by the separate launch issue.
 
 ## Execution Plan
 
@@ -72,7 +97,7 @@ Implementation must add three bounded evidence producers under the owned
 paths. They are product-validation deliverables, not publication tools:
 
 - macOS and Linux native playback:
-  `bash adl/tools/record_podcast_native_playback.sh --platform <macos|linux> --source-sha <sha> --episode demos/podcast/episodes/001-meet-the-ai-coworkers/episode.mp3 --evidence-dir .csdlc/evidence/5845/platform/<platform>-native`
+  `bash adl/tools/record_podcast_native_playback.sh --platform <macos|linux> --source-sha <sha> --episode demos/podcast/audio/meet-the-ai-coworkers.mp3 --evidence-dir .csdlc/evidence/5845/platform/<platform>-native`
 - desktop Chromium playback:
   `node adl/tools/record_podcast_browser_playback.mjs --browser chromium --source-sha <sha> --episode-url <loopback-url> --evidence-dir .csdlc/evidence/5845/platform/desktop-chromium`
 - physical-device iOS Safari playback:

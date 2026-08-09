@@ -5,8 +5,9 @@
   "initialization_digest": "a5fe0b1e9eec7136904a3d1d13c8f0df266a9db06f660c4b1d17db3909a15828",
   "phase": "closed_out",
   "generation": 20,
-  "digest": "cb37cf1db8ed551c2eee5c13bff480283db850511f3e94f0aeb42f06f7248b7c",
-  "claim": null,
+  "digest": "2ed6562f2c8f81cfc68f1b5dd7d6a462e593b319e65fec573738911474614d9a",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-exact-head-review-4762",
     "assigned_by": "codex",
@@ -165,18 +166,8 @@
     "observed_sha": "d736baca1c82c6ca9b770678ff2c04ce44458fc9",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/4762.json",
-    "released_branch": "codex/4762-v0918-wp14-preparation",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/4762",
-      ".csdlc/issues/4762",
-      ".csdlc/locks/4762.lock",
-      ".csdlc/prepared/issues/4762",
-      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/v092_handoff_4762",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md"
-    ]
+    "branch": "codex/4762-v0918-wp14-preparation",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/4762/retained/design.md",

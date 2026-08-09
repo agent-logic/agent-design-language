@@ -5,12 +5,14 @@
 - Sprint issue: `#5855`
 - Milestone: `v0.92`
 - Execution mode: `hybrid`
-- Status: `prepared`
+- Status: `closeout_candidate`
 - Machine packet: `.csdlc/prepared/issues/5855/sprint-execution-packet.yaml`
 
 ## Sprint Goal
 
-Deliver one resilient Runtime and Observatory path, then distributed, protocol, provider, and consumer integration.
+Deliver one resilient Runtime path with trusted Observatory TLS, the distributed
+Guardian architecture gate, the versioned protocol contract, and the bounded
+local Shepherd foundation.
 
 ## Sprint Boundary
 
@@ -28,21 +30,22 @@ Out of scope:
 
 | Issue | Role | Status | Primary surface | Watcher |
 |---|---|---|---|---|
-| `#5800` | supporting | merged baseline | browser-trusted local Observatory HTTPS with reproducible browser and health proof | async closeout owner |
-| `#5820` | WP-03 | initialized | one Guardian-owned launch path with resilient startup, configuration, recovery, and lifecycle behavior | child session owner |
-| `#5795` | supporting | initialized | real local model-backed Shepherd dialogue through governed Runtime v3 and Observatory surfaces | child session owner |
-| `#5821` | WP-04 | initialized | architecture and security gate followed by completion of the bounded 16-issue distributed-runtime program within v0.92 | child session owner |
-| `#5832` | WP-14 | initialized | reconciled versioned protocol family, protobuf schema, public catalog, JSON projection, and authenticated full-duplex WSS carrier | child session owner |
-| `#5837` | WP-18A | initialized | separate consumers integrated with the versioned Runtime API and WSS | child session owner |
+| `#5800` | supporting | closed via PR #9 | browser-trusted local Observatory HTTPS with one shared certificate identity | terminal |
+| `#5820` | WP-03 | closed via PR #28 | Guardian-owned launch path with resilient startup, recovery, and lifecycle behavior | terminal |
+| `#5821` | WP-04 | closed via PR #39 | distributed Guardian architecture, security, and child-wave gate | terminal |
+| `#5795` | supporting | closed via PR #72 | bounded local model-backed Shepherd foundation | terminal |
+| `#5832` | WP-14 | closed via PR #76 | versioned protocol, protobuf, catalog, JSON projection, and authenticated WSS contract | terminal |
 
-## Recommended Execution Order
+## Completed Execution Order
 
-1. Treat merged `#5800` at `7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f` as the canonical TLS baseline; closeout continues asynchronously.
-2. Route `#5820` immediately after readiness and collision checks.
-3. Route `#5821` after `#5820` stabilizes Runtime ingress.
-4. Route `#5832` after `#5821` and the separate `#5862` implementation sprint are terminal.
-5. Route `#5795` after `#5820` and `#5832` stabilize Runtime and protocol contracts.
-6. Route `#5837` only when its issue-wave dependencies and this packet serial gates are satisfied.
+1. `#5800` established the trusted TLS baseline at `7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f`.
+2. `#5820` completed Runtime launch and resilience at `b5bcfdfc13a6f454a715cbb9aa64e24bce3b7ba6`.
+3. `#5821` completed the distributed architecture/security gate at `0ea81fd61b0bf598ece4ce368ae5cf1a1923127c`.
+4. `#5795` completed the bounded local Shepherd foundation at `094797b6fe4be52549f447b0b7e513892c060436`.
+5. `#5832` completed the protocol and WSS contract at `a5021ab7e9bff220021e3600fa51b4f0848f5524`.
+
+Issue `#5837` and the split HTML/Unity issues `#83` and `#84` are explicitly
+outside Sprint 2 and continue independently.
 
 ## Watcher Policy
 
@@ -63,36 +66,34 @@ Out of scope:
 
 | Issue | Watcher | Current focus | Next terminal state |
 |---|---|---|---|
-| `#5800` | async closeout owner | reconcile typed terminal truth without blocking Sprint 2 product work | truthful child closeout |
-| `#5820` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
-| `#5795` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
-| `#5821` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
-| `#5832` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
-| `#5837` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
+| `#5800` | complete | merged PR #9 and closed issue | terminal |
+| `#5820` | complete | merged PR #28 and closed issue | terminal |
+| `#5821` | complete | merged PR #39 and closed issue | terminal |
+| `#5795` | complete | merged PR #72 and closed issue | terminal |
+| `#5832` | complete | merged PR #76 and closed issue | terminal |
 
 ## Safe Parallel Lanes
 
 | Lane | Issues | Why parallel-safe | Required coordination |
 |---|---|---|---|
-| lane 1 | `#5820` | Runtime launch and resilience is the first active product lane. | merged issue 5800 TLS baseline is ancestral |
-| lane 2 | `#5795` preparation | Local-provider design preparation cannot redefine shared contracts. | integration waits for issues 5820 and 5832 |
+| lane 1 | `#5820` | Completed after the ancestral #5800 TLS baseline. | satisfied |
+| lane 2 | `#5795`, `#5832` | Separate provider and protocol surfaces were eligible after the #5821 architecture gate; actual merge order was #5795 then #5832. | satisfied |
 
 ## Candidate Parallel Lanes
 
 | Lane | Classification | Issues | Expected write sets | Dependency gate | Collision posture |
 |---|---|---|---|---|---|
-| candidate 1 | active | `#5820` | dedicated FastWork child worktree | merged issue 5800 baseline | stop on any live path collision |
-| candidate 2 | preparation only | `#5795` | dedicated FastWork child worktree | no shared product edits before issues 5820 and 5832 | collapse to serial on overlap |
+| candidate 1 | completed | `#5820` | dedicated FastWork child worktree | merged issue 5800 baseline | no unresolved collision |
+| candidate 2 | completed | `#5795`, `#5832` | separate dedicated FastWork child worktrees | terminal issue 5821 architecture gate | no unresolved collision; actual merge order recorded |
 
 ## Serial Gates
 
 | Gate | Blocks | Exit condition | Owner |
 |---|---|---|---|
-| gate 1 | issue 5820 | merged issue 5800 TLS baseline is ancestral; async closeout is non-blocking | sprint session |
-| gate 2 | issue 5821 | issue 5820 Runtime ingress is stable | sprint session |
-| gate 3 | issue 5832 | issues 5821 and 5862 are terminal | sprint session |
-| gate 4 | issue 5795 | issues 5820 and 5832 provide stable Runtime and protocol contracts | sprint session |
-| gate 5 | issue 5837 | issues 5820 and 5832 are terminal and WP-18 is ready | sprint session |
+| gate 1 | issue 5820 | satisfied by ancestral issue 5800 TLS merge | complete |
+| gate 2 | issue 5821 | satisfied by stable issue 5820 Runtime ingress | complete |
+| gate 3 | issues 5795 and 5832 | satisfied by the issue 5821 architecture gate | complete |
+| observation | merge order | issue 5795 merged before issue 5832; no reverse dependency is claimed | recorded |
 
 ## PVF / Validation-Tail Notes
 
@@ -102,9 +103,9 @@ Out of scope:
 
 ## Parallelism Outcome Plan
 
-- Start only the lanes classified safe in this packet.
-- Collapse a lane to serial execution immediately if real write or proof surfaces overlap.
-- Record planned versus actual parallelism in the sprint review; parallelism is an optimization, not acceptance evidence.
+- The safe lanes completed without unresolved path collisions.
+- Serial gates remained the acceptance authority; parallelism was not treated as proof.
+- Exact merge ancestry and live issue closure are recorded in the sprint review.
 
 ## Sprint Activity Log
 
@@ -121,4 +122,5 @@ Out of scope:
 - Roll up every child issue and PR state without converting unknown or waiting states into success.
 - Record budget variance only from actual child goal data.
 - Record which parallel lanes were safe, collapsed to serial, blocked, or not attempted.
-- Close the umbrella only after every child has truthful terminal state.
+- Treat this packet as a closeout candidate until the qualified closing PR merges,
+  live umbrella closure is observed, and `csdlc-finish` emits terminal truth.

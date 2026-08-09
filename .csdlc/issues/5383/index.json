@@ -5,8 +5,9 @@
   "initialization_digest": "5774e6b65a3f68bbe9cfdfde4e2d22219496012f36018b5b495815756bd8a140",
   "phase": "closed_out",
   "generation": 25,
-  "digest": "9680adcce40727d4d35e6c8dd911a8b083f2bc0d3e5c0bd3893c421779bea80c",
-  "claim": null,
+  "digest": "40dc656190d18e5b6b39864049c4a786f6884f77cff759577cea6af3cb29b686",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent-huygens",
     "assigned_by": "codex",
@@ -78,14 +79,8 @@
     "observed_sha": "f55126638707b436478316bf84dbcb040ee60cca",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5383.json",
-    "released_branch": "codex/5383-terminal-repair",
-    "released_worktree": ".worktrees/adl-wp-5383-terminal-repair",
-    "released_protected_paths": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7",
-      "docs/milestones/v0.92",
-      ".csdlc/issues/5383"
-    ]
+    "branch": "codex/5383-terminal-repair",
+    "worktree": ".worktrees/adl-wp-5383-terminal-repair"
   },
   "migration": null,
   "design_path": "docs/milestones/v0.91.8/setup/5383/DESIGN.md",

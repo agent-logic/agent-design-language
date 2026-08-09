@@ -1,0 +1,21 @@
+{
+  "issue": 5845,
+  "card": "sip",
+  "expected_generation": 44,
+  "expected_digest": "73a7d9590f7d91da5d2a3ca6bc9e2be1959b9fd966c3c41673e3b81eea2270fa",
+  "actor": "codex:5845-readiness-review-fix",
+  "reason": "Record the established split issue/code repository publication authority for WP-24A.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "WP-24A owns ten review-ready local episode packages",
+      "Issue authority remains danielbaustin/agent-design-language#5845",
+      "Code and pull-request publication target agent-logic/agent-design-language",
+      "The implementation PR must use Closes danielbaustin/agent-design-language#5845",
+      "#5819 and the route/storage decision identify any canonical public destination",
+      "#3223/#3256 provide retained production-pipeline proof",
+      "The operator retains deployment and publication authority"
+    ]
+  }
+}

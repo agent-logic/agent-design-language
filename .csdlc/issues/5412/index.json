@@ -5,8 +5,9 @@
   "initialization_digest": "2379ef2e66d7cbb7b2aaacd517fd705df312bd5ada080cb87ce4e09975944b31",
   "phase": "closed_out",
   "generation": 19,
-  "digest": "705c0c114e1d6989dad30afa66215b25aa947ec826d688f16762a70b6afdc0d4",
-  "claim": null,
+  "digest": "ae14e15114c1229cae6b5b03ccfc0fb4cdea3d9ffe6945ec70e69fab65c0684f",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5412-final",
     "assigned_by": "codex-root",
@@ -128,19 +129,8 @@
     "observed_sha": "6318706c380b4af8a65ae8792d3baf999113a669",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5412.json",
-    "released_branch": "codex/5412-runtime-v3-state-authenticity",
-    "released_worktree": ".worktrees/adl-wp-5412",
-    "released_protected_paths": [
-      "adl-runtime-kernel/src/identity_memory.rs",
-      "adl-runtime-kernel/src/private_state.rs",
-      "adl-runtime-kernel/tests/identity_memory.rs",
-      "adl-runtime-kernel/tests/private_state.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl/tools/run_runtime_v3_guardian_soak.sh",
-      "adl/tools/report_runtime_v3_loc.sh",
-      "docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md",
-      "docs/architecture/runtime_v3_state_authenticity_5412.v1.json"
-    ]
+    "branch": "codex/5412-runtime-v3-state-authenticity",
+    "worktree": ".worktrees/adl-wp-5412"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5412/retained/design.md",

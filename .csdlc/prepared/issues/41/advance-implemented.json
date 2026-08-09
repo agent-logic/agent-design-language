@@ -1,0 +1,1 @@
+{"issue":41,"card":"sor","expected_generation":12,"expected_digest":"f07b7ac776ad43cacdf0c82c3e59ab6d692e1088b09e1373bf601434c7a3f6ba","actor":"codex:41-execution","reason":"advance only after bounded implementation and proving validation are recorded","operation":{"operation":"advance_phase","phase":"implemented"}}

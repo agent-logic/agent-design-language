@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "sor",
+  "expected_generation": 16,
+  "expected_digest": "95b2c2719bc22ae2491d1b1cfb32ba8950d1a9eeff1586b211c38e1ef25a9500",
+  "actor": "codex:63-validation",
+  "reason": "Record exact phase and card authorization proof.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--lib","store::edit_authorization_tests::implemented_review_remediation_authorizes_only_bounded_operations"],"purpose":"Prove the correction operation is authorized only for SIP in implemented and rejected for every adjacent lifecycle phase and wrong card.","outcome":"passed","evidence_ref":"local:issue-63-authorization:1-passed"}}
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 5855,
+  "expected_generation": 5,
+  "expected_digest": "10af4c42b5c978031add2f503aaaf9d0bef9bf4e228c8b2ea298afb211ed7809",
+  "actor": "codex:sprint-2-closeout",
+  "summary": "Reconciled Sprint 2 to its five terminal child issues and retained exact merge, ancestry, membership, and review evidence.",
+  "changes": [
+    "Marked Sprint 2 complete after #5800, #5820, #5821, #5832, and #5795 merged and closed.",
+    "Removed #5837 from Sprint 2 membership and documented #5837, #83, and #84 as independent follow-on work.",
+    "Added a deterministic closeout validator and retained terminal activity and sprint review evidence."
+  ],
+  "artifacts": [
+    ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+    ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+    ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+    ".csdlc/evidence/5855/activity.jsonl",
+    ".csdlc/evidence/5855/sprint-review.md"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "v092-sprint2-closeout",
+          "purpose": "Validate exact Sprint 2 membership and terminal merge ancestry.",
+          "proof_role": "Required deterministic Sprint 2 closeout proof.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 64, "tokens": 0},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "sprint2-closeout",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "/usr/bin/ruby",
+          "argv": [".csdlc/prepared/issues/5855/validate-sprint-readiness.rb"],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["v092-sprint2-closeout"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 1, "cpu_units": 1, "memory_mib": 64, "tokens": 0},
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/5855",
+    "cancellation_file": null
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "claude-sonnet-4-6",
+    "credential_ref": "env:ANTHROPIC_API_KEY"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "model_ref": "claude-sonnet-4-6",
+    "provider_model_id": "claude-sonnet-4-6",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-08"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786245773",
+      "duration_ms": 17866,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=2194]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 17866,
+  "request_id": "issue-73-claude-final-3d9bb25a",
+  "output_text": "## Verification Report — ADL Issue #73 Rust C-SDLC v3 Architecture (rev 3d9bb25a)\n\n### 1. SyncInit<T> Semantics\n\nThe plan states:\n\n> `SyncInit<T>` is exactly `OnceLock<Result<T, Arc<AppError>>>`. Its accessor calls `get_or_init` with a closure whose complete cell value is `Result<T, Arc<AppError>>`, then pattern-matches the stored result to return `Result<&T, Arc<AppError>>`, cloning only the error `Arc`. It is lazy, never pre-warmed by `App` construction, and contains no `unwrap` or `expect` path. `get_or_try_init` is not used.\n\nThis is unambiguous. The cell stores the full `Result`; the accessor pattern-matches after `get_or_init` so the only reachable arms are `Ok(v) => Ok(v)` and `Err(e) => Err(Arc::clone(e))`; no `unwrap`, `expect`, or `get_or_try_init` is permitted; and initialization is deferred. No panic path exists in the stated contract. **Confirmed.**\n\n### 2. Policy Ownership: V3-01 Owns, V3-09 Enforces\n\nV3-01 deliverables explicitly include the **\"PVF subprocess command-allowance policy\"**. V3-09 lists **\"V3-01 command-allowance policy\"** as a hard dependency and names **\"V3-01 command-allowance enforcement\"** as a deliverable, with the acceptance criterion that every Git/process invocation is argv-based and typed. The ownership (V3-01) and enforcement (V3-09) assignment is unambiguous with a hard dependency edge between them. **Confirmed.**\n\n### 3. Prior P0/P1 Correction Regression Check\n\nNo prior P0/P1 corrections are on record for this document at or before this revision. The architecture is a planning draft; no regression against a prior corrected state can be identified. **No regressions found.**\n\n### 4. Issue Count and Order\n\nIssues enumerated: V3-01, V3-02, V3-03, V3-04, V3-05, V3-06, V3-07, V3-08, V3-09, V3-10A, V3-10B, V3-11A, V3-11B, V3-12, V3-13, V3-14, V3-15, V3-16 = **18 implementation issues**. V3-R01 = **1 deferred retirement issue**. Total: 19. Dependency graph is consistent with the stated ordering rules and hard gates. The plan explicitly states \"18 implementation issues plus one deferred retirement issue.\" **Confirmed: 18 + V3-R01, correctly ordered.**\n\n### 5. Unresolved P0/P1 Findings\n\nNone identified.\n\n---\n\nDECISION: PASS",
+  "output_text_excerpt": "[redacted provider text len=2194]",
+  "artifact_ref": "<absolute>/claude.result.json@36f226c5d5751b29",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

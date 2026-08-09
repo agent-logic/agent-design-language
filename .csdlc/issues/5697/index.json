@@ -5,8 +5,9 @@
   "initialization_digest": "3136fba73cac6b4c3b5d21d27082421952f27694f45781bfa414a7b43e35a90b",
   "phase": "closed_out",
   "generation": 12,
-  "digest": "2f68d3728f95ac50812d54ea1a7a47fc9f189fac659b788d9f89e27aaadb104d",
-  "claim": null,
+  "digest": "cbb2730d9572c0884cd2c9d6b18d2f6af9c7b9cf79bb3a951e95ab8b77f02da5",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019fa4c9-2198-79a0-87a8-4134f7ab8296",
     "assigned_by": "codex:wp12-conductor",
@@ -172,24 +173,8 @@
     "observed_sha": "93dc2793cdca052abd58a7e5aaffd6a5f5b1dca1",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5697.json",
-    "released_branch": "codex/5697-chronosense-trusted-time",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/evidence/5697",
-      ".csdlc/issues/5697",
-      ".csdlc/locks/5697.lock",
-      ".csdlc/prepared/issues/5697",
-      ".csdlc/publication/5697.intent.json",
-      ".github/workflows/ci.yaml",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
-      "adl-runtime-kernel/tests/protocol_adapters.rs"
-    ]
+    "branch": "codex/5697-chronosense-trusted-time",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5697/retained/design.md",

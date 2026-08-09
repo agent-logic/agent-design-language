@@ -8,11 +8,16 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-WP-04.03 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/transport.rs
+adl-runtime/tests/distributed_transport.rs
+adl-runtime/Cargo.toml
+adl-runtime/Cargo.lock
+.csdlc/evidence/5865
+.csdlc/issues/5865
 
 ## Prompts
 
@@ -31,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Repository split metadata and generic validator-target readiness drift remain separate control-plane follow-up concerns; the existing qualified PR route and exact retained implementation proof are valid.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:030838da71b769d244073665484b4a8cb26c278a:4c95f66b5d8e6b83bb3dabe44f6dda54176b082b887547f4b6eda0415e32adb3")
 
-Reviewer: None
+Reviewer: Some("Codex independent review subagent /root/review_5864")
 
-Result: pre_review
+Result: pass

@@ -74,7 +74,7 @@ bash adl/tools/demo_v0871_suite.sh
 .adl/bin/csdlc-v2/csdlc-install resolve --repo . --issue <issue_num>
 
 # initialize and inspect readiness through typed request contracts
-.adl/bin/csdlc-v2/csdlc-init --root <worktree> --request <bootstrap-request.json>
+.adl/bin/csdlc-v2/csdlc-issue --root <repo> create --request <bootstrap-request.json>
 .adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue <issue_num>
 
 # bind execution context at the last responsible moment

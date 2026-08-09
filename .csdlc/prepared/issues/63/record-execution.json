@@ -1,0 +1,25 @@
+{
+  "issue": 63,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "0e28e4e2137a06bd1465ffc31ad47ecc96fbfe0fa456d6fb568e9218449f85db",
+  "actor": "codex:63-implementation",
+  "reason": "Record the bounded typed SIP scope correction and recovery implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added an explicit audited implemented-phase SIP scope correction route and removed the implemented review-finding recovery dead end.",
+    "changes": [
+      "Added correct_declared_scope_before_publication as an SIP-only implemented-phase semantic operation.",
+      "Require clean review/publication truth plus nonempty actor and reason before correction.",
+      "Record complete previous and replacement scope arrays in canonical audit truth.",
+      "Allow typed csdlc-review recovery for implemented records carrying assignment or changes-required review truth without an invalid same-phase transition.",
+      "Added focused real-binary editor/validator and review-recovery regressions."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  }
+}

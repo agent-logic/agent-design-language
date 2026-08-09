@@ -35,6 +35,7 @@ pub struct CoexistenceInventory {
     pub required_v1_paths: Vec<RequiredPath>,
     pub forbidden_v1_paths: Vec<PathBuf>,
     pub required_v2_binaries: Vec<String>,
+    pub forbidden_v2_binaries: Vec<String>,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -50,6 +51,7 @@ pub struct CoexistenceReport {
     pub missing_v1_paths: Vec<PathBuf>,
     pub present_forbidden_v1_paths: Vec<PathBuf>,
     pub missing_v2_binaries: Vec<String>,
+    pub present_forbidden_v2_binaries: Vec<String>,
     pub skill_count: usize,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -212,15 +214,23 @@ pub fn verify_coexistence(
         .collect::<BTreeSet<_>>();
     let mut missing_v2_binaries = missing_v2_binaries;
     missing_v2_binaries.extend(verify_install_receipt(repo, bin_dir, &manifest)?);
+    let present_forbidden_v2_binaries = inventory
+        .forbidden_v2_binaries
+        .iter()
+        .filter(|name| fs::symlink_metadata(bin_dir.join(name)).is_ok())
+        .cloned()
+        .collect::<Vec<_>>();
     Ok(CoexistenceReport {
         schema: "csdlc.coexistence_report.v2".into(),
         pass: missing_v1_paths.is_empty()
             && present_forbidden_v1_paths.is_empty()
-            && missing_v2_binaries.is_empty(),
+            && missing_v2_binaries.is_empty()
+            && present_forbidden_v2_binaries.is_empty(),
         default_generation: selector.default_generation,
         missing_v1_paths,
         present_forbidden_v1_paths,
         missing_v2_binaries: missing_v2_binaries.into_iter().collect(),
+        present_forbidden_v2_binaries,
         skill_count: manifest.skills.len(),
     })
 }

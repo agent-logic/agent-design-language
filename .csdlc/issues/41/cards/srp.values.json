@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 41,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][GitHub] Classify missing issue reads with actionable repository/404 diagnostics",
+    "slug": "github-issue-read-failure-diagnostics",
+    "version": "v0.92",
+    "generation": 15
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/41\n.csdlc/prepared/issues/41\ncsdlc-v2/src/error.rs\ncsdlc-v2/src/github.rs\ncsdlc-v2/tests/gate_github_actions.rs",
+      "review_revision": "git-blake3:bda51b77837a4a8ae76e39ae39158400f36425a6:70c6fd14d59905c3000145a3d1989976ccbdec33f27adc2ec20c47134f6c1a49",
+      "reviewer": "subagent:review-41-implementation",
+      "review_prompts": [
+        "Can a 401, ordinary 403, rate limit, 5xx, or connection failure be mislabeled as not-found?",
+        "Can any token, token path, authorization header, raw response body, or Octocrab error text reach stdout or stderr?",
+        "Does the 404 wording remain truthful for inaccessible private repositories?",
+        "Do the tests invoke the real split CLI and assert exact JSON and exit behavior?",
+        "Are successful issue reads byte-shape compatible?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No live GitHub request was made; deterministic loopback proof is the intentional validation boundary."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

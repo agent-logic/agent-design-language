@@ -5,8 +5,9 @@
   "initialization_digest": "b26e9dc0f5d2f761167d0995d7e58fb46ee0356c54cf4c5227da725203155b7b",
   "phase": "closed_out",
   "generation": 26,
-  "digest": "410393b31cffed022c03348f291b4f1002afc828d3994dd016bbb93b34468072",
-  "claim": null,
+  "digest": "563e7d4becc1b765e072bc746db4e29e1f84ec877793a4129dc983ffe9294e88",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-subagent-019f6d3d",
     "assigned_by": "codex",
@@ -97,17 +98,8 @@
     "observed_sha": "432913ed43f316ddd40543c5268f20a43d68702b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5411.json",
-    "released_branch": "codex/5411-runtime-v3-pressure-stop",
-    "released_worktree": ".worktrees/adl-wp-5411",
-    "released_protected_paths": [
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/weather.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md",
-      "docs/architecture/runtime_v3_release_proof_gate_5220.v1.json"
-    ]
+    "branch": "codex/5411-runtime-v3-pressure-stop",
+    "worktree": ".worktrees/adl-wp-5411"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5411/retained/design.md",

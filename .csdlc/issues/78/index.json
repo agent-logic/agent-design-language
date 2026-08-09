@@ -1,0 +1,311 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 78,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f197ba9a10a891e66af5c5abaf07b25a4c18aca0b13d3891034b25966841450b",
+  "phase": "published",
+  "generation": 16,
+  "digest": "bb1a35047e6dcf74a5df3da35b4166f49776a6852f3e21473018933524811886",
+  "branch": "codex/78-stp-post-review-recovery-correction",
+  "worktree": "/Volumes/FastWork/adl-issue-78-stp-recovery-correction",
+  "review_assignment": {
+    "reviewer": "codex-subagent:Volta",
+    "assigned_by": "codex:78-final-review",
+    "revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+    "scope": [
+      ".csdlc/evidence/78",
+      ".csdlc/issues/78",
+      ".csdlc/prepared/issues/78",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:Volta",
+    "scope": [
+      ".csdlc/evidence/78",
+      ".csdlc/issues/78",
+      ".csdlc/prepared/issues/78",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+    "findings": [
+      {
+        "id": "F-78-1",
+        "severity": "p2",
+        "summary": "SPP steps S1-S3 remained pending after implementation and validation completed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+        "route": null
+      },
+      {
+        "id": "F-78-2",
+        "severity": "p2",
+        "summary": "Focused proof covered stale generation but not stale digest and unchanged durable state.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The operation is intentionally narrow; broader lifecycle correction completeness belongs to the separately planned C-SDLC v3 robustness work."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 78,
+    "pull_request": 85,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/85",
+    "base": "main",
+    "head": "codex/78-stp-post-review-recovery-correction",
+    "revision": "git-blake3:3bbce17fc3620b0a7c2667ce789bb39431859bf8:40dd888a7cfd662838df653e1278e0ebf2ad0828a7e0522509a2588078dc6316",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/78/design.md",
+  "diagram_path": ".csdlc/prepared/issues/78/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:authorized-issue-78",
+      "revision": "c3ffd664872a50829810df8c97d34785c04b3bb27acc93e50b5f857c25f56fea"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b07d385eafb67b95a7edd7f784501dec1eeda54a3b5040830f0ff1d5f52a492e",
+      "rendered_digest": "10b1cb4b224eda765b52d2b7694e943fc0826802c641e347d67b67298ef844bd",
+      "ast_digest": "c9c883a3fc741550905b618953d4b55a72f26d42d2a1919d73a39a2292ccbb92"
+    },
+    "stp": {
+      "values_digest": "de2a356fbcca3e1e3e5242c043f66cd1cc91465017a720f4cc629e0615f8a4c6",
+      "rendered_digest": "f6772c71a119566817dbebb6c4647295a72562fb920b858f6137ef8cc90ffeef",
+      "ast_digest": "dd60555ec979f9be0808541ff2177c0bf56a0113f6b1b68111fd0c8e8549a1ef"
+    },
+    "spp": {
+      "values_digest": "eabd02083bd80a3def5e1443118de7b80fde5d1e6f3ba1de11f5956d038d4a68",
+      "rendered_digest": "140a6ef145a9bb8aed5e7d20316f766d2b82547490ef30e00af7c8c58cb8e4dd",
+      "ast_digest": "df726beaea78914f5da743e20373846b633a95febc234002ea6c653843454b4b"
+    },
+    "vpp": {
+      "values_digest": "6fbffe69646b4db2638db893d2b6dc30ae072eeb6cc726a4e83b01190b78224c",
+      "rendered_digest": "3bcdd11d5812376f6f2438b013766b5b759a799a991c7b672da15c607166db2a",
+      "ast_digest": "55d65ae05d4ac7df6983b7be42558b90bf3887d3c154cbc1031467ee98ab7581"
+    },
+    "srp": {
+      "values_digest": "01511d22e2ce7c4a182798dc3f2c2bafd621882856b3b34e318e261416227305",
+      "rendered_digest": "aa6a4526371dc0c2932a60d2c111adb80cbb11a5fd3b648d17e2fdfc521e0b1f",
+      "ast_digest": "c70c2231aabca206cf40a71cfd7634cc489a6c3d3886aee93af1677b2fc05bfe"
+    },
+    "sor": {
+      "values_digest": "6fbf7c807e81a080d00ce6ebaa86120c8293bbf1880ab8b7fb4081568a8a384d",
+      "rendered_digest": "2114f6bc3157c20cd8bee4e0ca8927b931ab8614b9a4b00c9f469078b8567c20",
+      "ast_digest": "5c786bb4a86ca36c1f0d360f0a2c48dba4ff9866eba165399277186f9a7ef6d9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:78-implementation",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:Volta",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:78-integration",
+      "reason": "Installation verification and issue #73 typed consumption completed after exact review; recover review truth to record S4 completion before final re-review and publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:Volta",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:78-publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:78-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:78-readiness",
+      "reason": "Use concrete repository artifacts as the issue deliverable denominator while retaining issue #73 consumption as an acceptance requirement.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/78/validation.md\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:78-readiness",
+      "reason": "Name the exact focused Rust test target so readiness has an issue-owned proving denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/issues/78\",\".csdlc/evidence/78\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:78-readiness",
+      "reason": "Keep execution readiness on repository-owned proving lanes; issue #73 consumption remains a required post-install acceptance proof rather than a pre-bind executable lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-focused-tests\",\"proof_role\":\"Prove positive correction, recovery provenance, phase/card/input/CAS/drift rejection, atomic projections, audit evidence, and the request shape consumed by issue #73.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate5\"],\"parallel_group\":\"local-fastwork\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-quality\",\"proof_role\":\"Prove formatting and warning-free production and test targets.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local-fastwork\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:78-readiness",
+      "reason": "Remove the not-yet-produced validation receipt from the pre-execution deliverable denominator; retained proof remains required by acceptance and SOR truth.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:78-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:78-review-remediation",
+      "reason": "Record the completed typed operation and recovery-sensitive authorization implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:78-review-remediation",
+      "reason": "Record completed atomic projection preservation and structured before-and-after audit evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:78-review-remediation",
+      "reason": "Record focused tests, formatting, strict Clippy, schema proof, and the added stale-digest regression as complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:78-review-remediation",
+      "reason": "Retain the post-review gate5 run containing explicit stale-digest and unchanged-record proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate5\"],\"purpose\":\"Run the complete review-recovery gate after adding stale-digest and unchanged-record proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/78/review-remediation-gate5.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:78-review-remediation",
+      "reason": "Retain strict all-target Clippy proof after the review-driven test change.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free production and test targets after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/78/review-remediation-clippy.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:78-review-remediation",
+      "reason": "Retain formatter proof after the review-driven test change.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Prove canonical Rust formatting after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/78/review-remediation-fmt.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:78-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex-subagent:Volta",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:78-integration",
+      "reason": "Installation verification and issue #73 typed consumption completed after exact review; recover review truth to record S4 completion before final re-review and publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:78-integration",
+      "reason": "Record clean exact-head review, verified stable installation from source revision 38e07b2a2, and successful typed issue #73 STP consumption at generation 29.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:78-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex-subagent:Volta",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:78-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

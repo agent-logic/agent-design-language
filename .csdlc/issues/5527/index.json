@@ -5,8 +5,9 @@
   "initialization_digest": "b39cf9f23e29cee6b0210b71f27cb741da4101fc49585ca4be7c8eb7a86b8f68",
   "phase": "closed_out",
   "generation": 29,
-  "digest": "d17d0b4fbfdd0ca0ab5ce69156fd6dad9351f411e5390572eed983d465203fd2",
-  "claim": null,
+  "digest": "a6756fe3c3603d5e3d98fd993538c0f839f958c3489af2fc1f0f76e0d1ada6e9",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
@@ -149,18 +150,8 @@
     "observed_sha": "c696e2787103a3d0c919661a0fd13c92c9acb26b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5527.json",
-    "released_branch": "codex/5527-terminal-sor-artifact-repair",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5390",
-      ".csdlc/issues/5527",
-      ".csdlc/prepared/issues/5527",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      "csdlc-v2/tests/gate7_terminal_sor_artifact_repair_5527.rs"
-    ]
+    "branch": "codex/5527-terminal-sor-artifact-repair",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5527/design.md",

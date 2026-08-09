@@ -5,8 +5,9 @@
   "initialization_digest": "c0d7a90f2c5b1a237ed0ae9feaa3ee21bd1d4a4e59b49972c0a7d167c7b56303",
   "phase": "closed_out",
   "generation": 18,
-  "digest": "6b25b217f587a9aea19fe9ffa329668c8dae1f4db6cb91d172d7556f79d73059",
-  "claim": null,
+  "digest": "55c057dbebc3bf1e4c53ca13f7d853d5bca1ce2809f2767a2164791ef292d31d",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "review_5427",
     "assigned_by": "codex",
@@ -126,15 +127,8 @@
     "observed_sha": "e5fe0766c79b4ed27f6615b2668c64039c31c023",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5470.json",
-    "released_branch": "codex/5470-terminal-durability",
-    "released_worktree": ".worktrees/adl-wp-5470",
-    "released_protected_paths": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/tests/gate7_terminal_durability_5470.rs",
-      ".csdlc/issues/5470/retained/design.md",
-      ".csdlc/issues/5470/retained/diagram.mmd"
-    ]
+    "branch": "codex/5470-terminal-durability",
+    "worktree": ".worktrees/adl-wp-5470"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5470/retained/design.md",

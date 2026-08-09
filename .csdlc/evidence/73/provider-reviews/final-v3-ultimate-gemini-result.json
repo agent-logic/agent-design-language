@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786265175",
+      "duration_ms": 8996,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=43]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 8998,
+  "request_id": "issue-73-gemini-ultimate-7c488b9e",
+  "output_text": "The Rust architecture at commit 7c488b9eea4",
+  "output_text_excerpt": "[redacted provider text len=43]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-ultimate-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

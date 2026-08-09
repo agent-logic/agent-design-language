@@ -12,8 +12,8 @@ ADL or Runtime crates and does not reuse their lifecycle implementation,
 schemas, templates, tests, fixtures, or skills.
 
 Gate 2 provides the typed lifecycle/card engine and whole-record transactions.
-Gate 3 adds separate `csdlc-init` and `csdlc-bind` binaries for deterministic
-construction and safe Git branch/worktree binding. Git uses typed argv arrays;
+Gate 3 adds `csdlc-issue create` and `csdlc-bind` for deterministic construction
+and safe Git branch/worktree binding. Git uses typed argv arrays;
 the control plane contains no shell or Python lifecycle logic. Later gates add
 PVF, review truth, publication, and terminal finish without widening this core's
 authority.

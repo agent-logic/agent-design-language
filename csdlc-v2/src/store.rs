@@ -19,77 +19,6 @@ use crate::model::{
 };
 use crate::review::evaluate_publication_review_in_repo;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct LegacyClaim {
-    id: String,
-    owner: String,
-    generation: u64,
-    acquired_unix_seconds: u64,
-    expires_unix_seconds: u64,
-    heartbeat_unix_seconds: u64,
-    branch: String,
-    worktree: String,
-    protected_paths: Vec<String>,
-    purpose: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct LegacyTerminalEvidence {
-    pull_request: Option<u64>,
-    disposition: crate::readiness::TerminalDisposition,
-    observed_sha: Option<String>,
-    observed_state: String,
-    receipt_path: String,
-    released_branch: String,
-    released_worktree: String,
-    released_protected_paths: Vec<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct LegacyIssueRecord {
-    schema: String,
-    issue: u64,
-    repository: String,
-    initialization_digest: String,
-    phase: LifecyclePhase,
-    generation: u64,
-    digest: String,
-    claim: Option<LegacyClaim>,
-    review_assignment: Option<ReviewAssignment>,
-    review: Option<ReviewEvidence>,
-    #[serde(default)]
-    publication: Option<PublicationEvidence>,
-    #[serde(default)]
-    readiness: Option<crate::model::ReadinessEvidence>,
-    #[serde(default)]
-    terminal: Option<LegacyTerminalEvidence>,
-    #[serde(default)]
-    migration: Option<crate::model::MigrationEvidence>,
-    design_path: String,
-    diagram_path: String,
-    design_review: DesignReview,
-    cards: BTreeMap<CardKind, CardProjection>,
-    transitions: Vec<TransitionEvent>,
-    audit: Vec<AuditEvent>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct LegacyTerminalReceipt {
-    schema: String,
-    issue: u64,
-    repository: String,
-    initialization_digest: String,
-    receipt_ref: String,
-    authored_artifacts: BTreeMap<String, String>,
-    record: LegacyIssueRecord,
-    cards: BTreeMap<CardKind, CardValues>,
-    digest: String,
-}
-
 #[derive(Debug, Clone)]
 pub struct Store {
     root: PathBuf,
@@ -184,16 +113,8 @@ impl Store {
     }
 
     pub fn load_record(&self, issue: u64) -> Result<IssueRecord> {
-        let mut value: serde_json::Value =
+        let record: IssueRecord =
             serde_json::from_slice(&fs::read(self.issue_dir(issue).join("index.json"))?)?;
-        if value.get("claim").is_some() {
-            verify_legacy_record_json(&value)?;
-        }
-        let had_legacy_claim = normalize_legacy_record_json(&mut value);
-        let mut record: IssueRecord = serde_json::from_value(value)?;
-        if had_legacy_claim {
-            record.digest = record_digest(&record)?;
-        }
         if record.issue != issue {
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
@@ -208,15 +129,7 @@ impl Store {
 
     pub(crate) fn load_record_for_topology_scan(&self, issue: u64) -> Result<IssueRecord> {
         let path = self.issue_dir(issue).join("index.json");
-        let mut value: serde_json::Value = serde_json::from_slice(&fs::read(path)?)?;
-        if value.get("claim").is_some() {
-            verify_legacy_record_json(&value)?;
-        }
-        let had_legacy_claim = normalize_legacy_record_json(&mut value);
-        let mut record: IssueRecord = serde_json::from_value(value)?;
-        if had_legacy_claim {
-            record.digest = record_digest(&record)?;
-        }
+        let record: IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
         if record.issue != issue {
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
@@ -288,22 +201,7 @@ impl Store {
                 ),
             ));
         }
-        let mut value: serde_json::Value = read_json(&path)?;
-        if value
-            .get("record")
-            .and_then(|record| record.get("claim"))
-            .is_some()
-        {
-            verify_legacy_terminal_receipt_json(&value)?;
-        }
-        let had_legacy_claim = value
-            .get_mut("record")
-            .is_some_and(normalize_legacy_record_json);
-        let mut receipt: TerminalReceipt = serde_json::from_value(value)?;
-        if had_legacy_claim {
-            receipt.record.digest = record_digest(&receipt.record)?;
-            receipt.digest = terminal_receipt_digest(&receipt)?;
-        }
+        let receipt: TerminalReceipt = read_json(&path)?;
         validate_terminal_receipt(&receipt)?;
         if receipt.issue != issue {
             return Err(V2Error::new(
@@ -1128,13 +1026,17 @@ impl Store {
                 "review recovery record changed before commit",
             ));
         }
-        if !matches!(
-            record.phase,
-            LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
-        ) {
+        let implemented_with_review_truth = record.phase == LifecyclePhase::Implemented
+            && (record.review_assignment.is_some() || record.review.is_some());
+        if !implemented_with_review_truth
+            && !matches!(
+                record.phase,
+                LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
+            )
+        {
             return Err(V2Error::new(
                 ErrorCode::InvalidTransition,
-                "review recovery requires reviewed phase",
+                "review recovery requires review truth or a reviewed/published phase",
             ));
         }
         let mut cards = self.load_cards(issue)?;
@@ -1156,7 +1058,9 @@ impl Store {
             sor.merge_state = crate::cards::MergeState::NotMerged;
             sor.closeout_state = crate::cards::CloseoutState::NotStarted;
         }
-        record.advance(LifecyclePhase::Implemented, actor.clone(), reason.clone())?;
+        if record.phase != LifecyclePhase::Implemented {
+            record.advance(LifecyclePhase::Implemented, actor.clone(), reason.clone())?;
+        }
         record.review_assignment = None;
         record.review = None;
         record.publication = None;
@@ -1181,6 +1085,7 @@ impl Store {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
 pub struct BootstrapRequest {
     pub issue: u64,
     pub repository: String,
@@ -1342,6 +1247,7 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
         schema: "csdlc.issue.index.v1".into(),
         issue: request.issue,
         repository: request.repository,
+        code_repository: None,
         initialization_digest,
         phase: LifecyclePhase::Initialized,
         generation: 0,
@@ -1475,6 +1381,56 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             ));
         }
     }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectDeclaredScopeBeforePublication { .. }
+    ) {
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "implemented SIP scope correction requires actor and reason",
+            ));
+        }
+        if record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "implemented SIP scope correction requires cleared review and publication truth",
+            ));
+        }
+    }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
+    ) {
+        let latest_review_operation = record.audit.iter().rev().find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        });
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "post-recovery STP deliverable correction requires actor and reason",
+            ));
+        }
+        if latest_review_operation.is_none_or(|event| event.operation != "recover_review")
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery STP deliverable correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
             cards
@@ -1484,6 +1440,28 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         )?),
         _ => None,
     };
+    let declared_scope_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectDeclaredScopeBeforePublication { .. }
+    ) {
+        match &cards[&CardKind::Sip].content {
+            CardContent::Sip(value) => Some(value.declared_scope.clone()),
+            _ => unreachable!("SIP"),
+        }
+    } else {
+        None
+    };
+    let stp_deliverables_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Stp].content {
+            CardContent::Stp(value) => Some(value.deliverables.clone()),
+            _ => unreachable!("STP"),
+        }
+    } else {
+        None
+    };
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -1492,6 +1470,23 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "new_value": value,
         })
         .to_string(),
+        (SemanticOperation::CorrectDeclaredScopeBeforePublication { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_declared_scope_before_publication",
+                "previous_values": declared_scope_before.expect("scope correction snapshot"),
+                "new_values": values,
+            })
+            .to_string()
+        }
+        (SemanticOperation::CorrectStpDeliverablesAfterRecovery { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_stp_deliverables_after_recovery",
+                "previous_values": stp_deliverables_before
+                    .expect("STP deliverable correction snapshot"),
+                "new_values": values,
+            })
+            .to_string()
+        }
         _ => serde_json::to_string(&request.operation)?,
     };
     if identity_update {
@@ -1992,11 +1987,13 @@ fn authorize_card_operation(
                 | SemanticOperation::ReplacePlanningCollection {
                     field: crate::cards::PlanningCollectionField::AuthorityBoundary,
                     ..
-                },
+                }
+                | SemanticOperation::CorrectDeclaredScopeBeforePublication { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Stp,
-            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+            SemanticOperation::ReplaceAcceptanceCriteria { .. }
+                | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Srp,
@@ -2511,85 +2508,6 @@ fn read_json<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<T> {
     Ok(serde_json::from_slice(&fs::read(path)?)?)
 }
 
-fn legacy_record_digest(record: &LegacyIssueRecord) -> Result<String> {
-    let mut value = record.clone();
-    value.digest.clear();
-    Ok(digest(&serde_json::to_vec(&value)?))
-}
-
-fn verify_legacy_record_json(value: &serde_json::Value) -> Result<()> {
-    let record: LegacyIssueRecord = serde_json::from_value(value.clone())?;
-    if record.digest != legacy_record_digest(&record)? {
-        return Err(V2Error::new(
-            ErrorCode::CorruptRecord,
-            "legacy index digest mismatch",
-        ));
-    }
-    Ok(())
-}
-
-fn legacy_terminal_receipt_digest(receipt: &LegacyTerminalReceipt) -> Result<String> {
-    let mut value = receipt.clone();
-    value.digest.clear();
-    Ok(digest(&serde_json::to_vec(&value)?))
-}
-
-fn verify_legacy_terminal_receipt_json(value: &serde_json::Value) -> Result<()> {
-    let receipt: LegacyTerminalReceipt = serde_json::from_value(value.clone())?;
-    if receipt.record.digest != legacy_record_digest(&receipt.record)?
-        || receipt.digest != legacy_terminal_receipt_digest(&receipt)?
-    {
-        return Err(V2Error::new(
-            ErrorCode::CorruptRecord,
-            "legacy terminal receipt digest mismatch",
-        ));
-    }
-    Ok(())
-}
-
-fn normalize_legacy_record_json(value: &mut serde_json::Value) -> bool {
-    let Some(object) = value.as_object_mut() else {
-        return false;
-    };
-    let legacy_claim = object.remove("claim");
-    let had_legacy_claim = legacy_claim.is_some();
-    let topology = legacy_claim
-        .and_then(|claim| claim.as_object().cloned())
-        .map(|claim| (claim.get("branch").cloned(), claim.get("worktree").cloned()));
-    if let Some((Some(branch), Some(worktree))) = topology {
-        if object.get("branch").is_none_or(serde_json::Value::is_null) {
-            object.insert("branch".into(), branch);
-        }
-        if object
-            .get("worktree")
-            .is_none_or(serde_json::Value::is_null)
-        {
-            object.insert("worktree".into(), worktree);
-        }
-    }
-    if let Some(terminal) = object
-        .get_mut("terminal")
-        .and_then(serde_json::Value::as_object_mut)
-    {
-        if terminal.get("branch").is_none() {
-            let branch = terminal
-                .remove("released_branch")
-                .filter(|value| !value.as_str().is_some_and(str::is_empty))
-                .unwrap_or(serde_json::Value::Null);
-            terminal.insert("branch".into(), branch);
-        }
-        if terminal.get("worktree").is_none() {
-            let worktree = terminal
-                .remove("released_worktree")
-                .filter(|value| !value.as_str().is_some_and(str::is_empty))
-                .unwrap_or(serde_json::Value::Null);
-            terminal.insert("worktree".into(), worktree);
-        }
-        terminal.remove("released_protected_paths");
-    }
-    had_legacy_claim
-}
-
 fn sync_dir(path: &Path) -> Result<()> {
     File::open(path)?.sync_all()?;
     Ok(())
@@ -2614,7 +2532,7 @@ mod edit_authorization_tests {
     }
 
     #[test]
-    fn implemented_spp_review_remediation_authorizes_only_bounded_replacements() {
+    fn implemented_review_remediation_authorizes_only_bounded_operations() {
         for operation in [
             SemanticOperation::ReplacePlanSteps {
                 steps: replacement_steps(),
@@ -2641,6 +2559,82 @@ mod edit_authorization_tests {
             },
         )
         .expect_err("unbounded SPP collection remains rejected");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+
+        authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            &SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/current.rs".into()],
+            },
+        )
+        .expect("implemented SIP scope correction");
+        for phase in [
+            LifecyclePhase::Initialized,
+            LifecyclePhase::Ready,
+            LifecyclePhase::Bound,
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            let error = authorize_card_operation(
+                phase,
+                CardKind::Sip,
+                &SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                    values: vec!["src/late.rs".into()],
+                },
+            )
+            .expect_err("scope correction is implemented-only");
+            assert_eq!(error.code, ErrorCode::InvalidTransition);
+        }
+        let error = authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            &SemanticOperation::CorrectDeclaredScopeBeforePublication {
+                values: vec!["src/wrong-card.rs".into()],
+            },
+        )
+        .expect_err("scope correction is SIP-only");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+
+        authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/current.rs".into()],
+            },
+        )
+        .expect("implemented STP correction reaches recovery-sensitive guard");
+        for phase in [
+            LifecyclePhase::Initialized,
+            LifecyclePhase::Ready,
+            LifecyclePhase::Bound,
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            let error = authorize_card_operation(
+                phase,
+                CardKind::Stp,
+                &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                    values: vec!["src/late.rs".into()],
+                },
+            )
+            .expect_err("STP deliverable correction is implemented-only");
+            assert_eq!(error.code, ErrorCode::InvalidTransition);
+        }
+        let error = authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/wrong-card.rs".into()],
+            },
+        )
+        .expect_err("STP deliverable correction is STP-only");
         assert_eq!(error.code, ErrorCode::InvalidTransition);
     }
 
@@ -2671,32 +2665,22 @@ mod edit_authorization_tests {
         }
     }
 }
-
 #[cfg(test)]
-mod legacy_compatibility_tests {
+mod pre_field_compatibility_tests {
     use super::*;
 
-    fn legacy_record(issue: u64) -> LegacyIssueRecord {
-        let mut record = LegacyIssueRecord {
+    fn pre_field_record(issue: u64) -> IssueRecord {
+        let mut record = IssueRecord {
             schema: "csdlc.issue.index.v1".into(),
             issue,
             repository: "example/repo".into(),
+            code_repository: None,
             initialization_digest: "initialization".into(),
             phase: LifecyclePhase::Bound,
             generation: 1,
             digest: String::new(),
-            claim: Some(LegacyClaim {
-                id: "legacy-claim".into(),
-                owner: "legacy-operator".into(),
-                generation: 1,
-                acquired_unix_seconds: 1,
-                expires_unix_seconds: 3,
-                heartbeat_unix_seconds: 2,
-                branch: format!("issue-{issue}"),
-                worktree: format!(".worktrees/issue-{issue}"),
-                protected_paths: vec!["src".into()],
-                purpose: "legacy compatibility fixture".into(),
-            }),
+            branch: Some(format!("issue-{issue}")),
+            worktree: Some(format!(".worktrees/issue-{issue}")),
             review_assignment: None,
             review: None,
             publication: None,
@@ -2710,67 +2694,44 @@ mod legacy_compatibility_tests {
             transitions: Vec::new(),
             audit: Vec::new(),
         };
-        record.digest = legacy_record_digest(&record).expect("legacy digest");
+        record.digest = record_digest(&record).expect("pre-field digest");
         record
     }
 
-    fn write_legacy(store: &Store, record: &LegacyIssueRecord) {
-        fs::create_dir_all(store.issue_dir(record.issue)).expect("issue directory");
-        fs::write(
-            store.issue_dir(record.issue).join("index.json"),
-            serde_json::to_vec_pretty(record).expect("legacy JSON"),
-        )
-        .expect("legacy index");
-    }
-
     #[test]
-    fn valid_legacy_claim_is_verified_before_bounded_normalization() {
-        let temp = tempfile::tempdir().expect("tempdir");
-        let store = Store::new(temp.path());
-        let legacy = legacy_record(42);
-        write_legacy(&store, &legacy);
-
-        let record = store.load_record(42).expect("compatible legacy record");
-        assert_eq!(record.branch.as_deref(), Some("issue-42"));
-        assert_eq!(record.worktree.as_deref(), Some(".worktrees/issue-42"));
+    fn absent_code_repository_preserves_pre_field_record_and_receipt_digests() {
+        let record = pre_field_record(45);
+        let value = serde_json::to_value(&record).expect("pre-field record JSON");
+        assert!(value.get("code_repository").is_none());
+        let decoded_record: IssueRecord = serde_json::from_value(value).expect("current record");
         assert_eq!(
-            record.digest,
-            record_digest(&record).expect("current digest")
+            decoded_record.digest,
+            record_digest(&decoded_record).expect("decoded record digest")
         );
-    }
 
-    #[test]
-    fn tampered_legacy_claim_is_rejected_before_normalization() {
-        let temp = tempfile::tempdir().expect("tempdir");
-        let store = Store::new(temp.path());
-        let mut legacy = legacy_record(43);
-        legacy.claim.as_mut().expect("claim").owner = "tampered".into();
-        write_legacy(&store, &legacy);
-
-        let error = store
-            .load_record(43)
-            .expect_err("tampering must fail closed");
-        assert_eq!(error.code, ErrorCode::CorruptRecord);
-        assert_eq!(error.message, "legacy index digest mismatch");
-    }
-
-    #[test]
-    fn unsigned_current_topology_cannot_be_injected_into_legacy_record() {
-        let temp = tempfile::tempdir().expect("tempdir");
-        let store = Store::new(temp.path());
-        let legacy = legacy_record(44);
-        let mut value = serde_json::to_value(legacy).expect("legacy JSON");
-        value["branch"] = serde_json::json!("injected-branch");
-        value["worktree"] = serde_json::json!("injected-worktree");
-        fs::create_dir_all(store.issue_dir(44)).expect("issue directory");
-        fs::write(
-            store.issue_dir(44).join("index.json"),
-            serde_json::to_vec_pretty(&value).expect("legacy JSON"),
-        )
-        .expect("legacy index");
-
-        store
-            .load_record(44)
-            .expect_err("unsigned topology injection must fail closed");
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue: 45,
+            repository: record.repository.clone(),
+            initialization_digest: record.initialization_digest.clone(),
+            receipt_ref: "csdlc-v2/closeout/45.json".into(),
+            authored_artifacts: BTreeMap::new(),
+            record: decoded_record,
+            cards: BTreeMap::new(),
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt).expect("terminal receipt digest");
+        let encoded_receipt = serde_json::to_value(&receipt).expect("encoded terminal receipt");
+        assert!(encoded_receipt["record"].get("code_repository").is_none());
+        let decoded_receipt: TerminalReceipt =
+            serde_json::from_value(encoded_receipt).expect("decoded terminal receipt");
+        assert_eq!(
+            decoded_receipt.record.digest,
+            record_digest(&decoded_receipt.record).expect("receipt record digest")
+        );
+        assert_eq!(
+            decoded_receipt.digest,
+            terminal_receipt_digest(&decoded_receipt).expect("decoded receipt digest")
+        );
     }
 }

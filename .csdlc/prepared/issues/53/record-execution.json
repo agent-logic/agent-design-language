@@ -1,0 +1,25 @@
+{
+  "issue": 53,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "e1ce89e5403d244eff3a30649cd572b2c232fb432e8121625359a6d1e962646a",
+  "actor": "codex:53-implementation",
+  "reason": "Record the bounded non-self-referential execution-proof receipt implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added an explicit v3 receipt contract that derives the evidence commit from the receipt introduction while preserving v2 exact-HEAD semantics.",
+    "changes": [
+      "Resolve the exact substantive source commit and machine-derive the unique evidence commit without embedding a self-referential evidence SHA.",
+      "Require source-to-evidence ancestry, evidence-to-HEAD ancestry, evidence-only A..B changes, and zero later evidence drift.",
+      "Validate source artifacts at the substantive commit and retain all command, log, negative, artifact, runner, and native-receipt checks.",
+      "Add one focused temporary-repository regression for A/B/C success, v2 compatibility, and named fail-closed cases."
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/design.md",
+      ".csdlc/prepared/issues/53/diagram.mmd"
+    ]
+  },
+  "fail_after_backup": false
+}

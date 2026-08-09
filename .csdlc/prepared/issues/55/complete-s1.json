@@ -1,0 +1,1 @@
+{"issue":55,"expected_generation":5,"expected_digest":"eafefe9df20cdf9aa3ac6a68d5708a336718946ca5d7f3a8adda3284b00f1e4c","actor":"codex:issue-55-implementation","card":"spp","reason":"Confirmed heavyweight and lightweight coverage job boundaries.","operation":{"operation":"update_plan_step","step_id":"S1","status":"completed"}}

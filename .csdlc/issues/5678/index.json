@@ -5,8 +5,9 @@
   "initialization_digest": "a8929912340773ff014f08e9b4e54d53b2c977b1ed4edf0a117ef744c9f37f9b",
   "phase": "closed_out",
   "generation": 10,
-  "digest": "bd40a70a8c499e5a53903fb1e9673792696b6b6dcedc2dcc39a317e11f04f5aa",
-  "claim": null,
+  "digest": "0a8cb055ae4a159d08f7604f4e133a7921e82a38386ff1f14d6109cc8e3cff79",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": {
     "reviewer": "codex:final-head-review-5678",
@@ -153,13 +154,8 @@
     "observed_sha": "90165c6ee1f4bed18820731efd7326dbab4a6669",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5678.json",
-    "released_branch": "codex/5678-opus-review-runbook",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5678",
-      ".csdlc/prepared/issues/5678",
-      ".csdlc/publication/5678.intent.json"
-    ]
+    "branch": "codex/5678-opus-review-runbook",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/issues/5678/retained/design.md",

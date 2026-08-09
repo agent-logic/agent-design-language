@@ -1,0 +1,45 @@
+{
+  "assertions": [
+    {
+      "evidence": "real rustls listener served RuntimeApiService over wss",
+      "name": "runtime_api_listener",
+      "result": "passed"
+    },
+    {
+      "evidence": "native TLS WebSocket sessions completed",
+      "name": "rustls_wss",
+      "result": "passed"
+    },
+    {
+      "evidence": "bearer and origin admission preceded request and acknowledgement frames",
+      "name": "authenticated_bidirectional",
+      "result": "passed"
+    },
+    {
+      "evidence": "eight alternating protobuf-base64 and deterministic-json envelopes round-tripped byte-identically",
+      "name": "protobuf_json_parity",
+      "result": "passed"
+    },
+    {
+      "evidence": "reconnect required renegotiation and oversized frames closed fail-closed",
+      "name": "reconnect_backpressure",
+      "result": "passed"
+    },
+    {
+      "evidence": "duplicate replay identity closed with replay_refused",
+      "name": "replay_denied",
+      "result": "passed"
+    },
+    {
+      "evidence": "origin runtime signature capability and authority denials closed fail-closed",
+      "name": "denied_access",
+      "result": "passed"
+    }
+  ],
+  "negative_cases": 11,
+  "platform": "windows",
+  "producer": "adl-runtime/tests/runtime_api_wss.rs::production_acip_wss",
+  "schema": "adl.acip_native_platform_proof.v2",
+  "subject": "runtime_api_listener",
+  "successful_exchanges": 9
+}

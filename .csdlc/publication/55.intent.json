@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 55,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/55-coverage-aggregate-big-runner",
+  "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
+  "body": "Closes #55\n\nRoutes only the heavyweight `adl-coverage-hosted` aggregation job through the established `ADL_HEAVY_RUNNER` selector with the 16-core fallback. Adds focused fail-closed regression assertions while preserving the lightweight stable aggregator, producers, Spot opt-in, artifacts, Codecov, thresholds, and coverage policy.\n\nFocused proof: workflow YAML parse; CI runtime contracts; CI path-policy contracts; typed larger-runner preflight 1/1; exact-head independent review with no findings.",
+  "draft": false,
+  "revision": "git-blake3:58db62557a1d29574595c8e24af5bc9fff3d8e33:23cdf298ed6d0d15357656de687983710700d1b147021c804a877524b6875566",
+  "commit_sha": "58db62557a1d29574595c8e24af5bc9fff3d8e33"
+}

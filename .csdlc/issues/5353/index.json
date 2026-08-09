@@ -5,8 +5,9 @@
   "initialization_digest": "404ad9845d55cf189416e19f7553915074e73a88adb8b0168d0b7e4781f60ddf",
   "phase": "closed_out",
   "generation": 28,
-  "digest": "021f0da6cb5c065913533c07f78947ab616dcd86757976599975bf16cec4ddfc",
-  "claim": null,
+  "digest": "af6f243700935c4e8447d842ca7f815d16da60a86764b111b8c494ef35048bf3",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-subagent-terminal-publication",
     "assigned_by": "codex",
@@ -132,14 +133,8 @@
     "observed_sha": "21b4e1a9d46b9607f3fb29bb04e2084843590366",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5353.json",
-    "released_branch": "codex/5353-v0-91-8-csdlc-v2-wp01-init-design-approval-safety",
-    "released_worktree": ".worktrees/adl-wp-5353",
-    "released_protected_paths": [
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/tests"
-    ]
+    "branch": "codex/5353-v0-91-8-csdlc-v2-wp01-init-design-approval-safety",
+    "worktree": ".worktrees/adl-wp-5353"
   },
   "migration": null,
   "design_path": "docs/architecture/csdlc-v2/wp01/5353/DESIGN.md",

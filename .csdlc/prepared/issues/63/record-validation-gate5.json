@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "sor",
+  "expected_generation": 15,
+  "expected_digest": "0cc019a84b827ace718b2934cf3dc8c715dec48463953d406b3f12c2e14e0be0",
+  "actor": "codex:63-validation",
+  "reason": "Record focused implemented-review recovery proof.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate5","implemented_review_recovery_clears_truth"],"purpose":"Prove clean implemented recovery rejects, assignment and changes-required truth recover atomically without a same-phase transition, retained review truth blocks correction, and clean recovered state permits it.","outcome":"passed","evidence_ref":"local:issue-63-gate5:1-passed"}}
+}

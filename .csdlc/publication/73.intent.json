@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 73,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/csdlc-v3-gh-architecture",
+  "title": "[planning][C-SDLC v3] Complete the reviewed Rust architecture and implementation plan",
+  "body": "Closes #73\n\nCompletes the planning-only Rust architecture for C-SDLC v3, modeled on the official GitHub CLI's one-binary command architecture while preserving ADL's typed lifecycle and safety boundaries.\n\nThe packet defines the complete command, application context, state, pending-intent, transaction, card, Git, GitHub, PVF, review, publication, finish, cleanup, migration, security, portability, observability, and testing architecture. It includes 18 independently bounded implementation specifications plus separately authorized V3-R01 retirement. No implementation child issue, selector change, migration, cutover, or v2 deletion is included.\n\nValidation:\n- all 19 specifications contain objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions\n- exact Gemini 3.1 Pro Preview and Claude Sonnet 4.6 post-fix reviews: PASS with no unresolved P0/P1 findings\n- exact pre-PR subagent review: PASS with no remaining P0-P3 findings\n- local comparative link, all ten pinned cli/cli source paths, Mermaid render, reviewed-scope stability, doctor, and diff hygiene: PASS\n\nResidual lifecycle note: one STP deliverable line retains the initial fourteen-issue denominator because typed v2 editing rejects STP collection mutation in implemented phase. SIP scope, STP acceptance, SRP scope, canonical issue #73, and the reviewed plan all carry the final eighteen-issue denominator; no card hand edit or lifecycle bypass was used.",
+  "draft": false,
+  "revision": "git-blake3:e436beaee6240d1f6138db5e670462b2536b8bb1:3043de5907f3ee67a6e960dcf4bc214833838014e8c6db05f117ee9bb6a52357",
+  "commit_sha": "e436beaee6240d1f6138db5e670462b2536b8bb1"
+}

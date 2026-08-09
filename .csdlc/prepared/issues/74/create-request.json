@@ -1,0 +1,47 @@
+{
+  "issue": 74,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:74-readiness",
+  "design_path": ".csdlc/prepared/issues/74/design.md",
+  "diagram_path": ".csdlc/prepared/issues/74/diagram.mmd",
+  "design_reviewer": "codex:74-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records",
+    "slug": "stale-foreign-topology-records",
+    "version": "v0.92",
+    "goal": "Prove bind ignores unrelated legacy claim-bearing projections while preserving strict collision detection.",
+    "required_outcome": "A real csdlc-bind canary succeeds with an unrelated stale claim-bearing record, but relevant malformed records and true collisions still fail closed.",
+    "declared_scope": ["csdlc-v2/src/lifecycle.rs", "csdlc-v2/src/store.rs", "csdlc-v2/tests/gate2.rs"],
+    "authority_boundary": ["Git branch and canonical worktree remain ownership authority", "Only records relevant by issue, branch, or canonical path receive full verification", "Unrelated historical records remain immutable"],
+    "operator_constraints": ["No AWS", "No unrelated worktree mutation", "Prefer regression-only completion if current main already behaves correctly", "Run one focused Rust target"],
+    "task_boundary": "Add exact legacy-claim topology proof and change production only if that proof exposes a remaining defect.",
+    "deliverables": ["Real-binary unrelated claim-bearing record canary", "Relevant malformed-record negative proof", "True collision negative proof", "Evidence-only disposition or minimal lifecycle correction"],
+    "acceptance_criteria": ["AC-1: unrelated claim-bearing legacy record does not block bind", "AC-2: no unrelated worktree record is rewritten or deleted", "AC-3: a relevant malformed record fails closed", "AC-4: same issue, branch, or canonical worktree collisions remain blocked", "AC-5: focused Gate 2 regression proves the behavior through csdlc-bind"],
+    "dependencies": ["#61 / PR #70 relevance-first canonical topology scan"],
+    "repo_inputs": ["agent-logic/agent-design-language#74", "csdlc-v2/src/lifecycle.rs", "csdlc-v2/src/store.rs", "csdlc-v2/tests/gate2.rs"],
+    "non_goals": ["Delete or rewrite stale records", "Restore claim compatibility in canonical IssueRecord", "Weaken relevant-record verification", "Refactor binding broadly"],
+    "plan_summary": "Run the exact current-main canary first, retain a focused regression, and touch production only if the relevance-first scan still fails.",
+    "steps": [
+      {"id":"S1","action":"Construct an unrelated legacy projection with a retired claim field and run real csdlc-bind.","acceptance_ids":["AC-1","AC-2","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Add negative cases making the malformed record relevant and creating real ownership collisions.","acceptance_ids":["AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S3","action":"If current behavior fails, apply the smallest relevance-first correction; otherwise record a regression-only outcome.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S4","action":"Run focused validation and exact-head review.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"}
+    ],
+    "affected_areas": ["csdlc-v2/src/lifecycle.rs", "csdlc-v2/src/store.rs", "csdlc-v2/tests/gate2.rs"],
+    "invariants": ["Canonical IssueRecord remains claim-free and strict", "Unrelated records are not mutated", "Real collisions fail closed", "No broad validation"],
+    "risks": ["Mistaking existing #61 behavior for exact claim-field proof", "Accidentally tolerating malformed relevant records", "Expanding into historical data migration"],
+    "planning_profile": "small",
+    "construction_budget_seconds": 5400,
+    "construction_budget_tokens": 30000,
+    "validation_budget_seconds": 600,
+    "validation_budget_tokens": 5000,
+    "stop_conditions": ["Fix would require restoring claims", "Historical records would need mutation", "Collision safety would be weakened"],
+    "validation_lanes": [
+      {"lane":"stale-topology-bind","proof_role":"Through the real csdlc-bind binary, prove an unrelated claim-bearing record is skipped while relevant malformed records and real collisions fail closed.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":360,"budget_tokens":3000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2","bind_topology_scan_uses_canonical_record_identity"],"parallel_group":"focused","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed if the claim-bearing record is relevant, if any ownership identity collides, or if the test mutates foreign evidence.",
+    "review_prompts": ["Does the test contain the exact retired claim field from the report?", "Is skipping based only on issue, branch, and canonical worktree irrelevance?", "Do relevant corruption and genuine collisions remain fail closed?"],
+    "review_scope": "Topology scan relevance, strict verification boundary, immutable foreign records, and one focused Gate 2 test."
+  }
+}

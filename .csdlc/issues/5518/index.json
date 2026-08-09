@@ -5,8 +5,9 @@
   "initialization_digest": "92f431cfefed7acf1c897c60af9a58dad52f66042ec9be84dd846ce258de081e",
   "phase": "closed_out",
   "generation": 29,
-  "digest": "49c61e6e4ed60fef7d0f3f6175865dfb3bc1b85d71b56fc7c0d096f23f0f820e",
-  "claim": null,
+  "digest": "0261309151c37efa1f668ebd734d01557e4e9fc2e6c1a405ac90a967abcdf56a",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -151,20 +152,8 @@
     "observed_sha": "45a6348f44e80dcddf8bef7c13f88002dfcece20",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5518.json",
-    "released_branch": "codex/5518-terminal-plan-repair",
-    "released_worktree": ".",
-    "released_protected_paths": [
-      ".csdlc/issues/5516",
-      ".csdlc/issues/5518",
-      ".csdlc/prepared/issues/5518",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/model.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      "csdlc-v2/tests/gate7_terminal_plan_repair_5518.rs"
-    ]
+    "branch": "codex/5518-terminal-plan-repair",
+    "worktree": "."
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5518/design.md",

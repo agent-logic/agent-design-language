@@ -1,0 +1,152 @@
+{
+  "issue": 53,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:53-execution",
+  "design_path": ".csdlc/prepared/issues/53/design.md",
+  "diagram_path": ".csdlc/prepared/issues/53/diagram.mmd",
+  "design_reviewer": "codex:53-design-review",
+  "design_approved": false,
+  "initial": {
+    "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
+    "slug": "execution-proof-non-self-referential-revisions",
+    "version": "v0.92",
+    "goal": "Make tracked execution-proof receipts bind distinct substantive and evidence revisions without weakening exact-revision or digest verification.",
+    "required_outcome": "A committed receipt names machine-verified substantive and evidence revisions with valid ancestry and evidence-only intervening changes, while all existing proof digests remain fail closed.",
+    "declared_scope": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53",
+      ".csdlc/issues/53"
+    ],
+    "authority_boundary": [
+      "Issue and code authority are agent-logic/agent-design-language#53",
+      "Retained v2 receipts remain immutable and keep their existing validation semantics",
+      "Only the shared WP-04 proof receipt contract and issue-local regression are implementation scope",
+      "No distributed Runtime product behavior is owned"
+    ],
+    "operator_constraints": [
+      "Never write on main",
+      "Do not weaken exact revision or artifact digest verification",
+      "Use the typed C-SDLC v2 lifecycle",
+      "Publish only after exact-head independent review"
+    ],
+    "task_boundary": "Add an explicit two-revision v3 proof contract and focused regression without migrating retained receipts or changing Runtime product code.",
+    "deliverables": [
+      "Reviewed two-revision proof contract design and diagram",
+      "Fail-closed v3 validator implementation",
+      "Focused temporary-repository ancestry and tamper regression",
+      "Exact-head review and implementation PR"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A tracked receipt for substantive commit A committed in evidence-only commit B validates without recursive HEAD rewriting",
+      "AC-2: The validator distinguishes and resolves source_revision and evidence_revision",
+      "AC-3: Source is an ancestor of evidence and evidence is an ancestor of current HEAD",
+      "AC-4: Every A..B changed path is confined to declared issue evidence and receipt paths",
+      "AC-5: Source, command, logs, negatives, native receipts, and artifact tampering still fail closed",
+      "AC-6: Focused regression proves A then B plus later metadata C and all named rejection cases",
+      "AC-7: Retained v2 receipts are not reinterpreted or migrated",
+      "AC-8: Exact-head review has no unresolved actionable findings"
+    ],
+    "dependencies": [
+      "agent-logic/agent-design-language#53",
+      "Existing WP-04 proof receipt v2 contract",
+      "Git ancestry and diff pathspec behavior"
+    ],
+    "repo_inputs": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5863/validate-proof-receipt.rb",
+      ".csdlc/issues/5863",
+      "Git merge-base and diff semantics"
+    ],
+    "non_goals": [
+      "Runtime or distributed Guardian product changes",
+      "Migration or rewriting of retained receipts",
+      "Weakening any artifact or runner provenance digest",
+      "General redesign of all ADL evidence formats"
+    ],
+    "plan_summary": "Freeze the two-revision contract, implement strict Git identity and ancestry checks, add an isolated A/B/C regression with tamper cases, run focused proof, resolve exact-head review, and publish.",
+    "affected_areas": [
+      "WP-04 shared execution-proof receipt validation",
+      "Git revision and ancestry proof",
+      "Issue 53 focused regression and lifecycle artifacts"
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Review and bind the two-revision proof schema, ancestry, evidence-only path, compatibility, and failure contracts.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement strict v3 revision resolution, ancestry, and evidence-only diff validation while preserving v2 behavior.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add and run focused A/B/C acceptance plus source, receipt, log, artifact, ancestry, and path-drift rejection tests.",
+        "acceptance_ids": ["AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Resolve exact-head independent review and publish the qualified issue-closing PR.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Every accepted revision resolves to an exact Git commit",
+      "Source ancestry and evidence ancestry are machine verified",
+      "The source-to-evidence diff contains no product or unrelated path",
+      "Existing command, log, artifact, negative-case, native receipt, and runner checks remain mandatory",
+      "Retained v2 evidence is immutable"
+    ],
+    "risks": [
+      "An overly broad evidence path rule could hide product drift",
+      "Merge ancestry could be mistaken for direct evidence ancestry",
+      "Compatibility logic could silently reinterpret v2 receipts",
+      "Temporary Git fixture construction could become brittle"
+    ],
+    "planning_profile": "small",
+    "stop_conditions": [
+      "The design would permit product changes between source and evidence revisions",
+      "The validator cannot resolve either revision exactly",
+      "A retained v2 receipt would require mutation",
+      "Scope must widen beyond the shared WP-04 receipt contract and issue-local proof"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "proof-receipt-contract-regression",
+        "proof_role": "Prove A/B/C acceptance and fail-closed ancestry, scope, and tamper behavior in an isolated Git repository.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "issue-local",
+        "budget_seconds": 180,
+        "budget_tokens": 2200,
+        "argv": ["ruby", ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"]
+      },
+      {
+        "lane": "issue-hygiene",
+        "proof_role": "Reject malformed cards, whitespace damage, and unintended scope before exact-head review.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "issue-local",
+        "budget_seconds": 60,
+        "budget_tokens": 600,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-8"]
+      }
+    ],
+    "failure_policy": "Fail closed on unresolved revisions, invalid ancestry, non-evidence A..B changes, digest mismatch, retained-v2 mutation, or unresolved review findings.",
+    "review_prompts": [
+      "Can any accepted v3 receipt omit or fake either exact revision?",
+      "Does ancestry verification prevent unrelated or reversed commit pairs?",
+      "Can source-to-evidence diff filtering hide a product change?",
+      "Do all preexisting digest and provenance checks remain mandatory?",
+      "Are v2 receipts preserved without silent reinterpretation?"
+    ],
+    "review_scope": "Issue 53 two-revision proof contract, shared WP-04 receipt validator, isolated Git regression, compatibility boundary, and fail-closed behavior."
+  }
+}

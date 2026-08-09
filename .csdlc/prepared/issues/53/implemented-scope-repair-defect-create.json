@@ -1,0 +1,9 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "issue-53-implemented-sip-scope-repair-v1",
+  "token_file": "/Users/daniel/keys/github.token",
+  "title": "C-SDLC editor cannot correct SIP scope after implemented review finding",
+  "body": "## Problem\n\nAn exact-head pre-PR review of #53 found a stale nonexistent path in SIP `declared_scope` after the issue had truthfully advanced to `implemented`. The typed `replace_planning_collection` operation is allowed for selected implemented-phase planning repairs but rejects SIP `declared_scope` with `sip mutation is not allowed during implemented`. This leaves no normal typed route to resolve a legitimate pre-publication review finding without hand-editing a card or using a locally patched editor.\n\n## Acceptance criteria\n\n- Provide an explicit typed pre-publication repair or recovery route for SIP `declared_scope` at `implemented`.\n- Preserve stale-generation/digest, field ownership, rendered-card, and audit truth.\n- Do not permit scope widening silently: require a reason and record old/new scope.\n- Continue to reject scope changes after publication unless an explicit recovery transition has cleared publication/review truth.\n- Add regression coverage for accepted pre-review correction and rejected post-publication mutation.\n\n## Non-goals\n\n- Do not weaken card ownership or permit direct Markdown edits.\n- Do not change issue #53's receipt-contract scope.",
+  "labels": ["type:bug", "area:tools", "version:v0.92"]
+}

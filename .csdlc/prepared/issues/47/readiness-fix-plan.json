@@ -1,0 +1,64 @@
+{
+  "issue": 47,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "b3a4fb75d9d14278a4826914c11cb5e7ea72ca1a33e66e9e8916f4ca0516f5d1",
+  "actor": "codex:issue-47-readiness-remediation",
+  "reason": "Align acceptance, plan, and VPP on the explicitly deferred focused test target and existing owned routes.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "AC-1: A named schema lane uses an exact Cargo target boundary and selects a nonzero set of schema unit tests",
+      "AC-2: The exact schema lane cannot select or launch the unrelated estimation_contracts integration target",
+      "AC-3: Exact integration target commands such as --test gate2 remain accepted",
+      "AC-4: Intentional broad commands with no misleading trailing substring remain accepted and retain broad semantics",
+      "AC-5: Free substring, missing target name, and conflicting target selector shapes fail during planning or validation with an actionable corrected-command diagnostic",
+      "AC-6: Active VPP/editor/planning skills and runbooks use the corrected selector shape and distinguish exact from broad intent",
+      "AC-7: Implementation creates csdlc-v2/tests/validation_selectors.rs, then the focused selector test, exact schema unit-test lane, typed validation, and strict lint proof pass within reviewable budgets"
+    ],
+    "steps": [
+      {"id":"S1","action":"Trace selector handling in csdlc-v2/src/cards.rs and define typed exact, broad, and invalid Rust selector postures with fail-closed diagnostics.","acceptance_ids":["AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Implement selector validation in existing owned source routes without changing Cargo or ordinary test behavior.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S3","action":"Create csdlc-v2/tests/validation_selectors.rs with focused nonzero schema, integration-exclusion, broad-compatibility, and invalid-shape fixtures.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-7"],"status":"pending"},
+      {"id":"S4","action":"Update directly affected active skills/runbooks, run the planned focused validation after the deferred target exists, and obtain exact-head review.","acceptance_ids":["AC-6","AC-7"],"status":"pending"}
+    ],
+    "validation_lanes": [
+      {
+        "lane":"rust-selector-contract",
+        "proof_role":"The issue-owned focused integration target will prove exact, broad, and invalid selector classification plus actionable diagnostics after implementation creates it.",
+        "acceptance_ids":["AC-3","AC-4","AC-5","AC-7"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":600,
+        "budget_tokens":3500,
+        "argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","validation_selectors"],
+        "parallel_group":"local",
+        "defer_reason":"Deferred until issue #47 implementation creates the declared owned target csdlc-v2/tests/validation_selectors.rs; execution must fail closed if the target is still absent."
+      },
+      {
+        "lane":"exact-schema-selection",
+        "proof_role":"The existing target-bounded library command proves a nonzero schema unit-test set and excludes integration targets.",
+        "acceptance_ids":["AC-1","AC-2","AC-7"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":300,
+        "budget_tokens":2000,
+        "argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--lib","schema::tests"],
+        "parallel_group":"local",
+        "defer_reason":null
+      },
+      {
+        "lane":"selector-contract-lint",
+        "proof_role":"Strict Clippy and active guidance checks prove the typed implementation and examples remain consistent.",
+        "acceptance_ids":["AC-6","AC-7"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":900,
+        "budget_tokens":4000,
+        "argv":["cargo","clippy","--locked","--manifest-path","csdlc-v2/Cargo.toml","--all-targets","--","-D","warnings"],
+        "parallel_group":"local",
+        "defer_reason":null
+      }
+    ]
+  }
+}

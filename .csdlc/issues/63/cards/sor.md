@@ -1,0 +1,121 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 63
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Added an explicit audited implemented-phase SIP scope correction route and removed the implemented review-finding recovery dead end.
+
+## Artifacts
+
+- csdlc-v2/src/cards.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate2.rs
+- csdlc-v2/tests/gate5.rs
+
+## Execution
+
+- Added correct_declared_scope_before_publication as an SIP-only implemented-phase semantic operation.
+- Require clean review/publication truth plus nonempty actor and reason before correction.
+- Record complete previous and replacement scope arrays in canonical audit truth.
+- Allow typed csdlc-review recovery for implemented records carrying assignment or changes-required review truth without an invalid same-phase transition.
+- Added focused real-binary editor/validator and review-recovery regressions.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2",
+      "implemented_sip_scope_correction"
+    ],
+    "purpose": "Prove accepted correction, audit old/new truth, stale CAS, empty input, phase/card guards, generated Markdown, validator success, and Markdown drift rejection through real binaries.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-63-gate2:1-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "implemented_review_recovery_clears_truth"
+    ],
+    "purpose": "Prove clean implemented recovery rejects, assignment and changes-required truth recover atomically without a same-phase transition, retained review truth blocks correction, and clean recovered state permits it.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-63-gate5:1-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib",
+      "store::edit_authorization_tests::implemented_review_remediation_authorizes_only_bounded_operations"
+    ],
+    "purpose": "Prove the correction operation is authorized only for SIP in implemented and rejected for every adjacent lifecycle phase and wrong card.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-63-authorization:1-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib",
+      "--bin",
+      "csdlc-edit",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject type, match-exhaustiveness, store, and editor binary warnings for the bounded implementation.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-63-clippy:passed"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject malformed whitespace and patch artifacts before exact-head review.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-63-diff-check:passed"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

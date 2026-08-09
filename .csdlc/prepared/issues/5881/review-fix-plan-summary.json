@@ -1,0 +1,13 @@
+{
+  "issue": 5881,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "a71b990b428a5adc1bdb2226bea643bfffc2b672f8523b535e518381881c7f40",
+  "actor": "codex:5881-readiness-review-fix",
+  "reason": "Require one-time normalization, decoder deletion, and crash-safe topology proof.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Rebase after the two narrow deletion issues, classify claim surfaces, normalize current records once, delete all claim-specific production logic, and prove crash-safe binding plus the full lifecycle from branch/worktree topology."
+  }
+}

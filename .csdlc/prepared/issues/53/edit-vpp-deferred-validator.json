@@ -1,0 +1,38 @@
+{
+  "issue": 53,
+  "card": "vpp",
+  "expected_generation": 4,
+  "expected_digest": "56351b0e1a4dd35641c25954151d293cf1cdeb4534a377b6518434856ad94c41",
+  "actor": "codex:53-readiness-repair",
+  "reason": "Declare the issue-owned regression target as fail-closed deferred until implementation creates it.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "proof-receipt-contract-regression",
+        "proof_role": "Prove A/B/C acceptance and fail-closed ancestry, scope, and tamper behavior in an isolated Git repository.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 180,
+        "budget_tokens": 2200,
+        "argv": ["ruby", ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb"],
+        "parallel_group": "issue-local",
+        "defer_reason": "Fail-closed implementation gate: the issue-owned validator target is created during bounded implementation and must pass before review."
+      },
+      {
+        "lane": "issue-hygiene",
+        "proof_role": "Reject malformed cards, whitespace damage, and unintended scope before exact-head review.",
+        "acceptance_ids": ["AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 600,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

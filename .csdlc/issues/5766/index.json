@@ -5,28 +5,9 @@
   "initialization_digest": "15899e8716ca9d8639ebd543cef4be35c93a1e691b03a7bc685f608896a42f33",
   "phase": "published",
   "generation": 10,
-  "digest": "7872c26fd0603d4c22d6740846a3f347e1006892c55b32983a6aee393b6703dd",
-  "claim": {
-    "id": "claim-5766-csm-runtime-endpoint-inventory",
-    "owner": "codex:5766-execution",
-    "generation": 10,
-    "acquired_unix_seconds": 1785784392,
-    "expires_unix_seconds": 1786389192,
-    "heartbeat_unix_seconds": 1785784392,
-    "branch": "codex/5766-csm-runtime-endpoint-inventory",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/evidence/5766",
-      ".csdlc/issues/5766",
-      ".csdlc/locks/5766.lock",
-      ".csdlc/prepared/issues/5766",
-      "adl-runtime/src/runtime_api.rs",
-      "adl/src/csm_api_gateway_bridge.rs",
-      "adl/src/csm_runtime_api.rs",
-      "docs/reviews/v0.91.8/internal-review-5356/FINDINGS_REGISTER.md"
-    ],
-    "purpose": "Reconcile advertised CSM runtime endpoints with actual mounted route truth and focused tests"
-  },
+  "digest": "11bab4c0dbfa5a92e488b7f53915bd5e8f3a65b3a110c8c67e87ac678579a164",
+  "branch": "codex/5766-csm-runtime-endpoint-inventory",
+  "worktree": ".",
   "review_assignment": {
     "reviewer": "subagent:019fc960-976d-7500-9492-86cc9b2ca187",
     "assigned_by": "codex:issue-5766-runtime-endpoint-inventory",

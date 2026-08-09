@@ -1,0 +1,9 @@
+{
+  "issue": 63,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "7e2837c275c61900ec83ac443f358cfebb986b84c6d8bbf4f8b06c51414d1b8b",
+  "actor": "codex:63-validation",
+  "reason": "Record focused real-editor and validator proof.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2","implemented_sip_scope_correction"],"purpose":"Prove accepted correction, audit old/new truth, stale CAS, empty input, phase/card guards, generated Markdown, validator success, and Markdown drift rejection through real binaries.","outcome":"passed","evidence_ref":"local:issue-63-gate2:1-passed"}}
+}

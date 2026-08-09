@@ -1,0 +1,18 @@
+{
+  "issue": 41,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "23f0fcf6fe08c8d1a2a35b72424376886ff0316c1c6612038984b7bf475ae122",
+  "actor": "codex:41-readiness-preparation",
+  "reason": "bind execution readiness to exact repository-owned implementation and proof paths",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/error.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/bin/csdlc-github-issue.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ]
+  }
+}

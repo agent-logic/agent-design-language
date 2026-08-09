@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 59,
+  "expected_generation": 19,
+  "expected_digest": "6453783943332233f6bc37e220dfd7c95ac494f945598a8ecd5dc9ca65c5f3f2",
+  "reviewer": "subagent:execute_75_to_pr",
+  "assigned_by": "codex:59-authority-checkpoint",
+  "scope": [
+    ".csdlc/issues/59",
+    ".csdlc/prepared/issues/59"
+  ]
+}

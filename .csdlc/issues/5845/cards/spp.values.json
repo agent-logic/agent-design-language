@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
     "slug": "v0-92-wp-24a-podcast-studio-first-ten-episodes",
     "version": "v0.92",
-    "generation": 42
+    "generation": 53
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 19,
+      "plan_revision": 20,
       "summary": "Run ten 7.5-hour/64,000-token episode waves plus a separately scheduled 5-hour/60,000-token integration wave inside the fixed 80-agent-hour/700,000-token aggregate; five parallel owners produce complete reviewed packages and stop before deployment or publication.",
       "steps": [
         {
@@ -96,17 +96,27 @@
         "demos/podcast/episodes/008-local-ai-vs-cloud-ai",
         "demos/podcast/episodes/009-when-ai-gets-stuck",
         "demos/podcast/episodes/010-what-does-a-weekly-ai-studio-look-like",
+        "demos/podcast/audio",
+        "demos/podcast/artwork.png",
         "demos/podcast/feed.xml",
+        "demos/podcast/index.html",
+        "demos/_preview/podcast/index.html",
+        "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
         "demos/podcast/LAUNCH_READINESS.md",
+        "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+        "adl/tools/demo_v0911_multiagent_podcast_audio.sh",
         "adl/tools/generate_podcast_launch_packet.py",
         "adl/tools/validate_podcast_launch_packet.py",
         "adl/tools/test_podcast_launch_packet.sh",
         "adl/tools/record_podcast_native_playback.sh",
         "adl/tools/record_podcast_browser_playback.mjs",
         "adl/tools/record_podcast_ios_safari_playback.sh",
+        ".csdlc/prepared/issues/5845/design.md",
         ".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb",
         ".csdlc/prepared/issues/5845/validate-second-pass-readiness.rb",
-        ".csdlc/evidence/5845"
+        ".csdlc/issues/5845",
+        ".csdlc/evidence/5845",
+        "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json"
       ],
       "invariants": [
         "Every final audio digest matches its manifest and enclosure",
@@ -139,7 +149,7 @@
         "Feed, audio, artwork, or repository-size policy changes"
       ],
       "design_ref": ".csdlc/prepared/issues/5845/design.md",
-      "design_digest": "e577c1d95f46d4de635fce4f2afc6d5697cde482e44599380b9b15698a73715f",
+      "design_digest": "5da2961651c5678c3494dfd5d4cc5c9ad9eba260a5c4fd40942f5a1cf414ed17",
       "diagram_ref": ".csdlc/prepared/issues/5845/diagram.mmd",
       "diagram_digest": "f93e767ad01814319f03d67e71121eeca0bbbaf725dbabb2e0997aaf7f37ccce"
     }

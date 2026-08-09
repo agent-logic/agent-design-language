@@ -1,0 +1,65 @@
+{
+  "schema": "agent-logic.podcast.audio-manifest.v1",
+  "episode": 1,
+  "script_sha256": "72ba0fa3c0dd604e6987e961d26dfe16eb825777b3aec49056a20336607d45d7",
+  "transcript_sha256": "0f771e6222625901c8d6ed21b4083b215ee318e05cb6a2494333f4216af6db3b",
+  "dialogue_authors": {
+    "ChatGPT": "OpenAI gpt-5.5",
+    "Gemini": "Google gemini-3.1-pro-preview",
+    "Claude": "Anthropic claude-opus-4-8"
+  },
+  "voice_renderers": {
+    "ChatGPT": {
+      "provider": "OpenAI",
+      "model": "gpt-4o-mini-tts",
+      "voice": "coral",
+      "surrogate": false
+    },
+    "Gemini": {
+      "provider": "OpenAI",
+      "model": "gpt-4o-mini-tts",
+      "voice": "echo",
+      "surrogate": true
+    },
+    "Claude": {
+      "provider": "Deepgram",
+      "model": "Aura-2",
+      "voice": "aura-2-pluto-en",
+      "surrogate": true
+    }
+  },
+  "acts": [
+    {"number": 1, "duration_seconds": 277.44, "sha256": "a80da503fc004bd2b2a6421b778e3b99f36af6d2d1e778a7af97c4adb08dde38"},
+    {"number": 2, "duration_seconds": 287.47, "sha256": "be49c18cac46ca0be17e8fc747f514aa66f4e5453e785fb57d53e8eb5bfefb79"},
+    {"number": 3, "duration_seconds": 262.65, "sha256": "07dd8bc4e16d1f696521fb9dd67c6567f9133dbfa573e48a2d75f90878120a2b"},
+    {"number": 4, "duration_seconds": 280.6, "sha256": "5eecfd8c4de6b333cded3ff58fa4a3d761a47687b7cbfddea10e5667a5642abc"}
+  ],
+  "mastering": {
+    "inter_act_gap_seconds": 1.25,
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "wav_sample_format": "pcm_s16le",
+    "integrated_loudness_lufs": -15.9,
+    "true_peak_dbtp": -1.4,
+    "loudness_range_lu": 4.0,
+    "unexpected_silence_over_two_seconds": false
+  },
+  "outputs": {
+    "distribution_mp3": {
+      "path": "../../audio/meet-the-ai-coworkers.mp3",
+      "duration_seconds": 1111.968,
+      "bytes": 22804249,
+      "bit_rate_bps": 160000,
+      "sha256": "2ce56a2a4e3f74315f844978b9a9c344e377227cd92d4ddd0e05f338a4338cbc",
+      "embedded_cover_art": true
+    },
+    "archive_wav": {
+      "path": "../../audio/meet-the-ai-coworkers.wav",
+      "duration_seconds": 1111.91,
+      "bytes": 53371758,
+      "sha256": "78e1c5edac6f96bddba7faa5e35523f5dda894a4426f6f54b178ceb0bbed5572"
+    }
+  },
+  "credential_retention": "none",
+  "publication_status": "held_for_human_review"
+}

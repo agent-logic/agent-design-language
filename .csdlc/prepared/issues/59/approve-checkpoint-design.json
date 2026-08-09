@@ -1,0 +1,6 @@
+{
+  "issue": 59,
+  "expected_generation": 13,
+  "expected_digest": "ba2104ac3251b4f45c2878f54ccf526bc0484adbabd7a1e646a0e969259730f4",
+  "reviewer": "subagent:execute_74_to_pr"
+}

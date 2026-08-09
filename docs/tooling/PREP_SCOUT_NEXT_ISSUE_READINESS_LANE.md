@@ -11,7 +11,7 @@ but it does not start implementation early.
 
 Use the broader rescue-sprint operating contract in
 `docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md` for how prep-scout
-handoffs interact with watcher ownership, session-ledger claims, and the normal
+handoffs interact with watcher ownership, Git topology, and the normal
 typed `csdlc-bind` promotion path.
 
 ## When To Use It
@@ -41,7 +41,7 @@ The prep scout may use:
 - root-checkout inspection commands while the root checkout remains clean on
   `main`
 - issue/task-bundle reads for the candidate issue
-- session-ledger reads to detect collisions
+- Git worktree and branch reads to detect collisions
 
 The prep scout may also note that a candidate would need:
 
@@ -82,13 +82,12 @@ normal execution path.
 3. Use `csdlc-doctor` to route the current issue and preserve the waiting
    lane truth separately from the prep lane.
 4. Inspect candidate issues with repo-native issue commands.
-5. Check for collision evidence in the shared session ledger and existing
-   worktree/PR state.
+5. Check for collision evidence in existing Git worktree, branch, and PR state.
 6. Run typed `csdlc-doctor` readiness for the candidate when a task bundle
    already exists.
 7. Emit one bounded handoff result and stop.
-8. If the candidate is promoted into execution, create the normal session
-   claim, run typed `csdlc-bind`, create the issue-bound goal,
+8. If the candidate is promoted into execution, run typed `csdlc-bind`, create
+   the issue-bound goal,
    and then begin edits in the bound worktree.
 
 ## Handoff States
@@ -120,7 +119,7 @@ prep_scout_handoff:
   evidence:
     - "repo-native issue view/list result"
     - "doctor/readiness result"
-    - "session-ledger or worktree collision result"
+    - "branch/worktree or PR collision result"
   next_command: "csdlc-bind --root <worktree> --request <bind-request.json>"
   notes:
     - "record any tooling gap explicitly"
@@ -132,14 +131,14 @@ This issue proved the handoff contract against live repo-native readiness
 surfaces without starting implementation for the candidate issues:
 
 - `#4438` -> `collision`
-  - another session already owns the active claim and bound worktree, so the
+  - another session already owns the bound branch/worktree, so the
     prep scout must stop instead of duplicating ownership
 - `#4534` -> `blocked`
-  - stale session-claim residue requires manual inspection before execution can
+  - stale or ambiguous Git topology requires manual inspection before execution can
     resume truthfully
 - `#4530` -> `ready`
-  - the issue is structurally ready for normal execution; the next step is the
-    standard session claim plus typed `csdlc-bind`, not early
+  - the issue is structurally ready for normal execution; the next step is
+    typed `csdlc-bind`, not early
     implementation from the prep lane
 
 These examples are intentionally workflow-level proof only. They do not claim

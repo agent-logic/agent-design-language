@@ -1046,6 +1046,14 @@ pub fn validate_canonical_identity(record: &IssueRecord, request: &FinishRequest
                 "PR finish requires canonical publication evidence",
             )
         })?;
+        if publication.linkage_mode.unwrap_or_default()
+            != crate::publication::PublicationLinkageMode::Closing
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "part_of publication evidence cannot authorize terminal issue closeout",
+            ));
+        }
         if publication.repository.split_once('/').is_none()
             || publication.issue != request.issue
             || publication.pull_request != number
@@ -1724,6 +1732,7 @@ mod tests {
             schema: "csdlc.issue.v2".into(),
             issue: 7,
             repository: "owner/repo".into(),
+            code_repository: None,
             initialization_digest: "init".into(),
             phase: LifecyclePhase::MergeReady,
             generation: 3,
@@ -1740,6 +1749,7 @@ mod tests {
                 base: "main".into(),
                 head: "codex/7".into(),
                 revision: clean_commit_revision("abc"),
+                linkage_mode: Some(crate::publication::PublicationLinkageMode::Closing),
                 draft: false,
                 observed_state: "open".into(),
             }),

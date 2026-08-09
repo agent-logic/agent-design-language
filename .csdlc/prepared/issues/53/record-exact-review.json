@@ -1,0 +1,21 @@
+{
+  "issue": 53,
+  "expected_generation": 17,
+  "expected_digest": "092c779c60afdbfb23e15686b0ce09b5da8b60317f71e386bdd2a5f5e5e028da",
+  "actor": "subagent:review-53-exact-head",
+  "evidence": {
+    "reviewer": "subagent:review-53-exact-head",
+    "scope": [
+      ".csdlc/issues/53",
+      ".csdlc/prepared/issues/53",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb"
+    ],
+    "reviewed_revision": "git-blake3:c7b454b30beec5d537966765a24f33823535f562:02c9a6df9b77454be516081ac0ccb186b97d76a620f8848df0e6a66d755f20ee",
+    "findings": [],
+    "residual_risks": [
+      "The v3 contract intentionally accepts later commits outside the immutable issue evidence prefix while binding all proof claims to the exact substantive source revision."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

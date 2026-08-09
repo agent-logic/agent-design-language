@@ -1,0 +1,9 @@
+6c0204584a5d1174b51952eeb92a75943031f20d5f23a549315b8a5020ca92d1  ./aws-deadline-reaper.json
+f8b8061fa359306b58c84b0c5b75863e0e2884c5c713b0f7e61b9e147674d918  ./aws-gpu-preflight.json
+c4fce7dd721232e22344e98517447a2130b33d42ecf3f113a11b5f39712eaa0e  ./aws-lock-collision.json
+9ebdb51b45ca75dd6a697713c2c7507f6907015d4414c39091a076b702ae898e  ./kernel-clippy.log
+b4c6d4182b84beecce411489cf63a3ff8819a36031954e2b47e28fe18584d08c  ./mac-mlx-real-local-model-smoke.json
+5a0379b09c79ba444325ecdd33e08700a95621b5df2ade9800132a4664fbd04a  ./portable-model-publication.json
+3323c9eb700f9a1ea2b6bbc2abe89be1c89808316ff88b33713fe261b9005661  ./real-local-model.log
+cf6669b9eb203c2e1bbf1dea666b371b0761de1933cb7ba7f944d72a890771a1  ./runtime-clippy.log
+feeafa165c609401f427dfd3effcd9ebd8127871fa868c45151a69ab2be1fccb  ./shepherd-contract.log

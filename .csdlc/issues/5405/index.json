@@ -5,8 +5,9 @@
   "initialization_digest": "054e97bce0600f6d67de82ce3c57351da92204496680e0793747ea6943aa00a2",
   "phase": "closed_out",
   "generation": 42,
-  "digest": "1d462158abba788e6c0a5c9467b22d296bbfc50ba9be85cce9bc4753ca109333",
-  "claim": null,
+  "digest": "72f7f6e0cdec12ebe83290895a8fa159b48c10ef5a23594c2551bc58423c0baa",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:019f739a-5fbe-7e33-8b85-4cf33cf43dcd",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -95,21 +96,8 @@
     "observed_sha": "7a3b66a7c76167828b80ecae5451fec4b3673ece",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5405.json",
-    "released_branch": "codex/5405-wp13-review-repair",
-    "released_worktree": ".worktrees/adl-wp-5405-repair",
-    "released_protected_paths": [
-      "adl/src/runtime_v2/economics_civilization_boundary.rs",
-      "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
-      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
-      "docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md",
-      "docs/milestones/v0.91.7/features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md",
-      "docs/milestones/v0.91.7/review/wp13_closeout_4640.md",
-      "docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json",
-      "docs/milestones/v0.91.7/review/wp13_economics_civilization_boundary_4754.md",
-      "docs/milestones/v0.91.7/review/wp13_godel_constructability_boundary_4753.md",
-      "docs/milestones/v0.91.7/review/wp13_guild_foundation_boundary_4755.md",
-      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"
-    ]
+    "branch": "codex/5405-wp13-review-repair",
+    "worktree": ".worktrees/adl-wp-5405-repair"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5405/retained/design.md",

@@ -5,8 +5,9 @@
   "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
   "phase": "closed_out",
   "generation": 25,
-  "digest": "ae6096e263de7bcb0ca662e645fced6ca21b5ec8b5097cd515f0f46dff8a3b49",
-  "claim": null,
+  "digest": "338cdb9ab89e3eefc7daaf5c66e85fb013772bb9fd4b831c58e91798315fde73",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "subagent:codex-exec-5600-final-head-2",
     "assigned_by": "codex:issue-5600",
@@ -187,14 +188,8 @@
     "observed_sha": "ea6e59494895fcbb43b406d0b322e12a04616167",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5600.json",
-    "released_branch": "codex/5600-complete-typed-replanning",
-    "released_worktree": ".worktrees/adl-wp-5600",
-    "released_protected_paths": [
-      ".csdlc/issues/5600",
-      ".csdlc/locks/5600.lock",
-      ".csdlc/prepared/issues/5600",
-      "csdlc-v2"
-    ]
+    "branch": "codex/5600-complete-typed-replanning",
+    "worktree": ".worktrees/adl-wp-5600"
   },
   "migration": null,
   "design_path": ".csdlc/issues/5600/retained/design.md",

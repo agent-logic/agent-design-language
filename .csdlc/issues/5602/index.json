@@ -5,8 +5,9 @@
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
   "phase": "closed_out",
   "generation": 31,
-  "digest": "c2010c55e15c5fd08cfd169d3f69a39885618a349725b7dd4201fd9dcd14040a",
-  "claim": null,
+  "digest": "d655dc1f7a52ea7bf0192821ae43c8daf5572550599f27f583698e25c995e23d",
+  "branch": null,
+  "worktree": null,
   "review_assignment": {
     "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -132,14 +133,8 @@
     "observed_sha": "6c6b512286cca4833fd19e35b9377b3994d76b5b",
     "observed_state": "merged",
     "receipt_path": "csdlc-v2/closeout/5602.json",
-    "released_branch": "codex/5602-hosted-coverage-no-report",
-    "released_worktree": ".worktrees/adl-wp-5602",
-    "released_protected_paths": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh"
-    ]
+    "branch": "codex/5602-hosted-coverage-no-report",
+    "worktree": ".worktrees/adl-wp-5602"
   },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5602/design.md",

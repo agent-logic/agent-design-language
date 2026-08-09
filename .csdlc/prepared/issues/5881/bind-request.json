@@ -1,0 +1,6 @@
+{
+  "issue": 5881,
+  "base_branch": "main",
+  "branch": "codex/5881-remove-csdlc-claims",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5881"
+}
