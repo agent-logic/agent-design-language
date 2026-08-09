@@ -7,3 +7,4 @@
 {"sequence":7,"generation":4,"actor":"codex:5855-sprint2-closeout","reason":"Record completion of the validated Sprint 2 packet and child routing boundary.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"readiness\",\"status\":\"completed\"}"}
 {"sequence":8,"generation":5,"actor":"codex:sprint-2-closeout","reason":"All five in-scope Sprint 2 child issues reached terminal merged state in dependency order.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"coordinate\",\"status\":\"completed\"}"}
 {"sequence":9,"generation":6,"actor":"codex:sprint-2-closeout","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":10,"generation":6,"actor":"codex:sprint-2-closeout","reason":"assign bounded exact-revision review","operation":"assign_review"}

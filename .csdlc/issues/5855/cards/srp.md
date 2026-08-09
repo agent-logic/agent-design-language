@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Review the exact sprint issue record, design, diagram, Sprint Execution Packet, child membership, parallel-lane independence, serial gates, child-authority boundary, review path, activity-log declaration, and terminal closeout rule.
+.csdlc/issues/5855
+.csdlc/prepared/issues/5855/sprint-execution-packet.yaml
+.csdlc/prepared/issues/5855/sprint-execution-packet.md
+.csdlc/prepared/issues/5855/validate-sprint-readiness.rb
+.csdlc/evidence/5855
 
 ## Prompts
 

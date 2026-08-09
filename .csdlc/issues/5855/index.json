@@ -5,10 +5,21 @@
   "initialization_digest": "a270f26590e5bc852e05a9eacf23bc22b7c06f282d28da0bda5fd1183ce8697a",
   "phase": "implemented",
   "generation": 6,
-  "digest": "ceb43e270376fa4864967025b476b2186eae042f4306bfb6631b0482c325227f",
+  "digest": "ce4decddddff12e48ab965ac6ff0b7b7f0d7c8fd9f996f3192e9721a9b96335d",
   "branch": "codex/5855-sprint2-final-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprint-5855-final-readiness",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812",
+    "assigned_by": "codex:sprint-2-closeout",
+    "revision": "git-blake3:8acd973308fd0c2009708929ccbd9dcc2240c9ae:c6f8d4fa3bcaa130e164ab6db9bff8671e4122cab41dd281901e05922bf0c7a3",
+    "scope": [
+      ".csdlc/issues/5855",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+      ".csdlc/evidence/5855"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "701b7e6d9789f5fba600b4051d3d9cd09bebcf704270b422225b471ad1cb9449"
     },
     "srp": {
-      "values_digest": "1267c036636c64a7b24dc8a352322e37bdd88dd03f05cd724782e746bc1356f8",
-      "rendered_digest": "fc72df4f797db9e0cd8ed3f2bfaff9ed9eea3a4df2a23ca39fc437be7d606926",
-      "ast_digest": "eaa72e278ec8d8ae093373116e31dbd25971f3adfb8abb8f8b40342bf8a25527"
+      "values_digest": "1621cdb0b1680311562a59477d43f7ba6d9ba83a51488292387e112577a02d6d",
+      "rendered_digest": "271299e51e1938cdbd884a37f236162e071cf206e7ef570bdd2a9d9cb263facb",
+      "ast_digest": "23ba5d6b2d72d354e0e90232e571f0304290060f68c481bac62ecd1070975fee"
     },
     "sor": {
       "values_digest": "8cd21c39eb8425c022ee20ba0bb63081e04150b97022e94d83ba63804b6b1a77",
@@ -140,6 +151,13 @@
       "actor": "codex:sprint-2-closeout",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:sprint-2-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
