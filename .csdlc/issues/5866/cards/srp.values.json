@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.04] Seed discovery and authenticated join",
     "slug": "v0-92-wp-04-04-seed-discovery-join",
     "version": "v0.92",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.04 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/discovery.rs\nadl-runtime/tests/distributed_discovery.rs\n.csdlc/evidence/5866/distributed-discovery.stderr.log\n.csdlc/evidence/5866/distributed-discovery.stdout.log\n.csdlc/evidence/5866/exact-child-tests.log\n.csdlc/evidence/5866/exact-revision-proof-receipt.log\n.csdlc/evidence/5866/execution-proof.json\n.csdlc/evidence/5866/negative-cases.json\n.csdlc/evidence/5866/runner.txt",
+      "review_revision": "git-blake3:a65a83e13d63070f4a8afcea2f21df1e5786c5b8:10e133cbf8e8b66ab026a3cfc8b7f8a0e0ffe2a20358d06d35ec750396dc4846",
+      "reviewer": "subagent:/root/issue_79/exact_head_review",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,11 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The source remains intentionally unregistered until issue #5878 owns distributed module integration.",
+        "GitHub CI must confirm the publication head; local exact nextest, qualified strict focused Clippy, and v3 receipt validation passed."
+      ],
+      "review_result": "pass"
     }
   }
 }

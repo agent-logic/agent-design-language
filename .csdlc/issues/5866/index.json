@@ -4,13 +4,49 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a545ca23817c4e3efccce73310fea81472dff567846aa9fb04fac11418bbde6a",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "7e556ee0447354a4b4dae186d9cf7894e4e92274327f5031abe77049cd4b30f0",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "1823d0c9ae67b2120bddf5fe5b86ba077562c0c8f3476c2ff66c08f5eb7bd710",
   "branch": "codex/5866-distributed-discovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/issue_79/exact_head_review",
+    "assigned_by": "codex:5866-distributed-discovery",
+    "revision": "git-blake3:a65a83e13d63070f4a8afcea2f21df1e5786c5b8:10e133cbf8e8b66ab026a3cfc8b7f8a0e0ffe2a20358d06d35ec750396dc4846",
+    "scope": [
+      "adl-runtime/src/distributed/discovery.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      ".csdlc/evidence/5866/distributed-discovery.stderr.log",
+      ".csdlc/evidence/5866/distributed-discovery.stdout.log",
+      ".csdlc/evidence/5866/exact-child-tests.log",
+      ".csdlc/evidence/5866/exact-revision-proof-receipt.log",
+      ".csdlc/evidence/5866/execution-proof.json",
+      ".csdlc/evidence/5866/negative-cases.json",
+      ".csdlc/evidence/5866/runner.txt"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/issue_79/exact_head_review",
+    "scope": [
+      "adl-runtime/src/distributed/discovery.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      ".csdlc/evidence/5866/distributed-discovery.stderr.log",
+      ".csdlc/evidence/5866/distributed-discovery.stdout.log",
+      ".csdlc/evidence/5866/exact-child-tests.log",
+      ".csdlc/evidence/5866/exact-revision-proof-receipt.log",
+      ".csdlc/evidence/5866/execution-proof.json",
+      ".csdlc/evidence/5866/negative-cases.json",
+      ".csdlc/evidence/5866/runner.txt"
+    ],
+    "reviewed_revision": "git-blake3:a65a83e13d63070f4a8afcea2f21df1e5786c5b8:10e133cbf8e8b66ab026a3cfc8b7f8a0e0ffe2a20358d06d35ec750396dc4846",
+    "findings": [],
+    "residual_risks": [
+      "The source remains intentionally unregistered until issue #5878 owns distributed module integration.",
+      "GitHub CI must confirm the publication head; local exact nextest, qualified strict focused Clippy, and v3 receipt validation passed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ea78cfef90ff4c5a0f4c1cc95cc2e9c0bc757b3c7d92cc69355eddf3a4441be0",
+      "values_digest": "ec63b19c00ebe50cbd11d1c8fe7bd1b7e5b40bf9e5f5f646a10a05adaca972e7",
       "rendered_digest": "6edde9877a679aa8137562e451dcf42a97d1752a726de69edf5fe1d3e1aa9292",
       "ast_digest": "54dff07d44a80d7c7591cb929f3cc32d18899c13934f570fe82687c25473d639"
     },
     "stp": {
-      "values_digest": "b2015bb84030276ddab2acb544932ef9e1b319cdaa4ba1dcc7c656d4bfea9f04",
+      "values_digest": "3c2cd8816f3bbbcf60476ac4c70364bbc16fbb40d667d302efefd59207062982",
       "rendered_digest": "5c2f6f7e75055df76b81f86381236400afa8cff2a83bb7c8bbf3d9d035ccbbc8",
       "ast_digest": "bbe33a414fd219c8472a5493f94b769c4a459750e39278331d56b3e2d2a5804c"
     },
     "spp": {
-      "values_digest": "4b2848cb3c2c5b76f287d6314de407dd168717268e4bcafec7d08cfdb3e8f182",
+      "values_digest": "df8b2fda08a20cf62ac338918590a9fb1bf092bfba5e76249be9762605ff1b09",
       "rendered_digest": "06039fe18555456e65b78378c039a41455e8130f5a4a551604ae8773e9b9ef4f",
       "ast_digest": "a9be98918825c7954e8473c3ae921e95dbc63e49c1e496a8cc40152482b0137a"
     },
     "vpp": {
-      "values_digest": "5f20d15b057a372bdee6387f94ea3642f79c144d5c331774cd7b0a9507aa3a91",
+      "values_digest": "9f7a0b3a5b927d15f860ea0af52e34e4acfb92b2fbc2a60244ae3e60bb0dd0c0",
       "rendered_digest": "0da72c3a9e9fe19fe66393088a075b8ff3fe849cf22928b006d2934066265ffa",
       "ast_digest": "0feedd8812a0dfa69db307ccfbe6599d9974afc86cc0c661f678143088a1018a"
     },
     "srp": {
-      "values_digest": "1cd22b8a710c1ff46224c4ec08b968953cb7525ab444709d3a8ea13700337557",
-      "rendered_digest": "312d9c163170473e8976366afac82c565b78f1ec3b292428ce8ad6001ea60e81",
-      "ast_digest": "bc63a1d444d71c360cc9e63d7e1081c1e3b36494f45ea8eb72d53bd51cb76253"
+      "values_digest": "8adfd8548d92be30f9d0c741a28438ecba27a0feb6e073a9dbd91ef235dc585a",
+      "rendered_digest": "9406cb456d01e009c471f02df2ca0bc3d32bf8bef558e3945837ec263dae374f",
+      "ast_digest": "685b0927967b41b1fbb42611643f6321ec74aa8cd0caceb230f19eb24dae0c70"
     },
     "sor": {
-      "values_digest": "5b74449750b4a10cabe3ffce0fd432666dde43ae7faa923d1e7f5abe3dcae11c",
+      "values_digest": "e2c47e944a84329494c3aeda13d4375fcd6fecb5d0215d74d1d48fcb826f0d04",
       "rendered_digest": "bd0586196d75ce0521a249ca9e00691dac3bf112441361af4b549ac5b8f91976",
       "ast_digest": "a1d975a1c3952da3ce1169fe63ca974be6d80588c8f23b91b19ef1889468f66d"
     }
@@ -97,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:5866-distributed-discovery",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_79/exact_head_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -309,6 +352,20 @@
       "actor": "codex:5866-distributed-discovery",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 31,
+      "generation": 11,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 12,
+      "actor": "subagent:/root/issue_79/exact_head_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
