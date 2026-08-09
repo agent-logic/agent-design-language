@@ -34,12 +34,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Shepherd AWS CUDA execution proof remains a deferred follow-on because GPU quota is unavailable.
+- Historical planning prose predates the operator-approved removal of #5837; supported typed Scope, Deliverables, and Acceptance corrections are the current closeout boundary.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b96d8f0a7dfb38e1c61abe040605ab0afa98cf3a:702f8a569ba222b1e22f76dad12bebfda65db652de14aebc4a8e1e1d087ad504")
 
-Reviewer: None
+Reviewer: Some("openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812")
 
-Result: pre_review
+Result: pass
