@@ -78,11 +78,11 @@ Implemented bounded authenticated seed discovery with complete identity and tran
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
