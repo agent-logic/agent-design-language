@@ -54,3 +54,4 @@
 {"sequence":54,"generation":30,"actor":"codex:terminalize_sprint4_ready_wave","reason":"Recover the misattributed review record and republished projection so the actual independent exact-head verdict from /root/start_sprint_4_5862/review_5866_republished_truth can become canonical before terminalization.","operation":"recover_review"}
 {"sequence":55,"generation":30,"actor":"codex:terminalize_sprint4_ready_wave","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":56,"generation":31,"actor":"/root/start_sprint_4_5862/review_5866_republished_truth","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":57,"generation":32,"actor":"codex:terminalize_sprint4_ready_wave","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
