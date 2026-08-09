@@ -19,7 +19,7 @@ Reconcile existing ACIP/A2A semantics into one versioned envelope, protobuf sche
 - Frozen versioned semantic envelope and compatibility/negotiation policy
 - Canonical protobuf files plus schema-derived public message catalog
 - Deterministic JSON projection and protobuf/JSON semantic round-trip fixtures
-- Authenticated Rustls WSS bidirectional carrier with limits, backpressure, reconnect, error, replay, and denied-access proof
+- Authenticated Rustls WSS bidirectional carrier with limits, backpressure, reconnect, error, replay, and denied-access evidence
 
 ## Acceptance
 
@@ -35,9 +35,10 @@ Reconcile existing ACIP/A2A semantics into one versioned envelope, protobuf sche
 ## Dependencies
 
 - WP-04 gate issue 5821 terminal
-- WP-04-IMP issue 5862 terminal after issues 5863 through 5878 integrate
-- Current ACIP stream and trace/replay baselines requalified at the implementation revision
-- Stable Runtime API/auth ownership before issues 5795 and 5837 integrate
+- WP-04-IMP issue 5862 gates only final distributed exact-head integration and native receipt reconciliation
+- WP-14 protocol, schema, catalog, negotiation, authentication, and WSS work proceeds independently before final integration
+- Issue 5795 consumes terminal WP-14 for final browser-to-Shepherd integration
+- AWS GPU Shepherd sidecar issue 5907 follows terminal WP-14 and local issue 5795 and does not gate either lane
 
 ## Inputs
 

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8d41f336d8a8940f446bc1a8cc646c2998249b1f4bddb564ab78aa91dfb005b4",
   "phase": "ready",
-  "generation": 45,
-  "digest": "3530a5f0e220c867ceb8ab549fcbfdf5cc3a6438d58b1fe44a3c24e0cdc22812",
+  "generation": 47,
+  "digest": "cfc5c21149e07d0d3e0a5737ac1dacf06ef7dad7696931e5202b25eface1c3c1",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6f85d7186cbe190e5d54a942824307d9868643181adfaeffdbd45359fcc11b42",
+      "values_digest": "84824542e0a87cda87c1e393b7d62d2428b13d28d9b6b6e67ccefca47adb75c0",
       "rendered_digest": "826d262e4aaf4db6481842387902e694ae33804194702ef314841f9c7ecc180b",
       "ast_digest": "768d885615cf498f49a3439c76d8064db8b0ea7143b113bb9cf0b96f5e0e8113"
     },
     "stp": {
-      "values_digest": "2232c59f891450a52d9765e1c11f4887c8c3385bf8b07512b47f97002a468182",
-      "rendered_digest": "fcb8960a6808bfb4ae273696e3fb36104e228b63a57ef7bdea598f55f404cd31",
-      "ast_digest": "b09d7af57f31e4e58dce94f9831bf8deff19c6a8c2c8a7b40c68ada28195ca65"
+      "values_digest": "3fcc7c384d3c3dc3342cc20ba2dddf451339cb11595dff147055d9f4d58a8987",
+      "rendered_digest": "a6d36cde1e9bb06c6fbcdc9707bc4141bccae37b77516e7176ff0c454a6a09b8",
+      "ast_digest": "5185dff74a5c5e819d3bc3cb1d8d382916838c2178f0d385c98728d0553eb966"
     },
     "spp": {
-      "values_digest": "0b7ebcee3a8d330cce3cebb4ed5b2269e5f25b697eb4b6efbd2dc82aca0d11d9",
+      "values_digest": "eee1a4114acc8120f7519724c8e60424b703a8e13b9a263ebe114439d7f19502",
       "rendered_digest": "c95534c67bf43c6c5ff4d2636df22a6c394c0b08b475ed56c473df514ec2cbd4",
       "ast_digest": "0d476df69ee98788ce51f3276fb4c954e31f7ae5d649a2af6050a2987b17fde7"
     },
     "vpp": {
-      "values_digest": "a7b64f778367b05e07e68215939ba1c2fbc01e26accf457b17b35b14dbed9740",
+      "values_digest": "9216b8e79f9c56b2b928f5ae2c20e98286c1d29238b47bb80a7b762f5cd6e64c",
       "rendered_digest": "975791317dd0ac834cb2364d3457195f3f2c296e0f9be0b7fb6f455a1f5df885",
       "ast_digest": "9db2e09da27c49ab52b9b5ff5be612189b08af0e2e23a2f93d8ab5cf550cb49d"
     },
     "srp": {
-      "values_digest": "88afbe31847292815f56c81fd74dd3009f6ceaa86c87959ed04b759051ecbf15",
+      "values_digest": "e57806083dde01c99048c3fa0b17b1ad254e86bbc3e7946eaa7921abb23cd9d4",
       "rendered_digest": "392116f8b2844eb2b47b558a12a08332f1744646fdb5b0f4bc7c416cac8c3a6f",
       "ast_digest": "a48218debfd779486aad8db28be59e8799ba3c84d1f15ddd8d17c336df8a86a7"
     },
     "sor": {
-      "values_digest": "86f399612838f38c51e099fddf090deca170bcf093fa79947b45cb3070a68e12",
+      "values_digest": "8227350d194fbc8ef1bc6376e48b5c3285623b21234b333b8e378b3d17fdcd56",
       "rendered_digest": "ca00a3cb3f454ba45ff64b773e445a3beb4be7e3336cfbe573de8d542dc1488c",
       "ast_digest": "805bf932776db506a84bc733ada010a45567e55b0d7223d73fd194d885406962"
     }
@@ -497,6 +497,20 @@
       "actor": "codex:5832-scheduling-correction",
       "reason": "Activate the operator-approved independent protocol lane while preserving the final distributed integration gate.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 60,
+      "generation": 46,
+      "actor": "codex:5832-scheduling-correction",
+      "reason": "Keep deliverable prose distinct from validator file targets while preserving the accepted protocol outcome.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Frozen versioned semantic envelope and compatibility/negotiation policy\",\"Canonical protobuf files plus schema-derived public message catalog\",\"Deterministic JSON projection and protobuf/JSON semantic round-trip fixtures\",\"Authenticated Rustls WSS bidirectional carrier with limits, backpressure, reconnect, error, replay, and denied-access evidence\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 47,
+      "actor": "codex:5832-scheduling-correction",
+      "reason": "Record independent sprint sequencing and isolate optional AWS work from the WP-14 critical path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-04 gate issue 5821 terminal\",\"WP-04-IMP issue 5862 gates only final distributed exact-head integration and native receipt reconciliation\",\"WP-14 protocol, schema, catalog, negotiation, authentication, and WSS work proceeds independently before final integration\",\"Issue 5795 consumes terminal WP-14 for final browser-to-Shepherd integration\",\"AWS GPU Shepherd sidecar issue 5907 follows terminal WP-14 and local issue 5795 and does not gate either lane\"]}"
     }
   ]
 }
