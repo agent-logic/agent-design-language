@@ -56,8 +56,9 @@ jobs:
         run: |
           evidence=".csdlc/evidence/5832/native/${PLATFORM}"
           mkdir -p "$evidence"
+          printf '' >"$evidence/proof.json"
           set +e
-          ADL_ACIP_PROOF_OUTPUT="$evidence/proof.json" cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail production_acip_wss >"$evidence/stdout.log" 2>"$evidence/stderr.log"
+          ADL_ACIP_PROOF_OUTPUT="${GITHUB_WORKSPACE}/${evidence}/proof.json" cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail production_acip_wss >"$evidence/stdout.log" 2>"$evidence/stderr.log"
           exit_code=$?
           set -e
           python - "$evidence/stdout.log" "$evidence/stderr.log" <<'PY'
