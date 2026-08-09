@@ -31,7 +31,7 @@ Revision 1
       "AC-4",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -39,7 +39,7 @@ Revision 1
     "acceptance_ids": [
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -92,13 +92,13 @@ Revision 1
 
 .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md
 
-Digest: 546a88f2ad71bb367629a9b986f8f805ca7cd5b41f47104207c8c317dd3f3b13
+Digest: 00185aa3f0d4ec1560ad6ba5c1ae1657140c5f39893319f2ca93a9780002a5b6
 
 ## Diagram
 
 .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
 
-Digest: f2a686c350e84e3fdf2e8b56249b571f8f8d33a09ddf9ebd7b3558dadc7e9b6a
+Digest: 4a913a54de9f946a71fae039b64bf14d88865f3e22b69e53224d00b787dd873a
 
 ## Stop Conditions
 

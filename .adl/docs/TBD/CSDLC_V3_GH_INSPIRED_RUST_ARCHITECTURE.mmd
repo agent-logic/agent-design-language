@@ -24,22 +24,44 @@ flowchart TD
   P06 --> P08["V3-08 Transactions"]
   P07 --> P08
   P04 --> P09["V3-09 Effect adapters"]
-  P05 --> P10["V3-10 Local commands"]
-  P06 --> P10
-  P07 --> P10
-  P08 --> P10
-  P09 --> P10
-  P06 --> P11["V3-11 PVF"]
-  P08 --> P11
-  P09 --> P11
+  P05 --> P09
+  P05 --> P10A["V3-10A Issue and bind"]
+  P06 --> P10A
+  P07 --> P10A
+  P08 --> P10A
+  P09 --> P10A
+  P05 --> P10B["V3-10B Card and doctor"]
+  P06 --> P10B
+  P07 --> P10B
+  P08 --> P10B
+  P09 --> P10B
+  P01 --> P11A["V3-11A PVF planning"]
+  P06 --> P11A
+  P11A --> P11B["V3-11B PVF execution"]
+  P08 --> P11B
+  P09 --> P11B
   P08 --> P12["V3-12 Review gates"]
-  P10 --> P12
-  P04 --> P13["V3-13 GitHub and terminal ops"]
+  P10A --> P12
+  P10B --> P12
+  P04 --> P13["V3-13 GitHub observation"]
   P08 --> P13
   P09 --> P13
   P12 --> P13
-  P10 --> P14["V3-14 Parity and cutover"]
-  P11 --> P14
+  P13 --> P14["V3-14 PR mutation and watch"]
+  P04 --> P14
+  P08 --> P14
+  P09 --> P14
   P12 --> P14
-  P13 --> P14
-  P14 --> R01["V3-R01 Deferred v2 retirement"]
+  P14 --> P15["V3-15 Finish and clean"]
+  P08 --> P15
+  P09 --> P15
+  P12 --> P15
+  P10A --> P16["V3-16 Parity and cutover"]
+  P10B --> P16
+  P11A --> P16
+  P11B --> P16
+  P12 --> P16
+  P13 --> P16
+  P14 --> P16
+  P15 --> P16
+  P16 --> R01["V3-R01 Deferred v2 retirement"]

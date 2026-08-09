@@ -368,6 +368,9 @@ tests never construct Clap commands.
 `App` is the Rust translation of the `gh` factory:
 
 ```rust
+type SyncInit<T> = std::sync::OnceLock<Result<T, Arc<AppError>>>;
+type AsyncInit<T> = tokio::sync::OnceCell<Result<T, Arc<AppError>>>;
+
 pub struct App {
     pub io: Arc<dyn Io>,
     pub clock: Arc<dyn Clock>,
@@ -376,10 +379,10 @@ pub struct App {
     pub process: Arc<dyn ProcessRunner>,
     pub prompt: Arc<dyn Prompter>,
 
-    config: OnceCell<Arc<Config>>,
-    repository: OnceCell<RepositoryContext>,
-    issue: OnceCell<IssueContext>,
-    github: OnceCell<Arc<dyn GitHub>>,
+    config: SyncInit<Arc<Config>>,
+    repository: SyncInit<RepositoryContext>,
+    issue: SyncInit<IssueContext>,
+    github: AsyncInit<Arc<dyn GitHub>>,
 }
 ```
 
@@ -397,9 +400,17 @@ command receives `&App` and cannot replace dependencies. Domain functions
 receive narrow trait references or plain values, not the whole application
 container.
 
-Use `tokio::sync::OnceCell` only for values that may require async
-initialization. Use `std::sync::OnceLock` for local synchronous values. Cache
-errors only when retrying within the same invocation would be incorrect.
+| Field | Cell | Initialization boundary |
+| --- | --- | --- |
+| `config` | `SyncInit` | Repository/user configuration reads and parsing |
+| `repository` | `SyncInit` | Local Git/config and filesystem observation |
+| `issue` | `SyncInit` | Synchronous derivation from repository and arguments |
+| `github` | `AsyncInit` | Credential resolution and hosted client initialization |
+
+The `Result` is cached so all consumers observe one initialization outcome.
+Changing a sync field to require async work is an architecture revision, not an
+implementation convenience. Remote observation never belongs in `repository`
+or `issue` initialization; commands request it explicitly from `github`.
 
 ## Async Boundary
 
@@ -420,6 +431,19 @@ only when their duration warrants it.
 
 No task is detached. Every spawned task belongs to an invocation-scoped
 `JoinSet` or cancellation token and is joined or cancelled before exit.
+The root invocation installs explicit `SIGINT` and `SIGTERM` handling where the
+platform supports them and maps console interruption to the same cancellation
+token. PVF children, foreground watches, and blocking adapter work must observe
+that token, terminate boundedly, and join before the process returns.
+
+`tokio_util::sync::CancellationToken` is created once at invocation start and
+cloned only into structured child scopes. On interruption, root cancels the
+token, requests termination of every registered OS child, continues polling all
+network and sleep operations through `tokio::select!`, drains bounded output,
+and awaits every `JoinSet` entry before returning 130. Dropping a `JoinSet` is
+not accepted as join proof. Unix children receive `SIGTERM` followed by bounded
+kill escalation; Windows children use the reviewed job/process termination
+primitive and are awaited before exit.
 
 ## Repository And Issue Context
 
@@ -537,10 +561,28 @@ A crash before the state replacement leaves the old state authoritative. A
 crash after replacement leaves the new state authoritative. `doctor` can
 regenerate projections from either committed state.
 
+That statement is platform-qualified. `V3-08` must approve and prove a commit
+primitive matrix before mutation support ships: same-filesystem rename plus the
+required directory/data synchronization on Linux; the reviewed full-sync and
+rename sequence on macOS; and a specifically proven replacement/recovery
+protocol on supported Windows filesystems. Windows builds and read-only
+commands remain supported even if equivalent mutation durability is not yet
+proven, but Windows state mutation must then fail closed as unsupported. The
+plan must never silently downgrade crash consistency to preserve a platform
+claim.
+
 Remote mutations use a typed intent committed before the network mutation.
 Retries load and resume that intent, perform exhaustive readback, and reconcile
 one result. Operation keys and exact markers prevent duplicate issues, PRs,
 comments, and closure actions.
+
+Remote work has two distinct durable phases. Before the network call, the store
+locks the issue, validates expected state, writes and syncs a typed intent, syncs
+its parent directory, and releases the lock. Only then may the adapter perform
+the remote mutation. After exact readback, the store reacquires the lock and
+runs the ten-step state transaction above to reconcile the observed result and
+retire the intent. A crash after intent commit but before reconciliation leaves
+a resumable intent, never an unrecorded remote side effect.
 
 ## Card Editing
 
@@ -652,8 +694,11 @@ may become an explicitly authorized operation remains an operator decision.
 
 `clean` is separate. Its default output is a preview of the exact eligible
 worktree and artifacts. It rejects dirty, open, live, mismatched, or
-unregistered worktrees. Deletion requires explicit confirmation and never
-includes build or cache directories from other worktrees.
+unregistered worktrees. Eligibility canonicalizes the candidate path and
+requires exact equality with the worktree root observed from Git; prefix or
+relative-path matching is insufficient. Deletion requires explicit
+confirmation and never includes build or cache directories from other
+worktrees.
 
 ## Output And Error Model
 
@@ -682,6 +727,7 @@ Errors use one enum with stable codes:
 | 5 | conflict | Generation, topology, or remote identity conflict. |
 | 6 | waiting | External state is healthy but not terminal. |
 | 7 | operator_required | Policy requires human authority. |
+| 130 | interrupted | The operator or host cancelled the invocation. |
 
 `thiserror` supplies implementation errors, but public JSON errors use a
 separate stable envelope containing code, summary, details, retry posture,
@@ -732,7 +778,7 @@ binary surface and must not depend on ADL product crates.
 | Closed vocabularies | `strum` |
 | Markdown AST | `markdown` (`markdown.rs`) |
 | Errors | `thiserror` |
-| Async runtime | `tokio`, `tokio-util` |
+| Async runtime and cancellation | `tokio`; `tokio-util` for `CancellationToken` |
 | Object-safe async adapter traits | `async-trait` |
 | GitHub | `octocrab` with Rustls |
 | HTTP middleware | One maintained bounded retry/middleware stack |
@@ -833,7 +879,7 @@ spike and canary measure them.
 | Installed executables | 21 | 1 | 95 percent reduction | High |
 | Operator skills | 11 | 1 | 91 percent reduction | High |
 | Release binary artifacts | 21 | 1 | Approximately 95 percent reduction | High |
-| Rust source lines | 22,258 | 12,000-16,000 | 28-46 percent reduction | Medium-low |
+| Rust source lines | 22,258 | 12,000-16,000 | 28-46 percent reduction | Low; revise after spike |
 | Routine request-file use | Common | Exceptional automation path | 60-80 percent reduction | Medium |
 | Routine operator interactions | Current measured baseline required | 30-50 percent fewer | To be measured | Medium-low |
 | Routing and stale-context incidents | Current measured baseline required | 40-60 percent fewer | To be measured | Low |
@@ -853,6 +899,11 @@ The construction spike records:
 - source and test lines for the vertical slice;
 - compiler and error clarity for a representative contributor task.
 
+Source-line measurement uses one declared `tokei` or `scc` profile over authored
+Rust only. Generated files and macro/derive expansion are excluded from both
+baselines. The spike must define an explicit extrapolation method from the
+vertical slice before the full-system line target becomes binding.
+
 The shadow and canary phases record:
 
 - commands and elapsed time per issue lifecycle;
@@ -863,11 +914,14 @@ The shadow and canary phases record:
 - normalized parity mismatches;
 - time to diagnose and resolve failures.
 
-The estimated complete delivery cost is 12-20 engineer-weeks plus 2-4 weeks of
-shadow and canary observation. Parallel work may reduce calendar time, but it
-does not remove dependency gates or independent review. The expected practical
-payback is 6-12 months at ADL's issue volume, driven mainly by reliability and
-maintenance reduction rather than saved keystrokes.
+The issue-level estimate currently totals approximately 20-37 engineer-weeks,
+or 24-44 engineer-weeks with planning contingency, plus 2-4 weeks of shadow and
+canary observation. Three carefully bounded parallel lanes may reduce calendar
+delivery to approximately 10-16 weeks before observation, but they do not remove
+dependency gates or independent review. All ranges are revised after V3-02.
+The expected practical payback remains 6-12 months at ADL's issue volume,
+driven mainly by reliability and maintenance reduction rather than saved
+keystrokes.
 
 ## Migration From v2
 
@@ -914,15 +968,56 @@ Migration is one-way and does not dual write.
 ### Phase 6: Cutover and later deletion
 
 - Require independent review and operator approval.
+- Stage and validate v3 state without granting it mutation authority.
+- Freeze the issue, archive the exact v2 state, atomically remove the canonical
+  v2 index, and durably publish a typed `migrated_to_v3` writer-fence record.
+- Require v3 to observe both the writer fence and the absence of a writable v2
+  index before its first mutation.
+- Update the supported v2 binary and repository guards to reject every mutation
+  for fenced issues. A stale binary may still edit a working copy, so CI and
+  cutover audits reject any reintroduced v2 index or post-fence v2 mutation.
 - Switch one command authority to the single v3 binary.
 - Retain a time-bounded read-only v2 importer.
 - Delete v2 authority only through a later reviewed issue after rollback expiry.
 
+The writer fence is revocation metadata, not a dual-written lifecycle record.
+A crash before v2 index removal leaves v2 authoritative. A crash after removal
+but before the v3 authority switch leaves the issue blocked and recoverable from
+the archived exact state; it never enables both writers. Rollback is a reviewed
+forward reconciliation that restores one authority, not an attempt to erase
+remote history.
+
 ## Implementation Issue Plan
 
 This section defines future issue specifications. Issue #73 does not authorize
-creating or executing them. Identifiers `V3-01` through `V3-14` and `V3-R01`
-are planning references, not GitHub issue numbers.
+creating or executing them. Identifiers `V3-01` through `V3-09`, `V3-10A/B`,
+`V3-11A/B`, `V3-12` through `V3-16`, and `V3-R01` are planning references, not
+GitHub issue numbers. This is 18 implementation issues plus one deferred
+retirement issue.
+
+| Issue | Planning estimate in engineer-weeks |
+| --- | ---: |
+| V3-01 | 0.5-1.0 |
+| V3-02 | 1.0-1.5 |
+| V3-03 | 0.75-1.25 |
+| V3-04 | 1.0-2.0 |
+| V3-05 | 1.0-2.0 |
+| V3-06 | 1.5-2.5 |
+| V3-07 | 1.0-2.0 |
+| V3-08 | 2.0-3.0 |
+| V3-09 | 1.0-2.0 |
+| V3-10A | 0.75-1.5 |
+| V3-10B | 1.0-2.0 |
+| V3-11A | 0.75-1.25 |
+| V3-11B | 1.5-2.5 |
+| V3-12 | 1.0-2.0 |
+| V3-13 | 1.0-2.0 |
+| V3-14 | 1.0-2.0 |
+| V3-15 | 1.5-2.5 |
+| V3-16 | 2.0-4.0 plus the observation window |
+
+These ranges are decomposition estimates, not commitments. V3-02 revises them
+using measured build, source, test, adapter, and command-slice evidence.
 
 ### Dependency Graph
 
@@ -938,31 +1033,55 @@ flowchart TD
     P06 --> P08["V3-08 Transaction store"]
     P07 --> P08
     P04 --> P09["V3-09 Typed effect adapters"]
-    P05 --> P10["V3-10 Card, bind, and doctor commands"]
-    P06 --> P10
-    P07 --> P10
-    P08 --> P10
-    P09 --> P10
-    P06 --> P11["V3-11 PVF validation"]
-    P08 --> P11
-    P09 --> P11
+    P05 --> P09
+    P05 --> P10A["V3-10A Issue and bind commands"]
+    P06 --> P10A
+    P07 --> P10A
+    P08 --> P10A
+    P09 --> P10A
+    P05 --> P10B["V3-10B Card and doctor commands"]
+    P06 --> P10B
+    P07 --> P10B
+    P08 --> P10B
+    P09 --> P10B
+    P01 --> P11A["V3-11A PVF planning"]
+    P06 --> P11A
+    P11A --> P11B["V3-11B PVF execution"]
+    P08 --> P11B
+    P09 --> P11B
     P08 --> P12["V3-12 Exact review and publication gates"]
-    P10 --> P12
-    P04 --> P13["V3-13 GitHub, PR, finish, and clean"]
+    P10A --> P12
+    P10B --> P12
+    P04 --> P13["V3-13 GitHub observation"]
     P08 --> P13
     P09 --> P13
     P12 --> P13
-    P10 --> P14["V3-14 Parity, canary, and cutover"]
-    P11 --> P14
+    P13 --> P14["V3-14 PR mutation and watch"]
+    P04 --> P14
+    P08 --> P14
+    P09 --> P14
     P12 --> P14
-    P13 --> P14
-    P14 --> R01["V3-R01 Deferred v2 retirement"]
+    P14 --> P15["V3-15 Finish and clean"]
+    P08 --> P15
+    P09 --> P15
+    P12 --> P15
+    P10A --> P16["V3-16 Parity, canary, and cutover"]
+    P10B --> P16
+    P11A --> P16
+    P11B --> P16
+    P12 --> P16
+    P13 --> P16
+    P14 --> P16
+    P15 --> P16
+    P16 --> R01["V3-R01 Deferred v2 retirement"]
 ```
 
-`V3-04` and `V3-05` may run in parallel after `V3-03`. `V3-09` may proceed in
-parallel with domain work after the application contracts stabilize. Every
-other edge is a hard gate. Stacked PRs may express these dependencies, but a
-child cannot claim integrated proof from an unmerged parent.
+`V3-04` publishes its reviewed adapter-interface checkpoint before `V3-05`
+starts against fakes. V3-04 and V3-05 may then overlap. `V3-09` begins only
+after the V3-05 repository observation contract is stable. `V3-10A/B` and
+`V3-11A` may proceed in parallel after their incoming gates. Every other edge
+is a hard gate. Stacked PRs may express dependencies, but a child cannot claim
+integrated proof from an unmerged parent.
 
 ### V3-01: Freeze Product Contract And Retained Invariants
 
@@ -980,8 +1099,8 @@ live state mutation, child command implementation, or v2 behavior changes.
 dispositions.
 
 **Deliverables:** A versioned contract manifest, retained-v2 invariant register,
-normalized parity schema, command/help golden packet, and explicit unsupported
-behavior register.
+versioned normalized parity/import schema, importer retention policy,
+command/help golden packet, and explicit unsupported behavior register.
 
 **Acceptance criteria:**
 
@@ -990,6 +1109,8 @@ behavior register.
 - Exact review, GitHub truth, topology ownership, atomic state, and cleanup
   boundaries cannot be weakened by later implementation choices.
 - Unknown or intentionally changed v2 behavior is explicit and reviewed.
+- The importer remains available until the later of all v2-origin issues
+  reaching terminal state or the operator-approved rollback window expiring.
 
 **Validation proof:** Schema validation, golden command-tree comparison,
 invariant-to-issue coverage, duplicate/omission checks, and independent contract
@@ -1014,13 +1135,17 @@ language selection, or undeclared reuse of v2 entry points.
 
 **Deliverables:** Spike source, dependency inventory, build/startup/test
 measurements, implementation-size report, trait/object-safety decision, YAML
-parser decision, and promote-or-discard disposition.
+parser decision, Octocrab capability-gap inventory for every required GitHub
+operation, and promote-or-discard disposition.
 
 **Acceptance criteria:**
 
 - The slice uses one binary and one library with the proposed four layers.
 - Parsing initializes no repository, credentials, network, or child task.
 - Fake adapters reject unexpected operations and support deterministic tests.
+- Every required GitHub operation is classified as native typed Octocrab,
+  reviewed raw request, or unsupported. More than three required raw-request
+  operations trigger GitHub client dependency re-evaluation before V3-13.
 - Measurements either satisfy approved thresholds or trigger architecture
   revision before `V3-03`.
 
@@ -1072,22 +1197,27 @@ I/O, configuration, error, cancellation, and observability services.
 
 **Scope:** `App`, lazy sync/async initialization, streams, TTY and prompting,
 configuration precedence, credential references, cancellation token, tracing,
-redaction, operation IDs, error-to-exit mapping, and test constructors.
+redaction, operation IDs, OS signal handling, error-to-exit mapping, and test
+constructors.
 
 **Non-goals:** Domain lifecycle behavior, concrete GitHub endpoints, state
 transactions, detached telemetry, update checks, or background services.
 
 **Dependencies:** `V3-03`.
 
-**Deliverables:** Narrow traits, production and fake constructors, typed config
-schema, error taxonomy, cancellation policy, tracing contract, and redaction
-fixtures.
+**Deliverables:** Narrow traits, an independently reviewed adapter-interface
+checkpoint, production and fake constructors, typed config schema, error
+taxonomy, cancellation policy, tracing contract, and redaction fixtures.
 
 **Acceptance criteria:**
 
 - One `App` exists per invocation and no mutable global service locator exists.
+- `Git`, `FileSystem`, and `ProcessRunner` signatures are reviewed and frozen at
+  an explicit checkpoint before parallel V3-05 or V3-09 implementation begins.
 - Expensive or credential-bearing services initialize only on demand.
 - Async adapter traits remain object-safe without infecting pure domain APIs.
+- Supported OS and console interruption signals drive root cancellation and
+  bounded child/task teardown before exit code 130.
 - Machine output is stdout-only and diagnostics/tracing are stderr-only by
   default.
 - Secrets and machine-local paths are absent from durable output.
@@ -1113,8 +1243,9 @@ projections.
 **Non-goals:** V3 state writes, binding, lifecycle transitions, GitHub mutation,
 or automatic conversion of v2 records.
 
-**Dependencies:** `V3-03`; shared service interfaces from `V3-04` may be consumed
-through a stable contract while implementation proceeds in parallel.
+**Dependencies:** `V3-01` normalized parity/import schema, `V3-03`, and the
+reviewed adapter-interface checkpoint from `V3-04`. V3-04 and V3-05 may overlap
+only after that checkpoint is committed.
 
 **Deliverables:** Repository and issue context types, discovery adapter,
 read-only importer, compatibility report, representative v2 fixture corpus,
@@ -1125,6 +1256,9 @@ and normalized parity output.
 - Resolution precedence is explicit and produces one canonical identity.
 - Symlink, path escape, ambiguous remote, and ambiguous issue cases fail closed.
 - Every unsupported v2 field is reported with record and field identity.
+- Unsupported fields produce `ImportStatus::BlockedUnsupportedFields`; the
+  record cannot enter a v3 mutation path until every field has a reviewed
+  preserve, map, or explicit operator disposition.
 - Import never writes v2 or v3 state and does not infer missing authority.
 
 **Validation proof:** Temporary-repository matrix, malicious path fixtures,
@@ -1215,8 +1349,10 @@ multi-file atomicity claims, GitHub mutation, or cleanup of unrelated paths.
 
 **Dependencies:** `V3-06` and `V3-07`.
 
-**Deliverables:** Transaction store, recovery engine, intent schema,
-interruption matrix, filesystem capability policy, and concurrency fixtures.
+**Deliverables:** Transaction store, recovery engine, intent schema, explicit
+pre-network intent commit and post-readback reconciliation protocols,
+interruption matrix, per-platform sync/replacement safety matrix and harness,
+filesystem capability policy, and concurrency fixtures.
 
 **Acceptance criteria:**
 
@@ -1224,6 +1360,11 @@ interruption matrix, filesystem capability policy, and concurrency fixtures.
 - Cards, evidence indexes, and audit views are repairable projections.
 - Stale generation/digest writers fail before commit.
 - Every injected interruption converges to the prior or new valid state.
+- A remote operation cannot begin before its typed intent and parent directory
+  are durably synced; recovery resumes committed intents through exact readback.
+- Linux, macOS, and every mutation-enabled Windows filesystem have a named,
+  documented, fault-tested commit primitive; unproven Windows mutation fails
+  closed while compile and read-only support remain available.
 - Locks protect transaction integrity without becoming lifecycle authority.
 
 **Validation proof:** Fault injection at every write/sync/rename boundary,
@@ -1246,7 +1387,8 @@ resolution, timeout/cancellation, output caps, and structured observations.
 **Non-goals:** Shell scripts as internal control flow, arbitrary command
 evaluation, GitHub API behavior, lifecycle decisions, or secret persistence.
 
-**Dependencies:** `V3-04`; contract fields from `V3-01`.
+**Dependencies:** `V3-01` command allowance policy, the stable adapter-interface
+checkpoint from `V3-04`, and the repository observation contract from `V3-05`.
 
 **Deliverables:** Git and process traits, production adapters, fakes, command
 allowance policy, credential resolver, cancellation integration, and redaction
@@ -1267,70 +1409,141 @@ tests, and fake-adapter unexpected-call rejection.
 **Stop conditions:** Any adapter invokes a shell, logs secrets, accepts ambiguous
 topology as authority, or cannot terminate and join a child process.
 
-### V3-10: Implement Card, Bind, Doctor, And Local Issue Commands
+### V3-10A: Implement Local Issue And Bind Commands
 
-**Objective:** Deliver the complete local operator journey over the kernel and
-transaction store.
+**Objective:** Deliver issue initialization, observation, and topology-bound
+execution context over the kernel and transaction store.
 
-**Scope:** `issue init/show/status`, `card show/edit/render`, `doctor`, `bind`,
-local schema-aware repairs, topology checks, and human/JSON presentation.
+**Scope:** `issue init/show/status`, `bind`, repository and issue selection,
+topology collision checks, typed request/result schemas, and human/JSON
+presentation.
 
-**Non-goals:** PVF execution, formal review, PR publication, live GitHub
-mutation, finish, cleanup removal, or v2 cutover.
+**Non-goals:** Card editing, doctor repair guidance, PVF execution, formal
+review, GitHub mutation, finish, cleanup, or cutover.
 
 **Dependencies:** `V3-05`, `V3-06`, `V3-07`, `V3-08`, and `V3-09`.
 
-**Deliverables:** Local command modules, typed request/result schemas, edit
-operations, doctor finding taxonomy, bind topology proof, and end-to-end local
-fixtures.
+**Deliverables:** Issue and bind command modules, direct-flag and `--input`
+contracts, topology proof, collision taxonomy, and end-to-end local fixtures.
 
 **Acceptance criteria:**
 
 - Common paths use direct flags while `--input` provides typed automation.
-- Card edits mutate semantic values and regenerate all affected projections.
-- Bind verifies actual branch/worktree topology and rejects collisions.
-- Doctor is read-only, specific, and identifies the next valid operation.
-- Repeated successful commands are idempotent.
+- Bind verifies actual canonical branch/worktree topology and rejects every
+  same-issue, cross-issue, main-branch, missing, dirty-policy, and drift case.
+- Issue commands remain idempotent and never infer ownership from branch names
+  alone.
+- Human and JSON results preserve the same typed outcome.
 
-**Validation proof:** Parser/run tests, temporary-repository journeys, card
-schema/structure checks, topology collision matrix, no-write doctor assertions,
-human/JSON snapshots, and v2 normalized parity.
+**Validation proof:** Parser/run tests, temporary-repository journeys, complete
+topology collision matrix, idempotency tests, human/JSON snapshots, and v2
+normalized parity.
+
+**Stop conditions:** Binding trusts requested rather than observed topology,
+repository identity is ambiguous, or common use still requires request files.
+
+### V3-10B: Implement Card And Doctor Commands
+
+**Objective:** Deliver semantic card operations and a specific read-only doctor
+without making rendered Markdown authoritative.
+
+**Scope:** `card show/edit/render`, `doctor`, schema-aware repair planning,
+projection drift, finding taxonomy, next-valid-operation derivation, and
+human/JSON presentation.
+
+**Non-goals:** Binding, PVF execution, formal review, GitHub mutation, automatic
+repair without typed edit authority, finish, cleanup, or cutover.
+
+**Dependencies:** `V3-05`, `V3-06`, `V3-07`, `V3-08`, and `V3-09`.
+
+**Deliverables:** Card command modules, semantic edit operations, doctor finding
+registry, read-only repair recommendations, projection repair fixtures, and
+typed result schemas.
+
+**Acceptance criteria:**
+
+- Card edits mutate semantic values and regenerate all affected projections.
+- Rendered Markdown and stale projections never become input authority.
+- Doctor is read-only, specific, and identifies the next valid operation.
+- Projection drift, invalid schema, unsupported import fields, and topology
+  blockers remain distinguishable.
+
+**Validation proof:** Card schema/structure checks, semantic-edit round trips,
+projection drift/repair fixtures, no-write doctor assertions, finding snapshots,
+and v2 normalized parity.
 
 **Stop conditions:** Commands hand-edit rendered files, doctor mutates state,
-binding trusts requested rather than observed topology, or common use still
-requires request files.
+repair invents missing authority, or findings collapse distinct blockers.
 
-### V3-11: Implement PVF Planning And Validation Execution
+### V3-11A: Implement PVF Planning Domain
 
-**Objective:** Implement governed, classifiable validation planning, execution,
-status, and evidence recording.
+**Objective:** Implement the pure governed model for validation manifests,
+classification, resource profiles, dependencies, and lane selection.
 
-**Scope:** `validate plan/run/status`, lane manifests, PVF classification,
-resource profiles, budgets, deterministic/deferred/live distinctions, bounded
-parallel groups, process cancellation, evidence digests, and result projection.
+**Scope:** `validate plan`, lane manifest schema, PVF classification, proof
+roles, determinism and live/deferred posture, resource profiles, budgets,
+parallel-group DAG rules, and planning results.
 
-**Non-goals:** Embedding product test logic, hidden CI routing, cloud runners,
-background queues, authority from passing tests, or review publication.
+**Non-goals:** Process execution, scheduling runtime, timing behavior, evidence
+writes, cloud runners, review, publication, or authority from planned tests.
 
-**Dependencies:** `V3-06`, `V3-08`, and `V3-09`.
+**Dependencies:** `V3-01` validation contract and `V3-06` state/schema model.
 
-**Deliverables:** Validation domain, manifest schema, scheduler, evidence model,
-process integration, result renderer, and representative lane fixtures.
+**Deliverables:** Pure validation-planning domain, manifest schema, exhaustive
+classification tables, DAG validator, typed errors, and representative plans.
 
 **Acceptance criteria:**
 
 - Every lane declares proof role, determinism, resource profile, gate posture,
-  command, timeout, and evidence destination.
-- Pending, deferred, blocked, failed, skipped, and passed remain distinct.
-- Parallel tasks are bounded, joined, and cancelled as a structured scope.
+  command, timeout, dependencies, and evidence destination.
+- Pending, deferred, blocked, failed, skipped, and passed cannot be conflated.
+- Cycles, duplicate ownership, missing acceptance coverage, and hidden routing
+  policy fail before execution.
+- Planning has no process, network, clock, or filesystem side effects beyond
+  declared input loading.
+
+**Validation proof:** Exhaustive classification tables, DAG property tests,
+schema round trips, invalid-plan corpus, deterministic ordering tests, and v2
+normalized parity.
+
+**Stop conditions:** Ordinary test code acquires routing policy, classification
+depends on ambient state, or a malformed plan can reach execution.
+
+### V3-11B: Implement PVF Execution And Evidence
+
+**Objective:** Execute approved PVF plans with bounded structured concurrency,
+OS child control, cancellation, and tamper-evident evidence.
+
+**Scope:** `validate run/status`, bounded scheduler, process adapter integration,
+parallel groups, timeouts, root cancellation, child termination/drain, output
+caps, evidence digests, result projection, and interruption recovery.
+
+**Non-goals:** Planning-policy invention, embedded product test logic, hidden CI
+routing, implicit cloud runners, background queues, review, or publication.
+
+**Dependencies:** `V3-11A`, `V3-08`, and `V3-09`.
+
+**Deliverables:** Scheduler, process registry, cancellation wiring, evidence
+model, result renderer, interruption fixtures, and representative local journeys.
+
+**Acceptance criteria:**
+
+- Parallel tasks are bounded and every Tokio task is awaited after cancellation.
+- Every OS child is registered with root cancellation; Unix termination uses
+  bounded `SIGTERM`/kill escalation and Windows uses the reviewed termination
+  primitive, followed by handle wait and output drain.
+- Every sleep and network/process await participates in `tokio::select!` with
+  cancellation.
+- Incomplete, cancelled, timed-out, or tampered evidence cannot appear passed.
 - Passing validation cannot authorize review, publication, or merge.
 
-**Validation proof:** Classification tables, scheduler determinism tests,
-timeout/cancellation stress, output/redaction tests, evidence tamper tests,
-deferred-lane negative cases, and representative local PVF journeys.
+**Validation proof:** Scheduler stress, signal/cancellation and child-process
+fixtures on each platform, timeout/drain tests, output/redaction tests, evidence
+tamper tests, interrupted-run recovery, and representative local PVF journeys.
 
-**Stop conditions:** Ordinary tests acquire routing policy, detached jobs remain,
-live/cloud work becomes implicit, or incomplete evidence can appear passed.
+**Stop conditions:** Detached work remains, child termination is unproven on a
+supported platform, live/cloud work becomes implicit, or incomplete evidence
+can appear passed.
 
 ### V3-12: Implement Exact Review And Publication Gates
 
@@ -1344,7 +1557,7 @@ proof, publication intent, and fail-closed review guard.
 **Non-goals:** Hosting model providers, merging PRs, watching checks, terminal
 finish, cleanup, or treating review prose as state authority.
 
-**Dependencies:** `V3-08` and `V3-10`.
+**Dependencies:** `V3-08`, `V3-10A`, and `V3-10B`.
 
 **Deliverables:** Review schemas, independence policy, staleness classifier,
 finding model, publication guard, typed intents, and review fixture corpus.
@@ -1364,44 +1577,118 @@ tests, and tampered-review fixtures.
 **Stop conditions:** Review can approve an unknown revision, actionable findings
 can be hidden, publication can bypass review, or provider identity is overstated.
 
-### V3-13: Implement GitHub, PR, Finish, And Cleanup Operations
+### V3-13: Implement GitHub Adapter And Read-Only Observation
 
-**Objective:** Complete remote publication and terminal operations with typed
-GitHub readback, foreground watching, truthful finish, and separately authorized
-cleanup.
+**Objective:** Establish one typed, mockable GitHub boundary and complete
+read-only issue, PR, check, review, mergeability, and repository observation.
 
-**Scope:** GitHub adapter, issue/PR read and mutation, idempotency markers,
-`pr publish/status/watch`, exact checks and mergeability, optional explicitly
-authorized merge policy, `finish`, cleanup classify/preview/remove, and terminal
-receipts.
+**Scope:** Octocrab client construction, Rustls, authentication, repository
+identity, REST/GraphQL endpoint wrappers, pagination, rate-limit and retry
+classification, response normalization, fake transport registry, and
+`pr status`.
 
-**Non-goals:** Background watchers, polling daemons, implicit merge, remote
-rollback, broad worktree deletion, or deriving terminal truth from local prose.
+**Non-goals:** GitHub mutation, publication, foreground watch, merge, finish,
+cleanup, lifecycle transitions, or raw `gh`/shell fallback.
 
 **Dependencies:** `V3-04`, `V3-08`, `V3-09`, and `V3-12`.
 
-**Deliverables:** Typed Octocrab adapter, fake transport registry, publication
-and watch commands, finish reconciler, cleanup classifier/remover, receipts,
-and canary scripts expressed as governed PVF lanes.
+**Deliverables:** Narrow GitHub trait, Octocrab adapter, normalized observation
+types, unexpected/unconsumed HTTP fixtures, pagination/retry policy, and
+read-only status commands.
 
 **Acceptance criteria:**
 
-- Every mutation is idempotent and verified by exact remote readback.
-- `pr watch` is foreground, cancellable, bounded, and creates no persistent job.
+- Domain modules depend only on normalized GitHub observations.
+- Pagination, rate limits, authentication, missing resources, and unknown
+  mergeability remain distinct.
 - Required checks bind to exact head SHA and terminal conclusions.
-- Finish derives closure/merge truth from GitHub and never invents a second PR.
-- Cleanup shows the exact target, rejects live/dirty/drifted worktrees, and runs
-  separately after finish.
+- Every raw-request endpoint names its GitHub API reference and has typed
+  request/response structures plus transport-level fixtures.
+- Read-only commands perform no remote or local lifecycle mutation.
 
-**Validation proof:** Unexpected/unconsumed HTTP fixture checks, API pagination
-and retry tests, idempotent mutation tests, watch cancellation tests, finish
-truth table, cleanup safety matrix, and bounded live canary readback.
+**Validation proof:** Unexpected/unconsumed fixture checks, pagination matrices,
+rate-limit and retry tests, exact-head check fixtures, authentication/redaction
+tests, and bounded live read-only canary observation.
 
-**Stop conditions:** GitHub behavior requires raw shell/`gh`, merge occurs
-without explicit policy, watch detaches, finish trusts local state over GitHub,
-or cleanup can escape the registered worktree.
+**Stop conditions:** An endpoint requires raw shell/`gh`, response ambiguity is
+collapsed into success, credentials enter URLs/logs, or observation mutates
+state implicitly.
 
-### V3-14: Prove Parity, Run Canary Migration, And Cut Over Authority
+### V3-14: Implement PR Mutation And Foreground Watch
+
+**Objective:** Implement idempotent PR publication and bounded foreground
+waiting over the reviewed GitHub adapter.
+
+**Scope:** Publication intents, issue/PR/comment mutation, operation markers,
+exact readback, `pr publish`, `pr watch`, check/review/mergeability updates,
+signal cancellation, and optional explicitly authorized merge policy.
+
+**Non-goals:** Finish, cleanup, detached watchers, polling daemons, implicit
+merge, remote rollback, or terminal issue closure reconciliation.
+
+**Dependencies:** `V3-04`, `V3-08`, `V3-09`, `V3-12`, and `V3-13`.
+
+**Deliverables:** Typed mutation operations, durable intent integration,
+publication command, foreground watch, idempotency/readback fixtures, and
+bounded live publication canary.
+
+**Acceptance criteria:**
+
+- No remote mutation begins before its durable intent commit.
+- Every mutation is idempotent and verified by exact remote readback.
+- `pr watch` is foreground, cancellable by root signals, bounded, and leaves no
+  persistent job or unjoined task.
+- Every watch sleep and network await is selected against root cancellation;
+  cancellation drains and joins the watch scope before exit 130.
+- Merge occurs only when the approved explicit policy and operator authority
+  are both present.
+
+**Validation proof:** Intent crash matrix, duplicate-marker tests, remote
+readback fixtures, watch cancellation and timeout tests, stale-head negatives,
+merge-policy tests, and a bounded live canary.
+
+**Stop conditions:** Mutation lacks a resumable intent, watch detaches, exact
+readback is unavailable, merge becomes implicit, or cancellation leaves work
+running.
+
+### V3-15: Implement Finish And Cleanup
+
+**Objective:** Reconcile terminal GitHub truth and provide a separate,
+path-exact, fail-closed cleanup operation.
+
+**Scope:** `finish`, closing PR selection, merged/closed/no-PR outcomes, terminal
+receipts, projection reconciliation, `clean` classify/preview/remove, canonical
+worktree identity, dirty/live/drift predicates, and retained evidence.
+
+**Non-goals:** PR publication, foreground watch, merge, broad cache removal,
+remote rollback, or deletion before terminal reconciliation.
+
+**Dependencies:** `V3-08`, `V3-09`, `V3-12`, `V3-13`, and `V3-14`.
+
+**Deliverables:** Finish reconciler, exact terminal truth table, receipt schema,
+cleanup classifier and remover, preview output, canonical path policy, and
+safety fixtures.
+
+**Acceptance criteria:**
+
+- Finish derives terminal truth from exact GitHub state and never creates or
+  selects an ambiguous second PR.
+- Cleanup is a separate command after finish and defaults to preview.
+- Cleanup requires canonical candidate-path equality with the verified Git
+  worktree root; prefix and relative matches are rejected.
+- Live, dirty, mismatched, absent, unregistered, and already-removed worktrees
+  have distinct outcomes.
+- Build/cache directories from any other worktree are never deletion targets.
+
+**Validation proof:** Terminal outcome matrix, ambiguous-PR negatives, receipt
+tamper tests, canonical/symlink/path-escape fixtures, dirty/live/drift cleanup
+matrix, exact deletion-list proof, and bounded end-to-end canary closeout.
+
+**Stop conditions:** Finish trusts local prose over GitHub, PR selection is
+ambiguous, cleanup cannot prove exact path identity, or deletion scope includes
+another live/open worktree.
+
+### V3-16: Prove Parity, Run Canary Migration, And Cut Over Authority
 
 **Objective:** Prove complete safety parity, execute bounded v3-only canaries,
 migrate authority without dual writes, and perform the separately approved
@@ -1416,8 +1703,8 @@ one operator skill, selector switch, and post-cutover audit.
 remote rollback, migration without freeze/delta reconciliation, or forcing all
 open v2 issues to v3.
 
-**Dependencies:** `V3-10`, `V3-11`, `V3-12`, and `V3-13`; all prior findings
-closed or explicitly accepted by the operator.
+**Dependencies:** `V3-10A`, `V3-10B`, `V3-11A`, `V3-11B`, and `V3-12` through
+`V3-15`; all prior findings closed or explicitly accepted by the operator.
 
 **Deliverables:** Parity matrix, shadow reports, canary receipts, measured effect
 report, migration map, freeze/delta/cutover runbook, rollback criteria, stable
@@ -1429,7 +1716,11 @@ binary installation, operator skill, selector change, and post-cutover audit.
   finish, and cleanup with no unexplained mismatch.
 - Every imported record reports unsupported fields before mutation.
 - At least the approved canary cohort completes end to end on v3-only authority.
-- No issue is writable by v2 and v3 simultaneously.
+- Each migrated issue receives an archived exact v2 snapshot and a durable
+  writer fence; the canonical v2 index is absent before v3 mutation begins.
+- Supported v2 tools and repository guards reject fenced issue mutation and any
+  reintroduced v2 index or post-fence v2 state.
+- No issue is writable by supported v2 and v3 authorities simultaneously.
 - The final delta precedes authority switch; source archival follows cutover.
 - Cutover requires exact independent review and explicit operator approval.
 - V2 remains available only as the time-bounded read-only importer/rollback
@@ -1455,7 +1746,7 @@ documentation cleanup, and final no-v2-authority verification.
 **Non-goals:** V3 feature work, migration repair hidden inside deletion, removal
 of immutable historical evidence, or waiver of unresolved stability findings.
 
-**Dependencies:** `V3-14`, expired rollback window, approved stability metrics,
+**Dependencies:** `V3-16`, expired rollback window, approved stability metrics,
 zero dual-writer findings, and separate explicit operator authorization.
 
 **Deliverables:** Deletion manifest, eligibility decision, retained-evidence
@@ -1496,6 +1787,8 @@ the operator has not explicitly approved removal.
 - Every closed vocabulary is a Rust enum.
 - Every public request and result has one derived versioned schema.
 - Every spawned task is joined or cancelled.
+- `SIGINT`, `SIGTERM`, and supported console interrupts drive root cancellation,
+  bounded child termination, and exit code 130.
 - No shell evaluation and no unsafe Rust.
 
 ### Safety
@@ -1582,6 +1875,8 @@ spike must not mutate real C-SDLC state or become an undeclared production path.
 8. Approve explicit foreground `pr watch` with structured cancellation.
 9. Approve no initial extension system beyond repository-declared PVF runners.
 10. Decide whether `finish` can ever own an explicitly authorized merge.
+11. Approve the per-platform commit matrix and whether Windows mutation support
+    ships initially or remains fail-closed read-only pending equivalent proof.
 
 ## Recommendation
 

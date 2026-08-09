@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Issue #73 Rust architecture, effect targets, diagram, fourteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.
+Issue #73 Rust architecture, effect targets, diagram, eighteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.
 
 ## Prompts
 

@@ -7,13 +7,13 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 2
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #73 Rust architecture, effect targets, diagram, fourteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.",
+      "review_scope": "Issue #73 Rust architecture, effect targets, diagram, eighteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

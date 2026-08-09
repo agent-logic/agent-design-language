@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2f9e8eb1a1614066f9910afdfc20e395fbb4e6c04c4e9235753decdc3850f07",
   "phase": "bound",
-  "generation": 2,
-  "digest": "1f1f3a5f430db47cab2759a8aeb525393bb5fa05d0e6358c3d3e228f8e7e66d3",
+  "generation": 6,
+  "digest": "6d18104e57fc9b0b36f330177b3fca7d5ab76a44d635d32d512da89496ab90a4",
   "branch": "codex/csdlc-v3-gh-architecture",
   "worktree": "/Volumes/FastWork/adl-csdlc-v3-gh-architecture",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:approved-planning-scope",
-      "revision": "546a88f2ad71bb367629a9b986f8f805ca7cd5b41f47104207c8c317dd3f3b13"
+      "reviewer": "codex:initial-review-findings-incorporated",
+      "revision": "00185aa3f0d4ec1560ad6ba5c1ae1657140c5f39893319f2ca93a9780002a5b6"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "21aad363267ff3eb9810ac00648e960d630dfe7cbf0eefba148190b1ddf3784e",
+      "values_digest": "dd4702ee22b506feca827879975855285f74729b65747d785147ebbc0230cc47",
       "rendered_digest": "1cb5586e1e62da6686adc7dcdca91481c534c72542c0d46dd49f15e95620d446",
       "ast_digest": "7024c443c09abfcb6929f814e2c8f30be134e1e8eed2b52f060201f17716a761"
     },
     "stp": {
-      "values_digest": "c3f0d24ca0ab8c583458fbfd19a46275189d0643dde013efd6914437a43c7166",
+      "values_digest": "354bdc942835f85ab0d0d44c9231cba89e3d6bbfa648ce9bcc9a1dde0794f744",
       "rendered_digest": "08d51ab677270d64029597e39a5919516219dac250520e43378052d791943529",
       "ast_digest": "ea0dabda607bf5a93e65c62566cca15f6084c23829147e3d7dbf7416623df76d"
     },
     "spp": {
-      "values_digest": "ef9d3712fe4a1690548fd089114437bc72c9643c96498110cea38fd4128b6233",
-      "rendered_digest": "5611e9c6b1c19a48a301df5f7263c6c63d930af5f9c3fa835a4e3c5a1f20ef28",
-      "ast_digest": "e8ce4368f0e2a7f1da884f93e02d79285bc118043e3a8962c734493b2f6552f3"
+      "values_digest": "33487d8afe06d192b2b84a640f68d577f45f5cdda3d7994e189d6bdf58c3afc9",
+      "rendered_digest": "3cca42e30617da4d7580a76c165fd63728d363899092ebcc63a1af325c6c18f2",
+      "ast_digest": "570d88846249fa62b537948695b918ff90113a064c819a6e12da525b0a8ce4cf"
     },
     "vpp": {
-      "values_digest": "91c48714ffc6246815374adb9507816c1ac2db9289859af180911edeff8fb60d",
+      "values_digest": "1fb18b4105889d25551056bc8fbde6feed1f9f74e08e9d22bff33612228b3910",
       "rendered_digest": "ca0a321dcf544ff4654a88f5bf8f47f1c892cdca7e00ea94a8abb77189cd8b54",
       "ast_digest": "a4e249d518642482154399bd5328d4ba0b7ffcbc10bc2c72c15431180a0a8bd2"
     },
     "srp": {
-      "values_digest": "0255298cc64194189bb30e3093dff7c7426aab9f30f6b20190cc7fabb2cf7af6",
-      "rendered_digest": "1c1f31b2bcdda128947140c7f8794b7c80c7f00498ff181d463d01172ccaa635",
-      "ast_digest": "f889d542ba0884c039b0f715419971bfc3adf75e427d06084a39374eb7479657"
+      "values_digest": "56a700a9c26e4c951c05c116583d16369f20a659bd455b759863f5e23b884218",
+      "rendered_digest": "f144d8fe17e50ce4452c5c8a67bd3c340151675213fd3b23a87ec46c1689797f",
+      "ast_digest": "1244572a744bdc4accab71c72b3fe1134f3a9b09853034f0771b6c46310b7d08"
     },
     "sor": {
-      "values_digest": "61b51e5f5ba9ac6859699874f825bd4ce6eac3e5118e902bdfbe1c4c32e8cc37",
+      "values_digest": "927cc34f04d5b025367ebe74e9130f3f482ca4dcfc82816d4c0a1e5aacca5f10",
       "rendered_digest": "9738c89908566f0f2190b73f20429e6365b23adc2e0e283b47fcdf56e9c4fa71",
       "ast_digest": "e644cbba183f5900968e59112d5fcfa58c584aae21e2348167dd70b7c7f8bdaa"
     }
@@ -98,6 +98,34 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:initial-review-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-73-planning",
+      "reason": "The Rust architecture, effect targets, migration boundaries, diagram, and full issue decomposition are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-73-planning",
+      "reason": "Independent findings-first reviews completed with Gemini 3.1 Pro Preview and Claude Sonnet 4.6 over revision 13aad5fd8039661f1bbbcaff703ee8d50f17c330.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-73-review-reconciliation",
+      "reason": "Reconcile the review denominator with the independently reviewed issue splits.",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Issue #73 Rust architecture, effect targets, diagram, eighteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.\",\"operation\":\"replan\",\"previous_value\":\"Issue #73 Rust architecture, effect targets, diagram, fourteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.\"}"
     }
   ]
 }
