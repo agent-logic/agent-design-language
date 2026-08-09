@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 21
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -95,6 +95,78 @@
             "--",
             ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
             ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "local-link-existence",
+          "proof_role": "Verify the architecture's repository-local comparative-document link resolves.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 10,
+          "budget_tokens": 1000,
+          "argv": [
+            "test",
+            "-f",
+            ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "upstream-source-paths",
+          "proof_role": "Verify every cited official cli/cli source path exists at the pinned upstream revision.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "-C",
+            "/Users/daniel/git/cli",
+            "ls-tree",
+            "--name-only",
+            "-r",
+            "9fc0f70e0ef97446de9166febce546e955675bc3",
+            "--",
+            "cmd/gh/main.go",
+            "internal/ghcmd/cmd.go",
+            "pkg/cmd/root/root.go",
+            "pkg/cmdutil/factory.go",
+            "pkg/cmd/factory/default.go",
+            "pkg/cmd/issue/list/list.go",
+            "pkg/iostreams/iostreams.go",
+            "pkg/cmdutil/errors.go",
+            "pkg/httpmock/registry.go",
+            "cmd/gen-docs/main.go"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "diagram-render",
+          "proof_role": "Render the exact Mermaid dependency graph into retained issue evidence.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "mmdc",
+            "-i",
+            ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+            "-o",
+            ".csdlc/evidence/73/architecture.svg"
           ],
           "parallel_group": "local",
           "defer_reason": null

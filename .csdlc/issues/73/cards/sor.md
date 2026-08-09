@@ -21,6 +21,7 @@ Completed and independently reviewed the Rust C-SDLC v3 architecture, quantified
 - .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md
 - .adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md
 - .csdlc/evidence/73/pre-pr-review.md
+- .csdlc/evidence/73/architecture.svg
 - .csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json
 - .csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json
 
@@ -81,6 +82,53 @@ Completed and independently reviewed the Rust C-SDLC v3 architecture, quantified
     "purpose": "Prove the architecture and diagram remain unchanged from the exact revision passed by both providers.",
     "outcome": "passed",
     "evidence_ref": "Exact reviewed-scope diff was empty."
+  },
+  {
+    "command": [
+      "test",
+      "-f",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md"
+    ],
+    "purpose": "Prove the architecture's repository-local comparative-document link resolves.",
+    "outcome": "passed",
+    "evidence_ref": "The linked comparative Go architecture exists at the declared repository-local path."
+  },
+  {
+    "command": [
+      "git",
+      "-C",
+      "/Users/daniel/git/cli",
+      "ls-tree",
+      "--name-only",
+      "-r",
+      "9fc0f70e0ef97446de9166febce546e955675bc3",
+      "--",
+      "cmd/gh/main.go",
+      "internal/ghcmd/cmd.go",
+      "pkg/cmd/root/root.go",
+      "pkg/cmdutil/factory.go",
+      "pkg/cmd/factory/default.go",
+      "pkg/cmd/issue/list/list.go",
+      "pkg/iostreams/iostreams.go",
+      "pkg/cmdutil/errors.go",
+      "pkg/httpmock/registry.go",
+      "cmd/gen-docs/main.go"
+    ],
+    "purpose": "Prove every cited official cli/cli source path exists at the pinned upstream revision.",
+    "outcome": "passed",
+    "evidence_ref": "The command returned all ten declared upstream source paths."
+  },
+  {
+    "command": [
+      "mmdc",
+      "-i",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+      "-o",
+      ".csdlc/evidence/73/architecture.svg"
+    ],
+    "purpose": "Render the exact Mermaid dependency graph into retained issue evidence.",
+    "outcome": "passed",
+    "evidence_ref": "Mermaid rendered the final graph successfully; the SVG is retained in issue evidence."
   }
 ]
 
