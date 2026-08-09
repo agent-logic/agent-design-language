@@ -4,44 +4,13 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a545ca23817c4e3efccce73310fea81472dff567846aa9fb04fac11418bbde6a",
-  "phase": "reviewed",
-  "generation": 21,
-  "digest": "5a22bc1dbede8ab01192b87de0e6a3a0a569bfd75cfb77ca20d6113085e7d091",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "fa9fec9552d7064076978847e48ba96f0dfe7a9b87f6951be3da8407f0d68d07",
   "branch": "codex/5866-distributed-discovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
-  "review_assignment": {
-    "reviewer": "/root/issue_79/exact_head_review",
-    "assigned_by": "codex:5866-distributed-discovery",
-    "revision": "git-blake3:d4a557f077a4fd13ee195f91347fc04786b01e2e:a1c68cde68abe8dde94b7512c3784bcd51613f63886a5e5d62baeb909a5ba6e4",
-    "scope": [
-      "adl-runtime/src/distributed/discovery.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      ".csdlc/evidence/5866/replay-window",
-      ".csdlc/issues/5866",
-      ".csdlc/prepared/issues/5866/replay-window-vpp.json",
-      ".csdlc/prepared/issues/5866/replay-window-sor.json",
-      ".csdlc/prepared/issues/5866/replay-window-finalize.json"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/issue_79/exact_head_review",
-    "scope": [
-      "adl-runtime/src/distributed/discovery.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      ".csdlc/evidence/5866/replay-window",
-      ".csdlc/issues/5866",
-      ".csdlc/prepared/issues/5866/replay-window-vpp.json",
-      ".csdlc/prepared/issues/5866/replay-window-sor.json",
-      ".csdlc/prepared/issues/5866/replay-window-finalize.json"
-    ],
-    "reviewed_revision": "git-blake3:d4a557f077a4fd13ee195f91347fc04786b01e2e:a1c68cde68abe8dde94b7512c3784bcd51613f63886a5e5d62baeb909a5ba6e4",
-    "findings": [],
-    "residual_risks": [
-      "Discovery remains intentionally unregistered until issue #5878 owns distributed module integration."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -56,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "148a7539dcdbea6be8d8441a8ab2e30e7ee8ae85e714e0f42e19a6becc4f8841",
+      "values_digest": "952c0ae79741f080958c6c3b14c5f4ad371655af35cd46c152e5e0562b4d109b",
       "rendered_digest": "6edde9877a679aa8137562e451dcf42a97d1752a726de69edf5fe1d3e1aa9292",
       "ast_digest": "54dff07d44a80d7c7591cb929f3cc32d18899c13934f570fe82687c25473d639"
     },
     "stp": {
-      "values_digest": "9ced70a135a1202a16fccf7d3058901cce9e4e2203ad9281cfe029e38ce3db95",
+      "values_digest": "3f8e3e89c66dbac6eb5c78bd5fac9d5321c1dc81d2e3aabcb04fa73c21307793",
       "rendered_digest": "5c2f6f7e75055df76b81f86381236400afa8cff2a83bb7c8bbf3d9d035ccbbc8",
       "ast_digest": "bbe33a414fd219c8472a5493f94b769c4a459750e39278331d56b3e2d2a5804c"
     },
     "spp": {
-      "values_digest": "a42b8e2f08c550c8eb110b159cb2f195a8efaeec48e1d6102ca2d807a06db2bb",
+      "values_digest": "d69748a44be79e5e0a1a90133526aaff6b73a003d921356fcfad8d0f1e93c426",
       "rendered_digest": "06039fe18555456e65b78378c039a41455e8130f5a4a551604ae8773e9b9ef4f",
       "ast_digest": "a9be98918825c7954e8473c3ae921e95dbc63e49c1e496a8cc40152482b0137a"
     },
     "vpp": {
-      "values_digest": "a3a87517af97f20e19b4fd2240f94888cf59499d5fa8efcf083d27041f1697f1",
+      "values_digest": "6bf44568c599c0d8907467b62d3b12e7e92c3599ced6e0ab47078390e39aa1d9",
       "rendered_digest": "f3bf23a4523dfd31de42d1582b386c44101149320443406724973f30fb4ab3a0",
       "ast_digest": "33976fdb6fd98e66fdbb9b095eae23b24046bed46566e67b18bb6192c7cfa72f"
     },
     "srp": {
-      "values_digest": "f1c9a202b1837194691f7bb07e5a71acd79b5a185c6ccda90954303871c121a8",
-      "rendered_digest": "4bb01f08c1dd0b26a3260af5c08f4643bc035f27c9caf85da69ea95bb0356594",
-      "ast_digest": "d93926d744afcf9140b4dc5639da08671e79b9e61c45fa879697dd5ef1b3ebc7"
+      "values_digest": "7833d8d1c6344e1d264da2180f9c0e5929b7e53a175d3a63c6a15529766e4a3a",
+      "rendered_digest": "4c1bf34d9ba640291a5ab6305d5e95ccc85127f06964db13c088db795943c4d1",
+      "ast_digest": "e53fbb1edf892eebf1e6e00d42da2196d8fb10fc979900a1c7856927e656c9dc"
     },
     "sor": {
-      "values_digest": "9431623d5f248e60b3b627bae71e8f66e2567bd418b460237eaae44eeaf215cc",
+      "values_digest": "3524b1c0ce80feaaaacbfffb6b3ad0480d2020a63498f7a65ed82202bf8bd3db",
       "rendered_digest": "180984d10c8c26fb7632000679db6abd863a0a5402104122c3e7587307f8e22d",
       "ast_digest": "663c7a5e2821e5efed4bd93dbb3f5fb293866b8958929e2558a1ad74fafe8d46"
     }
@@ -170,6 +139,13 @@
       "to": "reviewed",
       "actor": "codex:5866-distributed-discovery",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Recover self-stale review scope caused solely by including typed issue metadata that the record_review transition necessarily updates; product and replay-window evidence remain byte-identical to the independent passing review."
     }
   ],
   "audit": [
@@ -473,6 +449,13 @@
       "actor": "codex:5866-distributed-discovery",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 22,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Recover self-stale review scope caused solely by including typed issue metadata that the record_review transition necessarily updates; product and replay-window evidence remain byte-identical to the independent passing review.",
+      "operation": "recover_review"
     }
   ]
 }
