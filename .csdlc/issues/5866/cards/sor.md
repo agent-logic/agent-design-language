@@ -12,19 +12,78 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented bounded authenticated seed discovery that treats configured seeds only as expected peer locations, requires live enrollment authority, and emits deterministic non-voting join proposals.
 
 ## Artifacts
 
-- none
+- adl-runtime/src/distributed/discovery.rs
+- adl-runtime/tests/distributed_discovery.rs
+- .csdlc/evidence/5866
 
 ## Execution
 
-- none
+- Added a bounded discovery policy, seed set, message codec, replay guard, and deterministic domain-separated non-voting JoinProposal.
+- Bound authenticated transport identity and certificate generation to live enrollment authority before proposal creation and again after every network await.
+- Fail closed on cancellation, timeout, stale or future requests, replay, wrong domain, malformed or oversized input, authority inconsistency, revocation, rotation, and unsafe time bounds.
+- Retained the source unregistered for issue #5878 integration through the issue-owned temporary path harness.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "ruby",
+      "-rfileutils",
+      "-e",
+      "source='.csdlc/evidence/5866'; targets=Dir['.csdlc/evidence/.csdlc-finalize-5866-*'].select { |path| File.directory?(path) }; abort('unique finalize staging directory required') unless targets.length == 1; Dir.children(source).sort.each { |name| FileUtils.cp_r(File.join(source,name), targets.fetch(0)) }"
+    ],
+    "purpose": "Copy the issue-owned reviewed proof packet into the typed finalize staging directory before validation logs are added.",
+    "outcome": "passed",
+    "evidence_ref": "preserve-digest-bound-proof.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_discovery",
+      "--",
+      "-D",
+      "warnings",
+      "-A",
+      "clippy::absurd_extreme_comparisons"
+    ],
+    "purpose": "Run strict focused Clippy for the discovery test surface.",
+    "outcome": "passed",
+    "evidence_ref": "pvf-distributed-discovery-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_discovery",
+      "--no-tests=fail"
+    ],
+    "purpose": "Run the exact issue-owned distributed discovery nextest target.",
+    "outcome": "passed",
+    "evidence_ref": "pvf-distributed-discovery-tests.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5866/validate-proof-receipt.rb"
+    ],
+    "purpose": "Validate the retained exact-revision proof receipt before typed finalize publication.",
+    "outcome": "passed",
+    "evidence_ref": "pvf-exact-revision-proof-receipt.log"
+  }
+]
 
 ## Integration
 
