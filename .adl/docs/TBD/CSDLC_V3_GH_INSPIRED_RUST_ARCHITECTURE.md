@@ -77,6 +77,11 @@ The upstream source is an MIT-licensed design reference. V3 should not vendor or
 copy `gh` command implementations. C-SDLC domain code remains independently
 authored.
 
+The repository-relative retained manifest at
+`.csdlc/evidence/73/official-cli-source-baseline.json` records the pinned
+revision and Git object identity for every cited path. Validation consumes that
+declared input and does not depend on an operator-specific checkout location.
+
 ### Current C-SDLC v2
 
 The ADL comparison baseline is canonical `main` at:
@@ -90,6 +95,11 @@ skills, 48 Rust source files, approximately 22,258 source lines, and 8,872 test
 lines. V2 established the behavioral and safety baseline. V3 should simplify
 the operator surface and internal composition without pretending those safety
 properties are unnecessary.
+
+Canonical issue `agent-logic/agent-design-language#75` records one known v2
+contract defect that V3 must not preserve: publication cannot currently express
+a truthful non-closing checkpoint PR. V3 treats that issue as product-contract
+input, not as authorization to implement or modify v2 in this planning issue.
 
 ## Recorded Language Decision
 
@@ -511,8 +521,8 @@ The persisted layout matches the Go proposal:
 
 `state.json` is the sole lifecycle and card-state authority. It contains
 identity, lifecycle, typed values for all cards, branch/worktree binding, design
-and diagram references, validation, exact review, publication, terminal state,
-audit events, and digests.
+and diagram references, validation, exact review, publication linkage mode and
+target, terminal state, audit events, and digests.
 
 Intent files are authoritative operation journals only for pending external
 effects. They carry the expected state generation/digest, operation key,
@@ -613,7 +623,8 @@ Remote mutations use a typed operation journal committed before the network
 mutation. Retries load that intent, block any competing mutation, perform
 exhaustive readback, and reconcile one result into lifecycle state. Operation
 keys and exact markers prevent duplicate issues, PRs, comments, and closure
-actions.
+actions. Publication intents bind the selected linkage mode and exact issue
+identity; readback must prove that same mode and relation before reconciliation.
 
 Remote work has two distinct durable phases. Before the network call, the store
 locks the issue, validates expected state, writes and syncs a typed intent, syncs
@@ -676,6 +687,7 @@ The adapter owns:
 - token-source resolution without persisting token contents;
 - issue create, read, update, comment, and close;
 - PR create/update and exhaustive matching-PR reconciliation;
+- exact publication-linkage observation for closing and non-closing PRs;
 - check, review, mergeability, base, head, and exact-SHA observation;
 - split issue/code repository validation;
 - idempotency markers and remote readback;
@@ -730,8 +742,26 @@ authority.
 ## Publication, Watch, Finish, And Clean
 
 `pr publish` verifies repository identity, effective remote URLs, base, branch,
-head SHA, closing linkage, current review, and matching PR cardinality before
-push or PR mutation.
+head SHA, typed linkage, current review, and matching PR cardinality before push
+or PR mutation. Publication requires exactly one explicit linkage mode:
+
+```rust
+enum PublicationLinkage {
+    Closing { issue: QualifiedIssue },
+    PartOf { issue: QualifiedIssue },
+}
+```
+
+`Closing` requires one accepted GitHub closing-keyword relation to the exact
+issue. `PartOf` requires the exact literal relation `Part of owner/repo#number`
+and rejects any closing keyword for that issue. Same-repository input may use an
+unqualified issue selector at the command boundary, but state, intents,
+evidence, and remote readback always normalize it to `owner/repo#number`.
+Split issue/code repositories require qualified linkage input in either mode.
+Missing, mixed, duplicated, ambiguous, or wrong-repository linkage fails before
+mutation. Publication evidence records the enum variant, normalized issue,
+matched body relation, PR identity, and exact head SHA. Reconciliation compares
+all of those fields and cannot reinterpret `PartOf` as closing.
 
 `pr status` performs one observation and exits.
 
@@ -744,8 +774,13 @@ on ready, failed, conflicted, operator-required, timeout, or cancellation. Every
 sleep is cancellation-aware and bounded.
 
 `finish` is the sole terminal authority. It derives terminal state from exact
-local and GitHub predicates. Merge is not implicit. Whether `finish --merge`
-may become an explicitly authorized operation remains an operator decision.
+local and GitHub predicates. A merged `Closing` PR may satisfy the issue-closing
+path only when GitHub closing truth matches the recorded normalized issue. A
+merged `PartOf` PR records a completed checkpoint but leaves the parent issue
+open and cannot advance that issue to `closed_out`; a later closing publication
+or explicit no-PR terminal outcome is required. Merge is not implicit. Whether
+`finish --merge` may become an explicitly authorized operation remains an
+operator decision.
 
 `clean` is separate. Its default output is a preview of the exact eligible
 worktree and artifacts. It rejects dirty, open, live, mismatched, or
@@ -1158,7 +1193,7 @@ and parity contracts that every later issue implements.
 
 **Scope:** The public command tree, versioned requests/results, exit taxonomy,
 canonical state fields, card projections, topology ownership, review,
-publication, finish, cleanup, migration, and supported-platform matrix.
+publication linkage, finish, cleanup, migration, and supported-platform matrix.
 
 **Non-goals:** Rust implementation, dependency selection beyond constraints,
 live state mutation, child command implementation, or v2 behavior changes.
@@ -1171,8 +1206,9 @@ versioned normalized parity/import schema, importer retention policy,
 command/help golden packet, explicit unsupported behavior register, versioned
 JSON envelope and schema-evolution policy, reviewer-principal and independence
 mechanism, per-card/per-phase field optionality table and optional-value
-placeholder, state-size guard, PVF subprocess command-allowance policy, and
-`pr watch` timeout/poll policy.
+placeholder, `PublicationLinkage::{Closing, PartOf}` contract with normalized
+qualified issue identity and relation grammar, state-size guard, PVF subprocess
+command-allowance policy, and `pr watch` timeout/poll policy.
 
 **Acceptance criteria:**
 
@@ -1187,9 +1223,13 @@ placeholder, state-size guard, PVF subprocess command-allowance policy, and
   boundary and cannot invoke a shell or external formatter.
 - Reviewer independence is structurally checked where identity is bindable;
   policy-only identity cannot silently satisfy publication.
+- Closing and non-closing publication are disjoint typed modes; `PartOf` cannot
+  close or terminally complete its parent issue, and split-repository linkage is
+  qualified in both modes.
 
 **Validation proof:** Schema validation, golden command-tree comparison,
-invariant-to-issue coverage, duplicate/omission checks, and independent contract
+invariant-to-issue coverage, publication-linkage truth tables for same-repository
+and split-repository inputs, duplicate/omission checks, and independent contract
 review.
 
 **Stop conditions:** An invariant lacks an owner, a command requires unresolved
@@ -1660,7 +1700,7 @@ recording, staleness, finding disposition, and publication authorization.
 **Scope:** `review assign/record/status`, structurally bound reviewer principals,
 independence enforcement and policy-only limitation handling, exact
 scope/revision identity, findings and dispositions, non-substantive change
-proof, publication intent, and fail-closed review guard.
+proof, mode-bound publication intent, and fail-closed review guard.
 
 **Non-goals:** Hosting model providers, merging PRs, watching checks, terminal
 finish, cleanup, or treating review prose as state authority.
@@ -1670,8 +1710,8 @@ finish, cleanup, or treating review prose as state authority.
 
 **Deliverables:** Review schemas, authenticated/provider-evidence reviewer
 principal model, independence predicate and typed override boundary, staleness
-classifier, finding model, publication guard, typed intents, and review fixture
-corpus.
+classifier, finding model, publication guard, typed intents, mode-bound
+publication authorization evidence, and review fixture corpus.
 
 **Acceptance criteria:**
 
@@ -1685,13 +1725,20 @@ corpus.
 - Human-review publication remains fail-closed until a concrete authenticated
   principal observer implements the V3-04 interface; V3-12 proves this with a
   fake and does not depend on the V3-13 GitHub implementation.
+- Authorization consumes the V3-01 `PublicationLinkage` value, binds it to the
+  exact reviewed revision and target issue, and rejects absent, mixed,
+  ambiguous, or wrong-repository linkage.
+- `PartOf` rejects a closing keyword for its target and `Closing` rejects a
+  non-closing-only relation.
 
 **Validation proof:** Exact-head/staleness matrix, independence-policy tests,
-finding lifecycle tests, non-substantive proof negatives, publication guard
-tests, and tampered-review fixtures.
+finding lifecycle tests, non-substantive proof negatives, same/split-repository
+positive and negative linkage matrices, publication guard tests, and
+tampered-review fixtures.
 
 **Stop conditions:** Review can approve an unknown revision, actionable findings
-can be hidden, publication can bypass review, or provider identity is overstated.
+can be hidden, publication can bypass review, linkage mode is implicit or
+ambiguous, or provider identity is overstated.
 
 ### V3-13: Implement GitHub Adapter And Read-Only Observation
 
@@ -1738,9 +1785,10 @@ state implicitly.
 **Objective:** Implement idempotent PR publication and bounded foreground
 waiting over the reviewed GitHub adapter.
 
-**Scope:** Publication intents, issue/PR/comment mutation, operation markers,
-exact readback, `pr publish`, `pr watch`, check/review/mergeability updates,
-signal cancellation, and optional explicitly authorized merge policy.
+**Scope:** Mode-bound publication intents, issue/PR/comment mutation, operation
+markers, exact linkage readback, `pr publish`, `pr watch`,
+check/review/mergeability updates, signal cancellation, and optional explicitly
+authorized merge policy.
 
 **Non-goals:** Finish, cleanup, detached watchers, polling daemons, implicit
 merge, remote rollback, or terminal issue closure reconciliation.
@@ -1748,14 +1796,20 @@ merge, remote rollback, or terminal issue closure reconciliation.
 **Dependencies:** `V3-04`, `V3-08`, `V3-09`, `V3-12`, and `V3-13`.
 
 **Deliverables:** Typed mutation operations, durable intent integration,
-publication command, foreground watch with 30-minute default, 24-hour maximum,
-15-second default poll interval and stderr progress, idempotency/readback
-fixtures, and bounded live publication canary.
+publication command with explicit `closing | part_of` linkage selection,
+mode-bound publication evidence and reconciliation, foreground watch with
+30-minute default, 24-hour maximum, 15-second default poll interval and stderr
+progress, idempotency/readback fixtures, and bounded live publication canary.
 
 **Acceptance criteria:**
 
 - No remote mutation begins before its durable intent commit.
 - Every mutation is idempotent and verified by exact remote readback.
+- `closing` requires the exact closing relation; `part_of` requires the exact
+  non-closing relation and proves the target issue remains open after PR
+  publication and checkpoint merge observation.
+- Same-repository shorthand normalizes to a qualified identity, while split
+  repositories reject unqualified linkage in either mode.
 - `pr watch` is foreground, cancellable by root signals, bounded, and leaves no
   persistent job or unjoined task.
 - Every watch sleep and network await is selected against root cancellation;
@@ -1765,36 +1819,44 @@ fixtures, and bounded live publication canary.
 - Merge occurs only when the approved explicit policy and operator authority
   are both present.
 
-**Validation proof:** Intent crash matrix, duplicate-marker tests, remote
-readback fixtures, watch cancellation and timeout tests, stale-head negatives,
-merge-policy tests, and a bounded live canary.
+**Validation proof:** Intent crash matrix, duplicate-marker tests, same- and
+split-repository `closing | part_of` positive/negative matrices, missing/mixed/
+ambiguous/wrong-target linkage negatives, evidence/reconciliation fixtures,
+watch cancellation and timeout tests, stale-head negatives, merge-policy tests,
+and bounded live canaries for both linkage modes.
 
-**Stop conditions:** Mutation lacks a resumable intent, watch detaches, exact
-readback is unavailable, merge becomes implicit, or cancellation leaves work
-running.
+**Stop conditions:** Mutation lacks a resumable intent, linkage mode or target
+is not durable, readback can conflate `part_of` with closing, watch detaches,
+exact readback is unavailable, merge becomes implicit, or cancellation leaves
+work running.
 
 ### V3-15: Implement Finish And Cleanup
 
 **Objective:** Reconcile terminal GitHub truth and provide a separate,
 path-exact, fail-closed cleanup operation.
 
-**Scope:** `finish`, closing PR selection, merged/closed/no-PR outcomes, terminal
-receipts, projection reconciliation, `clean` classify/preview/remove, canonical
-worktree identity, dirty/live/drift predicates, and retained evidence.
+**Scope:** `finish`, linkage-aware PR selection, merged/closed/checkpoint/no-PR
+outcomes, terminal receipts, projection reconciliation, `clean`
+classify/preview/remove, canonical worktree identity, dirty/live/drift
+predicates, and retained evidence.
 
 **Non-goals:** PR publication, foreground watch, merge, broad cache removal,
 remote rollback, or deletion before terminal reconciliation.
 
 **Dependencies:** `V3-08`, `V3-09`, `V3-12`, `V3-13`, and `V3-14`.
 
-**Deliverables:** Finish reconciler, exact terminal truth table, receipt schema,
-cleanup classifier and remover, preview output, canonical path policy, and
-safety fixtures.
+**Deliverables:** Finish reconciler, exact linkage-aware terminal truth table,
+checkpoint receipt schema that cannot imply parent closure, terminal receipt
+schema, cleanup classifier and remover, preview output, canonical path policy,
+and safety fixtures.
 
 **Acceptance criteria:**
 
 - Finish derives terminal truth from exact GitHub state and never creates or
   selects an ambiguous second PR.
+- A merged `part_of` publication records checkpoint completion without closing
+  or terminally completing the parent issue; only a matching `closing`
+  publication or explicit no-PR outcome can do so.
 - Cleanup is a separate command after finish and defaults to preview.
 - Cleanup requires canonical candidate-path equality with the verified Git
   worktree root; prefix and relative matches are rejected.
@@ -1804,13 +1866,15 @@ safety fixtures.
 - Cleanup requires committed `closed_out` state and its terminal receipt; a
   GitHub merge without local terminal reconciliation remains ineligible.
 
-**Validation proof:** Terminal outcome matrix, ambiguous-PR negatives, receipt
+**Validation proof:** Linkage-aware terminal outcome matrix, multiple checkpoint
+then closing journeys, ambiguous/mixed-PR negatives, checkpoint/terminal receipt
 tamper tests, canonical/symlink/path-escape fixtures, dirty/live/drift cleanup
 matrix, exact deletion-list proof, and bounded end-to-end canary closeout.
 
 **Stop conditions:** Finish trusts local prose over GitHub, PR selection is
-ambiguous, cleanup cannot prove exact path identity, or deletion scope includes
-another live/open worktree.
+ambiguous, a `part_of` PR can close or terminally complete its parent, cleanup
+cannot prove exact path identity, or deletion scope includes another live/open
+worktree.
 
 ### V3-16: Prove Parity, Run Canary Migration, And Cut Over Authority
 
@@ -1836,8 +1900,9 @@ binary installation, operator skill, selector change, and post-cutover audit.
 
 **Acceptance criteria:**
 
-- Normalized parity covers cards, lifecycle, validation, review, publication,
-  finish, and cleanup with no unexplained mismatch.
+- Normalized parity covers cards, lifecycle, validation, review, both
+  publication linkage modes, linkage-aware finish, and cleanup with no
+  unexplained mismatch.
 - Every imported record reports unsupported fields before mutation.
 - At least the approved canary cohort completes end to end on v3-only authority.
 - Each migrated issue receives an archived exact v2 snapshot and a durable
@@ -1921,6 +1986,9 @@ the operator has not explicitly approved removal.
 - State is the sole atomic commit point.
 - Six cards are deterministic generated projections.
 - Review is exact and blocks publication when stale.
+- Publication evidence and reconciliation preserve explicit `closing | part_of`
+  mode and qualified target identity; non-closing checkpoints cannot close their
+  parent issue.
 - Finish derives terminal truth from exact GitHub state.
 - Cleanup previews and rejects live or dirty worktrees.
 
@@ -1936,8 +2004,8 @@ the operator has not explicitly approved removal.
 ### Migration
 
 - Read-only import reports every unsupported v2 field.
-- Normalized parity covers cards, lifecycle, validation, review, publication,
-  finish, and cleanup.
+- Normalized parity covers cards, lifecycle, validation, review, both
+  publication linkage modes, linkage-aware finish, and cleanup.
 - No issue is writable by v2 and v3 simultaneously.
 - Cutover and deletion are separate operator decisions.
 

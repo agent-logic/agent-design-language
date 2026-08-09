@@ -134,11 +134,11 @@ Completed and independently reviewed the Rust C-SDLC v3 architecture, quantified
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

@@ -126,8 +126,8 @@ Diagram: .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
     "defer_reason": null
   },
   {
-    "lane": "upstream-source-paths",
-    "proof_role": "Verify every cited official cli/cli source path exists at the pinned upstream revision.",
+    "lane": "upstream-source-baseline",
+    "proof_role": "Verify the portable retained cli/cli source manifest binds every cited path and Git object to the pinned revision.",
     "acceptance_ids": [
       "AC-1",
       "AC-6"
@@ -137,24 +137,10 @@ Diagram: .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
     "budget_seconds": 30,
     "budget_tokens": 1000,
     "argv": [
-      "git",
-      "-C",
-      "/Users/daniel/git/cli",
-      "ls-tree",
-      "--name-only",
-      "-r",
-      "9fc0f70e0ef97446de9166febce546e955675bc3",
-      "--",
-      "cmd/gh/main.go",
-      "internal/ghcmd/cmd.go",
-      "pkg/cmd/root/root.go",
-      "pkg/cmdutil/factory.go",
-      "pkg/cmd/factory/default.go",
-      "pkg/cmd/issue/list/list.go",
-      "pkg/iostreams/iostreams.go",
-      "pkg/cmdutil/errors.go",
-      "pkg/httpmock/registry.go",
-      "cmd/gen-docs/main.go"
+      "jq",
+      "-e",
+      ".schema == \"adl.external_source_baseline.v1\" and .repository == \"https://github.com/cli/cli\" and .revision == \"9fc0f70e0ef97446de9166febce546e955675bc3\" and (.objects | length == 10) and (all(.objects[]; .kind == \"blob\" and (.oid | test(\"^[0-9a-f]{40}$\")))) and ([.objects[].path] | sort == [\"cmd/gen-docs/main.go\",\"cmd/gh/main.go\",\"internal/ghcmd/cmd.go\",\"pkg/cmd/factory/default.go\",\"pkg/cmd/issue/list/list.go\",\"pkg/cmd/root/root.go\",\"pkg/cmdutil/errors.go\",\"pkg/cmdutil/factory.go\",\"pkg/httpmock/registry.go\",\"pkg/iostreams/iostreams.go\"])",
+      ".csdlc/evidence/73/official-cli-source-baseline.json"
     ],
     "parallel_group": "local",
     "defer_reason": null
@@ -198,7 +184,7 @@ Tokens: 50000
 - `jq -e -s length == 2 and all(.[]; (.final_status == "ok") and (.request_id | endswith("17041ed7")) and (.output_text | contains("DECISION: PASS"))) and ([.[].route.provider] | sort == ["anthropic", "gemini"]) .csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json .csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json`
 - `git diff --quiet 17041ed7da93d2b4f9c6978053daedeb3b8c1c27 -- .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd`
 - `test -f .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md`
-- `git -C /Users/daniel/git/cli ls-tree --name-only -r 9fc0f70e0ef97446de9166febce546e955675bc3 -- cmd/gh/main.go internal/ghcmd/cmd.go pkg/cmd/root/root.go pkg/cmdutil/factory.go pkg/cmd/factory/default.go pkg/cmd/issue/list/list.go pkg/iostreams/iostreams.go pkg/cmdutil/errors.go pkg/httpmock/registry.go cmd/gen-docs/main.go`
+- `jq -e .schema == "adl.external_source_baseline.v1" and .repository == "https://github.com/cli/cli" and .revision == "9fc0f70e0ef97446de9166febce546e955675bc3" and (.objects | length == 10) and (all(.objects[]; .kind == "blob" and (.oid | test("^[0-9a-f]{40}$")))) and ([.objects[].path] | sort == ["cmd/gen-docs/main.go","cmd/gh/main.go","internal/ghcmd/cmd.go","pkg/cmd/factory/default.go","pkg/cmd/issue/list/list.go","pkg/cmd/root/root.go","pkg/cmdutil/errors.go","pkg/cmdutil/factory.go","pkg/httpmock/registry.go","pkg/iostreams/iostreams.go"]) .csdlc/evidence/73/official-cli-source-baseline.json`
 - `mmdc -i .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd -o .csdlc/evidence/73/architecture.svg`
 
 ## Failure Semantics
