@@ -87,7 +87,7 @@ Implemented bounded authenticated seed discovery that treats configured seeds on
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
