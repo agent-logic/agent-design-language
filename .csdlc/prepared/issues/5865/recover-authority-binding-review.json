@@ -1,0 +1,7 @@
+{
+  "issue": 5865,
+  "expected_generation": 19,
+  "expected_digest": "85a84aa5dc3345d910313018f9f9990166761d963af66289c8cd4e2c11e89ab9",
+  "actor": "codex:5862-sprint3-conductor",
+  "reason": "recover stale review and publication truth after repairing authority-to-TLS binding and completing the missing negative proof surface"
+}

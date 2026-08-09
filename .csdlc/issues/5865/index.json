@@ -3,53 +3,14 @@
   "issue": 5865,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c55fcec9d7fd6a0d4d2da1c93fd714b817b6f697dc7c376a861c603da0e046bf",
-  "phase": "published",
-  "generation": 19,
-  "digest": "85a84aa5dc3345d910313018f9f9990166761d963af66289c8cd4e2c11e89ab9",
+  "phase": "implemented",
+  "generation": 20,
+  "digest": "2031c5f5a24b392819a2cd770d06a42534078ded5166d65413e9d66bc01e5f0b",
   "branch": "codex/5865-maintained-quic-tls-adapter",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5865-transport",
-  "review_assignment": {
-    "reviewer": "Codex independent review subagent /root/review_5864",
-    "assigned_by": "codex:5862-sprint3-conductor",
-    "revision": "git-blake3:a5c1cdd11985d5cb657df2081e09ed2d53660d64:4ae0b64574a4f75302bde6c0daa2903aa212bc855a7aded4c5294571cf7e075f",
-    "scope": [
-      "adl-runtime/src/distributed/transport.rs",
-      "adl-runtime/tests/distributed_transport.rs",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/Cargo.lock",
-      ".csdlc/evidence/5865",
-      ".csdlc/issues/5865"
-    ]
-  },
-  "review": {
-    "reviewer": "Codex independent review subagent /root/review_5864",
-    "scope": [
-      "adl-runtime/src/distributed/transport.rs",
-      "adl-runtime/tests/distributed_transport.rs",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/Cargo.lock",
-      ".csdlc/evidence/5865",
-      ".csdlc/issues/5865"
-    ],
-    "reviewed_revision": "git-blake3:a5c1cdd11985d5cb657df2081e09ed2d53660d64:4ae0b64574a4f75302bde6c0daa2903aa212bc855a7aded4c5294571cf7e075f",
-    "findings": [],
-    "residual_risks": [
-      "WP-04.16 issue #5878 must wire certificate-generation update events to the adapter cancellation token and prove immediate closure of already-blocked old-generation sessions; until integration, WP-04.02 bounded overlap and authorization refresh remain the fail-closed bound."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5865,
-    "pull_request": 67,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/67",
-    "base": "main",
-    "head": "codex/5865-maintained-quic-tls-adapter",
-    "revision": "git-blake3:4f43f75df346c66a919a2f78dbda21e0341781e2:14bd10146176644fdb2e3b43b6af3d16d504df9e3ea145ad545904db89f36aa2",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "12541f548f2198db0029978f0e71f8b04ecf371ffa9f159e14f8621ecdc9bd01",
+      "values_digest": "39ba2cc81cafa5efe69600675e1946c0fb3c1b0ff2a931b1f5f115b57d8efd8a",
       "rendered_digest": "13e5c1536fc46a4b9b62873115b816c445e8dd9e0aa8cbac07ff51478baa3ff4",
       "ast_digest": "6b10c9cfe02ea6f6b9da2328d28b4c0e504260178452d58d93ef65cbf8b681ee"
     },
     "stp": {
-      "values_digest": "2ed22bf94b03841f4ffb453cc462025ed30d1207a2f1f053509426eb1135bc81",
+      "values_digest": "8a01400d7081f03e354a0c2db8dc506a0aed352b3bce60cc750986874c69ad81",
       "rendered_digest": "c27fe58cf3474387770a79c1cf33778ed86d66b3c673fcc69648a8849d808554",
       "ast_digest": "26ec92d17e1c740059210764eba344bd57377205848d891db32fb08e6f4bf520"
     },
     "spp": {
-      "values_digest": "a860d12ac1d07a9e983d7b1368ac00ee4e351b6f819de1f87acb6b5801940187",
+      "values_digest": "02df2f521de582e1fc840b6c66281943e8566f5dba529c6b1cfa400e0cf26196",
       "rendered_digest": "174c3a2ffc37d47d6a6fff57f055a6ea4dc7b7c67de5b730cd2e0c0a6f69d968",
       "ast_digest": "3973bb28719f3ef17af633d9834fee897496eb055eb8d758074d258a7beea44e"
     },
     "vpp": {
-      "values_digest": "bca92f8fbbe3497b0622586970d85bbc2b6f251e0c68c6e50bbebc494b65e8cd",
+      "values_digest": "33f4a6f79bc0ad838465034794dc2ffdd2700bf91fa7d5750eb7bba90c33a8c6",
       "rendered_digest": "2c9cd8d18a4934ebaaa5335a335f741d914c1e3c49fe28eaa4992a32137afd56",
       "ast_digest": "a7690eafdd035a5ad8c7acf27dffe965c64d52563f03c55f56692b2607595cfe"
     },
     "srp": {
-      "values_digest": "84b667842e271f59ca527806dd58d2832476d276827f8425d51c5309fe5a6bc1",
-      "rendered_digest": "3e95e6420b266dbfa3cf5c3a2ffb64b81ffe79160b556dfee345bf7b8f6e6ec5",
-      "ast_digest": "d690100b5f2e4934dff4a47a40d3e425318863166df3c7164f10bb60b5eeb64c"
+      "values_digest": "7571b7cb097ed8d9f8a2c6b36c159071ed2f6e1816414ed91619eb8f18c26e50",
+      "rendered_digest": "760cd1a218ae6546ca6e12f62e475e05327b84669ef744f1fb1db49cc943fcdc",
+      "ast_digest": "cd05e9e671a15f15f1dad9a6dd4f54b5373ede3f9089b9837686d54ea6190b3a"
     },
     "sor": {
-      "values_digest": "df4b189c7e408de9a7138bc74bfba3d860608216253b0b1176c907e90a6adc14",
-      "rendered_digest": "24da1687493c6286ccde3df1b92817f2e293ad8aea7c3822c3d43e027ea187e2",
-      "ast_digest": "5635a4e731e2f8b80a0296fc7555920456d0e2d960fb81250625787c6cd6f51f"
+      "values_digest": "e420a6a9d5cdde2c69df92beedebdd7136ff6a9c22781d31d6ea753084b67e03",
+      "rendered_digest": "6d8ad49da4d09c4d4d2fc2683f9e1ec088272ec913c56b65d28537c984ff0e35",
+      "ast_digest": "93648af6d1a1b4d5af50d9065f99bd91d1fea584f8354b9940c2ecd1b0057e55"
     }
   },
   "transitions": [
@@ -149,6 +110,13 @@
       "to": "published",
       "actor": "codex:5862-sprint3-conductor",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "recover stale review and publication truth after repairing authority-to-TLS binding and completing the missing negative proof surface"
     }
   ],
   "audit": [
@@ -424,6 +392,13 @@
       "actor": "codex:5862-sprint3-conductor",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 40,
+      "generation": 20,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "recover stale review and publication truth after repairing authority-to-TLS binding and completing the missing negative proof surface",
+      "operation": "recover_review"
     }
   ]
 }

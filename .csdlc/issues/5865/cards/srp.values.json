@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter",
     "slug": "v0-92-wp-04-03-quic-tls-transport",
     "version": "v0.92",
-    "generation": 19
+    "generation": 20
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/transport.rs\nadl-runtime/tests/distributed_transport.rs\nadl-runtime/Cargo.toml\nadl-runtime/Cargo.lock\n.csdlc/evidence/5865\n.csdlc/issues/5865",
-      "review_revision": "git-blake3:a5c1cdd11985d5cb657df2081e09ed2d53660d64:4ae0b64574a4f75302bde6c0daa2903aa212bc855a7aded4c5294571cf7e075f",
-      "reviewer": "Codex independent review subagent /root/review_5864",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,10 +23,8 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [
-        "WP-04.16 issue #5878 must wire certificate-generation update events to the adapter cancellation token and prove immediate closure of already-blocked old-generation sessions; until integration, WP-04.02 bounded overlap and authorization refresh remain the fail-closed bound."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
