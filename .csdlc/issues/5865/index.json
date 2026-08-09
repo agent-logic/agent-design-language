@@ -3,13 +3,42 @@
   "issue": 5865,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c55fcec9d7fd6a0d4d2da1c93fd714b817b6f697dc7c376a861c603da0e046bf",
-  "phase": "initialized",
-  "generation": 16,
-  "digest": "0dad826e1135bb0139ca551ad0dbcbe0b80c8d9c73978e15a3bb2ca3fd58d7d9",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "cc60d7830918ee8d05ca44d718a3b7ce8c960e1c8635eb20a60c91dee081a1ad",
+  "branch": "codex/5865-maintained-quic-tls-adapter",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5865-transport",
+  "review_assignment": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "assigned_by": "codex:5862-sprint3-conductor",
+    "revision": "git-blake3:030838da71b769d244073665484b4a8cb26c278a:4c95f66b5d8e6b83bb3dabe44f6dda54176b082b887547f4b6eda0415e32adb3",
+    "scope": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      ".csdlc/evidence/5865",
+      ".csdlc/issues/5865"
+    ]
+  },
+  "review": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "scope": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      ".csdlc/evidence/5865",
+      ".csdlc/issues/5865"
+    ],
+    "reviewed_revision": "git-blake3:030838da71b769d244073665484b4a8cb26c278a:4c95f66b5d8e6b83bb3dabe44f6dda54176b082b887547f4b6eda0415e32adb3",
+    "findings": [],
+    "residual_risks": [
+      "Repository split metadata and generic validator-target readiness drift remain separate control-plane follow-up concerns; the existing qualified PR route and exact retained implementation proof are valid."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,34 +53,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2f3d8ccd81043da7f57ab6a5a002c81847460cb324b979e8f8bd4b7c4bdf4429",
+      "values_digest": "67e56fd9a8211d814ed67b3817972cc16d0c6658559c6087a98aad3ddafb19c2",
       "rendered_digest": "13e5c1536fc46a4b9b62873115b816c445e8dd9e0aa8cbac07ff51478baa3ff4",
       "ast_digest": "6b10c9cfe02ea6f6b9da2328d28b4c0e504260178452d58d93ef65cbf8b681ee"
     },
     "stp": {
-      "values_digest": "57b71a7ac9207763c38471e556fcb9d1f9f2ad789d7bc8bf748634ce36bbeea5",
+      "values_digest": "3a42e062dfba5aea284a5affa73bd6f6c73c9b3398e23643978a15ba07ba8478",
       "rendered_digest": "c27fe58cf3474387770a79c1cf33778ed86d66b3c673fcc69648a8849d808554",
       "ast_digest": "26ec92d17e1c740059210764eba344bd57377205848d891db32fb08e6f4bf520"
     },
     "spp": {
-      "values_digest": "3f839bc11ffae7cf2727ed11e8c6f13d5f924f844febd313719adcafda5b0be9",
+      "values_digest": "4c6f2c65378ab1b43f7b829b45d79c5176b44c69bfb50906dd0daa8a10ddcc46",
       "rendered_digest": "174c3a2ffc37d47d6a6fff57f055a6ea4dc7b7c67de5b730cd2e0c0a6f69d968",
       "ast_digest": "3973bb28719f3ef17af633d9834fee897496eb055eb8d758074d258a7beea44e"
     },
     "vpp": {
-      "values_digest": "97a44b330c635179defb00a2df3f3af825370d7c6c7f7546c38cdf4490d22b78",
+      "values_digest": "9e467234484be430415b05eb9b60e746cf5e8f6fabc2853732893589b8dde267",
       "rendered_digest": "2c9cd8d18a4934ebaaa5335a335f741d914c1e3c49fe28eaa4992a32137afd56",
       "ast_digest": "a7690eafdd035a5ad8c7acf27dffe965c64d52563f03c55f56692b2607595cfe"
     },
     "srp": {
-      "values_digest": "825453170970739e2f2246664352f5f35ed71526534bcb755edbafc51ec3ba3c",
-      "rendered_digest": "27edbfc0190ce3518ca553a2033ed6efa0fe0f95b0f0c53825aa246251586604",
-      "ast_digest": "39961c7b9c3346314fa7fbd670043f587907c9cfda67a0e7fec519fb399c6c7f"
+      "values_digest": "6666819544b341be2e9a0ba4051a954326093884e1257e8ab83cc2f2f351c64a",
+      "rendered_digest": "b2c50df753a9702489d1d4145bbc1d80abde3ec6546e77677f6cde7f7a74b333",
+      "ast_digest": "1ded8603a59d56d56df15e61525d89f91ea79e9b3945b82b0ff9ae3579807fba"
     },
     "sor": {
-      "values_digest": "5e0eb43e5f274544b914c296b4f3096f82f757d5d89772231d4c0fc2ed43667b",
-      "rendered_digest": "91e3df1e90e17adff864c9341ead30dcfce2338b2db616f2f776f2c082a4b890",
-      "ast_digest": "224feb4a691373173f4a197a42dee8cd346722fbd3e3556d10cab347869ec510"
+      "values_digest": "33d7f58d9cabab481b3bba3f83059f9ed9c442b43c75031f19254e93d9d20ec7",
+      "rendered_digest": "f49ee6f38ff1729c431eec298710f890a95791460ab4c181e6700eba825c03d2",
+      "ast_digest": "009c9b5db6130a164e9c0765d675785cada999da67770b9d33241e6da94590d7"
     }
   },
   "transitions": [
@@ -75,6 +104,55 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "recover stale review and publication truth after repairing authority-to-TLS binding and completing the missing negative proof surface"
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -315,6 +393,90 @@
       "actor": "codex:5821-wp04-child-cots-repair",
       "reason": "Require exact proof that all four reviewed dependencies are pinned by the sole manifest owner.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_transport proves mutual authentication, channel bounds, cancellation, malformed-frame denial, peer mismatch, and quinn/rustls/prost/openraft dependency-lock parity in the child-owned manifest and lockfile.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=3e13f9f12418797e9dd2fdc6eba203b2988f8f87e7f1547459e3d2613d0ab646]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5865/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 16,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 36,
+      "generation": 17,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 37,
+      "generation": 17,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 18,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 19,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 40,
+      "generation": 20,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "recover stale review and publication truth after repairing authority-to-TLS binding and completing the missing negative proof surface",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 20,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 21,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 22,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "recover the review assignment so the accepted product repair can refresh incomplete SOR execution truth before exact-head re-review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 23,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "Replace stale prior repair wording with the exact authority-to-TLS binding implementation and its current retained proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Bind each WP-04.02 Transport authorization to the authenticated TLS leaf identity and prove the complete wrong-domain, unrelated-key, stale-replay, and concurrent-stream denial surface.\",\"changes\":[\"Require the exact active signed Transport authority certificate when constructing transport authorization and bind its holder, trust domain, generation, certificate identity, and Ed25519 subject public key.\",\"Parse the authenticated TLS leaf Ed25519 subject key and reject any authority whose trust domain or cryptographic subject does not match the peer binding before network use.\",\"Add negative tests for wrong-domain authority, unrelated TLS subject keys, replay-window boundary staleness, and the configured unidirectional stream ceiling while preserving single-provider AWS-LC Rustls operation.\"],\"artifacts\":[\".csdlc/evidence/5865/execution-proof.json\",\".csdlc/evidence/5865/distributed-transport.stdout.log\",\".csdlc/evidence/5865/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--no-tests=fail\"],\"purpose\":\"Prove 14 focused authenticated transport, authority-binding, replay-window, stream-bound, cancellation, and framing behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5865/exact-child-tests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5865/validate-proof-receipt.rb\"],\"purpose\":\"Recompute the two-revision source, evidence, command, artifact, and negative-case bindings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5865/exact-revision-proof-receipt.log\"}]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 23,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 24,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

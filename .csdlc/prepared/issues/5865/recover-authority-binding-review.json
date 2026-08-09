@@ -1,0 +1,7 @@
+{
+  "issue": 5865,
+  "expected_generation": 21,
+  "expected_digest": "547abb0ef9ebcad3d747864160a19b328f5125e783dd8804005cca0b376c943b",
+  "actor": "codex:5862-sprint3-conductor",
+  "reason": "recover the review assignment so the accepted product repair can refresh incomplete SOR execution truth before exact-head re-review"
+}

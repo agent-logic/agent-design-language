@@ -1,0 +1,27 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5865,
+  "source_revision": "46d23aa6f925725753d17f073ae908f2385433d3",
+  "test_output": ".csdlc/evidence/5865/distributed-transport.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/transport.rs": "7dc19112bc5994cfe5f3f11c6db00857e62f30d13b7d8e60b81186b73e1e0a54",
+    "adl-runtime/tests/distributed_transport.rs": "a2b8e72a831edb7671514a3ef3a2c2d7b06cb02d9dd13234c5ea1336f0e2a7e3",
+    "adl-runtime/Cargo.toml": "8382bb1bca1863b2bb144b2c67d3ebc5766cabf071e354253b5c9c3284301cd1",
+    "adl-runtime/Cargo.lock": "0e73ec19aa686b9a1a1bb10143cc10928aba45ed17e89728c57678284ca5b8b1"
+  },
+  "cases": [
+    {"case": "untrusted_client_certificate", "test": "untrusted_client_certificate_is_rejected_by_mutual_tls", "result": "rejected"},
+    {"case": "non_transport_certificate_purpose", "test": "non_transport_purpose_cannot_authorize_a_transport_session", "result": "rejected"},
+    {"case": "wrong_domain_transport_authority", "test": "transport_authority_rejects_wrong_domain_peer_binding", "result": "rejected"},
+    {"case": "unrelated_tls_subject_key", "test": "transport_authority_rejects_unrelated_tls_subject_key", "result": "rejected"},
+    {"case": "revoked_established_session", "test": "revocation_closes_an_established_authorized_session", "result": "denied"},
+    {"case": "peer_certificate_fingerprint_mismatch", "test": "certificate_fingerprint_mismatch_fails_closed_after_tls_authentication", "result": "fail_closed"},
+    {"case": "authenticated_peer_identity_mismatch", "test": "authenticated_certificate_cannot_claim_a_different_node_identity", "result": "rejected"},
+    {"case": "duplicate_sequence_replay", "test": "duplicate_sequence_is_rejected_with_a_bounded_replay_window", "result": "rejected"},
+    {"case": "stale_sequence_outside_replay_window", "test": "replay_window_accepts_unseen_in_window_and_rejects_stale_sequence", "result": "rejected"},
+    {"case": "concurrent_stream_ceiling", "test": "configured_unidirectional_stream_ceiling_is_enforced", "result": "denied"},
+    {"case": "oversized_and_malformed_frame", "test": "framing_is_bounded_and_rejects_malformed_or_mismatched_identity", "result": "fail_closed"},
+    {"case": "cancellation_and_authorization_expiry", "test": "cancellation_and_authorization_expiry_stop_transport_work", "result": "denied"},
+    {"case": "unreviewed_dependency_drift", "test": "dependency_contract_is_exactly_pinned_in_manifest_and_lockfile", "result": "rejected"}
+  ]
+}
