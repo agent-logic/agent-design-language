@@ -1,0 +1,13 @@
+{
+  "issue": 74,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "72fabf06e756156e3a2d3d488c530aed05f89f1d2660dc1a49e17c21d4a19aba",
+  "actor": "codex:74-implementation",
+  "reason": "The focused legacy-claim topology regression and validation proof are complete.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}

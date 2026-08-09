@@ -3,9 +3,9 @@
   "issue": 74,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
-  "phase": "bound",
-  "generation": 3,
-  "digest": "458634ecf760980e8263157984ada1b2e03e68af6d98f520e29e6d09fd276a3c",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "9983c54bdbff91e9fd346afbf692114ac5c16baef634c5316558d9bed7f072db",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "02be0d8fc84aa3186482cafe0d6dd89028c9f3f3d8d0a74afb1638761011dde3",
+      "values_digest": "a9dc2849a96bae4fa08812d280836d04a36d46bbf04a40da261de158d192c4c4",
       "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
       "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
     },
     "stp": {
-      "values_digest": "c436661ed7c6b1d3daac777a97ad350a092736fdf991494a116f9d4b9dc75fb1",
+      "values_digest": "e539b02f2f5d1c748d68f6b80259b7e3f83414abdce1b225cbd47e5b686ad55b",
       "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
       "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
     },
     "spp": {
-      "values_digest": "270276265062feb48041b33293261fed11155dce867a07a0f50e38385e603886",
+      "values_digest": "f97c926b4c8b97979e206d545511db7021e4ecac5d839f01b9aa09b501254c66",
       "rendered_digest": "7afe725ae340004228f24f6962ab57296d10ba562ffd1df5a1b84c43b7c54be5",
       "ast_digest": "f2f275c834510f1422be245a58b58c0c9861bfde818117ecd083e048b164e3ed"
     },
     "vpp": {
-      "values_digest": "51bb32fb0c0a9f8dbaca52f2b10482c196ccd88d2849808aaa56384539d9b650",
+      "values_digest": "cd4599ca4d37f1744b204814d3bf15cab4c754cac05b4c087d5da0bb2782da3b",
       "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "2543e2602c5f32d6c215aed6baaebd0a575b5b54228151584001c9abe301f4d5",
+      "values_digest": "8615f20ed0a8d642624ffcf2b6b16bd3c104988dc52089a63685b78a3ee83dee",
       "rendered_digest": "4599e657e8432e2cc7b80b4ccc3d3c21615c4f519df6d11aedea55f000ad911a",
       "ast_digest": "44580748ad26c656ece179fc7709ab1812c2f5a6755e7dcf688284a4b746bb1e"
     },
     "sor": {
-      "values_digest": "af22a3930756086c683f55d1aff97fee68c6047a7cddc6bfb7a4140db03b1980",
-      "rendered_digest": "5dccf0e2bfea02001095d3fdde40e930c8fbce43b61e7c47aa878e41d1b9d1f2",
-      "ast_digest": "61f988b17d3324779cff7784d35285e44809aeb16abb5355c69ca59e1a8f6430"
+      "values_digest": "5fc742a466d2a4cfe5ba611f56ed6e16fa61075fb67346a170d1bde1446a53db",
+      "rendered_digest": "e448e9803da6d2552be93d6951adabce9229133afbd0392af57a9a299ab2d3da",
+      "ast_digest": "2713598f68d0a50a0102cabbff38b20439e982cf1db4f0b3f9e554d4cd02b5b0"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:74-implementation",
+      "reason": "The focused legacy-claim topology regression and validation proof are complete."
     }
   ],
   "audit": [
@@ -105,6 +112,27 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:74-implementation",
+      "reason": "Record the bounded exact legacy-claim topology regression.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added the exact claim-bearing foreign topology regression without changing production behavior.\",\"changes\":[\"Extended the real csdlc-bind Gate 2 canary with an unrelated legacy projection containing the retired claim field.\",\"Proved bind leaves the unrelated claim-bearing projection byte-for-byte unchanged.\",\"Proved the same retired field on the relevant issue remains strict corruption while existing collision checks remain fail closed.\"],\"artifacts\":[\"csdlc-v2/tests/gate2.rs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:74-validation",
+      "reason": "Record the focused real-binary topology proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"bind_topology_scan_uses_canonical_record_identity\"],\"purpose\":\"Prove unrelated claim-bearing legacy records are ignored without mutation while relevant corruption and ownership collisions remain fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-74-gate2:1-passed\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:74-implementation",
+      "reason": "The focused legacy-claim topology regression and validation proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

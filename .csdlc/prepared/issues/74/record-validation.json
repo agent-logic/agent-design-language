@@ -1,0 +1,18 @@
+{
+  "issue": 74,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "07cfb61005b571a817ad144f97a74c3e37b1342744c20b1e75b91e80316f2636",
+  "actor": "codex:74-validation",
+  "reason": "Record the focused real-binary topology proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2", "bind_topology_scan_uses_canonical_record_identity"],
+      "purpose": "Prove unrelated claim-bearing legacy records are ignored without mutation while relevant corruption and ownership collisions remain fail closed.",
+      "outcome": "passed",
+      "evidence_ref": "local:issue-74-gate2:1-passed"
+    }
+  },
+  "fail_after_backup": false
+}
