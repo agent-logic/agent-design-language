@@ -4,13 +4,26 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6ca8c33b28e59a6a40eaab39a2d87336a89a8fa78fe98b020e81708264e15196",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "391aa1e3bcfb5de9def5236c4fddeaab117b6dbcd3ee92da004488fce83e3412",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "0ed97bfb1e3c65af50ee7564a20d20fe812446c1ff0eadd8611c482c64331e9d",
   "branch": "codex/79-bind-safe-deferred-targets",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-79-bind-safe-deferred-targets",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:exact_head_review",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:c1997952884fc509338dfd9b0116353fc16d7bd2:7be01b30738dc9219a9c2d24bd4fa546f7bb7be92de7f6fcae6d63d0d66a0db9",
+    "findings": [],
+    "residual_risks": [
+      "The pre-bind #[path] contract is a textual declaration until the test file exists; post-bind target existence and execution remain the proving boundary.",
+      "The live child cards require the demonstrated typed STP/VPP normalization before binding; issue #79 enables but does not mutate child-owned records."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bb80c0ff9649c5648e1d48de89fc4aea6dc0ca8192f73f8c383962d9b0e38e8b",
+      "values_digest": "a290b4dccd4d516ef3ad7b9954904582b31fb12d2e88d5d091c7dff9dfa59a72",
       "rendered_digest": "b104b0517b1468f2efa15e5c6995152fa62fc86a9c851d5c8ed58e0e416c2508",
       "ast_digest": "2f4327a8edb238dd15836002c65d2c53e2b1fb671e76fc190b830a0c527350d4"
     },
     "stp": {
-      "values_digest": "3ea9e84ff201d6339ad61fcd6b39bb693642baa44ca8923b99bc4fdaeb88329c",
+      "values_digest": "90315f417ff39611926beb1df6198504679b0e084ec146cf7009863df81f094d",
       "rendered_digest": "ddad4b63c949e93ce1c96451098897c42678f6998443048b2470d2f052c330a4",
       "ast_digest": "e901f6253ecefb41a514f3159bc684c27a0d9015a88a505a73214af74f89ae07"
     },
     "spp": {
-      "values_digest": "da77fcd8aafc1083aef54b948b7602d3c0c45de16c0773fb4e73959b56920d63",
+      "values_digest": "9b43cfb735587750dcb8396ade6a0cef3e54af293bed1adf369a6b4d7dd2955d",
       "rendered_digest": "9effcacae57796296193ac315866f7675e65c50bdcba13d1bf31a3cc83e71894",
       "ast_digest": "3daf01da82ba41f986e6ffbee6a50fdf65c0bdb7c5bcb13cdd61782798937d10"
     },
     "vpp": {
-      "values_digest": "836e64a1a0845c6cee317f1f8153465c47062471e8d883e618964c5cb83045dd",
+      "values_digest": "e2f801c61c8d3627e95b9e89035f0ed89b4176f5a4c66ec6f1dfc360656db381",
       "rendered_digest": "d5671d16beaded6df3f6e164356f79a413cf8f702b8f7fe9d67fb16eecbd9923",
       "ast_digest": "62d4b7d0b0ecc49ea45c07ce0aa98e92f58653430e2baa6c2204f8fc064c04d3"
     },
     "srp": {
-      "values_digest": "8cea5cce9aae161277e238aa80a7fd495b86787bbaae1894c1de63fb5d1c7107",
-      "rendered_digest": "e743d3c1596cdb51a18ec2cc70e11f8e572de6a570aa55857f3fe7e019204957",
-      "ast_digest": "af4d8dbb90aa77a6a5a0db8a2f47601d4be565592ef3813ac61f9ff385247a38"
+      "values_digest": "9c3d7039b39c256b9d8701aae2ce672807bf7f3b6cf8a6958844f66d66c015b0",
+      "rendered_digest": "82032f74d93619c4bb2ed66ac2a8e398dc4cf1ca23bf19624fe5780f6103e82b",
+      "ast_digest": "4815f4f300e1142e4ce728b5ebc179a54f11ed34b33e87c68d6542e69ead695d"
     },
     "sor": {
-      "values_digest": "4b365f65f7fad4e2945577c24a0c26d21f7fb5ab1bc6051f316e2df206c2ea87",
+      "values_digest": "4195b5f2ab7ffba201d23a8d476f9f25862f6fbcceec51fe8627c5a274f11d88",
       "rendered_digest": "9ad3bf92cd2464b49271d0ee0ae706e09462e5b5578383130e83babde6b21416",
       "ast_digest": "43aeaa276a836d48b8e7a02830f91b82af5c76baac1199e0c974cffa453eae13"
     }
@@ -76,6 +89,13 @@
       "to": "implemented",
       "actor": "codex:79-bind-safe-deferred-targets",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -148,6 +168,13 @@
       "actor": "codex:79-bind-safe-deferred-targets",
       "reason": "Record and resolve the unowned validator deliverable false-readiness finding.",
       "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"P2-unowned-validator-deliverable\",\"severity\":\"p2\",\"summary\":\"A path-shaped missing validator deliverable outside affected-area ownership could be hidden by another proving lane.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"f92980305e38d329444deab4e602869fe5a8f14e\",\"route\":null}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:79-bind-safe-deferred-targets",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

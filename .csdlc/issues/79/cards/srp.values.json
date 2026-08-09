@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC v2][blocker] Permit bind-safe deferred new module and test targets",
     "slug": "bind-safe-deferred-targets",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #79 readiness predicates in cards.rs, focused Gate 2 regressions, lifecycle truth, and no Distributed Guardian product implementation.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".",
+      "review_revision": "git-blake3:c1997952884fc509338dfd9b0116353fc16d7bd2:7be01b30738dc9219a9c2d24bd4fa546f7bb7be92de7f6fcae6d63d0d66a0db9",
+      "reviewer": "subagent:exact_head_review",
       "review_prompts": [
         "Is the exception impossible outside initialized pre-bind admission?",
         "Does every deferred source and test path require exact ownership and deliverable equality?",
@@ -23,30 +23,12 @@
         "Do negative tests independently prove each required fail-closed predicate?",
         "Can prose still be mistaken for a required validator path?"
       ],
-      "findings": [
-        {
-          "id": "P1-live-child-shape",
-          "severity": "p1",
-          "summary": "The positive fixture initially skipped the live prose and null-deferral preparation state.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "f92980305e38d329444deab4e602869fe5a8f14e",
-          "route": null
-        },
-        {
-          "id": "P2-unowned-validator-deliverable",
-          "severity": "p2",
-          "summary": "A path-shaped missing validator deliverable outside affected-area ownership could be hidden by another proving lane.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "f92980305e38d329444deab4e602869fe5a8f14e",
-          "route": null
-        }
+      "findings": [],
+      "residual_risk": [
+        "The pre-bind #[path] contract is a textual declaration until the test file exists; post-bind target existence and execution remain the proving boundary.",
+        "The live child cards require the demonstrated typed STP/VPP normalization before binding; issue #79 enables but does not mutate child-owned records."
       ],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
