@@ -1,7 +1,7 @@
 {
   "schema": "adl.wp04.negative_cases.v1",
   "issue": 5872,
-  "source_revision": "d2dd11bbfddc2f24a6afb849fd3fc417bf57b649",
+  "source_revision": "ac1d0d718e14aafdb8bb71128ef11b4911d77937",
   "cases": [
     {"case": "wrong_domain_holder_certificate_or_signature", "result": "rejected"},
     {"case": "wrong_purpose_revoked_or_unapproved_certificate", "result": "denied"},
