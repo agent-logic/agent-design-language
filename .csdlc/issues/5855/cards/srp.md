@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/5855
-.csdlc/prepared/issues/5855/sprint-execution-packet.yaml
-.csdlc/prepared/issues/5855/sprint-execution-packet.md
-.csdlc/prepared/issues/5855/validate-sprint-readiness.rb
-.csdlc/evidence/5855
+
 
 ## Prompts
 
@@ -34,13 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Shepherd AWS CUDA execution proof remains a deferred follow-on because GPU quota is unavailable.
-- Historical planning prose predates the operator-approved removal of #5837; supported typed Scope, Deliverables, and Acceptance corrections are the current closeout boundary.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b96d8f0a7dfb38e1c61abe040605ab0afa98cf3a:702f8a569ba222b1e22f76dad12bebfda65db652de14aebc4a8e1e1d087ad504")
+Revision: None
 
-Reviewer: Some("openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812")
+Reviewer: None
 
-Result: pass
+Result: pre_review
