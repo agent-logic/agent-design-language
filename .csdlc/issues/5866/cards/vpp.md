@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nonzero target proves bounded authenticated discovery, persistent cross-call request and proposal replay denial, duplicate suppression, stale seed generation refusal, and real Quinn/rustls positive behavior.",
+    "proof_role": "Exact nonzero target proves bounded authenticated discovery, atomic request and proposal replay denial across seeds, live-window capacity denial, expiry recovery, and real Quinn/rustls positive behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -51,7 +51,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
   },
   {
     "lane": "exact-revision-proof-receipt",
-    "proof_role": "Validate fresh two-revision source, command, nonzero test, negative-case, runner, and artifact bindings after review remediation.",
+    "proof_role": "Validate the final two-revision replay-window source, command, nonzero test, negative-case, runner, and artifact bindings.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -65,7 +65,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5866/validate-proof-receipt.rb",
-      ".csdlc/evidence/5866/remediation/execution-proof.json"
+      ".csdlc/evidence/5866/replay-window/execution-proof.json"
     ],
     "parallel_group": "receipt",
     "defer_reason": null
@@ -85,7 +85,7 @@ Tokens: 25000
 ## Commands
 
 - `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_discovery --no-tests=fail`
-- `ruby .csdlc/prepared/issues/5866/validate-proof-receipt.rb .csdlc/evidence/5866/remediation/execution-proof.json`
+- `ruby .csdlc/prepared/issues/5866/validate-proof-receipt.rb .csdlc/evidence/5866/replay-window/execution-proof.json`
 
 ## Failure Semantics
 
