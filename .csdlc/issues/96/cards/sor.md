@@ -79,11 +79,11 @@ Reconciled the Sprint 2 umbrella validator with exact v3 and bounded real legacy
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

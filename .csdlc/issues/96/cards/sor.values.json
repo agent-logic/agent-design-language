@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
     "slug": "v092-v3-umbrella-receipt-topology",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
@@ -72,8 +72,8 @@
           "evidence_ref": "clean exact remediation candidate"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
