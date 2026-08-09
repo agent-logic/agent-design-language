@@ -92,13 +92,13 @@ Revision 1
 
 .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md
 
-Digest: 3824d88a8ca158b049fc25425f9c30fda3052bef07d59faeaf872f9e4276c8d3
+Digest: 9a1bcd583376146b304ce24e3fc5aafa095b340e090da16048bbe06e27a7645e
 
 ## Diagram
 
 .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
 
-Digest: 8639da167eff31451ab165e02686f02afacd4c1ae3bd512a1c487d2a1b60be7f
+Digest: f08101df92bbc04784927ea1ddfe71309b11b402376c12a1cef2b8e1e66ad72b
 
 ## Stop Conditions
 

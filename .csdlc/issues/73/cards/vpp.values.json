@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 29
+    "generation": 33
   },
   "status": "ready",
   "content": {
@@ -69,9 +69,9 @@
             "jq",
             "-e",
             "-s",
-            "length == 2 and all(.[]; (.final_status == \"ok\") and (.request_id | endswith(\"17041ed7\")) and (.output_text | contains(\"DECISION: PASS\"))) and ([.[].route.provider] | sort == [\"anthropic\", \"gemini\"])",
-            ".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json",
-            ".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json"
+            "length == 2 and all(.[]; (.final_status == \"ok\") and (.request_id | endswith(\"7c488b9e\")) and (.output_text | contains(\"DECISION: PASS\"))) and ([.[].route.provider] | sort == [\"anthropic\", \"gemini\"])",
+            ".csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json",
+            ".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json"
           ],
           "parallel_group": "local",
           "defer_reason": null
@@ -91,7 +91,7 @@
             "git",
             "diff",
             "--quiet",
-            "17041ed7da93d2b4f9c6978053daedeb3b8c1c27",
+            "7c488b9eea47cd642128fb0d0b38618083c2693d",
             "--",
             ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
             ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd"
@@ -131,7 +131,7 @@
           "argv": [
             "jq",
             "-e",
-            ".schema == \"adl.external_source_baseline.v1\" and .repository == \"https://github.com/cli/cli\" and .revision == \"9fc0f70e0ef97446de9166febce546e955675bc3\" and (.objects | length == 10) and (all(.objects[]; .kind == \"blob\" and (.oid | test(\"^[0-9a-f]{40}$\")))) and ([.objects[].path] | sort == [\"cmd/gen-docs/main.go\",\"cmd/gh/main.go\",\"internal/ghcmd/cmd.go\",\"pkg/cmd/factory/default.go\",\"pkg/cmd/issue/list/list.go\",\"pkg/cmd/root/root.go\",\"pkg/cmdutil/errors.go\",\"pkg/cmdutil/factory.go\",\"pkg/httpmock/registry.go\",\"pkg/iostreams/iostreams.go\"])",
+            ".schema == \"adl.external_source_baseline.v1\" and .repository == \"https://github.com/cli/cli\" and .default_branch == \"trunk\" and .revision == \"9fc0f70e0ef97446de9166febce546e955675bc3\" and (.objects | length == 10) and (all(.objects[]; .kind == \"blob\" and (.oid | test(\"^[0-9a-f]{40}$\")))) and ([.objects[].path] | sort == [\"cmd/gen-docs/main.go\",\"cmd/gh/main.go\",\"internal/ghcmd/cmd.go\",\"pkg/cmd/factory/default.go\",\"pkg/cmd/issue/list/list.go\",\"pkg/cmd/root/root.go\",\"pkg/cmdutil/errors.go\",\"pkg/cmdutil/factory.go\",\"pkg/httpmock/registry.go\",\"pkg/iostreams/iostreams.go\"])",
             ".csdlc/evidence/73/official-cli-source-baseline.json"
           ],
           "parallel_group": "local",
@@ -162,9 +162,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing issue-plan detail, stale or mismatched review revisions, undispositioned actionable findings, invalid source references, or any expansion into implementation.",
       "design_ref": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
-      "design_digest": "3824d88a8ca158b049fc25425f9c30fda3052bef07d59faeaf872f9e4276c8d3",
+      "design_digest": "9a1bcd583376146b304ce24e3fc5aafa095b340e090da16048bbe06e27a7645e",
       "diagram_ref": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
-      "diagram_digest": "8639da167eff31451ab165e02686f02afacd4c1ae3bd512a1c487d2a1b60be7f"
+      "diagram_digest": "f08101df92bbc04784927ea1ddfe71309b11b402376c12a1cef2b8e1e66ad72b"
     }
   }
 }
