@@ -3,13 +3,89 @@
   "issue": 73,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2f9e8eb1a1614066f9910afdfc20e395fbb4e6c04c4e9235753decdc3850f07",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "8d10b824c4d9f7fd827e2fa37a1c651c772ba82a109e43375b9147e623926033",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "44ff7f814b91dc5327411734471a40f21dc9a8b5a6d5ef07d4bcca67bed886f3",
   "branch": "codex/csdlc-v3-gh-architecture",
   "worktree": "/Volumes/FastWork/adl-csdlc-v3-gh-architecture",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:019fe48f-f585-7623-8263-23de39a1b930",
+    "assigned_by": "codex:issue-73-planning",
+    "revision": "git-blake3:d76dbf7188d68591f9f33f86abea3ca49869fc49:3fcf63aeca729cb9a0447ea6a7ce6cda7f7763b89cfc6c8d94b084bff859567b",
+    "scope": [
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md",
+      ".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019fe48f-f585-7623-8263-23de39a1b930",
+    "scope": [
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md",
+      ".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md"
+    ],
+    "reviewed_revision": "git-blake3:d76dbf7188d68591f9f33f86abea3ca49869fc49:3fcf63aeca729cb9a0447ea6a7ce6cda7f7763b89cfc6c8d94b084bff859567b",
+    "findings": [
+      {
+        "id": "pre-pr-identity-dependency",
+        "severity": "p1",
+        "summary": "V3-12 depended on concrete GitHub human identity before V3-13 implemented the adapter.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d76dbf7188d68591f9f33f86abea3ca49869fc49:3fcf63aeca729cb9a0447ea6a7ce6cda7f7763b89cfc6c8d94b084bff859567b",
+        "route": null
+      },
+      {
+        "id": "pre-pr-intent-authority",
+        "severity": "p1",
+        "summary": "Pending external-operation intents contradicted the unqualified sole machine authority claim.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d76dbf7188d68591f9f33f86abea3ca49869fc49:3fcf63aeca729cb9a0447ea6a7ce6cda7f7763b89cfc6c8d94b084bff859567b",
+        "route": null
+      },
+      {
+        "id": "pre-pr-validation-evidence",
+        "severity": "p2",
+        "summary": "Initial SOR evidence references exceeded the proving power of their recorded commands.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d76dbf7188d68591f9f33f86abea3ca49869fc49:3fcf63aeca729cb9a0447ea6a7ce6cda7f7763b89cfc6c8d94b084bff859567b",
+        "route": null
+      },
+      {
+        "id": "pre-pr-stp-initial-denominator",
+        "severity": "p2",
+        "summary": "One STP deliverable retains the initial fourteen-issue denominator after the reviewed split to eighteen.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "accepted_risk",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "pre-pr-ac6-proof",
+        "severity": "p2",
+        "summary": "AC-6 initially lacked exact local-link, upstream-source-path, and Mermaid-render proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d76dbf7188d68591f9f33f86abea3ca49869fc49:3fcf63aeca729cb9a0447ea6a7ce6cda7f7763b89cfc6c8d94b084bff859567b",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The STP deliverable list preserves the initial fourteen-issue planning denominator because the typed v2 editor rejects STP collection mutation in implemented phase. SIP scope, STP acceptance, SRP scope, the canonical issue, and the reviewed architecture all carry eighteen; no direct card edit or lifecycle bypass was used."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +100,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "83da34481b3dfe6febcf36b11b5c5d77047410e4c1adcbf6899c06ad45177e90",
+      "values_digest": "11b3f1df33616061cb1bcfb4358469c02750c07e15a82c6bd97ae1dde3fa2730",
       "rendered_digest": "09da92d9741a8bc2b3d453937f2db76fa35a90fd0ed36fd415a538825a26f73a",
       "ast_digest": "c977acd6eec2433fc73f9918084cf1438189c708aba796baa4c8f15f35950afa"
     },
     "stp": {
-      "values_digest": "22c5eecef79a11655d4f30dce7f0e4549ae51d1c366fd291ddc9a0f9ebb3f76c",
+      "values_digest": "0c8179126ca879b97369c208d382f8f4233e8bfbf2349279a48ebbef157ab408",
       "rendered_digest": "1b1dfae3a86f48144d49076a4c7e1032ffdc368e29e4ac55493cf951edf9f65b",
       "ast_digest": "0fe071e80aa4030fa52504616b9c76052e916ff081bf1fdadd3e05c3fa068765"
     },
     "spp": {
-      "values_digest": "0c2b8f5c481f142d81cdd840295e76849e7f5d533e1c16b5430daf2713eff85c",
+      "values_digest": "bf6d97ddd8f1036fb5489f2b0f5e1041397d43b3216414a07adfb196247302bb",
       "rendered_digest": "b40417d22c7578fceabca20b158197add6beba4e3a86af24b9b712784fb8f9d7",
       "ast_digest": "dc1b2b714b986ab6e052e3c44e5715fdda09c23dc8ae2d56c548a384ee8761a1"
     },
     "vpp": {
-      "values_digest": "f3438da385df846238870ac762505acca791a64eeb917320db7e268c6284aa03",
+      "values_digest": "3d9cf5aaa8f782ab958bb1e7f4290c12f27cc75015dd8e148a810c960888f42e",
       "rendered_digest": "d611d9bc85e4030a8d0b4307df4f8b99a391577c5fd372d7d4c0f3ca9a0ffb46",
       "ast_digest": "110267d367745da8bbee921735a753ca569f19de2dce6c67872a88f83ceb8940"
     },
     "srp": {
-      "values_digest": "ad844302caddca9edf61abaa615173349d6b6064ebd784857c1d9934ceed71d2",
-      "rendered_digest": "f144d8fe17e50ce4452c5c8a67bd3c340151675213fd3b23a87ec46c1689797f",
-      "ast_digest": "1244572a744bdc4accab71c72b3fe1134f3a9b09853034f0771b6c46310b7d08"
+      "values_digest": "8ac47d2a53382e429b63bf0e7419ee45a2932e997ab682e7532e68fb8682a177",
+      "rendered_digest": "593a64c4230677c7f3a5f7ab64e1ad25fbbce33bc9cc82402762af027344f9b8",
+      "ast_digest": "e1407c70bfcaa65d05f1ccd88fad8963c02e91300aff6336d9623786d30f23b6"
     },
     "sor": {
-      "values_digest": "83eb53dfa38765a4caaae97eb6bbdacb7030a1884945d3236b28ad9c1cffe6a5",
+      "values_digest": "f8c27d0b87276cba5850ce12d27fac51e919b5548e8b63596fb9d4b366d0c5d4",
       "rendered_digest": "dba83910238ef8eea082b5f20fbb1a5e2517ed5e7ef79b57591e42627ef8e53a",
       "ast_digest": "7d5e6938a8e4ca6f5283a390722694725e434264c69f8660dfbe9be14bba9f6b"
     }
@@ -75,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:issue-73-planning",
       "reason": "Advance the planning issue after all plan steps, independent exact-revision reviews, and focused validation passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fe48f-f585-7623-8263-23de39a1b930",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -252,6 +335,20 @@
       "actor": "codex:issue-73-pre-pr-evidence-repair",
       "reason": "Replace the earlier over-broad evidence references with the exact commands and post-pre-PR provider receipts that prove the final packet.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed and independently reviewed the Rust C-SDLC v3 architecture, quantified effect model, safety and migration boundaries, dependency diagram, and 18-issue implementation plan plus deferred v2 retirement.\",\"changes\":[\"Modeled the one-binary Rust command architecture on the pinned official GitHub CLI source baseline.\",\"Defined lifecycle state, pending intent journals, transactions, cancellation, Git, GitHub, review, publication, finish, cleanup, migration, portability, security, validation, and observability contracts.\",\"Sequenced 18 independently bounded implementation issues plus V3-R01 deferred retirement.\",\"Incorporated every actionable Claude, Gemini, and pre-PR subagent finding.\",\"Updated canonical issue #73 to the final planning denominator without creating implementation children.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\".csdlc/evidence/73/pre-pr-review.md\",\".csdlc/evidence/73/architecture.svg\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact final worktree diff hygiene passed.\"},{\"command\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{print s,o,sc,ng,d,dl,ac,v,st,f; exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Prove all 19 specifications contain every required field and code fences are balanced.\",\"outcome\":\"passed\",\"evidence_ref\":\"Output was 19 19 19 19 19 19 19 19 19 36.\"},{\"command\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"purpose\":\"Prove both provider receipts completed, bind the reviewed revision, and contain PASS decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"The exact retained Gemini and Claude receipts evaluated true.\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"purpose\":\"Prove the architecture and diagram remain unchanged from the exact revision passed by both providers.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact reviewed-scope diff was empty.\"},{\"command\":[\"test\",\"-f\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\"],\"purpose\":\"Prove the architecture's repository-local comparative-document link resolves.\",\"outcome\":\"passed\",\"evidence_ref\":\"The linked comparative Go architecture exists at the declared repository-local path.\"},{\"command\":[\"git\",\"-C\",\"/Users/daniel/git/cli\",\"ls-tree\",\"--name-only\",\"-r\",\"9fc0f70e0ef97446de9166febce546e955675bc3\",\"--\",\"cmd/gh/main.go\",\"internal/ghcmd/cmd.go\",\"pkg/cmd/root/root.go\",\"pkg/cmdutil/factory.go\",\"pkg/cmd/factory/default.go\",\"pkg/cmd/issue/list/list.go\",\"pkg/iostreams/iostreams.go\",\"pkg/cmdutil/errors.go\",\"pkg/httpmock/registry.go\",\"cmd/gen-docs/main.go\"],\"purpose\":\"Prove every cited official cli/cli source path exists at the pinned upstream revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"The command returned all ten declared upstream source paths.\"},{\"command\":[\"mmdc\",\"-i\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\"-o\",\".csdlc/evidence/73/architecture.svg\"],\"purpose\":\"Render the exact Mermaid dependency graph into retained issue evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Mermaid rendered the final graph successfully; the SVG is retained in issue evidence.\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:issue-73-planning",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex-subagent:019fe48f-f585-7623-8263-23de39a1b930",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
