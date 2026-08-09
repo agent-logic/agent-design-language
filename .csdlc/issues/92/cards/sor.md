@@ -29,6 +29,7 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
 - Routed Runtime HTTP/WSS through shared Axum/Rustls configuration with pre-bind WebPKI chain, validity, usage, and DNS verification.
 - Reused the shared Rustls policy for Quinn Guardian mTLS and protocol-adapter mTLS without changing Guardian authorization.
 - Aligned Runtime init, OpenAPI, proof scripts, HTML Observatory, Unity, and architecture documentation with externally provisioned certificate ownership.
+- Replaced duplicate hand-built Guardian proof launch logic with the existing production lifecycle runner.
 
 ## Validation
 
@@ -45,7 +46,7 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
     ],
     "purpose": "Axum HTTPS control, shared startup validation, and bounded shutdown",
     "outcome": "passed",
-    "evidence_ref": "23 passed at final implementation head"
+    "evidence_ref": "23 passed at substantive head c57892d0a"
   },
   {
     "command": [
@@ -59,7 +60,7 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
     ],
     "purpose": "Observatory WSS authentication and revocation",
     "outcome": "passed",
-    "evidence_ref": "6 passed at final implementation head"
+    "evidence_ref": "6 passed before review remediation; the Observatory TLS surface was unchanged by remediation"
   },
   {
     "command": [
@@ -73,7 +74,7 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
     ],
     "purpose": "Protocol-adapter mutual TLS and authority rejection",
     "outcome": "passed",
-    "evidence_ref": "13 passed at final implementation head"
+    "evidence_ref": "13 passed at substantive head c57892d0a"
   },
   {
     "command": [
@@ -87,7 +88,7 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
     ],
     "purpose": "Guardian Quinn mutual TLS and identity binding",
     "outcome": "passed",
-    "evidence_ref": "14 passed at final implementation head"
+    "evidence_ref": "14 passed at substantive head c57892d0a"
   },
   {
     "command": [
@@ -101,7 +102,7 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
     ],
     "purpose": "Runtime WSS, ACIP contract, and certificate rejection matrix",
     "outcome": "passed",
-    "evidence_ref": "5 passed at final implementation head"
+    "evidence_ref": "5 passed at substantive head c57892d0a"
   },
   {
     "command": [
@@ -115,7 +116,7 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
     ],
     "purpose": "Expired, not-yet-valid, and unsuitable server-auth certificate rejection",
     "outcome": "passed",
-    "evidence_ref": "1 passed at final implementation head 9acff0a70"
+    "evidence_ref": "1 passed at substantive head c57892d0a with a fixed 2030 verification time"
   },
   {
     "command": [
@@ -130,20 +131,31 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
     ],
     "purpose": "External certificate lifecycle fixture",
     "outcome": "passed",
-    "evidence_ref": "1 passed at final implementation head"
+    "evidence_ref": "1 passed at substantive head c57892d0a"
   },
   {
     "command": [
       "cargo",
-      "check",
+      "test",
       "--locked",
       "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--all-targets"
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract"
     ],
-    "purpose": "All-target compile and contract hygiene",
+    "purpose": "Production Axum route and binary ACIP OpenAPI parity",
     "outcome": "passed",
-    "evidence_ref": "runtime and kernel all-target checks plus JSON, JavaScript, shell, and diff hygiene passed"
+    "evidence_ref": "6 passed after review remediation"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Focused diff hygiene",
+    "outcome": "passed",
+    "evidence_ref": "git diff --check passed after review remediation"
   }
 ]
 

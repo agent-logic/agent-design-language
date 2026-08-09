@@ -654,7 +654,7 @@ async function checkEventsEndpoint(apiBase) {
   }
   if (requestedRuntimeSelection() === "v3") {
     if (!isRuntimeV3ApiBase(base)) {
-      throw new Error("Runtime v3 event checks require the trusted HTTPS localhost:20997 API base.");
+      throw new Error(`Runtime v3 event checks require HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
     }
     const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
     return {

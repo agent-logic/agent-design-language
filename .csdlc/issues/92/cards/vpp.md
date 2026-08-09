@@ -174,12 +174,34 @@ Diagram: .csdlc/prepared/issues/92/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "tls-contract-hygiene",
-    "proof_role": "Prove forbidden production trust shortcuts are absent and scripts, JSON contracts, and the focused diff remain structurally valid.",
+    "lane": "runtime-openapi-contract",
+    "proof_role": "Prove the production Axum route inventory and binary ACIP WebSocket contract match the kernel implementation.",
     "acceptance_ids": [
-      "AC-3",
+      "AC-1",
       "AC-7",
       "AC-8",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract"
+    ],
+    "parallel_group": "contracts",
+    "defer_reason": null
+  },
+  {
+    "lane": "tls-contract-hygiene",
+    "proof_role": "Prove the focused diff has no whitespace or conflict-marker defects.",
+    "acceptance_ids": [
       "AC-10"
     ],
     "deterministic": true,
@@ -214,6 +236,7 @@ Tokens: 50000
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_transport`
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test protocol_adapters`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-lifecycle-soak init_fixture_uses_externally_provisioned_tls`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract`
 - `git diff --check`
 
 ## Failure Semantics
