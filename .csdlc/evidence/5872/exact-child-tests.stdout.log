@@ -1,4 +1,4 @@
-Nextest run ID 8e4f918c-46a6-4996-a826-0cf762b54ba4 with nextest profile: default
+Nextest run ID 15a3cd45-3895-47fc-a4e2-1b4605bb7203 with nextest profile: default
 Starting 10 tests across 1 binary
 PASS resource_weather_policy_rejects_platform_maxima
 PASS freshness_lifetime_and_normalization_bounds_are_explicit
