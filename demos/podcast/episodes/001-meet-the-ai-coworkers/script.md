@@ -9,7 +9,7 @@
 - Gemini role: systems challenger
 - Claude role: human-stakes reframer
 - Pronunciation: say "A D L" as three letters
-- Spoken dialogue source: retained live model output from the ADL runtime
+- Spoken dialogue source: retained model-authored output assembled through the ADL runtime
 - Editorial policy: remove production markers, formatting residue, and stale
   temporary show names without adding human-authored arguments
 

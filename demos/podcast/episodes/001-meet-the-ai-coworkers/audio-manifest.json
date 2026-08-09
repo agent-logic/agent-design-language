@@ -1,7 +1,7 @@
 {
   "schema": "agent-logic.podcast.audio-manifest.v1",
   "episode": 1,
-  "script_sha256": "fb357385b910cb27afd09e11c4b5cb946ba0d5338e4ab5b02a1e83e137c7e835",
+  "script_sha256": "72ba0fa3c0dd604e6987e961d26dfe16eb825777b3aec49056a20336607d45d7",
   "transcript_sha256": "0f771e6222625901c8d6ed21b4083b215ee318e05cb6a2494333f4216af6db3b",
   "dialogue_authors": {
     "ChatGPT": "OpenAI gpt-5.5",

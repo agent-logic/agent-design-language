@@ -28,8 +28,8 @@ can increase human agency rather than bury it in proof.
 
 ## Production Disclosure
 
-The spoken arguments were generated in a live, role-defined conversation by
-ChatGPT, Gemini, and Claude. ChatGPT and Gemini are rendered with distinct
+The spoken arguments were authored in a structured, role-defined exchange by
+ChatGPT, Gemini, and Claude, then assembled and edited for production. ChatGPT and Gemini are rendered with distinct
 OpenAI synthetic voices. Claude is rendered with Deepgram Aura-2 Pluto because
 Anthropic does not provide a reproducible scripted text-to-speech API. Voice
 provider and dialogue authorship remain separate in the production record. A

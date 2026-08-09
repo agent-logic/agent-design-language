@@ -2,7 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/adl-podcast-launch.XXXXXX")"
+EVIDENCE_TMP="$ROOT_DIR/.csdlc/evidence/5845/tmp"
+mkdir -p "$EVIDENCE_TMP"
+TMP_DIR="$(mktemp -d "$EVIDENCE_TMP/adl-podcast-launch.XXXXXX")"
 server_pid=""
 cleanup() {
   if [ -n "$server_pid" ]; then
@@ -99,6 +101,13 @@ expect_failure("guest acceptance overclaim", lambda: validator.validate_guest_pa
 enclosure = json.loads((package / "rss-enclosure.json").read_text(encoding="utf-8"))
 enclosure["bytes"] += 1
 expect_failure("RSS enclosure mismatch", lambda: validator.validate_enclosure_packet(enclosure, episode))
+
+escaped = dict(episode)
+escaped["qa_report"] = "../qa-report.md"
+expect_failure(
+    "metadata path traversal",
+    lambda: validator.resolve_package_child(package, "qa_report", escaped["qa_report"]),
+)
 PY
 
 episode_source="$ROOT_DIR/demos/podcast/episodes/001-meet-the-ai-coworkers"

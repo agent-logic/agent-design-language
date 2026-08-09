@@ -41,6 +41,8 @@ close WP-24A until all ten packages and the integration proof are complete.
 - `demos/podcast/audio/`
 - `demos/podcast/artwork.png`
 - `demos/podcast/S3_CLOUDFRONT_RUNBOOK.md`
+- `demos/podcast/studio`
+- `demos/podcast/studio-reference`
 - `adl/tools/demo_v0911_multiagent_podcast_audio.sh`
 - `adl/tools/generate_podcast_launch_packet.py`
 - `adl/tools/validate_podcast_launch_packet.py`

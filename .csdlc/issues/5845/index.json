@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "62cfffa47d080caf69fa1b1d20e49542e7f455d7c847aae132ae93191d1913fd",
   "phase": "implemented",
-  "generation": 51,
-  "digest": "91d5ed90744528edc344e7596782e51343419da1595c631270f91e3fd127d91a",
+  "generation": 52,
+  "digest": "20bbc2167069c1ef85371c99cc89e41c317457628dc3c4c87c7da31d54909281",
   "branch": "codex/5845-v092-wp24a-readiness",
   "worktree": "/Volumes/FastWork/adl-wp-5845-v092-wp24a",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5845/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "openai-codex:gpt-5:issue-5845-bounded-design-rereview:2026-08-08",
-      "revision": "fe54a00ac4e00f4f210e4ad8efc4688a341ec6484833f1c2871ff992fff79adb"
+      "reviewer": "openai-codex:gpt-5:issue-5845-studio-ownership-design-review:2026-08-08",
+      "revision": "5da2961651c5678c3494dfd5d4cc5c9ad9eba260a5c4fd40942f5a1cf414ed17"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "47619b07e256de3a48fbc0e56c7658640f81fc63c623fc33a9dad0db127d0577",
+      "values_digest": "e00588ea046e264de2c3a36a48b97f214d169ef6a430e9f2e526aefe35d46d98",
       "rendered_digest": "d4dec2ded3a6bfdcd6709c3e32e1e9f36bbb75700f3b5f37ae51c775267cb895",
       "ast_digest": "b77048965f224857095e58e165a5c934557cde7c6d0914a8456834e081a83329"
     },
     "stp": {
-      "values_digest": "ea992a4c6b60a513177faeb5b80ffa6073d7192fd8eaf56d0109865e914b9900",
+      "values_digest": "c8000e5705d223493e7c3c4e0634cca8343d12222d946afb6741ad8608b13cc2",
       "rendered_digest": "12b7ad981e63ce1b111a64b81a10c16211807abd70e67655d5356a6bca9a5555",
       "ast_digest": "7c1c2191d34ea6ad641e3deb975bbcf0d5d0e6a0e753e66a38c4bfdd1fabf7cf"
     },
     "spp": {
-      "values_digest": "7cd7bce8b7b64dded3b94c2f431117970d4a9ceccd1075702ba02306f7edeb7d",
-      "rendered_digest": "53933f6073d8693f26273a7887e278fd20cf3884771cec85998ca5db57787cd3",
-      "ast_digest": "aa64fff0e5d0dbfc107f5b71bb1b09ae9a41126be25ddf431a325c5e1f4059a1"
+      "values_digest": "b357d2fb87c90517a7c8bc8f876239e6aa62c3d973c8f59d73e09ca56430b71c",
+      "rendered_digest": "56e968e3fa46f02372b9ece582a408a4152bde5976ebc05a254fe088d1aedce4",
+      "ast_digest": "bf24028bfc20fbbadcc38926def799ba54e8968ca2c9138a889da48366e6aaff"
     },
     "vpp": {
-      "values_digest": "9c7f66a8f766aaf1f3d215b40e207577db2d43a746ca8dc56c6bced2a3ceaab7",
+      "values_digest": "7b129ea6a1bbb982a4c958cbfc1f3ef0023b2109c5cf9c07823be1650e65e533",
       "rendered_digest": "edf0864946a8a347556af42b4e1aa7e56b5020d0f90cafc9573134f5e49d123f",
       "ast_digest": "786f4e5c5f3ff082c52f2654dfe40cdaaf337cd65dcf4ecb49b4062c447c0673"
     },
     "srp": {
-      "values_digest": "74f03ce29e80d92b08961d7e4af390d097f67ca36b43ef30c63714a67a2182d4",
+      "values_digest": "4e86dc56c1638aebe08596f3b8d2141dc5fcd5afbe9a0567014a5e438df564c9",
       "rendered_digest": "66584b02c22d0bbd0817ef755e84c0fd40420199f03ce8fe7b33a5b7b8a75a9f",
       "ast_digest": "f5b2ec19198beddd171eda9407d02c311e89b54ced36ac7aaead57db2f9f06a0"
     },
     "sor": {
-      "values_digest": "5060da3b9bc58f9ae84f0b0e8eefaf2af4c80f9ebd1aa4e940a77a3dcd873b38",
+      "values_digest": "53813d69b5779ab41d8ca3621f151d804585a3a2937ff6a86a5dee468282814c",
       "rendered_digest": "c02b4fc742b8497ca0fb16a8b9db0c7cb272891bd32eb9ef8ffe50814d151110",
       "ast_digest": "c2a0d258e7437d05cd06518af5e42ca7100a1ee39a495fcd6e76c941df0bc59a"
     }
@@ -602,6 +602,13 @@
       "actor": "codex:5845-pr69-review-remediation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 73,
+      "generation": 52,
+      "actor": "openai-codex:gpt-5:issue-5845-studio-ownership-design-review:2026-08-08",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

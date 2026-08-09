@@ -18,7 +18,7 @@ is not presented as an unrehearsed real-time conversation.
 - ChatGPT dialogue author: OpenAI `gpt-5.5`
 - Gemini dialogue author: Google `gemini-3.1-pro-preview`
 - Claude dialogue author: Anthropic `claude-opus-4-8`
-- Final script SHA-256: `fb357385b910cb27afd09e11c4b5cb946ba0d5338e4ab5b02a1e83e137c7e835`
+- Final script SHA-256: `72ba0fa3c0dd604e6987e961d26dfe16eb825777b3aec49056a20336607d45d7`
 
 ## Voice Provenance
 

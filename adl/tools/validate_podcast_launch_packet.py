@@ -260,6 +260,17 @@ def validate_enclosure_packet(packet: dict, metadata: dict) -> None:
             fail(f"RSS enclosure packet {field} does not match episode metadata")
 
 
+def resolve_package_child(package_root: Path, field: str, relative: object) -> Path:
+    if not isinstance(relative, str) or not relative:
+        fail(f"episode metadata is missing required package path {field}")
+    if Path(relative).name != relative:
+        fail(f"episode metadata {field} must name a direct package child")
+    path = package_root / relative
+    if path.is_symlink() or path.resolve().parent != package_root.resolve():
+        fail(f"episode metadata {field} escapes the episode package")
+    return path
+
+
 def validate_storage_manifest(root: Path, package_root: Path, metadata: dict) -> None:
     manifest_path = package_root / metadata.get("storage_manifest", "")
     inventory_path = package_root / "s3-object-inventory.json"
@@ -286,11 +297,20 @@ def validate_storage_manifest(root: Path, package_root: Path, metadata: dict) ->
         fail("storage manifest does not prove the private archive boundary")
 
     local_by_key = {
+        "archive/cognitive-spacetime/episodes/001/package/CREATOR_WORKFLOW.md": package_root / "CREATOR_WORKFLOW.md",
         "archive/cognitive-spacetime/episodes/001/package/artwork-source.png": package_root / "artwork-source.png",
         "archive/cognitive-spacetime/episodes/001/package/artwork.png": package_root / "artwork.png",
+        "archive/cognitive-spacetime/episodes/001/package/episode.json": package_root / "episode.json",
+        "archive/cognitive-spacetime/episodes/001/package/source-packet.md": package_root / "source-packet.md",
         "archive/cognitive-spacetime/episodes/001/package/script.md": package_root / "script.md",
         "archive/cognitive-spacetime/episodes/001/package/transcript.md": package_root / "transcript.md",
+        "archive/cognitive-spacetime/episodes/001/package/show-notes.md": package_root / "show-notes.md",
         "archive/cognitive-spacetime/episodes/001/package/audio-manifest.json": package_root / "audio-manifest.json",
+        "archive/cognitive-spacetime/episodes/001/package/qa-report.md": package_root / "qa-report.md",
+        "archive/cognitive-spacetime/episodes/001/package/guest-metadata.json": package_root / "guest-metadata.json",
+        "archive/cognitive-spacetime/episodes/001/package/rss-enclosure.json": package_root / "rss-enclosure.json",
+        "archive/cognitive-spacetime/episodes/001/package/redaction-report.md": package_root / "redaction-report.md",
+        "archive/cognitive-spacetime/episodes/001/package/review.md": package_root / "review.md",
         "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.mp3": root / "audio" / "meet-the-ai-coworkers.mp3",
         "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.wav": root / "audio" / "meet-the-ai-coworkers.wav",
     }
@@ -344,9 +364,7 @@ def validate_production_episode(root: Path) -> None:
         fail("episode metadata does not use the approved show identity")
     for field in required_metadata_paths:
         relative = metadata.get(field)
-        if not isinstance(relative, str) or not relative:
-            fail(f"episode metadata is missing required package path {field}")
-        path = package_root / relative
+        path = resolve_package_child(package_root, field, relative)
         if not path.is_file() or path.stat().st_size == 0:
             fail(f"production episode is missing declared {field}: {path}")
     audio_manifest = json.loads((package_root / "audio-manifest.json").read_text(encoding="utf-8"))
@@ -404,6 +422,9 @@ def validate_production_episode(root: Path) -> None:
     for marker in ("Provider credentials retained: none", "External guest acceptance claimed: no", "Publication claimed: no"):
         if marker not in redaction:
             fail(f"redaction report is missing required result {marker!r}")
+    review = (package_root / metadata["review"]).read_text(encoding="utf-8")
+    if "Status: pass" not in review or "Exact reviewed revision:" not in review or "Reviewer:" not in review:
+        fail("episode review record is not an exact-head passing review")
 
     qa_report = (package_root / metadata["qa_report"]).read_text(encoding="utf-8")
     for marker in (
