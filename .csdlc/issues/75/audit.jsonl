@@ -7,3 +7,4 @@
 {"sequence":7,"generation":4,"actor":"codex:execute_75_to_pr","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":4,"actor":"codex:execute_75_to_pr","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":5,"actor":"codex-subagent:review_75_exact_head","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":6,"actor":"codex:execute_75_to_pr","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

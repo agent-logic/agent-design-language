@@ -7,7 +7,7 @@
     "title": "C-SDLC v2 publish cannot represent non-closing incremental parent checkpoints",
     "slug": "incremental-publication-linkage",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "ready",
   "content": {

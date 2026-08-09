@@ -80,11 +80,11 @@ Add a typed closing or part_of publication linkage mode and preserve it through 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
