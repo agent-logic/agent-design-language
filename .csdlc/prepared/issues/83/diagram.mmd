@@ -1,0 +1,9 @@
+flowchart LR
+    B["HTML Observatory"] -->|"HTTPS snapshot and readiness"| R["Runtime v3 API"]
+    B <-->|"Authenticated WSS events and commands"| W["Runtime v3 WSS"]
+    R --> P["Redacted versioned projection"]
+    W --> P
+    B --> S["Browser client state machine"]
+    S --> U["Live, stale, denied, unavailable UI states"]
+    G["Guardian restart coordinator, issue 5837"] -.->|"shared restart proof only"| B
+    X["Unity client, issue 84"] -.->|"shared contract, separate ownership"| P

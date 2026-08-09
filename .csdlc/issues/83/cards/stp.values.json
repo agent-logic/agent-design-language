@@ -1,0 +1,58 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 83,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
+    "slug": "v0-92-html-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement and prove only the HTML Observatory consumer paths owned by issue #83.",
+      "deliverables": [
+        "Live Runtime v3 HTTPS/WSS browser integration",
+        "Authorized controls with visible accepted and denied outcomes",
+        "Explicit trust, stale, unavailable, backpressure, and version-mismatch states",
+        "Browser reconnect with bounded replay and no duplicate application",
+        "Live Playwright validation entrypoint and retained browser evidence",
+        "adl/tools/validate_v092_html_observatory_live.mjs"
+      ],
+      "acceptance_criteria": [
+        "The browser renders current Runtime v3 snapshots and WSS events with fresh correlation evidence",
+        "Every exposed menu, control, proof link, and packet link performs real behavior or shows an explicit unavailable state",
+        "Writes require authenticated authority and refusal cases remain denied before and after reconnect",
+        "TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success",
+        "Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay",
+        "Live browser proof exercises reads, writes, redaction, refusal, disconnect, and reconnect without fixture substitution",
+        "No files outside the three declared owned paths change during implementation"
+      ],
+      "dependencies": [
+        "#5800 trusted local browser HTTPS is terminal",
+        "#5820 stable Runtime launch and API behavior is terminal",
+        "#5832 versioned ACIP/A2A and WSS contract is terminal",
+        "#5836 first-birthday interaction surface is terminal before final implementation credit",
+        "#5837 supplies shared restart coordination for final integration"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "demos/html-observatory/runtime-v3.config.json",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/styles.css"
+      ],
+      "non_goals": [
+        "Unity client implementation or proof",
+        "Runtime API, WSS, TLS, launch, or authentication changes",
+        "Cross-client restart coordination",
+        "Observatory redesign or serving UI assets from Runtime",
+        "AWS or provider work"
+      ]
+    }
+  }
+}

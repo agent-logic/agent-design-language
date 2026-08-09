@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 83,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
+    "slug": "v0-92-html-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "HTML connection state, Runtime v3 schema use, authorization boundaries, reconnect correctness, explicit failure rendering, and live browser proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any stale or fixture state be presented as live?",
+        "Can reconnect duplicate an event, replay a command, or widen authority?",
+        "Do all menus and controls have real behavior or an explicit unavailable state?",
+        "Can tokens, keys, private state, or sealed data leak into browser evidence?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

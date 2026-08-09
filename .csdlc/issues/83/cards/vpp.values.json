@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 83,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
+    "slug": "v0-92-html-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "html-observatory-live-browser",
+          "proof_role": "Prove the real browser against Runtime v3 HTTPS/WSS, including controls, redaction, refusal, disconnect, and reconnect.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "node",
+            "adl/tools/validate_v092_html_observatory_live.mjs"
+          ],
+          "parallel_group": "live-browser",
+          "defer_reason": "This validator is an issue #83 implementation deliverable and requires the exact live Runtime candidate; it becomes mandatory after the target is created."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed changes and path-boundary drift.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed into an explicit read-only, stale, denied, version-mismatch, or unavailable state; never synthesize live success.",
+      "design_ref": ".csdlc/prepared/issues/83/design.md",
+      "design_digest": "592360cc30b2792f88a30e837f2e84cbd2a9392b061f5239314cb505da66d946",
+      "diagram_ref": ".csdlc/prepared/issues/83/diagram.mmd",
+      "diagram_digest": "73c36947a5904687d840ee521edfe34e2e888c91649ef3a9f38fe73b83e6117d"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 83,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
+    "slug": "v0-92-html-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make the existing HTML Observatory a truthful live consumer of Runtime v3 HTTPS and WSS without changing Runtime or Unity.",
+      "required_outcome": "The real browser renders fresh Runtime state, executes only authorized controls, exposes failures explicitly, and reconnects without duplicate events or authority escalation.",
+      "declared_scope": [
+        "HTML Observatory Runtime v3 client state and interaction behavior",
+        "Browser styling required for explicit live, stale, denied, and unavailable states",
+        "Focused live browser validation entrypoint"
+      ],
+      "authority_boundary": [
+        "Runtime API, WSS, TLS, launch, and authentication behavior are read-only upstream contracts",
+        "Unity files and proof belong to issue #84",
+        "Shared Guardian restart coordination and final cross-client reconciliation belong to issue #5837"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Preserve the approved Observatory design",
+        "Do not substitute fixtures, cached packets, or static screenshots for live proof",
+        "Do not expose tokens, signing material, private citizen state, or sealed checkpoints",
+        "Do not bind or implement until explicitly authorized"
+      ]
+    }
+  }
+}

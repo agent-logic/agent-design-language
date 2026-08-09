@@ -1,0 +1,158 @@
+{
+  "issue": 83,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:83-html-observatory-readiness",
+  "design_path": ".csdlc/prepared/issues/83/design.md",
+  "diagram_path": ".csdlc/prepared/issues/83/diagram.mmd",
+  "design_reviewer": "pending-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
+    "slug": "v0-92-html-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "goal": "Make the existing HTML Observatory a truthful live consumer of Runtime v3 HTTPS and WSS without changing Runtime or Unity.",
+    "required_outcome": "The real browser renders fresh Runtime state, executes only authorized controls, exposes failures explicitly, and reconnects without duplicate events or authority escalation.",
+    "declared_scope": [
+      "HTML Observatory Runtime v3 client state and interaction behavior",
+      "Browser styling required for explicit live, stale, denied, and unavailable states",
+      "Focused live browser validation entrypoint"
+    ],
+    "affected_areas": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_html_observatory_live.mjs"
+    ],
+    "authority_boundary": [
+      "Runtime API, WSS, TLS, launch, and authentication behavior are read-only upstream contracts",
+      "Unity files and proof belong to issue #84",
+      "Shared Guardian restart coordination and final cross-client reconciliation belong to issue #5837"
+    ],
+    "operator_constraints": [
+      "Preserve the approved Observatory design",
+      "Do not substitute fixtures, cached packets, or static screenshots for live proof",
+      "Do not expose tokens, signing material, private citizen state, or sealed checkpoints",
+      "Do not bind or implement until explicitly authorized"
+    ],
+    "task_boundary": "Implement and prove only the HTML Observatory consumer paths owned by issue #83.",
+    "deliverables": [
+      "Live Runtime v3 HTTPS/WSS browser integration",
+      "Authorized controls with visible accepted and denied outcomes",
+      "Explicit trust, stale, unavailable, backpressure, and version-mismatch states",
+      "Browser reconnect with bounded replay and no duplicate application",
+      "Live Playwright validation entrypoint and retained browser evidence"
+      ,"adl/tools/validate_v092_html_observatory_live.mjs"
+    ],
+    "acceptance_criteria": [
+      "The browser renders current Runtime v3 snapshots and WSS events with fresh correlation evidence",
+      "Every exposed menu, control, proof link, and packet link performs real behavior or shows an explicit unavailable state",
+      "Writes require authenticated authority and refusal cases remain denied before and after reconnect",
+      "TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success",
+      "Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay",
+      "Live browser proof exercises reads, writes, redaction, refusal, disconnect, and reconnect without fixture substitution",
+      "No files outside the three declared owned paths change during implementation"
+    ],
+    "dependencies": [
+      "#5800 trusted local browser HTTPS is terminal",
+      "#5820 stable Runtime launch and API behavior is terminal",
+      "#5832 versioned ACIP/A2A and WSS contract is terminal",
+      "#5836 first-birthday interaction surface is terminal before final implementation credit",
+      "#5837 supplies shared restart coordination for final integration"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css"
+    ],
+    "non_goals": [
+      "Unity client implementation or proof",
+      "Runtime API, WSS, TLS, launch, or authentication changes",
+      "Cross-client restart coordination",
+      "Observatory redesign or serving UI assets from Runtime",
+      "AWS or provider work"
+    ],
+    "plan_summary": "Preserve the existing UI, centralize truthful browser connection state, bind controls to real Runtime authority, add bounded reconnect behavior, and prove the live browser path.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Implement the versioned HTTPS/WSS browser client state machine and fresh/stale projection handling.",
+        "acceptance_ids": ["AC-1", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Bind menus, controls, proof links, and packet links to real authorized behavior with explicit refusal states.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add and run the focused live browser proof against Runtime HTTPS/WSS, including disconnect and reconnect.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Review exact-head behavior and preserve the strict issue path boundary for publication.",
+        "acceptance_ids": ["AC-6", "AC-7"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "No fixture is labeled live",
+      "Read access never implies write authority",
+      "Reconnect never duplicates events or escalates authority",
+      "No private state or secrets enter browser evidence",
+      "HTML remains separate from Runtime and Unity"
+    ],
+    "risks": [
+      "The browser could show cached state as live during disconnect",
+      "Reconnect could duplicate events or replay commands",
+      "Control state could imply authority that the Runtime has denied",
+      "Live browser proof could accidentally exercise a fixture or stale Runtime"
+    ],
+    "stop_conditions": [
+      "The implementation requires changing Runtime or Unity-owned paths",
+      "The live endpoint does not match the approved Runtime v3 contract",
+      "Required secrets would enter URLs, logs, screenshots, or repository files",
+      "Issue #5836 remains open when final implementation credit is requested"
+    ],
+    "review_scope": "HTML connection state, Runtime v3 schema use, authorization boundaries, reconnect correctness, explicit failure rendering, and live browser proof.",
+    "review_prompts": [
+      "Can any stale or fixture state be presented as live?",
+      "Can reconnect duplicate an event, replay a command, or widen authority?",
+      "Do all menus and controls have real behavior or an explicit unavailable state?",
+      "Can tokens, keys, private state, or sealed data leak into browser evidence?"
+    ],
+    "failure_policy": "Fail closed into an explicit read-only, stale, denied, version-mismatch, or unavailable state; never synthesize live success.",
+    "planning_profile": "medium",
+    "validation_lanes": [
+      {
+        "lane": "html-observatory-live-browser",
+        "proof_role": "Prove the real browser against Runtime v3 HTTPS/WSS, including controls, redaction, refusal, disconnect, and reconnect.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": false,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["node", "adl/tools/validate_v092_html_observatory_live.mjs"],
+        "parallel_group": "live-browser",
+        "defer_reason": "This validator is an issue #83 implementation deliverable and requires the exact live Runtime candidate; it becomes mandatory after the target is created."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject malformed changes and path-boundary drift.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ]
+  }
+}

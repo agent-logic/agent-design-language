@@ -1,0 +1,6 @@
+{
+  "issue": 83,
+  "expected_generation": 2,
+  "expected_digest": "92634f03d5a24a67b13370c38316708ff46abea954d81318c8ff508d3d7c0f09",
+  "reviewer": "codex:83-html-observatory-readiness-design-review"
+}

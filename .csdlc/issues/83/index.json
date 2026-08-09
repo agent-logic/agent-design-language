@@ -1,0 +1,88 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 83,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
+  "phase": "initialized",
+  "generation": 3,
+  "digest": "6c6cbcf4a4dc39363309d6b9f780b945ff4272449f78c09ea4a6ad22e82eba33",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/83/design.md",
+  "diagram_path": ".csdlc/prepared/issues/83/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:83-html-observatory-readiness-design-review",
+      "revision": "592360cc30b2792f88a30e837f2e84cbd2a9392b061f5239314cb505da66d946"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "de69adab1f3f0316521d7b95b3f992af9efbed969b92a9bf15ccdc8cf373a529",
+      "rendered_digest": "b89b8c2297efeb7bfe1e4ccf808e7dca36458d5438eb3c722a7825ad1be3cfe6",
+      "ast_digest": "4214b88bbda6d6e7e30a4db3f5e96b372b4b09bee93f31588a5da1a81b01e733"
+    },
+    "stp": {
+      "values_digest": "8340ae1a0ca57bb7cec939a5100b4f9241ddf4fd75d4854f98641736f8c110aa",
+      "rendered_digest": "5a11f09af222194e2140e51656aa0ff7559e9bae944ad601de009b5ea0955510",
+      "ast_digest": "7703c5279a9454d100b372d9527b7f9b8fcab3504f52ac399cfc9e4eb952e8b8"
+    },
+    "spp": {
+      "values_digest": "a58e0b3c49e3dc1e7ec4374d7eedf08fbc91f71a7d72fe6f1a4d26ad519a3c81",
+      "rendered_digest": "9b301d446a116334feaed34a991d66606193921659f9fc8668c48c0231de01eb",
+      "ast_digest": "f9b91e20af43b39d192c669997b17a0492cbf9220f9133f3342a6f2c903f4e67"
+    },
+    "vpp": {
+      "values_digest": "98279ce78bb84a4db02bed3217d4a257bae7c90d171af658645767ff8905e898",
+      "rendered_digest": "b5d6cd2cbdfc82fac3eb1d23a32ca4ac18012680a806e939ce6c0eb1516ffc69",
+      "ast_digest": "2b2a2c9f0c47affd7c5ade880f48b6aa956ea9654259987ab4e37958082fe91e"
+    },
+    "srp": {
+      "values_digest": "f438bee8cb62d352c84ac7c645a72a760ab26debb075670df457a637654e09a0",
+      "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
+      "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
+    },
+    "sor": {
+      "values_digest": "654a47051758d9f070021df26086f4e4b4eb11033e2d041b4ecc2ad5f0bb213e",
+      "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
+      "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:83-html-observatory-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:83-html-observatory-readiness",
+      "reason": "Declare the issue-delivered live browser validator as deferred only until implementation creates the planned target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"html-observatory-live-browser\",\"proof_role\":\"Prove the real browser against Runtime v3 HTTPS/WSS, including controls, redaction, refusal, disconnect, and reconnect.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"parallel_group\":\"live-browser\",\"defer_reason\":\"This validator is an issue #83 implementation deliverable and requires the exact live Runtime candidate; it becomes mandatory after the target is created.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:83-html-observatory-readiness",
+      "reason": "Name the planned validator target exactly so initialized-phase readiness can defer it only until implementation creates it.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Live Runtime v3 HTTPS/WSS browser integration\",\"Authorized controls with visible accepted and denied outcomes\",\"Explicit trust, stale, unavailable, backpressure, and version-mismatch states\",\"Browser reconnect with bounded replay and no duplicate application\",\"Live Playwright validation entrypoint and retained browser evidence\",\"adl/tools/validate_v092_html_observatory_live.mjs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:83-html-observatory-readiness-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

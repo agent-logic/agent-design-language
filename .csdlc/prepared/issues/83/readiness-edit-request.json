@@ -1,0 +1,37 @@
+{
+  "issue": 83,
+  "card": "vpp",
+  "expected_generation": 0,
+  "expected_digest": "32c3f0f9983e4e2a223542546b7b43c927541211be75ca0c047d66da436f67ce",
+  "actor": "codex:83-html-observatory-readiness",
+  "reason": "Declare the issue-delivered live browser validator as deferred only until implementation creates the planned target.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "html-observatory-live-browser",
+        "proof_role": "Prove the real browser against Runtime v3 HTTPS/WSS, including controls, redaction, refusal, disconnect, and reconnect.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": false,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["node", "adl/tools/validate_v092_html_observatory_live.mjs"],
+        "parallel_group": "live-browser",
+        "defer_reason": "This validator is an issue #83 implementation deliverable and requires the exact live Runtime candidate; it becomes mandatory after the target is created."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject malformed changes and path-boundary drift.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ]
+  }
+}

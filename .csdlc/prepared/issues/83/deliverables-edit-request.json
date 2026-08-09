@@ -1,0 +1,20 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "b650b7ad8953e7dd60d9ed95fad8a29455e698c95c15faf3f98577b055b5f627",
+  "actor": "codex:83-html-observatory-readiness",
+  "reason": "Name the planned validator target exactly so initialized-phase readiness can defer it only until implementation creates it.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Live Runtime v3 HTTPS/WSS browser integration",
+      "Authorized controls with visible accepted and denied outcomes",
+      "Explicit trust, stale, unavailable, backpressure, and version-mismatch states",
+      "Browser reconnect with bounded replay and no duplicate application",
+      "Live Playwright validation entrypoint and retained browser evidence",
+      "adl/tools/validate_v092_html_observatory_live.mjs"
+    ]
+  }
+}
