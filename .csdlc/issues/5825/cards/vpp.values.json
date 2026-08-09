@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 67
+    "generation": 70
   },
   "status": "ready",
   "content": {
@@ -45,7 +45,7 @@
             "all"
           ],
           "parallel_group": "5825-core",
-          "defer_reason": null
+          "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/birthday.rs and exact owned target adl-runtime-kernel/tests/birthday.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
         },
         {
           "lane": "birthday-macos-native-ci-producer",
