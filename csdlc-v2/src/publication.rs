@@ -61,6 +61,7 @@ pub struct PublicationIntent {
     pub head: String,
     pub title: String,
     pub body: String,
+    #[serde(default)]
     pub linkage_mode: PublicationLinkageMode,
     pub draft: bool,
     pub revision: String,
