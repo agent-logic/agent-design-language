@@ -7,16 +7,45 @@
     "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
     "slug": "v092-v3-umbrella-receipt-topology",
     "version": "v0.92",
-    "generation": 2
+    "generation": 3
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Reconciled the Sprint 2 umbrella validator with exact v3 source, evidence, PR-head, merge, and candidate Git topology without weakening terminality or native proof.",
+      "actual_changes": [
+        "Validate ordinary-blob product OID and mode parity plus no-touch history across S, E, H, merge, and umbrella candidate.",
+        "Require one whole evidence-prefix introduction at E, immutable ordinary blobs through the candidate, and unique exact proof mappings.",
+        "Verify split issue/code repository identity, qualified closure, exact PR head, merge ancestry, terminal envelope, and frozen sixteen-child dependency DAG.",
+        "Validate full WP-04.16 production and native macOS, Linux, and Windows receipt digests at the historical child head.",
+        "Add generated Git history regressions for valid v3 and non-self-referential legacy v2 topology plus fail-closed drift and ambiguity cases."
+      ],
+      "artifacts": [
+        ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+        ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"
+          ],
+          "purpose": "Run the exact issue-owned umbrella receipt topology regression.",
+          "outcome": "passed",
+          "evidence_ref": "focused-ruby-regression.log"
+        },
+        {
+          "command": [
+            "ruby",
+            "-c",
+            ".csdlc/prepared/issues/5862/validate-implementation-wave.rb"
+          ],
+          "purpose": "Run the declared syntax gate.",
+          "outcome": "passed",
+          "evidence_ref": "ruby-syntax.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
