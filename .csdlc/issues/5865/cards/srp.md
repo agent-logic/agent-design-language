@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/transport.rs
-adl-runtime/tests/distributed_transport.rs
-adl-runtime/Cargo.toml
-adl-runtime/Cargo.lock
-.csdlc/evidence/5865
-.csdlc/issues/5865
+
 
 ## Prompts
 

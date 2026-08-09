@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Validate the single-provider transport adapter with race-free authorization fixtures.
+Bind each WP-04.02 Transport authorization to the authenticated TLS leaf identity and prove the complete wrong-domain, unrelated-key, stale-replay, and concurrent-stream denial surface.
 
 ## Artifacts
 
@@ -22,15 +22,16 @@ Validate the single-provider transport adapter with race-free authorization fixt
 
 ## Execution
 
-- Use one AWS-LC Rustls provider.
-- Remove the Unix-second authorization-boundary race from positive transport fixtures.
+- Require the exact active signed Transport authority certificate when constructing transport authorization and bind its holder, trust domain, generation, certificate identity, and Ed25519 subject public key.
+- Parse the authenticated TLS leaf Ed25519 subject key and reject any authority whose trust domain or cryptographic subject does not match the peer binding before network use.
+- Add negative tests for wrong-domain authority, unrelated TLS subject keys, replay-window boundary staleness, and the configured unidirectional stream ceiling while preserving single-provider AWS-LC Rustls operation.
 
 ## Validation
 
 [
   {
     "command": [
-      "/Users/daniel/.cargo/bin/cargo",
+      "cargo",
       "nextest",
       "run",
       "--manifest-path",
@@ -39,18 +40,18 @@ Validate the single-provider transport adapter with race-free authorization fixt
       "distributed_transport",
       "--no-tests=fail"
     ],
-    "purpose": "Run focused WP-04.03 transport tests.",
+    "purpose": "Prove 14 focused authenticated transport, authority-binding, replay-window, stream-bound, cancellation, and framing behaviors.",
     "outcome": "passed",
-    "evidence_ref": "exact-child-tests.log"
+    "evidence_ref": ".csdlc/evidence/5865/exact-child-tests.log"
   },
   {
     "command": [
-      "/usr/bin/ruby",
+      "ruby",
       ".csdlc/prepared/issues/5865/validate-proof-receipt.rb"
     ],
-    "purpose": "Run the WP-04.03 proof receipt validator.",
+    "purpose": "Recompute the two-revision source, evidence, command, artifact, and negative-case bindings.",
     "outcome": "passed",
-    "evidence_ref": "exact-revision-proof-receipt.log"
+    "evidence_ref": ".csdlc/evidence/5865/exact-revision-proof-receipt.log"
   }
 ]
 

@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter",
     "slug": "v0-92-wp-04-03-quic-tls-transport",
     "version": "v0.92",
-    "generation": 20
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/transport.rs\nadl-runtime/tests/distributed_transport.rs\nadl-runtime/Cargo.toml\nadl-runtime/Cargo.lock\n.csdlc/evidence/5865\n.csdlc/issues/5865",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
