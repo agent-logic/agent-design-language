@@ -11,6 +11,7 @@ on:
       - "adl-runtime-kernel/src/acip.rs"
       - "adl-runtime-kernel/src/protocol_adapters.rs"
       - "adl-runtime/schemas/acip/v1/**"
+      - "docs/api/runtime-v3/v1/openapi.json"
       - "docs/api/runtime-v3/v1/acip.openapi.json"
   workflow_dispatch:
 
