@@ -5,7 +5,7 @@ use csdlc_v2::{
         validate_remote,
     },
     reconcile_action, PublicationAction, PublicationIntent, PublicationLinkageMode,
-    PublicationRequest, RemotePullRequest,
+    PublicationEvidence, PublicationRequest, RemotePullRequest,
 };
 
 fn intent() -> PublicationIntent {
@@ -200,6 +200,25 @@ fn omitted_request_linkage_mode_defaults_to_closing() {
     }))
     .expect("legacy request");
     assert_eq!(request.linkage_mode, PublicationLinkageMode::Closing);
+}
+
+#[test]
+fn legacy_publication_evidence_omits_mode_without_digest_churn() {
+    let evidence: PublicationEvidence = serde_json::from_value(serde_json::json!({
+        "repository": "agent-logic/agent-design-language",
+        "issue": 5236,
+        "pull_request": 7,
+        "url": "https://example.invalid/pr/7",
+        "base": "main",
+        "head": "codex/5236",
+        "revision": "git:legacy",
+        "draft": false,
+        "observed_state": "open"
+    }))
+    .expect("legacy publication evidence");
+    assert_eq!(evidence.linkage_mode, None);
+    let encoded = serde_json::to_value(evidence).expect("encoded legacy evidence");
+    assert!(encoded.get("linkage_mode").is_none());
 }
 
 #[test]

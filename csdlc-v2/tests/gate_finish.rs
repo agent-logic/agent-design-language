@@ -328,7 +328,7 @@ fn canonical_code_pr_derives_terminal_for_legacy_issue_authority() {
             base: "main".into(),
             head: "codex/5778".into(),
             revision: csdlc_v2::git::clean_commit_revision(&"a".repeat(40)),
-            linkage_mode: PublicationLinkageMode::Closing,
+            linkage_mode: Some(PublicationLinkageMode::Closing),
             draft: false,
             observed_state: "open".into(),
         }),
@@ -386,7 +386,7 @@ fn part_of_publication_cannot_authorize_finish() {
         base: "main".into(),
         head: "codex/5778".into(),
         revision: csdlc_v2::git::clean_commit_revision(&"a".repeat(40)),
-        linkage_mode: PublicationLinkageMode::PartOf,
+        linkage_mode: Some(PublicationLinkageMode::PartOf),
         draft: false,
         observed_state: "open".into(),
     };
@@ -399,7 +399,7 @@ fn part_of_publication_cannot_authorize_finish() {
     request.approved_no_pr_reason = None;
     assert!(csdlc_v2::finish::validate_canonical_identity(&part_of_record, &request).is_err());
 
-    publication.linkage_mode = PublicationLinkageMode::Closing;
+    publication.linkage_mode = Some(PublicationLinkageMode::Closing);
     let closing = record(LifecyclePhase::Published, Some(publication));
     assert!(csdlc_v2::finish::validate_canonical_identity(&closing, &request).is_ok());
 }
@@ -658,7 +658,7 @@ fn published_finish_accepts_matching_git_topology() {
             base: "main".into(),
             head: "codex/5778".into(),
             revision: csdlc_v2::git::clean_commit_revision("abc"),
-            linkage_mode: PublicationLinkageMode::Closing,
+            linkage_mode: Some(PublicationLinkageMode::Closing),
             draft: false,
             observed_state: "open".into(),
         }),
@@ -733,7 +733,7 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
         base: "main".into(),
         head: "codex/5778".into(),
         revision: csdlc_v2::git::clean_commit_revision(&published),
-        linkage_mode: PublicationLinkageMode::Closing,
+        linkage_mode: Some(PublicationLinkageMode::Closing),
         draft: false,
         observed_state: "open".into(),
     });

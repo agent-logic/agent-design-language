@@ -1046,7 +1046,9 @@ pub fn validate_canonical_identity(record: &IssueRecord, request: &FinishRequest
                 "PR finish requires canonical publication evidence",
             )
         })?;
-        if publication.linkage_mode != crate::publication::PublicationLinkageMode::Closing {
+        if publication.linkage_mode.unwrap_or_default()
+            != crate::publication::PublicationLinkageMode::Closing
+        {
             return Err(V2Error::new(
                 ErrorCode::InvalidTransition,
                 "part_of publication evidence cannot authorize terminal issue closeout",
@@ -1747,7 +1749,7 @@ mod tests {
                 base: "main".into(),
                 head: "codex/7".into(),
                 revision: clean_commit_revision("abc"),
-                linkage_mode: crate::publication::PublicationLinkageMode::Closing,
+                linkage_mode: Some(crate::publication::PublicationLinkageMode::Closing),
                 draft: false,
                 observed_state: "open".into(),
             }),

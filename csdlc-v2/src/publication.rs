@@ -426,7 +426,7 @@ fn publication_evidence(
         base: remote.base,
         head: remote.head,
         revision: intent.revision.clone(),
-        linkage_mode: intent.linkage_mode,
+        linkage_mode: Some(intent.linkage_mode),
         draft: remote.draft,
         observed_state: remote.state,
     }
