@@ -2503,9 +2503,19 @@ fn execution_readiness_findings(
         .iter()
         .flat_map(|lane| validator_targets(root, lane))
         .collect::<BTreeSet<_>>();
-    for validator in deliverables.iter().filter(|path| {
-        affected_areas.iter().any(|owned| owned == *path) && required_validator_deliverable(path)
-    }) {
+    for validator in deliverables
+        .iter()
+        .filter(|path| required_validator_deliverable(path))
+    {
+        if !affected_areas.iter().any(|owned| owned == validator) {
+            findings.push(ExecutionReadinessFinding {
+                code: "validator_deliverable_unowned",
+                message: format!(
+                    "required validator deliverable is not an issue-owned path: {validator}"
+                ),
+            });
+            continue;
+        }
         let exists = root.join(validator).is_file();
         let deferred = lanes.iter().any(|lane| {
             explicitly_deferred_validator(

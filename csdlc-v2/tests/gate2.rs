@@ -238,6 +238,7 @@ fn distributed_deferred_request(issue: u64, source: &str, test_target: &str) -> 
         .expect("named Rust test target");
     let mut value = request();
     value.issue = issue;
+    value.repository = "danielbaustin/agent-design-language".into();
     value.design_path = format!("design/issue-{issue}.md");
     value.diagram_path = format!("design/issue-{issue}.mmd");
     value.initial.title = format!("Distributed deferred target issue {issue}");
@@ -353,9 +354,77 @@ fn initialized_deferred_distributed_targets_bind_only_through_exact_path_harness
             "adl-runtime/tests/distributed_resource_weather.rs",
         ),
     ] {
-        let request = distributed_deferred_request(issue, source, test_target);
+        let mut request = distributed_deferred_request(issue, source, test_target);
+        let exact_deliverables = request.initial.deliverables.clone();
+        let exact_lanes = request.initial.validation_lanes.clone();
+        request.initial.deliverables = vec![
+            "Implement the bounded distributed behavior.".into(),
+            "Focused positive and negative tests".into(),
+            "Digest-bound execution proof".into(),
+            "Reviewed rollback evidence".into(),
+        ];
+        request.initial.validation_lanes[0].defer_reason = None;
         create_distributed_deferred_issue(&repo, temp.path(), &request);
-        let initialized = csdlc_v2::diagnose(&Store::new(&repo), issue);
+
+        let live_shape = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
+        assert_eq!(live_shape.status, csdlc_v2::doctor::DoctorStatus::Block);
+        for code in [
+            "owned_rust_module_unroutable",
+            "validator_target_missing",
+            "issue_specific_denominator_missing",
+        ] {
+            assert!(
+                live_shape
+                    .findings
+                    .iter()
+                    .any(|finding| finding.code == code),
+                "live child shape {issue} lacked {code}: {:?}",
+                live_shape.findings
+            );
+        }
+        for prose in [
+            "Focused positive and negative tests",
+            "Digest-bound execution proof",
+            "Reviewed rollback evidence",
+        ] {
+            assert!(!live_shape
+                .findings
+                .iter()
+                .any(|finding| finding.message.contains(prose)));
+        }
+
+        apply_edit(
+            &repo,
+            temp.path(),
+            issue,
+            "stp",
+            "declare-exact-future-deliverables",
+            serde_json::json!({
+                "operation": "replace_planning_collection",
+                "field": "deliverables",
+                "values": exact_deliverables
+            }),
+        );
+        apply_edit(
+            &repo,
+            temp.path(),
+            issue,
+            "vpp",
+            "declare-temporary-path-harness",
+            serde_json::json!({
+                "operation": "replace_validation_lanes",
+                "lanes": exact_lanes
+            }),
+        );
+        let initialized = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
         assert_eq!(initialized.status, csdlc_v2::doctor::DoctorStatus::Pass);
         assert!(initialized.ready);
         assert!(initialized.findings.is_empty());
@@ -454,6 +523,12 @@ fn deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate(
             request.initial.affected_areas.push(sibling.clone());
             request.initial.deliverables.push(sibling);
         }),
+        ("validator-deliverable-unowned", |request| {
+            request
+                .initial
+                .deliverables
+                .push("adl-runtime/tests/unowned_validator.rs".into());
+        }),
     ];
 
     for (offset, (name, mutate)) in cases.iter().enumerate() {
@@ -466,7 +541,11 @@ fn deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate(
         let mut request = distributed_deferred_request(issue, source, test_target);
         mutate(&mut request);
         create_distributed_deferred_issue(&repo, temp.path(), &request);
-        let diagnosis = csdlc_v2::diagnose(&Store::new(&repo), issue);
+        let diagnosis = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
         assert_eq!(
             diagnosis.status,
             csdlc_v2::doctor::DoctorStatus::Block,
@@ -478,6 +557,7 @@ fn deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate(
                 finding.code.as_str(),
                 "owned_rust_module_unroutable"
                     | "validator_target_missing"
+                    | "validator_deliverable_unowned"
                     | "issue_specific_denominator_missing"
             )),
             "case {name} lacked a false-readiness finding: {:?}",
@@ -1851,6 +1931,13 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         .expect("serialize success bind"),
     )
     .expect("success bind request");
+    let success_diagnosis = csdlc_v2::diagnose(&Store::new(&success_worktree), 42);
+    assert_eq!(
+        success_diagnosis.status,
+        csdlc_v2::doctor::DoctorStatus::Pass,
+        "focused source issue must be bindable: {:?}",
+        success_diagnosis.findings
+    );
     let success = must_succeed(command(
         &success_worktree,
         env!("CARGO_BIN_EXE_csdlc-bind"),
