@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 8
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
       "acceptance_criteria": [
         "AC-1: The plan fixes Rust as the implementation language and records the exact official cli/cli source baseline.",
         "AC-2: The architecture completely defines command, application-context, domain, state, card, adapter, validation, review, publication, finish, cleanup, security, testing, observability, and dependency boundaries.",
-        "AC-3: The plan contains fourteen sequenced implementation issue specifications and one deferred retirement issue, each with objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions.",
+        "AC-3: The plan contains eighteen sequenced implementation issue specifications and one deferred retirement issue, each with objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions.",
         "AC-4: Quantified effects are labeled as targets or estimates until measured by the construction spike.",
         "AC-5: Claude and Gemini review the same exact plan revision and every actionable finding is incorporated or explicitly dispositioned.",
         "AC-6: Formatting, links, source references, repository-relative paths, and diff hygiene validate.",

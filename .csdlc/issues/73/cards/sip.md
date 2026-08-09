@@ -22,7 +22,7 @@ A source-grounded Rust plan defines the complete v3 product architecture, quanti
 
 - Rust C-SDLC v3 architecture modeled on the official GitHub CLI
 - Measured v2 baseline and bounded effect estimates
-- Fourteen implementation issue specifications plus one deferred v2-retirement issue
+- Eighteen implementation issue specifications plus one deferred v2-retirement issue
 - Independent Claude and Gemini architecture review with finding dispositions
 
 ## Authority

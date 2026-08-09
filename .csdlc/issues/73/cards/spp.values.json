@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 8
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -44,7 +44,7 @@
             "AC-3",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -55,7 +55,7 @@
             "AC-6",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

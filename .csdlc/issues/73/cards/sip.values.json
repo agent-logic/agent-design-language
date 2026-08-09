@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 8
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,7 @@
       "declared_scope": [
         "Rust C-SDLC v3 architecture modeled on the official GitHub CLI",
         "Measured v2 baseline and bounded effect estimates",
-        "Fourteen implementation issue specifications plus one deferred v2-retirement issue",
+        "Eighteen implementation issue specifications plus one deferred v2-retirement issue",
         "Independent Claude and Gemini architecture review with finding dispositions"
       ],
       "authority_boundary": [

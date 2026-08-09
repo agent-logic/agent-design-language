@@ -26,7 +26,7 @@ Complete and review the Rust C-SDLC v3 architecture and issue plan; stop before 
 
 1. AC-1: The plan fixes Rust as the implementation language and records the exact official cli/cli source baseline.
 2. AC-2: The architecture completely defines command, application-context, domain, state, card, adapter, validation, review, publication, finish, cleanup, security, testing, observability, and dependency boundaries.
-3. AC-3: The plan contains fourteen sequenced implementation issue specifications and one deferred retirement issue, each with objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions.
+3. AC-3: The plan contains eighteen sequenced implementation issue specifications and one deferred retirement issue, each with objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions.
 4. AC-4: Quantified effects are labeled as targets or estimates until measured by the construction spike.
 5. AC-5: Claude and Gemini review the same exact plan revision and every actionable finding is incorporated or explicitly dispositioned.
 6. AC-6: Formatting, links, source references, repository-relative paths, and diff hygiene validate.
