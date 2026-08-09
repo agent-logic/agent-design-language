@@ -17,16 +17,17 @@ Prepare and operate only the runtime-observatory-polis-protocol sprint umbrella;
 ## Deliverables
 
 - Issue-specific six-card sprint record
-- Sprint Execution Packet with membership, lanes, gates, review path, and activity log
-- Integrated sprint review and truthful umbrella closeout record
+- Sprint Execution Packet for exact terminal membership #5800, #5820, #5821, #5795, and #5832
+- Explicit exclusion record for independent follow-ons #5837, #83, and #84
+- Integrated sprint review and truthful umbrella closeout candidate
 
 ## Acceptance
 
-1. AC-1: The Sprint Execution Packet records exact child membership and dependency order.
-2. AC-2: Safe parallel lanes and serial gates are explicit and do not overlap child ownership.
+1. AC-1: The Sprint Execution Packet records exact terminal membership #5800, #5820, #5821, #5795, and #5832, while excluding #5837, #83, and #84.
+2. AC-2: Safe parallel lanes, actual merge order, and serial gates are explicit and do not overlap child ownership.
 3. AC-3: The umbrella coordinates only; each child retains implementation, proof, review, publication, and closeout authority.
 4. AC-4: Every child handoff requires issue-bound bind, readiness, and session-goal truth before implementation.
-5. AC-5: Integrated sprint review and umbrella closeout occur only after every child reaches truthful terminal state.
+5. AC-5: The umbrella is only a closeout candidate before publication and becomes terminal only after qualified PR merge, live issue closure, and csdlc-finish.
 
 ## Dependencies
 

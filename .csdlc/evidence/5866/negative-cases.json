@@ -1,0 +1,21 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5866,
+  "source_revision": "2ab3e2a1c59033cd3258daf4ab326556f624defb",
+  "test_output": ".csdlc/evidence/5866/distributed-discovery.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/discovery.rs": "612443621d469520e18aa4937994a2e7721a1d3fb7e29299ed1c03cb0e1d6df8",
+    "adl-runtime/tests/distributed_discovery.rs": "a67bd98839f262d48ebfca3db3ed3d4350d9019f9922345be8ffa6c6bd091650"
+  },
+  "cases": [
+    {"case": "configured_seed_without_enrollment", "test": "configured_seed_identity_is_not_enrollment_authority", "result": "rejected"},
+    {"case": "stale_wrong_domain_or_replayed_proposal", "test": "stale_wrong_domain_and_replayed_proposals_fail_closed", "result": "rejected"},
+    {"case": "future_request", "test": "proposal_derivation_is_deterministic_and_future_requests_fail_closed", "result": "rejected"},
+    {"case": "malformed_or_wrong_transport_generation", "test": "malformed_payload_and_transport_generation_mismatch_fail_closed", "result": "fail_closed"},
+    {"case": "tampered_expiry_or_inconsistent_authority", "test": "tampered_expiry_and_inconsistent_authority_identity_fail_closed", "result": "fail_closed"},
+    {"case": "revoked_rotated_or_expired_during_exchange", "test": "expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed", "result": "rejected"},
+    {"case": "unsafe_time_policy", "test": "unsafe_time_policy_bounds_are_rejected", "result": "rejected"},
+    {"case": "seed_and_message_resource_bounds", "test": "seed_and_message_resource_bounds_reject_before_work", "result": "denied"},
+    {"case": "finite_timeout_and_cancellation", "test": "discovery_timeout_and_cancellation_are_finite", "result": "denied"}
+  ]
+}

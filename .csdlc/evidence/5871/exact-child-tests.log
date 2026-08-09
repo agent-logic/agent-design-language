@@ -1,0 +1,7 @@
+command=cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_capability_advertisement --no-tests=fail
+source_revision=d034f6210603b66db273148408a13f1053d26899
+run_id=b67dad4d-bc14-469b-b7a1-f583a41b4199
+selected_tests=12
+passed=12
+failed=0
+result=PASS

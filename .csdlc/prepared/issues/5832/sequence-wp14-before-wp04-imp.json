@@ -1,0 +1,19 @@
+{
+  "issue": 5832,
+  "card": "stp",
+  "expected_generation": 48,
+  "expected_digest": "6b6ba26ec36fad0d57ed407e0df653105f6a3f65dff6cdad4ca9f84979b04cd2",
+  "actor": "codex:5832-independent-sequencing",
+  "reason": "Make WP-14 independently terminal and establish its protocol contract as a one-way input to the later distributed sprint and AWS sidecar.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "WP-04 gate issue 5821 terminal",
+      "WP-14 executes and closes independently before WP-04-IMP issue 5862 consumes its terminal protocol contract",
+      "Current ACIP stream and trace/replay baselines requalified at the implementation revision",
+      "Issue 5795 consumes terminal WP-14 for final browser-to-Shepherd integration",
+      "AWS GPU Shepherd sidecar issue 5907 follows terminal WP-14 and local issue 5795 and does not gate either lane"
+    ]
+  }
+}

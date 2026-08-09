@@ -1,0 +1,18 @@
+
+running 10 tests
+test split_authority_part_of_requires_qualified_reference ... ok
+test canonical_code_pr_can_close_a_legacy_issue_with_qualified_linkage ... ok
+test part_of_requires_one_exact_non_closing_reference ... ok
+test publication_body_requires_github_closing_keyword_for_issue ... ok
+test ambiguous_create_outage_is_reconciled_by_observation_before_retry ... ok
+test drifted_mutable_fields_update_same_pr ... ok
+test remote_part_of_mode_is_retained_and_mixed_linkage_fails_closed ... ok
+test base_head_or_repository_mismatch_fails_closed ... ok
+test omitted_request_linkage_mode_defaults_to_closing ... ok
+test public_schema_keeps_publication_and_drops_merged_reconciliation ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.23s
+     Running tests/gate6.rs (csdlc-v2/target/debug/deps/gate6-a31196163346b565)

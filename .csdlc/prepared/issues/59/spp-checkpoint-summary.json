@@ -1,0 +1,14 @@
+{
+  "issue": 59,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "49e64ebe9b67eca7c37580f8b058d4701bda8470f2e7cb8d79ba2c8e8f584662",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Plan the non-closing authority checkpoint without widening into external product implementation",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then publish it with typed part_of linkage as a non-closing checkpoint for the Codex platform owner."
+  },
+  "fail_after_backup": false
+}

@@ -2,15 +2,59 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5866,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a545ca23817c4e3efccce73310fea81472dff567846aa9fb04fac11418bbde6a",
-  "phase": "initialized",
-  "generation": 8,
-  "digest": "0476ce74836af652a8dcebc51a5f97baa7b94a5e56137c785ecc8fc564cab0d6",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 32,
+  "digest": "c28fc63a7942cb4f43c12fcb814627add36015a09261f41b56ff912b1205146b",
+  "branch": "codex/5866-distributed-discovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
+  "review_assignment": {
+    "reviewer": "/root/start_sprint_4_5862/review_5866_republished_truth",
+    "assigned_by": "codex:terminalize_sprint4_ready_wave",
+    "revision": "git-blake3:506b79cecd413422769c862645fd3ab797c8e64d:a50414bd82eb6702ad573bfc59f0e314dab84cf64902ae08ea98d7b3c6f5157f",
+    "scope": [
+      "adl-runtime/src/distributed/discovery.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      ".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stderr.log",
+      ".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log",
+      ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json",
+      ".csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json",
+      ".csdlc/evidence/5866/generation-protobuf-durable/runner.txt"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/start_sprint_4_5862/review_5866_republished_truth",
+    "scope": [
+      "adl-runtime/src/distributed/discovery.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      ".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stderr.log",
+      ".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log",
+      ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json",
+      ".csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json",
+      ".csdlc/evidence/5866/generation-protobuf-durable/runner.txt"
+    ],
+    "reviewed_revision": "git-blake3:506b79cecd413422769c862645fd3ab797c8e64d:a50414bd82eb6702ad573bfc59f0e314dab84cf64902ae08ea98d7b3c6f5157f",
+    "findings": [],
+    "residual_risks": [
+      "Production module registration and durable replay-store path wiring remain intentionally owned by issue #5878.",
+      "Stable path symlink checks do not claim race-free descriptor-relative confinement; storage failures remain fail closed.",
+      "Exact-head GitHub CI integration remains required before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5866,
+    "pull_request": 88,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/88",
+    "base": "main",
+    "head": "codex/5866-distributed-discovery",
+    "revision": "git-blake3:6664b48b9db589bcefdddc5b290dfe0a300bcfd6:967b4c8b5553e8ff0d75a640e62869bb6560d2ba9a30891b0ad688f1b45f2c4d",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "84b85b0c55cb6c2625fbef60432db5baaa728ec44b839580871d6d799f2ba8b3",
+      "values_digest": "510997007db0260819d6e33a8602e2324f78247ffea1630854e8f1e05bc85ee9",
       "rendered_digest": "6edde9877a679aa8137562e451dcf42a97d1752a726de69edf5fe1d3e1aa9292",
       "ast_digest": "54dff07d44a80d7c7591cb929f3cc32d18899c13934f570fe82687c25473d639"
     },
     "stp": {
-      "values_digest": "af6240e7aa9b6a470a43cf5f476758e9dff92b415ea96ed4b5e2275387d26723",
-      "rendered_digest": "208e71005e9c2be8fc559d7cee24a485ad5b59b470e56e43a20226d939e4d9f5",
-      "ast_digest": "3afcc312b1529aec84be74d730df12b1a387ed25daf55ce472c4984c06f5c440"
+      "values_digest": "8850f8dd578fc060cddada697b9bcca24940c42ee8a875ffa45658a5cb76c040",
+      "rendered_digest": "5c2f6f7e75055df76b81f86381236400afa8cff2a83bb7c8bbf3d9d035ccbbc8",
+      "ast_digest": "bbe33a414fd219c8472a5493f94b769c4a459750e39278331d56b3e2d2a5804c"
     },
     "spp": {
-      "values_digest": "74707e98d67a8859b2401f0f95549deda68a9fe2701d4457da7a37ec1f261480",
+      "values_digest": "b8f3f16112a7e25caab26afe9448f9ad56e70822225c18a788fbcedddd5f0ee0",
       "rendered_digest": "06039fe18555456e65b78378c039a41455e8130f5a4a551604ae8773e9b9ef4f",
       "ast_digest": "a9be98918825c7954e8473c3ae921e95dbc63e49c1e496a8cc40152482b0137a"
     },
     "vpp": {
-      "values_digest": "aab19c339e9b6fee4fa26187e6e8361a2971ef8477c72a8453872b259d764eda",
-      "rendered_digest": "25ccc563b915593250b0ba619305195c2656cc915a3a1a876456cacc31cf0f90",
-      "ast_digest": "6b5157a1658d758976a0b5dcbef5a90dfd51583da72136f229b19b354d896a41"
+      "values_digest": "9c1f4d462abfa1bae4dc34382b920168824cc5a2b63cd5cda1e31e619f851a86",
+      "rendered_digest": "30cba798c81147bf0c33058e98b4b5f854fbad6ce943912d99bd6adef7a8544d",
+      "ast_digest": "566bb7b78b24865f868ba1b70c2ccc0cf9e2034178b383d7a85c8600aa83c614"
     },
     "srp": {
-      "values_digest": "29022a118da0bc084e561a9c9988f271343ce0542f6daa125913c83dc278b944",
-      "rendered_digest": "312d9c163170473e8976366afac82c565b78f1ec3b292428ce8ad6001ea60e81",
-      "ast_digest": "bc63a1d444d71c360cc9e63d7e1081c1e3b36494f45ea8eb72d53bd51cb76253"
+      "values_digest": "0340057d63c3f59da97b6a2488d9f2b123a7cec6284180da159bbc62793bd46a",
+      "rendered_digest": "60f6c915a5502982d0d5049767904d394ba32ef8107eb0812cdcbefe09145352",
+      "ast_digest": "3aba11b950f753aad894a1a13978b70fd3950c9b8a524cbd6f5e43c02126fcfc"
     },
     "sor": {
-      "values_digest": "2ae2e83432d60ba5822547db7ba936f57f0bb0017988e84246ed7f262caa6db4",
-      "rendered_digest": "94191508456d6fceec7d6e324a6a8ed4cc63fdfa889f49a5bd3b9beab5264751",
-      "ast_digest": "54e48d944b19cc59d6d91cb5e1e9065f4d72a6813e725963f234a2e78f618577"
+      "values_digest": "85bd81b408aae338fcd259019765b423dff69f358fa8705d6b2778ff92ff14a9",
+      "rendered_digest": "1719f22e88f05a1de9fae6c00772267be40a020088dbf3d79bef5c05005bcf59",
+      "ast_digest": "a11ef810eecedef60afb22da301ff4043d8fe390d4932a54897b68186438f972"
     }
   },
   "transitions": [
@@ -75,6 +119,132 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_79/exact_head_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Recover the stale review assignment after a concurrent typed finalize-request metadata commit entered the branch; product and exact core proof scope remain byte-identical to the independent no-findings review."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_79/exact_head_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:execute-5866-wp04-04",
+      "reason": "Dedicated exact-head review found ineffective cross-call replay denial and missing duplicate/stale-seed proof; return to implemented for bounded remediation."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Recover self-stale review scope caused solely by including typed issue metadata that the record_review transition necessarily updates; product and replay-window evidence remain byte-identical to the independent passing review."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:sprint-5862-child-5866-review-remediation",
+      "reason": "Recover published review truth to address exact-head findings requiring full identity and transport generation binding, canonical bounded Prost discovery messages, and durable replay admission across restart before republishing PR #88."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_5866_hardened",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 19,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "Recover the misattributed review record and republished projection so the actual independent exact-head verdict from /root/start_sprint_4_5862/review_5866_republished_truth can become canonical before terminalization."
+    },
+    {
+      "sequence": 20,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/start_sprint_4_5862/review_5866_republished_truth",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 21,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -259,6 +429,223 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 27,
+      "generation": 9,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Declare the exact exclusive source and temporary path-harness test deliverables enabled by merged issue #79 before execution binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/discovery.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"Focused positive and fail-closed negative tests\",\"Digest-bound exact-revision execution proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Declare the issue-owned bounded temporary path harness enabled by merged issue #79 while preserving the exact receipt lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero nextest target proves bounded seed discovery, authenticated enrolled join, deterministic non-voting proposals, and timeout, cancellation, replay, stale, domain, enrollment, and resource fail-closed behavior over real Quinn and rustls transport.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/discovery.rs\\\"] harness in adl-runtime/tests/distributed_discovery.rs routes adl-runtime/src/distributed/discovery.rs until issue #5878 owns module registration.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=a9fe4b9356dc909ddcbb741d80f0d20f24118203fe809552522d3a347fb38075]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 10,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 30,
+      "generation": 11,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 31,
+      "generation": 11,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 12,
+      "actor": "subagent:/root/issue_79/exact_head_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 13,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Recover the stale review assignment after a concurrent typed finalize-request metadata commit entered the branch; product and exact core proof scope remain byte-identical to the independent no-findings review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 13,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 14,
+      "actor": "subagent:/root/issue_79/exact_head_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 15,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 37,
+      "generation": 16,
+      "actor": "codex:execute-5866-wp04-04",
+      "reason": "Dedicated exact-head review found ineffective cross-call replay denial and missing duplicate/stale-seed proof; return to implemented for bounded remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 17,
+      "actor": "codex:execute-5866-wp04-04",
+      "reason": "Bind validation truth to the repaired persistent replay boundary and explicit duplicate/stale-seed negatives.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero target proves bounded authenticated discovery, persistent cross-call request and proposal replay denial, duplicate suppression, stale seed generation refusal, and real Quinn/rustls positive behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary path harness routes the source until issue #5878 owns module registration.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Validate fresh two-revision source, command, nonzero test, negative-case, runner, and artifact bindings after review remediation.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/remediation/execution-proof.json\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 18,
+      "actor": "codex:execute-5866-wp04-04",
+      "reason": "Replace stale pre-review execution truth with the repaired discovery implementation and its focused evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded authenticated seed discovery with caller-retained replay state at both request-proposal and proposal-acceptance boundaries.\",\"changes\":[\"Treat configured seeds only as bounded addresses and expected peer identities, never as enrollment or membership authority.\",\"Require live enrollment and authenticated transport identity, generation, trust domain, and protocol before emitting deterministic non-voting proposals.\",\"Persist bounded request and proposal replay observations across public calls through caller-owned discovery context.\",\"Fail closed on duplicate configured seeds, stale seed certificate generations, cross-call replay, timeout, cancellation, malformed input, wrong domain, revocation, rotation, expiry, and resource exhaustion.\"],\"artifacts\":[\"adl-runtime/src/distributed/discovery.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/evidence/5866/remediation/execution-proof.json\",\".csdlc/evidence/5866/remediation/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"purpose\":\"Run the exact issue-owned positive and fail-closed discovery target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/remediation/distributed-discovery.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--\",\"-D\",\"warnings\",\"-A\",\"clippy::absurd_extreme_comparisons\"],\"purpose\":\"Run strict focused Clippy for the repaired discovery surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:strict-focused-clippy\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/remediation/execution-proof.json\"],\"purpose\":\"Validate the fresh two-revision remediation receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/remediation/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 19,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Bind validation truth to atomic cross-seed request replay denial and expiry-bounded replay capacity recovery.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero target proves bounded authenticated discovery, atomic request and proposal replay denial across seeds, live-window capacity denial, expiry recovery, and real Quinn/rustls positive behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary path harness routes the source until issue #5878 owns module registration.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Validate the final two-revision replay-window source, command, nonzero test, negative-case, runner, and artifact bindings.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/replay-window/execution-proof.json\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 20,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Replace superseded replay remediation truth with the final cross-seed and expiry-bounded replay-window proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded authenticated seed discovery with atomic request-plus-proposal replay admission and expiry-bounded caller-retained replay state.\",\"changes\":[\"Treat configured seeds only as bounded addresses and expected peer identities, never as enrollment or membership authority.\",\"Atomically retain accepted request and proposal identifiers so the same request cannot bypass replay denial through a different valid seed.\",\"Retain live replay entries through their signed validity horizon, deny capacity overflow while all entries are live, and recover capacity only after trusted time passes expiry.\",\"Fail closed on duplicate seeds, stale certificate generations, cross-call replay, timeout, cancellation, malformed input, wrong domain, revocation, rotation, expiry, and resource exhaustion.\"],\"artifacts\":[\"adl-runtime/src/distributed/discovery.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/evidence/5866/replay-window/execution-proof.json\",\".csdlc/evidence/5866/replay-window/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"purpose\":\"Run the exact issue-owned positive and fail-closed discovery target including cross-seed replay and bounded-window recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/replay-window/distributed-discovery.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--\",\"-D\",\"warnings\",\"-A\",\"clippy::absurd_extreme_comparisons\"],\"purpose\":\"Run strict focused Clippy for the final discovery surface while allowing only the qualified pre-existing ACIP lint.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:strict-focused-clippy\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/replay-window/execution-proof.json\"],\"purpose\":\"Validate the final two-revision replay-window receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/replay-window/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 20,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 21,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 22,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "Recover self-stale review scope caused solely by including typed issue metadata that the record_review transition necessarily updates; product and replay-window evidence remain byte-identical to the independent passing review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 22,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 23,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 24,
+      "actor": "codex:5866-distributed-discovery",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 48,
+      "generation": 25,
+      "actor": "codex:sprint-5862-child-5866-review-remediation",
+      "reason": "Recover published review truth to address exact-head findings requiring full identity and transport generation binding, canonical bounded Prost discovery messages, and durable replay admission across restart before republishing PR #88.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 26,
+      "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
+      "reason": "Replace superseded replay-only validation planning with the exact generation-bound protobuf and durable-replay proof lanes required by the latest review findings.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero target proves candidate and seed identity plus transport-certificate generation binding across await, canonical bounded Prost messages, durable replay rejection across restart, cross-seed request replay denial, bounded live-window capacity, expiry recovery, and real Quinn/rustls positive behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Validate the final two-revision generation-bound protobuf and durable-replay source, command, nonzero test, negative-case, runner, and artifact bindings.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 27,
+      "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
+      "reason": "Replace superseded replay-only execution truth with the reviewed-finding remediation and its exact generation-bound protobuf and durable-replay proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded authenticated seed discovery with complete identity and transport-generation binding, canonical Prost messages, and immediate-durability replay admission across restart.\",\"changes\":[\"Bind candidate and seed identity plus transport-certificate generations into JoinRequest, JoinProposal, proposal identifiers, authenticated envelopes, live enrollment checks, and post-await admission.\",\"Encode bounded typed discovery request and proposal messages with Prost and reject malformed, unknown-field, duplicate, reordered, or otherwise noncanonical protobuf encodings.\",\"Persist request and proposal replay high-water entries in immediate-durability redb state, retain them through signed validity, validate durable state on open, and reject replay after restart.\",\"Preserve configured seeds as bounded hints only and fail closed on rotation, revocation, wrong domain, stale generations, replay, timeout, cancellation, malformed input, unsafe database paths, corruption, and resource exhaustion.\"],\"artifacts\":[\"adl-runtime/src/distributed/discovery.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\",\".csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"purpose\":\"Run the exact issue-owned positive and fail-closed discovery target including generation rotation, canonical protobuf, and durable restart replay coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--\",\"-D\",\"warnings\",\"-A\",\"clippy::absurd_extreme_comparisons\"],\"purpose\":\"Run strict focused Clippy while allowing only the qualified pre-existing ACIP lint.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:strict-focused-clippy\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\"],\"purpose\":\"Validate the final two-revision generation-bound protobuf and durable-replay receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 27,
+      "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 28,
+      "actor": "subagent:/root/review_5866_hardened",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 29,
+      "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 54,
+      "generation": 30,
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "Recover the misattributed review record and republished projection so the actual independent exact-head verdict from /root/start_sprint_4_5862/review_5866_republished_truth can become canonical before terminalization.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 30,
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 31,
+      "actor": "/root/start_sprint_4_5862/review_5866_republished_truth",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 32,
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

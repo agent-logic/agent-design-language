@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5872,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5872-resource-weather",
+  "title": "feat(runtime): add authenticated resource weather",
+  "body": "Closes danielbaustin/agent-design-language#5872\n\n## Summary\n- add bounded deterministic resource-weather observations signed by AdvertisementSigning certificates\n- enforce live authorization, freshness, durable replay and authenticated withdrawal semantics\n- fail closed on malformed, corrupt, oversized, replayed, or unsafe-path state\n- keep the module unregistered and advisory-only until #5878\n\n## Validation\n- exact nextest target: 12/12 passed\n- qualified strict Clippy: passed (allowing only the known unrelated acip.rs baseline lint)\n- two-revision receipt validator: passed\n- independent exact-head security/correctness review: accepted with no material findings\n\n## Residual boundary\nStable-state path checks reject relative and symlinked components but do not claim race-free filesystem confinement. Production registration and cross-child integration remain deferred to #5878.",
+  "draft": false,
+  "revision": "git-blake3:b424aad19b323a4621e70453c16d08b1bb83d443:fd689c5c0122d60ff363bca9b56586d5f4f5e53c31c61fb6dfc217e5804a0eee",
+  "commit_sha": "b424aad19b323a4621e70453c16d08b1bb83d443"
+}

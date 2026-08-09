@@ -1,0 +1,18 @@
+{
+  "actor": "codex:sprint-2-closeout-remediation",
+  "card": "sip",
+  "expected_digest": "f3b0754df38d6dbdfa48438d9d89c58d4778bf28ab083f92706344096600749a",
+  "expected_generation": 8,
+  "issue": 5855,
+  "operation": {
+    "operation": "correct_declared_scope_before_publication",
+    "values": [
+      ".csdlc/issues/5855",
+      ".csdlc/prepared/issues/5855",
+      ".csdlc/evidence/5855",
+      "Sprint 2 terminal membership: #5800, #5820, #5821, #5795, #5832",
+      "Explicitly excluded independent follow-ons: #5837, #83, #84"
+    ]
+  },
+  "reason": "Resolve F-5855-3 with an explicit typed five-child scope correction after review recovery."
+}

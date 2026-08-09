@@ -1,0 +1,18 @@
+{
+  "issue": 5832,
+  "card": "stp",
+  "expected_generation": 45,
+  "expected_digest": "3530a5f0e220c867ceb8ab549fcbfdf5cc3a6438d58b1fe44a3c24e0cdc22812",
+  "actor": "codex:5832-scheduling-correction",
+  "reason": "Keep deliverable prose distinct from validator file targets while preserving the accepted protocol outcome.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Frozen versioned semantic envelope and compatibility/negotiation policy",
+      "Canonical protobuf files plus schema-derived public message catalog",
+      "Deterministic JSON projection and protobuf/JSON semantic round-trip fixtures",
+      "Authenticated Rustls WSS bidirectional carrier with limits, backpressure, reconnect, error, replay, and denied-access evidence"
+    ]
+  }
+}

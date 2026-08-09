@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 75,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/75-incremental-publication-linkage",
+  "title": "[v0.92][C-SDLC v2] Support non-closing incremental publication linkage",
+  "body": "Closes #75\n\nAdds a small strum-backed publication linkage mode with backward-compatible `closing` behavior and exact `part_of` references for incremental parent checkpoints. The mode is retained through intent, remote observation, and canonical publication evidence; mixed or unqualified split-authority linkage fails closed; and `part_of` evidence can never authorize terminal issue closeout.\n\nFocused proof: gate6 11/11, gate_finish 18/18, schema 3/3, publisher binary 7/7, strict Clippy, and exact-head independent review with no findings.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:45a1757f767e2652daf0c1c5e4c4d0481f8e5e41:e296aa028dd6cce8ecb30058630280ef7a8518e40a95a3c4a91ba37deafb86b4",
+  "commit_sha": "45a1757f767e2652daf0c1c5e4c4d0481f8e5e41"
+}

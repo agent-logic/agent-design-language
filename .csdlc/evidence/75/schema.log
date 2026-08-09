@@ -1,0 +1,11 @@
+
+running 3 tests
+test schema::tests::excludes_removed_claim_schemas ... ok
+test schema::tests::includes_runner_preflight_request_and_packet ... ok
+test schema::tests::historical_finish_request_schema_rejects_ambiguous_repositories_and_shas ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 52 filtered out; finished in 0.01s
+
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-issue-75-incremental-publication-linkage/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.19s
+     Running unittests src/lib.rs (csdlc-v2/target/debug/deps/csdlc_v2-5f905740879ed96b)

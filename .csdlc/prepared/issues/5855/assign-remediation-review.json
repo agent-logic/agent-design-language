@@ -1,0 +1,14 @@
+{
+  "assigned_by": "codex:sprint-2-closeout-remediation",
+  "expected_digest": "57d9a293d834472060a08bfca745d77f159019b8d87d8f6c18b2c8cdfa463bfc",
+  "expected_generation": 12,
+  "issue": 5855,
+  "reviewer": "openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812",
+  "scope": [
+    ".csdlc/issues/5855",
+    ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+    ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+    ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+    ".csdlc/evidence/5855"
+  ]
+}

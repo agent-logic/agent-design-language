@@ -1,0 +1,144 @@
+{
+  "issue": 59,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:59-authority-readiness",
+  "design_path": ".csdlc/prepared/issues/59/design.md",
+  "diagram_path": ".csdlc/prepared/issues/59/diagram.mmd",
+  "design_reviewer": "subagent:59-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
+    "slug": "codex-blocked-goal-replacement",
+    "version": "v0.92",
+    "goal": "Identify the truthful implementation authority for blocked-goal replacement and route the defect without falsifying historical goal state or inventing an ADL-local substitute.",
+    "required_outcome": "A reviewed typed readiness package proves whether ADL owns the failing transition and, if it does not, names the external authority and exact upstream contract needed before a live canary can close the issue.",
+    "declared_scope": [
+      ".csdlc/prepared/issues/59",
+      ".csdlc/issues/59"
+    ],
+    "authority_boundary": [
+      "Issue authority is agent-logic/agent-design-language#59",
+      "Thread-goal mutation authority is the OpenAI Codex goal-tool service",
+      "ADL owns policy and retained telemetry consumers, not create_goal admission or persistence",
+      "No implementation is authorized unless a repository-owned admission seam is discovered and independently reviewed"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main or under /private/tmp",
+      "Use the typed C-SDLC v2 lifecycle and Rust-only control plane",
+      "Do not mark the historical blocked goal complete",
+      "Do not weaken the ADL issue-bound goal policy",
+      "Do not invent an ADL-local goal service or shadow state",
+      "Do not use AWS"
+    ],
+    "task_boundary": "Classify code authority and produce a truthful reviewed routing result; implement only if an actual repository-owned goal replacement seam exists.",
+    "deliverables": [
+      "Source-grounded code-authority decision",
+      "Design and ownership-boundary diagram",
+      "Six typed C-SDLC cards with explicit planning and validation estimates",
+      "Exact external authority and upstream next-action contract",
+      "Independent readiness review with all findings resolved"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Repository evidence distinguishes ADL policy and telemetry consumers from the implementation that admits or rejects create_goal",
+      "AC-2: The routing result names the OpenAI Codex goal-tool service as external mutation authority unless a concrete repo-owned seam is found",
+      "AC-3: The historical blocked goal remains blocked with its status and accounting preserved",
+      "AC-4: The exact upstream contract covers explicit replacement or supersession, history retention, accounting retention, and fail-closed active-goal overwrite",
+      "AC-5: No ADL code, policy workaround, local goal store, or implementation PR is introduced without repository code authority",
+      "AC-6: Design, diagram, six typed cards, deterministic validation, and independent readiness review are current and truthful"
+    ],
+    "dependencies": [
+      "agent-logic/agent-design-language#59",
+      "Codex platform create_goal, get_goal, and update_goal contracts",
+      "An upstream Codex product owner able to change thread-goal admission and persistence"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "adl/tools/skills/pr-run/SKILL.md",
+      "adl/tools/skills/sprint-conductor/SKILL.md",
+      "docs/milestones/v0.91.6/features/FIRST_CLASS_NESTED_GOAL_ACCOUNTING_v0.91.6.md",
+      "Repository-wide source search for create_goal, update_goal, get_goal, and the exact failure message"
+    ],
+    "non_goals": [
+      "Implementing a second goal database in ADL",
+      "Mutating Codex session files",
+      "Falsely completing the blocked goal",
+      "Removing the issue-bound session-goal requirement",
+      "Nested sprint-goal accounting",
+      "Undocumented reverse engineering of Codex internals"
+    ],
+    "plan_summary": "Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then route the bounded product contract to the Codex platform owner without an ADL implementation PR.",
+    "affected_areas": [
+      "Codex thread-goal lifecycle",
+      "ADL issue-bound goal policy",
+      "C-SDLC readiness and authority routing"
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Inspect repository code, policies, and retained telemetry consumers to locate or rule out a repo-owned create_goal admission and persistence seam.",
+        "acceptance_ids": ["AC-1", "AC-2"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Record the authority boundary, invariants, external owner, and exact replacement or supersession contract in the design and diagram.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Validate the typed package and obtain independent readiness review, resolving every actionable finding without widening into a fabricated implementation.",
+        "acceptance_ids": ["AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Route the reviewed defect contract to the OpenAI Codex goal-tool owner and await a platform fix before running the live replacement canary.",
+        "acceptance_ids": ["AC-3", "AC-4"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Blocked historical goal truth and accounting are never rewritten",
+      "ADL does not shadow Codex thread-goal state",
+      "Active goals remain protected from accidental overwrite",
+      "Repository policy is not weakened as a workaround",
+      "No code implementation proceeds without owning source authority"
+    ],
+    "risks": [
+      "Mistaking ADL policy references for ownership of the platform goal API",
+      "Falsely completing a blocked objective to escape the admission rule",
+      "Creating divergent local goal state that Codex does not recognize",
+      "Publishing an implementation PR with no executable owning seam"
+    ],
+    "planning_profile": "small",
+    "stop_conditions": [
+      "No repository-owned goal admission or persistence implementation exists",
+      "The fix requires changing a platform-provided tool contract",
+      "The only proposed workaround weakens policy or falsifies historical state",
+      "Authority evidence becomes ambiguous and requires operator or platform-owner clarification"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "issue-59-routing-diff-hygiene",
+        "proof_role": "Reject malformed tracked routing artifacts while keeping validation bounded to the authority package.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "issue-local",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "failure_policy": "Fail closed if source authority is ambiguous, historical blocked-goal truth would be rewritten, ADL policy would be weakened, or a repository implementation is proposed without an owning executable seam.",
+    "review_prompts": [
+      "Does any repository executable actually implement create_goal admission or thread-goal persistence?",
+      "Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?",
+      "Would any proposed workaround falsify the old blocked goal or create divergent state?",
+      "Is the upstream replacement or supersession contract precise enough for a product owner to implement and test?",
+      "Are the estimates, stop boundary, and exact next action explicit?"
+    ],
+    "review_scope": "Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, upstream contract, and no-fabricated-implementation boundary."
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 96,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
+    "slug": "v092-v3-umbrella-receipt-topology",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only the WP-04 implementation-wave validator and its focused regression test.",
+      "deliverables": [
+        ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+        ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb",
+        "V3 S-to-E-to-H topology validation with product and evidence immutability",
+        "Exact PR head, merge, ancestry, terminal-envelope, denominator, DAG, and #5878 native proof preservation"
+      ],
+      "acceptance_criteria": [
+        "Valid S not equal to E not equal to H topology passes",
+        "Protected product paths are unchanged across S through E through H",
+        "Evidence is introduced once at E and immutable through H",
+        "Exact PR head H, merge, ancestry, terminal envelope, and unique mapping are checked",
+        "Product drift, evidence drift, wrong head or merge or ancestry, ambiguous or missing mapping, and fake self-reference are rejected",
+        "Sixteen-child, path, DAG, terminality, and #5878 integrated/native bindings remain mandatory",
+        "Focused proof, independent review, and green CI pass"
+      ],
+      "dependencies": [
+        "Sprint #5862 implementation-wave contract",
+        "Current C-SDLC v3 two-revision evidence model tracked by #53"
+      ],
+      "repo_inputs": [
+        ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+        ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+        ".csdlc/evidence/5863/execution-proof.json",
+        ".csdlc/evidence/5866/replay-window/execution-proof.json",
+        ".csdlc/evidence/5872/execution-proof.json"
+      ],
+      "non_goals": [
+        "Closeout rewrite",
+        "Runtime or distributed product changes",
+        "Accepting unmerged or non-terminal children",
+        "Weakening denominator, DAG, path, ancestry, evidence, or native receipt checks"
+      ]
+    }
+  }
+}

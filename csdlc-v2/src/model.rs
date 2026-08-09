@@ -100,6 +100,8 @@ pub struct PublicationEvidence {
     pub base: String,
     pub head: String,
     pub revision: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub linkage_mode: Option<crate::publication::PublicationLinkageMode>,
     pub draft: bool,
     pub observed_state: String,
 }

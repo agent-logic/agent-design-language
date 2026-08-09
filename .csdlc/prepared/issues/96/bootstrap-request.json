@@ -1,0 +1,129 @@
+{
+  "issue": 96,
+  "repository": "agent-logic/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/96/design.md",
+  "diagram_path": ".csdlc/prepared/issues/96/diagram.mmd",
+  "design_reviewer": "codex:issue-96-operator-approved-design",
+  "design_approved": true,
+  "actor": "codex:issue-96-v3-umbrella-receipts",
+  "initial": {
+    "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
+    "slug": "v092-v3-umbrella-receipt-topology",
+    "version": "v0.92",
+    "goal": "Accept truthful v3 S-to-E-to-H child proof topology without weakening umbrella terminality or evidence checks.",
+    "required_outcome": "A valid terminal child and umbrella fixture with S not equal to E not equal to H passes while all product, evidence, ancestry, terminal, denominator, DAG, and native proof drift fails closed.",
+    "declared_scope": [
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"
+    ],
+    "affected_areas": [
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"
+    ],
+    "authority_boundary": [
+      "Issue 96 exclusively owns the two declared tooling/test paths",
+      "No runtime, closeout, child product, terminal envelope, or publication mutation",
+      "No merge authority"
+    ],
+    "operator_constraints": [
+      "Work only in the issue-bound FastWork worktree",
+      "Preserve sixteen-child, exact-path, DAG, terminal, and #5878 native proof requirements",
+      "Use typed v2 lifecycle, exact review, and a ready green PR",
+      "Stop before merge"
+    ],
+    "task_boundary": "Repair only the WP-04 implementation-wave validator and its focused regression test.",
+    "deliverables": [
+      "V3 S-to-E-to-H topology validation",
+      "Product and evidence immutability enforcement",
+      "Exact PR head, merge, ancestry, and envelope validation",
+      "Focused positive and negative generated-history regression",
+      "Digest-bound execution proof and independent exact-head review"
+    ],
+    "acceptance_criteria": [
+      "Valid S not equal to E not equal to H topology passes",
+      "Protected product paths are unchanged across S through E through H",
+      "Evidence is introduced once at E and immutable through H",
+      "Exact PR head H, merge, ancestry, terminal envelope, and unique mapping are checked",
+      "Product drift, evidence drift, wrong head or merge or ancestry, ambiguous or missing mapping, and fake self-reference are rejected",
+      "Sixteen-child, path, DAG, terminality, and #5878 integrated/native bindings remain mandatory",
+      "Focused proof, independent review, and green CI pass"
+    ],
+    "dependencies": [
+      "Sprint #5862 implementation-wave contract",
+      "Current C-SDLC v3 two-revision evidence model tracked by #53"
+    ],
+    "repo_inputs": [
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/evidence/5863/execution-proof.json",
+      ".csdlc/evidence/5866/replay-window/execution-proof.json",
+      ".csdlc/evidence/5872/execution-proof.json"
+    ],
+    "non_goals": [
+      "Closeout rewrite",
+      "Runtime or distributed product changes",
+      "Accepting unmerged or non-terminal children",
+      "Weakening denominator, DAG, path, ancestry, evidence, or native receipt checks"
+    ],
+    "plan_summary": "Bootstrap and bind issue 96, implement v3 topology reconciliation in the umbrella validator, prove generated Git histories, obtain exact-head review, and publish a green ready PR without merge.",
+    "steps": [
+      {"id":"S1","action":"Bind exact tooling/test scope and inspect current v2/v3 proof topology.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S2","action":"Implement S-to-E-to-H validation while preserving all terminal and denominator gates.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Run focused generated-history positive and negative tests plus Ruby syntax checks.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
+      {"id":"S4","action":"Resolve independent exact-head review and publish one green ready PR.","acceptance_ids":["AC-7"],"status":"pending"}
+    ],
+    "invariants": [
+      "Exactly sixteen WP-04 children and exact owned-path denominator",
+      "Dependency DAG and terminal merged envelopes remain mandatory",
+      "Product bytes unchanged after S and evidence bytes unchanged after E",
+      "#5878 integrated and native receipt bindings remain mandatory",
+      "No self-referential evidence requirement"
+    ],
+    "risks": [
+      "Accepting ambiguous proof mappings",
+      "Treating ancestry alone as byte immutability",
+      "Weakening #5878 integrated/native proof",
+      "Fixture passing without exercising real Git object topology"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Owned scope must widen beyond the validator and focused test",
+      "Terminality or denominator checks would need weakening",
+      "Generated fixture cannot reproduce current v3 proof topology",
+      "Independent review has unresolved actionable findings"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "focused-ruby-regression",
+        "proof_role": "Generated Git histories prove valid S-to-E-to-H acceptance and all specified drift and terminality rejections.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "focused",
+        "budget_seconds": 900,
+        "budget_tokens": 8000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"],
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"]
+      },
+      {
+        "lane": "ruby-syntax",
+        "proof_role": "Ruby parser accepts the validator and focused regression source.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "syntax",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["ruby", "-c", ".csdlc/prepared/issues/5862/validate-implementation-wave.rb"],
+        "acceptance_ids": ["AC-7"]
+      }
+    ],
+    "failure_policy": "Fail closed on any product/evidence drift, wrong or ambiguous mapping, ancestry/head/merge mismatch, terminality weakness, denominator/DAG drift, native-proof omission, failed test, or unresolved review.",
+    "review_prompts": [
+      "Can any post-S product mutation evade the validator?",
+      "Can evidence be replaced or modified after E?",
+      "Are H, merge ancestry, terminal envelopes, and mappings exact and unambiguous?",
+      "Are all sixteen children, paths, DAG edges, and #5878 native receipts still mandatory?",
+      "Does any self-referential fake evidence pass?"
+    ],
+    "review_scope": "Issue 96 validator/test delta, generated Git topology fixtures, preserved terminality and denominator semantics."
+  }
+}

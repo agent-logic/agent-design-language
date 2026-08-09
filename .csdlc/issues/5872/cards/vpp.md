@@ -47,7 +47,7 @@ Diagram: .csdlc/prepared/issues/5872/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": null
+    "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/resource_weather.rs\"] harness in adl-runtime/tests/distributed_resource_weather.rs will route adl-runtime/src/distributed/resource_weather.rs until integration issue #5878 registers the production module."
   },
   {
     "lane": "exact-revision-proof-receipt",

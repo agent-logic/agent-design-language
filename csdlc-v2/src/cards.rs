@@ -577,6 +577,9 @@ pub enum SemanticOperation {
     CorrectDeclaredScopeBeforePublication {
         values: Vec<String>,
     },
+    CorrectStpDeliverablesAfterRecovery {
+        values: Vec<String>,
+    },
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
@@ -927,6 +930,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Sip(value) => value.declared_scope = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_declared_scope_before_publication"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP deliverables")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.deliverables = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_deliverables_after_recovery"),
             }
             Ok(None)
         }
@@ -1486,6 +1499,22 @@ fn validate_replacement(values: &[String], field: &str) -> Result<()> {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
             format!("{field} replacement cannot be empty"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_unique_replacement(values: &[String], field: &str) -> Result<()> {
+    validate_replacement(values, field)?;
+    let mut normalized = BTreeSet::new();
+    if values
+        .iter()
+        .map(|value| value.trim())
+        .any(|value| !normalized.insert(value))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            format!("{field} replacement cannot contain duplicates"),
         ));
     }
     Ok(())
@@ -2054,10 +2083,12 @@ fn explicitly_deferred_validator(
     owned_paths: &[String],
     deliverables: &[String],
     failure_policy: &str,
+    allow_deferred: bool,
 ) -> bool {
-    validator_targets(root, lane)
-        .iter()
-        .any(|target| target == path)
+    allow_deferred
+        && validator_targets(root, lane)
+            .iter()
+            .any(|target| target == path)
         && owned_paths.iter().any(|owned| owned == path)
         && deliverables.iter().any(|deliverable| deliverable == path)
         && lane
@@ -2083,6 +2114,14 @@ fn fail_closed_policy(value: &str) -> bool {
 }
 
 fn required_validator_deliverable(path: &str) -> bool {
+    if path.chars().any(char::is_whitespace)
+        || !Path::new(path)
+            .components()
+            .all(|component| matches!(component, Component::Normal(_)))
+        || !(path.contains('/') || Path::new(path).extension().is_some())
+    {
+        return false;
+    }
     let path = Path::new(path);
     let validator_words = [
         "test",
@@ -2107,6 +2146,94 @@ fn required_validator_deliverable(path: &str) -> bool {
             stem.split(|character: char| !character.is_ascii_alphanumeric())
                 .any(|word| validator_words.contains(&word.to_ascii_lowercase().as_str()))
         })
+}
+
+fn rust_source_crate_root(root: &Path, path: &str) -> Option<PathBuf> {
+    let relative = Path::new(path);
+    if relative.extension().and_then(|value| value.to_str()) != Some("rs") {
+        return None;
+    }
+    let components = relative.components().collect::<Vec<_>>();
+    let src_index = components
+        .iter()
+        .enumerate()
+        .find_map(|(index, component)| {
+            if component.as_os_str() != "src" || index + 1 >= components.len() {
+                return None;
+            }
+            let crate_root = components[..index]
+                .iter()
+                .fold(PathBuf::new(), |mut path, part| {
+                    path.push(part.as_os_str());
+                    path
+                });
+            root.join(&crate_root)
+                .join("Cargo.toml")
+                .is_file()
+                .then_some(crate_root)
+        });
+    src_index
+}
+
+fn explicitly_deferred_rust_path_harness(
+    root: &Path,
+    source_path: &str,
+    lanes: &[ValidationLane],
+    owned_paths: &[String],
+    deliverables: &[String],
+    failure_policy: &str,
+    allow_deferred: bool,
+) -> bool {
+    if !allow_deferred
+        || owned_paths
+            .iter()
+            .filter(|path| !rust_module_route_owned(root, path, owned_paths))
+            .count()
+            != 1
+        || root.join(source_path).exists()
+        || !owned_paths.iter().any(|owned| owned == source_path)
+        || !deliverables
+            .iter()
+            .any(|deliverable| deliverable == source_path)
+    {
+        return false;
+    }
+    let Some(crate_root) = rust_source_crate_root(root, source_path) else {
+        return false;
+    };
+    let tests_root = crate_root.join("tests");
+    lanes.iter().any(|lane| {
+        let is_exact_nextest_lane = matches!(lane.argv.as_slice(), [cargo, nextest, run, ..]
+            if cargo == "cargo" && nextest == "nextest" && run == "run")
+            && lane
+                .argv
+                .iter()
+                .any(|argument| argument == "--no-tests=fail");
+        let targets = validator_targets(root, lane);
+        let Some(target) = targets.first() else {
+            return false;
+        };
+        let target_path = Path::new(target);
+        let exact_same_crate_test = targets.len() == 1
+            && target_path.parent() == Some(tests_root.as_path())
+            && target_path.extension().and_then(|value| value.to_str()) == Some("rs");
+        let explicit_harness = lane.defer_reason.as_deref().is_some_and(|reason| {
+            reason.contains("#[path") && reason.contains(source_path) && !placeholder(reason)
+        });
+        is_exact_nextest_lane
+            && exact_same_crate_test
+            && explicit_harness
+            && proving_lane_at(root, lane, owned_paths)
+            && explicitly_deferred_validator(
+                root,
+                target,
+                lane,
+                owned_paths,
+                deliverables,
+                failure_policy,
+                allow_deferred,
+            )
+    })
 }
 
 fn rust_module_route_owned(root: &Path, path: &str, owned_paths: &[String]) -> bool {
@@ -2275,6 +2402,7 @@ fn owned_path_at(root: &Path, value: &str) -> bool {
 pub(crate) fn execution_readiness_findings_for_cards(
     root: &Path,
     cards: &BTreeMap<CardKind, CardValues>,
+    phase: LifecyclePhase,
 ) -> Result<Vec<ExecutionReadinessFinding>> {
     let affected_areas = match &cards
         .get(&CardKind::Spp)
@@ -2311,6 +2439,7 @@ pub(crate) fn execution_readiness_findings_for_cards(
         &vpp.lanes,
         &vpp.failure_policy,
         owned_paths_are_valid,
+        phase == LifecyclePhase::Initialized,
     ))
 }
 
@@ -2321,6 +2450,7 @@ fn execution_readiness_findings(
     lanes: &[ValidationLane],
     failure_policy: &str,
     owned_paths_are_valid: bool,
+    allow_deferred: bool,
 ) -> Vec<ExecutionReadinessFinding> {
     let mut findings = Vec::new();
     if !owned_paths_are_valid {
@@ -2330,7 +2460,17 @@ fn execution_readiness_findings(
         });
     }
     for path in affected_areas {
-        if !rust_module_route_owned(root, path, affected_areas) {
+        if !rust_module_route_owned(root, path, affected_areas)
+            && !explicitly_deferred_rust_path_harness(
+                root,
+                path,
+                lanes,
+                affected_areas,
+                deliverables,
+                failure_policy,
+                allow_deferred,
+            )
+        {
             findings.push(ExecutionReadinessFinding {
                 code: "owned_rust_module_unroutable",
                 message: format!("new Rust module requires an owned existing module route: {path}"),
@@ -2364,6 +2504,7 @@ fn execution_readiness_findings(
                 affected_areas,
                 deliverables,
                 failure_policy,
+                allow_deferred,
             );
             if !exists && !deferred {
                 findings.push(ExecutionReadinessFinding {
@@ -2395,6 +2536,15 @@ fn execution_readiness_findings(
         .iter()
         .filter(|path| required_validator_deliverable(path))
     {
+        if !affected_areas.iter().any(|owned| owned == validator) {
+            findings.push(ExecutionReadinessFinding {
+                code: "validator_deliverable_unowned",
+                message: format!(
+                    "required validator deliverable is not an issue-owned path: {validator}"
+                ),
+            });
+            continue;
+        }
         let exists = root.join(validator).is_file();
         let deferred = lanes.iter().any(|lane| {
             explicitly_deferred_validator(
@@ -2404,6 +2554,7 @@ fn execution_readiness_findings(
                 affected_areas,
                 deliverables,
                 failure_policy,
+                allow_deferred,
             )
         });
         if !exists && !deferred && !selected_targets.contains(validator) {

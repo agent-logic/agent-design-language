@@ -1,0 +1,270 @@
+{
+  "schema": "adl.acip_native_receipts.v2",
+  "source_revision": "7c8569351ea4cbd1d9c9d94d7021a238c7c9599c",
+  "receipts": [
+    {
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b"
+        }
+      ],
+      "assertions": [
+        {
+          "evidence": "real rustls listener served RuntimeApiService over wss",
+          "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "evidence_sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b",
+          "name": "runtime_api_listener",
+          "result": "passed"
+        },
+        {
+          "evidence": "native TLS WebSocket sessions completed",
+          "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "evidence_sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b",
+          "name": "rustls_wss",
+          "result": "passed"
+        },
+        {
+          "evidence": "bearer and origin admission preceded request and acknowledgement frames",
+          "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "evidence_sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b",
+          "name": "authenticated_bidirectional",
+          "result": "passed"
+        },
+        {
+          "evidence": "eight alternating protobuf-base64 and deterministic-json envelopes round-tripped byte-identically",
+          "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "evidence_sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b",
+          "name": "protobuf_json_parity",
+          "result": "passed"
+        },
+        {
+          "evidence": "reconnect required renegotiation and oversized frames closed fail-closed",
+          "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "evidence_sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b",
+          "name": "reconnect_backpressure",
+          "result": "passed"
+        },
+        {
+          "evidence": "duplicate replay identity closed with replay_refused",
+          "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "evidence_sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b",
+          "name": "replay_denied",
+          "result": "passed"
+        },
+        {
+          "evidence": "origin runtime signature capability and authority denials closed fail-closed",
+          "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+          "evidence_sha256": "3f8a525de50312e0c285bafbd0dc4c4f560ff0a1818f4829cb0705b65935062b",
+          "name": "denied_access",
+          "result": "passed"
+        }
+      ],
+      "command": {
+        "argv": [
+          "cargo",
+          "nextest",
+          "run",
+          "--manifest-path",
+          "adl-runtime/Cargo.toml",
+          "--test",
+          "runtime_api_wss",
+          "--no-tests=fail",
+          "production_acip_wss"
+        ],
+        "exit_code": 0,
+        "stderr_path": ".csdlc/evidence/5832/native/linux/stderr.log",
+        "stderr_sha256": "d7dbdaa496f0cdbbf32284eadf76ce17e812baf7f68cd51239f1aed07507a0a5",
+        "stdout_path": ".csdlc/evidence/5832/native/linux/stdout.log",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "negative_cases": 11,
+      "platform": "linux",
+      "runner": {
+        "arch": "X64",
+        "identity_sha256": "9142692c2faaebb3273abc7d773fd453c731922c79cd10f39361076b9722cf29",
+        "os": "Linux",
+        "provider": "github-actions",
+        "run_id": "31299652599-1-linux"
+      },
+      "source_revision": "7c8569351ea4cbd1d9c9d94d7021a238c7c9599c",
+      "successful_exchanges": 9
+    },
+    {
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251"
+        }
+      ],
+      "assertions": [
+        {
+          "evidence": "real rustls listener served RuntimeApiService over wss",
+          "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "evidence_sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251",
+          "name": "runtime_api_listener",
+          "result": "passed"
+        },
+        {
+          "evidence": "native TLS WebSocket sessions completed",
+          "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "evidence_sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251",
+          "name": "rustls_wss",
+          "result": "passed"
+        },
+        {
+          "evidence": "bearer and origin admission preceded request and acknowledgement frames",
+          "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "evidence_sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251",
+          "name": "authenticated_bidirectional",
+          "result": "passed"
+        },
+        {
+          "evidence": "eight alternating protobuf-base64 and deterministic-json envelopes round-tripped byte-identically",
+          "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "evidence_sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251",
+          "name": "protobuf_json_parity",
+          "result": "passed"
+        },
+        {
+          "evidence": "reconnect required renegotiation and oversized frames closed fail-closed",
+          "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "evidence_sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251",
+          "name": "reconnect_backpressure",
+          "result": "passed"
+        },
+        {
+          "evidence": "duplicate replay identity closed with replay_refused",
+          "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "evidence_sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251",
+          "name": "replay_denied",
+          "result": "passed"
+        },
+        {
+          "evidence": "origin runtime signature capability and authority denials closed fail-closed",
+          "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+          "evidence_sha256": "2edb840b881b0d27cec7a8746bb7a31646612a5403188c42e9fb43baaadf3251",
+          "name": "denied_access",
+          "result": "passed"
+        }
+      ],
+      "command": {
+        "argv": [
+          "cargo",
+          "nextest",
+          "run",
+          "--manifest-path",
+          "adl-runtime/Cargo.toml",
+          "--test",
+          "runtime_api_wss",
+          "--no-tests=fail",
+          "production_acip_wss"
+        ],
+        "exit_code": 0,
+        "stderr_path": ".csdlc/evidence/5832/native/macos/stderr.log",
+        "stderr_sha256": "a71cc23a17d14f9287371c22819b20802e0d98384a56bc1f9db998b2104b820b",
+        "stdout_path": ".csdlc/evidence/5832/native/macos/stdout.log",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "negative_cases": 11,
+      "platform": "macos",
+      "runner": {
+        "arch": "ARM64",
+        "identity_sha256": "b81b74466f00784aae9f4cab1bd78947726fe205ef3efc98d6b81b3de88f9083",
+        "os": "macOS",
+        "provider": "github-actions",
+        "run_id": "31299652599-1-macos"
+      },
+      "source_revision": "7c8569351ea4cbd1d9c9d94d7021a238c7c9599c",
+      "successful_exchanges": 9
+    },
+    {
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a"
+        }
+      ],
+      "assertions": [
+        {
+          "evidence": "real rustls listener served RuntimeApiService over wss",
+          "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "evidence_sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a",
+          "name": "runtime_api_listener",
+          "result": "passed"
+        },
+        {
+          "evidence": "native TLS WebSocket sessions completed",
+          "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "evidence_sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a",
+          "name": "rustls_wss",
+          "result": "passed"
+        },
+        {
+          "evidence": "bearer and origin admission preceded request and acknowledgement frames",
+          "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "evidence_sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a",
+          "name": "authenticated_bidirectional",
+          "result": "passed"
+        },
+        {
+          "evidence": "eight alternating protobuf-base64 and deterministic-json envelopes round-tripped byte-identically",
+          "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "evidence_sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a",
+          "name": "protobuf_json_parity",
+          "result": "passed"
+        },
+        {
+          "evidence": "reconnect required renegotiation and oversized frames closed fail-closed",
+          "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "evidence_sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a",
+          "name": "reconnect_backpressure",
+          "result": "passed"
+        },
+        {
+          "evidence": "duplicate replay identity closed with replay_refused",
+          "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "evidence_sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a",
+          "name": "replay_denied",
+          "result": "passed"
+        },
+        {
+          "evidence": "origin runtime signature capability and authority denials closed fail-closed",
+          "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+          "evidence_sha256": "e9cdd548cfc1e41a1ba48d1ea3cfcca659d97059b7ff0186ad02ffeb581e270a",
+          "name": "denied_access",
+          "result": "passed"
+        }
+      ],
+      "command": {
+        "argv": [
+          "cargo",
+          "nextest",
+          "run",
+          "--manifest-path",
+          "adl-runtime/Cargo.toml",
+          "--test",
+          "runtime_api_wss",
+          "--no-tests=fail",
+          "production_acip_wss"
+        ],
+        "exit_code": 0,
+        "stderr_path": ".csdlc/evidence/5832/native/windows/stderr.log",
+        "stderr_sha256": "8bf458afc6ab6bb01178e7f9b8e9a06f25639d0ec67e6c52fc0f778e490cb05a",
+        "stdout_path": ".csdlc/evidence/5832/native/windows/stdout.log",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "negative_cases": 11,
+      "platform": "windows",
+      "runner": {
+        "arch": "X64",
+        "identity_sha256": "1be64192b54aa0ff052c08a4b0465c5bfcf8fb8c279a69470450d1078f0d1285",
+        "os": "Windows",
+        "provider": "github-actions",
+        "run_id": "31299652599-1-windows"
+      },
+      "source_revision": "7c8569351ea4cbd1d9c9d94d7021a238c7c9599c",
+      "successful_exchanges": 9
+    }
+  ]
+}

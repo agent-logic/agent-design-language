@@ -231,6 +231,341 @@ fn request() -> BootstrapRequest {
     }
 }
 
+fn distributed_deferred_request(issue: u64, source: &str, test_target: &str) -> BootstrapRequest {
+    let test_name = Path::new(test_target)
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .expect("named Rust test target");
+    let mut value = request();
+    value.issue = issue;
+    value.repository = "danielbaustin/agent-design-language".into();
+    value.design_path = format!("design/issue-{issue}.md");
+    value.diagram_path = format!("design/issue-{issue}.mmd");
+    value.initial.title = format!("Distributed deferred target issue {issue}");
+    value.initial.slug = format!("distributed-deferred-target-{issue}");
+    value.initial.repo_inputs = vec![value.design_path.clone()];
+    value.initial.affected_areas = vec![source.into(), test_target.into()];
+    value.initial.deliverables = vec![
+        source.into(),
+        test_target.into(),
+        "Focused positive and negative tests".into(),
+        "Digest-bound execution proof".into(),
+        "Reviewed rollback evidence".into(),
+    ];
+    value.initial.validation_lanes = vec![ValidationLane {
+        lane: "exact-child-tests".into(),
+        proof_role: "Exact nextest target proves the issue-owned distributed behavior.".into(),
+        acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+        deterministic: true,
+        resource_profile: ResourceProfile::Small,
+        budget_seconds: 120,
+        budget_tokens: 1_000,
+        argv: vec![
+            "cargo".into(),
+            "nextest".into(),
+            "run".into(),
+            "--manifest-path".into(),
+            "adl-runtime/Cargo.toml".into(),
+            "--test".into(),
+            test_name.into(),
+            "--no-tests=fail".into(),
+        ],
+        parallel_group: "child".into(),
+        defer_reason: Some(format!(
+            "The issue-owned temporary #[path = \"../src/distributed/...\"] harness will route {source} until integration registration."
+        )),
+    }];
+    value.initial.failure_policy =
+        "Fail closed on missing targets, zero tests, invalid evidence, or absent proof.".into();
+    value
+}
+
+fn create_distributed_deferred_issue(repo: &Path, request_root: &Path, request: &BootstrapRequest) {
+    fs::write(
+        repo.join(&request.design_path),
+        format!("# Approved design for issue {}\n", request.issue),
+    )
+    .expect("distributed design");
+    fs::write(
+        repo.join(&request.diagram_path),
+        "flowchart LR\n  Prepare --> Bind\n",
+    )
+    .expect("distributed diagram");
+    let request_path = request_root.join(format!("distributed-{}.json", request.issue));
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(request).expect("serialize distributed request"),
+    )
+    .expect("distributed request");
+    must_succeed(command(
+        repo,
+        env!("CARGO_BIN_EXE_csdlc-issue"),
+        &[
+            "--root",
+            &repo.to_string_lossy(),
+            "create",
+            "--request",
+            &request_path.to_string_lossy(),
+        ],
+    ));
+}
+
+fn distributed_fixture_repo(root: &Path) {
+    focused_fixture_repo(root);
+    fs::create_dir_all(root.join("adl-runtime/src/distributed"))
+        .expect("distributed source directory");
+    fs::create_dir_all(root.join("adl-runtime/tests")).expect("distributed tests directory");
+    fs::write(
+        root.join("adl-runtime/Cargo.toml"),
+        "[package]\nname = \"adl-runtime\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("runtime manifest");
+    fs::write(
+        root.join("adl-runtime/src/lib.rs"),
+        "// no distributed route\n",
+    )
+    .expect("runtime crate root");
+    git(root, &["add", "."]);
+    git(root, &["commit", "-m", "distributed fixture"]);
+}
+
+type DeferredRequestMutation = fn(&mut BootstrapRequest);
+
+#[test]
+fn initialized_deferred_distributed_targets_bind_only_through_exact_path_harnesses() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    distributed_fixture_repo(&repo);
+
+    for (issue, source, test_target) in [
+        (
+            5866,
+            "adl-runtime/src/distributed/discovery.rs",
+            "adl-runtime/tests/distributed_discovery.rs",
+        ),
+        (
+            5871,
+            "adl-runtime/src/distributed/capability_advertisement.rs",
+            "adl-runtime/tests/distributed_capability_advertisement.rs",
+        ),
+        (
+            5872,
+            "adl-runtime/src/distributed/resource_weather.rs",
+            "adl-runtime/tests/distributed_resource_weather.rs",
+        ),
+    ] {
+        let mut request = distributed_deferred_request(issue, source, test_target);
+        let exact_deliverables = request.initial.deliverables.clone();
+        let exact_lanes = request.initial.validation_lanes.clone();
+        request.initial.deliverables = vec![
+            "Implement the bounded distributed behavior.".into(),
+            "Focused positive and negative tests".into(),
+            "Digest-bound execution proof".into(),
+            "Reviewed rollback evidence".into(),
+        ];
+        request.initial.validation_lanes[0].defer_reason = None;
+        create_distributed_deferred_issue(&repo, temp.path(), &request);
+
+        let live_shape = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
+        assert_eq!(live_shape.status, csdlc_v2::doctor::DoctorStatus::Block);
+        for code in [
+            "owned_rust_module_unroutable",
+            "validator_target_missing",
+            "issue_specific_denominator_missing",
+        ] {
+            assert!(
+                live_shape
+                    .findings
+                    .iter()
+                    .any(|finding| finding.code == code),
+                "live child shape {issue} lacked {code}: {:?}",
+                live_shape.findings
+            );
+        }
+        for prose in [
+            "Focused positive and negative tests",
+            "Digest-bound execution proof",
+            "Reviewed rollback evidence",
+        ] {
+            assert!(!live_shape
+                .findings
+                .iter()
+                .any(|finding| finding.message.contains(prose)));
+        }
+
+        apply_edit(
+            &repo,
+            temp.path(),
+            issue,
+            "stp",
+            "declare-exact-future-deliverables",
+            serde_json::json!({
+                "operation": "replace_planning_collection",
+                "field": "deliverables",
+                "values": exact_deliverables
+            }),
+        );
+        apply_edit(
+            &repo,
+            temp.path(),
+            issue,
+            "vpp",
+            "declare-temporary-path-harness",
+            serde_json::json!({
+                "operation": "replace_validation_lanes",
+                "lanes": exact_lanes
+            }),
+        );
+        let initialized = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
+        assert_eq!(initialized.status, csdlc_v2::doctor::DoctorStatus::Pass);
+        assert!(initialized.ready);
+        assert!(initialized.findings.is_empty());
+
+        let worktree = temp.path().join(format!("worktrees/issue-{issue}"));
+        bind_issue(
+            &Store::new(&repo),
+            BindRequest {
+                issue,
+                base_branch: "main".into(),
+                branch: format!("codex/{issue}-distributed-deferred"),
+                worktree: worktree.to_string_lossy().into_owned(),
+                code_repository: Some("agent-logic/agent-design-language".into()),
+            },
+        )
+        .expect("bind initialized deferred targets");
+
+        let bound = csdlc_v2::diagnose(&Store::new(&worktree), issue);
+        assert_eq!(bound.status, csdlc_v2::doctor::DoctorStatus::Block);
+        for code in [
+            "owned_rust_module_unroutable",
+            "validator_target_missing",
+            "issue_specific_denominator_missing",
+        ] {
+            assert!(bound.findings.iter().any(|finding| finding.code == code));
+        }
+
+        fs::create_dir_all(
+            worktree
+                .join(source)
+                .parent()
+                .expect("source parent directory"),
+        )
+        .expect("materialized source directory");
+        fs::create_dir_all(
+            worktree
+                .join(test_target)
+                .parent()
+                .expect("test parent directory"),
+        )
+        .expect("materialized test directory");
+        fs::write(worktree.join(source), "pub fn implemented() {}\n").expect("implemented source");
+        fs::write(
+            worktree.join(test_target),
+            format!(
+                "#[path = \"../src/distributed/{}\"]\nmod subject;\n#[test]\nfn implemented_target_runs() {{ subject::implemented(); }}\n",
+                Path::new(source)
+                    .file_name()
+                    .and_then(|value| value.to_str())
+                    .expect("source filename")
+            ),
+        )
+        .expect("implemented focused test");
+        let implemented_targets = csdlc_v2::diagnose(&Store::new(&worktree), issue);
+        assert_eq!(
+            implemented_targets.status,
+            csdlc_v2::doctor::DoctorStatus::Pass
+        );
+        assert!(implemented_targets.findings.is_empty());
+    }
+}
+
+#[test]
+fn deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate() {
+    let cases: &[(&str, DeferredRequestMutation)] = &[
+        ("source-not-deliverable", |request| {
+            request.initial.deliverables.remove(0);
+        }),
+        ("test-not-owned", |request| {
+            request.initial.affected_areas.pop();
+        }),
+        ("test-not-deliverable", |request| {
+            request.initial.deliverables.remove(1);
+        }),
+        ("missing-deferral", |request| {
+            request.initial.validation_lanes[0].defer_reason = None;
+        }),
+        ("placeholder-deferral", |request| {
+            request.initial.validation_lanes[0].defer_reason = Some("TBD".into());
+        }),
+        ("no-path-harness", |request| {
+            request.initial.validation_lanes[0].defer_reason =
+                Some("The future focused test will be added during execution.".into());
+        }),
+        ("not-fail-closed", |request| {
+            request.initial.failure_policy =
+                "Fail closed unless the future validator is missing.".into();
+        }),
+        ("zero-test-not-enforced", |request| {
+            request.initial.validation_lanes[0]
+                .argv
+                .retain(|argument| argument != "--no-tests=fail");
+        }),
+        ("multiple-unroutable-sources", |request| {
+            let sibling = "adl-runtime/src/distributed/unrelated.rs".to_string();
+            request.initial.affected_areas.push(sibling.clone());
+            request.initial.deliverables.push(sibling);
+        }),
+        ("validator-deliverable-unowned", |request| {
+            request
+                .initial
+                .deliverables
+                .push("adl-runtime/tests/unowned_validator.rs".into());
+        }),
+    ];
+
+    for (offset, (name, mutate)) in cases.iter().enumerate() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let repo = temp.path().join("repo");
+        distributed_fixture_repo(&repo);
+        let issue = 6000 + offset as u64;
+        let source = "adl-runtime/src/distributed/discovery.rs";
+        let test_target = "adl-runtime/tests/distributed_discovery.rs";
+        let mut request = distributed_deferred_request(issue, source, test_target);
+        mutate(&mut request);
+        create_distributed_deferred_issue(&repo, temp.path(), &request);
+        let diagnosis = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
+        assert_eq!(
+            diagnosis.status,
+            csdlc_v2::doctor::DoctorStatus::Block,
+            "case {name} unexpectedly passed: {:?}",
+            diagnosis.findings
+        );
+        assert!(
+            diagnosis.findings.iter().any(|finding| matches!(
+                finding.code.as_str(),
+                "owned_rust_module_unroutable"
+                    | "validator_target_missing"
+                    | "validator_deliverable_unowned"
+                    | "issue_specific_denominator_missing"
+            )),
+            "case {name} lacked a false-readiness finding: {:?}",
+            diagnosis.findings
+        );
+    }
+}
+
 #[test]
 fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     let temp = tempfile::tempdir().expect("tempdir");
@@ -1609,6 +1944,13 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         .expect("serialize success bind"),
     )
     .expect("success bind request");
+    let success_diagnosis = csdlc_v2::diagnose(&Store::new(&success_worktree), 42);
+    assert_eq!(
+        success_diagnosis.status,
+        csdlc_v2::doctor::DoctorStatus::Pass,
+        "focused source issue must be bindable: {:?}",
+        success_diagnosis.findings
+    );
     let success = must_succeed(command(
         &success_worktree,
         env!("CARGO_BIN_EXE_csdlc-bind"),
