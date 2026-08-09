@@ -81,6 +81,12 @@ The repository-relative retained manifest at
 `.csdlc/evidence/73/official-cli-source-baseline.json` records the pinned
 revision and Git object identity for every cited path. Validation consumes that
 declared input and does not depend on an operator-specific checkout location.
+Its `adl.external_source_baseline.v1` schema contains `repository`, `revision`,
+the typed `capture_command`, and one `{path, kind, oid}` row per cited blob.
+Portable verification runs the declared `git ls-tree <revision> --
+<declared-paths>` operation in any clone of the named repository and requires
+exact equality with every manifest object ID; no absolute checkout path or
+host-local digest is part of the contract.
 
 ### Current C-SDLC v2
 
@@ -424,7 +430,8 @@ container.
 | `issue` | `AsyncInit` | Derivation from the asynchronously resolved repository and arguments |
 | `github` | `AsyncInit` | Credential resolution and hosted client initialization |
 
-`SyncInit<T>` is exactly `OnceLock<Result<T, Arc<AppError>>>`. Its accessor
+`SyncInit<T>` is exactly `OnceLock<Result<T, Arc<AppError>>>` for owned
+`T: Send + Sync + 'static`. Its accessor
 calls `get_or_init` with a closure whose complete cell value is
 `Result<T, Arc<AppError>>`, then pattern-matches the stored result to return
 `Result<&T, Arc<AppError>>`, cloning only the error `Arc`. It is lazy, never
@@ -435,8 +442,9 @@ pre-warmed by `App` construction, and contains no `unwrap` or `expect` path.
 initialization future before completion, the cell remains uninitialized and a
 later accessor may retry. Initialization is single-flight per generation: one
 caller starts the next attempt and concurrent callers attach to it rather than
-starting a retry herd. A bounded retry cooldown applies to localized timeout or
-adapter cancellation; root cancellation prevents any retry. Concurrent-access,
+starting a retry herd. Localized timeout or adapter cancellation permits at
+most one retry per invocation after a fixed 250 millisecond cooldown; root
+cancellation prevents any retry. Concurrent-access,
 completed-error, cancelled-init, retry-cooldown, and single-flight behavior are
 contract tests. Remote GitHub observation never belongs in `repository` or
 `issue` initialization; commands request it explicitly from `github`.
@@ -544,11 +552,15 @@ Schemars derives versioned public schemas from those same types.
 Typed audit events are embedded in `state.json` as part of the canonical
 aggregate. `audit.jsonl` is a deterministic projection of those events, not a
 co-primary append target. V3 initially performs no audit pruning or compaction;
-the V3-01 contract sets measured warning and blocking thresholds with at least
-ten times the largest representative imported/canary aggregate as initial
-headroom. Crossing the warning threshold produces a typed doctor finding;
+the V3-01 contract deterministically measures the largest canonical v2 issue
+bundle at baseline `f1c01499` as the byte sum of its index, audit, and six card
+value files, then sets the initial blocking threshold to at least ten times
+that size and the warning threshold to 80 percent of the block. Crossing the
+warning threshold produces a typed doctor finding;
 crossing the blocking threshold fails mutation and requires a separately
-reviewed retention revision. Neither threshold silently prunes evidence.
+reviewed retention revision. V3-16 can raise but cannot lower these thresholds
+from canary evidence without a new reviewed contract. Neither threshold
+silently prunes evidence.
 
 The six Markdown cards and `audit.jsonl` are deterministic projections. Every
 card has a V3-01 per-phase required/optional field table. A missing required
@@ -566,6 +578,15 @@ doctor recommendations, generated help, and exhaustive tests. Implementations
 must not duplicate phase allowlists in command handlers or store code. Adding a
 field or phase without a reviewed matrix row is a schema error, not an implicit
 unsupported case.
+
+The authoritative artifact is
+`csdlc-v3/contracts/capabilities.v1.json`, validated by a derived
+`csdlc.capabilities.v1` schema. Every row contains `field_id`, `owner_card` or
+`owner_aggregate`, `authoring_phases`, `correction_phases`,
+`required_recovery_provenance`, `invalidates`, `audit_payload_schema`,
+`command`, `owner_issue`, and `test_ids`. Duplicate field IDs, unknown phases,
+missing commands/owners/tests, or a command not present in generated Clap help
+fail V3-01 and every downstream matrix-consistency lane.
 
 ## Lifecycle Kernel
 
@@ -644,7 +665,10 @@ protocol on supported Windows filesystems. Windows builds and read-only
 commands remain supported even if equivalent mutation durability is not yet
 proven, but Windows state mutation must then fail closed as unsupported. The
 plan must never silently downgrade crash consistency to preserve a platform
-claim.
+claim. Unsupported mutation returns the stable public error code
+`unsupported_platform_mutation` in the blocked exit class before any staging
+file or lock is created; read-only commands remain available and doctor names
+the supported-host requirement.
 
 Remote mutations use a typed operation journal committed before the network
 mutation. Retries load that intent, block any competing mutation, perform
@@ -837,8 +861,12 @@ pub trait CommandResult: serde::Serialize + schemars::JsonSchema {
 Human output is default. `--json` writes one envelope with `schema`, `command`,
 `result`, and `warnings`; `schema` is a stable `csdlc.<command>.result.vN`
 discriminant. Within one major schema version, evolution is additive only;
-removal or semantic reinterpretation requires a new `vN`. `--jq` uses the
-V3-02-approved in-process Rust jq-compatible engine and never spawns `jq` or a
+removal or semantic reinterpretation requires a new `vN`. `--jq` starts with
+`jaq-core` as the V3-02 candidate and never claims complete jq compatibility.
+The minimum frozen subset is identity, field/index access, array/object
+iteration and construction, slicing, pipe, `select`, `has`, and `length`;
+V3-01 may remove a construct only before contract approval, and V3-02 may add
+one only through reviewed contract revision. The engine never spawns `jq` or a
 shell. `--template` uses a V3-02-approved restricted in-process engine with no
 filesystem includes, process access, or environment access. Both operate on the
 same serialized envelope and are mutually exclusive. Diagnostics and progress
@@ -979,8 +1007,8 @@ credential requirement.
 ### Compile-time boundary tests
 
 CI checks package imports or feature graphs so domain modules cannot acquire
-Clap, Octocrab, terminal, or Tokio process authority. `cargo deny` or an
-equivalent reviewed policy checks licenses, advisories, bans, and duplicate
+Clap, Octocrab, terminal, or Tokio process authority. A version-pinned
+`cargo-deny` policy checks licenses, advisories, bans, and duplicate
 dependency families. V3-02 applies the preliminary policy to the spike; V3-03
 owns the production configuration and makes it a required CI gate from the
 first production dependency commit.
@@ -1029,6 +1057,28 @@ The construction spike records:
 - parser, run-function, fake-adapter, and HTTP-fixture ergonomics;
 - source and test lines for the vertical slice;
 - compiler and error clarity for a representative contributor task.
+
+V3-01 freezes these stop/go thresholds before the spike runs, measured on the
+declared reference macOS and Linux hosts with ten warm samples after one
+discarded warm-up:
+
+| Spike measure | Pass threshold |
+| --- | ---: |
+| Stripped release binary | at most 35 MiB |
+| Direct dependencies | at most 30 |
+| Locked transitive packages | at most 300 |
+| Clean build | at most 300 seconds |
+| Warm incremental build | at most 60 seconds |
+| `version`, `schema`, `completion` startup p95 | at most 50 milliseconds |
+| Local `issue show` p95 | at most 250 milliseconds |
+| Local `doctor` p95 | at most 1 second |
+| Deterministic spike test suite | at most 30 seconds |
+| Authored production Rust for the slice | at most 2,500 lines |
+
+Missing reference-host measurements, any exceeded threshold, or failure of the
+recovered-correction journey is a stop. V3-02 may recommend a revised
+architecture or threshold, but V3-03 cannot start until that revision receives
+separate review and operator approval.
 
 Source-line measurement uses one declared `tokei` or `scc` profile over authored
 Rust only. Generated files and macro/derive expansion are excluded from both
@@ -1159,6 +1209,7 @@ flowchart TD
     P02 --> P03["V3-03 Single-binary foundation"]
     P03 --> P04["V3-04 Application context"]
     P03 --> P05["V3-05 Repository context and importer"]
+    P01 --> P05
     P04 --> P05
     P04 --> P06["V3-06 Canonical state and cards"]
     P05 --> P06
@@ -1167,6 +1218,7 @@ flowchart TD
     P07 --> P08
     D11 --> P08
     P04 --> P09["V3-09 Typed effect adapters"]
+    P01 --> P09
     P05 --> P09
     P05 --> P10A["V3-10A Issue and bind commands"]
     P06 --> P10A
@@ -1246,7 +1298,8 @@ field/operation capability matrix covering normal authoring, post-review
 correction, invalidation, recovery provenance, audit evidence, and next valid
 operations. The state-size guard includes measured warning/block thresholds and
 headroom evidence. Output filtering includes a versioned supported-`jq` subset
-manifest with explicit unsupported syntax and diagnostics.
+manifest with explicit unsupported syntax and diagnostics. The contract also
+pins the exact `cargo-deny` release used from the construction spike onward.
 
 **Acceptance criteria:**
 
@@ -1272,8 +1325,9 @@ manifest with explicit unsupported syntax and diagnostics.
   from or mechanically checked against the same capability matrix so scattered
   phase allowlists cannot silently diverge.
 - The state-size warning precedes the mutation block, initial block capacity is
-  at least ten times the largest representative imported/canary aggregate, and
-  neither path silently drops audit evidence.
+  at least ten times the largest deterministic v2 baseline bundle, warning is
+  fixed at 80 percent of that block, and neither path silently drops audit
+  evidence.
 - `--jq` accepts only the frozen supported subset; unsupported syntax fails
   with a typed usage error rather than partial or external execution.
 
@@ -1301,9 +1355,10 @@ language selection, or undeclared reuse of v2 entry points.
 
 **Dependencies:** `V3-01`.
 
-**Deliverables:** Spike source, dependency inventory, preliminary `cargo deny`
-or approved-equivalent report, build/startup/test measurements,
-implementation-size report, trait/object-safety decision, YAML parser decision,
+**Deliverables:** Spike source, dependency inventory, preliminary report from
+the exact `cargo-deny` release pinned by V3-01, build/startup/test measurements,
+implementation-size report, trait/object-safety decision, a reviewed decision
+to pin one maintained YAML parser or remove YAML input entirely,
 in-process jq-compatible engine decision and supported-subset conformance
 manifest, restricted-template engine decision, Octocrab capability-gap
 inventory for every required GitHub operation, per-platform commit-primitive
@@ -1354,7 +1409,7 @@ mutation, validation execution, or v2 installation changes.
 **Deliverables:** One crate, one binary target, one library target, complete
 placeholder command graph, versioned output envelope and selected in-process
 filter/template engines, generated help/docs, completion artifacts, production
-`cargo deny` or approved-equivalent configuration, and reproducible release
+configuration for the V3-01-pinned `cargo-deny`, and reproducible release
 metadata.
 
 **Acceptance criteria:**
@@ -1801,13 +1856,18 @@ fixture corpus.
 - Review names exact revision, scope, reviewer, findings, and dispositions.
 - Substantive head changes stale review; non-substantive exceptions require
   deterministic proof.
-- `review recover` is accepted only from matrix-declared pre-terminal states,
-  requires actor/reason and stale-truth provenance, returns to the exact
-  correction phase, and atomically clears every dependent field declared by
-  the capability row before a card correction can proceed.
+- `review recover` is accepted only from `reviewed`, `published`, or
+  `merge_ready`; it is rejected from `merged` and `closed_out`. It requires
+  actor/reason and stale-truth provenance, returns to `implemented`, and
+  atomically clears every dependent review, publication, readiness, and
+  terminal field declared by the capability row before a card correction can
+  proceed.
 - Recovery followed by a semantic card correction and fresh review is a
   complete executable path; direct state/card edits and abstract operator
   dispositions cannot satisfy it.
+- Both linkage modes prove the full review journey: review, publish, recover,
+  semantic correction, re-review, and republish preserve the exact normalized
+  target and invalidate the superseded mode-bound authorization.
 - Publication fails closed on missing, stale, blocked, or actionable review.
 - Model/provider output is evidence input, never direct lifecycle authority.
 - Same-principal implementation/review/publication is rejected; policy-only
@@ -1904,6 +1964,8 @@ progress, idempotency/readback fixtures, and bounded live publication canary.
   repositories reject unqualified linkage in either mode.
 - `pr watch` is foreground, cancellable by root signals, bounded, and leaves no
   persistent job or unjoined task.
+- Fake-adapter tests prove that a `part_of` watch cannot report checkpoint-ready
+  unless exact readback still observes the target issue open.
 - Every watch sleep and network await is selected against root cancellation;
   cancellation drains and joins the watch scope before exit 130.
 - Default and overridden timeout/poll values remain within the V3-01 bounds and
@@ -1949,6 +2011,10 @@ and safety fixtures.
 - A merged `part_of` publication records checkpoint completion without closing
   or terminally completing the parent issue; only a matching `closing`
   publication or explicit no-PR outcome can do so.
+- A complete acceptance journey merges multiple `part_of` checkpoints for one
+  issue, preserves the open parent after each, then processes a later
+  independently reviewed `closing` publication through finish and closes that
+  exact parent without selecting any checkpoint PR as terminal authority.
 - Cleanup is a separate command after finish and defaults to preview.
 - Cleanup requires canonical candidate-path equality with the verified Git
   worktree root; prefix and relative matches are rejected.
