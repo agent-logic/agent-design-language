@@ -1,0 +1,8 @@
+flowchart LR
+  S[Source S] --> E[Evidence introduction E]
+  E --> H[Lifecycle and PR head H]
+  H --> M[Merged revision M]
+  S -. product bytes unchanged .-> H
+  E -. evidence bytes unchanged .-> H
+  M --> U[Umbrella candidate]
+

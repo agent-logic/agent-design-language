@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 96,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
+    "slug": "v092-v3-umbrella-receipt-topology",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 96 validator/test delta, generated Git topology fixtures, preserved terminality and denominator semantics.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any post-S product mutation evade the validator?",
+        "Can evidence be replaced or modified after E?",
+        "Are H, merge ancestry, terminal envelopes, and mappings exact and unambiguous?",
+        "Are all sixteen children, paths, DAG edges, and #5878 native receipts still mandatory?",
+        "Does any self-referential fake evidence pass?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

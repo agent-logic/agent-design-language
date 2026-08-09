@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 96,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8073801c1db6139cb4f3b47f657eae58f3d8a86610257edd3e920da8198d055b",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "bf2e66ab9ac5381fae740041c0e7eaf83eb51b84eb6442ebd8eb0dc96ee08ccf",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/96/design.md",
+  "diagram_path": ".csdlc/prepared/issues/96/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-96-operator-approved-design",
+      "revision": "b7c82d093043f28973898e6cf86a990284b51378e2e366f8e007b7a2d18488a2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2b9630424dc9100de68e058dc763dfa3d5d83f4cf0df3b2aa3081d9e045dbb8a",
+      "rendered_digest": "47fa0b016172937679f842a69e13bd44cea63f1f70f4165cdeebba9e74eb8ef5",
+      "ast_digest": "9307853b35af4f635a4b49867373637d962d96e3a3c0c9f76bb75d4c1b81f2ed"
+    },
+    "stp": {
+      "values_digest": "2bfa78b74d3150dafe4149ded1ec217378ff4830e9375a5a1b6b0dc0f7bff529",
+      "rendered_digest": "cc544ad80f4233767ac82742899b1c8c2673c0057549eec8041c76d6c71eae95",
+      "ast_digest": "e5cd21916c7bf44345df9861f6eefb20b8fb42234e28924f403dd30501597988"
+    },
+    "spp": {
+      "values_digest": "cbaa02652d10369b27625248e9f18a8775fa217d07400182cfdddb3e450e834b",
+      "rendered_digest": "40377f2f54e7797d6c8a09424c8acc62fe0a79b678a517eb6afcf298fbcef6ef",
+      "ast_digest": "7ca5c615311af966d065dac0cc3994de6d214f84a9dab4ea9b35a0da77380a93"
+    },
+    "vpp": {
+      "values_digest": "bfb48178b3a5f8b2ea073b8b59fe6c96efc9b10a0d1f31dc40d0aefc837db131",
+      "rendered_digest": "f4fcca3e76335e5150630e3700e6a5558cd4bc5f44f92b140e7c9fb235da274f",
+      "ast_digest": "2c03b66bda88eaf424d10ebc3312682ce18d446ed28c1fd0111a9bb1d666f1ee"
+    },
+    "srp": {
+      "values_digest": "70b14787c51fd74e2aec9e053e9510f610875764f6211ef970ceaecb62f801d5",
+      "rendered_digest": "8985f783e1b3c63d5a30fd97dd7e01b1457e69e6493ce1b0054602b83c548f95",
+      "ast_digest": "3cfe14c0ae849e1533930bfbcdd9378972640fdd5d0ad2cd99c9a107e6506c2e"
+    },
+    "sor": {
+      "values_digest": "8bd6fb3cc25eb4470790b18295b23de5d17006395c3f58a70974bf9d5a5b3887",
+      "rendered_digest": "5a451cc864a383b5bca5afcd156c04031ed57d46771641d317f72eec6ff8301c",
+      "ast_digest": "c3b85b0e826fb02f3e9804f1322d3c2813b598e5c27a32f778dcef841e183efb"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-96-v3-umbrella-receipts",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-96-v3-umbrella-receipts",
+      "reason": "Declare the issue-owned focused Ruby regression as bind-safe until implementation creates it.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-ruby-regression\",\"proof_role\":\"Generated Git histories prove valid S-to-E-to-H acceptance and all specified drift and terminality rejections.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"parallel_group\":\"focused\",\"defer_reason\":\"Deferred only until issue #96 creates its explicitly owned focused regression target; fail closed until that file exists and executes nonzero generated-history cases.\"},{\"lane\":\"ruby-syntax\",\"proof_role\":\"Ruby parser accepts the validator source.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\"],\"parallel_group\":\"syntax\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-96-v3-umbrella-receipts",
+      "reason": "Name the exact owned validator and focused regression deliverables required for bind-safe readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\",\"V3 S-to-E-to-H topology validation with product and evidence immutability\",\"Exact PR head, merge, ancestry, terminal-envelope, denominator, DAG, and #5878 native proof preservation\"]}"
+    }
+  ]
+}
