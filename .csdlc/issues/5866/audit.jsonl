@@ -51,3 +51,6 @@
 {"sequence":51,"generation":27,"actor":"codex:execute-5866-generation-protobuf-durable-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":52,"generation":28,"actor":"subagent:/root/review_5866_hardened","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":53,"generation":29,"actor":"codex:execute-5866-generation-protobuf-durable-remediation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":54,"generation":30,"actor":"codex:terminalize_sprint4_ready_wave","reason":"Recover the misattributed review record and republished projection so the actual independent exact-head verdict from /root/start_sprint_4_5862/review_5866_republished_truth can become canonical before terminalization.","operation":"recover_review"}
+{"sequence":55,"generation":30,"actor":"codex:terminalize_sprint4_ready_wave","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":56,"generation":31,"actor":"/root/start_sprint_4_5862/review_5866_republished_truth","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

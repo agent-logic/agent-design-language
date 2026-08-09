@@ -4,15 +4,15 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a545ca23817c4e3efccce73310fea81472dff567846aa9fb04fac11418bbde6a",
-  "phase": "published",
-  "generation": 29,
-  "digest": "62f93d277cb02c4016a20bef5465d9d20d74655ffadcc1aafe9ec670ffb7306c",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "d29931a3f8d1ce2bec62421b26e5d83f24d797c2d68b4ace341adee830ce8a73",
   "branch": "codex/5866-distributed-discovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_5866_hardened",
-    "assigned_by": "codex:execute-5866-generation-protobuf-durable-remediation",
-    "revision": "git-blake3:23a6c46ee24621e6017e80f2e3961d86c07c4c66:1a80222344c0dadf1e2c03300b3f1c9168ad1677cdef34619fc22c6b30669095",
+    "reviewer": "/root/start_sprint_4_5862/review_5866_republished_truth",
+    "assigned_by": "codex:terminalize_sprint4_ready_wave",
+    "revision": "git-blake3:506b79cecd413422769c862645fd3ab797c8e64d:a50414bd82eb6702ad573bfc59f0e314dab84cf64902ae08ea98d7b3c6f5157f",
     "scope": [
       "adl-runtime/src/distributed/discovery.rs",
       "adl-runtime/tests/distributed_discovery.rs",
@@ -24,7 +24,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_5866_hardened",
+    "reviewer": "/root/start_sprint_4_5862/review_5866_republished_truth",
     "scope": [
       "adl-runtime/src/distributed/discovery.rs",
       "adl-runtime/tests/distributed_discovery.rs",
@@ -34,27 +34,17 @@
       ".csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json",
       ".csdlc/evidence/5866/generation-protobuf-durable/runner.txt"
     ],
-    "reviewed_revision": "git-blake3:23a6c46ee24621e6017e80f2e3961d86c07c4c66:1a80222344c0dadf1e2c03300b3f1c9168ad1677cdef34619fc22c6b30669095",
+    "reviewed_revision": "git-blake3:506b79cecd413422769c862645fd3ab797c8e64d:a50414bd82eb6702ad573bfc59f0e314dab84cf64902ae08ea98d7b3c6f5157f",
     "findings": [],
     "residual_risks": [
       "Production module registration and durable replay-store path wiring remain intentionally owned by issue #5878.",
       "Stable path symlink checks do not claim race-free descriptor-relative confinement; storage failures remain fail closed.",
-      "GitHub CI must confirm the republished exact head; local exact nextest, qualified strict Clippy, and v3 receipt validation passed."
+      "Exact-head GitHub CI integration remains required before merge."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5866,
-    "pull_request": 88,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/88",
-    "base": "main",
-    "head": "codex/5866-distributed-discovery",
-    "revision": "git-blake3:5b90559cd94cd36ee2d48e9d6aeffc3c0c6f57fd:8324b02fe2a9dc01eef21ba8cb5710f9616e88fad7ab101864497e6c1f2f746d",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +58,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d3210b8ad80aa13ce2787322d3452c3c1f267ee78161216a09c58e08ff448288",
+      "values_digest": "c299c9d7da2353fcf791d4693f8978e0cfb11a41e53045b495e3641a1954332a",
       "rendered_digest": "6edde9877a679aa8137562e451dcf42a97d1752a726de69edf5fe1d3e1aa9292",
       "ast_digest": "54dff07d44a80d7c7591cb929f3cc32d18899c13934f570fe82687c25473d639"
     },
     "stp": {
-      "values_digest": "40194aa9ee09b8b62bb7a6178c52fe34de1bec14213986affef6f3fac76344df",
+      "values_digest": "810bce5ff78b04af74baccd4449d340855fa83c43e9af4b63e8c9f7120b46852",
       "rendered_digest": "5c2f6f7e75055df76b81f86381236400afa8cff2a83bb7c8bbf3d9d035ccbbc8",
       "ast_digest": "bbe33a414fd219c8472a5493f94b769c4a459750e39278331d56b3e2d2a5804c"
     },
     "spp": {
-      "values_digest": "31a4a9470992c8ba1943dad58482c1f3cbfcf4e4c9a41edb65beae647f12ec10",
+      "values_digest": "823140422324efae8e7c0a561b6ed6d0cbe350cfeb47220212803d54093af525",
       "rendered_digest": "06039fe18555456e65b78378c039a41455e8130f5a4a551604ae8773e9b9ef4f",
       "ast_digest": "a9be98918825c7954e8473c3ae921e95dbc63e49c1e496a8cc40152482b0137a"
     },
     "vpp": {
-      "values_digest": "57fa0f96f7831afd4981b96d98ff9ee6ff96553acf651f767bda88cff3892b6e",
+      "values_digest": "dd5144da01ad0ebdf2cca7b788418431c442a9a9c559510a0edd8c34cb641d0b",
       "rendered_digest": "30cba798c81147bf0c33058e98b4b5f854fbad6ce943912d99bd6adef7a8544d",
       "ast_digest": "566bb7b78b24865f868ba1b70c2ccc0cf9e2034178b383d7a85c8600aa83c614"
     },
     "srp": {
-      "values_digest": "1444c93c7aff2927cb695b96d25326d544bfb6f558ed33d7f131a60df3bf5e73",
-      "rendered_digest": "71d005ca8b90b87b66c6f5b70de1084357d9c2aad43c3722849e183961cb3ed7",
-      "ast_digest": "0087db60f7e86e5744e02042d40666c059c8ddf37822da8704ab70049377870c"
+      "values_digest": "c12c80853720715b36a24e9029b8524ceabf62d5194ecb34f9a3238fd2c9beb1",
+      "rendered_digest": "60f6c915a5502982d0d5049767904d394ba32ef8107eb0812cdcbefe09145352",
+      "ast_digest": "3aba11b950f753aad894a1a13978b70fd3950c9b8a524cbd6f5e43c02126fcfc"
     },
     "sor": {
-      "values_digest": "bc56e153293a2bcf49fb099cef35bf11033b797cc2a66a4b5ec5503f84179ba7",
-      "rendered_digest": "1719f22e88f05a1de9fae6c00772267be40a020088dbf3d79bef5c05005bcf59",
-      "ast_digest": "a11ef810eecedef60afb22da301ff4043d8fe390d4932a54897b68186438f972"
+      "values_digest": "0a39d758c6715a35e1b2310d15f111524921085f0356a8d17c950befcb28aa0b",
+      "rendered_digest": "9a314df9286b77fd325036cf132465a5df1099d57bea7308e0670069a091ac82",
+      "ast_digest": "5d41b39c2ee8f06da4cc516465224756387e36d284f1ffcfa14552e4a92c6089"
     }
   },
   "transitions": [
@@ -224,6 +214,20 @@
       "to": "published",
       "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 19,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "Recover the misattributed review record and republished projection so the actual independent exact-head verdict from /root/start_sprint_4_5862/review_5866_republished_truth can become canonical before terminalization."
+    },
+    {
+      "sequence": 20,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/start_sprint_4_5862/review_5866_republished_truth",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -597,6 +601,27 @@
       "actor": "codex:execute-5866-generation-protobuf-durable-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 54,
+      "generation": 30,
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "Recover the misattributed review record and republished projection so the actual independent exact-head verdict from /root/start_sprint_4_5862/review_5866_republished_truth can become canonical before terminalization.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 30,
+      "actor": "codex:terminalize_sprint4_ready_wave",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 31,
+      "actor": "/root/start_sprint_4_5862/review_5866_republished_truth",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

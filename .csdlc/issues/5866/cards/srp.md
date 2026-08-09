@@ -39,12 +39,12 @@ Every actionable finding requires a terminal disposition.
 
 - Production module registration and durable replay-store path wiring remain intentionally owned by issue #5878.
 - Stable path symlink checks do not claim race-free descriptor-relative confinement; storage failures remain fail closed.
-- GitHub CI must confirm the republished exact head; local exact nextest, qualified strict Clippy, and v3 receipt validation passed.
+- Exact-head GitHub CI integration remains required before merge.
 
 ## Review Result
 
-Revision: Some("git-blake3:23a6c46ee24621e6017e80f2e3961d86c07c4c66:1a80222344c0dadf1e2c03300b3f1c9168ad1677cdef34619fc22c6b30669095")
+Revision: Some("git-blake3:506b79cecd413422769c862645fd3ab797c8e64d:a50414bd82eb6702ad573bfc59f0e314dab84cf64902ae08ea98d7b3c6f5157f")
 
-Reviewer: Some("subagent:/root/review_5866_hardened")
+Reviewer: Some("/root/start_sprint_4_5862/review_5866_republished_truth")
 
 Result: pass
