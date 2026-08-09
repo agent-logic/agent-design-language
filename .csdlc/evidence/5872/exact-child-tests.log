@@ -1,0 +1,14 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.16s
+────────────
+ Nextest run ID 324abcc9-2b1c-442c-8e5f-8df90438a3e9 with nextest profile: default
+    Starting 8 tests across 1 binary
+        PASS [   0.355s] (1/8) adl-runtime::distributed_resource_weather freshness_lifetime_and_normalization_bounds_are_explicit
+        PASS [   0.379s] (2/8) adl-runtime::distributed_resource_weather domain_holder_certificate_and_signature_tampering_fail_closed
+        PASS [   0.394s] (3/8) adl-runtime::distributed_resource_weather wrong_purpose_revoked_and_unapproved_certificates_are_rejected
+        PASS [   0.432s] (4/8) adl-runtime::distributed_resource_weather certificate_authorized_weather_is_durable_deterministic_and_advisory
+        PASS [   0.436s] (5/8) adl-runtime::distributed_resource_weather snapshots_are_sorted_and_serialized_surfaces_are_redacted
+        PASS [   0.461s] (6/8) adl-runtime::distributed_resource_weather signed_withdrawal_is_durable_no_data_and_cannot_be_replayed
+        PASS [   0.485s] (7/8) adl-runtime::distributed_resource_weather replay_floor_survives_restart_rotation_and_invalid_high_sequence
+        PASS [   0.586s] (8/8) adl-runtime::distributed_resource_weather holder_capacity_payload_and_durable_corruption_fail_closed
+────────────
+     Summary [   0.586s] 8 tests run: 8 passed, 0 skipped
