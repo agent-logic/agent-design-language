@@ -1,10 +1,12 @@
 use std::{
     collections::BTreeMap,
-    fmt,
-    sync::{Arc, Mutex},
+    fmt, fs,
+    path::{Component, Path, PathBuf},
+    sync::Arc,
 };
 
 use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
+use redb::{Database, Durability, ReadableTable, ReadableTableMetadata, TableDefinition};
 use serde::{Deserialize, Serialize};
 
 use super::certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore};
@@ -13,6 +15,16 @@ pub const CAPABILITY_ADVERTISEMENT_SCHEMA: &str = "adl.distributed.capability_ad
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-CAPABILITY-ADVERTISEMENT-V1\0";
 const SIGNATURE_LEN: usize = 64;
 const MAX_TEXT_LEN: usize = 128;
+const ABSOLUTE_MAX_ENTRIES: usize = 4096;
+const ABSOLUTE_MAX_UNITS_PER_ENTRY: u32 = 1_000_000_000;
+const ABSOLUTE_MAX_TOTAL_UNITS: u64 = 1_000_000_000_000;
+const ABSOLUTE_MAX_LIFETIME_SECS: u64 = 86_400;
+const ABSOLUTE_MAX_AGE_SECS: u64 = 86_400;
+const ABSOLUTE_MAX_FUTURE_SKEW_SECS: u64 = 300;
+const ABSOLUTE_MAX_ENCODED_BYTES: usize = 1024 * 1024;
+const ABSOLUTE_MAX_TRACKED_CERTIFICATES: usize = 65_536;
+const REPLAY_HIGH_WATER: TableDefinition<&str, &[u8]> =
+    TableDefinition::new("distributed_capability_replay_high_water_v1");
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -184,6 +196,15 @@ impl CapabilityAdvertisementPolicy {
             || max_age_secs == 0
             || max_encoded_bytes == 0
             || max_tracked_certificates == 0
+            || max_entries > ABSOLUTE_MAX_ENTRIES
+            || max_units_per_entry > ABSOLUTE_MAX_UNITS_PER_ENTRY
+            || max_total_units > ABSOLUTE_MAX_TOTAL_UNITS
+            || max_lifetime_secs > ABSOLUTE_MAX_LIFETIME_SECS
+            || max_age_secs > ABSOLUTE_MAX_AGE_SECS
+            || max_future_skew_secs > ABSOLUTE_MAX_FUTURE_SKEW_SECS
+            || max_encoded_bytes > ABSOLUTE_MAX_ENCODED_BYTES
+            || max_tracked_certificates > ABSOLUTE_MAX_TRACKED_CERTIFICATES
+            || max_total_units < u64::from(max_units_per_entry)
         {
             return Err(AdvertisementError::InvalidPolicy);
         }
@@ -249,25 +270,41 @@ impl CapabilityAdvertisementPolicy {
 pub struct CapabilityAdvertisementVerifier {
     certificate_store: Arc<DistributedCertificateStore>,
     policy: CapabilityAdvertisementPolicy,
-    replay_high_water: Mutex<BTreeMap<String, ReplayState>>,
+    replay_database: Database,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 struct ReplayState {
     highest_sequence: u64,
-    expires_at_unix_secs: u64,
+    retain_until_unix_secs: u64,
 }
 
 impl CapabilityAdvertisementVerifier {
-    pub fn new(
+    pub fn open(
         certificate_store: Arc<DistributedCertificateStore>,
         policy: CapabilityAdvertisementPolicy,
-    ) -> Self {
-        Self {
+        replay_database_path: impl AsRef<Path>,
+    ) -> AdvertisementResult<Self> {
+        let replay_database_path = validate_replay_database_path(replay_database_path.as_ref())?;
+        let replay_database = Database::create(replay_database_path)
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        let mut write = replay_database
+            .begin_write()
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        write
+            .open_table(REPLAY_HIGH_WATER)
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        write
+            .commit()
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        Ok(Self {
             certificate_store,
             policy,
-            replay_high_water: Mutex::new(BTreeMap::new()),
-        }
+            replay_database,
+        })
     }
 
     pub fn decode_and_verify(
@@ -340,29 +377,15 @@ impl CapabilityAdvertisementVerifier {
             return Err(AdvertisementError::WrongSigner);
         }
 
-        let mut replay = self
-            .replay_high_water
-            .lock()
-            .map_err(|_| AdvertisementError::StateUnavailable)?;
-        replay.retain(|_, state| now_unix_secs < state.expires_at_unix_secs);
-        if let Some(state) = replay.get_mut(&certificate_id) {
-            if advertisement.body.sequence <= state.highest_sequence {
-                return Err(AdvertisementError::Replay);
-            }
-            state.highest_sequence = advertisement.body.sequence;
-            state.expires_at_unix_secs = verification_deadline_unix_secs;
-        } else {
-            if replay.len() >= self.policy.max_tracked_certificates {
-                return Err(AdvertisementError::CapacityExceeded);
-            }
-            replay.insert(
-                certificate_id.clone(),
-                ReplayState {
-                    highest_sequence: advertisement.body.sequence,
-                    expires_at_unix_secs: verification_deadline_unix_secs,
-                },
-            );
-        }
+        self.advance_replay_high_water(
+            &certificate_id,
+            advertisement.body.sequence,
+            advertisement
+                .authority_certificate
+                .body
+                .expires_at_unix_secs,
+            now_unix_secs,
+        )?;
 
         Ok(VerifiedCapabilityAdvertisement {
             trust_domain: advertisement.body.trust_domain.clone(),
@@ -375,6 +398,82 @@ impl CapabilityAdvertisementVerifier {
             verification_deadline_unix_secs,
             capabilities: advertisement.body.capabilities.clone(),
         })
+    }
+
+    fn advance_replay_high_water(
+        &self,
+        certificate_id: &str,
+        sequence: u64,
+        certificate_expires_at_unix_secs: u64,
+        now_unix_secs: u64,
+    ) -> AdvertisementResult<()> {
+        let mut write = self
+            .replay_database
+            .begin_write()
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        {
+            let mut table = write
+                .open_table(REPLAY_HIGH_WATER)
+                .map_err(|_| AdvertisementError::StateUnavailable)?;
+            let mut expired = Vec::new();
+            for entry in table
+                .iter()
+                .map_err(|_| AdvertisementError::StateUnavailable)?
+            {
+                let (key, value) = entry.map_err(|_| AdvertisementError::StateUnavailable)?;
+                let state: ReplayState = serde_json::from_slice(value.value())
+                    .map_err(|_| AdvertisementError::StateUnavailable)?;
+                if now_unix_secs >= state.retain_until_unix_secs {
+                    expired.push(key.value().to_owned());
+                }
+            }
+            for key in expired {
+                table
+                    .remove(key.as_str())
+                    .map_err(|_| AdvertisementError::StateUnavailable)?;
+            }
+
+            let current = table
+                .get(certificate_id)
+                .map_err(|_| AdvertisementError::StateUnavailable)?
+                .map(|value| {
+                    serde_json::from_slice::<ReplayState>(value.value())
+                        .map_err(|_| AdvertisementError::StateUnavailable)
+                })
+                .transpose()?;
+            if current.is_some_and(|state| sequence <= state.highest_sequence) {
+                return Err(AdvertisementError::Replay);
+            }
+            if current.is_none()
+                && table
+                    .len()
+                    .map_err(|_| AdvertisementError::StateUnavailable)?
+                    >= self.policy.max_tracked_certificates as u64
+            {
+                return Err(AdvertisementError::CapacityExceeded);
+            }
+            let state = ReplayState {
+                highest_sequence: sequence,
+                // The high-water belongs to the certificate, not one advertisement.
+                // Retaining it through the certificate horizon prevents a short-lived
+                // newer advertisement from reopening older still-valid sequences.
+                retain_until_unix_secs: current
+                    .map(|state| state.retain_until_unix_secs)
+                    .unwrap_or(0)
+                    .max(certificate_expires_at_unix_secs),
+            };
+            let encoded =
+                serde_json::to_vec(&state).map_err(|_| AdvertisementError::StateUnavailable)?;
+            table
+                .insert(certificate_id, encoded.as_slice())
+                .map_err(|_| AdvertisementError::StateUnavailable)?;
+        }
+        write
+            .commit()
+            .map_err(|_| AdvertisementError::StateUnavailable)
     }
 }
 
@@ -537,4 +636,38 @@ fn validate_text(value: &str) -> AdvertisementResult<()> {
         return Err(AdvertisementError::InvalidText);
     }
     Ok(())
+}
+
+fn validate_replay_database_path(path: &Path) -> AdvertisementResult<PathBuf> {
+    if !path.is_absolute() || path.file_name().is_none() {
+        return Err(AdvertisementError::InvalidPolicy);
+    }
+    let parent = path.parent().ok_or(AdvertisementError::InvalidPolicy)?;
+    fs::create_dir_all(parent).map_err(|_| AdvertisementError::StateUnavailable)?;
+
+    let mut cursor = PathBuf::new();
+    for component in parent.components() {
+        match component {
+            Component::RootDir | Component::Prefix(_) => cursor.push(component.as_os_str()),
+            Component::Normal(value) => {
+                cursor.push(value);
+                if fs::symlink_metadata(&cursor)
+                    .map(|metadata| metadata.file_type().is_symlink())
+                    .unwrap_or(false)
+                {
+                    return Err(AdvertisementError::InvalidPolicy);
+                }
+            }
+            Component::CurDir | Component::ParentDir => {
+                return Err(AdvertisementError::InvalidPolicy);
+            }
+        }
+    }
+    if fs::symlink_metadata(path)
+        .map(|metadata| metadata.file_type().is_symlink())
+        .unwrap_or(false)
+    {
+        return Err(AdvertisementError::InvalidPolicy);
+    }
+    Ok(path.to_path_buf())
 }

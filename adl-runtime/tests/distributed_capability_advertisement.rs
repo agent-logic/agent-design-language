@@ -6,7 +6,7 @@ mod capability_advertisement;
 #[path = "../src/distributed/certificates.rs"]
 mod certificates;
 
-use std::sync::Arc;
+use std::{path::PathBuf, sync::Arc};
 
 use capability_advertisement::{
     AdvertisementError, CapabilityAdvertisementBody, CapabilityAdvertisementPolicy,
@@ -22,6 +22,8 @@ const DOMAIN: &str = "polis.example";
 const NOW: u64 = 20_000;
 
 struct Fixture {
+    _directory: tempfile::TempDir,
+    replay_path: PathBuf,
     store: Arc<DistributedCertificateStore>,
     policy: CapabilityAdvertisementPolicy,
     root: SigningKey,
@@ -38,11 +40,9 @@ impl Fixture {
             .with_bounds(3600, 60, 60, 64, 64)
             .unwrap();
         let directory = tempfile::tempdir().unwrap();
-        let path = directory
-            .path()
-            .canonicalize()
-            .unwrap()
-            .join("certificates.redb");
+        let canonical_directory = directory.path().canonicalize().unwrap();
+        let path = canonical_directory.join("certificates.redb");
+        let replay_path = canonical_directory.join("capability-replay.redb");
         let store = Arc::new(DistributedCertificateStore::open(path, certificate_policy).unwrap());
         let body = CertificateBody::new(
             DOMAIN,
@@ -59,12 +59,23 @@ impl Fixture {
         let certificate = AuthorityCertificate::issue(body, &root).unwrap();
         store.activate(&certificate, NOW - 10).unwrap();
         Self {
+            _directory: directory,
+            replay_path,
             store,
             policy: policy(DOMAIN),
             root,
             signer,
             certificate,
         }
+    }
+
+    fn verifier(&self) -> CapabilityAdvertisementVerifier {
+        CapabilityAdvertisementVerifier::open(
+            self.store.clone(),
+            self.policy.clone(),
+            &self.replay_path,
+        )
+        .unwrap()
     }
 
     fn advertisement(
@@ -80,6 +91,32 @@ impl Fixture {
             NOW - 1,
             NOW + 60,
             capabilities,
+            &self.policy,
+        )
+        .unwrap();
+        SignedCapabilityAdvertisement::issue(
+            body,
+            self.certificate.clone(),
+            &self.signer,
+            &self.policy,
+        )
+        .unwrap()
+    }
+
+    fn timed_advertisement(
+        &self,
+        sequence: u64,
+        measured_at_unix_secs: u64,
+        expires_at_unix_secs: u64,
+    ) -> SignedCapabilityAdvertisement {
+        let body = CapabilityAdvertisementBody::new(
+            DOMAIN,
+            &self.certificate.body.holder_id,
+            self.certificate.body.generation,
+            sequence,
+            measured_at_unix_secs,
+            expires_at_unix_secs,
+            [evidence("tool:rust", 1)],
             &self.policy,
         )
         .unwrap();
@@ -164,9 +201,7 @@ fn canonical_signed_advertisement_projects_deterministic_evidence_only() {
     );
 
     let bytes = advertisement.encode(&fixture.policy).unwrap();
-    let verified = CapabilityAdvertisementVerifier::new(fixture.store, fixture.policy)
-        .decode_and_verify(&bytes, NOW)
-        .unwrap();
+    let verified = fixture.verifier().decode_and_verify(&bytes, NOW).unwrap();
     assert_eq!(verified.issuer_id, "guardian-a");
     assert_eq!(verified.certificate_generation, 3);
     assert_eq!(verified.sequence, 7);
@@ -286,9 +321,7 @@ fn wrong_purpose_domain_holder_generation_and_certificate_fail_closed() {
     let mut advertisement = fixture.advertisement(1, [evidence("tool:rust", 1)]);
     advertisement.authority_certificate.issuer_signature[0] ^= 1;
     assert_eq!(
-        CapabilityAdvertisementVerifier::new(fixture.store, fixture.policy)
-            .verify(&advertisement, NOW)
-            .unwrap_err(),
+        fixture.verifier().verify(&advertisement, NOW).unwrap_err(),
         AdvertisementError::CertificateAuthorization
     );
 }
@@ -296,8 +329,7 @@ fn wrong_purpose_domain_holder_generation_and_certificate_fail_closed() {
 #[test]
 fn expiry_staleness_and_future_measurement_are_distinct_failures() {
     let fixture = Fixture::new("guardian-a", CertificatePurpose::AdvertisementSigning, 1);
-    let verifier =
-        CapabilityAdvertisementVerifier::new(fixture.store.clone(), fixture.policy.clone());
+    let verifier = fixture.verifier();
     let expired = fixture.advertisement(1, [evidence("tool:rust", 1)]);
     assert_eq!(
         verifier.verify(&expired, NOW + 60).unwrap_err(),
@@ -358,7 +390,7 @@ fn replay_and_out_of_order_sequences_fail_closed() {
     let replay = first.clone();
     let older = fixture.advertisement(9, [evidence("tool:rust", 1)]);
     let newer = fixture.advertisement(11, [evidence("tool:rust", 1)]);
-    let verifier = CapabilityAdvertisementVerifier::new(fixture.store, fixture.policy);
+    let verifier = fixture.verifier();
     verifier.verify(&first, NOW).unwrap();
     assert_eq!(
         verifier.verify(&replay, NOW).unwrap_err(),
@@ -369,6 +401,51 @@ fn replay_and_out_of_order_sequences_fail_closed() {
         AdvertisementError::Replay
     );
     verifier.verify(&newer, NOW).unwrap();
+}
+
+#[test]
+fn replay_high_water_survives_short_newer_expiry_and_restart() {
+    let fixture = Fixture::new("guardian-a", CertificatePurpose::AdvertisementSigning, 1);
+    let short_newer = fixture.timed_advertisement(10, NOW - 1, NOW + 2);
+    let long_older = fixture.timed_advertisement(9, NOW - 1, NOW + 60);
+
+    let verifier = fixture.verifier();
+    verifier.verify(&short_newer, NOW).unwrap();
+    drop(verifier);
+
+    let reopened = fixture.verifier();
+    assert_eq!(
+        reopened.verify(&short_newer, NOW + 1).unwrap_err(),
+        AdvertisementError::Replay
+    );
+    assert_eq!(
+        reopened.verify(&long_older, NOW + 3).unwrap_err(),
+        AdvertisementError::Replay
+    );
+}
+
+#[test]
+fn configured_bounds_cannot_exceed_absolute_resource_maxima() {
+    let base = CapabilityAdvertisementPolicy::new(DOMAIN).unwrap();
+    let invalid = [
+        base.clone()
+            .with_bounds(4097, 100, 200, 120, 30, 2, 4096, 2),
+        base.clone()
+            .with_bounds(4, 1_000_000_001, 1_000_000_001, 120, 30, 2, 4096, 2),
+        base.clone()
+            .with_bounds(4, 100, 1_000_000_000_001, 120, 30, 2, 4096, 2),
+        base.clone()
+            .with_bounds(4, 100, 200, 86_401, 30, 2, 4096, 2),
+        base.clone()
+            .with_bounds(4, 100, 200, 120, 86_401, 2, 4096, 2),
+        base.clone().with_bounds(4, 100, 200, 120, 30, 301, 4096, 2),
+        base.clone()
+            .with_bounds(4, 100, 200, 120, 30, 2, 1_048_577, 2),
+        base.with_bounds(4, 100, 200, 120, 30, 2, 4096, 65_537),
+    ];
+    for result in invalid {
+        assert_eq!(result.unwrap_err(), AdvertisementError::InvalidPolicy);
+    }
 }
 
 #[test]
@@ -406,7 +483,7 @@ fn entry_unit_total_and_tracker_capacity_are_bounded() {
     let first = fixture.advertisement(1, [evidence("a", 1)]);
     let second = fixture.additional_advertisement("guardian-b", 51, 1);
     let third = fixture.additional_advertisement("guardian-c", 52, 1);
-    let verifier = CapabilityAdvertisementVerifier::new(fixture.store, fixture.policy);
+    let verifier = fixture.verifier();
     verifier.verify(&first, NOW).unwrap();
     verifier.verify(&second, NOW).unwrap();
     assert_eq!(
@@ -444,9 +521,7 @@ fn revocation_withdraws_previously_valid_advertisement() {
         .revoke(&certificate_id, NOW, RevocationReason::OperatorRevoked)
         .unwrap();
     assert_eq!(
-        CapabilityAdvertisementVerifier::new(fixture.store, fixture.policy)
-            .verify(&advertisement, NOW)
-            .unwrap_err(),
+        fixture.verifier().verify(&advertisement, NOW).unwrap_err(),
         AdvertisementError::CertificateAuthorization
     );
 }
@@ -455,7 +530,7 @@ fn revocation_withdraws_previously_valid_advertisement() {
 fn malformed_noncanonical_and_oversized_wire_inputs_fail_closed() {
     let fixture = Fixture::new("guardian-a", CertificatePurpose::AdvertisementSigning, 1);
     let advertisement = fixture.advertisement(1, [evidence("tool:rust", 1)]);
-    let verifier = CapabilityAdvertisementVerifier::new(fixture.store, fixture.policy.clone());
+    let verifier = fixture.verifier();
     assert_eq!(
         verifier.decode_and_verify(b"not-json", NOW).unwrap_err(),
         AdvertisementError::Malformed
@@ -478,7 +553,7 @@ fn tampering_body_or_signature_is_rejected() {
     let fixture = Fixture::new("guardian-a", CertificatePurpose::AdvertisementSigning, 1);
     let mut body_tamper = fixture.advertisement(1, [evidence("tool:rust", 1)]);
     let mut signature_tamper = fixture.advertisement(2, [evidence("tool:rust", 1)]);
-    let verifier = CapabilityAdvertisementVerifier::new(fixture.store, fixture.policy);
+    let verifier = fixture.verifier();
     body_tamper.body.capabilities[0].observed_units = 2;
     assert_eq!(
         verifier.verify(&body_tamper, NOW).unwrap_err(),
