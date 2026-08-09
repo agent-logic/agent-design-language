@@ -4,13 +4,63 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f197ba9a10a891e66af5c5abaf07b25a4c18aca0b13d3891034b25966841450b",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "c21976e0bee7c2f562bab115594a182311901822a23b30dbd71e1c238cf11305",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "014d385ed37e41dd893d5042d0b5be7c988c228196bb8e0bee1bd12ee3988659",
   "branch": "codex/78-stp-post-review-recovery-correction",
   "worktree": "/Volumes/FastWork/adl-issue-78-stp-recovery-correction",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:Volta",
+    "assigned_by": "codex:78-implementation",
+    "revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
+    "scope": [
+      ".csdlc/evidence/78",
+      ".csdlc/issues/78",
+      ".csdlc/prepared/issues/78",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:Volta",
+    "scope": [
+      ".csdlc/evidence/78",
+      ".csdlc/issues/78",
+      ".csdlc/prepared/issues/78",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
+    "findings": [
+      {
+        "id": "F-78-1",
+        "severity": "p2",
+        "summary": "SPP steps S1-S3 remained pending after implementation and validation completed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
+        "route": null
+      },
+      {
+        "id": "F-78-2",
+        "severity": "p2",
+        "summary": "Focused proof covered stale generation but not stale digest and unchanged durable state.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The operation is intentionally narrow and remains unavailable until this exact reviewed binary is installed; issue #73 consumption is the final pre-publication integration proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0b44931c535c6c5708edc34b3f0b77a786bc1b550a8b61f71af076b9fca6b358",
+      "values_digest": "c1d3752ba4e8e38a9ccb3492ec80b92800f2a50de778e1a81b31bb15a4616e39",
       "rendered_digest": "10b1cb4b224eda765b52d2b7694e943fc0826802c641e347d67b67298ef844bd",
       "ast_digest": "c9c883a3fc741550905b618953d4b55a72f26d42d2a1919d73a39a2292ccbb92"
     },
     "stp": {
-      "values_digest": "55affe55c0656cac6fa33a30ed7a0d75fc77f51396b54ee3ceb0b9126bbfff91",
+      "values_digest": "4ef04817aa4a537ce4430782e3a8c42d5460b45109029a22c233579800156e23",
       "rendered_digest": "f6772c71a119566817dbebb6c4647295a72562fb920b858f6137ef8cc90ffeef",
       "ast_digest": "dd60555ec979f9be0808541ff2177c0bf56a0113f6b1b68111fd0c8e8549a1ef"
     },
     "spp": {
-      "values_digest": "e429734456abb7552a6dd4beda84637b8e26aae1a6a8ccd24febc4c9afa9671a",
+      "values_digest": "efabd20cf9ed03a1b7f31b9795878da43749c78a9f9c3ff66fdc4692afa8eed9",
       "rendered_digest": "fb2c21b24bec9b8d986eb439a3915d0f6515655ea98509dfd5c2d98257e535e8",
       "ast_digest": "43281d9e28acc76df6a57a5b3187f3e2f9b7ef303b4b6f195689564025a87bf2"
     },
     "vpp": {
-      "values_digest": "e87ef05570e60d2833e3d71ed47f056173a1cbc1cb39ba306934eca8a5ce7e4d",
+      "values_digest": "1b7be9ebfaf6bace138096e58372d554dae41ad40db64160a88747af2a2f115c",
       "rendered_digest": "3bcdd11d5812376f6f2438b013766b5b759a799a991c7b672da15c607166db2a",
       "ast_digest": "55d65ae05d4ac7df6983b7be42558b90bf3887d3c154cbc1031467ee98ab7581"
     },
     "srp": {
-      "values_digest": "370d5c86b8c7d2dd62fb8f8e1a3b295ae767e72d086053da6f51b41a6cca92b9",
-      "rendered_digest": "74c74c715b161f7ee6aead233d01b64d277941d53f1ab6c7fba1d00b5f6433b6",
-      "ast_digest": "464e3c2d4e28818766ae2d8c24595a7edc5f5e4f3a32938619a6a52c6cf2c63a"
+      "values_digest": "74f8e16b286f480039fbcd2111ca728a7fc9141d54d7153d5c9a880840257d78",
+      "rendered_digest": "91aba3323800e89defbf200851a880bda354a5e25afa1df5516eacd158728056",
+      "ast_digest": "3e21e48d5b4ac57423b64d7701108640e374022774e73d83311aca668312bc0b"
     },
     "sor": {
-      "values_digest": "a7c755f19c6df3b51f26dcb964f29b1635cfb08371e677917759bd5e09786869",
+      "values_digest": "cd2d0b4d962dad552fc0aeba841f8e2087f54748af8f7a68181ec3acd2bb9bd0",
       "rendered_digest": "60e3e3daaa71b30a606a2a1f3b7aa858708710e80f166463b051be3b1bfb7003",
       "ast_digest": "d2ac06038221a277ff2b3c4acdc8f53df76d0e7a1cb915cf9f3f748bc9163989"
     }
@@ -76,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:78-implementation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:Volta",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -169,6 +226,20 @@
       "actor": "codex:78-review-remediation",
       "reason": "Retain formatter proof after the review-driven test change.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Prove canonical Rust formatting after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/78/review-remediation-fmt.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:78-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex-subagent:Volta",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
