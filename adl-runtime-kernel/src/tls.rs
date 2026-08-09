@@ -1,0 +1,267 @@
+use std::{
+    fmt,
+    io::BufReader,
+    path::{Path, PathBuf},
+    sync::Arc,
+};
+
+use rustls::{
+    client::{danger::ServerCertVerifier, WebPkiServerVerifier},
+    pki_types::{CertificateDer, PrivateKeyDer, ServerName, UnixTime},
+    server::WebPkiClientVerifier,
+    ClientConfig, RootCertStore, ServerConfig,
+};
+
+pub const HTTP_ALPN_PROTOCOLS: &[&[u8]] = &[b"h2", b"http/1.1"];
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct TlsIdentityPaths {
+    pub certificate_chain_path: PathBuf,
+    pub private_key_path: PathBuf,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct TlsServerValidation {
+    pub trust_roots_path: PathBuf,
+    pub server_name: String,
+}
+
+#[derive(Debug)]
+pub enum TlsConfigError {
+    Read {
+        path: PathBuf,
+        source: std::io::Error,
+    },
+    InvalidCertificateChain(String),
+    InvalidPrivateKey(String),
+    InvalidTrustRoots(String),
+    Configuration(String),
+}
+
+impl fmt::Display for TlsConfigError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Read { path, source } => {
+                write!(formatter, "read TLS material {}: {source}", path.display())
+            }
+            Self::InvalidCertificateChain(message) => {
+                write!(formatter, "invalid TLS certificate chain: {message}")
+            }
+            Self::InvalidPrivateKey(message) => {
+                write!(formatter, "invalid TLS private key: {message}")
+            }
+            Self::InvalidTrustRoots(message) => {
+                write!(formatter, "invalid TLS trust roots: {message}")
+            }
+            Self::Configuration(message) => {
+                write!(formatter, "TLS configuration failed: {message}")
+            }
+        }
+    }
+}
+
+impl std::error::Error for TlsConfigError {}
+
+pub struct TlsIdentity {
+    certificate_chain: Vec<CertificateDer<'static>>,
+    private_key: PrivateKeyDer<'static>,
+}
+
+impl TlsIdentity {
+    pub fn from_der(
+        certificate_chain: Vec<CertificateDer<'static>>,
+        private_key: PrivateKeyDer<'static>,
+    ) -> Result<Self, TlsConfigError> {
+        if certificate_chain.is_empty() {
+            return Err(TlsConfigError::InvalidCertificateChain(
+                "expected at least one certificate".to_owned(),
+            ));
+        }
+        Ok(Self {
+            certificate_chain,
+            private_key,
+        })
+    }
+
+    pub fn certificate_chain(&self) -> &[CertificateDer<'static>] {
+        &self.certificate_chain
+    }
+
+    fn into_parts(self) -> (Vec<CertificateDer<'static>>, PrivateKeyDer<'static>) {
+        (self.certificate_chain, self.private_key)
+    }
+}
+
+pub async fn load_identity(paths: &TlsIdentityPaths) -> Result<TlsIdentity, TlsConfigError> {
+    let certificate_bytes = read(&paths.certificate_chain_path).await?;
+    let private_key_bytes = read(&paths.private_key_path).await?;
+    parse_identity(&certificate_bytes, &private_key_bytes)
+}
+
+pub fn parse_identity(
+    certificate_pem: &[u8],
+    private_key_pem: &[u8],
+) -> Result<TlsIdentity, TlsConfigError> {
+    let mut certificate_reader = BufReader::new(certificate_pem);
+    let certificate_chain = rustls_pemfile::certs(&mut certificate_reader)
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|error| TlsConfigError::InvalidCertificateChain(error.to_string()))?;
+    let mut private_key_reader = BufReader::new(private_key_pem);
+    let private_key = rustls_pemfile::private_key(&mut private_key_reader)
+        .map_err(|error| TlsConfigError::InvalidPrivateKey(error.to_string()))?
+        .ok_or_else(|| TlsConfigError::InvalidPrivateKey("missing private key".to_owned()))?;
+    TlsIdentity::from_der(certificate_chain, private_key)
+}
+
+pub async fn load_trust_roots(path: impl AsRef<Path>) -> Result<RootCertStore, TlsConfigError> {
+    let bytes = read(path.as_ref()).await?;
+    parse_trust_roots(&bytes)
+}
+
+pub fn parse_trust_roots(certificate_pem: &[u8]) -> Result<RootCertStore, TlsConfigError> {
+    let mut reader = BufReader::new(certificate_pem);
+    let certificates = rustls_pemfile::certs(&mut reader)
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|error| TlsConfigError::InvalidTrustRoots(error.to_string()))?;
+    trust_roots_from_der(&certificates)
+}
+
+pub fn trust_roots_from_der(
+    certificates: &[CertificateDer<'static>],
+) -> Result<RootCertStore, TlsConfigError> {
+    if certificates.is_empty() {
+        return Err(TlsConfigError::InvalidTrustRoots(
+            "expected at least one CA certificate".to_owned(),
+        ));
+    }
+    let mut roots = RootCertStore::empty();
+    for certificate in certificates {
+        roots
+            .add(certificate.clone())
+            .map_err(|error| TlsConfigError::InvalidTrustRoots(error.to_string()))?;
+    }
+    Ok(roots)
+}
+
+pub async fn load_axum_server_tls(
+    paths: &TlsIdentityPaths,
+    validation: &TlsServerValidation,
+) -> Result<axum_server::tls_rustls::RustlsConfig, TlsConfigError> {
+    let identity = load_identity(paths).await?;
+    let trust_roots = load_trust_roots(&validation.trust_roots_path).await?;
+    verify_server_identity(&identity, trust_roots, &validation.server_name)?;
+    let config = build_server_config(identity, HTTP_ALPN_PROTOCOLS)?;
+    Ok(axum_server::tls_rustls::RustlsConfig::from_config(config))
+}
+
+pub fn verify_server_identity(
+    identity: &TlsIdentity,
+    trust_roots: RootCertStore,
+    server_name: &str,
+) -> Result<(), TlsConfigError> {
+    if identity.certificate_chain.len() < 2 {
+        return Err(TlsConfigError::InvalidCertificateChain(
+            "server identity must include a CA-issued leaf and its intermediate chain".to_owned(),
+        ));
+    }
+    let server_name = ServerName::try_from(server_name.to_owned())
+        .map_err(|error| TlsConfigError::Configuration(error.to_string()))?;
+    let verifier =
+        WebPkiServerVerifier::builder_with_provider(Arc::new(trust_roots), crypto_provider())
+            .build()
+            .map_err(|error| TlsConfigError::Configuration(error.to_string()))?;
+    verifier
+        .verify_server_cert(
+            &identity.certificate_chain[0],
+            &identity.certificate_chain[1..],
+            &server_name,
+            &[],
+            UnixTime::now(),
+        )
+        .map_err(|error| TlsConfigError::InvalidCertificateChain(error.to_string()))?;
+    Ok(())
+}
+
+pub fn build_server_config(
+    identity: TlsIdentity,
+    alpn_protocols: &[&[u8]],
+) -> Result<Arc<ServerConfig>, TlsConfigError> {
+    let (certificate_chain, private_key) = identity.into_parts();
+    let mut config = ServerConfig::builder_with_provider(crypto_provider())
+        .with_protocol_versions(&[&rustls::version::TLS13])
+        .map_err(|error| TlsConfigError::Configuration(error.to_string()))?
+        .with_no_client_auth()
+        .with_single_cert(certificate_chain, private_key)
+        .map_err(|error| TlsConfigError::Configuration(error.to_string()))?;
+    config.alpn_protocols = alpn_protocols
+        .iter()
+        .map(|protocol| protocol.to_vec())
+        .collect();
+    Ok(Arc::new(config))
+}
+
+pub fn build_mutual_tls_server_config(
+    identity: TlsIdentity,
+    client_roots: RootCertStore,
+    alpn_protocols: &[&[u8]],
+) -> Result<Arc<ServerConfig>, TlsConfigError> {
+    if client_roots.is_empty() {
+        return Err(TlsConfigError::InvalidTrustRoots(
+            "client authentication requires CA roots".to_owned(),
+        ));
+    }
+    let provider = crypto_provider();
+    let verifier =
+        WebPkiClientVerifier::builder_with_provider(Arc::new(client_roots), provider.clone())
+            .build()
+            .map_err(|error| TlsConfigError::Configuration(error.to_string()))?;
+    let (certificate_chain, private_key) = identity.into_parts();
+    let mut config = ServerConfig::builder_with_provider(provider)
+        .with_protocol_versions(&[&rustls::version::TLS13])
+        .map_err(|error| TlsConfigError::Configuration(error.to_string()))?
+        .with_client_cert_verifier(verifier)
+        .with_single_cert(certificate_chain, private_key)
+        .map_err(|error| TlsConfigError::Configuration(error.to_string()))?;
+    config.alpn_protocols = alpn_protocols
+        .iter()
+        .map(|protocol| protocol.to_vec())
+        .collect();
+    Ok(Arc::new(config))
+}
+
+pub fn build_mutual_tls_client_config(
+    identity: TlsIdentity,
+    server_roots: RootCertStore,
+    alpn_protocols: &[&[u8]],
+) -> Result<Arc<ClientConfig>, TlsConfigError> {
+    if server_roots.is_empty() {
+        return Err(TlsConfigError::InvalidTrustRoots(
+            "server authentication requires CA roots".to_owned(),
+        ));
+    }
+    let (certificate_chain, private_key) = identity.into_parts();
+    let mut config = ClientConfig::builder_with_provider(crypto_provider())
+        .with_protocol_versions(&[&rustls::version::TLS13])
+        .map_err(|error| TlsConfigError::Configuration(error.to_string()))?
+        .with_root_certificates(server_roots)
+        .with_client_auth_cert(certificate_chain, private_key)
+        .map_err(|error| TlsConfigError::Configuration(error.to_string()))?;
+    config.alpn_protocols = alpn_protocols
+        .iter()
+        .map(|protocol| protocol.to_vec())
+        .collect();
+    Ok(Arc::new(config))
+}
+
+fn crypto_provider() -> Arc<rustls::crypto::CryptoProvider> {
+    Arc::new(rustls::crypto::aws_lc_rs::default_provider())
+}
+
+async fn read(path: &Path) -> Result<Vec<u8>, TlsConfigError> {
+    tokio::fs::read(path)
+        .await
+        .map_err(|source| TlsConfigError::Read {
+            path: path.to_path_buf(),
+            source,
+        })
+}

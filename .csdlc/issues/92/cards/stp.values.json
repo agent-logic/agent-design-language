@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 92,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime-v3] Unify TLS/mTLS and retire self-signed Runtime certificates",
+    "slug": "runtime-tls-standardization",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Standardize Runtime TLS/mTLS and remove the obsolete local PKI subsystem without replacing Quinn or redesigning Guardian authorization.",
+      "deliverables": [
+        "Shared Runtime Rustls identity/trust policy and loader",
+        "Unified Axum HTTP/WSS listener TLS construction",
+        "Quinn reuse of shared trust policy",
+        "Removed self-signed bootstrap and host trust commands",
+        "Corrected Runtime init, OpenAPI, operational proof, browser, and Unity surfaces",
+        "Focused positive and negative certificate-chain and mTLS tests"
+      ],
+      "acceptance_criteria": [
+        "AC-1: All Runtime HTTP/HTTPS/WSS listeners use one shared Axum/Rustls construction path",
+        "AC-2: Quinn Guardian transport reuses shared trust-policy types while retaining TLS 1.3 mTLS",
+        "AC-3: Runtime product code cannot generate self-signed certificates or mutate host trust stores",
+        "AC-4: Public TLS fails closed on self-signed leaf, wrong SAN, invalid validity, unsuitable usage, unknown CA, or incomplete chain",
+        "AC-5: mTLS uses standard Rustls/WebPKI verification and exposes peer identity only after successful handshake",
+        "AC-6: Runtime and kernel use one reviewed Rustls patch level and crypto-provider policy",
+        "AC-7: OpenAPI and documentation truthfully distinguish public server TLS, signed command authorization, private mTLS, and application authority",
+        "AC-8: Operational, browser, and Unity proof surfaces contain no leaf-as-root trust or verification bypass",
+        "AC-9: Focused tests use test-CA-issued leaves and cover positive and required negative cases",
+        "AC-10: Live Unity validation remains gated until an ordinary certificate-valid Axum WSS endpoint succeeds"
+      ],
+      "dependencies": [
+        "Current canonical Agent Logic main",
+        "Maintained Axum/axum-server, Rustls, Quinn, and WebPKI APIs",
+        "Externally provisioned CA-issued certificate material for live consumer proof"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "agent-logic/agent-design-language#92",
+        "Runtime TLS/mTLS implementation and proof review dated 2026-08-09",
+        "Vector TLS settings/incoming/reload architecture",
+        "Tokio-Rustls server example",
+        "Rustls platform verifier guidance"
+      ],
+      "non_goals": [
+        "Replacing Quinn with HTTP/2",
+        "Adding automatic QUIC fallback",
+        "Implementing ACME, a CA, a trust store, or cryptographic verification algorithms inside ADL",
+        "Requiring browser or Unity client certificates",
+        "Replacing application Guardian authorization with transport TLS"
+      ]
+    }
+  }
+}

@@ -25,6 +25,7 @@ pub mod shepherd;
 pub mod supervisor;
 pub mod telemetry;
 pub mod time;
+pub mod tls;
 pub mod topology;
 pub mod weather;
 
@@ -61,6 +62,7 @@ pub use shepherd::*;
 pub use supervisor::{Kernel, KernelControl, KernelError, KernelExit, KernelHandle};
 pub use telemetry::*;
 pub use time::*;
+pub use tls::*;
 pub use topology::{
     ComponentRegistry, ConfiguredTopology, FactoryRegistration, FactoryRegistry, TopologyError,
     ValidatedTopology,

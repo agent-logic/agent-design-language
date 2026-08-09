@@ -42,11 +42,39 @@ cleanup() {
 trap cleanup EXIT
 trap 'exit 130' INT TERM
 
-cert="$proof_root/localhost-cert.pem"
-key="$proof_root/localhost-key.pem"
-openssl req -x509 -newkey rsa:2048 -nodes -days 1 -sha256 \
-  -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost' \
-  -keyout "$key" -out "$cert" >/dev/null 2>&1
+cert=${ADL_RUNTIME_V3_TLS_CERT_CHAIN:?ADL_RUNTIME_V3_TLS_CERT_CHAIN must name an external CA-issued full chain}
+key=${ADL_RUNTIME_V3_TLS_PRIVATE_KEY:?ADL_RUNTIME_V3_TLS_PRIVATE_KEY must name the matching private key}
+trust_roots=${ADL_RUNTIME_V3_TLS_TRUST_ROOTS:?ADL_RUNTIME_V3_TLS_TRUST_ROOTS must name the external CA trust roots}
+tls_dns_name=${ADL_RUNTIME_V3_TLS_DNS_NAME:?ADL_RUNTIME_V3_TLS_DNS_NAME must be the certificate DNS identity}
+observatory_origin=${ADL_RUNTIME_V3_OBSERVATORY_ORIGIN:-https://observatory.dev.agent-logic.ai}
+
+case "$tls_dns_name" in
+  localhost|127.*|::1|*:* )
+    echo "operational proof requires a real DNS certificate identity" >&2
+    exit 64
+    ;;
+esac
+test -f "$cert" -a -f "$key" -a -f "$trust_roots" || {
+  echo "external TLS certificate chain, private key, and trust roots must exist" >&2
+  exit 64
+}
+openssl x509 -in "$cert" -checkend 3600 -noout >/dev/null
+openssl x509 -in "$cert" -noout -ext subjectAltName | grep -F "DNS:$tls_dns_name" >/dev/null || {
+  echo "certificate SAN does not contain $tls_dns_name" >&2
+  exit 64
+}
+cert_subject=$(openssl x509 -in "$cert" -noout -subject | sed 's/^subject=//')
+cert_issuer=$(openssl x509 -in "$cert" -noout -issuer | sed 's/^issuer=//')
+test "$cert_subject" != "$cert_issuer" || {
+  echo "self-signed Runtime server certificates are not accepted" >&2
+  exit 64
+}
+cert_public_key=$(openssl x509 -in "$cert" -pubkey -noout | openssl sha256)
+private_public_key=$(openssl pkey -in "$key" -pubout 2>/dev/null | openssl sha256)
+test "$cert_public_key" = "$private_public_key" || {
+  echo "TLS certificate and private key do not match" >&2
+  exit 64
+}
 
 port() {
   ruby -rsocket -e 's=TCPServer.new("127.0.0.1",0); puts s.addr[1]; s.close'
@@ -66,13 +94,15 @@ write_init() {
   cat >"$path" <<EOF
 schema = "adl.runtime_v3.init.v1"
 [api]
-address = "localhost:$api_port"
-public_base_url = "https://localhost:$api_port"
+address = "127.0.0.1:$api_port"
+public_base_url = "https://$tls_dns_name:$api_port"
 [api.tls]
 certificate_chain_path = "$cert"
 private_key_path = "$key"
+trust_roots_path = "$trust_roots"
+server_name = "$tls_dns_name"
 [observatory]
-allowed_origins = ["https://localhost:8765"]
+allowed_origins = ["$observatory_origin"]
 [agents]
 count = 1
 sample_limit = 1
@@ -117,9 +147,11 @@ cat >"$proof_root/health-probe" <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 url=\$1
+resolved_port=\$(ruby -ruri -e 'puts URI(ARGV.fetch(0)).port' "\$url")
 attempt=0
 while [ \$attempt -lt 400 ]; do
-  if payload=\$(curl --silent --show-error --fail --cacert "$cert" \
+  if payload=\$(curl --silent --show-error --fail \
+      --resolve "$tls_dns_name:\$resolved_port:127.0.0.1" \
       -H 'Authorization: Bearer $observatory_token' "\$url" 2>/dev/null) &&
      printf '%s' "\$payload" | jq -e \
        '.schema == "adl.runtime_v3.observatory_feed.v2" and
@@ -131,7 +163,7 @@ while [ \$attempt -lt 400 ]; do
   attempt=\$((attempt + 1))
   sleep 0.05
 done
-curl --silent --show-error --cacert "$cert" -o /dev/null \
+curl --silent --show-error --resolve "$tls_dns_name:\$resolved_port:127.0.0.1" -o /dev/null \
   -w 'observatory health failed: http=%{http_code} error=%{errormsg}\n' \
   -H 'Authorization: Bearer $observatory_token' "\$url" >&2 || true
 exit 1
@@ -143,8 +175,8 @@ export ADL_RUNTIME_V3_SELECTOR_SHUTDOWN_GRACE_MS=30000
 transition="$repo_root/.csdlc/prepared/issues/5590/run_operational_selector_transition.sh"
 "$transition" "$selector" "$proof_root/health-probe" \
   "$proof_root/candidate-selector" "$proof_root/prior-selector" \
-  "https://localhost:$candidate_port/v1/observatory" \
-  "https://localhost:$prior_port/v1/observatory"
+  "https://$tls_dns_name:$candidate_port/v1/observatory" \
+  "https://$tls_dns_name:$prior_port/v1/observatory"
 
 test "$(cat "$proof_root/state/current-selector")" = \
   "$(cd "$proof_root/prior-selector" && pwd -P)" || {
@@ -176,7 +208,7 @@ for name in candidate prior; do
   health_port=$candidate_port
   if [ "$name" = prior ]; then health_port=$prior_port; fi
   "$selector" activate --selector "$selector_dir"
-  "$proof_root/health-probe" "https://localhost:$health_port/v1/observatory"
+  "$proof_root/health-probe" "https://$tls_dns_name:$health_port/v1/observatory"
   "$selector" stop
   test -f "$continuity_dir/generation-2/manifest.json" || {
     echo "$name guardian did not retain generation-2 continuity after verified restore" >&2
@@ -195,4 +227,4 @@ for name in candidate prior; do
 done
 
 printf '%s\n' \
-  'runtime_v3_operational_proof=pass guardian=external transport=https auth=bearer websocket=wss rollback=restored continuity=cryptographically_restored'
+  'runtime_v3_operational_proof=pass guardian=external transport=https tls=external_ca_platform_trust auth=bearer websocket=wss rollback=restored continuity=cryptographically_restored'

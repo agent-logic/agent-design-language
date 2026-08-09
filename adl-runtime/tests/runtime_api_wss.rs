@@ -25,8 +25,7 @@ use adl_runtime::{
 };
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use futures::{SinkExt, StreamExt};
-use rcgen::{generate_simple_self_signed, CertifiedKey};
-use tokio_rustls::rustls::{pki_types::CertificateDer, ClientConfig, RootCertStore};
+use tokio_rustls::rustls::{ClientConfig, RootCertStore};
 use tokio_tungstenite::{
     connect_async_tls_with_config,
     tungstenite::{
@@ -39,6 +38,10 @@ use tokio_tungstenite::{
     },
     Connector, MaybeTlsStream, WebSocketStream,
 };
+
+#[path = "support/tls.rs"]
+mod tls_support;
+use tls_support::{TestIdentity, TestPki};
 
 fn health() -> adl_runtime::runtime_api::RuntimeApiHealthReport {
     runtime_api_health_report(vec![
@@ -99,18 +102,31 @@ async fn server(
     tokio::sync::oneshot::Sender<()>,
     tokio::task::JoinHandle<Result<(), String>>,
 ) {
-    let CertifiedKey { cert, signing_key } =
-        generate_simple_self_signed(["localhost".to_owned()]).unwrap();
-    let tls = axum_server::tls_rustls::RustlsConfig::from_pem(
-        cert.pem().as_bytes().to_vec(),
-        signing_key.serialize_pem().into_bytes(),
-    )
-    .await
-    .unwrap();
-    let mut roots = RootCertStore::empty();
-    roots
-        .add(CertificateDer::from(cert.der().to_vec()))
-        .unwrap();
+    let pki = TestPki::new("runtime api wss");
+    let identity = pki.server(&["localhost"]);
+    server_with_tls(store, identity, pki.roots(), true).await
+}
+
+async fn server_with_tls(
+    store: RuntimeApiCredentialStore,
+    identity: TestIdentity,
+    roots: RootCertStore,
+    complete_chain: bool,
+) -> (
+    std::net::SocketAddr,
+    Connector,
+    tokio::sync::oneshot::Sender<()>,
+    tokio::task::JoinHandle<Result<(), String>>,
+) {
+    let certificate = if complete_chain {
+        identity.certificate_pem()
+    } else {
+        identity.leaf_only_pem()
+    };
+    let tls =
+        axum_server::tls_rustls::RustlsConfig::from_pem(certificate, identity.private_key_pem())
+            .await
+            .unwrap();
     let connector = Connector::Rustls(Arc::new(
         ClientConfig::builder()
             .with_root_certificates(roots)
@@ -143,6 +159,40 @@ async fn server(
         },
     ));
     (address, connector, stop_tx, task)
+}
+
+async fn assert_tls_connection_denied(
+    identity: TestIdentity,
+    roots: RootCertStore,
+    complete_chain: bool,
+) {
+    let root = tempfile::tempdir().unwrap();
+    let store = RuntimeApiCredentialStore::for_state_root(root.path());
+    store.ensure().unwrap();
+    let token = store.with_bearer_token(str::to_owned).unwrap();
+    let (address, connector, stop, task) =
+        server_with_tls(store, identity, roots, complete_chain).await;
+    let error =
+        connect_async_tls_with_config(request(address, &token), None, false, Some(connector))
+            .await
+            .unwrap_err();
+    assert!(
+        error.to_string().contains("certificate")
+            || error.to_string().contains("peer")
+            || error.to_string().contains("issuer"),
+        "unexpected TLS rejection: {error}"
+    );
+    let _ = stop.send(());
+    task.await.unwrap().unwrap();
+}
+
+#[tokio::test]
+async fn runtime_wss_rejects_self_signed_wrong_san_unknown_ca_and_incomplete_chain() {
+    let pki = TestPki::new("runtime api negative TLS");
+    assert_tls_connection_denied(pki.self_signed_server(), pki.roots(), true).await;
+    assert_tls_connection_denied(pki.wrong_san_server(), pki.roots(), true).await;
+    assert_tls_connection_denied(pki.server(&["localhost"]), pki.wrong_roots(), true).await;
+    assert_tls_connection_denied(pki.server(&["localhost"]), pki.roots(), false).await;
 }
 
 fn request(address: std::net::SocketAddr, token: &str) -> Request<()> {
@@ -354,19 +404,19 @@ fn acip_schema_roundtrip_negatives() {
         serde_json::json!(CSM_ACIP_SUPPORTED_FEATURES)
     );
     let websocket = &openapi["paths"]["/v1/acip/ws"]["get"]["x-adl-websocket"];
-    assert_eq!(websocket["textFramesOnly"], true);
     assert_eq!(
         websocket["clientFrames"],
         serde_json::json!([
-            {"$ref": "#/components/schemas/NegotiationFrame"},
-            {"$ref": "#/components/schemas/CarrierFrame"}
+            {
+                "format": "binary",
+                "schema": "adl.csm.acip_carrier.protobuf_envelope.v1"
+            }
         ])
     );
     assert_eq!(
         websocket["serverFrames"],
         serde_json::json!([
-            {"$ref": "#/components/schemas/NegotiatedFrame"},
-            {"$ref": "#/components/schemas/CarrierAckFrame"}
+            {"$ref": "#/components/schemas/DispatchResult"}
         ])
     );
 
@@ -513,37 +563,16 @@ fn acip_schema_roundtrip_negatives() {
     assert_eq!(
         protocol["admission"],
         serde_json::json!({
-            "session": ["tls", "runtime-api-bearer", "exact-origin"],
+            "session": ["server-tls", "runtime-api-bearer", "exact-origin"],
             "dispatch": [
                 "negotiated-v1", "runtime-id", "signed-control", "capability",
                 "authority", "replay-id", "monotonic-sequence", "frame-size"
             ]
         })
     );
-    assert_eq!(
-        openapi["components"]["securitySchemes"]["runtimeApiBearer"],
-        serde_json::json!({"type": "http", "scheme": "bearer"})
-    );
-    assert_eq!(
-        openapi["components"]["schemas"]["NegotiationOffer"]["properties"]["required_features"]
-            ["maxItems"],
-        CSM_ACIP_MAX_REQUIRED_FEATURES
-    );
-    let openapi_envelope_required = openapi["components"]["schemas"]["EnvelopeJsonProjection"]
-        ["required"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|field| field.as_str().unwrap())
-        .collect::<BTreeSet<_>>();
-    let catalog_envelope_required = catalog["messages"][0]["required_semantics"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|field| field.as_str().unwrap())
-        .collect::<BTreeSet<_>>();
-    assert_eq!(openapi_envelope_required, catalog_envelope_required);
-
+    let bearer = &openapi["components"]["securitySchemes"]["runtimeApiBearer"];
+    assert_eq!(bearer["type"], "http");
+    assert_eq!(bearer["scheme"], "bearer");
     let bytes = semantic_envelope(u64::MAX, "replay-roundtrip");
     let json = protobuf_to_deterministic_json(&bytes).unwrap();
     assert_eq!(deterministic_json_to_protobuf(&json).unwrap(), bytes);

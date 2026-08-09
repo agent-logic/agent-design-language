@@ -4,6 +4,7 @@
 //! built without ADL compiler or C-SDLC control-plane crates.
 
 pub use adl_resilience as shared_resilience;
+pub use adl_runtime_kernel::tls;
 
 pub mod acip;
 pub mod backpressure;

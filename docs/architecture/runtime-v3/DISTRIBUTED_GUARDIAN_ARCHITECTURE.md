@@ -106,6 +106,20 @@ cryptography, chain validation, flow control, cancellation, and idle timeouts
 remain library-owned. ADL defines only bounded typed protobuf messages and does
 not add custom cryptography or custom wire framing.
 
+This does not create a second HTTP stack. Axum/Rustls is the sole Runtime
+HTTP/HTTPS/WSS stack. Quinn/Rustls is retained only for Guardian-to-Guardian
+QUIC, where independent streams, connection identity, flow control, and TLS 1.3
+mTLS are part of the transport contract. Quinn does not fall back to HTTP/2;
+QUIC unavailability fails explicitly rather than silently changing transport or
+security semantics.
+
+Both transports consume externally provisioned X.509 material through one TLS
+policy boundary. Runtime does not issue certificates or install trust anchors.
+Public API/WSS uses a public external CA and ordinary platform trust. Guardian
+QUIC uses a separate private CA and mutual TLS. `AuthorityCertificateV1` remains
+an application authorization record and must not be treated as an X.509
+certificate or transport trust anchor.
+
 Every session binds the authenticated peer to the expected node, Guardian,
 trust domain, protocol version, and certificate purpose. Oversized, malformed,
 unknown-version, expired, replayed, or peer-mismatched messages close the

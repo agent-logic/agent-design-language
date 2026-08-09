@@ -33,10 +33,10 @@ signal for explicit Runtime v3 use while Runtime v2 remains the default.
 
 ## Runtime v3 Control Policy
 
-Runtime v3 uses the local HTTPS control API endpoint:
+Runtime v3 uses an HTTPS control API endpoint on a real DNS name:
 
 ```text
-https://localhost:20997
+https://runtime.dev.agent-logic.ai:20997
 ```
 
 The independent Runtime v3 kernel launch command reported by this surface is:
@@ -51,38 +51,33 @@ private key is checked into the repository. The ready event and Observatory
 feed report the port actually bound by the listener rather than assuming
 `20997`.
 
-## Local Development TLS Bootstrap
+## TLS Certificate Boundary
 
-Runtime v3 local development may use the repo-native Rust bootstrap command to
-create one durable self-signed localhost server certificate under an explicit
-absolute state root:
+Runtime v3 does not issue certificates, create a local certificate authority,
+install trust anchors, or support certificate-verification bypasses. The Axum
+listener receives an externally issued certificate chain, matching private
+key, trust-root bundle, and exact DNS identity through the `[api.tls]` fields in
+the operator-local init file. The shared Rustls loader validates that identity
+before the listener binds.
 
-```text
-adl-runtime-local-tls-bootstrap --config runtime-local-tls.toml
-```
+The certificate must be valid for the exact DNS name in `public_base_url` and
+must chain to a root already trusted by ordinary browser, operating-system, and
+Unity TLS clients. AWS deployments may use an ACM exportable public certificate
+when Axum terminates TLS directly, or an ordinary ACM certificate when an
+AWS-managed ingress terminates TLS. Direct and local deployments may use an
+equivalent externally managed public certificate. Export, deployment, renewal,
+and private-key custody remain infrastructure responsibilities outside the
+Runtime process.
 
-The bootstrap config must explicitly set `mode = "local_self_signed"` or
-`mode = "managed_external"`. Missing mode fails closed. Production and
-enterprise deployments should use `managed_external` and continue to provide
-operator-managed PEM certificate and private-key paths; the bootstrap validates
-those paths through rustls and does not mutate them.
+Development uses the same contract as deployment: a real DNS name, external CA
+material, normal hostname verification, and no host trust-store mutation. Split
+DNS or an explicit test-host mapping may route that DNS name to loopback, but it
+must not weaken certificate verification or replace the platform trust store.
 
-Local self-signed mode requires an absolute `state_root`, a relative `tls_dir`,
-relative certificate/key paths beneath that TLS directory, configured DNS/IP
-SANs, and a separate public certificate path. The command creates the private
-key with restrictive permissions on Unix, writes the public certificate as a
-separate PEM file for trust import, validates the pair with rustls, and reuses
-the same certificate on ordinary restarts. Replacement requires
-`replace = true`; after replacement the operator must trust the new public
-certificate again. Local certificates use a browser-compatible 397-day
-validity period. Before expiry, the operator explicitly replaces the local
-certificate and trusts the new public copy; ordinary restarts never rotate it.
-
-The runtime does not edit the macOS, Windows, or Linux trust store. Operators
-trust the generated public certificate once using the platform-native trust UI
-or command approved for their machine. The private key remains under the
-configured state root and must not be copied into evidence, committed, or
-printed.
+Guardian-to-Guardian transport remains Quinn QUIC with Rustls TLS 1.3 and its
+separate private mTLS trust domain. Axum remains the single HTTP/HTTPS/WSS stack.
+ADL authority certificates are application authorization records and are not
+substitutes for X.509 transport identity.
 
 ## Non-Covered Surfaces
 

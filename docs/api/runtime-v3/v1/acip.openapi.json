@@ -2,19 +2,32 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Agent Logic Runtime v3 ACIP/A2A",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "description": "Companion view of the canonical /v1/acip/ws contract served from openapi.json. This document must not define a different frame protocol."
   },
   "paths": {
     "/v1/acip/ws": {
       "get": {
         "summary": "Open an authenticated bounded ACIP/A2A WebSocket session",
-        "description": "Requires TLS, an exact allowed Origin, Runtime API bearer authentication, v1 negotiation, signed control authority, capability admission, bounded frames, and unique replay identity before dispatch.",
-        "security": [{ "runtimeApiBearer": [] }],
+        "description": "Upgrades over ordinary server-authenticated TLS after exact Origin and Runtime API bearer checks. The server sends an authenticated JSON session frame. Every client work frame after upgrade is a bounded binary Protobuf envelope; text work frames are rejected. Dispatch remains subject to signed control authority, capability admission, runtime identity, replay identity, and monotonic sequence checks.",
+        "security": [
+          {
+            "runtimeApiBearer": []
+          }
+        ],
         "responses": {
-          "101": { "description": "WebSocket protocol upgrade" },
-          "401": { "description": "Authentication failed" },
-          "403": { "description": "Origin, runtime, authority, or capability denied" },
-          "426": { "description": "WebSocket upgrade required" }
+          "101": {
+            "description": "WebSocket protocol upgrade"
+          },
+          "401": {
+            "description": "Bearer authentication failed"
+          },
+          "403": {
+            "description": "Origin, runtime, authority, or capability denied"
+          },
+          "426": {
+            "description": "WebSocket upgrade required"
+          }
         },
         "x-acip-protocol": {
           "family": "adl-acip-a2a",
@@ -25,31 +38,56 @@
           "maximumFrameBytes": 65536,
           "backpressure": "bounded-await-no-unbounded-queue",
           "reconnect": "renegotiate-and-use-new-replay-identities",
+          "transport": {
+            "scheme": "wss",
+            "serverTls": "external-ca-platform-trusted",
+            "listenerMutualTls": false
+          },
           "admission": {
-            "session": ["tls", "runtime-api-bearer", "exact-origin"],
+            "session": [
+              "server-tls",
+              "runtime-api-bearer",
+              "exact-origin"
+            ],
             "dispatch": [
-              "negotiated-v1", "runtime-id", "signed-control", "capability",
-              "authority", "replay-id", "monotonic-sequence", "frame-size"
+              "negotiated-v1",
+              "runtime-id",
+              "signed-control",
+              "capability",
+              "authority",
+              "replay-id",
+              "monotonic-sequence",
+              "frame-size"
             ]
           }
         },
         "x-adl-websocket": {
           "scheme": "wss",
-          "textFramesOnly": true,
-          "serverFirstFrame": { "$ref": "#/components/schemas/AuthenticatedFrame" },
+          "maximumFrameBytes": 65536,
+          "serverFirstFrame": {
+            "$ref": "#/components/schemas/AuthenticatedFrame"
+          },
           "clientFrames": [
-            { "$ref": "#/components/schemas/NegotiationFrame" },
-            { "$ref": "#/components/schemas/CarrierFrame" }
+            {
+              "format": "binary",
+              "schema": "adl.csm.acip_carrier.protobuf_envelope.v1"
+            }
           ],
           "serverFrames": [
-            { "$ref": "#/components/schemas/NegotiatedFrame" },
-            { "$ref": "#/components/schemas/CarrierAckFrame" }
+            {
+              "$ref": "#/components/schemas/DispatchResult"
+            }
           ],
           "policyCloseReasons": [
-            "credential_revoked", "frame_size_refused", "unsupported_frame",
-            "invalid_json", "negotiation_refused", "negotiation_required",
-            "invalid_acip_frame", "wrong_runtime", "unsigned_control_refused",
-            "capability_denied", "authority_denied", "replay_refused"
+            "credential_revoked",
+            "frame_size_refused",
+            "binary_acip_frame_required",
+            "invalid_acip_frame",
+            "wrong_runtime",
+            "unsigned_control_refused",
+            "capability_denied",
+            "authority_denied",
+            "replay_refused"
           ]
         }
       }
@@ -59,125 +97,69 @@
     "securitySchemes": {
       "runtimeApiBearer": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "description": "Runtime API bearer credential supplied in the WebSocket upgrade request."
       }
     },
     "schemas": {
       "AuthenticatedFrame": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["schema", "event", "path", "bidirectional"],
+        "required": [
+          "schema",
+          "event",
+          "path",
+          "bidirectional"
+        ],
         "properties": {
-          "schema": { "const": "adl.csm.runtime_api.wss_session.v1" },
-          "event": { "const": "authenticated" },
-          "path": { "const": "/v1/acip/ws" },
-          "bidirectional": { "const": true }
-        }
-      },
-      "NegotiationFrame": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["type", "body"],
-        "properties": {
-          "type": { "const": "negotiate" },
-          "body": { "$ref": "#/components/schemas/NegotiationOffer" }
-        }
-      },
-      "NegotiationOffer": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["protocol_family", "supported_major", "minimum_minor", "maximum_minor", "required_features"],
-        "properties": {
-          "protocol_family": { "const": "adl-acip-a2a" },
-          "supported_major": { "const": 1 },
-          "minimum_minor": { "type": "integer", "minimum": 0 },
-          "maximum_minor": { "type": "integer", "minimum": 0 },
-          "required_features": { "type": "array", "maxItems": 32, "items": { "type": "string" } }
-        }
-      },
-      "NegotiatedFrame": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["schema", "type", "body"],
-        "properties": {
-          "schema": { "const": "adl.csm.runtime_api.wss_session.v1" },
-          "type": { "const": "negotiated" },
-          "body": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["protocol_family", "version_major", "version_minor", "features"],
-            "properties": {
-              "protocol_family": { "const": "adl-acip-a2a" },
-              "version_major": { "const": 1 },
-              "version_minor": { "const": 0 },
-              "features": { "type": "array", "items": { "type": "string" } }
-            }
+          "schema": {
+            "const": "adl.csm.runtime_api.wss_session.v1"
+          },
+          "event": {
+            "const": "authenticated"
+          },
+          "path": {
+            "const": "/v1/acip/ws"
+          },
+          "bidirectional": {
+            "const": true
           }
         }
       },
-      "CarrierFrame": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["type", "encoding", "correlation_id", "body"],
-        "properties": {
-          "type": { "const": "acip" },
-          "encoding": { "enum": ["protobuf-base64", "deterministic-json"] },
-          "correlation_id": { "type": "string", "minLength": 1 },
-          "body": {},
-          "control_signature": { "type": ["string", "null"] }
-        }
-      },
-      "CarrierAckFrame": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["schema", "type", "body"],
-        "properties": {
-          "schema": { "const": "adl.csm.runtime_api.wss_session.v1" },
-          "type": { "const": "ack" },
-          "body": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["correlation_id", "encoding", "body"],
-            "properties": {
-              "correlation_id": { "type": "string", "minLength": 1 },
-              "encoding": { "enum": ["protobuf-base64", "deterministic-json"] },
-              "body": {}
-            }
-          }
-        }
-      },
-      "EnvelopeJsonProjection": {
+      "DispatchResult": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "schema", "protocol_family", "version_major", "version_minor",
-          "message_id", "source", "target", "runtime_id", "route",
-          "correlation_id", "causation_id", "trace_id", "replay_id",
-          "capability", "authority", "payload_type", "payload_json",
-          "monotonic_sequence", "acknowledgement_requested", "required_features"
+          "schema",
+          "status",
+          "sequence_reserved"
         ],
         "properties": {
-          "schema": { "const": "adl.csm.acip_carrier.protobuf_envelope.v1" },
-          "protocol_family": { "const": "adl-acip-a2a" },
-          "version_major": { "const": 1 },
-          "version_minor": { "const": 0 },
-          "message_id": { "type": "string", "minLength": 1 },
-          "source": { "type": "string", "minLength": 1 },
-          "target": { "type": "string", "minLength": 1 },
-          "runtime_id": { "type": "string", "minLength": 1 },
-          "route": { "type": "string", "minLength": 1 },
-          "correlation_id": { "type": "string", "minLength": 1 },
-          "causation_id": { "type": "string", "minLength": 1 },
-          "trace_id": { "type": "string", "minLength": 1 },
-          "replay_id": { "type": "string", "minLength": 1 },
-          "capability": { "type": "string", "minLength": 1 },
-          "authority": { "type": "string", "minLength": 1 },
-          "payload_type": { "type": "string", "minLength": 1 },
-          "payload_json": { "type": "string" },
-          "monotonic_sequence": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
-          "acknowledgement_requested": { "type": "boolean" },
-          "error_code": { "type": ["string", "null"] },
-          "required_features": { "type": "array", "maxItems": 32, "items": { "type": "string" } }
+          "schema": {
+            "const": "adl.csm.acip_carrier.websocket_frame.v1"
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "rejected"
+            ]
+          },
+          "message_id": {
+            "type": "string"
+          },
+          "accepted_sequence": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "result_hash": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "sequence_reserved": {
+            "type": "boolean"
+          }
         }
       }
     }

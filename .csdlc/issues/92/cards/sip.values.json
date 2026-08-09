@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 92,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime-v3] Unify TLS/mTLS and retire self-signed Runtime certificates",
+    "slug": "runtime-tls-standardization",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make Runtime transport security conventional and invisible: one Axum HTTP/WSS stack, Quinn only for Guardian QUIC, and one shared Rustls policy with externally provisioned CA-issued identities.",
+      "required_outcome": "Remove Runtime certificate issuance and host trust mutation, unify server TLS configuration, standardize private mTLS, and make live browser and Unity consumers use ordinary certificate-valid endpoints without bypasses.",
+      "declared_scope": [
+        "Runtime and kernel TLS configuration and loading",
+        "Axum HTTP/HTTPS/WSS listener construction",
+        "Quinn Guardian trust-policy integration",
+        "Local TLS bootstrap removal",
+        "Runtime TLS proofs, API contracts, and consumer documentation"
+      ],
+      "authority_boundary": [
+        "Axum remains the only Runtime HTTP/WSS server stack",
+        "Quinn remains the Guardian QUIC transport and does not gain an HTTP/2 fallback",
+        "Runtime consumes externally provisioned PEM identity material and never acts as a CA or trust-store manager",
+        "Application Guardian authority credentials remain separate from X.509 transport identity",
+        "Issue 84 remains gated until certificate-valid live Unity proof"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "No self-signed Runtime served leaf certificates",
+        "No certificate-verification bypass or leaf-as-root trust",
+        "No Runtime certificate issuance or host trust-store mutation",
+        "Use maintained Axum, Rustls, Quinn, and WebPKI/library APIs rather than custom TLS code",
+        "Use ACM or another external CA where deployment requires certificate issuance",
+        "Never implement tracked changes on main",
+        "Do not merge without explicit operator authorization"
+      ]
+    }
+  }
+}

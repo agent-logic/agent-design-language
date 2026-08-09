@@ -4,6 +4,12 @@ Runtime Core API v1 and Observatory API v1 are independently versioned contracts
 
 The runtime reads ports, public base URLs, TLS material, and allowed Observatory origins from init/config. The OpenAPI `servers` entries use variables and examples; they are not runtime constants.
 
+All HTTP and WebSocket endpoints use the Axum/Rustls stack with ordinary
+server-authenticated TLS, a real DNS name, and externally issued certificate
+material. The Runtime does not issue certificates or install trust anchors.
+`POST /v1/control` authorizes the Ed25519-signed request body; it is not a
+listener-side mutual-TLS endpoint.
+
 Compatibility rules:
 
 - Additive fields, response headers, examples, and enum values may be added within v1 when existing clients can ignore them.
@@ -14,6 +20,11 @@ Compatibility rules:
 Current route-serving boundary:
 
 - Runtime v3 currently exposes `POST /v1/control`, `GET /v1/observatory`, `OPTIONS /v1/observatory`, and `GET /v1/observatory/ws`.
+- Runtime v3 exposes authenticated ACIP/A2A transport at `GET /v1/acip/ws`.
+  The served Core API document is canonical: the server sends a JSON session
+  frame, then accepts bounded binary Protobuf work frames. Text work frames are
+  rejected. `acip.openapi.json` is a companion view of that same contract and
+  must not define a separate endpoint protocol.
 - Runtime v3 serves the Core API contract at `GET /v1/openapi.json`.
 - Runtime v3 serves the Observatory API contract at `GET /v1/observatory/openapi.json`.
 - Runtime v3 serves an embedded Swagger UI at `GET /v1/docs/` with both contracts available from its API selector; `GET /v1/docs` redirects to the slash-stable route.

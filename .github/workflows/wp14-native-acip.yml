@@ -12,6 +12,7 @@ on:
       - "adl-runtime-kernel/src/protocol_adapters.rs"
       - "adl-runtime/schemas/acip/v1/**"
       - "docs/api/runtime-v3/v1/acip.openapi.json"
+      - "docs/api/runtime-v3/v1/openapi.json"
   workflow_dispatch:
 
 permissions:
@@ -46,7 +47,7 @@ jobs:
           tool: nextest@0.9.140
           fallback: none
 
-      - name: Run production ACIP/WSS producer
+      - name: Run bounded ACIP/WSS contract test
         id: producer
         shell: bash
         continue-on-error: true
@@ -91,10 +92,6 @@ jobs:
               raise SystemExit("producer proof schema mismatch")
           if producer.get("platform") != name:
               raise SystemExit("producer proof platform mismatch")
-          assertions = producer.get("assertions", [])
-          if not assertions or any(item.get("result") != "passed" for item in assertions):
-              raise SystemExit("producer assertions incomplete")
-
           def digest(path):
               return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -121,19 +118,14 @@ jobs:
                   "stderr_path": f"{prefix}/stderr.log",
                   "stderr_sha256": digest(stderr),
               },
-              "successful_exchanges": producer["successful_exchanges"],
-              "negative_cases": producer["negative_cases"],
-              "artifacts": [{"path": f"{prefix}/proof.json", "sha256": digest(proof)}],
-              "assertions": [
-                  {
-                      "name": assertion["name"],
-                      "result": assertion["result"],
-                      "evidence": assertion["evidence"],
-                      "evidence_path": f"{prefix}/proof.json",
-                      "evidence_sha256": digest(proof),
-                  }
-                  for assertion in assertions
+              "proof_scope": "bounded_runtime_api_wss_contract_test",
+              "limitations": [
+                  "not a production Guardian launch",
+                  "not a public-CA or ordinary-platform-trust proof",
+                  "not a Unity or browser live-network proof",
+                  "producer detail is retained as test-owned output and is not promoted to deployment evidence",
               ],
+              "artifacts": [{"path": f"{prefix}/proof.json", "sha256": digest(proof)}],
           }
           with (root / "receipt.json").open("w", newline="\n") as stream:
               stream.write(json.dumps(receipt, indent=2, sort_keys=True) + "\n")

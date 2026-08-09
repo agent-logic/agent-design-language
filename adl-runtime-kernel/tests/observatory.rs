@@ -19,8 +19,7 @@ use adl_runtime_kernel::{
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
 use futures::{SinkExt, StreamExt};
-use rcgen::{generate_simple_self_signed, CertifiedKey};
-use tokio_rustls::rustls::{pki_types::CertificateDer, ClientConfig, RootCertStore};
+use tokio_rustls::rustls::ClientConfig;
 use tokio_tungstenite::{
     connect_async_tls_with_config,
     tungstenite::{
@@ -30,6 +29,10 @@ use tokio_tungstenite::{
     },
     Connector, MaybeTlsStream, WebSocketStream,
 };
+
+#[path = "../../adl-runtime/tests/support/tls.rs"]
+mod tls_support;
+use tls_support::TestPki;
 
 struct FakeLifecycle;
 
@@ -140,21 +143,17 @@ async fn websocket_server(
     Connector,
     tokio::task::JoinHandle<Result<(), adl_runtime_kernel::ControlApiError>>,
 ) {
-    let CertifiedKey { cert, signing_key } =
-        generate_simple_self_signed(["localhost".to_owned()]).unwrap();
+    let pki = TestPki::new("kernel observatory wss");
+    let identity = pki.server(&["localhost"]);
     let tls = axum_server::tls_rustls::RustlsConfig::from_pem(
-        cert.pem().as_bytes().to_vec(),
-        signing_key.serialize_pem().into_bytes(),
+        identity.certificate_pem(),
+        identity.private_key_pem(),
     )
     .await
     .unwrap();
-    let mut roots = RootCertStore::empty();
-    roots
-        .add(CertificateDer::from(cert.der().to_vec()))
-        .unwrap();
     let connector = Connector::Rustls(Arc::new(
         ClientConfig::builder()
-            .with_root_certificates(roots)
+            .with_root_certificates(pki.roots())
             .with_no_client_auth(),
     ));
     let listener = tokio::net::TcpListener::bind(("127.0.0.1", 0))

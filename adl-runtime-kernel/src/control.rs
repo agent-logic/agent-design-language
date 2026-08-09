@@ -1009,12 +1009,9 @@ pub struct ObservatoryFeed {
 pub async fn load_control_tls(
     config: &RuntimeTlsInitConfig,
 ) -> Result<axum_server::tls_rustls::RustlsConfig, ControlApiError> {
-    axum_server::tls_rustls::RustlsConfig::from_pem_file(
-        &config.certificate_chain_path,
-        &config.private_key_path,
-    )
-    .await
-    .map_err(|error| ControlApiError::Tls(error.to_string()))
+    crate::tls::load_axum_server_tls(&config.identity_paths(), &config.server_validation())
+        .await
+        .map_err(|error| ControlApiError::Tls(error.to_string()))
 }
 
 pub async fn serve_control_listener<C: LifecycleControl + 'static>(

@@ -182,10 +182,21 @@ impl RuntimeApiService {
 pub async fn load_runtime_api_tls(
     certificate_chain_path: impl AsRef<std::path::Path>,
     private_key_path: impl AsRef<std::path::Path>,
+    trust_roots_path: impl AsRef<std::path::Path>,
+    server_name: impl Into<String>,
 ) -> Result<axum_server::tls_rustls::RustlsConfig, String> {
-    axum_server::tls_rustls::RustlsConfig::from_pem_file(certificate_chain_path, private_key_path)
-        .await
-        .map_err(|error| format!("load runtime API TLS config: {error}"))
+    adl_runtime_kernel::tls::load_axum_server_tls(
+        &adl_runtime_kernel::tls::TlsIdentityPaths {
+            certificate_chain_path: certificate_chain_path.as_ref().to_path_buf(),
+            private_key_path: private_key_path.as_ref().to_path_buf(),
+        },
+        &adl_runtime_kernel::tls::TlsServerValidation {
+            trust_roots_path: trust_roots_path.as_ref().to_path_buf(),
+            server_name: server_name.into(),
+        },
+    )
+    .await
+    .map_err(|error| format!("load runtime API TLS config: {error}"))
 }
 
 pub async fn serve_runtime_api_listener_until<F>(

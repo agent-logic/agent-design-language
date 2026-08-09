@@ -38,8 +38,10 @@ pub fn write_with_certificate_for_state(
     std::fs::create_dir_all(&tls_root).unwrap();
     let certificate = tls_root.join("localhost-cert.pem");
     let private_key = tls_root.join("localhost-key.pem");
-    std::fs::write(&certificate, leaf.pem()).unwrap();
+    let trust_roots = tls_root.join("test-root-ca.pem");
+    std::fs::write(&certificate, format!("{}{}", leaf.pem(), ca.pem())).unwrap();
     std::fs::write(&private_key, leaf_key.serialize_pem()).unwrap();
+    std::fs::write(&trust_roots, ca.pem()).unwrap();
     let credentials_root = state_root.join("credentials");
     std::fs::create_dir_all(&credentials_root).unwrap();
     let control_public_key = credentials_root.join("control-public-key.hex");
@@ -106,6 +108,8 @@ websocket_max_frame_bytes = 65536
 [api.tls]
 certificate_chain_path = "{}"
 private_key_path = "{}"
+trust_roots_path = "{}"
+server_name = "localhost"
 [credentials]
 control_public_key_path = "{}"
 control_key_id = "operator"
@@ -181,6 +185,7 @@ snapshot_concurrency = 4
             address.port(),
             toml_path(&certificate),
             toml_path(&private_key),
+            toml_path(&trust_roots),
             toml_path(&control_public_key),
             toml_path(&operation_public_key),
             toml_path(&continuity_signing_key),
