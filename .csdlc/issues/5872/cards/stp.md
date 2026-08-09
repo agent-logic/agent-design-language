@@ -16,7 +16,8 @@ Implement bounded signed resource-weather observations for placement without con
 
 ## Deliverables
 
-- Implement bounded signed resource-weather observations for placement without converting telemetry into authority.
+- adl-runtime/src/distributed/resource_weather.rs
+- adl-runtime/tests/distributed_resource_weather.rs
 - Focused positive and negative tests
 - Digest-bound execution proof
 - Reviewed rollback evidence

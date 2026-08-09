@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.10 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/resource_weather.rs
+adl-runtime/tests/distributed_resource_weather.rs
+.csdlc/evidence/5872/execution-proof.json
+.csdlc/evidence/5872/negative-cases.json
+.csdlc/evidence/5872/exact-child-tests.log
+.csdlc/evidence/5872/exact-revision-proof-receipt.log
 
 ## Prompts
 
@@ -31,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Stable-state path checks reject relative and symlinked components but do not claim race-free filesystem confinement; production registration and cross-child integration remain deferred to #5878.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:204d1d734050b12845a1d03dc7f7816129185c04:bd38127e039a56b2c1e519a5d2d9552b95b872f86ded0e9032c992feeb73b6af")
 
-Reviewer: None
+Reviewer: Some("/root/issue_79/child_fixture_analysis")
 
-Result: pre_review
+Result: pass
