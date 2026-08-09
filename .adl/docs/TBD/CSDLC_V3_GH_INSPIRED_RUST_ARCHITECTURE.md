@@ -313,6 +313,12 @@ pub struct Root {
 
     #[arg(long, global = true)]
     pub json: bool,
+
+    #[arg(long, global = true, requires = "json", conflicts_with = "template")]
+    pub jq: Option<String>,
+
+    #[arg(long, global = true, requires = "json", conflicts_with = "jq")]
+    pub template: Option<String>,
 }
 
 #[derive(Debug, clap::Subcommand)]
@@ -380,8 +386,8 @@ pub struct App {
     pub prompt: Arc<dyn Prompter>,
 
     config: SyncInit<Arc<Config>>,
-    repository: SyncInit<RepositoryContext>,
-    issue: SyncInit<IssueContext>,
+    repository: AsyncInit<RepositoryContext>,
+    issue: AsyncInit<IssueContext>,
     github: AsyncInit<Arc<dyn GitHub>>,
 }
 ```
@@ -403,14 +409,22 @@ container.
 | Field | Cell | Initialization boundary |
 | --- | --- | --- |
 | `config` | `SyncInit` | Repository/user configuration reads and parsing |
-| `repository` | `SyncInit` | Local Git/config and filesystem observation |
-| `issue` | `SyncInit` | Synchronous derivation from repository and arguments |
+| `repository` | `AsyncInit` | Local Git subprocess and filesystem observation without blocking the runtime |
+| `issue` | `AsyncInit` | Derivation from the asynchronously resolved repository and arguments |
 | `github` | `AsyncInit` | Credential resolution and hosted client initialization |
 
-The `Result` is cached so all consumers observe one initialization outcome.
-Changing a sync field to require async work is an architecture revision, not an
-implementation convenience. Remote observation never belongs in `repository`
-or `issue` initialization; commands request it explicitly from `github`.
+`SyncInit` accessors call `get_or_init` with a closure returning
+`Result<T, Arc<AppError>>`; typed accessors return `Result<&T, Arc<AppError>>`
+and clone only the error `Arc`. They are lazy, never pre-warmed by `App`
+construction, and contain no `unwrap` or `expect` path. `get_or_try_init` is not
+used.
+
+`AsyncInit` caches a completed success or error. If cancellation drops an
+initialization future before completion, the cell remains uninitialized and a
+later accessor may retry. Concurrent-access, completed-error, and cancelled-init
+behavior are contract tests. Remote GitHub observation never belongs in
+`repository` or `issue` initialization; commands request it explicitly from
+`github`.
 
 ## Async Boundary
 
@@ -503,9 +517,18 @@ Serde enums define every closed vocabulary. `#[serde(deny_unknown_fields)]` is
 used on authoritative request, state, intent, evidence, and result types.
 Schemars derives versioned public schemas from those same types.
 
-The six Markdown cards and `audit.jsonl` are deterministic projections. The
-card renderer uses `markdown.rs` AST parsing and validation. Direct projection
-edits cause digest mismatch and never change lifecycle truth.
+Typed audit events are embedded in `state.json` as part of the canonical
+aggregate. `audit.jsonl` is a deterministic projection of those events, not a
+co-primary append target. V3 initially performs no audit pruning or compaction;
+crossing the V3-01 state-size guard blocks mutation and requires a separately
+reviewed retention revision.
+
+The six Markdown cards and `audit.jsonl` are deterministic projections. Every
+card has a V3-01 per-phase required/optional field table. A missing required
+field is a typed render error; an optional unset field uses the one declared
+placeholder and cannot be confused with an operator-authored value. The card
+renderer uses `markdown.rs` AST parsing and validation. Direct projection edits
+cause digest mismatch and never change lifecycle truth.
 
 ## Lifecycle Kernel
 
@@ -550,16 +573,21 @@ The store owns the only canonical write path:
 2. Acquire a bounded issue-local advisory lock.
 3. Load and validate state plus projection digests.
 4. Compare expected generation, phase, branch, and worktree.
-5. Apply the pure transition and append its typed audit event in memory.
+5. Apply the pure transition and append its typed audit event to the in-memory
+   canonical aggregate.
 6. Render and validate cards and audit projection.
-7. Write and sync projection staging files.
-8. Replace generated projections.
-9. Atomically replace and sync `state.json` last as the commit point.
-10. Sync the issue directory and release the lock.
+7. Write and sync state and projection staging files.
+8. Atomically replace and sync `state.json` as the sole commit point.
+9. Replace generated projections; failure here reports
+   `projection_repair_required` without rolling back committed state.
+10. Sync the issue directory, remove obsolete staging files, and release the
+    lock.
 
 A crash before the state replacement leaves the old state authoritative. A
-crash after replacement leaves the new state authoritative. `doctor` can
-regenerate projections from either committed state.
+crash after replacement leaves the new state authoritative even if projections
+are stale or absent. Readers validate projection digests against state and fail
+with a specific repair requirement; `doctor` regenerates them from the committed
+aggregate. No user-visible projection is allowed to override that result.
 
 That statement is platform-qualified. `V3-08` must approve and prove a commit
 primitive matrix before mutation support ships: same-filesystem rename plus the
@@ -672,6 +700,14 @@ Review remains exact and pre-publication:
 - lifecycle-only change needs typed non-substantive proof;
 - `pr publish` fails without current passing review.
 
+V3-01 defines reviewer principals. A human review binds the authenticated
+GitHub identity observed through the GitHub adapter; a model review binds the
+provider, provider-asserted model identity, request digest, and retained result
+digest. `review record` rejects a reviewer principal equal to the implementation
+actor or publication actor. When an identity cannot be structurally bound, the
+review is recorded as policy-only and cannot satisfy publication without an
+explicit typed operator override that names the limitation.
+
 Review modules have no implementation, publication, merge, finish, or cleanup
 authority.
 
@@ -684,9 +720,12 @@ push or PR mutation.
 `pr status` performs one observation and exits.
 
 `pr watch` is an explicit foreground async loop. It creates no queue job,
-automation, daemon, or persistent watcher record. It exits on ready, failed,
-conflicted, operator-required, timeout, or cancellation. Every sleep is
-cancellation-aware and bounded.
+automation, daemon, or persistent watcher record. Its default timeout is 30
+minutes; `--timeout` may raise it only to the V3-01 maximum of 24 hours. The
+default poll interval is 15 seconds and a bounded `--poll-interval` override is
+permitted. Each poll or state change emits concise progress to stderr. It exits
+on ready, failed, conflicted, operator-required, timeout, or cancellation. Every
+sleep is cancellation-aware and bounded.
 
 `finish` is the sole terminal authority. It derives terminal state from exact
 local and GitHub predicates. Merge is not implicit. Whether `finish --merge`
@@ -696,9 +735,11 @@ may become an explicitly authorized operation remains an operator decision.
 worktree and artifacts. It rejects dirty, open, live, mismatched, or
 unregistered worktrees. Eligibility canonicalizes the candidate path and
 requires exact equality with the worktree root observed from Git; prefix or
-relative-path matching is insufficient. Deletion requires explicit
-confirmation and never includes build or cache directories from other
-worktrees.
+relative-path matching is insufficient. It also requires a locally committed
+terminal `closed_out` state and retained terminal receipt; a remotely merged PR
+without that local terminal commit remains live for cleanup. Deletion requires
+explicit confirmation and never includes build or cache directories from
+other worktrees.
 
 ## Output And Error Model
 
@@ -711,9 +752,15 @@ pub trait CommandResult: serde::Serialize + schemars::JsonSchema {
 }
 ```
 
-Human output is default. `--json` writes one versioned object to stdout. `--jq`
-and `--template` operate on the serialized result. Diagnostics and progress use
-stderr. JSON stdout never contains human log lines.
+Human output is default. `--json` writes one envelope with `schema`, `command`,
+`result`, and `warnings`; `schema` is a stable `csdlc.<command>.result.vN`
+discriminant. Within one major schema version, evolution is additive only;
+removal or semantic reinterpretation requires a new `vN`. `--jq` uses the
+V3-02-approved in-process Rust jq-compatible engine and never spawns `jq` or a
+shell. `--template` uses a V3-02-approved restricted in-process engine with no
+filesystem includes, process access, or environment access. Both operate on the
+same serialized envelope and are mutually exclusive. Diagnostics and progress
+use stderr. JSON stdout never contains human log lines.
 
 Errors use one enum with stable codes:
 
@@ -852,7 +899,9 @@ credential requirement.
 CI checks package imports or feature graphs so domain modules cannot acquire
 Clap, Octocrab, terminal, or Tokio process authority. `cargo deny` or an
 equivalent reviewed policy checks licenses, advisories, bans, and duplicate
-dependency families.
+dependency families. V3-02 applies the preliminary policy to the spike; V3-03
+owns the production configuration and makes it a required CI gate from the
+first production dependency commit.
 
 ## Security Boundaries
 
@@ -1024,6 +1073,7 @@ using measured build, source, test, adapter, and command-slice evidence.
 ```mermaid
 flowchart TD
     P01["V3-01 Contract freeze"] --> P02["V3-02 Rust construction spike"]
+    P02 --> D11["Operator Decision 11: commit matrix approved"]
     P02 --> P03["V3-03 Single-binary foundation"]
     P03 --> P04["V3-04 Application context"]
     P03 --> P05["V3-05 Repository context and importer"]
@@ -1032,6 +1082,7 @@ flowchart TD
     P06 --> P07["V3-07 Lifecycle kernel"]
     P06 --> P08["V3-08 Transaction store"]
     P07 --> P08
+    D11 --> P08
     P04 --> P09["V3-09 Typed effect adapters"]
     P05 --> P09
     P05 --> P10A["V3-10A Issue and bind commands"]
@@ -1100,7 +1151,10 @@ dispositions.
 
 **Deliverables:** A versioned contract manifest, retained-v2 invariant register,
 versioned normalized parity/import schema, importer retention policy,
-command/help golden packet, and explicit unsupported behavior register.
+command/help golden packet, explicit unsupported behavior register, versioned
+JSON envelope and schema-evolution policy, reviewer-principal and independence
+mechanism, per-card/per-phase field optionality table and optional-value
+placeholder, state-size guard, and `pr watch` timeout/poll policy.
 
 **Acceptance criteria:**
 
@@ -1111,6 +1165,10 @@ command/help golden packet, and explicit unsupported behavior register.
 - Unknown or intentionally changed v2 behavior is explicit and reviewed.
 - The importer remains available until the later of all v2-origin issues
   reaching terminal state or the operator-approved rollback window expiring.
+- Output filtering and templating have one approved in-process implementation
+  boundary and cannot invoke a shell or external formatter.
+- Reviewer independence is structurally checked where identity is bindable;
+  policy-only identity cannot silently satisfy publication.
 
 **Validation proof:** Schema validation, golden command-tree comparison,
 invariant-to-issue coverage, duplicate/omission checks, and independent contract
@@ -1133,10 +1191,13 @@ language selection, or undeclared reuse of v2 entry points.
 
 **Dependencies:** `V3-01`.
 
-**Deliverables:** Spike source, dependency inventory, build/startup/test
-measurements, implementation-size report, trait/object-safety decision, YAML
-parser decision, Octocrab capability-gap inventory for every required GitHub
-operation, and promote-or-discard disposition.
+**Deliverables:** Spike source, dependency inventory, preliminary `cargo deny`
+or approved-equivalent report, build/startup/test measurements,
+implementation-size report, trait/object-safety decision, YAML parser decision,
+in-process jq-compatible and restricted-template engine decisions, Octocrab
+capability-gap inventory for every required GitHub operation, per-platform
+commit-primitive prototype and Decision 11 recommendation, and
+promote-or-discard disposition.
 
 **Acceptance criteria:**
 
@@ -1172,8 +1233,10 @@ mutation, validation execution, or v2 installation changes.
 **Dependencies:** `V3-02` passes with a promote-or-reimplement decision.
 
 **Deliverables:** One crate, one binary target, one library target, complete
-placeholder command graph, generated help/docs, completion artifacts, and
-reproducible release metadata.
+placeholder command graph, versioned output envelope and selected in-process
+filter/template engines, generated help/docs, completion artifacts, production
+`cargo deny` or approved-equivalent configuration, and reproducible release
+metadata.
 
 **Acceptance criteria:**
 
@@ -1181,6 +1244,10 @@ reproducible release metadata.
 - Constructor and parser tests invoke no repository, network, or process
   adapter.
 - Human and JSON output never mix machine payloads with diagnostics.
+- JSON carries the V3-01 schema discriminant; `--jq` and `--template` parse,
+  conflict, and operate only through the V3-01/V3-02 approved in-process path.
+- Dependency-policy CI rejects unapproved licenses, advisories, bans, and
+  duplicate dependency families from this issue onward.
 - The release build emits one provenance-bound executable.
 
 **Validation proof:** Parser golden tests, help/docs drift check, schema smoke
@@ -1215,6 +1282,10 @@ taxonomy, cancellation policy, tracing contract, and redaction fixtures.
 - `Git`, `FileSystem`, and `ProcessRunner` signatures are reviewed and frozen at
   an explicit checkpoint before parallel V3-05 or V3-09 implementation begins.
 - Expensive or credential-bearing services initialize only on demand.
+- Sync lazy accessors initialize once without panic and propagate one cached
+  typed result to concurrent callers.
+- Async lazy accessors cache completed success/error results while cancelled
+  initialization remains uninitialized and retryable.
 - Async adapter traits remain object-safe without infecting pure domain APIs.
 - Supported OS and console interruption signals drive root cancellation and
   bounded child/task teardown before exit code 130.
@@ -1274,17 +1345,20 @@ either generation.
 **Objective:** Define the versioned v3 aggregate and deterministically render
 all six lifecycle cards and declared evidence projections.
 
-**Scope:** `state.json`, schema evolution, closed enums, canonical serialization,
-card AST values, SIP-STP-SPP-VPP-SRP-SOR rendering, digest rules, projection
-manifests, and drift detection.
+**Scope:** `state.json`, embedded typed audit events and state-size guard, schema
+evolution, closed enums, canonical serialization, card AST values,
+SIP-STP-SPP-VPP-SRP-SOR rendering, per-phase field optionality and placeholders,
+digest rules, projection manifests, and drift detection.
 
 **Non-goals:** Lifecycle transition authorization, transaction recovery,
 GitHub observation, direct Markdown authority, or compatibility dual writes.
 
 **Dependencies:** `V3-04` and `V3-05`.
 
-**Deliverables:** State/schema module, projection engine, card templates or AST
-builders, digest profile, fixture corpus, and state/card compatibility report.
+**Deliverables:** State/schema module, embedded audit-event model and no-pruning
+initial policy, projection engine, card templates or AST builders,
+per-card/per-phase optionality table, digest profile, fixture corpus, and
+state/card compatibility report.
 
 **Acceptance criteria:**
 
@@ -1292,6 +1366,10 @@ builders, digest profile, fixture corpus, and state/card compatibility report.
   reproducible from it plus declared immutable inputs.
 - Unknown schema versions and enum values fail explicitly.
 - All six cards preserve their distinct lifecycle semantics.
+- Missing required fields fail with a typed error; optional unset fields render
+  only the declared placeholder at each lifecycle phase.
+- `audit.jsonl` is reproducible from embedded state events and has no separate
+  mutation or integrity authority.
 - Projection drift is diagnosable and repair never treats Markdown as authority.
 
 **Validation proof:** Schema round trips, canonical-byte golden tests,
@@ -1325,6 +1403,8 @@ tests, negative transition corpus, idempotency model, and v2 behavior mapping.
 - Branch/worktree topology is the only local ownership authority.
 - Review staleness, publication gates, terminal truth, and cleanup eligibility
   remain fail-closed.
+- Cleanup eligibility requires committed `closed_out` state and a retained
+  terminal receipt; remote merge observation alone is insufficient.
 
 **Validation proof:** Complete transition table tests, property tests for
 invariants and idempotency, mutation testing of rejection predicates, and
@@ -1347,7 +1427,8 @@ concurrent writer behavior.
 **Non-goals:** Distributed transactions, remote rollback, lock-as-ownership,
 multi-file atomicity claims, GitHub mutation, or cleanup of unrelated paths.
 
-**Dependencies:** `V3-06` and `V3-07`.
+**Dependencies:** `V3-06`, `V3-07`, and operator approval of the V3-02
+per-platform commit matrix (Decision 11).
 
 **Deliverables:** Transaction store, recovery engine, intent schema, explicit
 pre-network intent commit and post-readback reconciliation protocols,
@@ -1357,6 +1438,8 @@ filesystem capability policy, and concurrency fixtures.
 **Acceptance criteria:**
 
 - Only atomic replacement of `state.json` commits authority.
+- State commits before projection replacement; post-commit projection failure
+  is a specific repair-required result, never rollback or ambiguous authority.
 - Cards, evidence indexes, and audit views are repairable projections.
 - Stale generation/digest writers fail before commit.
 - Every injected interruption converges to the prior or new valid state.
@@ -1467,6 +1550,8 @@ typed result schemas.
 - Doctor is read-only, specific, and identifies the next valid operation.
 - Projection drift, invalid schema, unsupported import fields, and topology
   blockers remain distinguishable.
+- `card show`, `card edit`, and doctor enforce the V3-06 per-phase required and
+  optional field table and its one declared placeholder.
 
 **Validation proof:** Card schema/structure checks, semantic-edit round trips,
 projection drift/repair fixtures, no-write doctor assertions, finding snapshots,
@@ -1550,7 +1635,8 @@ can appear passed.
 **Objective:** Implement independent exact-revision review assignment, result
 recording, staleness, finding disposition, and publication authorization.
 
-**Scope:** `review assign/record/status`, reviewer independence policy, exact
+**Scope:** `review assign/record/status`, structurally bound reviewer principals,
+independence enforcement and policy-only limitation handling, exact
 scope/revision identity, findings and dispositions, non-substantive change
 proof, publication intent, and fail-closed review guard.
 
@@ -1559,8 +1645,10 @@ finish, cleanup, or treating review prose as state authority.
 
 **Dependencies:** `V3-08`, `V3-10A`, and `V3-10B`.
 
-**Deliverables:** Review schemas, independence policy, staleness classifier,
-finding model, publication guard, typed intents, and review fixture corpus.
+**Deliverables:** Review schemas, authenticated/provider-evidence reviewer
+principal model, independence predicate and typed override boundary, staleness
+classifier, finding model, publication guard, typed intents, and review fixture
+corpus.
 
 **Acceptance criteria:**
 
@@ -1569,6 +1657,8 @@ finding model, publication guard, typed intents, and review fixture corpus.
   deterministic proof.
 - Publication fails closed on missing, stale, blocked, or actionable review.
 - Model/provider output is evidence input, never direct lifecycle authority.
+- Same-principal implementation/review/publication is rejected; policy-only
+  identity cannot pass the publication gate without a named typed override.
 
 **Validation proof:** Exact-head/staleness matrix, independence-policy tests,
 finding lifecycle tests, non-substantive proof negatives, publication guard
@@ -1629,8 +1719,9 @@ merge, remote rollback, or terminal issue closure reconciliation.
 **Dependencies:** `V3-04`, `V3-08`, `V3-09`, `V3-12`, and `V3-13`.
 
 **Deliverables:** Typed mutation operations, durable intent integration,
-publication command, foreground watch, idempotency/readback fixtures, and
-bounded live publication canary.
+publication command, foreground watch with 30-minute default, 24-hour maximum,
+15-second default poll interval and stderr progress, idempotency/readback
+fixtures, and bounded live publication canary.
 
 **Acceptance criteria:**
 
@@ -1640,6 +1731,8 @@ bounded live publication canary.
   persistent job or unjoined task.
 - Every watch sleep and network await is selected against root cancellation;
   cancellation drains and joins the watch scope before exit 130.
+- Default and overridden timeout/poll values remain within the V3-01 bounds and
+  timeout exits without a persistent job or unjoined task.
 - Merge occurs only when the approved explicit policy and operator authority
   are both present.
 
@@ -1679,6 +1772,8 @@ safety fixtures.
 - Live, dirty, mismatched, absent, unregistered, and already-removed worktrees
   have distinct outcomes.
 - Build/cache directories from any other worktree are never deletion targets.
+- Cleanup requires committed `closed_out` state and its terminal receipt; a
+  GitHub merge without local terminal reconciliation remains ineligible.
 
 **Validation proof:** Terminal outcome matrix, ambiguous-PR negatives, receipt
 tamper tests, canonical/symlink/path-escape fixtures, dirty/live/drift cleanup
@@ -1877,6 +1972,7 @@ spike must not mutate real C-SDLC state or become an undeclared production path.
 10. Decide whether `finish` can ever own an explicitly authorized merge.
 11. Approve the per-platform commit matrix and whether Windows mutation support
     ships initially or remains fail-closed read-only pending equivalent proof.
+    V3-08 cannot begin before this decision is recorded.
 
 ## Recommendation
 

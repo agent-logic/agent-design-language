@@ -133,6 +133,43 @@ extraction do not make model findings lifecycle authority.
 
 ## Final Verification
 
+### Verification Round 1
+
+Reviewed revision: `b9187722888b1b1d8e3e09a33f11a4f65e1940d3`
+
+Evidence:
+
+- `.csdlc/evidence/73/provider-reviews/verification-r1-gemini-result.json`
+- `.csdlc/evidence/73/provider-reviews/verification-r1-claude-sonnet-result.json`
+
+Gemini returned `REQUEST_CHANGES`. Claude returned a complete finding register,
+but its response reached the configured output limit before emitting a terminal
+decision, so it is retained as findings evidence rather than accepted final
+verification.
+
+The following new findings were incorporated:
+
+- Projections now replace only after canonical `state.json` commits; a
+  post-commit projection failure is repair-required, not ambiguous authority.
+- Repository and issue context use async lazy cells consistently with their
+  Git/process I/O and call sites.
+- Root parsing declares `--jq` and `--template`, and the output envelope,
+  schema evolution, and in-process formatter boundaries are explicit.
+- Cleanup requires committed `closed_out` state and a terminal receipt, not
+  GitHub merge observation alone.
+- Sync and async lazy accessor, error-caching, cancellation, and retry behavior
+  are explicit and test-owned.
+- Operator Decision 11 is a hard dependency between the construction spike and
+  transaction-store implementation.
+- Reviewer principals and the enforceable independence/policy-only boundary are
+  explicit.
+- Foreground watch defaults to 30 minutes, caps at 24 hours, polls every 15
+  seconds by default, and reports progress on stderr.
+- V3-02 and V3-03 own preliminary and production dependency-policy checks.
+- Per-card/per-phase required and optional field behavior is contract-owned.
+- Canonical state embeds typed audit events; `audit.jsonl` is only a generated
+  projection, with no initial pruning or co-primary authority.
+
 The final plan must receive fresh Claude and Gemini reviews over the same exact
 revision. Verification is complete only when both return no undispositioned
 P0/P1 findings and this record names that revision and evidence.

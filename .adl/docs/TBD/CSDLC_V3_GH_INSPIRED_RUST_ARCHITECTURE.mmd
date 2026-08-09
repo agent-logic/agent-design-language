@@ -15,6 +15,7 @@ flowchart TD
   GitHub --> Remote["Exact GitHub readback"]
 
   P01["V3-01 Contract"] --> P02["V3-02 Rust spike"]
+  P02 --> D11["Decision 11: commit matrix approved"]
   P02 --> P03["V3-03 Binary foundation"]
   P03 --> P04["V3-04 App services"]
   P03 --> P05["V3-05 Context and importer"]
@@ -23,6 +24,7 @@ flowchart TD
   P06 --> P07["V3-07 Lifecycle kernel"]
   P06 --> P08["V3-08 Transactions"]
   P07 --> P08
+  D11 --> P08
   P04 --> P09["V3-09 Effect adapters"]
   P05 --> P09
   P05 --> P10A["V3-10A Issue and bind"]

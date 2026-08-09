@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2f9e8eb1a1614066f9910afdfc20e395fbb4e6c04c4e9235753decdc3850f07",
   "phase": "bound",
-  "generation": 6,
-  "digest": "6d18104e57fc9b0b36f330177b3fca7d5ab76a44d635d32d512da89496ab90a4",
+  "generation": 7,
+  "digest": "cfdde64056777f354139a108cf75ace777d380433157a35a13eb5b8d9d802f11",
   "branch": "codex/csdlc-v3-gh-architecture",
   "worktree": "/Volumes/FastWork/adl-csdlc-v3-gh-architecture",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:initial-review-findings-incorporated",
-      "revision": "00185aa3f0d4ec1560ad6ba5c1ae1657140c5f39893319f2ca93a9780002a5b6"
+      "reviewer": "codex:verification-round-1-findings-incorporated",
+      "revision": "4c58199016278cc9d4ce46222849dcd358b96e9e260b97f009e276da261b9e4d"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "dd4702ee22b506feca827879975855285f74729b65747d785147ebbc0230cc47",
+      "values_digest": "f0b80b59c09c3f3043c079a323cffbb4893dfe979889f6e5f2187f5685103ded",
       "rendered_digest": "1cb5586e1e62da6686adc7dcdca91481c534c72542c0d46dd49f15e95620d446",
       "ast_digest": "7024c443c09abfcb6929f814e2c8f30be134e1e8eed2b52f060201f17716a761"
     },
     "stp": {
-      "values_digest": "354bdc942835f85ab0d0d44c9231cba89e3d6bbfa648ce9bcc9a1dde0794f744",
+      "values_digest": "49483a5398878a63b30332cc039e9af2626d5f00ba0de0180f5840b42c19c71c",
       "rendered_digest": "08d51ab677270d64029597e39a5919516219dac250520e43378052d791943529",
       "ast_digest": "ea0dabda607bf5a93e65c62566cca15f6084c23829147e3d7dbf7416623df76d"
     },
     "spp": {
-      "values_digest": "33487d8afe06d192b2b84a640f68d577f45f5cdda3d7994e189d6bdf58c3afc9",
-      "rendered_digest": "3cca42e30617da4d7580a76c165fd63728d363899092ebcc63a1af325c6c18f2",
-      "ast_digest": "570d88846249fa62b537948695b918ff90113a064c819a6e12da525b0a8ce4cf"
+      "values_digest": "303474a07b5fcc2ea33fa999dbdbf0911143983c3156dd39b9978d95c480a4e9",
+      "rendered_digest": "2a7a4f149f3f433dadf48715322f026e980b1e6694a8ca87e349e607a685261c",
+      "ast_digest": "75823f58b4bb32bd23431d5fbfb96fb858948735a8dac99aa6fee51ed127699e"
     },
     "vpp": {
-      "values_digest": "1fb18b4105889d25551056bc8fbde6feed1f9f74e08e9d22bff33612228b3910",
+      "values_digest": "3df0edcc69debcc8289bf9bb13b55a711fabe1890f54c56ca44e9af3afab195d",
       "rendered_digest": "ca0a321dcf544ff4654a88f5bf8f47f1c892cdca7e00ea94a8abb77189cd8b54",
       "ast_digest": "a4e249d518642482154399bd5328d4ba0b7ffcbc10bc2c72c15431180a0a8bd2"
     },
     "srp": {
-      "values_digest": "56a700a9c26e4c951c05c116583d16369f20a659bd455b759863f5e23b884218",
+      "values_digest": "b796d7c23ceadcc89fb2b1c9ff06d13cf131202ee1d857c5651660e6b85991d8",
       "rendered_digest": "f144d8fe17e50ce4452c5c8a67bd3c340151675213fd3b23a87ec46c1689797f",
       "ast_digest": "1244572a744bdc4accab71c72b3fe1134f3a9b09853034f0771b6c46310b7d08"
     },
     "sor": {
-      "values_digest": "927cc34f04d5b025367ebe74e9130f3f482ca4dcfc82816d4c0a1e5aacca5f10",
+      "values_digest": "4db269d317f175b8a035cd3e75b2a58c851293dec7a40bda44fa1ba21cc2f269",
       "rendered_digest": "9738c89908566f0f2190b73f20429e6365b23adc2e0e283b47fcdf56e9c4fa71",
       "ast_digest": "e644cbba183f5900968e59112d5fcfa58c584aae21e2348167dd70b7c7f8bdaa"
     }
@@ -126,6 +126,13 @@
       "actor": "codex:issue-73-review-reconciliation",
       "reason": "Reconcile the review denominator with the independently reviewed issue splits.",
       "operation": "{\"field\":\"review_scope\",\"new_value\":\"Issue #73 Rust architecture, effect targets, diagram, eighteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.\",\"operation\":\"replan\",\"previous_value\":\"Issue #73 Rust architecture, effect targets, diagram, fourteen implementation issue specifications, deferred retirement specification, and Claude/Gemini finding dispositions.\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:verification-round-1-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
