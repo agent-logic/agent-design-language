@@ -3,13 +3,35 @@
   "issue": 59,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "7c1b54752939c83b93c456ad2cffa89a70e6b281b51c08dc6dfed344dd8959c7",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "14ce6b0e22980dcf0e8aa7652471c08f014af210ccccf6c662fa7e2b3f210208",
   "branch": "codex/59-codex-goal-replacement-readiness",
   "worktree": "/Volumes/FastWork/adl-issue-59-codex-goal-replacement",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:execute_75_to_pr",
+    "assigned_by": "codex:59-authority-checkpoint",
+    "revision": "git-blake3:ea07513854599c602ca2208ba031f804fe922c86:7ec57779526ab9be40be6b40647a2accc7c79b58c39ffe801c64ff2356a0e486",
+    "scope": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:execute_75_to_pr",
+    "scope": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ],
+    "reviewed_revision": "git-blake3:ea07513854599c602ca2208ba031f804fe922c86:7ec57779526ab9be40be6b40647a2accc7c79b58c39ffe801c64ff2356a0e486",
+    "findings": [],
+    "residual_risks": [
+      "The live blocked-goal replacement canary remains upstream until the Codex platform owner ships the product fix.",
+      "Publication must preserve linkage_mode part_of, the exact qualified relationship line, and the issue 75 stack base."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +46,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cddd00f6f99c25ef6ce7e5ba937922c5472632df42755fcbd52f015d7d7b389b",
+      "values_digest": "594e01dac42af0b3499171bf8ab007c6b28fd9b5ef352f8925445ca52ed5c530",
       "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
       "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
     },
     "stp": {
-      "values_digest": "e744713e3592f2f91bc77732e35e9bc3e4f3d0c267946aff339fec38cdd2fbc9",
+      "values_digest": "4c40df7e9ef9d0e72beb37ad59b923723a950fb6f147fb57390a53051f227b35",
       "rendered_digest": "5706339d6f1551094d2aa275b844fb71b6d340363ea3f2a5af186724c62d4f4c",
       "ast_digest": "e1106bd67c9fc776ec89d122ace1c638d7bf81be92ea1917b30ca53f2f7a4d7e"
     },
     "spp": {
-      "values_digest": "aaf7e83a6f1ee6986f7ab848af913dd5b4e0ce41d9623fa61b6b91c30c2d083c",
+      "values_digest": "109d50ebf158d9ebeefadaab56cee96a250f3d0f4454801021e5ff60fdece5ed",
       "rendered_digest": "cb890fea262e0c4b2d170daa39a1844875c345d45dd608c5ccea577c4896b2c7",
       "ast_digest": "c4e00208ccb590f61e633ee9035fe98ae7f7a6cad0748210a11a8e7625a7e0fc"
     },
     "vpp": {
-      "values_digest": "404d80c3737a52a5de2d06d21fd6de9c4078120b0166b509e1e7dbddb4c90414",
+      "values_digest": "d050575fd5d3042f936b1703d15ef3fe39c82e180b53c9bceec985883108f02d",
       "rendered_digest": "32afc2cd668d2e9175d1c99152e40f78f428cf4f816895af2bba42689aff6ce8",
       "ast_digest": "d803d68e1b5285e4c4adc4e2dc19150e8fc598cb0eb07b1ef49d1fffa1a2d589"
     },
     "srp": {
-      "values_digest": "eb06708b0f1e5df41aef6d0a2cfdb2c02cad26dc930bf04b292ef121461870df",
-      "rendered_digest": "afc5a9e6a8c796eeefea89d35cf7d32e77e20538b1cb7b55907e72a57bdbace2",
-      "ast_digest": "94ddada2df893475b7a11643d00e9dde3984d6b0db478693f819266e32736516"
+      "values_digest": "ea12bc42f9d0b2db4ba082a815b731045f223dd1fe3593a15f95b039496abbaa",
+      "rendered_digest": "f13e4b2d378d11a234c7e7464d5106f2da29fbdb5b0f1ef221235d9b24555f1f",
+      "ast_digest": "fbe943c7331953affcf5594d0eb2fa550691dea1727a20e94760150fbb230219"
     },
     "sor": {
-      "values_digest": "16cdde3bf584d140214d44208c235eac7a99d3f8a25bed8df4aa029952e26894",
+      "values_digest": "bcd1d8ca79112ea4ce706acd79c794c5b83d1b983d69686e798baa7784168c5c",
       "rendered_digest": "f622dc239996643c648c7ea06d4b4dc7ef19ecd9c777490f1b68b41e46791222",
       "ast_digest": "a94b15050542d2398591bd4d4f871086003cb7d33b2104a6942ab9ecebfac6db"
     }
@@ -89,6 +111,13 @@
       "to": "implemented",
       "actor": "codex:59-authority-checkpoint",
       "reason": "Refresh exact-head review after retaining the reviewer assignment and record requests in tracked preparation evidence."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:execute_75_to_pr",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -266,6 +295,20 @@
       "actor": "codex:59-authority-checkpoint",
       "reason": "Refresh exact-head review after retaining the reviewer assignment and record requests in tracked preparation evidence.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "subagent:execute_75_to_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
