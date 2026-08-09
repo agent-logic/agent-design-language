@@ -27,7 +27,10 @@ Reconciled the Sprint 2 umbrella validator with exact v3 and bounded real legacy
 - Verify issue/code repository identity, qualified closure, exact PR head, merge ancestry, terminal envelope, and the corrected frozen sixteen-child dependency DAG.
 - Validate generic child WP identity, exact nonzero test target, canonical nested runner, timestamps, command logs, artifacts, negative results, and historical digests.
 - Validate full canonical WP-04.16 production and native macOS, Linux, and Windows commands, nested runners, distinct run identities, logs, artifacts, negative evidence, and source binding at the historical child head.
-- Add 27 generated Git-history regressions and a representative current #5863 legacy receipt check covering valid topology and fail-closed drift, ambiguity, schema, type, and denominator cases.
+- Bind every referenced command log, artifact, negative case, and native artifact inside the exact frozen manifest evidence prefix.
+- Require the exact Cargo nextest command contract and ordered RFC3339 start/finish timestamps.
+- Resolve split code authority from the canonical publication repository with conflict rejection instead of falling back from an absent top-level field to the legacy issue repository.
+- Add 33 generated Git-history and split-authority regressions plus representative current #5863 legacy receipt and split-index checks covering valid topology and fail-closed drift, ambiguity, schema, type, time, namespace, command, repository, and denominator cases.
 
 ## Validation
 
@@ -37,7 +40,7 @@ Reconciled the Sprint 2 umbrella validator with exact v3 and bounded real legacy
       "ruby",
       ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"
     ],
-    "purpose": "Run 27 generated v3, bounded legacy v2, drift, mapping, type, generic proof, and integrated-native topology cases plus the representative current #5863 legacy shape.",
+    "purpose": "Run 33 generated v3, bounded legacy v2, drift, mapping, type, time, namespace, exact-command, generic proof, integrated-native, and split-authority cases plus representative current #5863 legacy and split-index shapes.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/96/focused-ruby-regression.log"
   },
