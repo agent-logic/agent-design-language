@@ -433,10 +433,13 @@ pre-warmed by `App` construction, and contains no `unwrap` or `expect` path.
 
 `AsyncInit` caches a completed success or error. If cancellation drops an
 initialization future before completion, the cell remains uninitialized and a
-later accessor may retry. Concurrent-access, completed-error, and cancelled-init
-behavior are contract tests. Remote GitHub observation never belongs in
-`repository` or `issue` initialization; commands request it explicitly from
-`github`.
+later accessor may retry. Initialization is single-flight per generation: one
+caller starts the next attempt and concurrent callers attach to it rather than
+starting a retry herd. A bounded retry cooldown applies to localized timeout or
+adapter cancellation; root cancellation prevents any retry. Concurrent-access,
+completed-error, cancelled-init, retry-cooldown, and single-flight behavior are
+contract tests. Remote GitHub observation never belongs in `repository` or
+`issue` initialization; commands request it explicitly from `github`.
 
 ## Async Boundary
 
@@ -541,8 +544,11 @@ Schemars derives versioned public schemas from those same types.
 Typed audit events are embedded in `state.json` as part of the canonical
 aggregate. `audit.jsonl` is a deterministic projection of those events, not a
 co-primary append target. V3 initially performs no audit pruning or compaction;
-crossing the V3-01 state-size guard blocks mutation and requires a separately
-reviewed retention revision.
+the V3-01 contract sets measured warning and blocking thresholds with at least
+ten times the largest representative imported/canary aggregate as initial
+headroom. Crossing the warning threshold produces a typed doctor finding;
+crossing the blocking threshold fails mutation and requires a separately
+reviewed retention revision. Neither threshold silently prunes evidence.
 
 The six Markdown cards and `audit.jsonl` are deterministic projections. Every
 card has a V3-01 per-phase required/optional field table. A missing required
@@ -1238,7 +1244,9 @@ qualified issue identity and relation grammar, state-size guard, PVF subprocess
 command-allowance policy, `pr watch` timeout/poll policy, and a versioned
 field/operation capability matrix covering normal authoring, post-review
 correction, invalidation, recovery provenance, audit evidence, and next valid
-operations.
+operations. The state-size guard includes measured warning/block thresholds and
+headroom evidence. Output filtering includes a versioned supported-`jq` subset
+manifest with explicit unsupported syntax and diagnostics.
 
 **Acceptance criteria:**
 
@@ -1263,6 +1271,11 @@ operations.
 - Command help, kernel authorization, doctor findings, and tests are generated
   from or mechanically checked against the same capability matrix so scattered
   phase allowlists cannot silently diverge.
+- The state-size warning precedes the mutation block, initial block capacity is
+  at least ten times the largest representative imported/canary aggregate, and
+  neither path silently drops audit evidence.
+- `--jq` accepts only the frozen supported subset; unsupported syntax fails
+  with a typed usage error rather than partial or external execution.
 
 **Validation proof:** Schema validation, golden command-tree comparison,
 invariant-to-issue coverage, publication-linkage truth tables for same-repository
@@ -1291,9 +1304,10 @@ language selection, or undeclared reuse of v2 entry points.
 **Deliverables:** Spike source, dependency inventory, preliminary `cargo deny`
 or approved-equivalent report, build/startup/test measurements,
 implementation-size report, trait/object-safety decision, YAML parser decision,
-in-process jq-compatible and restricted-template engine decisions, Octocrab
-capability-gap inventory for every required GitHub operation, per-platform
-commit-primitive prototype and Decision 11 recommendation, and
+in-process jq-compatible engine decision and supported-subset conformance
+manifest, restricted-template engine decision, Octocrab capability-gap
+inventory for every required GitHub operation, per-platform commit-primitive
+prototype and Decision 11 recommendation, and
 promote-or-discard disposition. The disposition is a real stop/go decision and
 must state whether the capability-matrix approach prevented a stranded
 post-review correction path.
@@ -1351,6 +1365,9 @@ metadata.
 - Human and JSON output never mix machine payloads with diagnostics.
 - JSON carries the V3-01 schema discriminant; `--jq` and `--template` parse,
   conflict, and operate only through the V3-01/V3-02 approved in-process path.
+- `--jq` implements exactly the approved subset manifest, has golden
+  compatibility tests for every supported form, and returns a typed usage error
+  for unsupported jq syntax.
 - Dependency-policy CI rejects unapproved licenses, advisories, bans, and
   duplicate dependency families from this issue onward.
 - The release build emits one provenance-bound executable.
@@ -1392,6 +1409,9 @@ contract, and redaction fixtures.
   typed result to concurrent callers.
 - Async lazy accessors cache completed success/error results while cancelled
   initialization remains uninitialized and retryable.
+- Cancelled async initialization remains single-flight on retry, applies the
+  configured cooldown for localized cancellation/timeouts, and never retries
+  after root cancellation.
 - Async adapter traits remain object-safe without infecting pure domain APIs.
 - Supported OS and console interruption signals drive root cancellation and
   bounded child/task teardown before exit code 130.
