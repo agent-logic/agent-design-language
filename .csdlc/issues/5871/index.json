@@ -4,13 +4,32 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "62c5b9866843c2db3ce1943c0f9290e4a52dff77a6dbbbabc98c33aaaca09233",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "9819b61a888410e346de3989bf1597c9259bb476b4a1539522fa9b2c8b1bba82",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "87e84042e8931b80e0b9f6463b10ef3b7f22e088b63edb0b0cb105f583aba114",
   "branch": "codex/5871-capability-advertisement",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5871-capability-advertisement",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Codex independent security/correctness reviewer",
+    "assigned_by": "codex:5871-capability-advertisement",
+    "revision": "git-blake3:183bb3ae2451d2092a1075f9611113c03237de91:b1532647057e02aed736142b3f497fb954ba5b734298d749a83e04d897c32c6a",
+    "scope": [
+      "adl-runtime/src/distributed/capability_advertisement.rs",
+      "adl-runtime/tests/distributed_capability_advertisement.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "Codex independent security/correctness reviewer",
+    "scope": [
+      "adl-runtime/src/distributed/capability_advertisement.rs",
+      "adl-runtime/tests/distributed_capability_advertisement.rs"
+    ],
+    "reviewed_revision": "git-blake3:183bb3ae2451d2092a1075f9611113c03237de91:b1532647057e02aed736142b3f497fb954ba5b734298d749a83e04d897c32c6a",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b72f3a71eed2d2e99c4fc21a0ece943edb12f25369ca3de57df360e3d3dceda4",
+      "values_digest": "cf0a8bc4bbc229e0f996edaa5eb447b2ee6eb9ddc48cdc35da9b7e5237d2a962",
       "rendered_digest": "b074be626e91de3cf084cccf24612575fb38e7b8826b2da9b207a23d2c1628bc",
       "ast_digest": "a5418b5c112f910fcf70079f72192c6c343e253e8f24a5ffcac453b09ce01493"
     },
     "stp": {
-      "values_digest": "b45244aed505f741a531b1d404ea7f126fb00c6a959b23fd4a77c5aa28a7fe55",
+      "values_digest": "7e9763e226aa1fe24012324465176f52f969d3c563442daf8432b7cbc645cbca",
       "rendered_digest": "6cb0694d5d9ed2ac8e0fb10ae931762e9359708cc51a735a67ed7bb2bf7b7b99",
       "ast_digest": "66efde7605a813e0157483402005d3c318551cb6650e8dd1e737b7b5512a2bab"
     },
     "spp": {
-      "values_digest": "f289e406311423d8bd8b81de665a991c7105b0ee2d74e58befbb1cc01b8fd5d0",
+      "values_digest": "81a63150386449c3cc86b95dc64a62b7687c606c17c1bae889bc0e8132d37538",
       "rendered_digest": "1f8d91dd68a84c217a42e2cc095a798cab98113a0cfb3b1b64abd4c7408f7ff5",
       "ast_digest": "9eba2692b991b3777af983414b1e9e228697eac87ce86a492c1d8fc24fa015af"
     },
     "vpp": {
-      "values_digest": "28d4a11c07213d1d22673c8ba91c5fc331f20d9662aacf063f0a284b38f48acb",
+      "values_digest": "7ae93bbf1aec8e7cfddee90b19f4367e78404be8c47d8dab2e3153cfd81801e0",
       "rendered_digest": "22a4b1529f7f23c263a6a15dc2a7ae7831d9ddad2c0bd3da5f6f099479b1d35a",
       "ast_digest": "8363472267f9fcfb98b185498595768e6b310e4b9e20803137fea8b8b2f9ab75"
     },
     "srp": {
-      "values_digest": "2d716cab5eeb970e05356f8c382ce76d575c76dd0d3a0abc1868e6b5994a41f4",
-      "rendered_digest": "2e375036437b887f03168b950a9d399c75735d75a0cd692c3cd66cf6376b03b6",
-      "ast_digest": "2d0bb23478a97f867c73d4dfbeb9c29fe17eed1add0bf32ba348e08170a1a07b"
+      "values_digest": "ea871e89ae598388f144c40ff849a571904247f7f16fbea5d6195a5d27012902",
+      "rendered_digest": "11fa658e6c82be1e60965e08f6ce7c2885710fefcd6f0c299f57e343934ade4b",
+      "ast_digest": "e08eccc723de395ef04730ec759b908bdf467693bd26032b3265b2412dd60be9"
     },
     "sor": {
-      "values_digest": "51ee65dc24e26bf4244b604d0952760845079363b290d3b58fe46fe40e03b915",
+      "values_digest": "325346d6614ed8ba81e6f7b2a7a2e7458638e0711264a68ff73d84f9e0cbe4cf",
       "rendered_digest": "4fdd14196ead351e9bf35ef673f249f7a608d58b0eec134d207c7f9a7a7f4c29",
       "ast_digest": "e2b3afc1beb652698cdc2938750bcb32277e7f3709374a025dc7ba37d9244580"
     }
@@ -97,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:5871-capability-advertisement",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "independent exact-head reviewer:/root/issue_79/child_fixture_analysis",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -288,6 +314,20 @@
       "actor": "codex:5871-capability-advertisement",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:5871-capability-advertisement",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 11,
+      "actor": "independent exact-head reviewer:/root/issue_79/child_fixture_analysis",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

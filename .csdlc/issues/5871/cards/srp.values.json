@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.09] Signed capability advertisements",
     "slug": "v0-92-wp-04-09-capability-advertisements",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.09 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/capability_advertisement.rs\nadl-runtime/tests/distributed_capability_advertisement.rs",
+      "review_revision": "git-blake3:183bb3ae2451d2092a1075f9611113c03237de91:b1532647057e02aed736142b3f497fb954ba5b734298d749a83e04d897c32c6a",
+      "reviewer": "Codex independent security/correctness reviewer",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
