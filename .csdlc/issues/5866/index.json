@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a545ca23817c4e3efccce73310fea81472dff567846aa9fb04fac11418bbde6a",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "c61613e2dc9d66e99ca6b6c5b3f31f2e754a8af74bef2fbe8a2ac28e857ce4c0",
+  "generation": 18,
+  "digest": "c6c74f19970f40cfc47169a844b6eddcf8e715293694cf8f66eaab6c025e5f24",
   "branch": "codex/5866-distributed-discovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bea8ed4ea5a49b50e6df5ed1d39a59e8b45d603154a8881ade5593e48a65d274",
+      "values_digest": "79d199031c0a6da5daa88ec91935dd8230bd15e8404fc3361a3704657799537e",
       "rendered_digest": "6edde9877a679aa8137562e451dcf42a97d1752a726de69edf5fe1d3e1aa9292",
       "ast_digest": "54dff07d44a80d7c7591cb929f3cc32d18899c13934f570fe82687c25473d639"
     },
     "stp": {
-      "values_digest": "814e7b6190a4e2a94b9bcf4ef2f73857d507ec6800e16deeaf304d4f11879702",
+      "values_digest": "c266662a1bd56046056bb1f62b27b923f83deaf81188be5c5a113f06d9ffcbda",
       "rendered_digest": "5c2f6f7e75055df76b81f86381236400afa8cff2a83bb7c8bbf3d9d035ccbbc8",
       "ast_digest": "bbe33a414fd219c8472a5493f94b769c4a459750e39278331d56b3e2d2a5804c"
     },
     "spp": {
-      "values_digest": "01df9af2ed5208007e7a2137dad7ae7d7d911efb13c2c3aace752136dd5bd994",
+      "values_digest": "edec63779efbcfda14043991b8fc8714c82d0d0902924695e21957cde188e7c9",
       "rendered_digest": "06039fe18555456e65b78378c039a41455e8130f5a4a551604ae8773e9b9ef4f",
       "ast_digest": "a9be98918825c7954e8473c3ae921e95dbc63e49c1e496a8cc40152482b0137a"
     },
     "vpp": {
-      "values_digest": "49cd2944e6fb73de132e894b4734fd6902bd973660753817fea6ea1b832514c6",
-      "rendered_digest": "0da72c3a9e9fe19fe66393088a075b8ff3fe849cf22928b006d2934066265ffa",
-      "ast_digest": "0feedd8812a0dfa69db307ccfbe6599d9974afc86cc0c661f678143088a1018a"
+      "values_digest": "c6b8faded0e435867d346fe5fdefb75385e94a29bedb7fad9d9e614e567d11a7",
+      "rendered_digest": "ed6ea01a032ea3d7329e95b079de90fbd9aff00cdb01ff97a85b0345298691d3",
+      "ast_digest": "e93461d4c0772d121f2b94d54d4f232802adfee0ad7f38662a7c22c083cf796a"
     },
     "srp": {
-      "values_digest": "51b787be6f1dd4f7f562641aacd7f01e5d0e81bd6a925b52ed07d1f6f5773a64",
+      "values_digest": "aaa683185747acc8ded04de05bea2f39383068460cab668952f8dc6482ce5c18",
       "rendered_digest": "4c1bf34d9ba640291a5ab6305d5e95ccc85127f06964db13c088db795943c4d1",
       "ast_digest": "e53fbb1edf892eebf1e6e00d42da2196d8fb10fc979900a1c7856927e656c9dc"
     },
     "sor": {
-      "values_digest": "103e5d37930d4fca67bfc03c354e17e29fd0b2a15bdbe9d82979e148902a5c03",
-      "rendered_digest": "38804d1a0a5523a85a155977a5517a0df3aca00a985edde962a33687c8803632",
-      "ast_digest": "d823a42f2c9214c81274516646b57f01d6e1c535b1d649e9c484b7cbd4efec5e"
+      "values_digest": "3d3168cd28f4a34479ea6f58fb9641e458cb68d4888e37933f4502261a1a6fb6",
+      "rendered_digest": "87c4c7129c8af12718c95590f1a63ad6368add370b7c807007d6c2bf630fc34e",
+      "ast_digest": "5f6cad0cc16d267e8f1f03689b19f649f9a541cd6f74294e3578857b765a00d3"
     }
   },
   "transitions": [
@@ -393,6 +393,20 @@
       "actor": "codex:execute-5866-wp04-04",
       "reason": "Dedicated exact-head review found ineffective cross-call replay denial and missing duplicate/stale-seed proof; return to implemented for bounded remediation.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 17,
+      "actor": "codex:execute-5866-wp04-04",
+      "reason": "Bind validation truth to the repaired persistent replay boundary and explicit duplicate/stale-seed negatives.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero target proves bounded authenticated discovery, persistent cross-call request and proposal replay denial, duplicate suppression, stale seed generation refusal, and real Quinn/rustls positive behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary path harness routes the source until issue #5878 owns module registration.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Validate fresh two-revision source, command, nonzero test, negative-case, runner, and artifact bindings after review remediation.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/remediation/execution-proof.json\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 18,
+      "actor": "codex:execute-5866-wp04-04",
+      "reason": "Replace stale pre-review execution truth with the repaired discovery implementation and its focused evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded authenticated seed discovery with caller-retained replay state at both request-proposal and proposal-acceptance boundaries.\",\"changes\":[\"Treat configured seeds only as bounded addresses and expected peer identities, never as enrollment or membership authority.\",\"Require live enrollment and authenticated transport identity, generation, trust domain, and protocol before emitting deterministic non-voting proposals.\",\"Persist bounded request and proposal replay observations across public calls through caller-owned discovery context.\",\"Fail closed on duplicate configured seeds, stale seed certificate generations, cross-call replay, timeout, cancellation, malformed input, wrong domain, revocation, rotation, expiry, and resource exhaustion.\"],\"artifacts\":[\"adl-runtime/src/distributed/discovery.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/evidence/5866/remediation/execution-proof.json\",\".csdlc/evidence/5866/remediation/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-tests=fail\"],\"purpose\":\"Run the exact issue-owned positive and fail-closed discovery target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/remediation/distributed-discovery.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--\",\"-D\",\"warnings\",\"-A\",\"clippy::absurd_extreme_comparisons\"],\"purpose\":\"Run strict focused Clippy for the repaired discovery surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:strict-focused-clippy\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5866/validate-proof-receipt.rb\",\".csdlc/evidence/5866/remediation/execution-proof.json\"],\"purpose\":\"Validate the fresh two-revision remediation receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5866/remediation/execution-proof.json\"}]}"
     }
   ]
 }

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nonzero nextest target proves bounded seed discovery, authenticated enrolled join, deterministic non-voting proposals, and timeout, cancellation, replay, stale, domain, enrollment, and resource fail-closed behavior over real Quinn and rustls transport.",
+    "proof_role": "Exact nonzero target proves bounded authenticated discovery, persistent cross-call request and proposal replay denial, duplicate suppression, stale seed generation refusal, and real Quinn/rustls positive behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,11 +47,11 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/discovery.rs\"] harness in adl-runtime/tests/distributed_discovery.rs routes adl-runtime/src/distributed/discovery.rs until issue #5878 owns module registration."
+    "defer_reason": "The issue-owned temporary path harness routes the source until issue #5878 owns module registration."
   },
   {
     "lane": "exact-revision-proof-receipt",
-    "proof_role": "Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=a9fe4b9356dc909ddcbb741d80f0d20f24118203fe809552522d3a347fb38075]",
+    "proof_role": "Validate fresh two-revision source, command, nonzero test, negative-case, runner, and artifact bindings after review remediation.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -64,7 +64,8 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
     "budget_tokens": 3000,
     "argv": [
       "ruby",
-      ".csdlc/prepared/issues/5866/validate-proof-receipt.rb"
+      ".csdlc/prepared/issues/5866/validate-proof-receipt.rb",
+      ".csdlc/evidence/5866/remediation/execution-proof.json"
     ],
     "parallel_group": "receipt",
     "defer_reason": null
@@ -84,7 +85,7 @@ Tokens: 25000
 ## Commands
 
 - `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_discovery --no-tests=fail`
-- `ruby .csdlc/prepared/issues/5866/validate-proof-receipt.rb`
+- `ruby .csdlc/prepared/issues/5866/validate-proof-receipt.rb .csdlc/evidence/5866/remediation/execution-proof.json`
 
 ## Failure Semantics
 
