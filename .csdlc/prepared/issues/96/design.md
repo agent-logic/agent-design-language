@@ -62,4 +62,3 @@ terminal, publication, or closeout records.
 - No acceptance of unmerged or non-terminal children.
 - No weakening of exact paths, ancestry, evidence immutability, terminal
   envelopes, sixteen-child/DAG denominator, or native proof.
-

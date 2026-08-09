@@ -21,9 +21,9 @@ EXPECTED_DEPENDENCIES = {
   5872 => [5865],
   5873 => [5867, 5870, 5871, 5872],
   5874 => [5864, 5870],
-  5875 => [5873, 5874],
+  5875 => [5870, 5873, 5874],
   5876 => [5875],
-  5877 => [5876],
+  5877 => [5867, 5870, 5875, 5876],
   5878 => (5863..5877).to_a
 }.freeze
 SESSION_PROMPT = ".adl/docs/TBD/V092_SPRINT_5862_DISTRIBUTED_GUARDIAN_SESSION_PROMPT.md"
@@ -81,8 +81,38 @@ def git_path_entries(repo, revision, path)
   end
 end
 
+def exact_product_blob_entry(repo, revision, path)
+  lines = git_capture(repo, "ls-tree", revision, "--", path).lines
+  abort "product path is not an exact ordinary blob at #{revision}:#{path}" unless lines.length == 1
+  metadata, name = lines.first.chomp.split("\t", 2)
+  mode, type, oid = metadata.to_s.split(" ", 3)
+  abort "product path is not an exact ordinary blob at #{revision}:#{path}" unless name == path && type == "blob" && %w[100644 100755].include?(mode)
+  [name, mode, oid]
+end
+
 def no_path_touches?(repo, from_exclusive, to_inclusive, paths)
   git_capture(repo, "log", "--format=%H", "#{from_exclusive}..#{to_inclusive}", "--", *paths).lines.none? { |line| !line.strip.empty? }
+end
+
+def validate_historical_runner!(runner, label)
+  abort "#{label} runner missing" unless runner.is_a?(Hash)
+  %w[provider run_id os arch].each do |field|
+    abort "#{label} runner #{field} missing" if runner[field].to_s.strip.empty?
+  end
+  abort "#{label} runner identity hash invalid" unless runner["identity_sha256"].to_s.match?(SHA256)
+end
+
+def validate_historical_command!(repo, head, issue, command, label)
+  abort "#{label} command missing" unless command.is_a?(Hash)
+  argv = Array(command["argv"])
+  abort "#{label} argv missing" if argv.empty? || argv.any? { |part| part.to_s.empty? }
+  abort "#{label} command failed" unless command["exit_code"] == 0
+  abort "#{label} start time missing" if command["started_at"].to_s.empty?
+  abort "#{label} finish time missing" if command["finished_at"].to_s.empty?
+  validate_historical_runner!(command["runner"], label)
+  checked_historical_evidence!(repo, head, issue, command.fetch("stdout_path"), command.fetch("stdout_sha256"), "#{label} stdout")
+  checked_historical_evidence!(repo, head, issue, command.fetch("stderr_path"), command.fetch("stderr_sha256"), "#{label} stderr", allow_empty: true)
+  argv
 end
 
 def validate_child_topology!(repo:, issue:, entry:, product_paths:, candidate:, expected_head: nil, expected_merge: nil)
@@ -91,7 +121,7 @@ def validate_child_topology!(repo:, issue:, entry:, product_paths:, candidate:, 
   merge = entry.fetch("merge_sha")
   proof_path = safe_evidence_path!(entry.fetch("execution_proof_path"), issue, "execution proof")
   evidence_path = safe_evidence_path!(entry.fetch("evidence_path"), issue, "evidence")
-  abort "proof mapping is outside evidence mapping for ##{issue}" unless proof_path == evidence_path || proof_path.start_with?("#{evidence_path}/")
+  abort "proof mapping is not a strict descendant of evidence mapping for ##{issue}" unless proof_path.start_with?("#{evidence_path}/")
   abort "invalid head/evidence/merge/candidate revision for ##{issue}" unless [head, evidence, merge, candidate].all? { |revision| revision.to_s.match?(SHA) }
   abort "exact PR head mapping drift for ##{issue}" if expected_head && head != expected_head
   abort "exact merge mapping drift for ##{issue}" if expected_merge && merge != expected_merge
@@ -114,20 +144,28 @@ def validate_child_topology!(repo:, issue:, entry:, product_paths:, candidate:, 
   abort "head is not ancestral to merge for ##{issue}" unless git_ancestor?(repo, head, merge)
   abort "merge is not ancestral to candidate for ##{issue}" unless git_ancestor?(repo, merge, candidate)
   product_snapshots = [source, evidence, head, merge, candidate].map do |revision|
-    product_paths.flat_map { |path| git_path_entries(repo, revision, path) }
+    product_paths.map { |path| exact_product_blob_entry(repo, revision, path) }
   end
   abort "product object or mode drift after source for ##{issue}" unless product_snapshots.uniq.length == 1
   abort "transient product drift after source for ##{issue}" unless no_path_touches?(repo, source, candidate, product_paths)
-  abort "evidence already existed at source for ##{issue}" if git_path_exists?(repo, source, evidence_path)
   abort "evidence mapping missing at introduction for ##{issue}" unless git_path_exists?(repo, evidence, evidence_path)
   evidence_snapshots = [evidence, head, merge, candidate].map { |revision| git_path_entries(repo, revision, evidence_path) }
   abort "evidence object or mode drift after introduction for ##{issue}" unless evidence_snapshots.first.any? && evidence_snapshots.uniq.length == 1
   abort "transient evidence drift after introduction for ##{issue}" unless no_path_touches?(repo, evidence, candidate, [evidence_path])
 
-  introduction_touches = git_capture(repo, "log", "--format=%H", "#{source}..#{evidence}", "--", evidence_path).lines.map(&:strip).reject(&:empty?)
-  abort "whole evidence mapping was not introduced once at E for ##{issue}" unless introduction_touches == [evidence]
-  introductions = git_capture(repo, "log", "--format=%H", "--diff-filter=A", "#{source}..#{head}", "--", proof_path).lines.map(&:strip).reject(&:empty?)
-  abort "execution proof mapping is missing or ambiguous for ##{issue}" unless introductions == [evidence]
+  evidence_touches = git_capture(repo, "log", "--format=%H", "#{source}..#{evidence}", "--", evidence_path).lines.map(&:strip).reject(&:empty?)
+  if proof["schema"] == "adl.wp04.execution_proof.v3"
+    abort "wrong v3 evidence revision strategy for ##{issue}" unless proof["evidence_revision_strategy"] == "derive_from_receipt_introduction" && !proof.key?("evidence_revision")
+    abort "evidence already existed at source for ##{issue}" if git_path_exists?(repo, source, evidence_path)
+    abort "whole evidence mapping was not introduced once at E for ##{issue}" unless evidence_touches == [evidence]
+    introductions = git_capture(repo, "log", "--format=%H", "--diff-filter=A", "#{source}..#{head}", "--", proof_path).lines.map(&:strip).reject(&:empty?)
+    abort "execution proof mapping is missing or ambiguous for ##{issue}" unless introductions == [evidence]
+  else
+    abort "legacy v2 proof must preexist source for ##{issue}" unless git_path_exists?(repo, source, proof_path)
+    abort "legacy v2 evidence refresh is missing or ambiguous for ##{issue}" unless evidence_touches == [evidence]
+    proof_touches = git_capture(repo, "log", "--format=%H", "#{source}..#{head}", "--", proof_path).lines.map(&:strip).reject(&:empty?)
+    abort "legacy v2 proof refresh is missing or ambiguous for ##{issue}" unless proof_touches == [evidence]
+  end
 
   artifacts = Array(proof["source_artifacts"])
   abort "source artifact denominator drift for ##{issue}" unless artifacts.map { |artifact| artifact["path"] }.sort == product_paths.sort
@@ -135,44 +173,64 @@ def validate_child_topology!(repo:, issue:, entry:, product_paths:, candidate:, 
     bytes = git_capture(repo, "show", "#{source}:#{artifact.fetch('path')}")
     abort "source artifact digest drift for ##{issue}" unless Digest::SHA256.hexdigest(bytes) == artifact.fetch("sha256")
   end
+  expected_wp = format("WP-04.%02d", issue - 5862)
+  abort "proof WP mapping drift for ##{issue}" unless proof["wp"] == expected_wp
   commands = Array(proof["commands"])
   abort "proof command denominator missing for ##{issue}" if commands.empty?
-  abort "proof command failed or selected zero tests for ##{issue}" unless commands.all? { |command| command["exit_code"] == 0 } && commands.any? { |command| command["selected_tests"].to_i.positive? }
-  abort "negative-case proof missing for ##{issue}" if Array(proof["negative_cases"]).empty?
+  commands.each { |command| validate_historical_command!(repo, head, issue, command, "command") }
+  test_paths = product_paths.grep(%r{\Aadl-runtime/tests/distributed_[^/]+\.rs\z})
+  abort "exact distributed test path denominator drift for ##{issue}" unless test_paths.one?
+  test_target = File.basename(test_paths.first, ".rs")
+  test_commands = commands.select do |command|
+    argv = Array(command["argv"])
+    argv.each_cons(2).include?(["--test", test_target]) && argv.include?("--no-tests=fail") && command["selected_tests"].to_i.positive?
+  end
+  abort "missing or duplicate exact nonzero test command #{test_target} for ##{issue}" unless test_commands.one?
+  negatives = Array(proof["negative_cases"])
+  abort "negative-case proof missing for ##{issue}" if negatives.empty?
+  negatives.each do |negative|
+    abort "negative case name missing for ##{issue}" if negative["case"].to_s.empty?
+    abort "negative case has no proving result for ##{issue}" unless %w[denied rejected fenced recovered fail_closed].include?(negative["result"])
+    checked_historical_evidence!(repo, head, issue, negative.fetch("evidence_path"), negative.fetch("evidence_sha256"), "negative-case evidence")
+  end
+  proof_artifacts = Array(proof["artifacts"])
+  abort "proof artifact denominator missing for ##{issue}" if proof_artifacts.empty?
+  proof_artifacts.each do |artifact|
+    checked_historical_evidence!(repo, head, issue, artifact.fetch("path"), artifact.fetch("sha256"), "proof artifact")
+  end
   proof
 end
 
-def checked_historical_evidence!(repo, head, issue, path, digest, label)
+def checked_historical_evidence!(repo, head, issue, path, digest, label, allow_empty: false)
   safe_path = safe_evidence_path!(path, issue, label)
   abort "invalid #{label} digest for ##{issue}" unless digest.to_s.match?(SHA256)
   bytes = git_capture(repo, "show", "#{head}:#{safe_path}")
+  abort "empty #{label} for ##{issue}" if !allow_empty && bytes.empty?
   abort "#{label} digest drift for ##{issue}" unless Digest::SHA256.hexdigest(bytes) == digest
 end
 
 def validate_full_integrated_proof!(repo:, head:, proof:)
   commands = Array(proof["commands"])
-  commands.each do |command|
-    checked_historical_evidence!(repo, head, 5878, command.fetch("stdout_path"), command.fetch("stdout_sha256"), "command stdout")
-    checked_historical_evidence!(repo, head, 5878, command.fetch("stderr_path"), command.fetch("stderr_sha256"), "command stderr")
-  end
-  Array(proof["negative_cases"]).each do |negative|
-    checked_historical_evidence!(repo, head, 5878, negative.fetch("evidence_path"), negative.fetch("evidence_sha256"), "negative-case evidence")
-  end
   artifacts = Array(proof["artifacts"])
   abort "WP-04.16 integrated artifact denominator missing" if artifacts.empty?
-  artifacts.each do |artifact|
-    checked_historical_evidence!(repo, head, 5878, artifact.fetch("path"), artifact.fetch("sha256"), "integrated artifact")
-  end
 
   receipts = Array(proof["native_receipts"])
   abort "WP-04.16 native platform denominator drift" unless receipts.map { |receipt| receipt["platform"] }.sort == %w[linux macos windows]
   source = proof.fetch("source_revision")
   abort "WP-04.16 native receipt source drift" unless receipts.all? { |receipt| receipt["source_revision"] == source }
-  abort "WP-04.16 native run IDs are missing or duplicated" unless receipts.all? { |receipt| !receipt["run_id"].to_s.empty? } && receipts.map { |receipt| receipt["run_id"] }.uniq.length == receipts.length
-  abort "WP-04.16 native runner identities are missing or duplicated" unless receipts.all? { |receipt| receipt["runner_identity_sha256"].to_s.match?(SHA256) } && receipts.map { |receipt| receipt["runner_identity_sha256"] }.uniq.length == receipts.length
   receipts.each do |receipt|
-    checked_historical_evidence!(repo, head, 5878, receipt.fetch("path"), receipt.fetch("sha256"), "#{receipt.fetch('platform')} native receipt")
+    platform = receipt.fetch("platform")
+    validate_historical_command!(repo, head, 5878, receipt["command"], "#{platform} native")
+    native_artifacts = Array(receipt["artifacts"])
+    abort "#{platform} native artifact denominator missing" if native_artifacts.empty?
+    native_artifacts.each do |artifact|
+      checked_historical_evidence!(repo, head, 5878, artifact.fetch("path"), artifact.fetch("sha256"), "#{platform} native artifact")
+    end
   end
+  run_ids = receipts.map { |receipt| receipt.dig("command", "runner", "run_id") }
+  identities = receipts.map { |receipt| receipt.dig("command", "runner", "identity_sha256") }
+  abort "WP-04.16 native run IDs are missing or duplicated" unless run_ids.all? { |run_id| !run_id.to_s.empty? } && run_ids.uniq.length == receipts.length
+  abort "WP-04.16 native runner identities are missing or duplicated" unless identities.all? { |identity| identity.to_s.match?(SHA256) } && identities.uniq.length == receipts.length
 end
 
 if TOPOLOGY_REQUEST
