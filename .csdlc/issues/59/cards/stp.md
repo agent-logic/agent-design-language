@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Classify code authority and produce a truthful reviewed routing result; implement only if an actual repository-owned goal replacement seam exists.
+Publish the reviewed external-authority routing packet as a non-closing checkpoint using typed part_of linkage; do not implement or claim the Codex platform fix in ADL.
 
 ## Deliverables
 

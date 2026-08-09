@@ -7,13 +7,13 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
   "status": "ready",
   "content": {
     "card_kind": "stp",
     "values": {
-      "task_boundary": "Classify code authority and produce a truthful reviewed routing result; implement only if an actual repository-owned goal replacement seam exists.",
+      "task_boundary": "Publish the reviewed external-authority routing packet as a non-closing checkpoint using typed part_of linkage; do not implement or claim the Codex platform fix in ADL.",
       "deliverables": [
         ".csdlc/prepared/issues/59/design.md source-grounded authority decision",
         ".csdlc/prepared/issues/59/diagram.mmd ownership-boundary diagram",

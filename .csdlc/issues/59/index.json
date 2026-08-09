@@ -3,11 +3,11 @@
   "issue": 59,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
-  "phase": "initialized",
-  "generation": 6,
-  "digest": "9414224c264723c841f2b9e68cd0f4363d344b7d77d3302137a87b6bd1e9be15",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 7,
+  "digest": "0e40c03730e556f98a46eea9064cdb5b7e1eb13e2d9d063670d3d019d4d99805",
+  "branch": "codex/59-codex-goal-replacement-readiness",
+  "worktree": "/Volumes/FastWork/adl-issue-59-codex-goal-replacement",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +24,52 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "28aba5eb59450ae598d0d8a6355466f28c42660ad4dc8079b90841df4b6b3bbe",
+      "values_digest": "bc9b1ee75d56ebc984465dab4655671c8739e596c05d7084e366104cbc57c7f1",
       "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
       "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
     },
     "stp": {
-      "values_digest": "61d2344f1cc9d56c90f52630a61dfe6d88328da995e772d0a3c723a43952704a",
-      "rendered_digest": "7cc25c262e4866a1697fc355d2cf232b885724c32397b0120a500f85399ca721",
-      "ast_digest": "dddf038fb01e6fa0a6a83394e2094ae64ab094e9e44a282771a6c75029724962"
+      "values_digest": "7fce8949859c1539e409dce0bb91d35e87109c612777fae4924b385630c25b3e",
+      "rendered_digest": "f104b49caa60a571141d70650c9082f774039005d42f09bfd23212523eb1d18c",
+      "ast_digest": "d7c8605c0f242785dc6cd480d72cb1fe875aadea180eca30e734d52d0c1c980a"
     },
     "spp": {
-      "values_digest": "12f72e772273974efaf48034a2ea921e3f101195dddbc9cdd9fbc371692f791b",
+      "values_digest": "089572e5e18bdafa8a1fde456e054b2480974c2c3d5b2793f939f81a1455f8d3",
       "rendered_digest": "809c626fa7c6ed301ae15e3b422c1d1704676e68201397674fcf14e6879b26e2",
       "ast_digest": "afc7e115a1566eab7aec6d6456332c9c1b9c89a57e2ef5dc60029e42832eeac7"
     },
     "vpp": {
-      "values_digest": "c66df5e8552220dd8ab9c896781ffded631a9481d706b57a9ab0bbf5c4366758",
+      "values_digest": "4155160f8aef87a609cae6780f2d21213f6ac34078d86ad491c23b919f685b9d",
       "rendered_digest": "32afc2cd668d2e9175d1c99152e40f78f428cf4f816895af2bba42689aff6ce8",
       "ast_digest": "d803d68e1b5285e4c4adc4e2dc19150e8fc598cb0eb07b1ef49d1fffa1a2d589"
     },
     "srp": {
-      "values_digest": "6e76449fa70e6a9376b5138dfdcc681f7859b295a6fd16371fa08a341a6fc460",
+      "values_digest": "1c17def03b12b220a99f45c9a181475eeba70fe2f1600e17e186e1f282b7cebe",
       "rendered_digest": "f50abc0afdd64487b2862a1582017a3114579aea5c7a10203d61d422c5496688",
       "ast_digest": "2070043ae410de07e121cc484eee1284d2b78e96e46ff2a8ca1978360f6e4f5f"
     },
     "sor": {
-      "values_digest": "fd30df9b28369832f49bdf7fd5de6d52422f9ffd9fafeafa1808fc05687fe9fe",
+      "values_digest": "e95c8ecae35152599fc9dd7937dd7e2bc72a1c0326b1d31cbbe4061f247a8b25",
       "rendered_digest": "e5766b73478f755ea4d615a0f1a21fc856d057dd7e2ffa8f81f23e01a5757ace",
       "ast_digest": "6c27a8a040dbf4e5fc383ae59ff385dbafaff9ee00d0775b51c1bdb791503d24"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -104,6 +119,20 @@
       "actor": "codex:59-readiness-refresh",
       "reason": "Keep repository validation executable and issue-specific while external product proof remains an upstream acceptance condition",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-59-authority-packet-hygiene\",\"proof_role\":\"Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the reviewed external-authority package.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/prepared/issues/59/design.md\",\".csdlc/prepared/issues/59/diagram.mmd\",\".csdlc/issues/59/cards/stp.md\",\".csdlc/issues/59/cards/vpp.md\",\".csdlc/issues/59/cards/srp.md\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Authorize only a non-closing authority-routing checkpoint after issue 75 supplies typed part_of linkage",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Publish the reviewed external-authority routing packet as a non-closing checkpoint using typed part_of linkage; do not implement or claim the Codex platform fix in ADL.\",\"operation\":\"replan\",\"previous_value\":\"Classify code authority and produce a truthful reviewed routing result; implement only if an actual repository-owned goal replacement seam exists.\"}"
     }
   ]
 }
