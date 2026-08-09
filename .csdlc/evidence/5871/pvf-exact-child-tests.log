@@ -1,0 +1,18 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+────────────
+ Nextest run ID 53be46bb-5c77-4bbc-9e3f-1c22b2126540 with nextest profile: default
+    Starting 12 tests across 1 binary
+        PASS [   0.010s] ( 1/12) adl-runtime::distributed_capability_advertisement configured_bounds_cannot_exceed_absolute_resource_maxima
+        PASS [   0.236s] ( 2/12) adl-runtime::distributed_capability_advertisement wrong_signer_is_rejected_before_publication
+        PASS [   0.265s] ( 3/12) adl-runtime::distributed_capability_advertisement conflicting_duplicate_capability_is_not_silently_merged
+        PASS [   0.404s] ( 4/12) adl-runtime::distributed_capability_advertisement tampering_body_or_signature_is_rejected
+        PASS [   0.436s] ( 5/12) adl-runtime::distributed_capability_advertisement expiry_staleness_and_future_measurement_are_distinct_failures
+        PASS [   0.464s] ( 6/12) adl-runtime::distributed_capability_advertisement canonical_signed_advertisement_projects_deterministic_evidence_only
+        PASS [   0.474s] ( 7/12) adl-runtime::distributed_capability_advertisement malformed_noncanonical_and_oversized_wire_inputs_fail_closed
+        PASS [   0.486s] ( 8/12) adl-runtime::distributed_capability_advertisement replay_and_out_of_order_sequences_fail_closed
+        PASS [   0.493s] ( 9/12) adl-runtime::distributed_capability_advertisement revocation_withdraws_previously_valid_advertisement
+        PASS [   0.520s] (10/12) adl-runtime::distributed_capability_advertisement replay_high_water_survives_short_newer_expiry_and_restart
+        PASS [   0.524s] (11/12) adl-runtime::distributed_capability_advertisement entry_unit_total_and_tracker_capacity_are_bounded
+        PASS [   0.547s] (12/12) adl-runtime::distributed_capability_advertisement wrong_purpose_domain_holder_generation_and_certificate_fail_closed
+────────────
+     Summary [   0.548s] 12 tests run: 12 passed, 0 skipped

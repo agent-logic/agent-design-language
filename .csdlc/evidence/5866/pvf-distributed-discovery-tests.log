@@ -1,0 +1,16 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
+────────────
+ Nextest run ID 8567c5de-0783-4ae3-9ee6-b5b690c72b49 with nextest profile: default
+    Starting 10 tests across 1 binary
+        PASS [   0.011s] ( 1/10) adl-runtime::distributed_discovery unsafe_time_policy_bounds_are_rejected
+        PASS [   0.015s] ( 2/10) adl-runtime::distributed_discovery malformed_payload_and_transport_generation_mismatch_fail_closed
+        PASS [   0.015s] ( 3/10) adl-runtime::distributed_discovery proposal_derivation_is_deterministic_and_future_requests_fail_closed
+        PASS [   0.015s] ( 4/10) adl-runtime::distributed_discovery configured_seed_identity_is_not_enrollment_authority
+        PASS [   0.016s] ( 5/10) adl-runtime::distributed_discovery tampered_expiry_and_inconsistent_authority_identity_fail_closed
+        PASS [   0.015s] ( 6/10) adl-runtime::distributed_discovery stale_wrong_domain_and_replayed_proposals_fail_closed
+        PASS [   0.015s] ( 7/10) adl-runtime::distributed_discovery expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed
+        PASS [   0.018s] ( 8/10) adl-runtime::distributed_discovery seed_and_message_resource_bounds_reject_before_work
+        PASS [   0.035s] ( 9/10) adl-runtime::distributed_discovery discovery_timeout_and_cancellation_are_finite
+        PASS [   0.118s] (10/10) adl-runtime::distributed_discovery real_quinn_rustls_discovery_returns_deterministic_non_voting_proposal
+────────────
+     Summary [   0.119s] 10 tests run: 10 passed, 0 skipped

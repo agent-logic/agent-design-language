@@ -1,0 +1,7 @@
+provider=local-codex
+run_id=4703e1e2-888d-4fb8-8a48-5a3c3e3b4497
+os=macos
+arch=aarch64
+issue=5866
+lane=exact-child-tests-remediation
+source_revision=0524ffe6721ea6492f0ba13fb9af732b42dbfd6a

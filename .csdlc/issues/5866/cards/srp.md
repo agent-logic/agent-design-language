@@ -8,11 +8,17 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-WP-04.04 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/discovery.rs
+adl-runtime/tests/distributed_discovery.rs
+.csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stderr.log
+.csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log
+.csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json
+.csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json
+.csdlc/evidence/5866/generation-protobuf-durable/runner.txt
 
 ## Prompts
 
@@ -31,12 +37,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Production module registration and durable replay-store path wiring remain intentionally owned by issue #5878.
+- Stable path symlink checks do not claim race-free descriptor-relative confinement; storage failures remain fail closed.
+- Exact-head GitHub CI integration remains required before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:506b79cecd413422769c862645fd3ab797c8e64d:a50414bd82eb6702ad573bfc59f0e314dab84cf64902ae08ea98d7b3c6f5157f")
 
-Reviewer: None
+Reviewer: Some("/root/start_sprint_4_5862/review_5866_republished_truth")
 
-Result: pre_review
+Result: pass

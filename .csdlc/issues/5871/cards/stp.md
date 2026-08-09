@@ -16,10 +16,10 @@ Implement bounded signed capability advertisements that are evidence inputs, nev
 
 ## Deliverables
 
-- Implement bounded signed capability advertisements that are evidence inputs, never direct authority grants.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
+- adl-runtime/src/distributed/capability_advertisement.rs
+- adl-runtime/tests/distributed_capability_advertisement.rs
+- Digest-bound two-revision execution proof for the exact nonzero test target
+- Independent exact-head review and ready split-repository publication
 
 ## Acceptance
 

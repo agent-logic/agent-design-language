@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5866,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5866-distributed-discovery",
+  "title": "[v0.92][WP-04.04] Bounded authenticated seed discovery",
+  "body": "Closes danielbaustin/agent-design-language#5866\n\n## Summary\n\n- treat configured seeds only as bounded addresses and expected peer identities, never as enrollment or membership authority\n- bind candidate and seed identity plus transport-certificate generations into requests, proposals, proposal IDs, authenticated envelopes, live authority checks, and post-await admission\n- use bounded canonical Prost messages for the frozen discovery wire contract and reject malformed or noncanonical protobuf\n- persist bounded request and proposal replay state with immediate redb durability so live replay denial survives restart and capacity returns only after trusted expiry\n- leave discovery intentionally unregistered until issue #5878 owns distributed module integration\n\n## Validation\n\n- exact distributed_discovery nextest target: 13 passed, 0 failed\n- candidate certificate and seed identity/certificate rotation during exchange: rejected\n- unknown/noncanonical protobuf fields: rejected\n- restart within signed validity: replay rejected; post-expiry capacity recovered\n- real mutual-TLS Quinn/rustls discovery round trip: passed\n- qualified strict focused Clippy: passed with only the pre-existing ACIP baseline lint allowed\n- exact v3 two-revision generation/protobuf/durable proof receipt: passed\n- independent exact-head security/correctness review: passed with no findings\n\n## Boundary\n\nThis child owns only adl-runtime/src/distributed/discovery.rs and adl-runtime/tests/distributed_discovery.rs plus its typed lifecycle/evidence. Module registration and production replay-store path wiring remain exclusively owned by #5878.",
+  "draft": false,
+  "revision": "git-blake3:6664b48b9db589bcefdddc5b290dfe0a300bcfd6:967b4c8b5553e8ff0d75a640e62869bb6560d2ba9a30891b0ad688f1b45f2c4d",
+  "commit_sha": "6664b48b9db589bcefdddc5b290dfe0a300bcfd6"
+}

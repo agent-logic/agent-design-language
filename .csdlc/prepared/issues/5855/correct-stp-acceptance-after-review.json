@@ -1,0 +1,18 @@
+{
+  "actor": "codex:sprint-2-closeout-remediation",
+  "card": "stp",
+  "expected_digest": "7f8f5f8c52dd3e34d0dfddd1a8d67747c2bbce6cdae674bb0eb5af5546828f64",
+  "expected_generation": 10,
+  "issue": 5855,
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: The Sprint Execution Packet records exact terminal membership #5800, #5820, #5821, #5795, and #5832, while excluding #5837, #83, and #84.",
+      "AC-2: Safe parallel lanes, actual merge order, and serial gates are explicit and do not overlap child ownership.",
+      "AC-3: The umbrella coordinates only; each child retains implementation, proof, review, publication, and closeout authority.",
+      "AC-4: Every child handoff requires issue-bound bind, readiness, and session-goal truth before implementation.",
+      "AC-5: The umbrella is only a closeout candidate before publication and becomes terminal only after qualified PR merge, live issue closure, and csdlc-finish."
+    ]
+  },
+  "reason": "Resolve F-5855-3 and F-5855-4 by making the typed acceptance boundary explicit before publication."
+}
