@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.04] Seed discovery and authenticated join",
     "slug": "v0-92-wp-04-04-seed-discovery-join",
     "version": "v0.92",
-    "generation": 8
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_discovery proves configured seed discovery, authenticated join, duplicate suppression, timeout, stale seed, and wrong-domain refusal.",
+          "proof_role": "Exact nonzero nextest target proves bounded seed discovery, authenticated enrolled join, deterministic non-voting proposals, and timeout, cancellation, replay, stale, domain, enrollment, and resource fail-closed behavior over real Quinn and rustls transport.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -39,7 +39,7 @@
             "--no-tests=fail"
           ],
           "parallel_group": "child",
-          "defer_reason": null
+          "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/discovery.rs\"] harness in adl-runtime/tests/distributed_discovery.rs routes adl-runtime/src/distributed/discovery.rs until issue #5878 owns module registration."
         },
         {
           "lane": "exact-revision-proof-receipt",

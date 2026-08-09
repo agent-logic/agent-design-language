@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_discovery proves configured seed discovery, authenticated join, duplicate suppression, timeout, stale seed, and wrong-domain refusal.",
+    "proof_role": "Exact nonzero nextest target proves bounded seed discovery, authenticated enrolled join, deterministic non-voting proposals, and timeout, cancellation, replay, stale, domain, enrollment, and resource fail-closed behavior over real Quinn and rustls transport.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,7 +47,7 @@ Diagram: .csdlc/prepared/issues/5866/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": null
+    "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/discovery.rs\"] harness in adl-runtime/tests/distributed_discovery.rs routes adl-runtime/src/distributed/discovery.rs until issue #5878 owns module registration."
   },
   {
     "lane": "exact-revision-proof-receipt",
