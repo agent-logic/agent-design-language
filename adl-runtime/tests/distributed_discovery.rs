@@ -25,8 +25,9 @@ use certificates::{
 };
 use discovery::{
     accept_proposal, discover, encode_proposal, encode_request, propose_join,
-    AuthenticatedEnvelope, DiscoveryError, DiscoveryPolicy, EnrolledPeer, EnrollmentAuthority,
-    JoinRequest, ProposalReplayGuard, ProposedRole, RequestValidity, SeedEndpoint,
+    AuthenticatedEnvelope, DiscoveryContext, DiscoveryError, DiscoveryPolicy, EnrolledPeer,
+    EnrollmentAuthority, JoinRequest, ProposalReplayGuard, ProposedRole, RequestValidity,
+    SeedEndpoint,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use rcgen::{
@@ -334,6 +335,7 @@ async fn real_quinn_rustls_discovery_returns_deterministic_non_voting_proposal()
             &peer(SERVER_NODE, SERVER_GUARDIAN),
             server_authority.as_ref(),
             &server_policy,
+            &mut ProposalReplayGuard::new(64).unwrap(),
             timestamp,
         )
         .unwrap();
@@ -347,7 +349,10 @@ async fn real_quinn_rustls_discovery_returns_deterministic_non_voting_proposal()
         &join_request,
         authority.as_ref(),
         &configured_policy,
-        &CancellationToken::new(),
+        DiscoveryContext::new(
+            &mut ProposalReplayGuard::new(64).unwrap(),
+            &CancellationToken::new(),
+        ),
         || Ok(timestamp),
         move |_seed, bytes| {
             let client = client.clone();
@@ -405,6 +410,7 @@ fn configured_seed_identity_is_not_enrollment_authority() {
         &peer(SERVER_NODE, SERVER_GUARDIAN),
         &full_authority,
         &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
         timestamp,
     )
     .unwrap();
@@ -452,6 +458,7 @@ fn stale_wrong_domain_and_replayed_proposals_fail_closed() {
         &peer(SERVER_NODE, SERVER_GUARDIAN),
         &authority,
         &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
         timestamp,
     )
     .unwrap();
@@ -528,19 +535,34 @@ fn proposal_derivation_is_deterministic_and_future_requests_fail_closed() {
         CLIENT_GUARDIAN,
         encode_request(&join_request, &configured_policy).unwrap(),
     );
+    let mut request_replay = ProposalReplayGuard::new(64).unwrap();
     let first = propose_join(
         &authenticated,
         &peer(SERVER_NODE, SERVER_GUARDIAN),
         &authority,
         &configured_policy,
+        &mut request_replay,
         timestamp,
     )
     .unwrap();
+    assert_eq!(
+        propose_join(
+            &authenticated,
+            &peer(SERVER_NODE, SERVER_GUARDIAN),
+            &authority,
+            &configured_policy,
+            &mut request_replay,
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::Replay
+    );
     let second = propose_join(
         &authenticated,
         &peer(SERVER_NODE, SERVER_GUARDIAN),
         &authority,
         &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
         timestamp,
     )
     .unwrap();
@@ -559,10 +581,127 @@ fn proposal_derivation_is_deterministic_and_future_requests_fail_closed() {
             &peer(SERVER_NODE, SERVER_GUARDIAN),
             &authority,
             &configured_policy,
+            &mut ProposalReplayGuard::new(64).unwrap(),
             timestamp,
         )
         .unwrap_err(),
         DiscoveryError::RequestNotYetValid
+    );
+}
+
+#[tokio::test]
+async fn public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds() {
+    let configured_policy = policy(Duration::from_millis(50));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    let seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 4444).into(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    let proposal = propose_join(
+        &envelope(
+            CLIENT_NODE,
+            CLIENT_GUARDIAN,
+            encode_request(&join_request, &configured_policy).unwrap(),
+        ),
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        &authority,
+        &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
+        timestamp,
+    )
+    .unwrap();
+    let response = envelope(
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        encode_proposal(&proposal, &configured_policy).unwrap(),
+    );
+    let mut proposal_replay = ProposalReplayGuard::new(64).unwrap();
+    discover(
+        std::slice::from_ref(&seed),
+        &join_request,
+        &authority,
+        &configured_policy,
+        DiscoveryContext::new(&mut proposal_replay, &CancellationToken::new()),
+        || Ok(timestamp),
+        {
+            let response = response.clone();
+            move |_seed, _bytes| {
+                let response = response.clone();
+                async move { Ok(response) }
+            }
+        },
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        discover(
+            std::slice::from_ref(&seed),
+            &join_request,
+            &authority,
+            &configured_policy,
+            DiscoveryContext::new(&mut proposal_replay, &CancellationToken::new()),
+            || Ok(timestamp),
+            {
+                let response = response.clone();
+                move |_seed, _bytes| {
+                    let response = response.clone();
+                    async move { Ok(response) }
+                }
+            },
+        )
+        .await
+        .unwrap_err(),
+        DiscoveryError::Replay
+    );
+
+    assert_eq!(
+        discover(
+            &[seed.clone(), seed.clone()],
+            &join_request,
+            &authority,
+            &configured_policy,
+            DiscoveryContext::new(
+                &mut ProposalReplayGuard::new(64).unwrap(),
+                &CancellationToken::new(),
+            ),
+            || Ok(timestamp),
+            |_seed, _bytes| async { Err(DiscoveryError::Transport) },
+        )
+        .await
+        .unwrap_err(),
+        DiscoveryError::DuplicateSeed
+    );
+
+    let mut rotated_seed = peer(SERVER_NODE, SERVER_GUARDIAN);
+    rotated_seed.transport_certificate_generation = 2;
+    let stale_authority = MemoryAuthority::with([rotated_seed, peer(CLIENT_NODE, CLIENT_GUARDIAN)]);
+    assert_eq!(
+        discover(
+            &[seed],
+            &join_request,
+            &stale_authority,
+            &configured_policy,
+            DiscoveryContext::new(
+                &mut ProposalReplayGuard::new(64).unwrap(),
+                &CancellationToken::new(),
+            ),
+            || Ok(timestamp),
+            move |_seed, _bytes| {
+                let response = response.clone();
+                async move { Ok(response) }
+            },
+        )
+        .await
+        .unwrap_err(),
+        DiscoveryError::PeerNotEnrolled
     );
 }
 
@@ -580,6 +719,7 @@ fn malformed_payload_and_transport_generation_mismatch_fail_closed() {
             &peer(SERVER_NODE, SERVER_GUARDIAN),
             &authority,
             &configured_policy,
+            &mut ProposalReplayGuard::new(64).unwrap(),
             timestamp,
         )
         .unwrap_err(),
@@ -597,6 +737,7 @@ fn malformed_payload_and_transport_generation_mismatch_fail_closed() {
             &peer(SERVER_NODE, SERVER_GUARDIAN),
             &authority,
             &configured_policy,
+            &mut ProposalReplayGuard::new(64).unwrap(),
             timestamp,
         )
         .unwrap_err(),
@@ -630,6 +771,7 @@ fn tampered_expiry_and_inconsistent_authority_identity_fail_closed() {
         &peer(SERVER_NODE, SERVER_GUARDIAN),
         &authority,
         &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
         timestamp,
     )
     .unwrap();
@@ -661,6 +803,7 @@ fn tampered_expiry_and_inconsistent_authority_identity_fail_closed() {
             &peer(SERVER_NODE, SERVER_GUARDIAN),
             &inconsistent_candidate,
             &configured_policy,
+            &mut ProposalReplayGuard::new(64).unwrap(),
             timestamp,
         )
         .unwrap_err(),
@@ -674,6 +817,7 @@ fn tampered_expiry_and_inconsistent_authority_identity_fail_closed() {
         &peer(SERVER_NODE, SERVER_GUARDIAN),
         &authority,
         &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
         timestamp,
     )
     .unwrap();
@@ -721,6 +865,7 @@ async fn expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed
         &peer(SERVER_NODE, SERVER_GUARDIAN),
         authority.as_ref(),
         &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
         timestamp,
     )
     .unwrap();
@@ -738,7 +883,10 @@ async fn expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed
             &join_request,
             authority.as_ref(),
             &configured_policy,
-            &CancellationToken::new(),
+            DiscoveryContext::new(
+                &mut ProposalReplayGuard::new(64).unwrap(),
+                &CancellationToken::new(),
+            ),
             || Ok(timestamp),
             move |_seed, _bytes| {
                 revoked_authority.remove(CLIENT_NODE);
@@ -763,7 +911,10 @@ async fn expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed
             &join_request,
             rotated_authority.as_ref(),
             &configured_policy,
-            &CancellationToken::new(),
+            DiscoveryContext::new(
+                &mut ProposalReplayGuard::new(64).unwrap(),
+                &CancellationToken::new(),
+            ),
             || Ok(timestamp),
             move |_seed, _bytes| {
                 let mut rotated = peer(CLIENT_NODE, CLIENT_GUARDIAN);
@@ -791,7 +942,10 @@ async fn expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed
             &join_request,
             &live_authority,
             &configured_policy,
-            &CancellationToken::new(),
+            DiscoveryContext::new(
+                &mut ProposalReplayGuard::new(64).unwrap(),
+                &CancellationToken::new(),
+            ),
             move || Ok(clock_time.load(Ordering::SeqCst)),
             move |_seed, _bytes| {
                 exchange_time.store(timestamp + 31, Ordering::SeqCst);
@@ -845,7 +999,10 @@ async fn discovery_timeout_and_cancellation_are_finite() {
         &join_request,
         &authority,
         &configured_policy,
-        &CancellationToken::new(),
+        DiscoveryContext::new(
+            &mut ProposalReplayGuard::new(64).unwrap(),
+            &CancellationToken::new(),
+        ),
         || Ok(timestamp),
         |_seed, _bytes| async {
             tokio::time::sleep(Duration::from_secs(1)).await;
@@ -863,7 +1020,7 @@ async fn discovery_timeout_and_cancellation_are_finite() {
         &join_request,
         &authority,
         &configured_policy,
-        &cancellation,
+        DiscoveryContext::new(&mut ProposalReplayGuard::new(64).unwrap(), &cancellation),
         || Ok(timestamp),
         |_seed, _bytes| async { Err(DiscoveryError::Transport) },
     )
@@ -896,7 +1053,10 @@ fn seed_and_message_resource_bounds_reject_before_work() {
             &bounded_request,
             &authority,
             &configured_policy,
-            &CancellationToken::new(),
+            DiscoveryContext::new(
+                &mut ProposalReplayGuard::new(64).unwrap(),
+                &CancellationToken::new(),
+            ),
             || Ok(timestamp),
             |_seed, _bytes| async { Err(DiscoveryError::Transport) },
         ))

@@ -251,7 +251,8 @@ pub trait EnrollmentAuthority {
 #[derive(Debug)]
 pub struct ProposalReplayGuard {
     capacity: usize,
-    observed: BTreeSet<String>,
+    requests: BTreeSet<[u8; 32]>,
+    proposals: BTreeSet<String>,
 }
 
 impl ProposalReplayGuard {
@@ -261,20 +262,49 @@ impl ProposalReplayGuard {
         }
         Ok(Self {
             capacity,
-            observed: BTreeSet::new(),
+            requests: BTreeSet::new(),
+            proposals: BTreeSet::new(),
         })
+    }
+
+    pub fn observe_request(&mut self, request_id: [u8; 32]) -> DiscoveryResult<()> {
+        if request_id == [0; 32] {
+            return Err(DiscoveryError::InvalidRequest);
+        }
+        if self.requests.contains(&request_id) {
+            return Err(DiscoveryError::Replay);
+        }
+        if self.requests.len() >= self.capacity {
+            return Err(DiscoveryError::ResourceExhausted);
+        }
+        self.requests.insert(request_id);
+        Ok(())
     }
 
     pub fn observe(&mut self, proposal_id: &str) -> DiscoveryResult<()> {
         validate_digest_identifier(proposal_id)?;
-        if self.observed.contains(proposal_id) {
+        if self.proposals.contains(proposal_id) {
             return Err(DiscoveryError::Replay);
         }
-        if self.observed.len() >= self.capacity {
+        if self.proposals.len() >= self.capacity {
             return Err(DiscoveryError::ResourceExhausted);
         }
-        self.observed.insert(proposal_id.to_owned());
+        self.proposals.insert(proposal_id.to_owned());
         Ok(())
+    }
+}
+
+pub struct DiscoveryContext<'a> {
+    replay: &'a mut ProposalReplayGuard,
+    cancellation: &'a CancellationToken,
+}
+
+impl<'a> DiscoveryContext<'a> {
+    pub fn new(replay: &'a mut ProposalReplayGuard, cancellation: &'a CancellationToken) -> Self {
+        Self {
+            replay,
+            cancellation,
+        }
     }
 }
 
@@ -288,6 +318,7 @@ pub fn propose_join<A: EnrollmentAuthority>(
     local_seed: &EnrolledPeer,
     authority: &A,
     policy: &DiscoveryPolicy,
+    replay: &mut ProposalReplayGuard,
     now_unix_secs: u64,
 ) -> DiscoveryResult<JoinProposal> {
     validate_authenticated_peer(authenticated_request, None, authority, policy)?;
@@ -311,6 +342,7 @@ pub fn propose_join<A: EnrollmentAuthority>(
     if enrolled.trust_domain != request.trust_domain {
         return Err(DiscoveryError::WrongDomain);
     }
+    replay.observe_request(request.request_id)?;
     let proposal_id = proposal_id(local_seed, &request)?;
     Ok(JoinProposal {
         schema: JOIN_PROPOSAL_SCHEMA.to_owned(),
@@ -384,7 +416,7 @@ pub async fn discover<A, C, F, Fut>(
     request: &JoinRequest,
     authority: &A,
     policy: &DiscoveryPolicy,
-    cancellation: &CancellationToken,
+    context: DiscoveryContext<'_>,
     mut clock: C,
     mut exchange: F,
 ) -> DiscoveryResult<JoinProposal>
@@ -394,7 +426,7 @@ where
     F: FnMut(SeedEndpoint, Vec<u8>) -> Fut,
     Fut: Future<Output = DiscoveryResult<AuthenticatedEnvelope>>,
 {
-    if cancellation.is_cancelled() {
+    if context.cancellation.is_cancelled() {
         return Err(DiscoveryError::Cancelled);
     }
     let seeds = validated_seeds(seeds)?;
@@ -407,12 +439,11 @@ where
         policy,
     )?;
     let request_bytes = encode_request(request, policy)?;
-    let mut replay = ProposalReplayGuard::new(seeds.len())?;
     let mut saw_timeout = false;
     let mut last_rejection = None;
     for seed in seeds {
         let response = tokio::select! {
-            _ = cancellation.cancelled() => return Err(DiscoveryError::Cancelled),
+            _ = context.cancellation.cancelled() => return Err(DiscoveryError::Cancelled),
             result = tokio::time::timeout(
                 policy.attempt_timeout,
                 exchange(seed.clone(), request_bytes.clone()),
@@ -439,7 +470,7 @@ where
             &response,
             authority,
             policy,
-            &mut replay,
+            context.replay,
             response_time,
         ) {
             Ok(proposal) => return Ok(proposal),

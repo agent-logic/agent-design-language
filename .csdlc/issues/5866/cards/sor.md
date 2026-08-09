@@ -87,11 +87,11 @@ Implemented bounded authenticated seed discovery that treats configured seeds on
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
