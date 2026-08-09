@@ -23,7 +23,6 @@ hmac = "0.12"
 openraft = { version = "=0.9.21", features = ["serde"] }
 quinn = { version = "=0.11.11", default-features = false, features = ["runtime-tokio", "rustls-aws-lc-rs"] }
 rand = "0.8"
-rcgen = "0.14"
 redb = "4.1"
 secrecy = "0.8"
 serde = { version = "1.0", features = ["derive"] }
@@ -45,10 +44,7 @@ x509-parser = "0.18.1"
 [target.'cfg(windows)'.dependencies]
 windows-sys = { version = "0.61.2", features = [
     "Win32_Foundation",
-    "Win32_Security",
-    "Win32_Security_Authorization",
     "Win32_System_Console",
-    "Win32_Storage_FileSystem",
     "Win32_System_JobObjects",
     "Win32_System_Threading",
 ] }
