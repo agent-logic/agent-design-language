@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2f9e8eb1a1614066f9910afdfc20e395fbb4e6c04c4e9235753decdc3850f07",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "0222357b4fa7a7e64171f8795e3a48c435f59512dfc74df550cc3f6602b81521",
+  "generation": 21,
+  "digest": "dc04d2daf1fc022e3a41443072123541a14d829032b52d779ea66f5ead017d10",
   "branch": "codex/csdlc-v3-gh-architecture",
   "worktree": "/Volumes/FastWork/adl-csdlc-v3-gh-architecture",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a0ce5de83cb51d3f9ec9dd720dfbe3e12bdd00186c48cdeadb0bf456ea4dff52",
+      "values_digest": "d8e234236118608159f0a76921bf7291fae4dd14831f4a924b1d860238743d45",
       "rendered_digest": "09da92d9741a8bc2b3d453937f2db76fa35a90fd0ed36fd415a538825a26f73a",
       "ast_digest": "c977acd6eec2433fc73f9918084cf1438189c708aba796baa4c8f15f35950afa"
     },
     "stp": {
-      "values_digest": "b227ffd7d1d5aff882cb4c365695ae723ca56d8e04d43d8db731e4af834e2b85",
+      "values_digest": "f9069a0a832e405c60f6747684e58aaa4b2a4d8418dbe9fdd62ba590bf87eec0",
       "rendered_digest": "1b1dfae3a86f48144d49076a4c7e1032ffdc368e29e4ac55493cf951edf9f65b",
       "ast_digest": "0fe071e80aa4030fa52504616b9c76052e916ff081bf1fdadd3e05c3fa068765"
     },
     "spp": {
-      "values_digest": "afb45cabd5465b1621cd0da6fd6d61e8950065386fb2d6ec06c3efc239253bf2",
+      "values_digest": "d3d5bfade5c18626738be832652ab3d9e32ec0bf4e24c4fd949de42e5b90da26",
       "rendered_digest": "b40417d22c7578fceabca20b158197add6beba4e3a86af24b9b712784fb8f9d7",
       "ast_digest": "dc1b2b714b986ab6e052e3c44e5715fdda09c23dc8ae2d56c548a384ee8761a1"
     },
     "vpp": {
-      "values_digest": "34a0b5e671e1ee7bc461a3643739a6fa85b269b1cc048f7e5f3e86e94fd3b9f2",
-      "rendered_digest": "ca0a321dcf544ff4654a88f5bf8f47f1c892cdca7e00ea94a8abb77189cd8b54",
-      "ast_digest": "a4e249d518642482154399bd5328d4ba0b7ffcbc10bc2c72c15431180a0a8bd2"
+      "values_digest": "5b309d4b57934ddc38655bfdb0fc7a74ec491b36ff779ebdce0adbfb703ee910",
+      "rendered_digest": "d943f85705f4e959adbd51296926ae934449cf324be001722fac6df4be30cc6a",
+      "ast_digest": "545d2b12109ca8247b49b20079fe3aaa4a87906640e6fd943827dbc1e632fa55"
     },
     "srp": {
-      "values_digest": "c38fd4b6cda7526f562bfff2a28099aedd48531e49dd09df067c30b70ee4a34a",
+      "values_digest": "d58febf2af10a8b15ef6999f12618ad9d125410a138145262ca161d524f678c3",
       "rendered_digest": "f144d8fe17e50ce4452c5c8a67bd3c340151675213fd3b23a87ec46c1689797f",
       "ast_digest": "1244572a744bdc4accab71c72b3fe1134f3a9b09853034f0771b6c46310b7d08"
     },
     "sor": {
-      "values_digest": "f41575915aa8f7881dd099d5d6ac045110122c270c114ed992ce1fe94cfaec13",
-      "rendered_digest": "fc342941f76113d32cf8d4d1f70e314189a3b4cc812f1fd206de0abfcb325a85",
-      "ast_digest": "5b08bb95cdace07dfdf949e13967711570bad11790d248a451f97f1e33e1fa35"
+      "values_digest": "72bf0ff16359a405bfa3d08eadcb78e662f077aa9af2be4c205070409aff35a9",
+      "rendered_digest": "13e33fa028e26f6617cf0dac3aa424ec75d13bbb2618f614ff1a9441d67816f3",
+      "ast_digest": "d9f768fc68d1a4dd6c885796c58ab03198593b71d4181ee9b7fdcdea275f05b9"
     }
   },
   "transitions": [
@@ -224,6 +224,20 @@
       "actor": "codex:pre-pr-review-findings-incorporated",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:issue-73-pre-pr-evidence-repair",
+      "reason": "Replace weak heading and prose scans with the exact commands that prove specification completeness, provider decisions, and reviewed-scope stability.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-specification-completeness\",\"proof_role\":\"Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review-receipts\",\"proof_role\":\"Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"reviewed-scope-stability\",\"proof_role\":\"Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:issue-73-pre-pr-evidence-repair",
+      "reason": "Replace the earlier over-broad evidence references with the exact commands and post-pre-PR provider receipts that prove the final packet.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed and independently reviewed the Rust C-SDLC v3 architecture, quantified effect model, safety and migration boundaries, dependency diagram, and 18-issue implementation plan plus deferred v2 retirement.\",\"changes\":[\"Modeled the one-binary Rust command architecture on the pinned official GitHub CLI source baseline.\",\"Defined lifecycle state, pending intent journals, transactions, cancellation, Git, GitHub, review, publication, finish, cleanup, migration, portability, security, validation, and observability contracts.\",\"Sequenced 18 independently bounded implementation issues plus V3-R01 deferred retirement.\",\"Incorporated every actionable Claude, Gemini, and pre-PR subagent finding.\",\"Updated canonical issue #73 to the final planning denominator without creating implementation children.\"],\"artifacts\":[\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\".csdlc/evidence/73/pre-pr-review.md\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact final worktree diff hygiene passed.\"},{\"command\":[\"awk\",\"BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\\\*\\\\*Objective:\\\\*\\\\*/{o++} /^\\\\*\\\\*Scope:\\\\*\\\\*/{sc++} /^\\\\*\\\\*Non-goals:\\\\*\\\\*/{ng++} /^\\\\*\\\\*Dependencies:\\\\*\\\\*/{d++} /^\\\\*\\\\*Deliverables:\\\\*\\\\*/{dl++} /^\\\\*\\\\*Acceptance criteria:\\\\*\\\\*/{ac++} /^\\\\*\\\\*Validation proof:\\\\*\\\\*/{v++} /^\\\\*\\\\*Stop conditions:\\\\*\\\\*/{st++} /^```/{f++} END{print s,o,sc,ng,d,dl,ac,v,st,f; exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"purpose\":\"Prove all 19 specifications contain every required field and code fences are balanced.\",\"outcome\":\"passed\",\"evidence_ref\":\"Output was 19 19 19 19 19 19 19 19 19 36.\"},{\"command\":[\"jq\",\"-e\",\"-s\",\"length == 2 and all(.[]; (.final_status == \\\"ok\\\") and (.request_id | endswith(\\\"17041ed7\\\")) and (.output_text | contains(\\\"DECISION: PASS\\\"))) and ([.[].route.provider] | sort == [\\\"anthropic\\\", \\\"gemini\\\"])\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json\",\".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json\"],\"purpose\":\"Prove both provider receipts completed, bind the reviewed revision, and contain PASS decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"The exact retained Gemini and Claude receipts evaluated true.\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"17041ed7da93d2b4f9c6978053daedeb3b8c1c27\",\"--\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\"],\"purpose\":\"Prove the architecture and diagram remain unchanged from the exact revision passed by both providers.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact reviewed-scope diff was empty.\"}]}"
     }
   ]
 }

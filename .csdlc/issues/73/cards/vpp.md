@@ -42,8 +42,8 @@ Diagram: .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
     "defer_reason": null
   },
   {
-    "lane": "planning-structure",
-    "proof_role": "Verify required architecture and issue-plan sections, links, and repository-relative source references.",
+    "lane": "planning-specification-completeness",
+    "proof_role": "Count all 19 issue specifications and every required specification field, and reject unbalanced code fences.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -56,32 +56,56 @@ Diagram: .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
     "budget_seconds": 60,
     "budget_tokens": 1000,
     "argv": [
-      "rg",
-      "--line-number",
-      "Implementation Issue Plan",
+      "awk",
+      "BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\\*\\*Objective:\\*\\*/{o++} /^\\*\\*Scope:\\*\\*/{sc++} /^\\*\\*Non-goals:\\*\\*/{ng++} /^\\*\\*Dependencies:\\*\\*/{d++} /^\\*\\*Deliverables:\\*\\*/{dl++} /^\\*\\*Acceptance criteria:\\*\\*/{ac++} /^\\*\\*Validation proof:\\*\\*/{v++} /^\\*\\*Stop conditions:\\*\\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)}",
       ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md"
     ],
     "parallel_group": "local",
     "defer_reason": null
   },
   {
-    "lane": "independent-model-review",
-    "proof_role": "Verify the retained record contains findings-first Claude and Gemini reviews over the exact plan revision and their dispositions.",
+    "lane": "independent-model-review-receipts",
+    "proof_role": "Verify both retained provider receipts completed successfully, bind the reviewed revision in their request IDs, and contain PASS decisions.",
     "acceptance_ids": [
       "AC-5"
     ],
-    "deterministic": false,
+    "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 600,
+    "budget_seconds": 30,
     "budget_tokens": 1000,
     "argv": [
-      "rg",
-      "--line-number",
-      "Claude Review|Gemini Review|Reviewed revision|Disposition",
-      ".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md"
+      "jq",
+      "-e",
+      "-s",
+      "length == 2 and all(.[]; (.final_status == \"ok\") and (.request_id | endswith(\"17041ed7\")) and (.output_text | contains(\"DECISION: PASS\"))) and ([.[].route.provider] | sort == [\"anthropic\", \"gemini\"])",
+      ".csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json",
+      ".csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json"
     ],
-    "parallel_group": "external-review",
-    "defer_reason": "The retained review record is produced after both live provider reviews complete."
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "reviewed-scope-stability",
+    "proof_role": "Prove the architecture and diagram are byte-unchanged from the exact revision passed by both providers.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 1000,
+    "argv": [
+      "git",
+      "diff",
+      "--quiet",
+      "17041ed7da93d2b4f9c6978053daedeb3b8c1c27",
+      "--",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+      ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
   }
 ]
 
@@ -98,8 +122,9 @@ Tokens: 50000
 ## Commands
 
 - `git diff --check`
-- `rg --line-number Implementation Issue Plan .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md`
-- `rg --line-number Claude Review|Gemini Review|Reviewed revision|Disposition .adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md`
+- `awk BEGIN{s=o=sc=ng=d=dl=ac=v=st=f=0} /^### V3-(0[1-9]|10A|10B|11A|11B|12|13|14|15|16|R01):/{s++} /^\*\*Objective:\*\*/{o++} /^\*\*Scope:\*\*/{sc++} /^\*\*Non-goals:\*\*/{ng++} /^\*\*Dependencies:\*\*/{d++} /^\*\*Deliverables:\*\*/{dl++} /^\*\*Acceptance criteria:\*\*/{ac++} /^\*\*Validation proof:\*\*/{v++} /^\*\*Stop conditions:\*\*/{st++} /^```/{f++} END{exit !(s==19&&o==19&&sc==19&&ng==19&&d==19&&dl==19&&ac==19&&v==19&&st==19&&f%2==0)} .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md`
+- `jq -e -s length == 2 and all(.[]; (.final_status == "ok") and (.request_id | endswith("17041ed7")) and (.output_text | contains("DECISION: PASS"))) and ([.[].route.provider] | sort == ["anthropic", "gemini"]) .csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json .csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json`
+- `git diff --quiet 17041ed7da93d2b4f9c6978053daedeb3b8c1c27 -- .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd`
 
 ## Failure Semantics
 

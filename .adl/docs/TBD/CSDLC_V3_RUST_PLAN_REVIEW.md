@@ -1,6 +1,6 @@
 # C-SDLC v3 Rust Plan Review Record
 
-Status: Pre-PR findings incorporated; final exact-revision re-verification pending
+Status: Pre-PR findings incorporated; final exact-revision verification passed
 
 Issue: #73
 
@@ -228,3 +228,26 @@ lifecycle/card-state authority. One P2 validation-evidence finding is being
 resolved with exact retained commands. The remaining P2 STP wording is retained
 as initial planning history because the typed v2 editor rejects that collection
 mutation in `implemented`; no direct card edit or lifecycle bypass is allowed.
+
+### Post-Pre-PR Exact Verification
+
+Reviewed revision: `17041ed7da93d2b4f9c6978053daedeb3b8c1c27`
+
+Reviewed scope:
+
+- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md`
+- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd`
+
+Evidence:
+
+- `.csdlc/evidence/73/provider-reviews/post-pre-pr-final-gemini-result.json`
+- `.csdlc/evidence/73/provider-reviews/post-pre-pr-final-claude-sonnet-result.json`
+
+Gemini 3.1 Pro Preview: `PASS`, no unresolved P0/P1 findings.
+
+Claude Sonnet 4.6: `PASS`, no unresolved P0/P1 findings.
+
+Both reviewers confirmed the identity-interface dependency is acyclic, pending
+intent journals have explicit authority and precedence boundaries, no earlier
+safety correction regressed, and the complete 18-plus-one issue graph remains
+ordered.
