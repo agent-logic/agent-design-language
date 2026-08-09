@@ -16,12 +16,14 @@ Implement monotonic epochs and bounded leases as prerequisites for distributed o
 
 ## Deliverables
 
+- adl-runtime/src/distributed/lease.rs
+- adl-runtime/tests/distributed_lease.rs
 - OpenRaft authority whose endorsements use a stable majority or both constituent majorities during joint membership, with a negative union-majority test
-- AuthorityCertificateV1 using the fixed protobuf tag and wire-type table, closed operation classes, exact identity bytes, unsigned lexicographic signer ordering, and canonical body hashing under ADL-AUTHORITY-CERTIFICATE-BODY-V1\0
-- AuthorityEndorsementPayloadV1 signing the body digest, signer Guardian identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\0
-- Ed25519 verification using ed25519-dalek VerifyingKey::verify_strict, 32-byte public keys, 64-byte R || S signatures, SHA-256, and deterministic prost encoding
-- Negative tests for copied signatures under another identity or generation, stale generations, duplicate signer identities or effective control keys, wrong algorithms, malformed lengths, unknown or duplicate fields, non-minimal varints, noncanonical scalar or point encodings, unsorted signers, and decode/re-encode mismatch
-- Digest-bound execution proof, reviewed rollback evidence, and quorum-only authority recovery
+- AuthorityCertificateV1 and AuthorityEndorsementPayloadV1 with frozen protobuf, domain separation, canonical hashing, and deterministic signer ordering
+- Strict Ed25519 verification and fail-closed negative cases for identity, generation, encoding, algorithm, signer, and key uniqueness drift
+- Monotonic epochs, bounded lease activation, renewal, expiry, revocation, quorum-loss denial, and restart recovery
+- Digest-bound exact-revision execution proof
+- Independent exact-head review, rollback evidence, and quorum-only authority recovery
 
 ## Acceptance
 
