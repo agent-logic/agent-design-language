@@ -1,8 +1,8 @@
 {
     "bucket": "agent-logic-podcast-archive-agentlogic",
     "prefix": "archive/cognitive-spacetime/",
-    "object_count": 81,
-    "total_bytes": 191901111,
+    "object_count": 87,
+    "total_bytes": 191910866,
     "objects": [
         {
             "key": "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.mp3",
@@ -37,32 +37,68 @@
         {
             "key": "archive/cognitive-spacetime/episodes/001/package/audio-manifest.json",
             "size": 2259,
-            "etag": "\"0aa4d1851fb9eb2c75dfcd923dfe8bb3\"",
-            "last_modified": "2026-08-08T19:43:54+00:00"
+            "etag": "\"363cd736e87171f0f6f936b9ab907c13\"",
+            "last_modified": "2026-08-09T02:46:43+00:00"
         },
         {
             "key": "archive/cognitive-spacetime/episodes/001/package/episode.json",
-            "size": 2696,
-            "etag": "\"7b95224e5fc9cc248097a8db1004f27d\"",
-            "last_modified": "2026-08-08T19:45:41+00:00"
+            "size": 3158,
+            "etag": "\"54a4b13d5ae82fe2bcbdc57b9056cde5\"",
+            "last_modified": "2026-08-09T02:46:41+00:00"
+        },
+        {
+            "key": "archive/cognitive-spacetime/episodes/001/package/guest-metadata.json",
+            "size": 909,
+            "etag": "\"9ad4ac83c06da7628e687ef530148924\"",
+            "last_modified": "2026-08-09T02:46:44+00:00"
+        },
+        {
+            "key": "archive/cognitive-spacetime/episodes/001/package/qa-report.md",
+            "size": 1474,
+            "etag": "\"b50efbe6f89cb3c0af161ea395130ef4\"",
+            "last_modified": "2026-08-09T02:46:44+00:00"
+        },
+        {
+            "key": "archive/cognitive-spacetime/episodes/001/package/redaction-report.md",
+            "size": 729,
+            "etag": "\"e871c8cdf08b070f8f6ac46a55bf6321\"",
+            "last_modified": "2026-08-09T02:46:45+00:00"
+        },
+        {
+            "key": "archive/cognitive-spacetime/episodes/001/package/review.md",
+            "size": 1122,
+            "etag": "\"1d6d5abdb805adb17149bcb4d32f976e\"",
+            "last_modified": "2026-08-09T02:48:48+00:00"
+        },
+        {
+            "key": "archive/cognitive-spacetime/episodes/001/package/rss-enclosure.json",
+            "size": 440,
+            "etag": "\"636237a41dce98c9b5ff575ec7c70450\"",
+            "last_modified": "2026-08-09T02:46:45+00:00"
         },
         {
             "key": "archive/cognitive-spacetime/episodes/001/package/script.md",
-            "size": 18130,
-            "etag": "\"96f4adc0f6882c3c1311f6144ac9f290\"",
-            "last_modified": "2026-08-08T19:39:54+00:00"
+            "size": 18147,
+            "etag": "\"57b11565d70100e7e7939680c90e9294\"",
+            "last_modified": "2026-08-09T02:46:42+00:00"
         },
         {
             "key": "archive/cognitive-spacetime/episodes/001/package/show-notes.md",
-            "size": 1716,
-            "etag": "\"75ef55d72b33b23776ebedb5263eb9fe\"",
-            "last_modified": "2026-08-08T19:39:54+00:00"
+            "size": 1759,
+            "etag": "\"aba92da7041dc2bf0eebdf732bdd961f\"",
+            "last_modified": "2026-08-09T02:46:43+00:00"
+        },
+        {
+            "key": "archive/cognitive-spacetime/episodes/001/package/source-packet.md",
+            "size": 1590,
+            "etag": "\"49bbd722f5d01aabc529bba994a7d5d6\"",
+            "last_modified": "2026-08-09T02:46:41+00:00"
         },
         {
             "key": "archive/cognitive-spacetime/episodes/001/package/storage-manifest.json",
-            "size": 3431,
-            "etag": "\"90e4db6c745270e314feaafefa0143eb\"",
-            "last_modified": "2026-08-08T19:47:16+00:00"
+            "size": 6400,
+            "etag": "\"e79e1dc9c1c01f8d483009cc6e26fb29\"",
+            "last_modified": "2026-08-09T02:51:14+00:00"
         },
         {
             "key": "archive/cognitive-spacetime/episodes/001/package/transcript.md",
