@@ -32,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be")
 
-Reviewer: None
+Reviewer: Some("subagent:74-exact-head-rereview")
 
-Result: pre_review
+Result: pass
