@@ -1,0 +1,81 @@
+{
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1"
+    }
+  ],
+  "assertions": [
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "evidence_sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1",
+      "name": "production_guardian",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "evidence_sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1",
+      "name": "rustls_wss",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "evidence_sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1",
+      "name": "authenticated_bidirectional",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "evidence_sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1",
+      "name": "protobuf_json_parity",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "evidence_sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1",
+      "name": "reconnect_backpressure",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "evidence_sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1",
+      "name": "replay_denied",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/macos/proof.json",
+      "evidence_sha256": "7c427d308b304884323dc95372576dd7d8f6cb238bf639929fc3cf77e3cf0db1",
+      "name": "denied_access",
+      "result": "passed"
+    }
+  ],
+  "command": {
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss",
+      "--no-tests=fail",
+      "production_acip_wss"
+    ],
+    "exit_code": 0,
+    "stderr_path": ".csdlc/evidence/5832/native/macos/stderr.log",
+    "stderr_sha256": "22838401d23af74b2d4375eec0ef8ddc76fc3bb00a3234d9a63a6e6832b8fdca",
+    "stdout_path": ".csdlc/evidence/5832/native/macos/stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "negative_cases": 7,
+  "platform": "macos",
+  "runner": {
+    "arch": "ARM64",
+    "identity_sha256": "4e75807b96b911209b4619ef6fc93e418644626029d911810555e1a379e07b83",
+    "os": "macOS",
+    "provider": "github-actions",
+    "run_id": "31293348375-1-macos"
+  },
+  "source_revision": "ef79e83ff8d1723b9cf3c1dc8013116fbec3f31a",
+  "successful_exchanges": 9
+}

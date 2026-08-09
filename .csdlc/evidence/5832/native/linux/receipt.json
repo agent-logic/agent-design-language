@@ -1,0 +1,81 @@
+{
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384"
+    }
+  ],
+  "assertions": [
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "evidence_sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384",
+      "name": "production_guardian",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "evidence_sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384",
+      "name": "rustls_wss",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "evidence_sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384",
+      "name": "authenticated_bidirectional",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "evidence_sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384",
+      "name": "protobuf_json_parity",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "evidence_sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384",
+      "name": "reconnect_backpressure",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "evidence_sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384",
+      "name": "replay_denied",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/linux/proof.json",
+      "evidence_sha256": "ace6ad8d7bc08d6826f4c916c889306d3f67f2aa3725b3472f5e4707b55f8384",
+      "name": "denied_access",
+      "result": "passed"
+    }
+  ],
+  "command": {
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss",
+      "--no-tests=fail",
+      "production_acip_wss"
+    ],
+    "exit_code": 0,
+    "stderr_path": ".csdlc/evidence/5832/native/linux/stderr.log",
+    "stderr_sha256": "10d3d6624791600977de9cab01a3e52b58f732c945fdd771c764a4c9ded7e85e",
+    "stdout_path": ".csdlc/evidence/5832/native/linux/stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "negative_cases": 7,
+  "platform": "linux",
+  "runner": {
+    "arch": "X64",
+    "identity_sha256": "52686601c4ff628390b77af93c6f2e23d44ca4f069fbb41a39ee24582abcd949",
+    "os": "Linux",
+    "provider": "github-actions",
+    "run_id": "31293348375-1-linux"
+  },
+  "source_revision": "ef79e83ff8d1723b9cf3c1dc8013116fbec3f31a",
+  "successful_exchanges": 9
+}

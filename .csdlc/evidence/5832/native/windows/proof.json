@@ -1,0 +1,1 @@
+{"assertions": ["production_guardian", "rustls_wss", "authenticated_bidirectional", "protobuf_json_parity", "reconnect_backpressure", "replay_denied", "denied_access"], "platform": "windows", "producer_exit_code": 0, "schema": "adl.acip_native_platform_proof.v1", "source_revision": "ef79e83ff8d1723b9cf3c1dc8013116fbec3f31a"}

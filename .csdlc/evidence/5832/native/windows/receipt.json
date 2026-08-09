@@ -1,0 +1,81 @@
+{
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387"
+    }
+  ],
+  "assertions": [
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "evidence_sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387",
+      "name": "production_guardian",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "evidence_sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387",
+      "name": "rustls_wss",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "evidence_sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387",
+      "name": "authenticated_bidirectional",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "evidence_sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387",
+      "name": "protobuf_json_parity",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "evidence_sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387",
+      "name": "reconnect_backpressure",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "evidence_sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387",
+      "name": "replay_denied",
+      "result": "passed"
+    },
+    {
+      "evidence_path": ".csdlc/evidence/5832/native/windows/proof.json",
+      "evidence_sha256": "cd074d8d6b49d4384dbf9bbdccb3244d15c764dba2940096b8af762052e1b387",
+      "name": "denied_access",
+      "result": "passed"
+    }
+  ],
+  "command": {
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss",
+      "--no-tests=fail",
+      "production_acip_wss"
+    ],
+    "exit_code": 0,
+    "stderr_path": ".csdlc/evidence/5832/native/windows/stderr.log",
+    "stderr_sha256": "6a0fa9d8e61543c6d3769f130a93e1ba416f7db26d31d057c8c3b74a30a6071c",
+    "stdout_path": ".csdlc/evidence/5832/native/windows/stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "negative_cases": 7,
+  "platform": "windows",
+  "runner": {
+    "arch": "X64",
+    "identity_sha256": "357542c0e5a1c3ebdaf0cc4efe500e8308b5ddc9016848a07346635d2c899b35",
+    "os": "Windows",
+    "provider": "github-actions",
+    "run_id": "31293348375-1-windows"
+  },
+  "source_revision": "ef79e83ff8d1723b9cf3c1dc8013116fbec3f31a",
+  "successful_exchanges": 9
+}
