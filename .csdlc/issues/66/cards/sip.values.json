@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 66,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add first-class Deepgram speech provider",
+    "slug": "deepgram-speech-provider",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Provide governed typed batch synthesis and transcription through Deepgram without podcast-owned HTTP or credential logic.",
+      "required_outcome": "ADL exposes typed Deepgram synthesis and prerecorded transcription through its canonical provider/profile boundary, with validated media, redacted provenance, deterministic offline proof, and one bounded opt-in live round trip.",
+      "declared_scope": [
+        "adl/src/provider/deepgram.rs",
+        "adl/src/provider/mod.rs",
+        "adl/src/provider/profiles.rs",
+        "adl/src/provider_substrate.rs",
+        "adl/tests/provider_tests.rs",
+        "adl/tests/provider_tests/deepgram.rs",
+        "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+        "docs/tooling/PROVIDER_SETUP.md",
+        ".csdlc/prepared/issues/66",
+        ".csdlc/issues/66",
+        ".csdlc/evidence/66"
+      ],
+      "authority_boundary": [
+        "Issue and code authority are agent-logic/agent-design-language#66",
+        "Provider profiles and ProviderSpec remain canonical construction inputs",
+        "Deepgram credentials are request-only secrets and never durable provider state",
+        "Live network proof is opt-in and separate from deterministic offline validation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Use the independent Rust C-SDLC v2 route and issue-bound FastWork worktree",
+        "Use $HOME/keys/adl-deepgram-01.key only through a process-scoped environment mapping and never print or persist its contents",
+        "Run focused provider validation rather than broad test suites",
+        "Do not rerender Episode 001 or add realtime speech scope"
+      ]
+    }
+  }
+}

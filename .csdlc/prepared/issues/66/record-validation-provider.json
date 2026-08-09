@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "84524d85c98ff44f682a3d95d4578ce476dc3d99907f25dd78e971527da68a79",
+  "actor": "codex:66-validation",
+  "reason": "Record deterministic Deepgram provider contract proof after review remediation.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","test","-q","--manifest-path","adl/Cargo.toml","--test","provider_tests","deepgram_"],"purpose":"Prove typed profiles, TTS/STT construction, WAV and MP3 media contracts, parsing, redaction, endpoint restriction, stable errors, malformed responses, and timeout behavior; 8 passed, 1 ignored, 0 failed.","outcome":"passed","evidence_ref":"local:issue-66-focused-provider-tests:passed"}}
+}

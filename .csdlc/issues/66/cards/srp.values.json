@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 66,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add first-class Deepgram speech provider",
+    "slug": "deepgram-speech-provider",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #66 typed speech boundary, Deepgram profile/capability integration, credential and endpoint controls, media/result/error contracts, deterministic proof, live receipt, documentation, and no-widening constraints.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any credential or authorization value appear in Debug, error, log, fixture, request identity, or retained evidence?",
+        "Can a real Deepgram credential be sent to a non-Deepgram host?",
+        "Do typed media checks reject JSON/HTML error bodies and incompatible encoding/container combinations?",
+        "Does capability discovery truthfully distinguish speech operations from completion operations?",
+        "Does the live receipt prove a real round trip without retaining source content or audio?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

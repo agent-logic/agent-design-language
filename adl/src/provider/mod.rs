@@ -19,10 +19,16 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use crate::adl;
 use crate::provider_substrate::{self, ProviderInvocationTargetV1};
 
+mod deepgram;
 mod http_family;
 mod local;
 mod profiles;
 
+pub use deepgram::{
+    build_speech_provider, AudioContainer, AudioEncoding, DeepgramSpeechProvider, SpeechErrorKind,
+    SpeechProvenance, SpeechProvider, SpeechProviderError, SynthesisRequest, SynthesisResult,
+    TranscriptWord, TranscriptionRequest, TranscriptionResult,
+};
 pub use http_family::{
     AnthropicProvider, AwsBedrockProvider, HttpProvider, OllamaHttpProvider, OpenAiProvider,
     ZAiProvider,

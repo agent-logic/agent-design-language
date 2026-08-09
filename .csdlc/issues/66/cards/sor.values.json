@@ -1,0 +1,101 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 66,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add first-class Deepgram speech provider",
+    "slug": "deepgram-speech-provider",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Added typed Deepgram batch synthesis and prerecorded transcription support with canonical profiles, redacted provenance, deterministic loopback proof, one bounded live canary, and downstream Podcast Studio guidance.",
+      "actual_changes": [
+        "Added typed synthesis/transcription requests, results, media settings, provenance, stable errors, and a speech-provider factory.",
+        "Added Deepgram Aura-2 Pluto and Nova-3 profiles without implying text-completion support.",
+        "Restricted live credentials to per-request environment or external key-file resolution and official Deepgram endpoints.",
+        "Added deterministic loopback tests plus a redacted Pluto/Nova-3 live receipt.",
+        "Documented provider setup and Podcast Studio consumption without duplicating HTTP or credential ownership."
+      ],
+      "artifacts": [
+        "adl/src/provider/deepgram.rs",
+        "adl/src/provider/mod.rs",
+        "adl/src/provider/profiles.rs",
+        "adl/src/provider_substrate.rs",
+        "adl/tests/provider_tests/deepgram.rs",
+        "docs/tooling/PROVIDER_SETUP.md",
+        "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+        ".csdlc/evidence/66/deepgram-live-receipt.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "-q",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--test",
+            "provider_tests",
+            "deepgram_"
+          ],
+          "purpose": "Prove typed profiles, TTS/STT construction, WAV and MP3 media contracts, parsing, redaction, endpoint restriction, stable errors, malformed responses, and timeout behavior; 8 passed, 1 ignored, 0 failed.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-66-focused-provider-tests:passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "-q",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--test",
+            "provider_tests",
+            "deepgram_pluto_nova3_round_trip",
+            "--",
+            "--ignored"
+          ],
+          "purpose": "Prove a live Aura-2 Pluto synthesis and Nova-3 prerecorded transcription round trip with normalized expected-phrase match and a metadata-only redacted receipt; 1 passed, 0 failed.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/66/deepgram-live-receipt.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "-q",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Reject type, ownership, error-handling, and dead-code warnings in the bounded provider library surface.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-66-focused-clippy:passed"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject malformed whitespace and confirm the operator Deepgram credential value is absent from tracked and untracked issue files.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-66-diff-and-credential-scan:passed"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

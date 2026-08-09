@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "sor",
+  "expected_generation": 15,
+  "expected_digest": "251a612d7abc18cf82ca63d7867efa6e00d3c7611e8006c04f17accad22ad22c",
+  "actor": "codex:66-validation",
+  "reason": "Record strict focused library lint proof.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","clippy","-q","--manifest-path","adl/Cargo.toml","--lib","--","-D","warnings"],"purpose":"Reject type, ownership, error-handling, and dead-code warnings in the bounded provider library surface.","outcome":"passed","evidence_ref":"local:issue-66-focused-clippy:passed"}}
+}

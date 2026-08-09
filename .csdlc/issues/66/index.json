@@ -1,0 +1,229 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 66,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "90e59f922e4766e5aa4b7d8061e4752b5386a7fff1ba42c65e132209be0ed71d",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "d369195222acfa45543e529f1b09c29e51d4eaf018a32e508705218025f990c6",
+  "branch": "codex/66-deepgram-speech-provider",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-66-deepgram-speech-provider",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/66/design.md",
+  "diagram_path": ".csdlc/prepared/issues/66/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:66-final-review",
+      "revision": "41fd4baf0170e04617950e0cfcd50433042ff1d566d1ad4bf143abcaff7cdfde"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a410936267d0fa0f7f1d3b4ff68f8d4552b78fc5dacc072b0d3b040422a1d4a0",
+      "rendered_digest": "226262d91ad557fb76edf99821d10d77240c7036bfe5a49910b568180aa40ce9",
+      "ast_digest": "dcf435c9562816ed96640d50374fbdfe238a8630c65a1f47ea16561a676a3913"
+    },
+    "stp": {
+      "values_digest": "66f66ebc69d5307eb1f98d746801e990df055b171f6b32d29b7a448b60d8cd3b",
+      "rendered_digest": "5e5100417c10ad054310a21f3f1e8a7cef52f0029b473aa80bb288787903d09c",
+      "ast_digest": "b75035db71def7c53cb6b71bb1977615ecca40c037830d939045e74f0c77271c"
+    },
+    "spp": {
+      "values_digest": "20167536e4a946edae3a9773e67ff314a6d16600a6ba3717a97dd90cd47ff1f0",
+      "rendered_digest": "2854a9958cfc898be0439612fd8c73b24bb5047d2f6a6d5a375b88f5131d01e4",
+      "ast_digest": "48efa68f36e26d1f53abe9c96d36a7bb672e7baf4e1ea8e3a6eeba9573ca06bd"
+    },
+    "vpp": {
+      "values_digest": "9e111e184d05b03178aecabd618fd717d436251972be1e64ea59ddf34fe28201",
+      "rendered_digest": "28b921e6623edcfa3f0045f6b6843634eb7a131d3650c895820c7ba036eace2c",
+      "ast_digest": "4295261bb6bcaecd0f4c4c3876a2da5a119db3ab1aa9b5f355b6e3841890a39b"
+    },
+    "srp": {
+      "values_digest": "10da2e27bd5a48af57cc93567f20f6b1d5ef89ce0ae7d6368c6befb0bc14339d",
+      "rendered_digest": "5d136a9a7f9cc04f0ca5b21921beb0d8aa982f4402ead0a2da7de8e1d1cdeeba",
+      "ast_digest": "bc75b78a4f85dcd6574df1d9018ba4e3aa1978a3a1fbca6dcfdc85f58e3adedf"
+    },
+    "sor": {
+      "values_digest": "4cdd1e20917d845244f68f5c3aa35541b7235c0b2eb26c0a74930abca7f04481",
+      "rendered_digest": "a3afd572c665f83530dcdb8f5e93619688a1b784ada1efc6649336b3e1b642a3",
+      "ast_digest": "8c9c3a67d65828678a1a52a23780a5e220c9ee7fb74364ce5302cc50497f690c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:66-deepgram-provider",
+      "reason": "The approved design and all four planning cards are execution-ready after readiness review repair and PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:66-implementation",
+      "reason": "The bounded Deepgram provider implementation and focused local/live proof are complete; exact-head review is next."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:66-deepgram-provider",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:66-readiness-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:66-deepgram-provider",
+      "reason": "Resolve readiness review by declaring the exact Podcast Studio consumption guide path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl/src/provider/deepgram.rs\",\"adl/src/provider/mod.rs\",\"adl/src/provider/profiles.rs\",\"adl/src/provider_substrate.rs\",\"adl/tests/deepgram_provider.rs\",\"adl/tests/deepgram_live.rs\",\"demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md\",\"docs/tooling/PROVIDER_SETUP.md\",\".csdlc/prepared/issues/66\",\".csdlc/issues/66\",\".csdlc/evidence/66\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:66-deepgram-provider",
+      "reason": "Resolve readiness review with one named live canary and one exact redacted receipt contract.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"deepgram-provider-contract\",\"proof_role\":\"Exercise canonical profiles, typed requests, loopback HTTP construction, response parsing, media validation, redaction, timeout, malformed response, and stable error mapping.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":420,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"deepgram_provider\"],\"parallel_group\":\"provider\",\"defer_reason\":null},{\"lane\":\"deepgram-live-canary\",\"proof_role\":\"Run only deepgram_pluto_nova3_round_trip and retain .csdlc/evidence/66/deepgram-live-receipt.json containing redacted request identity, provider/model/voice, media, latency, usage, and cost fields with no source text, audio, or credentials.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"deepgram_live\",\"deepgram_pluto_nova3_round_trip\",\"--\",\"--ignored\"],\"parallel_group\":\"live-provider\",\"defer_reason\":null},{\"lane\":\"deepgram-focused-clippy\",\"proof_role\":\"Reject type, ownership, error, and dead-code regressions in the bounded library surface.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":420,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"provider\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"provider\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:66-deepgram-provider",
+      "reason": "The approved design and all four planning cards are execution-ready after readiness review repair and PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:66-deepgram-provider",
+      "reason": "Resolve readiness review by declaring the exact Podcast Studio consumption guide path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl/src/provider/deepgram.rs\",\"adl/src/provider/mod.rs\",\"adl/src/provider/profiles.rs\",\"adl/src/provider_substrate.rs\",\"adl/tests/provider_tests.rs\",\"adl/tests/provider_tests/deepgram.rs\",\"demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md\",\"docs/tooling/PROVIDER_SETUP.md\",\".csdlc/prepared/issues/66\",\".csdlc/issues/66\",\".csdlc/evidence/66\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:66-deepgram-provider",
+      "reason": "Declare exact repository-owned implementation and proof paths required by execution readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/mod.rs\",\"adl/src/provider/deepgram.rs\",\"adl/src/provider/profiles.rs\",\"adl/src/provider_substrate.rs\",\"adl/tests/provider_tests.rs\",\"adl/tests/provider_tests/deepgram.rs\",\"demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md\",\"docs/tooling/PROVIDER_SETUP.md\",\".csdlc/evidence/66/deepgram-live-receipt.json\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:66-deepgram-provider",
+      "reason": "Resolve readiness review with one named live canary and one exact redacted receipt contract.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"deepgram-provider-contract\",\"proof_role\":\"Exercise canonical profiles, typed requests, loopback HTTP construction, response parsing, media validation, redaction, timeout, malformed response, and stable error mapping.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":420,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_tests\",\"deepgram_\"],\"parallel_group\":\"provider\",\"defer_reason\":null},{\"lane\":\"deepgram-live-canary\",\"proof_role\":\"Run only deepgram_pluto_nova3_round_trip and retain .csdlc/evidence/66/deepgram-live-receipt.json containing redacted request identity, provider/model/voice, media, latency, usage, and cost fields with no source text, audio, or credentials.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_tests\",\"deepgram_pluto_nova3_round_trip\",\"--\",\"--ignored\"],\"parallel_group\":\"live-provider\",\"defer_reason\":null},{\"lane\":\"deepgram-focused-clippy\",\"proof_role\":\"Reject type, ownership, error, and dead-code regressions in the bounded library surface.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":420,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"provider\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"provider\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "subagent:66-readiness-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:66-implementation",
+      "reason": "The typed speech contracts, media settings, provenance boundary, credential resolution, stable errors, and canonical profiles are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:66-implementation",
+      "reason": "The bounded Deepgram batch TTS and prerecorded STT adapter plus profile-based factory wiring are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:66-implementation",
+      "reason": "Deterministic loopback tests, the opt-in Pluto/Nova-3 canary, redacted receipt, and focused operator and Podcast Studio documentation are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:66-review",
+      "reason": "Focused implementation and live proof are complete; independent exact-diff review and publication remain active.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:66-implementation",
+      "reason": "Record the bounded first-class Deepgram speech provider implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added typed Deepgram batch synthesis and prerecorded transcription support with canonical profiles, redacted provenance, deterministic loopback proof, one bounded live canary, and downstream Podcast Studio guidance.\",\"changes\":[\"Added typed synthesis/transcription requests, results, media settings, provenance, stable errors, and a speech-provider factory.\",\"Added Deepgram Aura-2 Pluto and Nova-3 profiles without implying text-completion support.\",\"Restricted live credentials to per-request environment or external key-file resolution and official Deepgram endpoints.\",\"Added deterministic loopback tests plus a redacted Pluto/Nova-3 live receipt.\",\"Documented provider setup and Podcast Studio consumption without duplicating HTTP or credential ownership.\"],\"artifacts\":[\"adl/src/provider/deepgram.rs\",\"adl/src/provider/mod.rs\",\"adl/src/provider/profiles.rs\",\"adl/src/provider_substrate.rs\",\"adl/tests/provider_tests/deepgram.rs\",\"docs/tooling/PROVIDER_SETUP.md\",\"demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md\",\".csdlc/evidence/66/deepgram-live-receipt.json\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:66-validation",
+      "reason": "Record deterministic Deepgram provider contract proof after review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"-q\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_tests\",\"deepgram_\"],\"purpose\":\"Prove typed profiles, TTS/STT construction, WAV and MP3 media contracts, parsing, redaction, endpoint restriction, stable errors, malformed responses, and timeout behavior; 8 passed, 1 ignored, 0 failed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-66-focused-provider-tests:passed\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:66-validation",
+      "reason": "Record the bounded live Pluto synthesis to Nova-3 transcription round trip.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"-q\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_tests\",\"deepgram_pluto_nova3_round_trip\",\"--\",\"--ignored\"],\"purpose\":\"Prove a live Aura-2 Pluto synthesis and Nova-3 prerecorded transcription round trip with normalized expected-phrase match and a metadata-only redacted receipt; 1 passed, 0 failed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/66/deepgram-live-receipt.json\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:66-validation",
+      "reason": "Record strict focused library lint proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"-q\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject type, ownership, error-handling, and dead-code warnings in the bounded provider library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-66-focused-clippy:passed\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:66-validation",
+      "reason": "Record final diff hygiene and credential non-retention proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace and confirm the operator Deepgram credential value is absent from tracked and untracked issue files.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-66-diff-and-credential-scan:passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:66-implementation",
+      "reason": "The bounded Deepgram provider implementation and focused local/live proof are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "subagent:66-final-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}
