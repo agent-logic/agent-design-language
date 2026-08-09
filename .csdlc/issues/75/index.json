@@ -5,13 +5,13 @@
   "initialization_digest": "0dd81b234af2b9cfa011f8f1ebc56362595c1988b7e83137501e84345d8eff9e",
   "phase": "implemented",
   "generation": 4,
-  "digest": "406d77f152b724800d020b33a3d3a76e3c8d4253c6605e695772ebf0f9ec23ca",
+  "digest": "2cfce45ab00189b386102ed51d98dd5a8ddf99e07756a659e3cf9c078a8e6146",
   "branch": "codex/75-incremental-publication-linkage",
   "worktree": "/Volumes/FastWork/adl-issue-75-incremental-publication-linkage",
   "review_assignment": {
     "reviewer": "codex-subagent:review_75_exact_head",
     "assigned_by": "codex:execute_75_to_pr",
-    "revision": "git-blake3:5e597d2406a4bdf2d04f1247f389e8868c76968e:4aa2b55cbffea7ce5fa05de59505fe0192da0e58f705f525146d901317388a9e",
+    "revision": "git-blake3:47af461584ac49104ecba576723881ff03e2070d:21c7aba8363c979083971339c56e794d61e22345caf84f47c677b38f5ed45d91",
     "scope": [
       "csdlc-v2/src/bin/csdlc-publish.rs",
       "csdlc-v2/src/finish.rs",
@@ -135,6 +135,13 @@
     },
     {
       "sequence": 7,
+      "generation": 4,
+      "actor": "codex:execute_75_to_pr",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
       "generation": 4,
       "actor": "codex:execute_75_to_pr",
       "reason": "assign bounded exact-revision review",
