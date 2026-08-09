@@ -2024,6 +2024,33 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         "bind must not rewrite a same-issue projection with no topology authority"
     );
 
+    // A present but malformed topology field is not equivalent to absent
+    // topology and must still receive strict current-record decoding.
+    let mut malformed_topology = stale_same_issue.clone();
+    malformed_topology
+        .as_object_mut()
+        .expect("malformed topology object")
+        .remove("claim");
+    malformed_topology["branch"] = serde_json::json!(42);
+    fs::write(
+        &stale_same_issue_index,
+        serde_json::to_vec_pretty(&malformed_topology).expect("serialize malformed topology"),
+    )
+    .expect("write malformed topology");
+    let malformed_topology_result = command(
+        &success_worktree,
+        env!("CARGO_BIN_EXE_csdlc-bind"),
+        &[
+            "--root",
+            &success_worktree.to_string_lossy(),
+            "--request",
+            &success_bind.to_string_lossy(),
+        ],
+    );
+    assert!(!malformed_topology_result.status.success());
+    fs::write(&stale_same_issue_index, &stale_same_issue_with_claim)
+        .expect("restore stale same-issue index");
+
     // The same retired field remains corruption when it appears on a relevant
     // record; relevance-first scanning must not weaken strict IssueRecord
     // verification for the issue being bound.
