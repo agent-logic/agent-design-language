@@ -42,7 +42,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove exact, wider-compatible, future-only, and malformed minor ranges.",
     "outcome": "passed",
-    "evidence_ref": "Local exact-source proof: 2 passed, 0 failed at 4feeb84dd."
+    "evidence_ref": "Current rebased branch proof: 2 passed, 0 failed; product source revision 5e7ef2c39 is ancestral to the evidence head."
   },
   {
     "command": [
@@ -58,7 +58,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove the shared ACIP source is warning-free.",
     "outcome": "passed",
-    "evidence_ref": "Local exact-source strict Clippy PASS at 4feeb84dd."
+    "evidence_ref": "Current rebased branch strict Clippy PASS; product source revision 5e7ef2c39 is ancestral to the evidence head."
   },
   {
     "command": [
@@ -74,7 +74,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove the live Sprint capability-advertisement consumer with the issue 87 patch.",
     "outcome": "passed",
-    "evidence_ref": "Detached proof head b76ac59fe combines child head ae16187bb with issue 87 through 4feeb84dd; exit 0."
+    "evidence_ref": "Current detached proof head aaf5cb7fd combines child head ae16187bb with issue 87 product source revision 5e7ef2c39; exact command rerun exited 0."
   },
   {
     "command": [
@@ -90,7 +90,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove the live Sprint resource-weather consumer with the issue 87 patch.",
     "outcome": "passed",
-    "evidence_ref": "Detached proof head ac52325 combines child head 97cf01977 with issue 87 through 4feeb84dd; exit 0."
+    "evidence_ref": "Current detached proof head b1d44c06e combines published child head eca5d84c6 with issue 87 product source revision 5e7ef2c39; exact command exited 0."
   },
   {
     "command": [
@@ -102,7 +102,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove Rust formatting hygiene.",
     "outcome": "passed",
-    "evidence_ref": "Local exact-source formatter check exited 0."
+    "evidence_ref": "Current rebased branch formatter check exited 0; product source revision 5e7ef2c39 is ancestral to the evidence head."
   }
 ]
 
