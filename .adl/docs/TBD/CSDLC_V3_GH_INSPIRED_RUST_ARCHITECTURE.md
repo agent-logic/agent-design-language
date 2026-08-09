@@ -294,6 +294,7 @@ csdlc
   review
     assign
     record
+    recover
     status
   pr
     publish
@@ -597,11 +598,13 @@ heartbeats.
 
 Recovery is modeled as a typed path, not a special-case rollback. For every
 state that can be invalidated by review, publication, remote drift, or failed
-reconciliation, the capability matrix identifies at least one valid next
-operation or a specific operator-required terminal disposition. The kernel
-must prove that no supported recovery operation can strand a record in a state
-where an acceptance-bearing field is known wrong but has no authorized typed
-correction.
+reconciliation, the capability matrix identifies at least one executable typed
+next operation. An operator-required outcome is not a graph sink: its matrix
+row must name the public command, authorization input, target state,
+provenance, downstream invalidations, audit payload, and owning implementation
+issue that execute the disposition. The kernel must prove that no supported
+recovery operation can strand a record in a state where an acceptance-bearing
+field is known wrong but has no authorized typed correction.
 
 ## Transaction Store
 
@@ -736,6 +739,10 @@ Review remains exact and pre-publication:
 
 - `review assign` records reviewer, scope, and revision;
 - `review record` records findings, dispositions, residual risks, and result;
+- `review recover` atomically returns stale pre-terminal review/publication
+  truth to the matrix-declared correction phase, records the triggering reason
+  and provenance, and invalidates every dependent review, publication,
+  readiness, and terminal field named by the capability row;
 - scoped content digests bind review even when lifecycle projections change;
 - substantive scoped change invalidates review;
 - lifecycle-only change needs typed non-substantive proof;
@@ -1251,7 +1258,8 @@ operations.
   qualified in both modes.
 - Every mutable authoritative field has exactly one matrix owner and at least
   one typed authoring path; every supported invalidation/recovery state has a
-  valid typed next operation or an explicit operator-required disposition.
+  valid typed next operation. Operator authority may gate that operation but
+  cannot replace its command, transition, target state, or audit contract.
 - Command help, kernel authorization, doctor findings, and tests are generated
   from or mechanically checked against the same capability matrix so scattered
   phase allowlists cannot silently diverge.
@@ -1504,7 +1512,8 @@ negative transition corpus, idempotency model, and v2 behavior mapping.
 - Review staleness, publication gates, terminal truth, and cleanup eligibility
   remain fail-closed.
 - Every accepted recovery transition preserves a reachable typed correction or
-  terminal-disposition path; no supported state is a lifecycle dead end.
+  typed terminal-disposition command; no supported state is a lifecycle dead
+  end and no abstract operator-required sink satisfies reachability.
 - Removing or changing any authorization predicate causes mutation/property
   tests to fail, including correction invalidation and stale-CAS predicates.
 - Cleanup eligibility requires committed `closed_out` state and a retained
@@ -1749,10 +1758,11 @@ can appear passed.
 **Objective:** Implement independent exact-revision review assignment, result
 recording, staleness, finding disposition, and publication authorization.
 
-**Scope:** `review assign/record/status`, structurally bound reviewer principals,
+**Scope:** `review assign/record/recover/status`, structurally bound reviewer principals,
 independence enforcement and policy-only limitation handling, exact
 scope/revision identity, findings and dispositions, non-substantive change
-proof, mode-bound publication intent, and fail-closed review guard.
+proof, typed recovery provenance and invalidation, mode-bound publication
+intent, and fail-closed review guard.
 
 **Non-goals:** Hosting model providers, merging PRs, watching checks, terminal
 finish, cleanup, or treating review prose as state authority.
@@ -1762,14 +1772,22 @@ finish, cleanup, or treating review prose as state authority.
 
 **Deliverables:** Review schemas, authenticated/provider-evidence reviewer
 principal model, independence predicate and typed override boundary, staleness
-classifier, finding model, publication guard, typed intents, mode-bound
-publication authorization evidence, and review fixture corpus.
+classifier, finding model, `review recover` transition and command, publication
+guard, typed intents, mode-bound publication authorization evidence, and review
+fixture corpus.
 
 **Acceptance criteria:**
 
 - Review names exact revision, scope, reviewer, findings, and dispositions.
 - Substantive head changes stale review; non-substantive exceptions require
   deterministic proof.
+- `review recover` is accepted only from matrix-declared pre-terminal states,
+  requires actor/reason and stale-truth provenance, returns to the exact
+  correction phase, and atomically clears every dependent field declared by
+  the capability row before a card correction can proceed.
+- Recovery followed by a semantic card correction and fresh review is a
+  complete executable path; direct state/card edits and abstract operator
+  dispositions cannot satisfy it.
 - Publication fails closed on missing, stale, blocked, or actionable review.
 - Model/provider output is evidence input, never direct lifecycle authority.
 - Same-principal implementation/review/publication is rejected; policy-only
@@ -1784,13 +1802,15 @@ publication authorization evidence, and review fixture corpus.
   non-closing-only relation.
 
 **Validation proof:** Exact-head/staleness matrix, independence-policy tests,
-finding lifecycle tests, non-substantive proof negatives, same/split-repository
-positive and negative linkage matrices, publication guard tests, and
-tampered-review fixtures.
+finding lifecycle tests, recover/correct/re-review positive journeys, wrong
+phase/provenance/invalidation negatives, non-substantive proof negatives,
+same/split-repository positive and negative linkage matrices, publication guard
+tests, and tampered-review fixtures.
 
 **Stop conditions:** Review can approve an unknown revision, actionable findings
-can be hidden, publication can bypass review, linkage mode is implicit or
-ambiguous, or provider identity is overstated.
+can be hidden, recovery can strand a record or leave dependent truth current,
+publication can bypass review, linkage mode is implicit or ambiguous, or
+provider identity is overstated.
 
 ### V3-13: Implement GitHub Adapter And Read-Only Observation
 
@@ -2047,7 +2067,8 @@ the operator has not explicitly approved removal.
   predicate, invalidation rule, and next valid command; no scattered phase
   allowlist is accepted as authority.
 - Every supported recovery state is graph-proven to reach a valid typed repair
-  or explicit operator-required terminal disposition.
+  or typed terminal-disposition command; operator approval is an input to that
+  command, never a substitute for an executable edge.
 - State is the sole atomic commit point.
 - Six cards are deterministic generated projections.
 - Review is exact and blocks publication when stale.
