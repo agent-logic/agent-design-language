@@ -159,11 +159,15 @@ pub fn verify_server_identity(
     trust_roots: RootCertStore,
     server_name: &str,
 ) -> Result<(), TlsConfigError> {
-    if identity.certificate_chain.len() < 2 {
-        return Err(TlsConfigError::InvalidCertificateChain(
-            "server identity must include a CA-issued leaf and its intermediate chain".to_owned(),
-        ));
-    }
+    verify_server_identity_at(identity, trust_roots, server_name, UnixTime::now())
+}
+
+fn verify_server_identity_at(
+    identity: &TlsIdentity,
+    trust_roots: RootCertStore,
+    server_name: &str,
+    now: UnixTime,
+) -> Result<(), TlsConfigError> {
     let server_name = ServerName::try_from(server_name.to_owned())
         .map_err(|error| TlsConfigError::Configuration(error.to_string()))?;
     let verifier =
@@ -176,7 +180,7 @@ pub fn verify_server_identity(
             &identity.certificate_chain[1..],
             &server_name,
             &[],
-            UnixTime::now(),
+            now,
         )
         .map_err(|error| TlsConfigError::InvalidCertificateChain(error.to_string()))?;
     Ok(())
@@ -264,7 +268,11 @@ mod tests {
         ExtendedKeyUsagePurpose, IsCa, KeyPair,
     };
 
-    use super::{parse_identity, parse_trust_roots, verify_server_identity};
+    use std::time::Duration;
+
+    use rustls::pki_types::UnixTime;
+
+    use super::{parse_identity, parse_trust_roots, verify_server_identity_at};
 
     fn identity(
         not_before: (i32, u8, u8),
@@ -283,21 +291,21 @@ mod tests {
         params.not_after = date_time_ymd(not_after.0, not_after.1, not_after.2);
         params.extended_key_usages = vec![usage];
         let leaf = params.signed_by(&key, &ca).unwrap();
-        let chain = format!("{}{}", leaf.pem(), ca.pem());
         (
-            parse_identity(chain.as_bytes(), key.serialize_pem().as_bytes()).unwrap(),
+            parse_identity(leaf.pem().as_bytes(), key.serialize_pem().as_bytes()).unwrap(),
             parse_trust_roots(ca.pem().as_bytes()).unwrap(),
         )
     }
 
     #[test]
     fn server_identity_validation_rejects_time_and_usage_failures() {
+        let verification_time = UnixTime::since_unix_epoch(Duration::from_secs(1_893_456_000));
         let (valid, roots) = identity(
             (2020, 1, 1),
             (2036, 1, 1),
             ExtendedKeyUsagePurpose::ServerAuth,
         );
-        assert!(verify_server_identity(&valid, roots, "localhost").is_ok());
+        assert!(verify_server_identity_at(&valid, roots, "localhost", verification_time).is_ok());
 
         for (not_before, not_after, usage) in [
             (
@@ -306,8 +314,8 @@ mod tests {
                 ExtendedKeyUsagePurpose::ServerAuth,
             ),
             (
-                (2035, 1, 1),
-                (2036, 1, 1),
+                (2031, 1, 1),
+                (2032, 1, 1),
                 ExtendedKeyUsagePurpose::ServerAuth,
             ),
             (
@@ -317,7 +325,10 @@ mod tests {
             ),
         ] {
             let (identity, roots) = identity(not_before, not_after, usage);
-            assert!(verify_server_identity(&identity, roots, "localhost").is_err());
+            assert!(
+                verify_server_identity_at(&identity, roots, "localhost", verification_time)
+                    .is_err()
+            );
         }
     }
 }

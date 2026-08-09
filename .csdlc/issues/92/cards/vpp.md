@@ -50,6 +50,30 @@ Diagram: .csdlc/prepared/issues/92/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "webpki-certificate-policy",
+    "proof_role": "Prove deterministic WebPKI acceptance of a directly root-signed server leaf and rejection of expired, not-yet-valid, and clientAuth-only identities.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "tls::tests::server_identity_validation_rejects_time_and_usage_failures"
+    ],
+    "parallel_group": "runtime-tls",
+    "defer_reason": null
+  },
+  {
     "lane": "observatory-wss",
     "proof_role": "Prove Axum WSS behavior, ordinary server TLS, authentication, rotation, revocation, and ACIP contract parity.",
     "acceptance_ids": [
@@ -185,6 +209,7 @@ Tokens: 50000
 ## Commands
 
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib tls::tests::server_identity_validation_rejects_time_and_usage_failures`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_transport`
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test protocol_adapters`

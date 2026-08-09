@@ -141,6 +141,7 @@ struct ProductionFixture {
     master_log: PathBuf,
     log_audit: PathBuf,
     tls_connector: tokio_rustls::TlsConnector,
+    tls_server_name: String,
     continuity_verifying_key: VerifyingKey,
     observatory_token: String,
     readiness_timeout: Duration,
@@ -303,6 +304,8 @@ impl ProductionFixture {
         let trust_roots = tls_trust_roots
             .canonicalize()
             .map_err(|error| format!("TLS trust roots are unavailable: {error}"))?;
+        let tls_server_name =
+            toml_string(&init_document, &["api", "tls", "server_name"])?.to_owned();
 
         let control_key = SigningKey::from_bytes(&[17_u8; 32]);
         let operation_key = SigningKey::from_bytes(&[29_u8; 32]);
@@ -398,7 +401,7 @@ impl ProductionFixture {
 
         let mut roots = RootCertStore::empty();
         roots
-            .add(CertificateDer::from(read_pem_der(&public_certificate)?))
+            .add(CertificateDer::from(read_pem_der(&trust_roots)?))
             .map_err(|error| error.to_string())?;
         let client_config = ClientConfig::builder()
             .with_root_certificates(roots)
@@ -412,6 +415,7 @@ impl ProductionFixture {
             master_log,
             log_audit,
             tls_connector: tokio_rustls::TlsConnector::from(Arc::new(client_config)),
+            tls_server_name,
             continuity_verifying_key: continuity_key.verifying_key(),
             observatory_token,
             readiness_timeout,
@@ -1646,15 +1650,16 @@ async fn authenticated_observatory(
     let stream = tokio::net::TcpStream::connect(fixture.address)
         .await
         .map_err(|error| error.to_string())?;
-    let server_name = ServerName::try_from("localhost").map_err(|error| error.to_string())?;
+    let server_name =
+        ServerName::try_from(fixture.tls_server_name.clone()).map_err(|error| error.to_string())?;
     let mut stream = fixture
         .tls_connector
         .connect(server_name, stream)
         .await
         .map_err(|error| error.to_string())?;
     let request = format!(
-        "GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer {}\r\nConnection: close\r\n\r\n",
-        fixture.observatory_token
+        "GET /v1/observatory HTTP/1.1\r\nHost: {}\r\nAuthorization: Bearer {}\r\nConnection: close\r\n\r\n",
+        fixture.tls_server_name, fixture.observatory_token
     );
     stream
         .write_all(request.as_bytes())

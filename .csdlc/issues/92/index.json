@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "bound",
-  "generation": 3,
-  "digest": "9e45320d8431f17171be5de82b4bc821dc2453bde27e1e0f35b70f71bd5c2d89",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "658469be4e8fbb158e96e371bbc28baa724c2ee8b554f94be9df800c4a76bb7c",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f77fa7784935cb2c99b353e9555dad33ee2b5e63bbe07ac750ab212d8f30715b",
+      "values_digest": "097a068334709e06a420e325b9108ceead94c0568ec05b3f3b070413f26a57dc",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "c506a3fc223a9cce1b7c0ed2a8df3e0e9789ccda115360a8fee8a80be5856486",
+      "values_digest": "c10a874c3c4803af3e98b16dfc51f73533cb8c0cdd2b691e483146b021d31133",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "626ed5b546c3e4f1ab55f5983cbd012451d4c61ec593ddfae4622a240a0f64f3",
-      "rendered_digest": "12428f0600390363462328518c4aa3968b96347689aced0eee050241f7f2f252",
-      "ast_digest": "f0d6cf8b408cef599e91cd2aee3580fbf1e9119af9b87da1e9d8dd88bcf46799"
+      "values_digest": "faa7373b550402034437f18081c086d6caaaab79dc26eafb6218ddcb4b92aed8",
+      "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
+      "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "7989fa61154ac27b0c081de92f5951ae07df46cbe2b7ef5b976ef3aefc65b2a3",
-      "rendered_digest": "6225a0bb80f95e9deb0e48ec395ba9e4932f800b5b7162e85ad7be6b9d6e720c",
-      "ast_digest": "c42212f6d1a623cf755dfb335d41b521139922c1f75a1a57cb0b03658cd55415"
+      "values_digest": "65b8b6583ea0b129f79f4a20635d971b7938a260d5b05f3902b1e91177848587",
+      "rendered_digest": "f53b5decc41b809269411b1773172a6dd979b2f70d6801257ecc2855804edc6e",
+      "ast_digest": "e3d5630c564cf5acb54d1adbee937bb5d34e44b3bab74237430e267e957ef279"
     },
     "srp": {
-      "values_digest": "8a9ed1c525c02b1bfbf6ad9ae70e2bd73d4b90abe621ae0558d389ecd05050b1",
+      "values_digest": "ab0c01b07b43929e94cbd8cd5230e569fbb858b5228ee7af4dec889ed9cd5f28",
       "rendered_digest": "870ae625fba450214b8053f4545b53372aa95cf798aefb4d7cd0aa5a5d3150f6",
       "ast_digest": "5b1cac9339d6c8aaa1177ca5453cc4679b11cd81701d9cd76b07177a04f64f88"
     },
     "sor": {
-      "values_digest": "0294a86d6e8080c51ad36817f14a24ef264c7da303905fd72071f34bc8253ccc",
-      "rendered_digest": "033039b2f705d3f6b0ae965b70d477ad6f320630ccc41624e98e09ab877e557f",
-      "ast_digest": "a652a971f2763a101e5e133948268435fed2e2fc7ed32520c002e77173bddfe3"
+      "values_digest": "50e939eef40945e492308ebaf31dba0f6e51146d81e06e4183b56e1a175c7d37",
+      "rendered_digest": "6ceeabeb23e02a535280bed0679dd1d692bfb23710e77c8bac79cad6d783079d",
+      "ast_digest": "1307ff4433c7d5477408263d10e8c1ef4804d68a832e6c0f338d608ebdac0fc5"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Implementation evidence is retained and the issue is ready for exact-head independent review."
     }
   ],
   "audit": [
@@ -106,6 +113,69 @@
       "actor": "operator-directed-contract-simplification",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Record removal of obsolete Runtime certificate issuance and host-trust mutation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Record shared Rustls policy and Axum listener integration.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Record Quinn reuse of shared Rustls trust policy and truthful post-handshake identity semantics.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Record reconciliation of Runtime init, OpenAPI, operational proof, browser, Unity, and architecture surfaces.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Record focused CA-chain, DNS, validity, key-usage, mTLS, and negative regression coverage.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Record the exact implemented Runtime TLS and mTLS consolidation before independent review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed Runtime-owned local PKI and host-trust mutation; introduced one shared Rustls identity/trust/configuration layer for Axum and Quinn; corrected Runtime init, OpenAPI, operational/browser/Unity proof contracts; and added focused certificate and mTLS regressions.\",\"changes\":[\"Deleted production local self-signed issuance, bootstrap CLI, reissue, and trust-store mutation paths.\",\"Routed Runtime HTTP/WSS through shared Axum/Rustls configuration with pre-bind WebPKI chain, validity, usage, and DNS verification.\",\"Reused the shared Rustls policy for Quinn Guardian mTLS and protocol-adapter mTLS without changing Guardian authorization.\",\"Aligned Runtime init, OpenAPI, proof scripts, HTML Observatory, Unity, and architecture documentation with externally provisioned certificate ownership.\"],\"artifacts\":[\"adl-runtime-kernel/src/tls.rs\",\"infra/runtime-v3/runtime-init.toml\",\"docs/api/runtime-v3/v1/openapi.json\",\"docs/api/runtime-v3/v1/acip.openapi.json\",\"adl-runtime/tests/support/tls-fixtures/\",\".csdlc/prepared/issues/92/design.md\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Implementation evidence is retained and the issue is ready for exact-head independent review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Retain the exact focused validation outcomes observed before final-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed Runtime-owned local PKI and unified Runtime transport configuration around one Rustls policy, Axum HTTP/WSS, and Quinn Guardian QUIC, with externally provisioned certificate ownership and focused fail-closed proof.\",\"changes\":[\"Deleted production local self-signed issuance, bootstrap CLI, reissue, and trust-store mutation paths.\",\"Routed Runtime HTTP/WSS through shared Axum/Rustls configuration with pre-bind WebPKI chain, validity, usage, and DNS verification.\",\"Reused the shared Rustls policy for Quinn Guardian mTLS and protocol-adapter mTLS without changing Guardian authorization.\",\"Aligned Runtime init, OpenAPI, proof scripts, HTML Observatory, Unity, and architecture documentation with externally provisioned certificate ownership.\"],\"artifacts\":[\"adl-runtime-kernel/src/tls.rs\",\"infra/runtime-v3/runtime-init.toml\",\"docs/api/runtime-v3/v1/openapi.json\",\"docs/api/runtime-v3/v1/acip.openapi.json\",\"adl-runtime/tests/support/tls-fixtures/\",\".csdlc/prepared/issues/92/design.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"purpose\":\"Axum HTTPS control, shared startup validation, and bounded shutdown\",\"outcome\":\"passed\",\"evidence_ref\":\"23 passed at final implementation head\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"purpose\":\"Observatory WSS authentication and revocation\",\"outcome\":\"passed\",\"evidence_ref\":\"6 passed at final implementation head\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"protocol_adapters\"],\"purpose\":\"Protocol-adapter mutual TLS and authority rejection\",\"outcome\":\"passed\",\"evidence_ref\":\"13 passed at final implementation head\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\"],\"purpose\":\"Guardian Quinn mutual TLS and identity binding\",\"outcome\":\"passed\",\"evidence_ref\":\"14 passed at final implementation head\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Runtime WSS, ACIP contract, and certificate rejection matrix\",\"outcome\":\"passed\",\"evidence_ref\":\"5 passed at final implementation head\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"tls::tests::server_identity_validation_rejects_time_and_usage_failures\"],\"purpose\":\"Expired, not-yet-valid, and unsuitable server-auth certificate rejection\",\"outcome\":\"passed\",\"evidence_ref\":\"1 passed at final implementation head 9acff0a70\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"init_fixture_uses_externally_provisioned_tls\"],\"purpose\":\"External certificate lifecycle fixture\",\"outcome\":\"passed\",\"evidence_ref\":\"1 passed at final implementation head\"},{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--all-targets\"],\"purpose\":\"All-target compile and contract hygiene\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime and kernel all-target checks plus JSON, JavaScript, shell, and diff hygiene passed\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Replace obsolete local-TLS validation commands with the exact focused Axum, WSS, Rustls, and Quinn proof lanes used by the consolidated design.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"axum-runtime-tls\",\"proof_role\":\"Prove shared Axum server TLS startup, DNS and chain validation, HTTPS control behavior, and bounded shutdown.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"webpki-certificate-policy\",\"proof_role\":\"Prove deterministic WebPKI acceptance of a directly root-signed server leaf and rejection of expired, not-yet-valid, and clientAuth-only identities.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"tls::tests::server_identity_validation_rejects_time_and_usage_failures\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"observatory-wss\",\"proof_role\":\"Prove Axum WSS behavior, ordinary server TLS, authentication, rotation, revocation, and ACIP contract parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"guardian-quinn-mtls\",\"proof_role\":\"Prove Quinn remains the Guardian transport and shares the Rustls identity and trust policy without weakening mTLS.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\"],\"parallel_group\":\"guardian-tls\",\"defer_reason\":null},{\"lane\":\"protocol-mtls\",\"proof_role\":\"Prove provider and cloud protocol adapters require authenticated Rustls transport and reject unknown server and client authorities.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"protocol_adapters\"],\"parallel_group\":\"guardian-tls\",\"defer_reason\":null},{\"lane\":\"external-certificate-fixture\",\"proof_role\":\"Prove lifecycle setup consumes externally provisioned certificate, key, and trust roots without Runtime issuance or host trust mutation.\",\"acceptance_ids\":[\"AC-3\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"init_fixture_uses_externally_provisioned_tls\"],\"parallel_group\":\"contracts\",\"defer_reason\":null},{\"lane\":\"tls-contract-hygiene\",\"proof_role\":\"Prove forbidden production trust shortcuts are absent and scripts, JSON contracts, and the focused diff remain structurally valid.\",\"acceptance_ids\":[\"AC-3\",\"AC-7\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"contracts\",\"defer_reason\":null}]}"
     }
   ]
 }

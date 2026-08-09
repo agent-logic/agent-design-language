@@ -407,18 +407,20 @@ fn acip_schema_roundtrip_negatives() {
     assert_eq!(
         websocket["clientFrames"],
         serde_json::json!([
-            {
-                "format": "binary",
-                "schema": "adl.csm.acip_carrier.protobuf_envelope.v1"
-            }
+            {"$ref": "#/components/schemas/NegotiationFrame"},
+            {"$ref": "#/components/schemas/CarrierFrame"}
         ])
     );
     assert_eq!(
         websocket["serverFrames"],
         serde_json::json!([
-            {"$ref": "#/components/schemas/DispatchResult"}
+            {"$ref": "#/components/schemas/NegotiatedFrame"},
+            {"$ref": "#/components/schemas/CarrierAckFrame"}
         ])
     );
+    assert_eq!(websocket["textFramesOnly"], true);
+    assert_eq!(websocket["serverTls"], "external-ca-platform-trusted");
+    assert_eq!(websocket["listenerMutualTls"], false);
 
     let fields = protobuf_message_fields(proto);
     let expected_fields = BTreeMap::from([

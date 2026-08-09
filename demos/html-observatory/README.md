@@ -165,10 +165,8 @@ create 10,000 DOM nodes.
 
 For an externally reachable polis, copy that init file to an operator-local
 path and configure the runtime host interface, public route, certificate paths,
-and allowed origins there. The checked-in browser client still restricts
-Runtime v3 to its historical localhost API base. Real-DNS browser and WSS
-consumption is therefore deferred until a separate client implementation issue
-removes that restriction and proves ordinary platform trust. Native clients may still
+and allowed origins there. The checked-in browser client restricts Runtime v3
+to the configured `runtime.dev.agent-logic.ai` HTTPS API base. Native clients may still
 read the runtime-owned Observatory feed without an Origin header when the
 operator's deployment policy allows it.
 
@@ -209,7 +207,7 @@ started itself:
 ADL_PLAYWRIGHT_MODULE=<absolute-playwright-1.60.0-entrypoint> \
 ADL_V092_TLS_CERT=<absolute-external-full-chain> \
 ADL_V092_TLS_KEY=<absolute-current-private-key> \
-ADL_V092_RUNTIME_COMMAND_JSON='["<runtime-binary>","serve","--init","<isolated-runtime-init>"]' \
+ADL_V092_RUNTIME_COMMAND_JSON='["<guardian-binary>","--init","<isolated-runtime-init>"]' \
 node adl/tools/validate_v092_browser_trusted_observatory.mjs \
   --browser chrome \
   --require-trusted-tls \
@@ -221,8 +219,8 @@ node adl/tools/validate_v092_browser_trusted_observatory.mjs \
 The validator uses ordinary platform trust only. It does not pass a custom CA
 to curl, Node, or Chrome and does not install trust. It rejects localhost and IP
 endpoint identities, browser interstitials, and console/network TLS failures.
-The live browser lane remains deferred until the checked-in client accepts the
-real-DNS Runtime API base; this document does not claim that proof has run.
+This document does not claim a live browser proof until that command completes
+against the deployed real-DNS endpoints.
 
 Print the required native-platform dispositions without launching services:
 

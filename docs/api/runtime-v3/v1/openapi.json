@@ -138,7 +138,7 @@
           "acip"
         ],
         "summary": "Open the authenticated bidirectional ACIP WebSocket carrier",
-        "description": "Upgrades to WebSocket after bearer authentication. The server sends an authenticated session frame, accepts bounded ACIP Protobuf binary envelopes, dispatches each envelope through canonical ingress to the runtime service named by its route, and returns a structured completion or rejection frame.",
+        "description": "Upgrades over ordinary server-authenticated TLS after bearer authentication and exact Origin validation. The server sends an authenticated JSON session frame. Clients negotiate ACIP v1 with a text JSON frame, then send bounded text JSON carrier frames using deterministic JSON or base64-encoded Protobuf payloads. Binary WebSocket frames are rejected.",
         "security": [
           {
             "runtimeBearer": []
@@ -156,23 +156,42 @@
           "scheme": "wss",
           "maxFrameBytes": 65536,
           "authentication": "http_bearer_upgrade_header",
+          "serverTls": "external-ca-platform-trusted",
+          "listenerMutualTls": false,
           "serverFirstFrame": {
             "$ref": "#/components/schemas/AcipAuthenticatedFrame"
           },
           "clientFrames": [
             {
-              "binarySchema": "adl.csm.acip_carrier.protobuf_envelope.v1",
-              "maxBytes": 65536
+              "format": "text-json",
+              "type": "negotiate"
+            },
+            {
+              "format": "text-json",
+              "type": "acip",
+              "encodings": [
+                "deterministic-json",
+                "protobuf-base64"
+              ]
             }
           ],
           "serverFrames": [
             {
-              "$ref": "#/components/schemas/AcipDispatchResult"
+              "format": "text-json",
+              "types": [
+                "negotiated",
+                "ack"
+              ]
             }
           ],
           "policyCloseReasons": [
             "credential_revoked",
-            "binary_acip_frame_required"
+            "frame_size_refused",
+            "unsupported_frame",
+            "invalid_json",
+            "negotiation_refused",
+            "negotiation_required",
+            "invalid_acip_frame"
           ],
           "bidirectional": true
         }

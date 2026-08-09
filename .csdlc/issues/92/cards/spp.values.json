@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime-v3] Unify TLS/mTLS and retire self-signed Runtime certificates",
     "slug": "runtime-tls-standardization",
     "version": "v0.92",
-    "generation": 3
+    "generation": 12
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-4",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -42,7 +42,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -52,7 +52,7 @@
             "AC-8",
             "AC-10"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -62,7 +62,7 @@
             "AC-5",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S6",
