@@ -79,7 +79,7 @@ raise "episode 001 checkpoint is not merged" unless pr69&.fetch("state") == "mer
 raise "publication was implicitly authorized" unless gates.dig("publication_authorization", "status") == "not_authorized"
 
 umbrella = JSON.parse((ROOT / ".csdlc/issues/5854/index.json").read)
-raise "umbrella is not bound" unless umbrella.fetch("phase") == "bound"
+raise "umbrella is outside its readiness lifecycle" unless %w[bound implemented].include?(umbrella.fetch("phase"))
 raise "umbrella code repository mismatch" unless umbrella.fetch("code_repository") == EXPECTED_CODE_REPOSITORY
 
 puts "sprint 5854 readiness: PASS"

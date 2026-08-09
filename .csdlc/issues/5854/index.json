@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5854,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
-  "phase": "initialized",
-  "generation": 5,
-  "digest": "7e1e41ce24aceadc2a3cfd631d0412d147791e375efb15c690d51462cca3706b",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 8,
+  "digest": "420389e0e60a9d2028bf5a54ba5ef555c8728a252ad1232a9a233e4e0caab65e",
+  "branch": "codex/5854-sprint5-readiness-current",
+  "worktree": "/Volumes/FastWork/adl-standalone-5854",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +25,52 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f7e7d0f0196edb6193ee8a65938cda7fe66e187e9413bf678f660e1764c35f5e",
-      "rendered_digest": "8fee48277bfb7c094378025f398f9829196b19a47d2aaf7d16300cd7759ffe52",
-      "ast_digest": "38da90194168f0266a7ef723e6e534e1ab1141ae2fedb66a5654178640d6be38"
+      "values_digest": "ac8b2599ab9fe41f6ea5775fac92b988e6901bc99c71aad25129a5fef37f859f",
+      "rendered_digest": "d3df0ef11d865901402c525fce77e4cd00fdcc3cb88022a725c657c136d4c37e",
+      "ast_digest": "8ba7e039806c0a9fd3e854c75056dd2a777f535badeef6791d8e5414ac24bbcf"
     },
     "stp": {
-      "values_digest": "251153e09fe634eb005a1f6fb7e431434a500c6b18f397048f51f709d8319a8f",
+      "values_digest": "9c317cb02f7bc082d0237d207efd6806dd614199f0339b9d77f7192dfb674ed3",
       "rendered_digest": "c7f60e117f8ab8f7e72fe3db779341549428f0a9e699b59b8a3cc567f6fba9e3",
       "ast_digest": "91e1866856052c759ece29c863e93703f6620c385f4098ff30d3924c8d4090ed"
     },
     "spp": {
-      "values_digest": "643fde1616a97f3f5261d6daedf36dafa3be49610e21f197bca493be853ecfdf",
-      "rendered_digest": "1037f6d1f516c7289b9789d6191ccf3efe961da82139faaa89cfc6c3380aa69d",
-      "ast_digest": "0e97ae6f64bda558c4ddab9466ddacf74d921959d6e943b0dcc24323e0f041ff"
+      "values_digest": "07abb97e467731b190f26ceca46b96ea831f42491d30b36e811ca3be587154f1",
+      "rendered_digest": "4f86890cd83ce6798db8c7662cc094a59414bb9e348cd17e35810be7bd7d9ad9",
+      "ast_digest": "495d9224da98dd86cacc04f34e9bb97e6bc205361c08d4fe13a167adcacbebae"
     },
     "vpp": {
-      "values_digest": "9ccbb7b37931f5b239fb3ac379341f7e863503e9fd3514a6b5ee8e4a88d4f421",
+      "values_digest": "70f31b3d64fa574e6764a00bb87933f8dd8a87e45591c70f53361d96679b700f",
       "rendered_digest": "cd02de26115a4c48a006acffa498715d4ede77fc8f01d353b724c1f5ade5e141",
       "ast_digest": "f0d2f73b3131227d9ecd3d2b948bd038d4380d6a4782d08a11fb5b095911a7f1"
     },
     "srp": {
-      "values_digest": "4e211d4132c9399c6da287cb42cc4f53cadbf2246138d4d52930ed1e39fe555c",
+      "values_digest": "45b019fb18cf77da5a599c17cf5def0e46ffd676d6bed3c49ae9e45e54a1a86d",
       "rendered_digest": "2621169d053775c3fbb79b5a99e4b6ca2d698fceae1922c9d7a9ea2614ba752e",
       "ast_digest": "564fe2070cc89dc485d48954a81c75f52c9df151b43b22ebb473e1ac384604c2"
     },
     "sor": {
-      "values_digest": "f51de6c6d7293ccf07aadc5b95526cda2b7106906177c9223e6e8baa5ffeb151",
+      "values_digest": "0de31d373fca139b220e4cbb282c9faa65451f052181f1b309e3db70c39399ac",
       "rendered_digest": "44ed072e7d9f0a8ea2c95aa550d4550e836f42136c747eccd8dc2d9d8a236b24",
       "ast_digest": "2a386f63994e6887eb04d5c2772de1d185d93d9de2294432bbb7849ce6b62f71"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -104,6 +120,34 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Replace the borrowed Sprint 1 validator with the Sprint 5 issue-specific readiness proof.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v092-sprint5-readiness\",\"proof_role\":\"Prove current Sprint 5 membership, state classification, bind-safe child contracts, dependency gates, publication boundaries, and umbrella ownership.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"parallel_group\":\"v092-docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Reconcile the umbrella outcome with terminal WP-24 and the active non-closing WP-24A checkpoint lane.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"A reviewed Sprint 5 coordination packet routes bind-ready #5835, #5836, #5838, #5839, and #5840, preserves terminal WP-24, and tracks WP-24A episode checkpoints without false completion or publication claims.\",\"operation\":\"replan\",\"previous_value\":\"A reviewable sprint coordination lane can route #5835, #5836, #5838, #5839, #5840, #5844, #5845 through their own typed lifecycles without scope collision or false completion.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Align operator constraints with FastWork storage, bounded execution, and publication authority.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use typed C-SDLC v2 lifecycle only\",\"Never write tracked changes on main\",\"Use repo-native GitHub tools only\",\"The umbrella coordinates child sessions and never implements child code\",\"Every child session reads AGENTS.md, binds its own worktree, and creates its own goal before implementation\",\"Use FastWork for child worktrees and substantial generated artifacts.\",\"Do not execute child deliverables from the umbrella worktree.\",\"Do not run optional proof jobs or publish private media without explicit authorization.\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Reconcile the plan with current terminal, active-checkpoint, and dependency-gated child truth.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Validate the current child wave, preserve terminal WP-24, continue WP-24A as non-closing checkpoints, route only dependency-satisfied children to separate FastWork sessions, and synthesize one integrated sprint review after terminal child truth.\",\"operation\":\"replan\",\"previous_value\":\"Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.\"}"
     }
   ]
 }

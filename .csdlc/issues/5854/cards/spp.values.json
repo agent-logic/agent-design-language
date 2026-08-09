@@ -7,14 +7,14 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 5
+    "generation": 8
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
-      "summary": "Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.",
+      "plan_revision": 3,
+      "summary": "Validate the current child wave, preserve terminal WP-24, continue WP-24A as non-closing checkpoints, route only dependency-satisfied children to separate FastWork sessions, and synthesize one integrated sprint review after terminal child truth.",
       "steps": [
         {
           "id": "readiness",

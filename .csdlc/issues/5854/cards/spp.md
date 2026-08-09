@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.
+Validate the current child wave, preserve terminal WP-24, continue WP-24A as non-closing checkpoints, route only dependency-satisfied children to separate FastWork sessions, and synthesize one integrated sprint review after terminal child truth.
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 

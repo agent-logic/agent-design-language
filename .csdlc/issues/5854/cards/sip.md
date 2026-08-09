@@ -16,7 +16,7 @@ Coordinate real demonstrations, consumer proofs, governance handoff, proof cover
 
 ## Required Outcome
 
-A reviewable sprint coordination lane can route #5835, #5836, #5838, #5839, #5840, #5844, #5845 through their own typed lifecycles without scope collision or false completion.
+A reviewed Sprint 5 coordination packet routes bind-ready #5835, #5836, #5838, #5839, and #5840, preserves terminal WP-24, and tracks WP-24A episode checkpoints without false completion or publication claims.
 
 ## Scope
 
@@ -39,7 +39,9 @@ A reviewable sprint coordination lane can route #5835, #5836, #5838, #5839, #584
 
 - Use typed C-SDLC v2 lifecycle only
 - Never write tracked changes on main
-- Never use /private/tmp
 - Use repo-native GitHub tools only
 - The umbrella coordinates child sessions and never implements child code
 - Every child session reads AGENTS.md, binds its own worktree, and creates its own goal before implementation
+- Use FastWork for child worktrees and substantial generated artifacts.
+- Do not execute child deliverables from the umbrella worktree.
+- Do not run optional proof jobs or publish private media without explicit authorization.
