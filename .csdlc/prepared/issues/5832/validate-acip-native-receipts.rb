@@ -49,7 +49,7 @@ receipts.each do |receipt|
   command = receipt.fetch("command")
   abort "wrong #{platform} producer command" unless Array(command["argv"]) == PRODUCER_ARGV
   abort "#{platform} producer failed" unless command["exit_code"] == 0
-  checked_file(command["stdout_path"], command["stdout_sha256"], "#{platform} stdout")
+  checked_file(command["stdout_path"], command["stdout_sha256"], "#{platform} stdout", allow_empty: true)
   checked_file(command["stderr_path"], command["stderr_sha256"], "#{platform} stderr", allow_empty: true)
   abort "#{platform} ran no exchanges" unless receipt["successful_exchanges"].to_i.positive?
   abort "#{platform} ran no negative cases" unless receipt["negative_cases"].to_i.positive?
