@@ -16,10 +16,11 @@ Implement bounded seed discovery and authenticated join without making discovery
 
 ## Deliverables
 
-- Implement bounded seed discovery and authenticated join without making discovery an authority source.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
+- adl-runtime/src/distributed/discovery.rs
+- adl-runtime/tests/distributed_discovery.rs
+- Focused positive and fail-closed negative tests
+- Digest-bound exact-revision execution proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

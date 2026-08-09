@@ -1,0 +1,25 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5866,
+  "source_revision": "0524ffe6721ea6492f0ba13fb9af732b42dbfd6a",
+  "test_output": ".csdlc/evidence/5866/remediation/distributed-discovery.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/discovery.rs": "c405cd4bee84f458eb0d166941a7093f9e56d825c7c93bb7dd1fabb944b6b1bf",
+    "adl-runtime/tests/distributed_discovery.rs": "b086dde04ee545f8a62073033cf9ca269274d450d3dbc1a967cbecf1e60a8c46"
+  },
+  "cases": [
+    {"case": "configured_seed_without_enrollment", "test": "configured_seed_identity_is_not_enrollment_authority", "result": "rejected"},
+    {"case": "cross_call_request_replay", "test": "proposal_derivation_is_deterministic_and_future_requests_fail_closed", "result": "rejected"},
+    {"case": "cross_call_proposal_replay", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "duplicate_configured_seed", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "stale_seed_transport_generation", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "stale_wrong_domain_or_replayed_proposal", "test": "stale_wrong_domain_and_replayed_proposals_fail_closed", "result": "rejected"},
+    {"case": "future_request", "test": "proposal_derivation_is_deterministic_and_future_requests_fail_closed", "result": "rejected"},
+    {"case": "malformed_or_wrong_transport_generation", "test": "malformed_payload_and_transport_generation_mismatch_fail_closed", "result": "fail_closed"},
+    {"case": "tampered_expiry_or_inconsistent_authority", "test": "tampered_expiry_and_inconsistent_authority_identity_fail_closed", "result": "fail_closed"},
+    {"case": "revoked_rotated_or_expired_during_exchange", "test": "expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed", "result": "rejected"},
+    {"case": "unsafe_time_policy", "test": "unsafe_time_policy_bounds_are_rejected", "result": "rejected"},
+    {"case": "seed_and_message_resource_bounds", "test": "seed_and_message_resource_bounds_reject_before_work", "result": "denied"},
+    {"case": "finite_timeout_and_cancellation", "test": "discovery_timeout_and_cancellation_are_finite", "result": "denied"}
+  ]
+}

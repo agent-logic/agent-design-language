@@ -7,18 +7,72 @@
     "title": "[v0.92][WP-04.04] Seed discovery and authenticated join",
     "slug": "v0-92-wp-04-04-seed-discovery-join",
     "version": "v0.92",
-    "generation": 8
+    "generation": 32
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "summary": "Implemented bounded authenticated seed discovery with complete identity and transport-generation binding, canonical Prost messages, and immediate-durability replay admission across restart.",
+      "actual_changes": [
+        "Bind candidate and seed identity plus transport-certificate generations into JoinRequest, JoinProposal, proposal identifiers, authenticated envelopes, live enrollment checks, and post-await admission.",
+        "Encode bounded typed discovery request and proposal messages with Prost and reject malformed, unknown-field, duplicate, reordered, or otherwise noncanonical protobuf encodings.",
+        "Persist request and proposal replay high-water entries in immediate-durability redb state, retain them through signed validity, validate durable state on open, and reject replay after restart.",
+        "Preserve configured seeds as bounded hints only and fail closed on rotation, revocation, wrong domain, stale generations, replay, timeout, cancellation, malformed input, unsafe database paths, corruption, and resource exhaustion."
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/discovery.rs",
+        "adl-runtime/tests/distributed_discovery.rs",
+        ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json",
+        ".csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_discovery",
+            "--no-tests=fail"
+          ],
+          "purpose": "Run the exact issue-owned positive and fail-closed discovery target including generation rotation, canonical protobuf, and durable restart replay coverage.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_discovery",
+            "--",
+            "-D",
+            "warnings",
+            "-A",
+            "clippy::absurd_extreme_comparisons"
+          ],
+          "purpose": "Run strict focused Clippy while allowing only the qualified pre-existing ACIP lint.",
+          "outcome": "passed",
+          "evidence_ref": "local:strict-focused-clippy"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5866/validate-proof-receipt.rb",
+            ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json"
+          ],
+          "purpose": "Validate the final two-revision generation-bound protobuf and durable-replay receipt.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
