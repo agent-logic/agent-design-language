@@ -1,1 +1,1 @@
-PASS: WP-04.10 source 03d6ce6055ed6a2c0b3b637a03bae89ddde5071f evidence edd6d6fc327bb6cb405d1b15d7fbc6acbf2aea9c logs, artifacts, negatives, and native receipts
+PASS: WP-04.10 source d2dd11bbfddc2f24a6afb849fd3fc417bf57b649 evidence derived from the single receipt introduction; logs, artifacts, negatives, and native receipts validated.
