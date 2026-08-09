@@ -412,7 +412,17 @@ tests never construct Clap commands.
 
 ```rust
 type SyncInit<T> = std::sync::OnceLock<Result<T, Arc<AppError>>>;
-type AsyncInit<T> = tokio::sync::OnceCell<Result<T, Arc<AppError>>>;
+type AsyncInitializer<T: ?Sized> = dyn Fn() -> std::pin::Pin<Box<
+    dyn std::future::Future<Output = Result<Arc<T>, Arc<AppError>>> + Send
+>> + Send + Sync;
+
+struct AsyncInit<T: ?Sized> {
+    state: std::sync::Mutex<AsyncInitState<T>>,
+    notify: Arc<tokio::sync::Notify>,
+    clock: Arc<dyn Clock>,
+    root_cancel: tokio_util::sync::CancellationToken,
+    initializer: Arc<AsyncInitializer<T>>,
+}
 
 pub struct App {
     pub io: Arc<dyn Io>,
@@ -425,9 +435,13 @@ pub struct App {
     config: SyncInit<Arc<Config>>,
     repository: AsyncInit<RepositoryContext>,
     issue: AsyncInit<IssueContext>,
-    github: AsyncInit<Arc<dyn GitHub>>,
+    github: AsyncInit<dyn GitHub>,
 }
 ```
+
+`AsyncInitializer<T>` is the object-safe boxed future factory returning
+`Result<Arc<T>, Arc<AppError>>`; `AsyncInit<T>` itself supplies the one `Arc`
+layer to every success accessor, including trait objects.
 
 Production construction wires real adapters. Test construction injects fakes.
 Lazy accessors initialize fallible or expensive dependencies only when a command
@@ -648,12 +662,21 @@ unsupported case.
 
 The authoritative artifact is
 `csdlc-v3/contracts/capabilities.v1.json`, validated by a derived
-`csdlc.capabilities.v1` schema. Every row contains `field_id`, `owner_card` or
-`owner_aggregate`, `authoring_phases`, `correction_phases`,
-`required_recovery_provenance`, `invalidates`, `audit_payload_schema`,
-`command`, `owner_issue`, and `test_ids`. Duplicate field IDs, unknown phases,
-missing commands/owners/tests, or a command not present in generated Clap help
-fail V3-01 and every downstream matrix-consistency lane.
+`csdlc.capabilities.v1` schema. It is a closed tagged union:
+
+- `kind: field` rows contain `field_id`, `owner_card` or `owner_aggregate`,
+  `authoring_phases`, `correction_phases`,
+  `required_recovery_provenance`, `invalidates`, `audit_payload_schema`,
+  `command`, `owner_issue`, and `test_ids`.
+- `kind: outcome` rows contain `outcome_code`, `producing_phases`,
+  `authorization_schema`, `command`, `target_phase` or
+  `no_transition_exit_class`, `invalidates`, `audit_payload_schema`,
+  `owner_issue`, and `test_ids`.
+
+Duplicate field IDs or outcome codes, unknown phases, a row that supplies both
+target and no-transition exit, missing commands/owners/tests, or a command not
+present in generated Clap help fail V3-01 and every downstream
+matrix-consistency lane.
 `audit_payload_schema` is a repository-relative JSON Pointer or `$ref` into the
 V3-01 versioned audit schema; inline unversioned schemas are rejected.
 `test_ids` are stable contract-case identifiers assigned in V3-01 before test
@@ -703,6 +726,9 @@ initialized
   -> merge_ready
   -> merged
   -> closed_out
+
+published | merge_ready
+  -- checkpoint_completed --> implemented
 ```
 
 The transition function is pure:
@@ -1012,6 +1038,17 @@ open and cannot advance that issue to `closed_out`; a later closing publication
 or explicit no-PR terminal outcome is required. Merge is not implicit. Whether
 `finish --merge` may become an explicitly authorized operation remains an
 operator decision.
+
+A successful merged `PartOf` checkpoint does not enter lifecycle phase
+`merged`. `finish` applies the non-terminal `checkpoint_completed` operation
+from `published` or `merge_ready` back to `implemented`, clears the current
+review/publication/readiness authorization, and retains the bound topology,
+append-only checkpoint receipt, normalized PR/linkage evidence, and audit event.
+That executable edge permits the next implementation slice to receive fresh
+review and publication. The capability matrix carries an outcome row with
+`authorization_schema: null`, target `implemented`, exact invalidations, and
+tests proving repeated checkpoint cycles remain reachable. Phase `merged` is
+reserved for a terminal `Closing` publication accepted by finish.
 
 If exact finish readback finds that a `PartOf` parent closed after checkpoint
 merge, plain `finish` returns `operator_required` with the suggested typed
@@ -2329,6 +2366,9 @@ remover, preview output, canonical path policy, and safety fixtures.
 - A merged `part_of` publication records checkpoint completion without closing
   or terminally completing the parent issue; only a matching `closing`
   publication or explicit no-PR outcome can do so.
+- Successful checkpoint finish transitions `published | merge_ready` through
+  `checkpoint_completed` to `implemented`, retains checkpoint evidence, and
+  invalidates the prior review/publication authorization before another slice.
 - A complete acceptance journey merges multiple `part_of` checkpoints for one
   issue, preserves the open parent after each, then processes a later
   independently reviewed `closing` publication through finish and closes that
