@@ -1,4 +1,4 @@
-# Cognitive Spacetime Podcast Launch Readiness
+# Cognitive Spacetime: The Agent Logic Podcast Launch Readiness
 
 This packet prepares the complete first episode for final human review and
 public-feed deployment.
@@ -26,7 +26,7 @@ declares `noindex,nofollow`.
 | Transcript and notes | Reconciled to final script | `demos/podcast/episodes/001-meet-the-ai-coworkers/` |
 | First ten topics | Drafted | episode list in `demos/podcast/index.html` |
 | Guest workflow | Page-ready | contact button uses `mailto:podcast@agent-logic.ai`; FAQ invites guest suggestions |
-| Contact path | Mailbox verified by operator | `podcast@agent-logic.ai` appears only in CTA/FAQ/feed owner metadata |
+| Contact path | Address configured; mailbox verification deferred | `podcast@agent-logic.ai` appears only in CTA/FAQ/feed owner metadata |
 | Final launch route | Planned | promote `/podcast/` as the public route after review |
 
 ## Audio Truth
@@ -48,7 +48,8 @@ submission, verify:
   reachable and returns the complete file.
 - `https://agent-logic.ai/podcast/artwork.png` is publicly reachable and
   returns the 3000 x 3000 RGB PNG.
-- `podcast@agent-logic.ai` continues to receive directory verification mail.
+- `podcast@agent-logic.ai` receives directory verification mail; this remains a
+  launch-issue check and is not claimed by WP-24A.
 - The first submitted episode uses final approved audio, title, description,
   publish date, and content-rights truth.
 

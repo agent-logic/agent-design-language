@@ -19,10 +19,16 @@ FORBIDDEN_PUBLIC_TEXT = [
     "C-SDLC",
     "manifest only",
     "not live-proven",
+    "live, unscripted",
+    "no human-written dialogue",
+    "generated live",
+    "zero rehearsal",
+    "never for content",
 ]
 
 STUDIO_HTML = "podcast-studio.html"
 ITUNES_NS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
+SHOW_TITLE = "Cognitive Spacetime: The Agent Logic Podcast"
 
 
 def fail(message: str) -> None:
@@ -94,6 +100,8 @@ def validate_html_public_text(html_path: Path, require_audio: bool = False) -> N
             fail(f"public page contains internal/non-claim wording {forbidden!r}: {html_path}")
     if require_audio and "<audio controls" not in text:
         fail(f"missing playable audio control: {html_path}")
+    if SHOW_TITLE not in text:
+        fail(f"public page does not use the approved show identity: {html_path}")
     validate_local_references(html_path)
 
 
@@ -104,8 +112,8 @@ def validate_feed(root: Path) -> None:
         fail("RSS feed is missing channel")
     title = channel.findtext("title", "")
     link = channel.findtext("link", "")
-    if "Podcast" not in title:
-        fail("RSS feed title does not identify a podcast")
+    if title != SHOW_TITLE:
+        fail("RSS feed does not use the approved show identity")
     if link.rstrip("/") != "https://agent-logic.ai/podcast":
         fail("RSS feed link does not target the podcast route")
     enclosure = feed.find("./channel/item/enclosure")
@@ -150,6 +158,106 @@ def validate_png_artwork(path: Path) -> None:
         fail(f"show artwork must be 3000 x 3000, found {width} x {height}")
     if bit_depth != 8 or color_type not in {2, 3}:
         fail("show artwork must be 8-bit RGB or indexed-color PNG without alpha")
+
+
+def synchsafe(value: bytes) -> int:
+    if len(value) != 4 or any(byte & 0x80 for byte in value):
+        fail("MP3 contains an invalid synchsafe ID3 size")
+    return (value[0] << 21) | (value[1] << 14) | (value[2] << 7) | value[3]
+
+
+def decode_id3_text(payload: bytes) -> str:
+    if not payload:
+        return ""
+    encodings = {0: "latin-1", 1: "utf-16", 2: "utf-16-be", 3: "utf-8"}
+    encoding = encodings.get(payload[0])
+    if encoding is None:
+        fail(f"MP3 contains unsupported ID3 text encoding {payload[0]}")
+    return payload[1:].decode(encoding).rstrip("\x00")
+
+
+def validate_mp3_id3(mp3: Path, metadata: dict) -> None:
+    data = mp3.read_bytes()
+    if len(data) < 10 or data[:3] != b"ID3" or data[3] not in {3, 4}:
+        fail("distribution MP3 must contain an ID3v2.3 or ID3v2.4 tag")
+    version = data[3]
+    tag_end = min(len(data), 10 + synchsafe(data[6:10]))
+    offset = 10
+    frames: dict[str, bytes] = {}
+    while offset + 10 <= tag_end:
+        frame_id = data[offset : offset + 4].decode("ascii", errors="ignore")
+        if not frame_id.strip("\x00"):
+            break
+        raw_size = data[offset + 4 : offset + 8]
+        size = int.from_bytes(raw_size, "big") if version == 3 else synchsafe(raw_size)
+        offset += 10
+        if size <= 0 or offset + size > tag_end:
+            fail(f"MP3 contains invalid ID3 frame size for {frame_id}")
+        frames[frame_id] = data[offset : offset + size]
+        offset += size
+
+    expected = {
+        "TIT2": "Meet the AI Coworkers",
+        "TPE1": "Cognitive Spacetime",
+        "TALB": "Cognitive Spacetime",
+        "TPE2": "Agent Logic",
+        "TRCK": "1",
+    }
+    for frame_id, value in expected.items():
+        if decode_id3_text(frames.get(frame_id, b"")) != value:
+            fail(f"MP3 ID3 {frame_id} does not match {value!r}")
+    year = decode_id3_text(frames.get("TYER", frames.get("TDRC", b"")))
+    if year != "2026":
+        fail("MP3 ID3 year does not match 2026")
+
+    apic = frames.get("APIC")
+    if not apic:
+        fail("MP3 ID3 tag is missing embedded artwork")
+    encoding = apic[0]
+    mime_end = apic.find(b"\x00", 1)
+    if mime_end < 0 or mime_end + 2 > len(apic):
+        fail("MP3 ID3 APIC frame is malformed")
+    mime_type = apic[1:mime_end].decode("ascii", errors="strict")
+    description_start = mime_end + 2
+    terminator = b"\x00\x00" if encoding in {1, 2} else b"\x00"
+    description_end = apic.find(terminator, description_start)
+    if description_end < 0:
+        fail("MP3 ID3 APIC description is malformed")
+    image = apic[description_end + len(terminator) :]
+    if mime_type != metadata.get("embedded_artwork_type"):
+        fail("MP3 embedded artwork MIME type does not match episode metadata")
+    if len(image) != metadata.get("embedded_artwork_bytes"):
+        fail("MP3 embedded artwork byte count does not match episode metadata")
+    if hashlib.sha256(image).hexdigest() != metadata.get("embedded_artwork_sha256"):
+        fail("MP3 embedded artwork digest does not match episode metadata")
+
+
+def validate_guest_packet(packet: dict) -> None:
+    if packet.get("external_guests") != [] or packet.get("guest_acceptance_claimed") is not False:
+        fail("guest metadata must not claim an external guest or guest acceptance")
+    if packet.get("human_guest_consent_required") is not False:
+        fail("guest metadata has an invalid consent boundary for an episode with no human guests")
+    hosts = {host.get("name"): host for host in packet.get("regular_model_hosts") or []}
+    if set(hosts) != {"ChatGPT", "Gemini", "Claude"}:
+        fail("guest metadata must identify all three regular model hosts")
+    if hosts["ChatGPT"].get("surrogate_voice") is not False or hosts["Gemini"].get("surrogate_voice") is not True or hosts["Claude"].get("surrogate_voice") is not True:
+        fail("guest metadata does not retain native and surrogate voice truth")
+
+
+def validate_enclosure_packet(packet: dict, metadata: dict) -> None:
+    expected = {
+        "guid": metadata.get("guid"),
+        "url": metadata.get("audio_url"),
+        "mime_type": metadata.get("audio_type"),
+        "bytes": metadata.get("audio_bytes"),
+        "duration": metadata.get("audio_duration"),
+        "duration_seconds": metadata.get("audio_duration_seconds"),
+        "sha256": metadata.get("audio_sha256"),
+        "publication_status": "held_for_human_review",
+    }
+    for field, value in expected.items():
+        if packet.get(field) != value:
+            fail(f"RSS enclosure packet {field} does not match episode metadata")
 
 
 def validate_storage_manifest(root: Path, package_root: Path, metadata: dict) -> None:
@@ -220,10 +328,27 @@ def validate_production_episode(root: Path) -> None:
         root / "audio" / "meet-the-ai-coworkers.mp3",
         root / "audio" / "meet-the-ai-coworkers.wav",
     ]
+    required_metadata_paths = [
+        "source_packet",
+        "qa_report",
+        "guest_metadata",
+        "rss_enclosure",
+        "redaction_report",
+        "review",
+    ]
     for path in required:
         if not path.is_file() or path.stat().st_size == 0:
             fail(f"production episode is missing {path}")
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    if metadata.get("show_title") != SHOW_TITLE:
+        fail("episode metadata does not use the approved show identity")
+    for field in required_metadata_paths:
+        relative = metadata.get(field)
+        if not isinstance(relative, str) or not relative:
+            fail(f"episode metadata is missing required package path {field}")
+        path = package_root / relative
+        if not path.is_file() or path.stat().st_size == 0:
+            fail(f"production episode is missing declared {field}: {path}")
     audio_manifest = json.loads((package_root / "audio-manifest.json").read_text(encoding="utf-8"))
     if metadata.get("publication_status") != "held_for_human_review":
         fail("production episode must remain held for human review")
@@ -249,6 +374,47 @@ def validate_production_episode(root: Path) -> None:
         fail("audio manifest MP3 digest does not match episode metadata")
     if outputs.get("archive_wav", {}).get("sha256") != metadata.get("archive_audio_sha256"):
         fail("audio manifest WAV digest does not match episode metadata")
+
+    guest_metadata = json.loads((package_root / metadata["guest_metadata"]).read_text(encoding="utf-8"))
+    validate_guest_packet(guest_metadata)
+
+    enclosure = json.loads((package_root / metadata["rss_enclosure"]).read_text(encoding="utf-8"))
+    validate_enclosure_packet(enclosure, metadata)
+    feed_item = ET.parse(root / "feed.xml").getroot().find("./channel/item")
+    if feed_item is None:
+        fail("production RSS feed is missing its episode item")
+    feed_enclosure = feed_item.find("enclosure")
+    if feed_item.findtext("guid", "") != enclosure["guid"] or feed_enclosure is None:
+        fail("production RSS item does not match enclosure packet identity")
+    feed_values = {
+        "url": feed_enclosure.attrib.get("url"),
+        "mime_type": feed_enclosure.attrib.get("type"),
+        "bytes": int(feed_enclosure.attrib.get("length", "0")),
+        "duration": feed_item.findtext(f"{{{ITUNES_NS}}}duration", ""),
+    }
+    for field, value in feed_values.items():
+        if value != enclosure[field]:
+            fail(f"production RSS item {field} does not match enclosure packet")
+
+    source_packet = (package_root / metadata["source_packet"]).read_text(encoding="utf-8")
+    for marker in ("not recorded live", "surrogate", "Publication, directory submission, and mailbox verification"):
+        if marker not in source_packet:
+            fail(f"source packet is missing required provenance boundary {marker!r}")
+    redaction = (package_root / metadata["redaction_report"]).read_text(encoding="utf-8")
+    for marker in ("Provider credentials retained: none", "External guest acceptance claimed: no", "Publication claimed: no"):
+        if marker not in redaction:
+            fail(f"redaction report is missing required result {marker!r}")
+
+    qa_report = (package_root / metadata["qa_report"]).read_text(encoding="utf-8")
+    for marker in (
+        metadata["audio_sha256"],
+        metadata["archive_audio_sha256"],
+        "ID3 version: 2.3",
+        "Integrated loudness: -15.9 LUFS",
+        "True peak: -1.4 dBTP",
+    ):
+        if marker not in qa_report:
+            fail(f"QA report is missing exact media proof {marker!r}")
     with wave.open(str(wav), "rb") as source:
         duration = source.getnframes() / source.getframerate()
         if duration < 600:
@@ -264,6 +430,7 @@ def validate_production_episode(root: Path) -> None:
         fail("episode metadata artwork digest does not match")
     if hashlib.sha256((package_root / "artwork-source.png").read_bytes()).hexdigest() != metadata.get("artwork_source_sha256"):
         fail("episode metadata artwork-source digest does not match")
+    validate_mp3_id3(mp3, metadata)
     validate_storage_manifest(root, package_root, metadata)
 
 
@@ -353,10 +520,10 @@ def main() -> None:
 
     validate_feed(root)
     if http_base is not None:
-        validate_http_route(http_base, "/podcast/", "Cognitive Spacetime Podcast")
-        validate_http_route(http_base, "/podcast/feed.xml", "Cognitive Spacetime Podcast")
+        validate_http_route(http_base, "/podcast/", SHOW_TITLE)
+        validate_http_route(http_base, "/podcast/feed.xml", SHOW_TITLE)
         validate_http_route(http_base, "/podcast/studio/podcast-studio.html", "Cognitive Spacetime Podcast")
-        validate_http_route(http_base, "/_preview/podcast/", "Cognitive Spacetime Podcast")
+        validate_http_route(http_base, "/_preview/podcast/", SHOW_TITLE)
 
     print("podcast_launch_packet: PASS")
 

@@ -177,7 +177,7 @@ def write_launch_pages(out_root: Path, packet: dict, audio_file: str, audio_byte
 </head>
 <body>
   <main>
-    <a href=\"../../\">Agent Logic Podcast</a>
+    <a href=\"../../\">{html.escape(show['title'])}</a>
     <h1>Episode 01: {html.escape(episode['title'])}</h1>
     <p class=\"summary\">{html.escape(episode['summary'])}</p>
     <audio controls preload=\"metadata\" src=\"../../audio/{html.escape(audio_file)}\"></audio>

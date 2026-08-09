@@ -3,9 +3,9 @@
   "issue": 5845,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "62cfffa47d080caf69fa1b1d20e49542e7f455d7c847aae132ae93191d1913fd",
-  "phase": "bound",
-  "generation": 46,
-  "digest": "53819abfd25f6010b82795dd771d0065d701929e0122807c4d7ad2f11d926d25",
+  "phase": "implemented",
+  "generation": 51,
+  "digest": "91d5ed90744528edc344e7596782e51343419da1595c631270f91e3fd127d91a",
   "branch": "codex/5845-v092-wp24a-readiness",
   "worktree": "/Volumes/FastWork/adl-wp-5845-v092-wp24a",
   "review_assignment": null,
@@ -18,40 +18,40 @@
   "diagram_path": ".csdlc/prepared/issues/5845/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-birthday-publication-final-design-review",
-      "revision": "e577c1d95f46d4de635fce4f2afc6d5697cde482e44599380b9b15698a73715f"
+      "reviewer": "openai-codex:gpt-5:issue-5845-bounded-design-rereview:2026-08-08",
+      "revision": "fe54a00ac4e00f4f210e4ad8efc4688a341ec6484833f1c2871ff992fff79adb"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "3d820fe32fabf198c4f14fa2f95eb8c6fe093c1530ff4fb233d793e5c27f7e29",
-      "rendered_digest": "e31ed19c496c8ae128469eb90140e11af54ba7d478f8dcdd6f5a37a52abc9fc8",
-      "ast_digest": "4041a202d269e7888354a4ed364bf7a03b213530d87b83171b254d64b9e74589"
+      "values_digest": "47619b07e256de3a48fbc0e56c7658640f81fc63c623fc33a9dad0db127d0577",
+      "rendered_digest": "d4dec2ded3a6bfdcd6709c3e32e1e9f36bbb75700f3b5f37ae51c775267cb895",
+      "ast_digest": "b77048965f224857095e58e165a5c934557cde7c6d0914a8456834e081a83329"
     },
     "stp": {
-      "values_digest": "c92f89b0f750970deccd92b0cd93488e2c15b583fb4f329cb87fdcde53543da7",
+      "values_digest": "ea992a4c6b60a513177faeb5b80ffa6073d7192fd8eaf56d0109865e914b9900",
       "rendered_digest": "12b7ad981e63ce1b111a64b81a10c16211807abd70e67655d5356a6bca9a5555",
       "ast_digest": "7c1c2191d34ea6ad641e3deb975bbcf0d5d0e6a0e753e66a38c4bfdd1fabf7cf"
     },
     "spp": {
-      "values_digest": "f062b25cea5383133a8472fbc1c51f8c6ef82b15abe01be92926f667d62fa98b",
-      "rendered_digest": "75a0e3a68c28cc7efca27b2fdd9a8a46738d5372efbe3cad41b1a52932e39c9a",
-      "ast_digest": "ed00f5662067a705d71b845db3f67792210265240994cd8d849d59e245ae52de"
+      "values_digest": "7cd7bce8b7b64dded3b94c2f431117970d4a9ceccd1075702ba02306f7edeb7d",
+      "rendered_digest": "53933f6073d8693f26273a7887e278fd20cf3884771cec85998ca5db57787cd3",
+      "ast_digest": "aa64fff0e5d0dbfc107f5b71bb1b09ae9a41126be25ddf431a325c5e1f4059a1"
     },
     "vpp": {
-      "values_digest": "a45c108d78311846d7ca7cae3388777fa4387a574574a0903ec8e527b6bc3f71",
+      "values_digest": "9c7f66a8f766aaf1f3d215b40e207577db2d43a746ca8dc56c6bced2a3ceaab7",
       "rendered_digest": "edf0864946a8a347556af42b4e1aa7e56b5020d0f90cafc9573134f5e49d123f",
       "ast_digest": "786f4e5c5f3ff082c52f2654dfe40cdaaf337cd65dcf4ecb49b4062c447c0673"
     },
     "srp": {
-      "values_digest": "0ea2567aaedd5b5e7e303b99005f09e415c7bf61562bad9b07f94f06c4b200d7",
+      "values_digest": "74f03ce29e80d92b08961d7e4af390d097f67ca36b43ef30c63714a67a2182d4",
       "rendered_digest": "66584b02c22d0bbd0817ef755e84c0fd40420199f03ce8fe7b33a5b7b8a75a9f",
       "ast_digest": "f5b2ec19198beddd171eda9407d02c311e89b54ced36ac7aaead57db2f9f06a0"
     },
     "sor": {
-      "values_digest": "059c7fa8259365893b919fb417abf07829f9432a111fb1e71136a40800997f58",
-      "rendered_digest": "b6559a50b406e113d4bdecd7b46d6236777db7e3bd028391abdfeba5acae375d",
-      "ast_digest": "63307f804d1711e04428b4b653b5230947299d891caf3ed6bdf972e7f4042d49"
+      "values_digest": "5060da3b9bc58f9ae84f0b0e8eefaf2af4c80f9ebd1aa4e940a77a3dcd873b38",
+      "rendered_digest": "c02b4fc742b8497ca0fb16a8b9db0c7cb272891bd32eb9ef8ffe50814d151110",
+      "ast_digest": "c2a0d258e7437d05cd06518af5e42ca7100a1ee39a495fcd6e76c941df0bc59a"
     }
   },
   "transitions": [
@@ -89,6 +89,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -560,6 +567,41 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 68,
+      "generation": 47,
+      "actor": "openai-codex:gpt-5:issue-5845-bounded-design-rereview:2026-08-08",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 69,
+      "generation": 48,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "Align typed scope with the approved incremental Episode 001 checkpoint and all paths already carried by PR 69.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"demos/podcast/episodes/001-meet-the-ai-coworkers/ through 010-what-does-a-weekly-ai-studio-look-like/\",\"demos/podcast/audio/\",\"demos/podcast/artwork.png\",\"demos/podcast/feed.xml\",\"demos/podcast/index.html\",\"demos/_preview/podcast/index.html\",\"demos/podcast/episodes/meet-the-ai-coworkers/index.html\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/S3_CLOUDFRONT_RUNBOOK.md\",\"adl/tools/demo_v0911_multiagent_podcast_audio.sh\",\"adl/tools/generate_podcast_launch_packet.py\",\"adl/tools/validate_podcast_launch_packet.py\",\"adl/tools/test_podcast_launch_packet.sh\",\"adl/tools/record_podcast_native_playback.sh\",\"adl/tools/record_podcast_browser_playback.mjs\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\".csdlc/prepared/issues/5845/design.md\",\".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb\",\".csdlc/prepared/issues/5845/validate-second-pass-readiness.rb\",\".csdlc/issues/5845/\",\".csdlc/evidence/5845/\",\"docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json\"]}"
+    },
+    {
+      "sequence": 70,
+      "generation": 49,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "Record truthful incremental publication authority: checkpoint PRs remain non-closing and terminal WP-24A closure is reserved for all ten packages.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-24A owns ten review-ready local episode packages and may land complete episode checkpoints incrementally\",\"Issue authority remains danielbaustin/agent-design-language#5845\",\"Code and pull-request publication target agent-logic/agent-design-language\",\"Incremental checkpoint PRs must use Part of danielbaustin/agent-design-language#5845 and leave the parent open\",\"Only the terminal all-ten-episodes PR may use Closes danielbaustin/agent-design-language#5845\",\"#5819 and the route/storage decision identify any canonical public destination\",\"#3223/#3256 provide retained production-pipeline proof\",\"The operator retains deployment and publication authority\"]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 50,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "Align the operative plan's affected areas with the reapproved design and Episode 001 checkpoint surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/episodes/001-meet-the-ai-coworkers\",\"demos/podcast/episodes/002-can-an-ai-be-a-good-teammate\",\"demos/podcast/episodes/003-the-promise-and-weirdness-of-talking-to-machines\",\"demos/podcast/episodes/004-what-should-we-let-ai-do-for-us\",\"demos/podcast/episodes/005-can-ai-help-us-think-better\",\"demos/podcast/episodes/006-the-new-creative-room\",\"demos/podcast/episodes/007-trust-receipts-and-proof\",\"demos/podcast/episodes/008-local-ai-vs-cloud-ai\",\"demos/podcast/episodes/009-when-ai-gets-stuck\",\"demos/podcast/episodes/010-what-does-a-weekly-ai-studio-look-like\",\"demos/podcast/audio\",\"demos/podcast/artwork.png\",\"demos/podcast/feed.xml\",\"demos/podcast/index.html\",\"demos/_preview/podcast/index.html\",\"demos/podcast/episodes/meet-the-ai-coworkers/index.html\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/S3_CLOUDFRONT_RUNBOOK.md\",\"adl/tools/demo_v0911_multiagent_podcast_audio.sh\",\"adl/tools/generate_podcast_launch_packet.py\",\"adl/tools/validate_podcast_launch_packet.py\",\"adl/tools/test_podcast_launch_packet.sh\",\"adl/tools/record_podcast_native_playback.sh\",\"adl/tools/record_podcast_browser_playback.mjs\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\".csdlc/prepared/issues/5845/design.md\",\".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb\",\".csdlc/prepared/issues/5845/validate-second-pass-readiness.rb\",\".csdlc/issues/5845\",\".csdlc/evidence/5845\",\"docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json\"]}"
+    },
+    {
+      "sequence": 72,
+      "generation": 51,
+      "actor": "codex:5845-pr69-review-remediation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

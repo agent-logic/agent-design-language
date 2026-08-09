@@ -59,6 +59,48 @@ python3 "$ROOT_DIR/adl/tools/validate_podcast_launch_packet.py" \
   --preview-root "$ROOT_DIR/demos/_preview/podcast" \
   --http-base "http://127.0.0.1:$port"
 
+python3 - "$ROOT_DIR" "$TMP_DIR" <<'PY'
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+tmp = Path(sys.argv[2])
+spec = importlib.util.spec_from_file_location(
+    "podcast_validator", root / "adl/tools/validate_podcast_launch_packet.py"
+)
+validator = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(validator)
+
+
+def expect_failure(label, operation):
+    try:
+        operation()
+    except SystemExit:
+        return
+    raise SystemExit(f"negative podcast validation did not reject {label}")
+
+
+false_page = tmp / "false-public-provenance.html"
+false_page.write_text(
+    f"<html><body>{validator.SHOW_TITLE}: live, unscripted<a href='#'>x</a></body></html>",
+    encoding="utf-8",
+)
+expect_failure("false public provenance", lambda: validator.validate_html_public_text(false_page))
+
+package = root / "demos/podcast/episodes/001-meet-the-ai-coworkers"
+episode = json.loads((package / "episode.json").read_text(encoding="utf-8"))
+guest = json.loads((package / "guest-metadata.json").read_text(encoding="utf-8"))
+guest["guest_acceptance_claimed"] = True
+expect_failure("guest acceptance overclaim", lambda: validator.validate_guest_packet(guest))
+
+enclosure = json.loads((package / "rss-enclosure.json").read_text(encoding="utf-8"))
+enclosure["bytes"] += 1
+expect_failure("RSS enclosure mismatch", lambda: validator.validate_enclosure_packet(enclosure, episode))
+PY
+
 episode_source="$ROOT_DIR/demos/podcast/episodes/001-meet-the-ai-coworkers"
 ADL_PODCAST_AUDIO_TEST_TONES=1 \
 ADL_PODCAST_AUDIO_SOURCE_DIR="$episode_source" \

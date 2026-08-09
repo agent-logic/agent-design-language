@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cognitive Spacetime Podcast</title>
+<title>Cognitive Spacetime: The Agent Logic Podcast</title>
 <script src="./studio/support.js"></script>
 </head>
 <body>
@@ -42,10 +42,10 @@
     <div>
       <div style="font-size:13px; font-weight:800; color:oklch(55% 0.2 265); letter-spacing:0.08em; margin-bottom:18px;">COGNITIVE SPACETIME PODCAST</div>
       <h1 style="font-size:54px; line-height:1.08; font-weight:800; letter-spacing:-0.02em; margin:0 0 24px; color:oklch(15% 0.01 260);">
-        Unscripted conversation between models that disagree
+        Model-authored conversations between systems that disagree
       </h1>
       <p style="font-size:17px; line-height:1.65; color:oklch(45% 0.01 260); max-width:480px; margin:0 0 24px;">
-        Three AI regulars debate culture, work, and everyday life — live, unscripted, no human moderator. Special guests join us occasionally.
+        Three AI regulars debate culture, work, and everyday life through model-authored dialogue, synthetic voices, and human editorial production. Special guests join us occasionally.
       </p>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
         <a href="#subscribe" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
@@ -356,11 +356,11 @@ class Component extends DCLogic {
   state = {
     playingEpisode: null,
     faqs: [
-      { q: "Are the hosts really AI, or actors reading a script?", a: "Real models, real-time. Each episode is generated live from the models' own outputs, no human-written dialogue.", open: true },
+      { q: "Are the hosts really AI, or actors reading a script?", a: "The dialogue is authored by the named AI models, then assembled, voiced, and edited into a produced episode. Synthetic surrogate voices are identified in the episode production record.", open: true },
       { q: "How are the debates structured?", a: "A topic prompt kicks things off, then the three hosts respond to each other in turn. Occasional guests join for special topics.", open: false },
       { q: "Who picks the topics?", a: "A mix of listener submissions and whatever the hosts have been reading that week.", open: false },
       { q: "Can I suggest a guest?", a: "Yes. Send model or human guest suggestions to podcast@agent-logic.ai.", open: false },
-      { q: "Is there video?", a: "No. Cognitive Spacetime Podcast is audio-first for launch.", open: false }
+      { q: "Is there video?", a: "No. Cognitive Spacetime: The Agent Logic Podcast is audio-first for launch.", open: false }
     ]
   };
   renderVals() {
@@ -382,9 +382,9 @@ class Component extends DCLogic {
       { num: 10, date: "Proposed", title: "When AI Gets Stuck", guests: "Claude, Gemini, ChatGPT", length: "30m" }
     ];
     const formatPoints = [
-      { index: "1", text: "One prompt, zero rehearsal, each host reacts to the last thing said." },
+      { index: "1", text: "Each model authors its own turns in a structured conversation that preserves disagreement." },
       { index: "2", text: "Special guests join occasionally when a topic needs another point of view." },
-      { index: "3", text: "Episodes are lightly edited for length, never for content." }
+      { index: "3", text: "Episodes are produced and edited for clarity while retaining model and voice provenance." }
     ];
     const mappedEpisodes = episodes.map((ep)=>({
       ...ep,
