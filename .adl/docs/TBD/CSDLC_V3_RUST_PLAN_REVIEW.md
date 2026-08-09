@@ -1,6 +1,6 @@
 # C-SDLC v3 Rust Plan Review Record
 
-Status: Final exact-revision verification passed
+Status: Pre-PR findings incorporated; final exact-revision re-verification pending
 
 Issue: #73
 
@@ -213,3 +213,18 @@ Claude Sonnet 4.6: `PASS`, no unresolved P0/P1 findings.
 The review scope was unchanged after the reviewed revision. This record and the
 provider receipts are evidence-only additions and do not alter the reviewed
 architecture or diagram.
+
+## Pre-PR Subagent Review
+
+Reviewed target: `5b4d4cd6d2f40455f6590007535a4551034a0c37`
+
+Evidence: `.csdlc/evidence/73/pre-pr-review.md`
+
+Initial decision: `REQUEST_CHANGES`
+
+Two P1 architecture findings were incorporated: the reviewer-identity adapter
+dependency is now acyclic, and intent journals are explicitly separated from
+lifecycle/card-state authority. One P2 validation-evidence finding is being
+resolved with exact retained commands. The remaining P2 STP wording is retained
+as initial planning history because the typed v2 editor rejects that collection
+mutation in `implemented`; no direct card edit or lifecycle bypass is allowed.

@@ -509,10 +509,19 @@ The persisted layout matches the Go proposal:
   intents/
 ```
 
-`state.json` is the sole machine authority. It contains identity, lifecycle,
-typed values for all cards, branch/worktree binding, design and diagram
-references, validation, exact review, publication, terminal state, audit events,
-and digests.
+`state.json` is the sole lifecycle and card-state authority. It contains
+identity, lifecycle, typed values for all cards, branch/worktree binding, design
+and diagram references, validation, exact review, publication, terminal state,
+audit events, and digests.
+
+Intent files are authoritative operation journals only for pending external
+effects. They carry the expected state generation/digest, operation key,
+request digest, and recovery posture, but no independent lifecycle phase or card
+values. A committed unresolved intent takes precedence over a new mutation by
+blocking it until exact remote readback reconciles or explicitly disposes that
+intent into `state.json`. Once reconciliation commits, state records the
+outcome and the consumed intent is removable. An intent can prove that an
+effect may have occurred; it can never advance lifecycle truth by itself.
 
 Serde enums define every closed vocabulary. `#[serde(deny_unknown_fields)]` is
 used on authoritative request, state, intent, evidence, and result types.
@@ -600,10 +609,11 @@ proven, but Windows state mutation must then fail closed as unsupported. The
 plan must never silently downgrade crash consistency to preserve a platform
 claim.
 
-Remote mutations use a typed intent committed before the network mutation.
-Retries load and resume that intent, perform exhaustive readback, and reconcile
-one result. Operation keys and exact markers prevent duplicate issues, PRs,
-comments, and closure actions.
+Remote mutations use a typed operation journal committed before the network
+mutation. Retries load that intent, block any competing mutation, perform
+exhaustive readback, and reconcile one result into lifecycle state. Operation
+keys and exact markers prevent duplicate issues, PRs, comments, and closure
+actions.
 
 Remote work has two distinct durable phases. Before the network call, the store
 locks the issue, validates expected state, writes and syncs a typed intent, syncs
@@ -701,13 +711,18 @@ Review remains exact and pre-publication:
 - lifecycle-only change needs typed non-substantive proof;
 - `pr publish` fails without current passing review.
 
-V3-01 defines reviewer principals. A human review binds the authenticated
-GitHub identity observed through the GitHub adapter; a model review binds the
-provider, provider-asserted model identity, request digest, and retained result
-digest. `review record` rejects a reviewer principal equal to the implementation
-actor or publication actor. When an identity cannot be structurally bound, the
-review is recorded as policy-only and cannot satisfy publication without an
-explicit typed operator override that names the limitation.
+V3-01 defines reviewer principals. V3-04 owns the narrow
+`ReviewerIdentityResolver` interface; V3-12 implements independence and
+publication guards against typed principal observations and fakes, without a
+concrete GitHub dependency. A model review binds the provider,
+provider-asserted model identity, request digest, and retained result digest.
+V3-13 later supplies the concrete authenticated GitHub human-principal observer,
+and the human-review publication path remains disabled until that adapter is
+present. `review record` rejects a reviewer principal equal to the
+implementation actor or publication actor. When an identity cannot be
+structurally bound, the review is recorded as policy-only and cannot satisfy
+publication without an explicit typed operator override that names the
+limitation.
 
 Review modules have no implementation, publication, merge, finish, or cleanup
 authority.
@@ -1102,6 +1117,7 @@ flowchart TD
     P08 --> P11B
     P09 --> P11B
     P08 --> P12["V3-12 Exact review and publication gates"]
+    P04 --> P12
     P10A --> P12
     P10B --> P12
     P04 --> P13["V3-13 GitHub observation"]
@@ -1274,9 +1290,10 @@ transactions, detached telemetry, update checks, or background services.
 
 **Dependencies:** `V3-03`.
 
-**Deliverables:** Narrow traits, an independently reviewed adapter-interface
-checkpoint, production and fake constructors, typed config schema, error
-taxonomy, cancellation policy, tracing contract, and redaction fixtures.
+**Deliverables:** Narrow traits including `ReviewerIdentityResolver`, an
+independently reviewed adapter-interface checkpoint, production and fake
+constructors, typed config schema, error taxonomy, cancellation policy, tracing
+contract, and redaction fixtures.
 
 **Acceptance criteria:**
 
@@ -1447,6 +1464,9 @@ filesystem capability policy, and concurrency fixtures.
 - Every injected interruption converges to the prior or new valid state.
 - A remote operation cannot begin before its typed intent and parent directory
   are durably synced; recovery resumes committed intents through exact readback.
+- An unresolved intent is authoritative only as a pending-operation journal: it
+  blocks competing mutation, contains no lifecycle/card state, and is consumed
+  only after exact readback commits its outcome into `state.json`.
 - Linux, macOS, and every mutation-enabled Windows filesystem have a named,
   documented, fault-tested commit primitive; unproven Windows mutation fails
   closed while compile and read-only support remain available.
@@ -1645,7 +1665,8 @@ proof, publication intent, and fail-closed review guard.
 **Non-goals:** Hosting model providers, merging PRs, watching checks, terminal
 finish, cleanup, or treating review prose as state authority.
 
-**Dependencies:** `V3-08`, `V3-10A`, and `V3-10B`.
+**Dependencies:** `V3-04` reviewer-identity interface, `V3-08`, `V3-10A`, and
+`V3-10B`.
 
 **Deliverables:** Review schemas, authenticated/provider-evidence reviewer
 principal model, independence predicate and typed override boundary, staleness
@@ -1661,6 +1682,9 @@ corpus.
 - Model/provider output is evidence input, never direct lifecycle authority.
 - Same-principal implementation/review/publication is rejected; policy-only
   identity cannot pass the publication gate without a named typed override.
+- Human-review publication remains fail-closed until a concrete authenticated
+  principal observer implements the V3-04 interface; V3-12 proves this with a
+  fake and does not depend on the V3-13 GitHub implementation.
 
 **Validation proof:** Exact-head/staleness matrix, independence-policy tests,
 finding lifecycle tests, non-substantive proof negatives, publication guard
@@ -1674,19 +1698,20 @@ can be hidden, publication can bypass review, or provider identity is overstated
 **Objective:** Establish one typed, mockable GitHub boundary and complete
 read-only issue, PR, check, review, mergeability, and repository observation.
 
-**Scope:** Octocrab client construction, Rustls, authentication, repository
-identity, REST/GraphQL endpoint wrappers, pagination, rate-limit and retry
-classification, response normalization, fake transport registry, and
-`pr status`.
+**Scope:** Octocrab client construction, Rustls, authentication, repository and
+authenticated human-reviewer identity observation, REST/GraphQL endpoint
+wrappers, pagination, rate-limit and retry classification, response
+normalization, fake transport registry, and `pr status`.
 
 **Non-goals:** GitHub mutation, publication, foreground watch, merge, finish,
 cleanup, lifecycle transitions, or raw `gh`/shell fallback.
 
 **Dependencies:** `V3-04`, `V3-08`, `V3-09`, and `V3-12`.
 
-**Deliverables:** Narrow GitHub trait, Octocrab adapter, normalized observation
-types, unexpected/unconsumed HTTP fixtures, pagination/retry policy, and
-read-only status commands.
+**Deliverables:** Narrow GitHub trait, Octocrab adapter, concrete V3-04
+`ReviewerIdentityResolver` implementation, normalized observation types,
+unexpected/unconsumed HTTP fixtures, pagination/retry policy, and read-only
+status commands.
 
 **Acceptance criteria:**
 
@@ -1697,6 +1722,8 @@ read-only status commands.
 - Every raw-request endpoint names its GitHub API reference and has typed
   request/response structures plus transport-level fixtures.
 - Read-only commands perform no remote or local lifecycle mutation.
+- Authenticated human-principal observation is typed and activates no
+  publication authority until V3-12 independently evaluates it.
 
 **Validation proof:** Unexpected/unconsumed fixture checks, pagination matrices,
 rate-limit and retry tests, exact-head check fixtures, authentication/redaction

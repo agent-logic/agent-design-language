@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2f9e8eb1a1614066f9910afdfc20e395fbb4e6c04c4e9235753decdc3850f07",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "acf76ea9b9de5741e8db19b4718d224d590a1c9d0fb592bc8f6f34c3ff824c27",
+  "generation": 19,
+  "digest": "0222357b4fa7a7e64171f8795e3a48c435f59512dfc74df550cc3f6602b81521",
   "branch": "codex/csdlc-v3-gh-architecture",
   "worktree": "/Volumes/FastWork/adl-csdlc-v3-gh-architecture",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:verification-round-2-findings-incorporated",
-      "revision": "7734a9246ef89ff9f11de1d6d23dabb5b20365ee34fed6be2b66e706f3aaa927"
+      "reviewer": "codex:pre-pr-review-findings-incorporated",
+      "revision": "9efd80514f0b3ac1bc7a57689ced04487c0b741814e83081ec820956c00bbc7b"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "0ff87ea6dcf4bd897c25c89adc53bcd797c0d007973d59286964f628f43bcec9",
+      "values_digest": "a0ce5de83cb51d3f9ec9dd720dfbe3e12bdd00186c48cdeadb0bf456ea4dff52",
       "rendered_digest": "09da92d9741a8bc2b3d453937f2db76fa35a90fd0ed36fd415a538825a26f73a",
       "ast_digest": "c977acd6eec2433fc73f9918084cf1438189c708aba796baa4c8f15f35950afa"
     },
     "stp": {
-      "values_digest": "ab72815af79c90551226c49e1071b42d28ecf0e467fa737ffe81299a61da4671",
+      "values_digest": "b227ffd7d1d5aff882cb4c365695ae723ca56d8e04d43d8db731e4af834e2b85",
       "rendered_digest": "1b1dfae3a86f48144d49076a4c7e1032ffdc368e29e4ac55493cf951edf9f65b",
       "ast_digest": "0fe071e80aa4030fa52504616b9c76052e916ff081bf1fdadd3e05c3fa068765"
     },
     "spp": {
-      "values_digest": "d05d5860bb0832ca2be2bb7aafb8cda6ee22f1c9bb00724e846ac8b6f2e0d9c1",
-      "rendered_digest": "c3e52ed19aa900a376dc1de587ba4b1bf2b21e774d416d19dc3750d8290b923e",
-      "ast_digest": "c2997865f8107b81aef1d1cd81131a8981942a127c5078db8e09c722627d9c7d"
+      "values_digest": "afb45cabd5465b1621cd0da6fd6d61e8950065386fb2d6ec06c3efc239253bf2",
+      "rendered_digest": "b40417d22c7578fceabca20b158197add6beba4e3a86af24b9b712784fb8f9d7",
+      "ast_digest": "dc1b2b714b986ab6e052e3c44e5715fdda09c23dc8ae2d56c548a384ee8761a1"
     },
     "vpp": {
-      "values_digest": "31eab9e1e5e25234c60f6dcfefe1cc912d36d54056c370cdd2a129ffa8bffaf3",
+      "values_digest": "34a0b5e671e1ee7bc461a3643739a6fa85b269b1cc048f7e5f3e86e94fd3b9f2",
       "rendered_digest": "ca0a321dcf544ff4654a88f5bf8f47f1c892cdca7e00ea94a8abb77189cd8b54",
       "ast_digest": "a4e249d518642482154399bd5328d4ba0b7ffcbc10bc2c72c15431180a0a8bd2"
     },
     "srp": {
-      "values_digest": "e1f31e64f26eb00dd1f2048713a20541d32b2235bfca017cf59e5bf12419f903",
+      "values_digest": "c38fd4b6cda7526f562bfff2a28099aedd48531e49dd09df067c30b70ee4a34a",
       "rendered_digest": "f144d8fe17e50ce4452c5c8a67bd3c340151675213fd3b23a87ec46c1689797f",
       "ast_digest": "1244572a744bdc4accab71c72b3fe1134f3a9b09853034f0771b6c46310b7d08"
     },
     "sor": {
-      "values_digest": "28d72c3faf7af7b6b24320dd4712c148c37e7bf9eca9325b26f753303f8990d4",
+      "values_digest": "f41575915aa8f7881dd099d5d6ac045110122c270c114ed992ce1fe94cfaec13",
       "rendered_digest": "fc342941f76113d32cf8d4d1f70e314189a3b4cc812f1fd206de0abfcb325a85",
       "ast_digest": "5b08bb95cdace07dfdf949e13967711570bad11790d248a451f97f1e33e1fa35"
     }
@@ -217,6 +217,13 @@
       "actor": "codex:issue-73-review-reconciliation",
       "reason": "Reconcile the acceptance denominator with the independently reviewed issue splits before formal review.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The plan fixes Rust as the implementation language and records the exact official cli/cli source baseline.\",\"AC-2: The architecture completely defines command, application-context, domain, state, card, adapter, validation, review, publication, finish, cleanup, security, testing, observability, and dependency boundaries.\",\"AC-3: The plan contains eighteen sequenced implementation issue specifications and one deferred retirement issue, each with objective, scope, non-goals, dependencies, deliverables, acceptance criteria, validation proof, and stop conditions.\",\"AC-4: Quantified effects are labeled as targets or estimates until measured by the construction spike.\",\"AC-5: Claude and Gemini review the same exact plan revision and every actionable finding is incorporated or explicitly dispositioned.\",\"AC-6: Formatting, links, source references, repository-relative paths, and diff hygiene validate.\",\"AC-7: No v3 code, implementation child issue, selector change, live migration, authority cutover, or v2 deletion is produced by this planning issue.\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:pre-pr-review-findings-incorporated",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
