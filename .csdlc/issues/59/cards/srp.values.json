@@ -7,15 +7,15 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 19
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/59\n.csdlc/prepared/issues/59",
+      "review_revision": "git-blake3:fe68d44c809f8b748046bf9b772abb9e98ac4e16:761044d03ed4f9635a3549b68e85a9a6c97fbed69656febb70a387e4f390dc46",
+      "reviewer": "subagent:execute_75_to_pr",
       "review_prompts": [
         "Does any repository executable actually implement create_goal admission or thread-goal persistence?",
         "Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?",
@@ -25,8 +25,11 @@
         "Are the estimates, stop boundary, changed paths, and exact next action explicit?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The live blocked-goal replacement canary remains upstream until the Codex platform owner ships the product fix.",
+        "Publication must preserve linkage_mode part_of, the exact qualified relationship line, and the issue 75 stack base."
+      ],
+      "review_result": "pass"
     }
   }
 }
