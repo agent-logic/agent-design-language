@@ -4,63 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f197ba9a10a891e66af5c5abaf07b25a4c18aca0b13d3891034b25966841450b",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "014d385ed37e41dd893d5042d0b5be7c988c228196bb8e0bee1bd12ee3988659",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "1ab00e51bfda4eff671a032bac3b84f3c27b2d53454d2e384df76191d8b0b9f9",
   "branch": "codex/78-stp-post-review-recovery-correction",
   "worktree": "/Volumes/FastWork/adl-issue-78-stp-recovery-correction",
-  "review_assignment": {
-    "reviewer": "codex-subagent:Volta",
-    "assigned_by": "codex:78-implementation",
-    "revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
-    "scope": [
-      ".csdlc/evidence/78",
-      ".csdlc/issues/78",
-      ".csdlc/prepared/issues/78",
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:Volta",
-    "scope": [
-      ".csdlc/evidence/78",
-      ".csdlc/issues/78",
-      ".csdlc/prepared/issues/78",
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs"
-    ],
-    "reviewed_revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
-    "findings": [
-      {
-        "id": "F-78-1",
-        "severity": "p2",
-        "summary": "SPP steps S1-S3 remained pending after implementation and validation completed.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
-        "route": null
-      },
-      {
-        "id": "F-78-2",
-        "severity": "p2",
-        "summary": "Focused proof covered stale generation but not stale digest and unchanged durable state.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:d183351097dc50ed5bdf2adf359f8cfd4fa95113:d7a18aaab08820fb561ff1d225b3065f459b58be6a6f84cdba053caa513f5f5d",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "The operation is intentionally narrow and remains unavailable until this exact reviewed binary is installed; issue #73 consumption is the final pre-publication integration proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -75,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1d3752ba4e8e38a9ccb3492ec80b92800f2a50de778e1a81b31bb15a4616e39",
+      "values_digest": "19a8bc99055f44baf8c2e86d5b2ac15937991941d1b9711f4db7a98b405e22af",
       "rendered_digest": "10b1cb4b224eda765b52d2b7694e943fc0826802c641e347d67b67298ef844bd",
       "ast_digest": "c9c883a3fc741550905b618953d4b55a72f26d42d2a1919d73a39a2292ccbb92"
     },
     "stp": {
-      "values_digest": "4ef04817aa4a537ce4430782e3a8c42d5460b45109029a22c233579800156e23",
+      "values_digest": "753603e00d0652669ede3cc75393691ba61c0b106ca8b4fe70652719462c13c5",
       "rendered_digest": "f6772c71a119566817dbebb6c4647295a72562fb920b858f6137ef8cc90ffeef",
       "ast_digest": "dd60555ec979f9be0808541ff2177c0bf56a0113f6b1b68111fd0c8e8549a1ef"
     },
     "spp": {
-      "values_digest": "efabd20cf9ed03a1b7f31b9795878da43749c78a9f9c3ff66fdc4692afa8eed9",
-      "rendered_digest": "fb2c21b24bec9b8d986eb439a3915d0f6515655ea98509dfd5c2d98257e535e8",
-      "ast_digest": "43281d9e28acc76df6a57a5b3187f3e2f9b7ef303b4b6f195689564025a87bf2"
+      "values_digest": "55029158332d1865517d1819ad04510209596185e5ee9fa008129a8cc4ef0287",
+      "rendered_digest": "140a6ef145a9bb8aed5e7d20316f766d2b82547490ef30e00af7c8c58cb8e4dd",
+      "ast_digest": "df726beaea78914f5da743e20373846b633a95febc234002ea6c653843454b4b"
     },
     "vpp": {
-      "values_digest": "1b7be9ebfaf6bace138096e58372d554dae41ad40db64160a88747af2a2f115c",
+      "values_digest": "b82c5651132d0d5d1abdee58f7918eb12790a930ed0a39433233a63d5f348bbc",
       "rendered_digest": "3bcdd11d5812376f6f2438b013766b5b759a799a991c7b672da15c607166db2a",
       "ast_digest": "55d65ae05d4ac7df6983b7be42558b90bf3887d3c154cbc1031467ee98ab7581"
     },
     "srp": {
-      "values_digest": "74f8e16b286f480039fbcd2111ca728a7fc9141d54d7153d5c9a880840257d78",
-      "rendered_digest": "91aba3323800e89defbf200851a880bda354a5e25afa1df5516eacd158728056",
-      "ast_digest": "3e21e48d5b4ac57423b64d7701108640e374022774e73d83311aca668312bc0b"
+      "values_digest": "bb85a929598dd7efecd482354628b7e606d444d27e2643aeb96654f3a6779654",
+      "rendered_digest": "befb1c24fefa7a9b742334221e3c818ba30fe09e0c76ab427a81b921b0200778",
+      "ast_digest": "801c15b565ec589d0b6aa510249be5d7614e8a0464b12f1d4c505fbed020c6b1"
     },
     "sor": {
-      "values_digest": "cd2d0b4d962dad552fc0aeba841f8e2087f54748af8f7a68181ec3acd2bb9bd0",
-      "rendered_digest": "60e3e3daaa71b30a606a2a1f3b7aa858708710e80f166463b051be3b1bfb7003",
-      "ast_digest": "d2ac06038221a277ff2b3c4acdc8f53df76d0e7a1cb915cf9f3f748bc9163989"
+      "values_digest": "a13f6f7820a8c8a915efc49243c66cdae8f60ef89f928be1b77c9b576175bb1b",
+      "rendered_digest": "88c630950d03a9b82994ad89cdd6bf8e245ad639eda8e4d5162de40c89835ac7",
+      "ast_digest": "bf62cb0dece1370ac8c06a2960f0056add069cb4dea168a0019141f8301634b4"
     }
   },
   "transitions": [
@@ -133,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex-subagent:Volta",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:78-integration",
+      "reason": "Installation verification and issue #73 typed consumption completed after exact review; recover review truth to record S4 completion before final re-review and publication."
     }
   ],
   "audit": [
@@ -240,6 +197,20 @@
       "actor": "codex-subagent:Volta",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:78-integration",
+      "reason": "Installation verification and issue #73 typed consumption completed after exact review; recover review truth to record S4 completion before final re-review and publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:78-integration",
+      "reason": "Record clean exact-head review, verified stable installation from source revision 38e07b2a2, and successful typed issue #73 STP consumption at generation 29.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
     }
   ]
 }

@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
     "slug": "stp-post-review-recovery-correction",
     "version": "unversioned",
-    "generation": 12
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
@@ -122,7 +122,7 @@
           "evidence_ref": ".csdlc/evidence/78/review-remediation-fmt.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

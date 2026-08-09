@@ -129,7 +129,7 @@ Added a typed, recovery-provenance-gated operation that corrects only STP delive
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

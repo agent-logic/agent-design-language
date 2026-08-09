@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
     "slug": "stp-post-review-recovery-correction",
     "version": "unversioned",
-    "generation": 12
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -57,7 +57,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
