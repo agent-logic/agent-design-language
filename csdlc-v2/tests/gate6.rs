@@ -1,8 +1,11 @@
 use csdlc_v2::{
     publication::{
-        body_has_github_closing_keyword, body_has_qualified_github_closing_keyword, validate_remote,
+        body_has_github_closing_keyword, body_has_github_part_of_reference,
+        body_has_qualified_github_closing_keyword, body_has_qualified_github_part_of_reference,
+        validate_remote,
     },
-    reconcile_action, PublicationAction, PublicationIntent, RemotePullRequest,
+    reconcile_action, PublicationAction, PublicationIntent, PublicationLinkageMode,
+    PublicationRequest, RemotePullRequest,
 };
 
 fn intent() -> PublicationIntent {
@@ -15,6 +18,7 @@ fn intent() -> PublicationIntent {
         head: "codex/5236".into(),
         title: "Gate 6".into(),
         body: "Closes #5236".into(),
+        linkage_mode: PublicationLinkageMode::Closing,
         draft: true,
         revision: "revision".into(),
         commit_sha: "abc123".into(),
@@ -49,6 +53,7 @@ fn remote() -> RemotePullRequest {
         head: intent.head,
         title: intent.title,
         body: intent.body,
+        linkage_mode: intent.linkage_mode,
         draft: intent.draft,
         state: "open".into(),
         head_sha: intent.commit_sha,
@@ -124,11 +129,95 @@ fn publication_body_requires_github_closing_keyword_for_issue() {
 }
 
 #[test]
+fn part_of_requires_one_exact_non_closing_reference() {
+    assert!(body_has_github_part_of_reference(
+        "Part of #5236",
+        5236,
+        "agent-logic/agent-design-language"
+    ));
+    for body in [
+        "Part of issue #5236",
+        "This is part of #5236",
+        "Part of #52360",
+        "Related #5236",
+        "Part\nof #5236",
+    ] {
+        assert!(!body_has_github_part_of_reference(
+            body,
+            5236,
+            "agent-logic/agent-design-language"
+        ));
+    }
+}
+
+#[test]
+fn split_authority_part_of_requires_qualified_reference() {
+    assert!(body_has_qualified_github_part_of_reference(
+        "Part of danielbaustin/agent-design-language#5236",
+        5236,
+        "danielbaustin/agent-design-language"
+    ));
+    assert!(!body_has_qualified_github_part_of_reference(
+        "Part of #5236",
+        5236,
+        "danielbaustin/agent-design-language"
+    ));
+}
+
+#[test]
+fn remote_part_of_mode_is_retained_and_mixed_linkage_fails_closed() {
+    let mut intent = intent();
+    intent.linkage_mode = PublicationLinkageMode::PartOf;
+    intent.body = "Part of #5236".into();
+    let mut remote = remote();
+    remote.linkage_mode = PublicationLinkageMode::PartOf;
+    remote.body = intent.body.clone();
+    assert!(validate_remote(&intent, &remote).is_ok());
+
+    remote.body = "Part of #5236\n\nCloses #5236".into();
+    assert!(validate_remote(&intent, &remote).is_err());
+    remote.body = "Part of #5236".into();
+    remote.linkage_mode = PublicationLinkageMode::Closing;
+    assert!(validate_remote(&intent, &remote).is_err());
+}
+
+#[test]
+fn omitted_request_linkage_mode_defaults_to_closing() {
+    let request: PublicationRequest = serde_json::from_value(serde_json::json!({
+        "schema": "csdlc.publication_request.v1",
+        "issue": 5236,
+        "expected_generation": 1,
+        "expected_digest": "digest",
+        "actor": "operator",
+        "repository": "agent-logic/agent-design-language",
+        "base": "main",
+        "head": "codex/5236",
+        "title": "title",
+        "body": "Closes #5236",
+        "draft": false,
+        "remote": "origin",
+        "token_file": null
+    }))
+    .expect("legacy request");
+    assert_eq!(request.linkage_mode, PublicationLinkageMode::Closing);
+}
+
+#[test]
 fn public_schema_keeps_publication_and_drops_merged_reconciliation() {
     let bundle = csdlc_v2::public_schema_bundle();
     assert!(bundle.get("publication_request").is_some());
     assert!(bundle.get("publication_intent").is_some());
     assert!(bundle.get("remote_pull_request").is_some());
+    for key in [
+        "publication_request",
+        "publication_intent",
+        "remote_pull_request",
+        "issue_record",
+    ] {
+        let schema = bundle[key].to_string();
+        assert!(schema.contains("linkage_mode"));
+        assert!(schema.contains("part_of"));
+    }
     assert!(bundle
         .get("merged_publication_reconciliation_request")
         .is_none());

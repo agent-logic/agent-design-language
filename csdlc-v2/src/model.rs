@@ -100,6 +100,8 @@ pub struct PublicationEvidence {
     pub base: String,
     pub head: String,
     pub revision: String,
+    #[serde(default)]
+    pub linkage_mode: crate::publication::PublicationLinkageMode,
     pub draft: bool,
     pub observed_state: String,
 }
