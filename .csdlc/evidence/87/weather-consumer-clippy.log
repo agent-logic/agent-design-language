@@ -1,0 +1,7 @@
+command: cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_resource_weather -- -D warnings
+child_revision: eca5d84c6
+proof_revision: b1d44c06e
+product_revision: 5e7ef2c39
+exit_code: 0
+checked: adl-runtime v0.92.0
+result: Finished dev profile successfully

@@ -1,0 +1,7 @@
+flowchart LR
+    O["ACIP offer: major + inclusive minor range"] --> M{"Major equals 1?"}
+    M -- "no" --> R["Reject unsupported major"]
+    M -- "yes" --> V{"Range valid and minimum <= local minor 0?"}
+    V -- "no" --> N["Reject no compatible minor"]
+    V -- "yes" --> F["Validate required features"]
+    F --> A["Accept ACIP 1.0"]
