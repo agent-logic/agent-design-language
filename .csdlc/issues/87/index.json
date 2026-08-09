@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d1b7b0b06a2c0f94ec27f0729d43c50921764b10560462b62c3d2d84765f3526",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "142139093c8419fb64f3be34ba1984c8bc0eaa4a00b210ab9092f862e70f4221",
+  "phase": "published",
+  "generation": 16,
+  "digest": "94e6bc87fb39b0079a585c1929ac8d460032208a40f9704aa5c863a09091b2f3",
   "branch": "codex/87-acip-minor-version-strict-clippy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-87-acip-minor-version-strict-clippy",
   "review_assignment": {
@@ -36,7 +36,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 87,
+    "pull_request": 94,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/94",
+    "base": "main",
+    "head": "codex/87-acip-minor-version-strict-clippy",
+    "revision": "git-blake3:cc87910c7998c04c4de168bde5944c306e3755f0:f12946af26d9893ddd1c2c875b4d7fa8f495848c51de97efd0bcb045aa1bd97d",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -50,34 +60,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "99b91b4b3db88b7b8deb8d99394d99a25fa7be1ceceb86c40c76d43be6913ea5",
+      "values_digest": "f4f5bd5325d7b5a62c1f47dd95ffb6a8587bc7ab92c8e63a21dd6520420d9319",
       "rendered_digest": "69ea375b91a4ba4d35438808b445f1b6218adf9c6a38116bf85155a7d1d20d54",
       "ast_digest": "959d743916c7932b373f3c1d0965284a8451726ecae7249413891fb1c6fb4681"
     },
     "stp": {
-      "values_digest": "067d2733d424809d877ea6078bd786a00e14a357e9a57076e556a3500304a57c",
+      "values_digest": "dec485fc0ea887c66767317b713e360d6349ba0bead492dd1160dba074e524a5",
       "rendered_digest": "c7c46e295ea9f96524a17a6872e1824de3b5926c7d00bff8b07d50d423985973",
       "ast_digest": "7f3469945331286a2edc31f58a2042414a23a618c2fd05010bd495ee791b2c65"
     },
     "spp": {
-      "values_digest": "8a02c9759af766b56c2e51c0fdf4f0d1c5dc6db247ec4b0b11c540e144d08db2",
+      "values_digest": "c8e39007cc82c05c9075753229d250557c51c71568cb1cab9307e5760cd9b906",
       "rendered_digest": "4606bed58d6c2d2bddd21fea34ca7e8c2ea21c3817ef575bed09bbcb6e589070",
       "ast_digest": "f134eea0856267077625b23d1418141e10716ee8004fc2687a33c51e12324e75"
     },
     "vpp": {
-      "values_digest": "0d0b8915c619054e82fec178125024b8629c1df2ab8814ed177d0966c3b01717",
+      "values_digest": "bd8a673d73d4ba15df32c4754b664e444ae1bd506dcb530e7fa9e8e15cb31402",
       "rendered_digest": "31d1925a73e8d9061e13bf0a323526d9f2043ccd7e245d8bb878f832c34eb3d4",
       "ast_digest": "94071b7a27ba293a4c867943778f33e049282dcee8f23d8fd064648c811680bd"
     },
     "srp": {
-      "values_digest": "14359d0ac3b35093cb30c2626d132da92013f2c4e8c88d489728e13b1b5706b3",
+      "values_digest": "b597dbffc477be8477e314d7d2b1afb34cd55a6b60f644319f47824d04c9c80f",
       "rendered_digest": "afb3499cf54aa1b0a221aca36ed3d5f54f064674ab4d0796b2fa5375154eefe7",
       "ast_digest": "60e9c10623aa8800351ba0c4bbd660aec8242e718c4e74ef9c9bb1056d02387e"
     },
     "sor": {
-      "values_digest": "f861ae1e7a400daffa9283197641e31d0acb3034e6b1fb298c4d86689c955d59",
-      "rendered_digest": "48ce5a17a70a985fb6527b102d6fdd3c249bbd33bdbf68a15f52d78a4c59dd03",
-      "ast_digest": "72f8162f656d6b58daace9711e1e3f3519a4f10088ad778480ff3cfd1030911b"
+      "values_digest": "f5888adddf1ffa9cd657927a0ebdc181da2696e40b0904fa75ae8f9d0081e72c",
+      "rendered_digest": "44558a16510a4108d635ab88240c4535a332713a2e7a7983ce1dd3d136d3bdeb",
+      "ast_digest": "859a34f8f32d5a5d77e64009488a151e71e8b0a2d372f3e6063d8738a720a391"
     }
   },
   "transitions": [
@@ -108,6 +118,13 @@
       "to": "reviewed",
       "actor": "subagent:/root/start_sprint_4_5862",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -236,6 +253,13 @@
       "actor": "subagent:/root/start_sprint_4_5862",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

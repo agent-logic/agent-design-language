@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
     "slug": "acip-minor-version-strict-clippy",
     "version": "v0.92",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -101,8 +101,8 @@
           "evidence_ref": ".csdlc/evidence/87/format-check.log (sha256 1cd015853bdf216847f86bde5b930d0f869d004b5cdd10f5f0f707aebf1823c0); exit 0, product 5e7ef2c39."
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
