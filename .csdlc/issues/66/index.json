@@ -3,15 +3,15 @@
   "issue": 66,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "90e59f922e4766e5aa4b7d8061e4752b5386a7fff1ba42c65e132209be0ed71d",
-  "phase": "reviewed",
-  "generation": 20,
-  "digest": "1022ec8bf8cd156654b9093f689f9ae70686430a4ec354a39e9766e6a847a8c0",
+  "phase": "published",
+  "generation": 23,
+  "digest": "dc55d9046dca8a7f10d25b86bb8130a927a4fdc133703de95e53cd5f9e9a2c6f",
   "branch": "codex/66-deepgram-speech-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-66-deepgram-speech-provider",
   "review_assignment": {
     "reviewer": "subagent:66-final-review",
     "assigned_by": "codex:66-implementation",
-    "revision": "git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f",
+    "revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
     "scope": [
       "adl/src/provider/deepgram.rs",
       "adl/src/provider/mod.rs",
@@ -22,8 +22,6 @@
       "adl/tests/provider_tests/deepgram.rs",
       "docs/tooling/PROVIDER_SETUP.md",
       "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
-      ".csdlc/issues/66",
-      ".csdlc/prepared/issues/66",
       ".csdlc/evidence/66"
     ]
   },
@@ -39,11 +37,9 @@
       "adl/tests/provider_tests/deepgram.rs",
       "docs/tooling/PROVIDER_SETUP.md",
       "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
-      ".csdlc/issues/66",
-      ".csdlc/prepared/issues/66",
       ".csdlc/evidence/66"
     ],
-    "reviewed_revision": "git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f",
+    "reviewed_revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
     "findings": [],
     "residual_risks": [
       "The live canary proves one bounded Pluto-to-Nova-3 round trip; ongoing provider availability and future response-schema changes remain external operational risks."
@@ -51,7 +47,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 66,
+    "pull_request": 95,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/95",
+    "base": "main",
+    "head": "codex/66-deepgram-speech-provider",
+    "revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +71,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0965a8edd8e058726d1b3aa0670363b3463b58075621f0260514f93e05a9670a",
+      "values_digest": "aaef2bcc4d749063ee28350cb75856fde980a8b9a8b4db8f186fa769c40d6770",
       "rendered_digest": "226262d91ad557fb76edf99821d10d77240c7036bfe5a49910b568180aa40ce9",
       "ast_digest": "dcf435c9562816ed96640d50374fbdfe238a8630c65a1f47ea16561a676a3913"
     },
     "stp": {
-      "values_digest": "4c65406698139a431db40d0732270b4fc4714be29999d3ebbb36f6f80d712b64",
+      "values_digest": "cdfdb40c7f5e4b06745ff1b5c59da6de81f89766a87ec375435cc9995a508646",
       "rendered_digest": "5e5100417c10ad054310a21f3f1e8a7cef52f0029b473aa80bb288787903d09c",
       "ast_digest": "b75035db71def7c53cb6b71bb1977615ecca40c037830d939045e74f0c77271c"
     },
     "spp": {
-      "values_digest": "fac74922c2cdacf6eede73b0991f051b4450373702db469ebf29bbef7b37a759",
+      "values_digest": "4f9e3c007874a2a8d02b78b7de45ff54db55e0832ccaf8acbc7d3b7c4e8b5fd9",
       "rendered_digest": "2854a9958cfc898be0439612fd8c73b24bb5047d2f6a6d5a375b88f5131d01e4",
       "ast_digest": "48efa68f36e26d1f53abe9c96d36a7bb672e7baf4e1ea8e3a6eeba9573ca06bd"
     },
     "vpp": {
-      "values_digest": "c98bbed7dd6fbd6cb6a7b00956695cd47a16270914245442669c0674e8738501",
+      "values_digest": "c312ef60e26765c03b7d533717cb9ae057df7a6a3aae36e9f9e24fa1a10257d3",
       "rendered_digest": "28b921e6623edcfa3f0045f6b6843634eb7a131d3650c895820c7ba036eace2c",
       "ast_digest": "4295261bb6bcaecd0f4c4c3876a2da5a119db3ab1aa9b5f355b6e3841890a39b"
     },
     "srp": {
-      "values_digest": "8771ee582ece57f5141ad2a95af586d98655f04fb4c89fa2f0ad27b09bf757f7",
-      "rendered_digest": "c3e030d359679a93e0455ae4192ec36cc433d7880af844cae1a6ac110634330f",
-      "ast_digest": "7f9c5216b06137ff9bf7bc74337e212bb0878fdd0930ea5c9279e9d4981a62c5"
+      "values_digest": "ed740abaa6645c6e96998ad17fec3b27bdfde8c1e43f1460b2c9e08b4e9f1f57",
+      "rendered_digest": "17137c3be5dd9004c6dd36ceafe515f984e9964eb4725bb07edab27b7d2da1cf",
+      "ast_digest": "a2865b3f3d82b4623460bdad3490f308091cfe14b80a0406d2d0ffe631030909"
     },
     "sor": {
-      "values_digest": "9a9f61dbf856e9edf48b662e4ca793854966c022bcaa7dd91fbd1ac4d2d125b6",
-      "rendered_digest": "a3afd572c665f83530dcdb8f5e93619688a1b784ada1efc6649336b3e1b642a3",
-      "ast_digest": "8c9c3a67d65828678a1a52a23780a5e220c9ee7fb74364ce5302cc50497f690c"
+      "values_digest": "ac111548efbb649ebe587a4eb25c20bd220d248be0d486c387ea2174619033b0",
+      "rendered_digest": "611482da75bc7bde1af1fc70d150f38a91c28680e6fefb49b1b1d5d83840a28e",
+      "ast_digest": "3e353a2ada8869cf55b6b48814c5fdd5fa7d53de80b13686ef0417504d468fd3"
     }
   },
   "transitions": [
@@ -123,6 +129,27 @@
       "to": "reviewed",
       "actor": "subagent:66-final-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:66-publication",
+      "reason": "The publication request was added as reviewed metadata after the prior exact review; recover to implemented so final review can bind to the unchanged product and evidence scope at the publication head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:66-final-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:66-publication",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -286,6 +313,34 @@
       "actor": "subagent:66-final-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:66-publication",
+      "reason": "The publication request was added as reviewed metadata after the prior exact review; recover to implemented so final review can bind to the unchanged product and evidence scope at the publication head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:66-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "subagent:66-final-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:66-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

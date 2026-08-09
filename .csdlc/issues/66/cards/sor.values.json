@@ -7,7 +7,7 @@
     "title": "Add first-class Deepgram speech provider",
     "slug": "deepgram-speech-provider",
     "version": "v0.92",
-    "generation": 20
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
@@ -91,8 +91,8 @@
           "evidence_ref": "local:issue-66-diff-and-credential-scan:passed"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

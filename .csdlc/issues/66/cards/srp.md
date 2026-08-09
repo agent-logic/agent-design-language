@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -21,8 +21,6 @@ adl/tests/provider_tests.rs
 adl/tests/provider_tests/deepgram.rs
 docs/tooling/PROVIDER_SETUP.md
 demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md
-.csdlc/issues/66
-.csdlc/prepared/issues/66
 .csdlc/evidence/66
 
 ## Prompts
@@ -47,7 +45,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f")
+Revision: Some("git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d")
 
 Reviewer: Some("subagent:66-final-review")
 

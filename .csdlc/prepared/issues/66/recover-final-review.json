@@ -1,0 +1,7 @@
+{
+  "issue": 66,
+  "expected_generation": 20,
+  "expected_digest": "1022ec8bf8cd156654b9093f689f9ae70686430a4ec354a39e9766e6a847a8c0",
+  "actor": "codex:66-publication",
+  "reason": "The publication request was added as reviewed metadata after the prior exact review; recover to implemented so final review can bind to the unchanged product and evidence scope at the publication head."
+}

@@ -98,11 +98,11 @@ Added typed Deepgram batch synthesis and prerecorded transcription support with 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -1,7 +1,7 @@
 {
   "issue": 66,
-  "expected_generation": 19,
-  "expected_digest": "984cdf8486125d6ea219893b96b8a9b4a281e620d81470e2bfe5f4671b8fb9fd",
+  "expected_generation": 21,
+  "expected_digest": "4d29bc95a22e3a8651048bf17af4c726745fae716082d0d6b69b5792aec6978d",
   "actor": "subagent:66-final-review",
   "evidence": {
     "reviewer": "subagent:66-final-review",
@@ -15,11 +15,9 @@
       "adl/tests/provider_tests/deepgram.rs",
       "docs/tooling/PROVIDER_SETUP.md",
       "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
-      ".csdlc/issues/66",
-      ".csdlc/prepared/issues/66",
       ".csdlc/evidence/66"
     ],
-    "reviewed_revision": "git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f",
+    "reviewed_revision": "git-blake3:30fe09de7e6257363c990ff990533330ba177298:bed2defa513f19fc6873071d501a95bcf2eb2b5953eed7442fe50c5a93b2cf9d",
     "findings": [],
     "residual_risks": [
       "The live canary proves one bounded Pluto-to-Nova-3 round trip; ongoing provider availability and future response-schema changes remain external operational risks."

@@ -21,3 +21,7 @@
 {"sequence":21,"generation":19,"actor":"subagent:66-final-review","reason":"reapprove changed issue design","operation":"approve_design"}
 {"sequence":22,"generation":19,"actor":"codex:66-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":23,"generation":20,"actor":"subagent:66-final-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":24,"generation":21,"actor":"codex:66-publication","reason":"The publication request was added as reviewed metadata after the prior exact review; recover to implemented so final review can bind to the unchanged product and evidence scope at the publication head.","operation":"recover_review"}
+{"sequence":25,"generation":21,"actor":"codex:66-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":26,"generation":22,"actor":"subagent:66-final-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":27,"generation":23,"actor":"codex:66-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
