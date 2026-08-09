@@ -17,6 +17,7 @@ use tiny_http::{Header, Response, Server, StatusCode};
 use super::support::adl_doc_from_yaml;
 
 const TEST_KEY_ENV: &str = "ADL_DEEPGRAM_TEST_KEY_66";
+const TEST_KEY_FILE_ENV: &str = "ADL_DEEPGRAM_TEST_KEY_FILE_66";
 const TEST_KEY: &str = "deepgram-test-secret-66";
 
 fn env_lock() -> &'static Mutex<()> {
@@ -51,6 +52,24 @@ fn with_test_key<T>(run: impl FnOnce() -> T) -> T {
     match previous {
         Some(value) => env::set_var(TEST_KEY_ENV, value),
         None => env::remove_var(TEST_KEY_ENV),
+    }
+    result
+}
+
+fn without_test_credentials<T>(run: impl FnOnce() -> T) -> T {
+    let _guard = env_lock().lock().expect("Deepgram test env lock");
+    let previous_key = env::var_os(TEST_KEY_ENV);
+    let previous_file = env::var_os(TEST_KEY_FILE_ENV);
+    env::remove_var(TEST_KEY_ENV);
+    env::remove_var(TEST_KEY_FILE_ENV);
+    let result = run();
+    match previous_key {
+        Some(value) => env::set_var(TEST_KEY_ENV, value),
+        None => env::remove_var(TEST_KEY_ENV),
+    }
+    match previous_file {
+        Some(value) => env::set_var(TEST_KEY_FILE_ENV, value),
+        None => env::remove_var(TEST_KEY_FILE_ENV),
     }
     result
 }
@@ -299,6 +318,102 @@ fn deepgram_rejects_unapproved_endpoint_and_unsupported_media_before_network() {
             })
             .expect_err("declared WAV must contain WAV bytes");
         assert_eq!(error.kind, SpeechErrorKind::UnsupportedMedia);
+    });
+}
+
+#[test]
+fn deepgram_configuration_and_credentials_fail_closed() {
+    let mut wrong_kind = provider_spec("http://127.0.0.1:9", 5);
+    wrong_kind.kind = "http".to_string();
+    let error = match build_speech_provider("speech", &wrong_kind) {
+        Ok(_) => panic!("non-Deepgram provider kind must fail"),
+        Err(error) => error,
+    };
+    assert_eq!(error.kind, SpeechErrorKind::InvalidInput);
+
+    assert_eq!(
+        DeepgramSpeechProvider::from_spec("speech", &provider_spec(":not-a-url", 5))
+            .expect_err("invalid endpoint must fail")
+            .kind,
+        SpeechErrorKind::InvalidInput
+    );
+    assert_eq!(
+        DeepgramSpeechProvider::from_spec("speech", &provider_spec("http://127.0.0.1:9", 0))
+            .expect_err("zero timeout must fail")
+            .kind,
+        SpeechErrorKind::InvalidInput
+    );
+
+    without_test_credentials(|| {
+        let mut spec = provider_spec("http://127.0.0.1:9", 5);
+        spec.config.insert(
+            "api_key_file_env".to_string(),
+            Value::String(TEST_KEY_FILE_ENV.to_string()),
+        );
+        let provider = DeepgramSpeechProvider::from_spec("speech", &spec)
+            .expect("construct credential-free provider");
+        assert_eq!(
+            provider
+                .synthesize(&synthesis_request())
+                .expect_err("missing credentials must fail before transport")
+                .kind,
+            SpeechErrorKind::Authentication
+        );
+    });
+}
+
+#[test]
+fn deepgram_request_validation_rejects_missing_and_mismatched_inputs() {
+    with_test_key(|| {
+        let provider =
+            DeepgramSpeechProvider::from_spec("speech", &provider_spec("http://127.0.0.1:9", 5))
+                .expect("construct provider");
+
+        let mut empty_text = synthesis_request();
+        empty_text.text.clear();
+        assert_eq!(
+            provider
+                .synthesize(&empty_text)
+                .expect_err("empty synthesis text must fail")
+                .kind,
+            SpeechErrorKind::InvalidInput
+        );
+
+        let mut invalid_mp3_rate = synthesis_request();
+        invalid_mp3_rate.encoding = AudioEncoding::Mp3;
+        invalid_mp3_rate.container = AudioContainer::None;
+        assert_eq!(
+            provider
+                .synthesize(&invalid_mp3_rate)
+                .expect_err("noncanonical MP3 sample rate must fail")
+                .kind,
+            SpeechErrorKind::UnsupportedMedia
+        );
+
+        assert_eq!(
+            provider
+                .transcribe(&TranscriptionRequest {
+                    audio: Vec::new(),
+                    content_type: "audio/wav".to_string(),
+                    model: "nova-3".to_string(),
+                    language: "en-US".to_string(),
+                })
+                .expect_err("empty transcription audio must fail")
+                .kind,
+            SpeechErrorKind::InvalidInput
+        );
+        assert_eq!(
+            provider
+                .transcribe(&TranscriptionRequest {
+                    audio: wav_fixture(),
+                    content_type: "audio/ogg".to_string(),
+                    model: "nova-3".to_string(),
+                    language: "en-US".to_string(),
+                })
+                .expect_err("unsupported transcription media must fail")
+                .kind,
+            SpeechErrorKind::UnsupportedMedia
+        );
     });
 }
 
