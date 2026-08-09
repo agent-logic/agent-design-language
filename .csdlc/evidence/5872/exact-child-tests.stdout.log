@@ -1,5 +1,7 @@
-Nextest run ID 15a3cd45-3895-47fc-a4e2-1b4605bb7203 with nextest profile: default
-Starting 10 tests across 1 binary
+Nextest run ID 34d3b582-22a2-44bd-9106-e7fd2dc7d3ee with nextest profile: default
+Starting 12 tests across 1 binary
+PASS database_path_rejects_relative_paths
+PASS database_path_rejects_symlinked_ancestors_and_final_component
 PASS resource_weather_policy_rejects_platform_maxima
 PASS freshness_lifetime_and_normalization_bounds_are_explicit
 PASS domain_holder_certificate_and_signature_tampering_fail_closed
@@ -10,4 +12,4 @@ PASS signed_withdrawal_is_durable_no_data_and_cannot_be_replayed
 PASS replay_floor_survives_restart_rotation_and_invalid_high_sequence
 PASS certificate_window_revocation_rotation_and_refresh_bound_cached_weather
 PASS holder_capacity_payload_and_durable_corruption_fail_closed
-Summary: 10 tests run, 10 passed, 0 skipped
+Summary: 12 tests run, 12 passed, 0 skipped
