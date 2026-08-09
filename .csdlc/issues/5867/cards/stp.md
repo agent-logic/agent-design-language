@@ -39,11 +39,12 @@ Implement deterministic membership epochs and bounded topology convergence from 
 
 ## Inputs
 
-- docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md
-- .csdlc/prepared/issues/5821/design.md
-- adl-runtime/src/guardian.rs
-- adl-runtime/src/networking.rs
-- adl-runtime/src/runtime_api.rs
+- docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md
+- .csdlc/prepared/issues/5867/design.md
+- adl-runtime/src/distributed/identity.rs
+- adl-runtime/src/distributed/certificates.rs
+- adl-runtime/src/distributed/transport.rs
+- adl-runtime/src/distributed/discovery.rs
 
 ## Non Goals
 

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "421dcbb5f175ad60a76124fe09d92fb357634c3ce493305cc9f9722b6827c02e",
   "phase": "initialized",
-  "generation": 15,
-  "digest": "0995d612e82ec826304cba3ef2ced6f7b18c16024a1d5f54268deeffb8294b0d",
+  "generation": 17,
+  "digest": "dd80bb7b76b41cb06233ab574d80b94cad73f411b815c9c14931b5033d201a93",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9df753721e78f7188c2d5d8bd297ecfc55e204d74cd6cf9543619de296c9a61d",
+      "values_digest": "e343db6606c5866a1c8cf288713ae4256ca1f70a04323035c1aecefd4c1da357",
       "rendered_digest": "848efafb64f1e51878c0fd42417d7db98580f297dfc3c8076f1d9708086a0cde",
       "ast_digest": "b5d7fdcc90b719c39e39929e8e5ff23892d508b5cf894f474acc380115aacdf4"
     },
     "stp": {
-      "values_digest": "c65615db2f1b423ab579f44e341e8c80ff506ff6a5fe9c130a119428ed8bf616",
-      "rendered_digest": "ae054d6b3b479fde5ce7826f94ac08533b069c56229f10073a70be51f66eab5e",
-      "ast_digest": "92b3d1f818d456262a7b001e47fb10cfbd3906dedb619432b86ed070b2e527b3"
+      "values_digest": "35f611337d382e11ae4eae7c3b4c83a3f0a08691fc7d8af60be46130be93969f",
+      "rendered_digest": "0672e6be4660457f4071f5d3b136156f815d6001d27f5e53d06b8cfc88a53d7c",
+      "ast_digest": "d72ecf2e8b3c5d3dc0615f4529a2f555d3b73da3a16455fa0f8a1c5f5fb208e1"
     },
     "spp": {
-      "values_digest": "78c55d747c78a029ce83eca3b4ec6bb3e694bb7d3cbf5c658f6c4d944e390008",
-      "rendered_digest": "9d292790e1a5b922a52162025ab6e7dcd4b3c5e0eea8857cd7e33c8e9968cda9",
-      "ast_digest": "efc41c42e9221fa1ca69d99c86961e33179cb2fe9bc00ac388bd068cacc0b952"
+      "values_digest": "076595d5ba03c479f9889387b10f64da5aadbe233960e852b4e012002d433dbc",
+      "rendered_digest": "710c82fa4251dd55a9f71fe6b41018fb489a41c68c6bfc09edc5015eb0fe1ba6",
+      "ast_digest": "eb0f748310fc9e5c861c9138d6beca668f4f928e62a15eb315b022c26dbc3fe7"
     },
     "vpp": {
-      "values_digest": "7b327f728274d187582df39651ff42ce48cd9772a6f371bb799c4801777144a6",
+      "values_digest": "74a84697ede9fd80d849edff901e9937fd4e3fe58d7d2ee14770b2483ccfa8fa",
       "rendered_digest": "94f81a763f9d917af3b060f7a426e03ec91f99c0cd538f57421fc89619cf9098",
       "ast_digest": "d743fdd2a607bc67e5a278be7233667bcb18fb03afa3cb92a5a37106eca233b5"
     },
     "srp": {
-      "values_digest": "ce06a6a88bf8ef322b8da1268a30fb2943d14af20d270ba2243034f61c34b1e9",
+      "values_digest": "b6ee05696dd775335dfdb8c1d66082eb35f3f3a52ba1fb0973272d7784454006",
       "rendered_digest": "a3245be480e3c976e0421d88778ee4db70d49b5ebd20dc19a44362a2665d8c7c",
       "ast_digest": "7120a6307dcd12e6e48e00f50a177f246e385fbd285df42a062bf3f2de84b1aa"
     },
     "sor": {
-      "values_digest": "83e1575d71917f9234d00ba0b0569b60ff9cee0023da79d4c1ba33ab6aa187a1",
+      "values_digest": "fa79cd105c0c6e0552ea317622ab4f98620f9f199997c9c8ce6d39400ab820c0",
       "rendered_digest": "487fd8d4c8837237ec4a3f6e75c27b79f9cc7fcf2c78dcb7a42620d988ddde3f",
       "ast_digest": "b10faaed4e8a1e939a1dd7c2228022376bfb3cfb113eab20b0830efe21699b23"
     }
@@ -308,6 +308,20 @@
       "actor": "codex:5867-membership",
       "reason": "Declare the issue-owned bounded temporary path harness enabled by merged issue #79 while preserving the exact receipt lane.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero nextest target proves deterministic membership convergence, monotonic committed epochs, voter control-key uniqueness, bounded size, replay and ordering denial, and verified snapshot restart recovery.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_membership\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/membership.rs\\\"] harness in adl-runtime/tests/distributed_membership.rs routes adl-runtime/src/distributed/membership.rs until issue #5878 owns module registration.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=1aa9699231627d02c86b171ce325f7c18f85eb97d0353851ecc2d72c20b50dd3]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5867/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 16,
+      "actor": "codex:5867-membership-execution-prep",
+      "reason": "Replace stale generic Runtime inputs with the exact merged distributed contracts consumed by the membership slice.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md\",\".csdlc/prepared/issues/5867/design.md\",\"adl-runtime/src/distributed/identity.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/discovery.rs\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 17,
+      "actor": "codex:5867-membership-execution-prep",
+      "reason": "Replace stale claim-era and pre-creation target stops with current Git-topology, dependency, and post-implementation fail-closed gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issue #5866 is not closed through merged PR #88 or its exact merge revision is not ancestral to the selected base\",\"The merged discovery, certificate, identity, or transport contract cannot support authenticated membership without widening the two owned paths\",\"Either exact owned path is already present in or collides with another live issue worktree\",\"After implementation the distributed_membership target is absent, selects zero tests, or any required proof fails\",\"Module registration, product scope, dependency ownership, or rollback authority must widen beyond issue #5867\"]}"
     }
   ]
 }
