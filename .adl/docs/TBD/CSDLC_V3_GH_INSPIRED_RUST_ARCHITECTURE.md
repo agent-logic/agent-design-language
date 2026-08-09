@@ -86,7 +86,9 @@ the typed `capture_command`, and one `{path, kind, oid}` row per cited blob.
 Portable verification runs the declared `git ls-tree <revision> --
 <declared-paths>` operation in any clone of the named repository and requires
 exact equality with every manifest object ID; no absolute checkout path or
-host-local digest is part of the contract.
+host-local digest is part of the contract. A shallow verifier fetches the exact
+object with `git fetch --depth=1 origin <revision>` when it is absent; clone
+depth is never assumed to contain the pinned commit.
 
 ### Current C-SDLC v2
 
@@ -599,10 +601,23 @@ fail V3-01 and every downstream matrix-consistency lane.
 V3-01 versioned audit schema; inline unversioned schemas are rejected.
 `test_ids` are stable contract-case identifiers assigned in V3-01 before test
 implementation and later consumed verbatim by generated parameterized tests.
+They are immutable after V3-01 approval; additions require a reviewed matrix
+row and removals or renames are versioned contract breaks, not inline test
+maintenance.
 The required CI entrypoint is
 `cargo test -p csdlc-v3-contracts capability_matrix --locked`; it validates the
 matrix schema, resolves every audit reference, matches every command to
 generated Clap help, and fails on missing or unconsumed contract test IDs.
+
+The state-size baseline is retained at
+`csdlc-v3/contracts/state-size-baseline.v1.json`. It records baseline revision,
+selected issue identity, each index/audit/card-values path, Git blob OID, byte
+length, total bytes, warning bytes, and blocking bytes. The deterministic total
+is the sum of `git cat-file -s <blob-oid>` for the manifest rows after
+`git ls-tree` proves each path/OID pair at `f1c01499`; warning is exactly 80
+percent of the block and block is at least ten times the total. The required
+`state_size_baseline` case in the same locked contract-test package recomputes
+and verifies the artifact.
 
 ## Lifecycle Kernel
 
@@ -902,7 +917,12 @@ The minimum frozen subset is identity, field/index access, array/object
 iteration and construction, slicing, pipe, `select`, `has`, and `length`;
 V3-01 may remove a construct only before contract approval, and V3-02 may add
 one only through reviewed contract revision. The engine never spawns `jq` or a
-shell. `--template` uses a V3-02-approved restricted in-process engine with no
+shell. Everything outside the versioned positive grammar is unsupported; the
+initial exclusion register explicitly covers user functions, recursion,
+modules/imports, reductions, sorting/grouping, regex, date/math extensions,
+streaming, file/environment/process access, and dynamic evaluation. Negative
+conformance tests require typed usage errors for every excluded family.
+`--template` uses a V3-02-approved restricted in-process engine with no
 filesystem includes, process access, or environment access. Both operate on the
 same serialized envelope and are mutually exclusive. Diagnostics and progress
 use stderr. JSON stdout never contains human log lines.
@@ -1519,6 +1539,9 @@ contract, and redaction fixtures.
 - Cancelled async initialization remains single-flight on retry, applies the
   configured cooldown for localized cancellation/timeouts, and never retries
   after root cancellation.
+- The selected Tokio release is exact-version pinned, and a deterministic
+  cancellation test proves that dropping the active `get_or_init` future leaves
+  the cell uninitialized and permits exactly one cooldown-governed retry.
 - Async adapter traits remain object-safe without infecting pure domain APIs.
 - Supported OS and console interruption signals drive root cancellation and
   bounded child/task teardown before exit code 130.
@@ -1695,6 +1718,9 @@ filesystem capability policy, and concurrency fixtures.
 - Linux, macOS, and every mutation-enabled Windows filesystem have a named,
   documented, fault-tested commit primitive; unproven Windows mutation fails
   closed while compile and read-only support remain available.
+- An injected platform-capability fixture proves the Windows fail-closed path
+  and stable `unsupported_platform_mutation` error on every CI host; native
+  Windows CI separately proves any mutation-enabled primitive.
 - Locks protect transaction integrity without becoming lifecycle authority.
 
 **Validation proof:** Fault injection at every write/sync/rename boundary,
@@ -1976,6 +2002,9 @@ status commands.
 - `IssueObservation` is populated from the typed REST issue endpoint and
   preserves qualified identity, `state`, `state_reason`, `updated_at`, and
   observation time; missing or ambiguous fields cannot be normalized to open.
+- REST fixtures separately prove `state: null`, HTTP 404, and
+  `state: closed` with `state_reason: completed`; none can normalize to an open
+  checkpoint target.
 - Every raw-request endpoint names its GitHub API reference and has typed
   request/response structures plus transport-level fixtures.
 - Read-only commands perform no remote or local lifecycle mutation.
@@ -2056,6 +2085,11 @@ predicates, and retained evidence.
 
 **Non-goals:** PR publication, foreground watch, merge, broad cache removal,
 remote rollback, or deletion before terminal reconciliation.
+
+V3-15 is scoped to the no-merge command surface. If operator Decision 10 later
+authorizes `finish --merge`, that path requires a separately reviewed scope and
+contract revision before implementation; it cannot enter this issue by
+interpretation.
 
 **Dependencies:** `V3-08`, `V3-09`, `V3-12`, `V3-13`, and `V3-14`.
 
