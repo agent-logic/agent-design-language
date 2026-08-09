@@ -1,2 +1,45 @@
-flowchart LR
-  I["Issue 73"] --> D["Design required"]
+flowchart TD
+  Operator["Operator or agent"] --> CLI["One csdlc binary"]
+  CLI --> Commands["Typed command run functions"]
+  Commands --> App["Invocation-scoped App"]
+  Commands --> Domain["Pure domain services"]
+  App --> Git["Typed Git adapter"]
+  App --> GitHub["Typed GitHub adapter"]
+  App --> Process["Bounded process adapter"]
+  App --> IO["I/O, config, clock, and prompt adapters"]
+  Domain --> Kernel["Exhaustive lifecycle kernel"]
+  Domain --> Store["Transactional state store"]
+  Store --> State["state.json commit point"]
+  State --> Cards["SIP, STP, SPP, VPP, SRP, SOR projections"]
+  State --> Evidence["Audit and evidence projections"]
+  GitHub --> Remote["Exact GitHub readback"]
+
+  P01["V3-01 Contract"] --> P02["V3-02 Rust spike"]
+  P02 --> P03["V3-03 Binary foundation"]
+  P03 --> P04["V3-04 App services"]
+  P03 --> P05["V3-05 Context and importer"]
+  P04 --> P06["V3-06 State and cards"]
+  P05 --> P06
+  P06 --> P07["V3-07 Lifecycle kernel"]
+  P06 --> P08["V3-08 Transactions"]
+  P07 --> P08
+  P04 --> P09["V3-09 Effect adapters"]
+  P05 --> P10["V3-10 Local commands"]
+  P06 --> P10
+  P07 --> P10
+  P08 --> P10
+  P09 --> P10
+  P06 --> P11["V3-11 PVF"]
+  P08 --> P11
+  P09 --> P11
+  P08 --> P12["V3-12 Review gates"]
+  P10 --> P12
+  P04 --> P13["V3-13 GitHub and terminal ops"]
+  P08 --> P13
+  P09 --> P13
+  P12 --> P13
+  P10 --> P14["V3-14 Parity and cutover"]
+  P11 --> P14
+  P12 --> P14
+  P13 --> P14
+  P14 --> R01["V3-R01 Deferred v2 retirement"]

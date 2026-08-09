@@ -1,16 +1,17 @@
 # C-SDLC v3: gh-Inspired Rust Architecture
 
-Status: Draft alternative for architecture review
+Status: Issue #73 planning draft for independent architecture review
 
 Decision boundary: This document proposes a Rust implementation of C-SDLC v3.
 It does not authorize implementation, change the current v2 selector, migrate
 records, create issues, or retire C-SDLC v2.
 
-Companion proposal:
+Comparative source:
 [`CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md`](CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md)
-defines the equivalent Go architecture. Both documents intentionally propose the
-same product and command surface so language selection can be reviewed
-independently from workflow design.
+defines the equivalent Go architecture considered before the operator selected
+Rust on 2026-08-08. Rust is now fixed for C-SDLC v3. The Go document remains a
+control for identifying language-independent simplifications; it is not an
+active implementation alternative.
 
 ## Executive Decision
 
@@ -90,7 +91,7 @@ lines. V2 established the behavioral and safety baseline. V3 should simplify
 the operator surface and internal composition without pretending those safety
 properties are unnecessary.
 
-## Relationship To The Go Proposal
+## Recorded Language Decision
 
 The Go and Rust alternatives share these decisions:
 
@@ -107,8 +108,12 @@ The Go and Rust alternatives share these decisions:
 - restricted non-authoritative extensions;
 - read-only v2 import and no dual writes.
 
-This document changes only implementation architecture, COTS choices, test
-mechanics, and build characteristics.
+The operator selected Rust so v3 can retain exhaustive enums, schema-derived
+typed contracts, and continuity with proven v2 domain concepts without carrying
+over v2's entry-point structure. The construction spike remains required, but
+it validates Rust boundaries, dependencies, compile profile, binary size,
+startup behavior, test ergonomics, and implementation-size targets rather than
+selecting a language.
 
 ## Goals
 
@@ -817,14 +822,63 @@ dependency families.
 - No interactive-mode authority unavailable in non-interactive mode.
 - No unsafe Rust without a separately reviewed and proven necessity.
 
+## Expected Effect And Measurement
+
+V3's primary benefit is control-plane simplification, not faster lifecycle
+semantics. The following values are planning targets until the construction
+spike and canary measure them.
+
+| Surface | V2 baseline | V3 target | Expected effect | Confidence |
+| --- | ---: | ---: | ---: | --- |
+| Installed executables | 21 | 1 | 95 percent reduction | High |
+| Operator skills | 11 | 1 | 91 percent reduction | High |
+| Release binary artifacts | 21 | 1 | Approximately 95 percent reduction | High |
+| Rust source lines | 22,258 | 12,000-16,000 | 28-46 percent reduction | Medium-low |
+| Routine request-file use | Common | Exceptional automation path | 60-80 percent reduction | Medium |
+| Routine operator interactions | Current measured baseline required | 30-50 percent fewer | To be measured | Medium-low |
+| Routing and stale-context incidents | Current measured baseline required | 40-60 percent fewer | To be measured | Low |
+
+Test code is not expected to shrink proportionally. A planning range of
+7,000-10,000 test lines is acceptable because parity, interruption recovery,
+exact review, publication, and cleanup need retained proof. V3 fails its
+simplification goal if source reduction comes from removing safety tests.
+
+The construction spike records:
+
+- clean and warm build time;
+- binary size and dependency count;
+- process startup for `version`, `schema`, and `completion`;
+- local `issue show` and `doctor` latency;
+- parser, run-function, fake-adapter, and HTTP-fixture ergonomics;
+- source and test lines for the vertical slice;
+- compiler and error clarity for a representative contributor task.
+
+The shadow and canary phases record:
+
+- commands and elapsed time per issue lifecycle;
+- request files and manual context transfers per lifecycle;
+- typed failures grouped by routing, stale state, validation, review, GitHub,
+  finish, and cleanup;
+- operator interventions and retries;
+- normalized parity mismatches;
+- time to diagnose and resolve failures.
+
+The estimated complete delivery cost is 12-20 engineer-weeks plus 2-4 weeks of
+shadow and canary observation. Parallel work may reduce calendar time, but it
+does not remove dependency gates or independent review. The expected practical
+payback is 6-12 months at ADL's issue volume, driven mainly by reliability and
+maintenance reduction rather than saved keystrokes.
+
 ## Migration From v2
 
 Migration is one-way and does not dual write.
 
 ### Phase 0: Contract approval
 
-- Review the Go and Rust alternatives against the same product contract.
-- Select the implementation language without changing the command tree.
+- Record Rust as the selected implementation language and retain the Go proposal
+  only as comparative architecture evidence.
+- Review the Rust product contract and command tree without changing v2
+  authority.
 - Freeze retained v2 invariants and normalized parity fields.
 
 ### Phase 1: Single-binary shell
@@ -863,6 +917,567 @@ Migration is one-way and does not dual write.
 - Switch one command authority to the single v3 binary.
 - Retain a time-bounded read-only v2 importer.
 - Delete v2 authority only through a later reviewed issue after rollback expiry.
+
+## Implementation Issue Plan
+
+This section defines future issue specifications. Issue #73 does not authorize
+creating or executing them. Identifiers `V3-01` through `V3-14` and `V3-R01`
+are planning references, not GitHub issue numbers.
+
+### Dependency Graph
+
+```mermaid
+flowchart TD
+    P01["V3-01 Contract freeze"] --> P02["V3-02 Rust construction spike"]
+    P02 --> P03["V3-03 Single-binary foundation"]
+    P03 --> P04["V3-04 Application context"]
+    P03 --> P05["V3-05 Repository context and importer"]
+    P04 --> P06["V3-06 Canonical state and cards"]
+    P05 --> P06
+    P06 --> P07["V3-07 Lifecycle kernel"]
+    P06 --> P08["V3-08 Transaction store"]
+    P07 --> P08
+    P04 --> P09["V3-09 Typed effect adapters"]
+    P05 --> P10["V3-10 Card, bind, and doctor commands"]
+    P06 --> P10
+    P07 --> P10
+    P08 --> P10
+    P09 --> P10
+    P06 --> P11["V3-11 PVF validation"]
+    P08 --> P11
+    P09 --> P11
+    P08 --> P12["V3-12 Exact review and publication gates"]
+    P10 --> P12
+    P04 --> P13["V3-13 GitHub, PR, finish, and clean"]
+    P08 --> P13
+    P09 --> P13
+    P12 --> P13
+    P10 --> P14["V3-14 Parity, canary, and cutover"]
+    P11 --> P14
+    P12 --> P14
+    P13 --> P14
+    P14 --> R01["V3-R01 Deferred v2 retirement"]
+```
+
+`V3-04` and `V3-05` may run in parallel after `V3-03`. `V3-09` may proceed in
+parallel with domain work after the application contracts stabilize. Every
+other edge is a hard gate. Stacked PRs may express these dependencies, but a
+child cannot claim integrated proof from an unmerged parent.
+
+### V3-01: Freeze Product Contract And Retained Invariants
+
+**Objective:** Establish the immutable product, command, state, output, safety,
+and parity contracts that every later issue implements.
+
+**Scope:** The public command tree, versioned requests/results, exit taxonomy,
+canonical state fields, card projections, topology ownership, review,
+publication, finish, cleanup, migration, and supported-platform matrix.
+
+**Non-goals:** Rust implementation, dependency selection beyond constraints,
+live state mutation, child command implementation, or v2 behavior changes.
+
+**Dependencies:** Approved issue #73 architecture and independent review
+dispositions.
+
+**Deliverables:** A versioned contract manifest, retained-v2 invariant register,
+normalized parity schema, command/help golden packet, and explicit unsupported
+behavior register.
+
+**Acceptance criteria:**
+
+- Every public command and output mode has a versioned contract.
+- Every retained v2 invariant maps to one owner issue and proof lane.
+- Exact review, GitHub truth, topology ownership, atomic state, and cleanup
+  boundaries cannot be weakened by later implementation choices.
+- Unknown or intentionally changed v2 behavior is explicit and reviewed.
+
+**Validation proof:** Schema validation, golden command-tree comparison,
+invariant-to-issue coverage, duplicate/omission checks, and independent contract
+review.
+
+**Stop conditions:** An invariant lacks an owner, a command requires unresolved
+product policy, or contract approval would silently change v2 authority.
+
+### V3-02: Prove The Rust Construction Slice
+
+**Objective:** Validate the Rust architecture and quantitative targets before
+the main build wave.
+
+**Scope:** One throwaway or explicitly promoted vertical slice containing
+`version`, `schema`, repository discovery, read-only `issue show`, fake GitHub
+observation, human/JSON output, parser tests, and run-function tests.
+
+**Non-goals:** Production mutation, live issue writes, complete lifecycle logic,
+language selection, or undeclared reuse of v2 entry points.
+
+**Dependencies:** `V3-01`.
+
+**Deliverables:** Spike source, dependency inventory, build/startup/test
+measurements, implementation-size report, trait/object-safety decision, YAML
+parser decision, and promote-or-discard disposition.
+
+**Acceptance criteria:**
+
+- The slice uses one binary and one library with the proposed four layers.
+- Parsing initializes no repository, credentials, network, or child task.
+- Fake adapters reject unexpected operations and support deterministic tests.
+- Measurements either satisfy approved thresholds or trigger architecture
+  revision before `V3-03`.
+
+**Validation proof:** Clean and warm builds, binary inspection, startup timing,
+offline tests, dependency policy scan, layer-boundary check, and review of all
+unsafe/default-feature use.
+
+**Stop conditions:** The slice requires ADL product crates, cannot isolate the
+domain from async/adapters, exceeds approved thresholds without disposition, or
+mutates real C-SDLC state.
+
+### V3-03: Build The Single-Binary Foundation
+
+**Objective:** Establish the production crate, root parser, dispatch, schemas,
+completion, generated help, and release artifact.
+
+**Scope:** `main`, library `run`, Clap root/subcommands, global flags, output
+mode selection, typed top-level errors, version provenance, schema export,
+completion generation, and documentation generation.
+
+**Non-goals:** Repository discovery, lifecycle semantics, GitHub access, state
+mutation, validation execution, or v2 installation changes.
+
+**Dependencies:** `V3-02` passes with a promote-or-reimplement decision.
+
+**Deliverables:** One crate, one binary target, one library target, complete
+placeholder command graph, generated help/docs, completion artifacts, and
+reproducible release metadata.
+
+**Acceptance criteria:**
+
+- Every approved command is discoverable from `csdlc --help`.
+- Constructor and parser tests invoke no repository, network, or process
+  adapter.
+- Human and JSON output never mix machine payloads with diagnostics.
+- The release build emits one provenance-bound executable.
+
+**Validation proof:** Parser golden tests, help/docs drift check, schema smoke
+tests, completion tests, stdout/stderr tests, reproducible-build check, and
+cross-platform compile matrix.
+
+**Stop conditions:** A command requires hidden global state, generated docs
+diverge from Clap, or more than one operational binary becomes necessary.
+
+### V3-04: Implement Application Context And Shared Services
+
+**Objective:** Implement the invocation-scoped dependency container and common
+I/O, configuration, error, cancellation, and observability services.
+
+**Scope:** `App`, lazy sync/async initialization, streams, TTY and prompting,
+configuration precedence, credential references, cancellation token, tracing,
+redaction, operation IDs, error-to-exit mapping, and test constructors.
+
+**Non-goals:** Domain lifecycle behavior, concrete GitHub endpoints, state
+transactions, detached telemetry, update checks, or background services.
+
+**Dependencies:** `V3-03`.
+
+**Deliverables:** Narrow traits, production and fake constructors, typed config
+schema, error taxonomy, cancellation policy, tracing contract, and redaction
+fixtures.
+
+**Acceptance criteria:**
+
+- One `App` exists per invocation and no mutable global service locator exists.
+- Expensive or credential-bearing services initialize only on demand.
+- Async adapter traits remain object-safe without infecting pure domain APIs.
+- Machine output is stdout-only and diagnostics/tracing are stderr-only by
+  default.
+- Secrets and machine-local paths are absent from durable output.
+
+**Validation proof:** Constructor call-count tests, config precedence tables,
+TTY/non-TTY tests, cancellation tests, error/exit snapshots, tracing channel
+tests, and redaction corpus tests.
+
+**Stop conditions:** A service requires global mutation, credentials enter
+state/config output, a detached task survives command completion, or local
+commands initialize network clients.
+
+### V3-05: Implement Repository Context And Read-Only V2 Import
+
+**Objective:** Resolve repository and issue context deterministically and import
+v2 records without granting v3 mutation authority.
+
+**Scope:** Root discovery, canonical repository identity, remote resolution,
+branch/worktree observation, issue selection precedence, symlink-safe paths,
+v2 record/card parsing, unsupported-field reporting, and normalized read-only
+projections.
+
+**Non-goals:** V3 state writes, binding, lifecycle transitions, GitHub mutation,
+or automatic conversion of v2 records.
+
+**Dependencies:** `V3-03`; shared service interfaces from `V3-04` may be consumed
+through a stable contract while implementation proceeds in parallel.
+
+**Deliverables:** Repository and issue context types, discovery adapter,
+read-only importer, compatibility report, representative v2 fixture corpus,
+and normalized parity output.
+
+**Acceptance criteria:**
+
+- Resolution precedence is explicit and produces one canonical identity.
+- Symlink, path escape, ambiguous remote, and ambiguous issue cases fail closed.
+- Every unsupported v2 field is reported with record and field identity.
+- Import never writes v2 or v3 state and does not infer missing authority.
+
+**Validation proof:** Temporary-repository matrix, malicious path fixtures,
+remote/branch/worktree ambiguity tests, full representative importer corpus,
+and no-write filesystem assertions.
+
+**Stop conditions:** Context depends on process-global current directory,
+unsupported fields are dropped silently, or importer execution can mutate
+either generation.
+
+### V3-06: Implement Canonical State And Card Projections
+
+**Objective:** Define the versioned v3 aggregate and deterministically render
+all six lifecycle cards and declared evidence projections.
+
+**Scope:** `state.json`, schema evolution, closed enums, canonical serialization,
+card AST values, SIP-STP-SPP-VPP-SRP-SOR rendering, digest rules, projection
+manifests, and drift detection.
+
+**Non-goals:** Lifecycle transition authorization, transaction recovery,
+GitHub observation, direct Markdown authority, or compatibility dual writes.
+
+**Dependencies:** `V3-04` and `V3-05`.
+
+**Deliverables:** State/schema module, projection engine, card templates or AST
+builders, digest profile, fixture corpus, and state/card compatibility report.
+
+**Acceptance criteria:**
+
+- `state.json` is the sole machine authority and every projection is
+  reproducible from it plus declared immutable inputs.
+- Unknown schema versions and enum values fail explicitly.
+- All six cards preserve their distinct lifecycle semantics.
+- Projection drift is diagnosable and repair never treats Markdown as authority.
+
+**Validation proof:** Schema round trips, canonical-byte golden tests,
+all-card structure/schema validation, randomized closed-enum tests, drift and
+repair fixtures, and v2 normalized parity comparisons.
+
+**Stop conditions:** A card requires undeclared authority, rendering is
+nondeterministic, or state evolution can silently discard unknown fields.
+
+### V3-07: Implement The Pure Lifecycle Kernel
+
+**Objective:** Encode lifecycle transitions and authorization predicates as a
+pure, exhaustive, side-effect-free state machine.
+
+**Scope:** Phases, transition commands, preconditions, topology ownership,
+design/readiness/review/publication/terminal predicates, idempotent outcomes,
+and stable domain errors.
+
+**Non-goals:** File writes, Git commands, GitHub calls, clock reads, prompting,
+process execution, or retry policy.
+
+**Dependencies:** `V3-06`.
+
+**Deliverables:** Pure transition API, transition table, invariant/property
+tests, negative transition corpus, idempotency model, and v2 behavior mapping.
+
+**Acceptance criteria:**
+
+- Every state/command pair has an explicit allowed or rejected outcome.
+- The compiler enforces exhaustive closed-state handling.
+- Branch/worktree topology is the only local ownership authority.
+- Review staleness, publication gates, terminal truth, and cleanup eligibility
+  remain fail-closed.
+
+**Validation proof:** Complete transition table tests, property tests for
+invariants and idempotency, mutation testing of rejection predicates, and
+normalized v2 parity cases.
+
+**Stop conditions:** A transition needs ambient I/O, an unknown state falls
+through, or claims, leases, heartbeats, or protected-path ledgers reappear as
+authority.
+
+### V3-08: Implement Transaction Storage And Recovery
+
+**Objective:** Make state mutation crash-consistent with one explicit commit
+point and recoverable projections.
+
+**Scope:** Advisory locking, compare-and-swap generation/digest checks, intent
+records, temporary writes, fsync policy, atomic `state.json` replacement,
+projection regeneration, recovery classification, fault injection, and
+concurrent writer behavior.
+
+**Non-goals:** Distributed transactions, remote rollback, lock-as-ownership,
+multi-file atomicity claims, GitHub mutation, or cleanup of unrelated paths.
+
+**Dependencies:** `V3-06` and `V3-07`.
+
+**Deliverables:** Transaction store, recovery engine, intent schema,
+interruption matrix, filesystem capability policy, and concurrency fixtures.
+
+**Acceptance criteria:**
+
+- Only atomic replacement of `state.json` commits authority.
+- Cards, evidence indexes, and audit views are repairable projections.
+- Stale generation/digest writers fail before commit.
+- Every injected interruption converges to the prior or new valid state.
+- Locks protect transaction integrity without becoming lifecycle authority.
+
+**Validation proof:** Fault injection at every write/sync/rename boundary,
+parallel writer stress, repeated recovery idempotency, disk-full/read-only
+fixtures, and supported-filesystem tests.
+
+**Stop conditions:** Recovery requires guessing, a partial projection becomes
+authority, remote mutation enters a local transaction, or platform semantics
+cannot satisfy the declared commit guarantee.
+
+### V3-09: Implement Typed Git, Process, And Credential Adapters
+
+**Objective:** Provide narrow, mockable effect boundaries without shell
+evaluation or credential leakage.
+
+**Scope:** Git repository/branch/worktree/status/diff operations, bounded process
+execution for declared PVF commands, environment construction, credential
+resolution, timeout/cancellation, output caps, and structured observations.
+
+**Non-goals:** Shell scripts as internal control flow, arbitrary command
+evaluation, GitHub API behavior, lifecycle decisions, or secret persistence.
+
+**Dependencies:** `V3-04`; contract fields from `V3-01`.
+
+**Deliverables:** Git and process traits, production adapters, fakes, command
+allowance policy, credential resolver, cancellation integration, and redaction
+tests.
+
+**Acceptance criteria:**
+
+- Every Git/process invocation is argv-based and typed.
+- Exit status, stdout, stderr, timeout, cancellation, and truncation remain
+  distinguishable.
+- Credentials exist only in the child/provider process scope that needs them.
+- Branch-name observation alone never authorizes lifecycle work.
+
+**Validation proof:** Temporary Git repository journeys, hostile argv/path
+fixtures, timeout/cancellation tests, environment leakage tests, output-cap
+tests, and fake-adapter unexpected-call rejection.
+
+**Stop conditions:** Any adapter invokes a shell, logs secrets, accepts ambiguous
+topology as authority, or cannot terminate and join a child process.
+
+### V3-10: Implement Card, Bind, Doctor, And Local Issue Commands
+
+**Objective:** Deliver the complete local operator journey over the kernel and
+transaction store.
+
+**Scope:** `issue init/show/status`, `card show/edit/render`, `doctor`, `bind`,
+local schema-aware repairs, topology checks, and human/JSON presentation.
+
+**Non-goals:** PVF execution, formal review, PR publication, live GitHub
+mutation, finish, cleanup removal, or v2 cutover.
+
+**Dependencies:** `V3-05`, `V3-06`, `V3-07`, `V3-08`, and `V3-09`.
+
+**Deliverables:** Local command modules, typed request/result schemas, edit
+operations, doctor finding taxonomy, bind topology proof, and end-to-end local
+fixtures.
+
+**Acceptance criteria:**
+
+- Common paths use direct flags while `--input` provides typed automation.
+- Card edits mutate semantic values and regenerate all affected projections.
+- Bind verifies actual branch/worktree topology and rejects collisions.
+- Doctor is read-only, specific, and identifies the next valid operation.
+- Repeated successful commands are idempotent.
+
+**Validation proof:** Parser/run tests, temporary-repository journeys, card
+schema/structure checks, topology collision matrix, no-write doctor assertions,
+human/JSON snapshots, and v2 normalized parity.
+
+**Stop conditions:** Commands hand-edit rendered files, doctor mutates state,
+binding trusts requested rather than observed topology, or common use still
+requires request files.
+
+### V3-11: Implement PVF Planning And Validation Execution
+
+**Objective:** Implement governed, classifiable validation planning, execution,
+status, and evidence recording.
+
+**Scope:** `validate plan/run/status`, lane manifests, PVF classification,
+resource profiles, budgets, deterministic/deferred/live distinctions, bounded
+parallel groups, process cancellation, evidence digests, and result projection.
+
+**Non-goals:** Embedding product test logic, hidden CI routing, cloud runners,
+background queues, authority from passing tests, or review publication.
+
+**Dependencies:** `V3-06`, `V3-08`, and `V3-09`.
+
+**Deliverables:** Validation domain, manifest schema, scheduler, evidence model,
+process integration, result renderer, and representative lane fixtures.
+
+**Acceptance criteria:**
+
+- Every lane declares proof role, determinism, resource profile, gate posture,
+  command, timeout, and evidence destination.
+- Pending, deferred, blocked, failed, skipped, and passed remain distinct.
+- Parallel tasks are bounded, joined, and cancelled as a structured scope.
+- Passing validation cannot authorize review, publication, or merge.
+
+**Validation proof:** Classification tables, scheduler determinism tests,
+timeout/cancellation stress, output/redaction tests, evidence tamper tests,
+deferred-lane negative cases, and representative local PVF journeys.
+
+**Stop conditions:** Ordinary tests acquire routing policy, detached jobs remain,
+live/cloud work becomes implicit, or incomplete evidence can appear passed.
+
+### V3-12: Implement Exact Review And Publication Gates
+
+**Objective:** Implement independent exact-revision review assignment, result
+recording, staleness, finding disposition, and publication authorization.
+
+**Scope:** `review assign/record/status`, reviewer independence policy, exact
+scope/revision identity, findings and dispositions, non-substantive change
+proof, publication intent, and fail-closed review guard.
+
+**Non-goals:** Hosting model providers, merging PRs, watching checks, terminal
+finish, cleanup, or treating review prose as state authority.
+
+**Dependencies:** `V3-08` and `V3-10`.
+
+**Deliverables:** Review schemas, independence policy, staleness classifier,
+finding model, publication guard, typed intents, and review fixture corpus.
+
+**Acceptance criteria:**
+
+- Review names exact revision, scope, reviewer, findings, and dispositions.
+- Substantive head changes stale review; non-substantive exceptions require
+  deterministic proof.
+- Publication fails closed on missing, stale, blocked, or actionable review.
+- Model/provider output is evidence input, never direct lifecycle authority.
+
+**Validation proof:** Exact-head/staleness matrix, independence-policy tests,
+finding lifecycle tests, non-substantive proof negatives, publication guard
+tests, and tampered-review fixtures.
+
+**Stop conditions:** Review can approve an unknown revision, actionable findings
+can be hidden, publication can bypass review, or provider identity is overstated.
+
+### V3-13: Implement GitHub, PR, Finish, And Cleanup Operations
+
+**Objective:** Complete remote publication and terminal operations with typed
+GitHub readback, foreground watching, truthful finish, and separately authorized
+cleanup.
+
+**Scope:** GitHub adapter, issue/PR read and mutation, idempotency markers,
+`pr publish/status/watch`, exact checks and mergeability, optional explicitly
+authorized merge policy, `finish`, cleanup classify/preview/remove, and terminal
+receipts.
+
+**Non-goals:** Background watchers, polling daemons, implicit merge, remote
+rollback, broad worktree deletion, or deriving terminal truth from local prose.
+
+**Dependencies:** `V3-04`, `V3-08`, `V3-09`, and `V3-12`.
+
+**Deliverables:** Typed Octocrab adapter, fake transport registry, publication
+and watch commands, finish reconciler, cleanup classifier/remover, receipts,
+and canary scripts expressed as governed PVF lanes.
+
+**Acceptance criteria:**
+
+- Every mutation is idempotent and verified by exact remote readback.
+- `pr watch` is foreground, cancellable, bounded, and creates no persistent job.
+- Required checks bind to exact head SHA and terminal conclusions.
+- Finish derives closure/merge truth from GitHub and never invents a second PR.
+- Cleanup shows the exact target, rejects live/dirty/drifted worktrees, and runs
+  separately after finish.
+
+**Validation proof:** Unexpected/unconsumed HTTP fixture checks, API pagination
+and retry tests, idempotent mutation tests, watch cancellation tests, finish
+truth table, cleanup safety matrix, and bounded live canary readback.
+
+**Stop conditions:** GitHub behavior requires raw shell/`gh`, merge occurs
+without explicit policy, watch detaches, finish trusts local state over GitHub,
+or cleanup can escape the registered worktree.
+
+### V3-14: Prove Parity, Run Canary Migration, And Cut Over Authority
+
+**Objective:** Prove complete safety parity, execute bounded v3-only canaries,
+migrate authority without dual writes, and perform the separately approved
+selector cutover.
+
+**Scope:** Representative v2 corpus, normalized parity runner, unsupported-field
+register, read-only shadow, opt-in v3 issue canaries, performance/effect
+measurement, migration tooling, operator runbook, rollback window, installation,
+one operator skill, selector switch, and post-cutover audit.
+
+**Non-goals:** Immediate v2 deletion, rewriting remote history, transactional
+remote rollback, migration without freeze/delta reconciliation, or forcing all
+open v2 issues to v3.
+
+**Dependencies:** `V3-10`, `V3-11`, `V3-12`, and `V3-13`; all prior findings
+closed or explicitly accepted by the operator.
+
+**Deliverables:** Parity matrix, shadow reports, canary receipts, measured effect
+report, migration map, freeze/delta/cutover runbook, rollback criteria, stable
+binary installation, operator skill, selector change, and post-cutover audit.
+
+**Acceptance criteria:**
+
+- Normalized parity covers cards, lifecycle, validation, review, publication,
+  finish, and cleanup with no unexplained mismatch.
+- Every imported record reports unsupported fields before mutation.
+- At least the approved canary cohort completes end to end on v3-only authority.
+- No issue is writable by v2 and v3 simultaneously.
+- The final delta precedes authority switch; source archival follows cutover.
+- Cutover requires exact independent review and explicit operator approval.
+- V2 remains available only as the time-bounded read-only importer/rollback
+  surface defined by policy.
+
+**Validation proof:** Full offline suite, cross-platform release matrix,
+representative shadow corpus, live canary receipts, exact-head CI, migration
+rehearsal, second-run no-op, authority scan, and post-cutover reconciliation.
+
+**Stop conditions:** Any unexplained parity mismatch, unsupported field, dual
+writer, stale review, failed canary, missing rollback evidence, or unapproved
+selector mutation.
+
+### V3-R01: Retire V2 After The Rollback Window
+
+**Objective:** Remove v2 operational authority only after v3 has satisfied the
+approved stability window and every retained record has a terminal disposition.
+
+**Scope:** Eligibility proof, retained importer decision, forbidden-path
+inventory, binary/skill/selector removal, historical evidence preservation,
+documentation cleanup, and final no-v2-authority verification.
+
+**Non-goals:** V3 feature work, migration repair hidden inside deletion, removal
+of immutable historical evidence, or waiver of unresolved stability findings.
+
+**Dependencies:** `V3-14`, expired rollback window, approved stability metrics,
+zero dual-writer findings, and separate explicit operator authorization.
+
+**Deliverables:** Deletion manifest, eligibility decision, retained-evidence
+inventory, reviewed removal diff, clean installation inventory, and final
+authority audit.
+
+**Acceptance criteria:**
+
+- Every deletion target is classified before mutation.
+- Historical Gate and migration evidence remains readable and immutable.
+- No v2 executable, operator skill, selector route, or writable state authority
+  remains after removal.
+- V3 can install, validate, review, publish, finish, and clean from a fresh
+  checkout without v2 artifacts.
+
+**Validation proof:** Exact deletion list, pre/post authority inventories,
+fresh-install journey, forbidden-path scan, full v3 regression, historical
+evidence readability check, and independent deletion review.
+
+**Stop conditions:** The rollback window is active, any issue still requires v2
+writes, eligibility evidence is stale, deletion touches historical evidence, or
+the operator has not explicitly approved removal.
 
 ## Acceptance Gates
 
@@ -923,7 +1538,7 @@ Migration is one-way and does not dual write.
 | File replacement is overstated as multi-file atomicity | Treat only `state.json` as the commit point and make every other file recoverable. |
 | Reusing v2 code preserves accidental complexity | Reuse behavioral contracts and focused domain logic only after explicit review; do not carry entry-point topology forward. |
 
-## Go Versus Rust Decision Matrix
+## Recorded Go Versus Rust Comparison
 
 | Dimension | Go alternative | Rust alternative |
 | --- | --- | --- |
@@ -938,8 +1553,8 @@ Migration is one-way and does not dual write.
 | Risk of preserving v2 implementation complexity | Lower | Higher |
 | Team continuity with current v2 | Lower | Higher |
 
-Language selection should be based on a small construction spike, not taste.
-Build the same thin vertical slice in each language:
+The operator selected Rust after reviewing these tradeoffs. A Rust-only
+construction spike must still build this thin vertical slice:
 
 ```text
 version
@@ -958,7 +1573,7 @@ spike must not mutate real C-SDLC state or become an undeclared production path.
 ## Decisions Required Before Implementation
 
 1. Approve the shared v3 product and command contract.
-2. Approve Rust as the v3 language, or authorize the Go/Rust construction spike.
+2. Approve the Rust construction-spike measurements and pass/fail thresholds.
 3. Approve one binary and one operator skill.
 4. Approve the `App` dependency-container boundary.
 5. Approve `state.json` as the sole typed aggregate and commit point.
@@ -970,8 +1585,9 @@ spike must not mutate real C-SDLC state or become an undeclared production path.
 
 ## Recommendation
 
-Review this Rust proposal alongside the Go proposal, then run the bounded
-construction spike before selecting a language.
+Review this Rust proposal against the retained Go comparison, then run the
+bounded Rust construction spike before authorizing the main implementation
+wave.
 
 Rust is viable and can substantially simplify C-SDLC v2 if the team treats the
 `gh` command architecture as the primary design constraint. Merely combining 21
