@@ -42,7 +42,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove exact, wider-compatible, future-only, and malformed minor ranges.",
     "outcome": "passed",
-    "evidence_ref": "Current rebased branch proof: 2 passed, 0 failed; product source revision 5e7ef2c39 is ancestral to the evidence head."
+    "evidence_ref": ".csdlc/evidence/87/focused-version-negotiation.log (sha256 1185d04b589665828612ed391af043834dcf87853461081002b42dc9000e7c01); 2 passed, product 5e7ef2c39."
   },
   {
     "command": [
@@ -58,7 +58,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove the shared ACIP source is warning-free.",
     "outcome": "passed",
-    "evidence_ref": "Current rebased branch strict Clippy PASS; product source revision 5e7ef2c39 is ancestral to the evidence head."
+    "evidence_ref": ".csdlc/evidence/87/strict-library-clippy.log (sha256 2295da52cf15615b2e2dd825ab1a6ce034cd04cbfa6b26322e5dd008d372f90b); exit 0, product 5e7ef2c39."
   },
   {
     "command": [
@@ -74,7 +74,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove the live Sprint capability-advertisement consumer with the issue 87 patch.",
     "outcome": "passed",
-    "evidence_ref": "Current detached proof head aaf5cb7fd combines child head ae16187bb with issue 87 product source revision 5e7ef2c39; exact command rerun exited 0."
+    "evidence_ref": ".csdlc/evidence/87/capability-consumer-clippy.log (sha256 3e016a35113110ba284ef11a8afc70c42e523fd0cd0877e3ad2b399b966e153c); proof aaf5cb7fd = child ae16187bb + product 5e7ef2c39, exit 0."
   },
   {
     "command": [
@@ -90,7 +90,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove the live Sprint resource-weather consumer with the issue 87 patch.",
     "outcome": "passed",
-    "evidence_ref": "Current detached proof head b1d44c06e combines published child head eca5d84c6 with issue 87 product source revision 5e7ef2c39; exact command exited 0."
+    "evidence_ref": ".csdlc/evidence/87/weather-consumer-clippy.log (sha256 86a9aebc21db43b9b5e60d031b9fd1cb9e8577cbbf94aa81a8627e2e1f0a8214); proof b1d44c06e = child eca5d84c6 + product 5e7ef2c39, exit 0."
   },
   {
     "command": [
@@ -102,7 +102,7 @@ Preserved general inclusive ACIP minor-range negotiation while eliminating the s
     ],
     "purpose": "Prove Rust formatting hygiene.",
     "outcome": "passed",
-    "evidence_ref": "Current rebased branch formatter check exited 0; product source revision 5e7ef2c39 is ancestral to the evidence head."
+    "evidence_ref": ".csdlc/evidence/87/format-check.log (sha256 1cd015853bdf216847f86bde5b930d0f869d004b5cdd10f5f0f707aebf1823c0); exit 0, product 5e7ef2c39."
   }
 ]
 

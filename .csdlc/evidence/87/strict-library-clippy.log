@@ -1,0 +1,5 @@
+command: cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings
+exit_code: 0
+checked: adl-runtime-kernel v0.92.0
+checked: adl-runtime v0.92.0
+result: Finished dev profile successfully
