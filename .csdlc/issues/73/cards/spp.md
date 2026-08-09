@@ -92,7 +92,7 @@ Revision 1
 
 .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md
 
-Digest: 4c58199016278cc9d4ce46222849dcd358b96e9e260b97f009e276da261b9e4d
+Digest: 7734a9246ef89ff9f11de1d6d23dabb5b20365ee34fed6be2b66e706f3aaa927
 
 ## Diagram
 

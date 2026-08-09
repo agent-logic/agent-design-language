@@ -413,11 +413,12 @@ container.
 | `issue` | `AsyncInit` | Derivation from the asynchronously resolved repository and arguments |
 | `github` | `AsyncInit` | Credential resolution and hosted client initialization |
 
-`SyncInit` accessors call `get_or_init` with a closure returning
-`Result<T, Arc<AppError>>`; typed accessors return `Result<&T, Arc<AppError>>`
-and clone only the error `Arc`. They are lazy, never pre-warmed by `App`
-construction, and contain no `unwrap` or `expect` path. `get_or_try_init` is not
-used.
+`SyncInit<T>` is exactly `OnceLock<Result<T, Arc<AppError>>>`. Its accessor
+calls `get_or_init` with a closure whose complete cell value is
+`Result<T, Arc<AppError>>`, then pattern-matches the stored result to return
+`Result<&T, Arc<AppError>>`, cloning only the error `Arc`. It is lazy, never
+pre-warmed by `App` construction, and contains no `unwrap` or `expect` path.
+`get_or_try_init` is not used.
 
 `AsyncInit` caches a completed success or error. If cancellation drops an
 initialization future before completion, the cell remains uninitialized and a
@@ -1154,7 +1155,8 @@ versioned normalized parity/import schema, importer retention policy,
 command/help golden packet, explicit unsupported behavior register, versioned
 JSON envelope and schema-evolution policy, reviewer-principal and independence
 mechanism, per-card/per-phase field optionality table and optional-value
-placeholder, state-size guard, and `pr watch` timeout/poll policy.
+placeholder, state-size guard, PVF subprocess command-allowance policy, and
+`pr watch` timeout/poll policy.
 
 **Acceptance criteria:**
 
@@ -1473,9 +1475,9 @@ evaluation, GitHub API behavior, lifecycle decisions, or secret persistence.
 **Dependencies:** `V3-01` command allowance policy, the stable adapter-interface
 checkpoint from `V3-04`, and the repository observation contract from `V3-05`.
 
-**Deliverables:** Git and process traits, production adapters, fakes, command
-allowance policy, credential resolver, cancellation integration, and redaction
-tests.
+**Deliverables:** Git and process traits, production adapters, fakes,
+V3-01 command-allowance enforcement, credential resolver, cancellation
+integration, and redaction tests.
 
 **Acceptance criteria:**
 

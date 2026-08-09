@@ -170,6 +170,24 @@ The following new findings were incorporated:
 - Canonical state embeds typed audit events; `audit.jsonl` is only a generated
   projection, with no initial pruning or co-primary authority.
 
+### Verification Round 2
+
+Reviewed revision: `29aed43ab0dfc2914e5a9dba0877039b12de52ec`
+
+Evidence:
+
+- `.csdlc/evidence/73/provider-reviews/verification-r2-gemini-result.json`
+- `.csdlc/evidence/73/provider-reviews/verification-r2-claude-sonnet-result.json`
+
+Gemini returned `PASS`. Claude returned `REQUEST_CHANGES` with two P1 findings,
+both incorporated:
+
+- The plan now spells out that `SyncInit<T>` stores the full
+  `Result<T, Arc<AppError>>` inside `OnceLock`, and that its accessor
+  pattern-matches that stored result without a panic path.
+- V3-01 now owns the PVF subprocess command-allowance policy; V3-09 implements
+  and enforces that contract rather than inventing it.
+
 The final plan must receive fresh Claude and Gemini reviews over the same exact
 revision. Verification is complete only when both return no undispositioned
 P0/P1 findings and this record names that revision and evidence.

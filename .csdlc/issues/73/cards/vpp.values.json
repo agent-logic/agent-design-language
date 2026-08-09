@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 7
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -80,7 +80,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing issue-plan detail, stale or mismatched review revisions, undispositioned actionable findings, invalid source references, or any expansion into implementation.",
       "design_ref": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
-      "design_digest": "4c58199016278cc9d4ce46222849dcd358b96e9e260b97f009e276da261b9e4d",
+      "design_digest": "7734a9246ef89ff9f11de1d6d23dabb5b20365ee34fed6be2b66e706f3aaa927",
       "diagram_ref": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
       "diagram_digest": "a86e3d6d3b1660ad6336d944e40edd115d13ee932515078120d6a8a4e0566ccc"
     }
