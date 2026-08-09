@@ -203,7 +203,7 @@ impl fmt::Debug for DeepgramSpeechProvider {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("DeepgramSpeechProvider")
             .field("provider_id", &self.provider_id)
-            .field("base_url", &self.base_url)
+            .field("base_url", &redacted_base_url(&self.base_url))
             .field("credentials", &"<redacted-source>")
             .finish()
     }
@@ -436,17 +436,18 @@ impl SpeechProvider for DeepgramSpeechProvider {
                 "Deepgram transcription response was not valid JSON",
             )
         })?;
-        let alternative = payload
-            .results
-            .channels
-            .first()
-            .and_then(|channel| channel.alternatives.first())
-            .ok_or_else(|| {
-                SpeechProviderError::new(
-                    SpeechErrorKind::MalformedResponse,
-                    "Deepgram transcription response contained no alternatives",
-                )
-            })?;
+        let channel = payload.results.channels.first().ok_or_else(|| {
+            SpeechProviderError::new(
+                SpeechErrorKind::MalformedResponse,
+                "Deepgram transcription response contained no alternatives",
+            )
+        })?;
+        let alternative = channel.alternatives.first().ok_or_else(|| {
+            SpeechProviderError::new(
+                SpeechErrorKind::MalformedResponse,
+                "Deepgram transcription response contained no alternatives",
+            )
+        })?;
         let words = alternative
             .words
             .iter()
@@ -460,12 +461,17 @@ impl SpeechProvider for DeepgramSpeechProvider {
         Ok(TranscriptionResult {
             transcript: alternative.transcript.clone(),
             confidence: alternative.confidence,
-            language: alternative.languages.first().cloned().or_else(|| {
-                alternative
-                    .words
-                    .iter()
-                    .find_map(|word| word.language.clone())
-            }),
+            language: channel
+                .detected_language
+                .clone()
+                .or_else(|| alternative.languages.first().cloned())
+                .or_else(|| {
+                    alternative
+                        .words
+                        .iter()
+                        .find_map(|word| word.language.clone())
+                })
+                .or_else(|| Some(request.language.trim().to_string())),
             words,
             provenance: SpeechProvenance {
                 provider: self.provider_id.clone(),
@@ -508,9 +514,28 @@ fn normalize_base_url(value: &str) -> Result<Url, SpeechProviderError> {
     } else {
         value
     };
-    Url::parse(&format!("{}/", normalized.trim_end_matches('/'))).map_err(|_| {
+    let url = Url::parse(&format!("{}/", normalized.trim_end_matches('/'))).map_err(|_| {
         SpeechProviderError::new(SpeechErrorKind::InvalidInput, "invalid Deepgram base URL")
-    })
+    })?;
+    if !url.username().is_empty()
+        || url.password().is_some()
+        || url.query().is_some()
+        || url.fragment().is_some()
+    {
+        return Err(SpeechProviderError::new(
+            SpeechErrorKind::InvalidInput,
+            "Deepgram base URL must not contain userinfo, query parameters, or a fragment",
+        ));
+    }
+    Ok(url)
+}
+
+fn redacted_base_url(url: &Url) -> String {
+    let host = url.host_str().unwrap_or("<invalid-host>");
+    match url.port() {
+        Some(port) => format!("{}://{host}:{port}/", url.scheme()),
+        None => format!("{}://{host}/", url.scheme()),
+    }
 }
 
 fn validate_synthesis_request(request: &SynthesisRequest) -> Result<(), SpeechProviderError> {
@@ -599,6 +624,7 @@ fn validate_audio(
                 channels: 1,
                 sample_rate: actual_rate,
                 bits_per_sample: 16,
+                ..
             }) if actual_rate == sample_rate
         ),
         (AudioEncoding::Mp3, AudioContainer::None) => sample_rate == 22_050 && is_mp3(bytes),
@@ -625,41 +651,134 @@ fn wav_properties(bytes: &[u8]) -> Option<WavProperties> {
     if bytes.len() < 12 || &bytes[..4] != b"RIFF" || &bytes[8..12] != b"WAVE" {
         return None;
     }
+    let riff_end = 8_usize.checked_add(u32::from_le_bytes(bytes[4..8].try_into().ok()?) as usize)?;
+    if riff_end > bytes.len() || riff_end < 12 {
+        return None;
+    }
+    let mut format = None;
+    let mut data_bytes = None;
     let mut offset = 12_usize;
-    while offset.checked_add(8)? <= bytes.len() {
+    while offset.checked_add(8)? <= riff_end {
         let chunk_id = &bytes[offset..offset + 4];
         let chunk_len = u32::from_le_bytes(bytes[offset + 4..offset + 8].try_into().ok()?) as usize;
         let data_start = offset.checked_add(8)?;
         let data_end = data_start.checked_add(chunk_len)?;
-        if data_end > bytes.len() {
+        if data_end > riff_end {
             return None;
         }
         if chunk_id == b"fmt " {
             if chunk_len < 16 {
                 return None;
             }
-            return Some(WavProperties {
-                audio_format: u16::from_le_bytes(
-                    bytes[data_start..data_start + 2].try_into().ok()?,
-                ),
-                channels: u16::from_le_bytes(
-                    bytes[data_start + 2..data_start + 4].try_into().ok()?,
-                ),
-                sample_rate: u32::from_le_bytes(
-                    bytes[data_start + 4..data_start + 8].try_into().ok()?,
-                ),
-                bits_per_sample: u16::from_le_bytes(
-                    bytes[data_start + 14..data_start + 16].try_into().ok()?,
-                ),
-            });
+            let channels =
+                u16::from_le_bytes(bytes[data_start + 2..data_start + 4].try_into().ok()?);
+            let bits_per_sample =
+                u16::from_le_bytes(bytes[data_start + 14..data_start + 16].try_into().ok()?);
+            let block_align =
+                u16::from_le_bytes(bytes[data_start + 12..data_start + 14].try_into().ok()?)
+                    as usize;
+            if channels == 0 || bits_per_sample == 0 || block_align == 0 {
+                return None;
+            }
+            format = Some((
+                WavProperties {
+                    audio_format: u16::from_le_bytes(
+                        bytes[data_start..data_start + 2].try_into().ok()?,
+                    ),
+                    channels,
+                    sample_rate: u32::from_le_bytes(
+                        bytes[data_start + 4..data_start + 8].try_into().ok()?,
+                    ),
+                    bits_per_sample,
+                },
+                block_align,
+            ));
+        } else if chunk_id == b"data" {
+            data_bytes = Some(chunk_len);
         }
         offset = data_end.checked_add(chunk_len % 2)?;
     }
-    None
+    let (properties, block_align) = format?;
+    let data_bytes = data_bytes?;
+    if data_bytes == 0 || data_bytes % block_align != 0 {
+        return None;
+    }
+    Some(properties)
 }
 
 fn is_mp3(bytes: &[u8]) -> bool {
-    bytes.starts_with(b"ID3") || (bytes.len() >= 2 && bytes[0] == 0xff && bytes[1] & 0xe0 == 0xe0)
+    let mut offset = 0_usize;
+    if bytes.starts_with(b"ID3") {
+        if bytes.len() < 10 || bytes[6..10].iter().any(|byte| byte & 0x80 != 0) {
+            return false;
+        }
+        let tag_len = bytes[6..10]
+            .iter()
+            .fold(0_usize, |size, byte| (size << 7) | usize::from(*byte));
+        let footer_len = if bytes[5] & 0x10 != 0 { 10 } else { 0 };
+        let Some(frame_offset) = 10_usize
+            .checked_add(tag_len)
+            .and_then(|value| value.checked_add(footer_len))
+        else {
+            return false;
+        };
+        offset = frame_offset;
+    }
+    mp3_frame_len(bytes.get(offset..).unwrap_or_default())
+        .is_some_and(|frame_len| bytes.len().saturating_sub(offset) >= frame_len)
+}
+
+fn mp3_frame_len(bytes: &[u8]) -> Option<usize> {
+    let header: [u8; 4] = bytes.get(..4)?.try_into().ok()?;
+    if header[0] != 0xff || header[1] & 0xe0 != 0xe0 {
+        return None;
+    }
+    let version = (header[1] >> 3) & 0x03;
+    let layer = (header[1] >> 1) & 0x03;
+    let bitrate_index = (header[2] >> 4) as usize;
+    let sample_rate_index = ((header[2] >> 2) & 0x03) as usize;
+    if version == 1
+        || layer == 0
+        || bitrate_index == 0
+        || bitrate_index == 15
+        || sample_rate_index == 3
+    {
+        return None;
+    }
+    let mpeg1 = version == 3;
+    let bitrate_table = match (mpeg1, layer) {
+        (true, 3) => [
+            0, 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448,
+        ],
+        (true, 2) => [
+            0, 32, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384,
+        ],
+        (true, 1) => [
+            0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320,
+        ],
+        (false, 3) => [
+            0, 32, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192, 224, 256,
+        ],
+        (false, 2 | 1) => [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160],
+        _ => return None,
+    };
+    let base_rates = [44_100_usize, 48_000, 32_000];
+    let divisor = match version {
+        3 => 1,
+        2 => 2,
+        0 => 4,
+        _ => return None,
+    };
+    let sample_rate = base_rates[sample_rate_index] / divisor;
+    let bitrate = bitrate_table[bitrate_index] * 1_000;
+    let padding = usize::from((header[2] >> 1) & 0x01);
+    Some(match layer {
+        3 => ((12 * bitrate / sample_rate) + padding) * 4,
+        2 => 144 * bitrate / sample_rate + padding,
+        1 if mpeg1 => 144 * bitrate / sample_rate + padding,
+        1 => 72 * bitrate / sample_rate + padding,
+        _ => return None,
+    })
 }
 
 fn require_success(response: Response) -> Result<Response, SpeechProviderError> {
@@ -742,6 +861,8 @@ struct ListenResults {
 
 #[derive(Deserialize)]
 struct ListenChannel {
+    #[serde(default, rename = "detected_language", alias = "language")]
+    detected_language: Option<String>,
     alternatives: Vec<ListenAlternative>,
 }
 

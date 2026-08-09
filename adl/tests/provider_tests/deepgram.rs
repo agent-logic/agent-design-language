@@ -92,15 +92,31 @@ fn header(name: &str, value: &str) -> Header {
 
 fn wav_fixture() -> Vec<u8> {
     let mut wav = b"RIFF".to_vec();
-    wav.extend_from_slice(&[36, 0, 0, 0]);
+    wav.extend_from_slice(&[40, 0, 0, 0]);
     wav.extend_from_slice(b"WAVEfmt ");
     wav.extend_from_slice(&[16, 0, 0, 0, 1, 0, 1, 0]);
     wav.extend_from_slice(&24_000_u32.to_le_bytes());
     wav.extend_from_slice(&48_000_u32.to_le_bytes());
     wav.extend_from_slice(&[2, 0, 16, 0]);
     wav.extend_from_slice(b"data");
-    wav.extend_from_slice(&[0, 0, 0, 0]);
+    wav.extend_from_slice(&[4, 0, 0, 0]);
+    wav.extend_from_slice(&[0, 0, 1, 0]);
     wav
+}
+
+fn empty_wav_fixture() -> Vec<u8> {
+    let mut wav = wav_fixture();
+    wav.truncate(44);
+    wav[4..8].copy_from_slice(&36_u32.to_le_bytes());
+    wav[40..44].copy_from_slice(&0_u32.to_le_bytes());
+    wav
+}
+
+fn mp3_fixture() -> Vec<u8> {
+    let mut mp3 = b"ID3\x04\x00\x00\x00\x00\x00\x00".to_vec();
+    mp3.extend_from_slice(&[0xff, 0xfb, 0x90, 0x00]);
+    mp3.resize(427, 0);
+    mp3
 }
 
 fn synthesis_request() -> SynthesisRequest {
@@ -208,7 +224,7 @@ fn deepgram_synthesis_constructs_request_and_validates_wav() {
 
 #[test]
 fn deepgram_mp3_uses_fixed_media_contract_without_invalid_query_parameters() {
-    let response_audio = b"ID3deepgram-mp3-fixture".to_vec();
+    let response_audio = mp3_fixture();
     let expected_audio = response_audio.clone();
     let (endpoint, server) = test_server(move |request| {
         assert!(request.url().contains("encoding=mp3"));
@@ -255,11 +271,12 @@ fn deepgram_transcription_parses_structured_result() {
                 "duration": 1.25,
                 "model_info": {"model-uuid": {"name": "nova-3"}}
             },
-            "results": {"channels": [{"alternatives": [{
+            "results": {"channels": [{
+                "detected_language": "en-US",
+                "alternatives": [{
                 "transcript": "Cognitive spacetime.",
                 "confidence": 0.98,
-                "languages": ["en-US"],
-                "words": [{"word": "cognitive", "start": 0.0, "end": 0.4, "confidence": 0.99, "language": "en-US"}]
+                "words": [{"word": "cognitive", "start": 0.0, "end": 0.4, "confidence": 0.99}]
             }]}]}
         });
         request
@@ -286,6 +303,40 @@ fn deepgram_transcription_parses_structured_result() {
         assert_eq!(result.words.len(), 1);
     });
     server.join().expect("join transcription server");
+}
+
+#[test]
+fn deepgram_transcription_falls_back_to_requested_language() {
+    let (endpoint, server) = test_server(move |request| {
+        let payload = json!({
+            "metadata": {"request_id": "stt-language-fallback", "duration": 0.1},
+            "results": {"channels": [{"alternatives": [{
+                "transcript": "Hello.",
+                "confidence": 0.9,
+                "words": []
+            }]}]}
+        });
+        request
+            .respond(
+                Response::from_string(payload.to_string())
+                    .with_header(header("content-type", "application/json")),
+            )
+            .expect("respond transcription fallback");
+    });
+    with_test_key(|| {
+        let provider = DeepgramSpeechProvider::from_spec("speech", &provider_spec(&endpoint, 5))
+            .expect("construct provider");
+        let result = provider
+            .transcribe(&TranscriptionRequest {
+                audio: wav_fixture(),
+                content_type: "audio/wav".to_string(),
+                model: "nova-3".to_string(),
+                language: "en-US".to_string(),
+            })
+            .expect("transcribe fixture");
+        assert_eq!(result.language.as_deref(), Some("en-US"));
+    });
+    server.join().expect("join transcription fallback server");
 }
 
 #[test]
@@ -322,6 +373,83 @@ fn deepgram_rejects_unapproved_endpoint_and_unsupported_media_before_network() {
 }
 
 #[test]
+fn deepgram_rejects_empty_or_truncated_media_payloads() {
+    for (response_audio, encoding, container, sample_rate, content_type) in [
+        (
+            empty_wav_fixture(),
+            AudioEncoding::Linear16,
+            AudioContainer::Wav,
+            24_000,
+            "audio/wav",
+        ),
+        (
+            vec![0xff, 0xfb, 0x90, 0x00],
+            AudioEncoding::Mp3,
+            AudioContainer::None,
+            22_050,
+            "audio/mpeg",
+        ),
+        (
+            b"ID3\x04\x00\x00\x00\x00\x00\x00".to_vec(),
+            AudioEncoding::Mp3,
+            AudioContainer::None,
+            22_050,
+            "audio/mpeg",
+        ),
+    ] {
+        let (endpoint, server) = test_server(move |request| {
+            request
+                .respond(
+                    Response::from_data(response_audio)
+                        .with_header(header("content-type", content_type)),
+                )
+                .expect("respond unusable synthesis media");
+        });
+        with_test_key(|| {
+            let provider =
+                DeepgramSpeechProvider::from_spec("speech", &provider_spec(&endpoint, 5))
+                    .expect("construct provider");
+            let mut request = synthesis_request();
+            request.encoding = encoding;
+            request.container = container;
+            request.sample_rate = sample_rate;
+            assert_eq!(
+                provider
+                    .synthesize(&request)
+                    .expect_err("unusable synthesis media must fail")
+                    .kind,
+                SpeechErrorKind::MalformedResponse
+            );
+        });
+        server.join().expect("join unusable media server");
+    }
+
+    with_test_key(|| {
+        let provider =
+            DeepgramSpeechProvider::from_spec("speech", &provider_spec("http://127.0.0.1:9", 5))
+                .expect("construct provider");
+        for (audio, content_type) in [
+            (empty_wav_fixture(), "audio/wav"),
+            (vec![0xff, 0xfb, 0x90, 0x00], "audio/mpeg"),
+            (b"ID3\x04\x00\x00\x00\x00\x00\x00".to_vec(), "audio/mpeg"),
+        ] {
+            assert_eq!(
+                provider
+                    .transcribe(&TranscriptionRequest {
+                        audio,
+                        content_type: content_type.to_string(),
+                        model: "nova-3".to_string(),
+                        language: "en-US".to_string(),
+                    })
+                    .expect_err("unusable transcription media must fail")
+                    .kind,
+                SpeechErrorKind::UnsupportedMedia
+            );
+        }
+    });
+}
+
+#[test]
 fn deepgram_configuration_and_credentials_fail_closed() {
     let mut wrong_kind = provider_spec("http://127.0.0.1:9", 5);
     wrong_kind.kind = "http".to_string();
@@ -337,6 +465,18 @@ fn deepgram_configuration_and_credentials_fail_closed() {
             .kind,
         SpeechErrorKind::InvalidInput
     );
+    for endpoint in [
+        "https://user:secret@api.deepgram.com",
+        "https://api.deepgram.com?api_key=secret",
+        "https://api.deepgram.com#secret",
+    ] {
+        let mut spec = provider_spec(endpoint, 5);
+        spec.config.remove("allow_test_endpoint");
+        let error = DeepgramSpeechProvider::from_spec("speech", &spec)
+            .expect_err("credential-bearing endpoint must fail");
+        assert_eq!(error.kind, SpeechErrorKind::InvalidInput);
+        assert!(!format!("{error:?}").contains("secret"));
+    }
     assert_eq!(
         DeepgramSpeechProvider::from_spec("speech", &provider_spec("http://127.0.0.1:9", 0))
             .expect_err("zero timeout must fail")

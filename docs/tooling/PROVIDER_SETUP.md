@@ -3,7 +3,7 @@
 `adl provider setup <family>` generates a local, untracked setup bundle for a
 remote provider family.
 
-Current supported families:
+Current `adl provider setup` families:
 - `chatgpt`
 - `claude`
 - `openai`
@@ -14,7 +14,10 @@ Current supported families:
 - `openrouter`
 - `z_ai`
 - `http`
-- `deepgram` (typed speech API; not a completion provider)
+
+Deepgram is a typed speech provider, not a completion provider, and is
+configured directly through the profiles documented below. It is not generated
+by `adl provider setup`.
 
 Related shared proof-surface docs:
 - `docs/tooling/PROVIDER_DEMO_SURFACES.md`
