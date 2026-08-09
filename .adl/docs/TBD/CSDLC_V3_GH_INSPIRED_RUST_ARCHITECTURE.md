@@ -85,10 +85,14 @@ Its `adl.external_source_baseline.v1` schema contains `repository`, `revision`,
 the typed `capture_command`, and one `{path, kind, oid}` row per cited blob.
 Portable verification runs the declared `git ls-tree <revision> --
 <declared-paths>` operation in any clone of the named repository and requires
-exact equality with every manifest object ID; no absolute checkout path or
-host-local digest is part of the contract. A shallow verifier fetches the exact
-object with `git fetch --depth=1 origin <revision>` when it is absent; clone
-depth is never assumed to contain the pinned commit.
+exact equality with every 40-hex SHA-1 manifest object ID; no absolute checkout
+path or host-local digest is part of the contract. A verifier that lacks the
+commit fetches the manifest-declared default branch with
+`git fetch --filter=blob:none --no-tags origin <default-branch>`, deepening that
+named ref until the revision is present. It then requires the revision to be an
+ancestor of the fetched ref before reading its tree. It never relies on a
+server accepting an arbitrary SHA want; an unreachable revision fails as a
+stale baseline requiring reviewed manifest refresh.
 
 ### Current C-SDLC v2
 
@@ -439,19 +443,23 @@ calls `get_or_init` with a closure whose complete cell value is
 `Result<T, Arc<AppError>>`, then pattern-matches the stored result to return
 `Result<&T, Arc<AppError>>`, cloning only the error `Arc`. It is lazy, never
 pre-warmed by `App` construction, and contains no `unwrap` or `expect` path.
-`get_or_try_init` is not used.
+`get_or_try_init` is not used because its failed initializer is retryable;
+`SyncInit` intentionally caches a terminal typed error for the invocation.
 
-`AsyncInit<T>` returns `Arc<T>` and owns a
-`tokio::sync::OnceCell<Result<Arc<T>, Arc<AppError>>>` plus a
-`tokio::sync::Mutex<RetryState>`. An accessor that observes an uninitialized
-cell holds the retry-state mutex while calling `get_or_init`; the cell provides
-single-flight initialization and concurrent accessors cannot start another
-attempt. A completed success or error is cached. If cancellation drops the
-initializer before completion, the cell remains uninitialized and the mutex is
-released. A later accessor may make the one invocation-local retry only after
-the fixed 250 millisecond cooldown recorded in `RetryState`; root cancellation
-prevents any retry. There is no spawned or detached initialization task.
-Concurrent-access,
+`AsyncInit<T>` returns `Arc<T>` and owns a short-held
+`std::sync::Mutex<AsyncInitState<T>>` plus an `Arc<tokio::sync::Notify>`.
+`AsyncInitState` is a closed enum of `Uninitialized`, `Initializing`, and
+`Ready(Result<Arc<T>, Arc<AppError>>)`, with attempt count, generation, and
+cooldown deadline carried in the first two states. No mutex guard crosses an
+`.await`. The first accessor atomically changes `Uninitialized` to
+`Initializing`, drops the guard, and owns the initializer future. Other
+accessors observe `Initializing`, drop the guard, await the notification, and
+loop. The leader commits `Ready` and notifies all waiters. A synchronous RAII
+leader guard uses the same injected monotonic clock to restore
+`Uninitialized` with the cooldown deadline and notify waiters if the leader
+future is dropped. A later accessor may make the one invocation-local retry
+only after the fixed 250 millisecond cooldown; root cancellation prevents any
+retry. There is no spawned or detached initialization task. Concurrent-access,
 completed-error, cancelled-init, retry-cooldown, and single-flight behavior are
 contract tests. Remote GitHub observation never belongs in `repository` or
 `issue` initialization; commands request it explicitly from `github`.
@@ -605,7 +613,7 @@ They are immutable after V3-01 approval; additions require a reviewed matrix
 row and removals or renames are versioned contract breaks, not inline test
 maintenance.
 The required CI entrypoint is
-`cargo test -p csdlc-v3-contracts capability_matrix --locked`; it validates the
+`cargo test -p csdlc-v3 capability_matrix --locked`; it validates the
 matrix schema, resolves every audit reference, matches every command to
 generated Clap help, and fails on missing or unconsumed contract test IDs.
 
@@ -669,7 +677,9 @@ The foundational recovery predicate is fixed here and implemented by V3-07:
 `closed_out`. It requires actor, reason, and stale-truth provenance and clears
 all matrix-declared dependent review, publication, readiness, and terminal
 fields atomically. V3-12 supplies the review-domain command and fixtures but
-cannot broaden this kernel predicate.
+cannot broaden this kernel predicate. Capability rows may narrow field-level
+authoring inside `implemented`, but no row may choose a different target phase
+for `review recover`.
 
 ## Transaction Store
 
@@ -808,7 +818,7 @@ Review remains exact and pre-publication:
 - `review assign` records reviewer, scope, and revision;
 - `review record` records findings, dispositions, residual risks, and result;
 - `review recover` atomically returns stale pre-terminal review/publication
-  truth to the matrix-declared correction phase, records the triggering reason
+  truth to the fixed `implemented` phase, records the triggering reason
   and provenance, and invalidates every dependent review, publication,
   readiness, and terminal field named by the capability row;
 - scoped content digests bind review even when lifecycle projections change;
@@ -871,9 +881,10 @@ commit-SHA observation.
 `pr watch` is an explicit foreground async loop. It creates no queue job,
 automation, daemon, or persistent watcher record. Its default timeout is 30
 minutes; `--timeout` may raise it only to the V3-01 maximum of 24 hours. The
-default poll interval is 15 seconds and a bounded `--poll-interval` override is
-permitted. Clap range parsers reject out-of-contract timeout or poll values
-before context resolution, with parser-boundary positive and negative tests.
+minimum timeout is 1 second. The default poll interval is 15 seconds; an
+override must be between 1 second and 5 minutes and cannot exceed the selected
+timeout. Clap range parsers reject out-of-contract timeout or poll values before
+context resolution, with parser-boundary positive and negative tests.
 Each poll or state change emits concise progress to stderr. It exits
 on ready, failed, conflicted, operator-required, timeout, or cancellation. Every
 sleep is cancellation-aware and bounded.
@@ -886,6 +897,16 @@ open and cannot advance that issue to `closed_out`; a later closing publication
 or explicit no-PR terminal outcome is required. Merge is not implicit. Whether
 `finish --merge` may become an explicitly authorized operation remains an
 operator decision.
+
+If exact finish readback finds that a `PartOf` parent closed after checkpoint
+merge, plain `finish` returns `operator_required` with the suggested typed
+command `finish --disposition external-parent-close --reason <text>`. That
+disposition requires operator authority and fresh exact PR/issue readback,
+records the checkpoint and external closure as distinct causal facts, and may
+commit the terminal `ExternalParentClose` outcome without attributing closure
+to the checkpoint PR. Missing authority or contradictory readback remains
+reconciliation-required; the record is not stranded and no remote reopen is
+part of correctness.
 
 `clean` is separate. Its default output is a preview of the exact eligible
 worktree and artifacts. It rejects dirty, open, live, mismatched, or
@@ -917,11 +938,15 @@ The minimum frozen subset is identity, field/index access, array/object
 iteration and construction, slicing, pipe, `select`, `has`, and `length`;
 V3-01 may remove a construct only before contract approval, and V3-02 may add
 one only through reviewed contract revision. The engine never spawns `jq` or a
-shell. Everything outside the versioned positive grammar is unsupported; the
-initial exclusion register explicitly covers user functions, recursion,
-modules/imports, reductions, sorting/grouping, regex, date/math extensions,
-streaming, file/environment/process access, and dynamic evaluation. Negative
-conformance tests require typed usage errors for every excluded family.
+shell. The positive grammar is closed: every token, operator, function, and
+arity absent from it is rejected during parsing, so the exclusion boundary is
+exhaustive rather than a permissive list. The initial named negative corpus
+explicitly covers `try/catch`, formatters, `limit`/`first`/`last`/`nth`, user
+functions, recursion and path mutation, modules/imports, reductions,
+sorting/grouping, regex, date/math extensions, streaming input,
+file/environment/process access, diagnostics, and dynamic evaluation. Negative
+conformance tests require typed usage errors for every named family plus
+generated tokens outside the closed grammar.
 `--template` uses a V3-02-approved restricted in-process engine with no
 filesystem includes, process access, or environment access. Both operate on the
 same serialized envelope and are mutually exclusive. Diagnostics and progress
@@ -1349,7 +1374,9 @@ dispositions.
 versioned normalized parity/import schema, importer retention policy,
 command/help golden packet, explicit unsupported behavior register, the
 retained `.csdlc/evidence/73/official-cli-source-baseline.json` manifest and
-portable `git ls-tree` verification contract, versioned
+portable `git ls-tree` verification contract, the measured
+`csdlc-v3/contracts/state-size-baseline.v1.json` artifact and locked
+recomputation lane, versioned
 JSON envelope and schema-evolution policy, reviewer-principal and independence
 mechanism, per-card/per-phase field optionality table and optional-value
 placeholder, `PublicationLinkage::{Closing, PartOf}` contract with normalized
@@ -1360,7 +1387,10 @@ correction, invalidation, recovery provenance, audit evidence, and next valid
 operations. The state-size guard includes measured warning/block thresholds and
 headroom evidence. Output filtering includes a versioned supported-`jq` subset
 manifest with explicit unsupported syntax and diagnostics. The contract also
-pins the exact `cargo-deny` release used from the construction spike onward.
+pins the exact candidate `cargo-deny` release used from the construction spike
+onward. V3-02 may recommend changing that candidate only through the same
+reviewed stop/go architecture-revision path used for any failed spike
+threshold; it cannot silently substitute a release.
 
 **Acceptance criteria:**
 
@@ -1389,6 +1419,9 @@ pins the exact `cargo-deny` release used from the construction spike onward.
   at least ten times the largest deterministic v2 baseline bundle, warning is
   fixed at 80 percent of that block, and neither path silently drops audit
   evidence.
+- V3-01 approval is blocked until the state-size artifact identifies the actual
+  largest v2 bundle at `f1c01499`, records every measured blob and total, and
+  passes the locked recomputation case; no unmeasured adequacy claim is allowed.
 - `--jq` accepts only the frozen supported subset; unsupported syntax fails
   with a typed usage error rather than partial or external execution.
 - The retained `adl.external_source_baseline.v1` manifest passes the VPP's
@@ -1539,9 +1572,12 @@ contract, and redaction fixtures.
 - Cancelled async initialization remains single-flight on retry, applies the
   configured cooldown for localized cancellation/timeouts, and never retries
   after root cancellation.
-- The selected Tokio release is exact-version pinned, and a deterministic
-  cancellation test proves that dropping the active `get_or_init` future leaves
-  the cell uninitialized and permits exactly one cooldown-governed retry.
+- The selected Tokio release is exact-version pinned, and deterministic leader
+  drop tests prove state reset, waiter notification, exactly one
+  cooldown-governed retry, and absence of deadlock, leaked waiter, or retained
+  initializer future.
+- Sync initialization tests prove that one terminal error is cached for the
+  invocation and is not changed by later filesystem mutation.
 - Async adapter traits remain object-safe without infecting pure domain APIs.
 - Supported OS and console interruption signals drive root cancellation and
   bounded child/task teardown before exit code 130.
@@ -1899,6 +1935,9 @@ model, result renderer, interruption fixtures, and representative local journeys
 - Every sleep and network/process await participates in `tokio::select!` with
   cancellation.
 - Incomplete, cancelled, timed-out, or tampered evidence cannot appear passed.
+- Each captured stream records `truncated`, `captured_bytes`, and
+  `original_bytes_if_known`; human and JSON output distinguish an enforced cap
+  from naturally short process output.
 - Passing validation cannot authorize review, publication, or merge.
 
 **Validation proof:** Scheduler stress, signal/cancellation and child-process
@@ -2095,8 +2134,8 @@ interpretation.
 
 **Deliverables:** Finish reconciler, exact linkage-aware terminal truth table,
 checkpoint receipt schema that cannot imply parent closure, terminal receipt
-schema, cleanup classifier and remover, preview output, canonical path policy,
-and safety fixtures.
+schema, typed `ExternalParentClose` disposition, cleanup classifier and
+remover, preview output, canonical path policy, and safety fixtures.
 
 **Acceptance criteria:**
 
@@ -2109,6 +2148,10 @@ and safety fixtures.
   issue, preserves the open parent after each, then processes a later
   independently reviewed `closing` publication through finish and closes that
   exact parent without selecting any checkpoint PR as terminal authority.
+- A merged `part_of` checkpoint whose parent later closes returns
+  `operator_required`; the separately authorized external-parent-close
+  disposition records distinct causes and reaches terminal truth without
+  crediting the checkpoint PR or requiring remote rollback.
 - Cleanup is a separate command after finish and defaults to preview.
 - Cleanup requires canonical candidate-path equality with the verified Git
   worktree root; prefix and relative matches are rejected.
@@ -2119,9 +2162,10 @@ and safety fixtures.
   GitHub merge without local terminal reconciliation remains ineligible.
 
 **Validation proof:** Linkage-aware terminal outcome matrix, multiple checkpoint
-then closing journeys, ambiguous/mixed-PR negatives, checkpoint/terminal receipt
-tamper tests, canonical/symlink/path-escape fixtures, dirty/live/drift cleanup
-matrix, exact deletion-list proof, and bounded end-to-end canary closeout.
+then closing journeys, close-between-merge-and-finish race and disposition
+tests, ambiguous/mixed-PR negatives, checkpoint/terminal receipt tamper tests,
+canonical/symlink/path-escape fixtures, dirty/live/drift cleanup matrix, exact
+deletion-list proof, and bounded end-to-end canary closeout.
 
 **Stop conditions:** Finish trusts local prose over GitHub, PR selection is
 ambiguous, a `part_of` PR can close or terminally complete its parent, cleanup
