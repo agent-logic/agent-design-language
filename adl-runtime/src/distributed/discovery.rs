@@ -1,4 +1,4 @@
-use std::{collections::BTreeSet, fmt, future::Future, net::SocketAddr, time::Duration};
+use std::{collections::BTreeMap, fmt, future::Future, net::SocketAddr, time::Duration};
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -251,8 +251,8 @@ pub trait EnrollmentAuthority {
 #[derive(Debug)]
 pub struct ProposalReplayGuard {
     capacity: usize,
-    requests: BTreeSet<[u8; 32]>,
-    proposals: BTreeSet<String>,
+    requests: BTreeMap<[u8; 32], u64>,
+    proposals: BTreeMap<String, u64>,
 }
 
 impl ProposalReplayGuard {
@@ -262,35 +262,59 @@ impl ProposalReplayGuard {
         }
         Ok(Self {
             capacity,
-            requests: BTreeSet::new(),
-            proposals: BTreeSet::new(),
+            requests: BTreeMap::new(),
+            proposals: BTreeMap::new(),
         })
     }
 
-    pub fn observe_request(&mut self, request_id: [u8; 32]) -> DiscoveryResult<()> {
+    pub fn observe_request(
+        &mut self,
+        request_id: [u8; 32],
+        expires_at_unix_secs: u64,
+        now_unix_secs: u64,
+    ) -> DiscoveryResult<()> {
         if request_id == [0; 32] {
             return Err(DiscoveryError::InvalidRequest);
         }
-        if self.requests.contains(&request_id) {
+        self.prune_expired(now_unix_secs);
+        if self.requests.contains_key(&request_id) {
             return Err(DiscoveryError::Replay);
         }
         if self.requests.len() >= self.capacity {
             return Err(DiscoveryError::ResourceExhausted);
         }
-        self.requests.insert(request_id);
+        self.requests.insert(request_id, expires_at_unix_secs);
         Ok(())
     }
 
-    pub fn observe(&mut self, proposal_id: &str) -> DiscoveryResult<()> {
+    pub fn observe_acceptance(
+        &mut self,
+        request_id: [u8; 32],
+        proposal_id: &str,
+        expires_at_unix_secs: u64,
+        now_unix_secs: u64,
+    ) -> DiscoveryResult<()> {
+        if request_id == [0; 32] {
+            return Err(DiscoveryError::InvalidRequest);
+        }
         validate_digest_identifier(proposal_id)?;
-        if self.proposals.contains(proposal_id) {
+        self.prune_expired(now_unix_secs);
+        if self.requests.contains_key(&request_id) || self.proposals.contains_key(proposal_id) {
             return Err(DiscoveryError::Replay);
         }
-        if self.proposals.len() >= self.capacity {
+        if self.requests.len() >= self.capacity || self.proposals.len() >= self.capacity {
             return Err(DiscoveryError::ResourceExhausted);
         }
-        self.proposals.insert(proposal_id.to_owned());
+        self.requests.insert(request_id, expires_at_unix_secs);
+        self.proposals
+            .insert(proposal_id.to_owned(), expires_at_unix_secs);
         Ok(())
+    }
+
+    fn prune_expired(&mut self, now_unix_secs: u64) {
+        self.requests.retain(|_, expires| *expires >= now_unix_secs);
+        self.proposals
+            .retain(|_, expires| *expires >= now_unix_secs);
     }
 }
 
@@ -342,7 +366,11 @@ pub fn propose_join<A: EnrollmentAuthority>(
     if enrolled.trust_domain != request.trust_domain {
         return Err(DiscoveryError::WrongDomain);
     }
-    replay.observe_request(request.request_id)?;
+    replay.observe_request(
+        request.request_id,
+        request.expires_at_unix_secs,
+        now_unix_secs,
+    )?;
     let proposal_id = proposal_id(local_seed, &request)?;
     Ok(JoinProposal {
         schema: JOIN_PROPOSAL_SCHEMA.to_owned(),
@@ -407,7 +435,12 @@ pub fn accept_proposal<A: EnrollmentAuthority>(
     if proposal.proposal_id != expected {
         return Err(DiscoveryError::MalformedMessage);
     }
-    replay.observe(&proposal.proposal_id)?;
+    replay.observe_acceptance(
+        proposal.request_id,
+        &proposal.proposal_id,
+        proposal.expires_at_unix_secs,
+        now_unix_secs,
+    )?;
     Ok(proposal)
 }
 

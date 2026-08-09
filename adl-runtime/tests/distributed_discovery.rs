@@ -641,6 +641,53 @@ async fn public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds() 
     )
     .await
     .unwrap();
+
+    let second_node = "node-seed-b";
+    let second_guardian = "guardian-seed-b";
+    let two_seed_authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(second_node, second_guardian),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    let second_seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 5555).into(),
+        second_node,
+        second_guardian,
+        1,
+    )
+    .unwrap();
+    let second_proposal = propose_join(
+        &envelope(
+            CLIENT_NODE,
+            CLIENT_GUARDIAN,
+            encode_request(&join_request, &configured_policy).unwrap(),
+        ),
+        &peer(second_node, second_guardian),
+        &two_seed_authority,
+        &configured_policy,
+        &mut ProposalReplayGuard::new(64).unwrap(),
+        timestamp,
+    )
+    .unwrap();
+    assert_ne!(proposal.proposal_id, second_proposal.proposal_id);
+    assert_eq!(
+        accept_proposal(
+            &second_seed,
+            &join_request,
+            &envelope(
+                second_node,
+                second_guardian,
+                encode_proposal(&second_proposal, &configured_policy).unwrap(),
+            ),
+            &two_seed_authority,
+            &configured_policy,
+            &mut proposal_replay,
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::Replay
+    );
+
     assert_eq!(
         discover(
             std::slice::from_ref(&seed),
@@ -703,6 +750,34 @@ async fn public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds() 
         .unwrap_err(),
         DiscoveryError::PeerNotEnrolled
     );
+}
+
+#[test]
+fn replay_window_denies_live_entries_and_recovers_capacity_after_expiry() {
+    let timestamp = now();
+    let expires = timestamp + 30;
+    let mut replay = ProposalReplayGuard::new(64).unwrap();
+
+    for value in 1_u8..=64 {
+        replay
+            .observe_acceptance([value; 32], &format!("{value:064x}"), expires, timestamp)
+            .unwrap();
+    }
+    assert_eq!(
+        replay
+            .observe_acceptance([65; 32], &format!("{:064x}", 65), expires, timestamp)
+            .unwrap_err(),
+        DiscoveryError::ResourceExhausted
+    );
+    assert_eq!(
+        replay
+            .observe_acceptance([1; 32], &format!("{:064x}", 1), expires, timestamp)
+            .unwrap_err(),
+        DiscoveryError::Replay
+    );
+    replay
+        .observe_acceptance([65; 32], &format!("{:064x}", 65), expires + 30, expires + 1)
+        .unwrap();
 }
 
 #[test]
