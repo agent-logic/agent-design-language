@@ -1,4 +1,4 @@
-Nextest run ID 4b613020-5c90-43a0-a7cd-8875599fdb15 with nextest profile: default
+Nextest run ID 653f21b1-5cd7-4ed3-b5d0-efc8d4b9739c with nextest profile: default
 Starting 8 tests across 1 binary
 PASS freshness_lifetime_and_normalization_bounds_are_explicit
 PASS domain_holder_certificate_and_signature_tampering_fail_closed

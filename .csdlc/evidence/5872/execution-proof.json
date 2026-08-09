@@ -2,7 +2,7 @@
   "schema": "adl.wp04.execution_proof.v3",
   "issue": 5872,
   "wp": "WP-04.10",
-  "source_revision": "03d6ce6055ed6a2c0b3b637a03bae89ddde5071f",
+  "source_revision": "c44bfaf07861033cbf246f6103b5dd9efe1ed034",
   "evidence_revision_strategy": "derive_from_receipt_introduction",
   "protected_paths": [
     "adl-runtime/src/distributed/resource_weather.rs",
@@ -11,7 +11,7 @@
   "source_artifacts": [
     {
       "path": "adl-runtime/src/distributed/resource_weather.rs",
-      "sha256": "05f17f379d08722fef1192350b98a56b548192182cf76fbc3767d5f8a7ef418c"
+      "sha256": "95ea9de9b24e02c1b8c6c9b90da8af5f1e05cd61176c241045ea2cbf4056d553"
     },
     {
       "path": "adl-runtime/tests/distributed_resource_weather.rs",
@@ -36,13 +36,13 @@
       "finished_at": "2026-08-09T08:05:00Z",
       "runner": {
         "provider": "local_codex",
-        "run_id": "4b613020-5c90-43a0-a7cd-8875599fdb15",
+        "run_id": "653f21b1-5cd7-4ed3-b5d0-efc8d4b9739c",
         "os": "macos",
         "arch": "aarch64",
         "identity_sha256": "048169cc8ff2882f3586b4510d0f9c70ef1965689a92b12d2f4a094f34e7435f"
       },
       "stdout_path": ".csdlc/evidence/5872/exact-child-tests.stdout.log",
-      "stdout_sha256": "bae41986c0c0096ad743f1a50159e92e88f1129e2d8ff0a58df1f6b0351e4c3f",
+      "stdout_sha256": "3b82918d456723f234283084435a80d41ebd4bce1d481795b4a1e5fe7f415c0d",
       "stderr_path": ".csdlc/evidence/5872/exact-child-tests.stderr.log",
       "stderr_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
     }
@@ -58,7 +58,7 @@
     {"case": "raw_path_provider_observability_or_secret_redaction", "result": "denied", "evidence_path": ".csdlc/evidence/5872/negative-cases.json", "evidence_sha256": "02ea43aa06dc88d0334994ef8dc8ee451b8710e0c3de7904f66209773e124653"}
   ],
   "artifacts": [
-    {"path": ".csdlc/evidence/5872/exact-child-tests.stdout.log", "sha256": "bae41986c0c0096ad743f1a50159e92e88f1129e2d8ff0a58df1f6b0351e4c3f"},
+    {"path": ".csdlc/evidence/5872/exact-child-tests.stdout.log", "sha256": "3b82918d456723f234283084435a80d41ebd4bce1d481795b4a1e5fe7f415c0d"},
     {"path": ".csdlc/evidence/5872/negative-cases.json", "sha256": "02ea43aa06dc88d0334994ef8dc8ee451b8710e0c3de7904f66209773e124653"}
   ],
   "native_receipts": []
