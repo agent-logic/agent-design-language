@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d1b7b0b06a2c0f94ec27f0729d43c50921764b10560462b62c3d2d84765f3526",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "67f17312eef7ba88f75937a769e9ed90579d4ff82af3e3cbe7656804b86f3f7f",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "43012edad791024e4a3ed68d65485cc6bded64d2afce8e907a97dfecaaf676ba",
   "branch": "codex/87-acip-minor-version-strict-clippy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-87-acip-minor-version-strict-clippy",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8548f8181878bf3d948043e3fef067ef59ba46e4af6aeefabb3f85cfcfe2e32f",
+      "values_digest": "adee06dd79512eabe0a0f84e2a3d0068c28dd2fb3b995fcc58a013f7e8581e35",
       "rendered_digest": "69ea375b91a4ba4d35438808b445f1b6218adf9c6a38116bf85155a7d1d20d54",
       "ast_digest": "959d743916c7932b373f3c1d0965284a8451726ecae7249413891fb1c6fb4681"
     },
     "stp": {
-      "values_digest": "0e3c20d34dc52a9887851a7c795fc35e5904f9db6e5c1da89d818b50c31c3889",
+      "values_digest": "55efe69082dcd44231b6f818161ba14cacce86692ba086a1e58465f11b0d6cd9",
       "rendered_digest": "c7c46e295ea9f96524a17a6872e1824de3b5926c7d00bff8b07d50d423985973",
       "ast_digest": "7f3469945331286a2edc31f58a2042414a23a618c2fd05010bd495ee791b2c65"
     },
     "spp": {
-      "values_digest": "a960b9f970d25c740af56c3f5bfbacdc0c1385c7dfefa6f40a7fbbab26d51dfa",
-      "rendered_digest": "c7d8130694d040b1a2b6468ca700e3766c7e1cd548a3ca24cf61f50b121c867c",
-      "ast_digest": "9f879d2b5c645f8b69b581af65b9242f9bb0f25852124c42b36c0f7abc6df171"
+      "values_digest": "dcd931a56828d1c809cdf288161e18d8238072dd8280f0257adc7e720bd2c4a9",
+      "rendered_digest": "4606bed58d6c2d2bddd21fea34ca7e8c2ea21c3817ef575bed09bbcb6e589070",
+      "ast_digest": "f134eea0856267077625b23d1418141e10716ee8004fc2687a33c51e12324e75"
     },
     "vpp": {
-      "values_digest": "29a4fbd5ae93b271712517b2484e38da3240aff227bbe4acd0c919f90a0d43cb",
-      "rendered_digest": "826c8f58fd2c8ea57d0611532795ddbdebefdb324a3ac24fab819160ecbff3d8",
-      "ast_digest": "d00b59ae440614ddd1d9b41af822fbaaaad17e737f5339ec02fc4ad6460c901f"
+      "values_digest": "a160dc203772a5bccc8e17ca4b8ff7a3755a52bd78f1fd4c38b258988cdfe341",
+      "rendered_digest": "31d1925a73e8d9061e13bf0a323526d9f2043ccd7e245d8bb878f832c34eb3d4",
+      "ast_digest": "94071b7a27ba293a4c867943778f33e049282dcee8f23d8fd064648c811680bd"
     },
     "srp": {
-      "values_digest": "295aa475830a8abad2b81b4bef89be78711a3e61f2e1a9325bd905bd8472358c",
+      "values_digest": "92bc75437e3f852d3baeef5f82e21c91a33f81f308a6770ff3267fa50f12a0a2",
       "rendered_digest": "b4a085a2d68ccf3c7249af62110d45aeb5ab67da17493058b8d1cfd31f082af8",
       "ast_digest": "0af84a857f58c536c567a68c42c51db226c233de28465bfd207da5683af8dbf0"
     },
     "sor": {
-      "values_digest": "2f01f32fe9ad5f86517075808eb61ef5d93f72540f44c0fe36207816addd228f",
-      "rendered_digest": "7ec657d5410c01f94a9517eb0c9968ab6df31dd8a2613c27fb8fe91922811d46",
-      "ast_digest": "cc3d65b2f8b597b3bf97aa0a4d373ec516edff39e05ca3bce4280c253bcf9672"
+      "values_digest": "58cf1175dbf8e4c859b42dd63188f54cb90c6e07a9bc76d8f1478f236d6feb0e",
+      "rendered_digest": "a5ea136cc4a04900acc8c3260c4bb065c8066b5fea767b15a5bd8263f46ad330",
+      "ast_digest": "40643610e859c287224076ca451765181f2078a5914b0b421fccd245066b5d35"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "The bounded ACIP repair, focused tests, and both strict child-consumer Clippy proofs are complete; enter implemented review state."
     }
   ],
   "audit": [
@@ -127,6 +134,41 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "subagent:/root/start_sprint_4_5862",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Clear the completed focused target deferral after the issue-owned integration test and all strict Clippy proofs passed.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"acip-version-negotiation\",\"proof_role\":\"The issue-owned integration target proves exact, wider-compatible, future-only, and malformed inclusive minor ranges.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"acip_version_negotiation\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"acip-strict-clippy\",\"proof_role\":\"Warning-denied library compilation proves the shared ACIP predicate; exact child consumer commands were also run on their live heads with this patch.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Record the bounded implementation evidence before entering implemented phase.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Preserved general inclusive ACIP minor-range negotiation while eliminating the strict Clippy extreme-comparison warning.\",\"changes\":[\"Replaced constant endpoint comparisons with an inclusive RangeInclusive::contains predicate after malformed-range rejection.\",\"Added an issue-owned integration target covering exact, wider-compatible, future-only, and descending minor ranges.\",\"Kept Sprint children 5866, 5871, and 5872 implementation and test paths unchanged.\"],\"artifacts\":[\"adl-runtime/src/acip.rs\",\"adl-runtime/tests/acip_version_negotiation.rs\",\".csdlc/prepared/issues/87/design.md\",\".csdlc/prepared/issues/87/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "The bounded ACIP repair, focused tests, and both strict child-consumer Clippy proofs are complete; enter implemented review state.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Record the completed ACIP predicate repair and all focused and child-consumer validation proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Preserved general inclusive ACIP minor-range negotiation while eliminating the strict Clippy extreme-comparison warning that blocked Sprint 4 consumers.\",\"changes\":[\"Replaced constant endpoint comparisons with an inclusive RangeInclusive::contains predicate after malformed-range rejection.\",\"Added an issue-owned integration target covering exact, wider-compatible, future-only, and descending minor ranges.\",\"Kept Sprint children 5866, 5871, and 5872 implementation and test paths unchanged.\"],\"artifacts\":[\"adl-runtime/src/acip.rs\",\"adl-runtime/tests/acip_version_negotiation.rs\",\".csdlc/prepared/issues/87/design.md\",\".csdlc/prepared/issues/87/diagram.mmd\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"acip_version_negotiation\"],\"purpose\":\"Prove exact, wider-compatible, future-only, and malformed minor ranges.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local exact-source proof: 2 passed, 0 failed at 4feeb84dd.\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the shared ACIP source is warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local exact-source strict Clippy PASS at 4feeb84dd.\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_capability_advertisement\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the live Sprint capability-advertisement consumer with the issue 87 patch.\",\"outcome\":\"passed\",\"evidence_ref\":\"Detached proof head b76ac59fe combines child head ae16187bb with issue 87 through 4feeb84dd; exit 0.\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_resource_weather\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the live Sprint resource-weather consumer with the issue 87 patch.\",\"outcome\":\"passed\",\"evidence_ref\":\"Detached proof head ac52325 combines child head 97cf01977 with issue 87 through 4feeb84dd; exit 0.\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local exact-source formatter check exited 0.\"}]}"
     }
   ]
 }

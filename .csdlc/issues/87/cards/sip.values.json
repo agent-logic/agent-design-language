@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
     "slug": "acip-minor-version-strict-clippy",
     "version": "v0.92",
-    "generation": 6
+    "generation": 11
   },
   "status": "ready",
   "content": {

@@ -44,11 +44,11 @@ Diagram: .csdlc/prepared/issues/87/diagram.mmd
       "acip_version_negotiation"
     ],
     "parallel_group": "local",
-    "defer_reason": "Issue-owned target adl-runtime/tests/acip_version_negotiation.rs is created during implementation before this lane runs."
+    "defer_reason": null
   },
   {
     "lane": "acip-strict-clippy",
-    "proof_role": "Warning-denied library compilation proves the shared ACIP predicate now; the exact child consumer commands remain required before publication.",
+    "proof_role": "Warning-denied library compilation proves the shared ACIP predicate; exact child consumer commands were also run on their live heads with this patch.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",

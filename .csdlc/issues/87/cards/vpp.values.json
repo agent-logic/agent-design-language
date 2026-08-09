@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
     "slug": "acip-minor-version-strict-clippy",
     "version": "v0.92",
-    "generation": 6
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -36,11 +36,11 @@
             "acip_version_negotiation"
           ],
           "parallel_group": "local",
-          "defer_reason": "Issue-owned target adl-runtime/tests/acip_version_negotiation.rs is created during implementation before this lane runs."
+          "defer_reason": null
         },
         {
           "lane": "acip-strict-clippy",
-          "proof_role": "Warning-denied library compilation proves the shared ACIP predicate now; the exact child consumer commands remain required before publication.",
+          "proof_role": "Warning-denied library compilation proves the shared ACIP predicate; exact child consumer commands were also run on their live heads with this patch.",
           "acceptance_ids": [
             "AC-3",
             "AC-4",
@@ -71,7 +71,7 @@
       "design_ref": ".csdlc/prepared/issues/87/design.md",
       "design_digest": "9b43fca9e625ea50ae7022dc0f8fcf2569ca96b3373db88e3395c234e0a33046",
       "diagram_ref": ".csdlc/prepared/issues/87/diagram.mmd",
-      "diagram_digest": "a365daa41e2b95dcf7516c276d67acb6ea2465b4a4720a6b1868bbdd315a745f"
+      "diagram_digest": "8e0b88384b80a19910c7b4414ebe6b151888c2f231230e1694061ba639b9c51b"
     }
   }
 }
