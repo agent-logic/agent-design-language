@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 75,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0dd81b234af2b9cfa011f8f1ebc56362595c1988b7e83137501e84345d8eff9e",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "2facf7958d37e94b805d34404181f2fb83b28d620f12a0706dac084601aaa9c4",
+  "branch": "codex/75-incremental-publication-linkage",
+  "worktree": "/Volumes/FastWork/adl-issue-75-incremental-publication-linkage",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/75/design.md",
+  "diagram_path": ".csdlc/prepared/issues/75/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:prepare-75-readiness-review",
+      "revision": "cb1e2451b3b0eb50f7fa102784a7fdfffd23f499d32839a95cea6bb625d99546"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a419166de86eabe149b8d584648a23ad35b8ac266354c4732f6e4cd8ad901a17",
+      "rendered_digest": "46326d6d4d5b10585464af51e393b966d24bce99dfc8befcc6b3721e58e1b527",
+      "ast_digest": "d634c842915f091cf9916a653c1de465e148bc5a4bcd0fcb08a243c5f57ad7c3"
+    },
+    "stp": {
+      "values_digest": "b8a9ecbb48168600e2ef8f88db66419170ecc76ada50a9c3b29069671679e206",
+      "rendered_digest": "69c03b16c0d338993470c5ffb560cbdd938d4d86becd19ee77616b7ebbad40b8",
+      "ast_digest": "1f8435c207cec1d1fcac22dee9e725c14c72c9ce638051de2f803ba4f4b54018"
+    },
+    "spp": {
+      "values_digest": "7101b844230a3b8fc6cec4801295c39dd6590daf8671faa21ff75fb0fac5dd49",
+      "rendered_digest": "b0f445bfac18a76c68f3ff51745b03065eb6ec41dd1010f52893f50c58b80105",
+      "ast_digest": "ae8d01dfe7b5252e51fed5f347fa86b69ec200e0d964cba60565ffc53f080d7c"
+    },
+    "vpp": {
+      "values_digest": "9cdee0dc62335732c319699e94af5d6918c9ef4d56689d0064a507966526f32b",
+      "rendered_digest": "070ebfb3895fd69ee9c4d3c8bd65f48506a90df6bffafea8b47c8d70472cb43f",
+      "ast_digest": "e1e534296c7a417e2a0d62c5093ccc6e73270fe70f6e5fa7014c24d0f241abbd"
+    },
+    "srp": {
+      "values_digest": "f678b98e5fc1fd3cdf0565bb51c2dfece76e1aa7011e1faaf10124dab31a96f3",
+      "rendered_digest": "0e30949331ccccd1897e12b3303a31a20824c20facc9bfaab5a2fef7254f0529",
+      "ast_digest": "22c5955404da0f1c15db787710fca40919f25e7531f6d33d6a5a7ad84dd6081b"
+    },
+    "sor": {
+      "values_digest": "af5c739a0653f8b865a0b0577944e5ceeaa3c95b97180081bf525cea1a105f05",
+      "rendered_digest": "46f1bfe5bf222da782621bcec54168f3f1118091e67490c9e4142428c1bfeb02",
+      "ast_digest": "abffdb6a1dd74e0270b9b8e497a48419b8f8cb750afe133bb1ad03a7cfbda263"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:75-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:75-readiness",
+      "reason": "Bind deliverables to concrete owned implementation and test targets",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/publication.rs typed linkage validation\",\"csdlc-v2/src/github.rs remote linkage observation\",\"csdlc-v2/src/model.rs retained publication evidence\",\"csdlc-v2/src/finish.rs closing-only terminal authority\",\"csdlc-v2/tests/gate6.rs focused publication regressions\",\"csdlc-v2/tests/gate_finish.rs focused terminal-authority regressions\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:75-readiness",
+      "reason": "Bind deliverables to concrete owned implementation and test targets",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/gate_finish.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:prepare-75-readiness-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 75,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 publish cannot represent non-closing incremental parent checkpoints",
+    "slug": "incremental-publication-linkage",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Publication linkage types, exact parsing, retained evidence, remote reconciliation, finish authority, and focused tests only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can part_of ever reach terminal finish authority?",
+        "Are same and split repository references exact and non-ambiguous?",
+        "Does omitted mode preserve existing closing requests without weakening validation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
