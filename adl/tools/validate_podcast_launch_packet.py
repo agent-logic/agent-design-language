@@ -543,7 +543,7 @@ def main() -> None:
     if http_base is not None:
         validate_http_route(http_base, "/podcast/", SHOW_TITLE)
         validate_http_route(http_base, "/podcast/feed.xml", SHOW_TITLE)
-        validate_http_route(http_base, "/podcast/studio/podcast-studio.html", "Cognitive Spacetime Podcast")
+        validate_http_route(http_base, "/podcast/studio/podcast-studio.html", SHOW_TITLE)
         validate_http_route(http_base, "/_preview/podcast/", SHOW_TITLE)
 
     print("podcast_launch_packet: PASS")
