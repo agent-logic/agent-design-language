@@ -11,6 +11,9 @@ pub const MEMBERSHIP_SNAPSHOT_SCHEMA: &str = "adl.distributed.membership_snapsho
 
 const MAX_IDENTIFIER_BYTES: usize = 128;
 const MAX_SNAPSHOT_BYTES: usize = 1024 * 1024;
+const SNAPSHOT_BASE_BUDGET: usize = 1024;
+const SNAPSHOT_MEMBER_BUDGET: usize = 1024;
+const SNAPSHOT_REPLAY_ENTRY_BUDGET: usize = 320;
 const SNAPSHOT_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-MEMBERSHIP-SNAPSHOT-V1\0";
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -86,6 +89,8 @@ impl MembershipPolicy {
             || policy.replay_window < policy.max_members
             || policy.max_members > 4096
             || policy.replay_window > 65_536
+            || snapshot_policy_budget(policy.max_members, policy.replay_window)
+                .is_none_or(|bytes| bytes > MAX_SNAPSHOT_BYTES)
         {
             return Err(MembershipError::InvalidPolicy);
         }
@@ -358,13 +363,19 @@ impl MembershipState {
         Ok(bytes)
     }
 
-    pub fn restore(policy: MembershipPolicy, bytes: &[u8]) -> MembershipResult<Self> {
+    pub fn restore(
+        policy: MembershipPolicy,
+        bytes: &[u8],
+        trusted_commitment: [u8; 32],
+    ) -> MembershipResult<Self> {
         if bytes.is_empty() || bytes.len() > MAX_SNAPSHOT_BYTES {
             return Err(MembershipError::SnapshotTooLarge);
         }
         let envelope: SnapshotEnvelope =
             serde_json::from_slice(bytes).map_err(|_| MembershipError::SnapshotCorrupt)?;
-        if envelope.digest != snapshot_digest(&envelope.body)?
+        if trusted_commitment == [0; 32]
+            || envelope.digest != trusted_commitment
+            || envelope.digest != snapshot_digest(&envelope.body)?
             || envelope.body.schema != MEMBERSHIP_SNAPSHOT_SCHEMA
             || envelope.body.trust_domain != policy.trust_domain
             || envelope.body.max_members != policy.max_members
@@ -423,6 +434,21 @@ impl MembershipState {
             replay_order,
         })
     }
+}
+
+pub fn committed_snapshot_digest(bytes: &[u8]) -> MembershipResult<[u8; 32]> {
+    if bytes.is_empty() || bytes.len() > MAX_SNAPSHOT_BYTES {
+        return Err(MembershipError::SnapshotTooLarge);
+    }
+    let envelope: SnapshotEnvelope =
+        serde_json::from_slice(bytes).map_err(|_| MembershipError::SnapshotCorrupt)?;
+    Ok(envelope.digest)
+}
+
+fn snapshot_policy_budget(max_members: usize, replay_window: usize) -> Option<usize> {
+    SNAPSHOT_BASE_BUDGET
+        .checked_add(max_members.checked_mul(SNAPSHOT_MEMBER_BUDGET)?)?
+        .checked_add(replay_window.checked_mul(SNAPSHOT_REPLAY_ENTRY_BUDGET)?)
 }
 
 fn snapshot_digest(body: &SnapshotBody) -> MembershipResult<[u8; 32]> {

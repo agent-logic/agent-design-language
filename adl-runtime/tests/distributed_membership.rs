@@ -2,9 +2,10 @@
 mod membership;
 
 use membership::{
-    ApplyOutcome, CommittedMembershipEvent, Member, MemberRole, MembershipError,
-    MembershipOperation, MembershipPolicy, MembershipState,
+    committed_snapshot_digest, ApplyOutcome, CommittedMembershipEvent, Member, MemberRole,
+    MembershipError, MembershipOperation, MembershipPolicy, MembershipState,
 };
+use sha2::{Digest, Sha256};
 
 fn policy(max_members: usize) -> MembershipPolicy {
     let policy = MembershipPolicy::new("polis.test", max_members, 8).expect("policy");
@@ -175,7 +176,8 @@ fn verified_restart_preserves_membership_voter_uniqueness_and_replay() {
         .unwrap();
 
     let bytes = state.snapshot().unwrap();
-    let mut restored = MembershipState::restore(policy(4), &bytes).unwrap();
+    let commitment = committed_snapshot_digest(&bytes).unwrap();
+    let mut restored = MembershipState::restore(policy(4), &bytes, commitment).unwrap();
     assert_eq!(restored.epoch(), 2);
     assert_eq!(restored.member("node_1").unwrap().role, MemberRole::Voter);
     assert_eq!(restored.apply(&join), Ok(ApplyOutcome::AlreadyApplied));
@@ -214,17 +216,33 @@ fn tampered_or_policy_mismatched_snapshot_is_rejected() {
         ))
         .unwrap();
     let bytes = state.snapshot().unwrap();
+    let trusted_commitment = committed_snapshot_digest(&bytes).unwrap();
     assert_eq!(
-        MembershipState::restore(policy(3), &bytes).unwrap_err(),
+        MembershipState::restore(policy(3), &bytes, trusted_commitment).unwrap_err(),
         MembershipError::SnapshotCorrupt
     );
     let mut value: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
     value["body"]["epoch"] = serde_json::json!(99);
+    let canonical_body = serde_jcs::to_vec(&value["body"]).unwrap();
+    let mut hasher = Sha256::new();
+    hasher.update(b"ADL-DISTRIBUTED-MEMBERSHIP-SNAPSHOT-V1\0");
+    hasher.update(canonical_body);
+    let forged_digest: [u8; 32] = hasher.finalize().into();
+    value["digest"] = serde_json::json!(forged_digest);
     let tampered = serde_json::to_vec(&value).unwrap();
     assert_eq!(
-        MembershipState::restore(policy(2), &tampered).unwrap_err(),
+        MembershipState::restore(policy(2), &tampered, trusted_commitment).unwrap_err(),
         MembershipError::SnapshotCorrupt
     );
+}
+
+#[test]
+fn policy_rejects_a_valid_state_that_cannot_fit_the_snapshot_budget() {
+    assert_eq!(
+        MembershipPolicy::new("polis.test", 4096, 65_536).unwrap_err(),
+        MembershipError::InvalidPolicy
+    );
+    assert!(MembershipPolicy::new("polis.test", 256, 1024).is_ok());
 }
 
 #[test]
