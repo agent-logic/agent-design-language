@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.09] Signed capability advertisements",
     "slug": "v0-92-wp-04-09-capability-advertisements",
     "version": "v0.92",
-    "generation": 7
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_capability_advertisement proves signatures, expiry, replay, wrong signer, oversize, redaction, and deterministic projection.",
+          "proof_role": "Exact nextest target distributed_capability_advertisement uses a bounded #[path] harness for the unregistered issue-owned source and proves canonical signatures, exact live certificate authorization, expiry, freshness, replay, capacity, revocation, wrong signer, purpose, domain, certificate, oversize denial, and deterministic evidence-only projection.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -39,7 +39,7 @@
             "--no-tests=fail"
           ],
           "parallel_group": "child",
-          "defer_reason": null
+          "defer_reason": "Deferred only until this issue creates owned target adl-runtime/tests/distributed_capability_advertisement.rs, which must compile the unregistered source through #[path = \"../src/distributed/capability_advertisement.rs\"] for adl-runtime/src/distributed/capability_advertisement.rs; fail closed until both exact owned deliverables exist and the target selects nonzero tests."
         },
         {
           "lane": "exact-revision-proof-receipt",
