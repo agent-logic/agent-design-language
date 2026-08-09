@@ -46,7 +46,7 @@ Added the exact claim-bearing foreign topology regression without changing produ
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

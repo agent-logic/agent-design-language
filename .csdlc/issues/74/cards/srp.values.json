@@ -7,25 +7,23 @@
     "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records",
     "slug": "stale-foreign-topology-records",
     "version": "v0.92",
-    "generation": 7
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/tests/gate2.rs\n.csdlc/issues/74\n.csdlc/prepared/issues/74",
-      "review_revision": "git-blake3:52b847e497741954cf5470a5657fa8f41404a035:66a9beca6e70e36abf8d5cd06ae88a99832ee5b5e80bacc8d50eafed883f59b5",
-      "reviewer": "subagent:74-exact-head-review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the test contain the exact retired claim field from the report?",
         "Is skipping based only on issue, branch, and canonical worktree irrelevance?",
         "Do relevant corruption and genuine collisions remain fail closed?"
       ],
       "findings": [],
-      "residual_risk": [
-        "This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -3,36 +3,13 @@
   "issue": 74,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "30b12c3e1d7f1edf5751ab7903fc5cab61c046e3cb7f69bdddc22a8b92930904",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "80753599d9f7324fb53b75fb9d63e759c39aaa61dfbef3441530b763f13edda2",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
-  "review_assignment": {
-    "reviewer": "subagent:74-exact-head-review",
-    "assigned_by": "codex:74-implementation",
-    "revision": "git-blake3:52b847e497741954cf5470a5657fa8f41404a035:66a9beca6e70e36abf8d5cd06ae88a99832ee5b5e80bacc8d50eafed883f59b5",
-    "scope": [
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/74",
-      ".csdlc/prepared/issues/74"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:74-exact-head-review",
-    "scope": [
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/74",
-      ".csdlc/prepared/issues/74"
-    ],
-    "reviewed_revision": "git-blake3:52b847e497741954cf5470a5657fa8f41404a035:66a9beca6e70e36abf8d5cd06ae88a99832ee5b5e80bacc8d50eafed883f59b5",
-    "findings": [],
-    "residual_risks": [
-      "This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "474c4cf2e45864d0983a828cd73e95d552550a9222b2ee01a2ad37ab063d56b7",
+      "values_digest": "80cfccbee4026a109426eb4f9d504bc52ecb60c688661efd28f0dc9380fa226f",
       "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
       "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
     },
     "stp": {
-      "values_digest": "623f13a9c16af6286c2cdccacee1a94acce56cd404ec8c04dea5e3108cd2927b",
+      "values_digest": "34be192dcd4fc6e5c9d973dfc4da64321687a2e177f17eeb3d58bb0a30abd835",
       "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
       "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
     },
     "spp": {
-      "values_digest": "8905949f7889f499c6334adddf067326de6c0b5181e3618f9769170e15bcb6ab",
+      "values_digest": "ec1f2e7ebacad0993a5dfc6ca70bad82c384530d4d268ee441f1d467505f0e3c",
       "rendered_digest": "7afe725ae340004228f24f6962ab57296d10ba562ffd1df5a1b84c43b7c54be5",
       "ast_digest": "f2f275c834510f1422be245a58b58c0c9861bfde818117ecd083e048b164e3ed"
     },
     "vpp": {
-      "values_digest": "bc6d325b9f1acd9d5e9ce794b342e97ab2dc137080bc88a9e27e15938e4da709",
+      "values_digest": "6b726714b79899c794e60ff5dc8cc3d43c271ff41ab9a3c743b50c6f50047a7c",
       "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "54192840269784d8258252c56a68a21d35ef4c79149f9b4d57f0f96c36679e9d",
-      "rendered_digest": "f311508d8beb5b31dae6dbe7302ed7c0c7679b24cc432f180e9c448e677ccdd2",
-      "ast_digest": "241590ef77f6bd934d15798bfb427bcaa6c97bb90b5b6e93fa4b5d0055b650f6"
+      "values_digest": "061f11494453bf70a92351c7bd891535f20e3a445c373e84a354b34adee27894",
+      "rendered_digest": "8bc12b5f893c02d26e26e713ffcdcad094ffb4c0fdbb3077b5f715cbcc1aaba0",
+      "ast_digest": "5019e1b288db370ec49978e4fbe71b58e085ef8253986a24e21e34d56060c92e"
     },
     "sor": {
-      "values_digest": "37139c2a15226c577d62a72ede064b043104ff55ef3e620076b38fbbf87a3ba0",
-      "rendered_digest": "e448e9803da6d2552be93d6951adabce9229133afbd0392af57a9a299ab2d3da",
-      "ast_digest": "2713598f68d0a50a0102cabbff38b20439e982cf1db4f0b3f9e554d4cd02b5b0"
+      "values_digest": "2bbc1602c2318f70bc3aa6ad1fe8c38c93f3d5799ecb7b2edab060129296ef99",
+      "rendered_digest": "b253b4a1a2492a00993b1a4f3b57d477d01a9cd46d8debacc7ec723bcf432721",
+      "ast_digest": "115278e40f584bbea8bf4b6955362b5e8c3f182602ec4b0a5f8904a37d3847d2"
     }
   },
   "transitions": [
@@ -105,6 +82,13 @@
       "to": "reviewed",
       "actor": "subagent:74-exact-head-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:74-implementation",
+      "reason": "Remove tracked operational review requests and reassess the clean final publication surface."
     }
   ],
   "audit": [
@@ -177,6 +161,13 @@
       "actor": "subagent:74-exact-head-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:74-implementation",
+      "reason": "Remove tracked operational review requests and reassess the clean final publication surface.",
+      "operation": "recover_review"
     }
   ]
 }
