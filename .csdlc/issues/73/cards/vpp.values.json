@@ -1,0 +1,88 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 73,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
+    "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
+    "version": "unversioned",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "planning-diff-hygiene",
+          "proof_role": "Reject whitespace and patch hygiene errors in the planning packet.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "planning-structure",
+          "proof_role": "Verify required architecture and issue-plan sections, links, and repository-relative source references.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "rg",
+            "--line-number",
+            "Implementation Issue Plan",
+            ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "independent-model-review",
+          "proof_role": "Verify the retained record contains findings-first Claude and Gemini reviews over the exact plan revision and their dispositions.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 1000,
+          "argv": [
+            "rg",
+            "--line-number",
+            "Claude Review|Gemini Review|Reviewed revision|Disposition",
+            ".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md"
+          ],
+          "parallel_group": "external-review",
+          "defer_reason": "The retained review record is produced after both live provider reviews complete."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing issue-plan detail, stale or mismatched review revisions, undispositioned actionable findings, invalid source references, or any expansion into implementation.",
+      "design_ref": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+      "design_digest": "546a88f2ad71bb367629a9b986f8f805ca7cd5b41f47104207c8c317dd3f3b13",
+      "diagram_ref": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+      "diagram_digest": "f2a686c350e84e3fdf2e8b56249b571f8f8d33a09ddf9ebd7b3558dadc7e9b6a"
+    }
+  }
+}

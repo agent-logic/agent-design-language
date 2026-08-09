@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 73,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c2f9e8eb1a1614066f9910afdfc20e395fbb4e6c04c4e9235753decdc3850f07",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "1f1f3a5f430db47cab2759a8aeb525393bb5fa05d0e6358c3d3e228f8e7e66d3",
+  "branch": "codex/csdlc-v3-gh-architecture",
+  "worktree": "/Volumes/FastWork/adl-csdlc-v3-gh-architecture",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+  "diagram_path": ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:approved-planning-scope",
+      "revision": "546a88f2ad71bb367629a9b986f8f805ca7cd5b41f47104207c8c317dd3f3b13"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "21aad363267ff3eb9810ac00648e960d630dfe7cbf0eefba148190b1ddf3784e",
+      "rendered_digest": "1cb5586e1e62da6686adc7dcdca91481c534c72542c0d46dd49f15e95620d446",
+      "ast_digest": "7024c443c09abfcb6929f814e2c8f30be134e1e8eed2b52f060201f17716a761"
+    },
+    "stp": {
+      "values_digest": "c3f0d24ca0ab8c583458fbfd19a46275189d0643dde013efd6914437a43c7166",
+      "rendered_digest": "08d51ab677270d64029597e39a5919516219dac250520e43378052d791943529",
+      "ast_digest": "ea0dabda607bf5a93e65c62566cca15f6084c23829147e3d7dbf7416623df76d"
+    },
+    "spp": {
+      "values_digest": "ef9d3712fe4a1690548fd089114437bc72c9643c96498110cea38fd4128b6233",
+      "rendered_digest": "5611e9c6b1c19a48a301df5f7263c6c63d930af5f9c3fa835a4e3c5a1f20ef28",
+      "ast_digest": "e8ce4368f0e2a7f1da884f93e02d79285bc118043e3a8962c734493b2f6552f3"
+    },
+    "vpp": {
+      "values_digest": "91c48714ffc6246815374adb9507816c1ac2db9289859af180911edeff8fb60d",
+      "rendered_digest": "ca0a321dcf544ff4654a88f5bf8f47f1c892cdca7e00ea94a8abb77189cd8b54",
+      "ast_digest": "a4e249d518642482154399bd5328d4ba0b7ffcbc10bc2c72c15431180a0a8bd2"
+    },
+    "srp": {
+      "values_digest": "0255298cc64194189bb30e3093dff7c7426aab9f30f6b20190cc7fabb2cf7af6",
+      "rendered_digest": "1c1f31b2bcdda128947140c7f8794b7c80c7f00498ff181d463d01172ccaa635",
+      "ast_digest": "f889d542ba0884c039b0f715419971bfc3adf75e427d06084a39374eb7479657"
+    },
+    "sor": {
+      "values_digest": "61b51e5f5ba9ac6859699874f825bd4ce6eac3e5118e902bdfbe1c4c32e8cc37",
+      "rendered_digest": "9738c89908566f0f2190b73f20429e6365b23adc2e0e283b47fcdf56e9c4fa71",
+      "ast_digest": "e644cbba183f5900968e59112d5fcfa58c584aae21e2348167dd70b7c7f8bdaa"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:73-planning",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:approved-planning-scope",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:73-planning",
+      "reason": "replace the conceptual external-review command with an executable retained-review-record proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the planning packet.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"planning-structure\",\"proof_role\":\"Verify required architecture and issue-plan sections, links, and repository-relative source references.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"rg\",\"--line-number\",\"Implementation Issue Plan\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"independent-model-review\",\"proof_role\":\"Verify the retained record contains findings-first Claude and Gemini reviews over the exact plan revision and their dispositions.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"rg\",\"--line-number\",\"Claude Review|Gemini Review|Reviewed revision|Disposition\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\"],\"parallel_group\":\"external-review\",\"defer_reason\":\"The retained review record is produced after both live provider reviews complete.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

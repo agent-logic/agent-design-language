@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 73,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
+    "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
+    "version": "unversioned",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce a complete, independently reviewed Rust architecture and implementation issue plan for C-SDLC v3 without starting implementation.",
+      "required_outcome": "A source-grounded Rust plan defines the complete v3 product architecture, quantified targets, migration safety, and an implementation-ready issue decomposition reviewed at the same exact revision by Claude and Gemini.",
+      "declared_scope": [
+        "Rust C-SDLC v3 architecture modeled on the official GitHub CLI",
+        "Measured v2 baseline and bounded effect estimates",
+        "Fourteen implementation issue specifications plus one deferred v2-retirement issue",
+        "Independent Claude and Gemini architecture review with finding dispositions"
+      ],
+      "authority_boundary": [
+        "GitHub issue #73 owns planning only",
+        "C-SDLC v2 remains the sole operational lifecycle authority",
+        "The official cli/cli repository is an architectural source, not copied implementation authority",
+        "Only later operator-authorized issues may create child issues or implement, migrate, cut over, or retire authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Implement C-SDLC v3 in Rust",
+        "Keep this issue planning-only",
+        "Include the complete implementation issue breakdown",
+        "Obtain independent Claude and Gemini reviews",
+        "Do not create implementation child issues",
+        "Do not change selectors, migrate records, cut over authority, or delete v2",
+        "Do not write tracked changes on primary main"
+      ]
+    }
+  }
+}
