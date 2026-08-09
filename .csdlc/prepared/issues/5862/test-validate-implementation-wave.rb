@@ -30,7 +30,7 @@ def write(path, content)
   File.write(path, content)
 end
 
-def fixture(product_drift: false, evidence_drift: false, fake_source: false, transient_product: false, transient_evidence: false, unsafe_evidence: false, merge_product_drift: false, candidate_evidence_drift: false, split_evidence: false, issue: ISSUE, integrated: false, invalid_native_digest: false, file_evidence_mapping: false, late_integrated_artifact: false, product_directory: false, missing_runner: false, missing_v3_strategy: false, wrong_wp: false, invalid_negative_result: false, duplicate_native_run: false, schema: "adl.wp04.execution_proof.v3")
+def fixture(product_drift: false, evidence_drift: false, fake_source: false, transient_product: false, transient_evidence: false, unsafe_evidence: false, merge_product_drift: false, candidate_evidence_drift: false, split_evidence: false, issue: ISSUE, integrated: false, invalid_native_digest: false, file_evidence_mapping: false, late_integrated_artifact: false, sibling_late_artifact: false, product_directory: false, missing_runner: false, missing_v3_strategy: false, wrong_wp: false, invalid_negative_result: false, duplicate_native_run: false, fake_test_command: false, malformed_timestamp: false, reversed_timestamp: false, schema: "adl.wp04.execution_proof.v3")
   root = Dir.mktmpdir("adl-wave-topology")
   run!("git", "init", "-q", chdir: root)
   run!("git", "config", "user.email", "fixture@example.invalid", chdir: root)
@@ -64,7 +64,7 @@ def fixture(product_drift: false, evidence_drift: false, fake_source: false, tra
   write(File.join(root, negative_path), "{}\n")
   write(File.join(root, artifact_path), "{}\n")
   commands = [{
-    "argv" => ["cargo", "nextest", "run", "--test", "distributed_fixture", "--no-tests=fail"], "exit_code" => 0, "selected_tests" => 3,
+    "argv" => ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_fixture", "--no-tests=fail"], "exit_code" => 0, "selected_tests" => 3,
     "started_at" => "2026-08-09T00:00:00Z", "finished_at" => "2026-08-09T00:00:01Z",
     "runner" => {"provider" => "fixture", "run_id" => "run-focused", "os" => "macos", "arch" => "aarch64", "identity_sha256" => Digest::SHA256.hexdigest("runner-focused")},
     "stdout_path" => stdout_path, "stdout_sha256" => Digest::SHA256.file(File.join(root, stdout_path)).hexdigest,
@@ -75,7 +75,7 @@ def fixture(product_drift: false, evidence_drift: false, fake_source: false, tra
   native_receipts = []
   if integrated
     commands = [
-      ["cargo", "nextest", "run", "--test", "distributed_guardian", "--no-tests=fail"],
+      ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_guardian", "--no-tests=fail"],
       ["bash", "adl/tools/validate_v092_distributed_guardian.sh"],
       ["ruby", "adl/tools/validate_v092_distributed_native_receipts.rb"]
     ].each_with_index.map do |argv, index|
@@ -91,9 +91,9 @@ def fixture(product_drift: false, evidence_drift: false, fake_source: false, tra
     negative_path = "#{evidence_path}/negative.json"
     write(File.join(root, negative_path), "{}\n")
     negative_cases = [{"case" => "native_tamper", "result" => "rejected", "evidence_path" => negative_path, "evidence_sha256" => Digest::SHA256.file(File.join(root, negative_path)).hexdigest}]
-    artifact_path = "#{evidence_path}/integrated.json"
+    artifact_path = sibling_late_artifact ? ".csdlc/evidence/#{issue}/sibling/integrated.json" : "#{evidence_path}/integrated.json"
     artifact_bytes = "{}\n"
-    write(File.join(root, artifact_path), artifact_bytes) unless late_integrated_artifact
+    write(File.join(root, artifact_path), artifact_bytes) unless late_integrated_artifact || sibling_late_artifact
     artifacts = [{"path" => artifact_path, "sha256" => Digest::SHA256.hexdigest(artifact_bytes)}]
     native_receipts = %w[macos linux windows].each_with_index.map do |platform, index|
       stdout_path = "#{evidence_path}/#{platform}.stdout.log"
@@ -117,6 +117,12 @@ def fixture(product_drift: false, evidence_drift: false, fake_source: false, tra
     end
   end
   commands[0].delete("runner") if missing_runner
+  commands[0]["argv"][0] = "fake" if fake_test_command
+  commands[0]["started_at"] = "not-a-time" if malformed_timestamp
+  if reversed_timestamp
+    commands[0]["started_at"] = "2026-08-09T00:00:02Z"
+    commands[0]["finished_at"] = "2026-08-09T00:00:01Z"
+  end
   negative_cases[0]["result"] = "passed" if invalid_negative_result
   proof = {
     "schema" => schema,
@@ -135,7 +141,7 @@ def fixture(product_drift: false, evidence_drift: false, fake_source: false, tra
   proof.delete("evidence_revision_strategy") if missing_v3_strategy
   write(File.join(root, proof_path), JSON.pretty_generate(proof) + "\n")
   evidence = commit!(root, "evidence")
-  write(File.join(root, artifacts.fetch(0).fetch("path")), "{}\n") if late_integrated_artifact
+  write(File.join(root, artifacts.fetch(0).fetch("path")), "{}\n") if late_integrated_artifact || sibling_late_artifact
   if transient_product
     original = File.read(File.join(root, fixture_products.first))
     write(File.join(root, fixture_products.first), "transient\n")
@@ -228,6 +234,10 @@ expect_reject("missing command runner", "runner missing", missing_runner: true)
 expect_reject("missing v3 strategy", "wrong v3 evidence revision strategy", missing_v3_strategy: true)
 expect_reject("wrong WP mapping", "proof WP mapping drift", wrong_wp: true)
 expect_reject("invalid negative result", "no proving result", invalid_negative_result: true)
+expect_reject("fake exact test command", "missing or duplicate exact nonzero test command", fake_test_command: true)
+expect_reject("malformed timestamp", "timestamps are not RFC3339", malformed_timestamp: true)
+expect_reject("reversed timestamp", "finish time precedes start time", reversed_timestamp: true)
+expect_reject("sibling late referenced artifact", "outside frozen mapping", issue: 5878, integrated: true, sibling_late_artifact: true)
 
 root, mapping, candidate = fixture(issue: 5878, integrated: true)
 stdout, stderr, status = validate(root, [mapping], candidate, require_integrated_proof: true)
@@ -268,4 +278,4 @@ raise "real #5863 legacy artifact/negative denominator missing" if Array(real_le
 real_legacy_source = real_legacy.fetch("source_revision")
 run!("git", "cat-file", "-e", "#{real_legacy_source}:.csdlc/evidence/5863/execution-proof.json", chdir: File.expand_path("../../../..", __dir__))
 
-puts "PASS: 27 generated v3/legacy topology and integrated-native cases, real #5863 legacy shape, plus sixteen-child and exact-DAG guards"
+puts "PASS: 31 generated v3/legacy topology and integrated-native cases, real #5863 legacy shape, plus sixteen-child and exact-DAG guards"

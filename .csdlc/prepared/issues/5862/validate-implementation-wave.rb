@@ -5,6 +5,7 @@ require "digest"
 require "fileutils"
 require "json"
 require "open3"
+require "time"
 require "yaml"
 
 EXPECTED = (1..16).to_h { |number| [format("WP-04.%02d", number), 5862 + number] }.freeze
@@ -109,6 +110,13 @@ def validate_historical_command!(repo, head, issue, command, label)
   abort "#{label} command failed" unless command["exit_code"] == 0
   abort "#{label} start time missing" if command["started_at"].to_s.empty?
   abort "#{label} finish time missing" if command["finished_at"].to_s.empty?
+  begin
+    started_at = Time.iso8601(command["started_at"])
+    finished_at = Time.iso8601(command["finished_at"])
+  rescue ArgumentError
+    abort "#{label} timestamps are not RFC3339"
+  end
+  abort "#{label} finish time precedes start time" if finished_at < started_at
   validate_historical_runner!(command["runner"], label)
   checked_historical_evidence!(repo, head, issue, command.fetch("stdout_path"), command.fetch("stdout_sha256"), "#{label} stdout")
   checked_historical_evidence!(repo, head, issue, command.fetch("stderr_path"), command.fetch("stderr_sha256"), "#{label} stderr", allow_empty: true)
@@ -138,6 +146,14 @@ def validate_child_topology!(repo:, issue:, entry:, product_paths:, candidate:, 
   abort "proof issue mapping drift for ##{issue}" unless proof["issue"] == issue
   abort "proof schema drift for ##{issue}" unless %w[adl.wp04.execution_proof.v2 adl.wp04.execution_proof.v3].include?(proof["schema"])
   abort "proof protected-path mapping drift for ##{issue}" unless Array(proof["protected_paths"]).sort == product_paths.sort
+  referenced_evidence_paths = Array(proof["commands"]).flat_map { |command| [command["stdout_path"], command["stderr_path"]] }
+  referenced_evidence_paths.concat(Array(proof["negative_cases"]).map { |negative| negative["evidence_path"] })
+  referenced_evidence_paths.concat(Array(proof["artifacts"]).map { |artifact| artifact["path"] })
+  Array(proof["native_receipts"]).each do |receipt|
+    referenced_evidence_paths.concat([receipt.dig("command", "stdout_path"), receipt.dig("command", "stderr_path")])
+    referenced_evidence_paths.concat(Array(receipt["artifacts"]).map { |artifact| artifact["path"] })
+  end
+  abort "proof references evidence outside frozen mapping for ##{issue}" unless referenced_evidence_paths.all? { |path| path.to_s.start_with?("#{evidence_path}/") }
 
   abort "source is not ancestral to evidence for ##{issue}" unless git_ancestor?(repo, source, evidence)
   abort "evidence is not ancestral to head for ##{issue}" unless git_ancestor?(repo, evidence, head)
@@ -181,9 +197,9 @@ def validate_child_topology!(repo:, issue:, entry:, product_paths:, candidate:, 
   test_paths = product_paths.grep(%r{\Aadl-runtime/tests/distributed_[^/]+\.rs\z})
   abort "exact distributed test path denominator drift for ##{issue}" unless test_paths.one?
   test_target = File.basename(test_paths.first, ".rs")
+  exact_test_argv = ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", test_target, "--no-tests=fail"]
   test_commands = commands.select do |command|
-    argv = Array(command["argv"])
-    argv.each_cons(2).include?(["--test", test_target]) && argv.include?("--no-tests=fail") && command["selected_tests"].to_i.positive?
+    command["argv"] == exact_test_argv && command["selected_tests"].to_i.positive?
   end
   abort "missing or duplicate exact nonzero test command #{test_target} for ##{issue}" unless test_commands.one?
   negatives = Array(proof["negative_cases"])
