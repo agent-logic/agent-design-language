@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Topology scan relevance, strict verification boundary, immutable foreign records, and one focused Gate 2 test.
+csdlc-v2/tests/gate2.rs
+.csdlc/issues/74
+.csdlc/prepared/issues/74
 
 ## Prompts
 

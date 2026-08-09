@@ -1,0 +1,12 @@
+{
+  "issue": 74,
+  "expected_generation": 6,
+  "expected_digest": "9983c54bdbff91e9fd346afbf692114ac5c16baef634c5316558d9bed7f072db",
+  "reviewer": "subagent:74-exact-head-review",
+  "assigned_by": "codex:74-implementation",
+  "scope": [
+    "csdlc-v2/tests/gate2.rs",
+    ".csdlc/issues/74",
+    ".csdlc/prepared/issues/74"
+  ]
+}

@@ -5,10 +5,19 @@
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
   "phase": "implemented",
   "generation": 6,
-  "digest": "9983c54bdbff91e9fd346afbf692114ac5c16baef634c5316558d9bed7f072db",
+  "digest": "2777b823da0a041aa64ddbf89d3ce8b0bfbb58e437b84801a8ba4f6df5491163",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:74-exact-head-review",
+    "assigned_by": "codex:74-implementation",
+    "revision": "git-blake3:52b847e497741954cf5470a5657fa8f41404a035:66a9beca6e70e36abf8d5cd06ae88a99832ee5b5e80bacc8d50eafed883f59b5",
+    "scope": [
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/74",
+      ".csdlc/prepared/issues/74"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "8615f20ed0a8d642624ffcf2b6b16bd3c104988dc52089a63685b78a3ee83dee",
-      "rendered_digest": "4599e657e8432e2cc7b80b4ccc3d3c21615c4f519df6d11aedea55f000ad911a",
-      "ast_digest": "44580748ad26c656ece179fc7709ab1812c2f5a6755e7dcf688284a4b746bb1e"
+      "values_digest": "cbb7687b5a5ad1ae6c1d77ccd8b765d26dc55fb3d51c94662e6b50e9a79fca8d",
+      "rendered_digest": "c672c83efdaaafaefa98f05b0f5b4e60574d27c6d7b24e25faf4fe7b95f43a63",
+      "ast_digest": "d6cc3be0c632e363287a85e3b545a92269fab15d1543a68398bed341efab3de7"
     },
     "sor": {
       "values_digest": "5fc742a466d2a4cfe5ba611f56ed6e16fa61075fb67346a170d1bde1446a53db",
@@ -133,6 +142,13 @@
       "actor": "codex:74-implementation",
       "reason": "The focused legacy-claim topology regression and validation proof are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:74-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Topology scan relevance, strict verification boundary, immutable foreign records, and one focused Gate 2 test.",
+      "review_scope": "csdlc-v2/tests/gate2.rs\n.csdlc/issues/74\n.csdlc/prepared/issues/74",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
