@@ -561,10 +561,20 @@ impl TryFrom<AcipJsonProjection> for AcipRuntimeEnvelopeProto {
     type Error = String;
 
     fn try_from(value: AcipJsonProjection) -> Result<Self, Self::Error> {
-        let monotonic_sequence = value
-            .monotonic_sequence
-            .parse::<u64>()
-            .map_err(|_| "monotonic_sequence must be an unsigned decimal string".to_string())?;
+        let sequence = value.monotonic_sequence.as_bytes();
+        let canonical_decimal = value.monotonic_sequence == "0"
+            || (sequence
+                .first()
+                .is_some_and(|digit| matches!(digit, b'1'..=b'9'))
+                && sequence.iter().all(u8::is_ascii_digit));
+        if !canonical_decimal {
+            return Err(
+                "monotonic_sequence must be a canonical unsigned decimal string".to_string(),
+            );
+        }
+        let monotonic_sequence = value.monotonic_sequence.parse::<u64>().map_err(|_| {
+            "monotonic_sequence must be a canonical unsigned decimal string".to_string()
+        })?;
         Ok(Self {
             schema: value.schema,
             message_id: value.message_id,
@@ -862,5 +872,16 @@ mod tests {
         assert!(deterministic_json_to_protobuf(&with_unknown)
             .expect_err("unknown field")
             .contains("unknown field"));
+
+        for noncanonical in ["01", "+1", " 1", "1 "] {
+            let candidate = json.replacen(
+                &format!(r#""monotonic_sequence":"{}""#, u64::MAX),
+                &format!(r#""monotonic_sequence":"{noncanonical}""#),
+                1,
+            );
+            assert!(deterministic_json_to_protobuf(&candidate)
+                .expect_err("noncanonical unsigned decimal")
+                .contains("canonical unsigned decimal"));
+        }
     }
 }

@@ -928,6 +928,15 @@ impl ProtocolFrame {
             && !self.replay_id.trim().is_empty()
             && !self.authority.trim().is_empty()
             && !self.challenge.trim().is_empty()
+            && self.correlation_id == self.request_id
+            && self.causation_id == self.idempotency_key
+            && self.trace_id == self.request_id
+            && self.authority
+                == self
+                    .permit
+                    .as_ref()
+                    .map(|permit| permit.permit_id.as_str())
+                    .unwrap_or("transport-authenticated")
             && self.nonce == expected_nonce
             && self.issued_unix_millis > 0
             && self.expires_unix_millis > self.issued_unix_millis
@@ -1313,5 +1322,83 @@ mod tests {
 
         assert!(!frame.verify_at(&secret, now));
         assert!(frame.verify_at(&secret, issued));
+    }
+
+    #[test]
+    fn protocol_frame_rejects_mac_valid_semantic_binding_mutations() {
+        let secret = ProtocolSecret::from_key([92; 32]);
+        let now = 1_000_000;
+        let mut frame = ProtocolFrame {
+            schema: PROTOCOL_FRAME_SCHEMA.to_owned(),
+            protocol_family: PROTOCOL_FAMILY.to_owned(),
+            version_major: PROTOCOL_VERSION_MAJOR,
+            version_minor: PROTOCOL_VERSION_MINOR,
+            adapter: AdapterKind::Provider,
+            operation: AdapterKind::Provider.operation_name().to_owned(),
+            request_id: "bound-request".to_owned(),
+            idempotency_key: "bound-idempotency".to_owned(),
+            principal: "bound-principal".to_owned(),
+            permit: None,
+            capability: AdapterKind::Provider.service_name().to_owned(),
+            correlation_id: "bound-request".to_owned(),
+            causation_id: "bound-idempotency".to_owned(),
+            trace_id: "bound-request".to_owned(),
+            replay_id: "provider:bound-principal:bound-idempotency".to_owned(),
+            authority: "transport-authenticated".to_owned(),
+            payload_hex: hex::encode(b"bound-payload"),
+            challenge: "bound-challenge".to_owned(),
+            issued_unix_millis: now,
+            expires_unix_millis: now + 1_000,
+            nonce: String::new(),
+            mac: String::new(),
+        };
+        frame.nonce = format!(
+            "{}:{}:{}:{}",
+            frame.adapter.service_name(),
+            frame.principal,
+            frame.idempotency_key,
+            frame.challenge
+        );
+        frame.mac = secret.mac(&frame);
+        assert!(frame.verify_at(&secret, now));
+
+        for field in ["correlation", "causation", "trace", "authority"] {
+            let mut mutated = frame.clone();
+            match field {
+                "correlation" => mutated.correlation_id = "other-request".to_owned(),
+                "causation" => mutated.causation_id = "other-idempotency".to_owned(),
+                "trace" => mutated.trace_id = "other-request".to_owned(),
+                "authority" => mutated.authority = "other-authority".to_owned(),
+                _ => unreachable!(),
+            }
+            mutated.mac = secret.mac(&mutated);
+            assert!(
+                !mutated.verify_at(&secret, now),
+                "MAC-valid {field} mutation was accepted"
+            );
+        }
+
+        let mut permitted = frame.clone();
+        permitted.permit = Some(ExecutionPermit {
+            permit_id: "permit-bound-authority".to_owned(),
+            request_hash: "request-hash".to_owned(),
+            request_id: permitted.request_id.clone(),
+            principal: permitted.principal.clone(),
+            action: format!("{}.invoke", permitted.adapter.service_name()),
+            resource: permitted.adapter.service_name().to_owned(),
+            units: 1,
+            payload_hash: blake3::hash(b"bound-payload").to_hex().to_string(),
+            policy_hash: "policy-hash".to_owned(),
+            evidence_hash: "evidence-hash".to_owned(),
+            signing_key_id: "permit-signing-key".to_owned(),
+            signature: "permit-signature".to_owned(),
+        });
+        permitted.authority = "permit-bound-authority".to_owned();
+        permitted.mac = secret.mac(&permitted);
+        assert!(permitted.verify_at(&secret, now));
+
+        permitted.authority = "other-permit".to_owned();
+        permitted.mac = secret.mac(&permitted);
+        assert!(!permitted.verify_at(&secret, now));
     }
 }

@@ -353,6 +353,22 @@ fn acip_schema_roundtrip_negatives() {
         catalog["supported_features"],
         serde_json::json!(CSM_ACIP_SUPPORTED_FEATURES)
     );
+    let websocket = &openapi["paths"]["/v1/acip/ws"]["get"]["x-adl-websocket"];
+    assert_eq!(websocket["textFramesOnly"], true);
+    assert_eq!(
+        websocket["clientFrames"],
+        serde_json::json!([
+            {"$ref": "#/components/schemas/NegotiationFrame"},
+            {"$ref": "#/components/schemas/CarrierFrame"}
+        ])
+    );
+    assert_eq!(
+        websocket["serverFrames"],
+        serde_json::json!([
+            {"$ref": "#/components/schemas/NegotiatedFrame"},
+            {"$ref": "#/components/schemas/CarrierAckFrame"}
+        ])
+    );
 
     let fields = protobuf_message_fields(proto);
     let expected_fields = BTreeMap::from([
@@ -580,6 +596,8 @@ async fn production_acip_wss() {
     store.ensure().unwrap();
     let token = store.with_bearer_token(str::to_owned).unwrap();
     let (address, connector, stop, task) = server(store.clone()).await;
+    let mut successful_exchanges = 0_u64;
+    let mut negative_cases = 0_u64;
 
     let missing_origin = connect_async_tls_with_config(
         request_with_origin(address, &token, None),
@@ -590,6 +608,7 @@ async fn production_acip_wss() {
     .await
     .unwrap_err();
     assert!(missing_origin.to_string().contains("403"));
+    negative_cases += 1;
     let invalid_origin = connect_async_tls_with_config(
         request_with_origin(address, &token, Some("https://attacker.invalid")),
         None,
@@ -599,6 +618,7 @@ async fn production_acip_wss() {
     .await
     .unwrap_err();
     assert!(invalid_origin.to_string().contains("403"));
+    negative_cases += 1;
 
     for oversized in [
         Message::Text("x".repeat(CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES + 1).into()),
@@ -615,6 +635,7 @@ async fn production_acip_wss() {
         denied.next().await.unwrap().unwrap();
         denied.send(oversized).await.unwrap();
         expect_policy_close(&mut denied, "frame_size_refused").await;
+        negative_cases += 1;
     }
 
     let (mut incompatible, _) = connect_async_tls_with_config(
@@ -644,6 +665,7 @@ async fn production_acip_wss() {
         .await
         .unwrap();
     expect_policy_close(&mut incompatible, "negotiation_refused").await;
+    negative_cases += 1;
 
     let (mut socket, _) = connect_async_tls_with_config(
         request(address, &token),
@@ -685,6 +707,7 @@ async fn production_acip_wss() {
             deterministic_json_to_protobuf(&canonical).unwrap()
         };
         assert_eq!(round_trip, protobuf);
+        successful_exchanges += 1;
     }
     socket.close(None).await.unwrap();
 
@@ -710,6 +733,7 @@ async fn production_acip_wss() {
         .await
         .unwrap();
     expect_policy_close(&mut unnegotiated, "negotiation_required").await;
+    negative_cases += 1;
 
     let (mut reconnected, _) = connect_async_tls_with_config(
         request(address, &token),
@@ -738,11 +762,13 @@ async fn production_acip_wss() {
         .unwrap()["type"],
         "ack"
     );
+    successful_exchanges += 1;
     reconnected
         .send(Message::Text(reconnect_frame.into()))
         .await
         .unwrap();
     expect_policy_close(&mut reconnected, "replay_refused").await;
+    negative_cases += 1;
 
     for (bytes, signature, expected_reason) in [
         (
@@ -802,10 +828,36 @@ async fn production_acip_wss() {
             .await
             .unwrap();
         expect_policy_close(&mut denied, expected_reason).await;
+        negative_cases += 1;
     }
 
     let _ = stop.send(());
     task.await.unwrap().unwrap();
+
+    if let Some(path) = std::env::var_os("ADL_ACIP_PROOF_OUTPUT") {
+        let proof = serde_json::json!({
+            "schema": "adl.acip_native_platform_proof.v2",
+            "producer": "adl-runtime/tests/runtime_api_wss.rs::production_acip_wss",
+            "subject": "runtime_api_listener",
+            "platform": std::env::var("ADL_ACIP_PLATFORM").unwrap_or_else(|_| std::env::consts::OS.to_owned()),
+            "successful_exchanges": successful_exchanges,
+            "negative_cases": negative_cases,
+            "assertions": [
+                {"name": "runtime_api_listener", "result": "passed", "evidence": "real rustls listener served RuntimeApiService over wss"},
+                {"name": "rustls_wss", "result": "passed", "evidence": "native TLS WebSocket sessions completed"},
+                {"name": "authenticated_bidirectional", "result": "passed", "evidence": "bearer and origin admission preceded request and acknowledgement frames"},
+                {"name": "protobuf_json_parity", "result": "passed", "evidence": "eight alternating protobuf-base64 and deterministic-json envelopes round-tripped byte-identically"},
+                {"name": "reconnect_backpressure", "result": "passed", "evidence": "reconnect required renegotiation and oversized frames closed fail-closed"},
+                {"name": "replay_denied", "result": "passed", "evidence": "duplicate replay identity closed with replay_refused"},
+                {"name": "denied_access", "result": "passed", "evidence": "origin runtime signature capability and authority denials closed fail-closed"}
+            ]
+        });
+        std::fs::write(
+            path,
+            format!("{}\n", serde_json::to_string_pretty(&proof).unwrap()),
+        )
+        .unwrap();
+    }
 }
 
 #[tokio::test]

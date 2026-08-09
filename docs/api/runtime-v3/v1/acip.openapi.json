@@ -32,6 +32,25 @@
               "authority", "replay-id", "monotonic-sequence", "frame-size"
             ]
           }
+        },
+        "x-adl-websocket": {
+          "scheme": "wss",
+          "textFramesOnly": true,
+          "serverFirstFrame": { "$ref": "#/components/schemas/AuthenticatedFrame" },
+          "clientFrames": [
+            { "$ref": "#/components/schemas/NegotiationFrame" },
+            { "$ref": "#/components/schemas/CarrierFrame" }
+          ],
+          "serverFrames": [
+            { "$ref": "#/components/schemas/NegotiatedFrame" },
+            { "$ref": "#/components/schemas/CarrierAckFrame" }
+          ],
+          "policyCloseReasons": [
+            "credential_revoked", "frame_size_refused", "unsupported_frame",
+            "invalid_json", "negotiation_refused", "negotiation_required",
+            "invalid_acip_frame", "wrong_runtime", "unsigned_control_refused",
+            "capability_denied", "authority_denied", "replay_refused"
+          ]
         }
       }
     }
@@ -44,6 +63,26 @@
       }
     },
     "schemas": {
+      "AuthenticatedFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "event", "path", "bidirectional"],
+        "properties": {
+          "schema": { "const": "adl.csm.runtime_api.wss_session.v1" },
+          "event": { "const": "authenticated" },
+          "path": { "const": "/v1/acip/ws" },
+          "bidirectional": { "const": true }
+        }
+      },
+      "NegotiationFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "body"],
+        "properties": {
+          "type": { "const": "negotiate" },
+          "body": { "$ref": "#/components/schemas/NegotiationOffer" }
+        }
+      },
       "NegotiationOffer": {
         "type": "object",
         "additionalProperties": false,
@@ -54,6 +93,57 @@
           "minimum_minor": { "type": "integer", "minimum": 0 },
           "maximum_minor": { "type": "integer", "minimum": 0 },
           "required_features": { "type": "array", "maxItems": 32, "items": { "type": "string" } }
+        }
+      },
+      "NegotiatedFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "type", "body"],
+        "properties": {
+          "schema": { "const": "adl.csm.runtime_api.wss_session.v1" },
+          "type": { "const": "negotiated" },
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["protocol_family", "version_major", "version_minor", "features"],
+            "properties": {
+              "protocol_family": { "const": "adl-acip-a2a" },
+              "version_major": { "const": 1 },
+              "version_minor": { "const": 0 },
+              "features": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "CarrierFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "encoding", "correlation_id", "body"],
+        "properties": {
+          "type": { "const": "acip" },
+          "encoding": { "enum": ["protobuf-base64", "deterministic-json"] },
+          "correlation_id": { "type": "string", "minLength": 1 },
+          "body": {},
+          "control_signature": { "type": ["string", "null"] }
+        }
+      },
+      "CarrierAckFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "type", "body"],
+        "properties": {
+          "schema": { "const": "adl.csm.runtime_api.wss_session.v1" },
+          "type": { "const": "ack" },
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["correlation_id", "encoding", "body"],
+            "properties": {
+              "correlation_id": { "type": "string", "minLength": 1 },
+              "encoding": { "enum": ["protobuf-base64", "deterministic-json"] },
+              "body": {}
+            }
+          }
         }
       },
       "EnvelopeJsonProjection": {

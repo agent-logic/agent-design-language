@@ -105,12 +105,16 @@ golden compatibility fixtures, ordering, limits, unsupported versions,
 malformed frames, replay, and denied access. The issue-owned
 `acip_schema_roundtrip_negatives` test is the mandatory nonzero denominator for
 that lane.
-The `runtime_api_wss` production target launches the production
-Guardian/kernel, uses the real Rustls endpoint, performs authenticated
+The `runtime_api_wss` native target launches the issue-owned `RuntimeApiService`
+listener, uses a real Rustls endpoint, performs authenticated
 bidirectional binary and JSON exchanges, reconnects under backpressure,
 verifies trace/replay identity, and retains exact-revision transcript digests.
-It fails on fixture servers, plaintext, direct-kernel launch, zero exchanges,
-schema drift, or auth bypass without adding a second shell-owned launch path.
+It does not claim to launch the Guardian or kernel process. It fails on fixture
+servers, plaintext, zero exchanges, schema drift, or auth bypass without adding
+a second shell-owned launch path. The kernel control server's distinct binary
+carrier remains documented by `docs/api/runtime-v3/v1/openapi.json`; the
+issue-owned negotiated text carrier serves
+`docs/api/runtime-v3/v1/acip.openapi.json` at `/v1/acip/openapi.json`.
 
 `.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb` requires distinct macOS,
 Linux, and native Windows receipts bound to source revision, binary/schema

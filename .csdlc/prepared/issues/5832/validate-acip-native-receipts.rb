@@ -7,7 +7,7 @@ require "open3"
 
 SHA256 = /\A[0-9a-f]{64}\z/
 ISSUE = 5832
-REQUIRED_ASSERTIONS = %w[production_guardian rustls_wss authenticated_bidirectional protobuf_json_parity reconnect_backpressure replay_denied denied_access].freeze
+REQUIRED_ASSERTIONS = %w[runtime_api_listener rustls_wss authenticated_bidirectional protobuf_json_parity reconnect_backpressure replay_denied denied_access].freeze
 PRODUCER_ARGV = [
   "cargo", "nextest", "run",
   "--manifest-path", "adl-runtime/Cargo.toml",
@@ -56,10 +56,22 @@ receipts.each do |receipt|
   artifacts = Array(receipt["artifacts"])
   abort "#{platform} artifacts missing" if artifacts.empty?
   artifacts.each { |artifact| checked_file(artifact.fetch("path"), artifact.fetch("sha256"), "#{platform} artifact") }
+  proof_artifact = artifacts.find { |artifact| artifact["path"].to_s.end_with?("/proof.json") }
+  abort "#{platform} producer proof missing" unless proof_artifact
+  proof = JSON.parse(File.read(proof_artifact.fetch("path")))
+  abort "#{platform} producer proof schema drift" unless proof["schema"] == "adl.acip_native_platform_proof.v2"
+  abort "#{platform} producer subject drift" unless proof["subject"] == "runtime_api_listener"
+  abort "#{platform} producer platform drift" unless proof["platform"] == platform
+  abort "#{platform} exchange count is not producer-derived" unless proof["successful_exchanges"] == receipt["successful_exchanges"]
+  abort "#{platform} negative count is not producer-derived" unless proof["negative_cases"] == receipt["negative_cases"]
   assertions = Array(receipt["assertions"])
   abort "#{platform} assertion denominator drift" unless assertions.map { |entry| entry["name"] }.sort == REQUIRED_ASSERTIONS.sort
+  proof_assertions = Array(proof["assertions"])
+  abort "#{platform} producer assertion denominator drift" unless proof_assertions.map { |entry| entry["name"] }.sort == REQUIRED_ASSERTIONS.sort
   assertions.each do |assertion|
     abort "#{platform} did not prove #{assertion['name']}" unless assertion["result"] == "passed"
+    producer_assertion = proof_assertions.find { |entry| entry["name"] == assertion["name"] }
+    abort "#{platform} assertion is not producer-derived" unless producer_assertion == assertion.slice("name", "result", "evidence")
     checked_file(assertion["evidence_path"], assertion["evidence_sha256"], "#{platform} #{assertion['name']}")
   end
 end

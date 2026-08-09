@@ -57,13 +57,17 @@ const MAX_WSS_TRANSPORT_FRAME_BYTES: usize = MAX_WSS_FRAME_BYTES + 1;
 const CSM_RUNTIME_API_HEALTH_PATH: &str = "/v1/health";
 const CSM_RUNTIME_API_METRICS_PATH: &str = "/v1/metrics";
 const CSM_RUNTIME_API_ACIP_WS_PATH: &str = "/v1/acip/ws";
+const CSM_RUNTIME_API_ACIP_OPENAPI_PATH: &str = "/v1/acip/openapi.json";
+const CSM_RUNTIME_API_ACIP_OPENAPI_DOCUMENT: &str =
+    include_str!("../../docs/api/runtime-v3/v1/acip.openapi.json");
 
-pub const CSM_RUNTIME_API_MOUNTED_ROUTES: [&str; 3] = [
+pub const CSM_RUNTIME_API_MOUNTED_ROUTES: [&str; 4] = [
     CSM_RUNTIME_API_HEALTH_PATH,
     CSM_RUNTIME_API_METRICS_PATH,
     CSM_RUNTIME_API_ACIP_WS_PATH,
+    CSM_RUNTIME_API_ACIP_OPENAPI_PATH,
 ];
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = CSM_RUNTIME_API_MOUNTED_ROUTES;
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 4] = CSM_RUNTIME_API_MOUNTED_ROUTES;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "snake_case")]
@@ -217,6 +221,7 @@ pub fn runtime_api_router(service: Arc<RuntimeApiService>) -> Router {
         .route(CSM_RUNTIME_API_HEALTH_PATH, get(health_handler))
         .route(CSM_RUNTIME_API_METRICS_PATH, get(metrics_handler))
         .route(CSM_RUNTIME_API_ACIP_WS_PATH, get(wss_handler))
+        .route(CSM_RUNTIME_API_ACIP_OPENAPI_PATH, get(acip_openapi_handler))
         .with_state(service)
 }
 
@@ -255,6 +260,13 @@ async fn metrics_handler(
         return auth_error(reason);
     }
     Json(service.telemetry()).into_response()
+}
+
+async fn acip_openapi_handler() -> impl IntoResponse {
+    (
+        [(header::CONTENT_TYPE, "application/json; charset=utf-8")],
+        CSM_RUNTIME_API_ACIP_OPENAPI_DOCUMENT,
+    )
 }
 
 async fn wss_handler(
@@ -647,7 +659,12 @@ mod tests {
     fn runtime_api_contract_advertises_only_served_routes() {
         assert_eq!(
             CSM_RUNTIME_API_ENDPOINTS,
-            ["/v1/health", "/v1/metrics", "/v1/acip/ws"]
+            [
+                "/v1/health",
+                "/v1/metrics",
+                "/v1/acip/ws",
+                "/v1/acip/openapi.json"
+            ]
         );
         assert_eq!(CSM_RUNTIME_API_ENDPOINTS, CSM_RUNTIME_API_MOUNTED_ROUTES);
         assert!(!CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/status"));
@@ -656,6 +673,23 @@ mod tests {
             CSM_RUNTIME_API_STATUS_SCHEMA,
             "adl.csm.runtime_api.status.v1"
         );
+    }
+
+    #[tokio::test]
+    async fn acip_openapi_handler_serves_the_negotiated_text_carrier_contract() {
+        let response = acip_openapi_handler().await.into_response();
+        assert_eq!(response.status(), StatusCode::OK);
+        assert_eq!(
+            response.headers().get(header::CONTENT_TYPE).unwrap(),
+            "application/json; charset=utf-8"
+        );
+        let contract = response_json(response).await;
+        let operation = &contract["paths"][CSM_RUNTIME_API_ACIP_WS_PATH]["get"];
+        assert_eq!(operation["x-acip-protocol"]["family"], "adl-acip-a2a");
+        assert!(operation["description"]
+            .as_str()
+            .unwrap()
+            .contains("v1 negotiation"));
     }
 
     #[tokio::test]
@@ -696,7 +730,8 @@ mod tests {
             [
                 CSM_RUNTIME_API_HEALTH_PATH,
                 CSM_RUNTIME_API_METRICS_PATH,
-                CSM_RUNTIME_API_ACIP_WS_PATH
+                CSM_RUNTIME_API_ACIP_WS_PATH,
+                CSM_RUNTIME_API_ACIP_OPENAPI_PATH
             ]
         );
     }

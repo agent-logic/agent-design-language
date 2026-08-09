@@ -52,13 +52,20 @@ jobs:
         continue-on-error: true
         env:
           PLATFORM: ${{ matrix.platform }}
+          ADL_ACIP_PLATFORM: ${{ matrix.platform }}
         run: |
           evidence=".csdlc/evidence/5832/native/${PLATFORM}"
           mkdir -p "$evidence"
           set +e
-          cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail production_acip_wss >"$evidence/stdout.log" 2>"$evidence/stderr.log"
+          ADL_ACIP_PROOF_OUTPUT="$evidence/proof.json" cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail production_acip_wss >"$evidence/stdout.log" 2>"$evidence/stderr.log"
           exit_code=$?
           set -e
+          python - "$evidence/stdout.log" "$evidence/stderr.log" <<'PY'
+          import pathlib, sys
+          for name in sys.argv[1:]:
+              path = pathlib.Path(name)
+              path.write_bytes(path.read_bytes().replace(b"\r\n", b"\n"))
+          PY
           printf '%s\n' "$exit_code" >"$evidence/exit-code.txt"
           exit "$exit_code"
 
@@ -70,7 +77,7 @@ jobs:
           SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           python - <<'PY'
-          import hashlib, json, os, pathlib, platform
+          import hashlib, json, os, pathlib
 
           name = os.environ["PLATFORM"]
           root = pathlib.Path(f".csdlc/evidence/5832/native/{name}")
@@ -78,18 +85,14 @@ jobs:
           stderr = root / "stderr.log"
           proof = root / "proof.json"
           exit_code = int((root / "exit-code.txt").read_text().strip())
-          assertions = [
-              "production_guardian", "rustls_wss", "authenticated_bidirectional",
-              "protobuf_json_parity", "reconnect_backpressure", "replay_denied",
-              "denied_access",
-          ]
-          proof.write_text(json.dumps({
-              "schema": "adl.acip_native_platform_proof.v1",
-              "platform": name,
-              "source_revision": os.environ["SOURCE_REVISION"],
-              "producer_exit_code": exit_code,
-              "assertions": assertions,
-          }, sort_keys=True) + "\n")
+          producer = json.loads(proof.read_text())
+          if producer.get("schema") != "adl.acip_native_platform_proof.v2":
+              raise SystemExit("producer proof schema mismatch")
+          if producer.get("platform") != name:
+              raise SystemExit("producer proof platform mismatch")
+          assertions = producer.get("assertions", [])
+          if not assertions or any(item.get("result") != "passed" for item in assertions):
+              raise SystemExit("producer assertions incomplete")
 
           def digest(path):
               return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -117,15 +120,22 @@ jobs:
                   "stderr_path": f"{prefix}/stderr.log",
                   "stderr_sha256": digest(stderr),
               },
-              "successful_exchanges": 9,
-              "negative_cases": 7,
+              "successful_exchanges": producer["successful_exchanges"],
+              "negative_cases": producer["negative_cases"],
               "artifacts": [{"path": f"{prefix}/proof.json", "sha256": digest(proof)}],
               "assertions": [
-                  {"name": assertion, "result": "passed" if exit_code == 0 else "failed", "evidence_path": f"{prefix}/proof.json", "evidence_sha256": digest(proof)}
+                  {
+                      "name": assertion["name"],
+                      "result": assertion["result"],
+                      "evidence": assertion["evidence"],
+                      "evidence_path": f"{prefix}/proof.json",
+                      "evidence_sha256": digest(proof),
+                  }
                   for assertion in assertions
               ],
           }
-          (root / "receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+          with (root / "receipt.json").open("w", newline="\n") as stream:
+              stream.write(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
           PY
 
       - name: Upload native receipt fragment
