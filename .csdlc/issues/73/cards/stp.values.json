@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 28
+    "generation": 29
   },
   "status": "ready",
   "content": {
@@ -19,7 +19,7 @@
         ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd",
         ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md as comparative source material",
         "A retained Claude and Gemini review record with findings and dispositions",
-        "Fourteen complete implementation issue specifications and one deferred retirement specification"
+        "Eighteen complete implementation issue specifications and one deferred retirement specification"
       ],
       "acceptance_criteria": [
         "AC-1: The plan fixes Rust as the implementation language and records the exact official cli/cli source baseline.",

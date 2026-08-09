@@ -20,7 +20,7 @@ Complete and review the Rust C-SDLC v3 architecture and issue plan; stop before 
 - .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
 - .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md as comparative source material
 - A retained Claude and Gemini review record with findings and dispositions
-- Fourteen complete implementation issue specifications and one deferred retirement specification
+- Eighteen complete implementation issue specifications and one deferred retirement specification
 
 ## Acceptance
 

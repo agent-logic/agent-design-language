@@ -550,6 +550,16 @@ placeholder and cannot be confused with an operator-authored value. The card
 renderer uses `markdown.rs` AST parsing and validation. Direct projection edits
 cause digest mismatch and never change lifecycle truth.
 
+V3-01 also freezes one machine-readable capability matrix for every semantic
+field and operation. Each row names the owning card or aggregate field, normal
+authoring phases, correction phases, required recovery provenance, invalidated
+downstream truth, audit payload, and the command that performs the mutation.
+The matrix is the source for command availability, kernel authorization,
+doctor recommendations, generated help, and exhaustive tests. Implementations
+must not duplicate phase allowlists in command handlers or store code. Adding a
+field or phase without a reviewed matrix row is a schema error, not an implicit
+unsupported case.
+
 ## Lifecycle Kernel
 
 The phase sequence remains:
@@ -584,6 +594,14 @@ Waiting, blocked, failed, deferred, and operator-required are operation
 outcomes, not phases. Branch and worktree topology provide issue ownership.
 File locks protect transaction integrity only; they are not claims, leases, or
 heartbeats.
+
+Recovery is modeled as a typed path, not a special-case rollback. For every
+state that can be invalidated by review, publication, remote drift, or failed
+reconciliation, the capability matrix identifies at least one valid next
+operation or a specific operator-required terminal disposition. The kernel
+must prove that no supported recovery operation can strand a record in a state
+where an acceptance-bearing field is known wrong but has no authorized typed
+correction.
 
 ## Transaction Store
 
@@ -1208,7 +1226,10 @@ JSON envelope and schema-evolution policy, reviewer-principal and independence
 mechanism, per-card/per-phase field optionality table and optional-value
 placeholder, `PublicationLinkage::{Closing, PartOf}` contract with normalized
 qualified issue identity and relation grammar, state-size guard, PVF subprocess
-command-allowance policy, and `pr watch` timeout/poll policy.
+command-allowance policy, `pr watch` timeout/poll policy, and a versioned
+field/operation capability matrix covering normal authoring, post-review
+correction, invalidation, recovery provenance, audit evidence, and next valid
+operations.
 
 **Acceptance criteria:**
 
@@ -1226,10 +1247,17 @@ command-allowance policy, and `pr watch` timeout/poll policy.
 - Closing and non-closing publication are disjoint typed modes; `PartOf` cannot
   close or terminally complete its parent issue, and split-repository linkage is
   qualified in both modes.
+- Every mutable authoritative field has exactly one matrix owner and at least
+  one typed authoring path; every supported invalidation/recovery state has a
+  valid typed next operation or an explicit operator-required disposition.
+- Command help, kernel authorization, doctor findings, and tests are generated
+  from or mechanically checked against the same capability matrix so scattered
+  phase allowlists cannot silently diverge.
 
 **Validation proof:** Schema validation, golden command-tree comparison,
 invariant-to-issue coverage, publication-linkage truth tables for same-repository
-and split-repository inputs, duplicate/omission checks, and independent contract
+and split-repository inputs, capability-matrix completeness and uniqueness,
+recovery-path reachability, duplicate/omission checks, and independent contract
 review.
 
 **Stop conditions:** An invariant lacks an owner, a command requires unresolved
@@ -1242,7 +1270,8 @@ the main build wave.
 
 **Scope:** One throwaway or explicitly promoted vertical slice containing
 `version`, `schema`, repository discovery, read-only `issue show`, fake GitHub
-observation, human/JSON output, parser tests, and run-function tests.
+observation, one card field authored before review and corrected after typed
+review recovery, human/JSON output, parser tests, and run-function tests.
 
 **Non-goals:** Production mutation, live issue writes, complete lifecycle logic,
 language selection, or undeclared reuse of v2 entry points.
@@ -1255,7 +1284,9 @@ implementation-size report, trait/object-safety decision, YAML parser decision,
 in-process jq-compatible and restricted-template engine decisions, Octocrab
 capability-gap inventory for every required GitHub operation, per-platform
 commit-primitive prototype and Decision 11 recommendation, and
-promote-or-discard disposition.
+promote-or-discard disposition. The disposition is a real stop/go decision and
+must state whether the capability-matrix approach prevented a stranded
+post-review correction path.
 
 **Acceptance criteria:**
 
@@ -1265,16 +1296,22 @@ promote-or-discard disposition.
 - Every required GitHub operation is classified as native typed Octocrab,
   reviewed raw request, or unsupported. More than three required raw-request
   operations trigger GitHub client dependency re-evaluation before V3-13.
+- The slice completes one end-to-end recovery journey: exact review, typed
+  recovery, capability-derived field correction, projection regeneration,
+  audit readback, and fresh exact review, with no direct state or Markdown edit.
 - Measurements either satisfy approved thresholds or trigger architecture
   revision before `V3-03`.
 
 **Validation proof:** Clean and warm builds, binary inspection, startup timing,
-offline tests, dependency policy scan, layer-boundary check, and review of all
+offline tests, retained recovered-correction transcript and negative bypass
+test, dependency policy scan, layer-boundary check, and review of all
 unsafe/default-feature use.
 
 **Stop conditions:** The slice requires ADL product crates, cannot isolate the
-domain from async/adapters, exceeds approved thresholds without disposition, or
-mutates real C-SDLC state.
+domain from async/adapters, exceeds approved thresholds without disposition,
+mutates real C-SDLC state, or cannot complete the recovered-correction journey
+from the frozen capability matrix. Any stop condition blocks V3-03 rather than
+being accepted as construction-spike paperwork.
 
 ### V3-03: Build The Single-Binary Foundation
 
@@ -1444,16 +1481,18 @@ nondeterministic, or state evolution can silently discard unknown fields.
 pure, exhaustive, side-effect-free state machine.
 
 **Scope:** Phases, transition commands, preconditions, topology ownership,
-design/readiness/review/publication/terminal predicates, idempotent outcomes,
-and stable domain errors.
+design/readiness/review/publication/terminal predicates, capability-derived
+field authorization, recovery reachability, idempotent outcomes, and stable
+domain errors.
 
 **Non-goals:** File writes, Git commands, GitHub calls, clock reads, prompting,
 process execution, or retry policy.
 
 **Dependencies:** `V3-06`.
 
-**Deliverables:** Pure transition API, transition table, invariant/property
-tests, negative transition corpus, idempotency model, and v2 behavior mapping.
+**Deliverables:** Pure transition API, transition-and-correction table generated
+from the V3-01 capability matrix, recovery graph, invariant/property tests,
+negative transition corpus, idempotency model, and v2 behavior mapping.
 
 **Acceptance criteria:**
 
@@ -1462,12 +1501,17 @@ tests, negative transition corpus, idempotency model, and v2 behavior mapping.
 - Branch/worktree topology is the only local ownership authority.
 - Review staleness, publication gates, terminal truth, and cleanup eligibility
   remain fail-closed.
+- Every accepted recovery transition preserves a reachable typed correction or
+  terminal-disposition path; no supported state is a lifecycle dead end.
+- Removing or changing any authorization predicate causes mutation/property
+  tests to fail, including correction invalidation and stale-CAS predicates.
 - Cleanup eligibility requires committed `closed_out` state and a retained
   terminal receipt; remote merge observation alone is insufficient.
 
-**Validation proof:** Complete transition table tests, property tests for
-invariants and idempotency, mutation testing of rejection predicates, and
-normalized v2 parity cases.
+**Validation proof:** Complete transition-and-correction table tests, graph
+reachability for every supported recovery state, property tests for invariants
+and idempotency, mutation testing of authorization and rejection predicates,
+and normalized v2 parity cases including every retained v2 recovery defect.
 
 **Stop conditions:** A transition needs ambient I/O, an unknown state falls
 through, or claims, leases, heartbeats, or protected-path ledgers reappear as
@@ -1592,32 +1636,38 @@ repository identity is ambiguous, or common use still requires request files.
 **Objective:** Deliver semantic card operations and a specific read-only doctor
 without making rendered Markdown authoritative.
 
-**Scope:** `card show/edit/render`, `doctor`, schema-aware repair planning,
-projection drift, finding taxonomy, next-valid-operation derivation, and
-human/JSON presentation.
+**Scope:** `card show/edit/render`, `doctor`, capability-matrix-driven command
+availability, schema-aware repair planning, projection drift, stranded-state
+detection, finding taxonomy, next-valid-operation derivation, and human/JSON
+presentation.
 
 **Non-goals:** Binding, PVF execution, formal review, GitHub mutation, automatic
 repair without typed edit authority, finish, cleanup, or cutover.
 
 **Dependencies:** `V3-05`, `V3-06`, `V3-07`, `V3-08`, and `V3-09`.
 
-**Deliverables:** Card command modules, semantic edit operations, doctor finding
-registry, read-only repair recommendations, projection repair fixtures, and
-typed result schemas.
+**Deliverables:** Card command modules and semantic edit operations generated
+from or mechanically checked against the V3-01 capability matrix, doctor
+finding registry, read-only repair recommendations, stranded-state detector,
+projection repair fixtures, and typed result schemas.
 
 **Acceptance criteria:**
 
 - Card edits mutate semantic values and regenerate all affected projections.
 - Rendered Markdown and stale projections never become input authority.
 - Doctor is read-only, specific, and identifies the next valid operation.
+- Doctor reports a dedicated invariant failure when a wrong or stale
+  acceptance-bearing field has no authorized correction path; ordinary healthy
+  states always receive a capability-derived next operation.
 - Projection drift, invalid schema, unsupported import fields, and topology
   blockers remain distinguishable.
 - `card show`, `card edit`, and doctor enforce the V3-06 per-phase required and
   optional field table and its one declared placeholder.
 
 **Validation proof:** Card schema/structure checks, semantic-edit round trips,
-projection drift/repair fixtures, no-write doctor assertions, finding snapshots,
-and v2 normalized parity.
+matrix-to-command parity, every-phase correction fixtures, stranded-state
+injection, projection drift/repair fixtures, no-write doctor assertions,
+finding snapshots, and v2 normalized parity.
 
 **Stop conditions:** Commands hand-edit rendered files, doctor mutates state,
 repair invents missing authority, or findings collapse distinct blockers.
@@ -1896,7 +1946,9 @@ open v2 issues to v3.
 
 **Deliverables:** Parity matrix, shadow reports, canary receipts, measured effect
 report, migration map, freeze/delta/cutover runbook, rollback criteria, stable
-binary installation, operator skill, selector change, and post-cutover audit.
+binary installation, operator skill, selector change, post-cutover audit, and a
+retained regression corpus for every known v2 tooling failure and lifecycle
+dead end discovered before cutover.
 
 **Acceptance criteria:**
 
@@ -1905,6 +1957,11 @@ binary installation, operator skill, selector change, and post-cutover audit.
   unexplained mismatch.
 - Every imported record reports unsupported fields before mutation.
 - At least the approved canary cohort completes end to end on v3-only authority.
+- The canary cohort includes normal authoring and post-review correction for
+  every card family, plus the issue #73 STP-denominator recovery journey; doctor
+  must identify a valid next operation at each intermediate state.
+- Every known v2 tooling defect in the retained register has a passing v3
+  positive or negative regression, or a reviewed explicit non-parity decision.
 - Each migrated issue receives an archived exact v2 snapshot and a durable
   writer fence; the canonical v2 index is absent before v3 mutation begins.
 - Supported v2 tools and repository guards reject fenced issue mutation and any
@@ -1916,8 +1973,9 @@ binary installation, operator skill, selector change, and post-cutover audit.
   surface defined by policy.
 
 **Validation proof:** Full offline suite, cross-platform release matrix,
-representative shadow corpus, live canary receipts, exact-head CI, migration
-rehearsal, second-run no-op, authority scan, and post-cutover reconciliation.
+representative shadow corpus, known-defect regression corpus, recovered-card
+canary receipts, live canary receipts, exact-head CI, migration rehearsal,
+second-run no-op, authority scan, and post-cutover reconciliation.
 
 **Stop conditions:** Any unexplained parity mismatch, unsupported field, dual
 writer, stale review, failed canary, missing rollback evidence, or unapproved
@@ -1983,6 +2041,11 @@ the operator has not explicitly approved removal.
 ### Safety
 
 - All retained lifecycle transitions and failures have table proof.
+- One capability matrix owns every mutable field, correction phase, recovery
+  predicate, invalidation rule, and next valid command; no scattered phase
+  allowlist is accepted as authority.
+- Every supported recovery state is graph-proven to reach a valid typed repair
+  or explicit operator-required terminal disposition.
 - State is the sole atomic commit point.
 - Six cards are deterministic generated projections.
 - Review is exact and blocks publication when stale.
