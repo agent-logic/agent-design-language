@@ -227,6 +227,7 @@ csdlc-v3/
         mod.rs
         assign.rs
         record.rs
+        recover.rs
         status.rs
       pr/
         mod.rs
@@ -438,16 +439,23 @@ calls `get_or_init` with a closure whose complete cell value is
 pre-warmed by `App` construction, and contains no `unwrap` or `expect` path.
 `get_or_try_init` is not used.
 
-`AsyncInit` caches a completed success or error. If cancellation drops an
-initialization future before completion, the cell remains uninitialized and a
-later accessor may retry. Initialization is single-flight per generation: one
-caller starts the next attempt and concurrent callers attach to it rather than
-starting a retry herd. Localized timeout or adapter cancellation permits at
-most one retry per invocation after a fixed 250 millisecond cooldown; root
-cancellation prevents any retry. Concurrent-access,
+`AsyncInit<T>` returns `Arc<T>` and owns a
+`tokio::sync::OnceCell<Result<Arc<T>, Arc<AppError>>>` plus a
+`tokio::sync::Mutex<RetryState>`. An accessor that observes an uninitialized
+cell holds the retry-state mutex while calling `get_or_init`; the cell provides
+single-flight initialization and concurrent accessors cannot start another
+attempt. A completed success or error is cached. If cancellation drops the
+initializer before completion, the cell remains uninitialized and the mutex is
+released. A later accessor may make the one invocation-local retry only after
+the fixed 250 millisecond cooldown recorded in `RetryState`; root cancellation
+prevents any retry. There is no spawned or detached initialization task.
+Concurrent-access,
 completed-error, cancelled-init, retry-cooldown, and single-flight behavior are
 contract tests. Remote GitHub observation never belongs in `repository` or
 `issue` initialization; commands request it explicitly from `github`.
+`App::test()` creates fresh cells per test and may pre-populate explicit
+success or error values; one injected terminal error cannot poison a later
+assertion through a reused application instance.
 
 ## Async Boundary
 
@@ -587,6 +595,14 @@ The authoritative artifact is
 `command`, `owner_issue`, and `test_ids`. Duplicate field IDs, unknown phases,
 missing commands/owners/tests, or a command not present in generated Clap help
 fail V3-01 and every downstream matrix-consistency lane.
+`audit_payload_schema` is a repository-relative JSON Pointer or `$ref` into the
+V3-01 versioned audit schema; inline unversioned schemas are rejected.
+`test_ids` are stable contract-case identifiers assigned in V3-01 before test
+implementation and later consumed verbatim by generated parameterized tests.
+The required CI entrypoint is
+`cargo test -p csdlc-v3-contracts capability_matrix --locked`; it validates the
+matrix schema, resolves every audit reference, matches every command to
+generated Clap help, and fails on missing or unconsumed contract test IDs.
 
 ## Lifecycle Kernel
 
@@ -632,6 +648,13 @@ provenance, downstream invalidations, audit payload, and owning implementation
 issue that execute the disposition. The kernel must prove that no supported
 recovery operation can strand a record in a state where an acceptance-bearing
 field is known wrong but has no authorized typed correction.
+The foundational recovery predicate is fixed here and implemented by V3-07:
+`review recover` is accepted only from `reviewed`, `published`, or
+`merge_ready`, returns to `implemented`, and is rejected from `merged` and
+`closed_out`. It requires actor, reason, and stale-truth provenance and clears
+all matrix-declared dependent review, publication, readiness, and terminal
+fields atomically. V3-12 supplies the review-domain command and fixtures but
+cannot broaden this kernel predicate.
 
 ## Transaction Store
 
@@ -818,13 +841,25 @@ mutation. Publication evidence records the enum variant, normalized issue,
 matched body relation, PR identity, and exact head SHA. Reconciliation compares
 all of those fields and cannot reinterpret `PartOf` as closing.
 
+For `PartOf`, the normalized issue observation comes from
+`GET /repos/{owner}/{repo}/issues/{number}` after the PR publication or merge
+observation. The adapter retains the qualified issue identity, `state`,
+`state_reason`, `updated_at`, and observation time. `state == open` is required
+for checkpoint-ready reconciliation. A closed, missing, stale, contradictory,
+or otherwise ambiguous issue observation returns reconciliation-required and
+cannot be reported as checkpoint-ready. PR head/base/check truth remains bound
+separately to the exact reviewed SHA; issue state is never described as a
+commit-SHA observation.
+
 `pr status` performs one observation and exits.
 
 `pr watch` is an explicit foreground async loop. It creates no queue job,
 automation, daemon, or persistent watcher record. Its default timeout is 30
 minutes; `--timeout` may raise it only to the V3-01 maximum of 24 hours. The
 default poll interval is 15 seconds and a bounded `--poll-interval` override is
-permitted. Each poll or state change emits concise progress to stderr. It exits
+permitted. Clap range parsers reject out-of-contract timeout or poll values
+before context resolution, with parser-boundary positive and negative tests.
+Each poll or state change emits concise progress to stderr. It exits
 on ready, failed, conflicted, operator-required, timeout, or cancellation. Every
 sleep is cancellation-aware and bounded.
 
@@ -885,6 +920,9 @@ Errors use one enum with stable codes:
 | 6 | waiting | External state is healthy but not terminal. |
 | 7 | operator_required | Policy requires human authority. |
 | 130 | interrupted | The operator or host cancelled the invocation. |
+
+Stable public error codes refine these exit classes without creating new
+process exits; for example, `unsupported_platform_mutation` maps to exit 3.
 
 `thiserror` supplies implementation errors, but public JSON errors use a
 separate stable envelope containing code, summary, details, retry posture,
@@ -1082,7 +1120,8 @@ separate review and operator approval.
 
 Source-line measurement uses one declared `tokei` or `scc` profile over authored
 Rust only. Generated files and macro/derive expansion are excluded from both
-baselines. The spike must define an explicit extrapolation method from the
+baselines, as are `tests/fixtures/` and other declared non-Rust payload fixture
+directories. The spike must define an explicit extrapolation method from the
 vertical slice before the full-system line target becomes binding.
 
 The shadow and canary phases record:
@@ -1288,7 +1327,9 @@ dispositions.
 
 **Deliverables:** A versioned contract manifest, retained-v2 invariant register,
 versioned normalized parity/import schema, importer retention policy,
-command/help golden packet, explicit unsupported behavior register, versioned
+command/help golden packet, explicit unsupported behavior register, the
+retained `.csdlc/evidence/73/official-cli-source-baseline.json` manifest and
+portable `git ls-tree` verification contract, versioned
 JSON envelope and schema-evolution policy, reviewer-principal and independence
 mechanism, per-card/per-phase field optionality table and optional-value
 placeholder, `PublicationLinkage::{Closing, PartOf}` contract with normalized
@@ -1330,6 +1371,9 @@ pins the exact `cargo-deny` release used from the construction spike onward.
   evidence.
 - `--jq` accepts only the frozen supported subset; unsupported syntax fails
   with a typed usage error rather than partial or external execution.
+- The retained `adl.external_source_baseline.v1` manifest passes the VPP's
+  repository-relative `upstream-source-baseline` lane before V3-02 can start;
+  every cited blob must match the pinned `cli/cli` tree object exactly.
 
 **Validation proof:** Schema validation, golden command-tree comparison,
 invariant-to-issue coverage, publication-linkage truth tables for same-repository
@@ -1365,7 +1409,11 @@ inventory for every required GitHub operation, per-platform commit-primitive
 prototype and Decision 11 recommendation, and
 promote-or-discard disposition. The disposition is a real stop/go decision and
 must state whether the capability-matrix approach prevented a stranded
-post-review correction path.
+post-review correction path. The governing stop conditions are the ten exact
+threshold rows under `Expected Effect And Measurement`: binary size, direct and
+transitive dependency counts, clean and warm build time, startup p95, local
+`issue show` p95, local `doctor` p95, test-suite duration, and authored slice
+lines. The spike report reproduces each threshold beside its observation.
 
 **Acceptance criteria:**
 
@@ -1379,7 +1427,8 @@ post-review correction path.
   recovery, capability-derived field correction, projection regeneration,
   audit readback, and fresh exact review, with no direct state or Markdown edit.
 - Measurements either satisfy approved thresholds or trigger architecture
-  revision before `V3-03`.
+  revision before `V3-03`; a missing measurement or any threshold miss is a
+  binding stop, not a discretionary finding.
 
 **Validation proof:** Clean and warm builds, binary inspection, startup timing,
 offline tests, retained recovered-correction transcript and negative bypass
@@ -1423,6 +1472,9 @@ metadata.
 - `--jq` implements exactly the approved subset manifest, has golden
   compatibility tests for every supported form, and returns a typed usage error
   for unsupported jq syntax.
+- Every command that supports structured `--input` rejects combining it with
+  any direct field flag at the Clap parser boundary; positive and conflict
+  parser tests are required for each such command.
 - Dependency-policy CI rejects unapproved licenses, advisories, bans, and
   duplicate dependency families from this issue onward.
 - The release build emits one provenance-bound executable.
@@ -1589,6 +1641,9 @@ negative transition corpus, idempotency model, and v2 behavior mapping.
 - Every accepted recovery transition preserves a reachable typed correction or
   typed terminal-disposition command; no supported state is a lifecycle dead
   end and no abstract operator-required sink satisfies reachability.
+- The generated transition table accepts `review recover` only from `reviewed`,
+  `published`, or `merge_ready`, returns to `implemented`, rejects `merged` and
+  `closed_out`, and proves the matrix-declared atomic invalidations.
 - Removing or changing any authorization predicate causes mutation/property
   tests to fail, including correction invalidation and stale-CAS predicates.
 - Cleanup eligibility requires committed `closed_out` state and a retained
@@ -1918,6 +1973,9 @@ status commands.
 - Pagination, rate limits, authentication, missing resources, and unknown
   mergeability remain distinct.
 - Required checks bind to exact head SHA and terminal conclusions.
+- `IssueObservation` is populated from the typed REST issue endpoint and
+  preserves qualified identity, `state`, `state_reason`, `updated_at`, and
+  observation time; missing or ambiguous fields cannot be normalized to open.
 - Every raw-request endpoint names its GitHub API reference and has typed
   request/response structures plus transport-level fixtures.
 - Read-only commands perform no remote or local lifecycle mutation.
@@ -1965,7 +2023,9 @@ progress, idempotency/readback fixtures, and bounded live publication canary.
 - `pr watch` is foreground, cancellable by root signals, bounded, and leaves no
   persistent job or unjoined task.
 - Fake-adapter tests prove that a `part_of` watch cannot report checkpoint-ready
-  unless exact readback still observes the target issue open.
+  unless exact REST issue readback still observes the qualified target issue
+  open; closed, missing, stale, or contradictory observations produce
+  reconciliation-required.
 - Every watch sleep and network await is selected against root cancellation;
   cancellation drains and joins the watch scope before exit 130.
 - Default and overridden timeout/poll values remain within the V3-01 bounds and
