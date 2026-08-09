@@ -99,6 +99,9 @@ The portable CI entrypoint is
 `cargo test -p csdlc-v3 external_source_baseline --locked`; its fixture
 distinguishes network/fetch failure, revision-not-reachable, missing object,
 path/OID mismatch, and schema failure rather than collapsing them into stale.
+After `ls-tree` path/OID equality, it runs `git cat-file -e <oid>` for every
+promised blob so a partial-clone omission is distinct from a path absent from
+the pinned tree.
 
 ### Current C-SDLC v2
 
@@ -288,8 +291,9 @@ csdlc-v3/
 ```
 
 There is one Cargo package with immutable `[package] name = "csdlc-v3"`, one
-`[[bin]]` target, and one library target. A future workspace may contain the
-package but cannot rename it without a versioned contract/CI change.
+`[[bin]]` target with immutable `name = "csdlc"`, and one library target. A
+future workspace may contain the package but cannot rename either identity
+without a versioned contract/CI change.
 Integration tests call the library directly or use `assert_cmd` against the one
 executable.
 
@@ -454,7 +458,8 @@ calls `get_or_init` with a closure whose complete cell value is
 pre-warmed by `App` construction, and contains no `unwrap` or `expect` path.
 `get_or_try_init` is not used because its failed initializer is retryable;
 `SyncInit` intentionally caches a terminal typed error for the invocation.
-V3-01 pins the exact Rust toolchain/MSRV whose `OnceLock::get_or_init` contract
+The initial Cargo `rust-version`/MSRV floor is `1.80`; V3-01 pins the exact
+stable toolchain at or above that floor whose `OnceLock::get_or_init` contract
 blocks concurrent callers until the one initializer completes. The contract
 requires blocking rather than `None` or spin-visible behavior, and concurrent
 success/error tests run on every supported target.
@@ -481,17 +486,27 @@ contract tests. Remote GitHub observation never belongs in `repository` or
 success or error values; one injected terminal error cannot poison a later
 assertion through a reused application instance.
 
+The accessor signature is exactly
+`async fn get(&self) -> Result<Arc<T>, Arc<AppError>>`; `Ready(Ok)` stores the
+one `Arc<T>` and every caller receives an `Arc::clone`. `attempts_started`
+begins at zero and increments atomically when a caller becomes leader, before
+the initializer is first polled. Attempt 1 is the initial attempt and attempt 2
+is the sole retry. During cooldown, every accessor performs an injected-clock
+`sleep_until(retry_after)` selected against root cancellation, then races to
+lock state; exactly one observes eligibility and becomes the attempt-2 leader,
+while the rest observe `Initializing` and await `Notify`.
+
 The transition table is normative:
 
 | State and event | Next state | Caller result |
 | --- | --- | --- |
-| `Uninitialized`, root live, attempt permitted | `Initializing` | caller becomes leader |
+| `Uninitialized`, root live, `attempts_started < 2`, deadline met | `Initializing`, increment attempts | caller becomes leader |
 | `Uninitialized`, cooldown active | unchanged | cancellation-aware wait until deadline |
 | `Initializing`, another accessor | unchanged | wait on `Notify`, then re-read state |
 | `Initializing`, leader success | `Ready(Ok)` | cached success; notify all |
 | `Initializing`, terminal error | `Ready(Err)` | cached error; notify all |
-| `Initializing`, localized cancellation/drop before first completion | `Uninitialized` with attempt 1 and deadline | typed retryable result; notify all |
-| `Initializing`, localized cancellation/drop on attempt 1 | `Ready(Err(RetryExhausted))` | terminal error; notify all |
+| `Initializing`, localized cancellation/drop during attempt 1 | `Uninitialized` with `attempts_started = 1` and deadline | typed retryable result; notify all |
+| `Initializing`, localized cancellation/drop during attempt 2 | `Ready(Err(RetryExhausted))` | terminal error; notify all |
 | Any non-ready state, root cancellation | `Cancelled(Interrupted)` | exit 130; notify all; never retry |
 | `Ready` or `Cancelled`, any accessor | unchanged | clone cached result |
 
@@ -645,7 +660,11 @@ V3-01 versioned audit schema; inline unversioned schemas are rejected.
 implementation and later consumed verbatim by generated parameterized tests.
 They are immutable after V3-01 approval; additions require a reviewed matrix
 row and removals or renames are versioned contract breaks, not inline test
-maintenance.
+maintenance. IDs are globally unique lowercase dotted strings matching
+`^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*){2,}$` with the namespace
+`<domain>.<operation>.<case>`, for example
+`review.recover.from_published`; the matrix schema and CI lane enforce format
+and uniqueness across all rows.
 The required CI entrypoint is
 `cargo test -p csdlc-v3 capability_matrix --locked`; it validates the
 matrix schema, resolves every audit reference, matches every command to
@@ -657,9 +676,18 @@ selected issue identity, each index/audit/card-values path, Git blob OID, byte
 length, total bytes, warning bytes, and blocking bytes. The deterministic total
 is the sum of `git cat-file -s <blob-oid>` for the manifest rows after
 `git ls-tree` proves each path/OID pair at `f1c01499`; warning is exactly 80
-percent of the block and block is at least ten times the total. The required
+percent of the block. The artifact also records the V3-16 worst-case canary
+operation count, maximum canonical bytes for each versioned audit-event type,
+and `projected_worst_case_journey_bytes`. The block is at least the greater of
+ten times the v2 total or twice that projected complete-journey size. The required
 `state_size_baseline` case in the same locked contract-test package recomputes
 and verifies the artifact.
+In a shallow ADL clone, that case fetches canonical `origin/main` with
+`--filter=blob:none --no-tags`, deepens the named ref until `f1c01499` is a
+verified ancestor, compares every `ls-tree` path/OID row, and runs
+`git cat-file -e <oid>` before byte measurement. Network failure,
+revision-not-reachable, path absence, promised-but-missing blob, and byte
+mismatch are distinct typed failures.
 
 ## Lifecycle Kernel
 
@@ -733,6 +761,14 @@ public command, target, invalidations, and audit schema. The V3-01 matrix test
 enumerates every `Operation`/phase outcome, rejects missing or duplicate rows,
 and proves each named command exists in generated Clap help. A later issue may
 add an outcome only through reviewed matrix and graph revision.
+
+Outcome/exit mapping is closed as well. `operator_required` is exit 7 and must
+carry one table code. `reconciliation_required` is the stable public code
+`remote_reconciliation`, maps to conflict exit 5, leaves phase unchanged, and
+suggests `pr status` or `doctor`; it is not operator authority. A rejected
+disposition means blocked exit 3 with no transition. `RetryExhausted` maps to
+failure exit 1. `Interrupted` from any application service always maps to exit
+130 and cannot be reclassified by a command handler.
 
 ## Transaction Store
 
@@ -933,11 +969,23 @@ Watch and finish use a bounded stability sandwich, not a TTL: read issue A,
 read the exact PR merge/head/linkage state, then read issue B. The two issue
 observations must match in identity, state, state reason, and `updated_at`.
 Drift retries the complete sandwich within the command budget. A stable closed
-parent makes `pr watch` exit immediately as reconciliation-required; it never
-continues polling toward checkpoint-ready. `finish` always performs a fresh
+parent makes `pr watch` exit immediately with operator code
+`external_parent_close`; it never continues polling toward checkpoint-ready.
+`finish` always performs a fresh
 sandwich and routes the same stable condition to the typed
 `external-parent-close` disposition. Exhausted or contradictory observations
 remain reconciliation-required.
+
+`finish` has a fixed observation budget of three complete sandwiches with a
+100 millisecond cancellation-aware pause after drift. One sandwich whose A/B
+issue observations match is stable; no second sandwich is required. A typed
+disposition always performs and consumes one new stable sandwich after
+authorization, never the suggestion-producing observation. For terminal
+selection, canonical state names one current mode-bound publication PR ID,
+normalized issue, reviewed head, and linkage. `finish` queries all matching
+PRs, requires exact equality with that recorded `Closing` publication, rejects
+zero or multiple closing candidates, and never treats retained `PartOf`
+checkpoint PR IDs as terminal authority.
 
 `pr status` performs one observation and exits.
 
@@ -1009,11 +1057,11 @@ authority. V3-01 freezes exact lexical rules and this minimum production set:
 expr       = pipe ;
 pipe       = term, { "|", term } ;
 term       = path | array | object | select | has | length ;
-path       = ".", [identifier], {".", identifier | index | iterate | slice} ;
+path       = ".", [identifier], {(".", identifier) | index | iterate | slice} ;
 index      = "[", (integer | string), "]" ;
 iterate    = "[]" ;
 slice      = "[", [integer], ":", [integer], "]" ;
-array      = "[", [expr], "]" ;
+array      = "[", [expr, {",", expr}], "]" ;
 object     = "{", [pair, {",", pair}], "}" ;
 pair       = string, ":", expr ;
 select     = "select", "(", predicate, ")" ;
@@ -1021,10 +1069,19 @@ predicate  = path, ("==" | "!=" | "<" | "<=" | ">" | ">="), literal ;
 has        = "has", "(", (string | integer), ")" ;
 length     = "length" ;
 literal    = string | number | "true" | "false" | "null" ;
+identifier = ident_start, {ident_continue} ;
+ident_start = letter | "_" ;
+ident_continue = ident_start | digit ;
+integer    = ["-"], digit, {digit} ;
+number     = RFC8259_NUMBER ;
+string     = RFC8259_STRING ;
 ```
 
 This covers identity, field/index access, array/object iteration and
 construction, slicing, pipe, comparisons used by `select`, `has`, and `length`;
+pipe and array-list repetition associate left to right, and comparison exists
+only inside `select` predicates. RFC 8259 owns string escaping and number
+lexing; keywords are not identifiers in function position.
 V3-01 may remove a construct only before contract approval, and V3-02 may add
 one only through reviewed contract revision. The engine never spawns `jq` or a
 shell. The positive grammar is closed: every token, operator, function, and
@@ -1377,9 +1434,12 @@ retirement issue.
 | V3-14 | 1.0-2.0 |
 | V3-15 | 1.5-2.5 |
 | V3-16 | 2.0-4.0 plus the observation window |
+| V3-R01 | Deferred; estimate at V3-16 completion |
 
 These ranges are decomposition estimates, not commitments. V3-02 revises them
-using measured build, source, test, adapter, and command-slice evidence.
+using measured build, source, test, adapter, and command-slice evidence. The
+20-37 week implementation total excludes deferred V3-R01 and its rollback
+window.
 
 ### Dependency Graph
 
@@ -1488,6 +1548,11 @@ pins the exact candidate `cargo-deny` release used from the construction spike
 onward. V3-02 may recommend changing that candidate only through the same
 reviewed stop/go architecture-revision path used for any failed spike
 threshold; it cannot silently substitute a release.
+V3-01 also freezes a candidate dependency manifest naming every previously
+open YAML, JSON Schema, middleware, template, and file-locking crate with exact
+version/features and a pre-spike direct-dependency count. V3-02 cannot begin
+while a production dependency slot remains unnamed or the candidate set already
+exceeds 30.
 
 **Acceptance criteria:**
 
@@ -1523,6 +1588,10 @@ threshold; it cannot silently substitute a release.
   operator latency, V3-01 stops and returns to architecture review for a
   versioned retention/compaction decision; it may neither lower the factor nor
   proceed with an unbounded aggregate.
+- The same gate proves the complete V3-16 review/recover/card-family canary fits
+  below 50 percent of the block using maximum schema-valid event sizes, so
+  embedded audit growth is represented rather than inferred from typical v2
+  history.
 - `--jq` accepts only the frozen supported subset; unsupported syntax fails
   with a typed usage error rather than partial or external execution.
 - The retained `adl.external_source_baseline.v1` manifest passes the VPP's
@@ -1568,6 +1637,9 @@ threshold rows under `Expected Effect And Measurement`: binary size, direct and
 transitive dependency counts, clean and warm build time, startup p95, local
 `issue show` p95, local `doctor` p95, test-suite duration, and authored slice
 lines. The spike report reproduces each threshold beside its observation.
+The recommendation does not issue Decision 11: V3-08 remains blocked until a
+separate retained operator decision record explicitly approves the measured
+per-platform commit matrix.
 
 **Acceptance criteria:**
 
@@ -1583,6 +1655,8 @@ lines. The spike report reproduces each threshold beside its observation.
 - Measurements either satisfy approved thresholds or trigger architecture
   revision before `V3-03`; a missing measurement or any threshold miss is a
   binding stop, not a discretionary finding.
+- The spike identifies the exact Decision 11 record required next and proves
+  that its recommendation alone cannot satisfy the V3-08 dependency gate.
 
 **Validation proof:** Clean and warm builds, binary inspection, startup timing,
 offline tests, retained recovered-correction transcript and negative bypass
@@ -1618,6 +1692,9 @@ metadata.
 **Acceptance criteria:**
 
 - Every approved command is discoverable from `csdlc --help`.
+- Cargo package `csdlc-v3` builds and installs exactly one binary named
+  `csdlc`; generated docs, completions, provenance, and installer checks bind
+  both immutable identities.
 - Constructor and parser tests invoke no repository, network, or process
   adapter.
 - Human and JSON output never mix machine payloads with diagnostics.
@@ -2204,6 +2281,8 @@ progress, idempotency/readback fixtures, and bounded live publication canary.
   cancellation drains and joins the watch scope before exit 130.
 - Default and overridden timeout/poll values remain within the V3-01 bounds and
   timeout exits without a persistent job or unjoined task.
+- If `now + max(poll_interval, retry_after)` exceeds the fixed deadline, watch
+  exits immediately without sleeping past the deadline.
 - Merge occurs only when the approved explicit policy and operator authority
   are both present.
 

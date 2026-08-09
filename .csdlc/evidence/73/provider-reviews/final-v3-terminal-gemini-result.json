@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786264285",
+      "duration_ms": 81832,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=4787]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 81833,
+  "request_id": "issue-73-gemini-terminal-dfe28fa2",
+  "output_text": "### Findings\n\n**P3 (Informational / Verification): Explicit `AsyncInit` State and Event Table**\n* **Section:** Application Context\n* **Observation:** The transition table for the asynchronous cell is fully normative, explicitly defining states (`Uninitialized`, `Initializing`, `Ready`, `Cancelled`), events (root cancellation, localized cancellation, cooldown), and caller results (leader vs. waiter logic, notification). It successfully resolves single-flight retry and cancellation constraints.\n\n**P3 (Informational / Verification): Exhaustive `operator_required` Mapping and Reachability**\n* **Section:** Lifecycle Kernel; V3-01: Freeze Product Contract And Retained Invariants\n* **Observation:** The architecture strictly prohibits abstract sink states. The six required minimum outcomes are explicitly mapped to producing phases, target states, and required next commands. Recovery reachability is guaranteed by the fixed `review recover` predicate, ensuring no record is stranded without a valid, typed correction path.\n\n**P3 (Informational / Verification): `closing`/`part_of` Race Reconciliation**\n* **Section:** Publication, Watch, Finish, And Clean; V3-15: Implement Finish And Cleanup\n* **Observation:** The race where a `PartOf` parent closes after a checkpoint merge is explicitly identified and safely reconciled via the `external-parent-close` disposition. This correctly decouples the checkpoint receipt from the closure action without demanding invalid remote rollbacks.\n\n**P3 (Informational / Verification): Exactly 18 Implementation Specs Plus Deferred R01**\n* **Section:** Implementation Issue Plan (and its subsections V3-01 through V3-16, plus V3-R01)\n* **Observation:** The implementation plan decomposes perfectly into exactly 18 execution issues (accounting for the A/B splits on 10 and 11) plus the 1 deferred v2 retirement issue (V3-R01). The dependency graph accurately maps all prerequisites to their textual definitions.\n\n**P3 (Informational / Verification): Single Package / CI Identity**\n* **Section:** Proposed Crate Layout\n* **Observation:** The single `csdlc-v3` package identity and its constraint against renaming without versioned contract changes guarantees one cohesive binary and library target, fulfilling the consolidation goal.\n\n**P3 (Informational / Verification): Portable Source and Reproducible State Baselines**\n* **Section:** Source Baseline; Canonical State And Cards\n* **Observation:** The architecture defines highly portable CI entrypoints (`cargo test -p csdlc-v3 external_source_baseline --locked`) that fetch filter-less blobs and use exact SHA-1 verification without relying on absolute host paths or permissive remote `want` behaviors. The baseline size calculation uses deterministic Git blob inspection at a frozen commit (`f1c01499`).\n\n**P3 (Informational / Verification): Normative Closed `jq` Grammar**\n* **Section:** Output And Error Model\n* **Observation:** The exact EBNF grammar is embedded in the contract and strictly scopes the in-process implementation. By utilizing a closed/negative corpus and rejecting omitted tokens, it avoids the security and bloat risks of a full external `jq` shell execution.\n\n**P3 (Informational / Verification): Binding Spike Thresholds**\n* **Section:** Expected Effect And Measurement; V3-02: Prove The Rust Construction Slice\n* **Observation:** Quantitative performance thresholds (e.g., 35 MiB binary, 30 direct dependencies, <= 300s clean build, p95 <= 250ms for local read) are explicitly defined as hard stop gates rather than discretionary targets, placing necessary pressure on the V3-02 spike.\n\n**P3 (Informational / Verification): Diagram / Text Parity**\n* **Section:** Core Architecture; Implementation Issue Plan\n* **Observation:** The Mermaid diagrams precisely reflect the documented constraints. The core architecture layers (`cli`, `commands`, `domain`, `adapters`, `store`) align with the directory layout, and the implementation dependency graph (e.g., P04, P08, P10A, P10B feeding into P12) exactly matches the textual dependencies listed in the issue specs.\n\n**P3 (Informational / Verification): Operator Simplicity**\n* **Section:** Executive Decision; Acceptance Gates\n* **Observation:** The goal of reducing the surface from 21 binaries and 11 skills to 1 executable and 1 operator skill is structurally validated and gated. \n\n**P3 (Informational / Verification): V3-01 Artifact Deliverables and Stop Gates**\n* **Section:** V3-01: Freeze Product Contract And Retained Invariants\n* **Observation:** V3-01 defines precise artifacts, verification lanes, and stop conditions (e.g., capability matrix schema, state-size baseline check) as setup tasks prior to execution. The planning document correctly avoids doing the V3-01 implementation work itself.\n\nDECISION: PASS",
+  "output_text_excerpt": "[redacted provider text len=4787]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-terminal-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}
