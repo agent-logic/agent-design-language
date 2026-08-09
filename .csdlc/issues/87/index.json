@@ -1,0 +1,132 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 87,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d1b7b0b06a2c0f94ec27f0729d43c50921764b10560462b62c3d2d84765f3526",
+  "phase": "bound",
+  "generation": 6,
+  "digest": "67f17312eef7ba88f75937a769e9ed90579d4ff82af3e3cbe7656804b86f3f7f",
+  "branch": "codex/87-acip-minor-version-strict-clippy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-87-acip-minor-version-strict-clippy",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/87/design.md",
+  "diagram_path": ".csdlc/prepared/issues/87/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:/root/start_sprint_4_5862",
+      "revision": "9b43fca9e625ea50ae7022dc0f8fcf2569ca96b3373db88e3395c234e0a33046"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8548f8181878bf3d948043e3fef067ef59ba46e4af6aeefabb3f85cfcfe2e32f",
+      "rendered_digest": "69ea375b91a4ba4d35438808b445f1b6218adf9c6a38116bf85155a7d1d20d54",
+      "ast_digest": "959d743916c7932b373f3c1d0965284a8451726ecae7249413891fb1c6fb4681"
+    },
+    "stp": {
+      "values_digest": "0e3c20d34dc52a9887851a7c795fc35e5904f9db6e5c1da89d818b50c31c3889",
+      "rendered_digest": "c7c46e295ea9f96524a17a6872e1824de3b5926c7d00bff8b07d50d423985973",
+      "ast_digest": "7f3469945331286a2edc31f58a2042414a23a618c2fd05010bd495ee791b2c65"
+    },
+    "spp": {
+      "values_digest": "a960b9f970d25c740af56c3f5bfbacdc0c1385c7dfefa6f40a7fbbab26d51dfa",
+      "rendered_digest": "c7d8130694d040b1a2b6468ca700e3766c7e1cd548a3ca24cf61f50b121c867c",
+      "ast_digest": "9f879d2b5c645f8b69b581af65b9242f9bb0f25852124c42b36c0f7abc6df171"
+    },
+    "vpp": {
+      "values_digest": "29a4fbd5ae93b271712517b2484e38da3240aff227bbe4acd0c919f90a0d43cb",
+      "rendered_digest": "826c8f58fd2c8ea57d0611532795ddbdebefdb324a3ac24fab819160ecbff3d8",
+      "ast_digest": "d00b59ae440614ddd1d9b41af822fbaaaad17e737f5339ec02fc4ad6460c901f"
+    },
+    "srp": {
+      "values_digest": "295aa475830a8abad2b81b4bef89be78711a3e61f2e1a9325bd905bd8472358c",
+      "rendered_digest": "b4a085a2d68ccf3c7249af62110d45aeb5ab67da17493058b8d1cfd31f082af8",
+      "ast_digest": "0af84a857f58c536c567a68c42c51db226c233de28465bfd207da5683af8dbf0"
+    },
+    "sor": {
+      "values_digest": "2f01f32fe9ad5f86517075808eb61ef5d93f72540f44c0fe36207816addd228f",
+      "rendered_digest": "7ec657d5410c01f94a9517eb0c9968ab6df31dd8a2613c27fb8fe91922811d46",
+      "ast_digest": "cc3d65b2f8b597b3bf97aa0a4d373ec516edff39e05ca3bce4280c253bcf9672"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Use current issue-owned targets for admission while retaining the two child-owned named Clippy commands as required final integration proofs.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"acip-unit\",\"proof_role\":\"Focused ACIP unit cases prove inclusive minor-range behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"acip::tests::negotiation\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"acip-strict-clippy\",\"proof_role\":\"Warning-denied library compilation proves the shared ACIP predicate now; the exact child consumer commands remain required before publication.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Make the issue-owned ACIP test denominator exact and presently executable for typed readiness.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"acip-unit\",\"proof_role\":\"The exact existing ACIP negotiation test plus the added boundary cases prove inclusive minor-range behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"acip::tests::negotiation_rejects_unknown_major_and_required_feature\",\"--\",\"--exact\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"acip-strict-clippy\",\"proof_role\":\"Warning-denied library compilation proves the shared ACIP predicate now; the exact child consumer commands remain required before publication.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Declare the focused ACIP integration test as an exact issue-owned validation denominator disjoint from Sprint child targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/acip.rs\",\"adl-runtime/tests/acip_version_negotiation.rs\",\".csdlc/issues/87\",\".csdlc/prepared/issues/87\",\".csdlc/evidence/87\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Name the exact issue-owned focused validation target as a deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Clippy-clean ACIP version predicate\",\"adl-runtime/tests/acip_version_negotiation.rs\",\"Positive coverage for exact and wider compatible ranges\",\"Negative coverage for future-only and malformed ranges\",\"Both issue-named strict Clippy proofs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:issue-87-acip-clippy",
+      "reason": "Select the exact issue-owned ACIP integration test as the typed proving denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"acip-version-negotiation\",\"proof_role\":\"The issue-owned integration target proves exact, wider-compatible, future-only, and malformed inclusive minor ranges.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"acip_version_negotiation\"],\"parallel_group\":\"local\",\"defer_reason\":\"Issue-owned target adl-runtime/tests/acip_version_negotiation.rs is created during implementation before this lane runs.\"},{\"lane\":\"acip-strict-clippy\",\"proof_role\":\"Warning-denied library compilation proves the shared ACIP predicate now; the exact child consumer commands remain required before publication.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "subagent:/root/start_sprint_4_5862",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

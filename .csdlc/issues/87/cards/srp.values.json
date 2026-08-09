@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 87,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
+    "slug": "acip-minor-version-strict-clippy",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 87 ACIP predicate, colocated focused tests, exact validation evidence, and lifecycle truth.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the removed comparison mathematically redundant for the current u32 local minor without weakening inclusive-range semantics?",
+        "Do focused tests cover exact, wider-compatible, future-only, and malformed ranges?",
+        "Are all changed production/test paths owned by issue 87?",
+        "Do both issue-named strict Clippy commands pass at the exact reviewed head?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

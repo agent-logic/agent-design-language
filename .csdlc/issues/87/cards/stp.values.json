@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 87,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
+    "slug": "acip-minor-version-strict-clippy",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Remove the impossible ACIP minor upper-bound comparison while preserving inclusive-range semantics and prove the shared fix.",
+      "deliverables": [
+        "Clippy-clean ACIP version predicate",
+        "adl-runtime/tests/acip_version_negotiation.rs",
+        "Positive coverage for exact and wider compatible ranges",
+        "Negative coverage for future-only and malformed ranges",
+        "Both issue-named strict Clippy proofs"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Preserve intended minimum and maximum major/minor compatibility semantics",
+        "AC-2: Focused positive and negative supported/unsupported offer coverage passes",
+        "AC-3: distributed_capability_advertisement strict Clippy passes",
+        "AC-4: distributed_resource_weather strict Clippy passes",
+        "AC-5: No Sprint child-owned implementation or test module changes"
+      ],
+      "dependencies": [
+        "Current canonical Agent Logic main",
+        "Sprint 4 child integration-test targets for final consumer proof"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "adl-runtime/src/acip.rs",
+        "agent-logic/agent-design-language#87"
+      ],
+      "non_goals": [
+        "Changing ACIP protocol constants",
+        "Adding child capability-advertisement, resource-weather, or discovery behavior",
+        "Refactoring unrelated runtime code",
+        "AWS or broad workspace validation"
+      ]
+    }
+  }
+}
