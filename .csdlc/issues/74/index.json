@@ -3,13 +3,29 @@
   "issue": 74,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "ee25dbde61b53e51a55040887f3797b6977cb927f6f932af6c6cf7ab5ac76de0",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "a9342d3e027936c0f8b5cf4ff1b263e54fbddac92f64f984f40ef270a3eaa33f",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:Ampere",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/74",
+      ".csdlc/prepared/issues/74/record-exact-head-gate2-validation.json",
+      ".csdlc/prepared/issues/74/record-exact-head-clippy-validation.json"
+    ],
+    "reviewed_revision": "git-blake3:2d064702c290fc18356f9673c701393f5473bbe9:9193c0a5e6ac7706f91924d13144f9d5d7c01d036a56b178567911fbbf44e808",
+    "findings": [],
+    "residual_risks": [
+      "The historical PR #80 publication intent is non-authoritative after typed recovery and must be atomically replaced by csdlc-publish for this repair."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7779a9efd396d3e3a9a7443655e720e6456308e4d8885f1ce1cb75d7d4b769c2",
+      "values_digest": "5eb4d29b1b599bb724a56dd7524cb543c9633410a642fbb3134927819c34993f",
       "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
       "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
     },
     "stp": {
-      "values_digest": "af4dba23eed833c82220114d3481d547c1e7d9d481d0176ca3a150ca92a1f224",
+      "values_digest": "adeed33160efeabbb24f26abc7662d4958909d668d7026b3b60f9b83870ddb58",
       "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
       "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
     },
     "spp": {
-      "values_digest": "688c4e5f411c9423c42873d2eabeebfe59d6b2422d8efbcf2dd9b97a3dd0085c",
+      "values_digest": "40626be30d72618c4360c33c4b23fede9c3cefdcc345237ee8dc40cef7293e7b",
       "rendered_digest": "8edfba55bdc2f54cee7cc11fe1504d98794e9572932f0c7ff22d71dfb3c6ddaa",
       "ast_digest": "878ba9e971dbb462c5db1f1dce666b4a39ee0b9dc03b5f3b681057a2ae806aef"
     },
     "vpp": {
-      "values_digest": "e75f173740bb1b18a1c64825d94cc796e49fabc6f0af026587f2487982e7d2d3",
+      "values_digest": "323f133e2546fa6e746623f7fbc73b9d1d8da9f1dc74287b1fa29bba642dc5bf",
       "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "b6bb0ca9aed1576d9e25d92ddfb103b8887440133b4457badf3b3d6c2b9ece7c",
-      "rendered_digest": "8bc12b5f893c02d26e26e713ffcdcad094ffb4c0fdbb3077b5f715cbcc1aaba0",
-      "ast_digest": "5019e1b288db370ec49978e4fbe71b58e085ef8253986a24e21e34d56060c92e"
+      "values_digest": "25064cdf52c637e899345e042f31d07f309b0658b64732527032320ed06be8fb",
+      "rendered_digest": "16f13197d16342bb6006d41ee2d7df319cb99c3462a366843722d51c0ecbb330",
+      "ast_digest": "631df722a438f54767bf9a9b4cfa254902252e2c03cfb10664ce7f99b088ee52"
     },
     "sor": {
-      "values_digest": "9bb2a67ee447492454cd46c72ac95afabc5b5da0a7ae956374656147ea056bb0",
+      "values_digest": "7549878d44d809c58b4493439c2521394264976d1e15db342b849c7b931803b9",
       "rendered_digest": "e7c4e402c57dd43d2d74f54b56353763d8163f80c01dec4b6e5afad76ec6f396",
       "ast_digest": "7eb8caf98bd6e870cfb01aa3d6f2bd2b47a27e29da22011da138dc5ff6ba616f"
     }
@@ -110,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:74-regression-repair",
       "reason": "Issue #74 was reopened after the original regression test proved only a different-issue stale projection. Recover to implemented so the same-issue pre-topology projection failure can be fixed and reviewed."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:74-regression-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -287,6 +310,13 @@
       "actor": "codex:74-regression-repair",
       "reason": "Refresh strict compilation and lint evidence at the exact implementation head.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject compilation, ownership, error-path, test, and lint regressions across the complete C-SDLC v2 package.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:da8074f0224b52c0212e05a8ca9734c30d740b8e:strict-clippy:passed\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:74-regression-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

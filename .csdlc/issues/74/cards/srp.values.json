@@ -7,23 +7,25 @@
     "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records",
     "slug": "stale-foreign-topology-records",
     "version": "v0.92",
-    "generation": 21
+    "generation": 22
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/lifecycle.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/issues/74\n.csdlc/prepared/issues/74/record-exact-head-gate2-validation.json\n.csdlc/prepared/issues/74/record-exact-head-clippy-validation.json",
+      "review_revision": "git-blake3:2d064702c290fc18356f9673c701393f5473bbe9:9193c0a5e6ac7706f91924d13144f9d5d7c01d036a56b178567911fbbf44e808",
+      "reviewer": "subagent:Ampere",
       "review_prompts": [
         "Does the test contain the exact retired claim field from the report?",
         "Is skipping based only on issue, branch, and canonical worktree irrelevance?",
         "Do relevant corruption and genuine collisions remain fail closed?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The historical PR #80 publication intent is non-authoritative after typed recovery and must be atomically replaced by csdlc-publish for this repair."
+      ],
+      "review_result": "pass"
     }
   }
 }
