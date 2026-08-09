@@ -257,6 +257,71 @@ fn crypto_provider() -> Arc<rustls::crypto::CryptoProvider> {
     Arc::new(rustls::crypto::aws_lc_rs::default_provider())
 }
 
+#[cfg(test)]
+mod tests {
+    use rcgen::{
+        date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer,
+        ExtendedKeyUsagePurpose, IsCa, KeyPair,
+    };
+
+    use super::{parse_identity, parse_trust_roots, verify_server_identity};
+
+    fn identity(
+        not_before: (i32, u8, u8),
+        not_after: (i32, u8, u8),
+        usage: ExtendedKeyUsagePurpose,
+    ) -> (super::TlsIdentity, rustls::RootCertStore) {
+        let mut ca_params = CertificateParams::new(["ADL test root".to_owned()]).unwrap();
+        ca_params.is_ca = IsCa::Ca(BasicConstraints::Constrained(0));
+        ca_params.not_before = date_time_ymd(2020, 1, 1);
+        ca_params.not_after = date_time_ymd(2040, 1, 1);
+        let ca = CertifiedIssuer::self_signed(ca_params, KeyPair::generate().unwrap()).unwrap();
+
+        let key = KeyPair::generate().unwrap();
+        let mut params = CertificateParams::new(["localhost".to_owned()]).unwrap();
+        params.not_before = date_time_ymd(not_before.0, not_before.1, not_before.2);
+        params.not_after = date_time_ymd(not_after.0, not_after.1, not_after.2);
+        params.extended_key_usages = vec![usage];
+        let leaf = params.signed_by(&key, &ca).unwrap();
+        let chain = format!("{}{}", leaf.pem(), ca.pem());
+        (
+            parse_identity(chain.as_bytes(), key.serialize_pem().as_bytes()).unwrap(),
+            parse_trust_roots(ca.pem().as_bytes()).unwrap(),
+        )
+    }
+
+    #[test]
+    fn server_identity_validation_rejects_time_and_usage_failures() {
+        let (valid, roots) = identity(
+            (2020, 1, 1),
+            (2036, 1, 1),
+            ExtendedKeyUsagePurpose::ServerAuth,
+        );
+        assert!(verify_server_identity(&valid, roots, "localhost").is_ok());
+
+        for (not_before, not_after, usage) in [
+            (
+                (2020, 1, 1),
+                (2021, 1, 1),
+                ExtendedKeyUsagePurpose::ServerAuth,
+            ),
+            (
+                (2035, 1, 1),
+                (2036, 1, 1),
+                ExtendedKeyUsagePurpose::ServerAuth,
+            ),
+            (
+                (2020, 1, 1),
+                (2036, 1, 1),
+                ExtendedKeyUsagePurpose::ClientAuth,
+            ),
+        ] {
+            let (identity, roots) = identity(not_before, not_after, usage);
+            assert!(verify_server_identity(&identity, roots, "localhost").is_err());
+        }
+    }
+}
+
 async fn read(path: &Path) -> Result<Vec<u8>, TlsConfigError> {
     tokio::fs::read(path)
         .await
