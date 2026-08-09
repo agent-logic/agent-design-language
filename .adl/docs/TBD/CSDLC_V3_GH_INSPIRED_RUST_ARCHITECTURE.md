@@ -81,8 +81,10 @@ The repository-relative retained manifest at
 `.csdlc/evidence/73/official-cli-source-baseline.json` records the pinned
 revision and Git object identity for every cited path. Validation consumes that
 declared input and does not depend on an operator-specific checkout location.
-Its `adl.external_source_baseline.v1` schema contains `repository`, `revision`,
-the typed `capture_command`, and one `{path, kind, oid}` row per cited blob.
+Its `adl.external_source_baseline.v1` schema is pinned at
+`csdlc-v3/contracts/external-source-baseline.v1.schema.json` and contains
+`repository`, `default_branch`, `revision`, the typed `capture_command`, and one
+`{path, kind, oid}` row per cited blob.
 Portable verification runs the declared `git ls-tree <revision> --
 <declared-paths>` operation in any clone of the named repository and requires
 exact equality with every 40-hex SHA-1 manifest object ID; no absolute checkout
@@ -93,6 +95,10 @@ named ref until the revision is present. It then requires the revision to be an
 ancestor of the fetched ref before reading its tree. It never relies on a
 server accepting an arbitrary SHA want; an unreachable revision fails as a
 stale baseline requiring reviewed manifest refresh.
+The portable CI entrypoint is
+`cargo test -p csdlc-v3 external_source_baseline --locked`; its fixture
+distinguishes network/fetch failure, revision-not-reachable, missing object,
+path/OID mismatch, and schema failure rather than collapsing them into stale.
 
 ### Current C-SDLC v2
 
@@ -281,8 +287,11 @@ csdlc-v3/
     doctor.rs
 ```
 
-There is one `[[bin]]` target and one library target. Integration tests call the
-library directly or use `assert_cmd` against the one executable.
+There is one Cargo package with immutable `[package] name = "csdlc-v3"`, one
+`[[bin]]` target, and one library target. A future workspace may contain the
+package but cannot rename it without a versioned contract/CI change.
+Integration tests call the library directly or use `assert_cmd` against the one
+executable.
 
 ## Root Command Model
 
@@ -445,12 +454,17 @@ calls `get_or_init` with a closure whose complete cell value is
 pre-warmed by `App` construction, and contains no `unwrap` or `expect` path.
 `get_or_try_init` is not used because its failed initializer is retryable;
 `SyncInit` intentionally caches a terminal typed error for the invocation.
+V3-01 pins the exact Rust toolchain/MSRV whose `OnceLock::get_or_init` contract
+blocks concurrent callers until the one initializer completes. The contract
+requires blocking rather than `None` or spin-visible behavior, and concurrent
+success/error tests run on every supported target.
 
 `AsyncInit<T>` returns `Arc<T>` and owns a short-held
 `std::sync::Mutex<AsyncInitState<T>>` plus an `Arc<tokio::sync::Notify>`.
-`AsyncInitState` is a closed enum of `Uninitialized`, `Initializing`, and
-`Ready(Result<Arc<T>, Arc<AppError>>)`, with attempt count, generation, and
-cooldown deadline carried in the first two states. No mutex guard crosses an
+`AsyncInitState` is a closed enum of `Uninitialized`, `Initializing`,
+`Ready(Result<Arc<T>, Arc<AppError>>)`, and `Cancelled(Arc<AppError>)`, with
+attempt count, generation, and cooldown deadline carried in the first two
+states. No mutex guard crosses an
 `.await`. The first accessor atomically changes `Uninitialized` to
 `Initializing`, drops the guard, and owns the initializer future. Other
 accessors observe `Initializing`, drop the guard, await the notification, and
@@ -466,6 +480,26 @@ contract tests. Remote GitHub observation never belongs in `repository` or
 `App::test()` creates fresh cells per test and may pre-populate explicit
 success or error values; one injected terminal error cannot poison a later
 assertion through a reused application instance.
+
+The transition table is normative:
+
+| State and event | Next state | Caller result |
+| --- | --- | --- |
+| `Uninitialized`, root live, attempt permitted | `Initializing` | caller becomes leader |
+| `Uninitialized`, cooldown active | unchanged | cancellation-aware wait until deadline |
+| `Initializing`, another accessor | unchanged | wait on `Notify`, then re-read state |
+| `Initializing`, leader success | `Ready(Ok)` | cached success; notify all |
+| `Initializing`, terminal error | `Ready(Err)` | cached error; notify all |
+| `Initializing`, localized cancellation/drop before first completion | `Uninitialized` with attempt 1 and deadline | typed retryable result; notify all |
+| `Initializing`, localized cancellation/drop on attempt 1 | `Ready(Err(RetryExhausted))` | terminal error; notify all |
+| Any non-ready state, root cancellation | `Cancelled(Interrupted)` | exit 130; notify all; never retry |
+| `Ready` or `Cancelled`, any accessor | unchanged | clone cached result |
+
+The RAII guard distinguishes root cancellation from localized leader loss using
+the shared root token at drop. A waiter cancelled while another leader remains
+returns interrupted without mutating leader state; root-token cancellation
+moves the shared state to `Cancelled`. All state/event pairs are exhaustively
+tested with an injected monotonic clock.
 
 ## Async Boundary
 
@@ -681,6 +715,25 @@ cannot broaden this kernel predicate. Capability rows may narrow field-level
 authoring inside `implemented`, but no row may choose a different target phase
 for `review recover`.
 
+V3-01 freezes the exhaustive operator-disposition rows. The minimum known rows
+are:
+
+| Outcome code | Producing phases | Required next command | Target |
+| --- | --- | --- | --- |
+| `stale_review_truth` | `reviewed`, `published`, `merge_ready` | `review recover --reason <text> --provenance <ref>` | `implemented` |
+| `policy_only_reviewer` | `implemented`, `reviewed` | `review record --override-policy-only <authorization-ref>` | `reviewed` or rejected |
+| `unsupported_import_fields` | `initialized`, `ready` | `issue init --from-v2 --dispositions <input>` | `ready` or blocked |
+| `ambiguous_remote_intent` | any pre-terminal mutation phase | `doctor --resolve-operation <id> --disposition <input>` | matrix-declared prior/current phase |
+| `external_parent_close` | `published`, `merge_ready` | `finish --disposition external-parent-close --reason <text>` | `closed_out` or rejected |
+| `explicit_no_pr_terminal` | `implemented`, `reviewed` | `finish --disposition no-pr --reason <text>` | `closed_out` or rejected |
+
+An operation is forbidden from returning `operator_required` unless exactly one
+capability row supplies its code, producing phases, authorization schema,
+public command, target, invalidations, and audit schema. The V3-01 matrix test
+enumerates every `Operation`/phase outcome, rejects missing or duplicate rows,
+and proves each named command exists in generated Clap help. A later issue may
+add an outcome only through reviewed matrix and graph revision.
+
 ## Transaction Store
 
 The store owns the only canonical write path:
@@ -876,6 +929,16 @@ cannot be reported as checkpoint-ready. PR head/base/check truth remains bound
 separately to the exact reviewed SHA; issue state is never described as a
 commit-SHA observation.
 
+Watch and finish use a bounded stability sandwich, not a TTL: read issue A,
+read the exact PR merge/head/linkage state, then read issue B. The two issue
+observations must match in identity, state, state reason, and `updated_at`.
+Drift retries the complete sandwich within the command budget. A stable closed
+parent makes `pr watch` exit immediately as reconciliation-required; it never
+continues polling toward checkpoint-ready. `finish` always performs a fresh
+sandwich and routes the same stable condition to the typed
+`external-parent-close` disposition. Exhausted or contradictory observations
+remain reconciliation-required.
+
 `pr status` performs one observation and exits.
 
 `pr watch` is an explicit foreground async loop. It creates no queue job,
@@ -885,7 +948,11 @@ minimum timeout is 1 second. The default poll interval is 15 seconds; an
 override must be between 1 second and 5 minutes and cannot exceed the selected
 timeout. Clap range parsers reject out-of-contract timeout or poll values before
 context resolution, with parser-boundary positive and negative tests.
-Each poll or state change emits concise progress to stderr. It exits
+Adapter-provided `Retry-After` or rate-limit reset observations may raise the
+next effective interval within the remaining command timeout; each override is
+emitted to stderr, and a delay beyond the deadline exits waiting/timeout rather
+than silently extending the command. Each poll or state change emits concise
+progress to stderr. It exits
 on ready, failed, conflicted, operator-required, timeout, or cancellation. Every
 sleep is cancellation-aware and bounded.
 
@@ -934,8 +1001,30 @@ Human output is default. `--json` writes one envelope with `schema`, `command`,
 discriminant. Within one major schema version, evolution is additive only;
 removal or semantic reinterpretation requires a new `vN`. `--jq` starts with
 `jaq-core` as the V3-02 candidate and never claims complete jq compatibility.
-The minimum frozen subset is identity, field/index access, array/object
-iteration and construction, slicing, pipe, `select`, `has`, and `length`;
+The normative grammar is retained at
+`csdlc-v3/contracts/jq-subset.v1.ebnf`; the prose summary is not grammar
+authority. V3-01 freezes exact lexical rules and this minimum production set:
+
+```ebnf
+expr       = pipe ;
+pipe       = term, { "|", term } ;
+term       = path | array | object | select | has | length ;
+path       = ".", [identifier], {".", identifier | index | iterate | slice} ;
+index      = "[", (integer | string), "]" ;
+iterate    = "[]" ;
+slice      = "[", [integer], ":", [integer], "]" ;
+array      = "[", [expr], "]" ;
+object     = "{", [pair, {",", pair}], "}" ;
+pair       = string, ":", expr ;
+select     = "select", "(", predicate, ")" ;
+predicate  = path, ("==" | "!=" | "<" | "<=" | ">" | ">="), literal ;
+has        = "has", "(", (string | integer), ")" ;
+length     = "length" ;
+literal    = string | number | "true" | "false" | "null" ;
+```
+
+This covers identity, field/index access, array/object iteration and
+construction, slicing, pipe, comparisons used by `select`, `has`, and `length`;
 V3-01 may remove a construct only before contract approval, and V3-02 may add
 one only through reviewed contract revision. The engine never spawns `jq` or a
 shell. The positive grammar is closed: every token, operator, function, and
@@ -1157,6 +1246,14 @@ discarded warm-up:
 | Local `doctor` p95 | at most 1 second |
 | Deterministic spike test suite | at most 30 seconds |
 | Authored production Rust for the slice | at most 2,500 lines |
+
+Direct-dependency counting uses enabled normal/build dependencies in the
+production package's resolved release feature set. Dev-only tools such as
+`tempfile` and the separately installed `cargo-deny` executable are excluded;
+optional crates count when the release feature set enables them. The narrow
+remaining headroom is intentional pressure on the spike. Exceeding 30 is a
+failed architecture target requiring reviewed revision, not an automatic
+waiver.
 
 Missing reference-host measurements, any exceeded threshold, or failure of the
 recovered-correction journey is a stop. V3-02 may recommend a revised
@@ -1422,6 +1519,10 @@ threshold; it cannot silently substitute a release.
 - V3-01 approval is blocked until the state-size artifact identifies the actual
   largest v2 bundle at `f1c01499`, records every measured blob and total, and
   passes the locked recomputation case; no unmeasured adequacy claim is allowed.
+- If that measurement makes the 10x block impractical for atomic state or
+  operator latency, V3-01 stops and returns to architecture review for a
+  versioned retention/compaction decision; it may neither lower the factor nor
+  proceed with an unbounded aggregate.
 - `--jq` accepts only the frozen supported subset; unsupported syntax fails
   with a typed usage error rather than partial or external execution.
 - The retained `adl.external_source_baseline.v1` manifest passes the VPP's
@@ -1737,6 +1838,11 @@ per-platform commit matrix (Decision 11).
 pre-network intent commit and post-readback reconciliation protocols,
 interruption matrix, per-platform sync/replacement safety matrix and harness,
 filesystem capability policy, and concurrency fixtures.
+
+`store/transaction.rs` owns lock/CAS/stage/sync/replace commit mechanics.
+`store/recovery.rs` is a pure classifier plus recovery-plan builder over
+observed canonical state, staging files, and durable intents; it cannot write
+directly and executes any selected repair through the transaction API.
 
 **Acceptance criteria:**
 

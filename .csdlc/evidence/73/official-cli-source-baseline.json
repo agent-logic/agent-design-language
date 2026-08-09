@@ -1,6 +1,7 @@
 {
   "schema": "adl.external_source_baseline.v1",
   "repository": "https://github.com/cli/cli",
+  "default_branch": "trunk",
   "revision": "9fc0f70e0ef97446de9166febce546e955675bc3",
   "capture_command": [
     "git",
