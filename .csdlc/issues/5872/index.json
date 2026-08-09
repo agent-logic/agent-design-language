@@ -4,13 +4,42 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "adf39c5606f55bcef0a49e3afbd97b581c1a51252903f99636d67694c7df4f40",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "143b11b68f5e5cd779f45891c7da50a767cc8b46baf69c9835fa4f5c51d8bb9e",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "c96c900e7f1d4e86a62596c4117155b0d83d5980440edbbb724675e00cbad0a5",
   "branch": "codex/5872-resource-weather",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5872-resource-weather",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/issue_79/child_fixture_analysis",
+    "assigned_by": "codex:issue-5872",
+    "revision": "git-blake3:204d1d734050b12845a1d03dc7f7816129185c04:bd38127e039a56b2c1e519a5d2d9552b95b872f86ded0e9032c992feeb73b6af",
+    "scope": [
+      "adl-runtime/src/distributed/resource_weather.rs",
+      "adl-runtime/tests/distributed_resource_weather.rs",
+      ".csdlc/evidence/5872/execution-proof.json",
+      ".csdlc/evidence/5872/negative-cases.json",
+      ".csdlc/evidence/5872/exact-child-tests.log",
+      ".csdlc/evidence/5872/exact-revision-proof-receipt.log"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/issue_79/child_fixture_analysis",
+    "scope": [
+      "adl-runtime/src/distributed/resource_weather.rs",
+      "adl-runtime/tests/distributed_resource_weather.rs",
+      ".csdlc/evidence/5872/execution-proof.json",
+      ".csdlc/evidence/5872/negative-cases.json",
+      ".csdlc/evidence/5872/exact-child-tests.log",
+      ".csdlc/evidence/5872/exact-revision-proof-receipt.log"
+    ],
+    "reviewed_revision": "git-blake3:204d1d734050b12845a1d03dc7f7816129185c04:bd38127e039a56b2c1e519a5d2d9552b95b872f86ded0e9032c992feeb73b6af",
+    "findings": [],
+    "residual_risks": [
+      "Stable-state path checks reject relative and symlinked components but do not claim race-free filesystem confinement; production registration and cross-child integration remain deferred to #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9dfa125a1d207fbd1c2ea58541e5027962e3bd52c0362fde03442ac16847a921",
+      "values_digest": "6dece519aa532c9c37d51180c7a14c7d287236ebc4bca15e459893fd85b5fadb",
       "rendered_digest": "e969f6a2648182a7f34556edf02f2c11dc5d6caf4edbd833292adfeee4cf5250",
       "ast_digest": "c6de336845178918ee8d75c882c9ae3a1df8f0ea3b5a7d09b3df6eb0f2525d1c"
     },
     "stp": {
-      "values_digest": "7d792d432bd53a969f0536ddab491ab8443203441f8a017dea656b40760741d0",
+      "values_digest": "7b745c5cea2beb388822066be0472d950ea962f1f02242a61a55f3afdd907e97",
       "rendered_digest": "378f4991754c4fed3e0aceba8d8794f007fbb9dbc222d0529c8299cbdc09c68f",
       "ast_digest": "c34da0ffa852649da90e4d70b6c6e5c2bb006e00fcd475e111e9a7cb0e951ad3"
     },
     "spp": {
-      "values_digest": "b727fdef97db436e80abd67c105983c649996b708031880c784070dbff45bba2",
+      "values_digest": "cf4bda1c9cd3466e80b9f555bd3feb6d1a6a4c06de58195a2636ecda5d418412",
       "rendered_digest": "cee45d603bce939f93f98478201ade8735a3142b2de1024b8e278a34365b0b20",
       "ast_digest": "ae708aac6b2c9088f83b570d1e029fc5b71739a3af0921404fe2eea51f97cab6"
     },
     "vpp": {
-      "values_digest": "0da9962a0bb07778b4e05010c2b01762ea97aca71d18e777a3e6647fd1fcbade",
+      "values_digest": "203817f3121b1d8be5948ecbfbdcafcda2b25e0fbce2a78761687a3a96f0b536",
       "rendered_digest": "446ef06c3d27a4e763226c5ac909de2f9a6929983859f5bb463349abb58180ed",
       "ast_digest": "214e97eb52f65a4cca55f57e7569e758e19e0fbaf2aa0dbd7e39427f26255b20"
     },
     "srp": {
-      "values_digest": "f4e9dc81b3259e53e95f417cdc84239a702910caafc1d850c2d532c86582bca5",
-      "rendered_digest": "ae75642b670b879f969ae9aab8ef944ccf1e4ab4276b04c9bfb545cea91253ec",
-      "ast_digest": "8b71811fb20bfbea6d77b4981603a496f30813e10a59f3ab8edbb5a4d6f7a331"
+      "values_digest": "ad3f24947fff716ee1729fe3bb47938f13f18f50fc65d8134922e8b171b20a3d",
+      "rendered_digest": "96e6225e7eb7b47395ac2c3c2d6fef1bff5cb809a5151ae03c0ca6f2324eb27f",
+      "ast_digest": "388a3ed842b72fac518edb57921aa5df44ece635c97ba3b8449474cbd0f1d308"
     },
     "sor": {
-      "values_digest": "df9e4834210c973c42933be37153d7420944f0052457d69d803bc42166b08458",
+      "values_digest": "c27a794d81e3b69dc8bf5f357c59e7413f9c14b22a374ae8a39543cf70879812",
       "rendered_digest": "6c9749b7ab8a41e54294356de65146ec67301f781467e54cff90cd41f9d6bcd1",
       "ast_digest": "d204487c7f4a9a62ff6a556a34a86c667a1df53dbed50af088748f1e80e09729"
     }
@@ -97,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:issue-5872",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5872",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -288,6 +324,20 @@
       "actor": "codex:issue-5872",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:issue-5872",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 11,
+      "actor": "codex:issue-5872",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
