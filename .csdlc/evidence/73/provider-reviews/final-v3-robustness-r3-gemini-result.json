@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786262387",
+      "duration_ms": 148136,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=4063]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 148137,
+  "request_id": "issue-73-gemini-final-r3-b639aa46",
+  "output_text": "### Findings\n\n**P1: Dependency Diagram and Textual Mismatch**\nThe Mermaid flowchart in the `Dependency Graph` section omits dependencies explicitly declared in the `Implementation Issue Plan` text. Specifically:\n* `V3-05` text lists `V3-01` (normalized parity/import schema) as a required dependency, but the diagram lacks a `P01 --> P05` edge.\n* `V3-09` text lists `V3-01` (command allowance policy) as a required dependency, but the diagram lacks a `P01 --> P09` edge. \nThis breaks verification criterion (8) and risks parallel-track planning execution blocking on unavailable V3-01 contracts.\n\n**P3: Ambiguous Fallback for Unsupported Windows Commits**\nIn the `Transaction Store` and `V3-08` sections, the document states Windows mutation remains \"fail-closed as unsupported\" if an atomic commit primitive is unproven, while reads remain available. It should explicitly state how CLI users interactively experience this (e.g., via a typed `ErrorCode::UnsupportedPlatform` rather than a generic read-only filesystem crash) to preserve the declared UX contract.\n\n---\n\n### Verification Assessment\n\n1. **Publication Modes Complete**: **Verified**. `Closing` and `PartOf` are strongly differentiated (`Publication, Watch, Finish, And Clean`, `V3-12`, `V3-14`). The architecture correctly ensures `PartOf` rejects closing keyword linkage, demands exact readback, and proves via `finish` (`V3-15`) that a checkpoint merge does not terminally close the parent issue.\n2. **Issue Plan Consistency (18 Specs + 1 Deferred)**: **Verified**. The plan scopes exactly 18 implementation issues (`V3-01` through `V3-16`, factoring in A/B splits) plus `V3-R01`. Aside from the P1 diagram omission, the text dependencies are logically sequenced.\n3. **Upstream `cli/cli` Portability**: **Verified**. The `Official GitHub CLI` section mandates a repository-relative JSON manifest (`.csdlc/evidence/73/official-cli-source-baseline.json`) containing exact Git objects, entirely decoupling proof validation from local operator machine paths.\n4. **Authoritative Capability Matrix**: **Verified**. `V3-01` centralizes the field/operation capability matrix. The architecture guarantees this single structure drives normal authoring, post-review recovery provenance (`V3-12`), invalidations, `doctor` guidance (`V3-10B`), and kernel exhaustive tests (`V3-07`). \n5. **Operator-Required Outcomes are Executable**: **Verified**. The `Lifecycle Kernel` section rigorously enforces that operator-required outcomes are not dead-end graph sinks. The matrix must define an executable typed transition, required authorization, and target state to resolve them.\n6. **Recovery Graph Proofs**: **Verified**. `V3-07` and `V3-10B` mandate property tests and reachability proofs guaranteeing that every supported recovery state has a valid, typed next operation, completely avoiding stranded records.\n7. **V3-02 Stop/Go Gate**: **Verified**. `V3-02` acts as a true gate, requiring a strict \"promote-or-discard disposition\" based on concrete execution measurements before `V3-03` foundation work is authorized.\n8. **Dependency Diagrams Match Text**: **FAILED**. (See P1 finding). The Mermaid diagram drops critical incoming edges from `V3-01` to `V3-05` and `V3-09`.\n9. **State Headroom, JQ, and Async Retry Specifications**: **Verified**.\n   * *Headroom*: `V3-01` mandates warning/blocking thresholds set at least 10x above the largest representative aggregate, without silent pruning.\n   * *JQ*: Restricted to a strictly versioned, in-process execution engine that rejects unsupported syntax (`V3-01`, `V3-03`).\n   * *Async-Init*: `App` container initialization (`Application Context`) enforces single-flight per generation execution with cooldown-bounded retries, completely ceasing on root cancellation.\n10. **Implementable without Excessive v2 Ceremony**: **Verified**. The architecture replaces 21 executables with one unified binary, safely jettisons standard request-file ceremony for CLI flags (`V3-10A`), and specifically bans migrating unmodified v2 entry-point code.\n\nDECISION: REQUEST_CHANGES",
+  "output_text_excerpt": "[redacted provider text len=4063]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-robustness-r3-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

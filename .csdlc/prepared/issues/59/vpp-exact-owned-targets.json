@@ -1,0 +1,26 @@
+{
+  "issue": 59,
+  "card": "vpp",
+  "expected_generation": 5,
+  "expected_digest": "4ce19145ba062619a03ee4c580b6accb884096a380598cf577f28cc9eef23c3d",
+  "actor": "codex:59-readiness-refresh",
+  "reason": "Keep repository validation executable and issue-specific while external product proof remains an upstream acceptance condition",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "issue-59-authority-packet-hygiene",
+        "proof_role": "Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the reviewed external-authority package.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git", "diff", "--check", "--", ".csdlc/prepared/issues/59/design.md", ".csdlc/prepared/issues/59/diagram.mmd", ".csdlc/issues/59/cards/stp.md", ".csdlc/issues/59/cards/vpp.md", ".csdlc/issues/59/cards/srp.md"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

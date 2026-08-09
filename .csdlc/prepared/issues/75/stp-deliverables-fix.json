@@ -1,0 +1,22 @@
+{
+  "issue": 75,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "87a7812e9b5a80d03475a57718726693bbc89263e7b3b02f6f62c6b7999a4a03",
+  "actor": "codex:75-readiness",
+  "reason": "Bind deliverables to concrete owned implementation and test targets",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/gate_finish.rs"
+    ]
+  },
+  "fail_after_backup": false
+}

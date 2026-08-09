@@ -1,0 +1,13 @@
+{
+  "issue": 5855,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "2adddc566b84e0ed3d487c87e46fa25d1660a59f873ebc5fd4dc981c1152b213",
+  "actor": "codex:5855-sprint2-closeout",
+  "reason": "Record completion of the validated Sprint 2 packet and child routing boundary.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "readiness",
+    "status": "completed"
+  }
+}

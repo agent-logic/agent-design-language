@@ -1,0 +1,7 @@
+{
+  "actor": "codex:sprint-2-closeout-remediation",
+  "expected_digest": "78540e51f00587e0fd44a2a6117ab08be4e0646ec1cff092bdf09c41a202da2e",
+  "expected_generation": 7,
+  "issue": 5855,
+  "reason": "Recover exact-head review truth to resolve F-5855-1 through F-5855-4 before publication."
+}

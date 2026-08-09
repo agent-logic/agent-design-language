@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786264857",
+      "duration_ms": 24782,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=534]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 24785,
+  "request_id": "issue-73-gemini-final-pass-8369faed",
+  "output_text": "The architecture document successfully implements all requested structural and safety corrections. The state transition definitions for `AsyncInit`, closed operator outcomes, exact bounding for watch/finish PR selection, jq lexical closures, and portable baselines are all explicitly addressed and well-aligned with the contract constraints. Diagram and text parity is fully resolved across all 18 implementation issues.\n\nThere are no P0-P2 defects remaining in this document. The specifications for the Rust construction spike (V3-02",
+  "output_text_excerpt": "[redacted provider text len=534]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-pass-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

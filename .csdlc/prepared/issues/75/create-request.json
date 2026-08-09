@@ -1,0 +1,49 @@
+{
+  "issue": 75,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:75-readiness",
+  "design_path": ".csdlc/prepared/issues/75/design.md",
+  "diagram_path": ".csdlc/prepared/issues/75/diagram.mmd",
+  "design_reviewer": "codex:75-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "C-SDLC v2 publish cannot represent non-closing incremental parent checkpoints",
+    "slug": "incremental-publication-linkage",
+    "version": "v0.92",
+    "goal": "Represent closing and non-closing publication linkage explicitly and safely.",
+    "required_outcome": "Publication accepts a typed closing or part_of mode, retains that mode through remote evidence, and never treats part_of as terminal issue authority.",
+    "declared_scope": ["csdlc-v2/src/publication.rs", "csdlc-v2/src/github.rs", "csdlc-v2/src/model.rs", "csdlc-v2/src/finish.rs", "csdlc-v2/src/schema.rs", "csdlc-v2/tests/gate6.rs", "csdlc-v2/tests/gate_finish.rs"],
+    "authority_boundary": ["GitHub remote PR state remains publication observation authority", "Only closing linkage may establish terminal issue authority", "Split-repository references must remain qualified"],
+    "operator_constraints": ["No AWS", "No shell or Python control plane", "Use COTS serde, schemars, and strum already present", "Run focused Rust tests only before publication"],
+    "task_boundary": "Add one typed publication linkage mode and carry it through publication, observation, evidence, and finish.",
+    "deliverables": ["Typed linkage enum and schema", "Exact same-repo and split-repo linkage validation", "Retained linkage evidence", "Finish fail-closed behavior for part_of", "Focused publication and finish regressions"],
+    "acceptance_criteria": ["AC-1: closing mode preserves current exact closing-keyword behavior", "AC-2: part_of accepts only an exact non-closing Part of reference", "AC-3: split-authority part_of references are repository-qualified", "AC-4: mixed, ambiguous, or mismatched linkage fails closed", "AC-5: intent, remote observation, and publication evidence retain linkage_mode", "AC-6: finish cannot close or terminalize an issue from part_of evidence", "AC-7: omitted mode remains compatible as closing"],
+    "dependencies": ["Current C-SDLC v2 publication and finish contracts"],
+    "repo_inputs": ["agent-logic/agent-design-language#75", "csdlc-v2/src/publication.rs", "csdlc-v2/src/github.rs", "csdlc-v2/src/finish.rs", "csdlc-v2/tests/gate6.rs", "csdlc-v2/tests/gate_finish.rs"],
+    "non_goals": ["Change GitHub issue migration", "Permit unqualified split-authority references", "Change ordinary closing PR behavior", "Add a second publication binary"],
+    "plan_summary": "Introduce a small strum-backed linkage enum, validate exact body syntax, retain it end to end, and prove terminal closeout remains closing-only.",
+    "steps": [
+      {"id":"S1","action":"Add linkage_mode to request, intent, evidence, schema, and compatibility decoding.","acceptance_ids":["AC-5","AC-7"],"status":"pending"},
+      {"id":"S2","action":"Implement exact closing and part_of body validation for same and split repository authority.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S3","action":"Carry observed mode through reconciliation and make finish reject non-closing terminal authority.","acceptance_ids":["AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Run focused publication and finish regressions and exact-head review.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"}
+    ],
+    "affected_areas": ["csdlc-v2/src/publication.rs", "csdlc-v2/src/github.rs", "csdlc-v2/src/model.rs", "csdlc-v2/src/finish.rs", "csdlc-v2/src/schema.rs", "csdlc-v2/tests/gate6.rs", "csdlc-v2/tests/gate_finish.rs"],
+    "invariants": ["Closing linkage stays fail closed", "Part of never closes", "Remote identity remains exact", "Schema output matches Rust types"],
+    "risks": ["Backward compatibility drift for existing requests", "A part_of PR accidentally becoming closeout authority", "Qualified linkage parsing accepting lookalikes"],
+    "planning_profile": "small",
+    "construction_budget_seconds": 10800,
+    "construction_budget_tokens": 60000,
+    "validation_budget_seconds": 1200,
+    "validation_budget_tokens": 12000,
+    "stop_conditions": ["Finish requires weakening terminal authority", "GitHub cannot expose enough evidence to distinguish modes", "Scope expands outside publication and finish contracts"],
+    "validation_lanes": [
+      {"lane":"publication-linkage","proof_role":"Prove typed mode parsing, same/split exact references, ambiguity rejection, compatibility default, and retained intent evidence.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":3000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate6"],"parallel_group":"focused","defer_reason":null},
+      {"lane":"finish-linkage","proof_role":"Prove only closing merged publication evidence may produce terminal issue authority.","acceptance_ids":["AC-5","AC-6"],"deterministic":true,"resource_profile":"small","budget_seconds":420,"budget_tokens":4000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate_finish"],"parallel_group":"focused","defer_reason":null},
+      {"lane":"schema","proof_role":"Prove the generated publication schemas include the typed linkage enum and compatibility default.","acceptance_ids":["AC-5","AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1500,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--lib","schema::tests"],"parallel_group":"focused","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on absent or ambiguous linkage, unqualified split authority, remote mismatch, or any part_of terminalization.",
+    "review_prompts": ["Can part_of ever reach terminal finish authority?", "Are same and split repository references exact and non-ambiguous?", "Does omitted mode preserve existing closing requests without weakening validation?"],
+    "review_scope": "Publication linkage types, exact parsing, retained evidence, remote reconciliation, finish authority, and focused tests only."
+  }
+}

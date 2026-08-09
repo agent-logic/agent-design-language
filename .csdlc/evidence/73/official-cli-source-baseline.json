@@ -1,0 +1,25 @@
+{
+  "schema": "adl.external_source_baseline.v1",
+  "repository": "https://github.com/cli/cli",
+  "default_branch": "trunk",
+  "revision": "9fc0f70e0ef97446de9166febce546e955675bc3",
+  "capture_command": [
+    "git",
+    "ls-tree",
+    "<revision>",
+    "--",
+    "<declared-paths>"
+  ],
+  "objects": [
+    { "path": "cmd/gen-docs/main.go", "kind": "blob", "oid": "cb76f422087750b56fad0b9f336ce5734981c84e" },
+    { "path": "cmd/gh/main.go", "kind": "blob", "oid": "e167bc6f4a51e642821bc627c6553773c61448fd" },
+    { "path": "internal/ghcmd/cmd.go", "kind": "blob", "oid": "b7e15bd5f4ecd31c3cc043b2f092b9be3002f257" },
+    { "path": "pkg/cmd/factory/default.go", "kind": "blob", "oid": "cc10075f203e0f8855b56d37eb0421305fc12b99" },
+    { "path": "pkg/cmd/issue/list/list.go", "kind": "blob", "oid": "1fe607193cdbd0b2351e021130e2cee1c1692ac4" },
+    { "path": "pkg/cmd/root/root.go", "kind": "blob", "oid": "df90bb249f989a5f7133ca9732cddfd53ef5af98" },
+    { "path": "pkg/cmdutil/errors.go", "kind": "blob", "oid": "edb97abcdb29d7a9edc6988715f559bbf659f50f" },
+    { "path": "pkg/cmdutil/factory.go", "kind": "blob", "oid": "200314038b2681e011ebc67a2dfc6e96c6e3e3d6" },
+    { "path": "pkg/httpmock/registry.go", "kind": "blob", "oid": "b7c5a117df8d187d26fd6b49ce7a45a299a4e537" },
+    { "path": "pkg/iostreams/iostreams.go", "kind": "blob", "oid": "429cadda891036722e7305d8107e26f079446812" }
+  ]
+}

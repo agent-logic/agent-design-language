@@ -1,0 +1,62 @@
+{
+  "actor": "openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812",
+  "expected_digest": "ce4decddddff12e48ab965ac6ff0b7b7f0d7c8fd9f996f3192e9721a9b96335d",
+  "expected_generation": 6,
+  "issue": 5855,
+  "evidence": {
+    "completed": true,
+    "findings": [
+      {
+        "actionable": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "id": "F-5855-1",
+        "in_scope": true,
+        "route": null,
+        "severity": "p1",
+        "summary": "Declared #5795/#5832 dependency order contradicts actual merge ancestry."
+      },
+      {
+        "actionable": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "id": "F-5855-2",
+        "in_scope": true,
+        "route": null,
+        "severity": "p1",
+        "summary": "Closeout validator does not bind retained terminal event fields to exact PR, head, merge, closure, and ancestry truth."
+      },
+      {
+        "actionable": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "id": "F-5855-3",
+        "in_scope": true,
+        "route": null,
+        "severity": "p2",
+        "summary": "Typed SIP and STP scope still includes excluded issue #5837."
+      },
+      {
+        "actionable": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "id": "F-5855-4",
+        "in_scope": true,
+        "route": null,
+        "severity": "p2",
+        "summary": "Human closeout review overstates completion before typed review, publication, and terminal truth exist."
+      }
+    ],
+    "non_substantive_proof": null,
+    "residual_risks": [],
+    "reviewed_revision": "git-blake3:8acd973308fd0c2009708929ccbd9dcc2240c9ae:c6f8d4fa3bcaa130e164ab6db9bff8671e4122cab41dd281901e05922bf0c7a3",
+    "reviewer": "openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812",
+    "scope": [
+      ".csdlc/issues/5855",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+      ".csdlc/evidence/5855"
+    ]
+  }
+}

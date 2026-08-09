@@ -1,0 +1,6 @@
+{"event":"child_terminal","issue":5800,"pull_request":9,"head_sha":"c172b2b109d516f80aa27e8088295747b398e6c4","merge_sha":"7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f","issue_state":"closed","merge_ancestral_to_origin_main":true}
+{"event":"child_terminal","issue":5820,"pull_request":28,"head_sha":"93641db996f2409baf94be2e9e6f27bb1ec9039b","merge_sha":"b5bcfdfc13a6f454a715cbb9aa64e24bce3b7ba6","issue_state":"closed","merge_ancestral_to_origin_main":true}
+{"event":"child_terminal","issue":5821,"pull_request":39,"head_sha":"a8309a776fd78c0741bf108602be6c5dd28d4cd8","merge_sha":"0ea81fd61b0bf598ece4ce368ae5cf1a1923127c","issue_state":"closed","merge_ancestral_to_origin_main":true}
+{"event":"child_terminal","issue":5795,"pull_request":72,"head_sha":"7a26886c47962e71c128489f5176a045ae8e9a64","merge_sha":"094797b6fe4be52549f447b0b7e513892c060436","issue_state":"closed","merge_ancestral_to_origin_main":true}
+{"event":"child_terminal","issue":5832,"pull_request":76,"head_sha":"23df2bab4373434c9020f0c40f772f71aef2917c","merge_sha":"a5021ab7e9bff220021e3600fa51b4f0848f5524","issue_state":"closed","merge_ancestral_to_origin_main":true}
+{"event":"membership_reconciled","issue":5855,"removed":[5837],"independent_follow_ons":[5837,83,84],"reason":"Operator removed Observatory implementation from Sprint 2; HTML and Unity work were split for independent execution."}

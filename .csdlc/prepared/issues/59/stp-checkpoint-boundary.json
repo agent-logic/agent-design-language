@@ -1,0 +1,14 @@
+{
+  "issue": 59,
+  "card": "stp",
+  "expected_generation": 6,
+  "expected_digest": "581e921c4794c77885e844a03126b47afbc9c0cf6ebc3a017a0de73dc4e45f38",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Authorize only a non-closing authority-routing checkpoint after issue 75 supplies typed part_of linkage",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Publish the reviewed external-authority routing packet as a non-closing checkpoint using typed part_of linkage; do not implement or claim the Codex platform fix in ADL."
+  },
+  "fail_after_backup": false
+}
