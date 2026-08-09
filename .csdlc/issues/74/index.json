@@ -3,47 +3,14 @@
   "issue": 74,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
-  "phase": "published",
-  "generation": 10,
-  "digest": "178a4605ad041954cd6a5e50edb2944dd0b33cd47ddbb6adb69cb4560f0260e3",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "520dd58cbee72c0fd348d8f76eee5dab869387323adc0dd24950debf1ab8f532",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
-  "review_assignment": {
-    "reviewer": "subagent:74-exact-head-rereview",
-    "assigned_by": "codex:74-implementation",
-    "revision": "git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be",
-    "scope": [
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/74",
-      ".csdlc/prepared/issues/74"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:74-exact-head-rereview",
-    "scope": [
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/74",
-      ".csdlc/prepared/issues/74"
-    ],
-    "reviewed_revision": "git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be",
-    "findings": [],
-    "residual_risks": [
-      "This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 74,
-    "pull_request": 80,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/80",
-    "base": "main",
-    "head": "codex/74-stale-claim-topology-regression",
-    "revision": "git-blake3:55399e7a349097a189ff2c9a87a4121a850639f2:e696223e651ccb1bb9f7bdaf8ddd14e20a17e2722563dfecddc1d8c3e325f1a2",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -57,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e32ec25628434f71748c472fcf30767f47ca0b23231c4526f0583679a8a052e1",
+      "values_digest": "df1bc6392e8170c9a1b35f03768c1fa6b7df57a4015c5f44c150ce4695de3418",
       "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
       "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
     },
     "stp": {
-      "values_digest": "7885437aecf314b8e3e1ecbcecc5339a4ecbdc135389091bcf926c315187caef",
+      "values_digest": "61e3b7aeb2f5edc797e5b17e0901d1cb574062e45b4183950a1cab745074f0da",
       "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
       "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
     },
     "spp": {
-      "values_digest": "8315c743d561df317c9d9e44a05ca7494a6e991e31c502b9c8905db42c55c642",
-      "rendered_digest": "7afe725ae340004228f24f6962ab57296d10ba562ffd1df5a1b84c43b7c54be5",
-      "ast_digest": "f2f275c834510f1422be245a58b58c0c9861bfde818117ecd083e048b164e3ed"
+      "values_digest": "d6be85df969bc5bfbd44d5b5dbe7039181e9466860038bffded79041da45afb2",
+      "rendered_digest": "8edfba55bdc2f54cee7cc11fe1504d98794e9572932f0c7ff22d71dfb3c6ddaa",
+      "ast_digest": "878ba9e971dbb462c5db1f1dce666b4a39ee0b9dc03b5f3b681057a2ae806aef"
     },
     "vpp": {
-      "values_digest": "a7162a9edd007b364e70c267f4394c2c28f27ef705e7b22abf4e3c57c9d2ad91",
+      "values_digest": "9a6654aa0451ca0cffd3668060c5ef0db27831e6fa1f01b86a90e86e50ab2bf8",
       "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "0ed6a021ed32ab2fc5eae129512a69b1acbdb2cb97862656c0327b8b6b7a2f4d",
-      "rendered_digest": "d28cc38404cc17a35dfd9f037f52fe3d88c46672794eec9c587e0a3e2574c0ec",
-      "ast_digest": "4ad8fc36dca7557f8aedd7b23f1f064014c0bd7e687604a6b78a58f4524c15f4"
+      "values_digest": "24499a12fe97df8982a0e834b25076d30cf763b3ba521a4dad16ca929daccc71",
+      "rendered_digest": "8bc12b5f893c02d26e26e713ffcdcad094ffb4c0fdbb3077b5f715cbcc1aaba0",
+      "ast_digest": "5019e1b288db370ec49978e4fbe71b58e085ef8253986a24e21e34d56060c92e"
     },
     "sor": {
-      "values_digest": "9860655cf4dde24d844ceed8a8a39830622b2b2a1c91544f376201314a0288b6",
-      "rendered_digest": "742812ede59967db446789aaf4135b2379aacd32f1442d09979f5e32904d6989",
-      "ast_digest": "53c7a5a06f539d130765bf0c01478020b73d0190dc750700caf05045ce485539"
+      "values_digest": "38d3037d1c3dab6da5a66b2afde6156c2808bf4d546a4ee4c034d6a8a9e7c126",
+      "rendered_digest": "ec8ee9427083e33d86a6e9c464031808d751af14c26e0c38b8140da7b1fe0bfe",
+      "ast_digest": "46f0e49688abd48bd2d69edbadbfa096755da925ebc4ac38bf01bb5113fd9ae8"
     }
   },
   "transitions": [
@@ -136,6 +103,13 @@
       "to": "published",
       "actor": "codex:74-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:74-regression-repair",
+      "reason": "Issue #74 was reopened after the original regression test proved only a different-issue stale projection. Recover to implemented so the same-issue pre-topology projection failure can be fixed and reviewed."
     }
   ],
   "audit": [
@@ -236,6 +210,69 @@
       "actor": "codex:74-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:74-regression-repair",
+      "reason": "Issue #74 was reopened after the original regression test proved only a different-issue stale projection. Recover to implemented so the same-issue pre-topology projection failure can be fixed and reviewed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:74-regression-repair",
+      "reason": "Correct the plan to reproduce the reported same-issue pre-topology projection rather than only a different-issue stale record.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Reproduce real csdlc-bind with a stale same-issue projection whose retired claim field is present but whose branch and worktree ownership fields are absent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Skip strict decoding only for projections with no branch or worktree topology authority while preserving strict verification for live same-issue, branch, and worktree collisions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run the focused Gate 2 real-binary regression and strict clippy validation from the issue worktree.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Obtain bounded exact-head review, publish the repair PR, and shepherd required checks without merging.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:74-regression-repair",
+      "reason": "Record the production correction for the exact same-issue pre-topology projection failure.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed csdlc-bind so stale same-issue projections without Git topology authority are skipped before strict current-schema decoding.\",\"changes\":[\"Moved the no-branch/no-worktree decision ahead of strict IssueRecord deserialization in the topology scan.\",\"Added a real-binary regression with a second registered worktree containing a same-issue legacy claim projection.\",\"Kept strict decoding and collision rejection for every projection that declares branch or worktree authority.\"],\"artifacts\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:74-regression-repair",
+      "reason": "Record the complete Gate 2 proof for the same-issue topology correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the exact same-issue stale projection succeeds without mutation while relevant corruption and genuine issue, branch, and worktree collisions remain fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-74-regression-gate2:5-passed\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:74-regression-repair",
+      "reason": "Record strict compilation and lint proof for the topology correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject compilation, ownership, error-path, test, and lint regressions across the C-SDLC v2 package.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-74-regression-strict-clippy:passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:74-regression-repair",
+      "reason": "The exact same-issue pre-topology claim projection is reproduced in the real-binary Gate 2 fixture.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:74-regression-repair",
+      "reason": "The topology scanner now skips only projections with no branch or worktree authority before strict decoding.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:74-regression-repair",
+      "reason": "All five Gate 2 tests, strict all-target clippy, formatting, card validation, and diff hygiene pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:74-regression-repair",
+      "reason": "Implementation and focused proof are complete; exact-head review and publication remain.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "issue": 74,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "4781fb0a125af0943ef2636b2fe31df9833573d7eeb1a72d7d9f6b89bdeb2f58",
+  "actor": "codex:74-regression-repair",
+  "reason": "Implementation and focused proof are complete; exact-head review and publication remain.",
+  "operation": {"operation": "update_plan_step", "step_id": "S4", "status": "in_progress"},
+  "fail_after_backup": false
+}

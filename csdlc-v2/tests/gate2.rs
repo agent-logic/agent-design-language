@@ -1911,6 +1911,48 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         ],
     );
     create_focused_issue(&success_worktree, temp.path(), 42);
+
+    // Reproduce the original report exactly: another registered worktree
+    // retains a pre-topology projection for the same issue. It contains the
+    // retired claim field but declares no branch or worktree authority.
+    let stale_same_issue_worktree = temp.path().join("same-issue-stale-worktree");
+    git(
+        &success_repo,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "stale-same-issue-42",
+            &stale_same_issue_worktree.to_string_lossy(),
+            "main",
+        ],
+    );
+    copy_directory(
+        &success_worktree.join(".csdlc/issues/42"),
+        &stale_same_issue_worktree.join(".csdlc/issues/42"),
+    );
+    let stale_same_issue_index = stale_same_issue_worktree.join(".csdlc/issues/42/index.json");
+    let mut stale_same_issue: serde_json::Value = serde_json::from_slice(
+        &fs::read(&stale_same_issue_index).expect("read stale same-issue index"),
+    )
+    .expect("parse stale same-issue index");
+    stale_same_issue
+        .as_object_mut()
+        .expect("same-issue index object")
+        .remove("branch");
+    stale_same_issue
+        .as_object_mut()
+        .expect("same-issue index object")
+        .remove("worktree");
+    stale_same_issue["claim"] = serde_json::json!({
+        "owner": "retired-preparation-session",
+        "lease": "released"
+    });
+    let stale_same_issue_with_claim =
+        serde_json::to_vec_pretty(&stale_same_issue).expect("serialize stale same-issue index");
+    fs::write(&stale_same_issue_index, &stale_same_issue_with_claim)
+        .expect("write stale same-issue index");
+
     let retained_5791 = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .expect("repository root")
@@ -1975,6 +2017,11 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         fs::read(&foreign_index_path).expect("reread foreign issue index"),
         foreign_index_with_claim,
         "bind must not rewrite an unrelated legacy claim-bearing projection"
+    );
+    assert_eq!(
+        fs::read(&stale_same_issue_index).expect("reread stale same-issue index"),
+        stale_same_issue_with_claim,
+        "bind must not rewrite a same-issue projection with no topology authority"
     );
 
     // The same retired field remains corruption when it appears on a relevant

@@ -1,0 +1,38 @@
+{
+  "issue": 74,
+  "card": "spp",
+  "expected_generation": 11,
+  "expected_digest": "87ab936e5f4f522a98f3b1433b3fff0178560b0af6e407547a5e090891e1792b",
+  "actor": "codex:74-regression-repair",
+  "reason": "Correct the plan to reproduce the reported same-issue pre-topology projection rather than only a different-issue stale record.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Reproduce real csdlc-bind with a stale same-issue projection whose retired claim field is present but whose branch and worktree ownership fields are absent.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Skip strict decoding only for projections with no branch or worktree topology authority while preserving strict verification for live same-issue, branch, and worktree collisions.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Run the focused Gate 2 real-binary regression and strict clippy validation from the issue worktree.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Obtain bounded exact-head review, publish the repair PR, and shepherd required checks without merging.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      }
+    ]
+  },
+  "fail_after_backup": false
+}
