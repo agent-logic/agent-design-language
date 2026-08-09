@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/tests/gate2.rs
+.csdlc/issues/74
+.csdlc/prepared/issues/74
 
 ## Prompts
 

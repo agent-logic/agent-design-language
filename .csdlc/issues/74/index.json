@@ -5,10 +5,19 @@
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
   "phase": "implemented",
   "generation": 8,
-  "digest": "80753599d9f7324fb53b75fb9d63e759c39aaa61dfbef3441530b763f13edda2",
+  "digest": "ce229b830720461e19ee0c4a2612e8e52a2835977b3b95267ee70f46ad669887",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:74-exact-head-rereview",
+    "assigned_by": "codex:74-implementation",
+    "revision": "git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be",
+    "scope": [
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/74",
+      ".csdlc/prepared/issues/74"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "061f11494453bf70a92351c7bd891535f20e3a445c373e84a354b34adee27894",
-      "rendered_digest": "8bc12b5f893c02d26e26e713ffcdcad094ffb4c0fdbb3077b5f715cbcc1aaba0",
-      "ast_digest": "5019e1b288db370ec49978e4fbe71b58e085ef8253986a24e21e34d56060c92e"
+      "values_digest": "f8abc534eaf9da8ae48381e6e6cec0edf1e9d5291eccb7f25d0e1595dcdea3d5",
+      "rendered_digest": "6a8e91fb3d805c9531da01fb424d78b377e0c54908edc2ee081477dd1005fdac",
+      "ast_digest": "6836722620e42ae4d25e63eb7363941b96b4ced2eef313e0ffc8918624d31bef"
     },
     "sor": {
       "values_digest": "2bbc1602c2318f70bc3aa6ad1fe8c38c93f3d5799ecb7b2edab060129296ef99",
@@ -168,6 +177,13 @@
       "actor": "codex:74-implementation",
       "reason": "Remove tracked operational review requests and reassess the clean final publication surface.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:74-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
