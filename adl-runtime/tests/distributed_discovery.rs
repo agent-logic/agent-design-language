@@ -1,0 +1,694 @@
+// PVF: lane=exact-child-tests; proof=bounded authenticated discovery over real Quinn/rustls;
+// deterministic=true; resource_profile=medium; release_gate=true; nonzero selection required.
+#[allow(dead_code)]
+#[path = "../src/distributed/certificates.rs"]
+mod certificates;
+#[path = "../src/distributed/discovery.rs"]
+mod discovery;
+#[allow(dead_code)]
+#[path = "../src/distributed/transport.rs"]
+mod transport;
+
+use std::{
+    collections::BTreeMap,
+    net::Ipv4Addr,
+    sync::Arc,
+    time::{Duration, SystemTime, UNIX_EPOCH},
+};
+
+use certificates::{
+    AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
+    CertificateValidity, DistributedCertificateStore,
+};
+use discovery::{
+    accept_proposal, discover, encode_proposal, encode_request, propose_join,
+    AuthenticatedEnvelope, DiscoveryError, DiscoveryPolicy, EnrolledPeer, EnrollmentAuthority,
+    JoinRequest, ProposalReplayGuard, ProposedRole, RequestValidity, SeedEndpoint,
+};
+use ed25519_dalek::{SigningKey, VerifyingKey};
+use rcgen::{
+    BasicConstraints, CertificateParams, CertifiedIssuer, ExtendedKeyUsagePurpose, IsCa, KeyPair,
+    KeyUsagePurpose, PKCS_ED25519,
+};
+use rustls::pki_types::{CertificateDer, PrivateKeyDer, PrivatePkcs8KeyDer};
+use tokio_util::sync::CancellationToken;
+use transport::{
+    client_endpoint, server_endpoint, AuthenticatedConnection, ConnectionSecurity, PeerBinding,
+    TransportAuthorization, TransportLimits,
+};
+
+const DOMAIN: &str = "polis.example";
+const SERVER_NODE: &str = "node-server";
+const SERVER_GUARDIAN: &str = "guardian-server";
+const CLIENT_NODE: &str = "node-client";
+const CLIENT_GUARDIAN: &str = "guardian-client";
+
+#[derive(Default)]
+struct MemoryAuthority(BTreeMap<String, EnrolledPeer>);
+
+impl MemoryAuthority {
+    fn with(peers: impl IntoIterator<Item = EnrolledPeer>) -> Self {
+        Self(
+            peers
+                .into_iter()
+                .map(|peer| (peer.node_id.clone(), peer))
+                .collect(),
+        )
+    }
+}
+
+impl EnrollmentAuthority for MemoryAuthority {
+    fn enrollment(&self, node_id: &str) -> discovery::DiscoveryResult<Option<EnrolledPeer>> {
+        Ok(self.0.get(node_id).cloned())
+    }
+}
+
+fn peer(node_id: &str, guardian_id: &str) -> EnrolledPeer {
+    EnrolledPeer {
+        trust_domain: DOMAIN.to_owned(),
+        node_id: node_id.to_owned(),
+        guardian_id: guardian_id.to_owned(),
+        identity_generation: 1,
+        transport_certificate_generation: 1,
+    }
+}
+
+fn policy(timeout: Duration) -> DiscoveryPolicy {
+    DiscoveryPolicy::new(DOMAIN, 1, timeout)
+        .unwrap()
+        .with_bounds(5, 60, 4096)
+        .unwrap()
+}
+
+fn request(now: u64) -> JoinRequest {
+    JoinRequest::new(
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+        1,
+        [17; 32],
+        RequestValidity {
+            issued_at_unix_secs: now,
+            expires_at_unix_secs: now + 30,
+        },
+    )
+}
+
+fn envelope(node: &str, guardian: &str, payload: Vec<u8>) -> AuthenticatedEnvelope {
+    AuthenticatedEnvelope {
+        trust_domain: DOMAIN.to_owned(),
+        node_id: node.to_owned(),
+        guardian_id: guardian.to_owned(),
+        protocol_version: 1,
+        certificate_generation: 1,
+        payload,
+    }
+}
+
+struct EndpointMaterial {
+    certificate: CertificateDer<'static>,
+    private_key: PrivateKeyDer<'static>,
+    subject_public_key: VerifyingKey,
+}
+
+fn certificate_authority() -> CertifiedIssuer<'static, KeyPair> {
+    let mut params = CertificateParams::new(Vec::<String>::new()).unwrap();
+    params.is_ca = IsCa::Ca(BasicConstraints::Unconstrained);
+    params.key_usages = vec![
+        KeyUsagePurpose::KeyCertSign,
+        KeyUsagePurpose::DigitalSignature,
+        KeyUsagePurpose::CrlSign,
+    ];
+    CertifiedIssuer::self_signed(params, KeyPair::generate().unwrap()).unwrap()
+}
+
+fn leaf(
+    issuer: &CertifiedIssuer<'_, KeyPair>,
+    name: &str,
+    usage: ExtendedKeyUsagePurpose,
+) -> EndpointMaterial {
+    let mut params = CertificateParams::new(vec![name.to_owned()]).unwrap();
+    params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+    params.extended_key_usages = vec![usage];
+    let key = KeyPair::generate_for(&PKCS_ED25519).unwrap();
+    let subject_public_key =
+        VerifyingKey::from_bytes(key.public_key_raw().try_into().unwrap()).unwrap();
+    let certificate = params.signed_by(&key, issuer).unwrap().der().clone();
+    EndpointMaterial {
+        certificate,
+        private_key: PrivatePkcs8KeyDer::from(key.serialize_der()).into(),
+        subject_public_key,
+    }
+}
+
+fn now() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_secs()
+}
+
+fn certificate_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
+    let root = SigningKey::from_bytes(&[91; 32]);
+    let certificate_policy = CertificatePolicy::new(DOMAIN, [root.verifying_key()])
+        .unwrap()
+        .with_bounds(3600, 60, 60, 64, 64)
+        .unwrap();
+    let directory = tempfile::tempdir().unwrap();
+    let database = directory
+        .path()
+        .canonicalize()
+        .unwrap()
+        .join("certificates.redb");
+    let store = DistributedCertificateStore::open(database, certificate_policy).unwrap();
+    let _ = directory.keep();
+    (Arc::new(store), root)
+}
+
+fn transport_authorization(
+    store: &Arc<DistributedCertificateStore>,
+    root: &SigningKey,
+    holder: &str,
+    subject_public_key: VerifyingKey,
+) -> TransportAuthorization {
+    let issued_at = now().saturating_sub(1);
+    let body = CertificateBody::new(
+        DOMAIN,
+        holder,
+        CertificatePurpose::Transport,
+        1,
+        CertificateValidity {
+            issued_at_unix_secs: issued_at,
+            expires_at_unix_secs: issued_at + 300,
+        },
+        subject_public_key,
+        &root.verifying_key(),
+    );
+    let certificate = AuthorityCertificate::issue(body, root).unwrap();
+    store.activate(&certificate, now()).unwrap();
+    TransportAuthorization::new(store.clone(), &certificate).unwrap()
+}
+
+fn transport_limits() -> TransportLimits {
+    TransportLimits::bounded(4096, 4, Duration::from_secs(3), Duration::from_secs(30)).unwrap()
+}
+
+struct ConnectedPair {
+    server: Arc<AuthenticatedConnection>,
+    client: Arc<AuthenticatedConnection>,
+    server_endpoint: quinn::Endpoint,
+    client_endpoint: quinn::Endpoint,
+}
+
+async fn connected_pair() -> ConnectedPair {
+    let issuer = certificate_authority();
+    let root_certificate = issuer.der().clone();
+    let server_material = leaf(&issuer, "localhost", ExtendedKeyUsagePurpose::ServerAuth);
+    let client_material = leaf(&issuer, "client", ExtendedKeyUsagePurpose::ClientAuth);
+    let server_binding = PeerBinding::new(
+        &server_material.certificate,
+        DOMAIN,
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+        1,
+    )
+    .unwrap();
+    let client_binding = PeerBinding::new(
+        &client_material.certificate,
+        DOMAIN,
+        CLIENT_NODE,
+        CLIENT_GUARDIAN,
+        1,
+        1,
+    )
+    .unwrap();
+    let (store, root) = certificate_store();
+    let server_authorization = transport_authorization(
+        &store,
+        &root,
+        SERVER_NODE,
+        server_material.subject_public_key,
+    );
+    let client_authorization = transport_authorization(
+        &store,
+        &root,
+        CLIENT_NODE,
+        client_material.subject_public_key,
+    );
+    let limits = transport_limits();
+    let server_endpoint = server_endpoint(
+        (Ipv4Addr::LOCALHOST, 0).into(),
+        vec![server_material.certificate],
+        server_material.private_key,
+        std::slice::from_ref(&root_certificate),
+        &limits,
+    )
+    .unwrap();
+    let client_endpoint = client_endpoint(
+        (Ipv4Addr::LOCALHOST, 0).into(),
+        vec![client_material.certificate],
+        client_material.private_key,
+        &[root_certificate],
+        &limits,
+    )
+    .unwrap();
+    let server_address = server_endpoint.local_addr().unwrap();
+    let (server, client) = tokio::join!(
+        AuthenticatedConnection::accept(
+            &server_endpoint,
+            ConnectionSecurity::new(
+                server_binding.clone(),
+                client_binding.clone(),
+                server_authorization.clone(),
+                client_authorization.clone(),
+                limits.clone(),
+                CancellationToken::new(),
+            )
+            .unwrap(),
+        ),
+        AuthenticatedConnection::connect(
+            &client_endpoint,
+            server_address,
+            "localhost",
+            ConnectionSecurity::new(
+                client_binding,
+                server_binding,
+                client_authorization,
+                server_authorization,
+                limits,
+                CancellationToken::new(),
+            )
+            .unwrap(),
+        ),
+    );
+    ConnectedPair {
+        server: Arc::new(server.unwrap()),
+        client: Arc::new(client.unwrap()),
+        server_endpoint,
+        client_endpoint,
+    }
+}
+
+#[tokio::test]
+async fn real_quinn_rustls_discovery_returns_deterministic_non_voting_proposal() {
+    let pair = connected_pair().await;
+    let authority = Arc::new(MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]));
+    let configured_policy = policy(Duration::from_secs(2));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let seed = SeedEndpoint::new(
+        pair.server_endpoint.local_addr().unwrap(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    let server = pair.server.clone();
+    let server_authority = authority.clone();
+    let server_policy = configured_policy.clone();
+    let server_task = tokio::spawn(async move {
+        let received = server.receive().await.unwrap();
+        let authenticated = AuthenticatedEnvelope {
+            trust_domain: received.trust_domain,
+            node_id: received.node_id,
+            guardian_id: received.guardian_id,
+            protocol_version: received.protocol_version,
+            certificate_generation: received.certificate_generation,
+            payload: received.payload,
+        };
+        let proposal = propose_join(
+            &authenticated,
+            &peer(SERVER_NODE, SERVER_GUARDIAN),
+            server_authority.as_ref(),
+            &server_policy,
+            timestamp,
+        )
+        .unwrap();
+        let payload = encode_proposal(&proposal, &server_policy).unwrap();
+        server.send(1, payload).await.unwrap();
+        proposal
+    });
+    let client = pair.client.clone();
+    let accepted = discover(
+        std::slice::from_ref(&seed),
+        &join_request,
+        authority.as_ref(),
+        &configured_policy,
+        &CancellationToken::new(),
+        timestamp,
+        move |_seed, bytes| {
+            let client = client.clone();
+            async move {
+                client
+                    .send(1, bytes)
+                    .await
+                    .map_err(|_| DiscoveryError::Transport)?;
+                let received = client
+                    .receive()
+                    .await
+                    .map_err(|_| DiscoveryError::Transport)?;
+                Ok(AuthenticatedEnvelope {
+                    trust_domain: received.trust_domain,
+                    node_id: received.node_id,
+                    guardian_id: received.guardian_id,
+                    protocol_version: received.protocol_version,
+                    certificate_generation: received.certificate_generation,
+                    payload: received.payload,
+                })
+            }
+        },
+    )
+    .await
+    .unwrap();
+    let proposed_by_server = server_task.await.unwrap();
+    assert_eq!(accepted, proposed_by_server);
+    assert_eq!(accepted.proposed_role, ProposedRole::NonVoting);
+    assert_eq!(accepted.candidate_node_id, CLIENT_NODE);
+    drop(pair.client_endpoint);
+}
+
+#[test]
+fn configured_seed_identity_is_not_enrollment_authority() {
+    let configured_policy = policy(Duration::from_millis(50));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 4444).into(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    let full_authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    let proposal = propose_join(
+        &envelope(
+            CLIENT_NODE,
+            CLIENT_GUARDIAN,
+            encode_request(&join_request, &configured_policy).unwrap(),
+        ),
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        &full_authority,
+        &configured_policy,
+        timestamp,
+    )
+    .unwrap();
+    let response = envelope(
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        encode_proposal(&proposal, &configured_policy).unwrap(),
+    );
+    let requester_only = MemoryAuthority::with([peer(CLIENT_NODE, CLIENT_GUARDIAN)]);
+    let error = accept_proposal(
+        &seed,
+        &join_request,
+        &response,
+        &requester_only,
+        &configured_policy,
+        &mut ProposalReplayGuard::new(1).unwrap(),
+        timestamp,
+    )
+    .unwrap_err();
+    assert_eq!(error, DiscoveryError::PeerNotEnrolled);
+}
+
+#[test]
+fn stale_wrong_domain_and_replayed_proposals_fail_closed() {
+    let configured_policy = policy(Duration::from_millis(50));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    let seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 4444).into(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    let proposal = propose_join(
+        &envelope(
+            CLIENT_NODE,
+            CLIENT_GUARDIAN,
+            encode_request(&join_request, &configured_policy).unwrap(),
+        ),
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        &authority,
+        &configured_policy,
+        timestamp,
+    )
+    .unwrap();
+    let response = envelope(
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        encode_proposal(&proposal, &configured_policy).unwrap(),
+    );
+    let mut replay = ProposalReplayGuard::new(1).unwrap();
+    accept_proposal(
+        &seed,
+        &join_request,
+        &response,
+        &authority,
+        &configured_policy,
+        &mut replay,
+        timestamp,
+    )
+    .unwrap();
+    assert_eq!(
+        accept_proposal(
+            &seed,
+            &join_request,
+            &response,
+            &authority,
+            &configured_policy,
+            &mut replay,
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::Replay
+    );
+    assert_eq!(
+        accept_proposal(
+            &seed,
+            &join_request,
+            &response,
+            &authority,
+            &configured_policy,
+            &mut ProposalReplayGuard::new(1).unwrap(),
+            timestamp + 31,
+        )
+        .unwrap_err(),
+        DiscoveryError::RequestExpired
+    );
+    let mut wrong_domain = response;
+    wrong_domain.trust_domain = "other.example".to_owned();
+    assert_eq!(
+        accept_proposal(
+            &seed,
+            &join_request,
+            &wrong_domain,
+            &authority,
+            &configured_policy,
+            &mut ProposalReplayGuard::new(1).unwrap(),
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::WrongDomain
+    );
+}
+
+#[test]
+fn proposal_derivation_is_deterministic_and_future_requests_fail_closed() {
+    let configured_policy = policy(Duration::from_millis(50));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    let authenticated = envelope(
+        CLIENT_NODE,
+        CLIENT_GUARDIAN,
+        encode_request(&join_request, &configured_policy).unwrap(),
+    );
+    let first = propose_join(
+        &authenticated,
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        &authority,
+        &configured_policy,
+        timestamp,
+    )
+    .unwrap();
+    let second = propose_join(
+        &authenticated,
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        &authority,
+        &configured_policy,
+        timestamp,
+    )
+    .unwrap();
+    assert_eq!(first, second);
+    assert_eq!(first.proposed_role, ProposedRole::NonVoting);
+
+    let future = request(timestamp + 6);
+    let future_envelope = envelope(
+        CLIENT_NODE,
+        CLIENT_GUARDIAN,
+        serde_json::to_vec(&future).unwrap(),
+    );
+    assert_eq!(
+        propose_join(
+            &future_envelope,
+            &peer(SERVER_NODE, SERVER_GUARDIAN),
+            &authority,
+            &configured_policy,
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::RequestNotYetValid
+    );
+}
+
+#[test]
+fn malformed_payload_and_transport_generation_mismatch_fail_closed() {
+    let configured_policy = policy(Duration::from_millis(50));
+    let timestamp = now();
+    let authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    assert_eq!(
+        propose_join(
+            &envelope(CLIENT_NODE, CLIENT_GUARDIAN, b"not-json".to_vec()),
+            &peer(SERVER_NODE, SERVER_GUARDIAN),
+            &authority,
+            &configured_policy,
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::MalformedMessage
+    );
+    let mut wrong_generation = envelope(
+        CLIENT_NODE,
+        CLIENT_GUARDIAN,
+        encode_request(&request(timestamp), &configured_policy).unwrap(),
+    );
+    wrong_generation.certificate_generation = 2;
+    assert_eq!(
+        propose_join(
+            &wrong_generation,
+            &peer(SERVER_NODE, SERVER_GUARDIAN),
+            &authority,
+            &configured_policy,
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::PeerNotEnrolled
+    );
+}
+
+#[tokio::test]
+async fn discovery_timeout_and_cancellation_are_finite() {
+    let configured_policy = policy(Duration::from_millis(20));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let authority = MemoryAuthority::with([peer(CLIENT_NODE, CLIENT_GUARDIAN)]);
+    let seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 4444).into(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    let error = discover(
+        std::slice::from_ref(&seed),
+        &join_request,
+        &authority,
+        &configured_policy,
+        &CancellationToken::new(),
+        timestamp,
+        |_seed, _bytes| async {
+            tokio::time::sleep(Duration::from_secs(1)).await;
+            Err(DiscoveryError::Transport)
+        },
+    )
+    .await
+    .unwrap_err();
+    assert_eq!(error, DiscoveryError::Timeout);
+
+    let cancellation = CancellationToken::new();
+    cancellation.cancel();
+    let error = discover(
+        &[seed],
+        &join_request,
+        &authority,
+        &configured_policy,
+        &cancellation,
+        timestamp,
+        |_seed, _bytes| async { Err(DiscoveryError::Transport) },
+    )
+    .await
+    .unwrap_err();
+    assert_eq!(error, DiscoveryError::Cancelled);
+}
+
+#[test]
+fn seed_and_message_resource_bounds_reject_before_work() {
+    let configured_policy = policy(Duration::from_millis(20));
+    let too_many = (0..65)
+        .map(|offset| {
+            SeedEndpoint::new(
+                (Ipv4Addr::LOCALHOST, 10_000 + offset).into(),
+                format!("node-{offset}"),
+                format!("guardian-{offset}"),
+                1,
+            )
+            .unwrap()
+        })
+        .collect::<Vec<_>>();
+    let authority = MemoryAuthority::with([peer(CLIENT_NODE, CLIENT_GUARDIAN)]);
+    let runtime = tokio::runtime::Runtime::new().unwrap();
+    let error = runtime
+        .block_on(discover(
+            &too_many,
+            &request(now()),
+            &authority,
+            &configured_policy,
+            &CancellationToken::new(),
+            now(),
+            |_seed, _bytes| async { Err(DiscoveryError::Transport) },
+        ))
+        .unwrap_err();
+    assert_eq!(error, DiscoveryError::TooManySeeds);
+
+    let oversized = envelope(SERVER_NODE, SERVER_GUARDIAN, vec![0; 4097]);
+    let seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 4444).into(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    assert_eq!(
+        accept_proposal(
+            &seed,
+            &request(now()),
+            &oversized,
+            &MemoryAuthority::with([
+                peer(SERVER_NODE, SERVER_GUARDIAN),
+                peer(CLIENT_NODE, CLIENT_GUARDIAN),
+            ]),
+            &configured_policy,
+            &mut ProposalReplayGuard::new(1).unwrap(),
+            now(),
+        )
+        .unwrap_err(),
+        DiscoveryError::RequestTooLarge
+    );
+}
