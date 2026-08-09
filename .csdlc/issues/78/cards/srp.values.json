@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 78,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
+    "slug": "stp-post-review-recovery-correction",
+    "version": "unversioned",
+    "generation": 11
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #78 typed semantic operation, authorization, atomic store behavior, audit evidence, focused tests, and issue #73 consumption proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any issue without typed review recovery invoke the operation?",
+        "Can the operation modify any field other than STP deliverables?",
+        "Does audit evidence retain both exact previous and replacement values?",
+        "Do negative tests cover every phase, wrong card, stale CAS, malformed input, and projection drift?",
+        "Does the design avoid weakening review and publication authority?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

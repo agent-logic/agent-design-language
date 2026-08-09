@@ -1,0 +1,80 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 78,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
+    "slug": "stp-post-review-recovery-correction",
+    "version": "unversioned",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v2-focused-tests",
+          "proof_role": "Prove positive correction, recovery provenance, phase/card/input/CAS/drift rejection, atomic projections, audit evidence, and the request shape consumed by issue #73.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--test",
+            "gate5"
+          ],
+          "parallel_group": "local-fastwork",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-quality",
+          "proof_role": "Prove formatting and warning-free production and test targets.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local-fastwork",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on absent recovery provenance, non-STP targets, wrong phase, malformed replacements, stale CAS, projection drift, incomplete audit evidence, or unrelated lifecycle widening.",
+      "design_ref": ".csdlc/prepared/issues/78/design.md",
+      "design_digest": "c3ffd664872a50829810df8c97d34785c04b3bb27acc93e50b5f857c25f56fea",
+      "diagram_ref": ".csdlc/prepared/issues/78/diagram.mmd",
+      "diagram_digest": "f2a4d69914c4b78a3e2737bb2b1e33da77e7263f2ba63ddfb10e02b6bf206970"
+    }
+  }
+}

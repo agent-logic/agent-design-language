@@ -1,0 +1,8 @@
+flowchart LR
+    A["Reviewed or published issue"] --> B["Typed review recovery"]
+    B --> C["Implemented with recover_review audit proof"]
+    C --> D{"Correction request valid?"}
+    D -->|"STP, current CAS, unique nonblank values"| E["Replace deliverables only"]
+    D -->|"Any invariant fails"| F["Fail closed"]
+    E --> G["Atomic values, Markdown, AST, digest commit"]
+    G --> H["Audit retains previous and replacement values"]

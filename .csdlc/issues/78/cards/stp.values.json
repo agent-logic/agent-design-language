@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 78,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
+    "slug": "stp-post-review-recovery-correction",
+    "version": "unversioned",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement, prove, review, and publish the narrow post-recovery STP deliverable correction; stop before merge unless explicitly authorized.",
+      "deliverables": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs"
+      ],
+      "acceptance_criteria": [
+        "AC-1: A recovered implemented issue can correct only its STP deliverables through csdlc-edit apply.",
+        "AC-2: An implemented issue without typed review recovery cannot use the operation.",
+        "AC-3: Every non-implemented phase and every non-STP card rejects the operation.",
+        "AC-4: Stale CAS, projection drift, blank values, and duplicate values fail closed.",
+        "AC-5: The atomic commit preserves unrelated STP fields and regenerates all projections and digests.",
+        "AC-6: Durable audit evidence includes actor, reason, previous deliverables, and replacements.",
+        "AC-7: Focused tests, formatting, strict Clippy, and installation proof pass from /Volumes/FastWork.",
+        "AC-8: Issue #73 successfully consumes the installed operation without direct card edits."
+      ],
+      "dependencies": [
+        "Canonical GitHub issue #78",
+        "Existing csdlc-review recover audit semantics",
+        "Existing csdlc-edit atomic store and projection validation",
+        "Issue #73 recovered implemented record"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/bin/csdlc-edit.rs",
+        "csdlc-v2/tests",
+        "csdlc-v2/AGENTS.md",
+        "AGENTS.md"
+      ],
+      "non_goals": [
+        "General post-implementation STP editing",
+        "Phase rollback from implemented to bound",
+        "Direct Markdown or JSON mutation",
+        "Changing issue #73 architecture content",
+        "Implementing C-SDLC v3"
+      ]
+    }
+  }
+}

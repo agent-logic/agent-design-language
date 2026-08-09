@@ -1,0 +1,101 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 78,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
+    "slug": "stp-post-review-recovery-correction",
+    "version": "unversioned",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Add the narrow semantic operation and authorization predicate, prove its atomic and fail-closed behavior, install the reviewed binary, and verify issue #73 can consume it.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Add the typed semantic operation, strict replacement validation, and recovery-sensitive authorization.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Retain previous and replacement deliverables in audit evidence while preserving unrelated STP fields and atomic projections.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused positive and negative tests and run formatting and strict Clippy under /Volumes/FastWork.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run independent pre-PR review, install exact reviewed binaries, and prove issue #73 can consume the operation.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs",
+        ".csdlc/issues/78",
+        ".csdlc/evidence/78"
+      ],
+      "invariants": [
+        "Only STP deliverables change",
+        "Review recovery provenance is explicit and durable",
+        "Canonical state and all card projections commit atomically",
+        "Stale or drifted truth fails closed",
+        "No mutation weakens exact review or publication authority"
+      ],
+      "risks": [
+        "Empty review fields could be mistaken for recovery provenance",
+        "Audit text could omit the previous collection",
+        "A broad authorization branch could enable unrelated implemented-phase edits",
+        "Tests could prove only the happy path and miss phase or drift rejection"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The operation requires a general phase rollback or unrestricted administrative edit surface",
+        "Recovery provenance cannot be proven from durable typed state",
+        "The implementation changes unrelated lifecycle semantics",
+        "Any tracked edit appears on primary main"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/78/design.md",
+      "design_digest": "c3ffd664872a50829810df8c97d34785c04b3bb27acc93e50b5f857c25f56fea",
+      "diagram_ref": ".csdlc/prepared/issues/78/diagram.mmd",
+      "diagram_digest": "f2a4d69914c4b78a3e2737bb2b1e33da77e7263f2ba63ddfb10e02b6bf206970"
+    }
+  }
+}
