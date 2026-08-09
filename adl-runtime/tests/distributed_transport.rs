@@ -17,11 +17,11 @@ use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
     CertificateValidity, DistributedCertificateStore, RevocationReason,
 };
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{SigningKey, VerifyingKey};
 use prost::Message;
 use rcgen::{
     BasicConstraints, CertificateParams, CertifiedIssuer, ExtendedKeyUsagePurpose, IsCa, KeyPair,
-    KeyUsagePurpose,
+    KeyUsagePurpose, PKCS_ED25519,
 };
 use rustls::pki_types::{CertificateDer, PrivateKeyDer, PrivatePkcs8KeyDer};
 use tokio_util::sync::CancellationToken;
@@ -36,6 +36,7 @@ const DOMAIN: &str = "polis.example";
 struct EndpointMaterial {
     certificate: CertificateDer<'static>,
     private_key: PrivateKeyDer<'static>,
+    subject_public_key: VerifyingKey,
 }
 
 fn certificate_authority() -> CertifiedIssuer<'static, KeyPair> {
@@ -57,11 +58,14 @@ fn leaf(
     let mut params = CertificateParams::new(vec![name.to_owned()]).unwrap();
     params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
     params.extended_key_usages = vec![usage];
-    let key = KeyPair::generate().unwrap();
+    let key = KeyPair::generate_for(&PKCS_ED25519).unwrap();
+    let subject_public_key =
+        VerifyingKey::from_bytes(key.public_key_raw().try_into().unwrap()).unwrap();
     let certificate = params.signed_by(&key, issuer).unwrap().der().clone();
     EndpointMaterial {
         certificate,
         private_key: PrivatePkcs8KeyDer::from(key.serialize_der()).into(),
+        subject_public_key,
     }
 }
 
@@ -95,14 +99,13 @@ fn authority_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
     (Arc::new(store), root)
 }
 
-fn activate_authority(
+fn activate_authority_with_subject(
     store: &Arc<DistributedCertificateStore>,
     root: &SigningKey,
     holder: &str,
-    seed: u8,
+    subject_public_key: VerifyingKey,
     purpose: CertificatePurpose,
-) -> String {
-    let subject = SigningKey::from_bytes(&[seed; 32]);
+) -> AuthorityCertificate {
     let issued_at = now().saturating_sub(1);
     let body = CertificateBody::new(
         DOMAIN,
@@ -113,25 +116,30 @@ fn activate_authority(
             issued_at_unix_secs: issued_at,
             expires_at_unix_secs: issued_at + 300,
         },
-        subject.verifying_key(),
+        subject_public_key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    let certificate_id = certificate.certificate_id().unwrap();
     store.activate(&certificate, now()).unwrap();
-    certificate_id
+    certificate
 }
 
 fn transport_authority(
     store: &Arc<DistributedCertificateStore>,
     root: &SigningKey,
     holder: &str,
-    seed: u8,
+    subject_public_key: VerifyingKey,
 ) -> (TransportAuthorization, String) {
-    let certificate_id =
-        activate_authority(store, root, holder, seed, CertificatePurpose::Transport);
+    let certificate = activate_authority_with_subject(
+        store,
+        root,
+        holder,
+        subject_public_key,
+        CertificatePurpose::Transport,
+    );
+    let certificate_id = certificate.certificate_id().unwrap();
     (
-        TransportAuthorization::new(store.clone(), holder, 1).unwrap(),
+        TransportAuthorization::new(store.clone(), &certificate).unwrap(),
         certificate_id,
     )
 }
@@ -192,13 +200,28 @@ async fn connected_pair_with_expected_client_node(
         "guardian-client",
     );
     let (store, signing_root) = authority_store();
-    let (server_authorization, _) = transport_authority(&store, &signing_root, "node-server", 31);
-    let (client_authorization, client_certificate_id) =
-        transport_authority(&store, &signing_root, "node-client", 32);
+    let (server_authorization, _) = transport_authority(
+        &store,
+        &signing_root,
+        "node-server",
+        server_material.subject_public_key,
+    );
+    let (client_authorization, client_certificate_id) = transport_authority(
+        &store,
+        &signing_root,
+        "node-client",
+        client_material.subject_public_key,
+    );
     let expected_client_authorization = if expected_client_node == "node-client" {
         client_authorization.clone()
     } else {
-        transport_authority(&store, &signing_root, expected_client_node, 33).0
+        transport_authority(
+            &store,
+            &signing_root,
+            expected_client_node,
+            client_material.subject_public_key,
+        )
+        .0
     };
     let configured_limits = limits(authorization_lifetime);
 
@@ -290,8 +313,28 @@ async fn certificate_fingerprint_mismatch_fails_closed_after_tls_authentication(
     let wrong_client_binding = binding(&other_client.certificate, "client", "client-guardian");
     let client_binding = binding(&client_material.certificate, "client", "client-guardian");
     let (store, signing_root) = authority_store();
-    let server_authorization = transport_authority(&store, &signing_root, "server", 41).0;
-    let client_authorization = transport_authority(&store, &signing_root, "client", 42).0;
+    let server_authorization = transport_authority(
+        &store,
+        &signing_root,
+        "server",
+        server_material.subject_public_key,
+    )
+    .0;
+    let client_authorization = transport_authority(
+        &store,
+        &signing_root,
+        "client",
+        client_material.subject_public_key,
+    )
+    .0;
+    let (wrong_store, wrong_root) = authority_store();
+    let wrong_client_authorization = transport_authority(
+        &wrong_store,
+        &wrong_root,
+        "client",
+        other_client.subject_public_key,
+    )
+    .0;
     let configured_limits = limits(Duration::from_secs(30));
     let server_endpoint = server_endpoint(
         (Ipv4Addr::LOCALHOST, 0).into(),
@@ -318,7 +361,7 @@ async fn certificate_fingerprint_mismatch_fails_closed_after_tls_authentication(
                 server_binding.clone(),
                 wrong_client_binding,
                 server_authorization.clone(),
-                client_authorization.clone(),
+                wrong_client_authorization,
                 configured_limits.clone(),
                 CancellationToken::new(),
             ),
@@ -372,6 +415,22 @@ async fn duplicate_sequence_is_rejected_with_a_bounded_replay_window() {
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn replay_window_accepts_unseen_in_window_and_rejects_stale_sequence() {
+    let (server, client) = connected_pair(Duration::from_secs(30)).await;
+    client.send(100, b"highest".to_vec()).await.unwrap();
+    assert_eq!(server.receive().await.unwrap().sequence, 100);
+    client.send(37, b"in-window".to_vec()).await.unwrap();
+    assert_eq!(server.receive().await.unwrap().sequence, 37);
+    client.send(36, b"stale".to_vec()).await.unwrap();
+    assert_eq!(
+        server.receive().await.unwrap_err(),
+        TransportError::ReplayDetected
+    );
+    server.close();
+    client.close();
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn revocation_closes_an_established_authorized_session() {
     let (server, client, store, client_certificate_id) =
         connected_pair_with_expected_client_node(Duration::from_secs(30), "node-client").await;
@@ -412,8 +471,20 @@ async fn untrusted_client_certificate_is_rejected_by_mutual_tls() {
     let server_binding = binding(&server_material.certificate, "server", "server-guardian");
     let client_binding = binding(&client_material.certificate, "client", "client-guardian");
     let (store, signing_root) = authority_store();
-    let server_authorization = transport_authority(&store, &signing_root, "server", 43).0;
-    let client_authorization = transport_authority(&store, &signing_root, "client", 44).0;
+    let server_authorization = transport_authority(
+        &store,
+        &signing_root,
+        "server",
+        server_material.subject_public_key,
+    )
+    .0;
+    let client_authorization = transport_authority(
+        &store,
+        &signing_root,
+        "client",
+        client_material.subject_public_key,
+    )
+    .0;
     let configured_limits = limits(Duration::from_secs(30));
     let server_endpoint = server_endpoint(
         (Ipv4Addr::LOCALHOST, 0).into(),
@@ -527,17 +598,129 @@ fn framing_is_bounded_and_rejects_malformed_or_mismatched_identity() {
 #[test]
 fn non_transport_purpose_cannot_authorize_a_transport_session() {
     let (store, root) = authority_store();
-    activate_authority(
+    let certificate = activate_authority_with_subject(
         &store,
         &root,
         "node-wrong-purpose",
-        71,
+        SigningKey::from_bytes(&[71; 32]).verifying_key(),
         CertificatePurpose::GuardianControl,
     );
     assert!(matches!(
-        TransportAuthorization::new(store, "node-wrong-purpose", 1),
+        TransportAuthorization::new(store, &certificate),
         Err(TransportError::CertificateAuthorization)
     ));
+}
+
+#[test]
+fn transport_authority_rejects_wrong_domain_peer_binding() {
+    let tls_authority = certificate_authority();
+    let material = leaf(
+        &tls_authority,
+        "client",
+        ExtendedKeyUsagePurpose::ClientAuth,
+    );
+    let (store, root) = authority_store();
+    let authorization = transport_authority(&store, &root, "node", material.subject_public_key).0;
+    let wrong_domain = PeerBinding::new(
+        &material.certificate,
+        "other.example",
+        "node",
+        "guardian",
+        1,
+        1,
+    )
+    .unwrap();
+
+    assert!(matches!(
+        ConnectionSecurity::new(
+            wrong_domain.clone(),
+            wrong_domain,
+            authorization.clone(),
+            authorization,
+            limits(Duration::from_secs(30)),
+            CancellationToken::new(),
+        ),
+        Err(TransportError::CertificateAuthorization)
+    ));
+}
+
+#[test]
+fn transport_authority_rejects_unrelated_tls_subject_key() {
+    let tls_authority = certificate_authority();
+    let material = leaf(
+        &tls_authority,
+        "client",
+        ExtendedKeyUsagePurpose::ClientAuth,
+    );
+    let unrelated = SigningKey::from_bytes(&[72; 32]).verifying_key();
+    let (store, root) = authority_store();
+    let authorization = transport_authority(&store, &root, "node", unrelated).0;
+    let binding = binding(&material.certificate, "node", "guardian");
+
+    assert!(matches!(
+        ConnectionSecurity::new(
+            binding.clone(),
+            binding,
+            authorization.clone(),
+            authorization,
+            limits(Duration::from_secs(30)),
+            CancellationToken::new(),
+        ),
+        Err(TransportError::CertificateAuthorization)
+    ));
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn configured_unidirectional_stream_ceiling_is_enforced() {
+    let authority = certificate_authority();
+    let root = authority.der().clone();
+    let server_material = leaf(&authority, "localhost", ExtendedKeyUsagePurpose::ServerAuth);
+    let client_material = leaf(&authority, "client", ExtendedKeyUsagePurpose::ClientAuth);
+    let configured_limits =
+        TransportLimits::bounded(4096, 1, Duration::from_secs(5), Duration::from_secs(30)).unwrap();
+    let server_endpoint = server_endpoint(
+        (Ipv4Addr::LOCALHOST, 0).into(),
+        vec![server_material.certificate],
+        server_material.private_key,
+        std::slice::from_ref(&root),
+        &configured_limits,
+    )
+    .unwrap();
+    let client_endpoint = client_endpoint(
+        (Ipv4Addr::LOCALHOST, 0).into(),
+        vec![client_material.certificate],
+        client_material.private_key,
+        &[root],
+        &configured_limits,
+    )
+    .unwrap();
+    let address = server_endpoint.local_addr().unwrap();
+    let (server, client) = tokio::join!(
+        async { server_endpoint.accept().await.unwrap().await.unwrap() },
+        async {
+            client_endpoint
+                .connect(address, "localhost")
+                .unwrap()
+                .await
+                .unwrap()
+        }
+    );
+
+    let mut first = client.open_uni().await.unwrap();
+    assert!(
+        tokio::time::timeout(Duration::from_millis(50), client.open_uni())
+            .await
+            .is_err()
+    );
+    first.finish().unwrap();
+    let mut received = server.accept_uni().await.unwrap();
+    assert!(received.read_to_end(1).await.unwrap().is_empty());
+    tokio::time::timeout(Duration::from_secs(1), client.open_uni())
+        .await
+        .unwrap()
+        .unwrap();
+    server.close(0_u32.into(), b"done");
+    client.close(0_u32.into(), b"done");
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
@@ -564,7 +747,8 @@ async fn cancellation_and_authorization_expiry_stop_transport_work() {
     let material = leaf(&authority, "localhost", ExtendedKeyUsagePurpose::ServerAuth);
     let expected = binding(&material.certificate, "node", "guardian");
     let (store, signing_root) = authority_store();
-    let authorization = transport_authority(&store, &signing_root, "node", 45).0;
+    let authorization =
+        transport_authority(&store, &signing_root, "node", material.subject_public_key).0;
     let endpoint = server_endpoint(
         (Ipv4Addr::LOCALHOST, 0).into(),
         vec![material.certificate],

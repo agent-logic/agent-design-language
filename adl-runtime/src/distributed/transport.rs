@@ -20,7 +20,7 @@ use sha2::{Digest, Sha256};
 use tokio::time::Instant;
 use tokio_util::sync::CancellationToken;
 
-use super::certificates::{CertificatePurpose, DistributedCertificateStore};
+use super::certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore};
 
 pub const TRANSPORT_SCHEMA: &str = "adl.distributed.transport_envelope.v1";
 pub const TRANSPORT_ALPN: &[u8] = b"adl-guardian/1";
@@ -52,6 +52,7 @@ pub struct TransportEnvelope {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct PeerBinding {
     pub leaf_certificate_sha256: [u8; 32],
+    tls_subject_public_key: [u8; 32],
     pub trust_domain: String,
     pub node_id: String,
     pub guardian_id: String,
@@ -70,6 +71,7 @@ impl PeerBinding {
     ) -> TransportResult<Self> {
         let binding = Self {
             leaf_certificate_sha256: Sha256::digest(leaf_certificate.as_ref()).into(),
+            tls_subject_public_key: ed25519_subject_public_key(leaf_certificate)?,
             trust_domain: trust_domain.into(),
             node_id: node_id.into(),
             guardian_id: guardian_id.into(),
@@ -108,30 +110,41 @@ impl PeerBinding {
 pub struct TransportAuthorization {
     store: Arc<DistributedCertificateStore>,
     holder_id: String,
+    trust_domain: String,
     generation: u64,
     certificate_id: String,
+    subject_public_key: [u8; 32],
 }
 
 impl TransportAuthorization {
     pub fn new(
         store: Arc<DistributedCertificateStore>,
-        holder_id: impl Into<String>,
-        generation: u64,
+        certificate: &AuthorityCertificate,
     ) -> TransportResult<Self> {
-        let holder_id = holder_id.into();
+        let body = &certificate.body;
         let verified = store
             .authorize(
-                &holder_id,
+                &body.holder_id,
                 CertificatePurpose::Transport,
-                generation,
+                body.generation,
                 unix_time()?,
             )
             .map_err(|_| TransportError::CertificateAuthorization)?;
+        let certificate_id = certificate
+            .certificate_id()
+            .map_err(|_| TransportError::CertificateAuthorization)?;
+        if verified.certificate_id != certificate_id
+            || body.purpose != CertificatePurpose::Transport
+        {
+            return Err(TransportError::CertificateAuthorization);
+        }
         Ok(Self {
             store,
-            holder_id,
-            generation,
-            certificate_id: verified.certificate_id,
+            holder_id: body.holder_id.clone(),
+            trust_domain: body.trust_domain.clone(),
+            generation: body.generation,
+            certificate_id,
+            subject_public_key: body.subject_public_key,
         })
     }
 
@@ -156,7 +169,11 @@ impl TransportAuthorization {
     }
 
     fn validate_binding(&self, binding: &PeerBinding) -> TransportResult<u64> {
-        if self.holder_id != binding.node_id || self.generation != binding.certificate_generation {
+        if self.holder_id != binding.node_id
+            || self.trust_domain != binding.trust_domain
+            || self.generation != binding.certificate_generation
+            || self.subject_public_key != binding.tls_subject_public_key
+        {
             return Err(TransportError::CertificateAuthorization);
         }
         self.revalidate()
@@ -245,6 +262,8 @@ impl ConnectionSecurity {
     ) -> TransportResult<Self> {
         local.validate()?;
         expected_peer.validate()?;
+        local_authorization.validate_binding(&local)?;
+        peer_authorization.validate_binding(&expected_peer)?;
         Ok(Self {
             local,
             expected_peer,
@@ -373,6 +392,30 @@ fn roots(certificates: &[CertificateDer<'static>]) -> TransportResult<RootCertSt
             .map_err(|_| TransportError::InvalidTlsMaterial)?;
     }
     Ok(roots)
+}
+
+fn ed25519_subject_public_key(certificate: &CertificateDer<'_>) -> TransportResult<[u8; 32]> {
+    let (remaining, parsed) = x509_parser::parse_x509_certificate(certificate.as_ref())
+        .map_err(|_| TransportError::InvalidTlsMaterial)?;
+    if !remaining.is_empty()
+        || parsed
+            .tbs_certificate
+            .subject_pki
+            .algorithm
+            .algorithm
+            .to_id_string()
+            != "1.3.101.112"
+    {
+        return Err(TransportError::InvalidTlsMaterial);
+    }
+    parsed
+        .tbs_certificate
+        .subject_pki
+        .subject_public_key
+        .data
+        .as_ref()
+        .try_into()
+        .map_err(|_| TransportError::InvalidTlsMaterial)
 }
 
 fn transport_config(limits: &TransportLimits) -> TransportResult<Arc<quinn::TransportConfig>> {
