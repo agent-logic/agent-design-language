@@ -3,9 +3,9 @@
   "issue": 75,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0dd81b234af2b9cfa011f8f1ebc56362595c1988b7e83137501e84345d8eff9e",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "2cfce45ab00189b386102ed51d98dd5a8ddf99e07756a659e3cf9c078a8e6146",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "d6b52b9d47da5888eeec2be6dd618cd030d1383741530b3fc468fbffbae3165a",
   "branch": "codex/75-incremental-publication-linkage",
   "worktree": "/Volumes/FastWork/adl-issue-75-incremental-publication-linkage",
   "review_assignment": {
@@ -22,7 +22,25 @@
       "csdlc-v2/tests/gate_finish.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:review_75_exact_head",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/gate_finish.rs"
+    ],
+    "reviewed_revision": "git-blake3:47af461584ac49104ecba576723881ff03e2070d:21c7aba8363c979083971339c56e794d61e22345caf84f47c677b38f5ed45d91",
+    "findings": [],
+    "residual_risks": [
+      "Real GitHub transport and hosted CI remain publication-time evidence; remote linkage mode is derived from governed intent while its body syntax is independently validated."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9c07d85ccaeef6352c24e2b3ce1ae24086392acc714550b736d87f5cdf344720",
+      "values_digest": "d3d1542db4c868d08b77d94fc8cc087c70c36a24f3b012b6efa62d287e3598cc",
       "rendered_digest": "46326d6d4d5b10585464af51e393b966d24bce99dfc8befcc6b3721e58e1b527",
       "ast_digest": "d634c842915f091cf9916a653c1de465e148bc5a4bcd0fcb08a243c5f57ad7c3"
     },
     "stp": {
-      "values_digest": "f626f49b3a6007d23089acdf4c83e68ad6a77aa4873f8ad384b2266dbf884624",
+      "values_digest": "c412db8471492854376907f64e09f08922353033d2b39f9279575b57f56d0223",
       "rendered_digest": "69c03b16c0d338993470c5ffb560cbdd938d4d86becd19ee77616b7ebbad40b8",
       "ast_digest": "1f8435c207cec1d1fcac22dee9e725c14c72c9ce638051de2f803ba4f4b54018"
     },
     "spp": {
-      "values_digest": "718f42ba07a412ffecfa46b8cfe717abd60388bb127618733a1ff3fae932ceca",
+      "values_digest": "9ae6f3db36cd8d07f1345abcbf478cdcab20ac0269b6ab07c5d1b2482e7475d0",
       "rendered_digest": "b0f445bfac18a76c68f3ff51745b03065eb6ec41dd1010f52893f50c58b80105",
       "ast_digest": "ae8d01dfe7b5252e51fed5f347fa86b69ec200e0d964cba60565ffc53f080d7c"
     },
     "vpp": {
-      "values_digest": "f80d0d8f73e2f68c4a3d42596d4ec4bdf5901032b27ef071cbbc14fb679523ce",
+      "values_digest": "0760f5983c8da0881dfc5f12f043baaa5939aa53652349561cbccb385f63f15e",
       "rendered_digest": "070ebfb3895fd69ee9c4d3c8bd65f48506a90df6bffafea8b47c8d70472cb43f",
       "ast_digest": "e1e534296c7a417e2a0d62c5093ccc6e73270fe70f6e5fa7014c24d0f241abbd"
     },
     "srp": {
-      "values_digest": "f977f3b3fd9b7a1914370e5f1dbb2bc8aac9b147ed6d84a038b51f0f13734733",
-      "rendered_digest": "117900f0bdbbeb52d55b4242e60405e01704def8995032a6df31f3d2655e270e",
-      "ast_digest": "750a36788674aa95c6d5c93fbd876dcf0cbe43d78caf93582513da1f701f778e"
+      "values_digest": "6978015ebee648aff475414811c28197dce56b991d8e2093f3f19c5ebb17d1cd",
+      "rendered_digest": "0c433035af6eed1317a635ed9bcd1d483043750fa269c76ff6b12c12262e432a",
+      "ast_digest": "e771c1eb2ed1f3126a408a26cc486ac896076a49defdcd8beac40e0c9a5aa6f7"
     },
     "sor": {
-      "values_digest": "a1520b02df265d919d420d520b7a0f87c2d112b05b601f54ff0ccb5122f5883a",
+      "values_digest": "24e322db15c0bf9f48c59dbd005cbedc174795beab48a1a762e912086ab61e3a",
       "rendered_digest": "6b079694db3be2a311691c065aaf594e7acabe6b2d348cfdf4f38fda2abe5ac1",
       "ast_digest": "7cd53e338f0a5240479895de57007c0383c9e6744bdde8dced26313671b22cb7"
     }
@@ -88,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:execute_75_to_pr",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:review_75_exact_head",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -146,6 +171,13 @@
       "actor": "codex:execute_75_to_pr",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex-subagent:review_75_exact_head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

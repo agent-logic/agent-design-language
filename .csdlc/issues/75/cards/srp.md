@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Real GitHub transport and hosted CI remain publication-time evidence; remote linkage mode is derived from governed intent while its body syntax is independently validated.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:47af461584ac49104ecba576723881ff03e2070d:21c7aba8363c979083971339c56e794d61e22345caf84f47c677b38f5ed45d91")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:review_75_exact_head")
 
-Result: pre_review
+Result: pass
