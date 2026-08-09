@@ -4,13 +4,63 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f197ba9a10a891e66af5c5abaf07b25a4c18aca0b13d3891034b25966841450b",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "1ab00e51bfda4eff671a032bac3b84f3c27b2d53454d2e384df76191d8b0b9f9",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "e626c4bfa7b4fcba20e518d3ac6af0938914bda339ff3e97433c214fa56e7ae0",
   "branch": "codex/78-stp-post-review-recovery-correction",
   "worktree": "/Volumes/FastWork/adl-issue-78-stp-recovery-correction",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:Volta",
+    "assigned_by": "codex:78-final-review",
+    "revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+    "scope": [
+      ".csdlc/evidence/78",
+      ".csdlc/issues/78",
+      ".csdlc/prepared/issues/78",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:Volta",
+    "scope": [
+      ".csdlc/evidence/78",
+      ".csdlc/issues/78",
+      ".csdlc/prepared/issues/78",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+    "findings": [
+      {
+        "id": "F-78-1",
+        "severity": "p2",
+        "summary": "SPP steps S1-S3 remained pending after implementation and validation completed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+        "route": null
+      },
+      {
+        "id": "F-78-2",
+        "severity": "p2",
+        "summary": "Focused proof covered stale generation but not stale digest and unchanged durable state.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:06d98991d9a92b2165ac383d3b42b5d40caab47e:4f336c134eeaa5fa0ed5bbe865474621a242ee4556b7872c943e325053f06c1d",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The operation is intentionally narrow; broader lifecycle correction completeness belongs to the separately planned C-SDLC v3 robustness work."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "19a8bc99055f44baf8c2e86d5b2ac15937991941d1b9711f4db7a98b405e22af",
+      "values_digest": "cd10940e0a13452445d3f9c0b7894181c3b91fa182c6b2b913d98e9eeb05a60a",
       "rendered_digest": "10b1cb4b224eda765b52d2b7694e943fc0826802c641e347d67b67298ef844bd",
       "ast_digest": "c9c883a3fc741550905b618953d4b55a72f26d42d2a1919d73a39a2292ccbb92"
     },
     "stp": {
-      "values_digest": "753603e00d0652669ede3cc75393691ba61c0b106ca8b4fe70652719462c13c5",
+      "values_digest": "e2e557634241c74850c42014d53180fee79c8676bcc43762d3316a17778070b0",
       "rendered_digest": "f6772c71a119566817dbebb6c4647295a72562fb920b858f6137ef8cc90ffeef",
       "ast_digest": "dd60555ec979f9be0808541ff2177c0bf56a0113f6b1b68111fd0c8e8549a1ef"
     },
     "spp": {
-      "values_digest": "55029158332d1865517d1819ad04510209596185e5ee9fa008129a8cc4ef0287",
+      "values_digest": "3d337e29bf9dbeb95993c91534e1286b16b9c3a1ad0d0d9d66dbf3c480cd9c59",
       "rendered_digest": "140a6ef145a9bb8aed5e7d20316f766d2b82547490ef30e00af7c8c58cb8e4dd",
       "ast_digest": "df726beaea78914f5da743e20373846b633a95febc234002ea6c653843454b4b"
     },
     "vpp": {
-      "values_digest": "b82c5651132d0d5d1abdee58f7918eb12790a930ed0a39433233a63d5f348bbc",
+      "values_digest": "0f4fc039fec6b2eaa32a2f85af44d6dabdd06ec858dcb4a6a04a520eba7d6a64",
       "rendered_digest": "3bcdd11d5812376f6f2438b013766b5b759a799a991c7b672da15c607166db2a",
       "ast_digest": "55d65ae05d4ac7df6983b7be42558b90bf3887d3c154cbc1031467ee98ab7581"
     },
     "srp": {
-      "values_digest": "bb85a929598dd7efecd482354628b7e606d444d27e2643aeb96654f3a6779654",
-      "rendered_digest": "befb1c24fefa7a9b742334221e3c818ba30fe09e0c76ab427a81b921b0200778",
-      "ast_digest": "801c15b565ec589d0b6aa510249be5d7614e8a0464b12f1d4c505fbed020c6b1"
+      "values_digest": "e2c18b2a2dce4b9c0925d5f522286efdf72c2fc66a256209ea3b9708f4a0106f",
+      "rendered_digest": "aa6a4526371dc0c2932a60d2c111adb80cbb11a5fd3b648d17e2fdfc521e0b1f",
+      "ast_digest": "c70c2231aabca206cf40a71cfd7634cc489a6c3d3886aee93af1677b2fc05bfe"
     },
     "sor": {
-      "values_digest": "a13f6f7820a8c8a915efc49243c66cdae8f60ef89f928be1b77c9b576175bb1b",
+      "values_digest": "99fef4b769ed1394a0d08de099d7c7409b253edcb9dbd4da8ba129f7cde1230f",
       "rendered_digest": "88c630950d03a9b82994ad89cdd6bf8e245ad639eda8e4d5162de40c89835ac7",
       "ast_digest": "bf62cb0dece1370ac8c06a2960f0056add069cb4dea168a0019141f8301634b4"
     }
@@ -90,6 +140,13 @@
       "to": "implemented",
       "actor": "codex:78-integration",
       "reason": "Installation verification and issue #73 typed consumption completed after exact review; recover review truth to record S4 completion before final re-review and publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:Volta",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -211,6 +268,20 @@
       "actor": "codex:78-integration",
       "reason": "Record clean exact-head review, verified stable installation from source revision 38e07b2a2, and successful typed issue #73 STP consumption at generation 29.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:78-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex-subagent:Volta",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
