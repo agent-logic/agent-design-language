@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14] ACIP and A2A contract reconciliation",
     "slug": "v0-92-wp-14-acip-and-a2a-contract-reconciliation",
     "version": "v0.92",
-    "generation": 43
+    "generation": 45
   },
   "status": "ready",
   "content": {
@@ -107,7 +107,7 @@
         "Consumer integration requires a previously undeclared versioning rule"
       ],
       "design_ref": ".csdlc/prepared/issues/5832/design.md",
-      "design_digest": "bd21d38eef975ac519335677bb29386abd1812116cce63c9567daefcdcbc4428",
+      "design_digest": "1acbe4bd1796cc4f7726ba5d9d8c796ed735bcbc9344271518d392bcb65109b0",
       "diagram_ref": ".csdlc/prepared/issues/5832/diagram.mmd",
       "diagram_digest": "0ddb64863e3e34f2587da73ca88c9ce88eb77000c199807e0c69639234b28b7f"
     }

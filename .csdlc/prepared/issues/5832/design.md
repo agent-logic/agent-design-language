@@ -16,8 +16,9 @@ integration (5837), or cloud signal bridges.
 
 - `adl-runtime/src/acip.rs` and `adl-runtime-kernel/src/acip.rs` are current
   Runtime v3 ACIP semantic owners.
-- `adl-runtime/src/runtime_api.rs`, `runtime_api_auth.rs`, and
-  `tests/runtime_api_wss.rs` own authenticated full-duplex WSS transport.
+- `adl-runtime/src/runtime_api_auth.rs` and
+  `adl-runtime/tests/runtime_api_wss.rs` own this issue's authenticated
+  full-duplex WSS contract and focused proof surface.
 - `adl-runtime-kernel/src/protocol_adapters.rs`, `ingress.rs`, `control.rs`,
   and `operations.rs` own governed protocol admission and adapter dispatch.
 - `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`
@@ -56,10 +57,11 @@ logs, fixtures, or committed artifacts.
 - `adl-runtime-kernel/src/acip.rs`
 - `adl-runtime-kernel/src/protocol_adapters.rs`
 - `adl-runtime/tests/runtime_api_wss.rs`
-- `adl-runtime/schemas/acip/v1/acip.proto`
-- `adl-runtime/schemas/acip/v1/catalog.json`
+- `schemas/acip/v1/acip.proto`
+- `schemas/acip/v1/catalog.json`
 - `docs/api/runtime-v3/v1/acip.openapi.json`
-- `.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb`
+- `adl/tools/validate_v092_acip_wss.sh`
+- `adl/tools/validate_v092_acip_native_receipts.rb`
 
 ## Read-Only Inputs
 
@@ -78,12 +80,21 @@ logs, fixtures, or committed artifacts.
 
 ## Dependencies And Coordination
 
-WP-04 gate issue #5821 must be terminal and WP-04-IMP issue #5862 must produce
-terminal integrated distributed output from all sixteen children before final
-implementation begins. Existing ACIP stream and trace/replay baselines must be
-requalified at the current revision. Issue 5795 waits for stable command
-semantics; issue 5837 waits for the stable API/WSS consumer contract. Their
-implementation files remain out of scope here.
+WP-04 gate issue #5821 must be terminal. WP-14 is an independent protocol lane
+and its disjoint protocol, schema, catalog, deterministic JSON/protobuf
+projection, negotiation, authentication, bounded WSS, and focused proof may
+proceed immediately against current `main`. WP-04-IMP issue #5862 remains an
+independent distributed sprint; only WP-14's final distributed interoperability
+and native-platform receipt reconciliation consumes terminal #5862 merge
+evidence.
+
+Issue #5795 final browser integration consumes terminal #5832 merge evidence.
+Each lane has its own branch, worktree, PR, focused proof, review, and closeout.
+The lanes never share worktrees, cross owned-path boundaries, or close
+provisionally. Handoffs are exact merged revisions and stable contracts only.
+Existing ACIP stream and trace/replay baselines must be requalified at the
+current implementation revision. Issue #5837 waits for the stable API/WSS
+consumer contract. Consumer implementation files remain out of scope here.
 
 ## Validation Boundary
 
@@ -99,10 +110,12 @@ verifies trace/replay identity, and retains exact-revision transcript digests.
 It fails on fixture servers, plaintext, direct-kernel launch, zero exchanges,
 schema drift, or auth bypass without adding a second shell-owned launch path.
 
-`.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb` requires distinct macOS,
+`adl/tools/validate_v092_acip_native_receipts.rb` requires distinct macOS,
 Linux, and native Windows receipts bound to source revision, binary/schema
 digests, exact argv, runner identity, nonzero exchanges, negative-case counts,
-and output artifacts. Consumer rendering remains deferred to #5837.
+and output artifacts. These final distributed interoperability/native receipts
+remain explicitly deferred until terminal #5862 evidence is available.
+Consumer rendering remains deferred to #5837.
 
 ## Rollback
 

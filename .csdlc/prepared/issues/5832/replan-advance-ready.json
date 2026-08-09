@@ -1,0 +1,12 @@
+{
+  "issue": 5832,
+  "card": "spp",
+  "expected_generation": 44,
+  "expected_digest": "97828a138d12e3f7ebc76ae27c3ea2ad32536ec282cbe63822de6ce6df7326f7",
+  "actor": "codex:5832-scheduling-correction",
+  "reason": "Activate the operator-approved independent protocol lane while preserving the final distributed integration gate.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}
