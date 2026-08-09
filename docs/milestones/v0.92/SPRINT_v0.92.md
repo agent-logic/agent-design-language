@@ -101,12 +101,21 @@ cards present, with `SIP`, `STP`, and `SPP` design-time ready before execution.
 
 ## Cadence Expectations
 
-The canonical wave records six live coordination-only umbrellas in
-`WP_ISSUE_WAVE_v0.92.yaml`: foundation and throughput `#5858`; Runtime,
-Observatory, distributed architecture, and protocol `#5855`; distributed
-Guardian implementation `#5862`; birthday core `#5857`; demonstration,
-handoff, and publication `#5854`; and quality and release tail `#5856`. All
-six may be prepared in parallel, while live child
+The numbered execution sprints and their coordination-only umbrellas are:
+
+| Execution sprint | Coordination issue | Scope |
+| --- | --- | --- |
+| Sprint 1 | `#5858` | Foundation and throughput |
+| Sprint 2 | `#5855` | Runtime, Observatory, distributed architecture, and protocol |
+| Sprint 3 | `#5862` | Distributed Guardian implementation |
+| Sprint 4 | `#5857` | Birthday core |
+| Sprint 5 | `#5854` | Demonstration, handoff, and publication |
+| Sprint 6 | `#5856` | Quality and release tail |
+
+These sprint numbers name execution envelopes. They are distinct from the
+milestone phases below and from dependency-ready child waves inside an
+umbrella. The canonical wave records the same six umbrellas in
+`WP_ISSUE_WAVE_v0.92.yaml`. All six may be prepared in parallel, while live child
 execution remains dependency-gated. This keeps review and validation tight
 without forcing one oversized single-threaded queue or allowing parallel
 agents to collide on shared Runtime and Observatory surfaces.

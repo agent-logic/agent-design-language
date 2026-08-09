@@ -1,4 +1,4 @@
-# v0.92 Sprint #5855 Session Prompt
+# v0.92 Sprint 2 — Coordination Issue #5855 Session Prompt
 
 Use this prompt to start the Runtime, Observatory, Polis, and Protocol sprint
 session.
@@ -47,7 +47,7 @@ Exact child wave:
 
 Separate dependent sprint:
 
-- #5862 coordinates the sixth sprint for WP-04-IMP and #5863-#5878. This
+- #5862 coordinates Sprint 3 for WP-04-IMP and #5863-#5878. This
   #5855 session provides #5821 architecture-gate truth but does not schedule or
   execute those implementation children.
 

@@ -1,4 +1,4 @@
-# v0.92 Sprint #5857 Session Prompt
+# v0.92 Sprint 4 — Coordination Issue #5857 Session Prompt
 
 Use this prompt to start the First-Birthday Core sprint session.
 

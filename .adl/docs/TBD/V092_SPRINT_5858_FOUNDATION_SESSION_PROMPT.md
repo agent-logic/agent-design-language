@@ -1,4 +1,4 @@
-# v0.92 Sprint #5858 Session Prompt
+# v0.92 Sprint 1 — Coordination Issue #5858 Session Prompt
 
 Use this prompt to start the Foundation and Throughput sprint session.
 

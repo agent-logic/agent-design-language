@@ -1,4 +1,4 @@
-# v0.92 Sprint #5862 Session Prompt
+# v0.92 Sprint 3 — Coordination Issue #5862 Session Prompt
 
 Use this prompt to start the distributed Guardian implementation sprint after
 the #5821 architecture and security gate is terminal.

@@ -1,4 +1,4 @@
-# v0.92 Sprint #5854 Session Prompt
+# v0.92 Sprint 5 — Coordination Issue #5854 Session Prompt
 
 Use this prompt to start the Demonstration, Handoff, and Publication sprint
 session.

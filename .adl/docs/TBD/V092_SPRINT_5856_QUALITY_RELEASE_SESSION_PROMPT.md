@@ -1,4 +1,4 @@
-# v0.92 Sprint #5856 Session Prompt
+# v0.92 Sprint 6 — Coordination Issue #5856 Session Prompt
 
 Use this prompt to start the Quality and Release-Tail sprint session.
 
