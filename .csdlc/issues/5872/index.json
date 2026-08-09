@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "adf39c5606f55bcef0a49e3afbd97b581c1a51252903f99636d67694c7df4f40",
   "phase": "initialized",
-  "generation": 7,
-  "digest": "98af95baf34d27673c6bb24583d938153350f5371cd2fd2cc5417ab78da00e1b",
+  "generation": 9,
+  "digest": "1904e60ded6ff7f42c93eeb3d887b15271b48b94a82e1da4021407d05b4a84dc",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1c29747c8aa5d2ffbc809c531aca6d1b587385be4cbe596e04447cf2da2e017f",
+      "values_digest": "e68a59a2513e952568b0a0e9951a7ff8ffcf532e222c8ca02085786ac6e46859",
       "rendered_digest": "e969f6a2648182a7f34556edf02f2c11dc5d6caf4edbd833292adfeee4cf5250",
       "ast_digest": "c6de336845178918ee8d75c882c9ae3a1df8f0ea3b5a7d09b3df6eb0f2525d1c"
     },
     "stp": {
-      "values_digest": "14cbfd8429a22b3a784bbdf069afcec2d005daa576b0e90a52793db0564e4210",
-      "rendered_digest": "c9367db4090ffbf565b2116614bf9b04e5021383acf2e60dc2c10aac281dc07a",
-      "ast_digest": "8d58e43ec1205d132f1441fa3df49635d79d6b986a76af5f68e2c2f7ad215eaf"
+      "values_digest": "de24e7ffda582b9c61b5482eb9fb22ae224a68e962f4775c108ccf6ed9c038e5",
+      "rendered_digest": "378f4991754c4fed3e0aceba8d8794f007fbb9dbc222d0529c8299cbdc09c68f",
+      "ast_digest": "c34da0ffa852649da90e4d70b6c6e5c2bb006e00fcd475e111e9a7cb0e951ad3"
     },
     "spp": {
-      "values_digest": "64d87314b6ffad1fbae0777636313c890fd9cc841dae0ee9782853ebd6b562da",
+      "values_digest": "88dbbe235efd433918b728d627649323c39d92a7d8848999856963f8d3cd9dc0",
       "rendered_digest": "cee45d603bce939f93f98478201ade8735a3142b2de1024b8e278a34365b0b20",
       "ast_digest": "ae708aac6b2c9088f83b570d1e029fc5b71739a3af0921404fe2eea51f97cab6"
     },
     "vpp": {
-      "values_digest": "c276625153ceeee179c22720e23342e67ae977d5461e24bc69248af204f93280",
-      "rendered_digest": "3103dd4fbd90cde97201eaa76cdeada4bfb4eb8cc81b17c4d757d750b1ef813d",
-      "ast_digest": "d675cddf1d1f4c3d8097704fa1635db4c954cb9a835df02e336b01fc746e99e2"
+      "values_digest": "d340db7d0e89a1c0c953ef97a2a2b260926987e9ac8a80e6fc1201e6a5b6fe0c",
+      "rendered_digest": "446ef06c3d27a4e763226c5ac909de2f9a6929983859f5bb463349abb58180ed",
+      "ast_digest": "214e97eb52f65a4cca55f57e7569e758e19e0fbaf2aa0dbd7e39427f26255b20"
     },
     "srp": {
-      "values_digest": "5aa8c05a8748bb7c6cc2769023a88259022f7cb7b667552c046a6d202dea33b9",
+      "values_digest": "45dd03a04cdef287409b98bb2f641aba400da1616de1d6efca0fbed96faf3499",
       "rendered_digest": "ae75642b670b879f969ae9aab8ef944ccf1e4ab4276b04c9bfb545cea91253ec",
       "ast_digest": "8b71811fb20bfbea6d77b4981603a496f30813e10a59f3ab8edbb5a4d6f7a331"
     },
     "sor": {
-      "values_digest": "92b1ea0e04398225b4c32d803edac532295d08559a263f64421d9619ac030f3e",
+      "values_digest": "df95afa5fd6591d94431a41b62a9d95903be5bc37551de65a933b02770bf5948",
       "rendered_digest": "f5eaa76c1068192e39950c65cd0bb8bdc01da5bf1230b3179d0407534de9954c",
       "ast_digest": "6875c60ad0a12c9cc4ff8ebc6963b27c4f6f5f7f3eb7aa5110c9261b67e1e38a"
     }
@@ -238,6 +238,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:5872-resource-weather",
+      "reason": "Declare the exact issue-owned future source and temporary harness deliverables required for bind-safe admission.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"Focused positive and negative tests\",\"Digest-bound execution proof\",\"Reviewed rollback evidence\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 9,
+      "actor": "codex:5872-resource-weather",
+      "reason": "Declare the issue-owned temporary path harness for bind-safe admission while retaining the exact proof-receipt lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_resource_weather proves signatures, freshness, bounds, replay denial, unavailable metrics, redaction, and deterministic projection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_resource_weather\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/resource_weather.rs\\\"] harness in adl-runtime/tests/distributed_resource_weather.rs will route adl-runtime/src/distributed/resource_weather.rs until integration issue #5878 registers the production module.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=c50f541f8c9f46f586bf1f2ca19366cfe5a23e71b9f64fef0bb3e0fa0c2a0b0f]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5872/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }
