@@ -12,13 +12,19 @@ use axum::{
     routing::get,
     Json, Router,
 };
+use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use futures::StreamExt;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use tokio::net::TcpListener;
 
+use crate::acip::{
+    decode_protobuf_envelope, deterministic_json_to_protobuf, negotiate_version,
+    AcipNegotiationOffer, AcipRuntimeEnvelopeProto,
+};
 use crate::runtime_api_auth::{
     RuntimeApiAuthDecision, RuntimeApiCredentialMetadata, RuntimeApiCredentialStore,
+    RuntimeApiWssAdmissionPolicy, RuntimeApiWssAdmissionRequest,
 };
 
 pub const CSM_RUNTIME_API_SCHEMA: &str = "adl.csm.runtime_api.v1";
@@ -113,6 +119,7 @@ pub struct RuntimeApiFeatureMatrix {
 #[derive(Debug, Clone)]
 pub struct RuntimeApiService {
     credentials: RuntimeApiCredentialStore,
+    wss_admission: Arc<RuntimeApiWssAdmissionPolicy>,
     health: RuntimeApiHealthReport,
     telemetry: RuntimeApiTelemetryConfig,
     matrix: RuntimeApiFeatureMatrix,
@@ -124,9 +131,11 @@ impl RuntimeApiService {
         health: RuntimeApiHealthReport,
         telemetry: RuntimeApiTelemetryConfig,
         matrix: RuntimeApiFeatureMatrix,
+        wss_admission: RuntimeApiWssAdmissionPolicy,
     ) -> Self {
         Self {
             credentials,
+            wss_admission: Arc::new(wss_admission),
             health,
             telemetry,
             matrix,
@@ -252,29 +261,77 @@ async fn wss_handler(
     State(service): State<Arc<RuntimeApiService>>,
     headers: HeaderMap,
 ) -> Response {
-    let authorization = match headers
+    let authorization = headers
         .get(header::AUTHORIZATION)
-        .and_then(|value| value.to_str().ok())
-        .filter(|value| {
-            matches!(
-                service.credentials.authorize(Some(value)),
-                RuntimeApiAuthDecision::Authenticated(_)
-            )
-        }) {
-        Some(value) => value.to_string(),
-        None => return StatusCode::UNAUTHORIZED.into_response(),
-    };
+        .and_then(|value| value.to_str().ok());
+    let origin = headers
+        .get(header::ORIGIN)
+        .and_then(|value| value.to_str().ok());
+    if let Err(reason) =
+        service
+            .wss_admission
+            .authorize_session(&service.credentials, authorization, origin)
+    {
+        return match reason {
+            "origin_required" | "origin_refused" => StatusCode::FORBIDDEN.into_response(),
+            _ => StatusCode::UNAUTHORIZED.into_response(),
+        };
+    }
+    let authorization = authorization.unwrap_or_default().to_string();
+    let origin = origin.unwrap_or_default().to_string();
     ws.max_frame_size(MAX_WSS_FRAME_BYTES)
         .max_message_size(MAX_WSS_FRAME_BYTES)
-        .on_upgrade(move |socket| wss_session(socket, service, authorization))
+        .on_upgrade(move |socket| wss_session(socket, service, authorization, origin))
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AcipWssFrame {
+    #[serde(rename = "type")]
+    frame_type: String,
+    encoding: String,
+    correlation_id: String,
+    body: Value,
+    control_signature: Option<String>,
+}
+
+fn decode_acip_wss_frame(
+    frame: &AcipWssFrame,
+) -> Result<(Vec<u8>, AcipRuntimeEnvelopeProto), String> {
+    if frame.frame_type != "acip" {
+        return Err("not an ACIP frame".to_string());
+    }
+    let bytes = match frame.encoding.as_str() {
+        "deterministic-json" => {
+            let canonical = serde_jcs::to_string(&frame.body)
+                .map_err(|error| format!("canonicalize ACIP frame: {error}"))?;
+            deterministic_json_to_protobuf(&canonical)?
+        }
+        "protobuf-base64" => URL_SAFE_NO_PAD
+            .decode(
+                frame
+                    .body
+                    .as_str()
+                    .ok_or_else(|| "protobuf body must be base64url text".to_string())?,
+            )
+            .map_err(|error| format!("decode protobuf body: {error}"))?,
+        _ => return Err("unsupported ACIP frame encoding".to_string()),
+    };
+    let envelope = decode_protobuf_envelope(&bytes)?;
+    if frame.correlation_id != envelope.correlation_id {
+        return Err("carrier correlation_id does not match envelope".to_string());
+    }
+    Ok((bytes, envelope))
 }
 
 async fn wss_session(
     mut socket: WebSocket,
     service: Arc<RuntimeApiService>,
     authorization: String,
+    origin: String,
 ) {
     let mut refresh = tokio::time::interval(WSS_AUTH_REFRESH);
+    let mut negotiated = false;
     let hello = json!({
         "schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
         "event": "authenticated",
@@ -310,6 +367,67 @@ async fn wss_session(
                         Some("ping") => json!({"schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA, "type": "pong", "body": value.get("body").cloned().unwrap_or(Value::Null)}),
                         Some("feature_matrix") => serde_json::to_value(service.matrix()).unwrap_or_else(|_| json!({"error":"matrix_unavailable"})),
                         Some("shutdown") => json!({"schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA, "type": "shutdown_ack", "status": "accepted", "runtime_boundary": "api_only"}),
+                        Some("negotiate") => {
+                            let offer = value
+                                .get("body")
+                                .cloned()
+                                .and_then(|body| serde_json::from_value::<AcipNegotiationOffer>(body).ok());
+                            let Some(offer) = offer else {
+                                close(&mut socket, "negotiation_refused").await;
+                                return;
+                            };
+                            let Ok(version) = negotiate_version(&offer) else {
+                                close(&mut socket, "negotiation_refused").await;
+                                return;
+                            };
+                            negotiated = true;
+                            json!({
+                                "schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
+                                "type": "negotiated",
+                                "body": version
+                            })
+                        }
+                        Some("acip") => {
+                            if !negotiated {
+                                close(&mut socket, "negotiation_required").await;
+                                return;
+                            }
+                            let Ok(frame) = serde_json::from_value::<AcipWssFrame>(value) else {
+                                close(&mut socket, "invalid_acip_frame").await;
+                                return;
+                            };
+                            let Ok((control_payload, envelope)) = decode_acip_wss_frame(&frame) else {
+                                close(&mut socket, "invalid_acip_frame").await;
+                                return;
+                            };
+                            if let Err(reason) = service.wss_admission.admit(
+                                &service.credentials,
+                                RuntimeApiWssAdmissionRequest {
+                                    authorization: Some(&authorization),
+                                    origin: Some(&origin),
+                                    runtime_id: &envelope.runtime_id,
+                                    frame_bytes: payload.len(),
+                                    replay_id: &envelope.replay_id,
+                                    monotonic_sequence: envelope.monotonic_sequence,
+                                    capability: &envelope.capability,
+                                    authority: &envelope.authority,
+                                    control_payload: &control_payload,
+                                    control_signature: frame.control_signature.as_deref(),
+                                },
+                            ) {
+                                close(&mut socket, reason).await;
+                                return;
+                            }
+                            json!({
+                                "schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
+                                "type": "ack",
+                                "body": {
+                                    "correlation_id": envelope.correlation_id,
+                                    "encoding": frame.encoding,
+                                    "body": frame.body
+                                }
+                            })
+                        }
                         _ => json!({"schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA, "type": "ack", "body": value}),
                     };
                     if socket.send(Message::Text(response.to_string().into())).await.is_err() {
@@ -479,6 +597,13 @@ mod tests {
                 test_health(),
                 test_telemetry(),
                 test_matrix(),
+                RuntimeApiWssAdmissionPolicy::new(
+                    "runtime-a",
+                    ["https://observatory.local".to_string()],
+                    ["runtime.inspect".to_string()],
+                    ["permit-1".to_string()],
+                )
+                .expect("WSS admission policy"),
             )),
             token,
         )

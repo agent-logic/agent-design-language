@@ -1,0 +1,24 @@
+{
+  "issue": 5832,
+  "card": "spp",
+  "expected_generation": 47,
+  "expected_digest": "cfc5c21149e07d0d3e0a5737ac1dacf06ef7dad7696931e5202b25eface1c3c1",
+  "actor": "codex:5832-production-carrier-review",
+  "reason": "Own the production WSS handler required to enforce ACIP admission before dispatch rather than proving a detached policy helper.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/protocol_adapters.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl-runtime/schemas/acip/v1/acip.proto",
+      "adl-runtime/schemas/acip/v1/catalog.json",
+      "docs/api/runtime-v3/v1/acip.openapi.json",
+      ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"
+    ]
+  }
+}

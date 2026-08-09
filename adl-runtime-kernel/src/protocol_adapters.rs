@@ -34,6 +34,9 @@ use crate::{
 
 pub const PROTOCOL_FRAME_SCHEMA: &str = "adl.runtime.protocol_frame.v1";
 pub const PROTOCOL_RESPONSE_SCHEMA: &str = "adl.runtime.protocol_response.v1";
+pub const PROTOCOL_FAMILY: &str = "adl-acip-a2a";
+pub const PROTOCOL_VERSION_MAJOR: u32 = 1;
+pub const PROTOCOL_VERSION_MINOR: u32 = 0;
 pub const MAX_PROTOCOL_FRAME_FRESHNESS_MILLIS: u64 = 60_000;
 pub const MAX_PROTOCOL_RESPONSE_BYTES: usize = 64 * 1024;
 const MAX_PROTOCOL_REPLAY_ENTRIES: usize = 1024;
@@ -318,6 +321,9 @@ pub enum ProtocolBuildError {
 #[serde(deny_unknown_fields)]
 pub struct ProtocolFrame {
     pub schema: String,
+    pub protocol_family: String,
+    pub version_major: u32,
+    pub version_minor: u32,
     pub adapter: AdapterKind,
     pub operation: String,
     pub request_id: String,
@@ -325,6 +331,11 @@ pub struct ProtocolFrame {
     pub principal: String,
     pub permit: Option<ExecutionPermit>,
     pub capability: String,
+    pub correlation_id: String,
+    pub causation_id: String,
+    pub trace_id: String,
+    pub replay_id: String,
+    pub authority: String,
     pub payload_hex: String,
     pub challenge: String,
     pub issued_unix_millis: u64,
@@ -502,6 +513,9 @@ impl ProtocolAdapter {
         );
         let mut frame = ProtocolFrame {
             schema: PROTOCOL_FRAME_SCHEMA.to_owned(),
+            protocol_family: PROTOCOL_FAMILY.to_owned(),
+            version_major: PROTOCOL_VERSION_MAJOR,
+            version_minor: PROTOCOL_VERSION_MINOR,
             adapter: self.kind,
             operation: self.kind.operation_name().to_owned(),
             request_id: request.request_id.clone(),
@@ -509,6 +523,20 @@ impl ProtocolAdapter {
             principal: request.principal.clone(),
             permit: request.permit.clone(),
             capability: self.kind.service_name().to_owned(),
+            correlation_id: request.request_id.clone(),
+            causation_id: request.idempotency_key.clone(),
+            trace_id: request.request_id.clone(),
+            replay_id: format!(
+                "{}:{}:{}",
+                self.kind.service_name(),
+                request.principal,
+                request.idempotency_key
+            ),
+            authority: request
+                .permit
+                .as_ref()
+                .map(|permit| permit.permit_id.clone())
+                .unwrap_or_else(|| "transport-authenticated".to_owned()),
             payload_hex: hex::encode(&request.payload),
             challenge,
             issued_unix_millis,
@@ -886,11 +914,19 @@ impl ProtocolFrame {
             self.challenge
         );
         self.schema == PROTOCOL_FRAME_SCHEMA
+            && self.protocol_family == PROTOCOL_FAMILY
+            && self.version_major == PROTOCOL_VERSION_MAJOR
+            && self.version_minor <= PROTOCOL_VERSION_MINOR
             && self.operation == self.adapter.operation_name()
             && self.capability == self.adapter.service_name()
             && !self.request_id.trim().is_empty()
             && !self.principal.trim().is_empty()
             && !self.idempotency_key.trim().is_empty()
+            && !self.correlation_id.trim().is_empty()
+            && !self.causation_id.trim().is_empty()
+            && !self.trace_id.trim().is_empty()
+            && !self.replay_id.trim().is_empty()
+            && !self.authority.trim().is_empty()
             && !self.challenge.trim().is_empty()
             && self.nonce == expected_nonce
             && self.issued_unix_millis > 0
@@ -918,21 +954,29 @@ impl ProtocolFrame {
     }
 
     fn signing_bytes(&self) -> Vec<u8> {
-        serde_json::to_vec(&(
-            &self.schema,
-            self.adapter,
-            &self.operation,
-            &self.request_id,
-            &self.idempotency_key,
-            &self.principal,
-            &self.permit,
-            &self.capability,
-            &self.payload_hex,
-            &self.challenge,
-            self.issued_unix_millis,
-            self.expires_unix_millis,
-            &self.nonce,
-        ))
+        serde_json::to_vec(&serde_json::json!({
+            "adapter": self.adapter,
+            "authority": self.authority,
+            "capability": self.capability,
+            "causation_id": self.causation_id,
+            "challenge": self.challenge,
+            "correlation_id": self.correlation_id,
+            "expires_unix_millis": self.expires_unix_millis,
+            "idempotency_key": self.idempotency_key,
+            "issued_unix_millis": self.issued_unix_millis,
+            "nonce": self.nonce,
+            "operation": self.operation,
+            "payload_hex": self.payload_hex,
+            "permit": self.permit,
+            "principal": self.principal,
+            "protocol_family": self.protocol_family,
+            "replay_id": self.replay_id,
+            "request_id": self.request_id,
+            "schema": self.schema,
+            "trace_id": self.trace_id,
+            "version_major": self.version_major,
+            "version_minor": self.version_minor
+        }))
         .expect("protocol frame signing tuple is serializable")
     }
 }
@@ -1236,6 +1280,9 @@ mod tests {
         let challenge = "future-challenge".to_owned();
         let mut frame = ProtocolFrame {
             schema: PROTOCOL_FRAME_SCHEMA.to_owned(),
+            protocol_family: PROTOCOL_FAMILY.to_owned(),
+            version_major: PROTOCOL_VERSION_MAJOR,
+            version_minor: PROTOCOL_VERSION_MINOR,
             adapter: AdapterKind::Provider,
             operation: AdapterKind::Provider.operation_name().to_owned(),
             request_id: "future-request".to_owned(),
@@ -1243,6 +1290,11 @@ mod tests {
             principal: "future-principal".to_owned(),
             permit: None,
             capability: AdapterKind::Provider.service_name().to_owned(),
+            correlation_id: "future-request".to_owned(),
+            causation_id: "future-idempotency".to_owned(),
+            trace_id: "future-request".to_owned(),
+            replay_id: "provider:future-principal:future-idempotency".to_owned(),
+            authority: "transport-authenticated".to_owned(),
             payload_hex: hex::encode(b"future-payload"),
             challenge,
             issued_unix_millis: issued,

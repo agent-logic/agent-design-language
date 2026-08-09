@@ -1,0 +1,67 @@
+{
+  "schema": "adl.acip.catalog.v1",
+  "protocol_family": "adl-acip-a2a",
+  "version": { "major": 1, "minor": 0 },
+  "compatibility": {
+    "major": "exact",
+    "minor": "declared-range",
+    "unknown_optional_protobuf_fields": "ignored",
+    "unknown_json_fields": "rejected",
+    "unknown_required_features": "rejected"
+  },
+  "json_projection": {
+    "bytes": "base64url-no-padding",
+    "uint64": "unsigned-decimal-string",
+    "omission": "only-optional-null-fields",
+    "ordering": "RFC8785-JCS",
+    "payload_json": "embedded-RFC8785-JCS-string"
+  },
+  "limits": {
+    "maximum_frame_bytes": 65536,
+    "maximum_required_features": 32,
+    "maximum_replay_entries": 1024
+  },
+  "messages": [
+    {
+      "name": "Envelope",
+      "direction": "bidirectional",
+      "protobuf": "agentlogic.acip.v1.Envelope",
+      "json": "AcipJsonProjection",
+      "authentication": "runtime-api-bearer-plus-signed-control",
+      "capability_required": true
+    },
+    {
+      "name": "NegotiationOffer",
+      "direction": "client-to-runtime",
+      "protobuf": "agentlogic.acip.v1.NegotiationOffer",
+      "json": "AcipNegotiationOffer",
+      "authentication": "runtime-api-bearer",
+      "capability_required": false
+    },
+    {
+      "name": "NegotiatedVersion",
+      "direction": "runtime-to-client",
+      "protobuf": "agentlogic.acip.v1.NegotiatedVersion",
+      "json": "AcipNegotiatedVersion",
+      "authentication": "authenticated-session",
+      "capability_required": false
+    },
+    {
+      "name": "Error",
+      "direction": "runtime-to-client",
+      "protobuf": "agentlogic.acip.v1.Error",
+      "json": "typed-error",
+      "authentication": "authenticated-session",
+      "capability_required": false
+    }
+  ],
+  "supported_features": [
+    "acknowledgement",
+    "authority-context",
+    "causation",
+    "correlation",
+    "deterministic-json",
+    "replay-identity",
+    "trace-context"
+  ]
+}
