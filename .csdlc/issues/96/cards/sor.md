@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Reconciled the Sprint 2 umbrella validator with exact v3 source, evidence, PR-head, merge, and candidate Git topology without weakening terminality or native proof.
+Reconciled the Sprint 2 umbrella validator with exact v3 and bounded real legacy v2 source, evidence, PR-head, merge, and candidate Git topology without weakening terminality or native proof.
 
 ## Artifacts
 
@@ -21,11 +21,13 @@ Reconciled the Sprint 2 umbrella validator with exact v3 source, evidence, PR-he
 
 ## Execution
 
-- Validate ordinary-blob product OID and mode parity plus no-touch history across S, E, H, merge, and umbrella candidate.
-- Require one whole evidence-prefix introduction at E, immutable ordinary blobs through the candidate, and unique exact proof mappings.
-- Verify split issue/code repository identity, qualified closure, exact PR head, merge ancestry, terminal envelope, and frozen sixteen-child dependency DAG.
-- Validate full WP-04.16 production and native macOS, Linux, and Windows receipt digests at the historical child head.
-- Add generated Git history regressions for valid v3 and non-self-referential legacy v2 topology plus fail-closed drift and ambiguity cases.
+- Validate each protected path as one exact ordinary blob with stable OID and mode plus no-touch history across source, evidence, PR head, merge, and umbrella candidate.
+- Require strict proof-descendant mapping, one whole v3 evidence-prefix introduction at E, immutable ordinary blobs through the candidate, and unique exact proof mappings.
+- Bound real legacy v2 compatibility to a receipt preexisting source followed by exactly one complete evidence and proof refresh at E with no later evidence touch.
+- Verify issue/code repository identity, qualified closure, exact PR head, merge ancestry, terminal envelope, and the corrected frozen sixteen-child dependency DAG.
+- Validate generic child WP identity, exact nonzero test target, canonical nested runner, timestamps, command logs, artifacts, negative results, and historical digests.
+- Validate full canonical WP-04.16 production and native macOS, Linux, and Windows commands, nested runners, distinct run identities, logs, artifacts, negative evidence, and source binding at the historical child head.
+- Add 27 generated Git-history regressions and a representative current #5863 legacy receipt check covering valid topology and fail-closed drift, ambiguity, schema, type, and denominator cases.
 
 ## Validation
 
@@ -35,9 +37,9 @@ Reconciled the Sprint 2 umbrella validator with exact v3 source, evidence, PR-he
       "ruby",
       ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"
     ],
-    "purpose": "Run the exact issue-owned umbrella receipt topology regression.",
+    "purpose": "Run 27 generated v3, bounded legacy v2, drift, mapping, type, generic proof, and integrated-native topology cases plus the representative current #5863 legacy shape.",
     "outcome": "passed",
-    "evidence_ref": "focused-ruby-regression.log"
+    "evidence_ref": ".csdlc/evidence/96/focused-ruby-regression.log"
   },
   {
     "command": [
@@ -45,9 +47,29 @@ Reconciled the Sprint 2 umbrella validator with exact v3 source, evidence, PR-he
       "-c",
       ".csdlc/prepared/issues/5862/validate-implementation-wave.rb"
     ],
-    "purpose": "Run the declared syntax gate.",
+    "purpose": "Prove the repaired validator parses successfully.",
     "outcome": "passed",
-    "evidence_ref": "ruby-syntax.log"
+    "evidence_ref": ".csdlc/evidence/96/ruby-syntax.log"
+  },
+  {
+    "command": [
+      "ruby",
+      "-c",
+      ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb"
+    ],
+    "purpose": "Prove the expanded generated-history regression parses successfully.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/96/ruby-syntax.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and patch-hygiene defects across the repaired candidate.",
+    "outcome": "passed",
+    "evidence_ref": "clean exact remediation candidate"
   }
 ]
 

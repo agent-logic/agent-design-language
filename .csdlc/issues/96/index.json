@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8073801c1db6139cb4f3b47f657eae58f3d8a86610257edd3e920da8198d055b",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "033cdfa12ad82750d989b6d8da881738bdd220ddb2df40244a64a19ff669707a",
+  "generation": 5,
+  "digest": "0bde65584282a58e27fda51080158f195e1aebcf899f5ae5856c016a1c3afb80",
   "branch": "codex/96-v3-umbrella-receipt-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-96-v3-umbrella-receipts",
   "review_assignment": null,
@@ -18,40 +18,40 @@
   "diagram_path": ".csdlc/prepared/issues/96/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:issue-96-operator-approved-design",
-      "revision": "b7c82d093043f28973898e6cf86a990284b51378e2e366f8e007b7a2d18488a2"
+      "reviewer": "codex:issue-96-review-remediation-design-reapproval",
+      "revision": "bdc0f7064ba0740ff6fd20397bb29cc917d04a5662c7fd3d05778f17985ae919"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "014b1531ff292057a703cd5e08dc2b3207b45e0f87aedd12cda171a53d2e5e36",
+      "values_digest": "d00d88e4c8d4dbc256a3791bf39c7eadbf85f09cf4795269e0664a2f2f6e8cec",
       "rendered_digest": "47fa0b016172937679f842a69e13bd44cea63f1f70f4165cdeebba9e74eb8ef5",
       "ast_digest": "9307853b35af4f635a4b49867373637d962d96e3a3c0c9f76bb75d4c1b81f2ed"
     },
     "stp": {
-      "values_digest": "7d58f134230df79283a6fafd0efdb0c38f387b648e9e0f51e0be24ec2a442827",
+      "values_digest": "3f8121aab4a0e29472af45eaeabb194c9ad7553ea9aa26d6bbdbcc286cd3a596",
       "rendered_digest": "cc544ad80f4233767ac82742899b1c8c2673c0057549eec8041c76d6c71eae95",
       "ast_digest": "e5cd21916c7bf44345df9861f6eefb20b8fb42234e28924f403dd30501597988"
     },
     "spp": {
-      "values_digest": "8ee0e96e89c769bdeb3ac87a7ccf6286e342f65d7f272e49eb7ad8f5c59ec99a",
-      "rendered_digest": "40377f2f54e7797d6c8a09424c8acc62fe0a79b678a517eb6afcf298fbcef6ef",
-      "ast_digest": "7ca5c615311af966d065dac0cc3994de6d214f84a9dab4ea9b35a0da77380a93"
+      "values_digest": "35ba6202b030d2fa7f3dca78b792f8af67047d7cbc7ee8774d9aa255af6c02de",
+      "rendered_digest": "12b8b7800dd581e944261cc898212d90a04947034f9b2df765464ae0c6fd051c",
+      "ast_digest": "73d20b7c5131f0c61e168536d2526e944566f57a264cc79b167eb5a829216ca3"
     },
     "vpp": {
-      "values_digest": "7bac95d0801526800d33e8f9d92cb27c41cc928bf8a845ec547df391552ba736",
+      "values_digest": "7a93418375545fa6399f8b221f9df81beb73eb310a139e4efad7830191d50d87",
       "rendered_digest": "f4fcca3e76335e5150630e3700e6a5558cd4bc5f44f92b140e7c9fb235da274f",
       "ast_digest": "2c03b66bda88eaf424d10ebc3312682ce18d446ed28c1fd0111a9bb1d666f1ee"
     },
     "srp": {
-      "values_digest": "085005459f120c2dd1a387a3cb3d23dd7534c1fcb7b984576c8c38f0376d318f",
+      "values_digest": "c9aef8e0d1cb578acc0e356129196da08b059cefa2b245d5b805bed8b317ba82",
       "rendered_digest": "8985f783e1b3c63d5a30fd97dd7e01b1457e69e6493ce1b0054602b83c548f95",
       "ast_digest": "3cfe14c0ae849e1533930bfbcdd9378972640fdd5d0ad2cd99c9a107e6506c2e"
     },
     "sor": {
-      "values_digest": "a200905ed60d90c9a199fda7fa9eefe9c40d357b90df74f1c4b4a6452bdb25e5",
-      "rendered_digest": "09ed18424a3ac41286376b3f33e757f4d5e61b993d8e4a9731da241285fc1c81",
-      "ast_digest": "f1db1c88847ed901a329049fb9ac5a3f0440db175fcfe204a725411daa98bc0d"
+      "values_digest": "44ed90cb2381b97a4a0aefc0bb207128d1c111ca0c1382e8d9007652d5da1e47",
+      "rendered_digest": "3bd57acabe09542531f0af0b4a0cbcf1c8337b0c2ab8fd6488dbb74885cb1577",
+      "ast_digest": "b611400a338a11881e2266e48f8905bd50b2e4f71e348cd2f79c5c1ae7fd6b75"
     }
   },
   "transitions": [
@@ -112,6 +112,20 @@
       "actor": "codex:issue-96-v3-umbrella-receipts",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-96-review-remediation-design-reapproval",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-96-review-remediation",
+      "reason": "Record the complete exact-head review remediation and refreshed focused proof before fresh independent review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled the Sprint 2 umbrella validator with exact v3 and bounded real legacy v2 source, evidence, PR-head, merge, and candidate Git topology without weakening terminality or native proof.\",\"changes\":[\"Validate each protected path as one exact ordinary blob with stable OID and mode plus no-touch history across source, evidence, PR head, merge, and umbrella candidate.\",\"Require strict proof-descendant mapping, one whole v3 evidence-prefix introduction at E, immutable ordinary blobs through the candidate, and unique exact proof mappings.\",\"Bound real legacy v2 compatibility to a receipt preexisting source followed by exactly one complete evidence and proof refresh at E with no later evidence touch.\",\"Verify issue/code repository identity, qualified closure, exact PR head, merge ancestry, terminal envelope, and the corrected frozen sixteen-child dependency DAG.\",\"Validate generic child WP identity, exact nonzero test target, canonical nested runner, timestamps, command logs, artifacts, negative results, and historical digests.\",\"Validate full canonical WP-04.16 production and native macOS, Linux, and Windows commands, nested runners, distinct run identities, logs, artifacts, negative evidence, and source binding at the historical child head.\",\"Add 27 generated Git-history regressions and a representative current #5863 legacy receipt check covering valid topology and fail-closed drift, ambiguity, schema, type, and denominator cases.\"],\"artifacts\":[\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"purpose\":\"Run 27 generated v3, bounded legacy v2, drift, mapping, type, generic proof, and integrated-native topology cases plus the representative current #5863 legacy shape.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/focused-ruby-regression.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\"],\"purpose\":\"Prove the repaired validator parses successfully.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/ruby-syntax.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"purpose\":\"Prove the expanded generated-history regression parses successfully.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/ruby-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch-hygiene defects across the repaired candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"clean exact remediation candidate\"}]}"
     }
   ]
 }

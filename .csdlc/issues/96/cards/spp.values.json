@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
     "slug": "v092-v3-umbrella-receipt-topology",
     "version": "v0.92",
-    "generation": 3
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -91,9 +91,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/96/design.md",
-      "design_digest": "b7c82d093043f28973898e6cf86a990284b51378e2e366f8e007b7a2d18488a2",
+      "design_digest": "bdc0f7064ba0740ff6fd20397bb29cc917d04a5662c7fd3d05778f17985ae919",
       "diagram_ref": ".csdlc/prepared/issues/96/diagram.mmd",
-      "diagram_digest": "fc2a29c1ec2859aac4bbfc0c3397f5aa6d81ca7b785e93d8fe57e37602c6636d"
+      "diagram_digest": "d04088250c2b1d26cb5b10f8bf54cc70543400ae505766a0ad8f0751c3b102e1"
     }
   }
 }
