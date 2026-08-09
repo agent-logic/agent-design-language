@@ -1,0 +1,13 @@
+{
+  "issue": 5795,
+  "card": "spp",
+  "expected_generation": 42,
+  "expected_digest": "46cb8480048de0455248ea2f4d65f184dd3367eeb79087e911eeed1f7e47a30f",
+  "actor": "openai-codex:gpt-5:issue-5795-portable-model",
+  "reason": "Focused Rust, Mac MLX, immutable S3 publication, no-launch AWS preflight, and zero-resource cleanup proofs all passed.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "completed"
+  }
+}

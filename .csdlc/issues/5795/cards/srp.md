@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Review issue 5795 exact-head local Shepherd adapter, governed Runtime ingress, response/status projection, Observatory round trip, deterministic negatives, real MLX/Gemma evidence, redaction, failure isolation, and strict local-only/v0.95 non-claims.
+.
 
 ## Prompts
 
@@ -32,12 +32,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The AWS CUDA execution proof remains deferred until the us-west-2 On-Demand G and VT quota reaches four vCPUs.
+- Authenticated WSS and Observatory browser integration remain deferred behind issue 5832 and are not claimed by this foundation slice.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d84f726b4605b2c43442de4dc4274b459ac97011:d9cbc94377ad3a55e6bde12d6103ae653c0271efbfda2536b2ae17be025352e9")
 
-Reviewer: None
+Reviewer: Some("openai-codex:gpt-5:issue-5795-lifecycle-publication-independent-review:2026-08-08")
 
-Result: pre_review
+Result: pass

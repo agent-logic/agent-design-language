@@ -1,0 +1,30 @@
+{
+  "schema": "adl.shepherd.portable_model_publication_evidence.v1",
+  "issue": 5795,
+  "region": "us-west-2",
+  "model_identity": "gemma4:12b",
+  "model_digest_sha256": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+  "ollama_version": "0.31.1",
+  "manifest_key": "shepherd/gemma4-12b/ollama-0.31.1/artifact-manifest.json",
+  "manifest_version_id": "vzsL5k4eBS.AEA.u1GoOqj9RcWPQEsOg",
+  "manifest_sha256": "cfc1e4ad8ce60a7cabc36b612e057fac7fb37324c1d6c79233b35883577b369f",
+  "artifacts_verified": 8,
+  "verification": {
+    "manifest_downloaded_by_exact_version": true,
+    "manifest_sha256_matched": true,
+    "all_object_versions_present": true,
+    "all_object_sizes_matched": true,
+    "all_object_sha256_metadata_matched": true
+  },
+  "cleanup": {
+    "staging_instance_terminated": true,
+    "remaining_issue_tagged_volumes": 0,
+    "temporary_model_write_permission_removed": true,
+    "bucket_public": false
+  },
+  "gpu_inference_proof": {
+    "status": "deferred",
+    "reason": "us-west-2 On-Demand G and VT vCPU quota remains below the fixed g6.xlarge requirement"
+  },
+  "status": "passed"
+}

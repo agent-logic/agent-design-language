@@ -1,0 +1,21 @@
+{
+  "issue": 5795,
+  "card": "spp",
+  "expected_generation": 40,
+  "expected_digest": "f2cf3ca90b63397b7c4f114d64e3dd24c7e33b93366b16822017f19ff2b51ee8",
+  "actor": "openai-codex:gpt-5:issue-5795-portable-model",
+  "reason": "Align affected areas with the bounded Shepherd foundation, portable artifact proof, and fixed AWS GPU runner.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime/tests/shepherd_local_model.rs",
+      "adl/tools/run_wp5795_aws_gpu_proof.sh",
+      ".csdlc/evidence/5795/foundation"
+    ]
+  }
+}
