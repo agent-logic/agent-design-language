@@ -1,0 +1,18 @@
+{
+  "issue": 59,
+  "card": "sor",
+  "expected_generation": 15,
+  "expected_digest": "010d3ecd5ee7d0ae446aecac9fcd6a1ae0fdf9d290371b0734bdb434f6aa0979",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Record deterministic issue-local packet hygiene proof",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["git","diff","--check"],
+      "purpose": "Reject malformed authority-routing packet changes.",
+      "outcome": "passed",
+      "evidence_ref": "git diff --check passed at the issue 59 checkpoint candidate."
+    }
+  },
+  "fail_after_backup": false
+}
