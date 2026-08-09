@@ -16,6 +16,12 @@
     "ordering": "RFC8785-JCS",
     "payload_json": "embedded-RFC8785-JCS-string"
   },
+  "payload_contract": {
+    "payload_type": "non-empty-string",
+    "payload_json": "embedded-RFC8785-JCS-string",
+    "protobuf_projection": "deterministic-field-number-order",
+    "json_projection": "RFC8785-JCS"
+  },
   "limits": {
     "maximum_frame_bytes": 65536,
     "maximum_required_features": 32,
@@ -28,7 +34,14 @@
       "protobuf": "agentlogic.acip.v1.Envelope",
       "json": "AcipJsonProjection",
       "authentication": "runtime-api-bearer-plus-signed-control",
-      "capability_required": true
+      "capability_required": true,
+      "required_semantics": [
+        "schema", "message_id", "source", "target", "route", "payload_json",
+        "monotonic_sequence", "protocol_family", "version_major", "version_minor",
+        "runtime_id", "correlation_id", "causation_id", "trace_id", "replay_id",
+        "capability", "authority", "payload_type", "acknowledgement_requested",
+        "required_features"
+      ]
     },
     {
       "name": "NegotiationOffer",
@@ -36,7 +49,11 @@
       "protobuf": "agentlogic.acip.v1.NegotiationOffer",
       "json": "AcipNegotiationOffer",
       "authentication": "runtime-api-bearer",
-      "capability_required": false
+      "capability_required": false,
+      "required_semantics": [
+        "protocol_family", "supported_major", "minimum_minor", "maximum_minor",
+        "required_features"
+      ]
     },
     {
       "name": "NegotiatedVersion",
@@ -44,7 +61,10 @@
       "protobuf": "agentlogic.acip.v1.NegotiatedVersion",
       "json": "AcipNegotiatedVersion",
       "authentication": "authenticated-session",
-      "capability_required": false
+      "capability_required": false,
+      "required_semantics": [
+        "protocol_family", "version_major", "version_minor", "features"
+      ]
     },
     {
       "name": "Error",
@@ -52,7 +72,8 @@
       "protobuf": "agentlogic.acip.v1.Error",
       "json": "typed-error",
       "authentication": "authenticated-session",
-      "capability_required": false
+      "capability_required": false,
+      "required_semantics": ["code", "message", "correlation_id", "retryable"]
     }
   ],
   "supported_features": [

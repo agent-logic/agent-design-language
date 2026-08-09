@@ -16,7 +16,7 @@ After WP-04 lands, inventory existing ACIP/A2A/WSS/trace contracts, freeze one s
 
 ## Plan
 
-Revision 16
+Revision 17
 
 ## Steps
 
@@ -108,7 +108,6 @@ Digest: 0ddb64863e3e34f2587da73ca88c9ce88eb77000c199807e0c69639234b28b7f
 ## Stop Conditions
 
 - Issue 5821 architecture/security gate is not terminal
-- Issue 5862 WP-04-IMP or any of issues 5863 through 5878 lacks terminal integrated evidence
 - Semantic envelope, schema, catalog, JSON, or WSS authority remains ambiguous
 - Any declared path overlaps an active owner
 - Native macOS, Linux, or Windows proof cannot be produced

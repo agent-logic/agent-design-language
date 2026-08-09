@@ -1,10 +1,15 @@
-use std::{collections::BTreeSet, sync::Arc, time::Duration};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::Arc,
+    time::Duration,
+};
 
 use adl_runtime::{
     acip::{
         deterministic_json_to_protobuf, encode_semantic_envelope, negotiate_version,
         protobuf_to_deterministic_json, AcipEnvelopeInput, AcipNegotiationOffer,
-        CSM_ACIP_PROTOCOL_FAMILY,
+        CSM_ACIP_MAX_REQUIRED_FEATURES, CSM_ACIP_PROTOCOL_FAMILY, CSM_ACIP_SUPPORTED_FEATURES,
+        CSM_ACIP_VERSION_MAJOR, CSM_ACIP_VERSION_MINOR,
     },
     runtime_api::{
         runtime_api_health_report, runtime_api_telemetry_event, serve_runtime_api_listener_until,
@@ -13,7 +18,10 @@ use adl_runtime::{
         CSM_RUNTIME_API_DEFAULT_PORT, CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA,
         CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
     },
-    runtime_api_auth::{RuntimeApiCredentialStore, RuntimeApiWssAdmissionPolicy},
+    runtime_api_auth::{
+        RuntimeApiCredentialStore, RuntimeApiWssAdmissionPolicy,
+        CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES, CSM_RUNTIME_API_WSS_MAX_REPLAY_ENTRIES,
+    },
 };
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use futures::{SinkExt, StreamExt};
@@ -253,6 +261,49 @@ async fn negotiate_session(socket: &mut WebSocketStream<MaybeTlsStream<tokio::ne
     assert_eq!(response["body"]["version_major"], 1);
 }
 
+fn protobuf_message_fields(proto: &str) -> BTreeMap<String, Vec<(String, String, u32, String)>> {
+    let mut messages = BTreeMap::new();
+    let mut current = None;
+    for raw_line in proto.lines() {
+        let line = raw_line.split("//").next().unwrap().trim();
+        if let Some(name) = line
+            .strip_prefix("message ")
+            .and_then(|line| line.strip_suffix(" {"))
+        {
+            current = Some(name.to_string());
+            messages.insert(name.to_string(), Vec::new());
+            continue;
+        }
+        if line == "}" {
+            current = None;
+            continue;
+        }
+        let Some(message) = current.as_ref() else {
+            continue;
+        };
+        let Some(field) = line.strip_suffix(';') else {
+            continue;
+        };
+        let tokens = field.split_whitespace().collect::<Vec<_>>();
+        let (cardinality, offset) = match tokens.first().copied() {
+            Some("optional") | Some("repeated") => (tokens[0], 1),
+            _ => ("singular", 0),
+        };
+        assert_eq!(
+            tokens.get(offset + 2),
+            Some(&"="),
+            "invalid proto field: {line}"
+        );
+        messages.get_mut(message).unwrap().push((
+            tokens[offset].to_string(),
+            tokens[offset + 1].to_string(),
+            tokens[offset + 3].parse().unwrap(),
+            cardinality.to_string(),
+        ));
+    }
+    messages
+}
+
 #[test]
 fn acip_schema_roundtrip_negatives() {
     let proto = include_str!("../schemas/acip/v1/acip.proto");
@@ -262,22 +313,220 @@ fn acip_schema_roundtrip_negatives() {
         "../../docs/api/runtime-v3/v1/acip.openapi.json"
     ))
     .unwrap();
-    assert!(proto.contains("package agentlogic.acip.v1;"));
+    assert!(proto.contains(&format!(
+        "package agentlogic.acip.v{};",
+        CSM_ACIP_VERSION_MAJOR
+    )));
     assert_eq!(catalog["protocol_family"], CSM_ACIP_PROTOCOL_FAMILY);
-    assert_eq!(catalog["messages"].as_array().unwrap().len(), 4);
+    assert_eq!(
+        catalog["version"],
+        serde_json::json!({"major": CSM_ACIP_VERSION_MAJOR, "minor": CSM_ACIP_VERSION_MINOR})
+    );
+    assert_eq!(
+        catalog["limits"],
+        serde_json::json!({
+            "maximum_frame_bytes": CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES,
+            "maximum_required_features": CSM_ACIP_MAX_REQUIRED_FEATURES,
+            "maximum_replay_entries": CSM_RUNTIME_API_WSS_MAX_REPLAY_ENTRIES
+        })
+    );
+    assert_eq!(
+        catalog["json_projection"],
+        serde_json::json!({
+            "bytes": "base64url-no-padding",
+            "uint64": "unsigned-decimal-string",
+            "omission": "only-optional-null-fields",
+            "ordering": "RFC8785-JCS",
+            "payload_json": "embedded-RFC8785-JCS-string"
+        })
+    );
+    assert_eq!(
+        catalog["payload_contract"],
+        serde_json::json!({
+            "payload_type": "non-empty-string",
+            "payload_json": "embedded-RFC8785-JCS-string",
+            "protobuf_projection": "deterministic-field-number-order",
+            "json_projection": "RFC8785-JCS"
+        })
+    );
+    assert_eq!(
+        catalog["supported_features"],
+        serde_json::json!(CSM_ACIP_SUPPORTED_FEATURES)
+    );
+
+    let fields = protobuf_message_fields(proto);
+    let expected_fields = BTreeMap::from([
+        (
+            "Envelope".to_string(),
+            vec![
+                ("string", "schema", 1, "singular"),
+                ("string", "message_id", 2, "singular"),
+                ("string", "source", 3, "singular"),
+                ("string", "target", 4, "singular"),
+                ("string", "route", 5, "singular"),
+                ("string", "payload_json", 6, "singular"),
+                ("uint64", "monotonic_sequence", 7, "singular"),
+                ("string", "protocol_family", 8, "singular"),
+                ("uint32", "version_major", 9, "singular"),
+                ("uint32", "version_minor", 10, "singular"),
+                ("string", "runtime_id", 11, "singular"),
+                ("string", "correlation_id", 12, "singular"),
+                ("string", "causation_id", 13, "singular"),
+                ("string", "trace_id", 14, "singular"),
+                ("string", "replay_id", 15, "singular"),
+                ("string", "capability", 16, "singular"),
+                ("string", "authority", 17, "singular"),
+                ("string", "payload_type", 18, "singular"),
+                ("bool", "acknowledgement_requested", 19, "singular"),
+                ("string", "error_code", 20, "optional"),
+                ("string", "required_features", 21, "repeated"),
+            ],
+        ),
+        (
+            "NegotiationOffer".to_string(),
+            vec![
+                ("string", "protocol_family", 1, "singular"),
+                ("uint32", "supported_major", 2, "singular"),
+                ("uint32", "minimum_minor", 3, "singular"),
+                ("uint32", "maximum_minor", 4, "singular"),
+                ("string", "required_features", 5, "repeated"),
+            ],
+        ),
+        (
+            "NegotiatedVersion".to_string(),
+            vec![
+                ("string", "protocol_family", 1, "singular"),
+                ("uint32", "version_major", 2, "singular"),
+                ("uint32", "version_minor", 3, "singular"),
+                ("string", "features", 4, "repeated"),
+            ],
+        ),
+        (
+            "Error".to_string(),
+            vec![
+                ("string", "code", 1, "singular"),
+                ("string", "message", 2, "singular"),
+                ("string", "correlation_id", 3, "singular"),
+                ("bool", "retryable", 4, "singular"),
+            ],
+        ),
+    ])
+    .into_iter()
+    .map(|(name, fields)| {
+        (
+            name,
+            fields
+                .into_iter()
+                .map(|(kind, name, tag, cardinality)| {
+                    (
+                        kind.to_string(),
+                        name.to_string(),
+                        tag,
+                        cardinality.to_string(),
+                    )
+                })
+                .collect(),
+        )
+    })
+    .collect::<BTreeMap<_, _>>();
+    assert_eq!(fields, expected_fields);
+
+    let expected_message_contracts = BTreeMap::from([
+        (
+            "Envelope",
+            (
+                "bidirectional",
+                "runtime-api-bearer-plus-signed-control",
+                true,
+            ),
+        ),
+        (
+            "NegotiationOffer",
+            ("client-to-runtime", "runtime-api-bearer", false),
+        ),
+        (
+            "NegotiatedVersion",
+            ("runtime-to-client", "authenticated-session", false),
+        ),
+        (
+            "Error",
+            ("runtime-to-client", "authenticated-session", false),
+        ),
+    ]);
     for message in catalog["messages"].as_array().unwrap() {
         let name = message["name"].as_str().unwrap();
-        assert!(
-            proto.contains(&format!("message {name} {{")),
-            "catalog message {name} must be schema-derived"
+        let (direction, authentication, capability_required) = expected_message_contracts[name];
+        assert_eq!(message["direction"], direction);
+        assert_eq!(message["authentication"], authentication);
+        assert_eq!(message["capability_required"], capability_required);
+        let schema_fields = fields[name]
+            .iter()
+            .map(|(_, field, _, _)| field.as_str())
+            .collect::<BTreeSet<_>>();
+        let required_semantics = message["required_semantics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|field| field.as_str().unwrap())
+            .collect::<BTreeSet<_>>();
+        assert!(required_semantics.is_subset(&schema_fields));
+        assert_eq!(
+            required_semantics,
+            schema_fields
+                .into_iter()
+                .filter(|field| *field != "error_code")
+                .collect()
         );
-        assert!(!message["direction"].as_str().unwrap().is_empty());
-        assert!(!message["authentication"].as_str().unwrap().is_empty());
     }
+    assert_eq!(
+        catalog["messages"].as_array().unwrap().len(),
+        expected_message_contracts.len()
+    );
     assert_eq!(
         openapi["paths"]["/v1/acip/ws"]["get"]["x-acip-protocol"]["catalog"],
         "adl-runtime/schemas/acip/v1/catalog.json"
     );
+    let protocol = &openapi["paths"]["/v1/acip/ws"]["get"]["x-acip-protocol"];
+    assert_eq!(protocol["family"], CSM_ACIP_PROTOCOL_FAMILY);
+    assert_eq!(protocol["major"], CSM_ACIP_VERSION_MAJOR);
+    assert_eq!(protocol["minor"], CSM_ACIP_VERSION_MINOR);
+    assert_eq!(
+        protocol["maximumFrameBytes"],
+        CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES
+    );
+    assert_eq!(
+        protocol["admission"],
+        serde_json::json!({
+            "session": ["tls", "runtime-api-bearer", "exact-origin"],
+            "dispatch": [
+                "negotiated-v1", "runtime-id", "signed-control", "capability",
+                "authority", "replay-id", "monotonic-sequence", "frame-size"
+            ]
+        })
+    );
+    assert_eq!(
+        openapi["components"]["securitySchemes"]["runtimeApiBearer"],
+        serde_json::json!({"type": "http", "scheme": "bearer"})
+    );
+    assert_eq!(
+        openapi["components"]["schemas"]["NegotiationOffer"]["properties"]["required_features"]
+            ["maxItems"],
+        CSM_ACIP_MAX_REQUIRED_FEATURES
+    );
+    let openapi_envelope_required = openapi["components"]["schemas"]["EnvelopeJsonProjection"]
+        ["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|field| field.as_str().unwrap())
+        .collect::<BTreeSet<_>>();
+    let catalog_envelope_required = catalog["messages"][0]["required_semantics"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|field| field.as_str().unwrap())
+        .collect::<BTreeSet<_>>();
+    assert_eq!(openapi_envelope_required, catalog_envelope_required);
 
     let bytes = semantic_envelope(u64::MAX, "replay-roundtrip");
     let json = protobuf_to_deterministic_json(&bytes).unwrap();
@@ -350,6 +599,23 @@ async fn production_acip_wss() {
     .await
     .unwrap_err();
     assert!(invalid_origin.to_string().contains("403"));
+
+    for oversized in [
+        Message::Text("x".repeat(CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES + 1).into()),
+        Message::Binary(vec![0; CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES + 1].into()),
+    ] {
+        let (mut denied, _) = connect_async_tls_with_config(
+            request(address, &token),
+            None,
+            false,
+            Some(connector.clone()),
+        )
+        .await
+        .unwrap();
+        denied.next().await.unwrap().unwrap();
+        denied.send(oversized).await.unwrap();
+        expect_policy_close(&mut denied, "frame_size_refused").await;
+    }
 
     let (mut incompatible, _) = connect_async_tls_with_config(
         request(address, &token),

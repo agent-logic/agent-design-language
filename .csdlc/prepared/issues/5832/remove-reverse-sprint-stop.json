@@ -1,0 +1,18 @@
+{
+  "issue": 5832,
+  "card": "spp",
+  "expected_generation": 49,
+  "expected_digest": "f40a3fed5b2575f1f0d0efc6185129a879af93388f999d51aa55191d26232f49",
+  "actor": "codex:5832-independent-sequencing",
+  "reason": "Remove the stale reverse dependency on the distributed sprint while preserving real protocol and platform-proof stop conditions.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Issue 5821 architecture/security gate is not terminal",
+      "Semantic envelope, schema, catalog, JSON, or WSS authority remains ambiguous",
+      "Any declared path overlaps an active owner",
+      "Native macOS, Linux, or Windows proof cannot be produced"
+    ]
+  }
+}

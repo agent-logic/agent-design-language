@@ -35,8 +35,8 @@ Reconcile existing ACIP/A2A semantics into one versioned envelope, protobuf sche
 ## Dependencies
 
 - WP-04 gate issue 5821 terminal
-- WP-04-IMP issue 5862 gates only final distributed exact-head integration and native receipt reconciliation
-- WP-14 protocol, schema, catalog, negotiation, authentication, and WSS work proceeds independently before final integration
+- WP-14 executes and closes independently before WP-04-IMP issue 5862 consumes its terminal protocol contract
+- Current ACIP stream and trace/replay baselines requalified at the implementation revision
 - Issue 5795 consumes terminal WP-14 for final browser-to-Shepherd integration
 - AWS GPU Shepherd sidecar issue 5907 follows terminal WP-14 and local issue 5795 and does not gate either lane
 

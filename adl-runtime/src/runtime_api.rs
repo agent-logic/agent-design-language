@@ -52,6 +52,7 @@ pub const CSM_RUNTIME_API_TELEMETRY_EVENT_SCHEMA: &str = "adl.csm.runtime_api.te
 pub const CSM_RUNTIME_API_DEFAULT_PORT: u16 = 20_997;
 const WSS_AUTH_REFRESH: Duration = Duration::from_millis(25);
 const MAX_WSS_FRAME_BYTES: usize = 64 * 1024;
+const MAX_WSS_TRANSPORT_FRAME_BYTES: usize = MAX_WSS_FRAME_BYTES + 1;
 
 const CSM_RUNTIME_API_HEALTH_PATH: &str = "/v1/health";
 const CSM_RUNTIME_API_METRICS_PATH: &str = "/v1/metrics";
@@ -279,8 +280,8 @@ async fn wss_handler(
     }
     let authorization = authorization.unwrap_or_default().to_string();
     let origin = origin.unwrap_or_default().to_string();
-    ws.max_frame_size(MAX_WSS_FRAME_BYTES)
-        .max_message_size(MAX_WSS_FRAME_BYTES)
+    ws.max_frame_size(MAX_WSS_TRANSPORT_FRAME_BYTES)
+        .max_message_size(MAX_WSS_TRANSPORT_FRAME_BYTES)
         .on_upgrade(move |socket| wss_session(socket, service, authorization, origin))
 }
 
@@ -355,7 +356,11 @@ async fn wss_session(
             }
             message = socket.next() => match message {
                 Some(Ok(Message::Text(payload))) => {
-                    if payload.len() > MAX_WSS_FRAME_BYTES || !service.bearer_still_authorized(&authorization) {
+                    if payload.len() > MAX_WSS_FRAME_BYTES {
+                        close(&mut socket, "frame_size_refused").await;
+                        return;
+                    }
+                    if !service.bearer_still_authorized(&authorization) {
                         close(&mut socket, "credential_revoked").await;
                         return;
                     }
@@ -441,8 +446,22 @@ async fn wss_session(
                 }
                 Some(Ok(Message::Pong(_))) => {}
                 Some(Ok(Message::Close(_))) | None => return,
-                Some(Ok(Message::Binary(_))) | Some(Err(_)) => {
-                    close(&mut socket, "unsupported_frame").await;
+                Some(Ok(Message::Binary(payload))) => {
+                    let reason = if payload.len() > MAX_WSS_FRAME_BYTES {
+                        "frame_size_refused"
+                    } else {
+                        "unsupported_frame"
+                    };
+                    close(&mut socket, reason).await;
+                    return;
+                }
+                Some(Err(error)) => {
+                    let reason = if error.to_string().contains("Message too long") {
+                        "frame_size_refused"
+                    } else {
+                        "websocket_protocol_error"
+                    };
+                    close(&mut socket, reason).await;
                     return;
                 }
             }

@@ -24,7 +24,14 @@
           "catalog": "adl-runtime/schemas/acip/v1/catalog.json",
           "maximumFrameBytes": 65536,
           "backpressure": "bounded-await-no-unbounded-queue",
-          "reconnect": "renegotiate-and-use-new-replay-identities"
+          "reconnect": "renegotiate-and-use-new-replay-identities",
+          "admission": {
+            "session": ["tls", "runtime-api-bearer", "exact-origin"],
+            "dispatch": [
+              "negotiated-v1", "runtime-id", "signed-control", "capability",
+              "authority", "replay-id", "monotonic-sequence", "frame-size"
+            ]
+          }
         }
       }
     }

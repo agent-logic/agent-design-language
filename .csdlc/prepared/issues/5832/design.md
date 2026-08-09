@@ -84,9 +84,8 @@ WP-04 gate issue #5821 must be terminal. WP-14 is an independent protocol lane
 and its disjoint protocol, schema, catalog, deterministic JSON/protobuf
 projection, negotiation, authentication, bounded WSS, and focused proof may
 proceed immediately against current `main`. WP-04-IMP issue #5862 remains an
-independent distributed sprint; only WP-14's final distributed interoperability
-and native-platform receipt reconciliation consumes terminal #5862 merge
-evidence.
+independent distributed sprint and consumes terminal WP-14 protocol evidence;
+WP-14 has no reverse dependency on #5862.
 
 Issue #5795 final browser integration consumes terminal #5832 merge evidence.
 AWS GPU Shepherd sidecar #5907 follows terminal #5832 and local #5795; it is
@@ -115,8 +114,8 @@ schema drift, or auth bypass without adding a second shell-owned launch path.
 `.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb` requires distinct macOS,
 Linux, and native Windows receipts bound to source revision, binary/schema
 digests, exact argv, runner identity, nonzero exchanges, negative-case counts,
-and output artifacts. These final distributed interoperability/native receipts
-remain explicitly deferred until terminal #5862 evidence is available.
+and output artifacts. These native receipts complete WP-14 independently and
+become inputs to later distributed interoperability in #5862.
 Consumer rendering remains deferred to #5837.
 
 ## Rollback
