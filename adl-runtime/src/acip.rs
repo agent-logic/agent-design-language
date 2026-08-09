@@ -511,7 +511,9 @@ pub fn negotiate_version(offer: &AcipNegotiationOffer) -> Result<AcipNegotiatedV
             offer.supported_major, CSM_ACIP_VERSION_MAJOR
         ));
     }
-    if offer.minimum_minor > offer.maximum_minor || CSM_ACIP_VERSION_MINOR < offer.minimum_minor {
+    if offer.minimum_minor > offer.maximum_minor
+        || !(offer.minimum_minor..=offer.maximum_minor).contains(&CSM_ACIP_VERSION_MINOR)
+    {
         return Err("no compatible protocol minor version".to_string());
     }
     let mut features = offer.required_features.clone();
