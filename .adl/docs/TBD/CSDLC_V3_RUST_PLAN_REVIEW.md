@@ -258,3 +258,43 @@ Both reviewers confirmed the identity-interface dependency is acyclic, pending
 intent journals have explicit authority and precedence boundaries, no earlier
 safety correction regressed, and the complete 18-plus-one issue graph remains
 ordered.
+
+## PR 77 Architecture Correction Wave
+
+Final reviewed revision: `7c488b9eea47cd642128fb0d0b38618083c2693d`
+
+Final reviewed scope:
+
+- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md`
+- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd`
+
+Final evidence:
+
+- `.csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json`
+- `.csdlc/evidence/73/provider-reviews/final-v3-ultimate-r2-gemini-result.json`
+- `.csdlc/evidence/73/final-exact-head-review.md`
+
+Claude Sonnet 4.6: `PASS`, no remaining P0-P2 findings.
+
+Gemini 3.1 Pro Preview: `PASS`, no remaining P0-P2 findings.
+
+Independent Codex subagent Planck: `PASS`, no remaining P0-P2 findings.
+
+The correction wave incorporated every actionable review finding, including:
+
+- typed `closing | part_of` linkage through review, publication, readback,
+  checkpoint continuation, finish, and tests;
+- a concrete `AsyncInit` wrapper and exhaustive state/event contract;
+- a closed field/outcome capability matrix with executable recovery and
+  operator-disposition rows;
+- an explicit `checkpoint_completed` transition from successful `PartOf`
+  publication back to executable `implemented` state;
+- a portable official `cli/cli` baseline and reproducible v2 state-size and
+  worst-case audit-growth contracts;
+- normative jq EBNF and negative grammar, fixed Cargo package/binary identity,
+  binding V3-02 thresholds, and exact diagram/text dependency parity.
+
+Earlier request-changes and truncated receipts remain retained as review
+history. The three evidence additions above are the terminal approval set. Any
+later architecture or diagram change invalidates this result and requires fresh
+exact-head review.
