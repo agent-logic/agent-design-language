@@ -12,7 +12,10 @@ mod transport;
 use std::{
     collections::BTreeMap,
     net::Ipv4Addr,
-    sync::Arc,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc, Mutex,
+    },
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
@@ -44,22 +47,30 @@ const CLIENT_NODE: &str = "node-client";
 const CLIENT_GUARDIAN: &str = "guardian-client";
 
 #[derive(Default)]
-struct MemoryAuthority(BTreeMap<String, EnrolledPeer>);
+struct MemoryAuthority(Mutex<BTreeMap<String, EnrolledPeer>>);
 
 impl MemoryAuthority {
     fn with(peers: impl IntoIterator<Item = EnrolledPeer>) -> Self {
-        Self(
+        Self(Mutex::new(
             peers
                 .into_iter()
                 .map(|peer| (peer.node_id.clone(), peer))
                 .collect(),
-        )
+        ))
+    }
+
+    fn remove(&self, node_id: &str) {
+        self.0.lock().unwrap().remove(node_id);
+    }
+
+    fn insert_at(&self, lookup: impl Into<String>, peer: EnrolledPeer) {
+        self.0.lock().unwrap().insert(lookup.into(), peer);
     }
 }
 
 impl EnrollmentAuthority for MemoryAuthority {
     fn enrollment(&self, node_id: &str) -> discovery::DiscoveryResult<Option<EnrolledPeer>> {
-        Ok(self.0.get(node_id).cloned())
+        Ok(self.0.lock().unwrap().get(node_id).cloned())
     }
 }
 
@@ -337,7 +348,7 @@ async fn real_quinn_rustls_discovery_returns_deterministic_non_voting_proposal()
         authority.as_ref(),
         &configured_policy,
         &CancellationToken::new(),
-        timestamp,
+        || Ok(timestamp),
         move |_seed, bytes| {
             let client = client.clone();
             async move {
@@ -593,6 +604,229 @@ fn malformed_payload_and_transport_generation_mismatch_fail_closed() {
     );
 }
 
+#[test]
+fn tampered_expiry_and_inconsistent_authority_identity_fail_closed() {
+    let configured_policy = policy(Duration::from_millis(50));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    let seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 4444).into(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    let authenticated_request = envelope(
+        CLIENT_NODE,
+        CLIENT_GUARDIAN,
+        encode_request(&join_request, &configured_policy).unwrap(),
+    );
+    let mut proposal = propose_join(
+        &authenticated_request,
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        &authority,
+        &configured_policy,
+        timestamp,
+    )
+    .unwrap();
+    proposal.expires_at_unix_secs = u64::MAX;
+    assert_eq!(
+        accept_proposal(
+            &seed,
+            &join_request,
+            &envelope(
+                SERVER_NODE,
+                SERVER_GUARDIAN,
+                serde_json::to_vec(&proposal).unwrap(),
+            ),
+            &authority,
+            &configured_policy,
+            &mut ProposalReplayGuard::new(1).unwrap(),
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::UnexpectedPeer
+    );
+
+    let inconsistent_candidate = MemoryAuthority::default();
+    inconsistent_candidate.insert_at(CLIENT_NODE, peer("node-other", CLIENT_GUARDIAN));
+    inconsistent_candidate.insert_at(SERVER_NODE, peer(SERVER_NODE, SERVER_GUARDIAN));
+    assert_eq!(
+        propose_join(
+            &authenticated_request,
+            &peer(SERVER_NODE, SERVER_GUARDIAN),
+            &inconsistent_candidate,
+            &configured_policy,
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::PeerNotEnrolled
+    );
+
+    let inconsistent_seed = MemoryAuthority::with([peer(CLIENT_NODE, CLIENT_GUARDIAN)]);
+    inconsistent_seed.insert_at(SERVER_NODE, peer("node-other", SERVER_GUARDIAN));
+    let valid_proposal = propose_join(
+        &authenticated_request,
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        &authority,
+        &configured_policy,
+        timestamp,
+    )
+    .unwrap();
+    assert_eq!(
+        accept_proposal(
+            &seed,
+            &join_request,
+            &envelope(
+                SERVER_NODE,
+                SERVER_GUARDIAN,
+                encode_proposal(&valid_proposal, &configured_policy).unwrap(),
+            ),
+            &inconsistent_seed,
+            &configured_policy,
+            &mut ProposalReplayGuard::new(1).unwrap(),
+            timestamp,
+        )
+        .unwrap_err(),
+        DiscoveryError::PeerNotEnrolled
+    );
+}
+
+#[tokio::test]
+async fn expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed() {
+    let configured_policy = policy(Duration::from_millis(50));
+    let timestamp = now();
+    let join_request = request(timestamp);
+    let seed = SeedEndpoint::new(
+        (Ipv4Addr::LOCALHOST, 4444).into(),
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        1,
+    )
+    .unwrap();
+    let authority = Arc::new(MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]));
+    let proposal = propose_join(
+        &envelope(
+            CLIENT_NODE,
+            CLIENT_GUARDIAN,
+            encode_request(&join_request, &configured_policy).unwrap(),
+        ),
+        &peer(SERVER_NODE, SERVER_GUARDIAN),
+        authority.as_ref(),
+        &configured_policy,
+        timestamp,
+    )
+    .unwrap();
+    let response = envelope(
+        SERVER_NODE,
+        SERVER_GUARDIAN,
+        encode_proposal(&proposal, &configured_policy).unwrap(),
+    );
+
+    let revoked_authority = authority.clone();
+    let revoked_response = response.clone();
+    assert_eq!(
+        discover(
+            std::slice::from_ref(&seed),
+            &join_request,
+            authority.as_ref(),
+            &configured_policy,
+            &CancellationToken::new(),
+            || Ok(timestamp),
+            move |_seed, _bytes| {
+                revoked_authority.remove(CLIENT_NODE);
+                let response = revoked_response.clone();
+                async move { Ok(response) }
+            },
+        )
+        .await
+        .unwrap_err(),
+        DiscoveryError::PeerNotEnrolled
+    );
+
+    let rotated_authority = Arc::new(MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]));
+    let rotating = rotated_authority.clone();
+    let rotated_response = response.clone();
+    assert_eq!(
+        discover(
+            std::slice::from_ref(&seed),
+            &join_request,
+            rotated_authority.as_ref(),
+            &configured_policy,
+            &CancellationToken::new(),
+            || Ok(timestamp),
+            move |_seed, _bytes| {
+                let mut rotated = peer(CLIENT_NODE, CLIENT_GUARDIAN);
+                rotated.identity_generation = 2;
+                rotating.insert_at(CLIENT_NODE, rotated);
+                let response = rotated_response.clone();
+                async move { Ok(response) }
+            },
+        )
+        .await
+        .unwrap_err(),
+        DiscoveryError::PeerNotEnrolled
+    );
+
+    let live_authority = MemoryAuthority::with([
+        peer(SERVER_NODE, SERVER_GUARDIAN),
+        peer(CLIENT_NODE, CLIENT_GUARDIAN),
+    ]);
+    let observed_time = Arc::new(AtomicU64::new(timestamp));
+    let exchange_time = observed_time.clone();
+    let clock_time = observed_time.clone();
+    assert_eq!(
+        discover(
+            &[seed],
+            &join_request,
+            &live_authority,
+            &configured_policy,
+            &CancellationToken::new(),
+            move || Ok(clock_time.load(Ordering::SeqCst)),
+            move |_seed, _bytes| {
+                exchange_time.store(timestamp + 31, Ordering::SeqCst);
+                let response = response.clone();
+                async move { Ok(response) }
+            },
+        )
+        .await
+        .unwrap_err(),
+        DiscoveryError::RequestExpired
+    );
+}
+
+#[test]
+fn unsafe_time_policy_bounds_are_rejected() {
+    assert_eq!(
+        DiscoveryPolicy::new(DOMAIN, 1, Duration::from_secs(31)).unwrap_err(),
+        DiscoveryError::InvalidPolicy
+    );
+    assert_eq!(
+        DiscoveryPolicy::new(DOMAIN, 1, Duration::from_secs(1))
+            .unwrap()
+            .with_bounds(301, 60, 4096)
+            .unwrap_err(),
+        DiscoveryError::InvalidPolicy
+    );
+    assert_eq!(
+        DiscoveryPolicy::new(DOMAIN, 1, Duration::from_secs(1))
+            .unwrap()
+            .with_bounds(5, 601, 4096)
+            .unwrap_err(),
+        DiscoveryError::InvalidPolicy
+    );
+}
+
 #[tokio::test]
 async fn discovery_timeout_and_cancellation_are_finite() {
     let configured_policy = policy(Duration::from_millis(20));
@@ -612,7 +846,7 @@ async fn discovery_timeout_and_cancellation_are_finite() {
         &authority,
         &configured_policy,
         &CancellationToken::new(),
-        timestamp,
+        || Ok(timestamp),
         |_seed, _bytes| async {
             tokio::time::sleep(Duration::from_secs(1)).await;
             Err(DiscoveryError::Transport)
@@ -630,7 +864,7 @@ async fn discovery_timeout_and_cancellation_are_finite() {
         &authority,
         &configured_policy,
         &cancellation,
-        timestamp,
+        || Ok(timestamp),
         |_seed, _bytes| async { Err(DiscoveryError::Transport) },
     )
     .await
@@ -654,14 +888,16 @@ fn seed_and_message_resource_bounds_reject_before_work() {
         .collect::<Vec<_>>();
     let authority = MemoryAuthority::with([peer(CLIENT_NODE, CLIENT_GUARDIAN)]);
     let runtime = tokio::runtime::Runtime::new().unwrap();
+    let timestamp = now();
+    let bounded_request = request(timestamp);
     let error = runtime
         .block_on(discover(
             &too_many,
-            &request(now()),
+            &bounded_request,
             &authority,
             &configured_policy,
             &CancellationToken::new(),
-            now(),
+            || Ok(timestamp),
             |_seed, _bytes| async { Err(DiscoveryError::Transport) },
         ))
         .unwrap_err();

@@ -10,6 +10,9 @@ const PROPOSAL_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-JOIN-PROPOSAL-V1\0";
 const MAX_IDENTIFIER_BYTES: usize = 128;
 const MAX_SEEDS: usize = 64;
 const MAX_MESSAGE_BYTES: usize = 64 * 1024;
+const MAX_ATTEMPT_TIMEOUT: Duration = Duration::from_secs(30);
+const MAX_CLOCK_SKEW_SECS: u64 = 5 * 60;
+const MAX_REQUEST_LIFETIME_SECS: u64 = 10 * 60;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum DiscoveryError {
@@ -148,7 +151,10 @@ impl DiscoveryPolicy {
         validate_identifier(&self.trust_domain).map_err(|_| DiscoveryError::InvalidPolicy)?;
         if self.protocol_version == 0
             || self.attempt_timeout.is_zero()
+            || self.attempt_timeout > MAX_ATTEMPT_TIMEOUT
+            || self.max_clock_skew_secs > MAX_CLOCK_SKEW_SECS
             || self.max_request_lifetime_secs == 0
+            || self.max_request_lifetime_secs > MAX_REQUEST_LIFETIME_SECS
             || !(256..=MAX_MESSAGE_BYTES).contains(&self.max_message_bytes)
         {
             return Err(DiscoveryError::InvalidPolicy);
@@ -349,6 +355,7 @@ pub fn accept_proposal<A: EnrollmentAuthority>(
         || proposal.candidate_node_id != request.node_id
         || proposal.candidate_guardian_id != request.guardian_id
         || proposal.candidate_identity_generation != request.identity_generation
+        || proposal.expires_at_unix_secs != request.expires_at_unix_secs
         || proposal.seed_node_id != authenticated_response.node_id
         || proposal.seed_guardian_id != authenticated_response.guardian_id
     {
@@ -372,17 +379,18 @@ pub fn accept_proposal<A: EnrollmentAuthority>(
     Ok(proposal)
 }
 
-pub async fn discover<A, F, Fut>(
+pub async fn discover<A, C, F, Fut>(
     seeds: &[SeedEndpoint],
     request: &JoinRequest,
     authority: &A,
     policy: &DiscoveryPolicy,
     cancellation: &CancellationToken,
-    now_unix_secs: u64,
+    mut clock: C,
     mut exchange: F,
 ) -> DiscoveryResult<JoinProposal>
 where
     A: EnrollmentAuthority,
+    C: FnMut() -> DiscoveryResult<u64>,
     F: FnMut(SeedEndpoint, Vec<u8>) -> Fut,
     Fut: Future<Output = DiscoveryResult<AuthenticatedEnvelope>>,
 {
@@ -390,7 +398,7 @@ where
         return Err(DiscoveryError::Cancelled);
     }
     let seeds = validated_seeds(seeds)?;
-    validate_request(request, policy, now_unix_secs)?;
+    validate_request(request, policy, clock()?)?;
     require_enrolled_identity(
         &request.node_id,
         &request.guardian_id,
@@ -401,6 +409,7 @@ where
     let request_bytes = encode_request(request, policy)?;
     let mut replay = ProposalReplayGuard::new(seeds.len())?;
     let mut saw_timeout = false;
+    let mut last_rejection = None;
     for seed in seeds {
         let response = tokio::select! {
             _ = cancellation.cancelled() => return Err(DiscoveryError::Cancelled),
@@ -416,19 +425,30 @@ where
                 }
             },
         };
-        if let Ok(proposal) = accept_proposal(
+        let response_time = clock()?;
+        require_enrolled_identity(
+            &request.node_id,
+            &request.guardian_id,
+            request.identity_generation,
+            authority,
+            policy,
+        )?;
+        match accept_proposal(
             &seed,
             request,
             &response,
             authority,
             policy,
             &mut replay,
-            now_unix_secs,
+            response_time,
         ) {
-            return Ok(proposal);
+            Ok(proposal) => return Ok(proposal),
+            Err(error) => last_rejection = Some(error),
         }
     }
-    if saw_timeout {
+    if let Some(error) = last_rejection {
+        Err(error)
+    } else if saw_timeout {
         Err(DiscoveryError::Timeout)
     } else {
         Err(DiscoveryError::NoSeedAccepted)
@@ -515,7 +535,10 @@ fn require_enrolled_identity<A: EnrollmentAuthority>(
         .enrollment(node_id)?
         .ok_or(DiscoveryError::PeerNotEnrolled)?;
     validate_enrolled_shape(&enrolled, policy)?;
-    if enrolled.guardian_id != guardian_id || enrolled.identity_generation != generation {
+    if enrolled.node_id != node_id
+        || enrolled.guardian_id != guardian_id
+        || enrolled.identity_generation != generation
+    {
         return Err(DiscoveryError::PeerNotEnrolled);
     }
     Ok(enrolled)
@@ -532,7 +555,8 @@ fn require_enrolled_transport<A: EnrollmentAuthority>(
         .enrollment(node_id)?
         .ok_or(DiscoveryError::PeerNotEnrolled)?;
     validate_enrolled_shape(&enrolled, policy)?;
-    if enrolled.guardian_id != guardian_id
+    if enrolled.node_id != node_id
+        || enrolled.guardian_id != guardian_id
         || enrolled.transport_certificate_generation != certificate_generation
     {
         return Err(DiscoveryError::PeerNotEnrolled);
