@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "421dcbb5f175ad60a76124fe09d92fb357634c3ce493305cc9f9722b6827c02e",
   "phase": "initialized",
-  "generation": 13,
-  "digest": "534760aab689c4fe210e0fceb2d35c796d26843fa1759925db21c6ecafef3856",
+  "generation": 15,
+  "digest": "0995d612e82ec826304cba3ef2ced6f7b18c16024a1d5f54268deeffb8294b0d",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "20644b9c57af29aba4b29b0e398b1a9dff27d4da040d6b968b83ac53fe00ae49",
+      "values_digest": "9df753721e78f7188c2d5d8bd297ecfc55e204d74cd6cf9543619de296c9a61d",
       "rendered_digest": "848efafb64f1e51878c0fd42417d7db98580f297dfc3c8076f1d9708086a0cde",
       "ast_digest": "b5d7fdcc90b719c39e39929e8e5ff23892d508b5cf894f474acc380115aacdf4"
     },
     "stp": {
-      "values_digest": "c3a1580b4e158996c7a4929a9bba604d165bc94fa7e5aecb22a6dc8d187599af",
-      "rendered_digest": "fea82abf15ab0f28337a4800a651131e57a2f1e6f7e3fcd8c814e68220dd8820",
-      "ast_digest": "d69c45d5db7a285879bcff6aeda4981d0c14370ec15e3e5fe05de0142d71874a"
+      "values_digest": "c65615db2f1b423ab579f44e341e8c80ff506ff6a5fe9c130a119428ed8bf616",
+      "rendered_digest": "ae054d6b3b479fde5ce7826f94ac08533b069c56229f10073a70be51f66eab5e",
+      "ast_digest": "92b3d1f818d456262a7b001e47fb10cfbd3906dedb619432b86ed070b2e527b3"
     },
     "spp": {
-      "values_digest": "805f83eec2db67d910375b5d5f2d76159f6be3c98bf76b2de51aedda1ba1ec70",
+      "values_digest": "78c55d747c78a029ce83eca3b4ec6bb3e694bb7d3cbf5c658f6c4d944e390008",
       "rendered_digest": "9d292790e1a5b922a52162025ab6e7dcd4b3c5e0eea8857cd7e33c8e9968cda9",
       "ast_digest": "efc41c42e9221fa1ca69d99c86961e33179cb2fe9bc00ac388bd068cacc0b952"
     },
     "vpp": {
-      "values_digest": "0eae021aa41a8dd24721170b08d697b07a7a87f776626729ed59aeea537e696e",
-      "rendered_digest": "fc4f07be8edb765beb3bb44484af95506e9e363f9f842e052cc205e8adb56f0b",
-      "ast_digest": "429c924b911c5989dd30d0154554c83eb9d4a34cdea4d49d1c48c01924efd820"
+      "values_digest": "7b327f728274d187582df39651ff42ce48cd9772a6f371bb799c4801777144a6",
+      "rendered_digest": "94f81a763f9d917af3b060f7a426e03ec91f99c0cd538f57421fc89619cf9098",
+      "ast_digest": "d743fdd2a607bc67e5a278be7233667bcb18fb03afa3cb92a5a37106eca233b5"
     },
     "srp": {
-      "values_digest": "ea823439bdb64d75f4e7465c130ff035c0c591f22bf7ebb095d76418caaa069b",
+      "values_digest": "ce06a6a88bf8ef322b8da1268a30fb2943d14af20d270ba2243034f61c34b1e9",
       "rendered_digest": "a3245be480e3c976e0421d88778ee4db70d49b5ebd20dc19a44362a2665d8c7c",
       "ast_digest": "7120a6307dcd12e6e48e00f50a177f246e385fbd285df42a062bf3f2de84b1aa"
     },
     "sor": {
-      "values_digest": "c93e509bbd142fa8a1e055dda4dbdd2d64872e6372db98cceebfbc5d3c333be5",
+      "values_digest": "83e1575d71917f9234d00ba0b0569b60ff9cee0023da79d4c1ba33ab6aa187a1",
       "rendered_digest": "487fd8d4c8837237ec4a3f6e75c27b79f9cc7fcf2c78dcb7a42620d988ddde3f",
       "ast_digest": "b10faaed4e8a1e939a1dd7c2228022376bfb3cfb113eab20b0830efe21699b23"
     }
@@ -294,6 +294,20 @@
       "actor": "codex:5821-wp04-key-uniqueness-repair",
       "reason": "Require exact negative promotion proof for duplicate effective voter keys.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_membership proves convergence, monotonic epochs, rejection of voter promotion when the effective Guardian control public key belongs to another active voter, preservation of one-key-per-voter uniqueness through committed snapshot and replay, duplicate and out-of-order event handling, restart recovery, and bounded membership size.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_membership\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=1aa9699231627d02c86b171ce325f7c18f85eb97d0353851ecc2d72c20b50dd3]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5867/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 14,
+      "actor": "codex:5867-membership",
+      "reason": "Declare the exact exclusive source and temporary path-harness test deliverables before execution binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/tests/distributed_membership.rs\",\"Focused positive and fail-closed negative tests\",\"Digest-bound exact-revision execution proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 15,
+      "actor": "codex:5867-membership",
+      "reason": "Declare the issue-owned bounded temporary path harness enabled by merged issue #79 while preserving the exact receipt lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero nextest target proves deterministic membership convergence, monotonic committed epochs, voter control-key uniqueness, bounded size, replay and ordering denial, and verified snapshot restart recovery.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_membership\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/membership.rs\\\"] harness in adl-runtime/tests/distributed_membership.rs routes adl-runtime/src/distributed/membership.rs until issue #5878 owns module registration.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=1aa9699231627d02c86b171ce325f7c18f85eb97d0353851ecc2d72c20b50dd3]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5867/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }

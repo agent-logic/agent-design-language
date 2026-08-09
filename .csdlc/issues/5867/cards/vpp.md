@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5867/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_membership proves convergence, monotonic epochs, rejection of voter promotion when the effective Guardian control public key belongs to another active voter, preservation of one-key-per-voter uniqueness through committed snapshot and replay, duplicate and out-of-order event handling, restart recovery, and bounded membership size.",
+    "proof_role": "Exact nonzero nextest target proves deterministic membership convergence, monotonic committed epochs, voter control-key uniqueness, bounded size, replay and ordering denial, and verified snapshot restart recovery.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,7 +47,7 @@ Diagram: .csdlc/prepared/issues/5867/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": null
+    "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/membership.rs\"] harness in adl-runtime/tests/distributed_membership.rs routes adl-runtime/src/distributed/membership.rs until issue #5878 owns module registration."
   },
   {
     "lane": "exact-revision-proof-receipt",

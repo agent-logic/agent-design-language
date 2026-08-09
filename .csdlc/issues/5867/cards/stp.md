@@ -16,11 +16,11 @@ Implement deterministic membership epochs and bounded topology convergence from 
 
 ## Deliverables
 
-- Deterministic membership epochs and bounded topology convergence from authenticated join events
-- Voter promotion rejects a candidate whose effective Guardian control public key belongs to another active voter
-- A negative test proves duplicate-key promotion fails and snapshot plus replay preserve voter-key uniqueness
-- Convergence, monotonic epoch, duplicate-event, out-of-order, restart, and bounded-size tests
-- Digest-bound execution proof and reviewed rollback evidence
+- adl-runtime/src/distributed/membership.rs
+- adl-runtime/tests/distributed_membership.rs
+- Focused positive and fail-closed negative tests
+- Digest-bound exact-revision execution proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 
