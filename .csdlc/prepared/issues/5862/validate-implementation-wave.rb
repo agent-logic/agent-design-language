@@ -42,6 +42,12 @@ TOPOLOGY_REQUEST = if TOPOLOGY_REQUEST_INDEX
   ARGV.slice!(TOPOLOGY_REQUEST_INDEX, 2)
   path
 end
+AUTHORITY_REQUEST_INDEX = ARGV.index("--validate-authority")
+AUTHORITY_REQUEST = if AUTHORITY_REQUEST_INDEX
+  path = ARGV.fetch(AUTHORITY_REQUEST_INDEX + 1) { abort "missing authority request path" }
+  ARGV.slice!(AUTHORITY_REQUEST_INDEX, 2)
+  path
+end
 
 def git_capture(repo, *argv, allow_failure: false)
   stdout, stderr, status = Open3.capture3("git", "-C", repo, *argv)
@@ -93,6 +99,12 @@ end
 
 def no_path_touches?(repo, from_exclusive, to_inclusive, paths)
   git_capture(repo, "log", "--format=%H", "#{from_exclusive}..#{to_inclusive}", "--", *paths).lines.none? { |line| !line.strip.empty? }
+end
+
+def canonical_code_repository!(index, issue_repository, issue)
+  declared = [index["code_repository"], index.dig("publication", "repository")].compact.reject(&:empty?).uniq
+  abort "conflicting canonical code repositories for ##{issue}" if declared.length > 1
+  declared.first || issue_repository
 end
 
 def validate_historical_runner!(runner, label)
@@ -249,6 +261,18 @@ def validate_full_integrated_proof!(repo:, head:, proof:)
   abort "WP-04.16 native runner identities are missing or duplicated" unless identities.all? { |identity| identity.to_s.match?(SHA256) } && identities.uniq.length == receipts.length
 end
 
+if AUTHORITY_REQUEST
+  request = JSON.parse(File.read(AUTHORITY_REQUEST))
+  index = request.fetch("index")
+  issue = index.fetch("issue")
+  issue_repository = request.fetch("issue_repository")
+  abort "authority issue repository drift for ##{issue}" unless index["repository"] == issue_repository
+  code_repository = canonical_code_repository!(index, issue_repository, issue)
+  abort "manifest code repository drift for ##{issue}" unless request.fetch("code_repository") == code_repository
+  puts "PASS: ##{issue} issue authority #{issue_repository}, code authority #{code_repository}"
+  exit 0
+end
+
 if TOPOLOGY_REQUEST
   request = JSON.parse(File.read(TOPOLOGY_REQUEST))
   mappings = Array(request.fetch("mappings"))
@@ -386,7 +410,8 @@ entries.each do |entry|
   code_repository = entry.fetch("code_repository")
   abort "manifest issue repository drift for ##{issue}" unless issue_repository == index["repository"]
   abort "terminal issue repository drift for ##{issue}" unless terminal["repository"] == issue_repository
-  abort "manifest code repository drift for ##{issue}" unless code_repository == index.fetch("code_repository", issue_repository)
+  canonical_code_repository = canonical_code_repository!(index, issue_repository, issue)
+  abort "manifest code repository drift for ##{issue}" unless code_repository == canonical_code_repository
   abort "invalid child head for ##{issue}" unless child_head.match?(SHA)
   abort "manifest PR drift for ##{issue}" unless entry["pull_request"] == pr
   abort "manifest head drift for ##{issue}" unless entry["head_sha"] == child_head

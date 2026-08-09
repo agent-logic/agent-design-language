@@ -278,4 +278,19 @@ raise "real #5863 legacy artifact/negative denominator missing" if Array(real_le
 real_legacy_source = real_legacy.fetch("source_revision")
 run!("git", "cat-file", "-e", "#{real_legacy_source}:.csdlc/evidence/5863/execution-proof.json", chdir: File.expand_path("../../../..", __dir__))
 
-puts "PASS: 31 generated v3/legacy topology and integrated-native cases, real #5863 legacy shape, plus sixteen-child and exact-DAG guards"
+real_split_index_path = File.expand_path("../../../issues/5863/index.json", __dir__)
+real_split_index = JSON.parse(File.read(real_split_index_path))
+raise "real #5863 split issue repository drift" unless real_split_index["repository"] == "danielbaustin/agent-design-language"
+raise "real #5863 split publication repository drift" unless real_split_index.dig("publication", "repository") == "agent-logic/agent-design-language" && real_split_index.dig("publication", "pull_request") == 54
+authority_request = File.join(Dir.mktmpdir("adl-wave-authority"), "request.json")
+File.write(authority_request, JSON.pretty_generate({"index" => real_split_index, "issue_repository" => "danielbaustin/agent-design-language", "code_repository" => "agent-logic/agent-design-language"}) + "\n")
+stdout, stderr, status = Open3.capture3("ruby", VALIDATOR, "--validate-authority", authority_request)
+raise "real #5863 split authority failed: #{stderr} #{stdout}" unless status.success? && stdout.include?("code authority agent-logic/agent-design-language")
+wrong_request = JSON.parse(File.read(authority_request))
+wrong_request["code_repository"] = "danielbaustin/agent-design-language"
+File.write(authority_request, JSON.pretty_generate(wrong_request) + "\n")
+_stdout, _stderr, status = Open3.capture3("ruby", VALIDATOR, "--validate-authority", authority_request)
+raise "real #5863 old-repository PR alias unexpectedly passed" if status.success?
+FileUtils.remove_entry(File.dirname(authority_request))
+
+puts "PASS: 33 generated v3/legacy topology, integrated-native, and split-authority cases, real #5863 legacy/split shape, plus sixteen-child and exact-DAG guards"
