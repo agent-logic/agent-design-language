@@ -3,11 +3,11 @@
   "issue": 96,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8073801c1db6139cb4f3b47f657eae58f3d8a86610257edd3e920da8198d055b",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 2,
-  "digest": "bf2e66ab9ac5381fae740041c0e7eaf83eb51b84eb6442ebd8eb0dc96ee08ccf",
-  "branch": null,
-  "worktree": null,
+  "digest": "6dc71b80fe1adc7da365b50fb01e0862018b68efa5f9ea162d1f9db9b1de5305",
+  "branch": "codex/96-v3-umbrella-receipt-topology",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-96-v3-umbrella-receipts",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +54,22 @@
       "ast_digest": "c3b85b0e826fb02f3e9804f1322d3c2813b598e5c27a32f778dcef841e183efb"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +91,13 @@
       "actor": "codex:issue-96-v3-umbrella-receipts",
       "reason": "Name the exact owned validator and focused regression deliverables required for bind-safe readiness.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\",\"V3 S-to-E-to-H topology validation with product and evidence immutability\",\"Exact PR head, merge, ancestry, terminal-envelope, denominator, DAG, and #5878 native proof preservation\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
