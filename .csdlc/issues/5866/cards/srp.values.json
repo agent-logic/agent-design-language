@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.04] Seed discovery and authenticated join",
     "slug": "v0-92-wp-04-04-seed-discovery-join",
     "version": "v0.92",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/discovery.rs\nadl-runtime/tests/distributed_discovery.rs\n.csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stderr.log\n.csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log\n.csdlc/evidence/5866/generation-protobuf-durable/execution-proof.json\n.csdlc/evidence/5866/generation-protobuf-durable/negative-cases.json\n.csdlc/evidence/5866/generation-protobuf-durable/runner.txt",
+      "review_revision": "git-blake3:23a6c46ee24621e6017e80f2e3961d86c07c4c66:1a80222344c0dadf1e2c03300b3f1c9168ad1677cdef34619fc22c6b30669095",
+      "reviewer": "subagent:/root/review_5866_hardened",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,12 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Production module registration and durable replay-store path wiring remain intentionally owned by issue #5878.",
+        "Stable path symlink checks do not claim race-free descriptor-relative confinement; storage failures remain fail closed.",
+        "GitHub CI must confirm the republished exact head; local exact nextest, qualified strict Clippy, and v3 receipt validation passed."
+      ],
+      "review_result": "pass"
     }
   }
 }
