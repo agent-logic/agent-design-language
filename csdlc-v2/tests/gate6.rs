@@ -4,8 +4,8 @@ use csdlc_v2::{
         body_has_qualified_github_closing_keyword, body_has_qualified_github_part_of_reference,
         validate_remote,
     },
-    reconcile_action, PublicationAction, PublicationIntent, PublicationLinkageMode,
-    PublicationEvidence, PublicationRequest, RemotePullRequest,
+    reconcile_action, PublicationAction, PublicationEvidence, PublicationIntent,
+    PublicationLinkageMode, PublicationRequest, RemotePullRequest,
 };
 
 fn intent() -> PublicationIntent {
