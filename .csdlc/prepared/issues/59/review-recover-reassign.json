@@ -1,0 +1,7 @@
+{
+  "issue": 59,
+  "expected_generation": 18,
+  "expected_digest": "1bc5aa43afbf35ae36e2d619460c6c6a78e44c144598ac9684b9bcb299f65cd5",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Reassign the exact review to the available independent issue 75 contract owner who completed review of the same substantive revision."
+}

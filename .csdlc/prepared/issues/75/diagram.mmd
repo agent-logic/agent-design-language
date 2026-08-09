@@ -1,0 +1,12 @@
+flowchart LR
+  R["Publication request"] --> M{"linkage_mode"}
+  M -->|"closing"| C["Require exact closing reference"]
+  M -->|"part_of"| P["Require exact Part of reference"]
+  C --> I["Retain typed intent and evidence"]
+  P --> I
+  I --> O["Observe exact remote PR linkage"]
+  O --> F{"finish"}
+  F -->|"closing + merged"| T["Terminal issue authority"]
+  F -->|"part_of"| N["Non-terminal checkpoint only"]
+  C -. "mixed or ambiguous" .-> X["Fail closed"]
+  P -. "closing keyword present" .-> X

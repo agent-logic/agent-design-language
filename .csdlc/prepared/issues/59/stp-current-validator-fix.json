@@ -1,0 +1,20 @@
+{
+  "issue": 59,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "6b09e44e9fff3eef91f409a306e30fb97739e34af9493a899380e96fab6c2c6e",
+  "actor": "codex:59-readiness-refresh",
+  "reason": "Express external-authority deliverables as concrete issue-local artifacts",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      ".csdlc/prepared/issues/59/design.md source-grounded authority decision",
+      ".csdlc/prepared/issues/59/diagram.mmd ownership-boundary diagram",
+      ".csdlc/issues/59 typed lifecycle packet with explicit estimates",
+      ".csdlc/issues/59/cards/stp.md upstream product contract",
+      ".csdlc/issues/59/cards/srp.md retained readiness review truth"
+    ]
+  },
+  "fail_after_backup": false
+}

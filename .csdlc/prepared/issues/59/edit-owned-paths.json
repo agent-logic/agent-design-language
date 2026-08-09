@@ -1,0 +1,16 @@
+{
+  "issue": 59,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "7918a4a3d533becc683592a89798c6d1e06ee09f52a7f7213e3ea48e41e1bbaa",
+  "actor": "codex:59-authority-readiness",
+  "reason": "Replace conceptual areas with the exact repository-owned routing package paths; Codex platform implementation remains external.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ]
+  }
+}

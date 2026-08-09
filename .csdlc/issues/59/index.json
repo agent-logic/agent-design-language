@@ -1,0 +1,339 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 59,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
+  "phase": "published",
+  "generation": 23,
+  "digest": "48af4a87c67c8f30d42b20939065d19c79f49273216c5e66059aaab835b29505",
+  "branch": "codex/59-codex-goal-replacement-readiness",
+  "worktree": "/Volumes/FastWork/adl-issue-59-codex-goal-replacement",
+  "review_assignment": {
+    "reviewer": "subagent:execute_75_to_pr",
+    "assigned_by": "codex:59-authority-checkpoint",
+    "revision": "git-blake3:ea07513854599c602ca2208ba031f804fe922c86:7ec57779526ab9be40be6b40647a2accc7c79b58c39ffe801c64ff2356a0e486",
+    "scope": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:execute_75_to_pr",
+    "scope": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ],
+    "reviewed_revision": "git-blake3:ea07513854599c602ca2208ba031f804fe922c86:7ec57779526ab9be40be6b40647a2accc7c79b58c39ffe801c64ff2356a0e486",
+    "findings": [],
+    "residual_risks": [
+      "The live blocked-goal replacement canary remains upstream until the Codex platform owner ships the product fix.",
+      "Publication must preserve linkage_mode part_of, the exact qualified relationship line, and the issue 75 stack base."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 59,
+    "pull_request": 86,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/86",
+    "base": "codex/75-incremental-publication-linkage",
+    "head": "codex/59-codex-goal-replacement-readiness",
+    "revision": "git-blake3:d5ccc95199950649cf25cfb5ff1f2d4ec2fbf9a3:0232de7056e3af53c3443d3c099dc16448841a4060a0e70ddaa4d12a2e71f8df",
+    "linkage_mode": "part_of",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/59/design.md",
+  "diagram_path": ".csdlc/prepared/issues/59/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:execute_74_to_pr",
+      "revision": "9e9e4d3f49a9310ef698e65d92e6024f530248433de67316900984a9778f7d7e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "63e7aa2a839b392de3c438ca90559fb73ffc72578a16309c9fc3592c740e5261",
+      "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
+      "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
+    },
+    "stp": {
+      "values_digest": "3406ea9fb7156ae48d0315d05c2f50dab15d39d5f34d55f806b825e4c31912e4",
+      "rendered_digest": "5706339d6f1551094d2aa275b844fb71b6d340363ea3f2a5af186724c62d4f4c",
+      "ast_digest": "e1106bd67c9fc776ec89d122ace1c638d7bf81be92ea1917b30ca53f2f7a4d7e"
+    },
+    "spp": {
+      "values_digest": "801f819e48be39e481804a32073919c968df55e474af96a869b994740859d4ae",
+      "rendered_digest": "cb890fea262e0c4b2d170daa39a1844875c345d45dd608c5ccea577c4896b2c7",
+      "ast_digest": "c4e00208ccb590f61e633ee9035fe98ae7f7a6cad0748210a11a8e7625a7e0fc"
+    },
+    "vpp": {
+      "values_digest": "0888315bb82fa59830c99b041a19b3ac3a8a491c67b91910add73dc0d111e4d9",
+      "rendered_digest": "32afc2cd668d2e9175d1c99152e40f78f428cf4f816895af2bba42689aff6ce8",
+      "ast_digest": "d803d68e1b5285e4c4adc4e2dc19150e8fc598cb0eb07b1ef49d1fffa1a2d589"
+    },
+    "srp": {
+      "values_digest": "3631776609c65a013ddb2d48f64bea1b9f88a01429924981907b9764836a7bf0",
+      "rendered_digest": "f13e4b2d378d11a234c7e7464d5106f2da29fbdb5b0f1ef221235d9b24555f1f",
+      "ast_digest": "fbe943c7331953affcf5594d0eb2fa550691dea1727a20e94760150fbb230219"
+    },
+    "sor": {
+      "values_digest": "81e0bb2b903e3368b6779a6da30981b53fe176be82b29cfe515728f6a5691024",
+      "rendered_digest": "81910254556ec300a8c2c9226d4b921e06c42fb6fecfb9dff14f1c1b1f064b6f",
+      "ast_digest": "f67b1fd3b683ebcec319b436327d6476a78d014e8b15ae5e925de33781b0d842"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "The non-closing authority checkpoint and its focused local proof are complete; the external platform fix remains outstanding."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:execute_75_to_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Refresh exact-head review after retaining the reviewer assignment and record requests in tracked preparation evidence."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:execute_75_to_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:59-authority-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:59-authority-readiness",
+      "reason": "Replace conceptual areas with the exact repository-owned routing package paths; Codex platform implementation remains external.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/59\",\".csdlc/prepared/issues/59\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:root",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Express external-authority deliverables as concrete issue-local artifacts",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/59/design.md source-grounded authority decision\",\".csdlc/prepared/issues/59/diagram.mmd ownership-boundary diagram\",\".csdlc/issues/59 typed lifecycle packet with explicit estimates\",\".csdlc/issues/59/cards/stp.md upstream product contract\",\".csdlc/issues/59/cards/srp.md retained readiness review truth\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Select the exact issue-owned authority packet as the deterministic validation denominator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-59-authority-packet-hygiene\",\"proof_role\":\"Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the external-authority package.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/issues/59\",\".csdlc/prepared/issues/59\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"codex-goal-service-replacement-canary\",\"proof_role\":\"Product-owned canary proves blocked-goal history retention, explicit replacement admission, accounting retention, and active-goal overwrite rejection after the Codex platform fix ships.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"codex-platform\",\"test\",\"blocked-goal-replacement\"],\"parallel_group\":\"external-product\",\"defer_reason\":\"Deferred to the OpenAI Codex goal-tool owner because this repository contains no goal admission, persistence, or replacement implementation seam.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Name exact issue-owned authority packet files as the only repository work surface",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/59/design.md\",\".csdlc/prepared/issues/59/diagram.mmd\",\".csdlc/issues/59/cards/stp.md\",\".csdlc/issues/59/cards/vpp.md\",\".csdlc/issues/59/cards/srp.md\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Keep repository validation executable and issue-specific while external product proof remains an upstream acceptance condition",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-59-authority-packet-hygiene\",\"proof_role\":\"Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the reviewed external-authority package.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/prepared/issues/59/design.md\",\".csdlc/prepared/issues/59/diagram.mmd\",\".csdlc/issues/59/cards/stp.md\",\".csdlc/issues/59/cards/vpp.md\",\".csdlc/issues/59/cards/srp.md\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Authorize only a non-closing authority-routing checkpoint after issue 75 supplies typed part_of linkage",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Publish the reviewed external-authority routing packet as a non-closing checkpoint using typed part_of linkage; do not implement or claim the Codex platform fix in ADL.\",\"operation\":\"replan\",\"previous_value\":\"Classify code authority and produce a truthful reviewed routing result; implement only if an actual repository-owned goal replacement seam exists.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Require typed non-closing linkage and forbid an ADL implementation claim",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Repository evidence distinguishes ADL policy and telemetry consumers from the implementation that admits or rejects create_goal\",\"AC-2: The routing result names the OpenAI Codex goal-tool service as external mutation authority unless a concrete repo-owned seam is found\",\"AC-3: The historical blocked goal remains blocked with its status and accounting preserved\",\"AC-4: The exact upstream contract covers explicit replacement or supersession, history retention, accounting retention, and fail-closed active-goal overwrite\",\"AC-5: The checkpoint PR uses typed part_of linkage, contains no closing keyword, and introduces no ADL implementation code, policy workaround, or local goal store\",\"AC-6: Design, diagram, six typed cards, deterministic validation, and exact-head independent review are current and truthful\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Plan the non-closing authority checkpoint without widening into external product implementation",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then publish it with typed part_of linkage as a non-closing checkpoint for the Codex platform owner.\",\"operation\":\"replan\",\"previous_value\":\"Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then route the bounded product contract to the Codex platform owner without an ADL implementation PR.\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Make typed non-closing publication the bounded repository handoff",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Inspect repository code, policies, and retained telemetry consumers to locate or rule out a repo-owned create_goal admission and persistence seam.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Record the authority boundary, invariants, external owner, and exact replacement or supersession contract in the design and diagram.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Validate the typed package and obtain independent exact-head review, resolving every actionable finding without widening into fabricated implementation.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Publish the reviewed packet with linkage_mode part_of and exact body line Part of agent-logic/agent-design-language#59; leave issue 59 open for the Codex platform fix and live canary.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Preserve issue liveness and non-closing publication truth",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Blocked historical goal truth and accounting are never rewritten\",\"ADL does not shadow Codex thread-goal state\",\"Active goals remain protected from accidental overwrite\",\"Repository policy is not weakened as a workaround\",\"No code implementation proceeds without owning source authority\",\"The checkpoint uses linkage_mode part_of and never closes issue 59\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Review the exact non-closing publication boundary and stacked publisher contract",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, inherited issue 75 part_of publisher contract, exact qualified relationship line, and no-closing/no-fabricated-implementation boundary.\",\"operation\":\"replan\",\"previous_value\":\"Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, upstream contract, and no-fabricated-implementation boundary.\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Add exact non-closing relationship checks to review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does any repository executable actually implement create_goal admission or thread-goal persistence?\",\"Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?\",\"Would any proposed workaround falsify the old blocked goal or create divergent state?\",\"Is the upstream replacement or supersession contract precise enough for a product owner to implement and test?\",\"Does publication use linkage_mode part_of with the exact qualified Part of agent-logic/agent-design-language#59 line and no closing keyword?\",\"Are the estimates, stop boundary, changed paths, and exact next action explicit?\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "subagent:execute_74_to_pr",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Record the bounded authority-routing checkpoint without claiming external product implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Prepared a reviewed, non-closing authority-routing checkpoint for the externally owned Codex blocked-goal replacement defect and stacked it on the typed issue 75 part_of publisher contract.\",\"changes\":[\".csdlc/issues/59\",\".csdlc/prepared/issues/59\"],\"artifacts\":[\".csdlc/prepared/issues/59/design.md\",\".csdlc/prepared/issues/59/diagram.mmd\",\"inherited issue 75 typed part_of publication contract at c405895a10440eb4a163ed7ebd084c4e8c617be7\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Record deterministic issue-local packet hygiene proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed authority-routing packet changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check passed at the issue 59 checkpoint candidate.\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Record focused typed publication linkage proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate6\"],\"purpose\":\"Prove default closing compatibility, explicit part_of linkage, qualified split-authority references, retained evidence, and mixed-linkage rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate6 passed 10 tests with 0 failures on the stacked issue 75 implementation.\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "The non-closing authority checkpoint and its focused local proof are complete; the external platform fix remains outstanding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Reassign the exact review to the available independent issue 75 contract owner who completed review of the same substantive revision.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "subagent:execute_75_to_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Refresh exact-head review after retaining the reviewer assignment and record requests in tracked preparation evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "subagent:execute_75_to_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

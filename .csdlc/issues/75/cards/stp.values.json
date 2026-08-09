@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 75,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 publish cannot represent non-closing incremental parent checkpoints",
+    "slug": "incremental-publication-linkage",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Add one typed publication linkage mode and carry it through publication, observation, evidence, and finish.",
+      "deliverables": [
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/model.rs",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/tests/gate6.rs",
+        "csdlc-v2/tests/gate_finish.rs"
+      ],
+      "acceptance_criteria": [
+        "AC-1: closing mode preserves current exact closing-keyword behavior",
+        "AC-2: part_of accepts only an exact non-closing Part of reference",
+        "AC-3: split-authority part_of references are repository-qualified",
+        "AC-4: mixed, ambiguous, or mismatched linkage fails closed",
+        "AC-5: intent, remote observation, and publication evidence retain linkage_mode",
+        "AC-6: finish cannot close or terminalize an issue from part_of evidence",
+        "AC-7: omitted mode remains compatible as closing"
+      ],
+      "dependencies": [
+        "Current C-SDLC v2 publication and finish contracts"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#75",
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/tests/gate6.rs",
+        "csdlc-v2/tests/gate_finish.rs"
+      ],
+      "non_goals": [
+        "Change GitHub issue migration",
+        "Permit unqualified split-authority references",
+        "Change ordinary closing PR behavior",
+        "Add a second publication binary"
+      ]
+    }
+  }
+}

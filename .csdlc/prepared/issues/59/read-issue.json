@@ -1,0 +1,7 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_read",
+  "operation_key": "issue-59-read-v1",
+  "token_file": "/Users/daniel/keys/github.token",
+  "issue": 59
+}
