@@ -7,7 +7,7 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "issue-59-routing-diff-hygiene",
-          "proof_role": "Reject malformed tracked routing artifacts while keeping validation bounded to the authority package.",
+          "lane": "issue-59-authority-packet-hygiene",
+          "proof_role": "Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the reviewed external-authority package.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -33,7 +33,13 @@
           "argv": [
             "git",
             "diff",
-            "--check"
+            "--check",
+            "--",
+            ".csdlc/prepared/issues/59/design.md",
+            ".csdlc/prepared/issues/59/diagram.mmd",
+            ".csdlc/issues/59/cards/stp.md",
+            ".csdlc/issues/59/cards/vpp.md",
+            ".csdlc/issues/59/cards/srp.md"
           ],
           "parallel_group": "issue-local",
           "defer_reason": null

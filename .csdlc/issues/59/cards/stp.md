@@ -16,11 +16,11 @@ Classify code authority and produce a truthful reviewed routing result; implemen
 
 ## Deliverables
 
-- Source-grounded code-authority decision
-- Design and ownership-boundary diagram
-- Six typed C-SDLC cards with explicit planning and validation estimates
-- Exact external authority and upstream next-action contract
-- Independent readiness review with all findings resolved
+- .csdlc/prepared/issues/59/design.md source-grounded authority decision
+- .csdlc/prepared/issues/59/diagram.mmd ownership-boundary diagram
+- .csdlc/issues/59 typed lifecycle packet with explicit estimates
+- .csdlc/issues/59/cards/stp.md upstream product contract
+- .csdlc/issues/59/cards/srp.md retained readiness review truth
 
 ## Acceptance
 

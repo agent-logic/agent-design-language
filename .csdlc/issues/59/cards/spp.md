@@ -16,7 +16,7 @@ Prove the code-ownership boundary, preserve the blocked goal as truthful history
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 

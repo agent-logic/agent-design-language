@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "6b09e44e9fff3eef91f409a306e30fb97739e34af9493a899380e96fab6c2c6e",
+  "generation": 6,
+  "digest": "9414224c264723c841f2b9e68cd0f4363d344b7d77d3302137a87b6bd1e9be15",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b7ff87b6e44712af719e4f69c83a48057285ed51b2dde38c47edb5d1efd67a3c",
+      "values_digest": "28aba5eb59450ae598d0d8a6355466f28c42660ad4dc8079b90841df4b6b3bbe",
       "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
       "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
     },
     "stp": {
-      "values_digest": "e381eb7b15cb41023c4b438f1f2a63e06d510a98e39d43a3ae19e1e4a2e014d6",
-      "rendered_digest": "1510b612b9c6e37238872d54a4885078cff21c9284d07f6f59a6f13229e2b3a7",
-      "ast_digest": "94eedada015eebee48807eb84125e58b9cd9b0e21192c645c22eacccd34fdc0e"
+      "values_digest": "61d2344f1cc9d56c90f52630a61dfe6d88328da995e772d0a3c723a43952704a",
+      "rendered_digest": "7cc25c262e4866a1697fc355d2cf232b885724c32397b0120a500f85399ca721",
+      "ast_digest": "dddf038fb01e6fa0a6a83394e2094ae64ab094e9e44a282771a6c75029724962"
     },
     "spp": {
-      "values_digest": "c5038b90f0e1fd0b56c6669ff512cd980f8b9c13d8ed45ba52ac35c6d8203469",
-      "rendered_digest": "b02888f92a7e0da398f2271daa90a3bfa0b3c7f323a67a671fce981081e528ac",
-      "ast_digest": "f1369dc997c0e4f80ec25b3de2b5752514235454c7917f78f0f7479c6d980ca6"
+      "values_digest": "12f72e772273974efaf48034a2ea921e3f101195dddbc9cdd9fbc371692f791b",
+      "rendered_digest": "809c626fa7c6ed301ae15e3b422c1d1704676e68201397674fcf14e6879b26e2",
+      "ast_digest": "afc7e115a1566eab7aec6d6456332c9c1b9c89a57e2ef5dc60029e42832eeac7"
     },
     "vpp": {
-      "values_digest": "d30ad63e5ce8a63ac99a144ebf85017d19afa9d8d18e6cbc44b46fd774da4bad",
-      "rendered_digest": "2c9b83f9767524531a3522ae7e15462cc79e97bfe09c5365c776e56cc26f0f5c",
-      "ast_digest": "bd1502b662307de8edf42341fb060ddb1b2982ffc3a5c7c3cf72421ea3726fa7"
+      "values_digest": "c66df5e8552220dd8ab9c896781ffded631a9481d706b57a9ab0bbf5c4366758",
+      "rendered_digest": "32afc2cd668d2e9175d1c99152e40f78f428cf4f816895af2bba42689aff6ce8",
+      "ast_digest": "d803d68e1b5285e4c4adc4e2dc19150e8fc598cb0eb07b1ef49d1fffa1a2d589"
     },
     "srp": {
-      "values_digest": "f072d90b6d3db06f9abdf7f63f33b2702a590410d3d50640a2ef91036cdd5c16",
+      "values_digest": "6e76449fa70e6a9376b5138dfdcc681f7859b295a6fd16371fa08a341a6fc460",
       "rendered_digest": "f50abc0afdd64487b2862a1582017a3114579aea5c7a10203d61d422c5496688",
       "ast_digest": "2070043ae410de07e121cc484eee1284d2b78e96e46ff2a8ca1978360f6e4f5f"
     },
     "sor": {
-      "values_digest": "810d5007b5c079780c2fc4038eb4f19dae4e9792047caa4ce7ed8d34a8fd5889",
+      "values_digest": "fd30df9b28369832f49bdf7fd5de6d52422f9ffd9fafeafa1808fc05687fe9fe",
       "rendered_digest": "e5766b73478f755ea4d615a0f1a21fc856d057dd7e2ffa8f81f23e01a5757ace",
       "ast_digest": "6c27a8a040dbf4e5fc383ae59ff385dbafaff9ee00d0775b51c1bdb791503d24"
     }
@@ -76,6 +76,34 @@
       "actor": "subagent:root",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Express external-authority deliverables as concrete issue-local artifacts",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/59/design.md source-grounded authority decision\",\".csdlc/prepared/issues/59/diagram.mmd ownership-boundary diagram\",\".csdlc/issues/59 typed lifecycle packet with explicit estimates\",\".csdlc/issues/59/cards/stp.md upstream product contract\",\".csdlc/issues/59/cards/srp.md retained readiness review truth\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Select the exact issue-owned authority packet as the deterministic validation denominator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-59-authority-packet-hygiene\",\"proof_role\":\"Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the external-authority package.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/issues/59\",\".csdlc/prepared/issues/59\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"codex-goal-service-replacement-canary\",\"proof_role\":\"Product-owned canary proves blocked-goal history retention, explicit replacement admission, accounting retention, and active-goal overwrite rejection after the Codex platform fix ships.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"codex-platform\",\"test\",\"blocked-goal-replacement\"],\"parallel_group\":\"external-product\",\"defer_reason\":\"Deferred to the OpenAI Codex goal-tool owner because this repository contains no goal admission, persistence, or replacement implementation seam.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Name exact issue-owned authority packet files as the only repository work surface",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/59/design.md\",\".csdlc/prepared/issues/59/diagram.mmd\",\".csdlc/issues/59/cards/stp.md\",\".csdlc/issues/59/cards/vpp.md\",\".csdlc/issues/59/cards/srp.md\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:59-readiness-refresh",
+      "reason": "Keep repository validation executable and issue-specific while external product proof remains an upstream acceptance condition",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-59-authority-packet-hygiene\",\"proof_role\":\"Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the reviewed external-authority package.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/prepared/issues/59/design.md\",\".csdlc/prepared/issues/59/diagram.mmd\",\".csdlc/issues/59/cards/stp.md\",\".csdlc/issues/59/cards/vpp.md\",\".csdlc/issues/59/cards/srp.md\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
     }
   ]
 }

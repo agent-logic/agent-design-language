@@ -7,13 +7,13 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Prove the code-ownership boundary, preserve the blocked goal as truthful history, validate and independently review the routing package, then route the bounded product contract to the Codex platform owner without an ADL implementation PR.",
       "steps": [
         {
@@ -56,8 +56,11 @@
         }
       ],
       "affected_areas": [
-        ".csdlc/issues/59",
-        ".csdlc/prepared/issues/59"
+        ".csdlc/prepared/issues/59/design.md",
+        ".csdlc/prepared/issues/59/diagram.mmd",
+        ".csdlc/issues/59/cards/stp.md",
+        ".csdlc/issues/59/cards/vpp.md",
+        ".csdlc/issues/59/cards/srp.md"
       ],
       "invariants": [
         "Blocked historical goal truth and accounting are never rewritten",

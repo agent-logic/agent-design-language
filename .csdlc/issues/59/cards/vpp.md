@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/59/diagram.mmd
 
 [
   {
-    "lane": "issue-59-routing-diff-hygiene",
-    "proof_role": "Reject malformed tracked routing artifacts while keeping validation bounded to the authority package.",
+    "lane": "issue-59-authority-packet-hygiene",
+    "proof_role": "Reject malformed tracked issue-59 routing artifacts while keeping validation bounded to the reviewed external-authority package.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -41,7 +41,13 @@ Diagram: .csdlc/prepared/issues/59/diagram.mmd
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "--",
+      ".csdlc/prepared/issues/59/design.md",
+      ".csdlc/prepared/issues/59/diagram.mmd",
+      ".csdlc/issues/59/cards/stp.md",
+      ".csdlc/issues/59/cards/vpp.md",
+      ".csdlc/issues/59/cards/srp.md"
     ],
     "parallel_group": "issue-local",
     "defer_reason": null
@@ -60,7 +66,7 @@ Tokens: 10000
 
 ## Commands
 
-- `git diff --check`
+- `git diff --check -- .csdlc/prepared/issues/59/design.md .csdlc/prepared/issues/59/diagram.mmd .csdlc/issues/59/cards/stp.md .csdlc/issues/59/cards/vpp.md .csdlc/issues/59/cards/srp.md`
 
 ## Failure Semantics
 
