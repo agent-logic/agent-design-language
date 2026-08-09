@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786263913",
+      "duration_ms": 49971,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=4371]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 49973,
+  "request_id": "issue-73-gemini-approval-0e52c0be",
+  "output_text": "### Findings\n\n**P3: Diagram Arrow Direction for Projection Domain**\nIn the `Core Architecture` section, the Mermaid diagram depicts `Projection --> Store`. However, the text in the `Transaction Store` section correctly specifies that the Store orchestrates the transaction (Steps 6 and 9: \"Render and validate cards and audit projection... Replace generated projections\"). To perfectly reflect the text, the dependency arrow in the diagram should ideally point from `Store` to `Projection` (or indicate that the Store consumes the Projection domain to generate files), as the projection domain does not independently initiate store commits.\n\n**P3: Dynamic Backoff in Foreground Watch**\nIn `V3-14: Implement PR Mutation And Foreground Watch`, the architecture defines strict boundaries for the poll interval (15-second default, 5-minute maximum). While `V3-13: Implement GitHub Adapter` correctly mandates \"rate-limit and retry classification,\" `V3-14` should explicitly note that the `pr watch` poll loop must dynamically respect `Retry-After` headers or rate-limit backoff signals provided by the adapter, silently overriding the CLI-configured interval to prevent token exhaustion during long foreground watches.\n\n### Verification Checklist\n\n*   **Closing and `part_of` publication and race reconciliation:** Verified. `Publication, Watch, Finish, And Clean` strictly separates `Closing` and `PartOf` linkage modes, forbidding `PartOf` from closing a parent. `V3-15` explicitly handles the race condition where a `part_of` parent is closed externally by providing the `ExternalParentClose` disposition to prevent stranded records.\n*   **Exactly 18 implementation specs plus deferred V3-R01:** Verified. The `Implementation Issue Plan` defines exactly 18 implementation issues (V3-01 to V3-09, V3-10A/B, V3-11A/B, V3-12 to V3-16) plus the deferred `V3-R01` retirement issue.\n*   **Portable `cli/cli` proof:** Verified. `Source Baseline` uses the `adl.external_source_baseline.v1` schema to verify exact 40-hex SHA-1 blobs via `git ls-tree`, decoupled from absolute paths or specific local digest tools.\n*   **Single capability matrix with executable single-crate CI:** Verified. `Canonical State And Cards` defines `capabilities.v1.json`, enforcing matrix generation and consistency via `cargo test -p csdlc-v3 capability_matrix --locked`. \n*   **Executable recovery with no graph sinks:** Verified. `Lifecycle Kernel` and `V3-07` mathematically ensure no supported recovery operation strands a record. `review recover` natively bridges states back to `implemented` with atomic field invalidation, forbidding abstract operator sinks.\n*   **Explicit `AsyncInit` cancellation/single-flight state machine:** Verified. `Application Context` defines a precise `Uninitialized`, `Initializing`, `Ready` state machine. Notification and cooldown mechanisms guarantee single-flight behavior, graceful dropout on cancellation, and no detached initializer futures.\n*   **V3-02 binding thresholds:** Verified. `Expected Effect And Measurement` and `V3-02` establish hard stop thresholds (e.g., 35 MiB binary, 30 direct dependencies, strict p95 latencies) that block `V3-03` if missed.\n*   **Diagram/text parity:** Verified. The `Dependency Graph` diagram cleanly matches the cross-issue dependencies detailed in the text (e.g., `V3-04` gating `V3-05` and `V3-13`). The `Core Architecture` text and diagram align well on the 4-layer bounds, pending the minor P3 diagram arrow inversion noted above.\n*   **Reproducible state-size baseline:** Verified. `Canonical State And Cards` details the `state-size-baseline.v1.json` artifact locked at canonical commit `f1c01499` with strict 10x block and 80% warning bounds.\n*   **Closed jq grammar:** Verified. `Output And Error Model` and `V3-03` specify a frozen, closed positive grammar for `--jq` via `jaq-core` and explicitly mandate parsing tests to reject out-of-bounds syntax natively.\n*   **Parser bounds:** Verified. `Root Command Model` and `V3-03` mandate that Clap execution does not initialize the Tokio runtime, credentials, networking, or the repository context.\n*   **Bounded operator simplicity:** Verified. `Executive Decision` and `Acceptance Gates` enforce a 95% surface reduction to a single binary, a single operator skill, discoverable commands, and the strict elimination of daemonized background tasks.\n\nDECISION: PASS",
+  "output_text_excerpt": "[redacted provider text len=4371]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-approval-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

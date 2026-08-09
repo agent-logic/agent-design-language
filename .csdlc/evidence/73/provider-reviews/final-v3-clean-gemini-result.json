@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786263572",
+      "duration_ms": 45301,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=4075]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 45303,
+  "request_id": "issue-73-gemini-clean-final-7d7494f1",
+  "output_text": "**Findings**\n\n**P0 - Verification Core: Contract & Execution Predicates (Satisfied)**\nNo blocking issues found. The architecture meets all rigorous safety, immutability, and state-machine requirements outlined for C-SDLC v3.\n*   **(1) Publication Modes**: Sections `Publication, Watch, Finish, And Clean`, `V3-12`, `V3-14`, and `V3-15` explicitly partition and verify `Closing` vs. `PartOf` linkage, preventing non-closing checkpoints from terminally completing their parent issue and enforcing exact remote readback.\n*   **(2) Implementation Specs**: Section `Implementation Issue Plan` specifies exactly 18 V3 construction issues (V3-01 through V3-16, including A/B splits) and one deferred `V3-R01` retirement issue.\n*   **(3) Portable CLI Proof**: Section `Source Baseline` provides a portable, strict `git ls-tree` proof using a pinned object identity, rejecting any reliance on host-local checkout paths.\n*   **(4) Single Capability Matrix**: Section `Canonical State And Cards` establishes one capability matrix (`capabilities.v1.json`) with an explicit `$ref` schema, immutable test IDs post-V3-01, and a dedicated `cargo test` CI lane to lock test/command coverage.\n*   **(5) Executable Recovery (No Graph Sinks)**: Sections `Lifecycle Kernel` and `V3-10B` guarantee no supported invalidation or operator-required outcome acts as a graph sink; every state retains a typed, executable path out.\n*   **(6) Kernel Recovery Predicates**: Section `Lifecycle Kernel` explicitly bounds `review recover` to transition only from `reviewed`, `published`, or `merge_ready` back to `implemented`, locking out `merged` and `closed_out` sources.\n*   **(7) V3-02 Binding Thresholds**: Sections `Expected Effect And Measurement` and `V3-02` lock 10 exact measurements (binary size, dependency caps, latency, etc.) as binding stop conditions rather than discretionary targets.\n*   **(8) Diagram/Text Dependency Parity**: The Mermaid chart in `Dependency Graph` exactly mirrors the text-defined dependency rules across all issue definitions `V3-01` to `V3-R01`.\n*   **(9) State-size, JQ grammar, AsyncInit Proof**: Sections `Canonical State And Cards`, `Output And Error Model`, and `V3-04` correctly lock the initial state block threshold to 10x the baseline, freeze a strict positive/negative jq boundary with typed usage errors, and require a deterministic, version-pinned test proving `AsyncInit` single-flight retry and cancellation cooldown mechanics.\n*   **(10) Bounded Operator Simplicity**: Sections `Operator Skill` and `Acceptance Gates` enforce exactly one CLI binary, one skill, and completely prohibit detached/background watching or mutation tasks.\n\n**P3 - Observation: Truncated Evidence Visibility**\nSection `V3-11B` specifies output byte limits and evidence digests for PVF runs. When child stdout/stderr hits these limits, operators diagnosing failures via JSON mode will need clear inline markers. Ensure `V3-11B` adds a typed truncation indicator to the result envelope so truncation is visually distinguishable from naturally truncated process output.\n\n**P3 - Observation: SyncInit Permanent Failure Scope**\nSection `Application Context` defines `SyncInit<T>` as caching its initial `Result` (success or error). This means a failed synchronous initialization (e.g., malformed configuration syntax) is cached permanently for that invocation, preventing retry even if the underlying disk state changes mid-command. This is correct and safely prioritizes immutability over late-arrival fixes, but `V3-04` tests should explicitly assert this read-once-and-freeze behavior.\n\n**P3 - Observation: AsyncInit Memory Reclamation on Cancellation**\nSection `Application Context` specifies that dropping the active `get_or_init` closure due to root cancellation leaves the Tokio `OnceCell` uninitialized, permitting retry governed by the cooldown. Ensure the deterministic cancellation test mapped in `V3-04` strictly asserts there are no memory leaks or deadlocks when the Tokio runtime forcefully drops the active future while holding the inner retry mutex.\n\nDECISION: PASS",
+  "output_text_excerpt": "[redacted provider text len=4075]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-clean-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

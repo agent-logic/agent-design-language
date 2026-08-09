@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "claude-sonnet-4-6",
+    "credential_ref": "env:ANTHROPIC_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "model_ref": "claude-sonnet-4-6",
+    "provider_model_id": "claude-sonnet-4-6",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786264857",
+      "duration_ms": 35108,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=4210]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 35108,
+  "request_id": "issue-73-claude-final-pass-8369faed",
+  "output_text": "I will evaluate each prior finding category against the document at commit 8369faedde9afcfa9d731076d2096af430bd1aaf.\n\n---\n\n**1. AsyncInit accessor/attempt/state table** — Resolved. The `AsyncInit<T>` section specifies the closed `AsyncInitState` enum, the `async fn get(&self) -> Result<Arc<T>, Arc<AppError>>` signature, `attempts_started` semantics, the attempt-1/attempt-2 distinction, cooldown, root-cancellation path to `Cancelled`, and the normative transition table with all nine rows. `SyncInit` accessor behavior (no `get_or_try_init`, cached terminal error, no `unwrap`) is specified. No defect.\n\n**2. Closed operator outcomes and exit mapping** — Resolved. The six outcome rows each name producing phases, required next command, and target. The exit table is closed (0/1/2/3/4/5/6/7/130). `operator_required` = exit 7, `reconciliation_required` = stable code `remote_reconciliation` = exit 5, blocked = exit 3, `RetryExhausted` = exit 1, `Interrupted` = exit 130 non-reclassifiable. No defect.\n\n**3. Bounded watch/finish race and PR selection** — Resolved. The stability sandwich (A/B issue observations must match on identity, state, state_reason, updated_at; drift retries within budget), finish's fixed three-sandwich budget with 100 ms pause, and single-PR selection logic are specified. `finish` queries all matching PRs, requires exact equality with the recorded `Closing` publication, rejects zero or multiple closing candidates. No defect.\n\n**4. 18 plus deferred R01** — Resolved. The issue plan counts V3-01 through V3-09, V3-10A/B, V3-11A/B, V3-12 through V3-16 = 18 issues, plus V3-R01 deferred. The table has 19 rows (18 + R01). Text states \"18 implementation issues plus one deferred retirement issue.\" No defect.\n\n**5. Cargo package and binary identity** — Resolved. One Cargo package `csdlc-v3`, one `[[bin]]` target named `csdlc`, one library target, both identities immutable without versioned contract/CI change. No defect.\n\n**6. Portable source/state baselines** — Resolved. The external source baseline specifies `git ls-tree <revision> -- <declared-paths>`, exact 40-hex SHA-1 equality, `git cat-file -e <oid>` per blob, fetch-filter deepening, ancestor verification, and five distinct typed failure modes. The state-size baseline specifies `git cat-file -s <blob-oid>` byte measurement, `git ls-tree` path/OID proof at `f1c01499`, and five distinct typed failure modes. No defect.\n\n**7. Closed lexical jq EBNF** — Resolved. The EBNF is present with terminal definitions for `identifier`, `ident_start`, `ident_continue`, `integer`, `number` (RFC 8259), `string` (RFC 8259). The grammar is stated closed: every token/operator/function/arity absent is rejected during parsing. A named negative corpus is specified. No defect.\n\n**8. Dependency and Decision 11 gates** — Resolved. The dependency graph diagram shows D11 gating V3-08. Text states V3-08 cannot begin before Decision 11 is recorded. V3-02 produces a recommendation that alone cannot satisfy the V3-08 gate. No defect.\n\n**9. Worst-case audit sizing** — Resolved. The state-size baseline section specifies: (a) measure the largest canonical v2 bundle at `f1c01499`; (b) block ≥ max(10× v2 total, 2× projected complete-journey bytes); (c) warning = 80% of block; (d) V3-16 worst-case canary operation count and maximum schema-valid event sizes recorded; (e) complete V3-16 journey must fit below 50% of block using maximum event sizes. The stop condition for impractical block size is explicit. No defect.\n\n**10. Diagram/text parity** — The Mermaid dependency graph is checked against the text dependency descriptions in each issue section.\n\n**P1 DEFECT — Diagram missing V3-11B → V3-16 edge:** The text for V3-16 lists `V3-11B` as a dependency (\"V3-10A, V3-10B, V3-11A, V3-11B, and V3-12 through V3-15\"). The dependency graph diagram does not include a `P11B → P16` edge; it shows `P11A → P16` but not `P11B → P16`. This is a diagram/text parity failure on a hard gate. A reviewer or implementer reading only the diagram would not know that V3-11B must complete before V3-16 starts.\n\n---\n\nNo other P0-P2 defects are found across the remaining reviewed areas.\n\nDECISION: REQUEST_CHANGES",
+  "output_text_excerpt": "[redacted provider text len=4210]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-pass-claude-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

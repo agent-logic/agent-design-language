@@ -1,0 +1,48 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "claude-opus-5",
+    "credential_ref": "env:ANTHROPIC_API_KEY"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "model_ref": "claude-opus-5",
+    "provider_model_id": "claude-opus-5",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-08"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786243235",
+      "duration_ms": 116853,
+      "status": "error",
+      "retryable": false,
+      "http_status": 200,
+      "failure": {
+        "kind": "provider_empty_text_output",
+        "retryable": false,
+        "message": "empty provider output",
+        "provider_error_excerpt": "empty provider output",
+        "http_status": 200
+      }
+    }
+  ],
+  "final_status": "failed",
+  "duration_ms": 116855,
+  "request_id": "issue-73-claude-opus-5-13aad5fd8-r2",
+  "failure": {
+    "kind": "provider_empty_text_output",
+    "retryable": false,
+    "message": "empty provider output",
+    "provider_error_excerpt": "empty provider output",
+    "http_status": 200
+  },
+  "artifact_ref": "<absolute>/claude-r2.result.json@efd4f0aece0d8e8c",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}
