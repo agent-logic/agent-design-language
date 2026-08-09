@@ -228,10 +228,17 @@ Final decision: `PASS`, no remaining P0-P3 findings
 
 Two P1 architecture findings were incorporated: the reviewer-identity adapter
 dependency is now acyclic, and intent journals are explicitly separated from
-lifecycle/card-state authority. One P2 validation-evidence finding is being
-resolved with exact retained commands. The remaining P2 STP wording is retained
-as initial planning history because the typed v2 editor rejects that collection
-mutation in `implemented`; no direct card edit or lifecycle bypass is allowed.
+lifecycle/card-state authority. At that review revision, one P2
+validation-evidence finding still required exact retained commands and the STP
+still carried the initial fourteen-issue wording because the typed v2 editor
+then rejected that collection mutation in `implemented`.
+
+Those two statements are preserved as historical review truth and are now
+superseded. The later typed lifecycle correction updated the STP to the final
+eighteen implementation specifications plus V3-R01 denominator, and the final
+VPP/SOR evidence records the executable exact-object source readback and all
+other final proof lanes. No card was hand-edited and no lifecycle gate was
+bypassed.
 
 The final re-review also confirmed the exact AC-6 proof: repository-local link
 existence, all ten pinned upstream source paths, and a retained Mermaid render.

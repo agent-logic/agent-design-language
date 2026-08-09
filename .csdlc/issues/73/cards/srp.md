@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md
+.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
+.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md
+.adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md
 
 ## Prompts
 

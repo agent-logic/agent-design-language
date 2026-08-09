@@ -20,6 +20,7 @@ Completed and independently reviewed the Rust C-SDLC v3 architecture, robustness
 - .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd
 - .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md
 - .adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md
+- adl/tools/verify_external_git_baseline.sh
 - .csdlc/evidence/73/final-exact-head-review.md
 - .csdlc/evidence/73/architecture.svg
 - .csdlc/evidence/73/official-cli-source-baseline.json
@@ -96,14 +97,12 @@ Completed and independently reviewed the Rust C-SDLC v3 architecture, robustness
   },
   {
     "command": [
-      "jq",
-      "-e",
-      ".schema == \"adl.external_source_baseline.v1\" and .repository == \"https://github.com/cli/cli\" and .default_branch == \"trunk\" and .revision == \"9fc0f70e0ef97446de9166febce546e955675bc3\" and (.objects | length == 10) and (all(.objects[]; .kind == \"blob\" and (.oid | test(\"^[0-9a-f]{40}$\"))))",
+      "adl/tools/verify_external_git_baseline.sh",
       ".csdlc/evidence/73/official-cli-source-baseline.json"
     ],
-    "purpose": "Prove the portable retained cli/cli manifest binds the pinned source revision and all ten cited blobs.",
+    "purpose": "Fetch the pinned cli/cli commit through a bounded partial clone, verify the remote default branch and exact commit, compare every manifest path/OID pair with ls-tree, and prove every referenced blob with cat-file.",
     "outcome": "passed",
-    "evidence_ref": "Fresh portable source-baseline validation completed with exit 0."
+    "evidence_ref": "Fresh remote readback verified all 10 objects at 9fc0f70e0ef97446de9166febce546e955675bc3 on trunk."
   },
   {
     "command": [

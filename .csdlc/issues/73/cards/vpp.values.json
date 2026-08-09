@@ -7,7 +7,7 @@
     "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
     "slug": "csdlc-v3-rust-architecture-and-implementation-issue-plan",
     "version": "unversioned",
-    "generation": 33
+    "generation": 37
   },
   "status": "ready",
   "content": {
@@ -124,17 +124,15 @@
             "AC-1",
             "AC-6"
           ],
-          "deterministic": true,
+          "deterministic": false,
           "resource_profile": "small",
-          "budget_seconds": 30,
+          "budget_seconds": 120,
           "budget_tokens": 1000,
           "argv": [
-            "jq",
-            "-e",
-            ".schema == \"adl.external_source_baseline.v1\" and .repository == \"https://github.com/cli/cli\" and .default_branch == \"trunk\" and .revision == \"9fc0f70e0ef97446de9166febce546e955675bc3\" and (.objects | length == 10) and (all(.objects[]; .kind == \"blob\" and (.oid | test(\"^[0-9a-f]{40}$\")))) and ([.objects[].path] | sort == [\"cmd/gen-docs/main.go\",\"cmd/gh/main.go\",\"internal/ghcmd/cmd.go\",\"pkg/cmd/factory/default.go\",\"pkg/cmd/issue/list/list.go\",\"pkg/cmd/root/root.go\",\"pkg/cmdutil/errors.go\",\"pkg/cmdutil/factory.go\",\"pkg/httpmock/registry.go\",\"pkg/iostreams/iostreams.go\"])",
+            "adl/tools/verify_external_git_baseline.sh",
             ".csdlc/evidence/73/official-cli-source-baseline.json"
           ],
-          "parallel_group": "local",
+          "parallel_group": "external-source",
           "defer_reason": null
         },
         {
