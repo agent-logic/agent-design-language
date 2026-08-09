@@ -178,7 +178,7 @@ pub fn diagnose_with_code_repository(
         report.findings.push(finding(error));
         return report;
     }
-    match execution_readiness_findings_for_cards(store.root(), &cards) {
+    match execution_readiness_findings_for_cards(store.root(), &cards, record.phase) {
         Ok(findings) => report
             .findings
             .extend(findings.into_iter().map(|finding| Finding {

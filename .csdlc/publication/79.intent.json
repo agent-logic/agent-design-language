@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 79,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/79-bind-safe-deferred-targets",
+  "title": "[v0.92][C-SDLC v2] Permit bind-safe deferred Rust targets",
+  "body": "Closes #79\n\n## Summary\n- limits missing Rust source and test deferrals to initialized pre-bind admission\n- requires exact ownership and deliverables, a same-crate exact nextest target, `--no-tests=fail`, strict fail-closed policy, and an explicit temporary `#[path]` harness declaration\n- rejects path-shaped validator deliverables outside issue ownership and ignores narrative deliverables as filesystem targets\n- models the live #5866/#5871/#5872 prose/null-deferral state, proves it blocks, applies the required typed normalization, and proves doctor/bind succeeds\n\n## Validation\n- typed focused Gate 2 validation: 5 passed\n- typed strict Clippy with warnings denied: PASS\n- C-SDLC v2 library tests: 55 passed\n- typed doctor at reviewed phase: PASS, no findings\n- exact-head independent re-review: PASS at c1997952884fc509338dfd9b0116353fc16d7bd2\n\n## Review findings resolved\n- P1: fixture now begins from the exact live child preparation shape and proves the typed normalization handoff\n- P2: unowned path-like validator deliverables now fail explicitly\n\n## Boundary\n- no Distributed Guardian product implementation or shared production module registration\n- live child-owned STP/VPP records still require their demonstrated typed normalization before bind\n- ready PR only; no merge authorization",
+  "draft": false,
+  "revision": "git-blake3:10b8fb6f53d358b149932e58e762136dee8d81c9:52338a3e9ba3e1f7a2cbe2b4f58c613417368098bb13938770b9187148e075f3",
+  "commit_sha": "10b8fb6f53d358b149932e58e762136dee8d81c9"
+}
