@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5867,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "421dcbb5f175ad60a76124fe09d92fb357634c3ce493305cc9f9722b6827c02e",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 17,
-  "digest": "dd80bb7b76b41cb06233ab574d80b94cad73f411b815c9c14931b5033d201a93",
-  "branch": null,
-  "worktree": null,
+  "digest": "6fd91893243ff6e67f6925415b77dd951b00578f7076b09b918cd5514f94682b",
+  "branch": "codex/5867-membership-topology-convergence",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5867-membership",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -322,6 +337,13 @@
       "actor": "codex:5867-membership-execution-prep",
       "reason": "Replace stale claim-era and pre-creation target stops with current Git-topology, dependency, and post-implementation fail-closed gates.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issue #5866 is not closed through merged PR #88 or its exact merge revision is not ancestral to the selected base\",\"The merged discovery, certificate, identity, or transport contract cannot support authenticated membership without widening the two owned paths\",\"Either exact owned path is already present in or collides with another live issue worktree\",\"After implementation the distributed_membership target is absent, selects zero tests, or any required proof fails\",\"Module registration, product scope, dependency ownership, or rollback authority must widen beyond issue #5867\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 17,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
