@@ -1,0 +1,20 @@
+{
+  "issue": 84,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "ffc11efe614898c3d53990f1aff532cb411ac7f03dfa1595244eab34b6881399",
+  "actor": "codex:84-unity-observatory-readiness",
+  "reason": "Name the planned Unity validator target exactly so initialized-phase readiness can defer it only until implementation creates it.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Native RuntimeV3Client adapter for HTTPS/WSS snapshots, events, commands, and reconnect",
+      "Shared-contract-derived runtime-v3-contract.json projection",
+      "Focused Unity tests for schema, ordering, cursor, authority, and failure states",
+      "Explicit native trust, stale, unavailable, backpressure, and version-mismatch states",
+      "Live Unity Editor/player validation entrypoint and retained native evidence",
+      "adl/tools/validate_v092_unity_observatory_live.sh"
+    ]
+  }
+}

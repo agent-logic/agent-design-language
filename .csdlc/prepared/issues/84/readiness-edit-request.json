@@ -1,0 +1,49 @@
+{
+  "issue": 84,
+  "card": "vpp",
+  "expected_generation": 0,
+  "expected_digest": "ca829e0794eba4ab8cb97b69f4c7222f6cb297c44698b00bb362c2962e974437",
+  "actor": "codex:84-unity-observatory-readiness",
+  "reason": "Declare the issue-delivered Unity test and live validation targets as deferred only until implementation creates them and the approved native environment is available.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "unity-runtime-v3-contract-tests",
+        "proof_role": "Prove schema compatibility, ordering, cursor continuity, authorization refusal, and explicit failure-state logic.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 3500,
+        "argv": ["bash", "adl/tools/validate_v092_unity_observatory_live.sh", "--contract-tests-only"],
+        "parallel_group": "unity-contract",
+        "defer_reason": "This contract runner and its Unity test target are issue #84 implementation deliverables; the lane becomes mandatory after those targets are created."
+      },
+      {
+        "lane": "unity-observatory-live-native",
+        "proof_role": "Prove the real Unity Editor/player against Runtime v3 HTTPS/WSS, including controls, refusal, disconnect, and reconnect.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 1800,
+        "budget_tokens": 5000,
+        "argv": ["bash", "adl/tools/validate_v092_unity_observatory_live.sh", "--live"],
+        "parallel_group": "live-unity",
+        "defer_reason": "This live runner is an issue #84 implementation deliverable and requires the approved Unity Editor/player plus the exact live Runtime candidate."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject malformed changes and path-boundary drift.",
+        "acceptance_ids": ["AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ]
+  }
+}

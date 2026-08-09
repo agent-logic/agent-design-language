@@ -1,0 +1,106 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 84,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A-UNITY] Complete the Unity Observatory Runtime v3 client",
+    "slug": "v0-92-unity-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Add one native adapter and shared-contract projection, feed the existing Unity views with truthful connection state, prove authorization and reconnect behavior, and preserve native evidence.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Implement the shared-contract-derived compatibility resource and native HTTPS/WSS adapter.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind existing Unity views and controls to adapter state and real authorized behavior without visual redesign.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused contract tests and bounded reconnect coverage for ordering, cursor continuity, and authority invariants.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run live Unity Editor/player proof against Runtime v3 and review exact-head evidence within the strict path boundary.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs",
+        "demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json",
+        "demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs",
+        "adl/tools/validate_v092_unity_observatory_live.sh"
+      ],
+      "invariants": [
+        "Unity has no independent Runtime schema",
+        "No fixture is labeled live",
+        "Read access never implies write authority",
+        "Reconnect never duplicates events or escalates authority",
+        "No private state or secrets enter Unity assets or evidence",
+        "The approved Unity design remains intact"
+      ],
+      "risks": [
+        "The Unity compatibility resource could drift into a schema fork",
+        "Main-thread Unity lifecycle behavior could race reconnect callbacks",
+        "Reconnect could duplicate events or replay commands",
+        "Native proof could accidentally exercise a fixture or stale Runtime",
+        "Secrets could leak into Unity logs or serialized assets"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The implementation requires changing Runtime, HTML, or shared coordinator paths",
+        "The live endpoint does not match the approved Runtime v3 contract",
+        "Required secrets would enter assets, builds, logs, screenshots, or repository files",
+        "The approved Unity native environment is unavailable for final live proof",
+        "Issue #5836 remains open when final implementation credit is requested"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/84/design.md",
+      "design_digest": "7480307c05a79039b81fcff080ca59d789a39094644e68b68007a2668cf9ebd3",
+      "diagram_ref": ".csdlc/prepared/issues/84/diagram.mmd",
+      "diagram_digest": "ffb2173997cfba8bfa0981ad03c80801f9bea50147db6e328f69657a8a2d1768"
+    }
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "issue": 84,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:84-unity-observatory-readiness",
+  "design_path": ".csdlc/prepared/issues/84/design.md",
+  "diagram_path": ".csdlc/prepared/issues/84/diagram.mmd",
+  "design_reviewer": "pending-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][WP-18A-UNITY] Complete the Unity Observatory Runtime v3 client",
+    "slug": "v0-92-unity-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "goal": "Make the existing Unity Observatory a truthful native consumer of the shared Runtime v3 HTTPS and WSS contract without changing Runtime or HTML.",
+    "required_outcome": "The native Unity client renders fresh Runtime state, executes only authorized controls, preserves the shared schema, and reconnects without duplicate events or authority escalation.",
+    "declared_scope": [
+      "Native Unity Runtime v3 transport adapter",
+      "Versioned Unity compatibility projection derived from the shared Runtime contract",
+      "Focused Unity contract tests and live native validation entrypoint"
+    ],
+    "affected_areas": [
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json",
+      "demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs",
+      "adl/tools/validate_v092_unity_observatory_live.sh"
+    ],
+    "authority_boundary": [
+      "Runtime API, WSS, TLS, launch, and authentication behavior are read-only upstream contracts",
+      "HTML files and proof belong to issue #83",
+      "Shared Guardian restart coordination and final cross-client reconciliation belong to issue #5837",
+      "Existing Unity views consume adapter state but remain visually unchanged"
+    ],
+    "operator_constraints": [
+      "Preserve the approved Unity Observatory design",
+      "Do not create a Unity-only Runtime schema or protocol",
+      "Do not substitute fixtures, cached packets, or static screenshots for live proof",
+      "Do not expose tokens, signing material, private citizen state, or sealed checkpoints",
+      "Do not bind or implement until explicitly authorized"
+    ],
+    "task_boundary": "Implement and prove only the Unity Observatory consumer paths owned by issue #84.",
+    "deliverables": [
+      "Native RuntimeV3Client adapter for HTTPS/WSS snapshots, events, commands, and reconnect",
+      "Shared-contract-derived runtime-v3-contract.json projection",
+      "Focused Unity tests for schema, ordering, cursor, authority, and failure states",
+      "Explicit native trust, stale, unavailable, backpressure, and version-mismatch states",
+      "Live Unity Editor/player validation entrypoint and retained native evidence"
+      ,"adl/tools/validate_v092_unity_observatory_live.sh"
+    ],
+    "acceptance_criteria": [
+      "Unity renders current Runtime v3 snapshots and WSS events through one native adapter with fresh correlation evidence",
+      "The compatibility resource is derived from and remains compatible with the shared Runtime contract without a Unity schema fork",
+      "Every exposed control performs real authorized behavior or shows an explicit unavailable or denied state",
+      "Writes require authenticated authority and refusal cases remain denied before and after reconnect",
+      "TLS trust, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success",
+      "Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay",
+      "Focused Unity tests and live Editor/player proof exercise reads, writes, redaction, refusal, disconnect, and reconnect without fixture substitution",
+      "No files outside the four declared owned paths change during implementation"
+    ],
+    "dependencies": [
+      "#5820 stable Runtime launch and API behavior is terminal",
+      "#5832 versioned ACIP/A2A and WSS contract is terminal",
+      "#5836 first-birthday interaction surface is terminal before final implementation credit",
+      "Approved Unity Editor/player environment is available",
+      "#5837 supplies shared restart coordination for final integration"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/v0.91.6/unity-observatory"
+    ],
+    "non_goals": [
+      "HTML client implementation or proof",
+      "Runtime API, WSS, TLS, launch, or authentication changes",
+      "Cross-client restart coordination",
+      "Unity visual redesign or unrelated scene and prefab changes",
+      "AWS or provider work"
+    ],
+    "plan_summary": "Add one native adapter and shared-contract projection, feed the existing Unity views with truthful connection state, prove authorization and reconnect behavior, and preserve native evidence.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Implement the shared-contract-derived compatibility resource and native HTTPS/WSS adapter.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Bind existing Unity views and controls to adapter state and real authorized behavior without visual redesign.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add focused contract tests and bounded reconnect coverage for ordering, cursor continuity, and authority invariants.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run live Unity Editor/player proof against Runtime v3 and review exact-head evidence within the strict path boundary.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Unity has no independent Runtime schema",
+      "No fixture is labeled live",
+      "Read access never implies write authority",
+      "Reconnect never duplicates events or escalates authority",
+      "No private state or secrets enter Unity assets or evidence",
+      "The approved Unity design remains intact"
+    ],
+    "risks": [
+      "The Unity compatibility resource could drift into a schema fork",
+      "Main-thread Unity lifecycle behavior could race reconnect callbacks",
+      "Reconnect could duplicate events or replay commands",
+      "Native proof could accidentally exercise a fixture or stale Runtime",
+      "Secrets could leak into Unity logs or serialized assets"
+    ],
+    "stop_conditions": [
+      "The implementation requires changing Runtime, HTML, or shared coordinator paths",
+      "The live endpoint does not match the approved Runtime v3 contract",
+      "Required secrets would enter assets, builds, logs, screenshots, or repository files",
+      "The approved Unity native environment is unavailable for final live proof",
+      "Issue #5836 remains open when final implementation credit is requested"
+    ],
+    "review_scope": "Unity adapter boundaries, shared-schema compatibility, main-thread state delivery, authorization, reconnect correctness, failure rendering, and live native proof.",
+    "review_prompts": [
+      "Can the Unity compatibility resource diverge from the shared Runtime contract?",
+      "Can reconnect callbacks race Unity lifecycle or duplicate an event?",
+      "Can any control imply or exercise authority the Runtime denied?",
+      "Can cached or fixture state be presented as live?",
+      "Can tokens, keys, private state, or sealed data leak into assets or evidence?"
+    ],
+    "failure_policy": "Fail closed into an explicit read-only, stale, denied, version-mismatch, or unavailable state; never synthesize live success or a Unity-only compatibility path.",
+    "planning_profile": "medium",
+    "validation_lanes": [
+      {
+        "lane": "unity-runtime-v3-contract-tests",
+        "proof_role": "Prove schema compatibility, ordering, cursor continuity, authorization refusal, and explicit failure-state logic.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 3500,
+        "argv": ["bash", "adl/tools/validate_v092_unity_observatory_live.sh", "--contract-tests-only"],
+        "parallel_group": "unity-contract",
+        "defer_reason": "This contract runner and its Unity test target are issue #84 implementation deliverables; the lane becomes mandatory after those targets are created."
+      },
+      {
+        "lane": "unity-observatory-live-native",
+        "proof_role": "Prove the real Unity Editor/player against Runtime v3 HTTPS/WSS, including controls, refusal, disconnect, and reconnect.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 1800,
+        "budget_tokens": 5000,
+        "argv": ["bash", "adl/tools/validate_v092_unity_observatory_live.sh", "--live"],
+        "parallel_group": "live-unity",
+        "defer_reason": "This live runner is an issue #84 implementation deliverable and requires the approved Unity Editor/player plus the exact live Runtime candidate."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject malformed changes and path-boundary drift.",
+        "acceptance_ids": ["AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ]
+  }
+}

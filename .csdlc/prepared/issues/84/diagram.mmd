@@ -1,0 +1,9 @@
+flowchart LR
+    U["Unity Observatory"] --> A["RuntimeV3Client native adapter"]
+    A -->|"HTTPS snapshot and readiness"| R["Runtime v3 API"]
+    A <-->|"Authenticated WSS events and commands"| W["Runtime v3 WSS"]
+    C["Shared Runtime contract projection"] --> A
+    A --> V["Existing Unity views"]
+    V --> S["Live, stale, denied, unavailable states"]
+    G["Guardian restart coordinator, issue 5837"] -.->|"shared restart proof only"| A
+    H["HTML client, issue 83"] -.->|"shared contract, separate ownership"| C

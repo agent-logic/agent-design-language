@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 84,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A-UNITY] Complete the Unity Observatory Runtime v3 client",
+    "slug": "v0-92-unity-observatory-runtime-v3-client",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Unity adapter boundaries, shared-schema compatibility, main-thread state delivery, authorization, reconnect correctness, failure rendering, and live native proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can the Unity compatibility resource diverge from the shared Runtime contract?",
+        "Can reconnect callbacks race Unity lifecycle or duplicate an event?",
+        "Can any control imply or exercise authority the Runtime denied?",
+        "Can cached or fixture state be presented as live?",
+        "Can tokens, keys, private state, or sealed data leak into assets or evidence?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

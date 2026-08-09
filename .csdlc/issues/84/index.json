@@ -1,0 +1,88 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 84,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "49a8747980b7a5374b48710c030c2d5382e454bc5df32f6f5582002a71847d82",
+  "phase": "initialized",
+  "generation": 3,
+  "digest": "ac8b692c334150c9e3e58f90b4324833d3c64297ec1d9a11c65f42440afdca33",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/84/design.md",
+  "diagram_path": ".csdlc/prepared/issues/84/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:84-unity-observatory-readiness-design-review",
+      "revision": "7480307c05a79039b81fcff080ca59d789a39094644e68b68007a2668cf9ebd3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "359c365f5eb0c4289018f0acadbb422ac9db5143f5f2defca817855cafd09f20",
+      "rendered_digest": "141c9617c5490d8da55a712603ea01d2abab298c474a74b6a3fb41b4431fb46a",
+      "ast_digest": "b52bce278e9c831309f3fb56c51354af87bcf63683d662f474b996aa1a432ac8"
+    },
+    "stp": {
+      "values_digest": "3565553b0535cc85c4dc211003ecac13219763dffafe3a97b7c91323a203a91e",
+      "rendered_digest": "c72542096d6fe2578049bb9203dd435bad70ff17b566acb219202f5e4e815cf2",
+      "ast_digest": "ca0734c3acccf4d8d409d491025f7be3b56f35b12d8e88df230300ec5cbbfeae"
+    },
+    "spp": {
+      "values_digest": "73bb34f03d1a5ef6e4a14d4f24b39212f65c6c09960927c4c5ef897e7cf60cbb",
+      "rendered_digest": "78259569d2480ca509ba7d33fb81126492cf254b19cae7e8bfc9b4c8709c58a3",
+      "ast_digest": "b0a070c416019165579d44c91fbc412b4f40c23b03d08ce9c2d6e4684c23c693"
+    },
+    "vpp": {
+      "values_digest": "6353a6712bb7647b1d7b749175affe04d66eeb87065a24556477aedeb813ec41",
+      "rendered_digest": "9788fbca879ecc4f163eeb0e42efb8a597ec37b4b064a39633a460f4fcc0903a",
+      "ast_digest": "d33f83972e112770911eccd2ecd5f05a4ca4959d99bc36d1e0ba6c1ecd5a7ec2"
+    },
+    "srp": {
+      "values_digest": "032cf26dd51e4a8648d0d6856cd66c2a72eb459ee047cbb2032e181f17b6435f",
+      "rendered_digest": "a85f49efea646b3736816369d9c905798e9a67a455232ea017f214816a2ec678",
+      "ast_digest": "f4e06179a086d7c2633c1b946cf793f1ed9be467df558adf6de0b89640fe5bbe"
+    },
+    "sor": {
+      "values_digest": "6239f7defaed1f404cd310bd4bf7611e6291425635bd3e3ff79e6ddef9407f3b",
+      "rendered_digest": "f0c270ed7e285a2fb77be1c1db49c281ca5984fc94d411f41a9ca858396fb1e0",
+      "ast_digest": "ce4318098a8b5ba0c8d0b45a622dc3ba7b62417ef17ad13089aeaeb504ef3ef1"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:84-unity-observatory-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:84-unity-observatory-readiness",
+      "reason": "Declare the issue-delivered Unity test and live validation targets as deferred only until implementation creates them and the approved native environment is available.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"unity-runtime-v3-contract-tests\",\"proof_role\":\"Prove schema compatibility, ordering, cursor continuity, authorization refusal, and explicit failure-state logic.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/validate_v092_unity_observatory_live.sh\",\"--contract-tests-only\"],\"parallel_group\":\"unity-contract\",\"defer_reason\":\"This contract runner and its Unity test target are issue #84 implementation deliverables; the lane becomes mandatory after those targets are created.\"},{\"lane\":\"unity-observatory-live-native\",\"proof_role\":\"Prove the real Unity Editor/player against Runtime v3 HTTPS/WSS, including controls, refusal, disconnect, and reconnect.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/validate_v092_unity_observatory_live.sh\",\"--live\"],\"parallel_group\":\"live-unity\",\"defer_reason\":\"This live runner is an issue #84 implementation deliverable and requires the approved Unity Editor/player plus the exact live Runtime candidate.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:84-unity-observatory-readiness",
+      "reason": "Name the planned Unity validator target exactly so initialized-phase readiness can defer it only until implementation creates it.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Native RuntimeV3Client adapter for HTTPS/WSS snapshots, events, commands, and reconnect\",\"Shared-contract-derived runtime-v3-contract.json projection\",\"Focused Unity tests for schema, ordering, cursor, authority, and failure states\",\"Explicit native trust, stale, unavailable, backpressure, and version-mismatch states\",\"Live Unity Editor/player validation entrypoint and retained native evidence\",\"adl/tools/validate_v092_unity_observatory_live.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:84-unity-observatory-readiness-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}
