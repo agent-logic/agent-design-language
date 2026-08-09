@@ -12,7 +12,18 @@ Status: pre_phase
 
 ## Scope
 
-Issue #66 typed speech boundary, Deepgram profile/capability integration, credential and endpoint controls, media/result/error contracts, deterministic proof, live receipt, documentation, and no-widening constraints.
+adl/src/provider/deepgram.rs
+adl/src/provider/mod.rs
+adl/src/provider/profiles.rs
+adl/src/provider_substrate.rs
+adl/src/provider/http_family/tests.rs
+adl/tests/provider_tests.rs
+adl/tests/provider_tests/deepgram.rs
+docs/tooling/PROVIDER_SETUP.md
+demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md
+.csdlc/issues/66
+.csdlc/prepared/issues/66
+.csdlc/evidence/66
 
 ## Prompts
 
@@ -32,12 +43,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The live canary proves one bounded Pluto-to-Nova-3 round trip; ongoing provider availability and future response-schema changes remain external operational risks.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f")
 
-Reviewer: None
+Reviewer: Some("subagent:66-final-review")
 
-Result: pre_review
+Result: pass

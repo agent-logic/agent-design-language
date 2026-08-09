@@ -3,13 +3,54 @@
   "issue": 66,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "90e59f922e4766e5aa4b7d8061e4752b5386a7fff1ba42c65e132209be0ed71d",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "d369195222acfa45543e529f1b09c29e51d4eaf018a32e508705218025f990c6",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "1022ec8bf8cd156654b9093f689f9ae70686430a4ec354a39e9766e6a847a8c0",
   "branch": "codex/66-deepgram-speech-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-66-deepgram-speech-provider",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:66-final-review",
+    "assigned_by": "codex:66-implementation",
+    "revision": "git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f",
+    "scope": [
+      "adl/src/provider/deepgram.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/tests/provider_tests.rs",
+      "adl/tests/provider_tests/deepgram.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      ".csdlc/issues/66",
+      ".csdlc/prepared/issues/66",
+      ".csdlc/evidence/66"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:66-final-review",
+    "scope": [
+      "adl/src/provider/deepgram.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/tests/provider_tests.rs",
+      "adl/tests/provider_tests/deepgram.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      ".csdlc/issues/66",
+      ".csdlc/prepared/issues/66",
+      ".csdlc/evidence/66"
+    ],
+    "reviewed_revision": "git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f",
+    "findings": [],
+    "residual_risks": [
+      "The live canary proves one bounded Pluto-to-Nova-3 round trip; ongoing provider availability and future response-schema changes remain external operational risks."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a410936267d0fa0f7f1d3b4ff68f8d4552b78fc5dacc072b0d3b040422a1d4a0",
+      "values_digest": "0965a8edd8e058726d1b3aa0670363b3463b58075621f0260514f93e05a9670a",
       "rendered_digest": "226262d91ad557fb76edf99821d10d77240c7036bfe5a49910b568180aa40ce9",
       "ast_digest": "dcf435c9562816ed96640d50374fbdfe238a8630c65a1f47ea16561a676a3913"
     },
     "stp": {
-      "values_digest": "66f66ebc69d5307eb1f98d746801e990df055b171f6b32d29b7a448b60d8cd3b",
+      "values_digest": "4c65406698139a431db40d0732270b4fc4714be29999d3ebbb36f6f80d712b64",
       "rendered_digest": "5e5100417c10ad054310a21f3f1e8a7cef52f0029b473aa80bb288787903d09c",
       "ast_digest": "b75035db71def7c53cb6b71bb1977615ecca40c037830d939045e74f0c77271c"
     },
     "spp": {
-      "values_digest": "20167536e4a946edae3a9773e67ff314a6d16600a6ba3717a97dd90cd47ff1f0",
+      "values_digest": "fac74922c2cdacf6eede73b0991f051b4450373702db469ebf29bbef7b37a759",
       "rendered_digest": "2854a9958cfc898be0439612fd8c73b24bb5047d2f6a6d5a375b88f5131d01e4",
       "ast_digest": "48efa68f36e26d1f53abe9c96d36a7bb672e7baf4e1ea8e3a6eeba9573ca06bd"
     },
     "vpp": {
-      "values_digest": "9e111e184d05b03178aecabd618fd717d436251972be1e64ea59ddf34fe28201",
+      "values_digest": "c98bbed7dd6fbd6cb6a7b00956695cd47a16270914245442669c0674e8738501",
       "rendered_digest": "28b921e6623edcfa3f0045f6b6843634eb7a131d3650c895820c7ba036eace2c",
       "ast_digest": "4295261bb6bcaecd0f4c4c3876a2da5a119db3ab1aa9b5f355b6e3841890a39b"
     },
     "srp": {
-      "values_digest": "10da2e27bd5a48af57cc93567f20f6b1d5ef89ce0ae7d6368c6befb0bc14339d",
-      "rendered_digest": "5d136a9a7f9cc04f0ca5b21921beb0d8aa982f4402ead0a2da7de8e1d1cdeeba",
-      "ast_digest": "bc75b78a4f85dcd6574df1d9018ba4e3aa1978a3a1fbca6dcfdc85f58e3adedf"
+      "values_digest": "8771ee582ece57f5141ad2a95af586d98655f04fb4c89fa2f0ad27b09bf757f7",
+      "rendered_digest": "c3e030d359679a93e0455ae4192ec36cc433d7880af844cae1a6ac110634330f",
+      "ast_digest": "7f9c5216b06137ff9bf7bc74337e212bb0878fdd0930ea5c9279e9d4981a62c5"
     },
     "sor": {
-      "values_digest": "4cdd1e20917d845244f68f5c3aa35541b7235c0b2eb26c0a74930abca7f04481",
+      "values_digest": "9a9f61dbf856e9edf48b662e4ca793854966c022bcaa7dd91fbd1ac4d2d125b6",
       "rendered_digest": "a3afd572c665f83530dcdb8f5e93619688a1b784ada1efc6649336b3e1b642a3",
       "ast_digest": "8c9c3a67d65828678a1a52a23780a5e220c9ee7fb74364ce5302cc50497f690c"
     }
@@ -75,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:66-implementation",
       "reason": "The bounded Deepgram provider implementation and focused local/live proof are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:66-final-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -224,6 +272,20 @@
       "actor": "subagent:66-final-review",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:66-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "subagent:66-final-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

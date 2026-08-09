@@ -7,15 +7,15 @@
     "title": "Add first-class Deepgram speech provider",
     "slug": "deepgram-speech-provider",
     "version": "v0.92",
-    "generation": 19
+    "generation": 20
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #66 typed speech boundary, Deepgram profile/capability integration, credential and endpoint controls, media/result/error contracts, deterministic proof, live receipt, documentation, and no-widening constraints.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/src/provider/deepgram.rs\nadl/src/provider/mod.rs\nadl/src/provider/profiles.rs\nadl/src/provider_substrate.rs\nadl/src/provider/http_family/tests.rs\nadl/tests/provider_tests.rs\nadl/tests/provider_tests/deepgram.rs\ndocs/tooling/PROVIDER_SETUP.md\ndemos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md\n.csdlc/issues/66\n.csdlc/prepared/issues/66\n.csdlc/evidence/66",
+      "review_revision": "git-blake3:fe2ecc6fdac73fe66a4764bd68a9f4e5a93d5430:20a85f0be5dc3969b4e40d9a2b4563209d038fd9d83915acca3d0e1b2fc1034f",
+      "reviewer": "subagent:66-final-review",
       "review_prompts": [
         "Can any credential or authorization value appear in Debug, error, log, fixture, request identity, or retained evidence?",
         "Can a real Deepgram credential be sent to a non-Deepgram host?",
@@ -24,8 +24,10 @@
         "Does the live receipt prove a real round trip without retaining source content or audio?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The live canary proves one bounded Pluto-to-Nova-3 round trip; ongoing provider availability and future response-schema changes remain external operational risks."
+      ],
+      "review_result": "pass"
     }
   }
 }
