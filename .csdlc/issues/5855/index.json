@@ -4,22 +4,11 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a270f26590e5bc852e05a9eacf23bc22b7c06f282d28da0bda5fd1183ce8697a",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "ce4decddddff12e48ab965ac6ff0b7b7f0d7c8fd9f996f3192e9721a9b96335d",
+  "generation": 12,
+  "digest": "57d9a293d834472060a08bfca745d77f159019b8d87d8f6c18b2c8cdfa463bfc",
   "branch": "codex/5855-sprint2-final-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprint-5855-final-readiness",
-  "review_assignment": {
-    "reviewer": "openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812",
-    "assigned_by": "codex:sprint-2-closeout",
-    "revision": "git-blake3:8acd973308fd0c2009708929ccbd9dcc2240c9ae:c6f8d4fa3bcaa130e164ab6db9bff8671e4122cab41dd281901e05922bf0c7a3",
-    "scope": [
-      ".csdlc/issues/5855",
-      ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
-      ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
-      ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
-      ".csdlc/evidence/5855"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5287e3d266dcf26d10f86d3bc8925f0c13d71e98bd0d9481f3520d304ec90e4c",
-      "rendered_digest": "f590bfc95016ac139f718f3b6b74b04a03c4dfe9a829a329c0eeedeefcfe0312",
-      "ast_digest": "8385c8203746306f20d870eb14b148b52958547f9d6ab9f9fdbccb43ad091831"
+      "values_digest": "e5f40af30d575505dd215dc05ed6c78fec1546dd22371ca449fbcd1394801dda",
+      "rendered_digest": "a421051991fc83e88074e9c83f7849f83db1d3b3d9f0538ee1e4aa070672cdfa",
+      "ast_digest": "28714541af9c21118237842ddf1d7a4d21c299f2173118a2f87abb26fadaa798"
     },
     "stp": {
-      "values_digest": "d6d23f3411502b45ab0dbc8d23e8c90ef271aedad04104c27e477dd88e960b8e",
-      "rendered_digest": "52e0823bce4965bfd6a7b79adc0290e45804a495043a21c856a21cf82c6dcb55",
-      "ast_digest": "6741fdd80721fae379cb7812a946182fc6d7219eb6930ecd5388c508b5ed596b"
+      "values_digest": "e7ac12d1227933fb6cbf569a2e01d41ba744ddafd37d41fb6a4a4798444f4e47",
+      "rendered_digest": "0f25d5dc9bf4442cccd43eb43c9e9224fe3d9efccbcf72d79591b1e25ca63998",
+      "ast_digest": "496abb48a8faef5f3dc4d9836c0be0cb601db4f9737287c9073d6cd2d3280a94"
     },
     "spp": {
-      "values_digest": "0767d5bedf0e44391d1bb3349cd04a587bb1ca7bde86539a5c2683b2d2f57a43",
+      "values_digest": "5c1a393fb1cd4cf0d066fad7c0e75680a67f0e62924ceb668fca105a82ceff06",
       "rendered_digest": "50e6de841c04861bdc8d4345f8214850e819cffa88445258d48925388cb39053",
       "ast_digest": "bd0f4cfff75c69411d120bcc02d644fde9e02c287f736c77871dae8d41b94c37"
     },
     "vpp": {
-      "values_digest": "a985764a947c8a01fb91bb0a3c68d49f65cd32aaf1427d3657f22daad9796ec5",
+      "values_digest": "31bd0e61481147ad0cd29396c28d1e00ac8b9f792b33635881acb198f1f21ca0",
       "rendered_digest": "feb06124b6938dbb291a09884cd1ef3f0957eed3c3f9e97c416e7c121a025dbb",
       "ast_digest": "701b7e6d9789f5fba600b4051d3d9cd09bebcf704270b422225b471ad1cb9449"
     },
     "srp": {
-      "values_digest": "1621cdb0b1680311562a59477d43f7ba6d9ba83a51488292387e112577a02d6d",
-      "rendered_digest": "271299e51e1938cdbd884a37f236162e071cf206e7ef570bdd2a9d9cb263facb",
-      "ast_digest": "23ba5d6b2d72d354e0e90232e571f0304290060f68c481bac62ecd1070975fee"
+      "values_digest": "efa6a7ddab126ca5d56e3af4f6cd68db850fcf29b7045b28c66b332e78cb66aa",
+      "rendered_digest": "968d74f70fa4e16312aa2b4d27ad547dcc610717eb51fcf580aba4a0eac93e27",
+      "ast_digest": "9e538a79e8a3d081ba6cee86c086769b3a199ca65e29efdac214253ae01b3d1c"
     },
     "sor": {
-      "values_digest": "8cd21c39eb8425c022ee20ba0bb63081e04150b97022e94d83ba63804b6b1a77",
-      "rendered_digest": "7616bb2f968b62abb70a678b437ad114ac74ed676e19de3ed2ef441bd7952fe0",
-      "ast_digest": "c998cc8b04ee0b1b6f51bc188c7208b355de370f44933c42328cc7957a2b0194"
+      "values_digest": "fbee9579eb37dc71619f5903f272e50515c6e17b901c506f207849cea33fbe6d",
+      "rendered_digest": "331ced7aa055205bd6679ce35e7d3e82fa585fd0f71f44b729a88197448a0460",
+      "ast_digest": "403531456e84d9e24e4f1761aea6655ec4ed7ae5a9515493c5557a6c5025035e"
     }
   },
   "transitions": [
@@ -158,6 +147,48 @@
       "actor": "codex:sprint-2-closeout",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "openai-codex:Hubble:019fe593-fc5a-7263-9a9e-8887dd970812",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:sprint-2-closeout-remediation",
+      "reason": "Recover exact-head review truth to resolve F-5855-1 through F-5855-4 before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:sprint-2-closeout-remediation",
+      "reason": "Resolve F-5855-3 with an explicit typed five-child scope correction after review recovery.",
+      "operation": "{\"new_values\":[\".csdlc/issues/5855\",\".csdlc/prepared/issues/5855\",\".csdlc/evidence/5855\",\"Sprint 2 terminal membership: #5800, #5820, #5821, #5795, #5832\",\"Explicitly excluded independent follow-ons: #5837, #83, #84\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\".csdlc/issues/5855\",\".csdlc/prepared/issues/5855\",\".csdlc/evidence/5855\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:sprint-2-closeout-remediation",
+      "reason": "Resolve F-5855-3 by binding the typed task deliverables to the corrected Sprint 2 membership after review recovery.",
+      "operation": "{\"new_values\":[\"Issue-specific six-card sprint record\",\"Sprint Execution Packet for exact terminal membership #5800, #5820, #5821, #5795, and #5832\",\"Explicit exclusion record for independent follow-ons #5837, #83, and #84\",\"Integrated sprint review and truthful umbrella closeout candidate\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Issue-specific six-card sprint record\",\"Sprint Execution Packet with membership, lanes, gates, review path, and activity log\",\"Integrated sprint review and truthful umbrella closeout record\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:sprint-2-closeout-remediation",
+      "reason": "Resolve F-5855-3 and F-5855-4 by making the typed acceptance boundary explicit before publication.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The Sprint Execution Packet records exact terminal membership #5800, #5820, #5821, #5795, and #5832, while excluding #5837, #83, and #84.\",\"AC-2: Safe parallel lanes, actual merge order, and serial gates are explicit and do not overlap child ownership.\",\"AC-3: The umbrella coordinates only; each child retains implementation, proof, review, publication, and closeout authority.\",\"AC-4: Every child handoff requires issue-bound bind, readiness, and session-goal truth before implementation.\",\"AC-5: The umbrella is only a closeout candidate before publication and becomes terminal only after qualified PR merge, live issue closure, and csdlc-finish.\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:sprint-2-closeout-remediation",
+      "reason": "Resolve F-5855-1, F-5855-2, and F-5855-4 without overstating pre-publication completion.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared a truthful Sprint 2 closeout candidate for five terminal child issues with exact merge, ancestry, membership, and pre-publication review evidence.\",\"changes\":[\"Recorded the actual terminal order #5800, #5820, #5821, #5795, then #5832 without inventing a reverse dependency.\",\"Removed #5837 from Sprint 2 membership and documented #5837, #83, and #84 as independent follow-on work.\",\"Strengthened the deterministic closeout validator to bind each issue to its exact PR, reviewed head, merge SHA, closure claim, merge parentage, and ancestry.\",\"Retained closeout_candidate status until qualified PR merge, live umbrella closure, and csdlc-finish terminal truth.\"],\"artifacts\":[\".csdlc/prepared/issues/5855/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5855/sprint-execution-packet.md\",\".csdlc/prepared/issues/5855/validate-sprint-readiness.rb\",\".csdlc/evidence/5855/activity.jsonl\",\".csdlc/evidence/5855/sprint-review.md\"],\"validation\":[{\"command\":[\"/usr/bin/ruby\",\".csdlc/prepared/issues/5855/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact Sprint 2 membership and terminal merge ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\"v092-sprint2-closeout.log\"}]}"
     }
   ]
 }

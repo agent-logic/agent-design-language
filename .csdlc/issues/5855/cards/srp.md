@@ -8,15 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/issues/5855
-.csdlc/prepared/issues/5855/sprint-execution-packet.yaml
-.csdlc/prepared/issues/5855/sprint-execution-packet.md
-.csdlc/prepared/issues/5855/validate-sprint-readiness.rb
-.csdlc/evidence/5855
+
 
 ## Prompts
 

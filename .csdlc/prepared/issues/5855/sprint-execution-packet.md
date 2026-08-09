@@ -5,7 +5,7 @@
 - Sprint issue: `#5855`
 - Milestone: `v0.92`
 - Execution mode: `hybrid`
-- Status: `complete`
+- Status: `closeout_candidate`
 - Machine packet: `.csdlc/prepared/issues/5855/sprint-execution-packet.yaml`
 
 ## Sprint Goal
@@ -33,16 +33,16 @@ Out of scope:
 | `#5800` | supporting | closed via PR #9 | browser-trusted local Observatory HTTPS with one shared certificate identity | terminal |
 | `#5820` | WP-03 | closed via PR #28 | Guardian-owned launch path with resilient startup, recovery, and lifecycle behavior | terminal |
 | `#5821` | WP-04 | closed via PR #39 | distributed Guardian architecture, security, and child-wave gate | terminal |
-| `#5832` | WP-14 | closed via PR #76 | versioned protocol, protobuf, catalog, JSON projection, and authenticated WSS contract | terminal |
 | `#5795` | supporting | closed via PR #72 | bounded local model-backed Shepherd foundation | terminal |
+| `#5832` | WP-14 | closed via PR #76 | versioned protocol, protobuf, catalog, JSON projection, and authenticated WSS contract | terminal |
 
 ## Completed Execution Order
 
 1. `#5800` established the trusted TLS baseline at `7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f`.
 2. `#5820` completed Runtime launch and resilience at `b5bcfdfc13a6f454a715cbb9aa64e24bce3b7ba6`.
 3. `#5821` completed the distributed architecture/security gate at `0ea81fd61b0bf598ece4ce368ae5cf1a1923127c`.
-4. `#5832` completed the protocol and WSS contract at `a5021ab7e9bff220021e3600fa51b4f0848f5524`.
-5. `#5795` completed the bounded local Shepherd foundation at `094797b6fe4be52549f447b0b7e513892c060436`.
+4. `#5795` completed the bounded local Shepherd foundation at `094797b6fe4be52549f447b0b7e513892c060436`.
+5. `#5832` completed the protocol and WSS contract at `a5021ab7e9bff220021e3600fa51b4f0848f5524`.
 
 Issue `#5837` and the split HTML/Unity issues `#83` and `#84` are explicitly
 outside Sprint 2 and continue independently.
@@ -69,22 +69,22 @@ outside Sprint 2 and continue independently.
 | `#5800` | complete | merged PR #9 and closed issue | terminal |
 | `#5820` | complete | merged PR #28 and closed issue | terminal |
 | `#5821` | complete | merged PR #39 and closed issue | terminal |
-| `#5832` | complete | merged PR #76 and closed issue | terminal |
 | `#5795` | complete | merged PR #72 and closed issue | terminal |
+| `#5832` | complete | merged PR #76 and closed issue | terminal |
 
 ## Safe Parallel Lanes
 
 | Lane | Issues | Why parallel-safe | Required coordination |
 |---|---|---|---|
 | lane 1 | `#5820` | Completed after the ancestral #5800 TLS baseline. | satisfied |
-| lane 2 | `#5795` | Completed after stable #5820 and #5832 contracts. | satisfied |
+| lane 2 | `#5795`, `#5832` | Separate provider and protocol surfaces were eligible after the #5821 architecture gate; actual merge order was #5795 then #5832. | satisfied |
 
 ## Candidate Parallel Lanes
 
 | Lane | Classification | Issues | Expected write sets | Dependency gate | Collision posture |
 |---|---|---|---|---|---|
 | candidate 1 | completed | `#5820` | dedicated FastWork child worktree | merged issue 5800 baseline | no unresolved collision |
-| candidate 2 | completed | `#5795` | dedicated FastWork child worktree | terminal issues 5820 and 5832 | no unresolved collision |
+| candidate 2 | completed | `#5795`, `#5832` | separate dedicated FastWork child worktrees | terminal issue 5821 architecture gate | no unresolved collision; actual merge order recorded |
 
 ## Serial Gates
 
@@ -92,8 +92,8 @@ outside Sprint 2 and continue independently.
 |---|---|---|---|
 | gate 1 | issue 5820 | satisfied by ancestral issue 5800 TLS merge | complete |
 | gate 2 | issue 5821 | satisfied by stable issue 5820 Runtime ingress | complete |
-| gate 3 | issue 5832 | satisfied by the issue 5821 architecture gate | complete |
-| gate 4 | issue 5795 | satisfied by stable issues 5820 and 5832 | complete |
+| gate 3 | issues 5795 and 5832 | satisfied by the issue 5821 architecture gate | complete |
+| observation | merge order | issue 5795 merged before issue 5832; no reverse dependency is claimed | recorded |
 
 ## PVF / Validation-Tail Notes
 
@@ -122,4 +122,5 @@ outside Sprint 2 and continue independently.
 - Roll up every child issue and PR state without converting unknown or waiting states into success.
 - Record budget variance only from actual child goal data.
 - Record which parallel lanes were safe, collapsed to serial, blocked, or not attempted.
-- Close the umbrella only after every child has truthful terminal state.
+- Treat this packet as a closeout candidate until the qualified closing PR merges,
+  live umbrella closure is observed, and `csdlc-finish` emits terminal truth.

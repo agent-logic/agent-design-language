@@ -7,17 +7,18 @@
     "title": "Runtime, Observatory, polis, and protocol sprint",
     "slug": "runtime-observatory-polis-protocol",
     "version": "v0.92",
-    "generation": 6
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Reconciled Sprint 2 to its five terminal child issues and retained exact merge, ancestry, membership, and review evidence.",
+      "summary": "Prepared a truthful Sprint 2 closeout candidate for five terminal child issues with exact merge, ancestry, membership, and pre-publication review evidence.",
       "actual_changes": [
-        "Marked Sprint 2 complete after #5800, #5820, #5821, #5832, and #5795 merged and closed.",
+        "Recorded the actual terminal order #5800, #5820, #5821, #5795, then #5832 without inventing a reverse dependency.",
         "Removed #5837 from Sprint 2 membership and documented #5837, #83, and #84 as independent follow-on work.",
-        "Added a deterministic closeout validator and retained terminal activity and sprint review evidence."
+        "Strengthened the deterministic closeout validator to bind each issue to its exact PR, reviewed head, merge SHA, closure claim, merge parentage, and ancestry.",
+        "Retained closeout_candidate status until qualified PR merge, live umbrella closure, and csdlc-finish terminal truth."
       ],
       "artifacts": [
         ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
@@ -37,7 +38,7 @@
           "evidence_ref": "v092-sprint2-closeout.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

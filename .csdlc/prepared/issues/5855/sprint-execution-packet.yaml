@@ -2,8 +2,8 @@ sprint_issue: 5855
 version: v0.92
 slug: runtime-observatory-polis-protocol
 execution_mode: hybrid
-status: complete
-ordered_issue_numbers: [5800, 5820, 5821, 5832, 5795]
+status: closeout_candidate
+ordered_issue_numbers: [5800, 5820, 5821, 5795, 5832]
 launch_baseline:
   issue: 5800
   state: merged
@@ -13,15 +13,15 @@ safe_parallel_lanes:
   - issues: [5820]
     gate: satisfied by ancestral issue 5800 TLS merge
     boundary: Runtime launch and resilience completed as the first product lane.
-  - issues: [5795]
-    gate: satisfied after terminal issues 5820 and 5832
-    boundary: Local-provider work completed without redefining Runtime or protocol contracts.
+  - issues: [5795, 5832]
+    gate: satisfied after issue 5821 completed the architecture gate
+    boundary: Local-provider and protocol work used separate surfaces; actual terminal order was issue 5795 then issue 5832.
 serial_gates:
   - "satisfied: issue 5800 supplied the trusted TLS baseline before issue 5820 Runtime resilience"
   - "satisfied: issue 5821 followed stable issue 5820 Runtime ingress and released the separate issue 5862 implementation sprint"
-  - "satisfied: issue 5832 completed the protocol contract after the issue 5821 architecture gate"
-  - "satisfied: issue 5795 integrated after stable issues 5820 and 5832"
+  - "satisfied: issue 5821 released independent issue 5795 provider and issue 5832 protocol completion paths"
+  - "observed: issue 5795 merged before issue 5832; no dependency in the reverse direction is claimed"
 review_path: .csdlc/evidence/5855/sprint-review.md
 activity_log_path: .csdlc/evidence/5855/activity.jsonl
 child_goal_rule: Each dependency-ready child session binds or verifies its dedicated FastWork branch/worktree with current typed csdlc-bind, then creates an issue-bound goal before implementation.
-closeout_rule: Close after exact merge ancestry and live closed-state verification for all five retained children; issue 5837 and its HTML and Unity children are outside Sprint 2.
+closeout_rule: Publish the closeout candidate only after exact-head review; claim completion only after the qualified closing PR merges, live issue closure is observed, and csdlc-finish emits terminal truth.

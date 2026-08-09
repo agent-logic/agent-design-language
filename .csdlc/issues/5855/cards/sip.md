@@ -23,6 +23,8 @@ A reviewable sprint coordination lane can route #5800, #5820, #5795, #5821, #583
 - .csdlc/issues/5855
 - .csdlc/prepared/issues/5855
 - .csdlc/evidence/5855
+- Sprint 2 terminal membership: #5800, #5820, #5821, #5795, #5832
+- Explicitly excluded independent follow-ons: #5837, #83, #84
 
 ## Authority
 

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Reconciled Sprint 2 to its five terminal child issues and retained exact merge, ancestry, membership, and review evidence.
+Prepared a truthful Sprint 2 closeout candidate for five terminal child issues with exact merge, ancestry, membership, and pre-publication review evidence.
 
 ## Artifacts
 
@@ -24,9 +24,10 @@ Reconciled Sprint 2 to its five terminal child issues and retained exact merge, 
 
 ## Execution
 
-- Marked Sprint 2 complete after #5800, #5820, #5821, #5832, and #5795 merged and closed.
+- Recorded the actual terminal order #5800, #5820, #5821, #5795, then #5832 without inventing a reverse dependency.
 - Removed #5837 from Sprint 2 membership and documented #5837, #83, and #84 as independent follow-on work.
-- Added a deterministic closeout validator and retained terminal activity and sprint review evidence.
+- Strengthened the deterministic closeout validator to bind each issue to its exact PR, reviewed head, merge SHA, closure claim, merge parentage, and ancestry.
+- Retained closeout_candidate status until qualified PR merge, live umbrella closure, and csdlc-finish terminal truth.
 
 ## Validation
 
@@ -44,7 +45,7 @@ Reconciled Sprint 2 to its five terminal child issues and retained exact merge, 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
