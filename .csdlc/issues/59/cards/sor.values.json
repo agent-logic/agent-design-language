@@ -7,7 +7,7 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 18
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -48,7 +48,7 @@
           "evidence_ref": "gate6 passed 10 tests with 0 failures on the stacked issue 75 implementation."
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

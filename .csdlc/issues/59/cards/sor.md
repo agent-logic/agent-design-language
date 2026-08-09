@@ -55,7 +55,7 @@ Prepared a reviewed, non-closing authority-routing checkpoint for the externally
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

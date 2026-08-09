@@ -7,13 +7,13 @@
     "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
     "slug": "codex-blocked-goal-replacement",
     "version": "v0.92",
-    "generation": 18
+    "generation": 19
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/59\n.csdlc/prepared/issues/59",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

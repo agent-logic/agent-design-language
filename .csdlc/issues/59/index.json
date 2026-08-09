@@ -4,19 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "1bc5aa43afbf35ae36e2d619460c6c6a78e44c144598ac9684b9bcb299f65cd5",
+  "generation": 19,
+  "digest": "6453783943332233f6bc37e220dfd7c95ac494f945598a8ecd5dc9ca65c5f3f2",
   "branch": "codex/59-codex-goal-replacement-readiness",
   "worktree": "/Volumes/FastWork/adl-issue-59-codex-goal-replacement",
-  "review_assignment": {
-    "reviewer": "subagent:execute_74_to_pr",
-    "assigned_by": "codex:59-authority-checkpoint",
-    "revision": "git-blake3:1e096475d43143aef7b06a75a09e764145e53977:bb54bf1ceed431b295e4858662b61d456c22cb1655de77a62a0247262e4fd680",
-    "scope": [
-      ".csdlc/issues/59",
-      ".csdlc/prepared/issues/59"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -32,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b37b0eafcf31ef51c84b1ce6e97c969cc75de527dc980f50fb91366d43ae9967",
+      "values_digest": "361deb402df9c314f661746ee660fff1bf63f9242645da56111fd3b951b7a312",
       "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
       "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
     },
     "stp": {
-      "values_digest": "adf245e5c8453e5138781b191907778326d06e12a81bc29fde17e6553b5a2bc0",
+      "values_digest": "ef357b3cc2493dd47dbcbdcea8a1315201ea9d31f4aa87672034b339a51c704d",
       "rendered_digest": "5706339d6f1551094d2aa275b844fb71b6d340363ea3f2a5af186724c62d4f4c",
       "ast_digest": "e1106bd67c9fc776ec89d122ace1c638d7bf81be92ea1917b30ca53f2f7a4d7e"
     },
     "spp": {
-      "values_digest": "37f26d69d053a9d4d6cc769587fb3b5cfd2967abd4258b44e724250997b1e95a",
+      "values_digest": "33f5fedbeff88870f36db0f80642c64d94ff83935c7f0d8b4096dd4ad2a47787",
       "rendered_digest": "cb890fea262e0c4b2d170daa39a1844875c345d45dd608c5ccea577c4896b2c7",
       "ast_digest": "c4e00208ccb590f61e633ee9035fe98ae7f7a6cad0748210a11a8e7625a7e0fc"
     },
     "vpp": {
-      "values_digest": "c2a109a6037036698dabccb86d53f56459502733d4d34abffcab9198f39d4e66",
+      "values_digest": "5ab51d4d3a2ecb97145d57a2872f0cfe1f156940de59c628608bdb55ad7e9def",
       "rendered_digest": "32afc2cd668d2e9175d1c99152e40f78f428cf4f816895af2bba42689aff6ce8",
       "ast_digest": "d803d68e1b5285e4c4adc4e2dc19150e8fc598cb0eb07b1ef49d1fffa1a2d589"
     },
     "srp": {
-      "values_digest": "53e275a482338cf3f6dc1abe8eb92789ccd51ef61c8ddd89eb50c2ea4e6e6156",
-      "rendered_digest": "340ca00b5c65ac0c1f73af5651d3be75736b80094c4771f97418e892ff5c24a7",
-      "ast_digest": "311bdc94a5d7555e82dde5ace164518e61adf346faa2dc1cf84ccef85124a018"
+      "values_digest": "43fb5381a1dcf5ff3a728f5edce7ae1aed8c8cfb6f9f27f8d2a53275281bae43",
+      "rendered_digest": "afc5a9e6a8c796eeefea89d35cf7d32e77e20538b1cb7b55907e72a57bdbace2",
+      "ast_digest": "94ddada2df893475b7a11643d00e9dde3984d6b0db478693f819266e32736516"
     },
     "sor": {
-      "values_digest": "db39d14b80bd3ed0b6df3348b3faf5a4f51ea7bd5dfa737af22c43a5f142ae22",
-      "rendered_digest": "340d10622676278b2bb1398aa8514f785ed76185a1c6004897e35a73f22e2732",
-      "ast_digest": "18196f3123ffcd2dd13b450368047dcfeb6429156bedc1413d0ec5d428af8d8b"
+      "values_digest": "a826c17a7f5215fe966c6a96f5c41aacec57c7c1e1fa24c07498d0022d01e911",
+      "rendered_digest": "f622dc239996643c648c7ea06d4b4dc7ef19ecd9c777490f1b68b41e46791222",
+      "ast_digest": "a94b15050542d2398591bd4d4f871086003cb7d33b2104a6942ab9ecebfac6db"
     }
   },
   "transitions": [
@@ -232,6 +224,13 @@
       "actor": "codex:59-authority-checkpoint",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:59-authority-checkpoint",
+      "reason": "Reassign the exact review to the available independent issue 75 contract owner who completed review of the same substantive revision.",
+      "operation": "recover_review"
     }
   ]
 }
