@@ -7,7 +7,7 @@
     "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records",
     "slug": "stale-foreign-topology-records",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {

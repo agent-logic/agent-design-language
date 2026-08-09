@@ -1,0 +1,21 @@
+{
+  "issue": 74,
+  "expected_generation": 6,
+  "expected_digest": "2777b823da0a041aa64ddbf89d3ce8b0bfbb58e437b84801a8ba4f6df5491163",
+  "actor": "subagent:74-exact-head-review",
+  "evidence": {
+    "reviewer": "subagent:74-exact-head-review",
+    "scope": [
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/74",
+      ".csdlc/prepared/issues/74"
+    ],
+    "reviewed_revision": "git-blake3:52b847e497741954cf5470a5657fa8f41404a035:66a9beca6e70e36abf8d5cd06ae88a99832ee5b5e80bacc8d50eafed883f59b5",
+    "findings": [],
+    "residual_risks": [
+      "This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

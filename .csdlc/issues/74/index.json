@@ -3,9 +3,9 @@
   "issue": 74,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "2777b823da0a041aa64ddbf89d3ce8b0bfbb58e437b84801a8ba4f6df5491163",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "30b12c3e1d7f1edf5751ab7903fc5cab61c046e3cb7f69bdddc22a8b92930904",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
   "review_assignment": {
@@ -18,7 +18,21 @@
       ".csdlc/prepared/issues/74"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:74-exact-head-review",
+    "scope": [
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/74",
+      ".csdlc/prepared/issues/74"
+    ],
+    "reviewed_revision": "git-blake3:52b847e497741954cf5470a5657fa8f41404a035:66a9beca6e70e36abf8d5cd06ae88a99832ee5b5e80bacc8d50eafed883f59b5",
+    "findings": [],
+    "residual_risks": [
+      "This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9dc2849a96bae4fa08812d280836d04a36d46bbf04a40da261de158d192c4c4",
+      "values_digest": "474c4cf2e45864d0983a828cd73e95d552550a9222b2ee01a2ad37ab063d56b7",
       "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
       "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
     },
     "stp": {
-      "values_digest": "e539b02f2f5d1c748d68f6b80259b7e3f83414abdce1b225cbd47e5b686ad55b",
+      "values_digest": "623f13a9c16af6286c2cdccacee1a94acce56cd404ec8c04dea5e3108cd2927b",
       "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
       "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
     },
     "spp": {
-      "values_digest": "f97c926b4c8b97979e206d545511db7021e4ecac5d839f01b9aa09b501254c66",
+      "values_digest": "8905949f7889f499c6334adddf067326de6c0b5181e3618f9769170e15bcb6ab",
       "rendered_digest": "7afe725ae340004228f24f6962ab57296d10ba562ffd1df5a1b84c43b7c54be5",
       "ast_digest": "f2f275c834510f1422be245a58b58c0c9861bfde818117ecd083e048b164e3ed"
     },
     "vpp": {
-      "values_digest": "cd4599ca4d37f1744b204814d3bf15cab4c754cac05b4c087d5da0bb2782da3b",
+      "values_digest": "bc6d325b9f1acd9d5e9ce794b342e97ab2dc137080bc88a9e27e15938e4da709",
       "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "cbb7687b5a5ad1ae6c1d77ccd8b765d26dc55fb3d51c94662e6b50e9a79fca8d",
-      "rendered_digest": "c672c83efdaaafaefa98f05b0f5b4e60574d27c6d7b24e25faf4fe7b95f43a63",
-      "ast_digest": "d6cc3be0c632e363287a85e3b545a92269fab15d1543a68398bed341efab3de7"
+      "values_digest": "54192840269784d8258252c56a68a21d35ef4c79149f9b4d57f0f96c36679e9d",
+      "rendered_digest": "f311508d8beb5b31dae6dbe7302ed7c0c7679b24cc432f180e9c448e677ccdd2",
+      "ast_digest": "241590ef77f6bd934d15798bfb427bcaa6c97bb90b5b6e93fa4b5d0055b650f6"
     },
     "sor": {
-      "values_digest": "5fc742a466d2a4cfe5ba611f56ed6e16fa61075fb67346a170d1bde1446a53db",
+      "values_digest": "37139c2a15226c577d62a72ede064b043104ff55ef3e620076b38fbbf87a3ba0",
       "rendered_digest": "e448e9803da6d2552be93d6951adabce9229133afbd0392af57a9a299ab2d3da",
       "ast_digest": "2713598f68d0a50a0102cabbff38b20439e982cf1db4f0b3f9e554d4cd02b5b0"
     }
@@ -84,6 +98,13 @@
       "to": "implemented",
       "actor": "codex:74-implementation",
       "reason": "The focused legacy-claim topology regression and validation proof are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:74-exact-head-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -149,6 +170,13 @@
       "actor": "codex:74-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "subagent:74-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
