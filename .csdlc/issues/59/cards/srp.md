@@ -12,8 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/59
-.csdlc/prepared/issues/59
+
 
 ## Prompts
 
@@ -34,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The live blocked-goal replacement canary remains upstream until the Codex platform owner ships the product fix.
-- Publication must preserve linkage_mode part_of, the exact qualified relationship line, and the issue 75 stack base.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:fe68d44c809f8b748046bf9b772abb9e98ac4e16:761044d03ed4f9635a3549b68e85a9a6c97fbed69656febb70a387e4f390dc46")
+Revision: None
 
-Reviewer: Some("subagent:execute_75_to_pr")
+Reviewer: None
 
-Result: pass
+Result: pre_review
