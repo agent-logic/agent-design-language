@@ -1,0 +1,96 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 74,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records",
+    "slug": "stale-foreign-topology-records",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Run the exact current-main canary first, retain a focused regression, and touch production only if the relevance-first scan still fails.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Construct an unrelated legacy projection with a retired claim field and run real csdlc-bind.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Add negative cases making the malformed record relevant and creating real ownership collisions.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "If current behavior fails, apply the smallest relevance-first correction; otherwise record a regression-only outcome.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused validation and exact-head review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate2.rs"
+      ],
+      "invariants": [
+        "Canonical IssueRecord remains claim-free and strict",
+        "Unrelated records are not mutated",
+        "Real collisions fail closed",
+        "No broad validation"
+      ],
+      "risks": [
+        "Mistaking existing #61 behavior for exact claim-field proof",
+        "Accidentally tolerating malformed relevant records",
+        "Expanding into historical data migration"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Fix would require restoring claims",
+        "Historical records would need mutation",
+        "Collision safety would be weakened"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/74/design.md",
+      "design_digest": "8db4b8fe501d7ec47cdcac6df0453e3d21c508e2e2f575dc5a68552d10ab9206",
+      "diagram_ref": ".csdlc/prepared/issues/74/diagram.mmd",
+      "diagram_digest": "4a09e26fc26523ef5dbc6039d707d2175433db6efaa2d25aca1edb21ae107037"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 74,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "458634ecf760980e8263157984ada1b2e03e68af6d98f520e29e6d09fd276a3c",
+  "branch": "codex/74-stale-claim-topology-regression",
+  "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/74/design.md",
+  "diagram_path": ".csdlc/prepared/issues/74/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:prepare-74",
+      "revision": "8db4b8fe501d7ec47cdcac6df0453e3d21c508e2e2f575dc5a68552d10ab9206"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "02be0d8fc84aa3186482cafe0d6dd89028c9f3f3d8d0a74afb1638761011dde3",
+      "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
+      "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
+    },
+    "stp": {
+      "values_digest": "c436661ed7c6b1d3daac777a97ad350a092736fdf991494a116f9d4b9dc75fb1",
+      "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
+      "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
+    },
+    "spp": {
+      "values_digest": "270276265062feb48041b33293261fed11155dce867a07a0f50e38385e603886",
+      "rendered_digest": "7afe725ae340004228f24f6962ab57296d10ba562ffd1df5a1b84c43b7c54be5",
+      "ast_digest": "f2f275c834510f1422be245a58b58c0c9861bfde818117ecd083e048b164e3ed"
+    },
+    "vpp": {
+      "values_digest": "51bb32fb0c0a9f8dbaca52f2b10482c196ccd88d2849808aaa56384539d9b650",
+      "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
+      "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
+    },
+    "srp": {
+      "values_digest": "2543e2602c5f32d6c215aed6baaebd0a575b5b54228151584001c9abe301f4d5",
+      "rendered_digest": "4599e657e8432e2cc7b80b4ccc3d3c21615c4f519df6d11aedea55f000ad911a",
+      "ast_digest": "44580748ad26c656ece179fc7709ab1812c2f5a6755e7dcf688284a4b746bb1e"
+    },
+    "sor": {
+      "values_digest": "af22a3930756086c683f55d1aff97fee68c6047a7cddc6bfb7a4140db03b1980",
+      "rendered_digest": "5dccf0e2bfea02001095d3fdde40e930c8fbce43b61e7c47aa878e41d1b9d1f2",
+      "ast_digest": "61f988b17d3324779cff7784d35285e44809aeb16abb5355c69ca59e1a8f6430"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:74-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:74-readiness",
+      "reason": "Bind deliverables to the concrete focused topology test and owner code",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/tests/gate2.rs claim-bearing foreign topology regression\",\"csdlc-v2/src/lifecycle.rs relevance-first topology behavior if the canary exposes a defect\",\"csdlc-v2/src/store.rs strict relevant-record verification if the canary exposes a defect\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:74-readiness",
+      "reason": "Use validator-resolvable owned paths while retaining the regression-only implementation boundary",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/store.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:prepare-74",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "issue": 74,
+  "expected_generation": 2,
+  "expected_digest": "800f2904bc905031d39b6443eadcb3313d210eeea1d06b1933d58f40e7f2193e",
+  "reviewer": "subagent:prepare-74"
+}
