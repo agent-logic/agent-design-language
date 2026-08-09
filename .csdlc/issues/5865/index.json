@@ -5,10 +5,22 @@
   "initialization_digest": "c55fcec9d7fd6a0d4d2da1c93fd714b817b6f697dc7c376a861c603da0e046bf",
   "phase": "implemented",
   "generation": 23,
-  "digest": "fb56297516cfc5336e7a045a56a0907b70fe5c27f1af52ed6156b2ae5f646041",
+  "digest": "f6300b2bd15f1bb41188d010bf3ec000a01287b6a1bb9c2713c37ee83c2d0295",
   "branch": "codex/5865-maintained-quic-tls-adapter",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5865-transport",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "assigned_by": "codex:5862-sprint3-conductor",
+    "revision": "git-blake3:030838da71b769d244073665484b4a8cb26c278a:4c95f66b5d8e6b83bb3dabe44f6dda54176b082b887547f4b6eda0415e32adb3",
+    "scope": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      ".csdlc/evidence/5865",
+      ".csdlc/issues/5865"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "a7690eafdd035a5ad8c7acf27dffe965c64d52563f03c55f56692b2607595cfe"
     },
     "srp": {
-      "values_digest": "50ce8b2e46fa6b371193e0c1a12c53e26c973b550777647f66dc175ae05ceaf4",
-      "rendered_digest": "760cd1a218ae6546ca6e12f62e475e05327b84669ef744f1fb1db49cc943fcdc",
-      "ast_digest": "cd05e9e671a15f15f1dad9a6dd4f54b5373ede3f9089b9837686d54ea6190b3a"
+      "values_digest": "c2e721fee26dfd0e174de879036695db24f78008b5ffaa99fe126d93b383a94c",
+      "rendered_digest": "9abf164c330a1f51a2e203ba86d3a5bb676b0d6286dfe920812bbc3716ce2279",
+      "ast_digest": "629b37646ca099abb3c5027b1d5b94ed5e778c3e2ef0c2a7e59bac6b7a7d6e9a"
     },
     "sor": {
       "values_digest": "1e3fa4be054284e7f206ca3db68c3ad65075b9d4c5d55d50fab3d9813e415dc4",
@@ -427,6 +439,13 @@
       "actor": "codex:5862-sprint3-conductor",
       "reason": "Replace stale prior repair wording with the exact authority-to-TLS binding implementation and its current retained proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Bind each WP-04.02 Transport authorization to the authenticated TLS leaf identity and prove the complete wrong-domain, unrelated-key, stale-replay, and concurrent-stream denial surface.\",\"changes\":[\"Require the exact active signed Transport authority certificate when constructing transport authorization and bind its holder, trust domain, generation, certificate identity, and Ed25519 subject public key.\",\"Parse the authenticated TLS leaf Ed25519 subject key and reject any authority whose trust domain or cryptographic subject does not match the peer binding before network use.\",\"Add negative tests for wrong-domain authority, unrelated TLS subject keys, replay-window boundary staleness, and the configured unidirectional stream ceiling while preserving single-provider AWS-LC Rustls operation.\"],\"artifacts\":[\".csdlc/evidence/5865/execution-proof.json\",\".csdlc/evidence/5865/distributed-transport.stdout.log\",\".csdlc/evidence/5865/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--no-tests=fail\"],\"purpose\":\"Prove 14 focused authenticated transport, authority-binding, replay-window, stream-bound, cancellation, and framing behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5865/exact-child-tests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5865/validate-proof-receipt.rb\"],\"purpose\":\"Recompute the two-revision source, evidence, command, artifact, and negative-case bindings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5865/exact-revision-proof-receipt.log\"}]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 23,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
