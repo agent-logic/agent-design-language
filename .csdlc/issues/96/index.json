@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8073801c1db6139cb4f3b47f657eae58f3d8a86610257edd3e920da8198d055b",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "c5a47c234d24215689c93894d12474f52922d94ba6facf2302416553d023e9c0",
+  "generation": 7,
+  "digest": "2c58769a1ad29239864d6767e17cf800526f9dbe985fdf94e3973d24db5690d4",
   "branch": "codex/96-v3-umbrella-receipt-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-96-v3-umbrella-receipts",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a6987193c5db7e9bc0063fe2b2843bbd9166d2ce981cf66a4e462ca8bab87af8",
+      "values_digest": "535e878568adbc890fce2da8a1037996710c56772f60072cda675bbcf04db857",
       "rendered_digest": "47fa0b016172937679f842a69e13bd44cea63f1f70f4165cdeebba9e74eb8ef5",
       "ast_digest": "9307853b35af4f635a4b49867373637d962d96e3a3c0c9f76bb75d4c1b81f2ed"
     },
     "stp": {
-      "values_digest": "654a08a92655dd34bc15445582028b2a0541740f92826292631b852ede47246c",
+      "values_digest": "feeef5b241c945da0866a35a307d2750a26245b783bd621ca7ba16b94bbd7589",
       "rendered_digest": "cc544ad80f4233767ac82742899b1c8c2673c0057549eec8041c76d6c71eae95",
       "ast_digest": "e5cd21916c7bf44345df9861f6eefb20b8fb42234e28924f403dd30501597988"
     },
     "spp": {
-      "values_digest": "22e4452b067ef8a6777aad0c63b5a4c9029f25e2c73298d093aec3d97ffe93ba",
+      "values_digest": "2134a5d149fa394e4daf0ae59fd7a32328b78dbc25c922d12f20e4f02ffdfd90",
       "rendered_digest": "12b8b7800dd581e944261cc898212d90a04947034f9b2df765464ae0c6fd051c",
       "ast_digest": "73d20b7c5131f0c61e168536d2526e944566f57a264cc79b167eb5a829216ca3"
     },
     "vpp": {
-      "values_digest": "bd41f09188793624f42e7ad6d0a63eb97736d44d58a326d10e59e9abfc3121ef",
+      "values_digest": "e931d3eb90acc51ac0f2d18a630d54f2f60c4109563b795eb477938a0cd6b4b1",
       "rendered_digest": "f4fcca3e76335e5150630e3700e6a5558cd4bc5f44f92b140e7c9fb235da274f",
       "ast_digest": "2c03b66bda88eaf424d10ebc3312682ce18d446ed28c1fd0111a9bb1d666f1ee"
     },
     "srp": {
-      "values_digest": "bdcd3ebc75ed8dde416a69dd87df61c2062f426d6712b6e7ef96a563eaacd398",
+      "values_digest": "3686656c7bb1df3827bd6055f27e3e0d1cf87f5abaa0105e7079a65204a37c85",
       "rendered_digest": "8985f783e1b3c63d5a30fd97dd7e01b1457e69e6493ce1b0054602b83c548f95",
       "ast_digest": "3cfe14c0ae849e1533930bfbcdd9378972640fdd5d0ad2cd99c9a107e6506c2e"
     },
     "sor": {
-      "values_digest": "c7ff50c8ad1d61d084c4f793c45b6a0c10a95e2c7db90f00335b385886c6ef47",
-      "rendered_digest": "6cc14b29238aca7ace79b2d5db8d3a7cf47f2152a8ac9a91b59dc7d02092992f",
-      "ast_digest": "84f00b5ab5ea05c488186e6f7061331048e43df9210154ea34da5ebee5d2e383"
+      "values_digest": "124f2b78f984cea9f3994a7cd7042ab150889af76d44c368c56c86212f77ee48",
+      "rendered_digest": "e7927fa10fa18c1f17078497d6bacb7b96ad6d5095934ee8075de286c90f2207",
+      "ast_digest": "f5290b16affcd0cfe27cabeb64254240c9d65244d9a8c5d36a8f22cb00e5411f"
     }
   },
   "transitions": [
@@ -133,6 +133,13 @@
       "actor": "codex:issue-96-review-remediation",
       "reason": "Record the complete exact-head review remediation and refreshed focused proof before fresh independent review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled the Sprint 2 umbrella validator with exact v3 and bounded real legacy v2 source, evidence, PR-head, merge, and candidate Git topology without weakening terminality or native proof.\",\"changes\":[\"Validate each protected path as one exact ordinary blob with stable OID and mode plus no-touch history across source, evidence, PR head, merge, and umbrella candidate.\",\"Require strict proof-descendant mapping, one whole v3 evidence-prefix introduction at E, immutable ordinary blobs through the candidate, and unique exact proof mappings.\",\"Bound real legacy v2 compatibility to a receipt preexisting source followed by exactly one complete evidence and proof refresh at E with no later evidence touch.\",\"Verify issue/code repository identity, qualified closure, exact PR head, merge ancestry, terminal envelope, and the corrected frozen sixteen-child dependency DAG.\",\"Validate generic child WP identity, exact nonzero test target, canonical nested runner, timestamps, command logs, artifacts, negative results, and historical digests.\",\"Validate full canonical WP-04.16 production and native macOS, Linux, and Windows commands, nested runners, distinct run identities, logs, artifacts, negative evidence, and source binding at the historical child head.\",\"Bind every referenced command log, artifact, negative case, and native artifact inside the exact frozen manifest evidence prefix.\",\"Require the exact Cargo nextest command contract and ordered RFC3339 start/finish timestamps.\",\"Resolve split code authority from the canonical publication repository with conflict rejection instead of falling back from an absent top-level field to the legacy issue repository.\",\"Add 33 generated Git-history and split-authority regressions plus representative current #5863 legacy receipt and split-index checks covering valid topology and fail-closed drift, ambiguity, schema, type, time, namespace, command, repository, and denominator cases.\"],\"artifacts\":[\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"purpose\":\"Run 33 generated v3, bounded legacy v2, drift, mapping, type, time, namespace, exact-command, generic proof, integrated-native, and split-authority cases plus representative current #5863 legacy and split-index shapes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/focused-ruby-regression.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\"],\"purpose\":\"Prove the repaired validator parses successfully.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/ruby-syntax.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"purpose\":\"Prove the expanded generated-history regression parses successfully.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/ruby-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch-hygiene defects across the repaired candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"clean exact remediation candidate\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-96-review-remediation",
+      "reason": "Record the complete exact-head review remediation and refreshed focused proof before fresh independent review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled the Sprint 2 umbrella validator with exact v3 and bounded real legacy v2 source, evidence, PR-head, merge, and candidate Git topology without weakening terminality or native proof.\",\"changes\":[\"Validate each protected path as one exact ordinary blob with stable OID and mode plus no-touch history across source, evidence, PR head, merge, and umbrella candidate.\",\"Require strict proof-descendant mapping, one whole v3 evidence-prefix introduction at E, immutable ordinary blobs through the candidate, and unique exact proof mappings.\",\"Bound real legacy v2 compatibility to a receipt preexisting source followed by exactly one complete evidence and proof refresh at E with no later evidence touch.\",\"Verify issue/code repository identity, qualified closure, exact PR head, merge ancestry, terminal envelope, and the corrected frozen sixteen-child dependency DAG.\",\"Validate generic child WP identity, exact nonzero test target, canonical nested runner, timestamps, command logs, artifacts, negative results, and historical digests.\",\"Validate full canonical WP-04.16 production and native macOS, Linux, and Windows commands, nested runners, distinct run identities, logs, artifacts, negative evidence, and source binding at the historical child head.\",\"Bind every referenced command log, artifact, negative case, and native artifact inside the exact frozen manifest evidence prefix.\",\"Require the exact Cargo nextest command contract and ordered RFC3339 start/finish timestamps.\",\"Require RFC3339 timestamps to carry an explicit Z or numeric timezone offset so host-local parsing cannot enter historical proof.\",\"Resolve split code authority from the canonical publication repository with conflict rejection instead of falling back from an absent top-level field to the legacy issue repository.\",\"Add 34 generated Git-history and split-authority regressions plus representative current #5863 legacy receipt and split-index checks covering valid topology and fail-closed drift, ambiguity, schema, type, time, namespace, command, repository, and denominator cases.\"],\"artifacts\":[\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"purpose\":\"Run 34 generated v3, bounded legacy v2, drift, mapping, type, timezone, namespace, exact-command, generic proof, integrated-native, and split-authority cases plus representative current #5863 legacy and split-index shapes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/focused-ruby-regression.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\"],\"purpose\":\"Prove the repaired validator parses successfully.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/ruby-syntax.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb\"],\"purpose\":\"Prove the expanded generated-history regression parses successfully.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/96/ruby-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch-hygiene defects across the repaired candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"clean exact remediation candidate\"}]}"
     }
   ]
 }
