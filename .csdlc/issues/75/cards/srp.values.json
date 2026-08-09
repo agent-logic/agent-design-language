@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Publication linkage types, exact parsing, retained evidence, remote reconciliation, finish authority, and focused tests only.",
+      "review_scope": "csdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/model.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/gate6.rs\ncsdlc-v2/tests/gate_finish.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

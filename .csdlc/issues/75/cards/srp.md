@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Publication linkage types, exact parsing, retained evidence, remote reconciliation, finish authority, and focused tests only.
+csdlc-v2/src/bin/csdlc-publish.rs
+csdlc-v2/src/finish.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/model.rs
+csdlc-v2/src/publication.rs
+csdlc-v2/tests/gate6.rs
+csdlc-v2/tests/gate_finish.rs
 
 ## Prompts
 
