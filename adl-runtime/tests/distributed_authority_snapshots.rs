@@ -231,8 +231,25 @@ fn failure_snapshot_enumerates_missing_members_and_rejects_revision_drift() {
         .insert(("node-a".into(), 1), observer.verifying_key());
     authority.members.insert(("node-a".into(), 7));
     authority.members.insert(("node-b".into(), 7));
-    let membership = FailureMembershipSnapshot::from_test_rows(7, 11, authority.complete.clone());
+    let membership = FailureMembershipSnapshot::from_test_rows(
+        FAILURE_DOMAIN,
+        7,
+        11,
+        authority.complete.clone(),
+    );
+    let foreign_membership = FailureMembershipSnapshot::from_test_rows(
+        "foreign.test",
+        7,
+        11,
+        authority.complete.clone(),
+    );
     let mut detector = FailureDetector::new(failure_policy());
+    assert_eq!(
+        detector
+            .authority_revision(&foreign_membership, 100)
+            .unwrap_err(),
+        FailureError::WrongTrustDomain
+    );
     let empty_revision = detector.authority_revision(&membership, 100).unwrap();
     let empty = detector
         .redacted_snapshot_at(empty_revision, &membership, 100)
@@ -821,6 +838,7 @@ fn snapshot_bounds_reject_n_plus_one_without_partial_mutation() {
     );
 
     let oversized_membership = FailureMembershipSnapshot::from_test_rows(
+        FAILURE_DOMAIN,
         7,
         11,
         vec![

@@ -211,6 +211,7 @@ pub trait ProbeAuthority {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct FailureMembershipSnapshot {
+    trust_domain: String,
     membership_epoch: u64,
     committed_log_index: u64,
     members: Vec<(String, String)>,
@@ -220,6 +221,7 @@ impl FailureMembershipSnapshot {
     #[cfg(not(test))]
     pub fn from_membership(authority: &super::membership::MembershipState) -> Self {
         Self {
+            trust_domain: authority.trust_domain().to_owned(),
             membership_epoch: authority.epoch(),
             committed_log_index: authority.committed_log_index(),
             members: authority
@@ -231,11 +233,13 @@ impl FailureMembershipSnapshot {
 
     #[cfg(test)]
     pub(crate) fn from_test_rows(
+        trust_domain: impl Into<String>,
         membership_epoch: u64,
         committed_log_index: u64,
         members: Vec<(String, String)>,
     ) -> Self {
         Self {
+            trust_domain: trust_domain.into(),
             membership_epoch,
             committed_log_index,
             members,
@@ -656,6 +660,9 @@ impl FailureDetector {
         let members = membership.members.clone();
         if members.len() > self.policy.max_nodes {
             return Err(FailureError::ResourceExhausted);
+        }
+        if membership.trust_domain != self.policy.trust_domain {
+            return Err(FailureError::WrongTrustDomain);
         }
         if membership.membership_epoch != self.policy.membership_epoch {
             return Err(FailureError::WrongMembershipEpoch);

@@ -16,7 +16,7 @@ Add small authority-owned redacted snapshot views and monotonic revision guards 
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 
@@ -34,7 +34,7 @@ Revision 2
   },
   {
     "id": "S2",
-    "action": "Preserve current placement decisions and complete migration/recovery state across mutation and restore.",
+    "action": "Retain current placement decisions in-process and fail closed as unavailable after restart until authoritative reconstruction; preserve migration/recovery state across restore.",
     "acceptance_ids": [
       "AC-5",
       "AC-6"

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b368cd6101321186d2018a224ad40047f9d4f77a88dc2ce5f9a5d6c36ef0b227",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "b49bdfdd3e6f089e0c323cef17d26cfa985e13519807bf2616794ba07c2e439d",
+  "generation": 10,
+  "digest": "3bbb830cb15d57fee9aa6e7f8d0651fe27d64b056d182159fe1d43f9c08e009e",
   "branch": "codex/133-revisioned-redacted-authority-snapshots",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-133-authority-snapshots",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7de470deb68a88eb78c070af2af6b84b959720871b1bb5985425164571bbb190",
+      "values_digest": "99a9dedfe7f016fb95b6f6fca2d6400e63deb88416c9d55b5a0f7715e40f8f10",
       "rendered_digest": "5a993f2b43e3715af44a7c328bd155c3bcefde90c25f1501e4fb1f49b1082524",
       "ast_digest": "6226c23e15935c9faa1d291b0b95668094b727e85cf79e8c10e1f02828c53b31"
     },
     "stp": {
-      "values_digest": "c6f610dd75caf8a92d4aabe75ea505921a2ce271a2fdae7637df5aaaba89c4c9",
+      "values_digest": "9664ca1b8b9ea672a7fa9d4d365193bb54a07897ba7f37f98ca757e9a99d5bd2",
       "rendered_digest": "bb2cc001cdef452c1939b8f669cd3242514af9d5182e79cba8b939fc9a80bfac",
       "ast_digest": "b30819cccfb068ce3742a47eec51bbdebc80d956793559f467c3a9b0eff104bb"
     },
     "spp": {
-      "values_digest": "7f9e280dee33f1b0b7ef7cca658309e446d8af1091ed0efc0c2b5175f028aec0",
-      "rendered_digest": "ade7d992de7230c3525fd4d589903dca2b29ded5030e9b0dfa1b3f023045a881",
-      "ast_digest": "b12c145beb75363b4cd817e339203749d4b70f5cbdd3913d88796b42b2c72a07"
+      "values_digest": "786bd1081dd007a02101d32fce559ddb4dbb5b63dcf7cf051930412ce48a61cc",
+      "rendered_digest": "9d949910d5c2f19ad0a95feea8cf99fb9a3828c0e09d8b146ad30059bd87d424",
+      "ast_digest": "31ef911ef6303b06f8b08552ef21f8f9089ef14688fd89884e99d7c504aec46f"
     },
     "vpp": {
-      "values_digest": "33983d2b65ec7d33f7b8d6466bd5e1d6498b5df146f703f3a3b22d012067faa8",
+      "values_digest": "9fb3db944c46a78ac932913813ebd16dd0c2157c800994286d047cedaf05c2e6",
       "rendered_digest": "4e7db58d026b8f2a2dc3aeb936eca7d9aa13fcc993daf471ee9dec0d8242e1af",
       "ast_digest": "536ca8de1c55d5196003a22896f3012482ae79372346648e37ccc396d430d2d9"
     },
     "srp": {
-      "values_digest": "4021b6daa41df47cb3b7ed208dcd5bc0c0d72114f3bae013f02d007a8e28f053",
+      "values_digest": "b50ed8a594e35aae54e64c3ad3af6484cde967f1ebac18293553e4d096b2b426",
       "rendered_digest": "0a57a76e2682dd4965525c650623597df523d24440a71a438c0ba55c21015db6",
       "ast_digest": "fc32778fd779089e83381ac2c06ab9c81867f3f23de08378d0392834ae4dcac8"
     },
     "sor": {
-      "values_digest": "a82fe9128ddcecd426bac48cff3fb74a190911caac0950809e9749160e79ea7f",
-      "rendered_digest": "69500f737caf76829b3d933a1e488fec0adf40924f388c51de128516969f8b98",
-      "ast_digest": "a20f7d3d2f9bd5419ae31333ceef093b421c420ef2770d8382e01dc15c54c8c3"
+      "values_digest": "c12e2a6afc5c98a96fd9e66cfbb042f38563e28aebb66eb9c85abb4fb980d810",
+      "rendered_digest": "abdb182f505cf742007464fb9fc7e0f4b266da0aef426cd6c3bf6324332280b3",
+      "ast_digest": "d1d6a2605fa60b7460339d73336bf0445aa44cff2c1d22077a34274375eda34f"
     }
   },
   "transitions": [
@@ -141,6 +141,27 @@
       "actor": "codex:133-authority-snapshots",
       "reason": "Align the declared strict Clippy boundary with the issue-owned focused target actually executed; the repository-wide all-targets lane includes unrelated pre-existing targets outside issue scope.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authority-snapshot-tests\",\"proof_role\":\"Prove complete certificate, failure, lease, fencing, placement, migration, and recovery enumeration; revision mutation; N/N+1 drift rejection; redaction; bounds; restart parity; and cross-authority opaque-reference parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\"],\"parallel_group\":\"fastwork-runtime\",\"defer_reason\":null},{\"lane\":\"authority-snapshot-clippy\",\"proof_role\":\"Prove the exact issue-owned authority snapshot integration target is warning-free before exact-head review.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"fastwork-runtime\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:133-authority-snapshots",
+      "reason": "Bind the opaque failure membership denominator to the authoritative membership trust domain discovered by exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\".csdlc/issues/133\",\".csdlc/prepared/issues/133\",\".csdlc/evidence/133\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:133-authority-snapshots",
+      "reason": "Record the reviewed placement restart behavior truthfully as fail-closed reconstruction rather than durable decision restoration.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Define bounded authority-owned row and snapshot APIs with redaction and revision guards.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Retain current placement decisions in-process and fail closed as unavailable after restart until authoritative reconstruction; preserve migration/recovery state across restore.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add focused cross-module negative and restart tests and run strict validation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Obtain independent exact-head review, publish with closing linkage, shepherd CI, and merge.\",\"acceptance_ids\":[\"AC-7\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:133-authority-snapshots",
+      "reason": "Record placement restart truth as fail-closed reconstruction while retaining durable restart claims only for durable authorities.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded revisioned redacted snapshots for seven distributed authority stores, with complete deterministic enumeration, content-bound revisions, stable opaque references, durable restart parity for checkpointed authorities, and fail-closed placement unavailability until reconstruction.\",\"changes\":[\"Added opaque certificate, failure, lease, fencing, placement, migration, and recovery snapshot APIs owned by their authoritative stores.\",\"Added deterministic domain-separated references and coarse health, evidence, freshness, and capacity projections without raw identifiers or operational detail.\",\"Placement retains current decisions in process and returns AuthorityUnavailable after restart until authoritative decisions are reconstructed; migration, recovery, fencing, and lease revisions retain their documented durable behavior.\",\"Added focused proof for complete enumeration, rotation overlap, explicit unavailable rows, mutation drift, N/N+1 no-partial bounds, replacement/removal, stable reference parity, wrong-domain rejection, and restart behavior.\"],\"artifacts\":[\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict focused static analysis for the exact integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"authority-snapshot-clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\"],\"purpose\":\"Run the exact focused integration target with a nonzero passing denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"authority-snapshot-tests.log\"}]}"
     }
   ]
 }

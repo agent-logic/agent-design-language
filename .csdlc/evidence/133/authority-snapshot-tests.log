@@ -1,5 +1,5 @@
 
-running 7 tests
+running 8 tests
 test placement_snapshot_retains_replaces_removes_and_buckets_capacity ... ok
 test failure_snapshot_enumerates_missing_members_and_rejects_revision_drift ... ok
 test lease_snapshot_is_complete_content_bound_and_drift_safe ... ok
@@ -7,8 +7,9 @@ test fencing_snapshot_is_complete_content_bound_restart_stable_and_ref_aligned .
 test migration_snapshot_enumeration_and_revision_survive_restart ... ok
 test recovery_snapshot_enumeration_and_revision_survive_restart ... ok
 test certificate_snapshot_is_complete_redacted_revisioned_and_overlap_aware ... ok
+test snapshot_bounds_reject_n_plus_one_without_partial_mutation ... ok
 
-test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
 
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.75s
      Running tests/distributed_authority_snapshots.rs (adl-runtime/target/debug/deps/distributed_authority_snapshots-eb40e8d03f4ed91c)
