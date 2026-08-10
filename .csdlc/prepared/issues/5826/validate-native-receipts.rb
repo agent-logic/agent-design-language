@@ -179,7 +179,9 @@ receipts.each do |receipt|
   observed_passed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory is missing") unless observed_passed_tests.is_a?(Array)
   fail!("#{platform}: passed test inventory disagrees with command output") unless observed_passed_tests == passed_tests.sort
-  observed_test_functions = observed_passed_tests.map { |name| name.to_s.split("$").last }
+  expected_test_prefix = "adl-runtime-kernel::adl_runtime_kernel$birthday_identity::authority_tests::"
+  fail!("#{platform}: passed test inventory escaped the internal authority module") unless observed_passed_tests.all? { |name| name.to_s.start_with?(expected_test_prefix) }
+  observed_test_functions = observed_passed_tests.map { |name| name.to_s.delete_prefix(expected_test_prefix) }
   missing_authority_tests = required_authority_tests - observed_test_functions
   fail!("#{platform}: authority-negative proof is incomplete: #{missing_authority_tests.join(', ')}") unless missing_authority_tests.empty?
 
