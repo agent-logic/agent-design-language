@@ -26,6 +26,8 @@ Versioned witness-set and receipt contracts binding witness identity/role, candi
 - adl-runtime-kernel/tests/fixtures/birth_witness/
 - docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md
 - .csdlc/prepared/issues/5833/validate-native-receipts.rb
+- .csdlc/prepared/issues/5833/produce-native-receipt.rb
+- .github/workflows/wp15-native-birth-witness.yml
 - .csdlc/evidence/5833/
 
 ## Authority

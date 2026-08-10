@@ -1,0 +1,13 @@
+schema=adl.local_validation_log.v1
+issue=5833
+validated_revision=c2d41009a3029a7ba1335810e8811ddb017a37c1
+validated_tree=efa703343f5463ac584401812cdccc558914bf71
+producer_ruby_syntax=passed
+validator_ruby_syntax=passed
+producer_self_test=passed
+validator_self_test=passed
+workflow_yaml_parse=passed
+hidden_artifact_opt_in_count=2
+exact_authority_test_inventory=13
+aggregate_upload=success_only_exact_eight_files
+result=passed

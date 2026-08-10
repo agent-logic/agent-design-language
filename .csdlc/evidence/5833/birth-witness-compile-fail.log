@@ -1,0 +1,9 @@
+schema=adl.local_validation_log.v1
+issue=5833
+validated_revision=c2d41009a3029a7ba1335810e8811ddb017a37c1
+validated_tree=efa703343f5463ac584401812cdccc558914bf71
+command=cargo test --manifest-path adl-runtime-kernel/Cargo.toml --doc birth_witness
+tests_run=1
+tests_passed=1
+tests_failed=0
+result=passed

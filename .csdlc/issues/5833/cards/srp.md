@@ -8,11 +8,21 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact-head review of WP-15 candidate binding, witness distinctness and authority, anti-equivocation, deterministic receipt derivation, redaction, premature-claim rejection, and dependencies only.
+.csdlc/issues/5833
+.csdlc/prepared/issues/5833/design.md
+.csdlc/prepared/issues/5833/produce-native-receipt.rb
+.csdlc/prepared/issues/5833/validate-native-receipts.rb
+.csdlc/evidence/5833
+.github/workflows/wp15-native-birth-witness.yml
+adl-runtime-kernel/src/birth_witness.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/birth_witness.rs
+adl-runtime-kernel/tests/fixtures/birth_witness
+docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md
 
 ## Prompts
 
@@ -31,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Typed publication re-observation and terminal green checks at the final metadata head remain mandatory before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c2c4c275d89501a9e8d81a8ee595ae76d5892c48:08c85d180df1d3b7fa2e903adf47685aa1fa0a8aeada7ae1465d28f8cd8ec754")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5833_exact_head")
 
-Result: pre_review
+Result: pass
