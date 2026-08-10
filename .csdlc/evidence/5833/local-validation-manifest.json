@@ -1,0 +1,18 @@
+{
+  "schema": "adl.local_validation_manifest.v1",
+  "issue": 5833,
+  "validated_revision": "50d7c55c6cf6272c4a0bbe64f6c778c3da9a00db",
+  "validated_tree": "056d1a009ca5e621751522906e09b353c11302b8",
+  "command": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "birth_witness", "--no-tests=fail", "--status-level", "all"],
+  "tests_run": 12,
+  "tests_passed": 12,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "status": "passed",
+  "output_ref": ".csdlc/evidence/5833/birth_witness-runtime-v3.log",
+  "output_sha256": "61ae1854ecc1da6cd70291f74091b444bb1d5a5b7161ef82d8ba0884233c0aca",
+  "strict_clippy_ref": ".csdlc/evidence/5833/birth-witness-strict-clippy.log",
+  "strict_clippy_sha256": "44c7e514ece606d1e1a24121c421f64000d51bf2062a7bc86a1d2b1985c264d4",
+  "native_scripts_ref": ".csdlc/evidence/5833/birth-witness-native-scripts.log",
+  "native_scripts_sha256": "3ca89a525eea9bf8424eb87519144ce369684adff14058c9716ec220ae7af7c1"
+}
