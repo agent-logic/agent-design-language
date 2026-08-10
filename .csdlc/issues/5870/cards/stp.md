@@ -16,7 +16,8 @@ Enforce one authoritative owner per lineage and reject stale, cloned, or partiti
 
 ## Deliverables
 
-- Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors.
+- adl-runtime/src/distributed/fencing.rs
+- adl-runtime/tests/distributed_fencing.rs
 - Focused positive and negative tests
 - Digest-bound execution proof
 - Reviewed rollback evidence
@@ -45,6 +46,10 @@ Enforce one authoritative owner per lineage and reject stale, cloned, or partiti
 - adl-runtime/src/guardian.rs
 - adl-runtime/src/networking.rs
 - adl-runtime/src/runtime_api.rs
+- adl-runtime/src/distributed/certificates.rs
+- adl-runtime/src/distributed/membership.rs
+- adl-runtime/src/distributed/failure_detection.rs
+- adl-runtime/src/distributed/lease.rs
 
 ## Non Goals
 

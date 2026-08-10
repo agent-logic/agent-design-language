@@ -47,7 +47,7 @@ Diagram: .csdlc/prepared/issues/5870/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": null
+    "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/fencing.rs\"] harness in adl-runtime/tests/distributed_fencing.rs will route adl-runtime/src/distributed/fencing.rs until integration issue #5878 registers the production module; after bind, either missing target remains a hard failure."
   },
   {
     "lane": "exact-revision-proof-receipt",

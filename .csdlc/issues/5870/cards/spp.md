@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 
@@ -96,11 +96,13 @@ Digest: 113850977a9b27ab371914763d9bcac7fc2757008adcd1fe7dea0da48ef809b9
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Issues #5868 and #5869 are not closed by merged commits ancestral to the exact execution base
+- The landed #5868 or #5869 public API differs materially from the reviewed source contract and requires redesign
+- Any implementation path beyond adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs is required, including Cargo or module registration owned by #5878
+- Either exact owned source or test target remains absent before implementation validation or review
+- The exact distributed_fencing target is absent, selects zero tests, or cannot prove fail-closed single-owner, durability, rollback, and recovery behavior
+- Fresh authority verification, durable fencing floors, or rollback safety cannot be proved without widening scope or authority
+- Evidence is not exact-revision and digest bound, strict Clippy fails for the qualified target, or independent review has unresolved actionable findings
 
 ## Handoff
 

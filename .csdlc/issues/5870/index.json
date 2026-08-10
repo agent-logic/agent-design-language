@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b993a3096652d7703aa471c9306f5c1b266c45e2685d26577f06d7a209557a10",
   "phase": "initialized",
-  "generation": 11,
-  "digest": "6b4d0db772c0a093599d4aaaaa3cf22ca7f387baed721b897fba8e82ed839457",
+  "generation": 16,
+  "digest": "38d0f0ebd466d8cdc529556392148147bc244f597d122ae80a467bf1c222d4c8",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "678d3dbec0b912ac896fe522c76d225a25f72de7d278dfa5e7bfd5d1d7b84280",
+      "values_digest": "5780eb1427b64b5efc9ee72add3d6cdc06dff972996cc600abd98178bb352874",
       "rendered_digest": "fcea0d4c60af606026f5d30163c71d8938d35a78374a17e471f79436e0f8f681",
       "ast_digest": "93c7a04c3b73c6a5affb4fad7108d5b8458548babd7edb23866157a277769dec"
     },
     "stp": {
-      "values_digest": "10e534f9a01c3ff07f18ec9a622014cbf9eb33a5f534f8e3ddca4dc3804c68ad",
-      "rendered_digest": "cf57cc66e87467d43ac6a20f85110ab200efb4022498bf08215cc8f4f16fdb86",
-      "ast_digest": "514c468ba7a2238cf3b882456659b68f9eae11c8da4ff35fbfbbf1d653a491d1"
+      "values_digest": "2dc68cafb0c1e3bb8d59d63e43ee6488913456b580de8add2ce0f51fc6ef88ec",
+      "rendered_digest": "e2d634e5670fdc604f7b7b54da049c022a162e282b7c9fcb831306a36b0c38d3",
+      "ast_digest": "f2cc59be4b5701c5637f339b41bc27ffeafb2a2a0c6a66e0e38e7cbacf0db395"
     },
     "spp": {
-      "values_digest": "3a9e5066eaf2f199093e2f2a7059cb97733d4f18845339642a9f8959d6344d15",
-      "rendered_digest": "fbc06d10510a441b1a80a184c2fca28fa1f0b880c4140af537b87a5d81aa7d11",
-      "ast_digest": "7164a4b6db98872ba964b322eda2155a658c7862fb52859187966cd020fc0b92"
+      "values_digest": "e59f980a55b495e4c0a77ee867c387eac419fe25b628b9e277bf82e6ff22fc79",
+      "rendered_digest": "38bf4016b770ff42ee2f8b9485b1bc1391bc28d9352843a9758851ed826858b5",
+      "ast_digest": "69dfb38ebe390a8954c8c10bb055359830695ae5e6804ef99c2da0aafa39772a"
     },
     "vpp": {
-      "values_digest": "fa00861419252438798855d6087f2cfe1832e7664cc71d3cacea7cf8247aec9c",
-      "rendered_digest": "815100eacbde42706fac2fc00d3c6ab2a529ab7a9f781dc1d5b4b3c687c8df2e",
-      "ast_digest": "ed9be623fe0efa4448bbb550d8136f66e57f622d1f60766af88951627992f4b2"
+      "values_digest": "5aff0cd312d82ecce322a8668594e83237fd31f1d128e83328533d300066752c",
+      "rendered_digest": "d0aea36083418907865a2d7902c76e64cf7fbf3c530e0c5577b79d66830d5c85",
+      "ast_digest": "2dbe5f8c174d351934fa3abf4f36a05ee0ba2d4d292ea00c26c2a9cd5fa563c1"
     },
     "srp": {
-      "values_digest": "1e95920b2c91164d3b723c48ffb2f2379a5ca4ab5eab7c5ccdf2a9e172372019",
+      "values_digest": "1920e9755df598e2b3010ee7b6525d83c165187ebc48656936b6234a7a1772b1",
       "rendered_digest": "a221ecc8dec332d492b6dc996b9e040631af360c5e4a36fb0d6135d9047412ad",
       "ast_digest": "56805114cae04014451215298d5d9e698ff096b87aaecc25ef66a1d9e411a67a"
     },
     "sor": {
-      "values_digest": "47f725a10001020cd4d394512d4b53aa439d6fddad660605fb2d71ad02892496",
+      "values_digest": "84bf97631be69de0f67ebad4fb920b92eac5ee18a76debd512872d1b08f4b69d",
       "rendered_digest": "438f780ba34b8cf10447ab0b4cd4ce4f8ffa306eb1b9d47fbae0076d6a4ed8c7",
       "ast_digest": "097e7f1e5962049cd1ed1b1329a64c69e58275998990a9a2986494008fc1c28b"
     }
@@ -266,6 +266,41 @@
       "actor": "codex:5821-wp04-child-authority-repair",
       "reason": "Align the proving lane with the reviewed distributed authority architecture.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_fencing proves mutation-sink enforcement, majority-certificate validation, voter-generation and applied-index checks, activation possession, stale epoch, cloned state, malicious-leader/minority denial, split-brain, wrong owner, expiry/revocation, post-partition, and recovery fencing.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_fencing\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=2154d93db7160bdb060f1edc436d0aff1ea29062f60e99aafa6ef560cb866352]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5870/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 12,
+      "actor": "codex:5870-fencing-preparation",
+      "reason": "Declare the exact issue-owned source and temporary test harness as bind-safe implementation deliverables without widening registration ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"Focused positive and negative tests\",\"Digest-bound execution proof\",\"Reviewed rollback evidence\",\"Authority safety: Keep uncertain owners fenced and restore only a quorum-committed owner or newer majority-committed epoch after the prior lease safety window.\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 13,
+      "actor": "codex:5870-fencing-preparation",
+      "reason": "Name the exact merged and dependency-owned distributed API inputs that fencing may consume read-only after dependency merge.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\",\".csdlc/prepared/issues/5821/design.md\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/src/networking.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 14,
+      "actor": "codex:5870-fencing-preparation",
+      "reason": "Freeze the dependency, ownership, post-bind implementation, proof, and publication stops for the fencing child.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issues #5868 and #5869 are not closed by merged commits ancestral to the exact execution base\",\"The landed #5868 or #5869 public API differs materially from the reviewed source contract and requires redesign\",\"Any implementation path beyond adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs is required, including Cargo or module registration owned by #5878\",\"Either exact owned source or test target is absent after bind\",\"The exact distributed_fencing target is absent, selects zero tests, or cannot prove fail-closed single-owner, durability, rollback, and recovery behavior\",\"Fresh authority verification, durable fencing floors, or rollback safety cannot be proved without widening scope or authority\",\"Evidence is not exact-revision and digest bound, strict Clippy fails for the qualified target, or independent review has unresolved actionable findings\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 15,
+      "actor": "codex:5870-fencing-preparation",
+      "reason": "Declare the bounded same-crate temporary path harness that permits initialized-phase admission while preserving fail-closed post-bind validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_fencing proves mutation-sink enforcement, majority-certificate validation, voter-generation and applied-index checks, activation possession, stale epoch, cloned state, malicious-leader/minority denial, split-brain, wrong owner, expiry/revocation, post-partition, and recovery fencing.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_fencing\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/fencing.rs\\\"] harness in adl-runtime/tests/distributed_fencing.rs will route adl-runtime/src/distributed/fencing.rs until integration issue #5878 registers the production module; after bind, either missing target remains a hard failure.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=2154d93db7160bdb060f1edc436d0aff1ea29062f60e99aafa6ef560cb866352]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5870/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 16,
+      "actor": "codex:5870-fencing-preparation",
+      "reason": "Correct the file-existence stop so initialized bind hands off to implementation while validation and review still fail closed on missing owned targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issues #5868 and #5869 are not closed by merged commits ancestral to the exact execution base\",\"The landed #5868 or #5869 public API differs materially from the reviewed source contract and requires redesign\",\"Any implementation path beyond adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs is required, including Cargo or module registration owned by #5878\",\"Either exact owned source or test target remains absent before implementation validation or review\",\"The exact distributed_fencing target is absent, selects zero tests, or cannot prove fail-closed single-owner, durability, rollback, and recovery behavior\",\"Fresh authority verification, durable fencing floors, or rollback safety cannot be proved without widening scope or authority\",\"Evidence is not exact-revision and digest bound, strict Clippy fails for the qualified target, or independent review has unresolved actionable findings\"]}"
     }
   ]
 }

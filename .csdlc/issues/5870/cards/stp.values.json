@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.08] Fencing and single-owner enforcement",
     "slug": "v0-92-wp-04-08-fencing-single-owner",
     "version": "v0.92",
-    "generation": 11
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -15,7 +15,8 @@
     "values": {
       "task_boundary": "Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors.",
       "deliverables": [
-        "Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors.",
+        "adl-runtime/src/distributed/fencing.rs",
+        "adl-runtime/tests/distributed_fencing.rs",
         "Focused positive and negative tests",
         "Digest-bound execution proof",
         "Reviewed rollback evidence",
@@ -40,7 +41,11 @@
         ".csdlc/prepared/issues/5821/design.md",
         "adl-runtime/src/guardian.rs",
         "adl-runtime/src/networking.rs",
-        "adl-runtime/src/runtime_api.rs"
+        "adl-runtime/src/runtime_api.rs",
+        "adl-runtime/src/distributed/certificates.rs",
+        "adl-runtime/src/distributed/membership.rs",
+        "adl-runtime/src/distributed/failure_detection.rs",
+        "adl-runtime/src/distributed/lease.rs"
       ],
       "non_goals": [
         "Sibling WP-04 paths",
