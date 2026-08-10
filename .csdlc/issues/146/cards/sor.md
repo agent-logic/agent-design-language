@@ -73,11 +73,11 @@ Corrected the v0.92.1 milestone package to planning-only posture. The complete 4
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
