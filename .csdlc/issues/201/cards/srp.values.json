@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 201,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+    "slug": "quorum-committed-authority-protocol",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact core authority-protocol source, legacy PolisCommand closure, focused three-voter tests, issue-owned proof/evidence, typed issue truth, and absence of downstream side effects.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?",
+        "Does replicated apply consume only committed deterministic time and membership evidence, including skew and uncertainty boundaries?",
+        "Do initialization, exact retry, result-cache, and external-checkpoint crash windows reconcile without false publication or rollback acceptance?",
+        "Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?",
+        "Does implementation stay strictly out of #199 membership transitions and #200 concrete authority-store side effects?",
+        "Does exact proof bind nonzero machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 201,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+    "slug": "quorum-committed-authority-protocol",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "After WP-04.16a merges, bind and implement the bounded committed authority protocol, prove deterministic endorsement/time/retry/checkpoint and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing #199 and #200.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, and legacy-log compatibility contracts.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement only the core authority protocol and retire or fail-close legacy direct authority command application; emit opaque verified operation tokens for #199 and #200 without executing their side effects.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Prove quorum endorsement, deterministic time boundaries, exact retry/conflict behavior, init and checkpoint crash windows, rollback, corruption, capacity, path safety, legacy-command rejection, and opaque-token construction.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Resolve fresh exact-head review, publish a ready PR closing #201, shepherd hosted CI, and wait for operator review and merge authorization.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/tests/distributed_authority_protocol.rs",
+        ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+        ".csdlc/evidence/201",
+        ".csdlc/issues/201"
+      ],
+      "invariants": [
+        "No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token",
+        "Every finalized token binds exact polis, domain, membership cut, committed index, operation, payload, time token, and distinct quorum endorsements",
+        "No token or canonical response is published before protocol result, retry record, and external checkpoint reconcile",
+        "Legacy direct authority commands cannot mint or restore authority",
+        "One-of-three always halts new authority token finalization"
+      ],
+      "risks": [
+        "A public signer or token constructor could restore caller self-attestation",
+        "Replica-local clock checks inside apply could diverge at expiry boundaries",
+        "Initialization or checkpoint crash ordering could publish a result without monotonic authority",
+        "Exact OpenRaft retries could conflict with overly strict sequence rejection",
+        "Legacy log or snapshot replay could silently retain a direct authority bypass",
+        "Scope could drift back into #199 membership or #200 concrete-store behavior"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "PR #197 is not externally reviewed, merged, and ancestral",
+        "The signer or verified token would be publicly constructible or accept caller-produced authority",
+        "Replicated apply would branch on replica-local time or local history",
+        "Protocol publication cannot reconcile initialization, exact retry, and rollback through an external checkpoint",
+        "Implementation expands into #199, #200, kernel continuity, Guardian/API/WSS, models, AWS, or live qualification",
+        "Any focused proof or independent review has an unresolved actionable finding"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/201/design.md",
+      "design_digest": "a92e403425ff55b9edb2039dd7540a6c6eaf7db0ef9ee547605a1776a6dce595",
+      "diagram_ref": ".csdlc/prepared/issues/201/diagram.mmd",
+      "diagram_digest": "806b5bb6610b191a70f7b74a6c2ab782ea6f69a8c631d9ccac890e03a99339d0"
+    }
+  }
+}

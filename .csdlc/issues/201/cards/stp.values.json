@@ -1,0 +1,61 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 201,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+    "slug": "quorum-committed-authority-protocol",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement and publish only the deterministic committed intent/finalize protocol, opaque voter endorsement authority, quorum-attested time, durable checkpoint/retry state, opaque downstream token, and legacy direct-authority closure required between WP-04.16a and #199/#200.",
+      "deliverables": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/tests/distributed_authority_protocol.rs",
+        ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+        ".csdlc/evidence/201",
+        ".csdlc/issues/201"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Prepare and finalize entries bind polis, trust domain, exact current membership epoch/index and voter-set digest, operation kind, expected prior protocol checkpoint, payload digest, canonical quorum-attested time token, and a unique bounded operation id.",
+        "AC-2: Finalization requires an opaque local VoterEndorsementAuthority and a strict quorum of distinct current voter endorsements over the exact committed intent; raw signing keys and caller-produced endorsements are rejected.",
+        "AC-3: Replicated apply is deterministic: every voter consumes identical committed logical/time evidence, while replica-local clocks may gate endorsement but cannot change the applied result.",
+        "AC-4: A symlink-safe, exclusively locked, bounded canonical journal and external ConsensusCheckpointAuthority reconcile initialization, intent, finalized result, and exact retry state across crash without claiming a transaction across independent downstream stores.",
+        "AC-5: Exact retries return the retained canonical result; conflicting reuse, reordered finalize, cross-polis/domain, stale membership, wrong signer, duplicate signer, expired intent, rollback, corruption, and capacity violations fail before new protocol publication.",
+        "AC-6: Legacy direct PolisCommand authority variants cannot mint membership, lease, fence, owner, Shepherd, Observatory, migration, or recovery authority; retained log/snapshot replay is versioned or fails closed explicitly.",
+        "AC-7: Successful finalization produces an opaque quorum-approved operation token for #199/#200 and does not itself execute OpenRaft membership change or concrete authority-store side effects.",
+        "AC-8: Exact nonzero focused tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens."
+      ],
+      "dependencies": [
+        "Issue #191 / PR #197 externally reviewed and merged as an ancestor",
+        "Current merged MembershipState, AuthorityMembership, certificate identity, and secure OpenRaft transport contracts",
+        "Issue #201 live GitHub contract",
+        "Issues #199 and #200 remain blocked until this issue merges"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#201",
+        "adl-runtime/src/distributed/polis_runtime.rs",
+        "adl-runtime/src/distributed/transport.rs",
+        "adl-runtime/src/distributed/membership.rs",
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/tests/distributed_runtime_transport.rs",
+        ".csdlc/issues/142 and its reviewed operational design as read-only umbrella truth"
+      ],
+      "non_goals": [
+        "OpenRaft learner, joint, final, demotion, or rejoin membership coordination (#199)",
+        "Certificate, lease, fence, owner, Shepherd, migration, or recovery store side effects (#200)",
+        "Kernel continuity export/import or snapshot catalog materialization",
+        "Guardian/API/WSS or Observatory listener integration",
+        "Models, AWS, live demonstration, final #142 delivery, merge without operator authorization, or lifecycle closeout"
+      ]
+    }
+  }
+}
