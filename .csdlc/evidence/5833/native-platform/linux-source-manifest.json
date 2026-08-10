@@ -1,0 +1,30 @@
+[
+  {
+    "path": "adl-runtime-kernel/Cargo.toml",
+    "sha256": "92466f21e0dfd70d6ba8b6fe7d9674b2a5a75eb624e422c46de3e7d79f2117a7"
+  },
+  {
+    "path": "adl-runtime-kernel/src/birth_witness.rs",
+    "sha256": "522b049749da8d31f43e785a9ba023505998b45e360be136218868732fa43518"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "5d41f196813ecac84c887444dee9f0926e9bad2ee021d2754f1d2fe98a72edd3"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/birth_witness.rs",
+    "sha256": "4c6c617d9bc42fde40a519ce7576eb16a209473acbaf5eef352ce31aae004462"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/birth_witness/authority_tests.rs",
+    "sha256": "67787619721bd51ab3833f90c807721a2ad11a9d4f495935ec4ab609a4f3fe67"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/birth_witness/matrix.json",
+    "sha256": "b76fc43397400d588a27f8700432878ba21f4ca12f4abb8202d39a27195cdea1"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+    "sha256": "a582ffcdd322fa0975e47f2a7811d06b8535f10d2536eb3bba74eb20e45b383d"
+  }
+]

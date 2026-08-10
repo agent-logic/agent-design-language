@@ -128,7 +128,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       ".csdlc/evidence/5833/native-platform/macos-semantic.json"
     ],
     "parallel_group": "5833-native-produce",
-    "defer_reason": "Required on a native GitHub Actions macOS runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "birth_witness-linux-native-ci-producer",
@@ -152,7 +152,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       ".csdlc/evidence/5833/native-platform/linux-semantic.json"
     ],
     "parallel_group": "5833-native-produce",
-    "defer_reason": "Required on a native GitHub Actions Linux runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "birth_witness-native-ci-receipt-verification",
@@ -172,7 +172,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       ".csdlc/evidence/5833/native-platform/linux.json"
     ],
     "parallel_group": "5833-native-verify",
-    "defer_reason": "Requires both exact-head native producer fragments from one GitHub Actions run; missing receipt proof blocks portability and review readiness."
+    "defer_reason": null
   }
 ]
 

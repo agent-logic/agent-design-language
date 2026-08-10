@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and proved WP-15 opaque-authority exact-candidate witnesses and deterministic path-redacted citizen receipts without manufacturing birth authority.
+Implemented and proved WP-15 opaque-authority exact-candidate witnesses and deterministic path-redacted citizen receipts, including retained exact-head Linux/macOS native equivalence proof, without manufacturing birth authority.
 
 ## Artifacts
 
@@ -32,6 +32,16 @@ Implemented and proved WP-15 opaque-authority exact-candidate witnesses and dete
 - .csdlc/evidence/5833/birth-witness-compile-fail.log
 - .csdlc/evidence/5833/birth-witness-strict-clippy.log
 - .csdlc/evidence/5833/birth-witness-native-scripts.log
+- .csdlc/evidence/5833/native-platform/linux.json
+- .csdlc/evidence/5833/native-platform/linux-nextest.log
+- .csdlc/evidence/5833/native-platform/linux-semantic.json
+- .csdlc/evidence/5833/native-platform/linux-source-manifest.json
+- .csdlc/evidence/5833/native-platform/macos.json
+- .csdlc/evidence/5833/native-platform/macos-nextest.log
+- .csdlc/evidence/5833/native-platform/macos-semantic.json
+- .csdlc/evidence/5833/native-platform/macos-source-manifest.json
+- .csdlc/evidence/5833/native-platform/independent-validator.log
+- .csdlc/evidence/5833/native-validation-manifest.json
 
 ## Execution
 
@@ -40,6 +50,7 @@ Implemented and proved WP-15 opaque-authority exact-candidate witnesses and dete
 - Replaced original evidence paths in the receipt with deterministic kind-and-digest tokens and rejected secret-bearing path syntax before projection.
 - Added hidden-file opt-in to both exact native uploads while preserving four-file producer isolation and success-only exact eight-file aggregate retention.
 - Updated native proof to the exact 13-test crate-internal authority lane with a separate one-test public serialization boundary.
+- Retained the exact eight-file Linux/macOS packet from successful run 31438894269 and independently revalidated its source, producer, test inventory, provenance, path hygiene, and byte-identical semantic output at head 33dad75ef.
 
 ## Validation
 
@@ -116,16 +127,57 @@ Implemented and proved WP-15 opaque-authority exact-candidate witnesses and dete
     "purpose": "Prove log path hygiene, exact 13-test inventory scaffolding, both hidden-upload opt-ins, Ruby syntax, and workflow YAML before native CI.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5833/birth-witness-native-scripts.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+      "--platform",
+      "linux",
+      "--receipt",
+      ".csdlc/evidence/5833/native-platform/linux.json",
+      "--semantic-output",
+      ".csdlc/evidence/5833/native-platform/linux-semantic.json"
+    ],
+    "purpose": "Prove the exact 13-test authority lane on native Linux at candidate head 33dad75ef with complete normalized structured output and source provenance.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5833/native-platform/linux.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+      "--platform",
+      "macos",
+      "--receipt",
+      ".csdlc/evidence/5833/native-platform/macos.json",
+      "--semantic-output",
+      ".csdlc/evidence/5833/native-platform/macos-semantic.json"
+    ],
+    "purpose": "Prove the exact 13-test authority lane on native macOS at candidate head 33dad75ef with complete normalized structured output and source provenance.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5833/native-platform/macos.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
+      ".csdlc/evidence/5833/native-platform/linux.json",
+      ".csdlc/evidence/5833/native-platform/macos.json"
+    ],
+    "purpose": "Independently revalidate the retained exact-head native packet in a detached clone, including exact inventory, provenance, path hygiene, source manifests, artifact archive, and semantic equivalence.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5833/native-platform/independent-validator.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

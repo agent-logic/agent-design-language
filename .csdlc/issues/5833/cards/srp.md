@@ -12,17 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/5833
-.csdlc/prepared/issues/5833/design.md
-.csdlc/prepared/issues/5833/produce-native-receipt.rb
-.csdlc/prepared/issues/5833/validate-native-receipts.rb
-.csdlc/evidence/5833
-.github/workflows/wp15-native-birth-witness.yml
-adl-runtime-kernel/src/birth_witness.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/birth_witness.rs
-adl-runtime-kernel/tests/fixtures/birth_witness
-docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md
+
 
 ## Prompts
 
@@ -41,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Exact-head native Linux and macOS receipts, aggregate validation, standard CI, and a fresh post-native exact-head review remain mandatory before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:5a15670df088fa0e2d2e94cd5e8dc49c5d3859c6:94923296d6733ffe4148833302d00e5460cb32b22b2f59cfbf1b969e4f596a05")
+Revision: None
 
-Reviewer: Some("/root/sprint4_5857/review_5833_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review
