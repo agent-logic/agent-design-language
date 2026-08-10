@@ -1,0 +1,1 @@
+{"schema":"adl.adaptive_learning.fixture_matrix.v1","negative_cases":["missing_evidence","forged_evidence","private_path","invalid_graph_binding","discontinuous_resume","forged_history","recurrence_bound","unauthorized_decision","rejected_mutation","rollback_mismatch","zero_confidence","unknown_field","profile_substitution","capability_substitution"]}

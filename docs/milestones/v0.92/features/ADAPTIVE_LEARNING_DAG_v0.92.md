@@ -4,7 +4,7 @@
 
 - Feature Name: Adaptive Learning DAG
 - Milestone Target: `v0.92`
-- Status: issue opened; Runtime v3 loop prerequisite requalified by WP-01
+- Status: WP-13A contract implemented locally; native proof pending CI
 - Owner: ADL maintainers
 - Doc Role: primary
 - Feature Types: architecture, runtime, validation
@@ -130,9 +130,14 @@ WP-01 validated the prerequisite by checking:
 - WP-13A owns the opened adaptive-learning implementation issue;
 - no v0.92 birthday claim depends on unproved graph mutation.
 
-Later implementation WPs should add focused tests for evaluation bindings,
-state deltas, graph mutation policy, replay determinism, and fail-closed
-negative cases.
+The issue-owned `adaptive_learning` integration target now proves evaluation
+bindings, explicit state deltas, proposal-before-decision graph mutation,
+accepted and rejected dispositions, deterministic history replay, bounded
+recurrence, exact rollback, and fail-closed negative cases. The versioned
+history binds the current validated reasoning graph and WP-13 cognitive profile
+to policy, capability, evidence, proposal, decision, and predecessor digests.
+Native macOS/Linux receipts remain CI integration proof and are not claimed by
+the local implementation result.
 
 ## Acceptance Criteria
 
