@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 80
+    "generation": 82
   },
   "status": "pre_phase",
   "content": {
@@ -76,6 +76,17 @@
           "purpose": "Prove the repaired Runtime v3 authority surface is warning-free under strict Clippy.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5826/local-validation-manifest.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5826/validate-native-receipts.rb",
+            ".csdlc/evidence/5826/native-platform/macos.json",
+            ".csdlc/evidence/5826/native-platform/linux.json"
+          ],
+          "purpose": "Prove exact-head native macOS/Linux internal authority tests, matching source manifests, seven passing tests per platform, GitHub Actions provenance, and byte-identical semantic output.",
+          "outcome": "passed",
+          "evidence_ref": "https://github.com/agent-logic/agent-design-language/actions/runs/31365422176"
         }
       ],
       "integration_state": "worktree_only",

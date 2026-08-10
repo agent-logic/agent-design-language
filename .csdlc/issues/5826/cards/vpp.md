@@ -78,7 +78,7 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
       ".csdlc/evidence/5826/native-platform/macos-semantic.json"
     ],
     "parallel_group": "5826-native-produce",
-    "defer_reason": "Fresh exact-head native GitHub Actions proof is required after the trust-bootstrap boundary repair."
+    "defer_reason": null
   },
   {
     "lane": "birthday_identity-linux-native-ci-producer",
@@ -102,7 +102,7 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
       ".csdlc/evidence/5826/native-platform/linux-semantic.json"
     ],
     "parallel_group": "5826-native-produce",
-    "defer_reason": "Fresh exact-head native GitHub Actions proof is required after the trust-bootstrap boundary repair."
+    "defer_reason": null
   },
   {
     "lane": "birthday_identity-native-ci-receipt-verification",
@@ -122,7 +122,7 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
       ".csdlc/evidence/5826/native-platform/linux.json"
     ],
     "parallel_group": "5826-native-verify",
-    "defer_reason": "Blocked until both repaired exact-head producer receipts exist."
+    "defer_reason": null
   }
 ]
 
