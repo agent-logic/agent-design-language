@@ -1,0 +1,17 @@
+flowchart TD
+    A["Idle and resources released"] --> B["Phase A: three Wuji runtime voters"]
+    B --> C["One polis Observatory"]
+    C --> D["Convergence, action, failure, recovery proof"]
+    D --> E["Stop nodes and Observatory; release ports, locks, state"]
+    E --> F{"Cleanup proof passes?"}
+    F -- "No" --> X["Fail closed; Phase B forbidden"]
+    F -- "Yes" --> G["Verify agent-logic-admin business account"]
+    G --> H["Phase B: one Wuji voter plus two AWS voters"]
+    H --> I["Create quorum-committed snapshot on Wuji"]
+    I --> J["Transfer and verify snapshot on both AWS voters"]
+    J --> K["Stop Wuji and preserve two-of-three AWS quorum"]
+    K --> M["Fence Wuji, activate AWS owner, continue polis"]
+    M --> N["One AWS-hosted polis Observatory remains live"]
+    N --> O["Reject stale Wuji until governed rejoin"]
+    O --> P["Terminate AWS and local resources"]
+    P --> L["Final cleanup proof"]

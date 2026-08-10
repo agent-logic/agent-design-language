@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 142,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime] Operationalize distributed Runtime and polis Observatory across Wuji and AWS",
+    "slug": "operational-distributed-runtime-polis-observatory-wuji-aws",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Operationalize a real multi-node Runtime v3 polis and prove one polis-level Observatory first across two Wuji nodes and then, strictly serially, across Wuji and AWS.",
+      "required_outcome": "Production Guardian/kernel entrypoints run an authenticated distributed polis; one coherent redacted Observatory is shown live for each serial topology; failure, recovery, shutdown, and complete cleanup are proven.",
+      "declared_scope": [
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime/src/runtime_api.rs",
+        "adl-runtime/src/distributed/",
+        "adl-runtime/tests/",
+        "docs/api/runtime-v3/v1/distributed.openapi.json",
+        "issue-owned operator runners, documentation, and evidence for #142"
+      ],
+      "authority_boundary": [
+        "Merged WP-04 authority modules remain the sole distributed authority",
+        "One Observatory exists per distributed polis, not per node",
+        "Phase A cleanup is mandatory authority for beginning Phase B",
+        "AWS authority is limited to verified profile agent-logic-admin in the Agent Logic business account",
+        "No public unauthenticated or plaintext runtime surface"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Run the Wuji-Wuji demo first and alone",
+        "Do not begin Wuji-AWS until Phase A cleanup is machine-proven",
+        "Show the live running polis Observatory to the operator in both phases",
+        "Use permission-safe process status checks and bounded timeouts",
+        "Do not perform async lifecycle closeout in this issue"
+      ]
+    }
+  }
+}

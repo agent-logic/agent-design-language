@@ -1,0 +1,181 @@
+{
+  "issue": 142,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:142-init",
+  "design_path": ".csdlc/prepared/issues/142/design.md",
+  "diagram_path": ".csdlc/prepared/issues/142/diagram.mmd",
+  "design_reviewer": "pending:independent-142-design-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][runtime] Operationalize distributed Runtime and polis Observatory across Wuji and AWS",
+    "slug": "operational-distributed-runtime-polis-observatory-wuji-aws",
+    "version": "v0.92",
+    "goal": "Operationalize a real multi-node Runtime v3 polis and prove one polis-level Observatory first across two Wuji nodes and then, strictly serially, across Wuji and AWS.",
+    "required_outcome": "Production Guardian/kernel entrypoints run an authenticated distributed polis; one coherent redacted Observatory is shown live for each serial topology; failure, recovery, shutdown, and complete cleanup are proven.",
+    "declared_scope": [
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/distributed/",
+      "adl-runtime/tests/",
+      "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "issue-owned operator runners, documentation, and evidence for #142"
+    ],
+    "authority_boundary": [
+      "Merged WP-04 authority modules remain the sole distributed authority",
+      "One Observatory exists per distributed polis, not per node",
+      "Phase A cleanup is mandatory authority for beginning Phase B",
+      "AWS authority is limited to verified profile agent-logic-admin in the Agent Logic business account",
+      "No public unauthenticated or plaintext runtime surface"
+    ],
+    "operator_constraints": [
+      "Run the Wuji-Wuji demo first and alone",
+      "Do not begin Wuji-AWS until Phase A cleanup is machine-proven",
+      "Show the live running polis Observatory to the operator in both phases",
+      "Use permission-safe process status checks and bounded timeouts",
+      "Do not perform async lifecycle closeout in this issue"
+    ],
+    "task_boundary": "Close the Sprint 3 production-integration gap through real process wiring, one polis Observatory, two serial live topologies, and exact retained proof without redesigning the merged authority modules.",
+    "deliverables": [
+      "Production distributed Guardian/kernel launcher and configuration",
+      "Single coherent polis Observatory API/WSS integration",
+      "Serial Wuji-Wuji and Wuji-AWS operator runner with hard non-overlap gate",
+      "Focused production-process, authority, failure, recovery, shutdown, and cleanup tests",
+      "Exact-source live demonstration and redacted evidence packets",
+      "Operator runbook and independently reviewed PR"
+    ],
+    "acceptance_criteria": [
+      "AC-1: two real Wuji Guardian/kernel nodes converge in one authenticated polis",
+      "AC-2: one live Phase A polis Observatory identifies both nodes and shows one coherent redacted authority cut",
+      "AC-3: Phase A proves authenticated traffic, governed action, degradation, recovery or fail-closed behavior, and full teardown",
+      "AC-4: Phase B cannot start until Phase A processes, Observatory, ports, locks, state, and credentials are released",
+      "AC-5: the AWS identity is verified through agent-logic-admin before one ephemeral AWS node is launched",
+      "AC-6: one live Phase B polis Observatory identifies the Wuji and AWS nodes through private authenticated access",
+      "AC-7: Phase B proves cross-host action, degradation, recovery or fail-closed behavior, and full local/AWS teardown",
+      "AC-8: proof binds exact source, argv, nonzero process/test denominators, captures, cleanup predicates, and redacted artifacts",
+      "AC-9: a fresh independent exact-head review has no unresolved actionable findings before publication",
+      "AC-10: the implementation PR is not merged before both serial live Observatory demonstrations are shown to the operator"
+    ],
+    "dependencies": [
+      "Merged WP-04.01 through WP-04.16 code and corrective authority repairs",
+      "Independent Sprint 3 P1 production-integration finding",
+      "Verified Agent Logic AWS business account and bounded SSM/private-connectivity permissions",
+      "Separate umbrella reconciliation and async closeout work does not block implementation unless it changes runtime safety"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#142",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/distributed/",
+      "adl-runtime/tests/distributed_guardian.rs",
+      "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md",
+      "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md"
+    ],
+    "non_goals": [
+      "Parallel execution of the two demos",
+      "One Observatory per runtime node",
+      "Independent single-node processes presented as a polis",
+      "Public unauthenticated or plaintext endpoints",
+      "Kubernetes, permanent AWS infrastructure, multi-region scaling, or customer traffic",
+      "Umbrella reconciliation or async lifecycle closeout"
+    ],
+    "plan_summary": "Review and bind exact production ownership, integrate real Guardian/kernel processes and one polis Observatory, prove Wuji-Wuji and clean it up, then prove Wuji-AWS and clean it up, followed by exact review, publication, and operator-gated merge.",
+    "steps": [
+      {"id":"S1","action":"Review the design and exact product ownership, dependencies, AWS boundary, and serial-state-machine contract.","acceptance_ids":["AC-4","AC-5","AC-8"],"status":"pending"},
+      {"id":"S2","action":"Implement production Guardian/kernel distributed wiring, coherent API/WSS projection, and one polis Observatory.","acceptance_ids":["AC-1","AC-2","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Implement focused regressions and the durable serial runner with fail-closed teardown gates.","acceptance_ids":["AC-3","AC-4","AC-7","AC-8"],"status":"pending"},
+      {"id":"S4","action":"Run and show Demo A on Wuji, then prove complete cleanup.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-10"],"status":"pending"},
+      {"id":"S5","action":"After the cleanup gate only, run and show Demo B across Wuji and AWS, then prove full teardown.","acceptance_ids":["AC-5","AC-6","AC-7","AC-10"],"status":"pending"},
+      {"id":"S6","action":"Validate exact receipts, resolve fresh independent review, publish, shepherd CI, and merge only after operator demonstration approval.","acceptance_ids":["AC-8","AC-9","AC-10"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "Runtime v3 process launch and lifecycle",
+      "Distributed Guardian/kernel integration",
+      "Runtime API/WSS and polis Observatory",
+      "Wuji and ephemeral AWS demo orchestration",
+      "Security, failure, recovery, teardown, and evidence"
+    ],
+    "invariants": [
+      "Exactly one Observatory per polis",
+      "The two demos never overlap",
+      "Existing distributed authority remains fail closed",
+      "Node identity, ports, state, and credentials are never shared",
+      "Remote transport and viewing are authenticated, encrypted, and private",
+      "Evidence is exact-source, exact-argv, redacted, and nonzero-denominator bound"
+    ],
+    "risks": [
+      "Production entrypoint wiring may expose missing authority adapters",
+      "A false distributed demo could accidentally launch independent singletons",
+      "Process, port, or durable-state residue could invalidate the serial boundary",
+      "AWS connectivity could tempt public exposure or wrong-account use",
+      "Observatory projection drift could show an incoherent polis cut",
+      "Proof or reviewer identity could be under-qualified"
+    ],
+    "planning_profile": "migration",
+    "construction_budget_seconds": 28800,
+    "construction_budget_tokens": 180000,
+    "validation_budget_seconds": 14400,
+    "validation_budget_tokens": 60000,
+    "stop_conditions": [
+      "Exact production ownership cannot be made disjoint",
+      "The launcher would bypass or weaken a merged authority",
+      "Phase A cleanup cannot be proven",
+      "agent-logic-admin does not resolve to the approved Agent Logic business account",
+      "Private authenticated Wuji-AWS transport cannot be established",
+      "One coherent polis Observatory cannot be produced",
+      "A prerequisite defect requires separate scope"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "focused-runtime-integration",
+        "proof_role": "Prove production launcher, real multi-process convergence, authority failures, coherent single-Observatory projection, and teardown behavior with nonzero exact tests.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-8"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 3600,
+        "budget_tokens": 12000,
+        "argv": ["cargo","nextest","run","--manifest-path","adl-runtime/Cargo.toml","--test","distributed_runtime_operational","--no-tests=fail"],
+        "parallel_group": "local-only",
+        "defer_reason": "Target is declared during planning and must exist before implementation validation."
+      },
+      {
+        "lane": "serial-live-demos",
+        "proof_role": "Run Demo A to full cleanup, then Demo B, retaining live Observatory, authority, failure/recovery, account, and teardown evidence.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-10"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 10800,
+        "budget_tokens": 30000,
+        "argv": ["bash","adl/tools/run_v092_distributed_runtime_observatory_demo.sh","--serial"],
+        "parallel_group": "exclusive-live",
+        "defer_reason": "The live runner is an issue deliverable and AWS execution requires verified business-account authority."
+      },
+      {
+        "lane": "exact-receipt-and-review",
+        "proof_role": "Verify exact source, argv parity, process/test denominators, redaction, serial non-overlap, cleanup, live captures, and independent reviewer provenance.",
+        "acceptance_ids": ["AC-8","AC-9","AC-10"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 8000,
+        "argv": ["ruby",".csdlc/prepared/issues/142/validate-proof-receipt.rb"],
+        "parallel_group": "post-demo",
+        "defer_reason": "The issue-owned validator is authored and reviewed with the implementation."
+      }
+    ],
+    "failure_policy": "Fail closed on singleton substitution, duplicate identity or state, authority drift, incoherent Observatory cut, public/plaintext exposure, wrong AWS account, phase overlap, incomplete cleanup, invalid exact proof, or unresolved review findings.",
+    "review_prompts": [
+      "Do real Guardian and kernel processes form one authenticated polis rather than independent singleton runtimes?",
+      "Is there exactly one coherent redacted Observatory per polis, with no hidden per-node authority split?",
+      "Can Phase B start under any Phase A residue or unproven cleanup state?",
+      "Are API/WSS, partition, fencing, migration, recovery, and shutdown exercised through production paths?",
+      "Is AWS use private, ephemeral, correct-account, and fully torn down?",
+      "Are exact argv, evidence, and reviewer provenance independently verifiable?"
+    ],
+    "review_scope": "Production distributed Runtime launcher, Guardian/kernel authority wiring, single polis Observatory API/WSS, serial Wuji and AWS orchestration, security, failure/recovery, teardown, evidence, and operator-gated publication."
+  }
+}

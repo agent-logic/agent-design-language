@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 142,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime] Operationalize distributed Runtime and polis Observatory across Wuji and AWS",
+    "slug": "operational-distributed-runtime-polis-observatory-wuji-aws",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Production distributed Runtime launcher, Guardian/kernel authority wiring, single polis Observatory API/WSS, serial Wuji and AWS orchestration, security, failure/recovery, teardown, evidence, and operator-gated publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do real Guardian and kernel processes form one authenticated polis rather than independent singleton runtimes?",
+        "Is there exactly one coherent redacted Observatory per polis, with no hidden per-node authority split?",
+        "Can Phase B start under any Phase A residue or unproven cleanup state?",
+        "Are API/WSS, partition, fencing, migration, recovery, and shutdown exercised through production paths?",
+        "Is AWS use private, ephemeral, correct-account, and fully torn down?",
+        "Are exact argv, evidence, and reviewer provenance independently verifiable?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

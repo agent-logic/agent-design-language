@@ -1,0 +1,83 @@
+{
+  "issue": 142,
+  "card": "stp",
+  "expected_generation": 0,
+  "expected_digest": "579cec53dfb3631609177b44878b1091e68115039ebf3995090a9583a364e205",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Adopt the operator-authorized three-voter topology and AWS continuity demonstration while preserving strict serial execution.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "Phase A starts exactly three real Runtime v3 Guardian/kernel voters on Wuji and they converge in one authenticated trust domain.",
+      "Exactly one Phase A polis Observatory is shown live and identifies all three voters from one coherent redacted authority cut.",
+      "Phase A proves authenticated traffic, a governed distributed action, one-voter loss with retained quorum, recovery or truthful fail-closed behavior, and deterministic shutdown.",
+      "Phase B cannot start until every Phase A process, Observatory, port, lock, state lease, temporary credential, and test root is released.",
+      "After verifying profile agent-logic-admin resolves to the approved business account, Phase B starts exactly one Wuji voter and two independently stateful AWS voters in distinct failure units.",
+      "While all three hybrid voters are healthy, Wuji creates a majority-committed snapshot and both AWS voters verify its digest, trust domain, lineage, epoch, committed index, and restore eligibility before Wuji is stopped.",
+      "After Wuji is stopped, the two AWS voters preserve strict majority, fence the unavailable Wuji authority, observe the safety window, activate exactly one AWS owner, and complete a governed mutation without selecting an uncommitted local history.",
+      "Exactly one AWS-hosted polis Observatory remains live through Wuji loss and shows the failure, committed fence and epoch/index transition, active AWS owner, and continued coherent polis state.",
+      "A stale Wuji restart is rejected from mutation authority until an explicit governed rejoin or recovery transition completes.",
+      "Phase B terminates every ephemeral AWS compute, volume, network attachment, SSM session, credential, process, Observatory, port, lock, and test root, with machine-verifiable cleanup evidence.",
+      "Retained proof binds exact source, argv, node/process identities, nonzero tests, snapshot and committed-prefix digests, Observatory captures, serial phase transitions, AWS account identity, and cleanup predicates without secrets or private paths.",
+      "Fresh Gemini plan review and later independent exact-head implementation review have no unresolved actionable findings; the PR is not merged until the operator is shown both serial live demonstrations."
+    ],
+    "steps": [
+      {"id":"S1","action":"Freeze the exact three-voter production ownership, trust-domain, snapshot, quorum, Observatory, AWS failure-domain, and teardown design; resolve Gemini plan-review findings before binding.","acceptance_ids":["AC-4","AC-5","AC-6","AC-11","AC-12"],"status":"pending"},
+      {"id":"S2","action":"Implement real Guardian/kernel distributed launch, one coherent movable polis Observatory, durable serial-runner state, and fail-closed cleanup gates.","acceptance_ids":["AC-1","AC-2","AC-4","AC-5","AC-8","AC-10"],"status":"pending"},
+      {"id":"S3","action":"Implement quorum-committed snapshot replication, AWS restore eligibility, Wuji-loss fencing and activation, continued mutation, stale-Wuji rejection, and focused adversarial tests.","acceptance_ids":["AC-3","AC-6","AC-7","AC-8","AC-9","AC-11"],"status":"pending"},
+      {"id":"S4","action":"Run Phase A alone with three Wuji voters, show the single live polis Observatory, exercise one-voter loss and recovery, then prove complete teardown.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-12"],"status":"pending"},
+      {"id":"S5","action":"Only after Phase A cleanup, verify the AWS business account and run Phase B with one Wuji and two AWS voters; snapshot on Wuji, verify both AWS copies, stop Wuji, and show continued AWS authority and Observatory service.","acceptance_ids":["AC-5","AC-6","AC-7","AC-8","AC-9","AC-12"],"status":"pending"},
+      {"id":"S6","action":"Tear down all hybrid resources, validate exact receipts and cleanup, resolve independent implementation review, publish, shepherd CI, and merge only after operator demonstration approval.","acceptance_ids":["AC-10","AC-11","AC-12"],"status":"pending"}
+    ],
+    "validation_lanes": [
+      {
+        "lane": "three-voter-runtime-contract",
+        "proof_role": "Prove real process launch, three-voter quorum, single-Observatory coherent projection, snapshot eligibility, fencing, activation, stale-node denial, bounds, restart, and teardown with nonzero focused tests.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-6","AC-7","AC-8","AC-9","AC-11"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 3600,
+        "budget_tokens": 16000,
+        "argv": ["cargo","nextest","run","--manifest-path","adl-runtime/Cargo.toml","--test","distributed_runtime_operational","--no-tests=fail"],
+        "parallel_group": "local-contract",
+        "defer_reason": "The issue-owned production integration target is an implementation deliverable and must exist before execution validation."
+      },
+      {
+        "lane": "phase-a-wuji-three",
+        "proof_role": "Run exactly three Wuji voters and one polis Observatory, prove convergence, governed action, one-voter failure behavior, recovery, and complete resource release.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-11","AC-12"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 3600,
+        "budget_tokens": 16000,
+        "argv": ["bash","adl/tools/run_v092_distributed_runtime_observatory_demo.sh","--phase","wuji-three"],
+        "parallel_group": "exclusive-live-serial",
+        "defer_reason": "Runs only after reviewed implementation exists; its cleanup receipt is the hard prerequisite for Phase B."
+      },
+      {
+        "lane": "phase-b-wuji-aws-recovery",
+        "proof_role": "After Phase A cleanup only, run one Wuji and two AWS voters, commit and replicate a snapshot, stop Wuji, retain AWS quorum, fence and activate safely, continue mutation and Observatory service, reject stale Wuji, and tear down all resources.",
+        "acceptance_ids": ["AC-4","AC-5","AC-6","AC-7","AC-8","AC-9","AC-10","AC-11","AC-12"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 7200,
+        "budget_tokens": 32000,
+        "argv": ["bash","adl/tools/run_v092_distributed_runtime_observatory_demo.sh","--phase","wuji-aws-three-recovery"],
+        "parallel_group": "exclusive-live-serial",
+        "defer_reason": "Requires a proven Phase A cleanup receipt, verified agent-logic-admin business-account identity, and reviewed private AWS connectivity."
+      },
+      {
+        "lane": "exact-plan-runtime-and-receipt-review",
+        "proof_role": "Validate serial non-overlap, exact argv and source, snapshot/committed-prefix parity, quorum transition, Observatory continuity, redaction, AWS identity, cleanup, Gemini plan review, and independent implementation-review provenance.",
+        "acceptance_ids": ["AC-4","AC-5","AC-6","AC-7","AC-8","AC-9","AC-10","AC-11","AC-12"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 8000,
+        "argv": ["ruby",".csdlc/prepared/issues/142/validate-proof-receipt.rb"],
+        "parallel_group": "post-demo",
+        "defer_reason": "The issue-owned receipt validator is authored and independently reviewed with the implementation."
+      }
+    ]
+  }
+}
