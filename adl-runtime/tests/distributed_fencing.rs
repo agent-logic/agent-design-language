@@ -4,10 +4,17 @@ mod fencing;
 #[path = "../src/distributed/lease.rs"]
 mod lease;
 
-use std::{collections::BTreeSet, fs};
+use std::{
+    collections::BTreeSet,
+    fs,
+    sync::{Arc, Mutex},
+};
 
 use ed25519_dalek::SigningKey;
-use fencing::{ActiveLeaseCheck, FenceCommit, FencingError, FencingPolicy, FencingStore};
+use fencing::{
+    ActiveLeaseCheck, FenceCommit, FencingCheckpoint, FencingCheckpointAuthority, FencingError,
+    FencingPolicy, FencingStore,
+};
 use lease::{
     activation_signature, decode_certificate, encode_certificate, endorse, AuthorityApplication,
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, AuthorityMembership,
@@ -165,6 +172,34 @@ fn state_dir() -> tempfile::TempDir {
     tempfile::tempdir_in("/private/tmp").unwrap()
 }
 
+#[derive(Debug, Default)]
+struct CheckpointAuthority(Mutex<Option<FencingCheckpoint>>);
+
+impl FencingCheckpointAuthority for CheckpointAuthority {
+    fn current(&self) -> Result<Option<FencingCheckpoint>, FencingError> {
+        Ok(*self.0.lock().unwrap())
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<FencingCheckpoint>,
+        next: FencingCheckpoint,
+    ) -> Result<(), FencingError> {
+        let mut current = self.0.lock().unwrap();
+        if *current != expected
+            || current.is_some_and(|checkpoint| next.generation <= checkpoint.generation)
+        {
+            return Err(FencingError::Rollback);
+        }
+        *current = Some(next);
+        Ok(())
+    }
+}
+
+fn checkpoint_authority() -> Arc<dyn FencingCheckpointAuthority> {
+    Arc::new(CheckpointAuthority::default())
+}
+
 fn commit<'a>(
     store: &mut FencingStore,
     fixture: &'a Fixture,
@@ -196,7 +231,8 @@ fn quorum_fence_revoke_epoch_and_replay_contract() {
     let fixture = Fixture::new(101);
     let lease = fixture.grant(100);
     let directory = state_dir();
-    let mut store = FencingStore::create(directory.path(), fencing_policy()).unwrap();
+    let mut store =
+        FencingStore::create(directory.path(), fencing_policy(), checkpoint_authority()).unwrap();
 
     let receipt = commit(
         &mut store,
@@ -326,7 +362,8 @@ fn quorum_fence_revoke_epoch_and_replay_contract() {
     marker("replay_receipt_mismatch", "denied");
 
     let revoke_dir = state_dir();
-    let mut revoke_store = FencingStore::create(revoke_dir.path(), fencing_policy()).unwrap();
+    let mut revoke_store =
+        FencingStore::create(revoke_dir.path(), fencing_policy(), checkpoint_authority()).unwrap();
     commit(
         &mut revoke_store,
         &fixture,
@@ -345,7 +382,9 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
     let fixture = Fixture::new(101);
     let lease = fixture.grant(100);
     let directory = state_dir();
-    let mut store = FencingStore::create(directory.path(), fencing_policy()).unwrap();
+    let authority = checkpoint_authority();
+    let mut store =
+        FencingStore::create(directory.path(), fencing_policy(), authority.clone()).unwrap();
     let old_state = fs::read(directory.path().join("fencing-state.json")).unwrap();
     commit(
         &mut store,
@@ -357,7 +396,6 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
         2,
     )
     .unwrap();
-    let checkpoint = store.checkpoint();
     let current_state = fs::read(directory.path().join("fencing-state.json")).unwrap();
 
     let mut active_membership = fixture.membership.clone();
@@ -378,18 +416,20 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
 
     fs::write(directory.path().join("fencing-state.json"), &old_state).unwrap();
     assert_eq!(
-        FencingStore::open(directory.path(), fencing_policy(), checkpoint).unwrap_err(),
+        FencingStore::open(directory.path(), fencing_policy(), authority.clone()).unwrap_err(),
         FencingError::Rollback
     );
     marker("rollback_below_floor", "denied");
     fs::write(directory.path().join("fencing-state.json"), current_state).unwrap();
 
-    let reopened = FencingStore::open(directory.path(), fencing_policy(), checkpoint).unwrap();
+    let reopened =
+        FencingStore::open(directory.path(), fencing_policy(), authority.clone()).unwrap();
     assert_eq!(reopened.floor(LINEAGE).unwrap().epoch, 2);
     marker("restart_floor_retained", "fenced");
 
     let active_dir = state_dir();
-    let active_store = FencingStore::create(active_dir.path(), fencing_policy()).unwrap();
+    let active_store =
+        FencingStore::create(active_dir.path(), fencing_policy(), checkpoint_authority()).unwrap();
     let proof = activation_proof(&fixture, &lease);
     active_store
         .authorize_active_lease(ActiveLeaseCheck {
@@ -428,9 +468,11 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
     );
 
     let stale_dir = state_dir();
-    let mut writer = FencingStore::create(stale_dir.path(), fencing_policy()).unwrap();
+    let stale_authority = checkpoint_authority();
+    let mut writer =
+        FencingStore::create(stale_dir.path(), fencing_policy(), stale_authority.clone()).unwrap();
     let mut stale =
-        FencingStore::open(stale_dir.path(), fencing_policy(), writer.checkpoint()).unwrap();
+        FencingStore::open(stale_dir.path(), fencing_policy(), stale_authority.clone()).unwrap();
     commit(
         &mut writer,
         &fixture,
@@ -441,6 +483,18 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
         2,
     )
     .unwrap();
+    assert_eq!(
+        stale.authorize_active_lease(ActiveLeaseCheck {
+            membership: Some(&active_membership),
+            lease: &lease,
+            applied_log_index: 100,
+            now_unix_seconds: NOW,
+            now_unix_millis: lease.deadline_unix_millis - 1,
+            now_elapsed_millis: lease.deadline_elapsed_millis - 1,
+            activation_proof: &proof,
+        }),
+        Err(FencingError::Rollback)
+    );
     assert_eq!(
         commit(
             &mut stale,
@@ -455,7 +509,8 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
     );
 
     let failed_dir = state_dir();
-    let mut failed = FencingStore::create(failed_dir.path(), fencing_policy()).unwrap();
+    let mut failed =
+        FencingStore::create(failed_dir.path(), fencing_policy(), checkpoint_authority()).unwrap();
     fs::write(
         failed_dir.path().join(".fencing-state.json.tmp"),
         b"collision",
@@ -475,13 +530,52 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
     );
     assert!(failed.floor(LINEAGE).is_none());
     marker("atomic_receipt_failure", "fail_closed");
+
+    let cleanup_dir = state_dir();
+    let cleanup_authority = checkpoint_authority();
+    let mut cleanup = FencingStore::create(
+        cleanup_dir.path(),
+        fencing_policy(),
+        cleanup_authority.clone(),
+    )
+    .unwrap();
+    cleanup.fail_next_lock_cleanup_for_test();
+    assert_eq!(
+        commit(
+            &mut cleanup,
+            &fixture,
+            &lease,
+            b"cleanup",
+            OperationClass::Fence,
+            101,
+            2,
+        ),
+        Err(FencingError::DurabilityFailure)
+    );
+    assert_eq!(cleanup.floor(LINEAGE).unwrap().epoch, 2);
+    assert_eq!(
+        cleanup.checkpoint(),
+        cleanup_authority.current().unwrap().unwrap()
+    );
+    assert_eq!(
+        cleanup.authorize_active_lease(ActiveLeaseCheck {
+            membership: Some(&active_membership),
+            lease: &lease,
+            applied_log_index: 100,
+            now_unix_seconds: NOW,
+            now_unix_millis: lease.deadline_unix_millis - 1,
+            now_elapsed_millis: lease.deadline_elapsed_millis - 1,
+            activation_proof: &proof,
+        }),
+        Err(FencingError::DurabilityFailure)
+    );
 }
 
 #[test]
 fn state_paths_and_capacity_fail_closed() {
     let relative = std::path::Path::new("relative-state");
     assert_eq!(
-        FencingStore::create(relative, fencing_policy()).unwrap_err(),
+        FencingStore::create(relative, fencing_policy(), checkpoint_authority()).unwrap_err(),
         FencingError::UnsafeStatePath
     );
     marker("unsafe_state_path", "denied");
@@ -495,7 +589,7 @@ fn state_paths_and_capacity_fail_closed() {
         let link = parent.path().join("link");
         symlink(&target, &link).unwrap();
         assert_eq!(
-            FencingStore::create(&link, fencing_policy()).unwrap_err(),
+            FencingStore::create(&link, fencing_policy(), checkpoint_authority()).unwrap_err(),
             FencingError::UnsafeStatePath
         );
     }
@@ -506,7 +600,7 @@ fn state_paths_and_capacity_fail_closed() {
     let directory = state_dir();
     let mut policy = fencing_policy();
     policy.max_receipts = 1;
-    let mut store = FencingStore::create(directory.path(), policy).unwrap();
+    let mut store = FencingStore::create(directory.path(), policy, checkpoint_authority()).unwrap();
     commit(
         &mut store,
         &fixture,

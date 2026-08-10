@@ -21,4 +21,3 @@ ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"revoke_without_old_holder_activation_pr
 test quorum_fence_revoke_epoch_and_replay_contract ... ok
 
 test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
-

@@ -4,6 +4,7 @@ use std::{
     fs::{self, File, OpenOptions},
     io::Write,
     path::{Component, Path, PathBuf},
+    sync::Arc,
 };
 
 use ed25519_dalek::{Signature, VerifyingKey};
@@ -147,6 +148,16 @@ pub struct FencingCheckpoint {
     pub state_sha256: [u8; 32],
 }
 
+pub trait FencingCheckpointAuthority: fmt::Debug + Send + Sync {
+    fn current(&self) -> FencingResult<Option<FencingCheckpoint>>;
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<FencingCheckpoint>,
+        next: FencingCheckpoint,
+    ) -> FencingResult<()>;
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct StateBody {
@@ -171,10 +182,22 @@ pub struct FencingStore {
     receipts: BTreeMap<Vec<u8>, FenceReceipt>,
     generation: u64,
     state_sha256: [u8; 32],
+    checkpoint_authority: Arc<dyn FencingCheckpointAuthority>,
+    #[cfg(test)]
+    fail_lock_cleanup: std::cell::Cell<bool>,
+}
+
+struct PersistOutcome {
+    checkpoint: FencingCheckpoint,
+    post_commit_error: Option<FencingError>,
 }
 
 impl FencingStore {
-    pub fn create(root: impl AsRef<Path>, policy: FencingPolicy) -> FencingResult<Self> {
+    pub fn create(
+        root: impl AsRef<Path>,
+        policy: FencingPolicy,
+        checkpoint_authority: Arc<dyn FencingCheckpointAuthority>,
+    ) -> FencingResult<Self> {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
         let path = root.join(STATE_FILE);
@@ -188,15 +211,21 @@ impl FencingStore {
             receipts: BTreeMap::new(),
             generation: 0,
             state_sha256: [0; 32],
+            checkpoint_authority,
+            #[cfg(test)]
+            fail_lock_cleanup: std::cell::Cell::new(false),
         };
         store.state_sha256 = store.persist(0, &store.floors, &store.receipts)?;
+        store
+            .checkpoint_authority
+            .compare_and_swap(None, store.checkpoint())?;
         Ok(store)
     }
 
     pub fn open(
         root: impl AsRef<Path>,
         policy: FencingPolicy,
-        checkpoint: FencingCheckpoint,
+        checkpoint_authority: Arc<dyn FencingCheckpointAuthority>,
     ) -> FencingResult<Self> {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
@@ -228,6 +257,9 @@ impl FencingStore {
             return Err(FencingError::StateCorrupt);
         }
         let state_sha256 = <[u8; 32]>::from(Sha256::digest(&bytes));
+        let checkpoint = checkpoint_authority
+            .current()?
+            .ok_or(FencingError::Rollback)?;
         if envelope.body.generation != checkpoint.generation
             || state_sha256 != checkpoint.state_sha256
         {
@@ -243,6 +275,9 @@ impl FencingStore {
             receipts,
             generation,
             state_sha256,
+            checkpoint_authority,
+            #[cfg(test)]
+            fail_lock_cleanup: std::cell::Cell::new(false),
         })
     }
 
@@ -364,15 +399,29 @@ impl FencingStore {
             .generation
             .checked_add(1)
             .ok_or(FencingError::ResourceExhausted)?;
-        let state_sha256 = self.persist_next(generation, &floors, &receipts)?;
+        let outcome = self.persist_next(generation, &floors, &receipts)?;
         self.floors = floors;
         self.receipts = receipts;
-        self.generation = generation;
-        self.state_sha256 = state_sha256;
+        self.generation = outcome.checkpoint.generation;
+        self.state_sha256 = outcome.checkpoint.state_sha256;
+        if let Some(error) = outcome.post_commit_error {
+            return Err(error);
+        }
         Ok(receipt)
     }
 
     pub fn authorize_active_lease(&self, check: ActiveLeaseCheck<'_>) -> FencingResult<()> {
+        let lock_path = self.acquire_state_lock()?;
+        let result = self
+            .verify_current_state()
+            .and_then(|_| self.authorize_active_lease_inner(check));
+        if self.release_state_lock(lock_path).is_err() {
+            return Err(FencingError::DurabilityFailure);
+        }
+        result
+    }
+
+    fn authorize_active_lease_inner(&self, check: ActiveLeaseCheck<'_>) -> FencingResult<()> {
         let membership = check.membership.ok_or(FencingError::MembershipRequired)?;
         if check.applied_log_index != membership.committed_log_index {
             return Err(FencingError::StaleAppliedIndex);
@@ -434,33 +483,83 @@ impl FencingStore {
         generation: u64,
         floors: &BTreeMap<Vec<u8>, FenceReceipt>,
         receipts: &BTreeMap<Vec<u8>, FenceReceipt>,
-    ) -> FencingResult<[u8; 32]> {
+    ) -> FencingResult<PersistOutcome> {
+        let lock_path = self.acquire_state_lock()?;
+        let result = self.verify_current_state().and_then(|_| {
+            let state_sha256 = self.persist(generation, floors, receipts)?;
+            let checkpoint = FencingCheckpoint {
+                generation,
+                state_sha256,
+            };
+            let authority_result = self
+                .checkpoint_authority
+                .compare_and_swap(Some(self.checkpoint()), checkpoint);
+            Ok((checkpoint, authority_result.err()))
+        });
+        match result {
+            Ok((checkpoint, authority_error)) => {
+                let cleanup_error = self.release_state_lock(lock_path).err();
+                Ok(PersistOutcome {
+                    checkpoint,
+                    post_commit_error: cleanup_error
+                        .map(|_| FencingError::DurabilityFailure)
+                        .or(authority_error),
+                })
+            }
+            Err(error) => {
+                if self.release_state_lock(lock_path).is_err() {
+                    Err(FencingError::DurabilityFailure)
+                } else {
+                    Err(error)
+                }
+            }
+        }
+    }
+
+    fn verify_current_state(&self) -> FencingResult<()> {
+        let current =
+            fs::read(self.root.join(STATE_FILE)).map_err(|_| FencingError::DurabilityFailure)?;
+        if <[u8; 32]>::from(Sha256::digest(&current)) != self.state_sha256 {
+            return Err(FencingError::Rollback);
+        }
+        let envelope: StateEnvelope =
+            serde_json::from_slice(&current).map_err(|_| FencingError::StateCorrupt)?;
+        if envelope.body.generation != self.generation
+            || self.checkpoint_authority.current()? != Some(self.checkpoint())
+        {
+            return Err(FencingError::Rollback);
+        }
+        Ok(())
+    }
+
+    fn acquire_state_lock(&self) -> FencingResult<PathBuf> {
         let lock_path = self.root.join(STATE_LOCK_FILE);
-        let lock = OpenOptions::new()
-            .write(true)
-            .create_new(true)
+        let mut options = OpenOptions::new();
+        options.write(true).create_new(true);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o600);
+        }
+        let lock = options
             .open(&lock_path)
             .map_err(|_| FencingError::DurabilityFailure)?;
         lock.sync_all()
             .map_err(|_| FencingError::DurabilityFailure)?;
-        let result = (|| {
-            let current = fs::read(self.root.join(STATE_FILE))
-                .map_err(|_| FencingError::DurabilityFailure)?;
-            if <[u8; 32]>::from(Sha256::digest(&current)) != self.state_sha256 {
-                return Err(FencingError::Rollback);
-            }
-            let envelope: StateEnvelope =
-                serde_json::from_slice(&current).map_err(|_| FencingError::StateCorrupt)?;
-            if envelope.body.generation != self.generation {
-                return Err(FencingError::Rollback);
-            }
-            self.persist(generation, floors, receipts)
-        })();
-        let release = fs::remove_file(lock_path).and_then(|_| File::open(&self.root)?.sync_all());
-        if release.is_err() {
-            return Err(FencingError::DurabilityFailure);
+        Ok(lock_path)
+    }
+
+    fn release_state_lock(&self, lock_path: PathBuf) -> std::io::Result<()> {
+        #[cfg(test)]
+        if self.fail_lock_cleanup.replace(false) {
+            return Err(std::io::Error::other("injected lock cleanup failure"));
         }
-        result
+        fs::remove_file(lock_path).and_then(|_| File::open(&self.root)?.sync_all())
+    }
+
+    #[cfg(test)]
+    pub fn fail_next_lock_cleanup_for_test(&self) {
+        self.fail_lock_cleanup.set(true);
     }
 
     fn persist(
