@@ -4,13 +4,59 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29c5a05595fdcb29e36234ad214a9a40a290a730c24e6735814b42eda9e6d252",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "6ff24b568aae7756f36860b6f4740449d9557936399206d1278b79eae159ab22",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "36a0fba8785087f166e1eb2ff8c0a924d9f27a73ef9be283036f2c14e9a3c14a",
   "branch": "codex/5868-failure-detection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5868-failure-detection",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "/root/review_5863/review_5866_exact",
+    "scope": [
+      "adl-runtime/src/distributed/failure_detection.rs",
+      "adl-runtime/tests/distributed_failure_detection.rs",
+      ".csdlc/evidence/5868",
+      ".csdlc/issues/5868"
+    ],
+    "reviewed_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+    "findings": [
+      {
+        "id": "5868-review-identity-generation-replay",
+        "severity": "p1",
+        "summary": "Replay state must permit enrolled identity rotation while rejecting replay within and before the active generation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+        "route": null
+      },
+      {
+        "id": "5868-review-domain-bound-events",
+        "severity": "p2",
+        "summary": "Failure projections and deterministic event identities must bind the trust domain.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+        "route": null
+      },
+      {
+        "id": "5868-review-bounded-rotation-state",
+        "severity": "p1",
+        "summary": "Identity rotations must replace rather than accumulate replay records.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Module registration and integrated sibling compilation remain explicitly deferred to issue #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d3641231916a0ef43ed4b01d104146b7b8ae73df4d8a962c1b25bc1fce8c84d0",
+      "values_digest": "99ce4e6ec39e1465f1779b2f40a3a75febccf57e01728ca131cbd963534431d6",
       "rendered_digest": "81ed27fc8905e3b38759f3e01d32858b59f999f1509d73740f36b9c3df71edae",
       "ast_digest": "bbb72a932bcc08840c5d5a511789b0e0e5d44699bc48332d3d43374f635ebef4"
     },
     "stp": {
-      "values_digest": "835e18a3b6be876171c13e74685a413b67be0899ae0403e563bc6ae0d56ca0c8",
+      "values_digest": "38f29265028d84c0585de4ae9de6061e8c08b16c78caf58638778280d2ab3ba0",
       "rendered_digest": "95ca1f4417ca8d3b972a340136b52bc95b84282716ac2ba992452648267ad150",
       "ast_digest": "4d0f2e29993b709f39bd26ef9cd520c4bd6ac49d54d9743f754ae8e499d87704"
     },
     "spp": {
-      "values_digest": "cc38051fab9853513ef80ea23f4ff58dac8bec472c85925b02b4b77f1fafe6b4",
+      "values_digest": "16bd836453b2725e3eef4294ac0e8501eee186692775e05144264b22784907b1",
       "rendered_digest": "11199fd9752dc6dae46c7470cd2cdf9934949eb900c71b67730b505d34f0f042",
       "ast_digest": "a51998aae3c617fd28873298ade34cbe8e902f8f3c1185c9fe0c675a2549feee"
     },
     "vpp": {
-      "values_digest": "ed73be1455dff211c659b0206c312ddd7449d29c293c237bfc2472b5bdf37d18",
+      "values_digest": "128aa5ad3389bc2c466fcbb07765f595e443dff160e1ed648f9c686e6e586474",
       "rendered_digest": "765bda7176c88b2ad45352988c376854b57342b30611c69561ea1e4baaa068cd",
       "ast_digest": "9865834729c77af749fe7548ae33483d5ccb68fd577d89535f86b7ccfed1cb2b"
     },
     "srp": {
-      "values_digest": "0159fc937cf29dc7d59feb04d4a362760ce6af23ccaea7c9836367e1116cafcf",
-      "rendered_digest": "0d6133b803e69ff5227ad0909f4f19d40cf0e24a721ff8c2c4de1406c681e747",
-      "ast_digest": "6f7eddcf378193bffdded357d39dc87453983958621dfd71c99e0ba445e00da7"
+      "values_digest": "d60b623444b31fb4f671291e07132479acfdfaacf1be91ea0783be5a9ca0f268",
+      "rendered_digest": "653892d059868bc3ae4b4076f7df0e7765e0e8f037b24537bf19f54292fcb00a",
+      "ast_digest": "29594be061e3bd1c239fab06a8112022310971bc1e36a513cf5cee3cce592f95"
     },
     "sor": {
-      "values_digest": "81a4eed51cb9d05047d4f50578a26ba36b0715d0cd8eb4deab62e17c4ed63a5c",
+      "values_digest": "f38dec17b87c0511820f5455232abdd2cbc40b1c517132d1a5438f3384633a48",
       "rendered_digest": "57483337d92645188be3e5704f2bb3a808e0f7ecd2514aefd842368af22e03cb",
       "ast_digest": "3c77fe08ba3dbc241af6ea3bf899a5d7a1c357bc9635d38f3ae43478ce78cd8f"
     }
@@ -97,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:execute-5868-wp04-06",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:record-independent-review-5868",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -288,6 +341,13 @@
       "actor": "codex:execute-5868-wp04-06",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 28,
+      "generation": 11,
+      "actor": "codex:record-independent-review-5868",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

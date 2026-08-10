@@ -7,24 +7,57 @@
     "title": "[v0.92][WP-04.06] Failure detection and partition classification",
     "slug": "v0-92-wp-04-06-failure-partition",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.06 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/failure_detection.rs\nadl-runtime/tests/distributed_failure_detection.rs\n.csdlc/evidence/5868\n.csdlc/issues/5868",
+      "review_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+      "reviewer": "/root/review_5863/review_5866_exact",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
         "Are receipts exact-revision and digest bound?",
         "Does rollback restore one authoritative owner without weakening security?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "5868-review-identity-generation-replay",
+          "severity": "p1",
+          "summary": "Replay state must permit enrolled identity rotation while rejecting replay within and before the active generation.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+          "route": null
+        },
+        {
+          "id": "5868-review-domain-bound-events",
+          "severity": "p2",
+          "summary": "Failure projections and deterministic event identities must bind the trust domain.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+          "route": null
+        },
+        {
+          "id": "5868-review-bounded-rotation-state",
+          "severity": "p1",
+          "summary": "Identity rotations must replace rather than accumulate replay records.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Module registration and integrated sibling compilation remain explicitly deferred to issue #5878."
+      ],
+      "review_result": "pass"
     }
   }
 }
