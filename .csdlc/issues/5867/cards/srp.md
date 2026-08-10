@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.05 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/membership.rs
+adl-runtime/tests/distributed_membership.rs
 
 ## Prompts
 

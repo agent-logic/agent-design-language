@@ -6,10 +6,18 @@
   "initialization_digest": "421dcbb5f175ad60a76124fe09d92fb357634c3ce493305cc9f9722b6827c02e",
   "phase": "implemented",
   "generation": 18,
-  "digest": "63e24756f7dea4cc0c010a9d48ed8a9062847a4b1a3410fc4571e2edeba5644e",
+  "digest": "ae035ed09d7dc0ed18649b909d6b6e4593a5cb855df7b777bf8f186cc939f6e2",
   "branch": "codex/5867-membership-topology-convergence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5867-membership",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Codex independent review subagent /root/review_5866_hardened",
+    "assigned_by": "codex:5867-membership",
+    "revision": "git-blake3:629edac0035ead3ff99c76e7d863078629a24b74:0b9d11b1c7564c17f965271b9bc61436828d4d8c0e63560446828306e58f0287",
+    "scope": [
+      "adl-runtime/src/distributed/membership.rs",
+      "adl-runtime/tests/distributed_membership.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +53,9 @@
       "ast_digest": "d743fdd2a607bc67e5a278be7233667bcb18fb03afa3cb92a5a37106eca233b5"
     },
     "srp": {
-      "values_digest": "119590d076bb32a49dffb1227a4cc648206e25147f7c41b25bc9b50b4de1016d",
-      "rendered_digest": "a3245be480e3c976e0421d88778ee4db70d49b5ebd20dc19a44362a2665d8c7c",
-      "ast_digest": "7120a6307dcd12e6e48e00f50a177f246e385fbd285df42a062bf3f2de84b1aa"
+      "values_digest": "61cf4e2fafb73af86511c7362636c3d935041110613b22f2dbbb723b573eda92",
+      "rendered_digest": "8e59f13301567c29462fdb477d119be963db75485426ef837d16299ac24e777b",
+      "ast_digest": "2559c82c93fe4c7d533232d9bba38a122dd1a47e519fdcd2cdd28a8d1aff4a4a"
     },
     "sor": {
       "values_digest": "78601410f82a1bc8d6367ec373f58ae075bd29fec45f0e1f52ba2e2c1118762c",
@@ -358,6 +366,13 @@
       "actor": "codex:5867-membership",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 38,
+      "generation": 18,
+      "actor": "codex:5867-membership",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
