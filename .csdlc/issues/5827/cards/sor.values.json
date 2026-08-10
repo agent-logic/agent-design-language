@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 84
+    "generation": 88
   },
   "status": "pre_phase",
   "content": {
@@ -78,10 +78,21 @@
           "purpose": "Prove the runtime library authority surface is warning-free under strict Clippy.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+            ".csdlc/evidence/5827/native-platform/macos.json",
+            ".csdlc/evidence/5827/native-platform/linux.json"
+          ],
+          "purpose": "Prove exact PR head d6ff9e7a on native macOS and Linux with nine exact unique authority tests, matching complete proof-surface manifests, GitHub Actions provenance, and byte-identical semantic output.",
+          "outcome": "passed",
+          "evidence_ref": "https://github.com/agent-logic/agent-design-language/actions/runs/31371858441"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

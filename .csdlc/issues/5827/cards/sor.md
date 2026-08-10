@@ -82,16 +82,27 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
     "purpose": "Prove the runtime library authority surface is warning-free under strict Clippy.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+      ".csdlc/evidence/5827/native-platform/macos.json",
+      ".csdlc/evidence/5827/native-platform/linux.json"
+    ],
+    "purpose": "Prove exact PR head d6ff9e7a on native macOS and Linux with nine exact unique authority tests, matching complete proof-surface manifests, GitHub Actions provenance, and byte-identical semantic output.",
+    "outcome": "passed",
+    "evidence_ref": "https://github.com/agent-logic/agent-design-language/actions/runs/31371858441"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

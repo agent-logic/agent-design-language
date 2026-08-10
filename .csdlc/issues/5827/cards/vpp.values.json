@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 84
+    "generation": 88
   },
   "status": "ready",
   "content": {
@@ -70,7 +70,7 @@
             ".csdlc/evidence/5827/native-platform/macos-semantic.json"
           ],
           "parallel_group": "5827-native-produce",
-          "defer_reason": "Mandatory publication-triggered proof; missing exact-head macOS authority receipt blocks final review and merge."
+          "defer_reason": null
         },
         {
           "lane": "birthday_continuity-linux-native-ci-producer",
@@ -94,7 +94,7 @@
             ".csdlc/evidence/5827/native-platform/linux-semantic.json"
           ],
           "parallel_group": "5827-native-produce",
-          "defer_reason": "Mandatory publication-triggered proof; missing exact-head Linux authority receipt blocks final review and merge."
+          "defer_reason": null
         },
         {
           "lane": "birthday_continuity-native-ci-receipt-verification",
@@ -114,7 +114,7 @@
             ".csdlc/evidence/5827/native-platform/linux.json"
           ],
           "parallel_group": "5827-native-verify",
-          "defer_reason": "Mandatory publication-triggered verification; missing, mismatched, or non-equivalent native authority receipts block final review and merge."
+          "defer_reason": null
         }
       ],
       "planned_validation_seconds": 3600,

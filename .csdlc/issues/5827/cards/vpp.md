@@ -78,7 +78,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       ".csdlc/evidence/5827/native-platform/macos-semantic.json"
     ],
     "parallel_group": "5827-native-produce",
-    "defer_reason": "Mandatory publication-triggered proof; missing exact-head macOS authority receipt blocks final review and merge."
+    "defer_reason": null
   },
   {
     "lane": "birthday_continuity-linux-native-ci-producer",
@@ -102,7 +102,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       ".csdlc/evidence/5827/native-platform/linux-semantic.json"
     ],
     "parallel_group": "5827-native-produce",
-    "defer_reason": "Mandatory publication-triggered proof; missing exact-head Linux authority receipt blocks final review and merge."
+    "defer_reason": null
   },
   {
     "lane": "birthday_continuity-native-ci-receipt-verification",
@@ -122,7 +122,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       ".csdlc/evidence/5827/native-platform/linux.json"
     ],
     "parallel_group": "5827-native-verify",
-    "defer_reason": "Mandatory publication-triggered verification; missing, mismatched, or non-equivalent native authority receipts block final review and merge."
+    "defer_reason": null
   }
 ]
 
