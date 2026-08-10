@@ -9,6 +9,6 @@
   "body": "Closes #92\n\n## Summary\n\n- make Axum the sole Runtime HTTP/HTTPS/WSS stack using one shared TLS 1.3 Rustls/AWS-LC identity and trust policy\n- retain Quinn only for Guardian-to-Guardian QUIC while reusing the shared Rustls mTLS policy\n- remove Runtime self-signed issuance, certificate reissue, host trust mutation, and verification shortcuts\n- consume externally provisioned CA-issued certificates and keep public TLS, Guardian mTLS, and application authority distinct\n- make the kernel Axum ACIP route and served OpenAPI document canonical, with a separate ACIP write credential\n\n## Validation\n\n- Axum/TLS control: 23 passed\n- shared TLS policy: 3 passed\n- Observatory/ACIP: 7 passed\n- exact production kernel ACIP/WSS proof: 1 passed\n- Guardian Quinn mTLS: 14 passed\n- protocol mTLS: 13 passed\n- external-certificate lifecycle fixture: 1 passed\n- served OpenAPI contract: 6 passed\n- exact-head independent review: PASS\n- diff hygiene: PASS",
   "linkage_mode": "closing",
   "draft": false,
-  "revision": "git-blake3:3c370448e59d4ffea64ee0d1e119729fb5b0cd90:68606b5b4cd6c3248a88971ac9cc683f9342618266c6dde35fc62943b0501279",
-  "commit_sha": "3c370448e59d4ffea64ee0d1e119729fb5b0cd90"
+  "revision": "git-blake3:54268c859c7591acbf69dce7ed6822fa5adbf107:c13946ea11b8d617325766e23d5c0a6430e21a6905bcc1fb51bb6541086963b1",
+  "commit_sha": "54268c859c7591acbf69dce7ed6822fa5adbf107"
 }

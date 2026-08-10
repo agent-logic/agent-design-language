@@ -167,11 +167,11 @@ Unified Runtime transport security around one TLS 1.3 Rustls/AWS-LC policy: Axum
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "reviewed",
-  "generation": 30,
-  "digest": "0f64a4d8f59c945414427fb80b445510e2d2413144a811799ce0a9481794d7e0",
+  "phase": "published",
+  "generation": 31,
+  "digest": "115a2e1473eed96c96aef151e82bc7b7f29d603115b242aff0607da0b6636d00",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
@@ -21,7 +21,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 92,
+    "pull_request": 98,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/98",
+    "base": "main",
+    "head": "codex/92-runtime-tls-standardization",
+    "revision": "git-blake3:54268c859c7591acbf69dce7ed6822fa5adbf107:c13946ea11b8d617325766e23d5c0a6430e21a6905bcc1fb51bb6541086963b1",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -35,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8174c74d92c38bab9645023bc54f213c024a03a28a0e04df4b14ce584a81f26a",
+      "values_digest": "2e42747e40f2b38f4c2ee6f11de89ddbd391afa425628f0bd725781e67ca5b92",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "e91fdb9f5bd0d36785c6758b0444c172c25dd5b7802e038e3c7b4727d5a287a8",
+      "values_digest": "25a009a21533202d9e98455f5f100c88ceea47bccd690d627510397f06efbd52",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "6dbdb89469afc07b04f57f0666944f38d422ac71a25535fc2b0f33484dc163a9",
+      "values_digest": "ecf05d20ced81580214cb93f78d44954b159dd224150a8f9258bee4d4137bbfa",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "2cbac363280b6ee8a8c4c3bcdfb8b13bfb01fa01655670cb953e5b1f4779553c",
+      "values_digest": "e3242619009ffec7ca8d6a2c9fe86be3ca756e62e261be210c99b809ea7a291c",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "9de267203d31d8209dd813338af8681f959c0c510c493f4d25e570b9100d28c1",
+      "values_digest": "33ebddcf62d0a83dec2950e2f495b1afe0354c7abec8145ede1c712ecb3a1c70",
       "rendered_digest": "bf8cf235f80f64454f6de219fa943e4129d16d8dcc09f647ac3d604e3c22d5f0",
       "ast_digest": "b408cb71b202eac687820f28f8e330f9033fef9bb39f035bf75c175b1ee02cf6"
     },
     "sor": {
-      "values_digest": "37ddcb374780a2e4eac81df8ecaefbbcae7523c6aa2d0ba315e57bf38d657687",
-      "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
-      "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
+      "values_digest": "3ab7b1af0c8ae2fa1d228e259894e5eaaf5960bb7521476c7de073599e843078",
+      "rendered_digest": "a7e7e04e3d8dc0f477b7b79a4a51d1b5515f3925f2dce54c5ac9b6f3c3a780b1",
+      "ast_digest": "7fd70e885f9db5d7a6ef14d74f9c254c5e0a95f902c94eea155230d3581988c7"
     }
   },
   "transitions": [
@@ -177,6 +188,13 @@
       "to": "reviewed",
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -403,6 +421,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
