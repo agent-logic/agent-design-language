@@ -27,9 +27,35 @@ def path_overlap?(left, right)
   left_path == right_path || left_path.start_with?("#{right_path}/") || right_path.start_with?("#{left_path}/")
 end
 
+def validate_parallel_contract!(machine_lanes, wave_lanes, human_lanes)
+  raise "canonical parallel-lane contract differs across authorities" unless machine_lanes == wave_lanes && machine_lanes == human_lanes
+end
+
+def validate_parallel_ownership!(lanes, affected_by_issue)
+  lanes.each do |lane|
+    lane.fetch("issues").combination(2) do |left_issue, right_issue|
+      overlaps = affected_by_issue.fetch(left_issue).product(affected_by_issue.fetch(right_issue)).select do |left_path, right_path|
+        path_overlap?(left_path, right_path)
+      end
+      raise "parallel ownership overlap between #{left_issue} and #{right_issue}: #{overlaps.inspect}" unless overlaps.empty?
+    end
+  end
+end
+
 if ARGV == ["--negative-overlap"]
-  raise "negative overlap control did not detect descendant ownership" unless path_overlap?("docs/shared", "docs/shared/child.md")
-  raise "negative overlap control falsely overlaps siblings" if path_overlap?("docs/left", "docs/right")
+  lane = { "issues" => [1, 2], "gate" => "terminal prerequisites", "boundary" => "disjoint paths" }
+  begin
+    validate_parallel_contract!([lane], [lane.merge("gate" => "weaker gate")], [lane])
+    raise "negative authority control accepted divergent lane semantics"
+  rescue RuntimeError => error
+    raise unless error.message == "canonical parallel-lane contract differs across authorities"
+  end
+  begin
+    validate_parallel_ownership!([lane], { 1 => ["docs/shared"], 2 => ["docs/shared/child.md"] })
+    raise "negative overlap control accepted descendant ownership"
+  rescue RuntimeError => error
+    raise unless error.message.start_with?("parallel ownership overlap")
+  end
   puts "sprint 5854 overlap negative control: PASS"
   exit 0
 end
@@ -62,6 +88,15 @@ end
 raise "WP-24A non-gating boundary missing" unless human.include?("cannot gate Sprint 5")
 raise "deferred proof is overstated" unless human.include?("never validation evidence")
 raise "human packet retains an ungoverned candidate parallel lane" if human.include?("## Candidate Parallel Lanes")
+human_parallel_lanes = human.lines.each_with_object([]) do |line, lanes|
+  next unless line.start_with?("| first downstream pair |")
+  cells = line.split("|").map(&:strip).reject(&:empty?)
+  lanes << {
+    "issues" => cells.fetch(1).scan(/#(\d+)/).flatten.map(&:to_i),
+    "boundary" => cells.fetch(2),
+    "gate" => cells.fetch(3)
+  }
+end
 
 stp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/stp.values.json").read).dig("content", "values")
 operative_closeout = "the five operative children (#5835, #5836, #5838, #5839, and #5840)"
@@ -93,9 +128,9 @@ raise "machine packet completed work-package mismatch" unless packet.fetch("comp
 completed_wp24 = wave_sprint.fetch("completed_streams").find { |stream| stream.fetch("member") == "WP-24" }
 raise "canonical issue wave does not classify completed WP-24" unless completed_wp24&.fetch("legacy_issue") == 5844 && completed_wp24.fetch("canonical_issue") == 10
 
-packet_parallel_issues = packet.fetch("safe_parallel_lanes").map { |lane| lane.fetch("issues") }
-wave_parallel_issues = wave_sprint.fetch("parallel_lanes").map { |lane| lane.fetch("issues") }
-raise "canonical parallel lanes differ from machine packet" unless wave_parallel_issues == packet_parallel_issues
+machine_parallel_lanes = packet.fetch("safe_parallel_lanes")
+wave_parallel_lanes = wave_sprint.fetch("parallel_lanes").map { |lane| lane.slice("issues", "gate", "boundary") }
+validate_parallel_contract!(machine_parallel_lanes, wave_parallel_lanes, human_parallel_lanes)
 wave_sprint.fetch("parallel_lanes").each do |lane|
   expected_members = lane.fetch("issues").map do |issue|
     bind_entries.find { |entry| entry.dig("request", "issue") == issue }.fetch("work_package")
@@ -162,14 +197,7 @@ UNBOUND.each do |issue|
   raise "issue #{issue} lacks an issue-specific proof target" if missing_targets.empty? && vpp.fetch("lanes").none? { |lane| lane.fetch("argv").any? { |arg| affected.include?(arg) && (ROOT / arg).file? } }
 end
 
-packet.fetch("safe_parallel_lanes").each do |lane|
-  lane.fetch("issues").combination(2) do |left_issue, right_issue|
-    overlaps = affected_by_issue.fetch(left_issue).product(affected_by_issue.fetch(right_issue)).select do |left_path, right_path|
-      path_overlap?(left_path, right_path)
-    end
-    raise "parallel ownership overlap between #{left_issue} and #{right_issue}: #{overlaps.inspect}" unless overlaps.empty?
-  end
-end
+validate_parallel_ownership!(machine_parallel_lanes, affected_by_issue)
 
 gates = JSON.parse((ROOT / ".csdlc/evidence/5854/live-gates.json").read)
 provenance = gates.fetch("provenance")

@@ -78,7 +78,7 @@ binding.
 
 | Lane | Issues | Why parallel-safe | Required coordination |
 |---|---|---|---|
-| first downstream pair | `#5835`, `#5836` | Migration planning and birthday demo use disjoint child worktrees. | every dependency in both child STPs terminal and no path overlap |
+| first downstream pair | `#5835`, `#5836` | Demo and migration planning retain separate child worktrees. | every prerequisite declared by each child STP is terminal |
 
 ## Serial Gates
 

@@ -245,8 +245,8 @@ execution_sprints:
     parallel_lanes:
       - members: [WP-17, WP-18]
         issues: [5835, 5836]
-        gate: every prerequisite declared by both child STPs is terminal
-        boundary: migration planning and birthday demonstration use disjoint ownership surfaces
+        gate: every prerequisite declared by each child STP is terminal
+        boundary: Demo and migration planning retain separate child worktrees.
     out_of_band_streams:
       - member: WP-24A
         issue: 5845
