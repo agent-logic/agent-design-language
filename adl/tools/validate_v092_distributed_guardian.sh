@@ -57,10 +57,17 @@ print(candidate_absolute)
 PY
 ) || exit 64
 mkdir -p "$evidence_root"
-if [[ "$(cd "$evidence_root" && pwd -P)" != "$evidence_root" ]]; then
-  echo "evidence root canonicalization changed after creation" >&2
-  exit 64
-fi
+"$python_bin" - "$evidence_root" <<'PY' || exit 64
+import os
+import pathlib
+import sys
+
+candidate = pathlib.Path(sys.argv[1])
+if not candidate.is_dir():
+    raise SystemExit("evidence root was not created as a directory")
+if pathlib.Path(os.path.realpath(candidate)) != pathlib.Path(os.path.abspath(candidate)):
+    raise SystemExit("evidence root canonicalization changed after creation")
+PY
 
 protected=(
   adl-runtime/src/distributed/mod.rs
