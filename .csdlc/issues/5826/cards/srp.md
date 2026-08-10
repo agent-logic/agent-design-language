@@ -12,7 +12,17 @@ Status: pre_phase
 
 ## Scope
 
-Exact-head review of WP-09 identity-root authority, alias/provenance semantics, deterministic serialization, privacy, path portability, and dependency proof only.
+.csdlc/issues/5826
+.csdlc/prepared/issues/5826/design.md
+.csdlc/prepared/issues/5826/produce-native-receipt.rb
+.csdlc/prepared/issues/5826/validate-native-receipts.rb
+.csdlc/evidence/5826
+.github/workflows/wp09-native-birthday-identity.yml
+adl-runtime-kernel/src/birthday_identity.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/birthday_identity.rs
+adl-runtime-kernel/tests/fixtures/birthday_identity
+docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
 
 ## Prompts
 

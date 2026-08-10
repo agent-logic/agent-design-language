@@ -5,11 +5,28 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
   "phase": "implemented",
-  "generation": 65,
-  "digest": "169255ec275740f410fd53eb665fae857b919776e6748767106ddaeeacd705d7",
+  "generation": 66,
+  "digest": "485ba0d1bbb12712bef40d4452200c653887d97386c1f44c0a62f27d4d29c786",
   "branch": "codex/5826-birthday-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5826-birthday-identity",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:review_5826_exact_head",
+    "assigned_by": "codex:5826-birthday-identity",
+    "revision": "git-blake3:d3cbe72797a4f28a2a36c1f73cebe3479ec8033c:d7e62e13974852b5602c23c2f254a2bc9e4e8fdc2cba601e1f2a263b3a659371",
+    "scope": [
+      ".csdlc/issues/5826",
+      ".csdlc/prepared/issues/5826/design.md",
+      ".csdlc/prepared/issues/5826/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5826/validate-native-receipts.rb",
+      ".csdlc/evidence/5826",
+      ".github/workflows/wp09-native-birthday-identity.yml",
+      "adl-runtime-kernel/src/birthday_identity.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birthday_identity.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_identity",
+      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -25,32 +42,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d8f1091efa8f0a483ec49ee4c4d173f8e131a7b560a91db546991872013abe1d",
+      "values_digest": "8d2be4c5a093511496b3c098a030edf7d05be02886ae694c26561b84ec1e5659",
       "rendered_digest": "c0780ba2d530639201fb2dea45daa3f40889f7adfda4e8269ee1c09b352125de",
       "ast_digest": "36105e01ff58d5b651b7116e069042038bf69235460de95d1629fe1f3382cd01"
     },
     "stp": {
-      "values_digest": "b137cabca98a440b43207327d98a571ec42a067b201a043281c88d9761428173",
+      "values_digest": "61b14b7b93e38841c0fb95355d9e13ae5b0f988a3733448aab098ca4783a672f",
       "rendered_digest": "178ef42ba8c66afb3f5884ffe4bea230a143259f0264081e88348aa83e76bc0e",
       "ast_digest": "9660286fa50d76b5276159ba4187332929e1037257418f0e75fec7331c60086b"
     },
     "spp": {
-      "values_digest": "b7922401d138ba2f4d8cbead057483f6f5e8ce46d34b54548ed26b23306fc3fe",
+      "values_digest": "1a777acb03044cff6faad04d12d7eb57bc6fb14d31ec861b1ed123a31189d0cb",
       "rendered_digest": "755d4fab5074b3e72dc5adf89fe6fb5adfcfd6a39f76125788f6d91f5280ddba",
       "ast_digest": "692b57621ea2a1beaf170f3d676b4c8c4a2049894d6c2825a81ae7da1105fecb"
     },
     "vpp": {
-      "values_digest": "b843aac4e20dc6f4cc29cb1b0af1acf7ebcde90eed2c8c67b10161595e69f7b8",
-      "rendered_digest": "0199d4a09d98bec05128feb31510eba1511caa76ef43e4fad8c3b474559e70b8",
-      "ast_digest": "856ea05048e3eee472e2c5aeae2beeca31444c8c50323db393a38d7b31c800c9"
+      "values_digest": "a37377cf5592d8ac6fe6c1b4ba68b19122b50cf5b1fdf46f972e7f41b8fc90a4",
+      "rendered_digest": "4f8bcb0978d981caec7c2dbc395f5c7bb0cbd34633909619f540afa034159428",
+      "ast_digest": "cc86f97600515eaca70aa6f44b4d7e2cf9e7727cbefd9fc42991f24a5dd540ca"
     },
     "srp": {
-      "values_digest": "d7a7f30aaf32397574ecb0994e8506f904142272a5fb7e3c5bd610e876ab3377",
-      "rendered_digest": "f0e9b963f02bbd8867ff6ecc4de02958433c3ddfaaf01c327402594a46d267dc",
-      "ast_digest": "65f6b23f51b9fa521a69b132fb0c73f834514dcf3ee2be2ebd378966acae6071"
+      "values_digest": "15c98a8fdb477b30bed48ab480c57d610c6b099429040b867ae90131afdb5f63",
+      "rendered_digest": "12ccaecd09eb42d8b869a32f1d219b237881b5588ea9ff2ddddb2387a2e88516",
+      "ast_digest": "3cd8491206f7d180c8f248d46ac79ac0ba4e0ec1a2b1293a70535e319d32f3e8"
     },
     "sor": {
-      "values_digest": "c64c53c9c9e76f9037ed9bd16852b50c91c126c4cd326dd5eef5ca670c2f284d",
+      "values_digest": "d6242ff7df84a6ca5f8876f6f7b9eab5bce792e0a666e6cbbea09698a80e8586",
       "rendered_digest": "e94ddc1bdcdd906a97a4ed0716e6ad6007c6aea694087eb4915a9500eb2d2d44",
       "ast_digest": "67b47cb47abc2e51dddd7c267ae0c6aa859250ffc5e2bfeb9963df52b463aa6c"
     }
@@ -715,6 +732,20 @@
       "actor": "codex:5826-birthday-identity",
       "reason": "Record completed focused replay, provenance, continuity, collision, privacy, and path-portability proof retained by typed finalization.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 89,
+      "generation": 65,
+      "actor": "codex:5826-birthday-identity",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 90,
+      "generation": 66,
+      "actor": "codex:5826-birthday-identity",
+      "reason": "Clear the satisfied focused core-lane deferral after retained exact-revision proof recorded seven passing tests; preserve native producer deferrals until GitHub Actions proof lands.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday_identity-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday_identity\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5826-core\",\"defer_reason\":null},{\"lane\":\"birthday_identity-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5826/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5826/native-platform/macos-semantic.json\"],\"parallel_group\":\"5826-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday_identity-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5826/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5826/native-platform/linux-semantic.json\"],\"parallel_group\":\"5826-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday_identity-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=c8b24d2558afe0de9854c441b4a8c953221c2ec951c699811e323fada9a5c917]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/evidence/5826/native-platform/macos.json\",\".csdlc/evidence/5826/native-platform/linux.json\"],\"parallel_group\":\"5826-native-verify\",\"defer_reason\":null}]}"
     }
   ]
 }
