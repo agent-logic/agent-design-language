@@ -41,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact-head native macOS and Linux capability-envelope proof remains mandatory after publication before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a3d8022b9830279b5b6c32dfcecde9f183632f6a:eaafc0e803e7fee02356aed1b57a3a643d5a4e2c9de4bcdca2e7ed902ff51ed1")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5829_exact_head")
 
-Result: pre_review
+Result: pass
