@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 require "pathname"
 require "time"
 
@@ -60,12 +61,19 @@ def ordinary_file(relative, prefix = nil)
   current
 end
 
+def git_output(*arguments)
+  stdout, stderr, status = Open3.capture3("git", *arguments, chdir: ROOT.to_s)
+  fail_receipt("git #{arguments.join(' ')} failed: #{stderr.strip}") unless status.success?
+  stdout
+end
+
 proof_relative = ARGV.fetch(0, ".csdlc/evidence/191/v1/execution-proof.json")
 proof_path = ordinary_file(proof_relative, PREFIX)
 proof = JSON.parse(File.binread(proof_path))
 fail_receipt("schema mismatch") unless proof["schema"] == "adl.issue191.secure_raft_proof.v1"
 fail_receipt("issue mismatch") unless proof["issue"] == 191
 fail_receipt("source revision malformed") unless proof["source_revision"].to_s.match?(/\A[0-9a-f]{40}\z/)
+fail_receipt("source tree malformed") unless proof["source_tree"].to_s.match?(/\A[0-9a-f]{40}\z/)
 
 protected = Array(proof["protected_files"])
 fail_receipt("protected denominator mismatch") unless protected.map { |entry| entry["path"] } == EXPECTED_PROTECTED
@@ -74,6 +82,22 @@ protected.each do |entry|
   digest = entry.fetch("sha256")
   fail_receipt("protected digest malformed") unless digest.match?(/\A[0-9a-f]{64}\z/)
   fail_receipt("protected source drift: #{entry['path']}") unless Digest::SHA256.file(path).hexdigest == digest
+end
+
+source = proof.fetch("source_revision")
+source_exists = system(
+  "git", "cat-file", "-e", "#{source}^{commit}",
+  chdir: ROOT.to_s,
+  out: File::NULL,
+  err: File::NULL
+)
+if source_exists
+  source_tree = git_output("rev-parse", "#{source}^{tree}").strip
+  fail_receipt("source tree mismatch") unless source_tree == proof.fetch("source_tree")
+  protected.each do |entry|
+    committed = git_output("show", "#{source}:#{entry.fetch('path')}")
+    fail_receipt("source object digest mismatch: #{entry['path']}") unless Digest::SHA256.hexdigest(committed) == entry.fetch("sha256")
+  end
 end
 
 summary = proof.fetch("test_summary")
@@ -113,6 +137,28 @@ cases.each do |entry|
   fail_receipt("case result mismatch") unless entry.fetch("result") == "passed" && match[1] == "passed"
   fail_receipt("case marker digest mismatch") unless entry.fetch("observed_line_sha256") == match[2]
 end
+
+introductions = git_output("log", "--format=%H", "--diff-filter=A", "--", proof_relative).lines.map(&:strip).reject(&:empty?)
+fail_receipt("execution proof must have exactly one immutable introduction") unless introductions.length == 1
+introduction = introductions.fetch(0)
+lineage = source_exists && system(
+  "git", "merge-base", "--is-ancestor", source, introduction,
+  chdir: ROOT.to_s,
+  out: File::NULL,
+  err: File::NULL
+)
+unless lineage
+  introduced_paths = git_output(
+    "diff-tree", "--no-commit-id", "--name-only", "-r", "#{introduction}^", introduction
+  ).lines.map(&:strip).reject(&:empty?)
+  fail_receipt("squash introduction does not contain the exact protected source") unless (EXPECTED_PROTECTED - introduced_paths).empty?
+end
+protected_drift = git_output("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED)
+fail_receipt("protected source changed after proof introduction") unless protected_drift.empty?
+evidence_drift = git_output("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX)
+fail_receipt("issue evidence changed after immutable introduction") unless evidence_drift.empty?
+worktree_drift = git_output("status", "--porcelain=v1", "--untracked-files=all", "--", *EXPECTED_PROTECTED, PREFIX)
+fail_receipt("protected source or evidence worktree is dirty") unless worktree_drift.empty?
 
 evidence_bytes = Dir.glob(ROOT.join(PREFIX, "**", "*")).select { |path| File.file?(path) }.sum { |path| File.size(path) }
 fail_receipt("evidence exceeds 16 MiB") if evidence_bytes > 16 * 1024 * 1024

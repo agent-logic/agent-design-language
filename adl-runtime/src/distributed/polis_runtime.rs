@@ -8,7 +8,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     fmt::Debug,
     fs::{File, OpenOptions},
-    io::{Cursor, Write},
+    io::{Cursor, Read, Write},
     ops::RangeBounds,
     path::{Path, PathBuf},
     sync::{
@@ -32,7 +32,7 @@ use openraft::{
 };
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use tokio::sync::{Notify, RwLock};
+use tokio::sync::{watch, RwLock};
 use tokio_util::sync::CancellationToken;
 
 use crate::distributed::{
@@ -783,11 +783,7 @@ impl RaftSnapshotBuilder<PolisTypeConfig> for PolisStateMachineStore {
         let meta = SnapshotMeta {
             last_log_id: current.last_applied_log,
             last_membership: current.last_membership.clone(),
-            snapshot_id: format!(
-                "polis-{}-{}",
-                current.application.committed_index,
-                &hex::encode(Sha256::digest(&data))[..16]
-            ),
+            snapshot_id: canonical_snapshot_id(&current, &data),
         };
         let mut candidate = durable.payload.clone();
         candidate.snapshot = SnapshotRecord {
@@ -908,6 +904,7 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
         })? != *snapshot.get_ref()
             || current.last_applied_log != meta.last_log_id
             || current.last_membership != meta.last_membership
+            || meta.snapshot_id != canonical_snapshot_id(&current, snapshot.get_ref())
         {
             return Err(StorageError::from_io_error(
                 ErrorSubject::Snapshot(Some(meta.signature())),
@@ -985,9 +982,9 @@ pub struct SecurePolisNetworkFactory {
 struct SecurePeerRoute {
     connection: Arc<RwLock<Arc<AuthenticatedConnection>>>,
     session: Arc<RwLock<EstablishedPolisSession>>,
+    dispatch_lock: Arc<tokio::sync::Mutex<()>>,
     next_sequence: Arc<AtomicU64>,
-    replacement_generation: Arc<AtomicU64>,
-    replacement: Arc<Notify>,
+    replacement: watch::Sender<u64>,
 }
 
 impl SecurePolisNetworkFactory {
@@ -1035,14 +1032,15 @@ impl SecurePolisNetworkFactory {
         if routes.contains_key(&target) {
             return Err(PolisRuntimeError::InvalidConfiguration);
         }
+        let (replacement, _) = watch::channel(0);
         routes.insert(
             target,
             SecurePeerRoute {
                 connection: Arc::new(RwLock::new(connection)),
                 session: Arc::new(RwLock::new(session)),
+                dispatch_lock: Arc::new(tokio::sync::Mutex::new(())),
                 next_sequence: Arc::new(AtomicU64::new(0)),
-                replacement_generation: Arc::new(AtomicU64::new(0)),
-                replacement: Arc::new(Notify::new()),
+                replacement,
             },
         );
         Ok(())
@@ -1071,8 +1069,10 @@ impl SecurePolisNetworkFactory {
             .ok_or(PolisRuntimeError::InvalidConfiguration)?;
         *route.connection.write().await = connection;
         *route.session.write().await = session;
-        route.replacement_generation.fetch_add(1, Ordering::SeqCst);
-        route.replacement.notify_waiters();
+        let next_generation = (*route.replacement.borrow())
+            .checked_add(1)
+            .ok_or(PolisRuntimeError::StateRegression)?;
+        route.replacement.send_replace(next_generation);
         Ok(())
     }
 
@@ -1116,6 +1116,7 @@ impl SecurePolisNetworkFactory {
             .get(&target)
             .cloned()
             .ok_or(PolisRuntimeError::Network)?;
+        let _dispatch = route.dispatch_lock.lock().await;
         {
             let cut = self.cut.read().await;
             let connection = route.connection.read().await;
@@ -1129,7 +1130,8 @@ impl SecurePolisNetworkFactory {
             .fetch_add(1, Ordering::SeqCst)
             .checked_add(1)
             .ok_or(PolisRuntimeError::Replay)?;
-        let generation = route.replacement_generation.load(Ordering::SeqCst);
+        let mut replacement = route.replacement.subscribe();
+        let generation = *replacement.borrow();
         let connection = route.connection.read().await.clone();
         let session = route.session.read().await.clone();
         match connection
@@ -1139,12 +1141,16 @@ impl SecurePolisNetworkFactory {
             Ok(response) => Ok(response),
             Err(_) => {
                 tokio::time::timeout(std::time::Duration::from_secs(2), async {
-                    while route.replacement_generation.load(Ordering::SeqCst) == generation {
-                        route.replacement.notified().await;
+                    while *replacement.borrow() == generation {
+                        replacement
+                            .changed()
+                            .await
+                            .map_err(|_| PolisRuntimeError::Network)?;
                     }
+                    Ok::<(), PolisRuntimeError>(())
                 })
                 .await
-                .map_err(|_| PolisRuntimeError::Network)?;
+                .map_err(|_| PolisRuntimeError::Network)??;
                 let replacement_connection = route.connection.read().await.clone();
                 let replacement_session = route.session.read().await.clone();
                 replacement_connection
@@ -1737,6 +1743,14 @@ fn canonical_sha256<T: Serialize>(value: &T) -> Result<String, PolisRuntimeError
     Ok(hex::encode(Sha256::digest(bytes)))
 }
 
+fn canonical_snapshot_id(state: &PersistedStateMachine, bytes: &[u8]) -> String {
+    format!(
+        "polis-{}-{}",
+        state.application.committed_index,
+        &hex::encode(Sha256::digest(bytes))[..16]
+    )
+}
+
 fn acquire_writer_lock(path: &Path) -> Result<File, PolisRuntimeError> {
     let parent = path
         .parent()
@@ -1790,7 +1804,26 @@ fn read_bounded_json<T: DeserializeOwned + Serialize>(path: &Path) -> Result<T, 
     {
         return Err(PolisRuntimeError::Storage);
     }
-    let bytes = std::fs::read(path).map_err(|_| PolisRuntimeError::Storage)?;
+    let mut file = File::open(path).map_err(|_| PolisRuntimeError::Storage)?;
+    let opened = file.metadata().map_err(|_| PolisRuntimeError::Storage)?;
+    if !opened.is_file() || opened.len() > MAX_RPC_BYTES as u64 {
+        return Err(PolisRuntimeError::Storage);
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::MetadataExt;
+        if metadata.dev() != opened.dev() || metadata.ino() != opened.ino() {
+            return Err(PolisRuntimeError::Storage);
+        }
+    }
+    let mut bytes = Vec::with_capacity(opened.len().min(MAX_RPC_BYTES as u64) as usize);
+    Read::by_ref(&mut file)
+        .take((MAX_RPC_BYTES + 1) as u64)
+        .read_to_end(&mut bytes)
+        .map_err(|_| PolisRuntimeError::Storage)?;
+    if bytes.len() > MAX_RPC_BYTES {
+        return Err(PolisRuntimeError::Storage);
+    }
     let value = serde_json::from_slice(&bytes).map_err(|_| PolisRuntimeError::Storage)?;
     if serde_jcs::to_vec(&value).map_err(|_| PolisRuntimeError::Storage)? != bytes {
         return Err(PolisRuntimeError::Storage);

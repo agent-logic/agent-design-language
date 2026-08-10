@@ -111,7 +111,18 @@ output_relative = ARGV.fetch(2, ".csdlc/evidence/191/v1")
 fail_proof("source revision malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
 head, status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
 fail_proof("source must be exact current HEAD") unless status.success? && head.strip == source
+status_text, status = Open3.capture2(
+  "git", "status", "--porcelain=v1", "--untracked-files=all", chdir: ROOT.to_s
+)
+fail_proof("source worktree must be clean") unless status.success? && status_text.empty?
 PROTECTED.each { |path| ordinary_path(path, true) }
+source_tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
+fail_proof("source commit tree unavailable") unless status.success? && source_tree.strip.match?(/\A[0-9a-f]{40}\z/)
+PROTECTED.each do |path|
+  committed, committed_status = Open3.capture2("git", "show", "#{source}:#{path}", chdir: ROOT.to_s)
+  fail_proof("protected path absent from source commit: #{path}") unless committed_status.success?
+  fail_proof("dirty protected path: #{path}") unless Digest::SHA256.hexdigest(committed) == Digest::SHA256.file(ROOT.join(path)).hexdigest
+end
 output = prepare_output(output_relative)
 fail_proof("output directory must be empty") unless Dir.children(output).empty?
 
@@ -148,6 +159,7 @@ proof = {
   "schema" => "adl.issue191.secure_raft_proof.v1",
   "issue" => 191,
   "source_revision" => source,
+  "source_tree" => source_tree.strip,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
   "commands" => { "nextest" => nextest, "clippy" => clippy, "machine_cases" => machine },
   "test_summary" => { "selected" => 14, "passed" => 14, "skipped" => 0 },

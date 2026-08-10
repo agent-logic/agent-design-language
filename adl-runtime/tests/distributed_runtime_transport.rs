@@ -697,19 +697,49 @@ async fn authenticated_quinn_binds_signed_authority_session_and_returns_bounded_
     );
     let left_session = left_session.unwrap();
     let right_session = right_session.unwrap();
+    right_factory
+        .install_route(1, right.clone(), right_session.clone())
+        .await
+        .unwrap();
     let server = tokio::spawn(async move {
         let request = left.accept_polis_request(&left_session).await?;
+        assert_eq!(request.sequence, 77);
         assert_eq!(request.message_kind, "vote");
         assert_eq!(request.payload, b"canonical-vote");
         request
             .respond(b"canonical-response".to_vec(), &configured_limits)
             .await?;
+        for expected_sequence in [1, 2] {
+            let request = left.accept_polis_request(&left_session).await?;
+            assert_eq!(request.sequence, expected_sequence);
+            request
+                .respond(
+                    format!("ordered-response-{expected_sequence}").into_bytes(),
+                    &configured_limits,
+                )
+                .await?;
+        }
         Ok::<(), TransportError>(())
     });
-    let response = right.request_polis(&right_session, 1, "vote", b"canonical-vote".to_vec());
-    let (response, server_result) = tokio::join!(response, server);
+    assert_eq!(
+        right
+            .request_polis(&right_session, 77, "vote", b"canonical-vote".to_vec())
+            .await
+            .unwrap(),
+        b"canonical-response"
+    );
+    let first = {
+        let factory = right_factory.clone();
+        tokio::spawn(async move { factory.request_bytes(1, "vote", b"first".to_vec()).await })
+    };
+    let second = {
+        let factory = right_factory.clone();
+        tokio::spawn(async move { factory.request_bytes(1, "vote", b"second".to_vec()).await })
+    };
+    let (first, second, server_result) = tokio::join!(first, second, server);
+    assert!(first.unwrap().is_ok());
+    assert!(second.unwrap().is_ok());
     assert!(server_result.unwrap().is_ok(), "server rejected request");
-    assert_eq!(response.unwrap(), b"canonical-response");
     assert!(left_endpoint.local_addr().is_ok());
     assert!(right_endpoint.local_addr().is_ok());
     assert!(store_dir.path().exists());
@@ -752,6 +782,41 @@ async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
     );
     stalled.abort();
     let _ = stalled.await;
+
+    let response_stall_limits = TransportLimits::bounded(
+        16 * 1024 * 1024,
+        32,
+        Duration::from_millis(100),
+        Duration::from_secs(5),
+    )
+    .unwrap();
+    let (left, right, _, _left_endpoint, _right_endpoint, _store) =
+        connected_pair_with(1, response_stall_limits.clone()).await;
+    let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
+    let (cut, keys, _) = verified_cut(&boots);
+    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_pending = left_factory.pending_session(2, &left).await.unwrap();
+    let right_pending = right_factory.pending_session(1, &right).await.unwrap();
+    let (left_session, right_session) = tokio::join!(
+        left.accept_polis_session(left_pending, &keys[&1]),
+        right.initiate_polis_session(right_pending, &keys[&2]),
+    );
+    let left_session = left_session.unwrap();
+    let right_session = right_session.unwrap();
+    let pending_response = right
+        .begin_polis_request(&right_session, 1, "vote", b"do-not-read-response".to_vec())
+        .await
+        .unwrap();
+    let request = left.accept_polis_request(&left_session).await.unwrap();
+    assert_eq!(
+        request
+            .respond(vec![0; 15 * 1024 * 1024], &response_stall_limits)
+            .await
+            .unwrap_err(),
+        TransportError::IdleTimeout
+    );
+    drop(pending_response);
     eprintln!("ADL_ISSUE_191_CASE stalled_rpc_idle_timeout=passed");
 }
 
@@ -785,7 +850,7 @@ async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certifi
                 .await
         }
     });
-    tokio::time::sleep(Duration::from_millis(50)).await;
+    tokio::task::yield_now().await;
 
     let restarted_boots = [(1, 1), (2, 2), (3, 1)].into_iter().collect();
     let (restarted_cut, restarted_keys, _) = verified_cut(&restarted_boots);
@@ -940,6 +1005,15 @@ async fn snapshot_install_rejects_noncanonical_bytes_and_preserves_exact_identit
     noncanonical.push(b'\n');
     let mut target =
         polis_runtime::PolisStateMachineStore::open(&target_root, 2, authority.clone()).unwrap();
+    let mut forged_meta = meta.clone();
+    forged_meta.snapshot_id = "caller-selected-snapshot".to_owned();
+    assert!(target
+        .install_snapshot(
+            &forged_meta,
+            Box::new(std::io::Cursor::new(canonical.clone()))
+        )
+        .await
+        .is_err());
     assert!(target
         .install_snapshot(&meta, Box::new(std::io::Cursor::new(noncanonical)))
         .await

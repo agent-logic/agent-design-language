@@ -560,8 +560,54 @@ pub struct IncomingPolisRequest {
     pub request_sha256: [u8; 32],
     pub payload: Vec<u8>,
     send: quinn::SendStream,
+    connection: Connection,
     cancellation: CancellationToken,
     authorization_deadline: Instant,
+}
+
+pub struct PendingPolisResponse {
+    receive: quinn::RecvStream,
+    connection: Connection,
+    limits: TransportLimits,
+    cancellation: CancellationToken,
+    authorization_deadline: Instant,
+    sequence: u64,
+    request_sha256: [u8; 32],
+}
+
+impl PendingPolisResponse {
+    pub async fn receive(mut self) -> TransportResult<Vec<u8>> {
+        let limit = frame_read_limit(&self.limits)?;
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        let response_bytes = tokio::select! {
+            _ = self.cancellation.cancelled() => {
+                self.connection.close(CLOSE_CODE.into(), b"cancelled");
+                return Err(TransportError::Cancelled);
+            }
+            _ = tokio::time::sleep_until(self.authorization_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"authorization expired");
+                return Err(TransportError::AuthorizationExpired);
+            }
+            _ = tokio::time::sleep_until(idle_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"idle timeout");
+                return Err(TransportError::IdleTimeout);
+            }
+            result = self.receive.read_to_end(limit) => result.map_err(|error| match error {
+                quinn::ReadToEndError::TooLong => TransportError::FrameTooLarge,
+                quinn::ReadToEndError::Read(_) => TransportError::Stream,
+            })?,
+        };
+        let response: PolisTransportResponse = decode_prost_frame(&response_bytes, &self.limits)?;
+        let response_digest: [u8; 32] = Sha256::digest(&response.payload).into();
+        if response.schema != POLIS_TRANSPORT_RESPONSE_SCHEMA
+            || response.sequence != self.sequence
+            || response.request_sha256.as_slice() != self.request_sha256
+            || response.payload_sha256.as_slice() != response_digest
+        {
+            return Err(TransportError::ResponseMismatch);
+        }
+        Ok(response.payload)
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -1112,6 +1158,19 @@ impl AuthenticatedConnection {
         message_kind: &str,
         payload: Vec<u8>,
     ) -> TransportResult<Vec<u8>> {
+        self.begin_polis_request(session, sequence, message_kind, payload)
+            .await?
+            .receive()
+            .await
+    }
+
+    pub async fn begin_polis_request(
+        &self,
+        session: &EstablishedPolisSession,
+        sequence: u64,
+        message_kind: &str,
+        payload: Vec<u8>,
+    ) -> TransportResult<PendingPolisResponse> {
         let binding = session.binding();
         self.require_polis_binding(binding)?;
         validate_text(message_kind)?;
@@ -1135,20 +1194,18 @@ impl AuthenticatedConnection {
         };
         let request_bytes = encode_prost_frame(&envelope, &self.limits)?;
         let request_sha256: [u8; 32] = Sha256::digest(&request_bytes).into();
-        let (mut send, mut receive) = self.open_bi_authorized().await?;
+        let (mut send, receive) = self.open_bi_authorized().await?;
         self.write_authorized(&mut send, &request_bytes).await?;
         send.finish().map_err(|_| TransportError::Stream)?;
-        let response_bytes = self.read_authorized(&mut receive).await?;
-        let response: PolisTransportResponse = decode_prost_frame(&response_bytes, &self.limits)?;
-        let response_digest: [u8; 32] = Sha256::digest(&response.payload).into();
-        if response.schema != POLIS_TRANSPORT_RESPONSE_SCHEMA
-            || response.sequence != sequence
-            || response.request_sha256.as_slice() != request_sha256
-            || response.payload_sha256.as_slice() != response_digest
-        {
-            return Err(TransportError::ResponseMismatch);
-        }
-        Ok(response.payload)
+        Ok(PendingPolisResponse {
+            receive,
+            connection: self.connection.clone(),
+            limits: self.limits.clone(),
+            cancellation: self.cancellation.clone(),
+            authorization_deadline: self.authorization_deadline,
+            sequence,
+            request_sha256,
+        })
     }
 
     pub async fn accept_polis_request(
@@ -1181,6 +1238,7 @@ impl AuthenticatedConnection {
             request_sha256: Sha256::digest(&bytes).into(),
             payload: envelope.payload,
             send,
+            connection: self.connection.clone(),
             cancellation: self.cancellation.clone(),
             authorization_deadline: self.authorization_deadline,
         })
@@ -1338,19 +1396,37 @@ impl IncomingPolisRequest {
             payload,
         };
         let bytes = encode_prost_frame(&response, limits)?;
+        let write_idle_deadline = Instant::now() + limits.idle_timeout;
         tokio::select! {
-            _ = self.cancellation.cancelled() => return Err(TransportError::Cancelled),
+            _ = self.cancellation.cancelled() => {
+                self.connection.close(CLOSE_CODE.into(), b"cancelled");
+                return Err(TransportError::Cancelled);
+            }
             _ = tokio::time::sleep_until(self.authorization_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"authorization expired");
                 return Err(TransportError::AuthorizationExpired);
+            }
+            _ = tokio::time::sleep_until(write_idle_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"idle timeout");
+                return Err(TransportError::IdleTimeout);
             }
             result = self.send.write_all(&bytes) => result.map_err(|_| TransportError::Stream)?,
         }
         self.send.finish().map_err(|_| TransportError::Stream)?;
         let idle_deadline = Instant::now() + limits.idle_timeout;
         tokio::select! {
-            _ = self.cancellation.cancelled() => Err(TransportError::Cancelled),
-            _ = tokio::time::sleep_until(self.authorization_deadline) => Err(TransportError::AuthorizationExpired),
-            _ = tokio::time::sleep_until(idle_deadline) => Err(TransportError::IdleTimeout),
+            _ = self.cancellation.cancelled() => {
+                self.connection.close(CLOSE_CODE.into(), b"cancelled");
+                Err(TransportError::Cancelled)
+            },
+            _ = tokio::time::sleep_until(self.authorization_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"authorization expired");
+                Err(TransportError::AuthorizationExpired)
+            },
+            _ = tokio::time::sleep_until(idle_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"idle timeout");
+                Err(TransportError::IdleTimeout)
+            },
             result = self.send.stopped() => match result {
                 Ok(None) => Ok(()),
                 _ => Err(TransportError::Stream),
