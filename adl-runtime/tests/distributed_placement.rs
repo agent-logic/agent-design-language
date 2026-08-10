@@ -66,7 +66,7 @@ struct AdvertisementCertificates {
 }
 
 impl AdvertisementCertificates {
-    fn new(holders: impl IntoIterator<Item = String>) -> Self {
+    fn new() -> Self {
         let root = SigningKey::from_bytes(&[91; 32]);
         let directory = tempfile::tempdir().unwrap();
         let path = directory
@@ -79,11 +79,14 @@ impl AdvertisementCertificates {
             .with_bounds(3_600, 60, 60, 64, 64)
             .unwrap();
         let store = Arc::new(DistributedCertificateStore::open(path, policy).unwrap());
-        for holder in holders
-            .into_iter()
-            .collect::<std::collections::BTreeSet<_>>()
-        {
-            let certificate = advertisement_certificate(&holder, 3);
+        for holder in [
+            "guardian-1",
+            "guardian-2",
+            "guardian-3",
+            "node-1",
+            "intruder",
+        ] {
+            let certificate = advertisement_certificate(holder, 3);
             store.activate(&certificate, NOW - 10).unwrap();
         }
         Self {
@@ -91,6 +94,12 @@ impl AdvertisementCertificates {
             store,
         }
     }
+}
+
+fn advertisement_certificates() -> &'static AdvertisementCertificates {
+    static CERTIFICATES: std::sync::OnceLock<AdvertisementCertificates> =
+        std::sync::OnceLock::new();
+    CERTIFICATES.get_or_init(AdvertisementCertificates::new)
 }
 
 fn advertisement_certificate(holder: &str, generation: u64) -> AuthorityCertificate {
@@ -275,11 +284,7 @@ fn decide_with(
 ) -> Result<placement::PlacementDecision, PlacementError> {
     let policy = PlacementPolicy::new(TRUST).unwrap();
     let fencing = PlacementFencingSnapshot::from_receipts_for_test(&policy, state, fencing)?;
-    let certificates = AdvertisementCertificates::new(
-        capabilities
-            .iter()
-            .map(|capability| capability.issuer_id.clone()),
-    );
+    let certificates = advertisement_certificates();
     let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
     let capabilities = PlacementCapabilitySnapshot::from_rows_for_test(NOW, capabilities);
     PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
@@ -301,11 +306,7 @@ fn decide_request(
     weather: &[PlacementWeather],
     fencing: &PlacementFencingSnapshot,
 ) -> Result<placement::PlacementDecision, PlacementError> {
-    let certificates = AdvertisementCertificates::new(
-        capabilities
-            .iter()
-            .map(|capability| capability.issuer_id.clone()),
-    );
+    let certificates = advertisement_certificates();
     let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
     let capabilities = PlacementCapabilitySnapshot::from_rows_for_test(NOW, capabilities);
     PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
@@ -346,7 +347,7 @@ fn deterministic_ranking_is_independent_of_input_order() {
 
 #[test]
 fn signed_capability_bytes_are_verified_before_placement() {
-    let certificates = AdvertisementCertificates::new(["guardian-1".to_owned()]);
+    let certificates = advertisement_certificates();
     let policy = CapabilityAdvertisementPolicy::new(TRUST).unwrap();
     let replay = certificates
         ._directory
@@ -408,7 +409,7 @@ fn authoritative_lineage_fencing_cannot_be_omitted() {
     )
     .unwrap();
     let policy = PlacementPolicy::new(TRUST).unwrap();
-    let certificates = AdvertisementCertificates::new(Vec::<String>::new());
+    let certificates = advertisement_certificates();
     let weather_store = ResourceWeatherStore::open(
         directory.path().join("weather.redb"),
         ResourceWeatherPolicy::new(TRUST).unwrap(),
