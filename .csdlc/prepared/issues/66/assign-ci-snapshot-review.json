@@ -1,0 +1,20 @@
+{
+  "issue": 66,
+  "expected_generation": 24,
+  "expected_digest": "942618dde31939857e5bc457f08775398a8eefb87d1327cc8999d44b2df215d3",
+  "reviewer": "subagent:66-final-review",
+  "assigned_by": "codex:66-ci-remediation",
+  "scope": [
+    "adl/src/provider/deepgram.rs",
+    "adl/src/provider/mod.rs",
+    "adl/src/provider/profiles.rs",
+    "adl/src/provider_substrate.rs",
+    "adl/src/provider/http_family/tests.rs",
+    "adl/tests/provider_tests.rs",
+    "adl/tests/provider_tests/deepgram.rs",
+    "docs/tooling/PROVIDER_SETUP.md",
+    "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+    "docs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json",
+    ".csdlc/evidence/66"
+  ]
+}

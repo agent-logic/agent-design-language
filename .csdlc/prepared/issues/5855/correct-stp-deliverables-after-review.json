@@ -1,0 +1,17 @@
+{
+  "actor": "codex:sprint-2-closeout-remediation",
+  "card": "stp",
+  "expected_digest": "fdcb4f90aeff4a5af37397d90b08f9b7a059349ca57c0a66676771c079ea777e",
+  "expected_generation": 9,
+  "issue": 5855,
+  "operation": {
+    "operation": "correct_stp_deliverables_after_recovery",
+    "values": [
+      "Issue-specific six-card sprint record",
+      "Sprint Execution Packet for exact terminal membership #5800, #5820, #5821, #5795, and #5832",
+      "Explicit exclusion record for independent follow-ons #5837, #83, and #84",
+      "Integrated sprint review and truthful umbrella closeout candidate"
+    ]
+  },
+  "reason": "Resolve F-5855-3 by binding the typed task deliverables to the corrected Sprint 2 membership after review recovery."
+}

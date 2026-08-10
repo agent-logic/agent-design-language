@@ -1,0 +1,50 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5866,
+  "wp": "WP-04.04",
+  "source_revision": "ed9717db068b1b3984dee1b0553f66afa5149f00",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/discovery.rs",
+    "adl-runtime/tests/distributed_discovery.rs"
+  ],
+  "source_artifacts": [
+    {"path": "adl-runtime/src/distributed/discovery.rs", "sha256": "1090396809356bb015f1f7d5a31e35fb074b8e5ad6a64cc55bb358b03589a9f2"},
+    {"path": "adl-runtime/tests/distributed_discovery.rs", "sha256": "d76be23b89c1d301b8b96b606ddb53eb263adcc884e6be60d4ff32232f61c291"}
+  ],
+  "commands": [
+    {
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_discovery", "--no-tests=fail"],
+      "exit_code": 0,
+      "selected_tests": 12,
+      "started_at": "2026-08-09T08:47:00Z",
+      "finished_at": "2026-08-09T08:48:00Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "75546a7b-9723-43de-8844-c568029ec7dd",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"
+      },
+      "stdout_path": ".csdlc/evidence/5866/replay-window/distributed-discovery.stdout.log",
+      "stdout_sha256": "da617b0eb31d47805ae3639e50d77ff3d842613fc9c59e49f5b8e6fe825a9f5c",
+      "stderr_path": ".csdlc/evidence/5866/replay-window/distributed-discovery.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    {"case": "cross_seed_same_request_replay", "result": "rejected", "evidence_path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "evidence_sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"},
+    {"case": "live_replay_window_capacity", "result": "denied", "evidence_path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "evidence_sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"},
+    {"case": "expired_replay_window_capacity_recovery", "result": "recovered", "evidence_path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "evidence_sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"},
+    {"case": "duplicate_configured_seed", "result": "rejected", "evidence_path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "evidence_sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"},
+    {"case": "stale_seed_transport_generation", "result": "rejected", "evidence_path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "evidence_sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"},
+    {"case": "malformed_unauthorized_or_resource_exhausted", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "evidence_sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"},
+    {"case": "timeout_cancellation_revocation_rotation_expiry", "result": "denied", "evidence_path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "evidence_sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"}
+  ],
+  "artifacts": [
+    {"path": ".csdlc/evidence/5866/replay-window/distributed-discovery.stdout.log", "sha256": "da617b0eb31d47805ae3639e50d77ff3d842613fc9c59e49f5b8e6fe825a9f5c"},
+    {"path": ".csdlc/evidence/5866/replay-window/negative-cases.json", "sha256": "bf79010677578f8b291cb019122815b82bd6283662fc4cc3f0367321743a4bfe"},
+    {"path": ".csdlc/evidence/5866/replay-window/runner.txt", "sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"}
+  ],
+  "native_receipts": []
+}

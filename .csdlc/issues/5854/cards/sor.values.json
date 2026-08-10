@@ -7,18 +7,95 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 0
+    "generation": 35
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "summary": "Resolved all five actionable findings from the independent review of PR #103 without starting Sprint 5 or binding any child.",
+      "actual_changes": [
+        "Retained exact split-authority bind requests for #5835, #5836, #5838, #5839, and #5840 and documented the correct bind-before-ordinary-doctor startup route.",
+        "Reconciled the milestone issue wave and live legacy #5854 body to one five-child execution denominator, completed WP-24 product truth, and non-gating out-of-band WP-24A.",
+        "Added the complete WP-19 gate and fail-closed pairwise path-overlap validation for every declared parallel lane.",
+        "Refreshed typed live evidence to prove tooling issue #74 is closed and removed the obsolete sparse-checkout workaround."
+      ],
+      "artifacts": [
+        ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
+        "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+        ".csdlc/prepared/issues/5854/sprint-execution-packet.md",
+        ".csdlc/prepared/issues/5854/sprint-execution-packet.yaml",
+        ".csdlc/prepared/issues/5854/split-authority-bind-requests.json",
+        ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb",
+        ".csdlc/evidence/5854/live-gates.json",
+        ".csdlc/evidence/5854/live-gates-source.json",
+        ".csdlc/evidence/5854/sprint-review.md",
+        ".csdlc/evidence/5854/v092-sprint5-readiness.log",
+        ".csdlc/evidence/5854/diff-hygiene.log"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb"
+          ],
+          "purpose": "Validate canonical membership parity, all five split-authority request contracts, complete serial gates, child ownership, typed live evidence, and publication boundaries.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5854/v092-sprint5-readiness.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb",
+            "--negative-overlap"
+          ],
+          "purpose": "Prove the path-collision guard rejects ancestor/descendant ownership while preserving disjoint sibling paths.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5854/v092-sprint5-readiness.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2",
+            "actual_binaries_create_validate_doctor_and_bind_without_claims",
+            "--",
+            "--exact"
+          ],
+          "purpose": "Exercise the production typed bind path that rejects an undeclared split repository and succeeds when code_repository is explicit.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5854/v092-sprint5-readiness.log"
+        },
+        {
+          "command": [
+            "csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "5854"
+          ],
+          "purpose": "Validate canonical typed issue and card projections after review remediation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/5854/index.json"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject whitespace errors across the exact remediation diff.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5854/diff-hygiene.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

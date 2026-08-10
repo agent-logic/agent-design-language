@@ -1,0 +1,43 @@
+{
+  "schema": "adl.wp04.issue_validation_manifest.v1",
+  "issue": 5868,
+  "source_revision": "dd181c09fc2291c9475d19c9c0284287bf62444f",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_failure_detection",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 16,
+      "started_at": "2026-08-10T02:09:22.549788Z",
+      "finished_at": "2026-08-10T02:09:23.218105Z",
+      "combined_log_path": ".csdlc/evidence/5868/operator-repair-v4/exact-child-tests.log",
+      "combined_log_sha256": "8d7f1979486766474f7dfb9d7190f9fcd8fd7d705f98b44e4f8a918a3922bdf7"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_failure_detection",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T02:09:23.218343Z",
+      "finished_at": "2026-08-10T02:09:23.462574Z",
+      "combined_log_path": ".csdlc/evidence/5868/operator-repair-v4/strict-focused-clippy.log",
+      "combined_log_sha256": "d7dae192715495fa89ccbe279af3efb9792c1dae1768228e369035e68a1df673"
+    }
+  ]
+}

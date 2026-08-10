@@ -3,7 +3,7 @@
 `adl provider setup <family>` generates a local, untracked setup bundle for a
 remote provider family.
 
-Current supported families:
+Current `adl provider setup` families:
 - `chatgpt`
 - `claude`
 - `openai`
@@ -14,6 +14,10 @@ Current supported families:
 - `openrouter`
 - `z_ai`
 - `http`
+
+Deepgram is a typed speech provider, not a completion provider, and is
+configured directly through the profiles documented below. It is not generated
+by `adl provider setup`.
 
 Related shared proof-surface docs:
 - `docs/tooling/PROVIDER_DEMO_SURFACES.md`
@@ -96,3 +100,51 @@ Live multi-agent demo note:
 - it starts a local adapter that bridges ADL's current `{"prompt": "..."} -> {"output": "..."}` HTTP contract to vendor-native OpenAI and Anthropic APIs
 - generated artifacts record provider family/model/status metadata only; they must not include secret values or raw credential headers
 - a real D13L proof claim requires the credentialed path to complete and write the invocation/transcript artifacts named in the demo matrix
+
+## Deepgram Speech Provider
+
+Deepgram is exposed through the typed `SpeechProvider` boundary for batch
+synthesis and prerecorded transcription. It does not implement the text
+completion `Provider` trait.
+
+Canonical profiles:
+
+- `deepgram:aura-2-pluto-en`
+- `deepgram:nova-3`
+
+Use `DEEPGRAM_API_KEY` for an already-exported credential. For an
+operator-approved key file, set `ADL_DEEPGRAM_API_KEY_FILE` to its path. ADL
+reads the file only when a request is made; the key value and authorization
+header are never included in provider debug output, errors, provenance, or
+evidence.
+
+```yaml
+providers:
+  podcast_speech:
+    profile: "deepgram:aura-2-pluto-en"
+```
+
+Downstream Rust code expands the ADL profile, then calls
+`build_speech_provider` with the resulting `ProviderSpec`. Synthesis requires
+explicit text, model, voice, encoding, container, and sample rate.
+Transcription requires explicit audio bytes, content type, model, and language.
+Supported initial media combinations are WAV-wrapped linear PCM for synthesis,
+MP3 without an additional container, and WAV/MP3 input for transcription. MP3
+synthesis uses Deepgram's fixed `22050` Hz rate; the typed request uses
+`container: none` as the no-container sentinel, while the HTTP adapter omits
+both `container` and `sample_rate` from the Deepgram query.
+
+The opt-in live canary is intentionally separate from ordinary tests. It uses
+Pluto synthesis and Nova-3 prerecorded transcription, discards source audio,
+and writes only `.csdlc/evidence/66/deepgram-live-receipt.json`. The receipt
+contains request identities, provider request IDs, model/media/usage metadata,
+latency, a redacted expected-phrase-match result, a dated pricing estimate, and
+explicit redaction assertions.
+
+Current limitations:
+
+- batch REST operations only
+- no realtime streaming or Gemini Live routing
+- no voice cloning or custom training
+- no automatic provider selection by price
+- no episode publication or feed mutation

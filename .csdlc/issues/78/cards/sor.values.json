@@ -1,0 +1,132 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 78,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
+    "slug": "stp-post-review-recovery-correction",
+    "version": "unversioned",
+    "generation": 16
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Added a typed, recovery-provenance-gated operation that corrects only STP deliverables after review recovery, rejects malformed or stale requests, and retains exact previous and replacement values in atomic audit evidence.",
+      "actual_changes": [
+        "Added correct_stp_deliverables_after_recovery to the typed semantic operation schema and STP projection application path.",
+        "Required the latest review-control audit event to be recover_review and all review, publication, readiness, and terminal authority to be cleared.",
+        "Rejected empty, blank, and trim-normalized duplicate deliverables while preserving every unrelated STP field.",
+        "Recorded exact previous and replacement collections in structured audit evidence.",
+        "Added positive and negative integration tests for recovery provenance, phase and card authorization, stale CAS, malformed input, atomic field preservation, structured audit evidence, and projection drift."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs",
+        ".csdlc/prepared/issues/78/design.md",
+        ".csdlc/prepared/issues/78/diagram.mmd"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--target-dir",
+            "../adl-builds/78/csdlc-v2-target",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy across all C-SDLC v2 targets.",
+          "outcome": "passed",
+          "evidence_ref": "issue-78-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "purpose": "Run the canonical Rust formatter check.",
+          "outcome": "passed",
+          "evidence_ref": "issue-78-fmt.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--target-dir",
+            "../adl-builds/78/csdlc-v2-target",
+            "--test",
+            "gate5"
+          ],
+          "purpose": "Run the complete C-SDLC v2 review and recovery integration gate containing issue #78 proof.",
+          "outcome": "passed",
+          "evidence_ref": "issue-78-gate5.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--test",
+            "gate5"
+          ],
+          "purpose": "Run the complete review-recovery gate after adding stale-digest and unchanged-record proof.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/78/review-remediation-gate5.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove warning-free production and test targets after review remediation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/78/review-remediation-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "purpose": "Prove canonical Rust formatting after review remediation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/78/review-remediation-fmt.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

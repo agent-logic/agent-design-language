@@ -1,0 +1,10 @@
+{
+  "issue": 74,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "4b76fa691b980c494ddd3e8f204f20b89e330822691013ece11daf5a2c55c80b",
+  "actor": "codex:74-regression-repair",
+  "reason": "All five Gate 2 tests, strict all-target clippy, formatting, card validation, and diff hygiene pass.",
+  "operation": {"operation": "update_plan_step", "step_id": "S3", "status": "completed"},
+  "fail_after_backup": false
+}

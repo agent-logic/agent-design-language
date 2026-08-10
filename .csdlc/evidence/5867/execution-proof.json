@@ -1,0 +1,121 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5867,
+  "wp": "WP-04.05",
+  "source_revision": "6480ebabd8519b2c71a8e2a2c3bc7da134a3087d",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/membership.rs",
+    "adl-runtime/tests/distributed_membership.rs"
+  ],
+  "source_artifacts": [
+    {
+      "path": "adl-runtime/src/distributed/membership.rs",
+      "sha256": "72e2647dce3108500afe991af2d0e028d7e9256bfca24a3791cba9b340a84770"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_membership.rs",
+      "sha256": "02130772ac53561db0894e0d723630a00a3e839a4882bd41ee81bc3c77fa88c9"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_membership",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 8,
+      "started_at": "2026-08-09T23:56:51Z",
+      "finished_at": "2026-08-09T23:56:52Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "ab57e298-8414-4807-9a69-e427a274933e",
+        "os": "macos",
+        "arch": "arm64",
+        "identity_sha256": "a542284cd1920243348512172405f31e5a0fad46c8ca3f23fd8ba042b232ae0e"
+      },
+      "stdout_path": ".csdlc/evidence/5867/distributed-membership.stdout.log",
+      "stdout_sha256": "12e7c232faf72be2fac16bcf6ba0db6081637ec385034a9fea9d9feb2c615329",
+      "stderr_path": ".csdlc/evidence/5867/distributed-membership.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "duplicate_effective_voter_control_key",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "conflicting_replay",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "stale_or_gapped_epoch",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "wrong_trust_domain",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "invalid_member_shape",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "membership_capacity",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "forged_snapshot_with_recomputed_digest",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "policy_mismatched_snapshot",
+      "result": "fail_closed",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "case": "snapshot_budget_exhaustion_policy",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5867/negative-cases.json",
+      "evidence_sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5867/distributed-membership.stdout.log",
+      "sha256": "12e7c232faf72be2fac16bcf6ba0db6081637ec385034a9fea9d9feb2c615329"
+    },
+    {
+      "path": ".csdlc/evidence/5867/negative-cases.json",
+      "sha256": "4392721e73d0d0d6f72e8e85ba0141a6cff6c73931ccc0c772b22fcfec78d7a7"
+    },
+    {
+      "path": ".csdlc/evidence/5867/runner.txt",
+      "sha256": "a542284cd1920243348512172405f31e5a0fad46c8ca3f23fd8ba042b232ae0e"
+    }
+  ],
+  "native_receipts": []
+}

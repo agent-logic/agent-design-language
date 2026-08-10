@@ -697,6 +697,43 @@ impl Store {
         Ok(record)
     }
 
+    pub(crate) fn commit_code_repository_migration(
+        &self,
+        request: &crate::migration::CodeRepositoryMigrationRequest,
+    ) -> Result<(
+        IssueRecord,
+        crate::migration::CodeRepositoryMigrationEvidence,
+    )> {
+        let _lock = self.lock(request.issue)?;
+        self.recover_if_needed(request.issue)?;
+        let mut record = self.load_record(request.issue)?;
+        let mut cards = self.load_cards(request.issue)?;
+        verify_cards(self, &record, &cards)?;
+        authorize_code_repository_migration(&self.root, &record, request)?;
+
+        // Re-read and reauthorize immediately before mutation while both the
+        // binding and issue locks remain held.
+        record = self.load_record(request.issue)?;
+        let evidence = authorize_code_repository_migration(&self.root, &record, request)?;
+        record.code_repository = Some(request.code_repository.clone());
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: request.actor.clone(),
+            reason: request.reason.clone(),
+            operation: serde_json::to_string(&evidence)?,
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(request.issue, &record, &cards, false)?;
+        Ok((record, evidence))
+    }
+
     pub(crate) fn commit_publication(
         &self,
         issue: u64,
@@ -1084,6 +1121,128 @@ impl Store {
     }
 }
 
+fn authorize_code_repository_migration(
+    root: &Path,
+    record: &IssueRecord,
+    request: &crate::migration::CodeRepositoryMigrationRequest,
+) -> Result<crate::migration::CodeRepositoryMigrationEvidence> {
+    if record.issue != request.issue {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "code repository migration issue identity does not match",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "code repository migration digest is stale",
+        ));
+    }
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "code repository migration generation is stale",
+        ));
+    }
+    if !matches!(
+        record.phase,
+        LifecyclePhase::Bound | LifecyclePhase::Implemented | LifecyclePhase::Reviewed
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "code repository migration requires bound, implemented, or reviewed phase",
+        ));
+    }
+    if record.code_repository.is_some() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "code repository migration requires an absent code_repository",
+        ));
+    }
+    let branch = record.branch.clone().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "code repository migration requires a registered branch",
+        )
+    })?;
+    let worktree = record.worktree.clone().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "code repository migration requires a registered worktree",
+        )
+    })?;
+    let actual_root = fs::canonicalize(root)?;
+    let registered_root = fs::canonicalize(&worktree).map_err(|error| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("registered worktree is unavailable: {error}"),
+        )
+    })?;
+    if actual_root != registered_root || crate::git::current_branch(root)? != branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "invocation does not match the registered branch and canonical worktree",
+        ));
+    }
+    let registered = crate::git::worktrees(root)?
+        .into_iter()
+        .filter(|(candidate_branch, candidate_path)| {
+            candidate_branch == &branch
+                && fs::canonicalize(candidate_path)
+                    .is_ok_and(|candidate| candidate == registered_root)
+        })
+        .count();
+    if registered != 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "registered branch and worktree topology is missing or ambiguous",
+        ));
+    }
+    if !crate::git::worktree_is_clean(root)? {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "code repository migration requires a clean tracked and untracked worktree",
+        ));
+    }
+    let origins = crate::git::github_remote_repositories(root, "origin")?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "code repository migration requires an origin remote",
+        )
+    })?;
+    let mut identities = origins.fetch.iter().chain(&origins.push);
+    let canonical = identities.next().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "origin repository identity is unavailable",
+        )
+    })?;
+    if identities.any(|identity| !identity.eq_ignore_ascii_case(canonical))
+        || !request.code_repository.eq_ignore_ascii_case(canonical)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "requested code repository does not match every origin fetch and push identity",
+        ));
+    }
+    Ok(crate::migration::CodeRepositoryMigrationEvidence {
+        schema: "csdlc.code_repository_migration_evidence.v1".into(),
+        issue: record.issue,
+        actor: request.actor.clone(),
+        reason: request.reason.clone(),
+        pre_generation: record.generation,
+        pre_digest: record.digest.clone(),
+        previous_code_repository: None,
+        requested_repository: request.code_repository.clone(),
+        fetch_repositories: origins.fetch,
+        push_repositories: origins.push,
+        phase: record.phase,
+        branch,
+        worktree: registered_root.to_string_lossy().into_owned(),
+        clean_worktree: true,
+    })
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct BootstrapRequest {
@@ -1402,6 +1561,35 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             ));
         }
     }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
+    ) {
+        let latest_review_operation = record.audit.iter().rev().find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        });
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "post-recovery STP deliverable correction requires actor and reason",
+            ));
+        }
+        if latest_review_operation.is_none_or(|event| event.operation != "recover_review")
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery STP deliverable correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
             cards
@@ -1422,6 +1610,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let stp_deliverables_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Stp].content {
+            CardContent::Stp(value) => Some(value.deliverables.clone()),
+            _ => unreachable!("STP"),
+        }
+    } else {
+        None
+    };
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -1434,6 +1633,15 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             serde_json::json!({
                 "operation": "correct_declared_scope_before_publication",
                 "previous_values": declared_scope_before.expect("scope correction snapshot"),
+                "new_values": values,
+            })
+            .to_string()
+        }
+        (SemanticOperation::CorrectStpDeliverablesAfterRecovery { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_stp_deliverables_after_recovery",
+                "previous_values": stp_deliverables_before
+                    .expect("STP deliverable correction snapshot"),
                 "new_values": values,
             })
             .to_string()
@@ -1943,7 +2151,8 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Stp,
-            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+            SemanticOperation::ReplaceAcceptanceCriteria { .. }
+                | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Srp,
@@ -2547,6 +2756,44 @@ mod edit_authorization_tests {
             },
         )
         .expect_err("scope correction is SIP-only");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+
+        authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/current.rs".into()],
+            },
+        )
+        .expect("implemented STP correction reaches recovery-sensitive guard");
+        for phase in [
+            LifecyclePhase::Initialized,
+            LifecyclePhase::Ready,
+            LifecyclePhase::Bound,
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            let error = authorize_card_operation(
+                phase,
+                CardKind::Stp,
+                &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                    values: vec!["src/late.rs".into()],
+                },
+            )
+            .expect_err("STP deliverable correction is implemented-only");
+            assert_eq!(error.code, ErrorCode::InvalidTransition);
+        }
+        let error = authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            &SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/wrong-card.rs".into()],
+            },
+        )
+        .expect_err("STP deliverable correction is STP-only");
         assert_eq!(error.code, ErrorCode::InvalidTransition);
     }
 

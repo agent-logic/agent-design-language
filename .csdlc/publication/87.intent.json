@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 87,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/87-acip-minor-version-strict-clippy",
+  "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
+  "body": "Closes #87\n\nPreserves general inclusive ACIP minor-version negotiation with a RangeInclusive predicate after malformed-range rejection, eliminating the strict Clippy constant-extreme warning without weakening future minor-version compatibility. Adds focused exact, wider, future-only, and descending-range coverage.\n\nValidation: focused ACIP test 2/2, strict library Clippy, formatting check, and both issue-named capability-advertisement and resource-weather consumer Clippy commands. All proof logs and exact child/product compositions are retained under `.csdlc/evidence/87/`. Exact-head independent review completed with no findings.",
+  "draft": false,
+  "revision": "git-blake3:cc87910c7998c04c4de168bde5944c306e3755f0:f12946af26d9893ddd1c2c875b4d7fa8f495848c51de97efd0bcb045aa1bd97d",
+  "commit_sha": "cc87910c7998c04c4de168bde5944c306e3755f0"
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5867,
+  "cases": [
+    {
+      "case": "duplicate_effective_voter_control_key",
+      "result": "rejected"
+    },
+    {
+      "case": "conflicting_replay",
+      "result": "rejected"
+    },
+    {
+      "case": "stale_or_gapped_epoch",
+      "result": "rejected"
+    },
+    {
+      "case": "wrong_trust_domain",
+      "result": "rejected"
+    },
+    {
+      "case": "invalid_member_shape",
+      "result": "rejected"
+    },
+    {
+      "case": "membership_capacity",
+      "result": "denied"
+    },
+    {
+      "case": "forged_snapshot_with_recomputed_digest",
+      "result": "rejected"
+    },
+    {
+      "case": "policy_mismatched_snapshot",
+      "result": "fail_closed"
+    },
+    {
+      "case": "snapshot_budget_exhaustion_policy",
+      "result": "denied"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5871,
+  "cases": [
+    {"case": "wrong_signer", "result": "rejected"},
+    {"case": "wrong_certificate_purpose", "result": "rejected"},
+    {"case": "wrong_trust_domain", "result": "rejected"},
+    {"case": "wrong_holder_or_generation", "result": "rejected"},
+    {"case": "unrelated_authority_certificate", "result": "rejected"},
+    {"case": "expired_stale_or_future_evidence", "result": "denied"},
+    {"case": "replayed_or_out_of_order_sequence", "result": "rejected"},
+    {"case": "short_newer_then_long_older_after_expiry", "result": "rejected"},
+    {"case": "replay_after_verifier_restart", "result": "rejected"},
+    {"case": "entry_total_or_tracker_capacity", "result": "denied"},
+    {"case": "configured_bounds_above_absolute_maxima", "result": "denied"},
+    {"case": "revoked_signing_certificate", "result": "denied"},
+    {"case": "malformed_noncanonical_or_oversized_wire", "result": "fail_closed"},
+    {"case": "tampered_body_or_signature", "result": "rejected"},
+    {"case": "conflicting_duplicate_capability", "result": "rejected"}
+  ]
+}

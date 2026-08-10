@@ -1,0 +1,18 @@
+{
+  "issue": 74,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "024f3c8fcecb80484e2952e046897cba78fdd0aa6170d65a4e9f64b8b9482665",
+  "actor": "codex:74-regression-repair",
+  "reason": "Record strict compilation and lint proof for the topology correction.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "clippy", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+      "purpose": "Reject compilation, ownership, error-path, test, and lint regressions across the C-SDLC v2 package.",
+      "outcome": "passed",
+      "evidence_ref": "local:issue-74-regression-strict-clippy:passed"
+    }
+  },
+  "fail_after_backup": false
+}

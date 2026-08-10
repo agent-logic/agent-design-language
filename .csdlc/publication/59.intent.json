@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 59,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "codex/75-incremental-publication-linkage",
+  "head": "codex/59-codex-goal-replacement-readiness",
+  "title": "[v0.92][Codex goals] Route blocked-goal replacement to platform authority",
+  "body": "Part of agent-logic/agent-design-language#59\n\n## Summary\n- records the source-grounded boundary between ADL policy and the externally owned Codex goal service\n- preserves the existing blocked goal, status, time, and token accounting as historical truth\n- defines the bounded upstream replacement or supersession contract and fail-closed active-goal overwrite behavior\n- publishes only a non-closing authority-routing checkpoint; no ADL goal implementation or policy workaround is introduced\n\n## Validation\n- `git diff --check`: PASS\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate6`: PASS, 10 tests\n- typed C-SDLC v2 validation and doctor: PASS\n\n## Review\n- independent exact-head review approved `ea07513854599c602ca2208ba031f804fe922c86` with no P0-P3 findings\n- review confirmed the qualified `part_of` relationship, external authority boundary, and absence of any ADL implementation claim\n\n## Remaining external work\nThe Codex platform owner must implement the product change and pass the live blocked-goal replacement canary before issue 59 can reach terminal completion.",
+  "linkage_mode": "part_of",
+  "draft": false,
+  "revision": "git-blake3:d5ccc95199950649cf25cfb5ff1f2d4ec2fbf9a3:0232de7056e3af53c3443d3c099dc16448841a4060a0e70ddaa4d12a2e71f8df",
+  "commit_sha": "d5ccc95199950649cf25cfb5ff1f2d4ec2fbf9a3"
+}

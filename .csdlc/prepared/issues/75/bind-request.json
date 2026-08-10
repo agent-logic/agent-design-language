@@ -1,0 +1,6 @@
+{
+  "issue": 75,
+  "base_branch": "main",
+  "branch": "codex/75-incremental-publication-linkage",
+  "worktree": "."
+}

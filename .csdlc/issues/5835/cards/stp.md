@@ -20,6 +20,7 @@ Author the WP-17 continuity-transfer feature/design notes and v0.93 handoff inpu
 - Cross-polis continuity design note with WP-04 boundary
 - Updated v0.93 handoff inputs
 - Copied-state, ambiguity, redaction, and forbidden-claim validation evidence
+- .csdlc/evidence/5835/validate-continuity-transfer.rb
 
 ## Acceptance
 

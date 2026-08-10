@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 59,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
+    "slug": "codex-blocked-goal-replacement",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/59\n.csdlc/prepared/issues/59",
+      "review_revision": "git-blake3:ea07513854599c602ca2208ba031f804fe922c86:7ec57779526ab9be40be6b40647a2accc7c79b58c39ffe801c64ff2356a0e486",
+      "reviewer": "subagent:execute_75_to_pr",
+      "review_prompts": [
+        "Does any repository executable actually implement create_goal admission or thread-goal persistence?",
+        "Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?",
+        "Would any proposed workaround falsify the old blocked goal or create divergent state?",
+        "Is the upstream replacement or supersession contract precise enough for a product owner to implement and test?",
+        "Does publication use linkage_mode part_of with the exact qualified Part of agent-logic/agent-design-language#59 line and no closing keyword?",
+        "Are the estimates, stop boundary, changed paths, and exact next action explicit?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The live blocked-goal replacement canary remains upstream until the Codex platform owner ships the product fix.",
+        "Publication must preserve linkage_mode part_of, the exact qualified relationship line, and the issue 75 stack base."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

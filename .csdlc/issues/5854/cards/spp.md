@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.
+Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, #5839, and #5840 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated sprint review after the five operative children complete.
 
 ## Plan
 
-Revision 1
+Revision 7
 
 ## Steps
 
@@ -77,13 +77,13 @@ Revision 1
 
 .csdlc/prepared/issues/5854/design.md
 
-Digest: 3a0febc8c51927d94207ad4a06ae4bc10ab3d3ac9e726eece2fce9c4263323d3
+Digest: a0a6e1b058b5e13de3776447dc39c940a3bf51a0d1b80b51e31fa1fbeb16a477
 
 ## Diagram
 
 .csdlc/prepared/issues/5854/diagram.mmd
 
-Digest: 3aa3d305ede97572d5144451f5a22e0d0521938ac1cedce3bbab87ab21308a6b
+Digest: 18ce9d40dd473f07a2fee4d52ebcdeae0635b197e62c970ec5d507c77ca279d8
 
 ## Stop Conditions
 

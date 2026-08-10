@@ -14,6 +14,7 @@ Define the deterministic WP-08 birth decision consumed by the Birthday sprint. T
 - `.csdlc/prepared/issues/5825/validate-native-receipts.rb`
 - `.csdlc/prepared/issues/5825/produce-native-receipt.rb`
 - `.csdlc/evidence/5825`
+- `.github/workflows/wp08-native-birthday.yml`
 
 ## Read-Only Inputs
 
@@ -79,7 +80,7 @@ WP-01/#5817 and WP-02A/#5801 must be terminally proven before execution. WP-01B/
 
 ## Validation
 
-Focused tests must invoke the exact `birthday` integration-test target, assert that at least one test ran, and prove one valid packet plus every table-driven disqualifier and missing-evidence case. A claim-boundary scan rejects personhood, consciousness, production citizenship, governance, migration, and transport overclaims. The issue-local native producer must run that exact target on native GitHub Actions macOS and Linux jobs at the exact candidate HEAD, emit a hashed source manifest, preserve the complete nextest log, and require the test to write a canonical semantic-output artifact. The independent validator recomputes every digest, parses a positive test count from the retained log, validates workflow/run/job identity, and requires byte-identical semantic outputs; an ancestral or source-equivalent SHA is not accepted.
+Focused tests must invoke the exact `birthday` integration-test target, assert that at least one test ran, and prove one valid packet plus every table-driven disqualifier and missing-evidence case. A claim-boundary scan rejects personhood, consciousness, production citizenship, governance, migration, and transport overclaims. The narrowly issue-specific pull-request workflow must run the issue-local producer on native GitHub Actions macOS and Linux jobs at the exact candidate HEAD, emit a hashed source manifest, preserve the complete nextest log, and require the test to write a canonical semantic-output artifact. Its aggregation job must check out that same immutable head, download both native fragments without changing the source tree, run the independent validator, and retain the combined validated artifact packet. The validator recomputes every digest, parses a positive test count from the retained log, validates workflow/run/job identity, and requires byte-identical semantic outputs; an ancestral or source-equivalent SHA is not accepted. Native receipts remain workflow artifacts rather than tracked source files so their presence cannot create a new commit that invalidates their exact-head binding.
 
 ## Rollback
 

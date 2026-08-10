@@ -1,0 +1,11 @@
+{
+  "schema": "csdlc.github_route_incident.v1",
+  "source": "chatgpt_github_connector",
+  "operation": "covered_lifecycle_write",
+  "status": 403,
+  "message": "Resource not accessible by integration",
+  "classification": "integration_authorization_failure",
+  "token_failure": false,
+  "fallback_authorized": false,
+  "required_route": "repo_native_rust_owner"
+}

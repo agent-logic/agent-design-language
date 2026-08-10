@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5869,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5869-epoch-lease-authority",
+  "title": "[v0.92][WP-04.07] Epoch and lease authority",
+  "body": "Closes danielbaustin/agent-design-language#5869\n\n## Summary\n\n- add bounded OpenRaft majority and joint-consensus epoch authority\n- add canonical domain-separated authority certificates, activation possession, monotonic fencing, and exact mutation authorization\n- add restart-safe quorum-proven recovery with precise bounded lease timing\n\n## Validation\n\n- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_lease --no-tests=fail` (16 passed)\n- `cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_lease -- -D warnings`\n- `ruby .csdlc/prepared/issues/5869/validate-proof-receipt.rb`\n- independent exact-head code, security, and lifecycle review: approved with no findings\n\n## Integration boundary\n\nThe issue-owned source remains intentionally unregistered until #5878 performs distributed module integration.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:3a71ff27c485e84baf90ff2225206cdf146a1361:77d82be686ba87b6858c440654321779b8534539cf914b93b70cba5402e04027",
+  "commit_sha": "3a71ff27c485e84baf90ff2225206cdf146a1361"
+}

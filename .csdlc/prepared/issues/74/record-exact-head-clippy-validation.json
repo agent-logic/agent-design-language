@@ -1,0 +1,18 @@
+{
+  "issue": 74,
+  "card": "sor",
+  "expected_generation": 20,
+  "expected_digest": "a1136a5483f1c2cf458a2d17e5ba7e73b3c603deb3b97668d44e087ea835b4ac",
+  "actor": "codex:74-regression-repair",
+  "reason": "Refresh strict compilation and lint evidence at the exact implementation head.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "clippy", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+      "purpose": "Reject compilation, ownership, error-path, test, and lint regressions across the complete C-SDLC v2 package.",
+      "outcome": "passed",
+      "evidence_ref": "local:da8074f0224b52c0212e05a8ca9734c30d740b8e:strict-clippy:passed"
+    }
+  },
+  "fail_after_backup": false
+}

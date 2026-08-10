@@ -1,0 +1,5 @@
+command: git diff --check 0608764d902b02eb2965002168ae210059866e8e 33fad0d3bc70c8701a811670d8254bdef374289b
+exit_code: 0
+stdout: empty
+stderr: empty
+outcome: passed

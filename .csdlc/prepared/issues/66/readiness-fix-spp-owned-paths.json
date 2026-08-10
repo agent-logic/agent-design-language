@@ -1,0 +1,24 @@
+{
+  "issue": 66,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "fc58fab7bddfb8afbb2c80b6648001cc1cbf78b6f7e99bd86cae1355fc3228cb",
+  "actor": "codex:66-deepgram-provider",
+  "reason": "Declare exact repository-owned implementation and proof paths required by execution readiness.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/deepgram.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tests/provider_tests.rs",
+      "adl/tests/provider_tests/deepgram.rs",
+      "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      ".csdlc/evidence/66/deepgram-live-receipt.json"
+    ]
+  },
+  "fail_after_backup": false
+}

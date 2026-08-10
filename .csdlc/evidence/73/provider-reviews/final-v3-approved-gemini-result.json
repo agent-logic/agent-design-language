@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786263351",
+      "duration_ms": 50467,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=3801]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 50470,
+  "request_id": "issue-73-gemini-final-46a9c21e",
+  "output_text": "### Findings\n\n**P1: Dependency Diagram Mismatch**\n*Reference: Sections \"Dependency Graph\" and \"V3-05: Implement Repository Context And Read-Only V2 Import\"*\nThe Mermaid diagram in the \"Dependency Graph\" section omits the `P03 --> P05` edge. However, the textual specification for V3-05 explicitly lists `V3-03` as a hard dependency (\"Dependencies: V3-01..., V3-03, and the reviewed adapter-interface checkpoint from V3-04\"). This contradicts the requirement that the diagram perfectly matches the textual dependencies.\n\n### Verification Checklist\n\n**1. Closing and `part_of` publication modes**\nVerified. `PublicationLinkage` mandates explicit mode selection (V3-01). Exact review binds the target (V3-12). Remote readback strictly prevents `part_of` from conflating with closure (V3-14). Terminal reconciliation (`finish`) properly handles non-closing checkpoints while leaving the parent open (V3-15).\n\n**2. Issue plan has exactly 18 implementation specs plus deferred V3-R01**\nVerified. The plan contains exactly 18 implementation issues (V3-01 through V3-09, V3-10A, V3-10B, V3-11A, V3-11B, and V3-12 through V3-16) plus the explicitly deferred V3-R01. \n\n**3. Upstream `cli/cli` proof portability**\nVerified. Section \"Source Baseline\" utilizes a versioned `adl.external_source_baseline.v1` manifest and relies on `git ls-tree <revision> -- <declared-paths>`. This ensures deterministic verification against remote git objects without tying execution to an operator's local checkout path or OS environment.\n\n**4. One authoritative capability matrix**\nVerified. Section \"Canonical State And Cards\" enforces `csdlc-v3/contracts/capabilities.v1.json`. It guarantees a single source of truth dictating field mutations, valid authoring/correction phases, invalidation logic, required provenances, generated Clap help, and `doctor` findings.\n\n**5. Operator-required outcomes as executable transitions**\nVerified. \"Lifecycle Kernel\" states an `operator_required` outcome must name a public command, target state, and provenance via the capability matrix rather than acting as an ambiguous sink. \n\n**6. Recovery graph/property proofs prevent dead ends**\nVerified. Section \"V3-07: Implement The Pure Lifecycle Kernel\" explicitly requires transition and correction tables generated from the capability matrix, proving reachability for every supported recovery state so that no acceptance-bearing field lacks a typed correction path.\n\n**7. V3-02 is a genuine stop/go gate**\nVerified. V3-02 (\"Prove The Rust Construction Slice\") defines unambiguous thresholds (e.g., max 35 MiB binary, 30 direct dependencies, clean build < 300s) and explicitly mandates: \"missing measurement or any threshold miss is a binding stop, not a discretionary finding.\"\n\n**8. Dependency diagrams match textual dependencies**\nFailed. As noted in the P1 finding, the Mermaid diagram is missing the `P03 --> P05` edge declared in the V3-05 text. \n\n**9. Measured state-size headroom, jq subset, and async-init retry**\nVerified. \n*   *State-size:* V3-01 measures the largest deterministic v2 baseline bundle, sets block capacity to 10x that size, and warnings at 80%.\n*   *jq subset:* \"Output And Error Model\" designates `jaq-core` and strictly freezes the subset (identity, field/index, array/object manipulation, slice, pipe, `select`, `has`, `length`).\n*   *Async-init:* \"Application Context\" thoroughly defines `AsyncInit<T>` with single-flight mutexes, a fixed 250ms cooldown on retry, and safe cancellation tracking.\n\n**10. Implementable without preserving excessive v2 ceremony**\nVerified. The unified `csdlc` CLI approach effectively translates the `gh` architecture to Rust using `clap`, isolated domain modules, and zero v2 operational binaries. Request files are bypassed in favor of explicit flags. \n\nDECISION: REQUEST_CHANGES",
+  "output_text_excerpt": "[redacted provider text len=3801]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-approved-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

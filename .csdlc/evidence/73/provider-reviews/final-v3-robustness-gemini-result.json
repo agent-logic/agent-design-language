@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786261820",
+      "duration_ms": 69704,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=1094]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 69706,
+  "request_id": "issue-73-gemini-final-42c22081",
+  "output_text": "This is an independent architecture review of the C-SDLC v3 Rust migration plan at commit `42c22081601f9a63deec56f6f21c30f5d360ca54`. \n\n### Findings\n\n**P2: Internal Consistency Failure in the Dependency Graph**  \n*Reference: Section \"Implementation Issue Plan\" / \"Dependency Graph\" vs. Section \"V3-05\"*  \nThe text correctly declares a strict gating dependency between V3-04 and V3-05: *\"V3-04 publishes its reviewed adapter-interface checkpoint before V3-05 starts against fakes.\"* The `V3-05` specification block also explicitly lists `V3-04` in its \"Dependencies\" list. However, the Mermaid `Dependency Graph` completely omits the `P04 --> P05` edge. In a strictly gated migration plan, the visual DAG and textual DAG must perfectly align to prevent scheduling or overlap violations.\n\n**P3: Missing Direct Edge for V3-15 in Dependency Graph**  \n*Reference: Section \"Implementation Issue Plan\" / \"Dependency Graph\" vs. Section \"V3-15\"*  \nThe `V3-15` text explicitly lists `V3-13` as a dependency. The Mermaid graph omits the `P13 --> P15` direct edge. While transitively satisfied via `P13 -->",
+  "output_text_excerpt": "[redacted provider text len=1094]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-robustness-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

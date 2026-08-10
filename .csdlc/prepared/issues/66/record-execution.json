@@ -1,0 +1,29 @@
+{
+  "issue": 66,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "40c5946ba32e01639154bc8a5559be27518a5c9543fc65d6b8dda6dd5610b942",
+  "actor": "codex:66-implementation",
+  "reason": "Record the bounded first-class Deepgram speech provider implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added typed Deepgram batch synthesis and prerecorded transcription support with canonical profiles, redacted provenance, deterministic loopback proof, one bounded live canary, and downstream Podcast Studio guidance.",
+    "changes": [
+      "Added typed synthesis/transcription requests, results, media settings, provenance, stable errors, and a speech-provider factory.",
+      "Added Deepgram Aura-2 Pluto and Nova-3 profiles without implying text-completion support.",
+      "Restricted live credentials to per-request environment or external key-file resolution and official Deepgram endpoints.",
+      "Added deterministic loopback tests plus a redacted Pluto/Nova-3 live receipt.",
+      "Documented provider setup and Podcast Studio consumption without duplicating HTTP or credential ownership."
+    ],
+    "artifacts": [
+      "adl/src/provider/deepgram.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tests/provider_tests/deepgram.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      ".csdlc/evidence/66/deepgram-live-receipt.json"
+    ]
+  }
+}

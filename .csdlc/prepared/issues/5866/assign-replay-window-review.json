@@ -1,0 +1,16 @@
+{
+  "issue": 5866,
+  "expected_generation": 20,
+  "expected_digest": "8ab4074f7729bc2b07b3cbfec5033ff8949350f355c28fcb3e14da1db20b2f4b",
+  "reviewer": "/root/issue_79/exact_head_review",
+  "assigned_by": "codex:5866-distributed-discovery",
+  "scope": [
+    "adl-runtime/src/distributed/discovery.rs",
+    "adl-runtime/tests/distributed_discovery.rs",
+    ".csdlc/evidence/5866/replay-window",
+    ".csdlc/issues/5866",
+    ".csdlc/prepared/issues/5866/replay-window-vpp.json",
+    ".csdlc/prepared/issues/5866/replay-window-sor.json",
+    ".csdlc/prepared/issues/5866/replay-window-finalize.json"
+  ]
+}

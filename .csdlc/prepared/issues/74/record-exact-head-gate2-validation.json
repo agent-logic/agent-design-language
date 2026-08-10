@@ -1,0 +1,18 @@
+{
+  "issue": 74,
+  "card": "sor",
+  "expected_generation": 19,
+  "expected_digest": "520dd58cbee72c0fd348d8f76eee5dab869387323adc0dd24950debf1ab8f532",
+  "actor": "codex:74-regression-repair",
+  "reason": "Refresh Gate 2 evidence at the exact implementation head after the malformed-topology strictness correction.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2"],
+      "purpose": "Prove the same-issue topology-free stale projection is ignored without mutation while malformed, partial, and genuine ownership topology remains fail closed.",
+      "outcome": "passed",
+      "evidence_ref": "local:da8074f0224b52c0212e05a8ca9734c30d740b8e:gate2:5-passed"
+    }
+  },
+  "fail_after_backup": false
+}

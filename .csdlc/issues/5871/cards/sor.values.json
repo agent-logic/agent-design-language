@@ -7,18 +7,51 @@
     "title": "[v0.92][WP-04.09] Signed capability advertisements",
     "slug": "v0-92-wp-04-09-capability-advertisements",
     "version": "v0.92",
-    "generation": 7
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "summary": "Implemented bounded, canonical, signed capability advertisement evidence with durable replay defense and exact live certificate authorization.",
+      "actual_changes": [
+        "Added an unregistered distributed capability advertisement module with domain-separated Ed25519 signing, canonical JCS encoding, deterministic sorting and deduplication, exact certificate binding, durable bounded replay high-water state, and evidence-only projections.",
+        "Added a bounded path-based integration target with twelve focused tests covering valid projection, durable replay across expiry and restart, hard policy maxima, and all required fail-closed security and resource cases."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/5871/execution-proof.json",
+        ".csdlc/evidence/5871/negative-cases.json",
+        ".csdlc/evidence/5871/exact-child-tests.log",
+        ".csdlc/evidence/5871/exact-revision-proof-receipt.log"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_capability_advertisement",
+            "--no-tests=fail"
+          ],
+          "purpose": "Validate canonical signatures, exact live certificate authorization, durable replay, absolute resource bounds, and fail-closed negative cases.",
+          "outcome": "passed",
+          "evidence_ref": "pvf-exact-child-tests.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5871/validate-proof-receipt.rb"
+          ],
+          "purpose": "Prove immutable source and evidence introduction bindings for issue 5871.",
+          "outcome": "passed",
+          "evidence_ref": "pvf-exact-revision-proof-receipt.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

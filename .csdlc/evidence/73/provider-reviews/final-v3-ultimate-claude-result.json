@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "claude-sonnet-4-6",
+    "credential_ref": "env:ANTHROPIC_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "model_ref": "claude-sonnet-4-6",
+    "provider_model_id": "claude-sonnet-4-6",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786265175",
+      "duration_ms": 17280,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=1638]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 17280,
+  "request_id": "issue-73-claude-ultimate-7c488b9e",
+  "output_text": "Reviewing commit 7c488b9eea47cd642128fb0d0b38618083c2693d against the three targeted corrections and prior P0-P2 areas.\n\n**(1) AsyncInit concrete wrapper.** `AsyncInit<T>` is a concrete struct with `Mutex<AsyncInitState<T>>`, `Notify`, clock, cancel token, and `Arc<AsyncInitializer<T>>`. The accessor returns `Arc<T>` and clones on `Ready(Ok)`. State machine and Arc accessor match. ✓\n\n**(2) Capability matrix closed tagged union.** `capabilities.v1.json` is a closed tagged union with exactly two variants: `kind: field` (field_id, owner, authoring/correction phases, provenance, invalidates, audit schema, command, owner_issue, test_ids) and `kind: outcome` (outcome_code, producing_phases, authorization_schema, command, target_phase XOR no_transition_exit_class, invalidates, audit schema, owner_issue, test_ids). Every disposition is encodable; duplicate/unknown/missing fields fail CI. ✓\n\n**(3) PartOf checkpoint_completed transition.** `finish` applies `checkpoint_completed` from `published|merge_ready` back to `implemented`, clears review/publication/readiness/terminal fields, retains checkpoint receipt and normalized PR/linkage evidence, appends audit event. Capability matrix carries the outcome row with `authorization_schema: null`, target `implemented`, exact invalidations, and repeated-cycle tests. V3-15 acceptance criteria confirm the multiple-checkpoint journey. ✓\n\nNo regressions detected in prior approved P0-P2 areas (transaction commit-point semantics, AsyncInitState transition table, cancellation/exit-130 coverage, publication linkage disjointness, or cleanup canonical-path predicate).\n\nDECISION: PASS",
+  "output_text_excerpt": "[redacted provider text len=1638]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-ultimate-claude-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

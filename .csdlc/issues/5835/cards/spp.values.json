@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 12,
+      "plan_revision": 13,
       "summary": "Verify #5826, #5827, and #5834; reconcile landed schemas; author the transfer matrix and WP-04 boundary; validate links, redaction, copied-state rejection, and forbidden production claims; then obtain exact-head review.",
       "steps": [
         {
@@ -77,7 +77,7 @@
         "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
         "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
         ".csdlc/evidence/5835",
-        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5835-migration-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\"],\"issues\":[5835,5843],\"order\":[5835,5843]}"
+        ".csdlc/evidence/5835/validate-continuity-transfer.rb"
       ],
       "invariants": [
         "Copied state is never continuity proof",

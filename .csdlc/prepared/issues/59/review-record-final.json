@@ -1,0 +1,21 @@
+{
+  "issue": 59,
+  "expected_generation": 19,
+  "expected_digest": "80e66fb304e64d5d66c752053dac3c7f6a42d66320b72faa67d60b56cc6edfbe",
+  "actor": "subagent:execute_75_to_pr",
+  "evidence": {
+    "reviewer": "subagent:execute_75_to_pr",
+    "scope": [
+      ".csdlc/issues/59",
+      ".csdlc/prepared/issues/59"
+    ],
+    "reviewed_revision": "git-blake3:fe68d44c809f8b748046bf9b772abb9e98ac4e16:761044d03ed4f9635a3549b68e85a9a6c97fbed69656febb70a387e4f390dc46",
+    "findings": [],
+    "residual_risks": [
+      "The live blocked-goal replacement canary remains upstream until the Codex platform owner ships the product fix.",
+      "Publication must preserve linkage_mode part_of, the exact qualified relationship line, and the issue 75 stack base."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

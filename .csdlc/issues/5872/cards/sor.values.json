@@ -7,18 +7,53 @@
     "title": "[v0.92][WP-04.10] Signed resource-weather advertisements",
     "slug": "v0-92-wp-04-10-resource-weather-advertisements",
     "version": "v0.92",
-    "generation": 7
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "summary": "Implemented bounded authenticated resource-weather advertisements with deterministic normalization, trust-domain and certificate binding, durable replay protection, signed withdrawal, explicit no-data semantics, and fail-closed validation.",
+      "actual_changes": [
+        "Added the issue-owned unregistered resource-weather module with deterministic fixed-width projection and explicit unavailable values.",
+        "Added AdvertisementSigning authorization, domain-separated canonical claims, freshness and expiry enforcement, and durable per-holder generation and sequence replay state.",
+        "Added signed withdrawal and restart-safe no-data semantics without widening scheduling or authority.",
+        "Added the temporary issue-owned #[path] integration harness with positive, negative, replay, resource-bound, corruption, and redaction coverage."
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/resource_weather.rs",
+        "adl-runtime/tests/distributed_resource_weather.rs",
+        ".csdlc/evidence/5872/execution-proof.json",
+        ".csdlc/evidence/5872/negative-cases.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_resource_weather",
+            "--no-tests=fail"
+          ],
+          "purpose": "Prove bounded deterministic normalization, certificate authorization, freshness, replay, withdrawal, resource bounds, corruption handling, and redaction for #5872.",
+          "outcome": "passed",
+          "evidence_ref": "exact-child-tests.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5872/validate-proof-receipt.rb"
+          ],
+          "purpose": "Prove source and evidence revisions, exact artifact digests, nonzero native test receipt, negative-case corpus, and bounded runner identity for #5872.",
+          "outcome": "passed",
+          "evidence_ref": "exact-revision-proof-receipt.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

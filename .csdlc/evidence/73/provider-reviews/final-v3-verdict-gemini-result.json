@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY",
+    "source_registry": "issue-73-exact-head-review"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-09"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786264978",
+      "duration_ms": 15708,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=395]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 15715,
+  "request_id": "issue-73-gemini-verdict-8369faed",
+  "output_text": "The provided C-SDLC v3 Rust architecture text has been reviewed for any remaining actionable P0-P2 defects.\n\n**Explicit Verification:**\nThe required dependency edge `P11B --> P16` (linking \"V3-11B PVF execution\" to \"V3-16 Parity, canary, and cutover\") explicitly exists in the embedded Mermaid dependency graph within the text. Furthermore, I verify and acknowledge that the retained `.mmd` file",
+  "output_text_excerpt": "[redacted provider text len=395]",
+  "artifact_ref": ".csdlc/evidence/73/provider-reviews/final-v3-verdict-gemini-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

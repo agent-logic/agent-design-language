@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18] First birthday demo",
     "slug": "v0-92-wp-18-first-birthday-demo",
     "version": "v0.92",
-    "generation": 39
+    "generation": 43
   },
   "status": "ready",
   "content": {
@@ -21,7 +21,9 @@
         "Reviewer index and D1-D6 exact command/artifact updates",
         "Reconciled PUBLIC_LAUNCH_COPY_v0.92.md",
         "Reconciled REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md",
-        "Machine-readable publication-gate checklist and fail-closed validator"
+        "Machine-readable publication-gate checklist and fail-closed validator",
+        "adl/tools/test_v092_first_birthday_demo.sh",
+        ".csdlc/evidence/5836/validate-publication-gate.rb"
       ],
       "acceptance_criteria": [
         "AC-1: One documented command emits a structurally complete Runtime-produced birthday packet.",

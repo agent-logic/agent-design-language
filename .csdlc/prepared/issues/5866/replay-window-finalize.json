@@ -1,0 +1,86 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 5866,
+  "expected_generation": 20,
+  "expected_digest": "8ab4074f7729bc2b07b3cbfec5033ff8949350f355c28fcb3e14da1db20b2f4b",
+  "actor": "codex:5866-distributed-discovery",
+  "summary": "Implemented bounded authenticated discovery with atomic cross-seed replay denial and expiry-bounded replay-window recovery.",
+  "changes": [
+    "Atomically retain accepted request and proposal identifiers across discovery calls and valid seeds.",
+    "Retain live replay entries through their signed validity horizon while recovering bounded capacity only after trusted expiry.",
+    "Prove exact 12-test behavior, qualified strict Clippy, and a digest-bound two-revision replay-window receipt."
+  ],
+  "artifacts": [
+    "adl-runtime/src/distributed/discovery.rs",
+    "adl-runtime/tests/distributed_discovery.rs",
+    ".csdlc/evidence/5866/replay-window/execution-proof.json",
+    ".csdlc/evidence/5866/replay-window/negative-cases.json"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "exact-child-tests",
+          "proof_role": "Prove atomic cross-seed replay denial, bounded live capacity, expiry recovery, and authenticated Quinn/rustls discovery.",
+          "purpose": "Run the exact issue-owned distributed discovery target.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 8000},
+          "credentials": [],
+          "network": "loopback",
+          "dependencies": [],
+          "parallel_group": "child",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1800,
+          "executable": "cargo",
+          "argv": ["nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_discovery", "--no-tests=fail"],
+          "evidence": {"max_log_bytes": 200000, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "strict-focused-clippy",
+          "proof_role": "Prove strict focused lint cleanliness with only the qualified pre-existing ACIP lint allowed.",
+          "purpose": "Run strict Clippy for the exact discovery test surface.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 4000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "child",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1800,
+          "executable": "cargo",
+          "argv": ["clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_discovery", "--", "-D", "warnings", "-A", "clippy::absurd_extreme_comparisons"],
+          "evidence": {"max_log_bytes": 200000, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "exact-revision-proof-receipt",
+          "proof_role": "Validate final replay-window source, command, nonzero test, negative-case, runner, and artifact bindings.",
+          "purpose": "Validate the retained WP-04.04 two-revision receipt.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 3000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["exact-child-tests", "strict-focused-clippy"],
+          "parallel_group": "receipt",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 300,
+          "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/5866/validate-proof-receipt.rb", ".csdlc/evidence/5866/replay-window/execution-proof.json"],
+          "evidence": {"max_log_bytes": 100000, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["exact-child-tests", "strict-focused-clippy", "exact-revision-proof-receipt"],
+      "allow_network": true,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 2, "cpu_units": 4, "memory_mib": 8192, "tokens": 15000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-5866-discovery/.csdlc/evidence/5866",
+    "cancellation_file": null
+  }
+}

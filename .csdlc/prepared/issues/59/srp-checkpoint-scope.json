@@ -1,0 +1,14 @@
+{
+  "issue": 59,
+  "card": "srp",
+  "expected_generation": 11,
+  "expected_digest": "9c35e75c90f3e5ffb620f5606e90de005a1de176a2eb9e52da011861ec824dff",
+  "actor": "codex:59-authority-checkpoint",
+  "reason": "Review the exact non-closing publication boundary and stacked publisher contract",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, inherited issue 75 part_of publisher contract, exact qualified relationship line, and no-closing/no-fabricated-implementation boundary."
+  },
+  "fail_after_backup": false
+}

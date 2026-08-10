@@ -1,0 +1,366 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 101,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f09a35e236f4f77ec4793207c044d5bc698a2e14b0883b7ff2efb2b7f8938d1c",
+  "phase": "published",
+  "generation": 18,
+  "digest": "5445ef77194cd08aa3f1f44e008fb0c7903559b05e281524e2cdc0a078b2b15c",
+  "branch": "codex/101-github-route-guardrail",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-101-github-route-guardrail",
+  "review_assignment": {
+    "reviewer": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+    "assigned_by": "codex:101-github-route-guardrail",
+    "revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      "csdlc-v2/tests/fixtures/github_connector_403.json",
+      ".csdlc/issues/101",
+      ".csdlc/prepared/issues/101",
+      ".csdlc/evidence/101"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      "csdlc-v2/tests/fixtures/github_connector_403.json",
+      ".csdlc/issues/101",
+      ".csdlc/prepared/issues/101",
+      ".csdlc/evidence/101"
+    ],
+    "reviewed_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+    "findings": [
+      {
+        "id": "F-101-1",
+        "severity": "p2",
+        "summary": "Connector-403 regression was self-asserting instead of coupled to the incident fields and authoritative policy.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      },
+      {
+        "id": "F-101-2",
+        "severity": "p2",
+        "summary": "The default HOME token-file fallback was created but never exercised by the regression test.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      },
+      {
+        "id": "F-101-3",
+        "severity": "p3",
+        "summary": "The focused installation gate checked only one of the four declared lifecycle route owners.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      },
+      {
+        "id": "F-101-4",
+        "severity": "p2",
+        "summary": "Strict Clippy rejected a needless borrow in the focused route-policy test.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 101,
+    "pull_request": 105,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/105",
+    "base": "main",
+    "head": "codex/101-github-route-guardrail",
+    "revision": "git-blake3:6d52144a14decfbbdd868b1f5e3cb1cf45c421e8:db29151a7f54ab6e2b7163cb8ddd6a551ea87062c504eaf33de92bd16920aa93",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/101/design.md",
+  "diagram_path": ".csdlc/prepared/issues/101/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:101-design-owner-review",
+      "revision": "2456d1aa2214dffe6cd2e5f36603dfe376305a3f79d615d3a5dcb7bac9c40a70"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6f670a356717f5fbece3ea27d29b6b38cb2450b78d6398cde499ff7c207881b5",
+      "rendered_digest": "63100f5fcb1d48b1f753ba14c9c41a94e7bd0e2e222c9e997eec6b3c860545aa",
+      "ast_digest": "99ea2fb6afaff543d4649d369a5f537baf85119fd7fe20c96c7b8b2c034b9c09"
+    },
+    "stp": {
+      "values_digest": "00bf61d6f143c320db182ccca655631dde60c824c99cab5d6dec698d43127e80",
+      "rendered_digest": "54c9e464390fd891ae2de164632237532d34a324e712d9032803b63309dc23b6",
+      "ast_digest": "b69a05627ab869a03f1617a861b4e041bbd5a4d1a1eaa8d11f46ebb89aa36f14"
+    },
+    "spp": {
+      "values_digest": "d5dcb11403a885b5fb152fe61b4a9f5d2a528d4de1bdfe13e848f33faa4cc37b",
+      "rendered_digest": "fa8469d76f449cfd1c33a4cdf395417312168660676687a0528195718d01725b",
+      "ast_digest": "808fe00a235c7ea955fbe3d39aadbd305bb70f47e5ec8d56a08dab35c8012aab"
+    },
+    "vpp": {
+      "values_digest": "e0d7a9490b7bb6fb8ba856f593414d03fab35386ba4af24160ab976eee89fdb8",
+      "rendered_digest": "776d35205f4b693d749bf21c6ec7a33935e5a6ee163f6fb30f7915a67e028044",
+      "ast_digest": "f3c8dd764dcac133bc81d375b2d8dd6c628afc138068e1ed97d8e24c30b33cda"
+    },
+    "srp": {
+      "values_digest": "1846bd29787a77f796b44f10838f97a175ce932dfde89b349a3cdd89a49f5156",
+      "rendered_digest": "82b3fcb7adf879ac079b204aaa764ce1248d506323c6a2704507b02da7988547",
+      "ast_digest": "65aae86f778919293a6dc33d45b951bbcbdc6a72faf1d79fb114c0f4955e3b8e"
+    },
+    "sor": {
+      "values_digest": "d2f6dbc7846181498d346a4e1848d9a29bf4bc1a702bfa240d3b920185286a8d",
+      "rendered_digest": "6c60dc841ade1bdcf552e3b0c708e29da3a93969b2ea78014c2736214c425f44",
+      "ast_digest": "d7e4a617b8a556ad7dd035bfb72bb0fd04fb35eb9c70df1f61f735fc7013e818"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:101-implementation",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:101-review-recorder",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:101-proof-hook-repair",
+      "reason": "Recover review before adding the operator-requested dedicated proof hook to the authoritative boundary document."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:101-ci-clippy-repair",
+      "reason": "Recover review and publication truth after exact-head CI found one strict-Clippy needless-borrow warning in the focused route-policy test."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:101-readiness-repair",
+      "reason": "Route the focused policy and fixture proof through the existing owned GitHub integration test target so pre-bind readiness remains truthful.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"github-route-policy\",\"proof_role\":\"Prove policy parity and incident classification without network or credentials.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"existing-token-contracts\",\"proof_role\":\"Prove existing token precedence and redaction behavior remain unchanged in the same focused integration target.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:101-design-owner-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:101-design-owner-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:101-implementation",
+      "reason": "Use the now-present dedicated policy, fixture, and resolver regression target as the sole focused proof denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"github-route-policy\",\"proof_role\":\"Prove policy parity, connector-403 classification, and shared token precedence and redaction without network or real credentials.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:101-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Anchor diff hygiene to the issue base and corrected implementation head so clean-checkout execution cannot pass vacuously.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"github-route-policy\",\"proof_role\":\"Prove policy parity, connector-403 classification, installer ownership, and shared token precedence and redaction without network or real credentials.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes across the exact issue base and corrected implementation head.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"parallel_group\":\"focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Replace validation truth with the corrected focused test and an exact base-to-implementation-head diff-hygiene proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and independently reviewed a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, and focused resolver regression proof.\",\"changes\":[\"Named csdlc-github-issue, csdlc-github-pr, csdlc-publish, and csdlc-finish as the sole covered GitHub lifecycle owners in root and boundary policy.\",\"Prohibited connector and raw-gh lifecycle writes and made missing owner binaries a fail-closed condition without fallback authority.\",\"Added a focused policy drift test, connector-403 classification fixture, verified-installation publication-owner assertion, and direct shared-token precedence and redaction regression test without changing resolver implementation.\"],\"artifacts\":[\"AGENTS.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/tests/fixtures/github_connector_403.json\",\".csdlc/evidence/101\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"purpose\":\"Check the exact issue base through corrected implementation head for whitespace and patch errors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/diff-hygiene-exact.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-policy-review-fix.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Keep implementation truth distinct from the pending exact-head independent rereview.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, and focused resolver regression proof.\",\"changes\":[\"Named csdlc-github-issue, csdlc-github-pr, csdlc-publish, and csdlc-finish as the sole covered GitHub lifecycle owners in root and boundary policy.\",\"Prohibited connector and raw-gh lifecycle writes and made missing owner binaries a fail-closed condition without fallback authority.\",\"Added a focused policy drift test, connector-403 classification fixture, verified-installation publication-owner assertion, and direct shared-token precedence and redaction regression test without changing resolver implementation.\"],\"artifacts\":[\"AGENTS.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/tests/fixtures/github_connector_403.json\",\".csdlc/evidence/101\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"purpose\":\"Check the exact issue base through corrected implementation head for whitespace and patch errors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/diff-hygiene-exact.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-policy-review-fix.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Retain the typed default-token issue-read reconciliation as the dedicated AC-7 proof instead of mapping it to the credential-free local test.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"github-route-policy\",\"proof_role\":\"Prove policy parity, connector-403 classification, installer ownership, and shared token precedence and redaction without network or real credentials.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"typed-default-token-issue-read\",\"proof_role\":\"Reconcile issue #101 and its creation operation marker through csdlc-github-issue using the approved default token resolver without persisting token contents.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue\",\"run\",\"--request\",\"/Volumes/FastWork/csdlc-101-default-token-read.json\"],\"parallel_group\":\"remote-read\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes across the exact issue base and corrected implementation head.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"parallel_group\":\"focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Retain successful typed issue readback with the creation operation marker as dedicated AC-7 evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, typed default-token issue reconciliation, and focused resolver regression proof.\",\"changes\":[\"Named csdlc-github-issue, csdlc-github-pr, csdlc-publish, and csdlc-finish as the sole covered GitHub lifecycle owners in root and boundary policy.\",\"Prohibited connector and raw-gh lifecycle writes and made missing owner binaries a fail-closed condition without fallback authority.\",\"Added a focused policy drift test, connector-403 classification fixture, verified-installation publication-owner assertion, and direct shared-token precedence and redaction regression test without changing resolver implementation.\"],\"artifacts\":[\"AGENTS.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/tests/fixtures/github_connector_403.json\",\".csdlc/evidence/101\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"purpose\":\"Check the exact issue base through corrected implementation head for whitespace and patch errors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/diff-hygiene-exact.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-policy-review-fix.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue\",\"run\",\"--request\",\"/Volumes/FastWork/csdlc-101-default-token-read.json\"],\"purpose\":\"Read back issue #101 and reconcile its typed creation operation marker through the approved default token resolver without retaining token contents.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/typed-default-token-issue-read.json\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:101-review-recorder",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:101-proof-hook-repair",
+      "reason": "Recover review before adding the operator-requested dedicated proof hook to the authoritative boundary document.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:101-proof-hook-repair",
+      "reason": "Record the focused test rerun after adding and self-enforcing the dedicated boundary proof hook.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Prove the authoritative boundary lists the dedicated route-policy target and the target enforces that hook alongside all issue guardrails.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-proof-hook-review-fix.log\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:101-ci-clippy-repair",
+      "reason": "Recover review and publication truth after exact-head CI found one strict-Clippy needless-borrow warning in the focused route-policy test.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
