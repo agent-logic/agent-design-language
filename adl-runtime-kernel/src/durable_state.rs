@@ -42,6 +42,7 @@ pub enum KernelDurableStateError {
 }
 
 pub type KernelDurableStateResult<T> = Result<T, KernelDurableStateError>;
+pub type GovernedStateCompareAndSet<'a> = (&'a str, Option<&'a [u8]>, &'a [u8]);
 
 pub struct KernelDurableState {
     database: Database,
@@ -218,7 +219,7 @@ impl KernelDurableState {
     /// Any mismatch leaves every domain unchanged.
     pub fn compare_and_set_governed_states(
         &self,
-        changes: &[(&str, Option<&[u8]>, &[u8])],
+        changes: &[GovernedStateCompareAndSet<'_>],
     ) -> KernelDurableStateResult<bool> {
         if changes.is_empty()
             || changes

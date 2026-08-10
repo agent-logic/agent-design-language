@@ -37,6 +37,29 @@ fn graph() -> ValidatedReasoningGraph {
     .unwrap()
 }
 fn profile() -> CognitiveProfile {
+    let authority_key = SigningKey::from_bytes(&[7; 32]);
+    let mut authority_context = CognitiveAuthorityContext {
+        authority_id: "cognitive-board".into(),
+        key_id: "cognitive-key-1".into(),
+        epoch: 1,
+        context_sha256: String::new(),
+        verifying_key_hex: hex::encode(authority_key.verifying_key().as_bytes()),
+    };
+    authority_context.context_sha256 =
+        authority_context_payload_digest(&authority_context).unwrap();
+    let authority_statement = CognitiveAuthorityStatement {
+        schema: COGNITIVE_AUTHORITY_STATEMENT_SCHEMA.into(),
+        authority_context_sha256: authority_context.context_sha256.clone(),
+        profile_id: "profile".into(),
+        revision: 1,
+        previous_profile_sha256: None,
+        canonical_input_sha256: H.into(),
+        policy_sha256: H.into(),
+        evidence_sha256: H.into(),
+        signature: String::new(),
+    }
+    .sign(&authority_key)
+    .unwrap();
     let mut value = CognitiveProfile {
         schema: COGNITIVE_PROFILE_SCHEMA.into(),
         profile_id: "profile".into(),
@@ -59,6 +82,11 @@ fn profile() -> CognitiveProfile {
         policy_sha256: H.into(),
         canonical_input_sha256: H.into(),
         profile_sha256: String::new(),
+        authority: CognitiveAuthorityProof {
+            context: authority_context,
+            statement: authority_statement,
+            rotation: None,
+        },
         public_projection: PublicCognitiveProfile {
             schema: COGNITIVE_PROFILE_PUBLIC_SCHEMA.into(),
             profile_id: "profile".into(),
