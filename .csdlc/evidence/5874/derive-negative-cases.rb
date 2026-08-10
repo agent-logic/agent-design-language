@@ -14,7 +14,7 @@ EXPECTED = %w[
   wrong_certificate_purpose oversized_snapshot relative_replay_path wrong_target
   catalog_substitution noncanonical_catalog wrong_schema tampered_signature stale_source_epoch
   stale_applied_authority incomplete_transfer replay_mismatch expired_catalog
-  content_length_mismatch corrupt_chunk replay_after_restart
+  content_length_mismatch corrupt_chunk replay_after_restart chunk_exceeds_signed_total
 ].to_h { |name| [name, "rejected"] }.freeze
 EXACT = ["ruby", ".csdlc/evidence/5874/run-exact-child-tests.rb", "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_snapshot_catalog", "--no-tests=fail"].freeze
 CLIPPY = ["cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_snapshot_catalog", "--", "-D", "warnings"].freeze
@@ -48,9 +48,26 @@ end
 
 if ARGV.first == "verify"
   machine = JSON.parse(File.read(ARGV.fetch(1)))
+  fail!("machine schema mismatch") unless machine["schema"] == "adl.wp04.negative_cases.machine.v1"
+  fail!("machine issue mismatch") unless machine["issue"] == ISSUE
   fail!("source mismatch") unless machine["source_revision"] == ARGV.fetch(2)
+  fail!("producer path mismatch") unless machine["producer_path"] == relative(__FILE__)
   fail!("producer mismatch") unless machine["producer_sha256"] == sha(__FILE__)
-  fail!("negative denominator mismatch") unless machine.fetch("cases").length == EXPECTED.length
+  command = machine.fetch("command")
+  fail!("negative command mismatch") unless command["argv"] == NEGATIVE && command["exit_code"] == 0
+  stdout_path = ROOT.join(machine.fetch("stdout_path"))
+  stderr_path = ROOT.join(machine.fetch("stderr_path"))
+  fail!("negative stdout digest mismatch") unless sha(stdout_path) == machine.fetch("stdout_sha256")
+  fail!("negative stderr digest mismatch") unless sha(stderr_path) == machine.fetch("stderr_sha256")
+  observed = File.readlines(stdout_path).each_with_object([]) do |line, entries|
+    next unless line.start_with?(MARKER)
+    payload = JSON.parse(line.delete_prefix(MARKER))
+    entries << {"case" => payload.fetch("case"), "result" => payload.fetch("result"), "observed_line_sha256" => Digest::SHA256.hexdigest(line.chomp)}
+  end
+  expected = EXPECTED.map { |name, result| [name, result] }
+  actual = machine.fetch("cases").map { |entry| [entry.fetch("case"), entry.fetch("result")] }
+  fail!("negative case/result mapping mismatch") unless actual == expected
+  fail!("negative marker proof mismatch") unless machine.fetch("cases") == expected.map { |name, _result| observed.find { |entry| entry["case"] == name } }
   puts "PASS: machine evidence verified"
   exit
 end

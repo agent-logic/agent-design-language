@@ -241,7 +241,7 @@ impl Fixture {
         let certificate = AuthorityCertificate::issue(
             CertificateBody::new(
                 DOMAIN,
-                String::from_utf8(GUARDIAN.to_vec()).unwrap(),
+                String::from_utf8(NODE.to_vec()).unwrap(),
                 purpose,
                 1,
                 CertificateValidity {
@@ -335,7 +335,7 @@ impl Fixture {
 
     fn catalog(&self) -> SignedSnapshotCatalogEntry {
         let body = SnapshotCatalogEntryBody::new(
-            String::from_utf8(GUARDIAN.to_vec()).unwrap(),
+            String::from_utf8(NODE.to_vec()).unwrap(),
             1,
             1,
             self.snapshot(),
@@ -453,7 +453,7 @@ fn certificate_purpose_is_snapshot_specific() {
     let fixture = Fixture::new(CertificatePurpose::AdvertisementSigning);
     let body = SnapshotCatalogEntryBody {
         schema: SNAPSHOT_CATALOG_SCHEMA.to_owned(),
-        signer_id: String::from_utf8(GUARDIAN.to_vec()).unwrap(),
+        signer_id: String::from_utf8(NODE.to_vec()).unwrap(),
         certificate_generation: 1,
         sequence: 1,
         snapshot: fixture.snapshot(),
@@ -566,6 +566,23 @@ fn whole_content_length_and_digest_are_enforced() {
     assert_case(
         "content_length_mismatch",
         fixture.verify_transfer(&verifier, &manifest, &catalog, &fixture.chunks, TARGET),
+        SnapshotError::ContentDigestMismatch,
+    );
+}
+
+#[test]
+fn chunk_larger_than_signed_total_is_rejected_before_digest_work() {
+    let fixture = Fixture::new(CertificatePurpose::SnapshotSigning);
+    let verifier = fixture.verifier();
+    let catalog = fixture.catalog();
+    let manifest = fixture.manifest(b"transfer-oversized-chunk", TARGET, &catalog);
+    let oversized = vec![
+        vec![0_u8; fixture.snapshot().byte_length as usize + 1],
+        Vec::new(),
+    ];
+    assert_case(
+        "chunk_exceeds_signed_total",
+        fixture.verify_transfer(&verifier, &manifest, &catalog, &oversized, TARGET),
         SnapshotError::ContentDigestMismatch,
     );
 }

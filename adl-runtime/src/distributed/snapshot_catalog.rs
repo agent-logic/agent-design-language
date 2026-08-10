@@ -895,14 +895,17 @@ fn verify_content(snapshot: &SnapshotDescriptor, chunks: &[Vec<u8>]) -> Snapshot
     let mut total = 0_u64;
     let mut whole = Sha256::new();
     for (chunk, expected) in chunks.iter().zip(&snapshot.chunk_sha256) {
-        if sha256(chunk) != *expected {
-            return Err(SnapshotError::CorruptChunk);
-        }
+        let chunk_len = u64::try_from(chunk.len()).map_err(|_| SnapshotError::Oversized)?;
         total = total
-            .checked_add(u64::try_from(chunk.len()).map_err(|_| SnapshotError::Oversized)?)
+            .checked_add(chunk_len)
             .ok_or(SnapshotError::Oversized)?;
+        // Reject attacker-sized buffers before spending work hashing them. The
+        // signed total is policy-bounded, so it is also the hard per-chunk cap.
         if total > snapshot.byte_length {
             return Err(SnapshotError::ContentDigestMismatch);
+        }
+        if sha256(chunk) != *expected {
+            return Err(SnapshotError::CorruptChunk);
         }
         whole.update(chunk);
     }
@@ -938,7 +941,7 @@ fn validate_certificate_body(
     if body.purpose != CertificatePurpose::SnapshotSigning
         || body.trust_domain != snapshot.trust_domain
         || body.holder_id != signer_id
-        || body.holder_id.as_bytes() != snapshot.source_guardian_id
+        || body.holder_id.as_bytes() != snapshot.source_owner_id
         || body.generation != generation
         || snapshot.created_at_unix_secs < body.issued_at_unix_secs
         || snapshot.expires_at_unix_secs > body.expires_at_unix_secs
