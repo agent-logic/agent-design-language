@@ -106,11 +106,11 @@ Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
