@@ -82,10 +82,17 @@ jobs:
             .csdlc/evidence/5827/native-platform/macos.json \
             .csdlc/evidence/5827/native-platform/linux.json
       - name: Retain validated native receipt packet
-        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: wp10-native-birthday-continuity-validated-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .csdlc/evidence/5827/native-platform/
+          path: |
+            .csdlc/evidence/5827/native-platform/linux.json
+            .csdlc/evidence/5827/native-platform/linux-nextest.log
+            .csdlc/evidence/5827/native-platform/linux-semantic.json
+            .csdlc/evidence/5827/native-platform/linux-source-manifest.json
+            .csdlc/evidence/5827/native-platform/macos.json
+            .csdlc/evidence/5827/native-platform/macos-nextest.log
+            .csdlc/evidence/5827/native-platform/macos-semantic.json
+            .csdlc/evidence/5827/native-platform/macos-source-manifest.json
           if-no-files-found: error
           retention-days: 14
