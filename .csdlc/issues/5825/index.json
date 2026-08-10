@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5825,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "904390dda83597a867777bbf16ebbe9907f65b6d6481c7be13b55d2ed2e2de2d",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 70,
-  "digest": "cbb4cc25aaf2eda9677eb3e230e2d8aab5fc41fbe4b23f64235533f45d23c88e",
-  "branch": null,
-  "worktree": null,
+  "digest": "ab93536d38020498c632f7f017ca427bad39d69d9b0ab7a28b61ec16bc02b2cc",
+  "branch": "codex/5825-birthday-contract",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5825-birthday-contract",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -721,6 +736,13 @@
       "actor": "codex:5825-birthday-execution",
       "reason": "Keep the exact Rust target deliverable explicit without misclassifying the future fixture directory as an executable validator.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"Complete valid and disqualifying fixture matrix under the owned birthday fixture directory\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 93,
+      "generation": 70,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
