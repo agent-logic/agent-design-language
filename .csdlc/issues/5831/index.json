@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 72,
-  "digest": "5ededc75bd7853169a836aa2518b1d93eddcda3e1c5b480257c7986a0dd3e2dd",
+  "generation": 73,
+  "digest": "eb08af6a575beeb1666a6198d0ed651f7b7a7481ef1a2405ca27ada0cdae956a",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
-    "assigned_by": "codex:5831-adaptive-learning",
-    "revision": "git-blake3:221175209d2ed1f0be57079ae24da48565f296e7:09d59426cda040016863da0bed990c3c15cbb5f2727fb9cdb72b8e7ba28c01f0",
-    "scope": [
-      "adl-runtime-kernel/src/adaptive_learning.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/adaptive_learning.rs",
-      "adl-runtime-kernel/tests/fixtures/adaptive_learning",
-      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
-      ".github/workflows/wp13a-native-adaptive-learning.yml",
-      ".csdlc/evidence/5831",
-      ".csdlc/issues/5831"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9db3413cad7e4431a16cb2975b456993d0051bf617990acc59032183a37a3dd5",
+      "values_digest": "b01734edf2c0d1a560064e5eabc4f39e2b139cf6d4befa728a3940063e525959",
       "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
       "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
     },
     "stp": {
-      "values_digest": "ad766a0c4e8db60aca89067b6cc6b778a85e3a9509be232d02ced066492d8cd7",
+      "values_digest": "3b0f1683bdb4e32b77c466b4a4be8f780603df3e769323d4bce523593a157561",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "5aaff2d08243d02b4dea09c85d2c7650979eaf81c45c5dc89255468b7d4592fa",
+      "values_digest": "d394170604e2d0ed5e85e99f1779f0b0c0165a1f0383a59c8099756df9a37815",
       "rendered_digest": "397ea9d161e0a68b697b2ad004b1b3205d7a269e1caf0b119fe3ffb015988f15",
       "ast_digest": "aa04a73f75abb39c7f219a37a26c1949e6fc247d2c7c8702239547f40ef3ab19"
     },
     "vpp": {
-      "values_digest": "32224e6b8345bf872b45b4863fb0fced22e7e7d2b6d74de2cae7a106ff6cff36",
+      "values_digest": "c7cf00c6e8777128ce8d742af6ed1d36d1181bdaae0ff2288fc744e3d6345c3e",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "0b334646c0bcecd828806324cac5b3ee289b84b2d5f784e1d0643d36863c0deb",
-      "rendered_digest": "1abe9f3e3540b44d1149eccb7b8357339eeb7173e51907f1f7435355f5877e65",
-      "ast_digest": "2b51027e46a9fd6201e748fd6b10588265d6283660896c4b730add4ad99540a9"
+      "values_digest": "237c67ef68cd5379f26bee3d9775a12669f57d6f278a337775b77434aecb9b30",
+      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
+      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "fc9caa812377a29e21d1a57ac22d3c049152897e12a717cb9a045bfc266b91bc",
+      "values_digest": "077eaa6c8b102fb245bac8cd3e5f6c6b960a980b4b56cecd83d6c7c1fc74ddd0",
       "rendered_digest": "80525f18c4217b9cffb8783aa9d210e58e01e0666ee41842216e5ba92c1df451",
       "ast_digest": "404c51e1eafd44d84a38450d269bf9e27465a79cdd4daa102a3e22d50c6553f1"
     }
@@ -801,6 +785,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 99,
+      "generation": 73,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "The fresh assigned review found one remaining crash/concurrency atomicity defect: durable accepted head and history become authoritative before live gate mutation, and sequence reservation is check-then-write. Repair requires non-authoritative pending intent, atomic reservation/completion, and deterministic restart reconciliation before fresh review.",
+      "operation": "recover_review"
     }
   ]
 }
