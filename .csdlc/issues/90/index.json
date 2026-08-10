@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f2456d9ca38b68c47da3bd9cd29d109b2467a93decc35f60f651495ac3094029",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "9a77f04885f7b727424b3c9fabfb3e9d1defd765e2a871ae8ce56d85c7654ecc",
+  "generation": 18,
+  "digest": "6a35e1d1fb580f9cacd91d99a448c65f286e0a2c07f48b322fa7e68dcec710ff",
   "branch": "codex/90-code-repository-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-90-code-repository-migration",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c8fc84be4fc8a283908ee447a410a9b0f9801c90c40b03fe342771bdd4865901",
+      "values_digest": "7406a1f90ac3078f086983c402d2629cf7a156f3c2ce3efb037c7b0558cb4458",
       "rendered_digest": "b058026d2c9dfb4c304588a9861589f15894e37f76f85599edf01695d3ead0bf",
       "ast_digest": "a02e6dfe1d8f56f6c21e87c0ccce41d0edec56946db65283099b60045269770c"
     },
     "stp": {
-      "values_digest": "35c5dd0fb981a5b93a365b06c69ef96825c2b3182d78074f550f96e52584f0bf",
+      "values_digest": "bbbff10f01046073a2b64fa2af6944b9af9f8401adf076cfee87d0db84182337",
       "rendered_digest": "254224ff59f2c74deca622d847d17ac011229cc042bdbaa6bd5e7dddb5595ffe",
       "ast_digest": "ff287f3162ea010d16b6cb6ffc414ce4951c32f911f9bbc12869fe7d4c903201"
     },
     "spp": {
-      "values_digest": "0ace98f15d092c946655a19eb49433e670e30e698b70d7b541791e9d7fc229af",
+      "values_digest": "7d10749e1e0986163f9b234cbcf4a10a4adf524a4bc3ee8f5168ccfd09dc44d1",
       "rendered_digest": "3636802a041a6d1cbf29b71a352ad4e3a5c13963816c3c4d640e15667fd14398",
       "ast_digest": "137cc16ee5c0c05a685517836360068ba85f7b13dba5a2cac4afcaabaef82b8b"
     },
     "vpp": {
-      "values_digest": "404fb5c39a25d265494ee3540f6d0a7d788ad1c4db3b4ca4ad00407716c603d1",
+      "values_digest": "31a50bb52a98cc1971126d07bcd11927221821b2a667bda722addee5a6265113",
       "rendered_digest": "0d09e5d18302086d8a5840bcdf174ad7c4ab4e21037b8365f1e7256ccbe3dd0c",
       "ast_digest": "289a49dbabcedb8010031587193a0ed5080e2d190e1747fcb90056603f29af16"
     },
     "srp": {
-      "values_digest": "7237f7c84f3a0e7507053c0acfc9c8dbf9631e9a033950a78db8719e7b62d692",
+      "values_digest": "ea55b8d3a3cbb912b2ff599d2b25221116b99658ed63b7f0e6fc61461a297d24",
       "rendered_digest": "cd9a16c6bc7e780626cf3276c06aa8f72c612a8186c8557bbf3cb104e2d5ec75",
       "ast_digest": "90148e2d36e86fb3258734c9bf9a75dff5a81854a558eea033b4f723d70a7170"
     },
     "sor": {
-      "values_digest": "4b105f7eec549ef7a3dd678f901f4015d4591d50806dced0c8553f264f74fb55",
-      "rendered_digest": "273e073ba4de3206fd4e3e4ae8403199715815d7c8ab82bb1924a3ee84354ff5",
-      "ast_digest": "e9c9a8d51dcf723fc9ac9ae8e0c261ea5b4893f73f840cb6f71bf1dd8d4f45d7"
+      "values_digest": "131b09d871bdb5ddee687eeb52ae64e7ba6fe812e741f48456f03e8703e68cc7",
+      "rendered_digest": "358cec69a33f3812cd7cfda0ef0288105da711e5a572b1d1a0c7adc4ffdb3f20",
+      "ast_digest": "36e278cb8b2d79095baf4e6e4052b9bfde2d653acf9c33ea358c06671812afe3"
     }
   },
   "transitions": [
@@ -210,6 +210,13 @@
       "actor": "codex:issue-90-code-repository-migration",
       "reason": "Operator guidance and validation are complete; exact-head review and publication remain in progress.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Replace the superseded six-test denominator with the exact-head eight-test compatibility bridge proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a typed, audited recovery transaction that fills an absent code_repository only from the exact clean bound worktree and matching GitHub origin identities, while preserving review and publication authority.\",\"changes\":[\"Added the versioned migration request, evidence, report, and csdlc-issue command.\",\"Added binding-lock then issue-lock authorization with exact CAS, phase, branch, worktree, cleanliness, and fetch/push origin checks.\",\"Added atomic record/card projection updates, credential-safe audit evidence, schema exposure, operator guidance, and focused regressions.\"],\"artifacts\":[\"csdlc-v2/src/migration.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/git.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/code_repository_migration.rs\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"code_repository_migration\"],\"purpose\":\"Prove all allowed phases, representative origin/topology/cleanliness guards, CAS, deterministic retry, credential-safe audit, schema/CLI exposure, and reviewed publication compatibility.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork exact-head run: 8 passed, 0 failed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate6\",\"split_authority\"],\"purpose\":\"Prove existing qualified split-authority publication linkage remains unchanged.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork run: 1 passed, 0 failed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free source and test integration after formatting verification.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork exact-head run: completed without warnings\"},{\"command\":[\"csdlc-install\",\"install\",\"--repo\",\"<issue-worktree>\",\"--destination\",\"/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2\"],\"purpose\":\"Prove the clean implementation installs into an isolated generation directory and installed csdlc-issue exposes migrate-code-repository --request.\",\"outcome\":\"passed\",\"evidence_ref\":\"/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2/install-receipt.json; source_revision git:9041657e7ebcbc3e2bd2f1cdba3028d769e84dad\"}]}"
     }
   ]
 }

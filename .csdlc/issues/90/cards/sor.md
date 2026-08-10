@@ -43,9 +43,9 @@ Implemented a typed, audited recovery transaction that fills an absent code_repo
       "--test",
       "code_repository_migration"
     ],
-    "purpose": "Prove allowed phases, exact identity/topology, cleanliness, CAS, atomic audit behavior, deterministic retry, schema/CLI exposure, and reviewed publication compatibility.",
+    "purpose": "Prove all allowed phases, representative origin/topology/cleanliness guards, CAS, deterministic retry, credential-safe audit, schema/CLI exposure, and reviewed publication compatibility.",
     "outcome": "passed",
-    "evidence_ref": "local FastWork run: 6 passed, 0 failed"
+    "evidence_ref": "local FastWork exact-head run: 8 passed, 0 failed"
   },
   {
     "command": [
@@ -76,7 +76,7 @@ Implemented a typed, audited recovery transaction that fills an absent code_repo
     ],
     "purpose": "Prove warning-free source and test integration after formatting verification.",
     "outcome": "passed",
-    "evidence_ref": "local FastWork run: completed without warnings"
+    "evidence_ref": "local FastWork exact-head run: completed without warnings"
   },
   {
     "command": [
@@ -87,7 +87,7 @@ Implemented a typed, audited recovery transaction that fills an absent code_repo
       "--destination",
       "/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2"
     ],
-    "purpose": "Prove the clean exact head installs into an isolated generation directory and the installed csdlc-issue exposes migrate-code-repository --request.",
+    "purpose": "Prove the clean implementation installs into an isolated generation directory and installed csdlc-issue exposes migrate-code-repository --request.",
     "outcome": "passed",
     "evidence_ref": "/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2/install-receipt.json; source_revision git:9041657e7ebcbc3e2bd2f1cdba3028d769e84dad"
   }
