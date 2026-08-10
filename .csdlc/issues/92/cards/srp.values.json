@@ -7,15 +7,15 @@
     "title": "[v0.92][runtime-v3] Unify TLS/mTLS and retire self-signed Runtime certificates",
     "slug": "runtime-tls-standardization",
     "version": "v0.92",
-    "generation": 20
+    "generation": 21
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".",
+      "review_revision": "git-blake3:e58b28ce8a3f937fcece1ef9db1c68d20b9e4a33:6e26f6f6ef89ad5d44eaa3c1d127b6fc282623c42ee1a9e9f10ecd9e27c5b0ff",
+      "reviewer": "Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3",
       "review_prompts": [
         "Is Axum the sole HTTP/WSS stack and is TLS construction genuinely shared?",
         "Does Quinn retain its maintained TLS 1.3 mTLS contract while reusing policy rather than code duplication?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
