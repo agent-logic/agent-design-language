@@ -56,11 +56,11 @@ Recovered and verified the complete 34-file Medium launch package in the approve
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
