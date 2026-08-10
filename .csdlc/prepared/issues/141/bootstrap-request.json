@@ -1,0 +1,62 @@
+{
+  "issue": 141,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:141-pr120-review-repair",
+  "design_path": ".csdlc/prepared/issues/141/design.md",
+  "diagram_path": ".csdlc/prepared/issues/141/diagram.mmd",
+  "design_reviewer": "codex:141-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92][WP-04.07][defect] Reconcile PR #120 terminal truth and strict Clippy proof",
+    "slug": "pr120-terminal-strict-clippy-proof-repair",
+    "version": "v0.92",
+    "goal": "Close the two remaining PR #120 findings with committed terminal truth and fail-closed strict-Clippy receipt validation.",
+    "required_outcome": "Issue #5909 records the live merged and closed outcome, and the shared proof contract rejects digest-only Clippy artifacts unless an exact successful structured command is present.",
+    "declared_scope": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ],
+    "authority_boundary": [
+      "Issue and code authority are agent-logic/agent-design-language#141",
+      "PR #120 and legacy issue #5909 live state are terminal outcome authority",
+      "No Runtime product code is owned",
+      "Only structured command evidence can establish strict Clippy success"
+    ],
+    "operator_constraints": ["Never write on main", "Use typed C-SDLC v2 cards", "Run only focused validation", "Publish after independent exact-head review"],
+    "task_boundary": "Repair only the two unresolved PR #120 findings; retain the already-fixed epoch overflow as verified current-main truth.",
+    "deliverables": ["Strict structured Clippy receipt contract", "Focused negative and positive regression", "Terminal #5909 lifecycle records", "Reviewed corrective PR"],
+    "acceptance_criteria": [
+      "AC-1: #5909 committed index, SPP, and SOR reflect merged PR #120 and closed issue truth",
+      "AC-2: strict Clippy requires the exact structured argv and validated successful command provenance",
+      "AC-3: digest-only Clippy artifacts fail the focused regression",
+      "AC-4: exact structured successful Clippy proof passes",
+      "AC-5: focused validation and diff hygiene pass",
+      "AC-6: independent exact-head review has no unresolved findings"
+    ],
+    "dependencies": ["Merged PR #120", "Closed legacy issue #5909", "Current shared WP-04 proof receipt contract"],
+    "repo_inputs": [".csdlc/prepared/issues/5862/proof-receipt-contract.rb", ".csdlc/issues/5909", "PR #120 live state"],
+    "non_goals": ["Runtime behavior changes", "Broad lifecycle tooling redesign", "Unrelated WP-04 record cleanup"],
+    "plan_summary": "Strengthen the receipt contract and regression first, then derive and commit #5909 terminal truth, validate, review, and publish.",
+    "affected_areas": ["WP-04 receipt validation", "Issue 5909 terminal lifecycle truth"],
+    "steps": [
+      {"id":"S1","action":"Require exact structured strict-Clippy command proof and add focused regressions.","acceptance_ids":["AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S2","action":"Reconcile #5909 records with merged PR #120 and closed issue truth.","acceptance_ids":["AC-1"],"status":"pending"},
+      {"id":"S3","action":"Run focused validation, independent review, and publish.","acceptance_ids":["AC-5","AC-6"],"status":"pending"}
+    ],
+    "invariants": ["Opaque artifacts never imply command success", "Terminal truth comes from live GitHub state", "No Runtime product paths change"],
+    "risks": ["Legacy receipt compatibility", "Stale lifecycle projection", "Overbroad proof acceptance"],
+    "planning_profile": "small",
+    "stop_conditions": ["Runtime product changes become necessary", "The validator would need to weaken existing receipt checks", "Live GitHub terminal state is ambiguous"],
+    "validation_lanes": [
+      {"lane":"strict-clippy-contract","proof_role":"Prove exact structured Clippy command acceptance and digest-only rejection.","deterministic":true,"resource_profile":"small","parallel_group":"focused","budget_seconds":120,"budget_tokens":1200,"argv":["ruby",".csdlc/prepared/issues/141/test-strict-clippy-proof.rb"],"acceptance_ids":["AC-2","AC-3","AC-4"]},
+      {"lane":"terminal-record-contract","proof_role":"Prove committed issue 5909 records match the declared merged PR and closed issue outcome.","deterministic":true,"resource_profile":"small","parallel_group":"focused","budget_seconds":60,"budget_tokens":500,"argv":["ruby",".csdlc/prepared/issues/141/validate-terminal-records.rb"],"acceptance_ids":["AC-1"]},
+      {"lane":"diff-hygiene","proof_role":"Reject whitespace and scope damage before independent exact-head review.","deterministic":true,"resource_profile":"small","parallel_group":"focused","budget_seconds":30,"budget_tokens":200,"argv":["git","diff","--check"],"acceptance_ids":["AC-5","AC-6"]}
+    ],
+    "failure_policy": "Fail closed on absent or inexact Clippy command proof, stale terminal state, validator regression, or unresolved review finding.",
+    "review_prompts": ["Can an opaque artifact still satisfy Clippy proof?", "Does the exact command receive all standard provenance checks?", "Do #5909 records exactly match live terminal truth?"],
+    "review_scope": "Shared WP-04 proof receipt contract, issue-local regression, and #5909 terminal records only."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 141,
+  "expected_generation": 14,
+  "expected_digest": "8538427fe8da72843b61b22e00df832d2c06cda526cd357249db3d81e682ede5",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Record the Aquinas review against committed head 9548180 with an exact substantive scope that excludes operational request JSON."
+}

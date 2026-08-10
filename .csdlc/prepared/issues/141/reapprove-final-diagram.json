@@ -1,0 +1,6 @@
+{
+  "issue": 141,
+  "expected_generation": 9,
+  "expected_digest": "a1ac68b7d0d7224d23efcfad1424ab0e2b3f6e64035e06ab97d3f7b14a387f92",
+  "reviewer": "codex:141-final-design-hygiene"
+}

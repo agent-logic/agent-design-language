@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "387afe04e311ffa378b933030f6b3bda3d446135c0f1c0c52b61f04a5c956645",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "ec9e47adeb5edcabf3c60febcc05b89505e97bdb164bb427793af4a84317120e",
+  "phase": "closed_out",
+  "generation": 13,
+  "digest": "8c087589a12327ff9ac1d33dab476b28a74ba8dca5be8f3786da5444dc94af47",
   "branch": "codex/5909-lease-authority-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5909-lease-defect",
   "review_assignment": {
@@ -38,9 +38,28 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5909,
+    "pull_request": 120,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/120",
+    "base": "main",
+    "head": "codex/5909-lease-authority-defect",
+    "revision": "git-blake3:309d170dc569ca43fa74ce6d73d68857ce82c994:a34bfe04f65628aa5390b4acb0020261c4c4c3b0f61607a2d8334bfb052e719a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 120,
+    "disposition": "merged",
+    "observed_sha": "309d170dc569ca43fa74ce6d73d68857ce82c994",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5909.json",
+    "branch": "codex/5909-lease-authority-defect",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5909-lease-defect"
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5869/design.md",
   "diagram_path": ".csdlc/prepared/issues/5869/diagram.mmd",
@@ -52,34 +71,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c4038307ea6db9338aa090c6da92cf0704e38952541977eeb8091178757f5548",
+      "values_digest": "60c5054b684d97176397cb338af1791008f29dc489ee58f6835685fcdad2363e",
       "rendered_digest": "0839d3ff00dfc774bbbac553de6388120b4cbb3476c0380f132ce4a724316b0d",
       "ast_digest": "9c11c0b586d938abcb773cd8e58a013f5708e85bcea10be47c76e1b6560dfa8d"
     },
     "stp": {
-      "values_digest": "7e0d79617c342d277d7cdba21b6c79449c4d7e0685c408060662b9f42404e595",
+      "values_digest": "ccc1873ca547b89075c8d2b6635754352856cd979eb1e6ebdc1ed992ee544426",
       "rendered_digest": "2c30883b1af731bea35d8bae09ff21d04d0714c41731307d67c32d6bc1c7e03c",
       "ast_digest": "d087c8195d755525fb81be0330f611e947b9e75289dcb338f133e1b1775f0be2"
     },
     "spp": {
-      "values_digest": "23474b38dd8726a30734e5b24e4d1491739cb26b336280795f373ecd1c40a15f",
-      "rendered_digest": "0f782534b35612aab6b44b201bed9259c4fd94d4abf381d1cdeb4da7ce9e024c",
-      "ast_digest": "43be87c2ce6575db134c6e26e43d4026b7d23352ea8ca35a9ba2dee19b981884"
+      "values_digest": "58e84c75c026c05fdc74af2fbf3f00211e231e2fb7b950d782be5e4358b3af37",
+      "rendered_digest": "5e41f54902511e052e7c2727dfa3c90bdb1ab6aba6d2d33768c3ae72e4a401d0",
+      "ast_digest": "6a74ae94aab5fa12df7a63bd0b7c5facf136d7111e7ca11a7a92c901142ede84"
     },
     "vpp": {
-      "values_digest": "d3d51d239c1bc00dcdd0640adbdd6cb07c54a225383467fb09af833124b5708c",
+      "values_digest": "6ebf2efb760bdc5b76d4e3b1d036101d0efb97f4fbbdd0a268f7c2f7cad0a154",
       "rendered_digest": "aae25417f9caf72bba1541c8035682e80ff38ea03ab94d833ff3988029cf033d",
       "ast_digest": "4c72ef770066bded42fddc7e34580523214a8f9a7ee49c7ba911794f531ba519"
     },
     "srp": {
-      "values_digest": "7f1f09175e189662c45d34f5fb187f150a10c8396704f4e3152ff3cc8aea1d73",
+      "values_digest": "9ae908540486335287362c17a2346aab229a1af49e825e0dea0fecf118a3e7a3",
       "rendered_digest": "8292ba5855d2ef81ed9105476989f9af8110e579ba596d6ebcbfe813602aebfa",
       "ast_digest": "a28ea318a1997d4f8be25bb350ab85eeeb02353b3824662541982a67322c30fe"
     },
     "sor": {
-      "values_digest": "5f207856162736de8fd3c65084bdd11652a9aa3af3afe615339049280b43501e",
-      "rendered_digest": "9e56b3d6ad122f388aa3c3fe213f6b031f4e534fb722c03b959d82d3d7df78a7",
-      "ast_digest": "53dd96bee24ad5a74fbca269bf310fe412f3c7e42306b38efc79e057a75a6513"
+      "values_digest": "c58e4141abb83ca7ac62839e7e90b8b473fae94db799b42395ed5ba94149f48a",
+      "rendered_digest": "65b5d63593a3a965f632ec8d0dc4949ec44954c10b5360c22c36e694d3458934",
+      "ast_digest": "d65abc3d8454322e543e2765a714b37229d4881c1c652291ab1c9bb1ad7cf75a"
     }
   },
   "transitions": [
@@ -131,6 +150,34 @@
       "to": "reviewed",
       "actor": "codex:pr120-review-findings",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:pr120-review-findings",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:141-pr120-terminal-repair",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 10,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:141-pr120-terminal-repair",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 11,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:141-pr120-terminal-repair",
+      "reason": "Materialize live merged PR #120 and closed issue #5909 terminal truth."
     }
   ],
   "audit": [
@@ -231,6 +278,20 @@
       "actor": "codex:pr120-review-findings",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:pr120-review-findings",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:141-pr120-terminal-repair",
+      "reason": "Materialize live merged PR #120 and closed issue #5909 terminal truth.",
+      "operation": "materialize_derived_terminal"
     }
   ]
 }

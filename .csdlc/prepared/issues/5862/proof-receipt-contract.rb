@@ -3,6 +3,7 @@
 require "digest"
 require "json"
 require "open3"
+require "time"
 
 module Wp04ProofReceiptContract
   module_function
@@ -121,7 +122,42 @@ module Wp04ProofReceiptContract
     end
   end
 
-  def validate(issue:, wp:, paths:, test:, platforms:, required_commands: [])
+  def validate_validation_manifest(path:, issue:, source_revision:, required_commands:)
+    abort "validation manifest path must be repository-relative" unless safe_repository_path?(path)
+    prefix = ".csdlc/evidence/#{issue}/"
+    abort "validation manifest escapes issue evidence" unless path.start_with?(prefix)
+    abort "missing validation manifest: #{path}" unless File.file?(path)
+    manifest = JSON.parse(File.read(path))
+    abort "wrong validation manifest schema" unless manifest["schema"] == "adl.wp04.issue_validation_manifest.v1"
+    abort "wrong validation manifest issue" unless manifest["issue"] == issue
+    abort "stale validation manifest source revision" unless manifest["source_revision"] == source_revision
+
+    commands = Array(manifest["commands"])
+    required_commands.each do |required|
+      matches = commands.select { |command| Array(command["argv"]) == required }
+      abort "missing exact manifest command #{required.join(' ')}" unless matches.length == 1
+      command = matches.fetch(0)
+      abort "manifest command failed" unless command["exit_code"] == 0
+      started = Time.iso8601(command.fetch("started_at"))
+      finished = Time.iso8601(command.fetch("finished_at"))
+      abort "manifest command time range is invalid" if finished < started
+      validate_runner(command["runner"], "manifest command")
+      digest_file(
+        command.fetch("runner_identity_path"),
+        command.fetch("runner").fetch("identity_sha256"),
+        "manifest command runner identity"
+      )
+      digest_file(
+        command.fetch("combined_log_path"),
+        command.fetch("combined_log_sha256"),
+        "manifest command combined log"
+      )
+    rescue KeyError, ArgumentError => error
+      abort "invalid manifest command proof: #{error.message}"
+    end
+  end
+
+  def validate(issue:, wp:, paths:, test:, platforms:, required_commands: [], validation_manifest: nil, validation_manifest_issue: nil, required_manifest_commands: [])
     evidence_path = ARGV.fetch(0, ".csdlc/evidence/#{issue}/execution-proof.json")
     abort "missing execution proof: #{evidence_path}" unless File.file?(evidence_path)
     proof = JSON.parse(File.read(evidence_path))
@@ -139,6 +175,15 @@ module Wp04ProofReceiptContract
     end
     abort "protected path drift" unless proof["protected_paths"] == paths
     validate_source_artifacts(proof["source_artifacts"], paths, source_revision) if schema == "adl.wp04.execution_proof.v3"
+    if required_manifest_commands.any?
+      abort "validation manifest is required" if validation_manifest.to_s.empty?
+      validate_validation_manifest(
+        path: validation_manifest,
+        issue: validation_manifest_issue || issue,
+        source_revision: source_revision,
+        required_commands: required_manifest_commands
+      )
+    end
 
     commands = Array(proof["commands"])
     test_commands = commands.select do |command|

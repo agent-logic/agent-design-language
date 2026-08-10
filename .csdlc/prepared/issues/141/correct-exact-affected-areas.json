@@ -1,0 +1,24 @@
+{
+  "issue": 141,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "5dd848505454ed009973651b1a242828b48a290a1f4944bf6fcf94b1a743d51e",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Name exact issue-owned validation targets so readiness proves a nonzero issue-specific denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141/test-strict-clippy-proof.rb",
+      ".csdlc/prepared/issues/141/validate-terminal-records.rb",
+      ".csdlc/evidence/141/strict-clippy/validation-manifest.json",
+      ".csdlc/evidence/141/strict-clippy/runner.txt",
+      ".csdlc/evidence/141/strict-clippy/clippy.log",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ]
+  }
+}

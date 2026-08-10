@@ -95,5 +95,18 @@ Wp04ProofReceiptContract.validate(
   wp: "WP-04.07",
   paths: ["adl-runtime/src/distributed/lease.rs", "adl-runtime/tests/distributed_lease.rs"],
   test: "distributed_lease",
-  platforms: []
+  platforms: [],
+  validation_manifest: ".csdlc/evidence/141/strict-clippy/validation-manifest.json",
+  validation_manifest_issue: 141,
+  required_manifest_commands: [[
+    "cargo",
+    "clippy",
+    "--manifest-path",
+    "adl-runtime/Cargo.toml",
+    "--test",
+    "distributed_lease",
+    "--",
+    "-D",
+    "warnings"
+  ]]
 )
