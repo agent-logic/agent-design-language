@@ -511,7 +511,7 @@ try {
   guardianRestartInProgress = false;
   proofPhase = "baseline";
   assert.equal(automaticReconnectAfter.transcript, automaticReconnectBefore.transcript, "automatic reconnect duplicated chat");
-  assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts + 1, "automatic reconnect replayed or lost the single signed restart POST");
+  assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts, "automatic reconnect emitted or replayed a browser control POST");
   assert.equal(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "Runtime restart changed configured instance identity");
   assert(automaticReconnectAfter.reconnect_decisions > automaticReconnectBefore.reconnect_decisions, "restart did not produce a fresh reconnect decision");
   assert(automaticReconnectAfter.last_sequence >= 0, "automatic reconnect did not establish a valid event cursor");
@@ -525,6 +525,8 @@ try {
       previous_runtime_instance: automaticReconnectBefore.runtime_instance,
       next_runtime_instance: automaticReconnectAfter.runtime_instance,
       restart_authority: "signed_control_stop_capability",
+      accepted_restart_requests: 1,
+      accepted_restart_status: restartResponse.status,
       source_revision: restartTarget.source_revision
     },
     before: automaticReconnectBefore,
