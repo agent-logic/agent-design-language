@@ -5,29 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
-  "generation": 61,
-  "digest": "36d456af4453125c0aa6b0f490b256be6e18afae0cdc90f3a8e32313d79b0bd2",
+  "generation": 62,
+  "digest": "a3da27805eeb1d479084846ac05f0aa7e786e8ece501917c597422d97b8f555d",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
-    "assigned_by": "codex:5828-memory-palace",
-    "revision": "git-blake3:009777b9c4fa7eefd11534422b1d03e2a1e14da3:0f8dc5c846c907a4e7ac65bae05ab826530bc0ef18f719d7eac0a5006a9d5093",
-    "scope": [
-      ".csdlc/issues/5828",
-      ".csdlc/prepared/issues/5828/design.md",
-      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
-      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
-      ".csdlc/evidence/5828",
-      ".github/workflows/wp11-native-memory-palace.yml",
-      "adl-runtime-kernel/src/memory_palace.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/memory_palace.rs",
-      "adl-runtime-kernel/tests/fixtures/memory_palace",
-      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -43,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a5b62d00808b1ec44d97713b926a8ebc4bdac17d976141e3cecf509eb600783b",
+      "values_digest": "5a52c4329017589df22fb6996257d6b23c40d9b0c3668fcd16f02e43f899f0c3",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "d0612df846fed3d8a41f4263e5acf53f2a8bd5c8528e45454a5ce9fc3a97a231",
+      "values_digest": "819511a23aea1266d4ea48d49d059dc880b6a34b30cb8190eff0912aec708656",
       "rendered_digest": "4ba4d82b147eabdf904eb7995b5458c1be0049ceca63b65b8454d66fd9358453",
       "ast_digest": "1ad097bdb44240b3d12005f3e9d222849b7b35fa19b1865020a630a1b040357f"
     },
     "spp": {
-      "values_digest": "40f472229231f4b99770eb19ee6264f00b0d5f46333912782c3833b7b2b935b5",
+      "values_digest": "35a8a308bfed7e672dc25ec36be0ccc6afde4ad894a9fb19308bedf3af345fef",
       "rendered_digest": "cf0eba6c9800078a7e6bd05218c25f9dd6e00f646627710975e0f7ed4d4990ac",
       "ast_digest": "66da938636bb1ddbc2431c34cef2eb54bb8b772c4c4450270c7df6916fb177ab"
     },
     "vpp": {
-      "values_digest": "6cd8c174e94e88b72d9f351ca13ed08774595d4d6e84d49f549ab69cbad4727a",
+      "values_digest": "8046c595381feea8c33cd60455dac9059bd580d7ece00ee8e8b1ec8fffa6a76b",
       "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "801959ca049f536989826d255a59a76fd3993837539a1813c3a4334b4f263742",
-      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
-      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
+      "values_digest": "607d84fc0ef94ffdf993d2035ba54e4103afcb250197b9b39661be2aa1f890d5",
+      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
+      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
     },
     "sor": {
-      "values_digest": "5ad62f4fea7736f91066b27041ba0438d4bc116a501e33e468cdee9094e9b92e",
+      "values_digest": "9bbd45ed4b7d90117a7e78de7b47a3d7186595238a476899eb4c55f135fda8ed",
       "rendered_digest": "b7a9eff5bdf642c4b17882069036aea9bcb51b442344ff0dae54559623e02e54",
       "ast_digest": "88fd2b8e1061792129d99cd3bd3f3cdcb91467002f9fab3e16d1eba23e913e94"
     }
@@ -719,6 +701,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 87,
+      "generation": 62,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Recover the stale exact-head assignment after resolving the second review's native-inventory, continuity-provenance, reference-privacy, and canonical-boundary findings with retained 12-test proof.",
+      "operation": "recover_review"
     }
   ]
 }

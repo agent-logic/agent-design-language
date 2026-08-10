@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.review_recovery_request.v1",
   "issue": 5828,
-  "expected_generation": 60,
-  "expected_digest": "34b5bedb0aa267b60d740524794317389e3846a9e970394f3c3788e56ea952f9",
+  "expected_generation": 61,
+  "expected_digest": "36d456af4453125c0aa6b0f490b256be6e18afae0cdc90f3a8e32313d79b0bd2",
   "actor": "codex:5828-memory-palace",
-  "reason": "Recover the stale exact-head assignment after resolving all four independent review findings and retaining the strengthened 11-test ObsMem, privacy, topology, and packet-validation proof."
+  "reason": "Recover the stale exact-head assignment after resolving the second review's native-inventory, continuity-provenance, reference-privacy, and canonical-boundary findings with retained 12-test proof."
 }

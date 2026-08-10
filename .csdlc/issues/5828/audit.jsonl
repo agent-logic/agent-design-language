@@ -84,3 +84,4 @@
 {"sequence":84,"generation":60,"actor":"codex:5828-memory-palace","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":85,"generation":61,"actor":"codex:5828-memory-palace","reason":"Recover the stale exact-head assignment after resolving all four independent review findings and retaining the strengthened 11-test ObsMem, privacy, topology, and packet-validation proof.","operation":"recover_review"}
 {"sequence":86,"generation":61,"actor":"codex:5828-memory-palace","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":87,"generation":62,"actor":"codex:5828-memory-palace","reason":"Recover the stale exact-head assignment after resolving the second review's native-inventory, continuity-provenance, reference-privacy, and canonical-boundary findings with retained 12-test proof.","operation":"recover_review"}
