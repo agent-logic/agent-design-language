@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
     "slug": "revisioned-redacted-authority-snapshots",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #132 five authority modules, focused integration tests, redaction boundary, revision/drift behavior, bounded enumeration, and restart parity.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/133\n.csdlc/prepared/issues/133\n.csdlc/evidence/133\nadl-runtime/src/distributed/certificates.rs\nadl-runtime/src/distributed/failure_detection.rs\nadl-runtime/src/distributed/lease.rs\nadl-runtime/src/distributed/fencing.rs\nadl-runtime/src/distributed/placement.rs\nadl-runtime/src/distributed/migration.rs\nadl-runtime/src/distributed/recovery.rs\nadl-runtime/src/distributed/membership.rs\nadl-runtime/tests/distributed_authority_snapshots.rs",
+      "review_revision": "git-blake3:edbe72499835fba8cd67b0793555ac5dbb709fee:55e843686ee2b949badbc799ca879a2c3166abba1c56fe968f10d2bc327f998f",
+      "reviewer": "/root/prepare_5875_release",
       "review_prompts": [
         "Can any caller synthesize rows or snapshots without the owning authority?",
         "Does every mutation, removal, replacement, and restore update or preserve revision truth correctly?",
@@ -24,8 +24,10 @@
         "Do focused tests prove N/N+1 drift and restart parity across all five authorities?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Production module registration and integration remain owned by #5878."
+      ],
+      "review_result": "pass"
     }
   }
 }

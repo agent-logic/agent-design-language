@@ -4,13 +4,54 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b368cd6101321186d2018a224ad40047f9d4f77a88dc2ce5f9a5d6c36ef0b227",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "3bbb830cb15d57fee9aa6e7f8d0651fe27d64b056d182159fe1d43f9c08e009e",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "def9326422a1017bd72a73c77590e70e95fa2bfcd62f27f7ce4a9f28ffcb08bd",
   "branch": "codex/133-revisioned-redacted-authority-snapshots",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-133-authority-snapshots",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/prepare_5875_release",
+    "assigned_by": "codex:133-authority-snapshots",
+    "revision": "git-blake3:edbe72499835fba8cd67b0793555ac5dbb709fee:55e843686ee2b949badbc799ca879a2c3166abba1c56fe968f10d2bc327f998f",
+    "scope": [
+      ".csdlc/issues/133",
+      ".csdlc/prepared/issues/133",
+      ".csdlc/evidence/133",
+      "adl-runtime/src/distributed/certificates.rs",
+      "adl-runtime/src/distributed/failure_detection.rs",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/src/distributed/placement.rs",
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/src/distributed/recovery.rs",
+      "adl-runtime/src/distributed/membership.rs",
+      "adl-runtime/tests/distributed_authority_snapshots.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/prepare_5875_release",
+    "scope": [
+      ".csdlc/issues/133",
+      ".csdlc/prepared/issues/133",
+      ".csdlc/evidence/133",
+      "adl-runtime/src/distributed/certificates.rs",
+      "adl-runtime/src/distributed/failure_detection.rs",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/src/distributed/placement.rs",
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/src/distributed/recovery.rs",
+      "adl-runtime/src/distributed/membership.rs",
+      "adl-runtime/tests/distributed_authority_snapshots.rs"
+    ],
+    "reviewed_revision": "git-blake3:edbe72499835fba8cd67b0793555ac5dbb709fee:55e843686ee2b949badbc799ca879a2c3166abba1c56fe968f10d2bc327f998f",
+    "findings": [],
+    "residual_risks": [
+      "Production module registration and integration remain owned by #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "99a9dedfe7f016fb95b6f6fca2d6400e63deb88416c9d55b5a0f7715e40f8f10",
+      "values_digest": "2d1b21ba313262264e821c8992c9a194adeacc72d57c41985e8d1f8cb8ee90fc",
       "rendered_digest": "5a993f2b43e3715af44a7c328bd155c3bcefde90c25f1501e4fb1f49b1082524",
       "ast_digest": "6226c23e15935c9faa1d291b0b95668094b727e85cf79e8c10e1f02828c53b31"
     },
     "stp": {
-      "values_digest": "9664ca1b8b9ea672a7fa9d4d365193bb54a07897ba7f37f98ca757e9a99d5bd2",
+      "values_digest": "d80134d8875facdc32f44294580b7afe647ab8353f9617ef7a088516e3d14b17",
       "rendered_digest": "bb2cc001cdef452c1939b8f669cd3242514af9d5182e79cba8b939fc9a80bfac",
       "ast_digest": "b30819cccfb068ce3742a47eec51bbdebc80d956793559f467c3a9b0eff104bb"
     },
     "spp": {
-      "values_digest": "786bd1081dd007a02101d32fce559ddb4dbb5b63dcf7cf051930412ce48a61cc",
+      "values_digest": "fbcb82cbd118dea753b897d3908f8b1e8896215a82a9f21d5e8f440607ea3ec6",
       "rendered_digest": "9d949910d5c2f19ad0a95feea8cf99fb9a3828c0e09d8b146ad30059bd87d424",
       "ast_digest": "31ef911ef6303b06f8b08552ef21f8f9089ef14688fd89884e99d7c504aec46f"
     },
     "vpp": {
-      "values_digest": "9fb3db944c46a78ac932913813ebd16dd0c2157c800994286d047cedaf05c2e6",
+      "values_digest": "eae3e6320a94b605207162e1e79b8b3d379ab3ac5e66c1d4342e888f3a496e8f",
       "rendered_digest": "4e7db58d026b8f2a2dc3aeb936eca7d9aa13fcc993daf471ee9dec0d8242e1af",
       "ast_digest": "536ca8de1c55d5196003a22896f3012482ae79372346648e37ccc396d430d2d9"
     },
     "srp": {
-      "values_digest": "b50ed8a594e35aae54e64c3ad3af6484cde967f1ebac18293553e4d096b2b426",
-      "rendered_digest": "0a57a76e2682dd4965525c650623597df523d24440a71a438c0ba55c21015db6",
-      "ast_digest": "fc32778fd779089e83381ac2c06ab9c81867f3f23de08378d0392834ae4dcac8"
+      "values_digest": "549634e8a31c4a222d9f1481ade79e821e743bfdc657544e162ee1da4c55bdfd",
+      "rendered_digest": "59dafc1698a921ad2974b58988593e5745c4f176abca132da55169c0c65a7953",
+      "ast_digest": "c587d857bbd03e4c53aa464e7ad66a66a3a45310324ccd30ea0e067f25627ef5"
     },
     "sor": {
-      "values_digest": "c12e2a6afc5c98a96fd9e66cfbb042f38563e28aebb66eb9c85abb4fb980d810",
+      "values_digest": "69d94793a6c66197d6fb7b5241070c7735bb0424332170fc72147a3d2cfe7e91",
       "rendered_digest": "abdb182f505cf742007464fb9fc7e0f4b266da0aef426cd6c3bf6324332280b3",
       "ast_digest": "d1d6a2605fa60b7460339d73336bf0445aa44cff2c1d22077a34274375eda34f"
     }
@@ -76,6 +117,13 @@
       "to": "implemented",
       "actor": "codex:133-authority-snapshots",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:133-authority-snapshots",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -162,6 +210,20 @@
       "actor": "codex:133-authority-snapshots",
       "reason": "Record placement restart truth as fail-closed reconstruction while retaining durable restart claims only for durable authorities.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded revisioned redacted snapshots for seven distributed authority stores, with complete deterministic enumeration, content-bound revisions, stable opaque references, durable restart parity for checkpointed authorities, and fail-closed placement unavailability until reconstruction.\",\"changes\":[\"Added opaque certificate, failure, lease, fencing, placement, migration, and recovery snapshot APIs owned by their authoritative stores.\",\"Added deterministic domain-separated references and coarse health, evidence, freshness, and capacity projections without raw identifiers or operational detail.\",\"Placement retains current decisions in process and returns AuthorityUnavailable after restart until authoritative decisions are reconstructed; migration, recovery, fencing, and lease revisions retain their documented durable behavior.\",\"Added focused proof for complete enumeration, rotation overlap, explicit unavailable rows, mutation drift, N/N+1 no-partial bounds, replacement/removal, stable reference parity, wrong-domain rejection, and restart behavior.\"],\"artifacts\":[\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict focused static analysis for the exact integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"authority-snapshot-clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\"],\"purpose\":\"Run the exact focused integration target with a nonzero passing denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"authority-snapshot-tests.log\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:133-authority-snapshots",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:133-authority-snapshots",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

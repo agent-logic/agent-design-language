@@ -12,7 +12,18 @@ Status: pre_phase
 
 ## Scope
 
-Issue #132 five authority modules, focused integration tests, redaction boundary, revision/drift behavior, bounded enumeration, and restart parity.
+.csdlc/issues/133
+.csdlc/prepared/issues/133
+.csdlc/evidence/133
+adl-runtime/src/distributed/certificates.rs
+adl-runtime/src/distributed/failure_detection.rs
+adl-runtime/src/distributed/lease.rs
+adl-runtime/src/distributed/fencing.rs
+adl-runtime/src/distributed/placement.rs
+adl-runtime/src/distributed/migration.rs
+adl-runtime/src/distributed/recovery.rs
+adl-runtime/src/distributed/membership.rs
+adl-runtime/tests/distributed_authority_snapshots.rs
 
 ## Prompts
 
@@ -32,12 +43,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Production module registration and integration remain owned by #5878.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:edbe72499835fba8cd67b0793555ac5dbb709fee:55e843686ee2b949badbc799ca879a2c3166abba1c56fe968f10d2bc327f998f")
 
-Reviewer: None
+Reviewer: Some("/root/prepare_5875_release")
 
-Result: pre_review
+Result: pass
