@@ -119,11 +119,11 @@ Implemented and proved governed WP-13A adaptive learning with complete startup r
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
