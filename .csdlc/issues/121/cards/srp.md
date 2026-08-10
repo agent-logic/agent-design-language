@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/lease.rs
-adl-runtime/tests/distributed_lease.rs
-.csdlc/issues/121
-.csdlc/evidence/121
-.csdlc/prepared/issues/121
+
 
 ## Prompts
 
@@ -40,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:6ddf15e4c5ec8341cb316d63e2a8fddc2a6c8e10:db56583e172b5ac80bcdfdb575aa82f40c14745161204c37dc414724b9958b56")
+Revision: None
 
-Reviewer: Some("subagent:issue-121-exact-head-security-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
