@@ -65,6 +65,7 @@ pub enum EvidenceVisibility {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct EvidenceReference {
     pub kind: EvidenceKind,
     pub path: String,
@@ -73,6 +74,7 @@ pub struct EvidenceReference {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct ContinuityCycle {
     pub cycle: u64,
     pub identity_root: String,
@@ -80,6 +82,7 @@ pub struct ContinuityCycle {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct BirthdayCandidate {
     pub schema: String,
     pub candidate_id: String,
@@ -112,6 +115,7 @@ pub enum BirthdayRejection {
     NonMonotonicCycles,
     MalformedIdentityRoot,
     MalformedContinuityHead,
+    MalformedCycleContinuityHead { cycle: u64 },
     IdentityRootMismatch,
     ContinuityHeadMismatch,
     UnsupportedCognitiveProfile,
@@ -120,6 +124,7 @@ pub enum BirthdayRejection {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct BirthdayDecision {
     pub schema: String,
     pub candidate_id: String,
@@ -225,6 +230,10 @@ pub fn decide_birthday(candidate: &BirthdayCandidate) -> BirthdayDecision {
         }
         if cycle.identity_root != candidate.identity_root {
             rejections.insert(BirthdayRejection::IdentityRootMismatch);
+        }
+        if !is_sha256(&cycle.continuity_head) {
+            rejections
+                .insert(BirthdayRejection::MalformedCycleContinuityHead { cycle: cycle.cycle });
         }
     }
     if candidate

@@ -12,6 +12,7 @@
   "malformed_evidence_digest",
   "malformed_identity_root",
   "malformed_continuity_head",
+  "malformed_non_terminal_continuity_head",
   "unsupported_cognitive_profile",
   "legal_personhood_claim",
   "consciousness_claim",

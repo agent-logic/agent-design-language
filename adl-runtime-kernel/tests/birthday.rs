@@ -21,6 +21,11 @@ fn valid_candidate() -> BirthdayCandidate {
         .expect("parse valid fixture")
 }
 
+fn valid_candidate_value() -> serde_json::Value {
+    serde_json::from_str(&fs::read_to_string(fixture("valid.json")).expect("read valid fixture"))
+        .expect("parse valid fixture value")
+}
+
 fn refresh_digest(candidate: &mut BirthdayCandidate) {
     candidate.packet_sha256 = candidate_digest(candidate).expect("canonical candidate digest");
 }
@@ -102,7 +107,7 @@ fn rejects_integrity_privacy_path_and_claim_boundary_failures() {
             .expect("read integrity matrix"),
     )
     .expect("parse integrity matrix");
-    assert_eq!(cases.len(), 25, "integrity matrix changed unexpectedly");
+    assert_eq!(cases.len(), 26, "integrity matrix changed unexpectedly");
 
     for case in cases {
         let mut candidate = valid_candidate();
@@ -134,6 +139,39 @@ fn decisions_are_stable_across_evidence_order_and_round_trip() {
     let encoded = serde_jcs::to_vec(&second).expect("canonical decision");
     let decoded = serde_json::from_slice(&encoded).expect("round-trip decision");
     assert_eq!(second, decoded);
+}
+
+#[test]
+fn rejects_unknown_top_level_and_nested_fields_during_parse() {
+    let mut top_level = valid_candidate_value();
+    top_level
+        .as_object_mut()
+        .expect("candidate object")
+        .insert("undeclared_authority".to_owned(), serde_json::json!(true));
+    assert!(
+        serde_json::from_value::<BirthdayCandidate>(top_level).is_err(),
+        "unknown top-level field must fail closed"
+    );
+
+    let mut evidence = valid_candidate_value();
+    evidence["evidence"][0]
+        .as_object_mut()
+        .expect("evidence object")
+        .insert("raw_payload".to_owned(), serde_json::json!("private"));
+    assert!(
+        serde_json::from_value::<BirthdayCandidate>(evidence).is_err(),
+        "unknown evidence field must fail closed"
+    );
+
+    let mut cycle = valid_candidate_value();
+    cycle["bounded_cycles"][0]
+        .as_object_mut()
+        .expect("cycle object")
+        .insert("unreviewed_state".to_owned(), serde_json::json!(true));
+    assert!(
+        serde_json::from_value::<BirthdayCandidate>(cycle).is_err(),
+        "unknown continuity-cycle field must fail closed"
+    );
 }
 
 fn mutate_case(case: &str, candidate: &mut BirthdayCandidate) -> BirthdayRejection {
@@ -207,6 +245,10 @@ fn mutate_case(case: &str, candidate: &mut BirthdayCandidate) -> BirthdayRejecti
             candidate.continuity_head = "short".to_owned();
             candidate.bounded_cycles[1].continuity_head = candidate.continuity_head.clone();
             BirthdayRejection::MalformedContinuityHead
+        }
+        "malformed_non_terminal_continuity_head" => {
+            candidate.bounded_cycles[0].continuity_head = "short".to_owned();
+            BirthdayRejection::MalformedCycleContinuityHead { cycle: 1 }
         }
         "unsupported_cognitive_profile" => {
             candidate.cognitive_profile = "personality_or_reputation_label".to_owned();
