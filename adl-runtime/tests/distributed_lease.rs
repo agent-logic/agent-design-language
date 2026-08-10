@@ -117,7 +117,7 @@ fn body(
         activation_key_sha256: Sha256::digest(activation.verifying_key().to_bytes()).to_vec(),
         operation_class: operation as u32,
         issued_unix_seconds: NOW_UNIX_SECONDS,
-        issued_nanos: 1,
+        issued_nanos: 0,
         lease_duration_millis: 100,
         policy_sha256: policy().sha256().unwrap().to_vec(),
         signing_algorithm: SIGNING_ALGORITHM_ED25519,
@@ -685,6 +685,18 @@ fn policy_digest_and_future_issuance_are_rejected_before_state_mutation() {
             &certificate,
             &fixture.membership,
             application(&activation, &proof, 100, 5),
+        ),
+        Err(AuthorityError::InvalidCertificate)
+    );
+    let mut same_second_future = body(OperationClass::LeaseGrant, 77, 1, &activation);
+    same_second_future.issued_nanos = 900_000_000;
+    let proof = activation_signature(&same_second_future, &activation);
+    let certificate = fixture.certificate(same_second_future, &[0, 1]);
+    assert_eq!(
+        ledger.apply(
+            &certificate,
+            &fixture.membership,
+            application_at_nanos(&activation, &proof, NOW_UNIX_SECONDS, 100_000_000, 100, 5,),
         ),
         Err(AuthorityError::InvalidCertificate)
     );

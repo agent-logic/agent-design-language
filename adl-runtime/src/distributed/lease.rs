@@ -656,9 +656,6 @@ impl AuthorityLedger {
         if body.policy_sha256 != self.policy.sha256()?.as_slice() {
             return Err(AuthorityError::PolicyMismatch);
         }
-        if body.issued_unix_seconds > application.now_unix_seconds {
-            return Err(AuthorityError::InvalidCertificate);
-        }
         let certificate_deadline_unix_millis =
             certificate_deadline_unix_millis(body).ok_or(AuthorityError::ResourceExhausted)?;
         if application.now_unix_nanos >= 1_000_000_000 {
@@ -671,6 +668,14 @@ impl AuthorityLedger {
                 millis.checked_add(u64::from(application.now_unix_nanos) / 1_000_000)
             })
             .ok_or(AuthorityError::ClockUncertain)?;
+        let issued_unix_nanos = timestamp_unix_nanos(body.issued_unix_seconds, body.issued_nanos)
+            .ok_or(AuthorityError::InvalidCertificate)?;
+        let now_unix_nanos =
+            timestamp_unix_nanos(application.now_unix_seconds, application.now_unix_nanos)
+                .ok_or(AuthorityError::ClockUncertain)?;
+        if issued_unix_nanos > now_unix_nanos {
+            return Err(AuthorityError::InvalidCertificate);
+        }
         if now_unix_millis >= certificate_deadline_unix_millis {
             return Err(AuthorityError::LeaseExpired);
         }
@@ -992,6 +997,16 @@ fn certificate_deadline_unix_millis(body: &AuthorityCertificateBodyV1) -> Option
         .checked_mul(1_000)?
         .checked_add(u64::from(body.issued_nanos) / 1_000_000)?
         .checked_add(body.lease_duration_millis)
+}
+
+fn timestamp_unix_nanos(seconds: i64, nanos: u32) -> Option<u128> {
+    if nanos >= 1_000_000_000 {
+        return None;
+    }
+    u128::try_from(seconds)
+        .ok()?
+        .checked_mul(1_000_000_000)?
+        .checked_add(u128::from(nanos))
 }
 
 fn validate_body(body: &AuthorityCertificateBodyV1) -> AuthorityResult<()> {

@@ -1,2 +1,0 @@
-Command: cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_lease -- -D warnings
-Result: PASS (exit code 0)
