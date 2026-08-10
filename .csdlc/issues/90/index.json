@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f2456d9ca38b68c47da3bd9cd29d109b2467a93decc35f60f651495ac3094029",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "1c4b59f0e2674c6e33d3efb3bdbe6f135148d43c9ebfbfcb2d10b62692b26ca3",
+  "generation": 23,
+  "digest": "bb7b0a1e9b25a7d641dc990ad67fe34e17625ae3c28ef246a3c0925d3114df6b",
   "branch": "codex/90-code-repository-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-90-code-repository-migration",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "67ce3b8bf93616c179881f58cdb535cfa4cca36440bc5be67f2e70658e753dcf",
+      "values_digest": "f9616dea67596bb22363561e6b967d650060bd47b917edad11b24301fbfe64f7",
       "rendered_digest": "b058026d2c9dfb4c304588a9861589f15894e37f76f85599edf01695d3ead0bf",
       "ast_digest": "a02e6dfe1d8f56f6c21e87c0ccce41d0edec56946db65283099b60045269770c"
     },
     "stp": {
-      "values_digest": "2c029115f91ac1bcb993ddf23b906347213d0c3983e58fadc2f045dcb582f89e",
+      "values_digest": "86e12f760555677147173296f8097eca3d54b1cacd06b94ffe6223f15434baa6",
       "rendered_digest": "254224ff59f2c74deca622d847d17ac011229cc042bdbaa6bd5e7dddb5595ffe",
       "ast_digest": "ff287f3162ea010d16b6cb6ffc414ce4951c32f911f9bbc12869fe7d4c903201"
     },
     "spp": {
-      "values_digest": "3aac3586103e22309ea72db0697f9668c8f030b562e3a7ad7113bca804cfbc61",
+      "values_digest": "83e68dbd34035d1195cad82e63ed5e501514acb8c74791c90ab5b026c570d6c7",
       "rendered_digest": "3636802a041a6d1cbf29b71a352ad4e3a5c13963816c3c4d640e15667fd14398",
       "ast_digest": "137cc16ee5c0c05a685517836360068ba85f7b13dba5a2cac4afcaabaef82b8b"
     },
     "vpp": {
-      "values_digest": "ba849150ce1bb2f8c2a78e4870e7aa04078e656263a09c0b90c008ef83696080",
+      "values_digest": "c1b1b930d1543acede0d00944830998caa56f144c69d752076eaa5daebbf0a6d",
       "rendered_digest": "0d09e5d18302086d8a5840bcdf174ad7c4ab4e21037b8365f1e7256ccbe3dd0c",
       "ast_digest": "289a49dbabcedb8010031587193a0ed5080e2d190e1747fcb90056603f29af16"
     },
     "srp": {
-      "values_digest": "4c2096ebcb431593c15c67f82f812f7c8c530eeabe9d0960134d8765a6e5f3ab",
+      "values_digest": "c816da223acd36d7eeeb5444441c73b9ce43e08b1d8fd1d9d8279ac65ae5ecab",
       "rendered_digest": "3063b87f2aa3561604f0e70d826971dc5d560b5a97f27321180be2c41130a5df",
       "ast_digest": "f61fd5fbf4d27329d5adabe6e60e658a2ba00c620f9f598e3fba38d499c0b984"
     },
     "sor": {
-      "values_digest": "3893ff8613424e18d14b6f19391461e84538fdc354c6568c84c049e142ae34e7",
-      "rendered_digest": "a2ab4147ea1056ca79596322a1a54469d3b17fe64222e52b63ce497d1a04db1c",
-      "ast_digest": "f4c02c123d6974b09732010bad9f5d9cb10fe069d9c20e7c912b872caa8ebd30"
+      "values_digest": "2a902b10086abb15ad5e4ee96db10dd3b6a7e2ea9e0b5c171a933ff5a77d3cbb",
+      "rendered_digest": "b1ead4d5861e50140022b0a6945a3f1fde6e437cb763dc457367fad778da702b",
+      "ast_digest": "6e0624006ea2b6e54918c438692fedd996005ac939c525cb9db19160c7baa94e"
     }
   },
   "transitions": [
@@ -273,6 +273,13 @@
       "actor": "codex:issue-90-code-repository-migration",
       "reason": "Record the exact local proof for the CI-discovered final-authority guidance remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate10a\",\"current_operator_guidance_has_no_sunset_v1_route\"],\"purpose\":\"Prove the pre-code_repository recovery guidance remains compatible with the final v2-only operator-authority guard.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork remediation run: 1 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Retain the complete passing Gate 10A lane after the CI-discovered guidance correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate10a\"],\"purpose\":\"Prove all final v2-only authority, coexistence, installer, and active-command guidance contracts after the operator documentation correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork repaired-head run: 20 passed, 0 failed\"}}"
     }
   ]
 }

@@ -105,6 +105,20 @@ Implemented a typed, audited recovery transaction that fills an absent code_repo
     "purpose": "Prove the pre-code_repository recovery guidance remains compatible with the final v2-only operator-authority guard.",
     "outcome": "passed",
     "evidence_ref": "local FastWork remediation run: 1 passed, 0 failed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--locked",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Prove all final v2-only authority, coexistence, installer, and active-command guidance contracts after the operator documentation correction.",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork repaired-head run: 20 passed, 0 failed"
   }
 ]
 
