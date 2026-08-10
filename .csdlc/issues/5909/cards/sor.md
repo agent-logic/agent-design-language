@@ -18,8 +18,8 @@ Corrected lease mutation authority, bounded lineage state atomically, separated 
 
 - adl-runtime/src/distributed/lease.rs
 - adl-runtime/tests/distributed_lease.rs
-- .csdlc/evidence/5909/review-repair-v2/execution-proof.json
-- .csdlc/evidence/5909/operator-repair-v2/negative-cases.json
+- .csdlc/evidence/5909/review-repair-v3/execution-proof.json
+- .csdlc/evidence/5909/operator-repair-v3/negative-cases.json
 
 ## Execution
 
@@ -44,7 +44,7 @@ Corrected lease mutation authority, bounded lineage state atomically, separated 
     ],
     "purpose": "Run the exact distributed lease target.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5909/operator-repair-v2/exact-child-tests.log"
+    "evidence_ref": ".csdlc/evidence/5909/operator-repair-v3/exact-child-tests.log"
   },
   {
     "command": [
@@ -53,7 +53,7 @@ Corrected lease mutation authority, bounded lineage state atomically, separated 
     ],
     "purpose": "Deeply bind the exact nine machine-derived cases, producer and stream digests, source artifacts, and two-revision topology.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5909/review-repair-v2/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/5909/review-repair-v3/execution-proof.json"
   },
   {
     "command": [
@@ -69,7 +69,7 @@ Corrected lease mutation authority, bounded lineage state atomically, separated 
     ],
     "purpose": "Run strict Clippy for the exact distributed lease test surface.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5909/operator-repair-v2/strict-focused-clippy.log"
+    "evidence_ref": ".csdlc/evidence/5909/operator-repair-v3/strict-focused-clippy.log"
   }
 ]
 
