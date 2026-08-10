@@ -6,10 +6,28 @@
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
   "generation": 67,
-  "digest": "740138f590c31f787a67046770e5a2dbe904290441a97f84c5fcf16987fc94a2",
+  "digest": "600038c2dab3b523284bf14b42cb93cb97c461b0cb8b2a0b8e18e8c812816e31",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "assigned_by": "codex:5828-memory-palace",
+    "revision": "git-blake3:a357c76c4038be9b7fa6aba74ba3a16f1ca8a590:e81430503a8f0a8474ca45e39655f0d7f653f48d50f3b18c7971883e9abb4c19",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "1ff04f29adc6ab0079c28b2f0e04c7ddbfb19c1a11da694166504d38b0205528",
-      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
-      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
+      "values_digest": "57f51b0f67abef784f5266ead169b6b3e6799a399b08cdff1e2e0711cd8c434b",
+      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
+      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
     },
     "sor": {
       "values_digest": "85aaa1d14c33deda05116897c9126b273849bf8ff3d10aa03b0861c0685c8fb3",
@@ -792,6 +810,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "Recover published review after native run 31384744903 exposed and exact artifacts proved the issue-owned nextest structured-name separator fix.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 95,
+      "generation": 67,
+      "actor": "codex:5828-memory-palace",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

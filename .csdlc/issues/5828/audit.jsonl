@@ -92,3 +92,4 @@
 {"sequence":92,"generation":65,"actor":"codex:5828-memory-palace","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":93,"generation":66,"actor":"codex:5828-memory-palace","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":94,"generation":67,"actor":"codex:5828-memory-palace","reason":"Recover published review after native run 31384744903 exposed and exact artifacts proved the issue-owned nextest structured-name separator fix.","operation":"recover_review"}
+{"sequence":95,"generation":67,"actor":"codex:5828-memory-palace","reason":"assign bounded exact-revision review","operation":"assign_review"}
