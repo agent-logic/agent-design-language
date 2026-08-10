@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.12 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/snapshot_catalog.rs
+adl-runtime/tests/distributed_snapshot_catalog.rs
+.csdlc/issues/5874
+.csdlc/evidence/5874
+.csdlc/prepared/issues/5874
 
 ## Prompts
 

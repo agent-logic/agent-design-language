@@ -6,10 +6,21 @@
   "initialization_digest": "e9dcb2940ed6704074b6b6d6a5e5e4d2e325230edecaaa7a03d505f74fdf600b",
   "phase": "implemented",
   "generation": 13,
-  "digest": "1fa46b1764d2b3015ed29f3789069b617d656c3a534b99c04e3a5fd88cfc411f",
+  "digest": "0f5c6817916fb083e8daeed7910d6bf9193c7a814d2298f44e470c55a53249a9",
   "branch": "codex/5874-snapshot-catalog",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5874-snapshot-catalog",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:5874-exact-head-security-review",
+    "assigned_by": "codex:5874-snapshot-catalog",
+    "revision": "git-blake3:ad19b1987274ea0b8cb52a158ac5fc489d887a95:03a46af606a9e938d55f3c0e92959254f4258ef0b551a6e5ec84c7997909fe7c",
+    "scope": [
+      "adl-runtime/src/distributed/snapshot_catalog.rs",
+      "adl-runtime/tests/distributed_snapshot_catalog.rs",
+      ".csdlc/issues/5874",
+      ".csdlc/evidence/5874",
+      ".csdlc/prepared/issues/5874"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "301c176ba4d56915df42a9e65376c1d1e36a38020b377029c780ab37fb0ed695"
     },
     "srp": {
-      "values_digest": "a30a526690f539135485b884e8dbcbeb14629b2893bf93fd23779402be897af0",
-      "rendered_digest": "23a60302e6c6e2b97b7689e154d9da0d9334b29a3df33316f214bf8de0c25025",
-      "ast_digest": "2432b715834b693ffe08bc32f8218c1b506313089b4933bc9b36b96734b723c6"
+      "values_digest": "88f4c7b0cf6f000dad831d1eb8921e7191bd46d47c57cdfa9722955d9a418697",
+      "rendered_digest": "1fb8993c4ffa5ad3e95297fd15ffa197a449f12f48668ded6a0239fae4c780a1",
+      "ast_digest": "a975e8064af842d80d391e42ea0d42f17c7df39524d7c28e4ced17b5ac713fd8"
     },
     "sor": {
       "values_digest": "0942ff2e5975d8e15736d736a494d23cd6c9ae332da3205a21b0b21903c815ab",
@@ -309,6 +320,13 @@
       "actor": "codex:5874-snapshot-catalog",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 31,
+      "generation": 13,
+      "actor": "codex:5874-snapshot-catalog",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
