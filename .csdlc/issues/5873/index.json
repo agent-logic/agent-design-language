@@ -4,13 +4,28 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "286a9c566e2442475f6ad3fe62f70783c96867644518b62a8f642694982dbb97",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "1db929a4da5eafeaa852af1d94a19420d672b496f7f8c9895a1e4de6e8475373",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "cbc34c1d937464206ea3a2b4b331039ce7dd9d30e63a40a30101d54bb48f55b1",
   "branch": "codex/5873-bounded-placement",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5873-placement",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:5873-final-narrow-review",
+    "scope": [
+      "adl-runtime/src/distributed/placement.rs",
+      "adl-runtime/tests/distributed_placement.rs",
+      ".csdlc/prepared/issues/5873/validate-proof-receipt.rb",
+      ".csdlc/evidence/5873/remediation-v7"
+    ],
+    "reviewed_revision": "git-blake3:289badf00d1ebf1d150b09e944c853948c7c2483:7613cc5414d00eb5bce8958e88360f460b4c0bc860ffa0ee43cfaefed4881821",
+    "findings": [],
+    "residual_risks": [
+      "Placement remains intentionally unregistered until integration issue #5878 owns distributed module registration."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "20d29e2b169374dc7bc618fce8e239fed203864648420a31e1f6dc2c6bca9825",
+      "values_digest": "450bb90bc49aaa889b59247d457f1cfe561556492e25a0c04e41df4bde3167b6",
       "rendered_digest": "8555bfd455730a0b9388a6039d5312db347324641a498b3046900db7178c6142",
       "ast_digest": "829578bb77c35e5f157d72fe52cca91d8b5202fe06301a3e51054cd3f1436364"
     },
     "stp": {
-      "values_digest": "473e22f460394d214841698eb9db2b53510b580f7bf1b877d866fb7f08c7a1af",
+      "values_digest": "af9996e3d05e04e1cd045ddf028b4f6b04718fa5ae16d7475091fffe8438b0c2",
       "rendered_digest": "65bb11e677677bea949b1457d3279094459de005a737b16eee858a69215a9248",
       "ast_digest": "12b3bd122744bf2eaf4f4c67daba9e6e0171ad2d0f6a9f303917f097832a5970"
     },
     "spp": {
-      "values_digest": "f02e762e49f6602b3f4163ce3f0291a518dea61043eed963fc5cda4e8fbb2883",
+      "values_digest": "c14541a77f99bfdd128c3fd980db6226ed6b54d1bd204215c2a4ddca3662563c",
       "rendered_digest": "d7d1743bab5b280d628d778054520035725ba554022e6a259230bda4e68365b3",
       "ast_digest": "7bbe89a3902d48e08feaa53df909c4d64e70062bb6f355954a8f8a5145d53cd4"
     },
     "vpp": {
-      "values_digest": "ada6c3b31f114b51014f798264fad8d2135a37831d4e4e5b049d55075856ee29",
+      "values_digest": "c9b552e3984a0a140074e5e4e98e7077e5c578c405e2b8d4e89fba449ec9ec6e",
       "rendered_digest": "f7a3e7411911aa6b6d14e9ce64cc67cf664ecaffc57e9cffdb21607abbde4520",
       "ast_digest": "6bf9f3bc7db7d796dab39b27e34af050e02a17a5f7946fb9475f6c9a53c2e8da"
     },
     "srp": {
-      "values_digest": "8f333049a280a75f0563e4c65faf450607deaeff6183f5bb91be33bbff1c0781",
-      "rendered_digest": "17693df6673dc02a14d6729ec5209ab97ed6edfa71617430919a94d733d3f5da",
-      "ast_digest": "7a2825dc8d7acf985c4553144444203dc04bd58ab73a35f2374ffdacd8155a7d"
+      "values_digest": "3b878b6b376dafcb49f68bcc579ef06dc450f9c1209b84a1af28da5189da8c27",
+      "rendered_digest": "4d60b6cb280dfa4f028833b384105598279932316031c15be83e047517943edc",
+      "ast_digest": "802764847c371168dcd20f55ee8f1faa7b1379dbd3fab1d1eb96e83cafd5e271"
     },
     "sor": {
-      "values_digest": "672fc96929efb091bec4c1523c54a4fd68a997bbe0ed804d1a33d112da197a6b",
+      "values_digest": "6696d5ebf95dc6e7256a50f47ce8dbbbc0ea591796f3d183ca76bd76a0ef039c",
       "rendered_digest": "7dba3ccfa2764b4f60442e94b3fc342c658df23d1adacac3871ca77e98bdc581",
       "ast_digest": "9f4f351c49e8f7845fb7d1e60f6eee4ee9f60d70d0f31779d65f495787604b18"
     }
@@ -97,6 +112,13 @@
       "to": "implemented",
       "actor": "codex:5873-bounded-placement",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5873-bounded-placement",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -309,6 +331,13 @@
       "actor": "codex:5873-bounded-placement",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 31,
+      "generation": 14,
+      "actor": "codex:5873-bounded-placement",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
