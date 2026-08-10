@@ -5,10 +5,21 @@
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
   "phase": "implemented",
   "generation": 12,
-  "digest": "2dbbace613c451415205c73be3fa3e29f2c9207bdf182cf35fb00e4cb0234aef",
+  "digest": "048388ec2ab1661cf8cdc80d29547026d6fad9d4d8715c1e8353f080c9e23c65",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue-121-epoch-overflow-review",
+    "assigned_by": "codex:121-epoch-overflow-remediation",
+    "revision": "git-blake3:86b55f0dc5940c310c959909f077475bc39c9580:e84033371f612cc7a1dd37f4d701864d44ee8dda219e81fd862e809d0b132340",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "9b4317433303138cd7e408f33ccdfde3df9ca03061a9d8c6976b3e5669c9cc48",
-      "rendered_digest": "1f8484cd4c7e065f65a5a544f7834ee0ac190e5734983b75e6bae136bc4980d8",
-      "ast_digest": "57f89ed9924e3742a3f26a1f510697c5bdcb8771810f4127645b62daabdcb36e"
+      "values_digest": "e3dd3f0d26d84f93b2e961fcd9875f7a49645cc9d50bc687401b3e98bcf8d2b7",
+      "rendered_digest": "fdddb384499f5506070f72c8564a05807c27366facb8744cbcac9df38d73ecb8",
+      "ast_digest": "47a4704fef99a2af581371ad46ac1b7a68ba36095bb5b576b991e8bbd8ff6600"
     },
     "sor": {
       "values_digest": "799bf27a9358c4184756353a420fd06e2fe9c26a1f8425443570de816e8aaf44",
@@ -280,6 +291,13 @@
       "actor": "codex:121-epoch-overflow-remediation",
       "reason": "Recover stale review and publication truth before rebasing the merged parent stack onto main and repairing fail-closed successor overflow semantics.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

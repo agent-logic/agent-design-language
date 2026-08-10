@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl-runtime/src/distributed/lease.rs\nadl-runtime/tests/distributed_lease.rs\n.csdlc/issues/121\n.csdlc/evidence/121\n.csdlc/prepared/issues/121",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
