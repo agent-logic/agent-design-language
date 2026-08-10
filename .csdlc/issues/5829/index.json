@@ -6,10 +6,27 @@
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
   "phase": "implemented",
   "generation": 90,
-  "digest": "ef10f80c1afd06e0f03939152ed0d78a1df92930b8c575787c3813c7a78ab769",
+  "digest": "13d04ec19b5118d4e3e87d8ab973f60c864e3cac7b7333a2619244647298b397",
   "branch": "codex/5829-capability-envelope",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "assigned_by": "codex:5829-capability-envelope",
+    "revision": "git-blake3:784f4142b8f627f5da1e6252792072bf5db3651f:765e964fbee92eb7ea565d8ed24379e59e02893afa83f8b6e82fe26a68b01f28",
+    "scope": [
+      ".csdlc/issues/5829",
+      ".csdlc/prepared/issues/5829/design.md",
+      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+      ".csdlc/evidence/5829",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "00131636b58f66756135f6808798290a89c728834a45da6c9ce8ba2056c78164"
     },
     "srp": {
-      "values_digest": "23a2d3d59a1c94f82cf3ca1e415efb7cf3ade75fda4f851b5e02e7ae6884c395",
-      "rendered_digest": "1fc30fc9afd8018ed97c352ef14a121fbf0043ddbe2dd190f77d3cb2f1f33fb0",
-      "ast_digest": "bb68d2c7bbca8e224c874a4e35dbde17e24391a6d9a602832696edbc77b36388"
+      "values_digest": "15a4e303bd1194ee13649f34e660dfbd15121fa9ed10aac3e8b520acb5873fe1",
+      "rendered_digest": "dfe079c12ca91c05808df9446e239e0c73a716778dd5b3a6dd76ed8063ada51e",
+      "ast_digest": "7f986d722309c6180c168882e890b9f95983f0b03415620d23c21907d3604e11"
     },
     "sor": {
       "values_digest": "a9d16f39d7b1d272cfc844238fb53720f3b8ee0f9dba6eb9d3bc342b6777b70f",
@@ -939,6 +956,13 @@
       "actor": "codex:5829-capability-envelope",
       "reason": "Record mandatory exact-head Linux and macOS native proof from GitHub Actions run 31391052361 and independent detached validation before final review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved the deterministic WP-12 Runtime v3 capability envelope with exact evidence binding, provisioned policy separation, explicit grants and denials, bounded limits, canonical identity, and fail-closed privacy and provenance validation on native Linux and macOS.\",\"changes\":[\"Added a versioned canonical capability envelope bound to accepted WP-08 birthday evidence and digest-valid WP-09 identity evidence.\",\"Separated untrusted input from provisioned provider/model/tool/skill policy and rejected unknown, stale, colliding, escalating, or undeclared capabilities.\",\"Required explicit grants, denials, recurrence and resource ceilings, provenance, unsupported claims, and canonical deterministic ordering.\",\"Prevented rejected secret-like attacker values from appearing in serialized or debug diagnostics by retaining only stable SHA-256 fingerprints.\",\"Enforced lexical cross-platform repository paths and independent provider plus provider-scoped model case-fold collision boundaries.\",\"Added a focused 13-test target with a 33-case negative matrix and retained equivalent exact-head Linux x86_64 and macOS arm64 receipts from run 31391052361.\"],\"artifacts\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/matrix.json\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".github/workflows/wp12-native-capability-envelope.yml\",\".csdlc/evidence/5829/dependency-verification.json\",\".csdlc/evidence/5829/capability_envelope-runtime-v3.log\",\".csdlc/evidence/5829/native-validation-manifest.json\",\".csdlc/evidence/5829/native-platform/linux.json\",\".csdlc/evidence/5829/native-platform/linux-nextest.log\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\",\".csdlc/evidence/5829/native-platform/linux-source-manifest.json\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/macos-nextest.log\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\",\".csdlc/evidence/5829/native-platform/macos-source-manifest.json\",\".csdlc/evidence/5829/native-platform/independent-validator.log\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 13-test canonicalization, evidence/provenance, policy separation, grants/denials/limits, privacy, path, collision, and reconstruction boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/capability_envelope-runtime-v3.log\"},{\"command\":[\"github-actions\",\"wp12-native-capability-envelope\",\"run\",\"31391052361\",\"attempt\",\"1\"],\"purpose\":\"Run the exact 13-test WP-12 inventory on native Linux x86_64 and macOS arm64 at PR head b2dcfd3075371d98b384b62d1443353ea73c48fc and require identical semantic output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/native-validation-manifest.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/linux.json\",\".csdlc/evidence/5829/native-platform/macos.json\"],\"purpose\":\"Independently revalidate retained GitHub Actions receipts in a detached exact-head checkout, including workflow/run provenance, source manifests, exact 13-test inventories, file digests, and semantic equivalence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/native-platform/independent-validator.log\"}]}"
+    },
+    {
+      "sequence": 118,
+      "generation": 90,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
