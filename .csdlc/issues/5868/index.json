@@ -4,71 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29c5a05595fdcb29e36234ad214a9a40a290a730c24e6735814b42eda9e6d252",
-  "phase": "published",
-  "generation": 12,
-  "digest": "74d561c29d946863773645967d5b453563dc32a3fa3d3393077f4e3f2a506c42",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "87d999d558ea481895a5d96939ac6297b87fe4edfa8d0c63b789126bf95bb893",
   "branch": "codex/5868-failure-detection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5868-failure-detection",
   "review_assignment": null,
-  "review": {
-    "reviewer": "/root/review_5863/review_5866_exact",
-    "scope": [
-      "adl-runtime/src/distributed/failure_detection.rs",
-      "adl-runtime/tests/distributed_failure_detection.rs",
-      ".csdlc/evidence/5868",
-      ".csdlc/issues/5868"
-    ],
-    "reviewed_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
-    "findings": [
-      {
-        "id": "5868-review-identity-generation-replay",
-        "severity": "p1",
-        "summary": "Replay state must permit enrolled identity rotation while rejecting replay within and before the active generation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
-        "route": null
-      },
-      {
-        "id": "5868-review-domain-bound-events",
-        "severity": "p2",
-        "summary": "Failure projections and deterministic event identities must bind the trust domain.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
-        "route": null
-      },
-      {
-        "id": "5868-review-bounded-rotation-state",
-        "severity": "p1",
-        "summary": "Identity rotations must replace rather than accumulate replay records.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:5811caa7d7e625a14502b00e5a87b40e008853db:38957a7d1449cbfea1635a0f4281624eac23b2b29ebbb3cab0c55f54a0a3ab72",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Module registration and integrated sibling compilation remain explicitly deferred to issue #5878."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5868,
-    "pull_request": 106,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/106",
-    "base": "main",
-    "head": "codex/5868-failure-detection",
-    "revision": "git-blake3:ac95dd66496ae2f6163bcbbac1eeaff7b1757fa4:6fb661ac802ab4082763d7604c68c1992bb8213482473e7830c9301c7d56cb7c",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -82,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8764aff40769525fa2d686edd6a27a8234f61f7be7a7f8493a92583a34a59f5f",
+      "values_digest": "fab1f72cf2e312a1f54a68bc73db14882ae5b97d984464bab08b82dff638f05d",
       "rendered_digest": "81ed27fc8905e3b38759f3e01d32858b59f999f1509d73740f36b9c3df71edae",
       "ast_digest": "bbb72a932bcc08840c5d5a511789b0e0e5d44699bc48332d3d43374f635ebef4"
     },
     "stp": {
-      "values_digest": "45e6d1db772d62abcf4fc1b8360964587295334755c98cccf88009b40195583a",
+      "values_digest": "0ca3f72ab2fb54ed2f81200013d3fd6678e5f48e9fbec3880efaa008dc5a1a82",
       "rendered_digest": "95ca1f4417ca8d3b972a340136b52bc95b84282716ac2ba992452648267ad150",
       "ast_digest": "4d0f2e29993b709f39bd26ef9cd520c4bd6ac49d54d9743f754ae8e499d87704"
     },
     "spp": {
-      "values_digest": "3747894255e02d76d9e1c96ac0d6e7339281a387c2bcc2f4c7494ed43f90eebc",
+      "values_digest": "630f2a1cd615ab4b3d8dd06649e0495741d952fce5e04136dfdd08f695a4d62d",
       "rendered_digest": "11199fd9752dc6dae46c7470cd2cdf9934949eb900c71b67730b505d34f0f042",
       "ast_digest": "a51998aae3c617fd28873298ade34cbe8e902f8f3c1185c9fe0c675a2549feee"
     },
     "vpp": {
-      "values_digest": "d74bbc108297db70522023b4ab9126f3efe9cd645c6e9498e93bc41fe087dd93",
+      "values_digest": "baaceaff91d91366c65c564c14124c26e1e65f46e29bcc25539dba770aa5ba7a",
       "rendered_digest": "765bda7176c88b2ad45352988c376854b57342b30611c69561ea1e4baaa068cd",
       "ast_digest": "9865834729c77af749fe7548ae33483d5ccb68fd577d89535f86b7ccfed1cb2b"
     },
     "srp": {
-      "values_digest": "c09945e118b173430ecc3e503aa7a528e7aaebbcc35f953fc157205c2c6e9011",
-      "rendered_digest": "653892d059868bc3ae4b4076f7df0e7765e0e8f037b24537bf19f54292fcb00a",
-      "ast_digest": "29594be061e3bd1c239fab06a8112022310971bc1e36a513cf5cee3cce592f95"
+      "values_digest": "353eeea613cf787e41cb99dabe11f133e251351e746dca47037d5adc8cf8f872",
+      "rendered_digest": "614df1598990c86f5e724d5c98edafe07c09f534a6035def5568c58d6de94857",
+      "ast_digest": "0cd2aac8029b61a092bdbea5177d985297a09edfd1723bbc3d956391f19c876f"
     },
     "sor": {
-      "values_digest": "45dc8b868806ad5132df30c33af50aa481652fe18ad5cf8a0ecec8277a9f6b83",
-      "rendered_digest": "9954adc8bc9b91af1bd48a7e9f453a2a92ff3307c2c1176c2e4e81a73c2fc923",
-      "ast_digest": "b0b6a2fe03ed4af4df641342e63c3570cd93c561c329bd445a433c844c6dee6b"
+      "values_digest": "defc61b2df0fbd94fd23e839e4f499932ddf7c6050686289fc714eba07d0df01",
+      "rendered_digest": "1ec63e140801be310c27e82b3563231ab9cea1d88dae3a30a524ef78e7e47e79",
+      "ast_digest": "de002627f4de9389c9c63e6d5d55a1b6643b89cdd1aba89b618eac0ef84bdcab"
     }
   },
   "transitions": [
@@ -168,6 +111,13 @@
       "to": "published",
       "actor": "codex:publish-5868-wp04-06",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:repair-5868-operator-findings",
+      "reason": "Recover stale review and publication truth for operator-supplied exact-head findings: current observer identity generation attestation and machine-derived negative-case proof."
     }
   ],
   "audit": [
@@ -373,6 +323,13 @@
       "actor": "codex:publish-5868-wp04-06",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 30,
+      "generation": 13,
+      "actor": "codex:repair-5868-operator-findings",
+      "reason": "Recover stale review and publication truth for operator-supplied exact-head findings: current observer identity generation attestation and machine-derived negative-case proof.",
+      "operation": "recover_review"
     }
   ]
 }
