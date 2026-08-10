@@ -53,7 +53,7 @@ Registered all fifteen distributed runtime modules and retained exact native mac
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

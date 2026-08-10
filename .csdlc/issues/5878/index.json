@@ -4,44 +4,13 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d43c21728d16c57a20f210c83ca4f4354df7fff6ada44b649ab4cb346e7aadc1",
-  "phase": "reviewed",
-  "generation": 23,
-  "digest": "b4f47ce9035c0b18e33929e859cc7e1512c5c647bc7ace09346e1f770f1788aa",
+  "phase": "implemented",
+  "generation": 24,
+  "digest": "5ddce918f32f4f1d2904ec3928aa00c80a100e79b9d0a90625cb081e6c6e9806",
   "branch": "codex/5878-final-distributed-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5878-final-integration",
-  "review_assignment": {
-    "reviewer": "codex-subagent:review_5877_exact",
-    "assigned_by": "codex:issue-5878-final-integration",
-    "revision": "git-blake3:9038e6dfc3884935dda3839603ae0b4dc7a710fc:5c7f0d1100718f8094047ecc0add54a2014bd57b30c6aac431832fbd977b461b",
-    "scope": [
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/distributed_guardian.rs",
-      "adl/tools/validate_v092_distributed_guardian.sh",
-      "adl/tools/validate_v092_distributed_native_receipts.rb",
-      ".github/workflows/wp04-native-distributed.yml",
-      ".csdlc/evidence/5878"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:review_5877_exact",
-    "scope": [
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/distributed_guardian.rs",
-      "adl/tools/validate_v092_distributed_guardian.sh",
-      "adl/tools/validate_v092_distributed_native_receipts.rb",
-      ".github/workflows/wp04-native-distributed.yml",
-      ".csdlc/evidence/5878"
-    ],
-    "reviewed_revision": "git-blake3:9038e6dfc3884935dda3839603ae0b4dc7a710fc:5c7f0d1100718f8094047ecc0add54a2014bd57b30c6aac431832fbd977b461b",
-    "findings": [],
-    "residual_risks": [
-      "This issue registers and proves the production distributed library surface only; unowned Guardian, API, and WSS route entrypoints remain unchanged and are not claimed by this delivery."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -56,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c6098f03e91c07a0bb65a17b712262fa9950c188c69672c9e8b8adad69f59229",
+      "values_digest": "910ccd60d44aa563b29d91caf10d145b8ff65142b0525234f7cbffc39ec15039",
       "rendered_digest": "ba0aab2c7829d8b728e1dfb7e6814f02ee3117f421e95d265b29e780b557795e",
       "ast_digest": "31bed531d2aeb7275d2c73f73cf08d3125b29af53b2384f43af26be7cbbbec3c"
     },
     "stp": {
-      "values_digest": "e15fce9517a35c2bbda2a6019e432af2e641dc6c71a24c7b760de1a0dafc8c71",
+      "values_digest": "e512554ef69965f6bf1b305d3d91155a382821d0c708d5207b2f347989f7a252",
       "rendered_digest": "c2a0e8e7c0c74ba846ce6fad4529565a28b24ae1992f0cb2451c6df7e686e9a8",
       "ast_digest": "16162d8d5eab986839155b76a2d31a27b93cdc94d20a66619fa83dc8f975dd3c"
     },
     "spp": {
-      "values_digest": "0b8a11429159c520e4650e77a109d49f14cf961768d2be9a76e50c43ac2bd19e",
+      "values_digest": "d0f959cb7699a86a11e8d76c90739d0ce1187733c7a76331c35253cf3eacd9a3",
       "rendered_digest": "5640fe25072e0d89cf58314fe43a32cc41436c692223859e6ebab4f1d647bcd9",
       "ast_digest": "14903b6e0acc09c4f1237f64bd100156a8a55e9eb05aac58bfe84a7d5f45f696"
     },
     "vpp": {
-      "values_digest": "f836e9f00f1091a7cfbb99a47d9a057aa5b9501d345419fe6e2d38d27374a2df",
+      "values_digest": "103d4455dadcf8850017948acf7c40154211e942802056d6c36ab36a8406ef62",
       "rendered_digest": "7a4a91d75a99ae2f364e828ab9452c00cf910ea5c29eb226db20b33c7695169a",
       "ast_digest": "32ffb31f2824372bd8c71e834a85cc966f55e96ffedac8e4be6a2e4b13988f40"
     },
     "srp": {
-      "values_digest": "64c717dfe58101b3c69e4093727cb6cffa08279787f9c8adfae583708a7dcc7e",
-      "rendered_digest": "93ed9d047c22f49da4db37a2d5014017019dd05d3e294453cda588b21432dbe2",
-      "ast_digest": "1e86105c8ffd67a3dc3edfebb2d5669d2e6c418bab3a242c9b87481e2c9fe520"
+      "values_digest": "fa239519fb816c2849cde53b7b827cd28875c418cce9a622b9a1ed5fd336ebc9",
+      "rendered_digest": "07efe0b71ce6a425a31d98ab58bfbdb4ee009aab11fe7bfeb5e292234d6faaf8",
+      "ast_digest": "4be3324f330ab439513b793819a33594c4996f0200aadb2f02f52279defb37af"
     },
     "sor": {
-      "values_digest": "7f1314142b07da221d05be73ad3bae06c78b7264dfb8634d1e7105cb336eb5f6",
-      "rendered_digest": "25f861b6bc7e8cb58dd509e9ce204d3971373240ea920cfe630ead6ea3dd7ea9",
-      "ast_digest": "2c06187dca22de59bfc105362afe3a511130f245b0c3492a3f71a2a0700d0dfa"
+      "values_digest": "b463913214176c46875615ae8ce0084553f62e896b342425c9f447401cfbfbd9",
+      "rendered_digest": "b2e7c7c751f4fef10446041e391c2635666a0ea38b36f120e75ba19d21b5eef5",
+      "ast_digest": "539bea46ff9ce0e23592ed9533b3cc09c007fb364e8d4256f30b0284287fd08b"
     }
   },
   "transitions": [
@@ -135,6 +104,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5878-final-integration",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "Expand the exact review scope to include typed issue and request metadata so the publication guard can prove automatic metadata-only advancement from the independently approved evidence head."
     }
   ],
   "audit": [
@@ -438,6 +414,13 @@
       "actor": "codex:issue-5878-final-integration",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 24,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "Expand the exact review scope to include typed issue and request metadata so the publication guard can prove automatic metadata-only advancement from the independently approved evidence head.",
+      "operation": "recover_review"
     }
   ]
 }
