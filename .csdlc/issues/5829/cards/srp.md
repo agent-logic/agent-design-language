@@ -12,7 +12,17 @@ Status: pre_phase
 
 ## Scope
 
-Exact-head review of WP-12 capability description, canonical ordering, #4761 provenance, authority and limit semantics, secret handling, path portability, and dependency proof only.
+.csdlc/issues/5829
+.csdlc/prepared/issues/5829/design.md
+.csdlc/prepared/issues/5829/produce-native-receipt.rb
+.csdlc/prepared/issues/5829/validate-native-receipts.rb
+.csdlc/evidence/5829
+.github/workflows/wp12-native-capability-envelope.yml
+adl-runtime-kernel/src/capability_envelope.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/capability_envelope.rs
+adl-runtime-kernel/tests/fixtures/capability_envelope
+docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md
 
 ## Prompts
 
