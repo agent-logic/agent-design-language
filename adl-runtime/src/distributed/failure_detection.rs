@@ -30,6 +30,7 @@ pub enum FailureError {
     WrongTrustDomain,
     WrongMembershipEpoch,
     ObserverNotEnrolled,
+    ObserverGenerationNotCurrent,
     ObserverNotMember,
     SubjectNotMember,
     InvalidSignature,
@@ -50,6 +51,7 @@ impl FailureError {
             Self::WrongTrustDomain => "wrong_trust_domain",
             Self::WrongMembershipEpoch => "wrong_membership_epoch",
             Self::ObserverNotEnrolled => "observer_not_enrolled",
+            Self::ObserverGenerationNotCurrent => "observer_generation_not_current",
             Self::ObserverNotMember => "observer_not_member",
             Self::SubjectNotMember => "subject_not_member",
             Self::InvalidSignature => "invalid_signature",
@@ -200,11 +202,7 @@ impl SignedFailureProbe {
 }
 
 pub trait ProbeAuthority {
-    fn observer_key(
-        &self,
-        observer_node_id: &str,
-        identity_generation: u64,
-    ) -> Option<VerifyingKey>;
+    fn current_observer_identity(&self, observer_node_id: &str) -> Option<(u64, VerifyingKey)>;
 
     fn is_member(&self, node_id: &str, membership_epoch: u64) -> bool;
 }
@@ -463,12 +461,12 @@ impl FailureDetector {
         if !authority.is_member(&claims.observer_node_id, claims.membership_epoch) {
             return Err(FailureError::ObserverNotMember);
         }
-        let key = authority
-            .observer_key(
-                &claims.observer_node_id,
-                claims.observer_identity_generation,
-            )
+        let (current_generation, key) = authority
+            .current_observer_identity(&claims.observer_node_id)
             .ok_or(FailureError::ObserverNotEnrolled)?;
+        if claims.observer_identity_generation != current_generation {
+            return Err(FailureError::ObserverGenerationNotCurrent);
+        }
         if claims.observed_at_unix_secs > now_unix_secs.saturating_add(MAX_FUTURE_SKEW_SECS) {
             return Err(FailureError::FutureProbe);
         }

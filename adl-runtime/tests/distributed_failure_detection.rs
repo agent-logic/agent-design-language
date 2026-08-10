@@ -12,6 +12,7 @@ use failure_detection::{
 #[derive(Default, Clone)]
 struct Authority {
     keys: BTreeMap<(String, u64), VerifyingKey>,
+    current_generations: BTreeMap<String, u64>,
     members: BTreeSet<(String, u64)>,
 }
 
@@ -19,13 +20,16 @@ impl Authority {
     fn enroll(&mut self, node: &str, generation: u64, key: &SigningKey, epoch: u64) {
         self.keys
             .insert((node.to_owned(), generation), key.verifying_key());
+        self.current_generations.insert(node.to_owned(), generation);
         self.members.insert((node.to_owned(), epoch));
     }
 }
 
 impl ProbeAuthority for Authority {
-    fn observer_key(&self, node: &str, generation: u64) -> Option<VerifyingKey> {
-        self.keys.get(&(node.to_owned(), generation)).copied()
+    fn current_observer_identity(&self, node: &str) -> Option<(u64, VerifyingKey)> {
+        let generation = self.current_generations.get(node).copied()?;
+        let key = self.keys.get(&(node.to_owned(), generation)).copied()?;
+        Some((generation, key))
     }
 
     fn is_member(&self, node: &str, epoch: u64) -> bool {
@@ -598,10 +602,9 @@ fn replay_is_scoped_to_enrolled_identity_generation() {
         100,
         ProbeResult::Reachable,
     );
-    detector.observe(&authority, &generation_one, 100).unwrap();
     assert_eq!(
         detector.observe(&authority, &generation_one, 100),
-        Err(FailureError::Replay)
+        Err(FailureError::ObserverGenerationNotCurrent)
     );
 
     let generation_two = SignedFailureProbe::sign(
@@ -619,7 +622,7 @@ fn replay_is_scoped_to_enrolled_identity_generation() {
     );
     assert_eq!(
         detector.observe(&authority, &generation_one, 100),
-        Err(FailureError::Replay)
+        Err(FailureError::ObserverGenerationNotCurrent)
     );
     assert_eq!(detector.replay_record_count(), 1);
 }
@@ -670,8 +673,132 @@ fn identity_rotation_replaces_bounded_replay_state() {
     .unwrap();
     assert_eq!(
         detector.observe(&authority, &stale_generation, 101),
+        Err(FailureError::ObserverGenerationNotCurrent)
+    );
+}
+
+#[test]
+fn historical_key_is_rejected_when_new_generation_is_current_before_first_observation() {
+    let (mut authority, keys) = authority();
+    let rotated = signer(8);
+    authority.enroll("node_b", 2, &rotated, 7);
+    let mut detector = FailureDetector::new(policy(8, 4, 8));
+    let historical = probe(
+        &keys["node_b"],
+        "node_b",
+        "node_a",
+        1,
+        100,
+        ProbeResult::Reachable,
+    );
+    assert!(authority.keys.contains_key(&("node_b".to_owned(), 1)));
+    assert_eq!(
+        detector.observe(&authority, &historical, 100),
+        Err(FailureError::ObserverGenerationNotCurrent)
+    );
+    assert_eq!(detector.replay_record_count(), 0);
+}
+
+fn emit_negative_case(case: &str, result: &str) {
+    println!(
+        "ADL_NEGATIVE_CASE_V1 {}",
+        serde_json::json!({"case": case, "result": result})
+    );
+}
+
+#[test]
+fn machine_derived_negative_case_evidence() {
+    let (mut authority, keys) = authority();
+    let mut detector = FailureDetector::new(policy(1, 2, 8));
+
+    let mut forged = probe(
+        &keys["node_b"],
+        "node_b",
+        "node_a",
+        1,
+        100,
+        ProbeResult::Unreachable,
+    );
+    forged.signature[0] ^= 1;
+    assert_eq!(
+        detector.observe(&authority, &forged, 100),
+        Err(FailureError::InvalidSignature)
+    );
+    emit_negative_case("forged_signature", "rejected");
+
+    let rotated = signer(8);
+    authority.enroll("node_b", 2, &rotated, 7);
+    let historical = probe(
+        &keys["node_b"],
+        "node_b",
+        "node_a",
+        1,
+        100,
+        ProbeResult::Reachable,
+    );
+    assert_eq!(
+        detector.observe(&authority, &historical, 100),
+        Err(FailureError::ObserverGenerationNotCurrent)
+    );
+    emit_negative_case("historical_identity_generation", "rejected");
+
+    let current = SignedFailureProbe::sign(
+        FailureProbeClaims {
+            observer_identity_generation: 2,
+            ..historical.claims.clone()
+        },
+        &rotated,
+    )
+    .unwrap();
+    detector.observe(&authority, &current, 100).unwrap();
+    assert_eq!(
+        detector.observe(&authority, &current, 100),
         Err(FailureError::Replay)
     );
+    emit_negative_case("current_generation_replay", "rejected");
+
+    let mut wrong_domain = current.clone();
+    wrong_domain.claims.trust_domain = "other.test".into();
+    assert_eq!(
+        detector.observe(&authority, &wrong_domain, 100),
+        Err(FailureError::WrongTrustDomain)
+    );
+    emit_negative_case("wrong_trust_domain", "rejected");
+
+    let stale = SignedFailureProbe::sign(
+        FailureProbeClaims {
+            sequence: 2,
+            observed_at_unix_secs: 101,
+            expires_at_unix_secs: 121,
+            ..current.claims.clone()
+        },
+        &rotated,
+    )
+    .unwrap();
+    assert_eq!(
+        detector.observe(&authority, &stale, 200),
+        Err(FailureError::StaleProbe)
+    );
+    emit_negative_case("stale_probe", "rejected");
+
+    let node_b = probe(
+        &keys["node_local"],
+        "node_local",
+        "node_b",
+        1,
+        101,
+        ProbeResult::Reachable,
+    );
+    assert_eq!(
+        detector.observe(&authority, &node_b, 101),
+        Err(FailureError::ResourceExhausted)
+    );
+    emit_negative_case("node_capacity", "denied");
+
+    let projection = detector.projection("node_a", 101).unwrap();
+    assert!(projection.advisory_only);
+    assert!(!projection.authority_granted);
+    emit_negative_case("authority_escalation", "denied");
 }
 
 #[test]
