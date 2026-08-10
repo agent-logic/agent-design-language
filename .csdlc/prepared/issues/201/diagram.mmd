@@ -1,10 +1,11 @@
 flowchart LR
   A["Concrete MembershipState plus AuthorityMembership"] --> P["Commit PrepareAuthorityIntent"]
-  C["Canonical quorum-attested time"] --> P
-  P --> E["Opaque local VoterEndorsementAuthority"]
-  E --> F["Commit FinalizeAuthorityIntent with strict current quorum"]
-  F --> J["Exclusive bounded canonical protocol journal"]
-  J --> X["External ConsensusCheckpointAuthority CAS and reconcile"]
+  C["Prepare time plus inclusive deadline"] --> P
+  P --> E["Opaque local VoterEndorsementAuthority signs proposed finalize time"]
+  E --> F["Finalize time within deadline plus majority of every current config"]
+  F --> J["Node-local exclusive bounded canonical protocol journal"]
+  N["Domain polis node guardian boot protocol-instance namespace"] --> X
+  J --> X["Node-local external checkpoint CAS binds log intent result retry digests"]
   X --> R["Durable exact-result and retry cache"]
   R --> T["Opaque VerifiedAuthorityOperation token"]
   T --> M["#199 governed membership coordinator"]

@@ -29,14 +29,19 @@ Every state-changing operation uses two committed entries:
 1. `PrepareAuthorityIntent` commits a canonical, domain-separated intent with
    polis id, trust domain, current membership epoch/index and voter-set digest,
    operation kind, expected prior protocol checkpoint, payload digest,
-   canonical quorum-attested time token, and a unique bounded operation id.
+   canonical prepare-time token, inclusive finalization deadline, and a unique
+   bounded operation id.
 2. Each current voter may endorse only that exact committed intent through an
    opaque `VoterEndorsementAuthority` bound to node, guardian, voter purpose,
-   certificate generation, boot generation, and membership index. Raw signing
-   keys and caller-produced endorsements are not accepted.
-3. `FinalizeAuthorityIntent` carries the intent digest and endorsements. The
-   state machine verifies a strict quorum against exact current
-   `AuthorityMembership`; the leader cannot synthesize missing voters.
+   certificate generation, boot generation, and membership index. Each
+   endorsement signs the intent digest plus the proposed canonical
+   finalization-time token. Raw signing keys and caller-produced endorsements
+   are not accepted.
+3. `FinalizeAuthorityIntent` carries the intent digest, the exact signed
+   finalization-time token, and endorsements. Replicated apply requires
+   `prepare_time <= finalization_time <= inclusive_deadline` under the exact
+   committed time policy. A delayed leader therefore cannot finalize an expired
+   intent, and a replay cannot regress or replace the signed time.
 4. A durable protocol journal records the finalized token and canonical result.
    The result becomes readable only after the exact external protocol checkpoint
    CAS and retry record are durable.
@@ -46,10 +51,18 @@ superseded membership, wrong-domain evidence, missing or duplicate voters,
 invalid keys, expired intent, rollback, and reordered finalization fail before
 protocol publication.
 
-The intent contains one canonical quorum-attested time token. Replica-local
-clocks may determine whether a voter is willing to endorse, but replicated apply
-consumes identical committed time bytes on every voter and cannot branch on a
-local wall or monotonic clock.
+The prepare and finalize entries contain canonical quorum-attested time tokens.
+Replica-local clocks may determine whether a voter is willing to endorse a
+proposed finalization time, but replicated apply consumes identical committed
+time bytes on every voter and cannot branch on a local wall or monotonic clock.
+
+When `AuthorityMembership` contains joint configurations, the intent binds an
+exact canonical digest of the ordered configuration set. Finalization requires
+strictly more than half of the distinct valid voters in every nonempty current
+configuration. A guardian counts at most once within each configuration even if
+duplicated in input, and appearing in both configurations does not convert a
+majority of the union into a majority of each. Old-only, new-only, and
+union-majority endorsement sets fail closed.
 
 ## Authority boundary
 
@@ -70,16 +83,26 @@ local wall or monotonic clock.
 
 ## Crash and publication boundary
 
-The protocol owns a symlink-safe, exclusively locked, size-bounded canonical
-journal. Initialization and each finalized result record expected old and new
-external protocol checkpoints before publication. On restart it compares the
-journal, result cache, and checkpoint authority:
+Each voter owns a symlink-safe, exclusively locked, size-bounded canonical
+journal. Its external checkpoint object id is a canonical digest of trust
+domain, polis id, node id, guardian id, boot generation, and protocol-instance
+version. Checkpoint candidates bind the committed log id, protocol generation,
+intent digest, result digest, and retry-cache digest. The three voters therefore
+advance three independent node-local monotonic authorities; no shared CAS lets
+one replica publish for another. Initialization and each finalized result record
+expected old and new checkpoints before publication. On restart each voter
+compares its journal, result cache, and exact node-local checkpoint authority:
 
 - old everywhere: retry the exact step;
 - new everywhere: advance the journal;
 - a proved partial protocol commit: finish only the same exact operation;
 - conflicting, regressed, ambiguous, or missing checkpoint authority: fail
   closed and require recovery/operator action.
+
+The crash protocol explicitly reconciles initialization collision, local durable
+write before CAS, CAS success before the local final marker, and restart at each
+of those boundaries independently on nodes A, B, and C. Checkpoint reuse across
+node, boot, polis, trust domain, or protocol instance rejects.
 
 No downstream consumer may receive a token whose protocol publication barrier
 is incomplete. The Raft apply callback acknowledges only after the canonical
@@ -111,6 +134,26 @@ protocol atomicity, not a transaction over downstream authority stores.
 - Machine evidence binds exact source, commands, a named nonzero denominator,
   strict Clippy, marker parity, protected-source drift, immutable evidence
   introduction, and eventual squash-merge topology.
+
+The denominator is exactly forty cases, with exact name/result/marker parity:
+`current_three_voter_finalize`, `exact_retry_returns_cached_result`,
+`signer_rotation_current_generation`, `joint_majority_each_config`,
+`finalize_at_deadline`, `three_node_checkpoint_restart_reconcile`,
+`missing_quorum`, `duplicate_signer`, `wrong_voter`, `signer_unavailable`,
+`expired_signer_cert`, `stale_membership`, `config_digest_mismatch`,
+`joint_old_only`, `joint_new_only`, `joint_union_majority_only`,
+`joint_duplicate_guardian_reuse`, `delayed_finalize_after_deadline`,
+`finalize_before_prepare_time`, `replay_with_regressed_finalize_time`,
+`local_clock_skew_apply_parity`, `checkpoint_object_collision`,
+`node_a_local_before_cas`, `node_a_cas_before_final_marker`,
+`node_b_local_before_cas`, `node_b_cas_before_final_marker`,
+`node_c_local_before_cas`, `node_c_cas_before_final_marker`,
+`checkpoint_result_retry_digest_mismatch`, `coherent_rollback_rejected`,
+`corrupt_journal_rejected`, `corrupt_retry_cache_rejected`,
+`capacity_n_plus_one_no_partial`, `state_symlink_rejected`,
+`lock_symlink_rejected`, `legacy_fence_voter_rejected`,
+`legacy_activate_owner_rejected`, `legacy_activate_shepherd_rejected`,
+`legacy_acquire_observatory_rejected`, and `legacy_demote_voter_rejected`.
 
 ## Non-goals
 
