@@ -198,7 +198,7 @@ fn signed_manifest(
         snapshots: vec![SnapshotEntry {
             service: "live_kernel".to_owned(),
             service_schema: LIVE_KERNEL_CHECKPOINT_SCHEMA.to_owned(),
-            file: format!("evidence/cycle-{generation}.bin"),
+            file: format!("evidence/continuity/live-kernel/cycle-{generation}.bin"),
             bytes: 4,
             checksum: "c".repeat(64),
         }],
@@ -462,6 +462,14 @@ fn copied_state_and_host_paths_fail_closed() {
         "evidence/continuity/privateState.bin",
         "evidence/continuity/rawState.bin",
         "evidence/continuity/sealedPayload.json",
+        "evidence/continuity/RAWstate.bin",
+        "evidence/continuity/PRIVATEstate.bin",
+        "evidence/continuity/SEALEDpayload.json",
+        "evidence/continuity/rawstate.bin",
+        "evidence/continuity/live-kernel/cycle-01.bin",
+        "evidence/continuity/live-kernel/cycle-1-copy.bin",
+        "evidence/continuity/live-kernel/cycle-2.bin",
+        "evidence/continuity/cycle-1.bin",
     ] {
         let mut unsafe_manifest =
             signed_manifest(&authority, &identity, 1, &identity.continuity.head_sha256);

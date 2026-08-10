@@ -230,11 +230,11 @@ pub fn verify_birthday_cycles(
         } else if matching_services > 1 {
             rejections.insert(ContinuityRejection::DuplicateRuntimeWitness { generation });
         }
-        if manifest
-            .snapshots
-            .iter()
-            .any(|entry| !governed_continuity_path(&entry.file))
-        {
+        if manifest.snapshots.iter().any(|entry| {
+            entry.service != "live_kernel"
+                || entry.service_schema != policy.service_schema
+                || !governed_continuity_path(&entry.file, generation)
+        }) {
             rejections.insert(ContinuityRejection::UnsafeWitnessPath { generation });
         }
         if !seen_integrities.insert(manifest.integrity.clone()) {
@@ -543,36 +543,6 @@ fn safe_path(value: &str) -> bool {
             .all(|segment| !segment.is_empty() && segment != "." && segment != "..")
 }
 
-fn governed_continuity_path(value: &str) -> bool {
-    safe_path(value) && value.split('/').all(governed_continuity_segment)
-}
-
-fn governed_continuity_segment(segment: &str) -> bool {
-    let characters: Vec<char> = segment.chars().collect();
-    let mut normalized = String::with_capacity(segment.len());
-    for (index, character) in characters.iter().copied().enumerate() {
-        if !character.is_ascii_alphanumeric() {
-            normalized.push('_');
-            continue;
-        }
-        if character.is_ascii_uppercase() {
-            let previous = index.checked_sub(1).and_then(|i| characters.get(i));
-            let next = characters.get(index + 1);
-            let begins_word = previous.is_some_and(|value| {
-                value.is_ascii_lowercase()
-                    || value.is_ascii_digit()
-                    || (value.is_ascii_uppercase()
-                        && next.is_some_and(|next| next.is_ascii_lowercase()))
-            });
-            if begins_word && !normalized.ends_with('_') {
-                normalized.push('_');
-            }
-            normalized.push(character.to_ascii_lowercase());
-        } else {
-            normalized.push(character);
-        }
-    }
-    !normalized
-        .split('_')
-        .any(|token| matches!(token, "private" | "raw" | "sealed"))
+fn governed_continuity_path(value: &str, generation: u64) -> bool {
+    safe_path(value) && value == format!("evidence/continuity/live-kernel/cycle-{generation}.bin")
 }
