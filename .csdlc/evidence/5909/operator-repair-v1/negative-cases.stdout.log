@@ -1,0 +1,14 @@
+
+running 1 test
+ADL_NEGATIVE_CASE_V1 {"case":"future_applied_index","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"stale_applied_index","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"mutation_replay","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"activate_without_prior","result":"denied"}
+ADL_NEGATIVE_CASE_V1 {"case":"lease_grant_existing","result":"denied"}
+ADL_NEGATIVE_CASE_V1 {"case":"quorum_loss","result":"denied"}
+ADL_NEGATIVE_CASE_V1 {"case":"activation_possession","result":"denied"}
+ADL_NEGATIVE_CASE_V1 {"case":"lineage_capacity","result":"denied"}
+ADL_NEGATIVE_CASE_V1 {"case":"serialized_snapshot_capacity","result":"denied"}
+test machine_derived_negative_case_evidence ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 18 filtered out; finished in 0.02s

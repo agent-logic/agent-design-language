@@ -1,0 +1,22 @@
+{
+  "issue": 5870,
+  "card": "spp",
+  "expected_generation": 19,
+  "expected_digest": "a2ea59da45718e4686d6d25d6bbc70a26ce545a25b7e301b532c65054d0d340b",
+  "actor": "codex:5870-corrective-readiness-preparation",
+  "reason": "Gate execution on both corrective merges and retain post-implementation exact proof stops.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Stop before binding unless #5868, #5869, corrective PR #120 for #5909, and same-repository issue #121 with stacked PR #123 are merged, closed where applicable, and ancestral to the exact execution base",
+      "Stop if the merged #120 or #123 lease contract differs materially from the audited fencing assumptions or requires API invention",
+      "Stop if any path beyond adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs must change, including read-only lease.rs or registration owned by #5878",
+      "Stop if quorum fence or revoke without old-holder activation proof, strict next-epoch commitment, portable nondecreasing safety floor, fresh current AuthorityMembership, or the exact operation allowlist cannot be proved",
+      "Stop if immediate atomic durability, exact replay behavior, restart and rollback safety, path and component-wise symlink denial, or hard capacity behavior cannot be proved",
+      "After both owned paths are implemented, stop if distributed_fencing is absent, selects zero tests, lacks the exact issue-specific machine-marker denominator, or any receipt, strict focused Clippy, diff, or review validation fails",
+      "Stop if current membership is absent or stale, any live safety state would need eviction, or evidence is not exact-revision and digest bound",
+      "Stop on unresolved path collision, actionable independent review finding, or any required widening of scope, authority, persistence, proof, or rollback behavior"
+    ]
+  }
+}

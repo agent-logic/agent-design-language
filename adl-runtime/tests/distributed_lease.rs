@@ -104,10 +104,21 @@ fn body(
     epoch: u64,
     activation: &SigningKey,
 ) -> AuthorityCertificateBodyV1 {
+    body_for_lineage(LINEAGE, operation, log_index, epoch, activation, &policy())
+}
+
+fn body_for_lineage(
+    lineage_id: &[u8],
+    operation: OperationClass,
+    log_index: u64,
+    epoch: u64,
+    activation: &SigningKey,
+    lease_policy: &LeasePolicy,
+) -> AuthorityCertificateBodyV1 {
     AuthorityCertificateBodyV1 {
         schema_version: AUTHORITY_CERTIFICATE_SCHEMA_VERSION,
         trust_domain_id: TRUST.to_vec(),
-        lineage_id: LINEAGE.to_vec(),
+        lineage_id: lineage_id.to_vec(),
         voter_set_generation: 7,
         raft_term: 3,
         committed_log_index: log_index,
@@ -119,7 +130,7 @@ fn body(
         issued_unix_seconds: NOW_UNIX_SECONDS,
         issued_nanos: 0,
         lease_duration_millis: 100,
-        policy_sha256: policy().sha256().unwrap().to_vec(),
+        policy_sha256: lease_policy.sha256().unwrap().to_vec(),
         signing_algorithm: SIGNING_ALGORITHM_ED25519,
     }
 }
@@ -129,6 +140,7 @@ fn policy() -> LeasePolicy {
         max_lease_duration_millis: 1_000,
         max_clock_uncertainty_millis: 10,
         message_delay_margin_millis: 5,
+        max_lineages: 64,
         max_snapshot_bytes: 1024 * 1024,
     }
 }
@@ -660,6 +672,60 @@ fn activation_possession_epoch_safety_and_clock_bounds_fail_closed() {
 }
 
 #[test]
+fn terminal_epoch_and_mutation_sequence_fail_closed_without_reuse() {
+    let mut fixture = Fixture::stable();
+    let owner = activation(39);
+    let replacement = activation(40);
+    let mut ledger = AuthorityLedger::new(policy()).unwrap();
+    apply(
+        &mut ledger,
+        &fixture,
+        body(OperationClass::LeaseGrant, 100, 1, &owner),
+        &owner,
+        100,
+    )
+    .unwrap();
+
+    ledger.set_counters_for_test(LINEAGE, u64::MAX, 0).unwrap();
+    let reused_epoch = body(OperationClass::Activate, 101, u64::MAX, &replacement);
+    let reused_epoch_proof = activation_signature(&reused_epoch, &replacement);
+    fixture.membership.committed_log_index = 101;
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(reused_epoch, &[0, 1]),
+            &fixture.membership,
+            application(&replacement, &reused_epoch_proof, 215, 5),
+        ),
+        Err(AuthorityError::ResourceExhausted)
+    );
+
+    let mut sequence_ledger = AuthorityLedger::new(policy()).unwrap();
+    apply(
+        &mut sequence_ledger,
+        &fixture,
+        body(OperationClass::LeaseGrant, 101, 1, &owner),
+        &owner,
+        100,
+    )
+    .unwrap();
+    sequence_ledger
+        .set_counters_for_test(LINEAGE, 1, u64::MAX)
+        .unwrap();
+    assert_eq!(
+        sequence_ledger.authorize_mutation(authorization(
+            HOLDER,
+            1,
+            101,
+            101,
+            u64::MAX,
+            [9; 32],
+            &[],
+        )),
+        Err(AuthorityError::ResourceExhausted)
+    );
+}
+
+#[test]
 fn policy_digest_and_future_issuance_are_rejected_before_state_mutation() {
     let fixture = Fixture::stable();
     let activation = activation(13);
@@ -764,6 +830,20 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
         ledger.authorize_mutation(authorization(HOLDER, 1, 199, 90, 1, mutation, &clone_proof,)),
         Err(AuthorityError::ActivationPossession)
     );
+    let future_index_proof = mutation_signature(&lease, 91, 1, mutation, &owner_activation);
+    assert_eq!(
+        ledger.authorize_mutation(authorization(
+            HOLDER,
+            1,
+            199,
+            91,
+            1,
+            mutation,
+            &future_index_proof,
+        )),
+        Err(AuthorityError::StaleAppliedIndex)
+    );
+    assert_eq!(ledger.lease(LINEAGE).unwrap().last_mutation_sequence, 0);
     let proof = mutation_signature(&lease, 90, 1, mutation, &owner_activation);
     assert_eq!(
         ledger.authorize_mutation(authorization(HOLDER, 1, 199, 90, 1, mutation, &proof)),
@@ -785,6 +865,561 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
         ledger.authorize_mutation(authorization(HOLDER, 1, 200, 90, 2, [2; 32], &[])),
         Err(AuthorityError::LeaseExpired)
     );
+}
+
+#[test]
+fn lease_grant_and_activate_have_distinct_authority_transitions() {
+    let fixture = Fixture::stable();
+    let first = activation(21);
+    let replacement = activation(22);
+    let mut ledger = AuthorityLedger::new(policy()).unwrap();
+
+    let activate_without_prior = body(OperationClass::Activate, 140, 1, &first);
+    let proof = activation_signature(&activate_without_prior, &first);
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(activate_without_prior, &[0, 1]),
+            &fixture.membership,
+            application(&first, &proof, 100, 5),
+        ),
+        Err(AuthorityError::AuthorityRequired)
+    );
+    assert_eq!(ledger.applied_log_index(), 0);
+
+    apply(
+        &mut ledger,
+        &fixture,
+        body(OperationClass::LeaseGrant, 141, 1, &first),
+        &first,
+        100,
+    )
+    .unwrap();
+    let duplicate_grant = body(OperationClass::LeaseGrant, 142, 2, &replacement);
+    let proof = activation_signature(&duplicate_grant, &replacement);
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(duplicate_grant, &[0, 1]),
+            &fixture.membership,
+            application(&replacement, &proof, 215, 5),
+        ),
+        Err(AuthorityError::AuthorityAlreadyExists)
+    );
+    assert_eq!(ledger.applied_log_index(), 141);
+    assert_eq!(ledger.lease(LINEAGE).unwrap().epoch, 1);
+
+    let activate = body(OperationClass::Activate, 142, 2, &replacement);
+    let proof = activation_signature(&activate, &replacement);
+    ledger
+        .apply(
+            &fixture.certificate(activate, &[0, 1]),
+            &fixture.membership,
+            application(&replacement, &proof, 215, 5),
+        )
+        .unwrap();
+    assert_eq!(ledger.applied_log_index(), 142);
+    assert_eq!(ledger.lease(LINEAGE).unwrap().epoch, 2);
+}
+
+#[test]
+fn lineage_and_serialized_capacity_fail_atomically_before_mutation() {
+    let fixture = Fixture::stable();
+    let first = activation(23);
+    let second = activation(24);
+    let mut bounded = policy();
+    bounded.max_lineages = 1;
+    let mut ledger = AuthorityLedger::new(bounded.clone()).unwrap();
+    let first_body = body_for_lineage(
+        b"lineage-capacity-a",
+        OperationClass::LeaseGrant,
+        150,
+        1,
+        &first,
+        &bounded,
+    );
+    let proof = activation_signature(&first_body, &first);
+    ledger
+        .apply(
+            &fixture.certificate(first_body, &[0, 1]),
+            &fixture.membership,
+            application(&first, &proof, 100, 5),
+        )
+        .unwrap();
+    let before = ledger.snapshot().unwrap();
+    let second_body = body_for_lineage(
+        b"lineage-capacity-b",
+        OperationClass::LeaseGrant,
+        151,
+        1,
+        &second,
+        &bounded,
+    );
+    let proof = activation_signature(&second_body, &second);
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(second_body, &[0, 1]),
+            &fixture.membership,
+            application(&second, &proof, 101, 5),
+        ),
+        Err(AuthorityError::ResourceExhausted)
+    );
+    assert_eq!(ledger.applied_log_index(), 150);
+    assert!(ledger.lease(b"lineage-capacity-b").is_none());
+    assert_eq!(ledger.snapshot().unwrap(), before);
+
+    let mut observed_serialized_limit = false;
+    for max_snapshot_bytes in [1024, 2048, 4096, 8192, 16_384] {
+        let mut bounded = policy();
+        bounded.max_lineages = 2;
+        bounded.max_snapshot_bytes = max_snapshot_bytes;
+        let mut ledger = AuthorityLedger::new(bounded.clone()).unwrap();
+        let first_body = body_for_lineage(
+            b"snapshot-capacity-a",
+            OperationClass::LeaseGrant,
+            160,
+            1,
+            &first,
+            &bounded,
+        );
+        let proof = activation_signature(&first_body, &first);
+        if ledger
+            .apply(
+                &fixture.certificate(first_body, &[0, 1]),
+                &fixture.membership,
+                application(&first, &proof, 100, 5),
+            )
+            .is_err()
+        {
+            continue;
+        }
+        let before = ledger.snapshot().unwrap();
+        let second_body = body_for_lineage(
+            b"snapshot-capacity-b",
+            OperationClass::LeaseGrant,
+            161,
+            1,
+            &second,
+            &bounded,
+        );
+        let proof = activation_signature(&second_body, &second);
+        if ledger.apply(
+            &fixture.certificate(second_body, &[0, 1]),
+            &fixture.membership,
+            application(&second, &proof, 101, 5),
+        ) == Err(AuthorityError::ResourceExhausted)
+        {
+            assert_eq!(ledger.applied_log_index(), 160);
+            assert!(ledger.lease(b"snapshot-capacity-b").is_none());
+            assert_eq!(ledger.snapshot().unwrap(), before);
+            observed_serialized_limit = true;
+            break;
+        }
+    }
+    assert!(observed_serialized_limit);
+}
+
+fn emit_negative_case(case: &str, result: &str) {
+    println!(
+        "ADL_NEGATIVE_CASE_V1 {}",
+        serde_json::json!({"case": case, "result": result})
+    );
+}
+
+fn emit_issue_121_case(case: &str, result: &str) {
+    println!(
+        "ADL_ISSUE_121_NEGATIVE_CASE_V1 {}",
+        serde_json::json!({"case": case, "result": result})
+    );
+}
+
+#[test]
+fn quorum_fence_and_restart_safety_machine_evidence() {
+    let mut fixture = Fixture::stable();
+    let owner = activation(27);
+    let unavailable_holder = activation(28);
+    let replacement = activation(29);
+    let portable_policy = policy_with_max_lease(2_000);
+    let mut ledger = AuthorityLedger::new(portable_policy.clone()).unwrap();
+
+    let mut grant = body(OperationClass::LeaseGrant, 200, 1, &owner);
+    grant.lease_duration_millis = 2_000;
+    grant.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    let proof = activation_signature(&grant, &owner);
+    ledger
+        .apply(
+            &fixture.certificate(grant, &[0, 1]),
+            &fixture.membership,
+            application(&owner, &proof, 100, 5),
+        )
+        .unwrap();
+
+    let mut fence = body(OperationClass::Fence, 201, 2, &owner);
+    fence.lease_duration_millis = 2_000;
+    fence.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    let fence_certificate = fixture.certificate(fence, &[0, 1]);
+    fixture.membership.committed_log_index = 201;
+    ledger
+        .apply(
+            &fence_certificate,
+            &fixture.membership,
+            application(&unavailable_holder, &[], 101, 5),
+        )
+        .unwrap();
+    assert_eq!(ledger.lease(LINEAGE).unwrap().epoch, 2);
+    assert!(ledger.lease(LINEAGE).unwrap().revoked);
+    emit_issue_121_case("fence_without_holder_key", "fenced");
+
+    assert_eq!(
+        ledger.authorize_mutation(authorization(HOLDER, 2, 102, 201, 1, [7; 32], &[])),
+        Err(AuthorityError::LeaseRevoked)
+    );
+    emit_issue_121_case("fenced_mutation", "denied");
+
+    let before_invalid_fences = ledger.snapshot().unwrap();
+    fixture.membership.committed_log_index = 202;
+    for (epoch, expected, case) in [
+        (2, AuthorityError::StaleEpoch, "fence_same_epoch"),
+        (4, AuthorityError::EpochGap, "fence_epoch_gap"),
+        (1, AuthorityError::StaleEpoch, "fence_stale_epoch"),
+    ] {
+        let mut invalid = body(OperationClass::Fence, 202, epoch, &owner);
+        invalid.lease_duration_millis = 2_000;
+        invalid.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+        assert_eq!(
+            ledger.apply(
+                &fixture.certificate(invalid, &[0, 1]),
+                &fixture.membership,
+                application(&unavailable_holder, &[], 102, 5),
+            ),
+            Err(expected)
+        );
+        emit_issue_121_case(case, "denied");
+    }
+    assert_eq!(ledger.applied_log_index(), 201);
+    assert_eq!(ledger.snapshot().unwrap(), before_invalid_fences);
+    emit_issue_121_case("atomic_fence_failure", "fail_closed");
+
+    let fence_snapshot = ledger.snapshot().unwrap();
+    fixture.membership.committed_log_index = 201;
+    let mut restored = AuthorityLedger::restore(
+        portable_policy.clone(),
+        &fence_snapshot,
+        &fixture.membership,
+        NOW_UNIX_SECONDS,
+    )
+    .unwrap();
+    assert_eq!(restored.applied_log_index(), 201);
+    assert_eq!(restored.lease(LINEAGE).unwrap().epoch, 2);
+    assert!(restored.lease(LINEAGE).unwrap().revoked);
+    emit_issue_121_case("restore_current_index", "recovered");
+    emit_issue_121_case("recovery_floor_retained", "fenced");
+
+    let mut premature = body(OperationClass::Activate, 202, 2, &replacement);
+    premature.lease_duration_millis = 2_000;
+    premature.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    let premature_proof = activation_signature(&premature, &replacement);
+    let premature_certificate = fixture.certificate(premature, &[0, 1]);
+    fixture.membership.committed_log_index = 202;
+    assert_eq!(
+        restored.apply(
+            &premature_certificate,
+            &fixture.membership,
+            application_at(
+                &replacement,
+                &premature_proof,
+                NOW_UNIX_SECONDS,
+                1_000_000,
+                5,
+            ),
+        ),
+        Err(AuthorityError::LeaseExpired)
+    );
+    emit_issue_121_case("premature_activation", "denied");
+
+    let mut safe = body(OperationClass::Activate, 202, 2, &replacement);
+    safe.issued_unix_seconds = NOW_UNIX_SECONDS + 3;
+    safe.lease_duration_millis = 2_000;
+    safe.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    let safe_proof = activation_signature(&safe, &replacement);
+    restored
+        .apply(
+            &fixture.certificate(safe, &[0, 1]),
+            &fixture.membership,
+            application_at(&replacement, &safe_proof, NOW_UNIX_SECONDS + 3, 1, 5),
+        )
+        .unwrap();
+    assert_eq!(restored.lease(LINEAGE).unwrap().epoch, 2);
+    assert!(!restored.lease(LINEAGE).unwrap().revoked);
+
+    let mut renewal = body(OperationClass::LeaseRenewal, 203, 2, &replacement);
+    renewal.issued_unix_seconds = NOW_UNIX_SECONDS + 3;
+    renewal.lease_duration_millis = 2_000;
+    renewal.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    fixture.membership.committed_log_index = 203;
+    assert_eq!(
+        restored.apply(
+            &fixture.certificate(renewal, &[0, 1]),
+            &fixture.membership,
+            application_at(&unavailable_holder, &[], NOW_UNIX_SECONDS + 3, 2, 5,),
+        ),
+        Err(AuthorityError::ActivationPossession)
+    );
+
+    let mut owner_commit = body(OperationClass::OwnerCommit, 203, 2, &replacement);
+    owner_commit.issued_unix_seconds = NOW_UNIX_SECONDS + 3;
+    owner_commit.lease_duration_millis = 2_000;
+    owner_commit.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    assert_eq!(
+        restored.apply(
+            &fixture.certificate(owner_commit, &[0, 1]),
+            &fixture.membership,
+            application_at(&unavailable_holder, &[], NOW_UNIX_SECONDS + 3, 2, 5,),
+        ),
+        Err(AuthorityError::ActivationPossession)
+    );
+
+    let mut possession_fixture = Fixture::stable();
+    let mut possession_ledger = AuthorityLedger::new(portable_policy.clone()).unwrap();
+    let mut possession_grant = body(OperationClass::LeaseGrant, 400, 1, &owner);
+    possession_grant.lease_duration_millis = 2_000;
+    possession_grant.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    possession_fixture.membership.committed_log_index = 400;
+    assert_eq!(
+        possession_ledger.apply(
+            &possession_fixture.certificate(possession_grant.clone(), &[0, 1]),
+            &possession_fixture.membership,
+            application(&unavailable_holder, &[], 100, 5),
+        ),
+        Err(AuthorityError::ActivationPossession)
+    );
+    let possession_grant_proof = activation_signature(&possession_grant, &owner);
+    possession_ledger
+        .apply(
+            &possession_fixture.certificate(possession_grant, &[0, 1]),
+            &possession_fixture.membership,
+            application(&owner, &possession_grant_proof, 100, 5),
+        )
+        .unwrap();
+    let mut possession_activate = body(OperationClass::Activate, 401, 2, &replacement);
+    possession_activate.lease_duration_millis = 2_000;
+    possession_activate.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    possession_fixture.membership.committed_log_index = 401;
+    assert_eq!(
+        possession_ledger.apply(
+            &possession_fixture.certificate(possession_activate, &[0, 1]),
+            &possession_fixture.membership,
+            application(&unavailable_holder, &[], 3_000, 5),
+        ),
+        Err(AuthorityError::ActivationPossession)
+    );
+    emit_issue_121_case("holder_operation_possession", "denied");
+
+    let mut revoke_membership = Fixture::stable();
+    let mut revoke_ledger = AuthorityLedger::new(portable_policy.clone()).unwrap();
+    let mut revoke_grant = body(OperationClass::LeaseGrant, 300, 1, &owner);
+    revoke_grant.lease_duration_millis = 2_000;
+    revoke_grant.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    let revoke_grant_proof = activation_signature(&revoke_grant, &owner);
+    revoke_membership.membership.committed_log_index = 300;
+    revoke_ledger
+        .apply(
+            &revoke_membership.certificate(revoke_grant, &[0, 1]),
+            &revoke_membership.membership,
+            application(&owner, &revoke_grant_proof, 100, 5),
+        )
+        .unwrap();
+    let mut revoke = body(OperationClass::Revoke, 301, 1, &owner);
+    revoke.lease_duration_millis = 2_000;
+    revoke.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    revoke_membership.membership.committed_log_index = 301;
+    revoke_ledger
+        .apply(
+            &revoke_membership.certificate(revoke, &[0, 1]),
+            &revoke_membership.membership,
+            application(&unavailable_holder, &[], 1_000_000, 5),
+        )
+        .unwrap();
+    assert!(revoke_ledger.lease(LINEAGE).unwrap().revoked);
+    emit_issue_121_case("revoke_without_holder_key", "fenced");
+}
+
+#[test]
+fn machine_derived_negative_case_evidence() {
+    let fixture = Fixture::stable();
+    let owner = activation(25);
+    let other = activation(26);
+    let mut ledger = AuthorityLedger::new(policy()).unwrap();
+    apply(
+        &mut ledger,
+        &fixture,
+        body(OperationClass::LeaseGrant, 170, 1, &owner),
+        &owner,
+        100,
+    )
+    .unwrap();
+    let lease = ledger.lease(LINEAGE).unwrap().clone();
+    let mutation = Sha256::digest(b"machine-negative-mutation").into();
+
+    let future = mutation_signature(&lease, 171, 1, mutation, &owner);
+    assert_eq!(
+        ledger.authorize_mutation(authorization(HOLDER, 1, 150, 171, 1, mutation, &future)),
+        Err(AuthorityError::StaleAppliedIndex)
+    );
+    emit_negative_case("future_applied_index", "rejected");
+
+    let stale = mutation_signature(&lease, 169, 1, mutation, &owner);
+    assert_eq!(
+        ledger.authorize_mutation(authorization(HOLDER, 1, 150, 169, 1, mutation, &stale)),
+        Err(AuthorityError::StaleAppliedIndex)
+    );
+    emit_negative_case("stale_applied_index", "rejected");
+
+    let proof = mutation_signature(&lease, 170, 1, mutation, &owner);
+    ledger
+        .authorize_mutation(authorization(HOLDER, 1, 150, 170, 1, mutation, &proof))
+        .unwrap();
+    assert_eq!(
+        ledger.authorize_mutation(authorization(HOLDER, 1, 150, 170, 1, mutation, &proof)),
+        Err(AuthorityError::Replay)
+    );
+    emit_negative_case("mutation_replay", "rejected");
+
+    let mut empty = AuthorityLedger::new(policy()).unwrap();
+    let activate = body(OperationClass::Activate, 171, 1, &other);
+    let proof = activation_signature(&activate, &other);
+    assert_eq!(
+        empty.apply(
+            &fixture.certificate(activate, &[0, 1]),
+            &fixture.membership,
+            application(&other, &proof, 100, 5),
+        ),
+        Err(AuthorityError::AuthorityRequired)
+    );
+    emit_negative_case("activate_without_prior", "denied");
+
+    let duplicate = body(OperationClass::LeaseGrant, 171, 2, &other);
+    let proof = activation_signature(&duplicate, &other);
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(duplicate, &[0, 1]),
+            &fixture.membership,
+            application(&other, &proof, 215, 5),
+        ),
+        Err(AuthorityError::AuthorityAlreadyExists)
+    );
+    emit_negative_case("lease_grant_existing", "denied");
+
+    let renewal = body(OperationClass::LeaseRenewal, 171, 1, &owner);
+    let proof = activation_signature(&renewal, &owner);
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(renewal, &[0]),
+            &fixture.membership,
+            application(&owner, &proof, 150, 5),
+        ),
+        Err(AuthorityError::QuorumNotReached)
+    );
+    emit_negative_case("quorum_loss", "denied");
+
+    let renewal = body(OperationClass::LeaseRenewal, 171, 1, &owner);
+    let proof = activation_signature(&renewal, &other);
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(renewal, &[0, 1]),
+            &fixture.membership,
+            application(&other, &proof, 150, 5),
+        ),
+        Err(AuthorityError::ActivationPossession)
+    );
+    emit_negative_case("activation_possession", "denied");
+
+    let mut bounded = policy();
+    bounded.max_lineages = 1;
+    let mut bounded_ledger = AuthorityLedger::new(bounded.clone()).unwrap();
+    let first = body_for_lineage(
+        b"machine-capacity-a",
+        OperationClass::LeaseGrant,
+        180,
+        1,
+        &owner,
+        &bounded,
+    );
+    let proof = activation_signature(&first, &owner);
+    bounded_ledger
+        .apply(
+            &fixture.certificate(first, &[0, 1]),
+            &fixture.membership,
+            application(&owner, &proof, 100, 5),
+        )
+        .unwrap();
+    let before = bounded_ledger.snapshot().unwrap();
+    let second = body_for_lineage(
+        b"machine-capacity-b",
+        OperationClass::LeaseGrant,
+        181,
+        1,
+        &other,
+        &bounded,
+    );
+    let proof = activation_signature(&second, &other);
+    assert_eq!(
+        bounded_ledger.apply(
+            &fixture.certificate(second, &[0, 1]),
+            &fixture.membership,
+            application(&other, &proof, 101, 5),
+        ),
+        Err(AuthorityError::ResourceExhausted)
+    );
+    assert_eq!(bounded_ledger.snapshot().unwrap(), before);
+    emit_negative_case("lineage_capacity", "denied");
+
+    let mut observed_serialized_limit = false;
+    for max_snapshot_bytes in [1024, 2048, 4096, 8192, 16_384] {
+        let mut bounded = policy();
+        bounded.max_lineages = 2;
+        bounded.max_snapshot_bytes = max_snapshot_bytes;
+        let mut candidate = AuthorityLedger::new(bounded.clone()).unwrap();
+        let first = body_for_lineage(
+            b"machine-snapshot-a",
+            OperationClass::LeaseGrant,
+            190,
+            1,
+            &owner,
+            &bounded,
+        );
+        let proof = activation_signature(&first, &owner);
+        if candidate
+            .apply(
+                &fixture.certificate(first, &[0, 1]),
+                &fixture.membership,
+                application(&owner, &proof, 100, 5),
+            )
+            .is_err()
+        {
+            continue;
+        }
+        let before = candidate.snapshot().unwrap();
+        let second = body_for_lineage(
+            b"machine-snapshot-b",
+            OperationClass::LeaseGrant,
+            191,
+            1,
+            &other,
+            &bounded,
+        );
+        let proof = activation_signature(&second, &other);
+        if candidate.apply(
+            &fixture.certificate(second, &[0, 1]),
+            &fixture.membership,
+            application(&other, &proof, 101, 5),
+        ) == Err(AuthorityError::ResourceExhausted)
+        {
+            assert_eq!(candidate.snapshot().unwrap(), before);
+            observed_serialized_limit = true;
+            break;
+        }
+    }
+    assert!(observed_serialized_limit);
+    emit_negative_case("serialized_snapshot_capacity", "denied");
 }
 
 #[test]

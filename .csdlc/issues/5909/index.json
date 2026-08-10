@@ -1,0 +1,236 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5909,
+  "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "387afe04e311ffa378b933030f6b3bda3d446135c0f1c0c52b61f04a5c956645",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "ec9e47adeb5edcabf3c60febcc05b89505e97bdb164bb427793af4a84317120e",
+  "branch": "codex/5909-lease-authority-defect",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5909-lease-defect",
+  "review_assignment": {
+    "reviewer": "/root/review_5909_pr120_repair",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4af5e240b9ce43aabb028e1aa8ce532890811b3b:e3c25832f09f4f22131315bb8723b01d0035fbbbd355a03f016902c27f8f3e43",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/evidence/5909",
+      ".csdlc/issues/5909",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_5909_pr120_repair",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/evidence/5909",
+      ".csdlc/issues/5909",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb"
+    ],
+    "reviewed_revision": "git-blake3:4af5e240b9ce43aabb028e1aa8ce532890811b3b:e3c25832f09f4f22131315bb8723b01d0035fbbbd355a03f016902c27f8f3e43",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI and republication for exact repaired head 4af5e240b remain pending under S3; no merge authority is implied."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5869/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5869/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized reuse of merged WP-04.07 design",
+      "revision": "132f5437e67cb71961df3c6cb1b88fed79e68d88ac39b44d8f421f630d468125"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c4038307ea6db9338aa090c6da92cf0704e38952541977eeb8091178757f5548",
+      "rendered_digest": "0839d3ff00dfc774bbbac553de6388120b4cbb3476c0380f132ce4a724316b0d",
+      "ast_digest": "9c11c0b586d938abcb773cd8e58a013f5708e85bcea10be47c76e1b6560dfa8d"
+    },
+    "stp": {
+      "values_digest": "7e0d79617c342d277d7cdba21b6c79449c4d7e0685c408060662b9f42404e595",
+      "rendered_digest": "2c30883b1af731bea35d8bae09ff21d04d0714c41731307d67c32d6bc1c7e03c",
+      "ast_digest": "d087c8195d755525fb81be0330f611e947b9e75289dcb338f133e1b1775f0be2"
+    },
+    "spp": {
+      "values_digest": "23474b38dd8726a30734e5b24e4d1491739cb26b336280795f373ecd1c40a15f",
+      "rendered_digest": "0f782534b35612aab6b44b201bed9259c4fd94d4abf381d1cdeb4da7ce9e024c",
+      "ast_digest": "43be87c2ce6575db134c6e26e43d4026b7d23352ea8ca35a9ba2dee19b981884"
+    },
+    "vpp": {
+      "values_digest": "d3d51d239c1bc00dcdd0640adbdd6cb07c54a225383467fb09af833124b5708c",
+      "rendered_digest": "aae25417f9caf72bba1541c8035682e80ff38ea03ab94d833ff3988029cf033d",
+      "ast_digest": "4c72ef770066bded42fddc7e34580523214a8f9a7ee49c7ba911794f531ba519"
+    },
+    "srp": {
+      "values_digest": "7f1f09175e189662c45d34f5fb187f150a10c8396704f4e3152ff3cc8aea1d73",
+      "rendered_digest": "8292ba5855d2ef81ed9105476989f9af8110e579ba596d6ebcbfe813602aebfa",
+      "ast_digest": "a28ea318a1997d4f8be25bb350ab85eeeb02353b3824662541982a67322c30fe"
+    },
+    "sor": {
+      "values_digest": "5f207856162736de8fd3c65084bdd11652a9aa3af3afe615339049280b43501e",
+      "rendered_digest": "9e56b3d6ad122f388aa3c3fe213f6b031f4e534fb722c03b959d82d3d7df78a7",
+      "ast_digest": "53dd96bee24ad5a74fbca269bf310fe412f3c7e42306b38efc79e057a75a6513"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:pr120-review-findings",
+      "reason": "Recover published review truth after operator changes-requested finding: retained review lacks fresh independent session provenance and SPP execution statuses are stale."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:pr120-review-findings",
+      "reason": "exact scoped review passed"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5909-lease-defect",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "Replace stale receipt references with the independently reviewed deep-bound V2 evidence generation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected lease mutation authority, bounded lineage state atomically, separated grant and activation transitions, and rebuilt machine-derived proof with exact nine-case deep validation.\",\"changes\":[\"Require mutation authorization to match the ledger-owned applied log index.\",\"Reject lineage-count and prospective snapshot capacity overflow before state mutation.\",\"Enforce distinct initial LeaseGrant and successor Activate semantics.\",\"Derive and deeply validate nine exact negative cases against executed Rust marker output.\"],\"artifacts\":[\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/tests/distributed_lease.rs\",\".csdlc/evidence/5909/review-repair-v2/execution-proof.json\",\".csdlc/evidence/5909/operator-repair-v2/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"purpose\":\"Run the exact distributed lease target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v2/exact-child-tests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\"],\"purpose\":\"Deeply bind the exact nine machine-derived cases, producer and stream digests, source artifacts, and two-revision topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/review-repair-v2/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the exact distributed lease test surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v2/strict-focused-clippy.log\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "Replace stale receipt references with the independently reviewed deep-bound V2 evidence generation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected lease mutation authority, bounded lineage state atomically, separated grant and activation transitions, and rebuilt machine-derived proof with exact nine-case deep validation.\",\"changes\":[\"Require mutation authorization to match the ledger-owned applied log index.\",\"Reject lineage-count and prospective snapshot capacity overflow before state mutation.\",\"Enforce distinct initial LeaseGrant and successor Activate semantics.\",\"Derive and deeply validate nine exact negative cases against executed Rust marker output.\"],\"artifacts\":[\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/tests/distributed_lease.rs\",\".csdlc/evidence/5909/review-repair-v3/execution-proof.json\",\".csdlc/evidence/5909/operator-repair-v3/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"purpose\":\"Run the exact distributed lease target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v3/exact-child-tests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\"],\"purpose\":\"Deeply bind the exact nine machine-derived cases, producer and stream digests, source artifacts, and two-revision topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/review-repair-v3/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the exact distributed lease test surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v3/strict-focused-clippy.log\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "Replace prior V2 receipt references with the stream-accurate deep-bound V3 evidence generation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected lease mutation authority, bounded lineage state atomically, separated grant and activation transitions, and rebuilt machine-derived proof with exact nine-case deep validation.\",\"changes\":[\"Require mutation authorization to match the ledger-owned applied log index.\",\"Reject lineage-count and prospective snapshot capacity overflow before state mutation.\",\"Enforce distinct initial LeaseGrant and successor Activate semantics.\",\"Derive and deeply validate nine exact negative cases against executed Rust marker output.\"],\"artifacts\":[\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/tests/distributed_lease.rs\",\".csdlc/evidence/5909/review-repair-v3/execution-proof.json\",\".csdlc/evidence/5909/operator-repair-v3/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"purpose\":\"Run the exact distributed lease target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v3/exact-child-tests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\"],\"purpose\":\"Deeply bind the exact nine machine-derived cases, producer and stream digests, source artifacts, and two-revision topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/review-repair-v3/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the exact distributed lease test surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v3/strict-focused-clippy.log\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:pr120-review-findings",
+      "reason": "Recover published review truth after operator changes-requested finding: retained review lacks fresh independent session provenance and SPP execution statuses are stale.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:pr120-review-findings",
+      "reason": "Mark S1 completed from retained product implementation and bound-worktree evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:pr120-review-findings",
+      "reason": "Mark S2 completed from the retained exact test, strict Clippy, and digest-bound receipt evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:pr120-review-findings",
+      "reason": "Mark S3 in progress while fresh independently assigned exact-head review and republication are being performed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:pr120-review-findings",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5909,
+  "source_revision": "5edab930a45e191b507247c4d9903e2d1bf45d81",
+  "producer_path": ".csdlc/evidence/5909/derive-negative-cases.rb",
+  "producer_sha256": "529d4baaed2f0f259d489c7c56cc373a159ff6bc10f5b80ab53204d0c0ce754f",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_lease",
+      "machine_derived_negative_case_evidence",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T03:22:32.755806Z",
+    "finished_at": "2026-08-10T03:22:32.932949Z"
+  },
+  "stdout_path": ".csdlc/evidence/5909/operator-repair-v3/negative-cases.stdout.log",
+  "stdout_sha256": "d0ba2d852ab92f02d8036096138e7f8824369af46ecb46f15f26c7ed4f9e43f5",
+  "stderr_path": ".csdlc/evidence/5909/operator-repair-v3/negative-cases.stderr.log",
+  "stderr_sha256": "c10029eab40c08b3dd0bb582e7394050a8d570f456f7df553c028582248839e4",
+  "cases": [
+    {
+      "case": "future_applied_index",
+      "result": "rejected",
+      "observed_line_sha256": "b35ed7f506dd51d64213881042aabd650fad737bb565ee2a2940cf773fb4f2e6"
+    },
+    {
+      "case": "stale_applied_index",
+      "result": "rejected",
+      "observed_line_sha256": "b7db7be75bc73ee7d6c9732abd06e5b63ade97d12a86cded4a22cc603b403006"
+    },
+    {
+      "case": "mutation_replay",
+      "result": "rejected",
+      "observed_line_sha256": "1d510bd2177aa154c24dc9f4c0f642a7c844c4701b5007a8e4195db9bc3e8855"
+    },
+    {
+      "case": "activate_without_prior",
+      "result": "denied",
+      "observed_line_sha256": "e6b01dbe0cd71e41fc0c277ea2b7a91888355490fd2f546c718f2bb926063862"
+    },
+    {
+      "case": "lease_grant_existing",
+      "result": "denied",
+      "observed_line_sha256": "fbcc5bd6bc4cbf524034eacd8c543c15ab2ca7f6be282430f5f84005848d9277"
+    },
+    {
+      "case": "quorum_loss",
+      "result": "denied",
+      "observed_line_sha256": "9e3b987ced4e395da731918d4b8df66f1ef615d5c404eb90fc10f7566d340cc1"
+    },
+    {
+      "case": "activation_possession",
+      "result": "denied",
+      "observed_line_sha256": "b3ced2f37147980bf0cfa5b7fded7f04bbc209b9ee06a4b664b0745cc170c2b3"
+    },
+    {
+      "case": "lineage_capacity",
+      "result": "denied",
+      "observed_line_sha256": "6cb569e50c883cfa16a231886063fac906ec8bcc6b9d8f981509e941c7b899a3"
+    },
+    {
+      "case": "serialized_snapshot_capacity",
+      "result": "denied",
+      "observed_line_sha256": "69b5471383dcb22bfbad215a8bd2fa1ef86bcc5d9518d8529e1df10282b395a1"
+    }
+  ]
+}

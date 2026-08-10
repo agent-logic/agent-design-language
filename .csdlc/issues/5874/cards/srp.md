@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.12 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/snapshot_catalog.rs
+adl-runtime/tests/distributed_snapshot_catalog.rs
+.csdlc/issues/5874
+.csdlc/evidence/5874
+.csdlc/prepared/issues/5874
 
 ## Prompts
 
@@ -35,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ad19b1987274ea0b8cb52a158ac5fc489d887a95:03a46af606a9e938d55f3c0e92959254f4258ef0b551a6e5ec84c7997909fe7c")
 
-Reviewer: None
+Reviewer: Some("subagent:5874-exact-head-security-review")
 
-Result: pre_review
+Result: pass

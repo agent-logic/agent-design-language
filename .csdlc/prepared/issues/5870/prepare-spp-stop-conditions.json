@@ -1,0 +1,21 @@
+{
+  "issue": 5870,
+  "card": "spp",
+  "expected_generation": 13,
+  "expected_digest": "4ea78e5aa41f7a2a9d80abaeaaaf6a1f112d19ba538b20af3fdda980ab30d2ac",
+  "actor": "codex:5870-fencing-preparation",
+  "reason": "Freeze the dependency, ownership, post-bind implementation, proof, and publication stops for the fencing child.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Issues #5868 and #5869 are not closed by merged commits ancestral to the exact execution base",
+      "The landed #5868 or #5869 public API differs materially from the reviewed source contract and requires redesign",
+      "Any implementation path beyond adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs is required, including Cargo or module registration owned by #5878",
+      "Either exact owned source or test target is absent after bind",
+      "The exact distributed_fencing target is absent, selects zero tests, or cannot prove fail-closed single-owner, durability, rollback, and recovery behavior",
+      "Fresh authority verification, durable fencing floors, or rollback safety cannot be proved without widening scope or authority",
+      "Evidence is not exact-revision and digest bound, strict Clippy fails for the qualified target, or independent review has unresolved actionable findings"
+    ]
+  }
+}

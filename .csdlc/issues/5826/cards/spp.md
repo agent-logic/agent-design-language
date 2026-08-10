@@ -16,7 +16,7 @@ Implement and prove WP-09 canonical identity records with stable labels, immutab
 
 ## Plan
 
-Revision 20
+Revision 22
 
 ## Steps
 
@@ -28,7 +28,7 @@ Revision 20
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -37,7 +37,7 @@ Revision 20
       "AC-1",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -46,7 +46,7 @@ Revision 20
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -89,13 +89,13 @@ Revision 20
 
 .csdlc/prepared/issues/5826/design.md
 
-Digest: 808598da005814fe2c5ec62495819b60cdac1d328a0611562a1126a4902fe297
+Digest: 9c143b55f2e75010e7f934806c64fb50b3b46fc7456253871c91947bcbfb71d2
 
 ## Diagram
 
 .csdlc/prepared/issues/5826/diagram.mmd
 
-Digest: d5cc198edc4895057317ca54fe8aa3c676496c00d23ba4718aa88f17ac266f58
+Digest: 0c8418cba179260289efc43a6ec61eb785f3973ba701053a09c7066f5e59adfd
 
 ## Stop Conditions
 

@@ -1,0 +1,20 @@
+{
+  "issue": 5870,
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "6b4d0db772c0a093599d4aaaaa3cf22ca7f387baed721b897fba8e82ed839457",
+  "actor": "codex:5870-fencing-preparation",
+  "reason": "Declare the exact issue-owned source and temporary test harness as bind-safe implementation deliverables without widening registration ownership.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/tests/distributed_fencing.rs",
+      "Focused positive and negative tests",
+      "Digest-bound execution proof",
+      "Reviewed rollback evidence",
+      "Authority safety: Keep uncertain owners fenced and restore only a quorum-committed owner or newer majority-committed epoch after the prior lease safety window."
+    ]
+  }
+}

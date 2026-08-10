@@ -1,0 +1,85 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 121,
+  "source_revision": "eeedb493dfa456e32c83130356db703487602a40",
+  "producer_path": ".csdlc/evidence/121/review-v2/derive-negative-cases.rb",
+  "producer_sha256": "517f81af2baa70d3bc6a21a66eff5eba2a2d245d2968ac1e8365034d9b6a3aea",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_lease",
+      "quorum_fence_and_restart_safety_machine_evidence",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T05:08:12.270678Z",
+    "finished_at": "2026-08-10T05:08:12.482251Z"
+  },
+  "stdout_path": ".csdlc/evidence/121/review-v3/operator-v3/negative-cases.stdout.log",
+  "stdout_sha256": "ad2f165753bc93cfa883f583bec4f8c1b3c07e04046a2960121477917d407b36",
+  "stderr_path": ".csdlc/evidence/121/review-v3/operator-v3/negative-cases.stderr.log",
+  "stderr_sha256": "45b0cf5c6c421e09d65ca301b1bcbc3188b4b04ce4bba39346814f14ce4fbd51",
+  "cases": [
+    {
+      "case": "fence_without_holder_key",
+      "result": "fenced",
+      "observed_line_sha256": "adad5a70bd39e1965d8c52b8f57dea7e4716723e184fafd34766b333c54ede16"
+    },
+    {
+      "case": "revoke_without_holder_key",
+      "result": "fenced",
+      "observed_line_sha256": "8b6588991e3bd0d9ed224d790dbcc323bffb1ef47340a9d95e66b592cb65b100"
+    },
+    {
+      "case": "fence_same_epoch",
+      "result": "denied",
+      "observed_line_sha256": "eb3e7d1bd2767a71d58e0976e101c78c1ef9b6c7ec6839a1955f09297ac58351"
+    },
+    {
+      "case": "fence_epoch_gap",
+      "result": "denied",
+      "observed_line_sha256": "4e58a0c09c4ae790e8d20aa8d065a26b19f591127f6110b53e70acf30adc5c58"
+    },
+    {
+      "case": "fence_stale_epoch",
+      "result": "denied",
+      "observed_line_sha256": "c852c2d66e71d734b5b080389eed4ec04c8572894d93d0adcbdda41062067722"
+    },
+    {
+      "case": "fenced_mutation",
+      "result": "denied",
+      "observed_line_sha256": "d9aab6b633240aa8b819e06240a3f88debf4a645f13a9de8204a3e41d40450fe"
+    },
+    {
+      "case": "restore_current_index",
+      "result": "recovered",
+      "observed_line_sha256": "f20f6f1d859c70d68bba1ff9e9c0699c3f9d0739aa9e7a2846bb1ab2c47edad2"
+    },
+    {
+      "case": "recovery_floor_retained",
+      "result": "fenced",
+      "observed_line_sha256": "d4ce58c2cc0065f0647e0faee4774f637e40220041d47530fbb26ef55ff5d34a"
+    },
+    {
+      "case": "premature_activation",
+      "result": "denied",
+      "observed_line_sha256": "4be59b87b9a301e11be70435b03134793d1cf2d38269d6e355d20d80d778c72d"
+    },
+    {
+      "case": "holder_operation_possession",
+      "result": "denied",
+      "observed_line_sha256": "87c3eaa9ecc8190ab6f7731771e53ac41d09fe3ed16f8346a620b1a9d44d8133"
+    },
+    {
+      "case": "atomic_fence_failure",
+      "result": "fail_closed",
+      "observed_line_sha256": "ae7d43b41503f22d92c3dfe95510acf6684ec0d9da3af6363ad8c51f22cb8b71"
+    }
+  ]
+}
