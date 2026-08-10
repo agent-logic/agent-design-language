@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 84
+    "generation": 87
   },
   "status": "ready",
   "content": {
@@ -69,7 +69,7 @@
             ".csdlc/evidence/5825/native-platform/macos-semantic.json"
           ],
           "parallel_group": "5825-native-produce",
-          "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "birthday-linux-native-ci-producer",
@@ -93,7 +93,7 @@
             ".csdlc/evidence/5825/native-platform/linux-semantic.json"
           ],
           "parallel_group": "5825-native-produce",
-          "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "birthday-native-ci-receipt-verification",
