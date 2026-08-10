@@ -218,6 +218,7 @@ pub enum ConfigError {
 pub struct RuntimeInitConfig {
     pub schema: String,
     pub polis_name: String,
+    pub runtime_instance_id: String,
     pub state_root: PathBuf,
     pub binaries: RuntimeBinariesInitConfig,
     pub paths: RuntimePathsInitConfig,
@@ -260,6 +261,16 @@ impl RuntimeInitConfig {
             return Err(RuntimeInitError::Policy(
                 "polis_name must be at most 128 characters and contain no control characters"
                     .to_owned(),
+            ));
+        }
+        validate_non_empty_trimmed("runtime_instance_id", &self.runtime_instance_id)?;
+        if self.runtime_instance_id.len() > 128
+            || !self.runtime_instance_id.bytes().all(|byte| {
+                byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-')
+            })
+        {
+            return Err(RuntimeInitError::Policy(
+                "runtime_instance_id must be a bounded safe identifier".to_owned(),
             ));
         }
         validate_absolute_path("state_root", &self.state_root)?;
@@ -438,6 +449,7 @@ impl RuntimeInitConfig {
         let mut value = serde_json::to_value(self)?;
         if let Some(root) = value.as_object_mut() {
             root.remove("polis_name");
+            root.remove("runtime_instance_id");
         }
         if let Some(credentials) = value
             .get_mut("credentials")

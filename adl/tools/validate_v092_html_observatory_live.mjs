@@ -126,6 +126,30 @@ function postTrustedJson(endpoint, pathname, headers, value) {
   });
 }
 
+function getTrusted(endpoint, pathname) {
+  return new Promise((resolve, reject) => {
+    const request = https.request({
+      hostname: tlsConnectHost || endpoint.hostname,
+      port: Number(endpoint.port || 443),
+      path: pathname,
+      method: "GET",
+      servername: endpoint.hostname,
+      rejectUnauthorized: true,
+      ca: tls.rootCertificates,
+      headers: { Host: endpoint.host }
+    }, (response) => {
+      response.resume();
+      response.once("end", () => resolve({
+        status: response.statusCode,
+        headers: response.headers
+      }));
+    });
+    request.setTimeout(10_000, () => request.destroy(new Error(`HTTPS GET timed out for ${endpoint.origin}${pathname}`)));
+    request.once("error", reject);
+    request.end();
+  });
+}
+
 const observatoryPeer = await inspectTrustedPeer(url);
 const runtimePeer = await inspectTrustedPeer(runtimeUrl);
 assert(observatoryPeer.authorized, "Observatory peer certificate is not trusted");
@@ -135,6 +159,21 @@ assert.equal(
   runtimePeer.fingerprint_sha256,
   "Observatory and Runtime listeners must present the same certificate"
 );
+const observatoryDocument = await getTrusted(url, url.pathname || "/");
+assert.equal(observatoryDocument.status, 200, "Observatory HTML did not load through the trusted listener");
+const contentSecurityPolicy = String(observatoryDocument.headers["content-security-policy"] || "");
+for (const directive of [
+  `https://${url.hostname}:*`,
+  `wss://${url.hostname}:*`,
+  "object-src 'none'",
+  "base-uri 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'none'"
+]) {
+  assert(contentSecurityPolicy.includes(directive), `Observatory CSP is missing ${directive}`);
+}
+assert(!contentSecurityPolicy.includes("localhost"), "Observatory CSP must not authorize localhost");
+assert(!contentSecurityPolicy.includes("127.0.0.1"), "Observatory CSP must not authorize a loopback IP identity");
 url.searchParams.set("runtime", "v3");
 url.searchParams.set("runtimeApiBase", runtimeApiBase);
 url.searchParams.set("live", "1");
@@ -218,6 +257,11 @@ try {
     passed: true,
     polis_name: expectedPolisName,
     initial_sequence: initialStreamSequence
+  };
+  report.assertions.instance_scoped_csp = {
+    passed: true,
+    policy: contentSecurityPolicy,
+    runtime_hostname: runtimeUrl.hostname
   };
 
   const navigation = ["Runtime", "Agents", "Chat", "Events", "AWS", "Governance", "Evidence"];
@@ -406,7 +450,7 @@ try {
   proofPhase = "baseline";
   assert.equal(automaticReconnectAfter.transcript, automaticReconnectBefore.transcript, "automatic reconnect duplicated chat");
   assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts, "automatic reconnect replayed a control POST");
-  assert.notEqual(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "Guardian restart did not establish a new Runtime instance");
+  assert.equal(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "Runtime restart changed configured instance identity");
   assert(automaticReconnectAfter.last_sequence >= 0, "automatic reconnect did not establish a valid event cursor");
   assert(automaticReconnectAfter.applied_events >= 0, "automatic reconnect did not restore event accounting");
   report.assertions.automatic_bounded_reconnect = {

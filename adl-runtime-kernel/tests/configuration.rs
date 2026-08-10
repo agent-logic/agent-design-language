@@ -194,6 +194,7 @@ fn valid_runtime_init_toml(state_root: &Path) -> String {
         r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
 
 [api]
@@ -233,6 +234,7 @@ fn runtime_init_toml(body: &str) -> String {
         r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
 
 [api]
@@ -486,6 +488,7 @@ fn polis_rename_changes_only_mutable_display_metadata() {
 
     assert_eq!(konishi.polis_name, "Konishi");
     assert_eq!(axioma.polis_name, "Axioma");
+    assert_eq!(konishi.runtime_instance_id, axioma.runtime_instance_id);
     assert_eq!(konishi.state_root, axioma.state_root);
     assert_eq!(konishi.paths, axioma.paths);
     assert_eq!(konishi.api, axioma.api);
@@ -502,6 +505,20 @@ fn runtime_init_rejects_invalid_polis_name() {
         let candidate = valid_runtime_init_toml(&state_root).replace("Test Polis", &replacement);
         let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&candidate).unwrap_err();
         assert!(error.to_string().contains("polis_name"), "{error}");
+    }
+}
+
+#[test]
+fn runtime_init_rejects_invalid_runtime_instance_id() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    std::fs::create_dir_all(&state_root).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    for replacement in [String::new(), " instance".to_owned(), "i".repeat(129)] {
+        let candidate =
+            valid_runtime_init_toml(&state_root).replace("test-runtime-instance", &replacement);
+        let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&candidate).unwrap_err();
+        assert!(error.to_string().contains("runtime_instance_id"), "{error}");
     }
 }
 
@@ -553,6 +570,8 @@ fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
     let expected = config.continuity_identity_projection().unwrap();
+    assert!(expected.get("polis_name").is_none());
+    assert!(expected.get("runtime_instance_id").is_none());
 
     let mut next_cycle = config.clone();
     next_cycle.polis_name = "Axioma".to_owned();
@@ -605,6 +624,7 @@ fn runtime_init_rejects_missing_state_root_and_tls_path_escape() {
             r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 
 [api]
 address = "127.0.0.1:20997"
@@ -621,6 +641,7 @@ private_key_path = "{}"
             r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
 
 [api]
@@ -639,6 +660,7 @@ private_key_path = "{}"
             r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
 
 [api]
@@ -657,6 +679,7 @@ private_key_path = "{}"
             r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
 
 [api]
@@ -742,6 +765,7 @@ fn runtime_init_rejects_missing_or_reused_tls_paths() {
             r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
 
 [api]
@@ -759,6 +783,7 @@ private_key_path = "{}"
             r#"
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
 
 [api]

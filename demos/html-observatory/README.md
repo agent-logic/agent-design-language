@@ -82,6 +82,8 @@ the Runtime init with:
 
 - `polis_name` set to the mutable logical display name for this instance's
   Polis;
+- `runtime_instance_id` set to a stable opaque instance identifier that is not
+  derived from the Polis name or endpoint hostname;
 - `api.address` bound to `127.0.0.1`;
 - `api.public_base_url` and `api.tls.server_name` set to the certificate DNS
   identity;
@@ -98,7 +100,10 @@ virtual-host configurations. `polis_name` is display metadata: it is not
 derived from the hostname and does not participate in durable state identity,
 continuity, signatures, or authorization. Renaming `Konishi` or `Axioma`
 therefore changes one instance config and restarts that instance; it does not
-move state, rotate keys, or rename the Wuji host.
+move state, rotate keys, rename the Wuji host, change certificate paths, or
+replace `runtime_instance_id`. That opaque instance identifier is created once
+for the instance and remains stable across process restarts and Polis display
+name changes.
 
 A distributed Polis may have several Runtime instances, for example a local
 instance and one or more regional instances. Each instance declares its own
@@ -109,7 +114,17 @@ reference that one provisioned identity. Guardian peer mTLS is a separate
 private trust domain and is not replaced by these public endpoint certificates.
 
 Start the Runtime through its required Guardian lease and explicit init file,
-then serve this repository root from the second loopback HTTPS listener. Open:
+then serve this repository root from the second loopback HTTPS listener:
+
+```sh
+ADL_OBSERVATORY_ROOT="$(git rev-parse --show-toplevel)" \
+ADL_RUNTIME_INIT_FILE=<absolute-runtime-init-file> \
+ADL_OBSERVATORY_LISTEN_ADDRESS=127.0.0.1 \
+ADL_OBSERVATORY_LISTEN_PORT=<observatory-port> \
+node adl/tools/serve_v092_html_observatory.mjs
+```
+
+Open:
 
 ```text
 https://<runtime-instance-hostname>:<observatory-port>/demos/html-observatory/?runtime=v3&runtimeApiBase=https%3A%2F%2F<runtime-instance-hostname>%3A<runtime-port>&live=1

@@ -1,5 +1,6 @@
 schema = "adl.runtime_v3.init.v1"
 polis_name = "Agent Logic Local"
+runtime_instance_id = "runtime-instance-001"
 state_root = "/var/lib/adl/runtime-v3"
 
 [binaries]

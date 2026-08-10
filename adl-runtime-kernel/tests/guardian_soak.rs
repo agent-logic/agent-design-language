@@ -638,6 +638,7 @@ fn serve_requires_init_declared_state_root_before_live_adapters_start() {
         format!(
             r#"schema = "adl.runtime_v3.init.v1"
 polis_name = "Test Polis"
+runtime_instance_id = "test-runtime-instance"
 [api]
 address = "{}"
 public_base_url = "https://localhost:{}"

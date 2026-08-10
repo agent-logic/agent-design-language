@@ -12,13 +12,13 @@ mod observability;
 
 use adl_runtime_kernel::{
     admit_resident_shepherd, bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, generate_runtime_instance_id,
-    load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
-    validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
-    CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy, ControlAuthority,
-    ControlCapability, ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
+    build_production_operation_executors_with_recorder, load_control_tls, monitor_until_stop,
+    serve_control_listener_until_ready, validate_production_operation_executors,
+    verifying_key_from_hex, AgentPopulationFeed, CheckpointShutdownRequest, CheckpointingControl,
+    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit,
+    LiveBindings, LiveContinuity, LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig,
+    RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
+    TrustedControlKey,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -136,7 +136,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let instance_id = generate_runtime_instance_id();
+            let instance_id = init.runtime_instance_id.clone();
             let recorder = RuntimeRecorder::new(init.kernel.recorder_capacity);
             let reasoning = match bootstrap_reasoning_services(recorder.clone()) {
                 Ok(reasoning) => reasoning,

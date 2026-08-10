@@ -4,6 +4,15 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 APP_JS="${ROOT_DIR}/demos/html-observatory/app.js"
 CONFIG_JSON="${ROOT_DIR}/demos/html-observatory/runtime-v3.config.json"
+SERVER_JS="${ROOT_DIR}/adl/tools/serve_v092_html_observatory.mjs"
+
+node --check "${SERVER_JS}"
+if rg -n 'wuji|localhost|127\.0\.0\.1' "${SERVER_JS}" | rg -v 'LISTEN_ADDRESS.*127\.0\.0\.1' >/dev/null; then
+  echo "tracked Observatory server must not hard-code a deployment or TLS identity" >&2
+  exit 1
+fi
+rg -F 'sectionValue("api", "public_base_url")' "${SERVER_JS}" >/dev/null
+rg -F 'https://${runtimeHostname}:* wss://${runtimeHostname}:*' "${SERVER_JS}" >/dev/null
 
 node - <<'NODE' "${APP_JS}" "${CONFIG_JSON}"
 const fs = require("fs");
