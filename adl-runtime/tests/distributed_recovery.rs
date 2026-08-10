@@ -1317,6 +1317,136 @@ fn recovery_quorum_fence_safety_window_activation_commit_and_restart() {
 }
 
 #[test]
+fn recovery_refences_a_real_activated_migration_before_owner_commit() {
+    let mut fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    run_to_validated(&mut fixture, &mut migration);
+
+    let membership12 = fixture.authority.membership(12);
+    let fence_body = fixture.authority.body(
+        12,
+        2,
+        OperationClass::Fence,
+        SOURCE_NODE,
+        SOURCE_GUARDIAN,
+        &fixture.authority.source_activation,
+        NOW,
+    );
+    let fence_certificate = fixture.authority.certificate(fence_body);
+    migration
+        .fence(
+            b"migration-1",
+            b"migration-activation-fence",
+            &fence_certificate,
+            &membership12,
+            &mut fixture.ledger,
+            &mut fixture.fencing,
+            AuthorityApplication {
+                now_unix_seconds: NOW as i64,
+                now_unix_nanos: 0,
+                now_elapsed_millis: 30,
+                clock_uncertainty_millis: 5,
+                activation_public_key: fixture
+                    .authority
+                    .source_activation
+                    .verifying_key()
+                    .to_bytes(),
+                activation_proof: &[],
+            },
+        )
+        .unwrap();
+
+    let membership13 = fixture.authority.membership(13);
+    let activate_body = fixture.authority.body(
+        13,
+        2,
+        OperationClass::Activate,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let activate_proof = activation_signature(&activate_body, &fixture.authority.target_activation);
+    let activate_certificate = fixture.authority.certificate(activate_body);
+    migration
+        .activate(
+            b"migration-1",
+            &activate_certificate,
+            &membership13,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            AuthorityApplication {
+                now_unix_seconds: NOW as i64 + 3,
+                now_unix_nanos: 0,
+                now_elapsed_millis: 3_020,
+                clock_uncertainty_millis: 5,
+                activation_public_key: fixture
+                    .authority
+                    .target_activation
+                    .verifying_key()
+                    .to_bytes(),
+                activation_proof: &activate_proof,
+            },
+        )
+        .unwrap();
+    assert_eq!(
+        migration.record(b"migration-1").unwrap().phase,
+        MigrationPhase::Activated
+    );
+
+    let activated_snapshot = fixture.ledger.snapshot().unwrap();
+    let harness = RecoveryHarness::new(&fixture);
+    harness.clock.set(NOW as i64 + 3, 3_020);
+    let mut recovery = harness.create();
+    recovery
+        .begin(
+            begin_request(b"recovery-after-activate", 60_000),
+            &migration,
+            &histories(),
+        )
+        .unwrap();
+    recovery
+        .select_committed_prefix(
+            b"recovery-after-activate",
+            &[activated_snapshot],
+            &lease_policy(),
+            &membership13,
+        )
+        .unwrap();
+
+    let membership14 = fixture.authority.membership(14);
+    let recovery_fence_body = fixture.authority.body(
+        14,
+        3,
+        OperationClass::Fence,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let recovery_fence_certificate = fixture.authority.certificate(recovery_fence_body);
+    let time = harness.clock.time();
+    let fenced = recovery
+        .fence_ambiguous(
+            b"recovery-after-activate",
+            b"recovery-activation-fence",
+            &recovery_fence_certificate,
+            &membership14,
+            &mut fixture.ledger,
+            &mut fixture.fencing,
+            application(time, &fixture.authority.target_activation, &[]),
+        )
+        .unwrap();
+    assert_eq!(fenced.phase, RecoveryPhase::Fenced);
+    assert_eq!(
+        fixture.fencing.floor(LINEAGE).unwrap().committed_log_index,
+        14
+    );
+    assert!(fixture.ledger.lease(LINEAGE).unwrap().revoked);
+    marker("post_activation_ambiguity_refence", "recovered");
+}
+
+#[test]
 fn recovery_restored_prefix_activates_and_commits_without_an_explicit_fencing_floor() {
     let fixture = Fixture::new();
     let mut migration = fixture.migration_store();
@@ -1457,6 +1587,49 @@ fn recovery_create_recovers_after_initial_checkpoint_failure() {
     let store = harness.create();
     assert_eq!(store.checkpoint().generation, 0);
     marker("initial_checkpoint_failure", "recovered");
+}
+
+#[test]
+fn recovery_rejects_oversized_state_and_journal_before_reading_them() {
+    let fixture = Fixture::new();
+    let harness = RecoveryHarness::new(&fixture);
+    let store = harness.create();
+    drop(store);
+    fs::write(
+        harness.root.join("recovery-state.json"),
+        vec![b'x'; harness.policy.max_state_bytes + 1],
+    )
+    .unwrap();
+    assert!(matches!(
+        RecoveryStore::open(
+            &harness.root,
+            harness.policy.clone(),
+            harness.authority.clone(),
+            harness.clock.clone(),
+        ),
+        Err(RecoveryError::ResourceExhausted)
+    ));
+    marker("oversized_recovery_state", "rejected");
+
+    let other_fixture = Fixture::new();
+    let other_harness = RecoveryHarness::new(&other_fixture);
+    let store = other_harness.create();
+    drop(store);
+    fs::write(
+        other_harness.root.join(".recovery-state.lock"),
+        vec![b'x'; 4097],
+    )
+    .unwrap();
+    assert!(matches!(
+        RecoveryStore::open(
+            &other_harness.root,
+            other_harness.policy.clone(),
+            other_harness.authority.clone(),
+            other_harness.clock.clone(),
+        ),
+        Err(RecoveryError::ResourceExhausted)
+    ));
+    marker("oversized_recovery_journal", "rejected");
 }
 
 #[test]

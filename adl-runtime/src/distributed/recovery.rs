@@ -2,7 +2,7 @@ use std::{
     collections::BTreeMap,
     fmt,
     fs::{self, File, OpenOptions},
-    io::{Seek, SeekFrom, Write},
+    io::{Read, Seek, SeekFrom, Write},
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
@@ -28,6 +28,7 @@ const STATE_TEMP_FILE: &str = ".recovery-state.tmp";
 const MAX_ABSOLUTE_RECORDS: usize = 4096;
 const MAX_ABSOLUTE_HISTORY: usize = 24;
 const MAX_ABSOLUTE_IDENTITY_BYTES: usize = 256;
+const MAX_JOURNAL_BYTES: usize = 4096;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum RecoveryError {
@@ -306,7 +307,11 @@ impl RecoveryStore {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
         if root.join(STATE_FILE).exists() || root.join(STATE_LOCK_FILE).exists() {
-            recover_interrupted_commit(&root, checkpoint_authority.as_ref())?;
+            recover_interrupted_commit(
+                &root,
+                checkpoint_authority.as_ref(),
+                policy.max_state_bytes,
+            )?;
             if root.join(STATE_FILE).exists() {
                 return Self::open(root, policy, checkpoint_authority, clock);
             }
@@ -332,7 +337,11 @@ impl RecoveryStore {
         });
         if result.is_err() {
             drop(lock);
-            recover_interrupted_commit(&store.root, store.checkpoint_authority.as_ref())?;
+            recover_interrupted_commit(
+                &store.root,
+                store.checkpoint_authority.as_ref(),
+                store.policy.max_state_bytes,
+            )?;
             if store.checkpoint_authority.current()? != Some(checkpoint) {
                 return Err(result.err().unwrap_or(RecoveryError::DurabilityFailure));
             }
@@ -351,7 +360,7 @@ impl RecoveryStore {
     ) -> RecoveryResult<Self> {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
-        recover_interrupted_commit(&root, checkpoint_authority.as_ref())?;
+        recover_interrupted_commit(&root, checkpoint_authority.as_ref(), policy.max_state_bytes)?;
         let state_path = root.join(STATE_FILE);
         let metadata = fs::symlink_metadata(&state_path).map_err(|error| {
             if error.kind() == std::io::ErrorKind::NotFound {
@@ -363,7 +372,11 @@ impl RecoveryStore {
         if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
             return Err(RecoveryError::UnsafeStatePath);
         }
-        let bytes = fs::read(state_path).map_err(|_| RecoveryError::StateCorrupt)?;
+        let bytes = read_bounded_regular(
+            &state_path,
+            policy.max_state_bytes,
+            RecoveryError::StateMissing,
+        )?;
         if bytes.is_empty() || bytes.len() > policy.max_state_bytes {
             return Err(RecoveryError::ResourceExhausted);
         }
@@ -845,12 +858,23 @@ impl RecoveryStore {
             return Err(RecoveryError::InvalidTransition);
         }
         let existing = fencing.floor(&current.lineage_id).cloned();
-        if existing.is_none() {
+        let exact_floor = existing.as_ref().is_some_and(|floor| {
+            floor.request_id == fence_request_id
+                && floor.certificate_sha256 == certificate_sha256
+                && floor.epoch == body.epoch
+                && floor.committed_log_index == body.committed_log_index
+                && floor.operation_class == OperationClass::Fence as u32
+        });
+        if !exact_floor {
             let lease = ledger
                 .lease(&current.lineage_id)
                 .filter(|lease| !lease.revoked)
                 .ok_or(RecoveryError::AuthorityRejected)?;
-            validate_selected_lease(&current, lease, ledger.applied_log_index())?;
+            if let Some(floor) = existing.as_ref() {
+                validate_active_successor(&current, lease, ledger.applied_log_index(), floor)?;
+            } else {
+                validate_selected_lease(&current, lease, ledger.applied_log_index())?;
+            }
             fencing
                 .commit(FenceCommit {
                     request_id: fence_request_id,
@@ -1300,7 +1324,11 @@ impl RecoveryStore {
         });
         if result.is_err() {
             drop(lock);
-            recover_interrupted_commit(&self.root, self.checkpoint_authority.as_ref())?;
+            recover_interrupted_commit(
+                &self.root,
+                self.checkpoint_authority.as_ref(),
+                self.policy.max_state_bytes,
+            )?;
             if self.checkpoint_authority.current()? != Some(checkpoint) {
                 return result;
             }
@@ -1314,8 +1342,11 @@ impl RecoveryStore {
     }
 
     fn verify_current_state(&self) -> RecoveryResult<()> {
-        let bytes =
-            fs::read(self.root.join(STATE_FILE)).map_err(|_| RecoveryError::DurabilityFailure)?;
+        let bytes = read_bounded_regular(
+            &self.root.join(STATE_FILE),
+            self.policy.max_state_bytes,
+            RecoveryError::DurabilityFailure,
+        )?;
         if sha256(&bytes) != self.state_sha256
             || self.checkpoint_authority.current()? != Some(self.checkpoint())
         {
@@ -1482,6 +1513,24 @@ fn validate_activation_predecessor(
     } else {
         validate_selected_lease(record, lease, applied_log_index)
     }
+}
+
+fn validate_active_successor(
+    record: &RecoveryRecord,
+    lease: &super::lease::LeaseState,
+    applied_log_index: u64,
+    floor: &super::fencing::FenceReceipt,
+) -> RecoveryResult<()> {
+    if lease.revoked
+        || lease.lineage_id != record.lineage_id
+        || !is_candidate(record, &lease.holder_node_id, &lease.holder_guardian_id)
+        || lease.epoch != floor.epoch
+        || lease.committed_log_index <= floor.committed_log_index
+        || lease.committed_log_index != applied_log_index
+    {
+        return Err(RecoveryError::AuthorityRejected);
+    }
+    Ok(())
 }
 
 fn is_candidate(record: &RecoveryRecord, node: &[u8], guardian: &[u8]) -> bool {
@@ -1751,8 +1800,8 @@ fn validate_root(path: &Path) -> RecoveryResult<PathBuf> {
         .map_err(|_| RecoveryError::UnsafeStatePath)
 }
 
-fn checkpoint_matches(path: &Path, checkpoint: RecoveryCheckpoint) -> bool {
-    fs::read(path)
+fn checkpoint_matches(path: &Path, checkpoint: RecoveryCheckpoint, max_bytes: usize) -> bool {
+    read_bounded_regular(path, max_bytes, RecoveryError::DurabilityFailure)
         .ok()
         .filter(|bytes| sha256(bytes) == checkpoint.state_sha256)
         .and_then(|bytes| serde_json::from_slice::<StateEnvelope>(&bytes).ok())
@@ -1762,6 +1811,7 @@ fn checkpoint_matches(path: &Path, checkpoint: RecoveryCheckpoint) -> bool {
 fn recover_interrupted_commit(
     root: &Path,
     authority: &dyn RecoveryCheckpointAuthority,
+    max_state_bytes: usize,
 ) -> RecoveryResult<()> {
     let lock_path = root.join(STATE_LOCK_FILE);
     reject_nonregular_if_exists(&lock_path)?;
@@ -1779,7 +1829,11 @@ fn recover_interrupted_commit(
         .map_err(|_| RecoveryError::DurabilityFailure)?;
     lock.try_lock_exclusive()
         .map_err(|_| RecoveryError::DurabilityFailure)?;
-    let bytes = fs::read(&lock_path).map_err(|_| RecoveryError::DurabilityFailure)?;
+    let bytes = read_bounded_regular(
+        &lock_path,
+        MAX_JOURNAL_BYTES,
+        RecoveryError::DurabilityFailure,
+    )?;
     if bytes.is_empty() {
         if root.join(STATE_BACKUP_FILE).exists() {
             return Err(RecoveryError::DurabilityFailure);
@@ -1796,13 +1850,13 @@ fn recover_interrupted_commit(
     let current = authority.current()?;
     if current == journal.expected {
         if let Some(expected) = journal.expected {
-            if backup_path.exists() && checkpoint_matches(&backup_path, expected) {
+            if backup_path.exists() && checkpoint_matches(&backup_path, expected, max_state_bytes) {
                 if state_path.exists() {
                     fs::remove_file(&state_path).map_err(|_| RecoveryError::DurabilityFailure)?;
                 }
                 fs::rename(&backup_path, &state_path)
                     .map_err(|_| RecoveryError::DurabilityFailure)?;
-            } else if !checkpoint_matches(&state_path, expected) {
+            } else if !checkpoint_matches(&state_path, expected, max_state_bytes) {
                 return Err(RecoveryError::Rollback);
             }
         } else {
@@ -1816,7 +1870,7 @@ fn recover_interrupted_commit(
     } else {
         match current {
             Some(checkpoint) if checkpoint == journal.next => {
-                if !checkpoint_matches(&state_path, journal.next) {
+                if !checkpoint_matches(&state_path, journal.next, max_state_bytes) {
                     return Err(RecoveryError::Rollback);
                 }
                 if backup_path.exists() {
@@ -1851,6 +1905,35 @@ fn reject_nonregular_if_exists(path: &Path) -> RecoveryResult<()> {
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
         Err(_) => Err(RecoveryError::UnsafeStatePath),
     }
+}
+
+fn read_bounded_regular(
+    path: &Path,
+    max_bytes: usize,
+    missing_error: RecoveryError,
+) -> RecoveryResult<Vec<u8>> {
+    let metadata = fs::symlink_metadata(path).map_err(|error| {
+        if error.kind() == std::io::ErrorKind::NotFound {
+            missing_error.clone()
+        } else {
+            RecoveryError::DurabilityFailure
+        }
+    })?;
+    if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
+        return Err(RecoveryError::UnsafeStatePath);
+    }
+    if metadata.len() > max_bytes as u64 {
+        return Err(RecoveryError::ResourceExhausted);
+    }
+    let file = File::open(path).map_err(|_| RecoveryError::DurabilityFailure)?;
+    let mut bytes = Vec::with_capacity(metadata.len() as usize);
+    file.take(max_bytes as u64 + 1)
+        .read_to_end(&mut bytes)
+        .map_err(|_| RecoveryError::DurabilityFailure)?;
+    if bytes.len() > max_bytes {
+        return Err(RecoveryError::ResourceExhausted);
+    }
+    Ok(bytes)
 }
 
 fn sync_directory(root: &Path) -> RecoveryResult<()> {
