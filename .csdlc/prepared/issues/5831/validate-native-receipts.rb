@@ -44,7 +44,7 @@ def repo_file(root, value, label, required_prefix: nil)
 end
 
 def source_paths(test_target, feature_path)
-  [
+  paths = [
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
@@ -52,6 +52,14 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
   ]
+  if test_target == "adaptive_learning"
+    paths.concat([
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/durable_state.rs"
+    ])
+  end
+  paths
 end
 
 def source_manifest(root, paths)
@@ -101,6 +109,13 @@ if ARGV == ["--self-test"]
   rejected.each do |value|
     fail!("self-test accepted machine-local command log") unless machine_local_command_log?(value, synthetic_root)
   end
+  required_authority_paths = [
+    "adl-runtime-kernel/src/reasoning.rs",
+    "adl-runtime-kernel/src/durable_state.rs",
+    "adl-runtime-kernel/tests/durable_state.rs"
+  ]
+  validator_paths = source_paths("adaptive_learning", "docs/adaptive.md")
+  fail!("self-test omitted adaptive authority source") unless required_authority_paths.all? { |path| validator_paths.include?(path) }
   puts JSON.generate(status: "passed", check: "native-log-path-rejection")
   exit 0
 end
