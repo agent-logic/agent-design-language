@@ -7,15 +7,15 @@
     "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
     "slug": "github-route-guardrail",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact-head review of root route ownership, client-boundary parity, focused test behavior, fixture safety, token-resolver non-change, and issue-local lifecycle evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "AGENTS.md\ndocs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\ncsdlc-v2/tests/gate_github_route_policy.rs\ncsdlc-v2/tests/fixtures/github_connector_403.json\n.csdlc/issues/101\n.csdlc/prepared/issues/101\n.csdlc/evidence/101",
+      "review_revision": "git-blake3:a5f698b581105b58129a4a406bc10f62747babb1:8e84d77b3ec8df8ed477cf46bb49f539a4dc1a75e68a1fce2018c3c3fd6413df",
+      "reviewer": "openai-codex:independent-issue-101-final-review",
       "review_prompts": [
         "Can any covered write still be routed through the connector or raw gh?",
         "Do missing owner binaries fail closed?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

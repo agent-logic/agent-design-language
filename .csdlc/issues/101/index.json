@@ -3,13 +3,29 @@
   "issue": 101,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f09a35e236f4f77ec4793207c044d5bc698a2e14b0883b7ff2efb2b7f8938d1c",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "d3e861aa2f4c66994630cb2a453f4110adb7e5d73a8b7709b0d07a86ac1d3742",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "4a04c4d9bc52e22fd4c6c18df82db986bc25189bf4ebd463414ec87a0b40c446",
   "branch": "codex/101-github-route-guardrail",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-101-github-route-guardrail",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "openai-codex:independent-issue-101-final-review",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      "csdlc-v2/tests/fixtures/github_connector_403.json",
+      ".csdlc/issues/101",
+      ".csdlc/prepared/issues/101",
+      ".csdlc/evidence/101"
+    ],
+    "reviewed_revision": "git-blake3:a5f698b581105b58129a4a406bc10f62747babb1:8e84d77b3ec8df8ed477cf46bb49f539a4dc1a75e68a1fce2018c3c3fd6413df",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73166b816798b4b91374d3a9d4c3ac6abf842ecfe10b011c121380082ea60355",
+      "values_digest": "8315dc479ff36cabf1e46347a2c8298f282ae5c7519456a80fad40b6b2d8556f",
       "rendered_digest": "63100f5fcb1d48b1f753ba14c9c41a94e7bd0e2e222c9e997eec6b3c860545aa",
       "ast_digest": "99ea2fb6afaff543d4649d369a5f537baf85119fd7fe20c96c7b8b2c034b9c09"
     },
     "stp": {
-      "values_digest": "95b9b9cfdf34173c62b688a600710054055498e10b49ed984ef7ac7bc70e90f2",
+      "values_digest": "c1d4359fc6a74eb02fb09ae51f599c2ddb09d0123de6f64cc98ad4292b5c0616",
       "rendered_digest": "54c9e464390fd891ae2de164632237532d34a324e712d9032803b63309dc23b6",
       "ast_digest": "b69a05627ab869a03f1617a861b4e041bbd5a4d1a1eaa8d11f46ebb89aa36f14"
     },
     "spp": {
-      "values_digest": "de9f0583fb51331bdd9fd8c6c363c793a4d7ca5e0c16fc7e6def8b883de77915",
+      "values_digest": "63f42abcb42b59b296bbadf6ad4f267c8d4dd07861029f9387f71c6cea6991a6",
       "rendered_digest": "fa8469d76f449cfd1c33a4cdf395417312168660676687a0528195718d01725b",
       "ast_digest": "808fe00a235c7ea955fbe3d39aadbd305bb70f47e5ec8d56a08dab35c8012aab"
     },
     "vpp": {
-      "values_digest": "37a114bf44b773b8ca16a315bd3b2af151ece5bbb22e132c278407e618900d96",
+      "values_digest": "a9123908cdff37a7cf75adce62f47dc38c047e02c1b20734834f41d1049d4566",
       "rendered_digest": "776d35205f4b693d749bf21c6ec7a33935e5a6ee163f6fb30f7915a67e028044",
       "ast_digest": "f3c8dd764dcac133bc81d375b2d8dd6c628afc138068e1ed97d8e24c30b33cda"
     },
     "srp": {
-      "values_digest": "e961b8e3375dc97cb131840fc3ebaf3fcbf24a795bdaa9879586e540ca5f12e6",
-      "rendered_digest": "f18ce420d05550a904b72b9e424dbee0e1b46789651728798b93a57793fdcdde",
-      "ast_digest": "8eb83894386247c0bb5323fc84a9f2ad43ec61afcc98b74f45747d8f04b60992"
+      "values_digest": "bf37ca7d07ea5d711e28ab0a9b1f55238fd9651d599d1e9f4a43d4f3ad37a91c",
+      "rendered_digest": "cc97fa604c2e38f03e689166436109d4840e60245bf72ff509ba4f5fb5884f81",
+      "ast_digest": "bd424f58f4fa20c0ebbde31d448eaca53afd185db18f48620fadfc7dd783e95e"
     },
     "sor": {
-      "values_digest": "6234aaffe7481680fc5b513cff801123faaa875caf1b0d38c3dfb0ad6ad40aa6",
+      "values_digest": "7ab31b240009bbf7e326e2f6ccdd704afdd99c32d20f90e9e16972dd93271096",
       "rendered_digest": "d8c96274e2c59b4f9dd142a78d68fc62f35ee0de47fcc7a84de384b135c20b91",
       "ast_digest": "c828282bd9d82c24a49365afe83f5ed75ed36c6f636626f4c0ce9103c2c45fe0"
     }
@@ -75,6 +91,13 @@
       "to": "implemented",
       "actor": "codex:101-implementation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:101-review-recorder",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -161,6 +184,13 @@
       "actor": "codex:101-review-finding-repair",
       "reason": "Retain successful typed issue readback with the creation operation marker as dedicated AC-7 evidence.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, typed default-token issue reconciliation, and focused resolver regression proof.\",\"changes\":[\"Named csdlc-github-issue, csdlc-github-pr, csdlc-publish, and csdlc-finish as the sole covered GitHub lifecycle owners in root and boundary policy.\",\"Prohibited connector and raw-gh lifecycle writes and made missing owner binaries a fail-closed condition without fallback authority.\",\"Added a focused policy drift test, connector-403 classification fixture, verified-installation publication-owner assertion, and direct shared-token precedence and redaction regression test without changing resolver implementation.\"],\"artifacts\":[\"AGENTS.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/tests/fixtures/github_connector_403.json\",\".csdlc/evidence/101\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"purpose\":\"Check the exact issue base through corrected implementation head for whitespace and patch errors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/diff-hygiene-exact.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-policy-review-fix.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue\",\"run\",\"--request\",\"/Volumes/FastWork/csdlc-101-default-token-read.json\"],\"purpose\":\"Read back issue #101 and reconcile its typed creation operation marker through the approved default token resolver without retaining token contents.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/typed-default-token-issue-read.json\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:101-review-recorder",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
