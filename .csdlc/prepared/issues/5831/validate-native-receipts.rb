@@ -12,7 +12,7 @@ ISSUE_CONFIG = {
   5827 => ["birthday_continuity", "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"],
   5828 => ["memory_palace", "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"],
   5829 => ["capability_envelope", "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"],
-  5830 => ["adaptive_learning", "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md"],
+  5830 => ["cognitive_profile", "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md"],
   5831 => ["adaptive_learning", "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md"],
   5833 => ["birth_witness", "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"]
 }.freeze
@@ -134,17 +134,14 @@ expected_manifest = source_manifest(root, source_paths(test_target, feature_path
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/
 required_tests = %w[
-  broken_revision_link_and_unexplained_delta_fail_closed
-  canonical_creation_is_deterministic_and_public_projection_is_narrow
-  exact_duplicates_canonicalize_and_case_collisions_fail
-  exported_validator_rejects_rehashed_forgery
-  identity_continuity_capability_and_birthday_substitution_fail_closed
-  missing_nonclaims_and_public_everything_fail_closed
-  privacy_secrets_paths_and_raw_state_fail_closed
-  revision_updates_link_and_explain_exact_delta
-  stale_missing_duplicate_and_forbidden_evidence_fail_closed
-  unknown_json_fields_fail_closed
-  unsupported_labels_diagnosis_and_status_inference_fail_closed
+  fixture_matrix_tracks_the_governed_negative_surface
+  forged_grant_and_authority_fail_before_history_acceptance
+  governed_acceptance_mutates_and_persists_exact_history
+  predecessor_splice_and_sequence_overflow_fail_closed
+  recurrence_roundtrip_and_capacity_bounds_fail_closed
+  rejected_and_cancelled_paths_are_durable_and_nonmutating
+  tampered_history_and_rollback_never_return_attacker_hashes
+  unsafe_ids_rationale_paths_and_unknown_fields_fail_closed
 ]
 
 receipts = ARGV.map do |receipt_relative|
