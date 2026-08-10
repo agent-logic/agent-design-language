@@ -1,0 +1,5 @@
+producer_ruby_syntax=passed
+validator_ruby_syntax=passed
+producer_self_test=passed
+validator_self_test=passed
+workflow_yaml_parse=passed

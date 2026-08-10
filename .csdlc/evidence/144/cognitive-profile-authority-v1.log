@@ -1,6 +1,6 @@
-command=cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test cognitive_profile --no-tests=fail --status-level all
-validated_revision=a8f5f5152b418fd9f90ee1b092c630c3f2fc3e8d
-validated_tree=bebb8f8c7ce44f854a4baa25708f046a4859e86f
+command=cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --lib --no-tests=fail --status-level all -E test(/^cognitive_profile::authority_tests::/)
+validated_revision=abe5607ec4825e33a9a99851fbd3e40afb8f8454
+validated_tree=9b30521c9be9bbfa6ef83d8c8b91a8b6e046cb00
 tests_run=15
 tests_passed=15
 tests_failed=0
