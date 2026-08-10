@@ -920,7 +920,6 @@ impl MigrationStore {
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
-        let remaining_timeout_millis = self.ensure_live(&current)?;
         if matches!(
             current.phase,
             MigrationPhase::Fenced | MigrationPhase::Activated | MigrationPhase::Committed
@@ -930,6 +929,19 @@ impl MigrationStore {
         if current.phase == MigrationPhase::Aborted {
             return Ok(current);
         }
+        let recovery_started_millis = self.clock.now_millis()?;
+        let (recovery_deadline_millis, remaining_timeout_millis) = match self.ensure_live(&current)
+        {
+            Ok(remaining) => (current.deadline_millis, remaining),
+            Err(MigrationError::TimedOut) => {
+                let budget = self.policy.max_timeout_millis.min(60_000);
+                let deadline = recovery_started_millis
+                    .checked_add(budget)
+                    .ok_or(MigrationError::ResourceExhausted)?;
+                (deadline, budget)
+            }
+            Err(error) => return Err(error),
+        };
         validate_source_record(&current, &source_check)?;
         fencing
             .authorize_active_lease(copy_active_check(&source_check))
@@ -937,6 +949,12 @@ impl MigrationStore {
         authority
             .resume(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
+        let recovery_finished_millis = self.clock.now_millis()?;
+        if recovery_finished_millis < recovery_started_millis
+            || recovery_finished_millis >= recovery_deadline_millis
+        {
+            return Err(MigrationError::TimedOut);
+        }
         let evidence = sha256_many(&[b"abort", migration_id, &current.request_sha256]);
         self.advance_any_pre_fence(migration_id, evidence, |record| {
             record.phase = MigrationPhase::Aborted;
@@ -1264,6 +1282,7 @@ impl MigrationStore {
             .and_then(|_| lock.write_all(&bytes))
             .and_then(|_| lock.sync_all())
             .map_err(|_| MigrationError::DurabilityFailure)?;
+        sync_directory(&self.root)?;
         Ok(lock)
     }
 }

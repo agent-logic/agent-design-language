@@ -128,7 +128,7 @@ manifest = {"schema" => "adl.wp04.issue_validation_manifest.v1", "issue" => ISSU
 File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
 
 runner_path = EVIDENCE.join("runner.txt")
-runner = {"provider" => "local-codex", "run_id" => "5875-local-operator-v2", "os" => "macos", "arch" => "aarch64", "identity_sha256" => sha(runner_path)}
+runner = {"provider" => "local-codex", "run_id" => "5875-local-operator-v3", "os" => "macos", "arch" => "aarch64", "identity_sha256" => sha(runner_path)}
 artifacts = [Pathname.new(__FILE__), EVIDENCE.join("run-exact-child-tests.rb"), runner_path,
   output.join("exact-child-tests.log"), output.join("exact-child-tests.stdout.log"), output.join("exact-child-tests.stderr.log"),
   output.join("strict-focused-clippy.log"), output.join("strict-focused-clippy.stderr.log"),

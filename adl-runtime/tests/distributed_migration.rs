@@ -1142,8 +1142,24 @@ fn timeout_and_interrupted_commit_recovery_fail_closed() {
     assert!(!backup_path.exists());
     marker("crash_recovery", "rejected");
 
-    *fixture.migration_clock.0.lock().unwrap() = NOW * 1_000 + 60_000;
     let membership = fixture.authority.membership(11);
+    store
+        .quiesce(
+            b"migration-1",
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    *fixture.migration_clock.0.lock().unwrap() = NOW * 1_000 + 60_000;
     assert_eq!(
         store.quiesce(
             b"migration-1",
@@ -1161,6 +1177,24 @@ fn timeout_and_interrupted_commit_recovery_fail_closed() {
         ),
         Err(MigrationError::TimedOut)
     );
+    let aborted = store
+        .abort_before_fence(
+            b"migration-1",
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    assert_eq!(aborted.phase, MigrationPhase::Aborted);
+    assert!(aborted.source_authoritative && !aborted.target_authoritative);
     marker("timeout_expired", "rejected");
 }
 
