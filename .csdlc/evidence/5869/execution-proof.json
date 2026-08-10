@@ -1,0 +1,58 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5869,
+  "wp": "WP-04.07",
+  "source_revision": "e0ae567331c24faaf2b90361eda6f365d12adc0f",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/lease.rs",
+    "adl-runtime/tests/distributed_lease.rs"
+  ],
+  "source_artifacts": [
+    {"path": "adl-runtime/src/distributed/lease.rs", "sha256": "ab45c40642d5b93f221c9b7a8660802c478839b038d8ed25f98e016d8f67843a"},
+    {"path": "adl-runtime/tests/distributed_lease.rs", "sha256": "c9ddb03fcbf95da7d37d919d4932941ab0f4680a79547c83d5dc8e41a52baf5f"}
+  ],
+  "commands": [
+    {
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_lease", "--no-tests=fail"],
+      "exit_code": 0,
+      "selected_tests": 14,
+      "started_at": "2026-08-10T01:05:00Z",
+      "finished_at": "2026-08-10T01:06:54Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "e7fadc62-6749-4138-92b7-23f8ce801a86",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"
+      },
+      "stdout_path": ".csdlc/evidence/5869/distributed-lease.stdout.log",
+      "stdout_sha256": "7d4e0e5e561ce4a8f91c6b3e2741308b48ed4c8cb8003c05feaa4b56af9ac808",
+      "stderr_path": ".csdlc/evidence/5869/distributed-lease.stderr.log",
+      "stderr_sha256": "aea2ee340507193abfd9a2e18955ad503589698ed2b44970b81c92fe2c48e616"
+    }
+  ],
+  "negative_cases": [
+    {"case": "stable_minority_and_joint_union_majority", "result": "denied", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "small_voter_set_duplicate_key_and_identity_overflow", "result": "rejected", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "copied_identity_generation_algorithm_or_noncanonical_signature", "result": "rejected", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "superseded_signature_domain", "result": "rejected", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "unknown_duplicate_nonminimal_unsorted_truncated_or_zero-nanos_wire", "result": "rejected", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "wrong_domain_generation_index_or_operation", "result": "rejected", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "wrong_purpose_expired_revoked_or_wrong_domain_voter", "result": "rejected", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "policy_drift_or_future_issuance", "result": "fail_closed", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "clone_activation_mutation_replay_stale_sink_or_expiry", "result": "denied", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "clone_activation_stale_epoch_epoch_gap_or_clock_uncertainty", "result": "fenced", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "replay_quorum_loss_or_malicious_minority", "result": "denied", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "unproved_snapshot_prefix_tamper_or_oversize", "result": "fenced", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"case": "foreign_elapsed_clock_restart", "result": "recovered", "evidence_path": ".csdlc/evidence/5869/negative-cases.json", "evidence_sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"}
+  ],
+  "artifacts": [
+    {"path": ".csdlc/evidence/5869/distributed-lease.stdout.log", "sha256": "7d4e0e5e561ce4a8f91c6b3e2741308b48ed4c8cb8003c05feaa4b56af9ac808"},
+    {"path": ".csdlc/evidence/5869/distributed-lease.stderr.log", "sha256": "aea2ee340507193abfd9a2e18955ad503589698ed2b44970b81c92fe2c48e616"},
+    {"path": ".csdlc/evidence/5869/distributed-lease-clippy.log", "sha256": "6d8558e62b917f60dd2f0cb0b8a41845acabae2fd6259903149b31b5960c0a09"},
+    {"path": ".csdlc/evidence/5869/negative-cases.json", "sha256": "a924f468bd2e3e8c6a1f891cadd8d9d63d91c1f3f46dd2748672fb96eebc7812"},
+    {"path": ".csdlc/evidence/5869/runner.txt", "sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"}
+  ],
+  "native_receipts": []
+}
