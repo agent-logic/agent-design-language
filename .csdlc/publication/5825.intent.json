@@ -9,6 +9,6 @@
   "body": "Closes danielbaustin/agent-design-language#5825\n\n## Summary\n- add a deterministic Runtime v3 birthday decision contract\n- reject lifecycle lookalikes, incomplete or contradictory evidence, unsafe/private paths, packet drift, and prohibited public claims\n- retain positive and table-driven negative fixtures plus truthful birthday non-claims\n- correct native receipt validation for the canonical Agent Logic repository\n\n## Validation\n- exact `birthday` nextest target: 6/6 passed\n- strict Clippy and formatting: passed\n- receipt producer and validator Ruby syntax: passed\n- typed C-SDLC validation and exact-head review: passed\n\n## Review\nIndependent exact-head review approved the product and digest-bound local evidence with no actionable findings. Native macOS/Linux portability receipts remain explicitly deferred to their CI producer lanes and are not claimed by local proof.",
   "linkage_mode": "closing",
   "draft": false,
-  "revision": "git-blake3:4bc72404d74e8734e4497e023cd3d834c2440b47:b00f1ecaa6dcf0e2a1f9562c723ab0be79b3f330bb3f9d6454ae8b7f768a70e4",
-  "commit_sha": "4bc72404d74e8734e4497e023cd3d834c2440b47"
+  "revision": "git-blake3:b6dad1dca54adbb83717e7fa5dbc3bd0d6fe2aa5:c5a68b4e25a6389db07bec17bc1d4a2bc4d1f4c8fb8aa4b8a6315f15ed7c6789",
+  "commit_sha": "b6dad1dca54adbb83717e7fa5dbc3bd0d6fe2aa5"
 }
