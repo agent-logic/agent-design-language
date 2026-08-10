@@ -30,6 +30,16 @@ fn github_route_policy_is_consistent_and_fail_closed() {
             "{name} must retain the exact fail-closed route prohibition"
         );
     }
+
+    let coexistence: Value = serde_json::from_str(include_str!("../operator/coexistence.json"))
+        .expect("parse C-SDLC coexistence manifest");
+    let required = coexistence["required_v2_binaries"]
+        .as_array()
+        .expect("required_v2_binaries array");
+    assert!(
+        required.iter().any(|binary| binary == "csdlc-publish"),
+        "the verified installation must include the publication owner"
+    );
 }
 
 #[test]

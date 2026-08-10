@@ -108,6 +108,7 @@ owner binary:
 - `csdlc-github-issue`
 - `csdlc-github-pr`
 - `csdlc-pr-state`
+- `csdlc-publish`
 - `csdlc-finish`
 
 `csdlc-install install` must build and install the reviewed binary set into the
