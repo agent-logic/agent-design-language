@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5464fedd5520e7a04a5a10eb8441602bc8beca37d478f97dc8d1d314987f37a4",
   "phase": "published",
-  "generation": 21,
-  "digest": "0865ea7a9280634ab8ef8723f2e59161772b63afc9efb1f910f37c529316f593",
+  "generation": 22,
+  "digest": "704aabb1450c4f5172dbdeee71b19defdee93e10b96fb95e85782b221ed2939b",
   "branch": "codex/5876-recovery-state-machine",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5876-recovery",
   "review_assignment": {
@@ -41,7 +41,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/130",
     "base": "main",
     "head": "codex/5876-recovery-state-machine",
-    "revision": "git-blake3:b9dbcd5f524ad8f7efcf18901ffd723bafbad99c:73b331d605790af12dcd04339f31e4e0db14aed978f2e3eafb8279b2c933c4d1",
+    "revision": "git-blake3:9a8f8bd6277d562ecffd2d5680cb99f1c803cf91:4b4d216e9a4f272d4c0c0a530966a07b4b66a748bc56d3549357c13b361fe52c",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -59,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "29afec6efb4f564e47354116fe22ae2967b20d984e47911319198399875f7eaf",
+      "values_digest": "974ca9be725b945899ac703d17c7d33dad361744c0037bf684406cd42cebee64",
       "rendered_digest": "9e56f81f6cabb4482fa1cb8df038a6dc945fa72eb54c50605995ccdaa2b9efb3",
       "ast_digest": "75d0ba7f74389e82187f6032f2b91ff3eaa367681889bff9d8803206b6e4413d"
     },
     "stp": {
-      "values_digest": "d7eebd73e4169a5776341876a11761709f8fe601feaacf2a95736a554e0ab3fe",
+      "values_digest": "bbb1c3f2adcfb475789cf6a4328bde402bead90910803095b851868792850ba0",
       "rendered_digest": "64dce80a9d3138d70330eab539fbb3060eb1d10f9072996996c916bf7ea07e0d",
       "ast_digest": "78d8b7ae86d8a8ceb8f69fd53332b2d8f2f2b4966ed7dc9ebb9142c65ddc109e"
     },
     "spp": {
-      "values_digest": "65c65a7bc6b7af4430b9288427c8a85e0cb0aea56c6458fc32a1f65edffca167",
+      "values_digest": "1289d9680f502d54ea15ecbdb32a31ddd056155fd27059d7c4fe002405602228",
       "rendered_digest": "a46e4c158be2eda7afc0346b7eef44ff3337ffa90bdb2ad5b42b55adac04f73c",
       "ast_digest": "543cf947602bda56d18a14f72a9d782941b86725fa4fc43775046665b88d859c"
     },
     "vpp": {
-      "values_digest": "8a62393ef6c8a2ebcaa3f4d145abce23fdedb4d6921a14865de56ce58f96b985",
+      "values_digest": "b9e90f97f89bb5c944cc95b298b7e24299648d46eb12e4b3e5397a5c11c4a520",
       "rendered_digest": "0351b1b8eee9ddc90f2b85b163c7ccb3f95d05f72a345d87cba9d8aebcfe9487",
       "ast_digest": "acdf0e112acd5d5376dffcc3b8eef67d386c677e7f9293529582a1f197304dc5"
     },
     "srp": {
-      "values_digest": "2b6d58f668c8a7052c1ebdde82f534baeaf2763b27bc351c3a14ddda4b5360b4",
+      "values_digest": "3ea750d299baf196fb132117eb7182d894472395d98cb6998a86f4c9976f3fe3",
       "rendered_digest": "95e75eaedb50437d6c0f771a53c657bbcfbd3b8baa0143eb47a90ee9abb6c92a",
       "ast_digest": "78403bcf7a81fc7364745a0898dc83a5476d84a4f6285a650aa34b4faa9424c1"
     },
     "sor": {
-      "values_digest": "d0ff78e9f98fdfe72161c49f4dc3c1613b1412ff7430329a01374e724325fbbb",
+      "values_digest": "4ac33be436e394607d99ac5aac84456bdf355e6019dded81c66911e30cdd4e9a",
       "rendered_digest": "ed9b877ce129e089278d67ac8ed4d2e20f383f572bc0f430ca96ab402bc5c3b9",
       "ast_digest": "62b1c2346447b25afc9c013f2c2f9108c2dbc27c0877f591039beabadf58e224"
     }
@@ -417,6 +417,13 @@
     {
       "sequence": 39,
       "generation": 21,
+      "actor": "codex:5876-recovery",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 40,
+      "generation": 22,
       "actor": "codex:5876-recovery",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

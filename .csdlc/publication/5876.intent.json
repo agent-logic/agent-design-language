@@ -9,6 +9,6 @@
   "body": "Implements bounded, durable relocation recovery from majority-committed authority evidence.\n\n- selects one verified committed prefix and fails closed on zero or divergent histories\n- journals recovery intent before cleanup, rollback, fencing, activation, and owner commit side effects\n- reconciles restart and crash windows with bounded state, time, and durable input reads\n- covers pre-fence rollback, post-activation re-fencing, safety windows, replay, capacity, path hardening, and oversized durable inputs\n\nValidation: focused recovery suite 12/12; strict Clippy; deep exact-revision receipt with 21 machine-derived cases; independent exact-head review approved.\n\nCloses danielbaustin/agent-design-language#5876",
   "linkage_mode": "closing",
   "draft": false,
-  "revision": "git-blake3:b9dbcd5f524ad8f7efcf18901ffd723bafbad99c:73b331d605790af12dcd04339f31e4e0db14aed978f2e3eafb8279b2c933c4d1",
-  "commit_sha": "b9dbcd5f524ad8f7efcf18901ffd723bafbad99c"
+  "revision": "git-blake3:9a8f8bd6277d562ecffd2d5680cb99f1c803cf91:4b4d216e9a4f272d4c0c0a530966a07b4b66a748bc56d3549357c13b361fe52c",
+  "commit_sha": "9a8f8bd6277d562ecffd2d5680cb99f1c803cf91"
 }
