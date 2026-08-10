@@ -1,0 +1,109 @@
+use csdlc_v2::{github_token, ErrorCode};
+use serde_json::Value;
+use std::{env, fs};
+
+const ROUTE_OWNER_CONTRACT: &str = "Covered C-SDLC GitHub route owners: issue actions = `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication = `csdlc-publish`; terminal delivery = `csdlc-finish`.";
+const ROUTE_PROHIBITION_CONTRACT: &str = "Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for covered lifecycle writes; missing or unavailable owner binaries fail closed and never authorize fallback.";
+
+fn normalized_policy(document: &str) -> String {
+    document.split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
+#[test]
+fn github_route_policy_is_consistent_and_fail_closed() {
+    let repository = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repository root");
+    let agents = fs::read_to_string(repository.join("AGENTS.md")).expect("read root AGENTS");
+    let boundary =
+        fs::read_to_string(repository.join("docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"))
+            .expect("read GitHub client boundary");
+
+    for (name, document) in [("AGENTS.md", agents), ("client boundary", boundary)] {
+        let document = normalized_policy(&document);
+        assert!(
+            document.contains(ROUTE_OWNER_CONTRACT),
+            "{name} must retain the exact GitHub route-owner contract"
+        );
+        assert!(
+            document.contains(ROUTE_PROHIBITION_CONTRACT),
+            "{name} must retain the exact fail-closed route prohibition"
+        );
+    }
+}
+
+#[test]
+fn connector_403_is_not_token_failure_or_fallback_authority() {
+    let fixture: Value = serde_json::from_str(include_str!("fixtures/github_connector_403.json"))
+        .expect("parse connector 403 fixture");
+
+    assert_eq!(
+        fixture["classification"],
+        "integration_authorization_failure"
+    );
+    assert_eq!(fixture["token_failure"], false);
+    assert_eq!(fixture["fallback_authorized"], false);
+    assert_eq!(fixture["required_route"], "repo_native_rust_owner");
+
+    let encoded = fixture.to_string();
+    for forbidden in ["Bearer ", "github_pat_", "ghp_"] {
+        assert!(
+            !encoded.contains(forbidden),
+            "fixture must not retain credential material matching {forbidden:?}"
+        );
+    }
+}
+
+#[test]
+fn shared_token_precedence_and_error_redaction_are_preserved() {
+    const KEYS: [&str; 5] = [
+        "ADL_GITHUB_TOKEN",
+        "GITHUB_TOKEN",
+        "GH_TOKEN",
+        "ADL_GITHUB_TOKEN_FILE",
+        "HOME",
+    ];
+    let prior = KEYS.map(|key| (key, env::var_os(key)));
+    let temp = tempfile::tempdir().expect("tempdir");
+    let home = temp.path().join("home");
+    let keys = home.join("keys");
+    fs::create_dir_all(&keys).expect("create default token directory");
+    fs::write(keys.join("github.token"), "home-default\n").expect("write default token");
+    let configured = temp.path().join("configured.token");
+    fs::write(&configured, "configured-file\n").expect("write configured token");
+    let explicit = temp.path().join("explicit.token");
+    fs::write(&explicit, "explicit-file\n").expect("write explicit token");
+
+    for key in ["ADL_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"] {
+        env::remove_var(key);
+    }
+    env::set_var("HOME", &home);
+    env::set_var("ADL_GITHUB_TOKEN_FILE", &configured);
+    assert_eq!(github_token::resolve(None).unwrap(), "configured-file");
+
+    env::set_var("GH_TOKEN", "gh-token");
+    assert_eq!(github_token::resolve(None).unwrap(), "gh-token");
+    env::set_var("GITHUB_TOKEN", "github-token");
+    assert_eq!(github_token::resolve(None).unwrap(), "github-token");
+    env::set_var("ADL_GITHUB_TOKEN", "adl-token");
+    assert_eq!(github_token::resolve(None).unwrap(), "adl-token");
+    assert_eq!(
+        github_token::resolve(explicit.to_str()).unwrap(),
+        "explicit-file"
+    );
+
+    let missing = temp.path().join("secret-name-that-must-be-redacted.token");
+    let error = github_token::resolve(missing.to_str()).expect_err("missing token source");
+    assert_eq!(error.code, ErrorCode::InvalidInput);
+    assert_eq!(error.message, "GitHub token source is unavailable");
+    assert!(!error
+        .message
+        .contains(&missing.to_string_lossy().into_owned()));
+
+    for (key, value) in prior {
+        match value {
+            Some(value) => env::set_var(key, value),
+            None => env::remove_var(key),
+        }
+    }
+}

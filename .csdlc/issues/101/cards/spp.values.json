@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 101,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
+    "slug": "github-route-guardrail",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bind #101 on FastWork, align root and boundary ownership policy, add one focused policy/fixture regression test, validate narrowly, independently review the exact head, and publish without merge.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind the issue and inspect the existing policy and test conventions.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Update policy and add the focused drift and connector-403 regression proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused validation and verify typed issue access through the default resolver.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain exact-head independent review, resolve findings, and publish one ready PR without merging.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "AGENTS.md",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+        "csdlc-v2/tests/gate_github_actions.rs",
+        "csdlc-v2/tests/gate_github_route_policy.rs",
+        "csdlc-v2/tests/fixtures/github_connector_403.json",
+        ".csdlc/issues/101",
+        ".csdlc/prepared/issues/101",
+        ".csdlc/evidence/101"
+      ],
+      "invariants": [
+        "Repo-native Rust owner authority",
+        "Fail-closed route selection",
+        "No token contents in output or evidence",
+        "No connector/raw-gh fallback",
+        "No issue #100 mutation"
+      ],
+      "risks": [
+        "Policy prose may drift between root and boundary document",
+        "A fixture could accidentally encode real credentials",
+        "A broad test could trigger unrelated validation cost"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "The fix requires changing token resolver behavior",
+        "The fix requires connector authorization",
+        "The issue cannot be bound to FastWork",
+        "Exact-head review or focused validation fails"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/101/design.md",
+      "design_digest": "2456d1aa2214dffe6cd2e5f36603dfe376305a3f79d615d3a5dcb7bac9c40a70",
+      "diagram_ref": ".csdlc/prepared/issues/101/diagram.mmd",
+      "diagram_digest": "01e4024ebc092371853e7dd4dca1602d640aac807b4f3ea333540e9fe97f18de"
+    }
+  }
+}

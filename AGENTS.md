@@ -50,6 +50,12 @@ These rules are mandatory for ADL issue work.
      repo-native GitHub commands may also discover the operator-approved
      default token file at `$HOME/keys/github.token`; explicit environment
      sources still take precedence.
+   - Covered C-SDLC GitHub route owners: issue actions =
+     `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication =
+     `csdlc-publish`; terminal delivery = `csdlc-finish`.
+   - Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for
+     covered lifecycle writes; missing or unavailable owner binaries fail
+     closed and never authorize fallback.
    - Provider credentials, when available, may also be sourced from
      operator-approved files outside the repo under `$HOME/keys/`. Do not scan,
      print, copy, commit, or expose that directory or file contents. Map the

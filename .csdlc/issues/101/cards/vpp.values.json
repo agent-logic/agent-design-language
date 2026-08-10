@@ -1,0 +1,79 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 101,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
+    "slug": "github-route-guardrail",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "github-route-policy",
+          "proof_role": "Prove policy parity, connector-403 classification, and shared token precedence and redaction without network or real credentials.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_github_route_policy"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed tracked changes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing owners, policy drift, ambiguous 403 classification, stale review, failed focused proof, or any attempted connector/raw-gh fallback.",
+      "design_ref": ".csdlc/prepared/issues/101/design.md",
+      "design_digest": "2456d1aa2214dffe6cd2e5f36603dfe376305a3f79d615d3a5dcb7bac9c40a70",
+      "diagram_ref": ".csdlc/prepared/issues/101/diagram.mmd",
+      "diagram_digest": "01e4024ebc092371853e7dd4dca1602d640aac807b4f3ea333540e9fe97f18de"
+    }
+  }
+}

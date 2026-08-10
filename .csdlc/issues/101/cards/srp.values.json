@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 101,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
+    "slug": "github-route-guardrail",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact-head review of root route ownership, client-boundary parity, focused test behavior, fixture safety, token-resolver non-change, and issue-local lifecycle evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any covered write still be routed through the connector or raw gh?",
+        "Do missing owner binaries fail closed?",
+        "Will material root/boundary drift fail the focused test?",
+        "Does the 403 fixture distinguish integration authorization from token failure without secrets?",
+        "Did the diff avoid token resolver implementation changes and issue #100?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
