@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5833,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5833-birth-witness",
+  "title": "[v0.92][WP-15] Birth witnesses and receipts",
+  "body": "Closes danielbaustin/agent-design-language#5833\n\n## Summary\n- add an opaque runtime-established four-role Ed25519 birth-witness authority bound to the exact accepted Birthday candidate, reviewed evidence set, roster, and generation\n- derive canonical accepted/rejected witness sets and path-redacted citizen receipts whose birth status remains `not_claimed`\n- reject self-provisioned roots, case-variant equivocation, missing/duplicate/stale/forged/substituted witnesses, unsafe evidence, secret-bearing paths, packet tamper, unknown fields, and premature birth claims\n- add the narrow WP-15 exact-head native Linux/macOS receipt workflow with exact structured 13-test authority inventory and success-only eight-file aggregation\n\n## Validation\n- crate-internal authority lane: 13/13 passed\n- public serialization boundary: 1/1 passed\n- external authority compile-fail: 1/1 passed\n- strict Clippy, formatting, producer/validator Ruby syntax and self-tests, workflow YAML, diff hygiene, and typed validation: passed\n- independent exact-head review: APPROVED with no actionable P1/P2 findings\n- exact native Linux/macOS/aggregate proof remains required after publication before final review and merge\n\n## Non-claims\nThis PR does not claim a birth event, legal personhood, citizenship, governance approval, public launch, or raw private-state disclosure.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:b4e1364ee5729c5653eee4ecff29bf7a0fa14b97:d14db1d6fff2a5cdfceba2af109e33e80c7d16778b2f4cd9862cc3b9a30b9921",
+  "commit_sha": "b4e1364ee5729c5653eee4ecff29bf7a0fa14b97"
+}

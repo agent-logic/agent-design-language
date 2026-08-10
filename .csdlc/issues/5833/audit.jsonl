@@ -92,3 +92,4 @@
 {"sequence":92,"generation":67,"actor":"operator:authorized-review-truth-repair","reason":"reapprove changed issue design","operation":"approve_design"}
 {"sequence":93,"generation":67,"actor":"/root/sprint4_5857","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":94,"generation":68,"actor":"codex:5833-birth-witness","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":95,"generation":69,"actor":"codex:5833-birth-witness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
