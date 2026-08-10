@@ -1,2 +1,0 @@
-cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_failure_detection -- -D warnings
-Finished dev profile successfully with exit code 0.
