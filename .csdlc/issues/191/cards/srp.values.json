@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/191\n.csdlc/prepared/issues/191\n.csdlc/evidence/191\nadl-runtime/Cargo.toml\nadl-runtime/Cargo.lock\nadl-runtime/src/distributed/transport.rs\nadl-runtime/src/distributed/polis_runtime.rs\nadl-runtime/tests/distributed_runtime_transport.rs\nadl-runtime/tests/distributed_transport.rs\nadl-runtime/tests/distributed_discovery.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

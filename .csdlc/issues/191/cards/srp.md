@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/191
+.csdlc/prepared/issues/191
+.csdlc/evidence/191
+adl-runtime/Cargo.toml
+adl-runtime/Cargo.lock
+adl-runtime/src/distributed/transport.rs
+adl-runtime/src/distributed/polis_runtime.rs
+adl-runtime/tests/distributed_runtime_transport.rs
+adl-runtime/tests/distributed_transport.rs
+adl-runtime/tests/distributed_discovery.rs
 
 ## Prompts
 

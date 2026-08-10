@@ -6,10 +6,26 @@
   "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
   "phase": "implemented",
   "generation": 11,
-  "digest": "1e05a01009ed6a1eb123729743edc1b5c85e39c6a1c68d6da4f83bc9c9d97464",
+  "digest": "127262980866ba932135a8b771848f0f7ddcd4512f72eb9bf0c028f099c3f1c2",
   "branch": "codex/191-secure-durable-openraft",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-191-secure-raft",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:prepare_5875_release",
+    "assigned_by": "codex:191-ci-repair",
+    "revision": "git-blake3:fe948c207dfa2d64071bd6beac4eb4e0df415dfa:8c69febe67f3a65cdbc047acf3bef19a24b853fc973a8acf808ead0e521d1855",
+    "scope": [
+      ".csdlc/issues/191",
+      ".csdlc/prepared/issues/191",
+      ".csdlc/evidence/191",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "35bbc6648ad9002e93ca20ef5c353a0f09130acfc2ea4e7577c2b83608ccbf4f"
     },
     "srp": {
-      "values_digest": "5dcfca9b1d050f12269eaa0aa859a5b6fdb62c8c11fa0d70f1c34c4a678caf0c",
-      "rendered_digest": "c3cf8cce7b636fa006db1dd51dd75588b4ad2cbf62bd9c4a543866b3d18028b9",
-      "ast_digest": "840d1f85cb7122357cfa41f5ebdd6e88b46f4696a32fa7bc162feead2d88f834"
+      "values_digest": "d5f9444aa4c342f04adb30173f2981d4b9408a7885b501c13fe27a2ae0193e91",
+      "rendered_digest": "436062a3e2d81439900232d6a428d4a90ff0ebd4613a26602f8509d7f243e03a",
+      "ast_digest": "b1c55a38e581788a121cafdbb0c8dec2f7e6fae0cec353dcb3ce853937fdad09"
     },
     "sor": {
       "values_digest": "c833952cce54d46f7c1829b5e6155a26c8e0dd1cc616ddede543c60ad0e164cf",
@@ -190,6 +206,13 @@
       "actor": "codex:191-ci-repair",
       "reason": "Record the bounded post-publication compatibility repair in execution truth before fresh exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a secure three-voter OpenRaft substrate with authority-derived topology, mutually authenticated QUIC transport, durable replay and state stores, external rollback checkpoints, bounded recovery, exact restart behavior, and hosted-compatible standalone transport/discovery harnesses.\",\"changes\":[\"Added signed polis session establishment and authority-derived peer routing over the existing authenticated QUIC transport.\",\"Added crash-reconciled durable OpenRaft vote, log, state-machine, snapshot, and response-cache storage bound to an external monotonic checkpoint authority.\",\"Added focused three-voter quorum, isolation, restart, rotation, replay, rollback, canonical encoding, path-safety, bounded-I/O, and idle-timeout regressions.\",\"Added an issue-owned merge-safe receipt producer and validator that bind protected Git source, exact commands, machine cases, and immutable evidence history.\",\"Updated the existing standalone transport and discovery harnesses to declare the lease and membership siblings required by the reviewed transport authority surface; production transport bytes are unchanged by this CI repair.\"],\"artifacts\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/produce-proof-receipt.rb\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\"],\"purpose\":\"Run the exact focused runtime integration target with a nonzero fourteen-test denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused-secure-raft-runtime.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict static analysis over the same focused integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"strict-secure-raft-clippy.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:191-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
