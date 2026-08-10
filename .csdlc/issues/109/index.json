@@ -3,13 +3,95 @@
   "issue": 109,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "bfeb8b2ff23afcd8236f3327dc29b6d3f458c1e5983cbd2be97b4766c672c6d0",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "15f56e714473ac8d97cdde778b13bf2611e2e196e2d41328366bf6aa3e844d4c",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:019fe9ad-b2d4-7fd2-b669-5abd397630b0",
+    "assigned_by": "codex",
+    "revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+    "scope": [
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:019fe9ad-b2d4-7fd2-b669-5abd397630b0",
+    "scope": [
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh"
+    ],
+    "reviewed_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+    "findings": [
+      {
+        "id": "R109-P1-SRP",
+        "severity": "p1",
+        "summary": "Standard SRP omitted self-contained read-only, findings-first, evidence, resolution, and scope-depth instructions.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+        "route": null
+      },
+      {
+        "id": "R109-P2-VALIDATOR",
+        "severity": "p2",
+        "summary": "Focused validator checked isolated substrings and did not prove AC-3 through AC-7.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+        "route": null
+      },
+      {
+        "id": "R109-P2-PRECEDENCE",
+        "severity": "p2",
+        "summary": "Review-depth rules did not define authority-critical precedence over documentation-only classification.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+        "route": null
+      },
+      {
+        "id": "R109-P1-COMMIT-CONTENT",
+        "severity": "p1",
+        "summary": "Validator read mutable working-tree policy files rather than proving their equality to exact-head blobs.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+        "route": null
+      },
+      {
+        "id": "R109-P2-COMMAND-TRUTH",
+        "severity": "p2",
+        "summary": "VPP and SOR omitted the validator's required immutable base and exact-head arguments.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+        "route": null
+      },
+      {
+        "id": "R109-P2-PLAN-TRUTH",
+        "severity": "p2",
+        "summary": "SPP plan steps remained pending after implementation completed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +106,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7e4a2830e99c3eab1fac53fde38c92c0af455c9a208946e12be594c121bcbcc1",
+      "values_digest": "dfc430b8eb1bf5d35a2ff7b6760b53e1a0f7104da4cd9bc29fc13987c05e2614",
       "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
       "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
     },
     "stp": {
-      "values_digest": "7bf1e23bb16b82820972bbfb5708aa75170ce82da025d00f4c1a6c2591c9b392",
+      "values_digest": "c64c223afce716fe27b609ee165989db4fa4d018a21a56e61a18cf3e8cdcd718",
       "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
       "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
     },
     "spp": {
-      "values_digest": "063ec0a78a68ae32bc60b05d1deccecc455359fd385988487de246e2d8a342e7",
+      "values_digest": "361f6dcd5d02d5a1249df780bc23f07c1add82bddab6e2b35eb1926a904f0ec9",
       "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
       "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
     },
     "vpp": {
-      "values_digest": "8bdcfb475dd55a0cc970f5b6858ca653d433ecbd134e679b1da844de6f3cc3d6",
+      "values_digest": "eb8baa1805f1d8a44a2c9046a0747aac1cebcc0fd29ad68243e70a84f78a1dad",
       "rendered_digest": "42a9bfffd80a6b4f35769cf86ed9c6ae65d75632bfe5bded6ef25f543b436405",
       "ast_digest": "17a0cb6f2245be3029a712020395439f86fd6023c8032db328eb80b05d03a240"
     },
     "srp": {
-      "values_digest": "6ef71af61cdf6dafb214de141ff296c5f6651f12c86ac886f03e02c3dfbf3f38",
-      "rendered_digest": "edf9b4dcbbd357766766315b4a0858c55852e7312e21ddc6195dc2d72275b8c2",
-      "ast_digest": "18b91b8ed0f221c485516294dc54bbdf99d24ffe0f19932592c00d47aa8503f8"
+      "values_digest": "aa6ea4cb1d881d20ac1f89dff53835b6c34b12ebf5d42b20544eb153d16fdb78",
+      "rendered_digest": "1abf8eea02408c5573c5c2bbf3934e42785db62b41a11d7ebe120a280961192b",
+      "ast_digest": "f25905f4d03f16721ed12b35ee6e06aef52bd42da0ea94a417806187e842fa59"
     },
     "sor": {
-      "values_digest": "ee0dd2c70f683dcc89533fa128de305c603ca8c6cd85255bea9d9362379a757c",
+      "values_digest": "9a465d3cbc6b20cbe1c27ada25afcc9ca1f0215db8c78af09973ca66beedbddb",
       "rendered_digest": "d57f3e1f7c4280aa2ef21f94aec55e05a5c6de82411faa4d741b78c03b396c70",
       "ast_digest": "ed9af72a8c4f2400640a10ef9b2cdb079f9214c9e661e28fdb481ac82c96cd27"
     }
@@ -75,6 +157,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -168,6 +257,20 @@
       "actor": "codex",
       "reason": "record completion of bounded-scope and non-goal validation",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
