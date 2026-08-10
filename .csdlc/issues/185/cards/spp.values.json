@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-05] Qualify identity authority TLS capabilities and provider failure",
     "slug": "drt-05-qualify-identity-authority-tls-capabilities-and-provider-failure",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 3,
       "summary": "Exercise the distributed security and failure matrix across separated identities, approved TLS and mTLS trust, capabilities, leases, cross-polis messages, malformed traffic, pre-auth surfaces, and provider failures.",
       "steps": [
         {
@@ -76,7 +76,9 @@
         "adl/tools/v0921/drt-05/**",
         ".csdlc/issues/185/**",
         ".csdlc/prepared/issues/185/**",
-        ".csdlc/evidence/185/**"
+        ".csdlc/evidence/185/**",
+        ".csdlc/prepared/issues/185/validate-outcome.rb",
+        "adl/tools/v0921/drt-05/validate.sh"
       ],
       "invariants": [
         "Issue DRT-05 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -106,7 +108,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/185/design.md",
-      "design_digest": "c82ccdf59d8ad146aa7b890df3fc4026b3eb9c435db852d35b03cbd1798fce20",
+      "design_digest": "060af0dbc761150620607da461cb8f050e43654635837553185e8bbfaa3622e7",
       "diagram_ref": ".csdlc/prepared/issues/185/diagram.mmd",
       "diagram_digest": "bf58756f4081f0bee0a74d9685fcf68bf2e628fce343982e80c519302f060a24"
     }

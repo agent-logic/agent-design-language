@@ -29,8 +29,10 @@ Three independent Wuji voters, three governed agents, one non-voting Shepherd, o
 
 - `adl-runtime/tests/v0921_wuji_three_voter.rs`
 - `adl/tools/v0921/drt-03/**`
+- `adl/tools/v0921/drt-03/validate.sh`
 - `.csdlc/issues/183/**`
 - `.csdlc/prepared/issues/183/**`
+- `.csdlc/prepared/issues/183/validate-outcome.rb`
 - `.csdlc/evidence/183/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

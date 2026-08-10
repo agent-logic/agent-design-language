@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-10A] Implement Local Issue And Bind Commands",
     "slug": "v3-10a-implement-local-issue-and-bind-commands",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Deliver idempotent local issue initialization/observation and execution binding that authorizes only exact observed canonical branch/worktree topology through direct flags or exclusive typed input.",
       "steps": [
         {
@@ -92,7 +92,8 @@
         "csdlc-v3/tests/commands/bind/**",
         ".csdlc/issues/171/**",
         ".csdlc/prepared/issues/171/**",
-        ".csdlc/evidence/171/**"
+        ".csdlc/evidence/171/**",
+        ".csdlc/prepared/issues/171/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-10A owns only its declared repository paths and named external operation/evidence boundary.",
@@ -119,7 +120,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/171/design.md",
-      "design_digest": "fcb2ad2b64217b76c7b324bfd48604613fe03940a2fee70b72520a32fbc880a7",
+      "design_digest": "c2518ee14ef6f54cd5a6fbfbe1a4e3656bfa868327156118bc70da4fd6a8e2e4",
       "diagram_ref": ".csdlc/prepared/issues/171/diagram.mmd",
       "diagram_digest": "3c9d5477db099cca3050bbc9bb85c08b19255fd0ab16a0660a6124b31469b0a8"
     }

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-15] Implement Finish And Cleanup",
     "slug": "v3-15-implement-finish-and-cleanup",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Reconcile exact linkage-aware terminal GitHub truth and perform separate preview-first cleanup only for the exact registered canonical worktree after committed closed_out state and retained terminal receipt.",
       "steps": [
         {
@@ -100,7 +100,8 @@
         "csdlc-v3/tests/terminal/**",
         ".csdlc/issues/178/**",
         ".csdlc/prepared/issues/178/**",
-        ".csdlc/evidence/178/**"
+        ".csdlc/evidence/178/**",
+        ".csdlc/prepared/issues/178/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-15 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -127,7 +128,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/178/design.md",
-      "design_digest": "7154acf877ccdcecc39e0404ac96514c760c353bd7d8aef51d1d1a162aaff1f9",
+      "design_digest": "aac87d8c4950a92bf99a7b695f0ac93b70568a2bfd750e7da984dfb9882df145",
       "diagram_ref": ".csdlc/prepared/issues/178/diagram.mmd",
       "diagram_digest": "92e3a3c5eca265c766167146870a5a704b5456d0dc5a87a49ad29ce587cda225"
     }

@@ -16,7 +16,7 @@ Reconcile CORP-01 through CORP-07 into a redacted, digest-verifiable chain-of-ti
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -116,7 +116,7 @@ Revision 2
 
 .csdlc/prepared/issues/160/design.md
 
-Digest: 39b8890c1f716daa753a861d29936a89451b1d4459a3421c2edb1dea994abc3b
+Digest: cf4ce9b3d8ca4ab1655fa17f19588550781a898a2797776583a2d834cc84213a
 
 ## Diagram
 

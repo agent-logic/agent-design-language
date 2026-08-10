@@ -7,7 +7,7 @@
     "title": "[v0.92.1][INT-03] Publish next-milestone and deferred retirement handoff",
     "slug": "int-03-publish-next-milestone-and-deferred-retirement-handoff",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/190/design.md",
-      "design_digest": "4c9fd4c0197bc91d514a7d01f184952d3c402ced4621e1c79e5f380e74f49c79",
+      "design_digest": "e46b767906a5c65aa50729bc1faefb52783e36721c76a521cb3a275af5defc64",
       "diagram_ref": ".csdlc/prepared/issues/190/diagram.mmd",
       "diagram_digest": "8be8160e7d214f92b42ef8b4873801816eb8dfd5d53a268108fc1c5c38bf2fe0"
     }

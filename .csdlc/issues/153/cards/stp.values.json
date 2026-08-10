@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-01] Freeze critical asset and account inventory",
     "slug": "corp-01-freeze-critical-asset-and-account-inventory",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-04] Implement Application Context And Shared Services",
     "slug": "v3-04-implement-application-context-and-shared-services",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Implement one invocation-scoped App with reviewed narrow service traits, lazy credential-bearing adapters, cancellation-safe single-flight initialization, typed configuration/errors, and strict stdout/stderr redaction.",
       "steps": [
         {
@@ -110,7 +110,8 @@
         "csdlc-v3/tests/app/**",
         ".csdlc/issues/165/**",
         ".csdlc/prepared/issues/165/**",
-        ".csdlc/evidence/165/**"
+        ".csdlc/evidence/165/**",
+        ".csdlc/prepared/issues/165/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-04 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -137,7 +138,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/165/design.md",
-      "design_digest": "97397aea772f8d461352511dec3a35cfaf151ff0bf57b013cd7f70f92ed0f459",
+      "design_digest": "334ebfae1abd19464ff33204a5421d95206a58310d34049ea821ac322b272e53",
       "diagram_ref": ".csdlc/prepared/issues/165/diagram.mmd",
       "diagram_digest": "c595f7fba6cd1e45bb8f3f9dec61266794fbda5aa9e1c95c5071e827b447ffc4"
     }

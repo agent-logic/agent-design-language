@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-03] Run Wuji three-voter multi-agent production proof",
     "slug": "drt-03-run-wuji-three-voter-multi-agent-production-proof",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 3,
       "summary": "After terminal #142 proof, launch the real Wuji three-voter topology, prove governed 3-to-2-to-1 behavior, lease fencing, snapshot/restart continuity, replay, and verified cleanup at one exact revision.",
       "steps": [
         {
@@ -82,7 +82,9 @@
         "adl/tools/v0921/drt-03/**",
         ".csdlc/issues/183/**",
         ".csdlc/prepared/issues/183/**",
-        ".csdlc/evidence/183/**"
+        ".csdlc/evidence/183/**",
+        ".csdlc/prepared/issues/183/validate-outcome.rb",
+        "adl/tools/v0921/drt-03/validate.sh"
       ],
       "invariants": [
         "Issue DRT-03 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -112,7 +114,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/183/design.md",
-      "design_digest": "26a25176e2fdb18edf6579258ad14ae345c0818f305618bcdac843cfe3683054",
+      "design_digest": "e341ca3d6be58c797ee121c324b310761c7f2d8a547cadf6dbfa0247cf0dc4be",
       "diagram_ref": ".csdlc/prepared/issues/183/diagram.mmd",
       "diagram_digest": "469ca4f85682066c7b50970aa1824c2a777ce2ac0b1d3872948b778c125b8f9d"
     }

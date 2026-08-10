@@ -7,13 +7,13 @@
     "title": "[v0.92.1][CORP-05] Transfer repository domain brand and vendor control",
     "slug": "corp-05-transfer-repository-domain-brand-and-vendor-control",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Transfer approved repository, domain, brand, and vendor control by copy-first, non-destructive operations; preserve exact refs and visibility; prove asksifu and Horust were untouched; and retain explicit rollback/legacy dispositions.",
       "steps": [
         {
@@ -90,7 +90,8 @@
         "docs/operations/corporate/corp-05/**",
         ".csdlc/issues/157/**",
         ".csdlc/prepared/issues/157/**",
-        ".csdlc/evidence/157/**"
+        ".csdlc/evidence/157/**",
+        ".csdlc/prepared/issues/157/validate-outcome.rb"
       ],
       "invariants": [
         "Issue CORP-05 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -120,7 +121,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/157/design.md",
-      "design_digest": "eeb3b8e93bc40236ab5ce5a0b28f65b63712ff384e18bda066e62542110c3227",
+      "design_digest": "ca8e391f9af1d4d0e6afbf3b726758940896d140f18f98208a8668db7b9142b2",
       "diagram_ref": ".csdlc/prepared/issues/157/diagram.mmd",
       "diagram_digest": "4cf19da8205792d1c0e4cb0ba60348b1b1bed294af99066ecf7485cfd1fa7f1f"
     }

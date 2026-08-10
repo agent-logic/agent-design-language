@@ -16,7 +16,7 @@ Place Terraform state and deployment authority under company custody, use short-
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -115,7 +115,7 @@ Revision 2
 
 .csdlc/prepared/issues/159/design.md
 
-Digest: da6d4fefc0323d4ff738c7a243dd6333c39fc2b3638ba263c0aa1b6f7b2b6ce4
+Digest: c3e8424e5ed527d29bc0a9d0c99e52be56cc3b302dcab078e4f165d42d1eab8e
 
 ## Diagram
 

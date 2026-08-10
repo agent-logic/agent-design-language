@@ -37,6 +37,7 @@ Representative v2 corpus, normalized parity runner, unsupported-field register, 
 - `csdlc-v3/evidence/cutover/**`
 - `.csdlc/issues/179/**`
 - `.csdlc/prepared/issues/179/**`
+- `.csdlc/prepared/issues/179/validate-outcome.rb`
 - `.csdlc/evidence/179/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

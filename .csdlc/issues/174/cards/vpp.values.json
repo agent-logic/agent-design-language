@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-11B] Implement PVF Execution And Evidence",
     "slug": "v3-11b-implement-pvf-execution-and-evidence",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -92,7 +92,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/174/design.md",
-      "design_digest": "263a531200db2e9dcfa3e2b7c64b9bb088b7b2479e6ecaa9193b3ad3de425f59",
+      "design_digest": "616c4d42318d11852ce28f1b52397a0ced50a2499ffa82de6c49064674f156fe",
       "diagram_ref": ".csdlc/prepared/issues/174/diagram.mmd",
       "diagram_digest": "b1b6b01fa831afe880585b66ba54c81974773450e6561d44d01fd6de3e26c680"
     }

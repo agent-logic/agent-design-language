@@ -16,7 +16,7 @@ After terminal #142 proof, launch the real Wuji three-voter topology, prove gove
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -109,7 +109,7 @@ Revision 1
 
 .csdlc/prepared/issues/183/design.md
 
-Digest: 26a25176e2fdb18edf6579258ad14ae345c0818f305618bcdac843cfe3683054
+Digest: e341ca3d6be58c797ee121c324b310761c7f2d8a547cadf6dbfa0247cf0dc4be
 
 ## Diagram
 

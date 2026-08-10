@@ -16,7 +16,7 @@ At exact terminal CORP-08, V3-16, and DRT-07 revisions, independently recompute 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -102,7 +102,7 @@ Revision 1
 
 .csdlc/prepared/issues/188/design.md
 
-Digest: 98d941cdeeecd563a0c55b2ce49e92c2a2e350be4c0e45ea3b0771be0fd585f6
+Digest: 0a5e16e9fa052e3726dc9a3d0cd708adc6bbadbfd7304ce5c45810ffb781ca88
 
 ## Diagram
 

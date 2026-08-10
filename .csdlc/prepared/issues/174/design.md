@@ -31,6 +31,7 @@ Execute approved PVF plans with bounded structured concurrency, OS child control
 - `csdlc-v3/tests/pvf/execute/**`
 - `.csdlc/issues/174/**`
 - `.csdlc/prepared/issues/174/**`
+- `.csdlc/prepared/issues/174/validate-outcome.rb`
 - `.csdlc/evidence/174/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

@@ -27,8 +27,10 @@ One Wuji voter, two private AWS voters in separate AZs, authenticated private tr
 
 - `adl-runtime/tests/v0921_hybrid_continuity.rs`
 - `adl/tools/v0921/drt-04/**`
+- `adl/tools/v0921/drt-04/validate.sh`
 - `.csdlc/issues/184/**`
 - `.csdlc/prepared/issues/184/**`
+- `.csdlc/prepared/issues/184/validate-outcome.rb`
 - `.csdlc/evidence/184/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

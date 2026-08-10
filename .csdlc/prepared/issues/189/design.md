@@ -28,6 +28,7 @@ Artifact inventory, version and revision pinning, release checklist, company aut
 - `docs/milestones/v0.92.1/evidence/integration/int-02/**`
 - `.csdlc/issues/189/**`
 - `.csdlc/prepared/issues/189/**`
+- `.csdlc/prepared/issues/189/validate-outcome.rb`
 - `.csdlc/evidence/189/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

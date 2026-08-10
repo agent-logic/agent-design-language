@@ -28,6 +28,7 @@ One throwaway or explicitly promoted vertical slice containing `version`, `schem
 - `csdlc-v3/evidence/construction-spike/**`
 - `.csdlc/issues/162/**`
 - `.csdlc/prepared/issues/162/**`
+- `.csdlc/prepared/issues/162/validate-outcome.rb`
 - `.csdlc/evidence/162/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

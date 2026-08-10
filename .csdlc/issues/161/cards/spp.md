@@ -16,7 +16,7 @@ Freeze the complete public contract and retained-v2 invariant set before constru
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -152,7 +152,7 @@ Revision 1
 
 .csdlc/prepared/issues/161/design.md
 
-Digest: 806b3fd88432b6129093dc1644fc47f8b00acae926e02a1a4761fe55af365dd5
+Digest: 32021cc819be2a101a7884debbae599bc5bdf0a118977be0b54d1854200e73d7
 
 ## Diagram
 

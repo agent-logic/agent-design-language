@@ -16,7 +16,7 @@ After the approved rollback window, classify and remove every remaining v2 opera
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -115,7 +115,7 @@ Revision 1
 
 .csdlc/prepared/issues/180/design.md
 
-Digest: c244ab57a04d5fead7948841c9ac74634f909ff651fe7049caa4bbb2a3464645
+Digest: 117b63a309c397887ff7129b449cb367044813688db37b5a64eaf014dd5aee36
 
 ## Diagram
 

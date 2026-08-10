@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-D11] Approve platform commit matrix and Windows posture",
     "slug": "v3-d11-approve-platform-commit-matrix-and-windows-posture",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Convert V3-02's measured platform-commit recommendation into a separate authorized Decision 11 record that fixes the mutation/read-only posture for every supported platform before storage work.",
       "steps": [
         {
@@ -76,7 +76,8 @@
         "csdlc-v3/contracts/platform-commit-matrix.*",
         ".csdlc/issues/163/**",
         ".csdlc/prepared/issues/163/**",
-        ".csdlc/evidence/163/**"
+        ".csdlc/evidence/163/**",
+        ".csdlc/prepared/issues/163/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-D11 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -105,7 +106,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/163/design.md",
-      "design_digest": "caacd098fd7eb0277ead3fa41490d218c7d2d2a193f68355faa0f1b80d979429",
+      "design_digest": "79e453f4d8954bd04fdc1030dd62a46c4efe8245e90c41430cdf562146482382",
       "diagram_ref": ".csdlc/prepared/issues/163/diagram.mmd",
       "diagram_digest": "0598f78fe61173e7eff49f118b25237b9a44620b0c972494a6873cd2ca098d22"
     }

@@ -34,6 +34,7 @@ Deliver semantic card operations and a specific read-only doctor without making 
 - `csdlc-v3/tests/commands/doctor/**`
 - `.csdlc/issues/172/**`
 - `.csdlc/prepared/issues/172/**`
+- `.csdlc/prepared/issues/172/validate-outcome.rb`
 - `.csdlc/evidence/172/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

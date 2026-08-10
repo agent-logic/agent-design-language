@@ -34,6 +34,7 @@ Establish the production crate, root parser, dispatch, schemas, completion, gene
 - `csdlc-v3/tests/cli/**`
 - `.csdlc/issues/164/**`
 - `.csdlc/prepared/issues/164/**`
+- `.csdlc/prepared/issues/164/validate-outcome.rb`
 - `.csdlc/evidence/164/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

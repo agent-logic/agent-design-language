@@ -30,6 +30,7 @@ Implement the invocation-scoped dependency container and common I/O, configurati
 - `csdlc-v3/tests/app/**`
 - `.csdlc/issues/165/**`
 - `.csdlc/prepared/issues/165/**`
+- `.csdlc/prepared/issues/165/validate-outcome.rb`
 - `.csdlc/evidence/165/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

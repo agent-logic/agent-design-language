@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-02] Prove The Rust Construction Slice",
     "slug": "v3-02-prove-the-rust-construction-slice",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -95,7 +95,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/162/design.md",
-      "design_digest": "515a2556535fb9d2cf868b5a820387e6ef9eef3bc02b76880fe5c1875762f501",
+      "design_digest": "43d5501cab95a645c9aef65e80a7fbb6169e56c1e79cbd835dc53b1e56813404",
       "diagram_ref": ".csdlc/prepared/issues/162/diagram.mmd",
       "diagram_digest": "dd7d98e75018f4f2847491873551d01d25002297a177957cad928621ddef94c1"
     }

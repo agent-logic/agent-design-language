@@ -3496,7 +3496,7 @@ work_packages:
   proof_summary: coherent authority cut causal trace redaction stale-read denial and
     singleton ownership
   owned_paths:
-  - observatory/tests/v0921_coherent_evidence.rs
+  - demos/html-observatory/tests/v0921_coherent_evidence.rs
   - adl/tools/v0921/drt-06/**
   pvf_lanes:
   - lane: drt-06-outcome-contract

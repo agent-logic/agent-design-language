@@ -29,6 +29,7 @@ Per-platform atomic commit primitives, filesystem durability semantics, supporte
 - `csdlc-v3/contracts/platform-commit-matrix.*`
 - `.csdlc/issues/163/**`
 - `.csdlc/prepared/issues/163/**`
+- `.csdlc/prepared/issues/163/validate-outcome.rb`
 - `.csdlc/evidence/163/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

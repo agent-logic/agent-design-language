@@ -32,6 +32,7 @@ Git repository/branch/worktree/status/diff operations, bounded process execution
 - `csdlc-v3/tests/adapters/**`
 - `.csdlc/issues/170/**`
 - `.csdlc/prepared/issues/170/**`
+- `.csdlc/prepared/issues/170/validate-outcome.rb`
 - `.csdlc/evidence/170/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

@@ -16,7 +16,7 @@ Coordinate the seven distributed Runtime qualification packages through determin
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -84,7 +84,7 @@ Revision 2
 
 .csdlc/prepared/issues/151/design.md
 
-Digest: 627ba10a3f86810b7fa21138fa4d78cec60fd7da5336e3ecf026b2553498d53a
+Digest: a2aff6c8bde9acd4202183957099f09721bec4b49e3490d6ab0a5a67d42e7277
 
 ## Diagram
 

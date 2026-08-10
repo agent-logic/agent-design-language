@@ -28,6 +28,7 @@ Phases, transition commands, preconditions, topology ownership, design/readiness
 - `csdlc-v3/tests/lifecycle/**`
 - `.csdlc/issues/168/**`
 - `.csdlc/prepared/issues/168/**`
+- `.csdlc/prepared/issues/168/validate-outcome.rb`
 - `.csdlc/evidence/168/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

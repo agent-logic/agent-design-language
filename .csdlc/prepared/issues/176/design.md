@@ -31,6 +31,7 @@ Octocrab client construction, Rustls, authentication, repository and authenticat
 - `csdlc-v3/tests/github/read/**`
 - `.csdlc/issues/176/**`
 - `.csdlc/prepared/issues/176/**`
+- `.csdlc/prepared/issues/176/validate-outcome.rb`
 - `.csdlc/evidence/176/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

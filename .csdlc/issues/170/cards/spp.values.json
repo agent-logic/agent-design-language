@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-09] Implement Typed Git, Process, And Credential Adapters",
     "slug": "v3-09-implement-typed-git-process-and-credential-adapters",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Implement narrow typed Git, child-process, and credential adapters using argv-only execution, scoped secrets, complete outcome distinctions, cancellation, truncation, and joined termination.",
       "steps": [
         {
@@ -91,7 +91,8 @@
         "csdlc-v3/tests/adapters/**",
         ".csdlc/issues/170/**",
         ".csdlc/prepared/issues/170/**",
-        ".csdlc/evidence/170/**"
+        ".csdlc/evidence/170/**",
+        ".csdlc/prepared/issues/170/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-09 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -118,7 +119,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/170/design.md",
-      "design_digest": "141a5a833417f5b199f689d653b8b26651201d467ec572f90493d57533bfa6b2",
+      "design_digest": "e1cafa6bf485387e0c4f1ce5579c79201da2a4f99cef8648d6588de24c76b91c",
       "diagram_ref": ".csdlc/prepared/issues/170/diagram.mmd",
       "diagram_digest": "7ec968f8c5a843ede251db4cb0320a1087854e04fac0080f6c7762049fadb598"
     }

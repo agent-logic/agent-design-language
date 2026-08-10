@@ -16,7 +16,7 @@ Resolve canonical repository/issue identity and import v2 records through a stri
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -115,7 +115,7 @@ Revision 1
 
 .csdlc/prepared/issues/166/design.md
 
-Digest: a421cc4301abfe1a837f37c702bddf039f533c7b0f7dbc91391114552b7de67d
+Digest: 5cc2256ec9f54c0374a12cde4dc92b7e3e3f6cf034989c6ef0f49e710bab21db
 
 ## Diagram
 

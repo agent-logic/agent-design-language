@@ -16,7 +16,7 @@ Define state.json as the sole versioned authority and deterministically project 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -125,7 +125,7 @@ Revision 1
 
 .csdlc/prepared/issues/167/design.md
 
-Digest: ee4e0cbbe25e26356a6b0bf30a999defed39f32f79f83d660f903ba4c8bbbee3
+Digest: 5cec1e498369a92d7eef058df4781f11045bfa54b33e95525e01df797a8f2749
 
 ## Diagram
 

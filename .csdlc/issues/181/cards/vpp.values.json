@@ -7,7 +7,7 @@
     "title": "[v0.92.1][DRT-01] Freeze distributed qualification contract",
     "slug": "drt-01-freeze-distributed-qualification-contract",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -82,7 +82,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/181/design.md",
-      "design_digest": "c5bc763aebf54321d7a1e409db548449a60b0a9fe746ae319306be76ce47fb2b",
+      "design_digest": "a8d06fa7f107867a2827306713ca4565170376de3fa6742d580bc03efe948df3",
       "diagram_ref": ".csdlc/prepared/issues/181/diagram.mmd",
       "diagram_digest": "63d6b245dc2b6bf4718e6099a17c1ca2541be9a6bb98b7f1436a15ece95d2b12"
     }

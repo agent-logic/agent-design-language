@@ -16,7 +16,7 @@ Freeze a redacted, denominator-complete corporate asset register before any tran
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -114,7 +114,7 @@ Revision 2
 
 .csdlc/prepared/issues/153/design.md
 
-Digest: 6e7abd18e03a89e145bcc5950b8bff3aa65d246e8665eeb57d612bc5082403cc
+Digest: 88d6d59ad72f7278dbaa5af794214c0c79ea60fc33c7057fda417f9436be9047
 
 ## Diagram
 

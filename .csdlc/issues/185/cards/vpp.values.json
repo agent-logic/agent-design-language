@@ -7,7 +7,7 @@
     "title": "[v0.92.1][DRT-05] Qualify identity authority TLS capabilities and provider failure",
     "slug": "drt-05-qualify-identity-authority-tls-capabilities-and-provider-failure",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -82,7 +82,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/185/design.md",
-      "design_digest": "c82ccdf59d8ad146aa7b890df3fc4026b3eb9c435db852d35b03cbd1798fce20",
+      "design_digest": "060af0dbc761150620607da461cb8f050e43654635837553185e8bbfaa3622e7",
       "diagram_ref": ".csdlc/prepared/issues/185/diagram.mmd",
       "diagram_digest": "bf58756f4081f0bee0a74d9685fcf68bf2e628fce343982e80c519302f060a24"
     }

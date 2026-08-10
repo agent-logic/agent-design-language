@@ -31,6 +31,7 @@ Define the versioned v3 aggregate and deterministically render all six lifecycle
 - `csdlc-v3/tests/state/**`
 - `.csdlc/issues/167/**`
 - `.csdlc/prepared/issues/167/**`
+- `.csdlc/prepared/issues/167/validate-outcome.rb`
 - `.csdlc/evidence/167/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

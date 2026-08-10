@@ -34,6 +34,7 @@ Deliver issue initialization, observation, and topology-bound execution context 
 - `csdlc-v3/tests/commands/bind/**`
 - `.csdlc/issues/171/**`
 - `.csdlc/prepared/issues/171/**`
+- `.csdlc/prepared/issues/171/validate-outcome.rb`
 - `.csdlc/evidence/171/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

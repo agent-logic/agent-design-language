@@ -27,6 +27,7 @@ Dependency sequencing, status, serialization, evidence inventory, child handoffs
 
 - `docs/milestones/v0.92.1/evidence/umbrellas/corp-u/**`
 - `.csdlc/prepared/issues/149/**`
+- `.csdlc/prepared/issues/149/validate-outcome.rb`
 - `.csdlc/issues/149/**`
 - `.csdlc/evidence/149/**`
 

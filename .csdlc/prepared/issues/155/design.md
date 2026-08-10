@@ -29,6 +29,7 @@ Git provenance, contributor rights, dependencies and licenses, model and dataset
 - `docs/operations/corporate/corp-03/**`
 - `.csdlc/issues/155/**`
 - `.csdlc/prepared/issues/155/**`
+- `.csdlc/prepared/issues/155/validate-outcome.rb`
 - `.csdlc/evidence/155/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

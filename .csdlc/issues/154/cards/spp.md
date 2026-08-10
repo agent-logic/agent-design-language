@@ -16,7 +16,7 @@ Execute only counsel-approved IP instruments outside the public repository, veri
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -117,7 +117,7 @@ Revision 2
 
 .csdlc/prepared/issues/154/design.md
 
-Digest: 732bc4a9b7bc3300f7f8b9abe34c1a7d0a98d7026d2017c3e7d63dc2bd0160e7
+Digest: 565698465771f319302d30f3724370f3dedc9e427e589044799ec366c3c7bcee
 
 ## Diagram
 

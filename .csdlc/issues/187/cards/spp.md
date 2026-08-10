@@ -16,7 +16,7 @@ Run bounded two-hour local and four-hour hybrid production soaks, preserve every
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -111,7 +111,7 @@ Revision 1
 
 .csdlc/prepared/issues/187/design.md
 
-Digest: 47eb2ddd586bf9a8f3df0cd43320a07d1edaffec56998e1114070ba07fc46b8b
+Digest: bcc95757e789cd3e054f41a2cd15c49190f1c1a308966dc15fe3f180c9a6ae2d
 
 ## Diagram
 

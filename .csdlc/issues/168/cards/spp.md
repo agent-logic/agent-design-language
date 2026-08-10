@@ -16,7 +16,7 @@ Encode lifecycle and correction authorization as a pure exhaustive transition ke
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -131,7 +131,7 @@ Revision 1
 
 .csdlc/prepared/issues/168/design.md
 
-Digest: 6aa2f15b74447a733dea80e7f448a6e8ab044eff0f204c5b4a6490138e2b4c93
+Digest: 422ed59586234b750272d803150d73f49937a379c5fece2815f45b2428f54e1f
 
 ## Diagram
 

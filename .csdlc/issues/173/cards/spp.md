@@ -16,7 +16,7 @@ Implement a pure PVF planning domain that validates lane classification, proof r
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -117,7 +117,7 @@ Revision 1
 
 .csdlc/prepared/issues/173/design.md
 
-Digest: 4db4fffda9a8f037c3919ac60005e62119d71cbfd88f23f54b20e22cde93d4c4
+Digest: 58d4bef05173cb389ae74bfc360053d31497719971a74e0a2286ee4e3dce090f
 
 ## Diagram
 

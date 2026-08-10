@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-06] Validate Observatory coherent evidence",
     "slug": "drt-06-validate-observatory-coherent-evidence",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 7
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 4,
       "summary": "Run one portable production-path matrix across macOS, Linux, arm64, x86_64, hosted models, local models, reconnects, restarts, and Observatory reattachment, with exact model and artifact identity.",
       "steps": [
         {
@@ -73,11 +73,13 @@
         }
       ],
       "affected_areas": [
-        "observatory/tests/v0921_coherent_evidence.rs",
+        "demos/html-observatory/tests/v0921_coherent_evidence.rs",
         "adl/tools/v0921/drt-06/**",
         ".csdlc/issues/186/**",
         ".csdlc/prepared/issues/186/**",
-        ".csdlc/evidence/186/**"
+        ".csdlc/evidence/186/**",
+        ".csdlc/prepared/issues/186/validate-outcome.rb",
+        "adl/tools/v0921/drt-06/validate.sh"
       ],
       "invariants": [
         "Issue DRT-06 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -107,7 +109,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/186/design.md",
-      "design_digest": "0094a845fca2e44aca0c1449c22658c483a6074c18f70e0bd0b3bb3ddda7141f",
+      "design_digest": "03565a229f40d8a7c948ebef8cbd0973bf2afc0db2579b22dbb6bed6770f2c9a",
       "diagram_ref": ".csdlc/prepared/issues/186/diagram.mmd",
       "diagram_digest": "953f92d2ec83e0ec04e72b5acb89bf63cf533e23acc60d03e48ec593db89b536"
     }

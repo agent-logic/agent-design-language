@@ -16,7 +16,7 @@ After release closeout, publish a portable next-milestone handoff that accounts 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -103,7 +103,7 @@ Revision 1
 
 .csdlc/prepared/issues/190/design.md
 
-Digest: 4c9fd4c0197bc91d514a7d01f184952d3c402ced4621e1c79e5f380e74f49c79
+Digest: e46b767906a5c65aa50729bc1faefb52783e36721c76a521cb3a275af5defc64
 
 ## Diagram
 

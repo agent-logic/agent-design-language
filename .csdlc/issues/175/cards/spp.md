@@ -16,7 +16,7 @@ Implement authenticated independent exact-revision review, finding disposition, 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -144,7 +144,7 @@ Revision 1
 
 .csdlc/prepared/issues/175/design.md
 
-Digest: 871a2ca1107f62e3dccf1bce8d121c88dce95b51ecd7bd0f116269cf05779c56
+Digest: 8bc24bae8f58932e821e02b2832ced3ad708d345369fca5c4e78452f1eb99e6a
 
 ## Diagram
 

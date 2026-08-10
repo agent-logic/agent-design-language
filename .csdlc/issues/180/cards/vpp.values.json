@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-R01] Retire V2 After The Rollback Window",
     "slug": "v3-r01-retire-v2-after-the-rollback-window",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/180/design.md",
-      "design_digest": "c244ab57a04d5fead7948841c9ac74634f909ff651fe7049caa4bbb2a3464645",
+      "design_digest": "117b63a309c397887ff7129b449cb367044813688db37b5a64eaf014dd5aee36",
       "diagram_ref": ".csdlc/prepared/issues/180/diagram.mmd",
       "diagram_digest": "bd2d2245ee90406daa4755f036adce2a7bbf3c6af1d0ed3878098fa763278a1f"
     }

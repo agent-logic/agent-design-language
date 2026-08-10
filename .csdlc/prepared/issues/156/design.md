@@ -29,6 +29,7 @@ Company identities, billing profiles, secure MFA, recovery channels, vault custo
 - `docs/operations/corporate/corp-04/**`
 - `.csdlc/issues/156/**`
 - `.csdlc/prepared/issues/156/**`
+- `.csdlc/prepared/issues/156/validate-outcome.rb`
 - `.csdlc/evidence/156/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

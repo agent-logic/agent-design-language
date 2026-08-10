@@ -7,13 +7,13 @@
     "title": "[v0.92.1][CORP-01] Freeze critical asset and account inventory",
     "slug": "corp-01-freeze-critical-asset-and-account-inventory",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Freeze a redacted, denominator-complete corporate asset register before any transfer: reconcile authoritative asset classes, record custody and rollback fields, prove exclusions and redaction fail closed, then hand the immutable inventory to dependent corporate work.",
       "steps": [
         {
@@ -87,7 +87,8 @@
         "docs/operations/corporate/corp-01/**",
         ".csdlc/issues/153/**",
         ".csdlc/prepared/issues/153/**",
-        ".csdlc/evidence/153/**"
+        ".csdlc/evidence/153/**",
+        ".csdlc/prepared/issues/153/validate-outcome.rb"
       ],
       "invariants": [
         "Issue CORP-01 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -116,7 +117,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/153/design.md",
-      "design_digest": "6e7abd18e03a89e145bcc5950b8bff3aa65d246e8665eeb57d612bc5082403cc",
+      "design_digest": "88d6d59ad72f7278dbaa5af794214c0c79ea60fc33c7057fda417f9436be9047",
       "diagram_ref": ".csdlc/prepared/issues/153/diagram.mmd",
       "diagram_digest": "54dd8c804937b881ad0f67a3fa357a0b9ec6b8331814875d8ff130839d5e120f"
     }

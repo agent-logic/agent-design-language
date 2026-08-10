@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-12] Implement Exact Review And Publication Gates",
     "slug": "v3-12-implement-exact-review-and-publication-gates",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Implement authenticated independent exact-revision review, finding disposition, deterministic staleness, complete recovery invalidation, mode-bound publication authorization, and disjoint Closing/PartOf linkage gates.",
       "steps": [
         {
@@ -118,7 +118,8 @@
         "csdlc-v3/tests/review/**",
         ".csdlc/issues/175/**",
         ".csdlc/prepared/issues/175/**",
-        ".csdlc/evidence/175/**"
+        ".csdlc/evidence/175/**",
+        ".csdlc/prepared/issues/175/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-12 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -145,7 +146,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/175/design.md",
-      "design_digest": "871a2ca1107f62e3dccf1bce8d121c88dce95b51ecd7bd0f116269cf05779c56",
+      "design_digest": "8bc24bae8f58932e821e02b2832ced3ad708d345369fca5c4e78452f1eb99e6a",
       "diagram_ref": ".csdlc/prepared/issues/175/diagram.mmd",
       "diagram_digest": "494f58b943a3eb6fdd062a1c893c937633ea6f09c30cf6a61f08e7f651b30684"
     }

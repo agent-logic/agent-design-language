@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-02] Execute counsel-reviewed IP assignment and corporate acceptance",
     "slug": "corp-02-execute-counsel-reviewed-ip-assignment-and-corporate-acceptance",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/154/design.md",
-      "design_digest": "732bc4a9b7bc3300f7f8b9abe34c1a7d0a98d7026d2017c3e7d63dc2bd0160e7",
+      "design_digest": "565698465771f319302d30f3724370f3dedc9e427e589044799ec366c3c7bcee",
       "diagram_ref": ".csdlc/prepared/issues/154/diagram.mmd",
       "diagram_digest": "3abd106d9b41673ebd4635fa448584d57deabca62224528bea570ae99bd3b12c"
     }

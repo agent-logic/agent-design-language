@@ -30,6 +30,7 @@ Seven approved repository copies and source authority, GitHub organization setti
 - `docs/operations/corporate/corp-05/**`
 - `.csdlc/issues/157/**`
 - `.csdlc/prepared/issues/157/**`
+- `.csdlc/prepared/issues/157/validate-outcome.rb`
 - `.csdlc/evidence/157/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

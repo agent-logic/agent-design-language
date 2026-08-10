@@ -16,7 +16,7 @@ Coordinate the eight corporate-transfer children through their legal, custody, c
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -84,7 +84,7 @@ Revision 2
 
 .csdlc/prepared/issues/149/design.md
 
-Digest: bd9c3a45275544dd813d8a4f739fc0c3f3e451c7ed45d0353347374eed7b03c7
+Digest: 0761a79e6b2170ca001322d1e3fd6f6e7f2406977868b41aae7d513d85b03ad6
 
 ## Diagram
 

@@ -28,6 +28,7 @@ Terminal v0.92.1 evidence, residual risks, deferred work, rollback-window metric
 - `docs/milestones/v0.92.1/evidence/integration/int-03/**`
 - `.csdlc/issues/190/**`
 - `.csdlc/prepared/issues/190/**`
+- `.csdlc/prepared/issues/190/validate-outcome.rb`
 - `.csdlc/evidence/190/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

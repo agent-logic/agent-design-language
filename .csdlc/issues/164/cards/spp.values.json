@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-03] Build The Single-Binary Foundation",
     "slug": "v3-03-build-the-single-binary-foundation",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Construct the production single-binary shell and mechanically bind its parser, generated help, output envelopes, in-process filters/templates, dependency policy, completions, installation identity, and provenance.",
       "steps": [
         {
@@ -116,7 +116,8 @@
         "csdlc-v3/tests/cli/**",
         ".csdlc/issues/164/**",
         ".csdlc/prepared/issues/164/**",
-        ".csdlc/evidence/164/**"
+        ".csdlc/evidence/164/**",
+        ".csdlc/prepared/issues/164/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-03 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -143,7 +144,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/164/design.md",
-      "design_digest": "608d24ba5a479e017133701cba4b49ab7aa046889087c80fc5ed201e11fe1605",
+      "design_digest": "5fc0db35c4b95fa5a443296460493cd0bd9a96080188dafb0109fb1f1bcc3f51",
       "diagram_ref": ".csdlc/prepared/issues/164/diagram.mmd",
       "diagram_digest": "50b3388cc5ef3552cb6d8ca29d566941914c1b280f2dbe39e095761cb12297d1"
     }

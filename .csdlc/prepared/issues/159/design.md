@@ -30,6 +30,7 @@ Remote state and locks, OIDC and deployment roles, GitHub environments, secrets 
 - `docs/operations/corporate/corp-07/**`
 - `.csdlc/issues/159/**`
 - `.csdlc/prepared/issues/159/**`
+- `.csdlc/prepared/issues/159/validate-outcome.rb`
 - `.csdlc/evidence/159/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

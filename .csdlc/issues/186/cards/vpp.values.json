@@ -7,7 +7,7 @@
     "title": "[v0.92.1][DRT-06] Validate Observatory coherent evidence",
     "slug": "drt-06-validate-observatory-coherent-evidence",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -82,7 +82,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/186/design.md",
-      "design_digest": "0094a845fca2e44aca0c1449c22658c483a6074c18f70e0bd0b3bb3ddda7141f",
+      "design_digest": "03565a229f40d8a7c948ebef8cbd0973bf2afc0db2579b22dbb6bed6770f2c9a",
       "diagram_ref": ".csdlc/prepared/issues/186/diagram.mmd",
       "diagram_digest": "953f92d2ec83e0ec04e72b5acb89bf63cf533e23acc60d03e48ec593db89b536"
     }

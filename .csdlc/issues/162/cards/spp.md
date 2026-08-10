@@ -16,7 +16,7 @@ Build and measure one disposable Rust construction slice that proves the four-la
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -119,7 +119,7 @@ Revision 1
 
 .csdlc/prepared/issues/162/design.md
 
-Digest: 515a2556535fb9d2cf868b5a820387e6ef9eef3bc02b76880fe5c1875762f501
+Digest: 43d5501cab95a645c9aef65e80a7fbb6169e56c1e79cbd835dc53b1e56813404
 
 ## Diagram
 

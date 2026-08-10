@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-06] Migrate AWS production infrastructure",
     "slug": "corp-06-migrate-aws-production-infrastructure",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {

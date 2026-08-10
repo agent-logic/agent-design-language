@@ -29,6 +29,7 @@ Repositories, domains, brands, source and model IP, cloud and SaaS accounts, bil
 - `docs/operations/corporate/corp-01/**`
 - `.csdlc/issues/153/**`
 - `.csdlc/prepared/issues/153/**`
+- `.csdlc/prepared/issues/153/validate-outcome.rb`
 - `.csdlc/evidence/153/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

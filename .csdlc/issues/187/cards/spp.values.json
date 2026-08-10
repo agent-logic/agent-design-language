@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-07] Complete soak replay resource cleanup and synthesis",
     "slug": "drt-07-complete-soak-replay-resource-cleanup-and-synthesis",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 3,
       "summary": "Run bounded two-hour local and four-hour hybrid production soaks, preserve every attempt, prove resource and error thresholds, replay deterministically, verify cleanup, and synthesize truthful residual risks.",
       "steps": [
         {
@@ -84,7 +84,9 @@
         "docs/milestones/v0.92.1/evidence/runtime-qualification/**",
         ".csdlc/issues/187/**",
         ".csdlc/prepared/issues/187/**",
-        ".csdlc/evidence/187/**"
+        ".csdlc/evidence/187/**",
+        ".csdlc/prepared/issues/187/validate-outcome.rb",
+        "adl/tools/v0921/drt-07/validate.sh"
       ],
       "invariants": [
         "Issue DRT-07 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -114,7 +116,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/187/design.md",
-      "design_digest": "47eb2ddd586bf9a8f3df0cd43320a07d1edaffec56998e1114070ba07fc46b8b",
+      "design_digest": "bcc95757e789cd3e054f41a2cd15c49190f1c1a308966dc15fe3f180c9a6ae2d",
       "diagram_ref": ".csdlc/prepared/issues/187/diagram.mmd",
       "diagram_digest": "4499a2c837b9f57dd68bf4fba95fc28f4ee10bad1c4f72ab5640cd785491725c"
     }

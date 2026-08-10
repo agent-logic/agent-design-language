@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-01] Freeze Product Contract And Retained Invariants",
     "slug": "v3-01-freeze-product-contract-and-retained-invariants",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -122,7 +122,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/161/design.md",
-      "design_digest": "806b3fd88432b6129093dc1644fc47f8b00acae926e02a1a4761fe55af365dd5",
+      "design_digest": "32021cc819be2a101a7884debbae599bc5bdf0a118977be0b54d1854200e73d7",
       "diagram_ref": ".csdlc/prepared/issues/161/diagram.mmd",
       "diagram_digest": "807ad88c331e99e345f28fc965648214fddb1df6410649776483fe9a3f14723e"
     }

@@ -16,7 +16,7 @@ Convert V3-02's measured platform-commit recommendation into a separate authoriz
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -103,7 +103,7 @@ Revision 1
 
 .csdlc/prepared/issues/163/design.md
 
-Digest: caacd098fd7eb0277ead3fa41490d218c7d2d2a193f68355faa0f1b80d979429
+Digest: 79e453f4d8954bd04fdc1030dd62a46c4efe8245e90c41430cdf562146482382
 
 ## Diagram
 

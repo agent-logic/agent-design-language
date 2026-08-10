@@ -16,7 +16,7 @@ Deliver capability-matrix-driven semantic card operations and a strictly read-on
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -126,7 +126,7 @@ Revision 1
 
 .csdlc/prepared/issues/172/design.md
 
-Digest: 74cb96e483bad833935b4252158f537a5993c7bcf2caad7bfe9778b54fd4195f
+Digest: bb3c894b929857fe9db6ac66925dfe527f1b04d3978a8f2dd086e13bc13e254d
 
 ## Diagram
 

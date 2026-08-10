@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-16] Prove Parity, Run Canary Migration, And Cut Over Authority",
     "slug": "v3-16-prove-parity-run-canary-migration-and-cut-over-authority",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Prove normalized v2/v3 safety parity, migrate a bounded v3-only canary cohort with archived snapshots and writer fences, run every known-defect regression, and perform an independently reviewed operator-approved single authority cutover with rollback.",
       "steps": [
         {
@@ -111,7 +111,8 @@
         "csdlc-v3/evidence/cutover/**",
         ".csdlc/issues/179/**",
         ".csdlc/prepared/issues/179/**",
-        ".csdlc/evidence/179/**"
+        ".csdlc/evidence/179/**",
+        ".csdlc/prepared/issues/179/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-16 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -138,7 +139,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/179/design.md",
-      "design_digest": "b00b3f072ccb01134b4ae262d7e45a0f29381e732eeb81561b627d9a4125016b",
+      "design_digest": "e066d29f10ba847d685fe564266ae728403f784184cea1033bff0380a9d5321f",
       "diagram_ref": ".csdlc/prepared/issues/179/diagram.mmd",
       "diagram_digest": "be770d266c729ace1e9b13a9d39891bf1db48058e2641ff04ae18c92c8e991cb"
     }

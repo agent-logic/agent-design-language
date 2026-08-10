@@ -32,6 +32,7 @@ Advisory locking, compare-and-swap generation/digest checks, intent records, tem
 - `csdlc-v3/tests/store/**`
 - `.csdlc/issues/169/**`
 - `.csdlc/prepared/issues/169/**`
+- `.csdlc/prepared/issues/169/validate-outcome.rb`
 - `.csdlc/evidence/169/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

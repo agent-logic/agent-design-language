@@ -113,6 +113,7 @@ Issue #146 is documentation-only. It requires focused checks for package complet
 - `.csdlc/issues/146/**`
 - `.csdlc/prepared/issues/146/**`
 - `docs/milestones/v0.92.1/**`
+- `csdlc-v3/README.md`
 
 ## Non-goals
 

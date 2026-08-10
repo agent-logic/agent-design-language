@@ -16,7 +16,7 @@ Using only the Agent Logic business AWS account, prove hybrid Wuji and two-priva
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -104,7 +104,7 @@ Revision 1
 
 .csdlc/prepared/issues/184/design.md
 
-Digest: f7a12caee4dd715f7742074768dbbc37ebd79c8ed6ae4d5cababd53d34a5060c
+Digest: 0b5cd46c62b64eff7e8278e3d42dad97343193483ef183a896398351c48834f5
 
 ## Diagram
 

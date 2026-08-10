@@ -7,13 +7,13 @@
     "title": "[v0.92.1][CORP-06] Migrate AWS production infrastructure",
     "slug": "corp-06-migrate-aws-production-infrastructure",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Migrate production infrastructure only through the verified Agent Logic business AWS profile, use publicly trusted TLS, prove each service cutover and rollback, and delete every temporary resource with provider readback.",
       "steps": [
         {
@@ -87,7 +87,8 @@
         "docs/operations/corporate/corp-06/**",
         ".csdlc/issues/158/**",
         ".csdlc/prepared/issues/158/**",
-        ".csdlc/evidence/158/**"
+        ".csdlc/evidence/158/**",
+        ".csdlc/prepared/issues/158/validate-outcome.rb"
       ],
       "invariants": [
         "Issue CORP-06 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -117,7 +118,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/158/design.md",
-      "design_digest": "4105a2f2c53400b287a273472ceecaa89e0766d38cc6586b562f6d6cd0eb356f",
+      "design_digest": "09207f654b2b2b005054c87d646c726f580126d965a397e819ae211d4479d823",
       "diagram_ref": ".csdlc/prepared/issues/158/diagram.mmd",
       "diagram_digest": "5c1ededc3626d128894cedd84fe85bd5c753c7d61265cb5ddf5f94aca4fdd67a"
     }

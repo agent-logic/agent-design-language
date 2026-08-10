@@ -16,7 +16,7 @@ Freeze the distributed qualification contract before any live node starts: enume
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -108,7 +108,7 @@ Revision 1
 
 .csdlc/prepared/issues/181/design.md
 
-Digest: c5bc763aebf54321d7a1e409db548449a60b0a9fe746ae319306be76ce47fb2b
+Digest: a8d06fa7f107867a2827306713ca4565170376de3fa6742d580bc03efe948df3
 
 ## Diagram
 

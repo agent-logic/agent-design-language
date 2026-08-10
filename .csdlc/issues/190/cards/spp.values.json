@@ -7,13 +7,13 @@
     "title": "[v0.92.1][INT-03] Publish next-milestone and deferred retirement handoff",
     "slug": "int-03-publish-next-milestone-and-deferred-retirement-handoff",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "After release closeout, publish a portable next-milestone handoff that accounts for all terminal evidence, residual risks, deferred work, and the still-gated V3-R01 retirement eligibility decision.",
       "steps": [
         {
@@ -75,7 +75,8 @@
         "docs/milestones/v0.92.1/evidence/integration/int-03/**",
         ".csdlc/issues/190/**",
         ".csdlc/prepared/issues/190/**",
-        ".csdlc/evidence/190/**"
+        ".csdlc/evidence/190/**",
+        ".csdlc/prepared/issues/190/validate-outcome.rb"
       ],
       "invariants": [
         "Issue INT-03 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -104,7 +105,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/190/design.md",
-      "design_digest": "4c9fd4c0197bc91d514a7d01f184952d3c402ced4621e1c79e5f380e74f49c79",
+      "design_digest": "e46b767906a5c65aa50729bc1faefb52783e36721c76a521cb3a275af5defc64",
       "diagram_ref": ".csdlc/prepared/issues/190/diagram.mmd",
       "diagram_digest": "8be8160e7d214f92b42ef8b4873801816eb8dfd5d53a268108fc1c5c38bf2fe0"
     }

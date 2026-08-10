@@ -7,13 +7,13 @@
     "title": "[v0.92.1][CORP-04] Establish company billing recovery MFA and vault custody",
     "slug": "corp-04-establish-company-billing-recovery-mfa-and-vault-custody",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Move service administration, billing, MFA, recovery, vault, and break-glass custody to company roles, prove recovery without sole founder dependency, and retain only redacted role/outcome evidence.",
       "steps": [
         {
@@ -88,7 +88,8 @@
         "docs/operations/corporate/corp-04/**",
         ".csdlc/issues/156/**",
         ".csdlc/prepared/issues/156/**",
-        ".csdlc/evidence/156/**"
+        ".csdlc/evidence/156/**",
+        ".csdlc/prepared/issues/156/validate-outcome.rb"
       ],
       "invariants": [
         "Issue CORP-04 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -117,7 +118,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/156/design.md",
-      "design_digest": "2eb7d3d4363d9704e697bac3f0cf3833750433f0ba63db0f4231c96031aebe59",
+      "design_digest": "5278f7197c066e6ff57422e1d8e825008a2c371f1c4c02852f7a43dcb60a2fec",
       "diagram_ref": ".csdlc/prepared/issues/156/diagram.mmd",
       "diagram_digest": "ddf11e4f8a62d7fc71b72ab9d355669d3e0ac2316a99748d0d802376f0e1158d"
     }

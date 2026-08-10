@@ -16,7 +16,7 @@ Exercise the distributed security and failure matrix across separated identities
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -103,7 +103,7 @@ Revision 1
 
 .csdlc/prepared/issues/185/design.md
 
-Digest: c82ccdf59d8ad146aa7b890df3fc4026b3eb9c435db852d35b03cbd1798fce20
+Digest: 060af0dbc761150620607da461cb8f050e43654635837553185e8bbfaa3622e7
 
 ## Diagram
 

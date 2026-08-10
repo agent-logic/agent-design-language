@@ -16,7 +16,7 @@ Implement idempotent intent-first PR mutation and bounded foreground watch with 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -133,7 +133,7 @@ Revision 1
 
 .csdlc/prepared/issues/177/design.md
 
-Digest: 14e1e600f0595a05a2752b3ce60aa0b6c8c811ecba7518bc48c06abb842dc37c
+Digest: 023624dea22d5b1408addd507964386c089c852666c57b232dc9deb81ac4ba47
 
 ## Diagram
 

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-07] Move Terraform CI deployment and runbook authority",
     "slug": "corp-07-move-terraform-ci-deployment-and-runbook-authority",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/159/design.md",
-      "design_digest": "da6d4fefc0323d4ff738c7a243dd6333c39fc2b3638ba263c0aa1b6f7b2b6ce4",
+      "design_digest": "c3e8424e5ed527d29bc0a9d0c99e52be56cc3b302dcab078e4f165d42d1eab8e",
       "diagram_ref": ".csdlc/prepared/issues/159/diagram.mmd",
       "diagram_digest": "1dd1f8237eb8d26f191cd9661c41ca3bb4f4eb1126dbe0d28b0d4874e71254ce"
     }

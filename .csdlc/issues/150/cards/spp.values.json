@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-U] C-SDLC v3 implementation",
     "slug": "v3-u-c-sdlc-v3-implementation",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Coordinate the twenty-package C-SDLC v3 construction graph from contract freeze through writer-fenced cutover, enforcing Decision 11 before transaction work and keeping V3-R01 explicitly deferred. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.",
       "steps": [
         {
@@ -58,7 +58,8 @@
         "docs/milestones/v0.92.1/evidence/umbrellas/v3-u/**",
         ".csdlc/prepared/issues/150/**",
         ".csdlc/issues/150/**",
-        ".csdlc/evidence/150/**"
+        ".csdlc/evidence/150/**",
+        ".csdlc/prepared/issues/150/validate-outcome.rb"
       ],
       "invariants": [
         "The umbrella may coordinate and synthesize but cannot modify child-owned product paths.",
@@ -85,7 +86,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/150/design.md",
-      "design_digest": "db54f8168c8914f07da6a7c5bcf4a6b16121e096d5776bfe2c6934009e49d5ac",
+      "design_digest": "1ce6e5bf6f772cfa7bbe9162b0603298c3f361305c6bb05e288b1447c382d90a",
       "diagram_ref": ".csdlc/prepared/issues/150/diagram.mmd",
       "diagram_digest": "b90008f5e6594b1c77da5ab54d5aebc619b3bd52d017ae1d4864beff0d1e4bcc"
     }

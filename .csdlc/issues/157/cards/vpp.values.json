@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-05] Transfer repository domain brand and vendor control",
     "slug": "corp-05-transfer-repository-domain-brand-and-vendor-control",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/157/design.md",
-      "design_digest": "eeb3b8e93bc40236ab5ce5a0b28f65b63712ff384e18bda066e62542110c3227",
+      "design_digest": "ca8e391f9af1d4d0e6afbf3b726758940896d140f18f98208a8668db7b9142b2",
       "diagram_ref": ".csdlc/prepared/issues/157/diagram.mmd",
       "diagram_digest": "4cf19da8205792d1c0e4cb0ba60348b1b1bed294af99066ecf7485cfd1fa7f1f"
     }

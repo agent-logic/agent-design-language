@@ -16,7 +16,7 @@ Pin the exact release candidate, rehearse rollback against it, verify company au
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -101,7 +101,7 @@ Revision 1
 
 .csdlc/prepared/issues/189/design.md
 
-Digest: deda02780ab0d6d8e22290d8c3a58af4104d7234153debd94bc516544f6538fa
+Digest: abeb9eaa2c1dc75b09caf6c54fbc74b9e1d1d913daecae65ef095353199e182a
 
 ## Diagram
 

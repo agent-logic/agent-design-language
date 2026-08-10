@@ -33,6 +33,7 @@ Reconcile terminal GitHub truth and provide a separate, path-exact, fail-closed 
 - `csdlc-v3/tests/terminal/**`
 - `.csdlc/issues/178/**`
 - `.csdlc/prepared/issues/178/**`
+- `.csdlc/prepared/issues/178/validate-outcome.rb`
 - `.csdlc/evidence/178/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

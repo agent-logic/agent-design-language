@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-07] Implement The Pure Lifecycle Kernel",
     "slug": "v3-07-implement-the-pure-lifecycle-kernel",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Encode lifecycle and correction authorization as a pure exhaustive transition kernel generated from the frozen capability matrix, including exact recovery invalidation, stale CAS, ownership, terminal, and cleanup predicates.",
       "steps": [
         {
@@ -104,7 +104,8 @@
         "csdlc-v3/tests/lifecycle/**",
         ".csdlc/issues/168/**",
         ".csdlc/prepared/issues/168/**",
-        ".csdlc/evidence/168/**"
+        ".csdlc/evidence/168/**",
+        ".csdlc/prepared/issues/168/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-07 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -131,7 +132,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/168/design.md",
-      "design_digest": "6aa2f15b74447a733dea80e7f448a6e8ab044eff0f204c5b4a6490138e2b4c93",
+      "design_digest": "422ed59586234b750272d803150d73f49937a379c5fece2815f45b2428f54e1f",
       "diagram_ref": ".csdlc/prepared/issues/168/diagram.mmd",
       "diagram_digest": "3de0edd13f8382a87b036d8ffc43e732f9110df5e21cd7da5a26cfc4371d8457"
     }

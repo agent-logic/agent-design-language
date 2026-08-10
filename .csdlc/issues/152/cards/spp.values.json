@@ -7,13 +7,13 @@
     "title": "[v0.92.1][INT-U] Integrated review and release",
     "slug": "int-u-integrated-review-and-release",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Coordinate integrated review and release only after CORP-08, V3-16, and DRT-07 are terminal, routing all findings before release-candidate and final evidence work. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.",
       "steps": [
         {
@@ -58,7 +58,8 @@
         "docs/milestones/v0.92.1/evidence/umbrellas/int-u/**",
         ".csdlc/prepared/issues/152/**",
         ".csdlc/issues/152/**",
-        ".csdlc/evidence/152/**"
+        ".csdlc/evidence/152/**",
+        ".csdlc/prepared/issues/152/validate-outcome.rb"
       ],
       "invariants": [
         "The umbrella may coordinate and synthesize but cannot modify child-owned product paths.",
@@ -85,7 +86,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/152/design.md",
-      "design_digest": "c9753e3ff4a3752b0481183fa215a8e0d4eefe8a4e3cecd09558c0b60340463a",
+      "design_digest": "2a9b03e60dfd150de8fd7b4ad8a7ddb906a3f443d587d3f843bb3447b9103f43",
       "diagram_ref": ".csdlc/prepared/issues/152/diagram.mmd",
       "diagram_digest": "437c752b8ff80c3fcdfc37236dd6dee3ba2e6e7c8ae0e8620fef37461d7199ba"
     }

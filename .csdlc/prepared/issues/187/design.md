@@ -27,9 +27,11 @@ Two-hour local soak, four-hour hybrid soak, workload and fault schedule, CPU/mem
 ## Owned Paths
 
 - `adl/tools/v0921/drt-07/**`
+- `adl/tools/v0921/drt-07/validate.sh`
 - `docs/milestones/v0.92.1/evidence/runtime-qualification/**`
 - `.csdlc/issues/187/**`
 - `.csdlc/prepared/issues/187/**`
+- `.csdlc/prepared/issues/187/validate-outcome.rb`
 - `.csdlc/evidence/187/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

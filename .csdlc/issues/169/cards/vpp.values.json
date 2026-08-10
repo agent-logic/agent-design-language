@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-08] Implement Transaction Storage And Recovery",
     "slug": "v3-08-implement-transaction-storage-and-recovery",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -104,7 +104,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/169/design.md",
-      "design_digest": "1e5466e466c26b470699ee20e454bb7a80dc329aaaecbb340942918b6714f8cb",
+      "design_digest": "a72005025ab0716d422041ddd12876cb896d5d406e8421beb1f05b146592ddeb",
       "diagram_ref": ".csdlc/prepared/issues/169/diagram.mmd",
       "diagram_digest": "231177475f465bbbefdbe21cc55a4d9197996dd13f368b1b47d4017213b492f6"
     }

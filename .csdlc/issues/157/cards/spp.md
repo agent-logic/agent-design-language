@@ -16,7 +16,7 @@ Transfer approved repository, domain, brand, and vendor control by copy-first, n
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -117,7 +117,7 @@ Revision 2
 
 .csdlc/prepared/issues/157/design.md
 
-Digest: eeb3b8e93bc40236ab5ce5a0b28f65b63712ff384e18bda066e62542110c3227
+Digest: ca8e391f9af1d4d0e6afbf3b726758940896d140f18f98208a8668db7b9142b2
 
 ## Diagram
 

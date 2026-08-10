@@ -28,8 +28,10 @@ Node, agent, Shepherd, operator, and Observatory key separation; trust domains; 
 
 - `adl-runtime/tests/v0921_distributed_security.rs`
 - `adl/tools/v0921/drt-05/**`
+- `adl/tools/v0921/drt-05/validate.sh`
 - `.csdlc/issues/185/**`
 - `.csdlc/prepared/issues/185/**`
+- `.csdlc/prepared/issues/185/validate-outcome.rb`
 - `.csdlc/evidence/185/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

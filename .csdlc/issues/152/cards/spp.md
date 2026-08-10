@@ -16,7 +16,7 @@ Coordinate integrated review and release only after CORP-08, V3-16, and DRT-07 a
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -84,7 +84,7 @@ Revision 2
 
 .csdlc/prepared/issues/152/design.md
 
-Digest: c9753e3ff4a3752b0481183fa215a8e0d4eefe8a4e3cecd09558c0b60340463a
+Digest: 2a9b03e60dfd150de8fd7b4ad8a7ddb906a3f443d587d3f843bb3447b9103f43
 
 ## Diagram
 

@@ -16,7 +16,7 @@ Resolve provenance and use-rights dispositions against CORP-01's frozen denomina
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -113,7 +113,7 @@ Revision 2
 
 .csdlc/prepared/issues/155/design.md
 
-Digest: b6f9fb3fad2fef6f0b39d591ebf71d809380f7f86074c0651b9f2406ddd37d56
+Digest: 24691939f8ba00064f0e8497980bfdef26ba661542ea7aaa3657c423f0f4984f
 
 ## Diagram
 

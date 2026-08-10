@@ -16,7 +16,7 @@ Implement one typed GitHub observation boundary using Octocrab plus bounded revi
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -123,7 +123,7 @@ Revision 1
 
 .csdlc/prepared/issues/176/design.md
 
-Digest: ccf6204c57ce3c2d90198c0a95cffbf8ab1ed5bb92c248b785c9c09573a4da48
+Digest: 40c06f063163b97862d785ad9649afa059c2f1fc199d60c892d44479e262927c
 
 ## Diagram
 

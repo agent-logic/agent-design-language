@@ -32,6 +32,7 @@ Implement independent exact-revision review assignment, result recording, stalen
 - `csdlc-v3/tests/review/**`
 - `.csdlc/issues/175/**`
 - `.csdlc/prepared/issues/175/**`
+- `.csdlc/prepared/issues/175/validate-outcome.rb`
 - `.csdlc/evidence/175/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

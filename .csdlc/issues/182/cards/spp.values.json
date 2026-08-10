@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-02] Prove deterministic ACIP authority and replay conformance",
     "slug": "drt-02-prove-deterministic-acip-authority-and-replay-conformance",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 3,
       "summary": "Build a deterministic ACIP conformance corpus and independent replay verifier: freeze canonical vectors, exercise every semantic mutation and ordering failure, compare exact digests, and stop before distributed provisioning.",
       "steps": [
         {
@@ -80,7 +80,9 @@
         "adl/tools/v0921/drt-02/**",
         ".csdlc/issues/182/**",
         ".csdlc/prepared/issues/182/**",
-        ".csdlc/evidence/182/**"
+        ".csdlc/evidence/182/**",
+        ".csdlc/prepared/issues/182/validate-outcome.rb",
+        "adl/tools/v0921/drt-02/validate.sh"
       ],
       "invariants": [
         "Issue DRT-02 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -109,7 +111,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/182/design.md",
-      "design_digest": "21d181702a322c5928f13e2c979767f8e732ecfa2e2af789015a4b1cf7b5b501",
+      "design_digest": "55239ffadec60fcac4f8100954b7a69326b7ffafae8544a5c0ce4a4951d0ec12",
       "diagram_ref": ".csdlc/prepared/issues/182/diagram.mmd",
       "diagram_digest": "0ddca25810a69ca5b537ae13cd4097e757cd49ccdefb01d5abfcb25a25e01620"
     }

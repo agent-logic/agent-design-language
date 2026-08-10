@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-U] Corporate and IP transfer",
     "slug": "corp-u-corporate-and-ip-transfer",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -40,7 +40,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/149/design.md",
-      "design_digest": "bd9c3a45275544dd813d8a4f739fc0c3f3e451c7ed45d0353347374eed7b03c7",
+      "design_digest": "0761a79e6b2170ca001322d1e3fd6f6e7f2406977868b41aae7d513d85b03ad6",
       "diagram_ref": ".csdlc/prepared/issues/149/diagram.mmd",
       "diagram_digest": "c181b01623ee38123e43049e765f3e8b8ec664096c84fdf9133728ef0f83e589"
     }

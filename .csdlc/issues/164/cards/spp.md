@@ -16,7 +16,7 @@ Construct the production single-binary shell and mechanically bind its parser, g
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -138,7 +138,7 @@ Revision 1
 
 .csdlc/prepared/issues/164/design.md
 
-Digest: 608d24ba5a479e017133701cba4b49ab7aa046889087c80fc5ed201e11fe1605
+Digest: 5fc0db35c4b95fa5a443296460493cd0bd9a96080188dafb0109fb1f1bcc3f51
 
 ## Diagram
 

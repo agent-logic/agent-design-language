@@ -16,7 +16,7 @@ Deliver idempotent local issue initialization/observation and execution binding 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -117,7 +117,7 @@ Revision 1
 
 .csdlc/prepared/issues/171/design.md
 
-Digest: fcb2ad2b64217b76c7b324bfd48604613fe03940a2fee70b72520a32fbc880a7
+Digest: c2518ee14ef6f54cd5a6fbfbe1a4e3656bfa868327156118bc70da4fd6a8e2e4
 
 ## Diagram
 

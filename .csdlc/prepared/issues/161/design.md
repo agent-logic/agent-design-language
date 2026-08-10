@@ -29,6 +29,7 @@ The public command tree, versioned requests/results, exit taxonomy, canonical st
 - `csdlc-v3/tests/contracts/**`
 - `.csdlc/issues/161/**`
 - `.csdlc/prepared/issues/161/**`
+- `.csdlc/prepared/issues/161/validate-outcome.rb`
 - `.csdlc/evidence/161/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

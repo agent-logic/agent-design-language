@@ -33,6 +33,7 @@ Mode-bound publication intents, issue/PR/comment mutation, operation markers, ex
 - `csdlc-v3/tests/github/write/**`
 - `.csdlc/issues/177/**`
 - `.csdlc/prepared/issues/177/**`
+- `.csdlc/prepared/issues/177/validate-outcome.rb`
 - `.csdlc/evidence/177/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

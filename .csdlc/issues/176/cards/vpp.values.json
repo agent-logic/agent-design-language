@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-13] Implement GitHub Adapter And Read-Only Observation",
     "slug": "v3-13-implement-github-adapter-and-read-only-observation",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -98,7 +98,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/176/design.md",
-      "design_digest": "ccf6204c57ce3c2d90198c0a95cffbf8ab1ed5bb92c248b785c9c09573a4da48",
+      "design_digest": "40c06f063163b97862d785ad9649afa059c2f1fc199d60c892d44479e262927c",
       "diagram_ref": ".csdlc/prepared/issues/176/diagram.mmd",
       "diagram_digest": "a61f923f1a15e9a392c3f6127c86ca0c34cdb7438a22e601bf8e912ec793f3e9"
     }

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-15] Implement Finish And Cleanup",
     "slug": "v3-15-implement-finish-and-cleanup",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -104,7 +104,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/178/design.md",
-      "design_digest": "7154acf877ccdcecc39e0404ac96514c760c353bd7d8aef51d1d1a162aaff1f9",
+      "design_digest": "aac87d8c4950a92bf99a7b695f0ac93b70568a2bfd750e7da984dfb9882df145",
       "diagram_ref": ".csdlc/prepared/issues/178/diagram.mmd",
       "diagram_digest": "92e3a3c5eca265c766167146870a5a704b5456d0dc5a87a49ad29ce587cda225"
     }

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][INT-02] Prepare release candidate rollback and ceremony",
     "slug": "int-02-prepare-release-candidate-rollback-and-ceremony",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/189/design.md",
-      "design_digest": "deda02780ab0d6d8e22290d8c3a58af4104d7234153debd94bc516544f6538fa",
+      "design_digest": "abeb9eaa2c1dc75b09caf6c54fbc74b9e1d1d913daecae65ef095353199e182a",
       "diagram_ref": ".csdlc/prepared/issues/189/diagram.mmd",
       "diagram_digest": "9540e686a033eb3ddaadf2c55eba7600bb751f83f964bb7bd8857bfcf32a7a00"
     }

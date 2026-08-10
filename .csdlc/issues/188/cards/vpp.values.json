@@ -7,7 +7,7 @@
     "title": "[v0.92.1][INT-01] Run integrated independent review and remediation",
     "slug": "int-01-run-integrated-independent-review-and-remediation",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/188/design.md",
-      "design_digest": "98d941cdeeecd563a0c55b2ce49e92c2a2e350be4c0e45ea3b0771be0fd585f6",
+      "design_digest": "0a5e16e9fa052e3726dc9a3d0cd708adc6bbadbfd7304ce5c45810ffb781ca88",
       "diagram_ref": ".csdlc/prepared/issues/188/diagram.mmd",
       "diagram_digest": "8ab4e1853b69a70ad74b0398410686199252e4d5cf64da140d68815079e43c4b"
     }

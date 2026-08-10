@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-08] Close corporate chain-of-title and diligence package",
     "slug": "corp-08-close-corporate-chain-of-title-and-diligence-package",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -62,7 +62,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/160/design.md",
-      "design_digest": "39b8890c1f716daa753a861d29936a89451b1d4459a3421c2edb1dea994abc3b",
+      "design_digest": "cf4ce9b3d8ca4ab1655fa17f19588550781a898a2797776583a2d834cc84213a",
       "diagram_ref": ".csdlc/prepared/issues/160/diagram.mmd",
       "diagram_digest": "4bb9931b6877c88772e77f790a918042231a87fe080a732a17c20a1b8d7b3305"
     }

@@ -16,7 +16,7 @@ Reconcile exact linkage-aware terminal GitHub truth and perform separate preview
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -126,7 +126,7 @@ Revision 1
 
 .csdlc/prepared/issues/178/design.md
 
-Digest: 7154acf877ccdcecc39e0404ac96514c760c353bd7d8aef51d1d1a162aaff1f9
+Digest: aac87d8c4950a92bf99a7b695f0ac93b70568a2bfd750e7da984dfb9882df145
 
 ## Diagram
 

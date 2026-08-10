@@ -16,7 +16,7 @@ Migrate production infrastructure only through the verified Agent Logic business
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -114,7 +114,7 @@ Revision 2
 
 .csdlc/prepared/issues/158/design.md
 
-Digest: 4105a2f2c53400b287a273472ceecaa89e0766d38cc6586b562f6d6cd0eb356f
+Digest: 09207f654b2b2b005054c87d646c726f580126d965a397e819ae211d4479d823
 
 ## Diagram
 

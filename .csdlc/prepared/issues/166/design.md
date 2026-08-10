@@ -31,6 +31,7 @@ Root discovery, canonical repository identity, remote resolution, branch/worktre
 - `csdlc-v3/tests/import/**`
 - `.csdlc/issues/166/**`
 - `.csdlc/prepared/issues/166/**`
+- `.csdlc/prepared/issues/166/validate-outcome.rb`
 - `.csdlc/evidence/166/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

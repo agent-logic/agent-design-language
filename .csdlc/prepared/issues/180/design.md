@@ -29,6 +29,7 @@ Eligibility proof, retained importer decision, forbidden-path inventory, binary/
 - `docs/tooling/**`
 - `.csdlc/issues/180/**`
 - `.csdlc/prepared/issues/180/**`
+- `.csdlc/prepared/issues/180/validate-outcome.rb`
 - `.csdlc/evidence/180/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

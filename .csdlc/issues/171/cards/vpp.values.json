@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-10A] Implement Local Issue And Bind Commands",
     "slug": "v3-10a-implement-local-issue-and-bind-commands",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -86,7 +86,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/171/design.md",
-      "design_digest": "fcb2ad2b64217b76c7b324bfd48604613fe03940a2fee70b72520a32fbc880a7",
+      "design_digest": "c2518ee14ef6f54cd5a6fbfbe1a4e3656bfa868327156118bc70da4fd6a8e2e4",
       "diagram_ref": ".csdlc/prepared/issues/171/diagram.mmd",
       "diagram_digest": "3c9d5477db099cca3050bbc9bb85c08b19255fd0ab16a0660a6124b31469b0a8"
     }

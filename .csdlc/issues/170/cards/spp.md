@@ -16,7 +16,7 @@ Implement narrow typed Git, child-process, and credential adapters using argv-on
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -116,7 +116,7 @@ Revision 1
 
 .csdlc/prepared/issues/170/design.md
 
-Digest: 141a5a833417f5b199f689d653b8b26651201d467ec572f90493d57533bfa6b2
+Digest: e1cafa6bf485387e0c4f1ce5579c79201da2a4f99cef8648d6588de24c76b91c
 
 ## Diagram
 

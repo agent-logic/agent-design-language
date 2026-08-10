@@ -7,13 +7,13 @@
     "title": "[v0.92.1][CORP-08] Close corporate chain-of-title and diligence package",
     "slug": "corp-08-close-corporate-chain-of-title-and-diligence-package",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Reconcile CORP-01 through CORP-07 into a redacted, digest-verifiable chain-of-title and operational diligence package; preserve private custody; and fail the release gate on every unresolved critical exception.",
       "steps": [
         {
@@ -89,7 +89,8 @@
         "docs/operations/corporate/corp-08/**",
         ".csdlc/issues/160/**",
         ".csdlc/prepared/issues/160/**",
-        ".csdlc/evidence/160/**"
+        ".csdlc/evidence/160/**",
+        ".csdlc/prepared/issues/160/validate-outcome.rb"
       ],
       "invariants": [
         "Issue CORP-08 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -119,7 +120,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/160/design.md",
-      "design_digest": "39b8890c1f716daa753a861d29936a89451b1d4459a3421c2edb1dea994abc3b",
+      "design_digest": "cf4ce9b3d8ca4ab1655fa17f19588550781a898a2797776583a2d834cc84213a",
       "diagram_ref": ".csdlc/prepared/issues/160/diagram.mmd",
       "diagram_digest": "4bb9931b6877c88772e77f790a918042231a87fe080a732a17c20a1b8d7b3305"
     }

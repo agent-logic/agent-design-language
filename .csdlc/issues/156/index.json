@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "821f3afbedcd9808c662421796ef611fd2d7778963f7edd26147305e254141f8",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "1aa66a9097a048a34dfca173b8062360694acce452a665297756e58c762960b1",
+  "generation": 4,
+  "digest": "e3f92f78b7ad6e3ac778a7df48515e54be3a49b2a1f9a6a35e4f4431f32fe93c",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,37 +19,37 @@
   "design_review": {
     "approved": {
       "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
-      "revision": "2eb7d3d4363d9704e697bac3f0cf3833750433f0ba63db0f4231c96031aebe59"
+      "revision": "5278f7197c066e6ff57422e1d8e825008a2c371f1c4c02852f7a43dcb60a2fec"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "fc4eb7f4010aa37c565ed84f1e2f2e2fea2a7b6cf114ffdb031d9961bc29a71a",
+      "values_digest": "45f7eee9dc773d398f174564adc93495927bd652997119e0e90c9facf29bedb5",
       "rendered_digest": "5b379e873f22a63d2e468b3173494ad8abf11f8a9e2eadbbd05f019ff1bc5e56",
       "ast_digest": "fd5388ea88106e765356f6a52ae2a9a05ce55186666cdb35723c8427d5c8100f"
     },
     "stp": {
-      "values_digest": "0dd75b6b8e450544779554cd76dd43cde635afc10a2c2aefeeece158673c47b3",
+      "values_digest": "f2ce4093bd8c4a6ac14224ba6ab317a72a3d0d64086dec3358c43037b2d0d370",
       "rendered_digest": "1e221c16964abc805a819f848492a13297071becccc0f144c6db5618333103e2",
       "ast_digest": "8b3351de0670ec2f0be24457dab120117fc63b0478f4e9aa629818a0277994f9"
     },
     "spp": {
-      "values_digest": "3ae4b22830b7e6eaa04a498dbaaa2ab24bdd94832d106e1d706b2922bcd5feeb",
-      "rendered_digest": "540f4d6e4225a12bced3da80f4f93ef4ba6a4e0d459cbf87d3459e63226c7a2d",
-      "ast_digest": "128e44f7b478684394167b16caf0c8d7dbc75d3b7af3ab59c9d9062fdd113b92"
+      "values_digest": "f7efbed8a4333c6016523519c4e6544b792233e6476331eb6dc0e00b271053a6",
+      "rendered_digest": "2f75a89f54e2b6ab194caa92d3ee9ec266a88543cc80d290edb79e1be9a908b0",
+      "ast_digest": "a6c8e10c4b28363c1015d04ee508bf370f2eda89e48f89d0a8bb2751d1e3ef50"
     },
     "vpp": {
-      "values_digest": "bcaab0cd449ddf3bff8bb04f2781abad6f32108a725ee76174c445b8b02c7381",
+      "values_digest": "fa4b96d37213158e11c7c3fa589b70243bd7d3629ca887425e669820d1217aca",
       "rendered_digest": "65825b6c96ee2d7fddf6d7eaafe2ce22854954865a5780c8f49a0ae478109b76",
       "ast_digest": "03d8d552a214f6f4253fdb3e5d098e9ebed2f282a06698705a45c8235a525e20"
     },
     "srp": {
-      "values_digest": "9c98fab2e7b1b10b3cdabab89a9664e573798eb8cc35c8d67c3a3c22c98bd647",
+      "values_digest": "d47410891c118860e83f2f87909caaf6484cfa1527aea1553dc01edfe1a5cf2c",
       "rendered_digest": "3e494e0e83519eb95cef6f612e22f06d19be3e69df0a631722304f4d09b7ad1d",
       "ast_digest": "50877d00ea9dc5f44cd9cac1ae8e35f8c22d9fd36752dfdaccb03d5981dcaa7c"
     },
     "sor": {
-      "values_digest": "61ffaaf25815364fb968745233d0ec88692e980a9e840f8593bf0a98d5175c83",
+      "values_digest": "820ae7ffd10f2bf070b6ab8a4c16c74e9f11bcf6af48c6a263c6a100ddf95f1a",
       "rendered_digest": "55859576700a58979660fe4c543dc60d811921bf4aeba2486acb7d6039fd5c2b",
       "ast_digest": "179af8ea74b13d4251acf3764a4f12b75bf7f642b4076a38dea42c06e3e2eb20"
     }
@@ -75,6 +75,20 @@
       "generation": 2,
       "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
       "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the executable issue validator as an exact owned target required by the typed issue-specific denominator gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/corporate/corp-04/**\",\"docs/operations/corporate/corp-04/**\",\".csdlc/issues/156/**\",\".csdlc/prepared/issues/156/**\",\".csdlc/evidence/156/**\",\".csdlc/prepared/issues/156/validate-outcome.rb\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
       "operation": "approve_design"
     }
   ]

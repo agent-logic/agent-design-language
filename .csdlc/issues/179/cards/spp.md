@@ -16,7 +16,7 @@ Prove normalized v2/v3 safety parity, migrate a bounded v3-only canary cohort wi
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -136,7 +136,7 @@ Revision 1
 
 .csdlc/prepared/issues/179/design.md
 
-Digest: b00b3f072ccb01134b4ae262d7e45a0f29381e732eeb81561b627d9a4125016b
+Digest: e066d29f10ba847d685fe564266ae728403f784184cea1033bff0380a9d5321f
 
 ## Diagram
 

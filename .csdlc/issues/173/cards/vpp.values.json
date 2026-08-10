@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-11A] Implement PVF Planning Domain",
     "slug": "v3-11a-implement-pvf-planning-domain",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -86,7 +86,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/173/design.md",
-      "design_digest": "4db4fffda9a8f037c3919ac60005e62119d71cbfd88f23f54b20e22cde93d4c4",
+      "design_digest": "58d4bef05173cb389ae74bfc360053d31497719971a74e0a2286ee4e3dce090f",
       "diagram_ref": ".csdlc/prepared/issues/173/diagram.mmd",
       "diagram_digest": "79e22d2db385982b29e32121809bd1c53fd5c5830f119e56281d9bcfce4234bc"
     }

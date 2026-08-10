@@ -29,6 +29,7 @@ Implement the pure governed model for validation manifests, classification, reso
 - `csdlc-v3/tests/pvf/plan/**`
 - `.csdlc/issues/173/**`
 - `.csdlc/prepared/issues/173/**`
+- `.csdlc/prepared/issues/173/validate-outcome.rb`
 - `.csdlc/evidence/173/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

@@ -32,6 +32,7 @@ All CORP-01 through CORP-07 evidence, critical schedule, exclusions, residual ri
 - `docs/operations/corporate/corp-08/**`
 - `.csdlc/issues/160/**`
 - `.csdlc/prepared/issues/160/**`
+- `.csdlc/prepared/issues/160/validate-outcome.rb`
 - `.csdlc/evidence/160/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

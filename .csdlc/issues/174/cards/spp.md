@@ -16,7 +16,7 @@ Execute only approved PVF plans through bounded structured concurrency, joined T
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -120,7 +120,7 @@ Revision 1
 
 .csdlc/prepared/issues/174/design.md
 
-Digest: 263a531200db2e9dcfa3e2b7c64b9bb088b7b2479e6ecaa9193b3ad3de425f59
+Digest: 616c4d42318d11852ce28f1b52397a0ced50a2499ffa82de6c49064674f156fe
 
 ## Diagram
 

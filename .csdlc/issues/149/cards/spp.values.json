@@ -7,13 +7,13 @@
     "title": "[v0.92.1][CORP-U] Corporate and IP transfer",
     "slug": "corp-u-corporate-and-ip-transfer",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Coordinate the eight corporate-transfer children through their legal, custody, control, infrastructure, and diligence gates while preserving child ownership and deriving lane closure from exact terminal records. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.",
       "steps": [
         {
@@ -58,7 +58,8 @@
         "docs/milestones/v0.92.1/evidence/umbrellas/corp-u/**",
         ".csdlc/prepared/issues/149/**",
         ".csdlc/issues/149/**",
-        ".csdlc/evidence/149/**"
+        ".csdlc/evidence/149/**",
+        ".csdlc/prepared/issues/149/validate-outcome.rb"
       ],
       "invariants": [
         "The umbrella may coordinate and synthesize but cannot modify child-owned product paths.",
@@ -85,7 +86,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/149/design.md",
-      "design_digest": "bd9c3a45275544dd813d8a4f739fc0c3f3e451c7ed45d0353347374eed7b03c7",
+      "design_digest": "0761a79e6b2170ca001322d1e3fd6f6e7f2406977868b41aae7d513d85b03ad6",
       "diagram_ref": ".csdlc/prepared/issues/149/diagram.mmd",
       "diagram_digest": "c181b01623ee38123e43049e765f3e8b8ec664096c84fdf9133728ef0f83e589"
     }

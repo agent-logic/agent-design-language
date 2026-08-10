@@ -29,6 +29,7 @@ Agent Logic business AWS identity, Route53, ACM, SES, S3, CloudFront, compute, I
 - `docs/operations/corporate/corp-06/**`
 - `.csdlc/issues/158/**`
 - `.csdlc/prepared/issues/158/**`
+- `.csdlc/prepared/issues/158/validate-outcome.rb`
 - `.csdlc/evidence/158/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

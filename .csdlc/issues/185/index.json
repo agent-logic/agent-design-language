@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0ec586ce578af91f52b3ae681a05bfcf053edb8bbd8408e44887beb8816a36fa",
   "phase": "initialized",
-  "generation": 1,
-  "digest": "4faa47c6a42499d185ac5bf310c86cfd6e47e2c7196d827a57c2cf8080935729",
+  "generation": 5,
+  "digest": "f2c72c73330127179809fb34fe50ede9082f3d8da44584b3cf60e3f0a5a0330e",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,37 +19,37 @@
   "design_review": {
     "approved": {
       "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
-      "revision": "c82ccdf59d8ad146aa7b890df3fc4026b3eb9c435db852d35b03cbd1798fce20"
+      "revision": "060af0dbc761150620607da461cb8f050e43654635837553185e8bbfaa3622e7"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "9204c68fb16fbca084596ad7e5aa90da10bced55cb231937588cac1f2fc86a78",
+      "values_digest": "8b7034ed575d9e9a72e96540dec0105c013e0a76ce14d521955f59969edd9014",
       "rendered_digest": "74e9cc598d2ceed0a1cd6f72177c03fc9099cac093f5a5bfae7b385ab30fd0a3",
       "ast_digest": "4d07d6f8573a1bd76fd5fbbdfb364fdace3052d8b8bc263f6cee08ce09daffd3"
     },
     "stp": {
-      "values_digest": "193735fc71ba1a2a03fe6a0de2c28c84d38bdc5d7b5644fb87be492905b89968",
+      "values_digest": "3118ffda1015125fc813db579797965aea5e5b0644c3860aafe5fcb661a7c675",
       "rendered_digest": "6c37a3c40f69d5a6753f52facbe56c8a0ab50dad7608015c496458999f4826cc",
       "ast_digest": "d657d0114410e1dc2838a58ca0f9c6d050e14147f1e161aa9c7ce88933028a53"
     },
     "spp": {
-      "values_digest": "850ba6855b8d2bb6a1212b0c4d5d390ab961e2d702e17c9ce5a36d41385531c9",
-      "rendered_digest": "83c2f300f83896f42977ef9502b6300a02917c345d6f27a60d3949eb9238dd97",
-      "ast_digest": "7ef75a3de8cda13191057c0c77dfc049e6609065bee9561a13c3c2db769f40a2"
+      "values_digest": "8a733040dcc97cfc5352ff4aa5a68cd0f960c8608d6ea89e9764bd2103f63ce5",
+      "rendered_digest": "3ad6e0cd75d89104a661491b4fb0558fcf7e9dbfcc85fac583b56c4d37a9fcc6",
+      "ast_digest": "bbe651ab6d7e908f974e60316b884ff32d1a006558587b19f6097a8bfad998ef"
     },
     "vpp": {
-      "values_digest": "e8270a0f2daae7fa0d664b90389ccaff77ba92877d56593060f0ded5f38b1d28",
+      "values_digest": "dfca60ff045ed2780b6e27baff16c138ce9e2c579cfeaa655023233ab1fc1ad5",
       "rendered_digest": "548b47d9e37faa521bc2737cd3edb1afeeeee6483d63df07f36902f9f189d034",
       "ast_digest": "2d2486e049f48a9c33114b9799e07d836daec4f987787deeb50a03f6dd52f766"
     },
     "srp": {
-      "values_digest": "d7ebd94e4295b9e60808adfc410e8908876fdc627ad8d9743e369f9f1d9bda77",
+      "values_digest": "bb1e2c738cb8c1fafac4ab5bff2fdd778274f82a3d8de53c95e6bb26a92db1ea",
       "rendered_digest": "d914e715394693e06e9477ef1516b941c1b018e57d22bf5fadddfb2006b662da",
       "ast_digest": "a749eb84b87a19dee040ab79558cfa3bd428c202229a6e21dd0d42960683ed72"
     },
     "sor": {
-      "values_digest": "895e3ec6b5766d643c511a88384b043914c3b12ca73864c9c38b01f3277360f0",
+      "values_digest": "8e1636a5adad8cf7559eb9b3cefa2a1a4d90463c099ce128c5ef5ecef3b9db04",
       "rendered_digest": "f1ca758a90e2ef4a6dcaf2b6a5aaed2ec68c979e9dedda9c71a16c028f252f26",
       "ast_digest": "f7351b390423c812a13c07862f07e0128baee62af1f9d255741c507643475473"
     }
@@ -68,6 +68,34 @@
       "generation": 1,
       "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
       "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the executable issue validator as an exact owned target required by the typed issue-specific denominator gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/tests/v0921_distributed_security.rs\",\"adl/tools/v0921/drt-05/**\",\".csdlc/issues/185/**\",\".csdlc/prepared/issues/185/**\",\".csdlc/evidence/185/**\",\".csdlc/prepared/issues/185/validate-outcome.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the deferred Runtime proof runner as an exact issue-owned target required by typed readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/tests/v0921_distributed_security.rs\",\"adl/tools/v0921/drt-05/**\",\".csdlc/issues/185/**\",\".csdlc/prepared/issues/185/**\",\".csdlc/evidence/185/**\",\".csdlc/prepared/issues/185/validate-outcome.rb\",\"adl/tools/v0921/drt-05/validate.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
       "operation": "approve_design"
     }
   ]

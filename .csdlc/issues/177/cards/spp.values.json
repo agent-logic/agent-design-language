@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-14] Implement PR Mutation And Foreground Watch",
     "slug": "v3-14-implement-pr-mutation-and-foreground-watch",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Implement idempotent intent-first PR mutation and bounded foreground watch with explicit Closing/PartOf linkage, exact readback, fixed deadlines, cancellation, no persistent jobs, and merge only under explicit policy plus operator authority.",
       "steps": [
         {
@@ -107,7 +107,8 @@
         "csdlc-v3/tests/github/write/**",
         ".csdlc/issues/177/**",
         ".csdlc/prepared/issues/177/**",
-        ".csdlc/evidence/177/**"
+        ".csdlc/evidence/177/**",
+        ".csdlc/prepared/issues/177/validate-outcome.rb"
       ],
       "invariants": [
         "Issue V3-14 owns only its declared repository paths and named external operation/evidence boundary.",
@@ -134,7 +135,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/177/design.md",
-      "design_digest": "14e1e600f0595a05a2752b3ce60aa0b6c8c811ecba7518bc48c06abb842dc37c",
+      "design_digest": "023624dea22d5b1408addd507964386c089c852666c57b232dc9deb81ac4ba47",
       "diagram_ref": ".csdlc/prepared/issues/177/diagram.mmd",
       "diagram_digest": "f090319c72f5e41f3b028ae26f409f2257eba23c100067fa6c5338fef954d4bd"
     }

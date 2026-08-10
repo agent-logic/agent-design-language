@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-05] Implement Repository Context And Read-Only V2 Import",
     "slug": "v3-05-implement-repository-context-and-read-only-v2-import",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -89,7 +89,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/166/design.md",
-      "design_digest": "a421cc4301abfe1a837f37c702bddf039f533c7b0f7dbc91391114552b7de67d",
+      "design_digest": "5cc2256ec9f54c0374a12cde4dc92b7e3e3f6cf034989c6ef0f49e710bab21db",
       "diagram_ref": ".csdlc/prepared/issues/166/diagram.mmd",
       "diagram_digest": "21c67220b6f9691373ed52b86a4b5d5847979ba06d4d53e240b97796cc94bc6b"
     }

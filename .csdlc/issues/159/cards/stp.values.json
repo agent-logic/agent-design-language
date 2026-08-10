@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-07] Move Terraform CI deployment and runbook authority",
     "slug": "corp-07-move-terraform-ci-deployment-and-runbook-authority",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {

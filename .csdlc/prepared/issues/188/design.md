@@ -30,6 +30,7 @@ Exact terminal lane revisions, proof inventories, cross-lane assumptions, releas
 - `docs/milestones/v0.92.1/evidence/integration/int-01/**`
 - `.csdlc/issues/188/**`
 - `.csdlc/prepared/issues/188/**`
+- `.csdlc/prepared/issues/188/validate-outcome.rb`
 - `.csdlc/evidence/188/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

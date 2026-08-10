@@ -26,10 +26,12 @@ Quorum-leased singleton ownership, coherent authority cuts, node and agent corre
 
 ## Owned Paths
 
-- `observatory/tests/v0921_coherent_evidence.rs`
+- `demos/html-observatory/tests/v0921_coherent_evidence.rs`
 - `adl/tools/v0921/drt-06/**`
+- `adl/tools/v0921/drt-06/validate.sh`
 - `.csdlc/issues/186/**`
 - `.csdlc/prepared/issues/186/**`
+- `.csdlc/prepared/issues/186/validate-outcome.rb`
 - `.csdlc/evidence/186/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

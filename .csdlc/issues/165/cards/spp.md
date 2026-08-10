@@ -16,7 +16,7 @@ Implement one invocation-scoped App with reviewed narrow service traits, lazy cr
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -135,7 +135,7 @@ Revision 1
 
 .csdlc/prepared/issues/165/design.md
 
-Digest: 97397aea772f8d461352511dec3a35cfaf151ff0bf57b013cd7f70f92ed0f459
+Digest: 334ebfae1abd19464ff33204a5421d95206a58310d34049ea821ac322b272e53
 
 ## Diagram
 

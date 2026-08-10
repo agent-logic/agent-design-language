@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-10B] Implement Card And Doctor Commands",
     "slug": "v3-10b-implement-card-and-doctor-commands",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -92,7 +92,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/172/design.md",
-      "design_digest": "74cb96e483bad833935b4252158f537a5993c7bcf2caad7bfe9778b54fd4195f",
+      "design_digest": "bb3c894b929857fe9db6ac66925dfe527f1b04d3978a8f2dd086e13bc13e254d",
       "diagram_ref": ".csdlc/prepared/issues/172/diagram.mmd",
       "diagram_digest": "a25d559891b2fe68fa9dc2bad26ea7ac166cb8c51f25c9e75c0bcaf138686c6e"
     }

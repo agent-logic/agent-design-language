@@ -27,8 +27,10 @@ Topology, identities, ports, state roots, credentials, transport, AWS/Wuji place
 
 - `docs/milestones/v0.92.1/runtime-qualification/**`
 - `adl/tools/v0921/drt-01/**`
+- `adl/tools/v0921/drt-01/validate.sh`
 - `.csdlc/issues/181/**`
 - `.csdlc/prepared/issues/181/**`
+- `.csdlc/prepared/issues/181/validate-outcome.rb`
 - `.csdlc/evidence/181/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

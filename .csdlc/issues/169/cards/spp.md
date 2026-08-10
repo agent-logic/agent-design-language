@@ -16,7 +16,7 @@ Implement one crash-consistent transaction store where state.json atomic replace
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -130,7 +130,7 @@ Revision 1
 
 .csdlc/prepared/issues/169/design.md
 
-Digest: 1e5466e466c26b470699ee20e454bb7a80dc329aaaecbb340942918b6714f8cb
+Digest: a72005025ab0716d422041ddd12876cb896d5d406e8421beb1f05b146592ddeb
 
 ## Diagram
 

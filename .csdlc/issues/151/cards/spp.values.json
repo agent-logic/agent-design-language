@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-U] Distributed multi-agent Runtime qualification",
     "slug": "drt-u-distributed-multi-agent-runtime-qualification",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Coordinate the seven distributed Runtime qualification packages through deterministic contract proof, the external #142 production gate, Wuji and hybrid topologies, security/Observatory checks, and terminal soak cleanup. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.",
       "steps": [
         {
@@ -58,7 +58,8 @@
         "docs/milestones/v0.92.1/evidence/umbrellas/drt-u/**",
         ".csdlc/prepared/issues/151/**",
         ".csdlc/issues/151/**",
-        ".csdlc/evidence/151/**"
+        ".csdlc/evidence/151/**",
+        ".csdlc/prepared/issues/151/validate-outcome.rb"
       ],
       "invariants": [
         "The umbrella may coordinate and synthesize but cannot modify child-owned product paths.",
@@ -85,7 +86,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/151/design.md",
-      "design_digest": "627ba10a3f86810b7fa21138fa4d78cec60fd7da5336e3ecf026b2553498d53a",
+      "design_digest": "a2aff6c8bde9acd4202183957099f09721bec4b49e3490d6ab0a5a67d42e7277",
       "diagram_ref": ".csdlc/prepared/issues/151/diagram.mmd",
       "diagram_digest": "c9ac6407bf9b1e9aa8f65d66d9282381e17b90a1ffd14930c6d345e0703d367d"
     }

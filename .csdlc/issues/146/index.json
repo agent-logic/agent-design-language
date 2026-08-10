@@ -4,50 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3a49b58d5ed74ad42ce9c9f58a4d3174e5c90ecc75d9efb944e061612e120434",
-  "phase": "published",
-  "generation": 18,
-  "digest": "6d633663210fc7cbd20e500cf5711d6a1fb584a89bd195c30328f964fe328478",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "43b0c97454dbac3d19816c703510570e36f9f40aedd26ea17e54bf6ca4781013",
   "branch": "codex/146-v0921-milestone-planning",
   "worktree": "/Volumes/FastWork/adl-issue-146-v0921-milestone",
-  "review_assignment": {
-    "reviewer": "subagent:019fed19-77c2-7f70-82c0-10b69a4555fc",
-    "assigned_by": "codex-v0921-planner",
-    "revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
-    "scope": [
-      ".csdlc/issues/146/**",
-      ".csdlc/prepared/issues/146/**",
-      "docs/milestones/v0.92.1/**"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fed19-77c2-7f70-82c0-10b69a4555fc",
-    "scope": [
-      ".csdlc/issues/146/**",
-      ".csdlc/prepared/issues/146/**",
-      "docs/milestones/v0.92.1/**"
-    ],
-    "reviewed_revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
-    "findings": [],
-    "residual_risks": [
-      "Corporate chain-of-title execution remains counsel-owned and blocks release until privately executed and redacted receipts are retained.",
-      "Live distributed qualification remains blocked until issue #142 is terminal at an exact merged revision with passing retained production proof.",
-      "C-SDLC v3 schedule and implementation choices may be revised only through the declared construction-spike and Decision 11 gates."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 146,
-    "pull_request": 148,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/148",
-    "base": "main",
-    "head": "codex/146-v0921-milestone-planning",
-    "revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -55,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/146/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "subagent:019fed19-77c2-7f70-82c0-10b69a4555fc",
-      "revision": "ce1b9356d75d46003a28cc931fc3e5c9815b356bb035c55822d95dacb6d11b00"
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "40fa708442f0bc2e0a9b04ad93b6b9cf2ee66a8067732a8f344b788cc896407e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "167af553ca1e04cd9ade43b7c840feaf3e2dbe7f8b244734be5f617e7b13460e",
+      "values_digest": "4cc6570cd119899ca45c5f1d82422a107a8a4f0ebffdcd8992fb38fa27c46e53",
       "rendered_digest": "68927ffb54723f56ff825c5269ece58bed93af405d9e4bd314052a228df967ce",
       "ast_digest": "c1f7e80d671dd1f6b49c81d35f828b550fd775eadd6b6c6c18c152c0648622fe"
     },
     "stp": {
-      "values_digest": "8d1ba6847aea61731deeb1767c74f74bc0e9a1d16c3636d93b21587d1aca80dd",
+      "values_digest": "44dff3ed7fc332d8c5b9f1666e2ff1f61b8b72b53ff7de9b74406935c28d2f54",
       "rendered_digest": "a13d3199e0b206fcac2f97d24a55c3c976be0b803a3a92f78be085684cbfc957",
       "ast_digest": "cb391b19a99e1d45219ae0d892cf4219811981e69f6c5ce19b658d72abdc6063"
     },
     "spp": {
-      "values_digest": "a00ed65e1126a48ce963ec1cbe63fdb101d679cf074473a3163f8fa70b837f0e",
-      "rendered_digest": "91e1d4b056a4882a433e6ddbc983aeaa2f67252c6902702b52a36f7b95fdbb3e",
-      "ast_digest": "6a61dc1ddc60c817f34640a51e914aab4a5a4c298f3e0eb97775c595c1a21500"
+      "values_digest": "4f2a990fd8e5bb9dbc48e80cf852c308d38781bb9914dac15453f98ef4ce7819",
+      "rendered_digest": "930a862dc7e46ce93725b41433ff8e4ed2ff3e90b497130aa08d520d341b3550",
+      "ast_digest": "03232cfc3d7f76757f9ffe9cfed82dc9ab0f432d9f63c7d616e11dc80740a05a"
     },
     "vpp": {
-      "values_digest": "5cf48093ef8aacabc34d3c328d29a984cc00d49c5f55dbe860bf3eb0326e7536",
+      "values_digest": "9125d851b531e9efa8f5851a931c250c3acb4f1a69db1dc1737319fcfcb713d6",
       "rendered_digest": "d812a8beef5b179f5e1d96cf62eea63ec114c6795c61ff2848c6c42def76302a",
       "ast_digest": "bd7b1510ffdf88f12625aabde61c020e6ab4ec0f1dd083e989d09f816332aa20"
     },
     "srp": {
-      "values_digest": "06ec5212b59d5fcb950f4d1028ebf0fbbb7cacdbe5d84ccc00536d841594413e",
-      "rendered_digest": "4e286ceb1dcef3c8e7c5a77b18b1029e7e711bd0233ca0ac7324451650a1e7e9",
-      "ast_digest": "070acdefb4da873e5a6e0bd10a60c18ae519f01401e3780c5185de40fb048fb2"
+      "values_digest": "5d04b169dc7123372b78282450e1c5d57ab0fc99a7924ed85b4fe01645b8c52a",
+      "rendered_digest": "548371c5165bd36119f65c87b2cf90f33cd08d94ccb040787976ca0eb3aad5e0",
+      "ast_digest": "2e8521295e699613d09bf07f2303536ce53cb47292ab95c2de2c9bad1d82ad35"
     },
     "sor": {
-      "values_digest": "e9cc8eb519532263638a1ab8e0196187dba2a9fadd5704142b20d0c8fcab8a93",
-      "rendered_digest": "c47a8e78e1bc3209550b0d021139e77f707426f2c92e4c57c36c83f9ff674344",
-      "ast_digest": "db1ed82e0efbeec5fb1ab26375694e689f03926d8f86fe65ca6b7aa059ee4092"
+      "values_digest": "b4d68c03e9bc5df7f323c346c26d8bb70fe0530ac363154adf5ff78c24054d74",
+      "rendered_digest": "6d50f1ff83a66c540e0aeeb32b92812574e0f3ab88b871ec49eeca119cd5e6a9",
+      "ast_digest": "80ef0313358d520b0ed0c2d37ed8dbb9a15f60a91da91b091bd2ddbccf364aa5"
     }
   },
   "transitions": [
@@ -126,6 +90,13 @@
       "to": "published",
       "actor": "codex-v0921-planner",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:146-v0921-review-remediation",
+      "reason": "Recover the published review state after exact-head review required complete live child packets, full decision preservation, and execution-readiness remediation."
     }
   ],
   "audit": [
@@ -275,6 +246,34 @@
       "actor": "codex-v0921-planner",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:146-v0921-review-remediation",
+      "reason": "Recover the published review state after exact-head review required complete live child packets, full decision preservation, and execution-readiness remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Own the documentation-only C-SDLC v3 package boundary required for portable child-path readiness in fresh checkouts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/146\",\".csdlc/prepared/issues/146\",\"docs/milestones/v0.92.1\",\"csdlc-v3/README.md\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:146-v0921-execution-ready-wave",
+      "reason": "Reconcile parent execution truth with the complete live issue wave and focused readiness evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the execution-ready v0.92.1 planning wave: four sprint umbrellas and 38 child issues are live with issue-specific cards, approved designs, owned paths, acceptance criteria, PVF lanes, stop conditions, validators, diagrams, dependency gates, and source-grounded milestone contracts.\",\"changes\":[\"Created four live sprint umbrellas (#149-#152) and 38 live child issues (#153-#190) under the v0.92.1 milestone contract.\",\"Authored and independently reviewed all 42 six-card issue packets, designs, diagrams, issue-owned outcome validators, and exact ownership declarations.\",\"Preserved all eleven mandatory C-SDLC v3 architecture decisions and mapped each decision to an owning work package and proof gate.\",\"Defined the corporate/IP, C-SDLC v3, distributed Runtime qualification, and final integration waves with explicit dependencies and independent sprint operation.\",\"Corrected terminal #142 language to a future gate and bound DRT-06 to the repository's actual HTML Observatory package.\",\"Added seven fail-closed distributed qualification entrypoints that require real issue-owned runners and recompute producer-derived evidence without asserted pass flags.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_LIVE_ISSUE_MAP_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/DECISIONS_v0.92.1.md\",\".csdlc/issues/149/ through .csdlc/issues/190/\",\".csdlc/prepared/issues/149/ through .csdlc/prepared/issues/190/\",\"adl/tools/v0921/drt-01/ through adl/tools/v0921/drt-07/\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"validation\":[{\"command\":[\"sh\",\"-c\",\"for n in $(seq 149 190); do csdlc-validate issue --issue $n; done\"],\"purpose\":\"Validate all 42 issue-specific cards, designs, ownership paths, and selected validation targets through the native typed validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"42/42 native typed validations passed on 2026-08-10\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate the exact issue denominator, execution specifications, dependency graph, eleven decisions, source ancestry, and proof gates.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 package contract observed 2026-08-10\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate YAML, tracked links, live issue mappings, and placeholder hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders observed 2026-08-10\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the planning package.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
     }
   ]
 }

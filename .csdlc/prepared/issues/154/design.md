@@ -29,6 +29,7 @@ Founder and contributor assignments, invention and work-product schedules, corpo
 - `docs/operations/corporate/corp-02/**`
 - `.csdlc/issues/154/**`
 - `.csdlc/prepared/issues/154/**`
+- `.csdlc/prepared/issues/154/validate-outcome.rb`
 - `.csdlc/evidence/154/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

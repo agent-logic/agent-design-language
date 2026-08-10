@@ -16,7 +16,7 @@ Run one portable production-path matrix across macOS, Linux, arm64, x86_64, host
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
@@ -104,7 +104,7 @@ Revision 1
 
 .csdlc/prepared/issues/186/design.md
 
-Digest: 0094a845fca2e44aca0c1449c22658c483a6074c18f70e0bd0b3bb3ddda7141f
+Digest: 03565a229f40d8a7c948ebef8cbd0973bf2afc0db2579b22dbb6bed6770f2c9a
 
 ## Diagram
 

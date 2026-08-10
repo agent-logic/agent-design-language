@@ -27,8 +27,10 @@ Canonical envelopes and encodings, identity and authority bindings, sequence and
 
 - `adl-runtime/tests/v0921_acip_conformance.rs`
 - `adl/tools/v0921/drt-02/**`
+- `adl/tools/v0921/drt-02/validate.sh`
 - `.csdlc/issues/182/**`
 - `.csdlc/prepared/issues/182/**`
+- `.csdlc/prepared/issues/182/validate-outcome.rb`
 - `.csdlc/evidence/182/**`
 
 Every repository path outside this exact list is read-only unless a reviewed

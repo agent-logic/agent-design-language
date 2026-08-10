@@ -16,7 +16,7 @@ Build a deterministic ACIP conformance corpus and independent replay verifier: f
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -107,7 +107,7 @@ Revision 1
 
 .csdlc/prepared/issues/182/design.md
 
-Digest: 21d181702a322c5928f13e2c979767f8e732ecfa2e2af789015a4b1cf7b5b501
+Digest: 55239ffadec60fcac4f8100954b7a69326b7ffafae8544a5c0ce4a4951d0ec12
 
 ## Diagram
 
