@@ -1,0 +1,20 @@
+{
+  "issue": 5878,
+  "card": "spp",
+  "expected_generation": 16,
+  "expected_digest": "2953a11290ae9ae317b650472e3186c7ad9d6c9fa04872a1232cdae1fbc83055",
+  "actor": "codex-sprint-5862",
+  "reason": "Record the one operator-authorized proof-only workflow path without widening production runtime ownership.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/distributed_guardian.rs",
+      "adl/tools/validate_v092_distributed_guardian.sh",
+      "adl/tools/validate_v092_distributed_native_receipts.rb",
+      ".github/workflows/wp04-native-distributed.yml"
+    ]
+  }
+}

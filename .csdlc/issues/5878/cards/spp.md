@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 4
+Revision 6
 
 ## Steps
 
@@ -61,17 +61,17 @@ Revision 4
 
 ## Invariants
 
-- Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, and adl/tools/validate_v092_distributed_native_receipts.rb are mutable
-- Issue #5878 solely owns production distributed module and route registration; all #5863-#5877 product paths remain read-only terminal inputs
+- Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, adl/tools/validate_v092_distributed_native_receipts.rb, and .github/workflows/wp04-native-distributed.yml are mutable
+- Issue #5878 owns production distributed library registration and its proof workflow; unowned Guardian, API, and WSS route files remain unchanged and unclaimed
 - Registration exposes exactly the terminal reviewed sibling contracts and never substitutes, forks, or reimplements their authority logic
-- Guardian remains process 0 and every distributed API, WSS, transport, enrollment, lease, fencing, migration, recovery, and projection path remains authenticated and fail closed
-- Integrated topology, authority, failure, lease, placement, migration, recovery, and projection state is one deterministic coherent cut with stable ordering and exact OpenAPI behavior parity
-- Queues, frames, nodes, peers, candidates, histories, snapshots, retries, waits, timeouts, strings, logs, artifacts, and total evidence bytes have explicit hard bounds with checked arithmetic and finite cancellation
-- Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail are redacted from API, WSS, logs, artifacts, and receipts
-- The exact distributed_guardian target selects nonzero tests and proves production registration, authenticated API and WSS continuity, partitions, fencing, migration, recovery, shutdown, disable, and rollback behavior
-- Native receipts prove macOS, Linux, and Windows exactly once each from actual production commands, distinct run identifiers and runner identities, exact protected source revision, retained logs and artifacts, and recomputed digests; self-attestation is rejected
-- Rollback removes or disables distributed registration and launch integration, keeps remote ownership fenced, and preserves the unchanged durable single-node Guardian path
-- Execution evidence and independent review remain digest-bound to all five exact protected paths and the complete fifteen-child denominator
+- The integration target imports the production crate surface and proves bounded canonical Prost transport plus quorum-backed authority with replay and wrong-domain rejection
+- Queues, frames, tests, logs, artifacts, runner identities, and total evidence bytes have explicit hard bounds and finite execution
+- Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail remain absent or redacted from logs, artifacts, and receipts
+- The exact distributed_guardian target selects nonzero tests and emits machine-derived negative cases
+- Native receipts prove macOS, Linux, and Windows exactly once each from actual hosted production commands, distinct run identifiers and runner identities, one exact protected source revision, retained logs and artifacts, native rustc host identity, and recomputed digests
+- Missing, duplicate, synthetic, relabeled, stale, tampered, zero-test, or self-attested native evidence fails closed
+- Rollback removes distributed library registration and leaves every sibling authority implementation and the unchanged single-node Guardian path intact
+- Execution evidence and independent review remain digest-bound to all six exact protected paths and the complete fifteen-child denominator
 
 ## Risks
 

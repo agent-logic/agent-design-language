@@ -21,9 +21,10 @@ Register and integrate the distributed module, then prove real multi-node Guardi
 - adl-runtime/tests/distributed_guardian.rs
 - adl/tools/validate_v092_distributed_guardian.sh
 - adl/tools/validate_v092_distributed_native_receipts.rb
-- Register and integrate only the terminal #5863-#5877 distributed contracts while preserving authenticated Runtime API and WSS continuity
-- Prove deterministic bounded multi-node behavior, partitions, fencing, migration, recovery, rollback or disable behavior, redaction, and fail-closed errors
-- Retain exact nonzero integration proof and machine-verified macOS, Linux, and Windows native receipts bound to one protected source revision
+- .github/workflows/wp04-native-distributed.yml
+- Register and integrate only the terminal #5863-#5877 distributed contracts as a callable production library surface without claiming an unowned Guardian or API route
+- Prove deterministic bounded transport and authority behavior, redaction, replay rejection, wrong-domain rejection, and fail-closed errors
+- Run exact native macOS, Linux, and Windows hosted jobs and retain distinct digest-bound receipt fragments for one protected source revision
 - Obtain independent exact-head security and correctness review before publication
 
 ## Acceptance

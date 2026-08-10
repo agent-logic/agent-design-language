@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d43c21728d16c57a20f210c83ca4f4354df7fff6ada44b649ab4cb346e7aadc1",
   "phase": "bound",
-  "generation": 15,
-  "digest": "2d01e9e2742b32d3f62581fd2bcf169fb6c408a2704750641d52bdc137ac0025",
+  "generation": 19,
+  "digest": "3272559ce54b5b87918189ffb3e706777d8cdb5a9403537cc493ef4f908f4bc7",
   "branch": "codex/5878-final-distributed-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5878-final-integration",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b98b3a2c535a9571fd8d212c843bc7a25f99e11e673380ff4c310edd2cb36c25",
+      "values_digest": "a22ddd32db08b8068f1a1178f0af8969bf4909a6dd6668d3046493b8135a44e1",
       "rendered_digest": "ba0aab2c7829d8b728e1dfb7e6814f02ee3117f421e95d265b29e780b557795e",
       "ast_digest": "31bed531d2aeb7275d2c73f73cf08d3125b29af53b2384f43af26be7cbbbec3c"
     },
     "stp": {
-      "values_digest": "cc77faabe7cd827547b749f42c9a4150070dd080fbb3f5f6932962c2433fa408",
-      "rendered_digest": "7d8b3a0174158c380bc1719af7f61c57398217b46e57d25b67061c4010314724",
-      "ast_digest": "d416254871ed58073998a833a1c6665cd0409d65ba31619542d8ddd5d30460be"
+      "values_digest": "9cb61e74b2a7e2bb4159ea4646d3a11de8c30a1fe49f5dc98c5fb4cafa0e228e",
+      "rendered_digest": "6fbc33996915711c6285c810c90b1ca02a5bf5d98f7cbed9ea6c5e0ab437386b",
+      "ast_digest": "42142d60fa8e6d218a4f6f8397a5ff7c66244c89383f4dd41788cb8c0954815b"
     },
     "spp": {
-      "values_digest": "1a597a04814cfa524d0f4bd6096a555d1a1d1365c9346a501dea1b66e2e4c8da",
-      "rendered_digest": "fd41798263b2e78333f81aa2f04fad7441df03ca345ea4a7cfeb6d2853f1d725",
-      "ast_digest": "338b941ea0424dae5ac22dd392b9964382d8b265788c6502ab02ccdd373ae207"
+      "values_digest": "37858900f902cf922f5e6d2762636066747280ba67d24a1a547b9c3a9f0224cc",
+      "rendered_digest": "6ed60f6863b06c16272d2e80a99399a8655dc282132b4c6ef8bf1f19eecb0408",
+      "ast_digest": "ac24c6c4e48a1a1c00bf1345a3517c2c7091f2a3a71d19bfddd28d2e94ffadaa"
     },
     "vpp": {
-      "values_digest": "5982d44b43e3bd1672ddf7f9576be3e5b8f33353fe8d0782063cddff0587aad2",
-      "rendered_digest": "6a09cab2dc3e8f8772a562abaa1b65de89c8cadd486398be9868715a2d057d09",
-      "ast_digest": "43369367e04f4c2245cca971a2af6189e8c54cfd41ba9ebd4241e80884e6f1c9"
+      "values_digest": "854bfd5e0c1a6fb0d296e2a6c840d1469a0f267a1edeea66a9f604688a0696a4",
+      "rendered_digest": "7a4a91d75a99ae2f364e828ab9452c00cf910ea5c29eb226db20b33c7695169a",
+      "ast_digest": "32ffb31f2824372bd8c71e834a85cc966f55e96ffedac8e4be6a2e4b13988f40"
     },
     "srp": {
-      "values_digest": "42e1bf55093287509f95143a8f533def51ac04c2c9b82505259d127fa2b25c43",
+      "values_digest": "f68eafa0f7e1b01eaf4305e4cc240a3b0916471360fc1f185734c7d26af12dab",
       "rendered_digest": "a9dc47ba999d962817af6689a2dff4890d58aad7542d57c3da32292d37849948",
       "ast_digest": "007d933c48d9bb12e4d473b806d43c38b3f862804981023b6bd964c37554f87d"
     },
     "sor": {
-      "values_digest": "c81bb6f2a6d9560a4f3ca0e0fc36d17806577489d81eb85c1f9d5d042d733ffe",
+      "values_digest": "21d1776acdf7055d50cf1827cc8b115186a1abd2ba001156ffcda898415881a8",
       "rendered_digest": "c1ca4a84ccc52e1de62c65aea99c5a8fd6fc34dd00f344176b9f27f5263cdb77",
       "ast_digest": "782acc2be0ea44768703168226b6366d1d7d00756f1a6dce16ed2d7c264e60b9"
     }
@@ -330,6 +330,34 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 35,
+      "generation": 16,
+      "actor": "codex-sprint-5862",
+      "reason": "Add the one operator-authorized proof-only workflow path required to execute the already-declared native macOS, Linux, and Windows receipt matrix.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl/tools/validate_v092_distributed_guardian.sh\",\"adl/tools/validate_v092_distributed_native_receipts.rb\",\".github/workflows/wp04-native-distributed.yml\",\"Register and integrate only the terminal #5863-#5877 distributed contracts as a callable production library surface without claiming an unowned Guardian or API route\",\"Prove deterministic bounded transport and authority behavior, redaction, replay rejection, wrong-domain rejection, and fail-closed errors\",\"Run exact native macOS, Linux, and Windows hosted jobs and retain distinct digest-bound receipt fragments for one protected source revision\",\"Obtain independent exact-head security and correctness review before publication\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 17,
+      "actor": "codex-sprint-5862",
+      "reason": "Record the one operator-authorized proof-only workflow path without widening production runtime ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl/tools/validate_v092_distributed_guardian.sh\",\"adl/tools/validate_v092_distributed_native_receipts.rb\",\".github/workflows/wp04-native-distributed.yml\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 18,
+      "actor": "codex-sprint-5862",
+      "reason": "Bind the native proof plan to the operator-authorized three-platform hosted workflow and remove unowned runtime-route claims.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Run the exact nonzero distributed_guardian target through the production library registration and prove bounded Prost transport plus quorum authority replay and wrong-domain rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_guardian\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"production-distributed-guardian\",\"proof_role\":\"Execute the exact integration target on one native runner and produce bounded digest-bound logs, native host provenance, and machine-derived negative cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/validate_v092_distributed_guardian.sh\"],\"parallel_group\":\"integration\",\"defer_reason\":null},{\"lane\":\"native-hosted-matrix\",\"proof_role\":\"Dispatch the exact branch head to standard macOS, Linux, and Windows GitHub runners, run the production producer once per platform, retain distinct receipt fragments, and aggregate them without substituting platform labels.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"gh\",\"workflow\",\"run\",\"wp04-native-distributed.yml\",\"--ref\",\"codex/5878-final-distributed-integration\"],\"parallel_group\":\"native\",\"defer_reason\":null},{\"lane\":\"native-distributed-receipts\",\"proof_role\":\"Recompute all artifact and runner-provenance digests and require exactly one distinct native macOS, Linux, and Windows receipt at the same exact source revision.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_distributed_native_receipts.rb\"],\"parallel_group\":\"native-verify\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute exact protected source artifacts, nonzero command logs, machine-derived negative cases, and the three distinct native receipt bindings.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5878/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 19,
+      "actor": "codex-sprint-5862",
+      "reason": "Align invariants with the six-path proof scope and the explicitly library-only integration boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, adl/tools/validate_v092_distributed_native_receipts.rb, and .github/workflows/wp04-native-distributed.yml are mutable\",\"Issue #5878 owns production distributed library registration and its proof workflow; unowned Guardian, API, and WSS route files remain unchanged and unclaimed\",\"Registration exposes exactly the terminal reviewed sibling contracts and never substitutes, forks, or reimplements their authority logic\",\"The integration target imports the production crate surface and proves bounded canonical Prost transport plus quorum-backed authority with replay and wrong-domain rejection\",\"Queues, frames, tests, logs, artifacts, runner identities, and total evidence bytes have explicit hard bounds and finite execution\",\"Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail remain absent or redacted from logs, artifacts, and receipts\",\"The exact distributed_guardian target selects nonzero tests and emits machine-derived negative cases\",\"Native receipts prove macOS, Linux, and Windows exactly once each from actual hosted production commands, distinct run identifiers and runner identities, one exact protected source revision, retained logs and artifacts, native rustc host identity, and recomputed digests\",\"Missing, duplicate, synthetic, relabeled, stale, tampered, zero-test, or self-attested native evidence fails closed\",\"Rollback removes distributed library registration and leaves every sibling authority implementation and the unchanged single-node Guardian path intact\",\"Execution evidence and independent review remain digest-bound to all six exact protected paths and the complete fifteen-child denominator\"]}"
     }
   ]
 }

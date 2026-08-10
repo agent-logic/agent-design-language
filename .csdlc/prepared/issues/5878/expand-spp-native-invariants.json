@@ -1,0 +1,25 @@
+{
+  "issue": 5878,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "fbc699eea92c1d630ec026ee6a7c2c8570cec11f96785befdfad0f5b919fd767",
+  "actor": "codex-sprint-5862",
+  "reason": "Align invariants with the six-path proof scope and the explicitly library-only integration boundary.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, adl/tools/validate_v092_distributed_native_receipts.rb, and .github/workflows/wp04-native-distributed.yml are mutable",
+      "Issue #5878 owns production distributed library registration and its proof workflow; unowned Guardian, API, and WSS route files remain unchanged and unclaimed",
+      "Registration exposes exactly the terminal reviewed sibling contracts and never substitutes, forks, or reimplements their authority logic",
+      "The integration target imports the production crate surface and proves bounded canonical Prost transport plus quorum-backed authority with replay and wrong-domain rejection",
+      "Queues, frames, tests, logs, artifacts, runner identities, and total evidence bytes have explicit hard bounds and finite execution",
+      "Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail remain absent or redacted from logs, artifacts, and receipts",
+      "The exact distributed_guardian target selects nonzero tests and emits machine-derived negative cases",
+      "Native receipts prove macOS, Linux, and Windows exactly once each from actual hosted production commands, distinct run identifiers and runner identities, one exact protected source revision, retained logs and artifacts, native rustc host identity, and recomputed digests",
+      "Missing, duplicate, synthetic, relabeled, stale, tampered, zero-test, or self-attested native evidence fails closed",
+      "Rollback removes distributed library registration and leaves every sibling authority implementation and the unchanged single-node Guardian path intact",
+      "Execution evidence and independent review remain digest-bound to all six exact protected paths and the complete fifteen-child denominator"
+    ]
+  }
+}

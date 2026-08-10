@@ -16,6 +16,11 @@ revision=$(git rev-parse HEAD)
 run_id=${GITHUB_RUN_ID:-"local-$(date -u +%Y%m%dT%H%M%SZ)-$$"}
 provider=${GITHUB_ACTIONS:+github_actions}
 provider=${provider:-local_native}
+python_bin=$(command -v python3 || command -v python || true)
+if [[ -z "$python_bin" ]]; then
+  echo "Python is required to produce a canonical receipt" >&2
+  exit 69
+fi
 evidence_root=${ADL_DISTRIBUTED_EVIDENCE_ROOT:-"$repo_root/.csdlc/evidence/5878/native/$platform"}
 
 case "$evidence_root" in
@@ -63,7 +68,7 @@ for log in "$stdout" "$stderr"; do
   fi
 done
 
-python3 - "$repo_root" "$revision" "$platform" "$arch" "$provider" "$run_id" \
+"$python_bin" - "$repo_root" "$revision" "$platform" "$arch" "$provider" "$run_id" \
   "$started_at" "$finished_at" "$stdout" "$stderr" "$evidence_root/runner-provenance.json" \
   "$evidence_root/receipt.json" <<'PY'
 import hashlib
