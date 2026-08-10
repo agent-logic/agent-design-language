@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 80,
-  "digest": "cbe72a6aa459de97595e778d5d7828e7f679d292cfcc427035205aa03aec8671",
+  "generation": 81,
+  "digest": "6c7e05b2f5becb1ae388d1ae23df77f64abac337c5ce4f99daa6f555b533d7c7",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a3b39b0b15418e2c6d3e026ccc603ab7faf83aea4f1607f0d57a5e7551421b5d",
+      "values_digest": "4476e6ce454c5fba0150fc21be4cff0359205f143c198fd82dc8c94b15307790",
       "rendered_digest": "0db5a50b8b18fb55476374e044eb1b0c5f912734fcd350f59ed9e486d94a770c",
       "ast_digest": "435e246381810627c72031a04e455f28daf269e67a3f2f493be5a78546d6cadd"
     },
     "stp": {
-      "values_digest": "2ca5d2db9c908f435eb608a7e3379f029ac65d5bda0be5448bd1f6736fe114f3",
+      "values_digest": "70aed33d03fdd5568fd7250d62c6c27eb99db223d2bd57f7c2c359c0ab0bb38c",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "9880a22e668632aa4501fb07ca5412c7f5efd6456ab3f1a270903958a73a73eb",
+      "values_digest": "9a43392e251c58f7e1d1a8bb488f24d0eea2d89c3ff760a3b45e5625157eac53",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "4e4a622011100217106349569ad34cab08ec6df908b1b878af117c7004b15992",
+      "values_digest": "d399112109b59f77908611eff76024c706778bfebd7878b8098a535ce6a4ac51",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "9ad3d9970742e7759b7d3f76b4472dce758b2a5c96711d7c7a584a337dc6bd50",
+      "values_digest": "a4bb846a14aaca9f34e1deaf7686ec55c98fc82192bd76077f216d65e00f1b7a",
       "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
       "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "8df990b2e100b2bb820c2910f8e83b9fba66f675fbbaf6c4a921340d3d70803c",
-      "rendered_digest": "667e1624df0ba224d9df4ae02047f54dc89671a68cd812dc107bd62f8c43c447",
-      "ast_digest": "f2d85f851c39d676112fba2b285a748091aecfcc24d42a2ef42384fb4cd88562"
+      "values_digest": "cdfdf2d4d52f52de3a88ea9a36ede04d3ba89b4992a0d0d5a3929e2680b0739d",
+      "rendered_digest": "d8d138c29f28d6b5f5b7dd3bff6a579c728ae75e820270a707cab61dbbea738a",
+      "ast_digest": "db391c5a0de88bc2aa1ca508f20f28a2f52e988d672187fc291823b858ec9ead"
     }
   },
   "transitions": [
@@ -855,6 +855,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "Fresh exact review approved transactional ordering but found the native producer source manifest and WP-13A path triggers omit reasoning.rs, durable_state.rs, and tests/durable_state.rs. Recover the stale assignment for this exact issue-owned proof/provenance repair.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 109,
+      "generation": 81,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Record the exact native provenance repair that binds and triggers on reasoning.rs, durable_state.rs, and tests/durable_state.rs, with refreshed twenty-test proof at 6c548cc36.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved governed WP-13A adaptive learning with fully validated discoverable startup reconciliation and an exclusive MutationGate durable transaction. The native producer source manifest and WP-13A PR path triggers now also bind reasoning.rs, durable_state.rs, and tests/durable_state.rs, so transactional and atomic-CAS changes cannot evade native proof. Exact proof at 6c548cc36 passes twenty adaptive/durable tests; native execution remains deferred to CI.\",\"changes\":[\"Execute accepted learning only through signed mutation, loop, cancellation, cognitive-profile, capability, and durable-state authorities.\",\"Bind policy, grant, mutation evidence, profile, capability, proposal, and complete predecessor history.\",\"Reserve one canonical bounded global pending intent with the exact before-gate snapshot and discover it at startup without caller-supplied identity.\",\"Fully validate pending canonical encoding, self-digest, snapshot, history, policy, profile, privacy, and MutationAuthority evidence before reconciliation.\",\"Hold gate and adaptation locks across candidate construction and the durable callback; publish live state only after durable success, leaving failures nonmutating.\",\"Reconcile reserved, committed, and aborted intents deterministically and allow one authoritative winner under concurrent adaptive execution.\",\"Persist complete sequence-addressed histories for restart and rollback while bounding durable text, collections, snapshots, and pending payloads.\",\"Bind the native source manifest and workflow triggers to adaptive_learning.rs, reasoning.rs, durable_state.rs, adaptive_learning tests, and durable_state tests.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/reasoning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".csdlc/evidence/5831/adaptive-learning-runtime-v3.log\",\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\",\".csdlc/evidence/5831/adaptive-learning-native-scripts.log\",\".csdlc/evidence/5831/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove fifteen adaptive authority/reconciliation/interruption/tamper/concurrency cases plus five durable atomic CAS/restart cases at exact revision 6c548cc36df074ab77f23d4e2f1aea9a459a8b89.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for adaptive learning, the MutationGate transaction boundary, durable CAS, and focused tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\"--self-test\"],\"purpose\":\"Prove native log normalization and exact inclusion of all adaptive transaction and durable authority source paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/adaptive-learning-native-scripts.log\"}]}"
     }
   ]
 }

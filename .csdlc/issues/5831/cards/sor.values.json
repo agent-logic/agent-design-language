@@ -7,22 +7,22 @@
     "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
     "slug": "v0-92-wp-13a-runtime-implement-adaptive-learning-dag",
     "version": "v0.92",
-    "generation": 80
+    "generation": 81
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented and locally proved governed WP-13A adaptive learning over real mutation, loop, cancellation, cognitive-profile, and durable-state authorities. Global pending startup discovery fully validates canonical intent, snapshot, policy, lineage, privacy, and signed MutationAuthority evidence. A bounded MutationGate transaction holds gate and adaptation locks, commits durable truth through its callback, and publishes live state only after success; reserved, committed, and aborted recovery is deterministic. Exact proof is rebased on merged #144 and passes twenty adaptive/durable tests; native proof remains deferred to CI.",
+      "summary": "Implemented and locally proved governed WP-13A adaptive learning with fully validated discoverable startup reconciliation and an exclusive MutationGate durable transaction. The native producer source manifest and WP-13A PR path triggers now also bind reasoning.rs, durable_state.rs, and tests/durable_state.rs, so transactional and atomic-CAS changes cannot evade native proof. Exact proof at 6c548cc36 passes twenty adaptive/durable tests; native execution remains deferred to CI.",
       "actual_changes": [
-        "Execute accepted adaptive learning only through signed MutationGate authority, verified LoopOutcome replay/state, cancellation, AdaptationStore, and KernelDurableState.",
-        "Bind canonical AdaptiveLearningPolicy to gate snapshot, grant, evidence, cognitive profile, capability envelope, and complete predecessor history.",
-        "Preview signed patch effects, then reserve one canonical bounded global pending intent containing the exact before-gate snapshot.",
-        "Discover pending intent at startup without caller-supplied history identity and fully validate canonical encoding, self-digest, complete history/policy/profile/privacy invariants, snapshot, and MutationAuthority evidence before reconciliation.",
-        "Add a bounded MutationGate transaction callback that holds gate and adaptation locks, builds the candidate, requires durable callback success, and publishes live state only afterward; CAS, postcheck, and callback failure leave live state unchanged.",
-        "Reconcile reserved, committed, and aborted intents deterministically; restore the exact before snapshot for aborted state and allow one authoritative winner under concurrent adaptive execution.",
-        "Persist sequence-addressed complete histories for restart and rollback, retain recurrence, and bound/redact durable identifiers, rationale, evidence, policy, snapshots, and pending payloads.",
-        "Maintain exact fifteen-test adaptive native inventory and add five focused durable-state atomicity/restart cases to local proof."
+        "Execute accepted learning only through signed mutation, loop, cancellation, cognitive-profile, capability, and durable-state authorities.",
+        "Bind policy, grant, mutation evidence, profile, capability, proposal, and complete predecessor history.",
+        "Reserve one canonical bounded global pending intent with the exact before-gate snapshot and discover it at startup without caller-supplied identity.",
+        "Fully validate pending canonical encoding, self-digest, snapshot, history, policy, profile, privacy, and MutationAuthority evidence before reconciliation.",
+        "Hold gate and adaptation locks across candidate construction and the durable callback; publish live state only after durable success, leaving failures nonmutating.",
+        "Reconcile reserved, committed, and aborted intents deterministically and allow one authoritative winner under concurrent adaptive execution.",
+        "Persist complete sequence-addressed histories for restart and rollback while bounding durable text, collections, snapshots, and pending payloads.",
+        "Bind the native source manifest and workflow triggers to adaptive_learning.rs, reasoning.rs, durable_state.rs, adaptive_learning tests, and durable_state tests."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/adaptive_learning.rs",
@@ -57,7 +57,7 @@
             "--status-level",
             "all"
           ],
-          "purpose": "Prove fifteen adaptive authority/reconciliation/interruption/tamper/concurrency cases plus five durable atomic CAS/restart cases at exact revision 920709c29534fb0e8fe24f45fd4dd986e8c924c4.",
+          "purpose": "Prove fifteen adaptive authority/reconciliation/interruption/tamper/concurrency cases plus five durable atomic CAS/restart cases at exact revision 6c548cc36df074ab77f23d4e2f1aea9a459a8b89.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5831/local-validation-manifest.json"
         },
@@ -75,9 +75,19 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Prove strict lint cleanliness for the governed executor, MutationGate transaction boundary, durable CAS, and focused tests.",
+          "purpose": "Prove strict lint cleanliness for adaptive learning, the MutationGate transaction boundary, durable CAS, and focused tests.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5831/adaptive-learning-strict-clippy.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+            "--self-test"
+          ],
+          "purpose": "Prove native log normalization and exact inclusion of all adaptive transaction and durable authority source paths.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5831/adaptive-learning-native-scripts.log"
         }
       ],
       "integration_state": "worktree_only",

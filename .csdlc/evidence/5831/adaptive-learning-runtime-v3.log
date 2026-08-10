@@ -1,6 +1,6 @@
 command=cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test adaptive_learning --test durable_state --no-tests=fail --status-level all
-validated_revision=920709c29534fb0e8fe24f45fd4dd986e8c924c4
-validated_tree=208f8be3677198e8d502c543ca994535b135877c
+validated_revision=6c548cc36df074ab77f23d4e2f1aea9a459a8b89
+validated_tree=d267a3d44f13067c07e5a3089672b72bc29ca795
 validated_dependency_merge=9e16c621e02224927ac9f19ebebdf66b85abfffc
 tests_run=20
 tests_passed=20
