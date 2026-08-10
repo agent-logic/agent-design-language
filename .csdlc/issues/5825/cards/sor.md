@@ -17,10 +17,6 @@ Implemented the deterministic WP-08 birthday decision contract and its narrowly 
 ## Artifacts
 
 - adl-runtime-kernel/src/birthday.rs
-- adl-runtime-kernel/tests/birthday.rs
-- adl-runtime-kernel/tests/fixtures/birthday
-- docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
-- adl-runtime-kernel/src/birthday.rs
 - adl-runtime-kernel/src/lib.rs
 - adl-runtime-kernel/tests/birthday.rs
 - adl-runtime-kernel/tests/fixtures/birthday
@@ -31,9 +27,6 @@ Implemented the deterministic WP-08 birthday decision contract and its narrowly 
 
 ## Execution
 
-- Added the deterministic birthday candidate and decision contract.
-- Added positive and table-driven negative fixtures and integration proof.
-- Recorded truthful feature non-claims and corrected split-repository receipt validation.
 - Added the deterministic birthday candidate and decision contract with positive and exhaustive table-driven negative proof.
 - Added a WP-08-only GitHub Actions workflow that produces native macOS/Linux receipts and validates both fragments against the unchanged exact PR head.
 - Made native nextest evidence machine-readable and stable through structured suite output while preserving complete logs and source manifests.
