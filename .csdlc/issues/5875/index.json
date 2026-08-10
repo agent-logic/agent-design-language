@@ -4,13 +4,67 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "47daa1b1c1331ac0c6cfb73a9842ea87ad66c449448eacf19b2779aac2a01958",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "deeafecd20bb9ea2fe5912e57915cb483babae44084206c68d723253c11d72d5",
+  "phase": "reviewed",
+  "generation": 19,
+  "digest": "be53938a02dc0121fb1d2dd0ef615ca47728dc6d22261735856cc9e8a5ff81ff",
   "branch": "codex/5875-migration-state-machine",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5875-migration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:independent-5875-exact-head-review",
+    "assigned_by": "codex:5875-migration",
+    "revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
+    "scope": [
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/tests/distributed_migration.rs",
+      ".csdlc/evidence/5875"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:independent-5875-exact-head-review",
+    "scope": [
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/tests/distributed_migration.rs",
+      ".csdlc/evidence/5875"
+    ],
+    "reviewed_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
+    "findings": [
+      {
+        "id": "5875-review-crash-recovery",
+        "severity": "p1",
+        "summary": "Journaled state and checkpoint updates require crash-safe ordering and restart reconciliation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
+        "route": null
+      },
+      {
+        "id": "5875-review-live-authority-retry",
+        "severity": "p1",
+        "summary": "Authority-phase exact retries must revalidate the current ledger and fencing floor.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
+        "route": null
+      },
+      {
+        "id": "5875-review-timeout-rollback",
+        "severity": "p2",
+        "summary": "Execution expiry must reject normal transitions while preserving bounded authenticated pre-fence rollback.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Production module registration remains intentionally owned by integration issue #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f5d4a077a5c86855631f7a008dd162872f619395f03da50125a3fc37c8fa8543",
+      "values_digest": "b41578ca8e69bd880f18a12b3772aa949ddbf609e411721b52b9cceb904d460c",
       "rendered_digest": "a88ff1b06d48cc62ae8236a04f8bc6dcb14ec29c3558ba8d386573462cc81673",
       "ast_digest": "ec886b1ec0a4d106821619c6b238df3032f3cbdbdc3f1483622c689674bd7c0e"
     },
     "stp": {
-      "values_digest": "94c5a2781629d4b72558ea2ccb45420d7aa0c15ad30502a392ffc17096f4c197",
+      "values_digest": "02b744eb46ed51fb563d44adcee87dcef00621d5620f239912d1090e72a28648",
       "rendered_digest": "06ec332a5a6c127ec7eedaf8fa337618a87bb024646150faa467dd90c5d547b1",
       "ast_digest": "462e7b294022c9352ece0b58369878c4051948297b7c14f8752973c24c8ee760"
     },
     "spp": {
-      "values_digest": "7537d25eda38584f12b674489aefbe406afb209f56ce505d7141457623ed0d40",
+      "values_digest": "f0cb65dd82eab6c5366693fefdfa4ab2108db1b8def54113c7906be8b3ebbb1c",
       "rendered_digest": "a2ddc41a3c616fd649b7c6bad5da9ebd21b6a0a46a7271564939e0a4d2589e64",
       "ast_digest": "b8ca9fdfc07c3d0bca9c3d40ac367290e2deff9c629a41d04eb04e5d085c1e5f"
     },
     "vpp": {
-      "values_digest": "85f2b5cfdba479928e2dfdfbc3fd8614ac1451d96c04253ef9a11457877960f2",
+      "values_digest": "d3b10e6915dec6b87a247a7ad3893e2d83f06bafa62f71291ff8ff314e2aedd9",
       "rendered_digest": "d7d12a6a7c447dd982a22dc1a72a1b4be16f9002195d2f5503cf4696fcc46176",
       "ast_digest": "b7dd5c3a57d5ba3e5eee9dbc532c1c9547677d94fc0cb202673e52767bae70f3"
     },
     "srp": {
-      "values_digest": "07c987818a1aa9821e219624c118b456579168530c9cdc9975ea68d95c2ee5b5",
-      "rendered_digest": "9a58da10f6b59d19c1a3f2895c6defd716b9267d77ef9fb4f36d19d2a5a45433",
-      "ast_digest": "9c4cd1436962df07781cb223d3268f61037291b5b04b4f01bb4c6b36a716b678"
+      "values_digest": "b0416f6db0094d2b3842496c052b4961e346bbab6bc37e5b835f57a9f0272556",
+      "rendered_digest": "d7956ca4b712d31106070ad076c412f37df10f55e3130e6d80fd8e66a9c96721",
+      "ast_digest": "68587fd2e46d6d8a05a54d0db05c27ce8df73faf640738740852992ecd03ab77"
     },
     "sor": {
-      "values_digest": "39029dd9be7c68211d0ae08a824644a7b6d7f751cec30334b072bac8d5f4536e",
+      "values_digest": "e57485fbfae9852812f7a2cb418f1b9be5d6d069d9b09c2eb22407f3341418cc",
       "rendered_digest": "98243dda765ce551ee3aa8bae2bd788d3b1d28751d1f7ece1a1f22b1316cb359",
       "ast_digest": "2e59dc59e4c2be0da259d8c716938c98893bc2c42eeb297b0252e8932a5a5264"
     }
@@ -97,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:5875-migration",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:independent-5875-exact-head-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -344,6 +405,20 @@
       "actor": "codex:5875-migration",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 36,
+      "generation": 18,
+      "actor": "codex:5875-migration",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 19,
+      "actor": "codex:independent-5875-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

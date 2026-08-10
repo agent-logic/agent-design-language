@@ -1,0 +1,12 @@
+{
+  "issue": 5875,
+  "expected_generation": 18,
+  "expected_digest": "deeafecd20bb9ea2fe5912e57915cb483babae44084206c68d723253c11d72d5",
+  "reviewer": "codex:independent-5875-exact-head-review",
+  "assigned_by": "codex:5875-migration",
+  "scope": [
+    "adl-runtime/src/distributed/migration.rs",
+    "adl-runtime/tests/distributed_migration.rs",
+    ".csdlc/evidence/5875"
+  ]
+}
