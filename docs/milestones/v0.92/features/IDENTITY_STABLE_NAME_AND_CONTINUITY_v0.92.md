@@ -4,8 +4,8 @@
 
 - Feature Name: Identity, Stable Name, and Continuity
 - Milestone Target: `v0.92`
-- Status: planned
-- Related issues: `#3377`, `#3434`
+- Status: WP-09 identity record implemented; multi-cycle continuity pending
+- Related issues: `#3377`, `#3434`, `#5826`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Template Rules
@@ -15,7 +15,9 @@ claiming implementation has landed.
 
 ## Status
 
-Forward-planning feature contract for `v0.92`.
+WP-09 implements the deterministic stable-name and identity-root record. This
+does not claim multi-cycle continuity, birthday approval, citizenship, or a
+completed governance identity.
 
 Related readiness issue: `#3377`.
 
@@ -47,6 +49,14 @@ The identity record should include stable name, identity root, aliases,
 origin event, continuity head, memory grounding references, capability
 reference, witness reference, and redaction policy.
 
+The executable WP-09 contract is
+`adl-runtime-kernel/src/birthday_identity.rs`. Identity-root authority derives
+only from the canonical stable name and reviewer-visible origin provenance.
+Aliases are canonical provenance-bearing labels: input order does not affect
+the retained record, adding an alias does not rotate the root, and an alias can
+never replace root authority. Continuity heads remain references to prior
+evidence; WP-10 owns multi-cycle continuity proof.
+
 ## Execution Flow
 
 1. Create identity root and stable name.
@@ -68,8 +78,12 @@ must not become identity continuity without the required record and witnesses.
 
 ## Validation
 
-Validation should include valid identity records, continuity-cycle fixtures,
-ambiguous continuity cases, and negative lifecycle cases.
+The exact `birthday_identity` integration target covers canonical replay,
+alias ordering, origin and alias provenance, root and continuity substitution,
+path portability, private-state redaction, unknown-field rejection, and the
+display-name, boot-admission, wake, snapshot, and copied-state negatives.
+Native macOS and Linux jobs must retain semantically equivalent exact-head
+receipts before portability is claimed.
 
 ## Source Inputs
 
@@ -93,7 +107,7 @@ This feature should establish:
 
 ## Acceptance Criteria
 
-- Identity record contract exists.
+- Identity record contract exists. (Implemented by `#5826`.)
 - Stable names and aliases are represented.
 - Continuity across bounded cycles is evidence-backed.
 - Startup, wake, snapshot, admission, and copied-state cases do not pass as
@@ -114,6 +128,8 @@ cross-polis migration and portability.
 ## Notes
 
 This feature should keep the identity surface practical and auditable.
+
+`birthday_event_status: not_claimed`
 
 ## Non-goals
 

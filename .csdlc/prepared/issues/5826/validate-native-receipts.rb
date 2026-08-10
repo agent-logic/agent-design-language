@@ -122,7 +122,7 @@ receipts.each do |receipt|
   %w[repository workflow_ref run_id run_attempt job os architecture].each do |field|
     fail!("#{platform}: runner #{field} is required") unless runner[field].is_a?(String) && !runner[field].strip.empty?
   end
-  fail!("#{platform}: repository mismatch") unless runner["repository"] == "danielbaustin/agent-design-language"
+  fail!("#{platform}: repository mismatch") unless runner["repository"] == "agent-logic/agent-design-language"
   fail!("#{platform}: native OS mismatch") unless runner["os"] == (platform == "macos" ? "Darwin" : "Linux")
 
   command_output = repo_file(root, receipt["command_output_path"], "#{platform} command output", required_prefix: evidence_prefix)
