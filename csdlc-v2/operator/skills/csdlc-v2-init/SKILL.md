@@ -21,7 +21,7 @@ run:
 csdlc-issue --root <bound-worktree> migrate-code-repository --request <json>
 ```
 
-Use the request schema reported by `csdlc-issue schema`. It requires the issue,
+Use the request schema reported by `csdlc-edit schema`. It requires the issue,
 exact `owner/repository` identity, current generation and digest, actor, and
 reason. Stop on stale CAS, dirty state, missing or ambiguous topology, wrong
 origin identity, unsupported phase, or any existing `code_repository`.
