@@ -6,7 +6,7 @@ require_relative "../5862/proof-receipt-contract"
 require "digest"
 require "json"
 
-CANONICAL_PROOF = ".csdlc/evidence/5873/remediation-v6/execution-proof.json"
+CANONICAL_PROOF = ".csdlc/evidence/5873/remediation-v7/execution-proof.json"
 EXPECTED_CASES = {
   "fenced_node_excluded" => "fenced",
   "stale_advertisement_denied" => "denied",
