@@ -1,8 +1,8 @@
 {
   "schema": "adl.memory_palace.obsmem_trace_receipt.v1",
   "status": "passed",
-  "source_sha": "6a4a13b0fd956031d7c861ed886e3cd8516057dc",
-  "tests_run": 11,
+  "source_sha": "41755b0e3b1fb927b19770243572aa028eb6444e",
+  "tests_run": 12,
   "argv": [
     "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
     "--test", "memory_palace", "--no-tests=fail", "--status-level", "all"
@@ -16,7 +16,7 @@
     "adl-runtime-kernel/src/proof.rs": "35a91583979b55c182a40bbd73255d540de6c06ae1644e09abc289ca09fb4d65"
   },
   "fixture_path": "adl-runtime-kernel/tests/fixtures/memory_palace",
-  "fixture_digest": "391635fe94e08a8ccff752cd5ac1c09dc0ab90216b83964e3de8108fe0c323fa",
+  "fixture_digest": "7432fbbb359e339237defd79905194bbf979577f88863ab80a6c985023473d37",
   "output_path": ".csdlc/evidence/5828/native-platform/local-semantic.json",
-  "output_digest": "d8c7de5955c4c0f0a387e8ed2b11c64f8acc4af854f33da82ad22bf7409afbc1"
+  "output_digest": "b941f2a2d005d12b3a6b8c5b758817fe256196d2963fd0f749ed532e79a42fe2"
 }

@@ -1,7 +1,7 @@
-source_revision=6a4a13b0fd956031d7c861ed886e3cd8516057dc
+source_revision=41755b0e3b1fb927b19770243572aa028eb6444e
 target=memory_palace
-tests_run=11
-tests_passed=11
+tests_run=12
+tests_passed=12
 tests_failed=0
 tests_skipped=0
 strict_clippy=passed
