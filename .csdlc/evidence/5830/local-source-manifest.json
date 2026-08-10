@@ -1,0 +1,34 @@
+[
+  {
+    "path": ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+    "sha256": "8c924bd1dc65fb148d58220df8f6d39ac2cdd6b461f02c967354fb5b40d4d7ce"
+  },
+  {
+    "path": ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
+    "sha256": "25e4dc4cd7de616415b50d8d22015b40c1cb4674ea098b638a7177401aa95a30"
+  },
+  {
+    "path": ".github/workflows/wp13-native-cognitive-profile.yml",
+    "sha256": "fdfce012148bf3407d78e112879d877fd67e169ad234784375d16a1734eb4582"
+  },
+  {
+    "path": "adl-runtime-kernel/src/cognitive_profile.rs",
+    "sha256": "1df629e96f5794ec063f484279fd6c5294a7915e8d530f682a5e68fea893eba9"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "463e1f2040ebf9d2131b99f30161c3c39c5d5ef2063ce9f0616a503ccce09694"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/cognitive_profile.rs",
+    "sha256": "ef66719e771dc1e3c1ba6d4d43364c9a06e1b210bbade34873b55b885052de0e"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/cognitive_profile/matrix.json",
+    "sha256": "536ac854d3b927039d155bcfaa0d789efe4eb65c846cc34e9947c5b89261d0ac"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+    "sha256": "a44126912b72213b1c796c36332458dd0f15a1e629f6d43366f197dd0ec4b540"
+  }
+]
