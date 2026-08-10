@@ -20,7 +20,6 @@ use crate::{
     ProjectionRequest, SanctuaryPolicy, SnapshotEntry, BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA,
     CHECKPOINT_SCHEMA, LIVE_KERNEL_CHECKPOINT_SCHEMA,
 };
-use sha2::Digest;
 
 const H: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const GENESIS: &str = "0000000000000000000000000000000000000000000000000000000000000000";
@@ -212,14 +211,6 @@ fn signed_manifest(
     manifest
 }
 
-fn reference(generation: u64, manifest: &CheckpointManifest) -> IdentityReference {
-    IdentityReference {
-        id: format!("cycle-{generation}"),
-        path: format!("evidence/continuity/cycle-{generation}.json"),
-        sha256: hex::encode(sha2::Sha256::digest(serde_jcs::to_vec(manifest).unwrap())),
-    }
-}
-
 fn material() -> (
     BirthdayIdentityRecord,
     BirthdayContinuityAuthorityPolicy,
@@ -250,10 +241,7 @@ fn verify(
 ) -> Result<Vec<VerifiedBirthdayCycle>, Vec<ContinuityRejection>> {
     let evidence = manifests
         .iter()
-        .map(|manifest| BirthdayCycleEvidence {
-            manifest,
-            reference: reference(manifest.generation, manifest),
-        })
+        .map(|manifest| BirthdayCycleEvidence { manifest })
         .collect::<Vec<_>>();
     verify_birthday_cycles(policy, identity, &evidence)
 }
@@ -393,19 +381,33 @@ fn copied_state_and_host_paths_fail_closed() {
         .unwrap_err()
         .iter()
         .any(|error| matches!(error, ContinuityRejection::DuplicateCycle { .. })));
-    let evidence = manifests
-        .iter()
-        .map(|manifest| BirthdayCycleEvidence {
-            manifest,
-            reference: IdentityReference {
-                id: format!("cycle-{}", manifest.generation),
-                path: "/private/raw-state.json".to_owned(),
-                sha256: reference(manifest.generation, manifest).sha256,
-            },
-        })
-        .collect::<Vec<_>>();
-    assert!(verify_birthday_cycles(&policy, &identity, &evidence)
-        .unwrap_err()
+    let (identity, identity_evidence) = verified_identity_fixture();
+    let authority = CheckpointAuthority::from_bytes("runtime-continuity", &[19; 32]);
+    let policy = BirthdayContinuityAuthorityPolicy::establish(
+        BTreeMap::from([("runtime-continuity".to_owned(), authority.verifying_key())]),
+        "runtime-continuity",
+        &identity,
+        &identity_evidence,
+        H,
+        "b".repeat(64),
+        LIVE_KERNEL_CHECKPOINT_SCHEMA,
+        1,
+    )
+    .unwrap();
+    let mut private = signed_manifest(&authority, &identity, 1, &identity.continuity.head_sha256);
+    private.snapshots[0].file = "evidence/private/raw-state.bin".to_owned();
+    authority.sign_manifest(&mut private).unwrap();
+    let second = signed_manifest(&authority, &identity, 2, &private.integrity);
+    let errors = verify_birthday_cycles(
+        &policy,
+        &identity,
+        &[
+            BirthdayCycleEvidence { manifest: &private },
+            BirthdayCycleEvidence { manifest: &second },
+        ],
+    )
+    .unwrap_err();
+    assert!(errors
         .iter()
         .any(|error| matches!(error, ContinuityRejection::UnsafeWitnessPath { .. })));
 }

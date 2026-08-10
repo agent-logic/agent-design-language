@@ -59,6 +59,11 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/src/identity_memory.rs",
     "adl-runtime-kernel/src/private_state.rs"
   ] if test_target == "birthday_continuity"
+  paths += [
+    ".github/workflows/wp10-native-birthday-continuity.yml",
+    ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
+    ".csdlc/prepared/issues/5827/validate-native-receipts.rb"
+  ] if test_target == "birthday_continuity"
   paths
 end
 
@@ -185,8 +190,10 @@ receipts.each do |receipt|
   fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
   prefix = "adl-runtime-kernel::adl_runtime_kernel$birthday_continuity::authority_tests::"
   fail!("#{platform}: test inventory escaped Birthday continuity") unless observed_tests.all? { |name| name.start_with?(prefix) }
-  missing_tests = required_tests - observed_tests.map { |name| name.delete_prefix(prefix) }
-  fail!("#{platform}: required negative proof is incomplete: #{missing_tests.join(', ')}") unless missing_tests.empty?
+  expected_tests = required_tests.map { |name| "#{prefix}#{name}" }.sort
+  fail!("#{platform}: exact authority test inventory mismatch") unless observed_tests == expected_tests
+  fail!("#{platform}: authority test inventory contains duplicates") unless observed_tests.uniq == observed_tests
+  fail!("#{platform}: exact authority test count mismatch") unless receipt["tests_run"] == required_tests.length
 
   semantic_output = repo_file(root, receipt["semantic_output_path"], "#{platform} semantic output", required_prefix: evidence_prefix)
   fail!("#{platform}: semantic path mismatch") unless receipt["semantic_output_path"] == expected_semantic_path

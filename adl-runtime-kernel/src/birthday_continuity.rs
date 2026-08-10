@@ -73,7 +73,6 @@ impl BirthdayContinuityAuthorityPolicy {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct BirthdayCycleEvidence<'a> {
     pub manifest: &'a CheckpointManifest,
-    pub reference: IdentityReference,
 }
 
 /// Opaque result of verifying one signed cycle against runtime trust policy.
@@ -225,13 +224,9 @@ pub fn verify_birthday_cycles(
         if manifest
             .snapshots
             .iter()
-            .any(|entry| !safe_path(&entry.file))
-            || !safe_path(&item.reference.path)
+            .any(|entry| !governed_continuity_path(&entry.file))
         {
             rejections.insert(ContinuityRejection::UnsafeWitnessPath { generation });
-        }
-        if manifest_digest(manifest).ok().as_deref() != Some(&item.reference.sha256) {
-            rejections.insert(ContinuityRejection::WitnessDigestMismatch { generation });
         }
         if !seen_integrities.insert(manifest.integrity.clone()) {
             rejections.insert(ContinuityRejection::DuplicateCycle { generation });
@@ -245,7 +240,8 @@ pub fn verify_birthday_cycles(
             previous_integrity: manifest.previous_integrity.clone().unwrap_or_default(),
             integrity: manifest.integrity.clone(),
             signing_key_id: manifest.signing_key_id.clone(),
-            reference: item.reference.clone(),
+            reference: canonical_cycle_reference(manifest)
+                .map_err(|_| vec![ContinuityRejection::EncodingFailure])?,
         });
         match expected_generation.checked_add(1) {
             Some(next) => expected_generation = next,
@@ -440,6 +436,16 @@ fn manifest_digest(manifest: &CheckpointManifest) -> Result<String, serde_json::
     digest_jcs(manifest)
 }
 
+fn canonical_cycle_reference(
+    manifest: &CheckpointManifest,
+) -> Result<IdentityReference, serde_json::Error> {
+    Ok(IdentityReference {
+        id: format!("bounded-cycle-{}", manifest.generation),
+        path: format!("evidence/continuity/cycle-{}.json", manifest.generation),
+        sha256: manifest_digest(manifest)?,
+    })
+}
+
 fn digest_jcs<T: Serialize + ?Sized>(value: &T) -> Result<String, serde_json::Error> {
     serde_jcs::to_vec(value).map(|bytes| sha256(&bytes))
 }
@@ -468,4 +474,14 @@ fn safe_path(value: &str) -> bool {
         && value
             .split('/')
             .all(|segment| !segment.is_empty() && segment != "." && segment != "..")
+}
+
+fn governed_continuity_path(value: &str) -> bool {
+    safe_path(value)
+        && value.split('/').all(|segment| {
+            !matches!(
+                segment.to_ascii_lowercase().as_str(),
+                "private" | "private_state" | "raw" | "raw_state" | "sealed" | "sealed_payload"
+            )
+        })
 }

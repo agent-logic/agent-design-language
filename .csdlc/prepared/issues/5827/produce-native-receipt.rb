@@ -60,6 +60,11 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/src/identity_memory.rs",
     "adl-runtime-kernel/src/private_state.rs"
   ] if test_target == "birthday_continuity"
+  paths += [
+    ".github/workflows/wp10-native-birthday-continuity.yml",
+    ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
+    ".csdlc/prepared/issues/5827/validate-native-receipts.rb"
+  ] if test_target == "birthday_continuity"
   paths
 end
 
