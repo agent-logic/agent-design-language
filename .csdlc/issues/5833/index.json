@@ -6,10 +6,27 @@
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "implemented",
   "generation": 67,
-  "digest": "80e13773c097cf1a6bd61333391e13f4c43896d9f28809bc656facfc088469e1",
+  "digest": "b59f6f9d9e0e646242ed9fcb8ec8b68e2869db6ccbcc5908902219fa8d1f01b4",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5833_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:5a15670df088fa0e2d2e94cd5e8dc49c5d3859c6:94923296d6733ffe4148833302d00e5460cb32b22b2f59cfbf1b969e4f596a05",
+    "scope": [
+      ".csdlc/issues/5833",
+      ".csdlc/prepared/issues/5833/design.md",
+      ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
+      ".csdlc/evidence/5833",
+      ".github/workflows/wp15-native-birth-witness.yml",
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/fixtures/birth_witness",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "75c30a9fff7c69af0c919442af28b369b8f7a09dbae786c8175bbd8c38dba4db"
     },
     "srp": {
-      "values_digest": "3a9911d20fe93caa58dfbdcfbbe9a54acabf6e5c0b45f4ec4a161ab6c2eae6f2",
-      "rendered_digest": "4b6b2d69d7863380474666cdea35225e1e88e7e783e3c357c211ceae05eacfcf",
-      "ast_digest": "25540fb62a38a3c9058d80a9295f40cb1745178df3de4a8535f50cc38f25a030"
+      "values_digest": "a204e6fec6c8f0aeb0fee54fdc30510c321de7b8d428a3aa9e104ab05ea42875",
+      "rendered_digest": "fb3641c95fa06384c6dc2c057f544604b24284d2e4f42b727dd7d1dc9221e716",
+      "ast_digest": "010da6fa1ce1edfbff27b57f65768a7936aa6dbe40374edd4d9bbb14de1827e6"
     },
     "sor": {
       "values_digest": "11ccd4f8811a8db1126f3ff14b83c22d8f36da53a391503502a1066aec818a4c",
@@ -743,6 +760,13 @@
       "actor": "operator:authorized-review-truth-repair",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 93,
+      "generation": 67,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
