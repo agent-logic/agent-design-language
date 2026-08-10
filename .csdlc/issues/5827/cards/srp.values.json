@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 102
+    "generation": 103
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5827\n.csdlc/prepared/issues/5827\n.csdlc/evidence/5827\n.github/workflows/wp10-native-birthday-continuity.yml\nadl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/src/birthday_continuity.rs\nadl-runtime-kernel/src/birthday_identity.rs\nadl-runtime-kernel/src/continuity.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/identity_memory.rs\nadl-runtime-kernel/src/private_state.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/fixtures/birthday_continuity\nadl-runtime-kernel/tests/fixtures/birthday_identity\ndocs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
-      "review_revision": "git-blake3:f65d8dcd3775878d4f3770b371aba38a26d8c61e:94be3497a44eb0f364b05f310be6a749bc7de0eed9723b3b2e9c9496375c4a6b",
-      "reviewer": "/root/review_5827_native_final",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can restart, wake, restore, snapshot, copied state, duplicate, or reordered cycles incorrectly establish continuity?",
         "Does every head bind one root, predecessor, ordered current evidence, and witness references deterministically?",
@@ -23,10 +23,8 @@
         "Is #5826 terminal evidence current and is every WP-10 acceptance claim proven at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Republish the reviewed native evidence and converge the replacement standard and WP-10 native checks before merge."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
