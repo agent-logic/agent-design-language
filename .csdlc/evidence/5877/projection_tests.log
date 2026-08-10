@@ -1,0 +1,11 @@
+
+running 4 tests
+test openapi_nested_dtos_enums_limits_security_and_errors_match_rust_contract ... ok
+test coherent_projection_is_deterministic_redacted_and_openapi_aligned ... ok
+test request_and_authority_failures_are_closed_and_bounded ... ok
+test readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running tests/distributed_projection.rs (adl-runtime/target/debug/deps/distributed_projection-6c731a4b855bf9b7)
