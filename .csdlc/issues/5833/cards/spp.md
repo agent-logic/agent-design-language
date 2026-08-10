@@ -16,7 +16,7 @@ Implement and prove WP-15 exact-candidate witness consensus and deterministic re
 
 ## Plan
 
-Revision 21
+Revision 22
 
 ## Steps
 

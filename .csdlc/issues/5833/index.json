@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "bound",
-  "generation": 56,
-  "digest": "aa16b2b4a137dc8a3a58af8515c16e1b903b4861f918d9e965515e9dbb6c9319",
+  "generation": 59,
+  "digest": "21f00f136796108e5e584869b52895dd670a33743880969ceba86b332789c01d",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0a224bc2090d4280a65e658fd651bdda1d660cffe8d83e1c4ed6de5fa1d76eaa",
-      "rendered_digest": "4e9e7a9567e44df1394f9a49bc5edc0555f72716a212416ef18cbbc5b327f5f3",
-      "ast_digest": "9664f858ce942b6f8655428aa5ab4925b3377db0a94dc02ba3a52b369337dda6"
+      "values_digest": "6a2b5339d1fc05a0c3bde920f53688b27560d12ec229bbcd94e15b3207ca963e",
+      "rendered_digest": "477aa501f9e874202ec0e5f251ef5eecf0e66c2ddffa5f13a553e7a0ada1cc65",
+      "ast_digest": "405c48deb4505cebfb6dc08d2018c6d971c11105e0d9fe9db08649cc0821e1af"
     },
     "stp": {
-      "values_digest": "d5252dce1affb445feeae2ffe82d90872355fe267fd229a4d9b0c6f395590b2f",
+      "values_digest": "e0f307f7fe47fc73562ff998459450fa73939baef7c041d984bd4a97313d22f8",
       "rendered_digest": "d2df01151976c29fe3fb8d512ce6624343cee597726be70de93117b8573c080f",
       "ast_digest": "7741a87889a28e451995cc70fd975b31ed4cc0cf56fee554e0c28f988ea22cc3"
     },
     "spp": {
-      "values_digest": "74073c69d98eeda0522c84219da935fab166f50bb626cf1dbb2d8aaa7707d03d",
-      "rendered_digest": "356534fcaa96c49f9721dadee9b270a0e25196325b1ed2f9886223f1b1270269",
-      "ast_digest": "2b86ef2e8fbe38039e3584497704f32d9ce68e9561edf66a0f727d9c60270768"
+      "values_digest": "3bff072dbdd695f38a5c504777985d417fed8cd8fd3c28f908b119e373c17c0f",
+      "rendered_digest": "f55361e2aee38f1c1decc006f51d0fd39111e6fa519c915c002aa71b6a493860",
+      "ast_digest": "15af687de58a05bd2750452420bf1d867479c8e1a228a54ef87c0d52e0db1949"
     },
     "vpp": {
-      "values_digest": "d3bd8d09b5abd0fd4912b2bad8465a4e1372d779e5ecd4400c8e473444846f81",
-      "rendered_digest": "5bef23be1b40b6d0a11500613e21e06b1e2aa107329bb22ed1b705c2bbfa2cb6",
-      "ast_digest": "401e73dc93a7d0aede1dcb7a40e4991dacd9396c71aeaa75f87302f8604b8dfa"
+      "values_digest": "8dc17b823e28ff18231f48f70898fefd91c83de5c673c3e35015fd4ae94af5ec",
+      "rendered_digest": "423b8f4dc2f2e10b330d86f5929c72bf5f4983d430af747070cc430a74df76df",
+      "ast_digest": "ca50d4aaa225dcd5889996b57b64c29ee33f94956c11247700ef8d3f08ed16fe"
     },
     "srp": {
-      "values_digest": "8b3f4954872247b04270469af217fefce0526b94e05eef3a1b952e371f85bb49",
+      "values_digest": "8d1ce0a612f0419b2fe9c4dc6c92818c4602fd9c992f2b7cc2463eb51447bfa5",
       "rendered_digest": "56ec22df18e5ffdda568c7610c4251591f6e155519434631b3105bced42eb7e1",
       "ast_digest": "e8ad26ffda18e702a9a1dd14d163e259f5edcd2334f3de62fb9aee08b81b99b8"
     },
     "sor": {
-      "values_digest": "2c0298396287b8b601d72f430607bd586ee5ebed0c7430568c6d0ea220d00ee0",
+      "values_digest": "317dc6a134ce0353a5bcbe44523959f8fe67527f0d2afd7ca23fd9f66bbdb5a8",
       "rendered_digest": "80cfc253b18a6a049c6e3fbf9ba4c4d5770cc274c8f3e5103a4e4671ad3b4602",
       "ast_digest": "bc866d00481ec5943d6b753a3283ff8031e449d344cc5c773db718db37bb7bb0"
     }
@@ -645,6 +645,27 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 80,
+      "generation": 57,
+      "actor": "codex:5833-birth-witness",
+      "reason": "Declare the smallest issue-specific workflow and producer surface required for mandatory exact-head native Linux and macOS witness proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness/\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\".github/workflows/wp15-native-birth-witness.yml\",\".csdlc/evidence/5833/\"]}"
+    },
+    {
+      "sequence": 81,
+      "generation": 58,
+      "actor": "codex:5833-birth-witness",
+      "reason": "Record the bounded issue-specific native workflow in the operative implementation plan.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\".github/workflows/wp15-native-birth-witness.yml\",\".csdlc/evidence/5833\"]}"
+    },
+    {
+      "sequence": 82,
+      "generation": 59,
+      "actor": "codex:5833-birth-witness",
+      "reason": "Clear only the focused core-lane deferral after the materialized exact target passed 12 tests; preserve mandatory native producer deferrals until publication CI.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birth_witness-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5833-core\",\"defer_reason\":null},{\"lane\":\"birth_witness-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5833/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/macos-semantic.json\"],\"parallel_group\":\"5833-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birth_witness-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5833/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/linux-semantic.json\"],\"parallel_group\":\"5833-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birth_witness-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse the exact test inventory; verify GitHub Actions provenance and path hygiene; and require macOS/Linux semantic equivalence at exact candidate HEAD.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".csdlc/evidence/5833/native-platform/macos.json\",\".csdlc/evidence/5833/native-platform/linux.json\"],\"parallel_group\":\"5833-native-verify\",\"defer_reason\":\"Requires both exact-head native producer fragments from one GitHub Actions run; missing receipt proof blocks portability and review readiness.\"}]}"
     }
   ]
 }

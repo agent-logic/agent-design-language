@@ -54,7 +54,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       "all"
     ],
     "parallel_group": "5833-core",
-    "defer_reason": "Planned issue-owned target is not materialized yet; implementation must create it and clear this defer reason only after a nonzero focused run passes."
+    "defer_reason": null
   },
   {
     "lane": "birth_witness-macos-native-ci-producer",
@@ -106,7 +106,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
   },
   {
     "lane": "birth_witness-native-ci-receipt-verification",
-    "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=4642a6843434bf0f51560bd78bc2de1fe7f0c2645d4a55e92efa10b384b9383c]",
+    "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse the exact test inventory; verify GitHub Actions provenance and path hygiene; and require macOS/Linux semantic equivalence at exact candidate HEAD.",
     "acceptance_ids": [
       "AC-4",
       "AC-9"
@@ -122,7 +122,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       ".csdlc/evidence/5833/native-platform/linux.json"
     ],
     "parallel_group": "5833-native-verify",
-    "defer_reason": null
+    "defer_reason": "Requires both exact-head native producer fragments from one GitHub Actions run; missing receipt proof blocks portability and review readiness."
   }
 ]
 
