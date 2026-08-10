@@ -1393,6 +1393,18 @@ textarea,
   align-items: start;
 }
 
+.polis-chat-auth {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: end;
+}
+
+.polis-chat-auth .communication-actions {
+  min-height: 3.15rem;
+  align-items: center;
+}
+
 .polis-chat-head h2 {
   margin: 0.15rem 0 0;
   font-size: 1rem;
@@ -1929,7 +1941,8 @@ textarea,
   }
 
   .polis-chat-head,
-  .polis-chat-identity {
+  .polis-chat-identity,
+  .polis-chat-auth {
     grid-template-columns: 1fr;
   }
 

@@ -197,6 +197,17 @@
                 </select>
               </label>
             </div>
+            <div class="polis-chat-auth">
+              <label class="field">
+                <span class="row-kicker">Operator write token</span>
+                <input id="operator-write-token" type="password" autocomplete="current-password" placeholder="Required only for writes">
+              </label>
+              <div class="communication-actions">
+                <button class="button button-primary" type="button" id="operator-login">Log in for writes</button>
+                <button class="button button-secondary" type="button" id="operator-logout">Log out</button>
+                <span class="mini-badge" id="operator-auth-status">public read</span>
+              </div>
+            </div>
             <div class="polis-chat-transcript" id="agent-chat-transcript" role="log" aria-live="polite" aria-label="Conversation transcript">
               <p class="chat-empty">Connect to Runtime v3 and select an agent to begin.</p>
             </div>
@@ -484,15 +495,6 @@
                 <option value="acip_sns">ACIP -> SNS projection</option>
               </select>
             </label>
-            <label class="field field-wide">
-              <span class="row-kicker">Operator write token</span>
-              <input id="operator-write-token" type="password" autocomplete="current-password" placeholder="Required only for writes">
-            </label>
-            <div class="communication-actions">
-              <button class="button button-primary" type="button" id="operator-login">Log in for writes</button>
-              <button class="button button-secondary" type="button" id="operator-logout">Log out</button>
-              <span class="mini-badge" id="operator-auth-status">public read</span>
-            </div>
             <details class="advanced-command field-wide">
               <summary>Advanced signed command</summary>
             <label class="field field-wide">

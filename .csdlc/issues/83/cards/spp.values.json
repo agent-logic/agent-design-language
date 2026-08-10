@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
     "slug": "v0-92-html-observatory-runtime-v3-client",
     "version": "v0.92",
-    "generation": 59
+    "generation": 60
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 17,
+      "plan_revision": 18,
       "summary": "Complete the investor-visible Layer 8 chat slice with fresh live capture time and one governed signed identity-envelope path for Layer 8 and agent-to-agent messages: canonical sender verification before delivery, recipient-selected Runtime-side response signing, browser verification against the live roster, no browser private-key material, reconnect continuity, and retained live proof.",
       "steps": [
         {
@@ -105,6 +105,7 @@
         "demos/html-observatory/README.md",
         "demos/html-observatory/app.js",
         "demos/html-observatory/index.html",
+        "demos/html-observatory/styles.css",
         "docs/api/runtime-v3/v1/acip-identity-message-golden.json",
         "docs/api/runtime-v3/v1/observatory.openapi.json",
         "infra/runtime-v3/runtime-init.toml"
