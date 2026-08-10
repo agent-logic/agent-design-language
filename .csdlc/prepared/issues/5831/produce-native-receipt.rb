@@ -45,7 +45,7 @@ def repo_path(root, relative, label)
 end
 
 def source_paths(test_target, feature_path)
-  [
+  paths = [
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
@@ -53,6 +53,14 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
   ]
+  if test_target == "adaptive_learning"
+    paths.concat([
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/durable_state.rs"
+    ])
+  end
+  paths
 end
 
 def source_manifest(root, paths)
@@ -96,6 +104,13 @@ if options[:self_test]
   parsed = JSON.parse(normalized)
   fail!("self-test altered structured event inventory") unless parsed["name"] == test_name
   fail!("self-test did not use repository-relative marker") unless parsed["path"] == "./adl-runtime-kernel/src/lib.rs"
+  required_authority_paths = [
+    "adl-runtime-kernel/src/reasoning.rs",
+    "adl-runtime-kernel/src/durable_state.rs",
+    "adl-runtime-kernel/tests/durable_state.rs"
+  ]
+  adaptive_paths = source_paths("adaptive_learning", "docs/adaptive.md")
+  fail!("self-test omitted adaptive authority source") unless required_authority_paths.all? { |path| adaptive_paths.include?(path) }
   puts JSON.generate(status: "passed", check: "native-log-normalization")
   exit 0
 end
