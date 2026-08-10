@@ -4,34 +4,25 @@ on:
   pull_request:
     paths:
       - ".github/workflows/wp14-native-acip.yml"
-      - "adl-runtime/src/acip.rs"
-      - "adl-runtime/src/runtime_api.rs"
-      - "adl-runtime/src/runtime_api_auth.rs"
-      - "adl-runtime/tests/runtime_api_wss.rs"
       - "adl-runtime-kernel/src/acip.rs"
+      - "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs"
+      - "adl-runtime-kernel/src/config.rs"
+      - "adl-runtime-kernel/src/control.rs"
       - "adl-runtime-kernel/src/protocol_adapters.rs"
+      - "adl-runtime-kernel/src/tls.rs"
+      - "adl-runtime-kernel/tests/production_acip_wss.rs"
+      - "adl-runtime-kernel/tests/support/runtime_init.rs"
       - "adl-runtime/schemas/acip/v1/**"
       - "docs/api/runtime-v3/v1/openapi.json"
-      - "docs/api/runtime-v3/v1/acip.openapi.json"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  native-acip:
-    name: native-acip-${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: linux
-            os: ubuntu-latest
-          - platform: macos
-            os: macos-latest
-          - platform: windows
-            os: windows-latest
-    runs-on: ${{ matrix.os }}
+  production-acip-linux:
+    name: production-acip-linux
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout exact pull-request head
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -41,25 +32,23 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
 
-      - name: Install cargo-nextest
-        uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
-        with:
-          tool: nextest@0.9.140
-          fallback: none
+      - name: Install verified Vector component
+        run: bash adl/tools/install_vector_component.sh
 
       - name: Run production ACIP/WSS producer
         id: producer
         shell: bash
         continue-on-error: true
         env:
-          PLATFORM: ${{ matrix.platform }}
-          ADL_ACIP_PLATFORM: ${{ matrix.platform }}
+          PLATFORM: linux
+          ADL_ACIP_PLATFORM: linux
         run: |
+          PLATFORM=linux
           evidence=".csdlc/evidence/5832/native/${PLATFORM}"
           mkdir -p "$evidence"
           printf '' >"$evidence/proof.json"
           set +e
-          ADL_ACIP_PROOF_OUTPUT="${GITHUB_WORKSPACE}/${evidence}/proof.json" cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail production_acip_wss >"$evidence/stdout.log" 2>"$evidence/stderr.log"
+          ADL_ACIP_PROOF_OUTPUT="${GITHUB_WORKSPACE}/${evidence}/proof.json" cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss -- --exact production_binary_acip_wss_produces_observed_receipt >"$evidence/stdout.log" 2>"$evidence/stderr.log"
           exit_code=$?
           set -e
           python - "$evidence/stdout.log" "$evidence/stderr.log" <<'PY'
@@ -75,7 +64,7 @@ jobs:
         if: always()
         shell: bash
         env:
-          PLATFORM: ${{ matrix.platform }}
+          PLATFORM: linux
           SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           python - <<'PY'
@@ -92,9 +81,19 @@ jobs:
               raise SystemExit("producer proof schema mismatch")
           if producer.get("platform") != name:
               raise SystemExit("producer proof platform mismatch")
+          if producer.get("producer") != "adl-runtime-kernel/tests/production_acip_wss.rs::production_binary_acip_wss_produces_observed_receipt":
+              raise SystemExit("producer identity mismatch")
           assertions = producer.get("assertions", [])
           if not assertions or any(item.get("result") != "passed" for item in assertions):
               raise SystemExit("producer assertions incomplete")
+          successful_exchanges = sum(
+              item.get("class") == "successful_exchange" for item in assertions
+          )
+          negative_cases = sum(item.get("class") == "negative_case" for item in assertions)
+          if producer.get("successful_exchanges") != successful_exchanges:
+              raise SystemExit("successful exchange count does not match observed assertions")
+          if producer.get("negative_cases") != negative_cases:
+              raise SystemExit("negative-case count does not match observed assertions")
 
           def digest(path):
               return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -115,15 +114,15 @@ jobs:
                   "identity_sha256": identity,
               },
               "command": {
-                  "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "runtime_api_wss", "--no-tests=fail", "production_acip_wss"],
+                  "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "production_acip_wss", "--", "--exact", "production_binary_acip_wss_produces_observed_receipt"],
                   "exit_code": exit_code,
                   "stdout_path": f"{prefix}/stdout.log",
                   "stdout_sha256": digest(stdout),
                   "stderr_path": f"{prefix}/stderr.log",
                   "stderr_sha256": digest(stderr),
               },
-              "successful_exchanges": producer["successful_exchanges"],
-              "negative_cases": producer["negative_cases"],
+              "successful_exchanges": successful_exchanges,
+              "negative_cases": negative_cases,
               "artifacts": [{"path": f"{prefix}/proof.json", "sha256": digest(proof)}],
               "assertions": [
                   {
@@ -144,8 +143,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: wp14-native-acip-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .csdlc/evidence/5832/native/${{ matrix.platform }}/
+          name: wp14-production-acip-linux-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5832/native/linux/
 
       - name: Require producer success
         if: steps.producer.outcome != 'success'

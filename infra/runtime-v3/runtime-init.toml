@@ -54,6 +54,7 @@ operation_key_id = "runtime-operations"
 continuity_signing_key_path = "/var/lib/adl/runtime-v3/credentials/continuity-signing-key.hex"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "/var/lib/adl/runtime-v3/credentials/observatory-token.txt"
+acip_write_token_path = "/var/lib/adl/runtime-v3/credentials/acip-write-token.txt"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 

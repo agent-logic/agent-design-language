@@ -34,6 +34,8 @@ use tokio_tungstenite::{
 mod tls_support;
 use tls_support::TestPki;
 
+const ACIP_WRITE_TOKEN: &str = "test-acip-write-token-000000000001";
+
 struct FakeLifecycle;
 
 struct EchoExecutor;
@@ -126,6 +128,9 @@ fn service_with_executor(token: &str, executor: Arc<dyn OperationExecutor>) -> T
     );
     service.set_observatory_bearer_token(token).unwrap();
     service
+        .set_acip_write_bearer_token(ACIP_WRITE_TOKEN)
+        .unwrap();
+    service
         .set_public_base_url("https://observatory.example.test:20997")
         .unwrap();
     TestService {
@@ -197,6 +202,17 @@ fn request(address: std::net::SocketAddr, origin: &str) -> Request<()> {
     request
 }
 
+fn acip_request(address: std::net::SocketAddr, token: &str) -> Request<()> {
+    let mut request = format!("wss://localhost:{}/v1/acip/ws", address.port())
+        .into_client_request()
+        .unwrap();
+    request.headers_mut().insert(
+        "Authorization",
+        HeaderValue::from_str(&format!("Bearer {token}")).unwrap(),
+    );
+    request
+}
+
 type TestSocket = WebSocketStream<MaybeTlsStream<tokio::net::TcpStream>>;
 
 async fn connect_authenticated(
@@ -236,6 +252,20 @@ async fn connect_public(address: std::net::SocketAddr, connector: Connector) -> 
     socket
 }
 
+async fn connect_acip(address: std::net::SocketAddr, connector: Connector) -> TestSocket {
+    let (mut socket, _) = connect_async_tls_with_config(
+        acip_request(address, ACIP_WRITE_TOKEN),
+        None,
+        false,
+        Some(connector),
+    )
+    .await
+    .unwrap();
+    let authenticated = next_acip_status(&mut socket).await;
+    assert_eq!(authenticated["event"], "authenticated");
+    socket
+}
+
 async fn next_json_with_schema(socket: &mut TestSocket, schema: &str) -> serde_json::Value {
     tokio::time::timeout(Duration::from_secs(2), async {
         while let Some(message) = socket.next().await {
@@ -266,6 +296,50 @@ async fn next_acip_status(socket: &mut TestSocket) -> serde_json::Value {
     })
     .await
     .unwrap()
+}
+
+#[tokio::test]
+async fn acip_write_credential_is_distinct_from_observatory_read_credential() {
+    let observatory_token = "test-observatory-websocket-token-0007";
+    let test_service = service(observatory_token);
+    let (address, connector, server) = websocket_server(test_service).await;
+
+    let denied = connect_async_tls_with_config(
+        acip_request(address, observatory_token),
+        None,
+        false,
+        Some(connector.clone()),
+    )
+    .await
+    .unwrap_err();
+    assert!(denied.to_string().contains("401"));
+
+    let (mut socket, _) = connect_async_tls_with_config(
+        acip_request(address, ACIP_WRITE_TOKEN),
+        None,
+        false,
+        Some(connector),
+    )
+    .await
+    .unwrap();
+    let authenticated = next_acip_status(&mut socket).await;
+    assert_eq!(authenticated["event"], "authenticated");
+
+    let frame = encode_acip_envelope(
+        "acip-write-auth-1",
+        "source-write-auth",
+        "runtime",
+        "acip",
+        &serde_json::json!({"payload": "credential-separated-dispatch"}),
+        1,
+    )
+    .unwrap();
+    socket.send(Message::Binary(frame.into())).await.unwrap();
+    let accepted = next_acip_status(&mut socket).await;
+    assert_eq!(accepted["status"], "completed");
+    assert_eq!(accepted["message_id"], "acip-write-auth-1");
+    socket.close(None).await.unwrap();
+    server.abort();
 }
 
 #[tokio::test]
@@ -345,10 +419,10 @@ async fn observatory_websocket_allows_public_reads_and_requires_login_for_writes
 }
 
 #[tokio::test]
-async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
+async fn canonical_acip_websocket_rejects_replay_after_reconnect() {
     let token = "test-observatory-websocket-token-0007";
     let (address, connector, server) = websocket_server(service(token)).await;
-    let mut first = connect_authenticated(address, connector.clone(), token).await;
+    let mut first = connect_acip(address, connector.clone()).await;
     first
         .send(Message::Binary(
             encode_acip_envelope(
@@ -370,7 +444,7 @@ async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
     assert_eq!(accepted["sequence_reserved"], true);
     first.close(None).await.unwrap();
 
-    let mut second = connect_authenticated(address, connector, token).await;
+    let mut second = connect_acip(address, connector).await;
     second
         .send(Message::Binary(
             encode_acip_envelope(
@@ -424,7 +498,7 @@ async fn failed_acip_dispatch_releases_sequence_for_retry() {
         }),
     );
     let (address, connector, server) = websocket_server(service).await;
-    let mut socket = connect_authenticated(address, connector, token).await;
+    let mut socket = connect_acip(address, connector).await;
     let frame = encode_acip_envelope(
         "acip-retry-1",
         "agent-source-retry",
@@ -507,33 +581,15 @@ async fn observatory_websocket_rejects_bad_auth_and_client_data() {
         .send(Message::Binary(vec![1, 2, 3].into()))
         .await
         .unwrap();
-    let rejected = tokio::time::timeout(Duration::from_secs(2), async {
-        while let Some(message) = socket.next().await {
-            if let Ok(Message::Text(payload)) = message {
-                let value: serde_json::Value = serde_json::from_str(&payload).unwrap();
-                if value["schema"] == ACIP_WEBSOCKET_SCHEMA {
-                    return value;
-                }
-            }
-        }
-        panic!("authenticated Observatory session ended before ACIP rejection");
-    })
-    .await
-    .unwrap();
-    assert_eq!(rejected["status"], "rejected");
-    assert_eq!(rejected["sequence_reserved"], false);
-    socket.send(Message::Ping(Vec::new().into())).await.unwrap();
-    let pong = tokio::time::timeout(Duration::from_secs(2), async {
-        while let Some(message) = socket.next().await {
-            if matches!(message, Ok(Message::Pong(_))) {
-                return true;
-            }
-        }
-        false
-    })
-    .await
-    .unwrap();
-    assert!(pong);
+    let closed = tokio::time::timeout(Duration::from_secs(2), socket.next())
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap();
+    let Message::Close(Some(frame)) = closed else {
+        panic!("Observatory binary input must close the session");
+    };
+    assert_eq!(frame.reason, "observatory_binary_frames_unsupported");
     server.abort();
 }
 

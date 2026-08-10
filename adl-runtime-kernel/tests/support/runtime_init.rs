@@ -48,6 +48,7 @@ pub fn write_with_certificate_for_state(
     let operation_public_key = credentials_root.join("operation-public-key.hex");
     let continuity_signing_key = credentials_root.join("continuity-signing-key.hex");
     let observatory_token = credentials_root.join("observatory-token.txt");
+    let acip_write_token = credentials_root.join("acip-write-token.txt");
     std::fs::write(
         &control_public_key,
         hex::encode(
@@ -68,6 +69,7 @@ pub fn write_with_certificate_for_state(
     .unwrap();
     std::fs::write(&continuity_signing_key, hex::encode([23_u8; 32])).unwrap();
     std::fs::write(&observatory_token, "guardian-observatory-token-00000001").unwrap();
+    std::fs::write(&acip_write_token, "guardian-acip-write-token-000000001").unwrap();
     let vector = repo_vector_binary();
     let kernel = std::env::current_exe().unwrap();
     let init = directory.join("runtime-init.toml");
@@ -119,6 +121,7 @@ operation_key_id = "runtime-operations"
 continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
+acip_write_token_path = "{}"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 [shutdown]
@@ -190,6 +193,7 @@ snapshot_concurrency = 4
             toml_path(&operation_public_key),
             toml_path(&continuity_signing_key),
             toml_path(&observatory_token),
+            toml_path(&acip_write_token),
             toml_path(&vector),
         ),
     )

@@ -4,7 +4,7 @@
     "title": "ADL Runtime v3 Core API",
     "version": "1.0.0",
     "summary": "Control, status, telemetry, and agent communication",
-    "description": "Use this API to inspect runtime health, read telemetry, send authenticated control commands, and exchange ACIP messages."
+    "description": "Use this API to inspect runtime health, read telemetry, send authenticated control commands, and exchange ACIP messages. The production Axum stack is owned by adl-runtime-kernel, and this document is the canonical ACIP/OpenAPI authority for the runtime."
   },
   "servers": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "name": "acip",
-      "description": "Authenticated Runtime v3 ACIP bidirectional WebSocket carrier."
+      "description": "Authenticated Runtime v3 ACIP bidirectional WebSocket carrier owned by adl-runtime-kernel."
     },
     {
       "name": "control",
@@ -138,10 +138,10 @@
           "acip"
         ],
         "summary": "Open the authenticated bidirectional ACIP WebSocket carrier",
-        "description": "Upgrades over ordinary server-authenticated TLS after bearer authentication. The server sends an authenticated JSON session frame, accepts bounded ACIP Protobuf binary envelopes, dispatches each envelope through canonical ingress, and returns a structured JSON completion or rejection frame.",
+        "description": "Upgrades over ordinary server-authenticated TLS after bearer authentication. The server sends an authenticated JSON session frame, accepts bounded ACIP Protobuf binary envelopes, dispatches each envelope through canonical ingress, and returns a structured JSON completion or rejection frame. This is the one canonical production ACIP WebSocket endpoint, and it is owned by adl-runtime-kernel.",
         "security": [
           {
-            "runtimeBearer": []
+            "acipWriteBearer": []
           }
         ],
         "responses": {
@@ -176,7 +176,9 @@
             "credential_revoked",
             "binary_acip_frame_required"
           ],
-          "bidirectional": true
+          "bidirectional": true,
+          "canonicalEndpoint": true,
+          "serviceOwner": "adl-runtime-kernel"
         }
       }
     },
@@ -193,7 +195,7 @@
           "transport": "server_tls",
           "listenerMutualTls": false,
           "application": "ed25519_signed_request_body",
-          "description": "The Runtime validates SignedControlCommand after ordinary server-authenticated TLS. Signed-command authorization is not mutual TLS."
+          "description": "The Runtime validates SignedControlCommand after ordinary server-authenticated TLS. Signed-command authorization is not mutual TLS, and ACIP write authority uses a distinct bearer credential from Observatory read access."
         },
         "requestBody": {
           "required": true,
@@ -362,15 +364,15 @@
   },
   "components": {
     "securitySchemes": {
-      "runtimeBearer": {
+      "acipWriteBearer": {
         "type": "http",
         "scheme": "bearer",
-        "description": "Bearer token configured outside code through Runtime v3 init/environment."
+        "description": "Distinct ACIP write bearer credential configured outside code through Runtime v3 init/environment. Observatory read credentials do not authorize ACIP writes."
       }
     },
     "responses": {
       "RuntimeAuthenticationFailed": {
-        "description": "Missing, malformed, incorrect, or unavailable Runtime API bearer credential.",
+        "description": "Missing, malformed, incorrect, or unavailable ACIP write bearer credential.",
         "content": {
           "application/json": {
             "schema": {

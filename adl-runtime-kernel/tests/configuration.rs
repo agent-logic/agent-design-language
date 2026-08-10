@@ -101,6 +101,7 @@ operation_key_id = "runtime-operations"
 continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
+acip_write_token_path = "{}"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 
@@ -169,6 +170,7 @@ snapshot_concurrency = 4
         toml_path(&credentials.join("operation-public-key.hex")),
         toml_path(&credentials.join("continuity-signing-key.hex")),
         toml_path(&credentials.join("observatory-token.txt")),
+        toml_path(&credentials.join("acip-write-token.txt")),
         toml_path(&vector),
         "config/runtime-v3-vector.json",
         "spool/runtime-v3.current.jsonl",
@@ -451,6 +453,14 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
     assert_eq!(
         init.credentials.control_public_key_path,
         state_root.join("credentials/control-public-key.hex")
+    );
+    assert_eq!(
+        init.credentials.observatory_token_path,
+        state_root.join("credentials/observatory-token.txt")
+    );
+    assert_eq!(
+        init.credentials.acip_write_token_path,
+        state_root.join("credentials/acip-write-token.txt")
     );
     assert_eq!(init.guardian_shutdown_grace_millis(), 18_500);
     assert_eq!(

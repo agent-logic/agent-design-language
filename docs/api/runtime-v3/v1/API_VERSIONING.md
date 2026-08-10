@@ -23,8 +23,8 @@ Current route-serving boundary:
 - Runtime v3 exposes authenticated ACIP/A2A transport at `GET /v1/acip/ws`.
   The served Core API document is canonical: the server sends a JSON session
   frame, then accepts bounded binary Protobuf work frames. Text work frames are
-  rejected. `acip.openapi.json` is a companion view of that same contract and
-  must not define a separate endpoint protocol.
+  rejected. `openapi.json` is the sole checked-in and served contract for this
+  endpoint; no parallel companion contract is maintained.
 - Runtime v3 serves the Core API contract at `GET /v1/openapi.json`.
 - Runtime v3 serves the Observatory API contract at `GET /v1/observatory/openapi.json`.
 - Runtime v3 serves an embedded Swagger UI at `GET /v1/docs/` with both contracts available from its API selector; `GET /v1/docs` redirects to the slash-stable route.

@@ -374,6 +374,10 @@ impl RuntimeInitConfig {
                 "credentials.observatory_token_path",
                 &self.credentials.observatory_token_path,
             ),
+            (
+                "credentials.acip_write_token_path",
+                &self.credentials.acip_write_token_path,
+            ),
         ] {
             validate_child_path(field, &credential_root, path)?;
         }
@@ -628,6 +632,7 @@ pub struct RuntimeCredentialInitConfig {
     pub continuity_signing_key_path: PathBuf,
     pub continuity_key_id: String,
     pub observatory_token_path: PathBuf,
+    pub acip_write_token_path: PathBuf,
     pub continuity_min_generation: u64,
     pub sntp_server: String,
 }

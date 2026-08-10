@@ -314,6 +314,7 @@ impl ProductionFixture {
         let operation_public_key = hex::encode(operation_key.verifying_key().as_bytes());
         let continuity_signing_key = hex::encode([23_u8; 32]);
         let observatory_token = "wp12-observatory-token-000000000001".to_owned();
+        let acip_write_token = "wp12-acip-write-token-0000000000001".to_owned();
         let control_public_key_path = credentials_root.join(toml_file_name(
             &init_document,
             &["credentials", "control_public_key_path"],
@@ -330,6 +331,10 @@ impl ProductionFixture {
             &init_document,
             &["credentials", "observatory_token_path"],
         )?);
+        let acip_write_token_path = credentials_root.join(toml_file_name(
+            &init_document,
+            &["credentials", "acip_write_token_path"],
+        )?);
         std::fs::write(&control_public_key_path, &control_public_key)
             .map_err(|error| error.to_string())?;
         std::fs::write(&operation_public_key_path, &operation_public_key)
@@ -340,6 +345,8 @@ impl ProductionFixture {
         )
         .map_err(|error| error.to_string())?;
         write_secret(&observatory_token_path, observatory_token.as_bytes())
+            .map_err(|error| error.to_string())?;
+        write_secret(&acip_write_token_path, acip_write_token.as_bytes())
             .map_err(|error| error.to_string())?;
 
         set_toml_string(&mut init_document, &["state_root"], toml_path(&state_root)?)?;
@@ -373,6 +380,7 @@ impl ProductionFixture {
             ("operation_public_key_path", &operation_public_key_path),
             ("continuity_signing_key_path", &continuity_signing_key_path),
             ("observatory_token_path", &observatory_token_path),
+            ("acip_write_token_path", &acip_write_token_path),
         ] {
             set_toml_string(
                 &mut init_document,

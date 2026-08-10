@@ -15,7 +15,6 @@ const FASTWORK_ROOT = "/Volumes/FastWork";
 const CONCURRENT_RUNTIME_CONNECTIONS = 50;
 const SCOPED_PRODUCT_PATHS = [
   "docs/api/runtime-v3/v1/openapi.json",
-  "docs/api/runtime-v3/v1/acip.openapi.json",
   "demos/html-observatory/runtime-v3.config.json",
   "demos/html-observatory/README.md",
   "adl/tools/validate_v092_browser_trusted_observatory.mjs",

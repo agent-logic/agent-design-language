@@ -135,12 +135,60 @@ pub fn trust_roots_from_der(
         ));
     }
     let mut roots = RootCertStore::empty();
-    for certificate in certificates {
+    for (index, certificate) in certificates.iter().enumerate() {
+        validate_trust_anchor(certificate, index)?;
         roots
             .add(certificate.clone())
             .map_err(|error| TlsConfigError::InvalidTrustRoots(error.to_string()))?;
     }
     Ok(roots)
+}
+
+fn validate_trust_anchor(
+    certificate: &CertificateDer<'_>,
+    index: usize,
+) -> Result<(), TlsConfigError> {
+    let (remaining, parsed) =
+        x509_parser::parse_x509_certificate(certificate.as_ref()).map_err(|error| {
+            TlsConfigError::InvalidTrustRoots(format!(
+                "certificate {} is not valid X.509: {error}",
+                index + 1
+            ))
+        })?;
+    if !remaining.is_empty() {
+        return Err(TlsConfigError::InvalidTrustRoots(format!(
+            "certificate {} contains trailing data",
+            index + 1
+        )));
+    }
+
+    let basic_constraints = parsed.basic_constraints().map_err(|error| {
+        TlsConfigError::InvalidTrustRoots(format!(
+            "certificate {} has invalid Basic Constraints: {error}",
+            index + 1
+        ))
+    })?;
+    if !basic_constraints.is_some_and(|extension| extension.value.ca) {
+        return Err(TlsConfigError::InvalidTrustRoots(format!(
+            "certificate {} is not a CA certificate",
+            index + 1
+        )));
+    }
+
+    let key_usage = parsed.key_usage().map_err(|error| {
+        TlsConfigError::InvalidTrustRoots(format!(
+            "certificate {} has invalid Key Usage: {error}",
+            index + 1
+        ))
+    })?;
+    if key_usage.is_some_and(|extension| !extension.value.key_cert_sign()) {
+        return Err(TlsConfigError::InvalidTrustRoots(format!(
+            "certificate {} Key Usage does not permit certificate signing",
+            index + 1
+        )));
+    }
+
+    Ok(())
 }
 
 pub async fn load_axum_server_tls(
@@ -265,7 +313,7 @@ fn crypto_provider() -> Arc<rustls::crypto::CryptoProvider> {
 mod tests {
     use rcgen::{
         date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer,
-        ExtendedKeyUsagePurpose, IsCa, KeyPair,
+        ExtendedKeyUsagePurpose, IsCa, KeyPair, KeyUsagePurpose,
     };
 
     use std::time::Duration;
@@ -330,6 +378,45 @@ mod tests {
                     .is_err()
             );
         }
+    }
+
+    #[test]
+    fn trust_roots_reject_the_served_leaf_certificate() {
+        let mut ca_params = CertificateParams::new(["ADL test root".to_owned()]).unwrap();
+        ca_params.is_ca = IsCa::Ca(BasicConstraints::Constrained(0));
+        ca_params.key_usages = vec![KeyUsagePurpose::KeyCertSign];
+        let ca = CertifiedIssuer::self_signed(ca_params, KeyPair::generate().unwrap()).unwrap();
+
+        let leaf_key = KeyPair::generate().unwrap();
+        let leaf = CertificateParams::new(["localhost".to_owned()])
+            .unwrap()
+            .signed_by(&leaf_key, &ca)
+            .unwrap();
+
+        parse_identity(leaf.pem().as_bytes(), leaf_key.serialize_pem().as_bytes()).unwrap();
+        let error = parse_trust_roots(leaf.pem().as_bytes()).unwrap_err();
+        assert!(matches!(error, super::TlsConfigError::InvalidTrustRoots(_)));
+        assert!(error.to_string().contains("is not a CA certificate"));
+    }
+
+    #[test]
+    fn trust_roots_accept_ca_certificates_and_enforce_ca_key_usage() {
+        let mut valid_params = CertificateParams::new(["ADL valid root".to_owned()]).unwrap();
+        valid_params.is_ca = IsCa::Ca(BasicConstraints::Constrained(0));
+        valid_params.key_usages = vec![KeyUsagePurpose::KeyCertSign];
+        let valid =
+            CertifiedIssuer::self_signed(valid_params, KeyPair::generate().unwrap()).unwrap();
+        assert!(parse_trust_roots(valid.pem().as_bytes()).is_ok());
+
+        let mut invalid_params = CertificateParams::new(["ADL invalid root".to_owned()]).unwrap();
+        invalid_params.is_ca = IsCa::Ca(BasicConstraints::Constrained(0));
+        invalid_params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+        let invalid =
+            CertifiedIssuer::self_signed(invalid_params, KeyPair::generate().unwrap()).unwrap();
+        let error = parse_trust_roots(invalid.pem().as_bytes()).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("does not permit certificate signing"));
     }
 }
 

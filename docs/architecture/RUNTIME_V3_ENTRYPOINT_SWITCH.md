@@ -51,6 +51,10 @@ private key is checked into the repository. The ready event and Observatory
 feed report the port actually bound by the listener rather than assuming
 `20997`.
 
+Runtime v3 has one production Axum HTTP/HTTPS/WSS stack in
+`adl-runtime-kernel`. The canonical ACIP WebSocket endpoint is owned there and
+is not duplicated as a second independently served ACIP OpenAPI authority.
+
 ## TLS Certificate Boundary
 
 Runtime v3 does not issue certificates, create a local certificate authority,
@@ -62,12 +66,12 @@ before the listener binds.
 
 The certificate must be valid for the exact DNS name in `public_base_url` and
 must chain to a root already trusted by ordinary browser, operating-system, and
-Unity TLS clients. AWS deployments may use an ACM exportable public certificate
-when Axum terminates TLS directly, or an ordinary ACM certificate when an
-AWS-managed ingress terminates TLS. Direct and local deployments may use an
-equivalent externally managed public certificate. Export, deployment, renewal,
-and private-key custody remain infrastructure responsibilities outside the
-Runtime process.
+Unity TLS clients. Production certificates must not be self-signed. AWS
+deployments may use an ACM exportable public certificate when Axum terminates
+TLS directly, or an ordinary ACM certificate when an AWS-managed ingress
+terminates TLS. Direct and local deployments may use an equivalent externally
+managed public certificate. Export, deployment, renewal, and private-key
+custody remain infrastructure responsibilities outside the Runtime process.
 
 Development uses the same contract as deployment: a real DNS name, external CA
 material, normal hostname verification, and no host trust-store mutation. Split
