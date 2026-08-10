@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5831,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 57,
-  "digest": "575f22d37d17bf06987af34f3ce9c0cf18a3e4a34d568e61c5a50c669eef95d1",
-  "branch": null,
-  "worktree": null,
+  "digest": "30e097c2c8e0ec60227e7389a131ac3ec334d270fd16e479034a964511d92e91",
+  "branch": "codex/5831-adaptive-learning",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -630,6 +645,13 @@
       "actor": "codex:sprint4-readiness-repair",
       "reason": "Represent the future fixture directory for #5831 as bounded proof prose so only the missing exact Rust test target is bind-safely deferred.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/evidence/5831\",\"Complete canonical evaluation, adaptation-delta, proposal, accepted/rejected decision, replay, rollback, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/adaptive_learning/\",\"Focused deterministic graph-history, rollback, bounded-resource, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 80,
+      "generation": 57,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
