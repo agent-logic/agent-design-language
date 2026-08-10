@@ -47,11 +47,11 @@ Implemented authenticated bounded advisory failure detection with deterministic 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
