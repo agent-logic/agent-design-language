@@ -128,7 +128,7 @@ impl RecoveryPolicy {
         if !valid_text(&self.trust_domain, self.max_identity_bytes)
             || self.max_records == 0
             || self.max_records > MAX_ABSOLUTE_RECORDS
-            || !(5..=MAX_ABSOLUTE_HISTORY).contains(&self.max_history_per_record)
+            || !(10..=MAX_ABSOLUTE_HISTORY).contains(&self.max_history_per_record)
             || self.max_local_histories == 0
             || self.max_local_histories > 1024
             || self.max_identity_bytes == 0
@@ -160,10 +160,15 @@ pub trait RecoveryClock: fmt::Debug + Send + Sync {
 pub enum RecoveryPhase {
     Assessing,
     Planned,
+    CleanupPending,
     TargetDiscarded,
+    RollbackPending,
+    FencePending,
     Fenced,
     OperatorRequired,
+    ActivatePending,
     Restored,
+    CommitPending,
     Committed,
 }
 
@@ -261,7 +266,7 @@ pub trait RecoveryCheckpointAuthority: fmt::Debug + Send + Sync {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct CommitJournal {
-    expected: RecoveryCheckpoint,
+    expected: Option<RecoveryCheckpoint>,
     next: RecoveryCheckpoint,
 }
 
@@ -300,8 +305,11 @@ impl RecoveryStore {
     ) -> RecoveryResult<Self> {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
-        if root.join(STATE_FILE).exists() {
-            return Err(RecoveryError::StateCorrupt);
+        if root.join(STATE_FILE).exists() || root.join(STATE_LOCK_FILE).exists() {
+            recover_interrupted_commit(&root, checkpoint_authority.as_ref())?;
+            if root.join(STATE_FILE).exists() {
+                return Self::open(root, policy, checkpoint_authority, clock);
+            }
         }
         let mut store = Self {
             root,
@@ -312,10 +320,25 @@ impl RecoveryStore {
             checkpoint_authority,
             clock,
         };
-        let checkpoint = store.persist_records(0, &store.records)?;
-        store
-            .checkpoint_authority
-            .compare_and_swap(None, checkpoint)?;
+        let (bytes, checkpoint) = store.encode_records(0, &store.records)?;
+        let mut lock = store.acquire_lock(CommitJournal {
+            expected: None,
+            next: checkpoint,
+        })?;
+        let result = write_atomic(&store.root, &bytes).and_then(|_| {
+            store
+                .checkpoint_authority
+                .compare_and_swap(None, checkpoint)
+        });
+        if result.is_err() {
+            drop(lock);
+            recover_interrupted_commit(&store.root, store.checkpoint_authority.as_ref())?;
+            if store.checkpoint_authority.current()? != Some(checkpoint) {
+                return Err(result.err().unwrap_or(RecoveryError::DurabilityFailure));
+            }
+        } else {
+            clear_lock(&mut lock)?;
+        }
         store.state_sha256 = checkpoint.state_sha256;
         Ok(store)
     }
@@ -329,13 +352,18 @@ impl RecoveryStore {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
         recover_interrupted_commit(&root, checkpoint_authority.as_ref())?;
-        let bytes = fs::read(root.join(STATE_FILE)).map_err(|error| {
+        let state_path = root.join(STATE_FILE);
+        let metadata = fs::symlink_metadata(&state_path).map_err(|error| {
             if error.kind() == std::io::ErrorKind::NotFound {
                 RecoveryError::StateMissing
             } else {
-                RecoveryError::StateCorrupt
+                RecoveryError::UnsafeStatePath
             }
         })?;
+        if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
+            return Err(RecoveryError::UnsafeStatePath);
+        }
+        let bytes = fs::read(state_path).map_err(|_| RecoveryError::StateCorrupt)?;
         if bytes.is_empty() || bytes.len() > policy.max_state_bytes {
             return Err(RecoveryError::ResourceExhausted);
         }
@@ -483,6 +511,11 @@ impl RecoveryStore {
             return Err(RecoveryError::WrongTrustDomain);
         }
         let now = self.clock.now()?;
+        if now.elapsed_millis < current.started_at_millis
+            || now.elapsed_millis >= current.deadline_millis
+        {
+            return Err(RecoveryError::TimedOut);
+        }
         let mut total = 0usize;
         let mut valid = BTreeMap::<[u8; 32], (u64, u64, u64, [u8; 32])>::new();
         for snapshot in candidate_snapshots {
@@ -558,7 +591,7 @@ impl RecoveryStore {
         ]);
         self.advance(
             recovery_id,
-            &[RecoveryPhase::Assessing, RecoveryPhase::OperatorRequired],
+            &[RecoveryPhase::Assessing],
             RecoveryPhase::Planned,
             evidence,
             |record| {
@@ -601,9 +634,38 @@ impl RecoveryStore {
         recovery_id: &[u8],
         authority: &dyn RecoveryTargetAuthority,
     ) -> RecoveryResult<RecoveryRecord> {
-        let current = self.required_record(recovery_id)?.clone();
-        let remaining_timeout_millis = self.ensure_live(&current)?;
+        let mut current = self.required_record(recovery_id)?.clone();
+        let mut remaining_timeout_millis =
+            self.ensure_operation_live(&current, RecoveryPhase::CleanupPending)?;
         if !current.target_cleanup_required {
+            return Err(RecoveryError::InvalidTransition);
+        }
+        let intent = sha256_many(&[
+            b"ADL-RECOVERY-TARGET-DISCARD-INTENT-V1\0",
+            recovery_id,
+            &current.migration_record_sha256,
+            &current.target_node_id,
+            &current.target_guardian_id,
+            current.target_transfer_id.as_deref().unwrap_or_default(),
+            current
+                .target_content_sha256
+                .as_ref()
+                .map_or(&[][..], |value| value.as_slice()),
+        ]);
+        if current.phase == RecoveryPhase::Planned {
+            self.advance(
+                recovery_id,
+                &[RecoveryPhase::Planned],
+                RecoveryPhase::CleanupPending,
+                intent,
+                |_| {},
+            )?;
+            current = self.required_record(recovery_id)?.clone();
+            remaining_timeout_millis =
+                self.ensure_operation_live(&current, RecoveryPhase::CleanupPending)?;
+        } else if current.phase == RecoveryPhase::CleanupPending {
+            ensure_last_evidence(&current, RecoveryPhase::CleanupPending, intent)?;
+        } else if current.phase != RecoveryPhase::TargetDiscarded {
             return Err(RecoveryError::InvalidTransition);
         }
         let receipt = authority.discard_incomplete(TargetCleanupRequest {
@@ -618,16 +680,23 @@ impl RecoveryStore {
         if receipt.is_empty() || receipt.len() > self.policy.max_state_bytes / 4 {
             return Err(RecoveryError::ResourceExhausted);
         }
+        self.ensure_post_action_live(recovery_id, RecoveryPhase::CleanupPending)?;
         let receipt_sha256 = sha256_many(&[
             b"ADL-RECOVERY-TARGET-DISCARD-V1\0",
             recovery_id,
             &current.migration_record_sha256,
             &receipt,
         ]);
-        self.ensure_live(&current)?;
+        if current.phase == RecoveryPhase::TargetDiscarded {
+            return if current.target_cleanup_receipt_sha256 == Some(receipt_sha256) {
+                Ok(current)
+            } else {
+                Err(RecoveryError::ReplayMismatch)
+            };
+        }
         self.advance(
             recovery_id,
-            &[RecoveryPhase::Planned],
+            &[RecoveryPhase::CleanupPending],
             RecoveryPhase::TargetDiscarded,
             receipt_sha256,
             |record| record.target_cleanup_receipt_sha256 = Some(receipt_sha256),
@@ -642,8 +711,8 @@ impl RecoveryStore {
         fencing: &FencingStore,
         source_check: ActiveLeaseCheck<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
-        let current = self.required_record(recovery_id)?.clone();
-        self.ensure_live(&current)?;
+        let mut current = self.required_record(recovery_id)?.clone();
+        self.ensure_operation_live(&current, RecoveryPhase::RollbackPending)?;
         if matches!(
             current.observed_migration_phase,
             MigrationPhase::Fenced | MigrationPhase::Activated | MigrationPhase::Committed
@@ -655,7 +724,10 @@ impl RecoveryStore {
         } else {
             RecoveryPhase::Planned
         };
-        if current.phase != expected_phase && current.phase != RecoveryPhase::Restored {
+        if current.phase != expected_phase
+            && current.phase != RecoveryPhase::RollbackPending
+            && current.phase != RecoveryPhase::Restored
+        {
             return Err(RecoveryError::InvalidTransition);
         }
         validate_source_check(&current, &source_check)?;
@@ -664,6 +736,25 @@ impl RecoveryStore {
         fencing
             .authorize_active_lease(copy_active_check(&source_check))
             .map_err(|_| RecoveryError::AuthorityRejected)?;
+        let intent = sha256_many(&[
+            b"ADL-RECOVERY-ROLLBACK-INTENT-V1\0",
+            recovery_id,
+            &current.migration_record_sha256,
+            &sha256(&source_check.lease.certificate_bytes),
+            &source_check.applied_log_index.to_be_bytes(),
+        ]);
+        if current.phase == expected_phase {
+            self.advance(
+                recovery_id,
+                &[expected_phase],
+                RecoveryPhase::RollbackPending,
+                intent,
+                |_| {},
+            )?;
+            current = self.required_record(recovery_id)?.clone();
+        } else if current.phase == RecoveryPhase::RollbackPending {
+            ensure_last_evidence(&current, RecoveryPhase::RollbackPending, intent)?;
+        }
         let aborted = migration
             .abort_before_fence(
                 &current.migration_id,
@@ -678,6 +769,7 @@ impl RecoveryStore {
         {
             return Err(RecoveryError::MigrationMismatch);
         }
+        self.ensure_post_action_live(recovery_id, RecoveryPhase::RollbackPending)?;
         let certificate_sha256 = sha256(&source_check.lease.certificate_bytes);
         let evidence = sha256_many(&[
             b"ADL-RECOVERY-PRE-FENCE-ROLLBACK-V1\0",
@@ -687,7 +779,7 @@ impl RecoveryStore {
         ]);
         self.restore_record(
             recovery_id,
-            &[expected_phase],
+            &[RecoveryPhase::RollbackPending],
             evidence,
             &current.source_node_id,
             &current.source_guardian_id,
@@ -708,9 +800,9 @@ impl RecoveryStore {
         fencing: &mut FencingStore,
         application: AuthorityApplication<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
-        let current = self.required_record(recovery_id)?.clone();
-        self.ensure_live(&current)?;
-        self.validate_application_time(&application)?;
+        let mut current = self.required_record(recovery_id)?.clone();
+        self.ensure_operation_live(&current, RecoveryPhase::FencePending)?;
+        self.validate_application_time(&current, &application)?;
         if !valid_bytes(fence_request_id, self.policy.max_identity_bytes) {
             return Err(RecoveryError::ResourceExhausted);
         }
@@ -727,13 +819,31 @@ impl RecoveryStore {
             return Err(RecoveryError::FenceRejected);
         }
         let certificate_sha256 = sha256(certificate_bytes);
-        let evidence = sha256_many(&[
-            b"ADL-RECOVERY-FENCE-V1\0",
+        let intent = sha256_many(&[
+            b"ADL-RECOVERY-FENCE-INTENT-V1\0",
             fence_request_id,
             &certificate_sha256,
             &body.epoch.to_be_bytes(),
             &body.committed_log_index.to_be_bytes(),
         ]);
+        if current.phase == RecoveryPhase::Planned {
+            self.advance(
+                recovery_id,
+                &[RecoveryPhase::Planned],
+                RecoveryPhase::FencePending,
+                intent,
+                |record| {
+                    record.fence_epoch = Some(body.epoch);
+                    record.fence_log_index = Some(body.committed_log_index);
+                    record.fence_certificate_sha256 = Some(certificate_sha256);
+                },
+            )?;
+            current = self.required_record(recovery_id)?.clone();
+        } else if current.phase == RecoveryPhase::FencePending {
+            ensure_last_evidence(&current, RecoveryPhase::FencePending, intent)?;
+        } else if current.phase != RecoveryPhase::Fenced {
+            return Err(RecoveryError::InvalidTransition);
+        }
         let existing = fencing.floor(&current.lineage_id).cloned();
         if existing.is_none() {
             let lease = ledger
@@ -783,16 +893,15 @@ impl RecoveryStore {
         if !lease.revoked || lease.certificate_bytes != certificate_bytes {
             return Err(RecoveryError::FenceRejected);
         }
+        self.ensure_post_action_live(recovery_id, RecoveryPhase::FencePending)?;
+        let evidence = sha256_many(&[b"ADL-RECOVERY-FENCE-COMPLETE-V1\0", &intent]);
         self.advance(
             recovery_id,
-            &[RecoveryPhase::Planned],
+            &[RecoveryPhase::FencePending],
             RecoveryPhase::Fenced,
             evidence,
             |record| {
                 clear_owner(record);
-                record.fence_epoch = Some(body.epoch);
-                record.fence_log_index = Some(body.committed_log_index);
-                record.fence_certificate_sha256 = Some(certificate_sha256);
             },
         )
     }
@@ -807,9 +916,9 @@ impl RecoveryStore {
         fencing: &FencingStore,
         application: AuthorityApplication<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
-        let current = self.required_record(recovery_id)?.clone();
-        self.ensure_live(&current)?;
-        self.validate_application_time(&application)?;
+        let mut current = self.required_record(recovery_id)?.clone();
+        self.ensure_operation_live(&current, RecoveryPhase::ActivatePending)?;
+        self.validate_application_time(&current, &application)?;
         let verified =
             verify_certificate(certificate_bytes, membership, application.now_unix_seconds)
                 .map_err(|_| RecoveryError::QuorumRequired)?;
@@ -822,13 +931,37 @@ impl RecoveryStore {
         {
             return Err(RecoveryError::AuthorityRejected);
         }
+        if fencing.floor(&current.lineage_id).is_some_and(|floor| {
+            unix_millis(application.now_unix_seconds, application.now_unix_nanos)
+                .is_none_or(|now| now < floor.safety_deadline_unix_millis)
+        }) {
+            return Err(RecoveryError::SafetyWindow);
+        }
         let certificate_sha256 = sha256(certificate_bytes);
-        let evidence = sha256_many(&[
-            b"ADL-RECOVERY-ACTIVATE-V1\0",
+        let intent = sha256_many(&[
+            b"ADL-RECOVERY-ACTIVATE-INTENT-V1\0",
             &certificate_sha256,
             &body.epoch.to_be_bytes(),
             &body.committed_log_index.to_be_bytes(),
         ]);
+        if matches!(
+            current.phase,
+            RecoveryPhase::Fenced | RecoveryPhase::OperatorRequired
+        ) {
+            let expected = current.phase;
+            self.advance(
+                recovery_id,
+                &[expected],
+                RecoveryPhase::ActivatePending,
+                intent,
+                |_| {},
+            )?;
+            current = self.required_record(recovery_id)?.clone();
+        } else if current.phase == RecoveryPhase::ActivatePending {
+            ensure_last_evidence(&current, RecoveryPhase::ActivatePending, intent)?;
+        } else if current.phase != RecoveryPhase::Restored {
+            return Err(RecoveryError::InvalidTransition);
+        }
         let applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
             !lease.revoked
                 && lease.epoch == body.epoch
@@ -867,9 +1000,11 @@ impl RecoveryStore {
                 "safety_window" => RecoveryError::SafetyWindow,
                 _ => RecoveryError::AuthorityRejected,
             })?;
+        self.ensure_post_action_live(recovery_id, RecoveryPhase::ActivatePending)?;
+        let evidence = sha256_many(&[b"ADL-RECOVERY-ACTIVATE-COMPLETE-V1\0", &intent]);
         self.restore_record(
             recovery_id,
-            &[RecoveryPhase::Fenced, RecoveryPhase::OperatorRequired],
+            &[RecoveryPhase::ActivatePending],
             evidence,
             &body.holder_node_id,
             &body.holder_guardian_id,
@@ -889,9 +1024,9 @@ impl RecoveryStore {
         fencing: &FencingStore,
         application: AuthorityApplication<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
-        let current = self.required_record(recovery_id)?.clone();
-        self.ensure_live(&current)?;
-        self.validate_application_time(&application)?;
+        let mut current = self.required_record(recovery_id)?.clone();
+        self.ensure_operation_live(&current, RecoveryPhase::CommitPending)?;
+        self.validate_application_time(&current, &application)?;
         let verified =
             verify_certificate(certificate_bytes, membership, application.now_unix_seconds)
                 .map_err(|_| RecoveryError::QuorumRequired)?;
@@ -907,12 +1042,26 @@ impl RecoveryStore {
             return Err(RecoveryError::AuthorityRejected);
         }
         let certificate_sha256 = sha256(certificate_bytes);
-        let evidence = sha256_many(&[
-            b"ADL-RECOVERY-OWNER-COMMIT-V1\0",
+        let intent = sha256_many(&[
+            b"ADL-RECOVERY-OWNER-COMMIT-INTENT-V1\0",
             &certificate_sha256,
             &body.epoch.to_be_bytes(),
             &body.committed_log_index.to_be_bytes(),
         ]);
+        if current.phase == RecoveryPhase::Restored {
+            self.advance(
+                recovery_id,
+                &[RecoveryPhase::Restored],
+                RecoveryPhase::CommitPending,
+                intent,
+                |_| {},
+            )?;
+            current = self.required_record(recovery_id)?.clone();
+        } else if current.phase == RecoveryPhase::CommitPending {
+            ensure_last_evidence(&current, RecoveryPhase::CommitPending, intent)?;
+        } else if current.phase != RecoveryPhase::Committed {
+            return Err(RecoveryError::InvalidTransition);
+        }
         let applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
             !lease.revoked
                 && lease.epoch == body.epoch
@@ -927,19 +1076,27 @@ impl RecoveryStore {
         let lease = ledger
             .lease(&current.lineage_id)
             .ok_or(RecoveryError::AuthorityRejected)?;
-        let floor = fencing
-            .floor(&current.lineage_id)
-            .ok_or(RecoveryError::FenceRejected)?;
-        if lease.revoked
-            || lease.certificate_bytes != certificate_bytes
-            || floor.epoch != lease.epoch
-            || floor.committed_log_index >= lease.committed_log_index
-        {
+        let floor_valid = fencing.floor(&current.lineage_id).map_or_else(
+            || {
+                current.fence_epoch.is_none()
+                    && current.fence_log_index.is_none()
+                    && current.fence_certificate_sha256.is_none()
+                    && current
+                        .committed_prefix_log_index
+                        .is_some_and(|index| index < lease.committed_log_index)
+            },
+            |floor| {
+                floor.epoch == lease.epoch && floor.committed_log_index < lease.committed_log_index
+            },
+        );
+        if lease.revoked || lease.certificate_bytes != certificate_bytes || !floor_valid {
             return Err(RecoveryError::AuthorityRejected);
         }
+        self.ensure_post_action_live(recovery_id, RecoveryPhase::CommitPending)?;
+        let evidence = sha256_many(&[b"ADL-RECOVERY-OWNER-COMMIT-COMPLETE-V1\0", &intent]);
         self.advance(
             recovery_id,
-            &[RecoveryPhase::Restored],
+            &[RecoveryPhase::CommitPending],
             RecoveryPhase::Committed,
             evidence,
             |record| {
@@ -992,8 +1149,37 @@ impl RecoveryStore {
             .ok_or(RecoveryError::TimedOut)
     }
 
+    fn operation_deadline(
+        &self,
+        record: &RecoveryRecord,
+        pending: RecoveryPhase,
+    ) -> RecoveryResult<u64> {
+        if record.phase == pending {
+            record
+                .deadline_millis
+                .checked_add(self.policy.max_timeout_millis.min(60_000))
+                .ok_or(RecoveryError::TimedOut)
+        } else {
+            Ok(record.deadline_millis)
+        }
+    }
+
+    fn ensure_operation_live(
+        &self,
+        record: &RecoveryRecord,
+        pending: RecoveryPhase,
+    ) -> RecoveryResult<u64> {
+        let now = self.clock.now()?.elapsed_millis;
+        let deadline = self.operation_deadline(record, pending)?;
+        if now < record.started_at_millis || now >= deadline {
+            return Err(RecoveryError::TimedOut);
+        }
+        deadline.checked_sub(now).ok_or(RecoveryError::TimedOut)
+    }
+
     fn validate_application_time(
         &self,
+        record: &RecoveryRecord,
         application: &AuthorityApplication<'_>,
     ) -> RecoveryResult<()> {
         let now = self.clock.now()?;
@@ -1001,10 +1187,39 @@ impl RecoveryStore {
             || application.now_unix_nanos != now.unix_nanos
             || application.now_elapsed_millis != now.elapsed_millis
             || application.clock_uncertainty_millis != now.clock_uncertainty_millis
+            || now.elapsed_millis < record.started_at_millis
+            || now.elapsed_millis >= self.operation_deadline(record, record.phase)?
         {
             return Err(RecoveryError::AuthorityRejected);
         }
         Ok(())
+    }
+
+    fn ensure_post_action_live(
+        &mut self,
+        recovery_id: &[u8],
+        pending: RecoveryPhase,
+    ) -> RecoveryResult<()> {
+        let current = self.required_record(recovery_id)?.clone();
+        match self.ensure_operation_live(&current, pending) {
+            Ok(_) => Ok(()),
+            Err(RecoveryError::TimedOut) if current.phase == pending => {
+                let evidence = sha256_many(&[
+                    b"ADL-RECOVERY-POST-ACTION-TIMEOUT-V1\0",
+                    recovery_id,
+                    &[pending as u8],
+                ]);
+                self.advance(
+                    recovery_id,
+                    &[pending],
+                    RecoveryPhase::OperatorRequired,
+                    evidence,
+                    |_| {},
+                )?;
+                Err(RecoveryError::TimedOut)
+            }
+            Err(error) => Err(error),
+        }
     }
 
     fn validate_active_check_time(&self, check: &ActiveLeaseCheck<'_>) -> RecoveryResult<()> {
@@ -1067,7 +1282,7 @@ impl RecoveryStore {
         let (bytes, checkpoint) = self.encode_records(generation, &prospective)?;
         let expected = self.checkpoint();
         let mut lock = self.acquire_lock(CommitJournal {
-            expected,
+            expected: Some(expected),
             next: checkpoint,
         })?;
         let result = self.verify_current_state().and_then(|_| {
@@ -1090,11 +1305,7 @@ impl RecoveryStore {
                 return result;
             }
         } else {
-            lock.set_len(0)
-                .and_then(|_| lock.seek(SeekFrom::Start(0)).map(|_| ()))
-                .and_then(|_| lock.sync_all())
-                .map_err(|_| RecoveryError::DurabilityFailure)?;
-            FileExt::unlock(&lock).map_err(|_| RecoveryError::DurabilityFailure)?;
+            clear_lock(&mut lock)?;
         }
         self.records = prospective;
         self.generation = generation;
@@ -1157,6 +1368,7 @@ impl RecoveryStore {
     }
 
     fn acquire_lock(&self, journal: CommitJournal) -> RecoveryResult<File> {
+        reject_nonregular_if_exists(&self.root.join(STATE_LOCK_FILE))?;
         let mut lock = OpenOptions::new()
             .read(true)
             .write(true)
@@ -1320,6 +1532,23 @@ fn exact_retry(
     }
 }
 
+fn ensure_last_evidence(
+    record: &RecoveryRecord,
+    phase: RecoveryPhase,
+    evidence_sha256: [u8; 32],
+) -> RecoveryResult<()> {
+    if record.phase == phase
+        && record
+            .history
+            .last()
+            .is_some_and(|entry| entry.phase == phase && entry.evidence_sha256 == evidence_sha256)
+    {
+        Ok(())
+    } else {
+        Err(RecoveryError::ReplayMismatch)
+    }
+}
+
 fn push_history(
     policy: &RecoveryPolicy,
     record: &mut RecoveryRecord,
@@ -1364,16 +1593,12 @@ fn collect_records(
 fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> RecoveryResult<()> {
     let owner_required = matches!(
         record.phase,
-        RecoveryPhase::Restored | RecoveryPhase::Committed
+        RecoveryPhase::Restored | RecoveryPhase::CommitPending | RecoveryPhase::Committed
     );
-    let prefix_required = matches!(
-        record.phase,
-        RecoveryPhase::Planned
-            | RecoveryPhase::TargetDiscarded
-            | RecoveryPhase::Fenced
-            | RecoveryPhase::Restored
-            | RecoveryPhase::Committed
-    );
+    let prefix_required = record
+        .history
+        .iter()
+        .any(|entry| entry.phase == RecoveryPhase::Planned);
     let prefix_field_count = [
         record.committed_prefix_sha256.is_some(),
         record.committed_prefix_epoch.is_some(),
@@ -1393,29 +1618,61 @@ fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> Recovery
     .into_iter()
     .filter(|present| *present)
     .count();
-    let fence_required = record
-        .history
-        .iter()
-        .any(|entry| entry.phase == RecoveryPhase::Fenced);
+    let fence_required = record.history.iter().any(|entry| {
+        matches!(
+            entry.phase,
+            RecoveryPhase::FencePending | RecoveryPhase::Fenced
+        )
+    });
     let transitions_valid = record.history.windows(2).all(|pair| {
         matches!(
             (pair[0].phase, pair[1].phase),
             (RecoveryPhase::Assessing, RecoveryPhase::Planned)
                 | (RecoveryPhase::Assessing, RecoveryPhase::OperatorRequired)
-                | (RecoveryPhase::Planned, RecoveryPhase::Fenced)
+                | (RecoveryPhase::Planned, RecoveryPhase::CleanupPending)
+                | (
+                    RecoveryPhase::CleanupPending,
+                    RecoveryPhase::TargetDiscarded
+                )
+                | (
+                    RecoveryPhase::CleanupPending,
+                    RecoveryPhase::OperatorRequired
+                )
                 | (RecoveryPhase::Planned, RecoveryPhase::OperatorRequired)
-                | (RecoveryPhase::Planned, RecoveryPhase::Restored)
-                | (RecoveryPhase::Planned, RecoveryPhase::TargetDiscarded)
-                | (RecoveryPhase::TargetDiscarded, RecoveryPhase::Restored)
+                | (RecoveryPhase::Planned, RecoveryPhase::RollbackPending)
+                | (
+                    RecoveryPhase::TargetDiscarded,
+                    RecoveryPhase::RollbackPending
+                )
+                | (RecoveryPhase::RollbackPending, RecoveryPhase::Restored)
+                | (
+                    RecoveryPhase::RollbackPending,
+                    RecoveryPhase::OperatorRequired
+                )
                 | (
                     RecoveryPhase::TargetDiscarded,
                     RecoveryPhase::OperatorRequired
                 )
+                | (RecoveryPhase::Planned, RecoveryPhase::FencePending)
+                | (RecoveryPhase::FencePending, RecoveryPhase::Fenced)
+                | (RecoveryPhase::FencePending, RecoveryPhase::OperatorRequired)
                 | (RecoveryPhase::Fenced, RecoveryPhase::OperatorRequired)
-                | (RecoveryPhase::Fenced, RecoveryPhase::Restored)
-                | (RecoveryPhase::OperatorRequired, RecoveryPhase::Planned)
-                | (RecoveryPhase::OperatorRequired, RecoveryPhase::Restored)
-                | (RecoveryPhase::Restored, RecoveryPhase::Committed)
+                | (RecoveryPhase::Fenced, RecoveryPhase::ActivatePending)
+                | (
+                    RecoveryPhase::OperatorRequired,
+                    RecoveryPhase::ActivatePending
+                )
+                | (RecoveryPhase::ActivatePending, RecoveryPhase::Restored)
+                | (
+                    RecoveryPhase::ActivatePending,
+                    RecoveryPhase::OperatorRequired
+                )
+                | (RecoveryPhase::Restored, RecoveryPhase::CommitPending)
+                | (RecoveryPhase::CommitPending, RecoveryPhase::Committed)
+                | (
+                    RecoveryPhase::CommitPending,
+                    RecoveryPhase::OperatorRequired
+                )
         )
     });
     if !valid_bytes(&record.recovery_id, policy.max_identity_bytes)
@@ -1446,7 +1703,11 @@ fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> Recovery
             )
         || matches!(
             record.phase,
-            RecoveryPhase::TargetDiscarded | RecoveryPhase::Restored | RecoveryPhase::Committed
+            RecoveryPhase::TargetDiscarded
+                | RecoveryPhase::RollbackPending
+                | RecoveryPhase::Restored
+                | RecoveryPhase::CommitPending
+                | RecoveryPhase::Committed
         ) && record.target_cleanup_required
             && record.target_cleanup_receipt_sha256.is_none()
         || record.target_cleanup_receipt_sha256.is_some() && !record.target_cleanup_required
@@ -1503,6 +1764,7 @@ fn recover_interrupted_commit(
     authority: &dyn RecoveryCheckpointAuthority,
 ) -> RecoveryResult<()> {
     let lock_path = root.join(STATE_LOCK_FILE);
+    reject_nonregular_if_exists(&lock_path)?;
     if !lock_path.exists() {
         return if root.join(STATE_BACKUP_FILE).exists() {
             Err(RecoveryError::DurabilityFailure)
@@ -1529,38 +1791,66 @@ fn recover_interrupted_commit(
         serde_json::from_slice(&bytes).map_err(|_| RecoveryError::DurabilityFailure)?;
     let state_path = root.join(STATE_FILE);
     let backup_path = root.join(STATE_BACKUP_FILE);
-    match authority.current()? {
-        Some(checkpoint) if checkpoint == journal.expected => {
-            if backup_path.exists() && checkpoint_matches(&backup_path, journal.expected) {
+    reject_nonregular_if_exists(&state_path)?;
+    reject_nonregular_if_exists(&backup_path)?;
+    let current = authority.current()?;
+    if current == journal.expected {
+        if let Some(expected) = journal.expected {
+            if backup_path.exists() && checkpoint_matches(&backup_path, expected) {
                 if state_path.exists() {
                     fs::remove_file(&state_path).map_err(|_| RecoveryError::DurabilityFailure)?;
                 }
                 fs::rename(&backup_path, &state_path)
                     .map_err(|_| RecoveryError::DurabilityFailure)?;
-            } else if !checkpoint_matches(&state_path, journal.expected) {
+            } else if !checkpoint_matches(&state_path, expected) {
                 return Err(RecoveryError::Rollback);
             }
-        }
-        Some(checkpoint) if checkpoint == journal.next => {
-            if !checkpoint_matches(&state_path, journal.next) {
-                return Err(RecoveryError::Rollback);
+        } else {
+            if state_path.exists() {
+                fs::remove_file(&state_path).map_err(|_| RecoveryError::DurabilityFailure)?;
             }
             if backup_path.exists() {
                 fs::remove_file(&backup_path).map_err(|_| RecoveryError::DurabilityFailure)?;
             }
         }
-        _ => return Err(RecoveryError::Rollback),
+    } else {
+        match current {
+            Some(checkpoint) if checkpoint == journal.next => {
+                if !checkpoint_matches(&state_path, journal.next) {
+                    return Err(RecoveryError::Rollback);
+                }
+                if backup_path.exists() {
+                    fs::remove_file(&backup_path).map_err(|_| RecoveryError::DurabilityFailure)?;
+                }
+            }
+            _ => return Err(RecoveryError::Rollback),
+        }
     }
     if root.join(STATE_TEMP_FILE).exists() {
         fs::remove_file(root.join(STATE_TEMP_FILE))
             .map_err(|_| RecoveryError::DurabilityFailure)?;
     }
     sync_directory(root)?;
+    clear_lock(&mut lock)
+}
+
+fn clear_lock(lock: &mut File) -> RecoveryResult<()> {
     lock.set_len(0)
         .and_then(|_| lock.seek(SeekFrom::Start(0)).map(|_| ()))
         .and_then(|_| lock.sync_all())
         .map_err(|_| RecoveryError::DurabilityFailure)?;
-    FileExt::unlock(&lock).map_err(|_| RecoveryError::DurabilityFailure)
+    FileExt::unlock(lock).map_err(|_| RecoveryError::DurabilityFailure)
+}
+
+fn reject_nonregular_if_exists(path: &Path) -> RecoveryResult<()> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.file_type().is_file() && !metadata.file_type().is_symlink() => {
+            Ok(())
+        }
+        Ok(_) => Err(RecoveryError::UnsafeStatePath),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(_) => Err(RecoveryError::UnsafeStatePath),
+    }
 }
 
 fn sync_directory(root: &Path) -> RecoveryResult<()> {

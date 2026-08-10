@@ -804,11 +804,20 @@ fn run_to_validated(fixture: &mut Fixture, store: &mut MigrationStore) {
 }
 
 #[derive(Debug, Default)]
-struct RecoveryAuthority(Mutex<Option<RecoveryCheckpoint>>);
+struct RecoveryAuthority {
+    checkpoint: Mutex<Option<RecoveryCheckpoint>>,
+    fail_generation: Mutex<Option<u64>>,
+}
+
+impl RecoveryAuthority {
+    fn fail_generation(&self, generation: u64) {
+        *self.fail_generation.lock().unwrap() = Some(generation);
+    }
+}
 
 impl RecoveryCheckpointAuthority for RecoveryAuthority {
     fn current(&self) -> RecoveryResult<Option<RecoveryCheckpoint>> {
-        Ok(*self.0.lock().unwrap())
+        Ok(*self.checkpoint.lock().unwrap())
     }
 
     fn compare_and_swap(
@@ -816,7 +825,11 @@ impl RecoveryCheckpointAuthority for RecoveryAuthority {
         expected: Option<RecoveryCheckpoint>,
         next: RecoveryCheckpoint,
     ) -> RecoveryResult<()> {
-        let mut current = self.0.lock().unwrap();
+        if *self.fail_generation.lock().unwrap() == Some(next.generation) {
+            *self.fail_generation.lock().unwrap() = None;
+            return Err(RecoveryError::DurabilityFailure);
+        }
+        let mut current = self.checkpoint.lock().unwrap();
         if *current != expected
             || current.is_some_and(|checkpoint| next.generation <= checkpoint.generation)
         {
@@ -883,6 +896,16 @@ impl RecoveryTargetAuthority for TargetAuthority {
                 .map_or(&[][..], |digest| digest.as_slice()),
         ]
         .concat())
+    }
+}
+
+#[derive(Debug)]
+struct ExpiringTargetAuthority(Arc<RecoveryTestClock>);
+
+impl RecoveryTargetAuthority for ExpiringTargetAuthority {
+    fn discard_incomplete(&self, request: TargetCleanupRequest<'_>) -> RecoveryResult<Vec<u8>> {
+        self.0.set(NOW as i64, 226);
+        Ok([b"discarded-after-deadline:".as_slice(), request.recovery_id].concat())
     }
 }
 
@@ -1159,6 +1182,28 @@ fn recovery_quorum_fence_safety_window_activation_commit_and_restart() {
     marker("wrong_trust_domain_fence", "rejected");
 
     let fence_certificate = fixture.authority.certificate(fence_body);
+    harness
+        .authority
+        .fail_generation(store.checkpoint().generation + 2);
+    assert_eq!(
+        store.fence_ambiguous(
+            b"recovery-owner",
+            b"fence-recovery-owner",
+            &fence_certificate,
+            &membership12,
+            &mut fixture.ledger,
+            &mut fixture.fencing,
+            application(time, &fixture.authority.source_activation, &[]),
+        ),
+        Err(RecoveryError::DurabilityFailure)
+    );
+    assert_eq!(
+        store.record(b"recovery-owner").unwrap().phase,
+        RecoveryPhase::FencePending
+    );
+    assert!(fixture.fencing.floor(LINEAGE).is_some());
+    assert!(fixture.ledger.lease(LINEAGE).unwrap().revoked);
+    marker("pending_fence_crash_reconciliation", "recovered");
     let fenced = store
         .fence_ambiguous(
             b"recovery-owner",
@@ -1272,11 +1317,154 @@ fn recovery_quorum_fence_safety_window_activation_commit_and_restart() {
 }
 
 #[test]
+fn recovery_restored_prefix_activates_and_commits_without_an_explicit_fencing_floor() {
+    let fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let harness = RecoveryHarness::new(&fixture);
+    let mut store = harness.create();
+    begin_and_plan(
+        &mut store,
+        &migration,
+        &fixture,
+        b"recovery-restored-prefix",
+    );
+    store
+        .require_operator(b"recovery-restored-prefix", b"process-restart")
+        .unwrap();
+
+    let membership11 = fixture.authority.membership(11);
+    let snapshot = fixture.ledger.snapshot().unwrap();
+    let mut restored_ledger =
+        AuthorityLedger::restore(lease_policy(), &snapshot, &membership11, NOW as i64).unwrap();
+    assert!(restored_ledger.lease(LINEAGE).unwrap().revoked);
+    assert!(fixture.fencing.floor(LINEAGE).is_none());
+
+    harness.clock.set(NOW as i64 + 3, 3_020);
+    let time = harness.clock.time();
+    let membership12 = fixture.authority.membership(12);
+    let activate_body = fixture.authority.body(
+        12,
+        2,
+        OperationClass::Activate,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let activate_proof = activation_signature(&activate_body, &fixture.authority.target_activation);
+    let activate_certificate = fixture.authority.certificate(activate_body);
+    store
+        .restore_quorum_owner(
+            b"recovery-restored-prefix",
+            &activate_certificate,
+            &membership12,
+            &mut restored_ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &activate_proof),
+        )
+        .unwrap();
+
+    let membership13 = fixture.authority.membership(13);
+    let commit_body = fixture.authority.body(
+        13,
+        2,
+        OperationClass::OwnerCommit,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let commit_proof = activation_signature(&commit_body, &fixture.authority.target_activation);
+    let commit_certificate = fixture.authority.certificate(commit_body);
+    let committed = store
+        .commit_owner(
+            b"recovery-restored-prefix",
+            &commit_certificate,
+            &membership13,
+            &mut restored_ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &commit_proof),
+        )
+        .unwrap();
+    assert_eq!(committed.phase, RecoveryPhase::Committed);
+}
+
+#[cfg(unix)]
+#[test]
+fn recovery_open_rejects_a_symlinked_state_file() {
+    use std::os::unix::fs::symlink;
+
+    let fixture = Fixture::new();
+    let harness = RecoveryHarness::new(&fixture);
+    let store = harness.create();
+    drop(store);
+    let state = harness.root.join("recovery-state.json");
+    let target = harness.root.join("attacker-state.json");
+    fs::rename(&state, &target).unwrap();
+    symlink(&target, &state).unwrap();
+    assert!(matches!(
+        RecoveryStore::open(
+            &harness.root,
+            harness.policy.clone(),
+            harness.authority.clone(),
+            harness.clock.clone(),
+        ),
+        Err(RecoveryError::UnsafeStatePath)
+    ));
+    marker("symlinked_recovery_state", "rejected");
+}
+
+#[cfg(unix)]
+#[test]
+fn recovery_open_rejects_a_symlinked_journal_file() {
+    use std::os::unix::fs::symlink;
+
+    let fixture = Fixture::new();
+    let harness = RecoveryHarness::new(&fixture);
+    let store = harness.create();
+    drop(store);
+    let lock = harness.root.join(".recovery-state.lock");
+    let target = harness.root.join("attacker-journal.json");
+    fs::rename(&lock, &target).unwrap();
+    symlink(&target, &lock).unwrap();
+    assert!(matches!(
+        RecoveryStore::open(
+            &harness.root,
+            harness.policy.clone(),
+            harness.authority.clone(),
+            harness.clock.clone(),
+        ),
+        Err(RecoveryError::UnsafeStatePath)
+    ));
+    marker("symlinked_recovery_journal", "rejected");
+}
+
+#[test]
+fn recovery_create_recovers_after_initial_checkpoint_failure() {
+    let fixture = Fixture::new();
+    let harness = RecoveryHarness::new(&fixture);
+    harness.authority.fail_generation(0);
+    assert!(matches!(
+        RecoveryStore::create(
+            &harness.root,
+            harness.policy.clone(),
+            harness.authority.clone(),
+            harness.clock.clone(),
+        ),
+        Err(RecoveryError::DurabilityFailure)
+    ));
+    let store = harness.create();
+    assert_eq!(store.checkpoint().generation, 0);
+    marker("initial_checkpoint_failure", "recovered");
+}
+
+#[test]
 fn recovery_is_bounded_and_times_out_fail_closed() {
     let fixture = Fixture::new();
     let mut migration = fixture.migration_store();
     fixture.prepare(&mut migration);
-    let policy = RecoveryPolicy::with_bounds(DOMAIN, 1, 6, 2, 128, 1024 * 1024, 100).unwrap();
+    let policy = RecoveryPolicy::with_bounds(DOMAIN, 1, 10, 2, 128, 1024 * 1024, 100).unwrap();
     let harness = RecoveryHarness::with_policy(&fixture, policy);
     let mut store = harness.create();
     store
@@ -1307,6 +1495,53 @@ fn recovery_is_bounded_and_times_out_fail_closed() {
         Err(RecoveryError::WrongTrustDomain)
     );
     marker("wrong_trust_domain_begin", "rejected");
+}
+
+#[test]
+fn recovery_side_effect_crossing_the_bounded_recovery_deadline_requires_operator() {
+    let fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let policy = RecoveryPolicy::with_bounds(DOMAIN, 2, 10, 2, 128, 1024 * 1024, 100).unwrap();
+    let harness = RecoveryHarness::with_policy(&fixture, policy);
+    let membership = fixture.authority.membership(11);
+    let time = harness.clock.time();
+    migration
+        .quiesce(
+            b"migration-1",
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            active_check(&fixture, &membership, time),
+        )
+        .unwrap();
+    let mut store = harness.create();
+    store
+        .begin(
+            begin_request(b"crossed-deadline", 100),
+            &migration,
+            &histories(),
+        )
+        .unwrap();
+    store
+        .select_committed_prefix(
+            b"crossed-deadline",
+            &[fixture.ledger.snapshot().unwrap()],
+            &lease_policy(),
+            &fixture.authority.membership(11),
+        )
+        .unwrap();
+    assert_eq!(
+        store.discard_incomplete_target(
+            b"crossed-deadline",
+            &ExpiringTargetAuthority(harness.clock.clone()),
+        ),
+        Err(RecoveryError::TimedOut)
+    );
+    assert_eq!(
+        store.record(b"crossed-deadline").unwrap().phase,
+        RecoveryPhase::OperatorRequired
+    );
+    marker("side_effect_crossed_recovery_deadline", "fail_closed");
 }
 
 #[test]
@@ -1377,12 +1612,22 @@ fn recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_ro
     let divergent = store
         .select_committed_prefix(
             b"divergent-prefix",
-            &[source_snapshot, target_ledger.snapshot().unwrap()],
+            &[source_snapshot.clone(), target_ledger.snapshot().unwrap()],
             &lease_policy(),
             &membership11,
         )
         .unwrap();
     assert_eq!(divergent.phase, RecoveryPhase::OperatorRequired);
+    assert_eq!(
+        store.select_committed_prefix(
+            b"divergent-prefix",
+            std::slice::from_ref(&source_snapshot),
+            &lease_policy(),
+            &membership11,
+        ),
+        Err(RecoveryError::InvalidTransition)
+    );
+    marker("operator_required_terminal", "fail_closed");
     marker("divergent_committed_prefix", "fail_closed");
 
     let membership11 = fixture.authority.membership(11);
