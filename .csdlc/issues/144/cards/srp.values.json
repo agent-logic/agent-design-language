@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 144,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-13][defect] Anchor cognitive-profile authority and verify full revision lineage",
+    "slug": "wp13-cognitive-authority-lineage-rotation",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #144 trusted cognitive authority, complete revision-chain verification, governed rotation, focused tests, native workflow/receipts, feature truth, and typed lifecycle evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can a caller choose both the policy/evidence and the key that supposedly authorizes them?",
+        "Does validation recompute every ancestor through genesis rather than trusting stored older digests?",
+        "Can rotation be replayed, self-signed by the new key, or performed at the same or lower epoch?",
+        "Do all rejection and retained-evidence paths avoid secret and machine-local leakage?",
+        "Are native receipts and typed claims bound to the exact repaired revision?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

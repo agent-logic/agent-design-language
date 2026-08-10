@@ -1,0 +1,67 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 144,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "e193d602ae097c4d5882d0def1b70be003baa8aea5fd0c712ce12309ef6829ab",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/144/design.md",
+  "diagram_path": ".csdlc/prepared/issues/144/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-approved:144-blocking-cognitive-authority-repair",
+      "revision": "cad8b7bc8267891936a0e92a0abce6990ec644e4d786564886bb6d6e0ed8150b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e5f7fb509a00a6e47b4dda0b5a8a7efa6638484eeaf689fd461627bd940fee11",
+      "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
+      "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
+    },
+    "stp": {
+      "values_digest": "38045fd6f7d90df8b6febef55fef6c05f4e55729cedefd34a91278fbdc3a7657",
+      "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
+      "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
+    },
+    "spp": {
+      "values_digest": "805afac4b59e3d5009988d7dc526eb9a4a2f66a2f3b184df8977b36132238bd6",
+      "rendered_digest": "e79aff80db2860ac79cb0b4b1f06b9821124b58ca14281a4a7cf814269f1c16d",
+      "ast_digest": "8c1c8382dcc84f68376d48de48f27eed3c8afe650eec6d19f88a43419a45ecd6"
+    },
+    "vpp": {
+      "values_digest": "a14577f49bc8722c4942deed3e39094fed76ab0ea8268c0cbeeb8da9cf06b445",
+      "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
+      "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
+    },
+    "srp": {
+      "values_digest": "25476e7c4f872fee13a59756ab53a2e92d710bf92044123dcf673d32b74cdd3f",
+      "rendered_digest": "56c913ee1c7ec09c5d2bf94973e001ebc0b0012ff297b7d84fef740fa57538fd",
+      "ast_digest": "cc129244b5761121740074ab9278cdf43b82c25894a066f65f9d6d9b12622134"
+    },
+    "sor": {
+      "values_digest": "58ddd6f5196d3cf01d4a627d53e8af68dfd19d1b4cb7f7a5d0de0c1f2caa6ebe",
+      "rendered_digest": "bcd455f696ff7ee456f8726de1f92394d947519a311457692212b0b0353a75e9",
+      "ast_digest": "ef2ed769aae91199db2b43548e28fffc84de859eb415430816cbcab197f6945c"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}
