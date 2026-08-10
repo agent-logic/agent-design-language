@@ -13,6 +13,7 @@ pub mod constructability;
 pub mod continuity_history;
 pub mod curiosity;
 pub mod determinism;
+pub mod distributed;
 pub mod freedom_gate;
 pub mod guardian;
 pub mod networking;
