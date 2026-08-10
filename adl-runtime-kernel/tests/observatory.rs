@@ -239,7 +239,7 @@ async fn connect_authenticated(
 }
 
 async fn connect_public(address: std::net::SocketAddr, connector: Connector) -> TestSocket {
-    let (mut socket, _) = connect_async_tls_with_config(
+    let (socket, _) = connect_async_tls_with_config(
         request(address, "https://observatory.example.test"),
         None,
         false,
@@ -247,8 +247,6 @@ async fn connect_public(address: std::net::SocketAddr, connector: Connector) -> 
     )
     .await
     .unwrap();
-    let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
-    assert_eq!(feed["runtime_instance_id"], "instance-ws");
     socket
 }
 
@@ -343,7 +341,7 @@ async fn acip_write_credential_is_distinct_from_observatory_read_credential() {
 }
 
 #[tokio::test]
-async fn observatory_websocket_allows_public_reads_and_requires_login_for_writes() {
+async fn observatory_websocket_requires_login_before_reads_or_writes() {
     let token = "test-observatory-websocket-token-0001";
     let test_service = service(token);
     let signing_key = test_service.signing_key.clone();
@@ -366,8 +364,11 @@ async fn observatory_websocket_allows_public_reads_and_requires_login_for_writes
         connect_async_tls_with_config(native_request, None, false, Some(connector.clone()))
             .await
             .unwrap();
-    let native_feed = next_json_with_schema(&mut native_socket, OBSERVATORY_FEED_SCHEMA).await;
-    assert_eq!(native_feed["runtime_instance_id"], "instance-ws");
+    assert!(
+        tokio::time::timeout(Duration::from_millis(200), native_socket.next())
+            .await
+            .is_err()
+    );
     native_socket.close(None).await.unwrap();
 
     let mut socket = connect_public(address, connector).await;
@@ -405,6 +406,8 @@ async fn observatory_websocket_allows_public_reads_and_requires_login_for_writes
     let authenticated =
         next_json_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(authenticated["status"], "authenticated");
+    let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
+    assert_eq!(feed["runtime_instance_id"], "instance-ws");
 
     socket
         .send(Message::Text(
@@ -553,8 +556,11 @@ async fn observatory_websocket_rejects_bad_auth_and_client_data() {
     let rejected = next_json_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(rejected["status"], "rejected");
     assert_eq!(rejected["error"], "authentication_failed");
-    let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
-    assert_eq!(feed["runtime_instance_id"], "instance-ws");
+    assert!(
+        tokio::time::timeout(Duration::from_millis(200), socket.next())
+            .await
+            .is_err()
+    );
 
     socket
         .send(Message::Text("{not-json".into()))
@@ -576,7 +582,10 @@ async fn observatory_websocket_rejects_bad_auth_and_client_data() {
         ))
         .await
         .unwrap();
-    let _ = socket.next().await;
+    let authenticated =
+        next_json_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(authenticated["status"], "authenticated");
+    let _ = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
     socket
         .send(Message::Binary(vec![1, 2, 3].into()))
         .await
@@ -617,8 +626,11 @@ async fn observatory_websocket_rejects_a_token_after_rotation() {
     let rejected = next_json_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(rejected["status"], "rejected");
     assert_eq!(rejected["error"], "authentication_failed");
-    let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
-    assert_eq!(feed["runtime_instance_id"], "instance-ws");
+    assert!(
+        tokio::time::timeout(Duration::from_millis(200), socket.next())
+            .await
+            .is_err()
+    );
     server.abort();
 }
 
@@ -635,7 +647,10 @@ async fn observatory_websocket_revokes_an_authenticated_session_after_rotation()
     let revoked = next_json_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(revoked["status"], "rejected");
     assert_eq!(revoked["error"], "credential_revoked");
-    let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
-    assert_eq!(feed["runtime_instance_id"], "instance-ws");
+    assert!(
+        tokio::time::timeout(Duration::from_millis(200), socket.next())
+            .await
+            .is_err()
+    );
     server.abort();
 }

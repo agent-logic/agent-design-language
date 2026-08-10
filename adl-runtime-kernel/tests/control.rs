@@ -1081,14 +1081,13 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(preflight.contains("access-control-allow-methods: GET"));
     assert!(preflight.contains("access-control-allow-headers: Authorization"));
     assert!(preflight.contains("cache-control: no-store"));
-    let public_response = https_request(
+    let unauthenticated_response = https_request(
         &client,
         address,
         b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://localhost:8765\r\nConnection: close\r\n\r\n",
     )
     .await;
-    assert!(public_response.starts_with("HTTP/1.1 200 OK"));
-    assert!(public_response.contains("cache-control: no-store"));
+    assert!(unauthenticated_response.starts_with("HTTP/1.1 401 Unauthorized"));
     let response = https_request(
         &client,
         address,
@@ -1102,7 +1101,7 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(response.contains(adl_runtime_kernel::OBSERVATORY_FEED_SCHEMA));
     assert!(response.contains("\"runtime_selection\":\"runtime_v3_explicit_opt_in\""));
     assert!(response.contains("\"signed_commands_required_for_mutation\":true"));
-    assert!(response.contains("\"bearer_token_required_for_read\":false"));
+    assert!(response.contains("\"bearer_token_required_for_read\":true"));
     assert!(response.contains("\"login_required_for_mutation\":true"));
     assert!(response.contains("\"browser_mutation_authority\":true"));
     assert!(response.contains(&format!("\"port\":{}", address.port())));

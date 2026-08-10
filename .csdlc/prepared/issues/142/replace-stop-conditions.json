@@ -1,0 +1,23 @@
+{
+  "issue": 142,
+  "expected_generation": 14,
+  "expected_digest": "0af264d1e37c6316e1636a98dc00f395d027740541a99eb57ebc6a98f84b6e93",
+  "card": "spp",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Define fail-closed stops for scope, authority, resources, topology, proof, and teardown.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "The declared production ownership cannot be made disjoint or requires weakening a merged authority contract.",
+      "shepherd_agent_ref cannot be configured and launched without making the shepherd a voter or granting authority-minting capability.",
+      "Three bounded local model instances cannot coexist on Wuji without starving consensus, or AWS local models require public or hosted inference.",
+      "Phase A cleanup cannot be proven exactly, so Phase B must not start.",
+      "agent-logic-admin does not resolve to the approved Agent Logic business account, two distinct Availability Zones are unavailable, or private authenticated connectivity cannot be established.",
+      "The hybrid snapshot is not quorum committed and independently materialized identically by all healthy voters, or either AWS voter cannot restart from it while quorum remains.",
+      "The partition harness can bridge Wuji and AWS, or recovery requires stopping/restarting Wuji rather than keeping it alive and stale.",
+      "Exactly one coherent quorum-leased Observatory cannot be shown before and after recovery.",
+      "Any cleanup predicate remains false, exact proof cannot bind the live demonstrations, or a prerequisite defect requires separate scope."
+    ]
+  }
+}

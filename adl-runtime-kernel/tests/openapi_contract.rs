@@ -89,7 +89,7 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
     );
     assert_eq!(
         observatory["paths"]["/v1/observatory"]["get"]["security"],
-        serde_json::json!([])
+        serde_json::json!([{"ObservatoryBearer": []}])
     );
     assert_eq!(
         observatory["paths"]["/v1/observatory/ws"]["get"]["security"],
@@ -101,10 +101,11 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
     assert_eq!(ws["maxFrameBytes"], 65_536);
     assert_eq!(ws["refreshSeconds"], 1);
     assert_eq!(ws["writeAuthentication"], "observatory_bearer_frame");
-    assert_eq!(ws["publicReadFrames"], true);
+    assert_eq!(ws["readAuthentication"], "observatory_bearer_frame");
+    assert_eq!(ws["publicReadFrames"], false);
     assert_eq!(
         ws["credentialRevocation"],
-        "write_authority_removed_read_stream_continues"
+        "read_and_write_authority_removed_stream_stops"
     );
     assert!(ws["serverFrames"]
         .as_array()

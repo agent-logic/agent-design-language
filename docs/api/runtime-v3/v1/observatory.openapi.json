@@ -4,7 +4,7 @@
     "title": "ADL Observatory API",
     "version": "1.0.0",
     "summary": "Live runtime state for Observatory clients",
-    "description": "Read current runtime state without login. Login is required only to send signed control commands or ACIP work over the full-duplex WebSocket."
+    "description": "Read current runtime state only after bearer authentication. Signed control commands and ACIP work retain their additional governed authorization boundaries."
   },
   "servers": [
     {
@@ -21,7 +21,7 @@
   "tags": [
     {
       "name": "observatory",
-      "description": "Public Observatory snapshots and live updates with authenticated writes."
+      "description": "Authenticated Observatory snapshots and live updates with governed writes."
     }
   ],
   "paths": {
@@ -30,7 +30,7 @@
         "operationId": "readObservatorySnapshot",
         "tags": ["observatory"],
         "summary": "Read the current Runtime v3 Observatory snapshot",
-        "security": [],
+        "security": [{ "ObservatoryBearer": [] }],
         "responses": {
           "200": {
             "description": "Current Runtime v3 Observatory snapshot.",
@@ -51,6 +51,9 @@
           },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationRequired"
           }
         }
       },
@@ -72,12 +75,12 @@
       "get": {
         "operationId": "openObservatoryWebSocket",
         "tags": ["observatory"],
-        "summary": "Open a public-read, authenticated-write Observatory WSS session",
-        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands or bounded ACIP Protobuf binary envelopes.",
+        "summary": "Open an authenticated Observatory WSS session",
+        "description": "Upgrades to WebSocket after origin validation but emits no ObservatoryFeed data until a valid ObservatoryWsAuth text frame is accepted. Only an authenticated session may read feeds or submit signed text commands or bounded ACIP Protobuf binary envelopes.",
         "security": [],
         "responses": {
           "101": {
-            "description": "WebSocket upgrade accepted after origin validation. Public feed frames begin immediately; frame-level login is required only for writes."
+            "description": "WebSocket upgrade accepted after origin validation. Frame-level bearer authentication is required before any feed or write frame."
           },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
@@ -90,7 +93,7 @@
           "clientFrames": [
             {
               "$ref": "#/components/schemas/ObservatoryWsAuth",
-              "purpose": "optional_write_login"
+              "purpose": "required_read_write_login"
             },
             {
               "type": "ping",
@@ -116,9 +119,10 @@
               "$ref": "#/components/schemas/ObservatoryWsControlResult"
             }
           ],
-          "publicReadFrames": true,
+          "publicReadFrames": false,
+          "readAuthentication": "observatory_bearer_frame",
           "writeAuthentication": "observatory_bearer_frame",
-          "credentialRevocation": "write_authority_removed_read_stream_continues",
+          "credentialRevocation": "read_and_write_authority_removed_stream_stops",
           "signedTextControlAuthority": "signed_control_command_only",
           "binaryAcipAuthority": "authenticated_session_and_canonical_ingress_policy"
         }
@@ -126,7 +130,17 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "ObservatoryBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Runtime Observatory read credential."
+      }
+    },
     "responses": {
+      "AuthenticationRequired": {
+        "description": "A valid Observatory bearer credential is required."
+      },
       "OriginForbidden": {
         "description": "Origin is absent for WSS or not present in configured observatory.allowed_origins."
       }
@@ -337,6 +351,9 @@
           "agents": {
             "$ref": "#/components/schemas/AgentPopulationFeed"
           },
+          "distributed_polis": {
+            "$ref": "#/components/schemas/DistributedObservatoryProjection"
+          },
           "proof": {
             "$ref": "#/components/schemas/ObservatoryProofFeed"
           },
@@ -386,7 +403,7 @@
             "const": true
           },
           "bearer_token_required_for_read": {
-            "const": false
+            "const": true
           },
           "login_required_for_mutation": {
             "const": true
@@ -394,6 +411,38 @@
           "browser_mutation_authority": {
             "const": true
           }
+        }
+      },
+      "DistributedObservatoryProjection": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema", "polis_id", "trust_domain", "owner_guardian_id",
+          "leader_voter_id", "voter_ids", "quorum_size", "committed_index",
+          "epoch", "expires_unix_millis", "state_sha256"
+        ],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.distributed_observatory_projection.v1" },
+          "polis_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "trust_domain": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "owner_guardian_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "leader_voter_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "voter_ids": {
+            "type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+          },
+          "quorum_size": { "const": 2 },
+          "committed_index": { "type": "integer", "minimum": 1 },
+          "epoch": { "type": "integer", "minimum": 0 },
+          "expires_unix_millis": { "type": "integer", "minimum": 1 },
+          "active_shepherd_identity_ref": { "type": ["string", "null"] },
+          "snapshot_sha256": {
+            "oneOf": [
+              { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+              { "type": "null" }
+            ]
+          },
+          "state_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
         }
       },
       "ObservatoryHealthFeed": {

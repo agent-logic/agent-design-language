@@ -3,8 +3,11 @@ use std::{
     process::ExitCode,
 };
 
-use adl_runtime::guardian::{run_guardian_with_os_signals, GuardianConfig, GuardianTerminalState};
-use adl_runtime_kernel::RuntimeShutdownInitConfig;
+use adl_runtime::{
+    distributed::polis_runtime::{PolisAuthorityConfig, PolisRuntime, PolisRuntimeConfig},
+    guardian::{run_guardian_with_os_signals, GuardianConfig, GuardianTerminalState},
+};
+use adl_runtime_kernel::{RuntimeDistributedInitConfig, RuntimeShutdownInitConfig};
 use serde::Deserialize;
 
 #[tokio::main]
@@ -16,7 +19,65 @@ async fn main() -> ExitCode {
             return ExitCode::from(64);
         }
     };
-    match run_guardian_with_os_signals(config).await {
+    let polis = match config.distributed.as_ref() {
+        Some(distributed) => {
+            let runtime_config = match PolisRuntimeConfig::from_runtime_init(
+                distributed,
+                config
+                    .state_root
+                    .as_deref()
+                    .expect("validated distributed state root"),
+            ) {
+                Ok(runtime_config) => runtime_config,
+                Err(error) => {
+                    eprintln!("distributed runtime configuration invalid: {error}");
+                    return ExitCode::from(64);
+                }
+            };
+            match PolisRuntime::start(runtime_config).await {
+                Ok(mut runtime) => {
+                    let mut voter_ids = distributed.voter_ids.clone();
+                    voter_ids.sort();
+                    let authority = PolisAuthorityConfig {
+                        polis_id: distributed.polis_id.clone(),
+                        trust_domain: distributed.trust_domain.clone(),
+                        guardian_id: distributed.guardian_id.clone(),
+                        shepherd_identity_ref: distributed.shepherd_identity_ref.clone(),
+                        voter_ids: voter_ids
+                            .into_iter()
+                            .enumerate()
+                            .map(|(index, voter_id)| ((index + 1) as u64, voter_id))
+                            .collect(),
+                        projection_path: config
+                            .state_root
+                            .as_deref()
+                            .expect("validated distributed state root")
+                            .join(&distributed.observatory_projection_path),
+                        lease_millis: distributed.observatory_lease_millis,
+                    };
+                    if let Err(error) = runtime.start_authority_loop(authority) {
+                        eprintln!("distributed authority loop failed to start: {error}");
+                        let _ = runtime.shutdown().await;
+                        return ExitCode::from(70);
+                    }
+                    Some(runtime)
+                }
+                Err(error) => {
+                    eprintln!("distributed runtime failed to start: {error}");
+                    return ExitCode::from(70);
+                }
+            }
+        }
+        None => None,
+    };
+    let guardian_result = run_guardian_with_os_signals(config.guardian).await;
+    if let Some(runtime) = polis {
+        if let Err(error) = runtime.shutdown().await {
+            eprintln!("distributed runtime failed to stop cleanly: {error}");
+            return ExitCode::from(70);
+        }
+    }
+    match guardian_result {
         Ok(outcome) => {
             let terminal = outcome.terminal_state;
             match serde_json::to_string(&outcome) {
@@ -40,7 +101,13 @@ async fn main() -> ExitCode {
     }
 }
 
-fn parse_args(args: impl Iterator<Item = String>) -> Result<GuardianConfig, String> {
+struct ParsedGuardianConfig {
+    guardian: GuardianConfig,
+    state_root: Option<PathBuf>,
+    distributed: Option<RuntimeDistributedInitConfig>,
+}
+
+fn parse_args(args: impl Iterator<Item = String>) -> Result<ParsedGuardianConfig, String> {
     let mut init = None;
     let mut args = args.peekable();
     while let Some(arg) = args.next() {
@@ -78,7 +145,19 @@ fn parse_args(args: impl Iterator<Item = String>) -> Result<GuardianConfig, Stri
     config
         .validate()
         .map_err(|error| format!("guardian configuration invalid: {error:?}"))?;
-    Ok(config)
+    if let Some(distributed) = &init_config.distributed {
+        distributed
+            .validate()
+            .map_err(|error| format!("distributed runtime configuration invalid: {error}"))?;
+        if init_config.state_root.is_none() {
+            return Err("state_root is required when distributed runtime is configured".to_owned());
+        }
+    }
+    Ok(ParsedGuardianConfig {
+        guardian: config,
+        state_root: init_config.state_root,
+        distributed: init_config.distributed,
+    })
 }
 
 fn load_init(path: &Path) -> Result<RuntimeGuardianInitConfig, String> {
@@ -91,9 +170,13 @@ fn load_init(path: &Path) -> Result<RuntimeGuardianInitConfig, String> {
 
 #[derive(Debug, Deserialize)]
 struct RuntimeGuardianInitConfig {
+    #[serde(default)]
+    state_root: Option<PathBuf>,
     binaries: RuntimeBinaries,
     guardian: GuardianPolicy,
     shutdown: ShutdownPolicy,
+    #[serde(default)]
+    distributed: Option<RuntimeDistributedInitConfig>,
 }
 
 #[derive(Debug, Deserialize)]

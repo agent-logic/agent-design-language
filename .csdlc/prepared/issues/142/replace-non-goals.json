@@ -1,0 +1,21 @@
+{
+  "issue": 142,
+  "expected_generation": 11,
+  "expected_digest": "3ccb682b3a6e5ed9d2db4890ce6fd4e9bbb2e6ca02a28ca806fdf8110830632a",
+  "card": "stp",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Exclude unsafe shortcuts, permanent infrastructure, and adjacent lifecycle work.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "non_goals",
+    "values": [
+      "Parallel execution of the Wuji-only and Wuji-AWS demonstrations.",
+      "One Observatory per node or multiple simultaneous Observatory owners for one polis.",
+      "Independent singleton processes presented as a distributed polis.",
+      "Using a shepherd or model server as a voter, authority oracle, or bypass around quorum decisions.",
+      "Hosted-model fallback, public model endpoints, public unauthenticated APIs, or plaintext transport.",
+      "Manual snapshot copying, selecting uncommitted local history, or restarting Wuji to simulate partition recovery.",
+      "Kubernetes, permanent AWS infrastructure, multi-region scaling, customer traffic, umbrella reconciliation, or asynchronous lifecycle closeout."
+    ]
+  }
+}

@@ -97,6 +97,36 @@ async fn signed_live_checkpoint_round_trips() {
 }
 
 #[tokio::test]
+async fn signed_live_checkpoint_exports_and_imports_as_a_bounded_portable_bundle() {
+    let source_root = tempfile::tempdir().unwrap();
+    let target_root = tempfile::tempdir().unwrap();
+    let recorder = RuntimeRecorder::new(16);
+    recorder.set_component_state(ComponentId::new("agent_runtime"), RunningState::Running);
+    recorder.set_lifecycle(LifecycleState::Running);
+    let mut source = LiveContinuity::new(source_root.path(), "live", &[51; 32], snapshot(), 0);
+    source
+        .checkpoint(&recorder, Duration::from_secs(1))
+        .await
+        .unwrap();
+    let bundle = source.export_latest_bundle().await.unwrap();
+
+    let mut target = LiveContinuity::new(target_root.path(), "live", &[51; 32], snapshot(), 0);
+    target.import_bundle(bundle.clone()).await.unwrap();
+    let restored = RuntimeRecorder::new(16);
+    assert_eq!(target.restore_latest(&restored).await.unwrap(), Some(1));
+    assert_eq!(restored.snapshot().continuity_head.unwrap().generation, 1);
+
+    let tampered_root = tempfile::tempdir().unwrap();
+    let mut tampered = bundle;
+    tampered
+        .blobs_base64
+        .insert("live_kernel".to_owned(), "AAAA".to_owned());
+    let mut refusing = LiveContinuity::new(tampered_root.path(), "live", &[51; 32], snapshot(), 0);
+    assert!(refusing.import_bundle(tampered).await.is_err());
+    assert!(!tampered_root.path().join("generation-1").exists());
+}
+
+#[tokio::test]
 async fn legacy_generation_can_upgrade_into_a_current_signed_lineage() {
     let root = tempfile::tempdir().unwrap();
     let identity = snapshot();

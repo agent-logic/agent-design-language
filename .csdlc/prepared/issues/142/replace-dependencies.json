@@ -1,0 +1,20 @@
+{
+  "issue": 142,
+  "expected_generation": 10,
+  "expected_digest": "8d8905813d367f536efc9493435dc4ce552e42acdfede0adc812539712c2971d",
+  "card": "stp",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Record the exact merged runtime, local-model, AWS, and operational dependencies.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "Merged Sprint 3 distributed Runtime and corrective authority implementations on main through merge d3a0d69a4c1507eb038392741d163d8341bd95d1.",
+      "The independent Sprint 3 P1 production-integration finding that requires real production entrypoint wiring rather than module registration alone.",
+      "Supported private ollama_http local-provider contract with pinned model artifacts available on Wuji and ephemeral AWS hosts.",
+      "Verified Agent Logic business AWS account through profile agent-logic-admin, two Availability Zones, SSM/private-connectivity authority, and ephemeral compute/storage/network capacity.",
+      "Operator availability to observe the single live Observatory in each serial phase and to authorize merge after both demonstrations.",
+      "Separate umbrella reconciliation and asynchronous lifecycle closeout do not block implementation unless they change Runtime safety or ancestry."
+    ]
+  }
+}

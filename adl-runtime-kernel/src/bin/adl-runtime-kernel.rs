@@ -14,11 +14,12 @@ use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly,
     build_production_operation_executors_with_recorder, generate_runtime_instance_id,
     load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
-    validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
-    CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy, ControlAuthority,
-    ControlCapability, ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
+    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
+    AgentPopulationFeed, CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy,
+    ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
+    LiveContinuity, LiveKernelSnapshot, LocalShepherdExecutor, OperationExecutor,
+    RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
+    TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -145,7 +146,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let operation_executors = match build_production_operation_executors_with_recorder(
+            let mut operation_executors = match build_production_operation_executors_with_recorder(
                 operation_state_identity.clone(),
                 recorder.clone(),
             ) {
@@ -155,6 +156,20 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            if let Some(distributed) = init.distributed.as_ref() {
+                let shepherd =
+                    match LocalShepherdExecutor::configured(distributed.local_shepherd_config()) {
+                        Ok(executor) => executor,
+                        Err(error) => {
+                            eprintln!("runtime configured shepherd unavailable: {}", error.code());
+                            return ExitCode::from(78);
+                        }
+                    };
+                operation_executors.insert(
+                    AdapterKind::Shepherd,
+                    Arc::new(shepherd) as Arc<dyn OperationExecutor>,
+                );
+            }
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
@@ -354,6 +369,19 @@ async fn main() -> ExitCode {
             {
                 eprintln!("runtime Observatory read token is invalid");
                 return ExitCode::from(78);
+            }
+            if let Some(distributed) = &init.distributed {
+                if service
+                    .configure_distributed_observatory(
+                        init.state_root
+                            .join(&distributed.observatory_projection_path),
+                        distributed.guardian_id.clone(),
+                    )
+                    .is_err()
+                {
+                    eprintln!("distributed Observatory authority configuration is invalid");
+                    return ExitCode::from(78);
+                }
             }
             let acip_write_token = match read_trimmed_config_file(
                 &init.credentials.acip_write_token_path,

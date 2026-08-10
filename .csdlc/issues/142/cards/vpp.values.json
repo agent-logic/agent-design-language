@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime] Operationalize distributed Runtime and polis Observatory across Wuji and AWS",
     "slug": "operational-distributed-runtime-polis-observatory-wuji-aws",
     "version": "v0.92",
-    "generation": 7
+    "generation": 29
   },
   "status": "ready",
   "content": {
@@ -16,19 +16,26 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-runtime-integration",
-          "proof_role": "Prove production launcher, real multi-process convergence, authority failures, coherent single-Observatory projection, and teardown behavior with nonzero exact tests.",
+          "lane": "three-voter-runtime-contract",
+          "proof_role": "Prove real process launch, three-voter quorum, single-Observatory coherent projection, snapshot eligibility, fencing, activation, stale-node denial, bounds, restart, and teardown with nonzero focused tests.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
-            "AC-4",
-            "AC-8"
+            "AC-5",
+            "AC-6",
+            "AC-9",
+            "AC-10",
+            "AC-11",
+            "AC-12",
+            "AC-13",
+            "AC-14",
+            "AC-17"
           ],
           "deterministic": true,
           "resource_profile": "large",
           "budget_seconds": 3600,
-          "budget_tokens": 12000,
+          "budget_tokens": 16000,
           "argv": [
             "cargo",
             "nextest",
@@ -39,12 +46,12 @@
             "distributed_runtime_operational",
             "--no-tests=fail"
           ],
-          "parallel_group": "local-only",
-          "defer_reason": "Target is declared during planning and must exist before implementation validation."
+          "parallel_group": "local-contract",
+          "defer_reason": "The issue-owned production integration target is an implementation deliverable and must exist before execution validation."
         },
         {
-          "lane": "serial-live-demos",
-          "proof_role": "Run Demo A to full cleanup, then Demo B, retaining live Observatory, authority, failure/recovery, account, and teardown evidence.",
+          "lane": "phase-a-wuji-three",
+          "proof_role": "Run exactly three Wuji voters and one polis Observatory, prove convergence, governed action, one-voter failure behavior, recovery, and complete resource release.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -52,28 +59,72 @@
             "AC-4",
             "AC-5",
             "AC-6",
-            "AC-7",
-            "AC-10"
+            "AC-14",
+            "AC-15",
+            "AC-16"
           ],
           "deterministic": false,
           "resource_profile": "large",
-          "budget_seconds": 10800,
-          "budget_tokens": 30000,
+          "budget_seconds": 3600,
+          "budget_tokens": 16000,
           "argv": [
             "bash",
             "adl/tools/run_v092_distributed_runtime_observatory_demo.sh",
-            "--serial"
+            "--phase",
+            "wuji-three"
           ],
-          "parallel_group": "exclusive-live",
-          "defer_reason": "The live runner is an issue deliverable and AWS execution requires verified business-account authority."
+          "parallel_group": "exclusive-live-serial",
+          "defer_reason": "Runs only after reviewed implementation exists; its cleanup receipt is the hard prerequisite for Phase B."
         },
         {
-          "lane": "exact-receipt-and-review",
-          "proof_role": "Verify exact source, argv parity, process/test denominators, redaction, serial non-overlap, cleanup, live captures, and independent reviewer provenance.",
+          "lane": "phase-b-wuji-aws-recovery",
+          "proof_role": "After Phase A cleanup only, run one Wuji and two AZ-separated AWS voters with pinned private local models on all three nodes; govern-admit the distinct AWS shepherd, saturate inference while proving consensus timing, commit a Wuji-proposed snapshot boundary, prove both AWS indices and identical canonical per-voter snapshots, serially compact/restart both AWS voters from snapshot roots, asymmetrically partition live Wuji with no harness bridge, elect an AWS consensus leader with both AWS votes, prove old Observatory lease TTL expiry and deny stale reads plus premature takeover, durably fence and activate owner then shepherd, acquire one Observatory lease, continue mutation, heal and prove Wuji demotion/synchronization, re-partition Wuji, stop the opposite-AZ AWS voter while the shepherd host survives and prove one-of-three halt, then tear down all resources.",
           "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7",
             "AC-8",
             "AC-9",
-            "AC-10"
+            "AC-10",
+            "AC-11",
+            "AC-12",
+            "AC-13",
+            "AC-14",
+            "AC-15",
+            "AC-16"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 7200,
+          "budget_tokens": 32000,
+          "argv": [
+            "bash",
+            "adl/tools/run_v092_distributed_runtime_observatory_demo.sh",
+            "--phase",
+            "wuji-aws-three-recovery"
+          ],
+          "parallel_group": "exclusive-live-serial",
+          "defer_reason": "Requires a proven Phase A cleanup receipt, verified agent-logic-admin business-account identity, and reviewed private AWS connectivity."
+        },
+        {
+          "lane": "exact-plan-runtime-and-receipt-review",
+          "proof_role": "Validate serial non-overlap, exact argv/source/config, shepherd and model identity, native snapshot/committed-prefix provenance, durable quorum transitions, Observatory lease, redaction, AWS account/AZ identity, local-model teardown, merge-compatible receipt topology, protected-source drift denial, Gemini disposition, and independent implementation-review provenance.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10",
+            "AC-11",
+            "AC-12",
+            "AC-13",
+            "AC-14",
+            "AC-15",
+            "AC-16",
+            "AC-18",
+            "AC-19"
           ],
           "deterministic": true,
           "resource_profile": "medium",
@@ -84,7 +135,7 @@
             ".csdlc/prepared/issues/142/validate-proof-receipt.rb"
           ],
           "parallel_group": "post-demo",
-          "defer_reason": "The issue-owned validator is authored and reviewed with the implementation."
+          "defer_reason": "The issue-owned receipt validator is authored and independently reviewed with the implementation."
         }
       ],
       "planned_validation_seconds": 21600,

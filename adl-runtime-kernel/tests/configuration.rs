@@ -1,6 +1,6 @@
 use std::{
     collections::{BTreeMap, VecDeque},
-    path::Path,
+    path::{Path, PathBuf},
     process::Command,
     sync::Arc,
 };
@@ -10,8 +10,9 @@ use adl_runtime_kernel::{
     ComponentConfig, ComponentContext, ComponentError, ComponentFactory, ComponentId,
     ComponentSpec, ConfigError, DeterminismClass, DiskWeather, FactoryRegistration,
     FactoryRegistry, FailurePolicy, GpuWeather, LifecycleGuarantees, Observation, PortSpec,
-    ResourceState, RuntimeConfig, ServiceContract, ShutdownDecision, SysinfoWeatherObserver,
-    TopologyError, WeatherConfig, WeatherHealthReport, WeatherObserver, WeatherSample,
+    ResourceState, RuntimeConfig, RuntimeDistributedInitConfig, RuntimeLocalModelProfile,
+    ServiceContract, ShutdownDecision, SysinfoWeatherObserver, TopologyError, WeatherConfig,
+    WeatherHealthReport, WeatherObserver, WeatherSample, DISTRIBUTED_RUNTIME_CONFIG_SCHEMA,
     RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 use async_trait::async_trait;
@@ -35,6 +36,133 @@ fn config(components: Vec<ComponentConfig>) -> RuntimeConfig {
         weather: WeatherConfig::default(),
         components,
     }
+}
+
+fn distributed_config() -> RuntimeDistributedInitConfig {
+    RuntimeDistributedInitConfig {
+        schema: DISTRIBUTED_RUNTIME_CONFIG_SCHEMA.to_owned(),
+        polis_id: "polis-test".to_owned(),
+        trust_domain: "trust-test".to_owned(),
+        local_voter_id: "wuji-voter".to_owned(),
+        guardian_id: "guardian-wuji".to_owned(),
+        voter_ids: vec![
+            "wuji-voter".to_owned(),
+            "aws-voter-a".to_owned(),
+            "aws-voter-b".to_owned(),
+        ],
+        bootstrap: true,
+        listen_address: "127.0.0.1:21997".to_owned(),
+        peer_addresses: BTreeMap::from([
+            ("aws-voter-a".to_owned(), "127.0.0.1:21998".to_owned()),
+            ("aws-voter-b".to_owned(), "127.0.0.1:21999".to_owned()),
+        ]),
+        consensus_state_dir: PathBuf::from("distributed/consensus"),
+        voter_signing_key_path: PathBuf::from("credentials/voter.key"),
+        voter_public_key_paths: BTreeMap::from([
+            (
+                "aws-voter-a".to_owned(),
+                PathBuf::from("credentials/aws-a.pub"),
+            ),
+            (
+                "aws-voter-b".to_owned(),
+                PathBuf::from("credentials/aws-b.pub"),
+            ),
+        ]),
+        observatory_projection_path: PathBuf::from("distributed/observatory.json"),
+        shepherd_agent_ref: "resident-agent:shepherd".to_owned(),
+        shepherd_identity_ref: "identity:shepherd-wuji".to_owned(),
+        voter_model_profile: "small".to_owned(),
+        shepherd_model_profile: "small".to_owned(),
+        model_profiles: BTreeMap::from([(
+            "small".to_owned(),
+            RuntimeLocalModelProfile {
+                provider: "ollama_http".to_owned(),
+                endpoint: "http://127.0.0.1:11434".to_owned(),
+                model_ref: "small-local-model".to_owned(),
+                model_artifact_sha256: "a".repeat(64),
+                runner_program_path: Path::new("/opt/adl/bin/adl-ollama-shepherd-runner")
+                    .to_path_buf(),
+                runner_program_sha256: "b".repeat(64),
+                context_tokens: 4096,
+                max_in_flight: 1,
+                max_prompt_bytes: 16 * 1024,
+                max_output_bytes: 64 * 1024,
+                max_memory_bytes: 8 * 1024 * 1024 * 1024,
+                max_cpu_seconds: 180,
+            },
+        )]),
+        observatory_lease_millis: 30_000,
+    }
+}
+
+#[test]
+fn distributed_runtime_config_selects_bounded_non_voting_shepherd_and_local_models() {
+    let config = distributed_config();
+    config.validate().expect("valid distributed config");
+    assert_eq!(config.voter_ids.len(), 3);
+    assert!(!config.voter_ids.contains(&config.shepherd_agent_ref));
+    assert_eq!(config.selected_shepherd_profile().provider, "ollama_http");
+    let shepherd = config.local_shepherd_config();
+    assert_eq!(shepherd.runtime_id, "polis-test");
+    assert_eq!(shepherd.model_identity, "small-local-model");
+    assert_eq!(
+        shepherd.environment["ADL_SHEPHERD_AGENT_REF"],
+        "resident-agent:shepherd"
+    );
+    assert_eq!(
+        shepherd.environment["ADL_SHEPHERD_IDENTITY_REF"],
+        "identity:shepherd-wuji"
+    );
+    assert_eq!(shepherd.environment["ADL_MODEL_CONTEXT_TOKENS"], "4096");
+    assert_eq!(shepherd.max_memory_bytes, 8 * 1024 * 1024 * 1024);
+
+    let mut invalid = config.clone();
+    invalid.model_profiles.get_mut("small").unwrap().endpoint =
+        "https://public.example.com".to_owned();
+    assert!(invalid.validate().is_err());
+
+    let mut invalid = config.clone();
+    invalid.voter_ids[2] = invalid.voter_ids[1].clone();
+    assert!(invalid.validate().is_err());
+
+    let mut invalid = config.clone();
+    invalid.shepherd_model_profile = "missing".to_owned();
+    assert!(invalid.validate().is_err());
+
+    let mut invalid = config.clone();
+    invalid.shepherd_identity_ref = "wuji-voter".to_owned();
+    assert!(invalid.validate().is_err());
+
+    let mut invalid = config.clone();
+    invalid
+        .peer_addresses
+        .insert("aws-voter-a".to_owned(), invalid.listen_address.clone());
+    assert!(invalid.validate().is_err());
+
+    let mut invalid = config.clone();
+    invalid.listen_address = "0.0.0.0:21997".to_owned();
+    assert!(invalid.validate().is_err());
+
+    let mut invalid = config.clone();
+    invalid
+        .model_profiles
+        .get_mut("small")
+        .unwrap()
+        .model_artifact_sha256 = "0".repeat(64);
+    assert!(invalid.validate().is_err());
+
+    let mut alternate = config;
+    let mut smaller = alternate.model_profiles["small"].clone();
+    smaller.model_ref = "smaller-local-model".to_owned();
+    smaller.model_artifact_sha256 = "c".repeat(64);
+    smaller.max_memory_bytes = 4 * 1024 * 1024 * 1024;
+    alternate
+        .model_profiles
+        .insert("smaller".to_owned(), smaller);
+    alternate.voter_model_profile = "smaller".to_owned();
+    alternate
+        .validate()
+        .expect("model selection stays flexible");
 }
 
 fn repo_test_work_root() -> std::path::PathBuf {

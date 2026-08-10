@@ -1,0 +1,22 @@
+{
+  "issue": 142,
+  "expected_generation": 9,
+  "expected_digest": "e6eab68383b4eeba51581f1614d065218087eee6484680b81756e761e1810d00",
+  "card": "sip",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Make shepherd, Observatory, snapshot, fencing, model-serving, and AWS authority boundaries explicit.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "Merged WP-04 ledgers, certificates, membership, fencing, migration, recovery, and projection modules remain the sole distributed authority.",
+      "The configured shepherd launches with the polis but is never a consensus voter and cannot mint membership, lease, fence, activation, snapshot, or Observatory authority.",
+      "Exactly one quorum-leased Observatory exists per distributed polis; node-local views are not additional Observatories.",
+      "A snapshot is authoritative only when its boundary is quorum committed and independently materialized with the same canonical digest by every healthy voter; manual copying is non-proving.",
+      "AWS takeover requires a newer quorum term, the bounded safety window, expiry of the Wuji Observatory lease, a durable Wuji fence, and separate owner then shepherd activation.",
+      "Model services are private bounded inference dependencies only; model identity or capability cannot change consensus or mutation authority.",
+      "AWS authority is limited to the verified agent-logic-admin profile in the approved Agent Logic business account, private network paths, and issue-scoped ephemeral resources.",
+      "No public unauthenticated or plaintext Runtime, model, or Observatory surface is permitted."
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "issue": 142,
+  "expected_generation": 27,
+  "expected_digest": "e41c20cf5a90ff7de87037bb6da48ae46e8a4d83fd03d84cb468454379fe63e3",
+  "card": "stp",
+  "actor": "codex:142-distributed-runtime-operational",
+  "reason": "Include the bounded kernel checkpoint bridge, authenticated Observatory regressions, and separate distributed deployment config required by the completed architecture audit.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/continuity.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      "infra/runtime-v3/distributed-runtime-init.example.toml",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_operational.rs",
+      "adl/tools/adl_ollama_shepherd_runner.py",
+      "adl/tools/run_v092_distributed_runtime_observatory_demo.sh",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/142/validate-proof-receipt.rb",
+      "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "docs/demo/runtime-v3/DISTRIBUTED_RUNTIME_OBSERVATORY_RUNBOOK.md"
+    ]
+  }
+}

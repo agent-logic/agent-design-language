@@ -3,6 +3,7 @@ use std::{
     future::Future,
     io::Write,
     net::SocketAddr,
+    path::PathBuf,
     sync::Arc,
     sync::Mutex,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -51,6 +52,9 @@ pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
 pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth.v1";
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
+pub const DISTRIBUTED_OBSERVATORY_PROJECTION_SCHEMA: &str =
+    "adl.runtime_v3.distributed_observatory_projection.v1";
+const MAX_DISTRIBUTED_OBSERVATORY_BYTES: u64 = 256 * 1024;
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
@@ -317,6 +321,30 @@ struct AcipSequenceReservation {
     previous: Option<u64>,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DistributedObservatoryProjection {
+    pub schema: String,
+    pub polis_id: String,
+    pub trust_domain: String,
+    pub owner_guardian_id: String,
+    pub leader_voter_id: String,
+    pub voter_ids: Vec<String>,
+    pub quorum_size: u8,
+    pub committed_index: u64,
+    pub epoch: u64,
+    pub expires_unix_millis: u64,
+    pub active_shepherd_identity_ref: Option<String>,
+    pub snapshot_sha256: Option<String>,
+    pub state_sha256: String,
+}
+
+#[derive(Clone)]
+struct DistributedObservatoryConfig {
+    projection_path: PathBuf,
+    local_guardian_id: String,
+}
+
 pub struct ControlService<C> {
     instance_id: String,
     recorder: RuntimeRecorder,
@@ -328,6 +356,7 @@ pub struct ControlService<C> {
     weather: Mutex<Option<ObservedWeather>>,
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
+    distributed_observatory: Mutex<Option<DistributedObservatoryConfig>>,
     acip_write_bearer_digest: Mutex<Option<blake3::Hash>>,
     observatory_allowed_origins: BTreeSet<String>,
     agent_population: AgentPopulationFeed,
@@ -408,6 +437,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
             observatory_bearer_digest: Mutex::new(None),
+            distributed_observatory: Mutex::new(None),
             acip_write_bearer_digest: Mutex::new(None),
             observatory_allowed_origins,
             agent_population,
@@ -478,6 +508,69 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("observatory credential mutex poisoned") = Some(blake3::hash(token.as_bytes()));
         Ok(())
+    }
+
+    pub fn configure_distributed_observatory(
+        &self,
+        projection_path: PathBuf,
+        local_guardian_id: String,
+    ) -> Result<(), ControlError> {
+        if !projection_path.is_absolute() || !is_safe_identifier(&local_guardian_id) {
+            return Err(ControlError::InvalidIdentifier);
+        }
+        *self
+            .distributed_observatory
+            .lock()
+            .expect("distributed Observatory mutex poisoned") =
+            Some(DistributedObservatoryConfig {
+                projection_path,
+                local_guardian_id,
+            });
+        Ok(())
+    }
+
+    fn distributed_observatory_projection(&self) -> Option<DistributedObservatoryProjection> {
+        let config = self
+            .distributed_observatory
+            .lock()
+            .expect("distributed Observatory mutex poisoned")
+            .clone();
+        let Some(config) = config else {
+            return None;
+        };
+        let metadata = std::fs::symlink_metadata(&config.projection_path).ok()?;
+        if !metadata.is_file()
+            || metadata.file_type().is_symlink()
+            || metadata.len() > MAX_DISTRIBUTED_OBSERVATORY_BYTES
+        {
+            return None;
+        }
+        let bytes = std::fs::read(&config.projection_path).ok()?;
+        let projection: DistributedObservatoryProjection = serde_json::from_slice(&bytes).ok()?;
+        if projection.schema != DISTRIBUTED_OBSERVATORY_PROJECTION_SCHEMA
+            || projection.owner_guardian_id != config.local_guardian_id
+            || projection.expires_unix_millis <= now_unix_millis()
+            || projection.voter_ids.len() != 3
+            || projection.quorum_size != 2
+            || projection.committed_index == 0
+            || projection.state_sha256.len() != 64
+            || !projection
+                .state_sha256
+                .bytes()
+                .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f'))
+        {
+            return None;
+        }
+        Some(projection)
+    }
+
+    fn distributed_observatory_available(&self) -> bool {
+        let configured = self
+            .distributed_observatory
+            .lock()
+            .expect("distributed Observatory mutex poisoned")
+            .is_some();
+        !configured || self.distributed_observatory_projection().is_some()
     }
 
     pub fn set_acip_write_bearer_token(&self, token: &str) -> Result<(), ControlError> {
@@ -722,7 +815,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 websocket_acip_binary_schema: ACIP_WEBSOCKET_SCHEMA.to_owned(),
                 signed_command_endpoint: "/v1/control".to_owned(),
                 signed_commands_required_for_mutation: true,
-                bearer_token_required_for_read: false,
+                bearer_token_required_for_read: true,
                 login_required_for_mutation: true,
                 browser_mutation_authority: true,
             },
@@ -741,6 +834,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .map(CanonicalIngress::snapshot)
                 .unwrap_or_default(),
             agents: self.agent_population.clone(),
+            distributed_polis: self.distributed_observatory_projection(),
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
                 runtime_v2_decommission_authorized: false,
@@ -1029,6 +1123,8 @@ pub struct ObservatoryFeed {
     pub continuity: ObservatoryContinuityFeed,
     pub ingress: crate::IngressSnapshot,
     pub agents: AgentPopulationFeed,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub distributed_polis: Option<DistributedObservatoryProjection>,
     pub proof: ObservatoryProofFeed,
     pub events: Vec<BootstrapEvent>,
 }
@@ -1298,6 +1394,17 @@ async fn observatory_feed_handler<C: LifecycleControl + 'static>(
     if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
         return StatusCode::FORBIDDEN.into_response();
     }
+    let authorized = headers
+        .get(header::AUTHORIZATION)
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.strip_prefix("Bearer "))
+        .is_some_and(|token| service.observatory_token_authorized(token));
+    if !authorized {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    if !service.distributed_observatory_available() {
+        return StatusCode::SERVICE_UNAVAILABLE.into_response();
+    }
     observatory_json(StatusCode::OK, service.observatory_feed(), allowed_origin)
 }
 
@@ -1344,20 +1451,25 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
     let mut bearer_token: Option<String> = None;
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     refresh.tick().await;
-    let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
-        return;
-    };
-    if socket
-        .send(Message::Text(initial_feed.into()))
-        .await
-        .is_err()
-    {
-        return;
-    }
 
     loop {
         tokio::select! {
             _ = refresh.tick() => {
+                if !service.distributed_observatory_available() {
+                    let unavailable = ObservatoryWsControlResult {
+                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                        status: "rejected",
+                        command_id: None,
+                        correlation_id: None,
+                        response: None,
+                        error: Some("observatory_authority_unavailable"),
+                    };
+                    if let Ok(payload) = serde_json::to_string(&unavailable) {
+                        let _ = socket.send(Message::Text(payload.into())).await;
+                    }
+                    let _ = socket.send(Message::Close(None)).await;
+                    break;
+                }
                 if bearer_token.as_deref().is_some_and(|token| !service.observatory_token_authorized(token)) {
                     bearer_token = None;
                     let revoked = ObservatoryWsControlResult {
@@ -1375,11 +1487,13 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         break;
                     }
                 }
-                let Ok(payload) = serde_json::to_string(&service.observatory_feed()) else {
-                    break;
-                };
-                if socket.send(Message::Text(payload.into())).await.is_err() {
-                    break;
+                if bearer_token.is_some() {
+                    let Ok(payload) = serde_json::to_string(&service.observatory_feed()) else {
+                        break;
+                    };
+                    if socket.send(Message::Text(payload.into())).await.is_err() {
+                        break;
+                    }
                 }
             }
             message = socket.recv() => match message {
@@ -1393,7 +1507,8 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                 Some(Ok(Message::Text(payload))) => {
                     if let Ok(auth) = serde_json::from_str::<ObservatoryWsAuth>(&payload) {
                         let authorized = auth.schema == OBSERVATORY_WS_AUTH_SCHEMA
-                            && service.observatory_token_authorized(&auth.bearer_token);
+                            && service.observatory_token_authorized(&auth.bearer_token)
+                            && service.distributed_observatory_available();
                         bearer_token = authorized.then_some(auth.bearer_token);
                         let result = ObservatoryWsControlResult {
                             schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
@@ -1408,6 +1523,14 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         };
                         if socket.send(Message::Text(payload.into())).await.is_err() {
                             break;
+                        }
+                        if authorized {
+                            let Ok(feed) = serde_json::to_string(&service.observatory_feed()) else {
+                                break;
+                            };
+                            if socket.send(Message::Text(feed.into())).await.is_err() {
+                                break;
+                            }
                         }
                         continue;
                     }

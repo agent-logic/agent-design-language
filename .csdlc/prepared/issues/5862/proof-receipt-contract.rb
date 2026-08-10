@@ -54,12 +54,52 @@ module Wp04ProofReceiptContract
     end
   end
 
+  def source_artifacts_match_revision?(artifacts, revision)
+    Array(artifacts).all? do |artifact|
+      path = artifact.fetch("path")
+      expected = artifact.fetch("sha256")
+      next false unless safe_repository_path?(path) && expected.to_s.match?(SHA256)
+      stdout, _stderr, status = Open3.capture3("git", "show", "#{revision}:#{path}")
+      status.success? && Digest::SHA256.hexdigest(stdout) == expected
+    end
+  end
+
+  def validate_final_protected_artifacts(artifacts, paths, head)
+    validate_source_artifacts(artifacts, paths, head)
+    Array(artifacts).each do |artifact|
+      digest_file(
+        artifact.fetch("path"),
+        artifact.fetch("sha256"),
+        "final protected artifact"
+      )
+    end
+  end
+
   def validate_v3_revisions(issue, proof, evidence_path, head)
     prefix = ".csdlc/evidence/#{issue}/"
     abort "execution proof path escapes issue evidence" unless safe_repository_path?(evidence_path) && evidence_path.start_with?(prefix)
     abort "wrong evidence revision strategy" unless proof["evidence_revision_strategy"] == "derive_from_receipt_introduction"
     abort "stored evidence revision is self-referential" if proof.key?("evidence_revision")
     source = exact_commit(proof["source_revision"], "source")
+    unless ancestor?(source, head)
+      merge_base, _stderr, status = Open3.capture3("git", "merge-base", source, head)
+      abort "source revision has no shared ancestry with HEAD" unless status.success?
+      merge_base = merge_base.strip
+      candidates = git(
+        "log", "--format=%H", "--reverse", "#{merge_base}..#{head}", "--", evidence_path
+      ).lines.map(&:strip).reject(&:empty?).select do |revision|
+        committed, _stderr, status = Open3.capture3("git", "show", "#{revision}:#{evidence_path}")
+        status.success? && committed == File.binread(evidence_path) &&
+          source_artifacts_match_revision?(proof["source_artifacts"], revision)
+      end
+      abort "squash-equivalent receipt introduction is not unique" unless candidates.length == 1
+      evidence = exact_commit(candidates.fetch(0), "squash-equivalent evidence")
+      later_touches = git(
+        "log", "--format=%H", "#{evidence}..#{head}", "--", prefix, *Array(proof["protected_paths"])
+      ).lines.map(&:strip).reject(&:empty?)
+      abort "protected source or evidence changed after squash-equivalent introduction: #{later_touches.join(', ')}" unless later_touches.empty?
+      return [source, evidence]
+    end
     introductions = git(
       "log", "--format=%H", "--diff-filter=A", "--reverse", "#{source}..#{head}", "--", evidence_path
     ).lines.map(&:strip).reject(&:empty?)
@@ -76,6 +116,10 @@ module Wp04ProofReceiptContract
     abort "source-to-evidence diff escapes issue evidence: #{escaped.join(', ')}" unless escaped.empty?
     later_touches = git("log", "--format=%H", "#{evidence}..#{head}", "--", prefix).lines.map(&:strip).reject(&:empty?)
     abort "evidence changed after its introduction: #{later_touches.join(', ')}" unless later_touches.empty?
+    protected_touches = git(
+      "log", "--format=%H", "#{evidence}..#{head}", "--", *Array(proof["protected_paths"])
+    ).lines.map(&:strip).reject(&:empty?)
+    abort "protected source changed after evidence introduction: #{protected_touches.join(', ')}" unless protected_touches.empty?
     [source, evidence]
   end
 
@@ -138,7 +182,10 @@ module Wp04ProofReceiptContract
       validate_v3_revisions(issue, proof, evidence_path, head)
     end
     abort "protected path drift" unless proof["protected_paths"] == paths
-    validate_source_artifacts(proof["source_artifacts"], paths, source_revision) if schema == "adl.wp04.execution_proof.v3"
+    if schema == "adl.wp04.execution_proof.v3"
+      validate_source_artifacts(proof["source_artifacts"], paths, source_revision)
+      validate_final_protected_artifacts(proof["source_artifacts"], paths, head)
+    end
 
     commands = Array(proof["commands"])
     test_commands = commands.select do |command|

@@ -1,0 +1,53 @@
+# Add this generated deployment block to each node's complete Runtime v3 init.
+# Replace every REPLACE_* token with deployment output; validation rejects
+# placeholders and zero digests. The shepherd agent and identity are explicitly
+# non-voting, while voter and shepherd model profiles may select smaller local
+# models independently on constrained hosts.
+
+[distributed]
+schema = "adl.runtime_v3.distributed.v1"
+polis_id = "polis-v092-operational"
+trust_domain = "agent-logic-runtime-production"
+local_voter_id = "REPLACE_LOCAL_VOTER_ID"
+guardian_id = "REPLACE_LOCAL_GUARDIAN_ID"
+voter_ids = ["wuji-voter", "aws-voter-a", "aws-voter-b"]
+bootstrap = false
+listen_address = "REPLACE_PRIVATE_LISTEN_ADDRESS"
+peer_addresses = { "REPLACE_PEER_A_ID" = "REPLACE_PEER_A_PRIVATE_ADDRESS", "REPLACE_PEER_B_ID" = "REPLACE_PEER_B_PRIVATE_ADDRESS" }
+consensus_state_dir = "distributed/consensus"
+voter_signing_key_path = "distributed/keys/local-voter-signing-key.hex"
+voter_public_key_paths = { "REPLACE_PEER_A_ID" = "distributed/keys/peer-a-public-key.hex", "REPLACE_PEER_B_ID" = "distributed/keys/peer-b-public-key.hex" }
+observatory_projection_path = "distributed/observatory-projection.json"
+shepherd_agent_ref = "resident-agent:shepherd"
+shepherd_identity_ref = "identity:shepherd-non-voter"
+voter_model_profile = "local-voter-small"
+shepherd_model_profile = "local-shepherd-small"
+observatory_lease_millis = 30000
+
+[distributed.model_profiles.local-voter-small]
+provider = "ollama_http"
+endpoint = "http://127.0.0.1:11434"
+model_ref = "REPLACE_PINNED_VOTER_MODEL"
+model_artifact_sha256 = "REPLACE_VOTER_MODEL_SHA256"
+runner_program_path = "/opt/adl/bin/adl-ollama-shepherd-runner"
+runner_program_sha256 = "REPLACE_RUNNER_SHA256"
+context_tokens = 2048
+max_in_flight = 1
+max_prompt_bytes = 8192
+max_output_bytes = 32768
+max_memory_bytes = 4294967296
+max_cpu_seconds = 120
+
+[distributed.model_profiles.local-shepherd-small]
+provider = "ollama_http"
+endpoint = "http://127.0.0.1:11434"
+model_ref = "REPLACE_PINNED_SHEPHERD_MODEL"
+model_artifact_sha256 = "REPLACE_SHEPHERD_MODEL_SHA256"
+runner_program_path = "/opt/adl/bin/adl-ollama-shepherd-runner"
+runner_program_sha256 = "REPLACE_RUNNER_SHA256"
+context_tokens = 4096
+max_in_flight = 1
+max_prompt_bytes = 16384
+max_output_bytes = 65536
+max_memory_bytes = 8589934592
+max_cpu_seconds = 180

@@ -7,22 +7,25 @@
     "title": "[v0.92][runtime] Operationalize distributed Runtime and polis Observatory across Wuji and AWS",
     "slug": "operational-distributed-runtime-polis-observatory-wuji-aws",
     "version": "v0.92",
-    "generation": 7
+    "generation": 29
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Production distributed Runtime launcher, Guardian/kernel authority wiring, single polis Observatory API/WSS, serial Wuji and AWS orchestration, security, failure/recovery, teardown, evidence, and operator-gated publication.",
+      "review_scope": "Production Guardian/kernel and Runtime-init configuration, shepherd_agent_ref and per-node private local-model profiles, three-voter authority composition, one quorum-leased polis Observatory API/WSS, quorum snapshot-root recovery, serial Wuji and two-AZ AWS orchestration, partition/fencing/activation safety, teardown, exact evidence, and operator-gated publication.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Do real Guardian and kernel processes form one authenticated polis rather than independent singleton runtimes?",
-        "Is there exactly one coherent redacted Observatory per polis, with no hidden per-node authority split?",
-        "Can Phase B start under any Phase A residue or unproven cleanup state?",
-        "Are API/WSS, partition, fencing, migration, recovery, and shutdown exercised through production paths?",
-        "Is AWS use private, ephemeral, correct-account, and fully torn down?",
-        "Are exact argv, evidence, and reviewer provenance independently verifiable?"
+        "Do three real Guardian/kernel voters form one authenticated polis through production entrypoints rather than independent singleton runtimes?",
+        "Does runtime configuration bind shepherd_agent_ref and per-node model profiles while proving the shepherd is non-voting and cannot mint authority?",
+        "Are all Wuji and AWS model servers private, pinned, resource-bounded, restart-tested, and incapable of changing consensus semantics?",
+        "Is there exactly one coherent redacted quorum-leased Observatory per polis, with premature or duplicate ownership denied?",
+        "Can Phase B start under any Phase A residue, wrong AWS account, single-AZ topology, public endpoint, or missing cleanup receipt?",
+        "Is the snapshot boundary quorum committed, independently materialized identically, and proven through serial AWS compaction/restart without manual copying?",
+        "Does live Wuji remain running during an unbridged asymmetric partition while the AWS pair elects, fences, activates, and continues safely?",
+        "After healing, is stale Wuji denied until demotion/synchronization, and does re-partition plus opposite-AZ voter loss produce a true one-of-three mutation halt?",
+        "Do exact receipts bind source, argv, config, shepherd/model identities, authority transitions, live Observatory captures, AWS account/AZs, and complete teardown without secrets?"
       ],
       "findings": [],
       "residual_risk": [],

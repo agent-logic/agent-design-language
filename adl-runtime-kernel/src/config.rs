@@ -7,10 +7,11 @@ use std::{
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-use crate::ComponentId;
+use crate::{ComponentId, LocalShepherdConfig, ShepherdModelIdentity};
 
 pub const RUNTIME_CONFIG_SCHEMA: &str = "adl.runtime.config.v1";
 pub const RUNTIME_INIT_SCHEMA: &str = "adl.runtime_v3.init.v1";
+pub const DISTRIBUTED_RUNTIME_CONFIG_SCHEMA: &str = "adl.runtime_v3.distributed.v1";
 const MAX_RUNTIME_INIT_MILLIS: u64 = 600_000;
 const MAX_RUNTIME_INIT_CAPACITY: usize = 1_000_000;
 const MAX_GUARDIAN_RESTART_BUDGET: u32 = 10_000;
@@ -225,6 +226,8 @@ pub struct RuntimeInitConfig {
     pub credentials: RuntimeCredentialInitConfig,
     pub shutdown: RuntimeShutdownInitConfig,
     pub guardian: RuntimeGuardianInitConfig,
+    #[serde(default)]
+    pub distributed: Option<RuntimeDistributedInitConfig>,
     pub qualification: RuntimeQualificationInitConfig,
     pub observatory: ObservatoryInitConfig,
     pub observability_pipeline: RuntimeObservabilityInitConfig,
@@ -383,6 +386,9 @@ impl RuntimeInitConfig {
         }
         self.shutdown.validate()?;
         self.guardian.validate()?;
+        if let Some(distributed) = &self.distributed {
+            distributed.validate()?;
+        }
         self.qualification.validate()?;
         validate_origin_list(
             "observatory.allowed_origins",
@@ -761,6 +767,253 @@ pub struct RuntimeGuardianInitConfig {
     pub configuration_exit_codes: Vec<i32>,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeDistributedInitConfig {
+    pub schema: String,
+    pub polis_id: String,
+    pub trust_domain: String,
+    pub local_voter_id: String,
+    pub guardian_id: String,
+    pub voter_ids: Vec<String>,
+    pub bootstrap: bool,
+    pub listen_address: String,
+    pub peer_addresses: BTreeMap<String, String>,
+    pub consensus_state_dir: PathBuf,
+    pub voter_signing_key_path: PathBuf,
+    pub voter_public_key_paths: BTreeMap<String, PathBuf>,
+    pub observatory_projection_path: PathBuf,
+    pub shepherd_agent_ref: String,
+    pub shepherd_identity_ref: String,
+    pub voter_model_profile: String,
+    pub shepherd_model_profile: String,
+    pub model_profiles: BTreeMap<String, RuntimeLocalModelProfile>,
+    pub observatory_lease_millis: u64,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeLocalModelProfile {
+    pub provider: String,
+    pub endpoint: String,
+    pub model_ref: String,
+    pub model_artifact_sha256: String,
+    pub runner_program_path: PathBuf,
+    pub runner_program_sha256: String,
+    pub context_tokens: usize,
+    pub max_in_flight: usize,
+    pub max_prompt_bytes: usize,
+    pub max_output_bytes: usize,
+    pub max_memory_bytes: u64,
+    pub max_cpu_seconds: u64,
+}
+
+impl RuntimeDistributedInitConfig {
+    pub fn validate(&self) -> Result<(), RuntimeInitError> {
+        if self.schema != DISTRIBUTED_RUNTIME_CONFIG_SCHEMA {
+            return Err(RuntimeInitError::Policy(format!(
+                "distributed.schema must be {DISTRIBUTED_RUNTIME_CONFIG_SCHEMA}"
+            )));
+        }
+        for (field, value) in [
+            ("distributed.polis_id", self.polis_id.as_str()),
+            ("distributed.trust_domain", self.trust_domain.as_str()),
+            ("distributed.local_voter_id", self.local_voter_id.as_str()),
+            ("distributed.guardian_id", self.guardian_id.as_str()),
+            (
+                "distributed.shepherd_agent_ref",
+                self.shepherd_agent_ref.as_str(),
+            ),
+            (
+                "distributed.shepherd_identity_ref",
+                self.shepherd_identity_ref.as_str(),
+            ),
+            (
+                "distributed.voter_model_profile",
+                self.voter_model_profile.as_str(),
+            ),
+            (
+                "distributed.shepherd_model_profile",
+                self.shepherd_model_profile.as_str(),
+            ),
+        ] {
+            validate_runtime_identifier(field, value)?;
+        }
+        if self.voter_ids.len() != 3 {
+            return Err(RuntimeInitError::Policy(
+                "distributed.voter_ids must contain exactly three voters".to_owned(),
+            ));
+        }
+        let voter_ids = self.voter_ids.iter().collect::<BTreeSet<_>>();
+        if voter_ids.len() != self.voter_ids.len()
+            || !voter_ids.contains(&self.local_voter_id)
+            || self
+                .voter_ids
+                .iter()
+                .any(|value| validate_runtime_identifier("distributed.voter_ids", value).is_err())
+        {
+            return Err(RuntimeInitError::Policy(
+                "distributed.voter_ids must be three unique valid identities including local_voter_id"
+                    .to_owned(),
+            ));
+        }
+        if voter_ids.contains(&self.shepherd_agent_ref)
+            || voter_ids.contains(&self.shepherd_identity_ref)
+            || self.shepherd_agent_ref == self.shepherd_identity_ref
+        {
+            return Err(RuntimeInitError::Policy(
+                "distributed shepherd agent and identity must be distinct non-voters".to_owned(),
+            ));
+        }
+        if self.peer_addresses.len() != 2
+            || self
+                .peer_addresses
+                .keys()
+                .any(|id| id == &self.local_voter_id || !voter_ids.contains(id))
+        {
+            return Err(RuntimeInitError::Policy(
+                "distributed.peer_addresses must name exactly the two remote voters".to_owned(),
+            ));
+        }
+        let listen = validate_private_socket("distributed.listen_address", &self.listen_address)?;
+        let mut addresses = BTreeSet::from([listen]);
+        for address in self.peer_addresses.values() {
+            let address = validate_private_socket("distributed.peer_addresses", address)?;
+            if !addresses.insert(address) {
+                return Err(RuntimeInitError::Policy(
+                    "distributed voter addresses must be unique".to_owned(),
+                ));
+            }
+        }
+        if self.voter_public_key_paths.len() != 2
+            || self
+                .voter_public_key_paths
+                .keys()
+                .any(|id| id == &self.local_voter_id || !voter_ids.contains(id))
+        {
+            return Err(RuntimeInitError::Policy(
+                "distributed.voter_public_key_paths must name exactly the two remote voters"
+                    .to_owned(),
+            ));
+        }
+        validate_relative_runtime_path(
+            "distributed.consensus_state_dir",
+            &self.consensus_state_dir,
+        )?;
+        validate_relative_runtime_path(
+            "distributed.voter_signing_key_path",
+            &self.voter_signing_key_path,
+        )?;
+        validate_relative_runtime_path(
+            "distributed.observatory_projection_path",
+            &self.observatory_projection_path,
+        )?;
+        for path in self.voter_public_key_paths.values() {
+            validate_relative_runtime_path("distributed.voter_public_key_paths", path)?;
+        }
+        if self.model_profiles.is_empty() || self.model_profiles.len() > 8 {
+            return Err(RuntimeInitError::Policy(
+                "distributed.model_profiles must contain between one and eight profiles".to_owned(),
+            ));
+        }
+        if !self.model_profiles.contains_key(&self.voter_model_profile)
+            || !self
+                .model_profiles
+                .contains_key(&self.shepherd_model_profile)
+        {
+            return Err(RuntimeInitError::Policy(
+                "distributed selected model profiles must exist".to_owned(),
+            ));
+        }
+        for (id, profile) in &self.model_profiles {
+            validate_runtime_identifier("distributed.model_profiles", id)?;
+            profile.validate()?;
+        }
+        validate_bounded_millis(
+            "distributed.observatory_lease_millis",
+            self.observatory_lease_millis,
+        )?;
+        Ok(())
+    }
+
+    pub fn selected_shepherd_profile(&self) -> &RuntimeLocalModelProfile {
+        &self.model_profiles[&self.shepherd_model_profile]
+    }
+
+    pub fn local_shepherd_config(&self) -> LocalShepherdConfig {
+        let profile = self.selected_shepherd_profile();
+        let mut config = LocalShepherdConfig::real_local_model(
+            self.polis_id.clone(),
+            profile.runner_program_path.clone(),
+            Vec::new(),
+            BTreeMap::from([
+                ("ADL_OLLAMA_ENDPOINT".to_owned(), profile.endpoint.clone()),
+                (
+                    "ADL_SHEPHERD_AGENT_REF".to_owned(),
+                    self.shepherd_agent_ref.clone(),
+                ),
+                (
+                    "ADL_SHEPHERD_IDENTITY_REF".to_owned(),
+                    self.shepherd_identity_ref.clone(),
+                ),
+                (
+                    "ADL_MODEL_CONTEXT_TOKENS".to_owned(),
+                    profile.context_tokens.to_string(),
+                ),
+            ]),
+            ShepherdModelIdentity::new(
+                profile.runner_program_sha256.clone(),
+                profile.provider.clone(),
+                profile.model_ref.clone(),
+                profile.model_artifact_sha256.clone(),
+            ),
+        );
+        config.max_in_flight = profile.max_in_flight;
+        config.max_prompt_bytes = profile.max_prompt_bytes;
+        config.max_output_bytes = profile.max_output_bytes;
+        config.max_memory_bytes = profile.max_memory_bytes;
+        config.max_cpu_seconds = profile.max_cpu_seconds;
+        config
+    }
+}
+
+impl RuntimeLocalModelProfile {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if self.provider != "ollama_http" {
+            return Err(RuntimeInitError::Policy(
+                "distributed model provider must be ollama_http".to_owned(),
+            ));
+        }
+        validate_loopback_model_endpoint(&self.endpoint)?;
+        validate_runtime_identifier("distributed.model_ref", &self.model_ref)?;
+        if !valid_lower_sha256(&self.model_artifact_sha256)
+            || !valid_lower_sha256(&self.runner_program_sha256)
+        {
+            return Err(RuntimeInitError::Policy(
+                "distributed model and runner digests must be lowercase SHA-256".to_owned(),
+            ));
+        }
+        validate_absolute_path(
+            "distributed.model_profiles.runner_program_path",
+            &self.runner_program_path,
+        )?;
+        if !(256..=1_048_576).contains(&self.context_tokens)
+            || !(1..=4).contains(&self.max_in_flight)
+            || !(1..=1024 * 1024).contains(&self.max_prompt_bytes)
+            || !(1..=1024 * 1024).contains(&self.max_output_bytes)
+            || self.max_memory_bytes == 0
+            || self.max_memory_bytes > 128 * 1024 * 1024 * 1024
+            || self.max_cpu_seconds == 0
+            || self.max_cpu_seconds > 3_600
+        {
+            return Err(RuntimeInitError::Policy(
+                "distributed model profile resource bounds are invalid".to_owned(),
+            ));
+        }
+        Ok(())
+    }
+}
+
 impl RuntimeGuardianInitConfig {
     fn validate(&self) -> Result<(), RuntimeInitError> {
         if self.restart_budget > MAX_GUARDIAN_RESTART_BUDGET {
@@ -977,6 +1230,63 @@ fn validate_non_empty_trimmed(field: &'static str, value: &str) -> Result<(), Ru
         )));
     }
     Ok(())
+}
+
+fn validate_runtime_identifier(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    if value.is_empty()
+        || value.len() > 128
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-' | b':'))
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be a bounded runtime identifier"
+        )));
+    }
+    Ok(())
+}
+
+fn valid_lower_sha256(value: &str) -> bool {
+    value.len() == 64
+        && value.bytes().any(|byte| byte != b'0')
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f'))
+}
+
+fn validate_loopback_model_endpoint(value: &str) -> Result<(), RuntimeInitError> {
+    let uri = parse_http_uri(value)?;
+    let host = uri.host().unwrap_or_default();
+    if uri.scheme_str() != Some("http")
+        || !matches!(host, "127.0.0.1" | "::1" | "[::1]")
+        || uri.query().is_some()
+        || uri.port_u16().is_none()
+        || uri.path() != "/"
+    {
+        return Err(RuntimeInitError::Policy(
+            "distributed model endpoint must be loopback HTTP without a query".to_owned(),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_private_socket(
+    field: &'static str,
+    value: &str,
+) -> Result<SocketAddr, RuntimeInitError> {
+    let address = value
+        .parse::<SocketAddr>()
+        .map_err(|_| RuntimeInitError::Policy(format!("{field} is invalid")))?;
+    let private = match address.ip() {
+        std::net::IpAddr::V4(ip) => ip.is_loopback() || ip.is_private(),
+        std::net::IpAddr::V6(ip) => ip.is_loopback() || ip.is_unique_local(),
+    };
+    if address.port() == 0 || !private {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must use a nonzero private or loopback socket"
+        )));
+    }
+    Ok(address)
 }
 
 fn validate_bounded_millis(field: &'static str, value: u64) -> Result<(), RuntimeInitError> {

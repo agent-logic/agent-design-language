@@ -6,10 +6,14 @@ use std::{
 };
 
 use async_trait::async_trait;
+use base64::{engine::general_purpose::STANDARD as BASE64, Engine as _};
 use ed25519_dalek::VerifyingKey;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
+use crate::continuity::{
+    digest, sync_directory, validate_snapshot_file, verify_manifest_signature, write_synced,
+};
 use crate::{
     CanonicalIngress, CheckpointAuthority, CheckpointCoordinator, CheckpointManifest,
     CheckpointParticipant, CheckpointRequest, ContinuityError, ContinuityHead, IngressSnapshot,
@@ -19,6 +23,8 @@ use crate::{
 
 pub const LIVE_KERNEL_SNAPSHOT_SCHEMA: &str = "adl.runtime.live_kernel_snapshot.v1";
 pub const LIVE_KERNEL_CHECKPOINT_SCHEMA: &str = "adl.runtime.live_kernel_checkpoint.v1";
+pub const LIVE_CONTINUITY_BUNDLE_SCHEMA: &str = "adl.runtime.live_continuity_bundle.v1";
+const MAX_LIVE_CONTINUITY_BUNDLE_BYTES: usize = 16 * 1024 * 1024;
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct LiveKernelSnapshot {
@@ -52,6 +58,14 @@ pub struct LiveKernelCheckpoint {
     pub ingress: IngressSnapshot,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LiveContinuityBundle {
+    pub schema: String,
+    pub manifest: CheckpointManifest,
+    pub blobs_base64: BTreeMap<String, String>,
+}
+
 #[derive(Debug, Error)]
 pub enum LiveContinuityError {
     #[error(transparent)]
@@ -66,6 +80,8 @@ pub enum LiveContinuityError {
     Lineage { generation: u64 },
     #[error("continuity signing key must be exactly 32 bytes of hex")]
     SigningKey,
+    #[error("live continuity bundle is invalid or exceeds the bounded transfer size")]
+    Bundle,
 }
 
 pub struct LiveContinuity {
@@ -227,6 +243,120 @@ impl LiveContinuity {
             integrity: manifest.integrity.clone(),
         });
         Ok(manifest)
+    }
+
+    pub async fn export_latest_bundle(&self) -> Result<LiveContinuityBundle, LiveContinuityError> {
+        if self.generation == 0 {
+            return Err(ContinuityError::NotFound(0).into());
+        }
+        let (loaded, _) = self.load_generation(self.generation).await?;
+        let mut total = 0usize;
+        let mut blobs_base64 = BTreeMap::new();
+        for (service, bytes) in loaded.blobs {
+            total = total
+                .checked_add(bytes.len())
+                .ok_or(LiveContinuityError::Bundle)?;
+            if total > MAX_LIVE_CONTINUITY_BUNDLE_BYTES {
+                return Err(LiveContinuityError::Bundle);
+            }
+            blobs_base64.insert(service, BASE64.encode(bytes));
+        }
+        Ok(LiveContinuityBundle {
+            schema: LIVE_CONTINUITY_BUNDLE_SCHEMA.to_owned(),
+            manifest: loaded.manifest,
+            blobs_base64,
+        })
+    }
+
+    pub async fn import_bundle(
+        &mut self,
+        bundle: LiveContinuityBundle,
+    ) -> Result<(), LiveContinuityError> {
+        if bundle.schema != LIVE_CONTINUITY_BUNDLE_SCHEMA
+            || bundle.manifest.topology_hash != self.snapshot.topology_hash
+            || bundle.manifest.config_hash != self.snapshot.config_hash
+            || bundle.manifest.generation == 0
+        {
+            return Err(LiveContinuityError::Bundle);
+        }
+        verify_manifest_signature(&bundle.manifest, &self.trusted_keys)?;
+        bundle.manifest.validate_integrity()?;
+        let expected_previous = if bundle.manifest.generation == 1 {
+            None
+        } else {
+            let (previous, _) = self.load_generation(bundle.manifest.generation - 1).await?;
+            Some(previous.manifest.integrity)
+        };
+        if bundle.manifest.previous_integrity != expected_previous {
+            return Err(LiveContinuityError::Lineage {
+                generation: bundle.manifest.generation,
+            });
+        }
+        let mut decoded = BTreeMap::new();
+        let mut total = 0usize;
+        for entry in &bundle.manifest.snapshots {
+            validate_snapshot_file(&entry.file)?;
+            let encoded = bundle
+                .blobs_base64
+                .get(&entry.service)
+                .ok_or(LiveContinuityError::Bundle)?;
+            let bytes = BASE64
+                .decode(encoded)
+                .map_err(|_| LiveContinuityError::Bundle)?;
+            total = total
+                .checked_add(bytes.len())
+                .ok_or(LiveContinuityError::Bundle)?;
+            if total > MAX_LIVE_CONTINUITY_BUNDLE_BYTES
+                || bytes.len() as u64 != entry.bytes
+                || digest(&bytes) != entry.checksum
+                || decoded.insert(entry.file.clone(), bytes).is_some()
+            {
+                return Err(LiveContinuityError::Bundle);
+            }
+        }
+        if decoded.len() != bundle.blobs_base64.len() {
+            return Err(LiveContinuityError::Bundle);
+        }
+        tokio::fs::create_dir_all(&self.root)
+            .await
+            .map_err(ContinuityError::from)?;
+        let pending = self
+            .root
+            .join(format!(".generation-{}.import", bundle.manifest.generation));
+        let committed = self
+            .root
+            .join(format!("generation-{}", bundle.manifest.generation));
+        if tokio::fs::try_exists(&pending)
+            .await
+            .map_err(ContinuityError::from)?
+            || tokio::fs::try_exists(&committed)
+                .await
+                .map_err(ContinuityError::from)?
+        {
+            return Err(ContinuityError::GenerationExists(bundle.manifest.generation).into());
+        }
+        tokio::fs::create_dir(&pending)
+            .await
+            .map_err(ContinuityError::from)?;
+        let result = async {
+            for (file, bytes) in decoded {
+                write_synced(&pending.join(file), &bytes).await?;
+            }
+            let manifest_bytes = serde_json::to_vec(&bundle.manifest)
+                .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
+            write_synced(&pending.join("manifest.json"), &manifest_bytes).await?;
+            sync_directory(&pending).await?;
+            tokio::fs::rename(&pending, &committed)
+                .await
+                .map_err(ContinuityError::from)?;
+            sync_directory(&self.root).await?;
+            Ok::<(), LiveContinuityError>(())
+        }
+        .await;
+        if result.is_err() {
+            let _ = tokio::fs::remove_dir_all(&pending).await;
+        }
+        result
     }
 
     async fn validate_lineage(

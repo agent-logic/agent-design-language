@@ -60,7 +60,7 @@ impl CheckpointManifest {
         Ok(())
     }
 
-    fn validate_integrity(&self) -> Result<(), ContinuityError> {
+    pub(crate) fn validate_integrity(&self) -> Result<(), ContinuityError> {
         let expected = self.integrity.clone();
         let mut unsigned = self.clone();
         unsigned.integrity.clear();
@@ -295,7 +295,7 @@ impl CheckpointCoordinator {
     }
 }
 
-fn verify_manifest_signature(
+pub(crate) fn verify_manifest_signature(
     manifest: &CheckpointManifest,
     trusted_keys: &BTreeMap<String, VerifyingKey>,
 ) -> Result<(), ContinuityError> {
@@ -412,7 +412,7 @@ fn validate_service_id(service: &str) -> Result<(), ContinuityError> {
     Ok(())
 }
 
-fn validate_snapshot_file(file: &str) -> Result<(), ContinuityError> {
+pub(crate) fn validate_snapshot_file(file: &str) -> Result<(), ContinuityError> {
     let path = Path::new(file);
     let mut components = path.components();
     if path.is_absolute()
@@ -425,7 +425,7 @@ fn validate_snapshot_file(file: &str) -> Result<(), ContinuityError> {
     Ok(())
 }
 
-async fn write_synced(path: &Path, bytes: &[u8]) -> Result<(), ContinuityError> {
+pub(crate) async fn write_synced(path: &Path, bytes: &[u8]) -> Result<(), ContinuityError> {
     let mut file = tokio::fs::OpenOptions::new()
         .create(true)
         .truncate(true)
@@ -437,7 +437,7 @@ async fn write_synced(path: &Path, bytes: &[u8]) -> Result<(), ContinuityError> 
     Ok(())
 }
 
-async fn sync_directory(path: &Path) -> Result<(), ContinuityError> {
+pub(crate) async fn sync_directory(path: &Path) -> Result<(), ContinuityError> {
     let path = path.to_owned();
     tokio::task::spawn_blocking(move || sync_directory_blocking(&path))
         .await
@@ -634,7 +634,7 @@ pub async fn checkpoint_and_shutdown(
     })
 }
 
-fn digest(bytes: &[u8]) -> String {
+pub(crate) fn digest(bytes: &[u8]) -> String {
     blake3::hash(bytes).to_hex().to_string()
 }
 

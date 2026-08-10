@@ -1,0 +1,23 @@
+{
+  "issue": 142,
+  "expected_generation": 12,
+  "expected_digest": "7c8e2225e331f2943faf7155c313768c82e4785e69fdb0b90400f6213f2019ee",
+  "card": "spp",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Encode the reviewed three-voter, shepherd, model, snapshot, and serial-execution safety invariants.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Exactly three authenticated voters form each test polis and exactly one quorum-leased Observatory represents it.",
+      "The shepherd is selected by shepherd_agent_ref, launches with the polis, has a distinct governed identity, remains outside voter membership, and cannot mint distributed authority.",
+      "Every configured model endpoint is private, pinned, bounded, health-checked, and isolated from consensus resources; model quality does not alter authority decisions.",
+      "Phase A and Phase B never overlap, and Phase B cannot start without a complete Phase A cleanup receipt.",
+      "Snapshot continuity uses one quorum-committed boundary and byte-identical canonical voter materializations; no manual transfer or uncommitted history is accepted.",
+      "Wuji remains alive during asymmetric partition; AWS recovery requires two AWS votes, a newer term, safety-window completion, old Observatory lease expiry, fencing, owner activation, then shepherd activation.",
+      "After healing, stale Wuji cannot mutate, renew authority, own the Observatory, or serve stale reads until governed demotion and synchronization complete.",
+      "With Wuji re-partitioned and one AWS voter stopped, the remaining one-of-three voter halts mutation while the surviving shepherd reports the loss of quorum.",
+      "Remote transport and viewing are authenticated, encrypted, private, redacted, exact-source bound, and fully torn down."
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "issue": 142,
+  "expected_generation": 19,
+  "expected_digest": "e8f682833f93cd7770615bd6f1c0157355eebadf2a85a0279ce17df0c8c0b4ae",
+  "card": "srp",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Include canonical config, shepherd and local-model authority boundaries, snapshot-root recovery, and live serial proof in exact-head review.",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Production Guardian/kernel and Runtime-init configuration, shepherd_agent_ref and per-node private local-model profiles, three-voter authority composition, one quorum-leased polis Observatory API/WSS, quorum snapshot-root recovery, serial Wuji and two-AZ AWS orchestration, partition/fencing/activation safety, teardown, exact evidence, and operator-gated publication."
+  }
+}

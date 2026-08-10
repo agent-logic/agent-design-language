@@ -1,0 +1,22 @@
+{
+  "issue": 142,
+  "expected_generation": 13,
+  "expected_digest": "4ba3152305651af5a944fed7b0242fa5006a375c8f33a28d1332562fefd5884d",
+  "card": "spp",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Record the concrete production, resource, failover, proof, and cleanup risks.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "risks",
+    "values": [
+      "Production Guardian/kernel entrypoints may lack adapters needed to compose the already-merged distributed authorities without bypassing them.",
+      "Three local model processes may exhaust Wuji memory or CPU and starve heartbeats unless per-node profiles and hard resource bounds are enforced.",
+      "AWS model cold start, storage attachment, or inference saturation may exceed bounded election and recovery windows.",
+      "A launcher could accidentally present independent singletons or multiple node-local views as one polis Observatory.",
+      "A snapshot, stale local history, or same-epoch authority transition could be accepted without quorum-committed provenance.",
+      "The failure harness could accidentally bridge the Wuji-AWS partition or restart Wuji, invalidating the continuity demonstration.",
+      "Process, port, lease, lock, credential, volume, network, or model-cache residue could invalidate seriality or leave cost/security exposure.",
+      "Evidence could omit exact model, shepherd, node, snapshot, AWS account/AZ, lease, cleanup, or live-Observatory provenance."
+    ]
+  }
+}

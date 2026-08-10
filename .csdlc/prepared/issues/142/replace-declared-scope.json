@@ -1,0 +1,21 @@
+{
+  "issue": 142,
+  "expected_generation": 18,
+  "expected_digest": "9a1cdd6ff934a63d5bef3ba7ad264041a11a69df63ea84b0f742dd3334ae0222",
+  "card": "sip",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Align declared scope with the exact production, configuration, proof, API, and runbook deliverables.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "Production Guardian and kernel entrypoints plus canonical Runtime init configuration",
+      "Explicit shepherd_agent_ref and per-node local provider/model profile validation",
+      "Three-voter polis assembly using the merged distributed authority modules",
+      "One quorum-leased movable polis Observatory API and OpenAPI contract",
+      "Focused deterministic integration tests and exact issue-owned receipt validation",
+      "Strictly serial Wuji-only and Wuji-plus-two-AZ-AWS live runners with complete cleanup",
+      "Operator runbook and redacted live demonstration artifacts"
+    ]
+  }
+}

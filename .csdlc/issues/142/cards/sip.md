@@ -20,22 +20,24 @@ Production Guardian/kernel entrypoints launch three authenticated voters plus a 
 
 ## Scope
 
-- adl-runtime/src/bin/adl-runtime-guardian.rs
-- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-- adl-runtime/src/guardian.rs
-- adl-runtime/src/runtime_api.rs
-- adl-runtime/src/distributed/
-- adl-runtime/tests/
-- docs/api/runtime-v3/v1/distributed.openapi.json
-- issue-owned operator runners, documentation, and evidence for #142
+- Production Guardian and kernel entrypoints plus canonical Runtime init configuration
+- Explicit shepherd_agent_ref and per-node local provider/model profile validation
+- Three-voter polis assembly using the merged distributed authority modules
+- One quorum-leased movable polis Observatory API and OpenAPI contract
+- Focused deterministic integration tests and exact issue-owned receipt validation
+- Strictly serial Wuji-only and Wuji-plus-two-AZ-AWS live runners with complete cleanup
+- Operator runbook and redacted live demonstration artifacts
 
 ## Authority
 
-- Merged WP-04 authority modules remain the sole distributed authority
-- One Observatory exists per distributed polis, not per node
-- Phase A cleanup is mandatory authority for beginning Phase B
-- AWS authority is limited to verified profile agent-logic-admin in the Agent Logic business account
-- No public unauthenticated or plaintext runtime surface
+- Merged WP-04 ledgers, certificates, membership, fencing, migration, recovery, and projection modules remain the sole distributed authority.
+- The configured shepherd launches with the polis but is never a consensus voter and cannot mint membership, lease, fence, activation, snapshot, or Observatory authority.
+- Exactly one quorum-leased Observatory exists per distributed polis; node-local views are not additional Observatories.
+- A snapshot is authoritative only when its boundary is quorum committed and independently materialized with the same canonical digest by every healthy voter; manual copying is non-proving.
+- AWS takeover requires a newer quorum term, the bounded safety window, expiry of the Wuji Observatory lease, a durable Wuji fence, and separate owner then shepherd activation.
+- Model services are private bounded inference dependencies only; model identity or capability cannot change consensus or mutation authority.
+- AWS authority is limited to the verified agent-logic-admin profile in the approved Agent Logic business account, private network paths, and issue-scoped ephemeral resources.
+- No public unauthenticated or plaintext Runtime, model, or Observatory surface is permitted.
 
 ## Assumptions
 
@@ -43,8 +45,11 @@ Production Guardian/kernel entrypoints launch three authenticated voters plus a 
 
 ## Operator Constraints
 
-- Run the Wuji-Wuji demo first and alone
-- Do not begin Wuji-AWS until Phase A cleanup is machine-proven
-- Show the live running polis Observatory to the operator in both phases
-- Use permission-safe process status checks and bounded timeouts
-- Do not perform async lifecycle closeout in this issue
+- Run Phase A with exactly three Wuji voters and one polis Observatory first and alone.
+- Do not begin Phase B until Phase A cleanup is machine-proven; never run the two live demonstrations in parallel.
+- Runtime configuration must select the non-voting shepherd through shepherd_agent_ref and select a bounded provider/model profile independently for every voter and shepherd.
+- Wuji may use smaller local models so three instances fit concurrently; authority semantics cannot depend on model capability.
+- Phase B uses one Wuji voter and two AWS voters in distinct Availability Zones, all with private self-hosted local models and no hosted-model fallback.
+- Show exactly one live running Observatory for each polis phase and visibly demonstrate AWS continuity after Wuji is partitioned.
+- Use only verified profile agent-logic-admin in the approved Agent Logic business account, private connectivity, permission-safe process checks, bounded timeouts, and ephemeral resources.
+- Do not perform asynchronous lifecycle closeout in this issue.

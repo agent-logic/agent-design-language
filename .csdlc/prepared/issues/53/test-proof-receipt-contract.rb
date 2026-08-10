@@ -119,6 +119,32 @@ def fixture(schema: "adl.wp04.execution_proof.v3", mutate_before_evidence: nil, 
   end
 end
 
+def squash_fixture
+  Dir.mktmpdir("receipt-squash-fixture-", FIXTURE_PARENT) do |dir|
+    Dir.chdir(dir) do
+      run_git("init", "--quiet", "--initial-branch=main")
+      run_git("config", "user.email", "csdlc-test@example.invalid")
+      run_git("config", "user.name", "C-SDLC Test")
+      write("baseline.txt", "shared base\n")
+      base = commit("shared base")
+      run_git("switch", "--quiet", "-c", "proof")
+      write(PRODUCT, "product A\n")
+      write(TEST_SOURCE, "test A\n")
+      source = commit("substantive A")
+      write("#{EVIDENCE}/test.stdout.log", "one selected test passed\n")
+      write("#{EVIDENCE}/test.stderr.log", "")
+      write("#{EVIDENCE}/negative.json", "{\"result\":\"denied\"}\n")
+      write(PROOF, JSON.pretty_generate(base_proof(source)) + "\n")
+      commit("evidence-only B")
+      run_git("switch", "--quiet", "main")
+      raise "fixture base changed" unless run_git("rev-parse", "HEAD") == base
+      run_git("merge", "--quiet", "--squash", "proof")
+      merge = commit("squash integrate proof")
+      yield(source, merge)
+    end
+  end
+end
+
 def validate
   ARGV.replace([PROOF])
   Wp04ProofReceiptContract.validate(
@@ -190,6 +216,29 @@ fixture(mutate_after_evidence: ->(_proof, _source, _evidence) { write("#{EVIDENC
   expect_failure("log tamper", /stdout digest mismatch/) { validate }
 end
 
+fixture(mutate_after_evidence: lambda do |_proof, _source, _evidence|
+  write(PRODUCT, "protected product changed after proof\n")
+  commit("post-proof product drift")
+end) do
+  expect_failure("post-proof protected drift", /protected source changed after evidence introduction/) { validate }
+end
+
+fixture(mutate_after_evidence: lambda do |_proof, _source, _evidence|
+  write(PRODUCT, "temporary protected drift\n")
+  commit("post-proof product drift")
+  write(PRODUCT, "product A\n")
+  commit("revert post-proof product drift")
+end) do
+  expect_failure("post-proof protected drift then revert", /protected source changed after evidence introduction/) { validate }
+end
+
+squash_fixture do |_source, _merge|
+  validate
+  write(PRODUCT, "post-squash protected drift\n")
+  commit("post-squash protected drift")
+  expect_failure("post-squash protected drift", /protected source or evidence changed/) { validate }
+end
+
 fixture(mutate_before_evidence: lambda do |proof, source|
   run_git("checkout", "--quiet", "--orphan", "unrelated")
   run_git("rm", "--quiet", "-r", "-f", ".")
@@ -200,7 +249,7 @@ fixture(mutate_before_evidence: lambda do |proof, source|
   raise "fixture source changed" unless run_git("rev-parse", "HEAD") == source
   proof["source_revision"] = unrelated
 end) do
-  expect_failure("unrelated ancestry", /not an ancestor/) { validate }
+  expect_failure("unrelated ancestry", /no shared ancestry/) { validate }
 end
 
 fixture(schema: "adl.wp04.execution_proof.v2") do

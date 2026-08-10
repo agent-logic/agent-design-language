@@ -1,0 +1,37 @@
+{
+  "issue": 142,
+  "expected_generation": 26,
+  "expected_digest": "a73d1ba93fea974ab839826a628acb4e052c1fc3f3cc12e0bcdb55b1b8456c19",
+  "card": "spp",
+  "actor": "codex:142-distributed-runtime-operational",
+  "reason": "Track the real OpenRaft process, authenticated Observatory integration, dependency lock, API regressions, and OpenAPI contract identified by the architecture audit.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_operational.rs",
+      "adl/tools/adl_ollama_shepherd_runner.py",
+      "adl/tools/run_v092_distributed_runtime_observatory_demo.sh",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/142/validate-proof-receipt.rb",
+      "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "docs/demo/runtime-v3/DISTRIBUTED_RUNTIME_OBSERVATORY_RUNBOOK.md"
+    ]
+  }
+}

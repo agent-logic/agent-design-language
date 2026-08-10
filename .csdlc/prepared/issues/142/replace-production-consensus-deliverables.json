@@ -1,0 +1,37 @@
+{
+  "issue": 142,
+  "expected_generation": 25,
+  "expected_digest": "21f4b7accf99e0c41471f4f4e5430941e0324cff60a34e48041c7fe4baa2cd53",
+  "card": "stp",
+  "actor": "codex:142-distributed-runtime-operational",
+  "reason": "Add the exact production control, authenticated Observatory, OpenRaft dependency, focused API test, and OpenAPI surfaces required by the architecture audit; library-only authority modules cannot satisfy the live contract.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_operational.rs",
+      "adl/tools/adl_ollama_shepherd_runner.py",
+      "adl/tools/run_v092_distributed_runtime_observatory_demo.sh",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/142/validate-proof-receipt.rb",
+      "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "docs/demo/runtime-v3/DISTRIBUTED_RUNTIME_OBSERVATORY_RUNBOOK.md"
+    ]
+  }
+}

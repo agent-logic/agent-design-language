@@ -1,0 +1,21 @@
+{
+  "issue": 142,
+  "expected_generation": 8,
+  "expected_digest": "03ed5c1a1c4491a057c0459eaf2715315bcc72a7321aac1780c1eeeb803762a5",
+  "card": "sip",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Record the operator-authorized serial execution, shepherd configuration, model flexibility, AWS account, and closeout boundaries.",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "Run Phase A with exactly three Wuji voters and one polis Observatory first and alone.",
+      "Do not begin Phase B until Phase A cleanup is machine-proven; never run the two live demonstrations in parallel.",
+      "Runtime configuration must select the non-voting shepherd through shepherd_agent_ref and select a bounded provider/model profile independently for every voter and shepherd.",
+      "Wuji may use smaller local models so three instances fit concurrently; authority semantics cannot depend on model capability.",
+      "Phase B uses one Wuji voter and two AWS voters in distinct Availability Zones, all with private self-hosted local models and no hosted-model fallback.",
+      "Show exactly one live running Observatory for each polis phase and visibly demonstrate AWS continuity after Wuji is partitioned.",
+      "Use only verified profile agent-logic-admin in the approved Agent Logic business account, private connectivity, permission-safe process checks, bounded timeouts, and ephemeral resources.",
+      "Do not perform asynchronous lifecycle closeout in this issue."
+    ]
+  }
+}
