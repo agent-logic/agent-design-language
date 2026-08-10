@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-15] Birth witnesses and receipts",
     "slug": "v0-92-wp-15-birth-witnesses-and-receipts",
     "version": "v0.92",
-    "generation": 72
+    "generation": 74
   },
   "status": "pre_phase",
   "content": {
@@ -161,7 +161,7 @@
             ".csdlc/evidence/5833/native-platform/linux.json",
             ".csdlc/evidence/5833/native-platform/macos.json"
           ],
-          "purpose": "Independently revalidate the retained exact-head native packet in a detached clone, including exact inventory, provenance, path hygiene, source manifests, artifact archive, and semantic equivalence.",
+          "purpose": "Independently revalidate the extracted exact-head eight-file native packet in a detached clone, including exact inventory, receipt provenance, path hygiene, source manifests, and semantic equivalence; archive identity and digest are recorded separately in the native validation manifest from live artifact metadata.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5833/native-platform/independent-validator.log"
         }
