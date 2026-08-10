@@ -92,9 +92,10 @@ def relative(path):
     return value.as_posix()
 
 text = pathlib.Path(stdout_path).read_text(encoding="utf-8", errors="replace")
-summary = re.search(r"(?m)^\s*Summary\s+\[[^]]+\]\s+(\d+) tests? run:", text)
+summary_text = text + pathlib.Path(stderr_path).read_text(encoding="utf-8", errors="replace")
+summary = re.search(r"(?m)^\s*Summary\s+\[[^]]+\]\s+(\d+) tests? run:", summary_text)
 if summary is None:
-    summary = re.search(r"(?m)(\d+) tests? run", text)
+    summary = re.search(r"(?m)(\d+) tests? run", summary_text)
 if summary is None or int(summary.group(1)) < 1:
     raise SystemExit("could not prove a nonzero selected test denominator")
 selected = int(summary.group(1))

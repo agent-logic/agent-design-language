@@ -85,9 +85,10 @@ def validate_receipt(path, platform, revision)
   abort_with("#{platform} command interval is inverted") if finished < started
 
   stdout = checked_digest(command["stdout_path"], command["stdout_sha256"], "#{platform} stdout")
-  checked_digest(command["stderr_path"], command["stderr_sha256"], "#{platform} stderr", allow_empty: true)
+  stderr = checked_digest(command["stderr_path"], command["stderr_sha256"], "#{platform} stderr", allow_empty: true)
   output = File.read(stdout)
-  abort_with("#{platform} output lacks test completion") unless output.match?(/\btests? run\b/)
+  summary_output = output + File.read(stderr)
+  abort_with("#{platform} output lacks test completion") unless summary_output.match?(/\btests? run\b/)
   cases = output.scan(/ADL_ISSUE_5878_NEGATIVE_CASE_V1\s+([a-z0-9_]+)/).flatten.uniq.sort
   abort_with("#{platform} negative cases are not producer-derived") unless cases == Array(receipt["negative_cases"]).sort && !cases.empty?
 
