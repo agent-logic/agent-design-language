@@ -4,54 +4,13 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
-  "phase": "reviewed",
-  "generation": 63,
-  "digest": "1327106caea51008a65bddaa103f9240c486d51ee12840df13f8e5eeff38752b",
+  "phase": "implemented",
+  "generation": 64,
+  "digest": "52e46b01b3238e0c9b8d936935e8cf7d608d95911b98b2c497f9bb0eb0aa9a93",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
-    "assigned_by": "codex:5828-memory-palace",
-    "revision": "git-blake3:d00fc6605f97a89059236585d90ed7a19909a0c1:824ed21ca4009ed165f39901a212232e7d9890c54ad0e894eb33bf0e65b86687",
-    "scope": [
-      ".csdlc/issues/5828",
-      ".csdlc/prepared/issues/5828/design.md",
-      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
-      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
-      ".csdlc/evidence/5828",
-      ".github/workflows/wp11-native-memory-palace.yml",
-      "adl-runtime-kernel/src/memory_palace.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/memory_palace.rs",
-      "adl-runtime-kernel/tests/fixtures/memory_palace",
-      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
-    "scope": [
-      ".csdlc/issues/5828",
-      ".csdlc/prepared/issues/5828/design.md",
-      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
-      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
-      ".csdlc/evidence/5828",
-      ".github/workflows/wp11-native-memory-palace.yml",
-      "adl-runtime-kernel/src/memory_palace.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/memory_palace.rs",
-      "adl-runtime-kernel/tests/fixtures/memory_palace",
-      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
-    ],
-    "reviewed_revision": "git-blake3:d00fc6605f97a89059236585d90ed7a19909a0c1:824ed21ca4009ed165f39901a212232e7d9890c54ad0e894eb33bf0e65b86687",
-    "findings": [],
-    "residual_risks": [
-      "Exact-head native macOS and Linux proof remains mandatory after publication before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -66,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "218d8921a1cabae7a6afe18c4a472cc7adc52680282eae5743501cb05b33133e",
+      "values_digest": "5d838286040553b4cafa8c807c2289f00833454e71a8345151cdf5c31675d384",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "e48daf539b9a6b7528056775612010abdafca3816e491974ce53fc91c526a760",
+      "values_digest": "bc97e02669df8ac4be8c16be9ffb831103fe3021fff86dba6612234394f1d639",
       "rendered_digest": "4ba4d82b147eabdf904eb7995b5458c1be0049ceca63b65b8454d66fd9358453",
       "ast_digest": "1ad097bdb44240b3d12005f3e9d222849b7b35fa19b1865020a630a1b040357f"
     },
     "spp": {
-      "values_digest": "650fac5d6214212f5eccd03f350573b9338f76be8cf6ea8cacaaa0e53282124c",
+      "values_digest": "fc707bc0618d12c4a04ad06fb3e6162b593420c108523577b5feddd206d6255a",
       "rendered_digest": "cf0eba6c9800078a7e6bd05218c25f9dd6e00f646627710975e0f7ed4d4990ac",
       "ast_digest": "66da938636bb1ddbc2431c34cef2eb54bb8b772c4c4450270c7df6916fb177ab"
     },
     "vpp": {
-      "values_digest": "ac812800e2ed6ee53429e7e097a7f87d8c50f052601e2dfdafc92649cf6eee8b",
+      "values_digest": "7d825a75e87b1566205a75e587fa462dc0527a43281c3778d213f5c68be2e773",
       "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "f13e667f3b04e5535403bc67ca8796ac7b6ac347b9c42dd0c310adb58ff0add3",
-      "rendered_digest": "a4261fb671467f44ee42259e6c8a10a9b88367401771d6362f0be244bf767413",
-      "ast_digest": "7de360b197b7d5f1d5cfa8e127a83967bf6865896e406ed0de31fa5323502588"
+      "values_digest": "c8b18ea1e0fbd5594b4e84670ff12ab4f90822272e429d3089909545cc54df4f",
+      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
+      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
     },
     "sor": {
-      "values_digest": "fb859099230279deaa8a327053576a2f337781af435c7bcce56bf5859e67863b",
+      "values_digest": "d0aacdf9b46ec5b1e8f7756f78807c2410e38b1d727036e139d7699ca0a2dbfa",
       "rendered_digest": "b7a9eff5bdf642c4b17882069036aea9bcb51b442344ff0dae54559623e02e54",
       "ast_digest": "88fd2b8e1061792129d99cd3bd3f3cdcb91467002f9fab3e16d1eba23e913e94"
     }
@@ -145,6 +104,13 @@
       "to": "reviewed",
       "actor": "codex:5828-memory-palace",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5828-memory-palace",
+      "reason": "Recover review after removing only agent-created tracked lifecycle request files; product, proof, and reviewed lifecycle truth remain unchanged."
     }
   ],
   "audit": [
@@ -770,6 +736,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 90,
+      "generation": 64,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Recover review after removing only agent-created tracked lifecycle request files; product, proof, and reviewed lifecycle truth remain unchanged.",
+      "operation": "recover_review"
     }
   ]
 }
