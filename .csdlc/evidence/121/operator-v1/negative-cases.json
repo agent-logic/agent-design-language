@@ -22,7 +22,7 @@
     "finished_at": "2026-08-10T04:49:43.385155Z"
   },
   "stdout_path": ".csdlc/evidence/121/operator-v1/negative-cases.stdout.log",
-  "stdout_sha256": "fa4d9d4efc85165841c81ebc2970642c6131955f16ff4f43409fd256e4bea5a0",
+  "stdout_sha256": "ad2f165753bc93cfa883f583bec4f8c1b3c07e04046a2960121477917d407b36",
   "stderr_path": ".csdlc/evidence/121/operator-v1/negative-cases.stderr.log",
   "stderr_sha256": "b5c0162ec2481a3f0edad1e7ea3054187fe94829b4672ea060c8c8905c169780",
   "cases": [

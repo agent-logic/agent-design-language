@@ -3,7 +3,7 @@
   "issue": 121,
   "source_revision": "92bdb9c9ab5717ba55a299abb877dbbc6231bcfe",
   "producer_path": ".csdlc/evidence/121/review-v2/derive-negative-cases.rb",
-  "producer_sha256": "989f1a0a2b3a65ad5e03fb668e551485fbbbc2131a3b7f0234659522d026b3cc",
+  "producer_sha256": "517f81af2baa70d3bc6a21a66eff5eba2a2d245d2968ac1e8365034d9b6a3aea",
   "command": {
     "argv": [
       "cargo",
@@ -22,7 +22,7 @@
     "finished_at": "2026-08-10T05:01:33.207058Z"
   },
   "stdout_path": ".csdlc/evidence/121/review-v2/operator-v2/negative-cases.stdout.log",
-  "stdout_sha256": "fa4d9d4efc85165841c81ebc2970642c6131955f16ff4f43409fd256e4bea5a0",
+  "stdout_sha256": "ad2f165753bc93cfa883f583bec4f8c1b3c07e04046a2960121477917d407b36",
   "stderr_path": ".csdlc/evidence/121/review-v2/operator-v2/negative-cases.stderr.log",
   "stderr_sha256": "45b0cf5c6c421e09d65ca301b1bcbc3188b4b04ce4bba39346814f14ce4fbd51",
   "cases": [

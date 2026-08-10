@@ -1,7 +1,7 @@
 {
   "issue": 121,
-  "expected_generation": 1,
-  "expected_digest": "4fa524c5cd910763bbd5ec9f9bd655553f4af1961f97b7b1e9fd34c3d5ef5b2d",
+  "expected_generation": 2,
+  "expected_digest": "7d3040cedf4f5f54d8da65a666c6592f4c6e3a44eab2ccac6a967dfe0d01c291",
   "assigned_by": "codex:121-quorum-fence-repair",
   "reviewer": "subagent:issue-121-exact-head-security-review",
   "scope": [

@@ -227,6 +227,8 @@ when "produce"
   started_at = Time.now.utc.iso8601(6)
   stdout, stderr, status = Open3.capture3({ "CARGO_TERM_COLOR" => "never" }, *COMMAND, chdir: REPO_ROOT.to_s)
   finished_at = Time.now.utc.iso8601(6)
+  stdout = stdout.sub(/\n+\z/, "\n")
+  stderr = stderr.sub(/\n+\z/, "\n")
   stdout_path = output_dir.join("negative-cases.stdout.log")
   stderr_path = output_dir.join("negative-cases.stderr.log")
   File.binwrite(stdout_path, stdout)
