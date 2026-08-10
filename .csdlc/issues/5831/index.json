@@ -5,31 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 79,
-  "digest": "1a9cf7392c1a9592e215df1b54d47ff6fa5236ddfb53b25a7f499ed3ea75e030",
+  "generation": 80,
+  "digest": "cbe72a6aa459de97595e778d5d7828e7f679d292cfcc427035205aa03aec8671",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
-    "assigned_by": "codex:5831-adaptive-learning",
-    "revision": "git-blake3:5534288d955b71395be07312ee62f8818e924f4b:1c2dc08a5bbc19703de8929953eb18c6d619241cbf6838e53f20afd9cb23d70a",
-    "scope": [
-      "adl-runtime-kernel/src/adaptive_learning.rs",
-      "adl-runtime-kernel/src/durable_state.rs",
-      "adl-runtime-kernel/src/reasoning.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/adaptive_learning.rs",
-      "adl-runtime-kernel/tests/durable_state.rs",
-      "adl-runtime-kernel/tests/fixtures/adaptive_learning",
-      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
-      ".github/workflows/wp13a-native-adaptive-learning.yml",
-      ".csdlc/evidence/5831",
-      ".csdlc/issues/5831",
-      "Review the full final #5831 delta at exact clean evidence HEAD 5534288d955b71395be07312ee62f8818e924f4b and substantive reconciliation head 920709c29534fb0e8fe24f45fd4dd986e8c924c4, rebased on #144 merge 9e16c621. Close the latest findings only with evidence: discoverable startup pending reconciliation, canonical bounded snapshot/intent validation, full history/policy/profile/privacy and MutationAuthority evidence validation, exclusive MutationGate transaction covering candidate plus durable callback, no live publication before durable success, deterministic reserved/committed/aborted recovery, real CAS/postcheck failure nonmutation, rehashed tamper rejection, and one-winner concurrent adaptive execution. Reconfirm all earlier authority/lineage/rollback/privacy/native/lifecycle truth and exact 20/20 proof."
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e0fae923510509ab69da3998139156d7c70763b17bbbfc2fb39f0bacb4f660fd",
+      "values_digest": "a3b39b0b15418e2c6d3e026ccc603ab7faf83aea4f1607f0d57a5e7551421b5d",
       "rendered_digest": "0db5a50b8b18fb55476374e044eb1b0c5f912734fcd350f59ed9e486d94a770c",
       "ast_digest": "435e246381810627c72031a04e455f28daf269e67a3f2f493be5a78546d6cadd"
     },
     "stp": {
-      "values_digest": "fe0e26d96bc9980fbbf11ffd43029ba60b92917a433d9687a51091296c20442c",
+      "values_digest": "2ca5d2db9c908f435eb608a7e3379f029ac65d5bda0be5448bd1f6736fe114f3",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "0f7cd87d19acd3b980589d2d703df4c7ea65f77b39339f68e936d4b7a5b7a674",
+      "values_digest": "9880a22e668632aa4501fb07ca5412c7f5efd6456ab3f1a270903958a73a73eb",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "cd8bd7e3a932ac66cf24887752b1b1287d1b32f6f5124630c094191d911971cf",
+      "values_digest": "4e4a622011100217106349569ad34cab08ec6df908b1b878af117c7004b15992",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "4743facb5f146217a916537b467ae7797476cf0dc70d8088899772f47d3dd238",
-      "rendered_digest": "d71052dada0b6c724dbf524f9893bcc0ad4cb268d75ec58b9f282295b7054d3c",
-      "ast_digest": "868243aae360f1d6d87e576b0af828d2230c09ffe6e11d3d25199e0ad5aad11f"
+      "values_digest": "9ad3d9970742e7759b7d3f76b4472dce758b2a5c96711d7c7a584a337dc6bd50",
+      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
+      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "46f14210ab3b68ef984105a940c944160197267f3de5d3fdfdef8a3189c6f67a",
+      "values_digest": "8df990b2e100b2bb820c2910f8e83b9fba66f675fbbaf6c4a921340d3d70803c",
       "rendered_digest": "667e1624df0ba224d9df4ae02047f54dc89671a68cd812dc107bd62f8c43c447",
       "ast_digest": "f2d85f851c39d676112fba2b285a748091aecfcc24d42a2ef42384fb4cd88562"
     }
@@ -868,6 +848,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 108,
+      "generation": 80,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Fresh exact review approved transactional ordering but found the native producer source manifest and WP-13A path triggers omit reasoning.rs, durable_state.rs, and tests/durable_state.rs. Recover the stale assignment for this exact issue-owned proof/provenance repair.",
+      "operation": "recover_review"
     }
   ]
 }
