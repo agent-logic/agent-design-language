@@ -3,9 +3,9 @@
   "issue": 121,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "00fda7573ffc27dc72bc40391c1afb602fdec063a253528267e72c71f651d4bb",
+  "phase": "published",
+  "generation": 11,
+  "digest": "ceeddebc9e0eda0d44dc83fc88bf083da0d7ff6dc2c32f50e53009d685d28083",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
   "review_assignment": {
@@ -35,7 +35,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 121,
+    "pull_request": 123,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/123",
+    "base": "codex/5909-lease-authority-defect",
+    "head": "codex/121-quorum-fence-restart-safe-epochs",
+    "revision": "git-blake3:654d75c7f912c89e653b584f1ac88d32fb441cf9:384853dfa333da7c0436bfb69502158cfbad27f2153a9bc5fa70924bec8ac6ad",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -49,34 +60,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9ce0e0831cdf9184595d30c6e914fa0aad748ccd6f0220cb3968c23697d69a6",
+      "values_digest": "16639274216ac63479e4e9ad89247571bd0e840504c797f54fbacd05562bbac3",
       "rendered_digest": "b8fb383ef2efb210c1835ca5caa89f1a1b57945dcebe86833449c7d703300088",
       "ast_digest": "28d9d9764b5edc0763207de94cd4120e324f83e10e24c0304a04532ae39f8c24"
     },
     "stp": {
-      "values_digest": "3ce42a8815a1d8072da992e14a2831ed8b565f83a9c05af155510a6adee45b27",
+      "values_digest": "c10e22e808575a00d0cd14618a20bf7997d4b74d25d915a083eff0f87f2ca06c",
       "rendered_digest": "f59864e9168036e26931bd53b0fa4976f089bdb8c611728396088f87cc245bbd",
       "ast_digest": "1c4fa5956407020683ec31dbeeae560ac39e71c279fc303cd8d51f75cebbe11e"
     },
     "spp": {
-      "values_digest": "b325a81665262644d59e72c867955109e987a13c15019fbd3e7ac4535e20e012",
+      "values_digest": "35f60d3080e5319c128c8f5416c0363b06e1432cb91fb11a10252a795374f162",
       "rendered_digest": "25c70ab7a3a48bc4a99573138db5e45486c0e6e5026dee29efc0bf6f980ddfdb",
       "ast_digest": "d83f34dc5520914cea7b2f269e56d31196579bab949d0ef825532862fef2e068"
     },
     "vpp": {
-      "values_digest": "fad9d338cf8c3c29c2423230bc334f14593e0beb305eeee67770db734317af86",
+      "values_digest": "212ff3344cc0ed666121b6dfcda515dd474359639de4618e79629c1050d83cfc",
       "rendered_digest": "475d39da1386ca2c4ec1f149b6ef6bfcfb336559e45dbe29734d3ac5b8e76b09",
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "790226c1c2591310987c3bfc2c6465cffb02a755f40c619f0ee773d5b61b9d4a",
+      "values_digest": "6c8d8238b7c475d61cb0b213cd67015e1e2d4700abacd2b92d753147eca07032",
       "rendered_digest": "d99b43316bb0ab17d53b172d4de54700c6cc4c57443e0600913ab1ef00e24a7a",
       "ast_digest": "2840a87dca5aaa2ac26ca9a7abe3a0a681ad5c6046f703b83605b170766f99f7"
     },
     "sor": {
-      "values_digest": "03ba970b350fac022ae3c745a81156a4addabf02185b133f3f1eaf36e31e023a",
-      "rendered_digest": "18279efdcd52712ff24202a13ed748cca211a0fb932c56e5cc512a99c6b45aff",
-      "ast_digest": "695ab9273bc2bad6cecba25ab0caa43e8729a092961efd85df3ece51a120f767"
+      "values_digest": "b5e7bac60c11622c8fe6e82bcdecabe7865fdc48268a99ef1bf77055647dcc55",
+      "rendered_digest": "82505fb1b0f1658e4802ab7723144ca63ebf2517dc883f0ab61779b74c8846e5",
+      "ast_digest": "e7ad5407968b614e39f9da49cf0f1425261f64092c937cf0df2a56103a15535c"
     }
   },
   "transitions": [
@@ -156,6 +167,13 @@
       "to": "reviewed",
       "actor": "subagent:issue-121-stack-refresh-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:121-stack-refresh",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -277,6 +295,13 @@
       "actor": "subagent:issue-121-stack-refresh-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:121-stack-refresh",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
