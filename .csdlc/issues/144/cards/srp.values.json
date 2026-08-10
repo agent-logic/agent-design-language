@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #144 trusted cognitive authority, complete revision-chain verification, governed rotation, focused tests, native workflow/receipts, feature truth, and typed lifecycle evidence.",
+      "review_scope": "adl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/tests/cognitive_profile.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile\ndocs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\n.csdlc/prepared/issues/144/produce-native-receipt.rb\n.csdlc/prepared/issues/144/validate-native-receipts.rb\n.github/workflows/wp13-authority-repair.yml\n.csdlc/evidence/144\n.csdlc/issues/144",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

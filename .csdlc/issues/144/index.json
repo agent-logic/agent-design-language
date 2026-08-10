@@ -6,10 +6,25 @@
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
   "phase": "implemented",
   "generation": 4,
-  "digest": "8f8f6c734abd17d17dcb3f85a82a1705e0a4d4defdf9112c8e0f4a01be1927d6",
+  "digest": "87301a8064ac673d55f7c15dc47a2d592c524f48ba67d3d0a43a1f5e9663f7ed",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_144_exact_head",
+    "assigned_by": "codex:144-cognitive-authority-repair",
+    "revision": "git-blake3:a851ccf3ef4b27b5df4d8a9ec97c472bc0c84a25:7c73a9e5cd41d46e19ff94d0ade3601aed7171d92cfef93877511c7fdbe8e2b3",
+    "scope": [
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile",
+      "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+      ".csdlc/prepared/issues/144/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
+      ".github/workflows/wp13-authority-repair.yml",
+      ".csdlc/evidence/144",
+      ".csdlc/issues/144"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +60,9 @@
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "c1b9a06cd43d5c58286fa7de40026130dcb19c5a1cabe4d5fadf6c187a1645ba",
-      "rendered_digest": "56c913ee1c7ec09c5d2bf94973e001ebc0b0012ff297b7d84fef740fa57538fd",
-      "ast_digest": "cc129244b5761121740074ab9278cdf43b82c25894a066f65f9d6d9b12622134"
+      "values_digest": "c05af430071a7341148fa5c01d91dc363260b69844ea0bab66141e975c0a73d8",
+      "rendered_digest": "b0677e0bfd23428578d5b0c93edfca387b9df2a4a580bd88a43e99fd07315acd",
+      "ast_digest": "0a11a97035586d12f2fd23a5fe30952f513b13efa63645a03d6d5140a4ed0c03"
     },
     "sor": {
       "values_digest": "250ee412694fab72be6f3b5ca0a9e45d2285e508ffa59fb95b75554c857798c8",
@@ -120,6 +135,13 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
