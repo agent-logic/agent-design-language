@@ -360,12 +360,14 @@ try {
   assert(Number.isFinite(captureMillis), `live capture time is not an ISO timestamp: ${capture.iso}`);
   assert(Number.isSafeInteger(capture.source_millis) && capture.source_millis > 0, "Runtime capture source was not retained by the page");
   assert.equal(captureMillis, capture.source_millis, "displayed capture time was not copied exactly from the consumed Runtime feed");
-  assert(Date.now() - captureMillis >= 0 && Date.now() - captureMillis < 30_000, `live capture time is stale: ${capture.iso}`);
+  const captureAgeMillis = Date.now() - captureMillis;
+  assert(captureAgeMillis >= -5_000 && captureAgeMillis < 30_000, `live capture time is stale or outside qualified skew: ${capture.iso}`);
   assert(capture.hero && capture.hero === capture.rail && capture.hero === capture.status, `capture time surfaces diverged: ${JSON.stringify(capture)}`);
   report.assertions.fresh_consistent_capture_time = {
     passed: true,
     authority: "runtime_qualified_time",
     runtime_captured_at_unix_millis: capture.source_millis,
+    browser_age_millis: captureAgeMillis,
     ...capture
   };
 
