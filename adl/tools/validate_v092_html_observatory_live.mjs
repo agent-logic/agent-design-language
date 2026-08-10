@@ -395,6 +395,29 @@ try {
     status: deliveredStatus,
     transcript_messages: await page.locator(".chat-message").count()
   };
+  const preRestartAckProof = await page.evaluate(async (base) => {
+    const feed = await (await fetch(`${base}/v1/observatory`)).json();
+    const acknowledgements = Object.values(feed.ingress?.completed || {})
+      .map((result) => result?.public_output)
+      .filter((output) => output?.sender_id === "shepherd")
+      .sort((left, right) => right.monotonic_sequence - left.monotonic_sequence);
+    const acknowledgement = acknowledgements[0];
+    const agent = feed.agents?.sample?.find((candidate) => candidate.id === "shepherd");
+    if (!acknowledgement || !agent) throw new Error("Runtime feed omitted the verified Shepherd acknowledgement");
+    let replayError = "";
+    try {
+      await globalThis.AdlHtmlObservatory.verifySignedIdentityMessage(
+        acknowledgement,
+        agent,
+        acknowledgement.correlation_id,
+        acknowledgement.causation_id
+      );
+    } catch (error) {
+      replayError = error instanceof Error ? error.message : String(error);
+    }
+    return { sequence: acknowledgement.monotonic_sequence, replayError };
+  }, runtimeUrl.origin);
+  assert.match(preRestartAckProof.replayError, /replayed or arrived behind/, "browser accepted a replayed pre-restart Shepherd acknowledgement");
   await page.waitForFunction((previous) => {
     const value = Number(document.querySelector(".observatory")?.dataset.streamLastSequence);
     return Number.isSafeInteger(value) && value > previous;
@@ -592,6 +615,26 @@ try {
   await page.locator('.chat-message[data-role="agent"]').nth(agentMessagesBeforeReauth).waitFor({ timeout: 20_000 });
   assert.match(await page.locator("#agent-chat-status").textContent(), /^delivered · .+ verified$/);
   assert.equal(controlRequests.length, postsAfterReconnect, "WSS chat emitted an obsolete control POST after reconnect");
+  const postRestartAckSequence = await page.evaluate(async (base) => {
+    const feed = await (await fetch(`${base}/v1/observatory`)).json();
+    return Math.max(
+      ...Object.values(feed.ingress?.completed || {})
+        .map((result) => result?.public_output)
+        .filter((output) => output?.sender_id === "shepherd")
+        .map((output) => output.monotonic_sequence)
+    );
+  }, runtimeUrl.origin);
+  assert(
+    postRestartAckSequence > preRestartAckProof.sequence,
+    "post-restart Shepherd acknowledgement sequence did not advance"
+  );
+  report.assertions.signed_agent_ack_continuity = {
+    passed: true,
+    pre_restart_sequence: preRestartAckProof.sequence,
+    pre_restart_replay_rejected: true,
+    post_restart_sequence: postRestartAckSequence,
+    post_restart_sequence_advanced: true
+  };
   report.assertions.bounded_reconnect_without_chat_duplication = {
     passed: true,
     logout_forced_public_read_before_denial_check: true,
