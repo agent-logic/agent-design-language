@@ -1,220 +1,348 @@
 ---
-schema: adl.milestone.live_issue_map.v1
+schema: adl.milestone.premature_issue_retirement.v1
 milestone: v0.92.1
 setup_issue: 146
 repository: agent-logic/agent-design-language
-required_umbrella_count: 4
-required_child_count: 38
 issues:
   DRT-02:
     number: 182
     url: https://github.com/agent-logic/agent-design-language/issues/182
     title: "[v0.92.1][DRT-02] Prove deterministic ACIP authority and replay conformance"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   DRT-01:
     number: 181
     url: https://github.com/agent-logic/agent-design-language/issues/181
     title: "[v0.92.1][DRT-01] Freeze distributed qualification contract"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-R01:
     number: 180
     url: https://github.com/agent-logic/agent-design-language/issues/180
     title: "[v0.92.1][V3-R01] Retire V2 After The Rollback Window"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-16:
     number: 179
     url: https://github.com/agent-logic/agent-design-language/issues/179
     title: "[v0.92.1][V3-16] Prove Parity, Run Canary Migration, And Cut Over Authority"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-15:
     number: 178
     url: https://github.com/agent-logic/agent-design-language/issues/178
     title: "[v0.92.1][V3-15] Implement Finish And Cleanup"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-14:
     number: 177
     url: https://github.com/agent-logic/agent-design-language/issues/177
     title: "[v0.92.1][V3-14] Implement PR Mutation And Foreground Watch"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-13:
     number: 176
     url: https://github.com/agent-logic/agent-design-language/issues/176
     title: "[v0.92.1][V3-13] Implement GitHub Adapter And Read-Only Observation"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-12:
     number: 175
     url: https://github.com/agent-logic/agent-design-language/issues/175
     title: "[v0.92.1][V3-12] Implement Exact Review And Publication Gates"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-11B:
     number: 174
     url: https://github.com/agent-logic/agent-design-language/issues/174
     title: "[v0.92.1][V3-11B] Implement PVF Execution And Evidence"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-11A:
     number: 173
     url: https://github.com/agent-logic/agent-design-language/issues/173
     title: "[v0.92.1][V3-11A] Implement PVF Planning Domain"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-10B:
     number: 172
     url: https://github.com/agent-logic/agent-design-language/issues/172
     title: "[v0.92.1][V3-10B] Implement Card And Doctor Commands"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-10A:
     number: 171
     url: https://github.com/agent-logic/agent-design-language/issues/171
     title: "[v0.92.1][V3-10A] Implement Local Issue And Bind Commands"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-09:
     number: 170
     url: https://github.com/agent-logic/agent-design-language/issues/170
     title: "[v0.92.1][V3-09] Implement Typed Git, Process, And Credential Adapters"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-08:
     number: 169
     url: https://github.com/agent-logic/agent-design-language/issues/169
     title: "[v0.92.1][V3-08] Implement Transaction Storage And Recovery"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-07:
     number: 168
     url: https://github.com/agent-logic/agent-design-language/issues/168
     title: "[v0.92.1][V3-07] Implement The Pure Lifecycle Kernel"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-06:
     number: 167
     url: https://github.com/agent-logic/agent-design-language/issues/167
     title: "[v0.92.1][V3-06] Implement Canonical State And Card Projections"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-05:
     number: 166
     url: https://github.com/agent-logic/agent-design-language/issues/166
     title: "[v0.92.1][V3-05] Implement Repository Context And Read-Only V2 Import"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-04:
     number: 165
     url: https://github.com/agent-logic/agent-design-language/issues/165
     title: "[v0.92.1][V3-04] Implement Application Context And Shared Services"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-03:
     number: 164
     url: https://github.com/agent-logic/agent-design-language/issues/164
     title: "[v0.92.1][V3-03] Build The Single-Binary Foundation"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-D11:
     number: 163
     url: https://github.com/agent-logic/agent-design-language/issues/163
     title: "[v0.92.1][V3-D11] Approve platform commit matrix and Windows posture"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-02:
     number: 162
     url: https://github.com/agent-logic/agent-design-language/issues/162
     title: "[v0.92.1][V3-02] Prove The Rust Construction Slice"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-01:
     number: 161
     url: https://github.com/agent-logic/agent-design-language/issues/161
     title: "[v0.92.1][V3-01] Freeze Product Contract And Retained Invariants"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-08:
     number: 160
     url: https://github.com/agent-logic/agent-design-language/issues/160
     title: "[v0.92.1][CORP-08] Close corporate chain-of-title and diligence package"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-07:
     number: 159
     url: https://github.com/agent-logic/agent-design-language/issues/159
     title: "[v0.92.1][CORP-07] Move Terraform CI deployment and runbook authority"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-06:
     number: 158
     url: https://github.com/agent-logic/agent-design-language/issues/158
     title: "[v0.92.1][CORP-06] Migrate AWS production infrastructure"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-05:
     number: 157
     url: https://github.com/agent-logic/agent-design-language/issues/157
     title: "[v0.92.1][CORP-05] Transfer repository domain brand and vendor control"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-04:
     number: 156
     url: https://github.com/agent-logic/agent-design-language/issues/156
     title: "[v0.92.1][CORP-04] Establish company billing recovery MFA and vault custody"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-03:
     number: 155
     url: https://github.com/agent-logic/agent-design-language/issues/155
     title: "[v0.92.1][CORP-03] Resolve provenance licensing and trademark dispositions"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-02:
     number: 154
     url: https://github.com/agent-logic/agent-design-language/issues/154
-    title: "[v0.92.1][CORP-02] Execute counsel-reviewed IP assignment and corporate
-      acceptance"
-    state: open
+    title: "[v0.92.1][CORP-02] Execute counsel-reviewed IP assignment and corporate acceptance"
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-01:
     number: 153
     url: https://github.com/agent-logic/agent-design-language/issues/153
     title: "[v0.92.1][CORP-01] Freeze critical asset and account inventory"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   INT-U:
     number: 152
     url: https://github.com/agent-logic/agent-design-language/issues/152
     title: "[v0.92.1][sprint] Integrated review and release"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   DRT-U:
     number: 151
     url: https://github.com/agent-logic/agent-design-language/issues/151
     title: "[v0.92.1][sprint] Distributed multi-agent Runtime qualification"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   V3-U:
     number: 150
     url: https://github.com/agent-logic/agent-design-language/issues/150
     title: "[v0.92.1][sprint] C-SDLC v3 implementation"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   CORP-U:
     number: 149
     url: https://github.com/agent-logic/agent-design-language/issues/149
     title: "[v0.92.1][sprint] Corporate and IP transfer"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   DRT-03:
     number: 183
     url: https://github.com/agent-logic/agent-design-language/issues/183
     title: "[v0.92.1][DRT-03] Run Wuji three-voter multi-agent production proof"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   DRT-04:
     number: 184
     url: https://github.com/agent-logic/agent-design-language/issues/184
     title: "[v0.92.1][DRT-04] Run hybrid Wuji and AWS continuity proof"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   DRT-05:
     number: 185
     url: https://github.com/agent-logic/agent-design-language/issues/185
-    title: "[v0.92.1][DRT-05] Qualify identity authority TLS capabilities and provider
-      failure"
-    state: open
+    title: "[v0.92.1][DRT-05] Qualify identity authority TLS capabilities and provider failure"
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   DRT-06:
     number: 186
     url: https://github.com/agent-logic/agent-design-language/issues/186
     title: "[v0.92.1][DRT-06] Validate Observatory coherent evidence"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   DRT-07:
     number: 187
     url: https://github.com/agent-logic/agent-design-language/issues/187
     title: "[v0.92.1][DRT-07] Complete soak replay resource cleanup and synthesis"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   INT-01:
     number: 188
     url: https://github.com/agent-logic/agent-design-language/issues/188
     title: "[v0.92.1][INT-01] Run integrated independent review and remediation"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   INT-02:
     number: 189
     url: https://github.com/agent-logic/agent-design-language/issues/189
     title: "[v0.92.1][INT-02] Prepare release candidate rollback and ceremony"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
   INT-03:
     number: 190
     url: https://github.com/agent-logic/agent-design-language/issues/190
     title: "[v0.92.1][INT-03] Publish next-milestone and deferred retirement handoff"
-    state: open
+    state: closed
+    disposition: premature_planning_issue_retired_without_execution
+    active_authority: false
+    replacement_creation_owner: WP-01
+status: retired_without_execution
+retired_on: '2026-08-10'
+retirement_reason: Issues were instantiated during planning before the milestone-opening WP-01 gate.
+replacement_authority: 'Future v0.92.1 WP-01 creates a fresh issue wave from WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml after PR #148 merges.'
+reopen_policy: 'Do not reopen or execute retired issues #149-#190.'
+required_retired_count: 42

@@ -6,14 +6,23 @@ The milestone uses three independent execution lanes and one integration tail.
 
 ```mermaid
 flowchart LR
-  S["v0.92 issue #146 setup"] --> A["Corporate and IP lane"]
-  S --> B["C-SDLC v3 lane"]
-  S --> C["Distributed Runtime qualification"]
+  P["Planning issue #146"] --> O["WP-01 milestone opening"]
+  O --> A["Corporate and IP lane"]
+  O --> B["C-SDLC v3 lane"]
+  O --> C["Distributed Runtime qualification"]
   A --> R["Integrated review"]
   B --> R
   C --> R
-  R --> X["Release closeout"]
+  R --> Q["Release qualification"]
+  Q --> N["Next-milestone planning and review"]
+  N --> X["Release ceremony and terminal closeout"]
 ```
+
+## Milestone Opening
+
+Issue `#146` defines planning truth only. WP-01 creates the future live issues,
+cards, exact mapping, readiness evidence, and start gate. No execution lane may
+bind directly from this planning PR.
 
 ## Lane A
 
@@ -29,4 +38,8 @@ Lane C consumes terminal `#142` and WP-04.16 production proof. It qualifies exac
 
 ## Integration
 
-Integrated review checks source ancestry, terminal issue evidence, unresolved findings, residual risks, and release claims. It cannot substitute one lane's evidence for another.
+Integrated review checks source ancestry, terminal issue evidence, unresolved
+findings, residual risks, and release claims. It cannot substitute one lane's
+evidence for another. The tail then performs release qualification, next-
+milestone planning, independent handoff review, operator-authorized ceremony,
+and terminal issue/umbrella/milestone closeout as separate gates.

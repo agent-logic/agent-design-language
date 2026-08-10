@@ -7,7 +7,7 @@
     "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
     "slug": "v0921-corporate-csdlc-v3-runtime-proof",
     "version": "v0.92.0",
-    "generation": 24
+    "generation": 30
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "milestone-package-contract",
-          "proof_role": "Verify required v0.92.1 planning and feature surfaces, issue identifiers, source routing, accepted v3 source revision, terminal Runtime source authority, and planning posture.",
+          "proof_role": "Verify planning-only posture, the preserved work-package denominator, WP-01 creation authority, retirement truth, lifecycle sequence, dependency graph, and all eleven C-SDLC v3 decisions.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -25,7 +25,8 @@
             "AC-4",
             "AC-5",
             "AC-6",
-            "AC-7"
+            "AC-7",
+            "AC-8"
           ],
           "deterministic": true,
           "resource_profile": "small",
@@ -40,7 +41,7 @@
         },
         {
           "lane": "yaml-link-and-complete-delta-contract",
-          "proof_role": "Verify issue-wave YAML, local links, placeholders, and every intended tracked or untracked publication path before commit.",
+          "proof_role": "Verify milestone YAML, repository links, and placeholder hygiene across the corrected publication delta.",
           "acceptance_ids": [
             "AC-7"
           ],
@@ -73,33 +74,13 @@
           ],
           "parallel_group": "focused-docs",
           "defer_reason": null
-        },
-        {
-          "lane": "bounded-independent-review",
-          "proof_role": "Obtain an independent source-grounded review of milestone completeness, dependency truth, source pins, and proof quality before publication.",
-          "acceptance_ids": [
-            "AC-8"
-          ],
-          "deterministic": false,
-          "resource_profile": "small",
-          "budget_seconds": 900,
-          "budget_tokens": 8000,
-          "argv": [
-            ".adl/bin/csdlc-v2/csdlc-review",
-            "--root",
-            ".",
-            "--request",
-            ".csdlc/prepared/issues/146/review-request.json"
-          ],
-          "parallel_group": "pre-publication-review",
-          "defer_reason": "Runs after the milestone package and focused deterministic validation are complete at an exact review revision."
         }
       ],
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing scope, contradictory dependencies, unsupported proof claims, invalid YAML or links, stale source routing, or unresolved independent-review findings.",
       "design_ref": ".csdlc/prepared/issues/146/design.md",
-      "design_digest": "40fa708442f0bc2e0a9b04ad93b6b9cf2ee66a8067732a8f344b788cc896407e",
+      "design_digest": "682195f74ce933b2af2412eebdeec544f8b23fcbaae9dc7b1744156b8082b0b7",
       "diagram_ref": ".csdlc/prepared/issues/146/diagram.mmd",
       "diagram_digest": "22f01fd437c2b0721617f40ed9126fe434f678b1d83d8fc82b2d7d0d8244ff0e"
     }

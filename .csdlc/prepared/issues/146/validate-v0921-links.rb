@@ -8,6 +8,10 @@ root = Pathname.new(File.expand_path("../../../..", __dir__))
 milestone = root.join("docs/milestones/v0.92.1")
 wave = milestone.join("WP_ISSUE_WAVE_v0.92.1.yaml")
 YAML.safe_load(wave.read, permitted_classes: [], aliases: false)
+YAML.safe_load(milestone.join("WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml").read,
+               permitted_classes: [], aliases: false)
+YAML.safe_load(milestone.join("WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml").read,
+               permitted_classes: [], aliases: false)
 
 files = Dir[milestone.join("**/*.md").to_s].map { |path| Pathname.new(path) }
 abort("no milestone markdown files found") if files.empty?

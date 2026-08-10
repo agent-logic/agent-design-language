@@ -1,21 +1,31 @@
 # v0.92.1 Sprint Plan
 
-## Operating Model
+## Opening Sprint
 
-Four coordination umbrellas govern Lane A, Lane B, Lane C, and integration. Umbrellas coordinate; they do not absorb child implementation or proof.
+WP-01 is the only opening sprint. It creates the four coordination umbrellas
+and all planned child issues from the reviewed execution specifications. It
+does not implement child work. Execution starts only after WP-01 validation,
+independent review, and explicit operator authorization.
 
-## Start Wave
-
-- Corporate: CORP-01.
-- C-SDLC v3: V3-01.
-- Runtime: DRT-01 and DRT-02 planning/contract work; live execution remains gated.
-
-## Parallel Progression
+## Parallel Execution
 
 - Corporate custody and provenance may proceed in parallel after CORP-01.
-- C-SDLC work follows the reviewed DAG; only explicitly declared nodes run concurrently.
-- Runtime deterministic conformance may proceed while #142 completes; DRT-03 and later live work cannot cross that terminal gate.
+- C-SDLC v3 follows its reviewed DAG; only explicitly independent nodes overlap.
+- Runtime deterministic conformance follows DRT-01; DRT-03 and later remain
+  gated on terminal `#142`/WP-04.16 production evidence.
+- Umbrellas coordinate status and dependencies but own no child implementation.
 
-## Integration Wave
+## Integration And Closeout
 
-INT-01 begins only when each lane has terminal evidence at its declared gate. Accepted rescope requires an operator decision and updated release claims; simple deferral is not completion.
+The tail is sequential except where dependencies say otherwise:
+
+1. INT-01 independently reviews all three lanes and drives remediation.
+2. INT-02 qualifies the exact release candidate and rehearses rollback.
+3. INT-03 prepares the next milestone and deferred-work handoff.
+4. INT-04 independently reviews and accepts or rejects that handoff.
+5. INT-05 performs the release ceremony with explicit operator authorization.
+6. INT-06 reconciles and closes children, umbrellas, milestone records, handoff,
+   and cleanup classifications.
+
+Accepted rescope requires an operator decision and updated release claims.
+Deferral never counts as completion.

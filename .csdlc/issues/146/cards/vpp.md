@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/146/diagram.mmd
 [
   {
     "lane": "milestone-package-contract",
-    "proof_role": "Verify required v0.92.1 planning and feature surfaces, issue identifiers, source routing, accepted v3 source revision, terminal Runtime source authority, and planning posture.",
+    "proof_role": "Verify planning-only posture, the preserved work-package denominator, WP-01 creation authority, retirement truth, lifecycle sequence, dependency graph, and all eleven C-SDLC v3 decisions.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,7 +33,8 @@ Diagram: .csdlc/prepared/issues/146/diagram.mmd
       "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -48,7 +49,7 @@ Diagram: .csdlc/prepared/issues/146/diagram.mmd
   },
   {
     "lane": "yaml-link-and-complete-delta-contract",
-    "proof_role": "Verify issue-wave YAML, local links, placeholders, and every intended tracked or untracked publication path before commit.",
+    "proof_role": "Verify milestone YAML, repository links, and placeholder hygiene across the corrected publication delta.",
     "acceptance_ids": [
       "AC-7"
     ],
@@ -81,26 +82,6 @@ Diagram: .csdlc/prepared/issues/146/diagram.mmd
     ],
     "parallel_group": "focused-docs",
     "defer_reason": null
-  },
-  {
-    "lane": "bounded-independent-review",
-    "proof_role": "Obtain an independent source-grounded review of milestone completeness, dependency truth, source pins, and proof quality before publication.",
-    "acceptance_ids": [
-      "AC-8"
-    ],
-    "deterministic": false,
-    "resource_profile": "small",
-    "budget_seconds": 900,
-    "budget_tokens": 8000,
-    "argv": [
-      ".adl/bin/csdlc-v2/csdlc-review",
-      "--root",
-      ".",
-      "--request",
-      ".csdlc/prepared/issues/146/review-request.json"
-    ],
-    "parallel_group": "pre-publication-review",
-    "defer_reason": "Runs after the milestone package and focused deterministic validation are complete at an exact review revision."
   }
 ]
 
@@ -119,7 +100,6 @@ Tokens: 50000
 - `ruby .csdlc/prepared/issues/146/validate-v0921-package.rb`
 - `ruby .csdlc/prepared/issues/146/validate-v0921-links.rb`
 - `git diff --check origin/main...HEAD`
-- `.adl/bin/csdlc-v2/csdlc-review --root . --request .csdlc/prepared/issues/146/review-request.json`
 
 ## Failure Semantics
 

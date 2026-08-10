@@ -2,7 +2,7 @@
 schema: adl.milestone.issue_wave.v1
 milestone: v0.92.1
 setup_issue: 146
-status: planned
+status: planning_only
 source_revisions:
   csdlc_v3_pr_77_merge: 413fa9b8588dd25be3785cfe111c4f1df3af36eb
   runtime_production_issue: 142
@@ -10,55 +10,62 @@ umbrellas:
 - id: CORP-U
   title: Corporate and IP transfer
   kind: coordination_only
-  issue: 149
-  url: https://github.com/agent-logic/agent-design-language/issues/149
+  status: planned_for_wp01_creation
+  creation_owner: WP-01
 - id: V3-U
   title: C-SDLC v3 implementation
   kind: coordination_only
-  issue: 150
-  url: https://github.com/agent-logic/agent-design-language/issues/150
+  status: planned_for_wp01_creation
+  creation_owner: WP-01
 - id: DRT-U
   title: Distributed multi-agent Runtime qualification
   kind: coordination_only
-  issue: 151
-  url: https://github.com/agent-logic/agent-design-language/issues/151
+  status: planned_for_wp01_creation
+  creation_owner: WP-01
 - id: INT-U
   title: Integrated review and release
   kind: coordination_only
-  issue: 152
-  url: https://github.com/agent-logic/agent-design-language/issues/152
+  status: planned_for_wp01_creation
+  creation_owner: WP-01
 work_packages:
+- id: WP-01
+  lane: milestone_opening
+  title: Open v0.92.1 and create the execution-ready issue wave
+  depends_on: []
+  proof: reviewed issue denominator, exact live mapping, complete six-card packages, dependency validation, readiness checks, and explicit start authorization
+  creation_owner: post-merge operator bootstrap
+  status: planned_for_post_merge_creation
 - id: CORP-01
   lane: corporate
   title: Freeze critical asset and account inventory
   depends_on: []
   proof: redacted ownership and exclusion matrix
-  issue: 153
-  url: https://github.com/agent-logic/agent-design-language/issues/153
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: CORP-02
   lane: corporate
   title: Execute counsel-reviewed IP assignment and corporate acceptance
   depends_on:
   - CORP-01
   proof: private instrument plus redacted execution receipt
-  issue: 154
-  url: https://github.com/agent-logic/agent-design-language/issues/154
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: CORP-03
   lane: corporate
   title: Resolve provenance licensing and trademark dispositions
   depends_on:
   - CORP-01
   proof: contributor third-party OSS model media and brand disposition report
-  issue: 155
-  url: https://github.com/agent-logic/agent-design-language/issues/155
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: CORP-04
   lane: corporate
   title: Establish company billing recovery MFA and vault custody
   depends_on:
   - CORP-01
   proof: redacted custody and recovery verification
-  issue: 156
-  url: https://github.com/agent-logic/agent-design-language/issues/156
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: CORP-05
   lane: corporate
   title: Transfer repository domain brand and vendor control
@@ -66,16 +73,16 @@ work_packages:
   - CORP-03
   - CORP-04
   proof: administrative control manifests and live readback
-  issue: 157
-  url: https://github.com/agent-logic/agent-design-language/issues/157
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: CORP-06
   lane: corporate
   title: Migrate AWS production infrastructure
   depends_on:
   - CORP-04
   proof: DNS TLS email storage monitoring workload and rollback receipts
-  issue: 158
-  url: https://github.com/agent-logic/agent-design-language/issues/158
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: CORP-07
   lane: corporate
   title: Move Terraform CI deployment and runbook authority
@@ -83,8 +90,8 @@ work_packages:
   - CORP-05
   - CORP-06
   proof: company-identity plan deployment rollback and operations proof
-  issue: 159
-  url: https://github.com/agent-logic/agent-design-language/issues/159
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: CORP-08
   lane: corporate
   title: Close corporate chain-of-title and diligence package
@@ -94,23 +101,23 @@ work_packages:
   - CORP-05
   - CORP-07
   proof: critical schedule completion and redacted due-diligence index
-  issue: 160
-  url: https://github.com/agent-logic/agent-design-language/issues/160
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-01
   lane: csdlc_v3
   title: Freeze product contract and retained invariants
   depends_on: []
   proof: command schema capability recovery and parity contract review
-  issue: 161
-  url: https://github.com/agent-logic/agent-design-language/issues/161
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-02
   lane: csdlc_v3
   title: Run the Rust construction spike
   depends_on:
   - V3-01
   proof: ten measured thresholds and promote-or-reimplement decision
-  issue: 162
-  url: https://github.com/agent-logic/agent-design-language/issues/162
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-D11
   lane: csdlc_v3
   title: Approve platform commit matrix and Windows posture
@@ -118,24 +125,24 @@ work_packages:
   - V3-02
   proof: operator decision record
   kind: decision_gate
-  issue: 163
-  url: https://github.com/agent-logic/agent-design-language/issues/163
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-03
   lane: csdlc_v3
   title: Build the single-binary foundation
   depends_on:
   - V3-02
   proof: parser purity help schema completion and artifact provenance
-  issue: 164
-  url: https://github.com/agent-logic/agent-design-language/issues/164
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-04
   lane: csdlc_v3
   title: Build the application context and shared services
   depends_on:
   - V3-03
   proof: dependency boundaries cancellation streams and typed error contracts
-  issue: 165
-  url: https://github.com/agent-logic/agent-design-language/issues/165
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-05
   lane: csdlc_v3
   title: Build repository context and read-only v2 importer
@@ -144,8 +151,8 @@ work_packages:
   - V3-03
   - V3-04
   proof: deterministic discovery unsupported-field reporting and no-write proof
-  issue: 166
-  url: https://github.com/agent-logic/agent-design-language/issues/166
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-06
   lane: csdlc_v3
   title: Implement canonical state and card projections
@@ -153,16 +160,16 @@ work_packages:
   - V3-04
   - V3-05
   proof: canonical bytes round trips schemas and deterministic six-card projection
-  issue: 167
-  url: https://github.com/agent-logic/agent-design-language/issues/167
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-07
   lane: csdlc_v3
   title: Implement the lifecycle kernel
   depends_on:
   - V3-06
   proof: exhaustive transition capability and recovery graph tests
-  issue: 168
-  url: https://github.com/agent-logic/agent-design-language/issues/168
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-08
   lane: csdlc_v3
   title: Implement transaction store and interruption recovery
@@ -171,8 +178,8 @@ work_packages:
   - V3-07
   - V3-D11
   proof: fault injection at write sync rename and recovery boundaries
-  issue: 169
-  url: https://github.com/agent-logic/agent-design-language/issues/169
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-09
   lane: csdlc_v3
   title: Implement typed effect adapters
@@ -181,8 +188,8 @@ work_packages:
   - V3-04
   - V3-05
   proof: hostile argument cancellation redaction and adapter tests
-  issue: 170
-  url: https://github.com/agent-logic/agent-design-language/issues/170
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-10A
   lane: csdlc_v3
   title: Implement issue and bind commands
@@ -193,8 +200,8 @@ work_packages:
   - V3-08
   - V3-09
   proof: branch-worktree ownership and bind recovery journeys
-  issue: 171
-  url: https://github.com/agent-logic/agent-design-language/issues/171
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-10B
   lane: csdlc_v3
   title: Implement card editing and doctor
@@ -205,8 +212,8 @@ work_packages:
   - V3-08
   - V3-09
   proof: semantic edits deterministic rendering and readiness diagnostics
-  issue: 172
-  url: https://github.com/agent-logic/agent-design-language/issues/172
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-11A
   lane: csdlc_v3
   title: Implement PVF planning
@@ -214,8 +221,8 @@ work_packages:
   - V3-01
   - V3-06
   proof: lane classification budgets and manifest determinism
-  issue: 173
-  url: https://github.com/agent-logic/agent-design-language/issues/173
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-11B
   lane: csdlc_v3
   title: Implement PVF execution and evidence
@@ -224,8 +231,8 @@ work_packages:
   - V3-09
   - V3-11A
   proof: execution receipts tamper detection cancellation and recovery
-  issue: 174
-  url: https://github.com/agent-logic/agent-design-language/issues/174
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-12
   lane: csdlc_v3
   title: Implement exact review and publication gates
@@ -235,8 +242,8 @@ work_packages:
   - V3-10A
   - V3-10B
   proof: staleness independence finding lifecycle linkage and bypass negatives
-  issue: 175
-  url: https://github.com/agent-logic/agent-design-language/issues/175
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-13
   lane: csdlc_v3
   title: Implement GitHub read-only observation
@@ -246,8 +253,8 @@ work_packages:
   - V3-09
   - V3-12
   proof: pagination ambiguity rate limit retry and redaction fixtures
-  issue: 176
-  url: https://github.com/agent-logic/agent-design-language/issues/176
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-14
   lane: csdlc_v3
   title: Implement PR mutation and foreground watch
@@ -258,8 +265,8 @@ work_packages:
   - V3-12
   - V3-13
   proof: durable intent idempotent readback cancellation and bounded canary
-  issue: 177
-  url: https://github.com/agent-logic/agent-design-language/issues/177
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-15
   lane: csdlc_v3
   title: Implement finish and cleanup
@@ -270,8 +277,8 @@ work_packages:
   - V3-13
   - V3-14
   proof: terminal GitHub truth dirty-worktree rejection and second-run no-op
-  issue: 178
-  url: https://github.com/agent-logic/agent-design-language/issues/178
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-16
   lane: csdlc_v3
   title: Prove parity canary migration and writer-fenced cutover
@@ -284,10 +291,9 @@ work_packages:
   - V3-13
   - V3-14
   - V3-15
-  proof: shadow corpus live canaries migration rehearsal authority scan rollback and
-    independent review
-  issue: 179
-  url: https://github.com/agent-logic/agent-design-language/issues/179
+  proof: shadow corpus live canaries migration rehearsal authority scan rollback and independent review
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: V3-R01
   lane: csdlc_v3
   title: Retire C-SDLC v2 after rollback expiry
@@ -295,23 +301,22 @@ work_packages:
   - V3-16
   proof: deletion inventory fresh install forbidden-path scan and historical readability
   status: deferred
-  issue: 180
-  url: https://github.com/agent-logic/agent-design-language/issues/180
+  creation_owner: WP-01
 - id: DRT-01
   lane: runtime
   title: Freeze distributed qualification contract
   depends_on: []
   proof: topology scenario fault timing resource receipt and claim contract
-  issue: 181
-  url: https://github.com/agent-logic/agent-design-language/issues/181
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: DRT-02
   lane: runtime
   title: Prove deterministic ACIP authority and replay conformance
   depends_on:
   - DRT-01
   proof: canonical vectors ordering causation denial duplicate and replay digest
-  issue: 182
-  url: https://github.com/agent-logic/agent-design-language/issues/182
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: DRT-03
   lane: runtime
   title: Run Wuji three-voter multi-agent production proof
@@ -319,50 +324,44 @@ work_packages:
   - DRT-01
   - DRT-02
   - RUNTIME-142
-  proof: exact merged input ancestry three-to-two-to-one behavior old lease expiry
-    snapshot restore three agents one shepherd one Observatory and per-phase cleanup
-  issue: 183
-  url: https://github.com/agent-logic/agent-design-language/issues/183
+  proof: exact merged input ancestry three-to-two-to-one behavior old lease expiry snapshot restore three agents one shepherd one Observatory and per-phase cleanup
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: DRT-04
   lane: runtime
   title: Run hybrid Wuji and AWS continuity proof
   depends_on:
   - DRT-03
-  proof: two private AZs authenticated transport independently materialized snapshots
-    Wuji isolation AWS-only quorum continuity fencing healing halt and per-phase cleanup
-  issue: 184
-  url: https://github.com/agent-logic/agent-design-language/issues/184
+  proof: two private AZs authenticated transport independently materialized snapshots Wuji isolation AWS-only quorum continuity fencing healing halt and per-phase cleanup
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: DRT-05
   lane: runtime
   title: Qualify identity authority TLS capabilities and provider failure
   depends_on:
   - DRT-03
   - DRT-04
-  proof: key separation non-voting shepherd identity stale lease and fence cross-polis
-    replay pre-auth disclosure and producer-derived outcomes
-  issue: 185
-  url: https://github.com/agent-logic/agent-design-language/issues/185
+  proof: key separation non-voting shepherd identity stale lease and fence cross-polis replay pre-auth disclosure and producer-derived outcomes
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: DRT-06
   lane: runtime
   title: Validate Observatory coherent evidence
   depends_on:
   - DRT-03
   - DRT-04
-  proof: coherent authority cut causal trace redaction stale-read denial and singleton
-    ownership
-  issue: 186
-  url: https://github.com/agent-logic/agent-design-language/issues/186
+  proof: coherent authority cut causal trace redaction stale-read denial and singleton ownership
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: DRT-07
   lane: runtime
   title: Complete soak replay resource cleanup and synthesis
   depends_on:
   - DRT-05
   - DRT-06
-  proof: two-hour local and four-hour hybrid soak independent replay exact commands
-    terms indexes receipts source and model digests plus cleanup after every failed
-    phase
-  issue: 187
-  url: https://github.com/agent-logic/agent-design-language/issues/187
+  proof: two-hour local and four-hour hybrid soak independent replay exact commands terms indexes receipts source and model digests plus cleanup after every failed phase
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: INT-01
   lane: integration
   title: Run integrated independent review and remediation
@@ -371,27 +370,64 @@ work_packages:
   - V3-16
   - DRT-07
   proof: findings dispositions residual risks and release recommendation
-  issue: 188
-  url: https://github.com/agent-logic/agent-design-language/issues/188
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: INT-02
   lane: integration
-  title: Prepare release candidate rollback and ceremony
+  title: Qualify the release candidate and rehearse rollback
   depends_on:
   - INT-01
-  proof: release checklist rollback rehearsal and exact artifact inventory
-  issue: 189
-  url: https://github.com/agent-logic/agent-design-language/issues/189
+  proof: exact candidate inventory, release qualification, rollback rehearsal, and go-no-go recommendation
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 - id: INT-03
   lane: integration
-  title: Publish next-milestone and deferred retirement handoff
+  title: Prepare the next-milestone handoff
   depends_on:
   - INT-02
-  proof: accepted handoff with V3-R01 eligibility gate
-  issue: 190
-  url: https://github.com/agent-logic/agent-design-language/issues/190
+  proof: complete downstream planning packet, residual-risk routing, and V3-R01 eligibility gate
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- id: INT-04
+  lane: integration
+  title: Independently review the next-milestone handoff
+  depends_on:
+  - INT-03
+  proof: independent findings, dispositions, accepted handoff, and explicit non-claims
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- id: INT-05
+  lane: integration
+  title: Execute the operator-authorized release ceremony
+  depends_on:
+  - INT-02
+  - INT-04
+  proof: operator authorization, release action receipt, tag and notes verification, and immediate post-release checks
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- id: INT-06
+  lane: integration
+  title: Close milestone issues umbrellas records and handoff
+  depends_on:
+  - INT-05
+  proof: terminal child and umbrella census, lifecycle finish receipts, milestone closure, cleanup classification, and accepted handoff
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
 external_dependencies:
 - id: RUNTIME-142
   issue: 142
   required_state: terminal
-  required_proof: exact merged SHA ancestry and passing retained production Guardian
-    API WSS and WP-04.16 receipts
+  required_proof: exact merged SHA ancestry and passing retained production Guardian API WSS and WP-04.16 receipts
+opening_work_package: WP-01
+issue_creation_authority: WP-01
+retired_premature_issue_ledger: WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml
+lifecycle_sequence:
+- milestone_planning
+- wp01_issue_wave_opening
+- parallel_lane_execution
+- integrated_review_and_remediation
+- release_qualification
+- next_milestone_planning
+- next_milestone_independent_review
+- operator_authorized_release_ceremony
+- terminal_milestone_closeout

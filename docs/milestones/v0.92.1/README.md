@@ -2,7 +2,9 @@
 
 ## Status
 
-Planning package under review through v0.92 setup issue `#146`. No v0.92.1 implementation, transfer, qualification, cutover, or release is claimed by this package.
+Planning-only package under review through v0.92 setup issue `#146`. No
+v0.92.1 child issue is currently executable. Future WP-01 opens the milestone
+and creates the reviewed issue wave after this package merges.
 
 ## Purpose
 
@@ -12,7 +14,15 @@ v0.92.1 establishes the corporate and operational foundation for Agent Logic thr
 2. C-SDLC v3 implementation and controlled cutover; and
 3. distributed multi-agent Runtime qualification.
 
-The lanes may execute concurrently and converge only at integrated review and release closeout. A delay in one lane does not block implementation in the others.
+After WP-01 passes its opening gate, the lanes may execute concurrently and
+converge only at integrated review and release closeout. A delay in one lane
+does not block implementation in the others.
+
+Issues `#149-#190` were created prematurely during planning and are retired
+without execution. Their detailed work remains preserved in the execution
+specifications; WP-01 will create fresh live issues and must not reopen the
+retired numbers. The exact generated planning packets are also retained in the
+[non-authoritative planning archive](planned-issue-packets/README.md).
 
 ## Source Authority
 
@@ -33,7 +43,7 @@ Release requires all three lane gates or an explicit operator-approved milestone
 - [Sprint plan](SPRINT_v0.92.1.md)
 - [Issue wave](WP_ISSUE_WAVE_v0.92.1.yaml)
 - [Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml)
-- [Live issue map](WP_LIVE_ISSUE_MAP_v0.92.1.yaml)
+- [Premature issue retirement ledger](WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml)
 - [Demo matrix](DEMO_MATRIX_v0.92.1.md)
 - [Quality gate](QUALITY_GATE_v0.92.1.md)
 - [Feature proof coverage](FEATURE_PROOF_COVERAGE_v0.92.1.md)

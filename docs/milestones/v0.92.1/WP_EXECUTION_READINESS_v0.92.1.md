@@ -1,41 +1,44 @@
 # v0.92.1 Work-Package Execution Readiness
 
-## Global Readiness Contract
+## Current Posture
 
-Every child issue must have issue-specific cards, exact owned paths, dependencies, acceptance criteria, PVF lanes, stop conditions, and bounded review before binding.
+This package is planning-only. No child issue currently carries v0.92.1
+execution authority. Issues `#149-#190` were created prematurely, retired
+without execution, and must not be reopened.
 
-Issue #146 seeds and validates those surfaces for all 38 children and four
-coordination umbrellas. A live issue existing is not enough: the child's design
-must be independently approved, the six generated cards must validate, typed
-doctor must report `ready: true`, every dependency must be terminal, and any
-declared external gate must pass before binding.
+## WP-01 Opening Gate
 
-## Lane A
+After PR `#148` merges, the operator may create WP-01. WP-01 is the sole
+authority to instantiate the reviewed issue wave. Before any child binds,
+WP-01 must prove:
 
-CORP-01 (#153) is the corporate lane entry. It may bind only after PR #148
-merges and its typed readiness remains current. Legal execution issues
-additionally require named corporate authority and a counsel-review boundary.
-Private documents must never be committed.
+- every WBS identifier has exactly one canonical live issue;
+- the four umbrellas are coordination-only;
+- each child has six issue-specific cards from the active templates;
+- owned paths, dependencies, acceptance criteria, PVF lanes and budgets, stop
+  conditions, designs, and validators are complete;
+- the dependency graph is acyclic and external gates are explicit;
+- live GitHub readback matches the reviewed specifications;
+- no retired issue number is treated as active authority;
+- an independent opening review has no unresolved blocker; and
+- the operator has explicitly authorized milestone execution.
 
-## Lane B
+## Lane Entry Gates
 
-V3-01 (#161) is the C-SDLC v3 lane entry. It may bind only after PR #148
-merges and its typed readiness remains current. Every later issue is gated by
-the machine-readable DAG. V3-02 revises estimates; all eleven architecture
-decisions remain mandatory; V3-D11 (#163) blocks V3-08 (#169); V3-16 (#179)
-blocks cutover until all implementation and finding gates pass.
+- Lane A begins with CORP-01 only after WP-01 is terminal.
+- Lane B begins with V3-01 only after WP-01 is terminal.
+- Lane C begins with DRT-01 only after WP-01 is terminal. DRT-02 follows DRT-01.
+- DRT-03 and later additionally require terminal `#142`/WP-04.16 production evidence.
+- INT-01 begins only after CORP-08, V3-16, and DRT-07 are terminal.
 
-## Lane C
+V3-R01 remains deferred and is not a release dependency. Legal execution also
+requires named corporate authority and counsel review. Hybrid Runtime proof
+uses only the Agent Logic business AWS account and private endpoints.
 
-DRT-01 (#181) is the Runtime lane entry and DRT-02 (#182) follows it. Each may
-bind only after PR #148 merges, its own dependencies are terminal, and typed
-readiness remains current. DRT-03 (#183) and later live work require terminal
-#142/WP-04.16 production evidence and the Agent Logic business AWS profile for
-hybrid proof. Test harnesses may orchestrate faults but cannot replace
-production Guardian, kernel, transport, state, authority, TLS, or Observatory
-paths.
+## Standard Tail Gates
 
-## Integration
-
-INT-01 (#188) is blocked until CORP-08 (#160), V3-16 (#179), and DRT-07
-(#187) are terminal. V3-R01 (#180) is deferred and is not an INT-01 dependency.
+INT-01 performs integrated review and remediation. INT-02 qualifies the exact
+release candidate and rehearses rollback. INT-03 plans the downstream milestone.
+INT-04 independently reviews that handoff. INT-05 performs the release ceremony
+only with explicit operator authorization. INT-06 reconciles terminal issue,
+umbrella, milestone, lifecycle, handoff, and cleanup truth.

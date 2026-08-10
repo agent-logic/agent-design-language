@@ -16,7 +16,7 @@ Reconcile the source plans, define three independent execution lanes, author the
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
@@ -97,7 +97,7 @@ Revision 4
 
 .csdlc/prepared/issues/146/design.md
 
-Digest: 40fa708442f0bc2e0a9b04ad93b6b9cf2ee66a8067732a8f344b788cc896407e
+Digest: 682195f74ce933b2af2412eebdeec544f8b23fcbaae9dc7b1744156b8082b0b7
 
 ## Diagram
 

@@ -12,7 +12,10 @@ v0.92.1 combines three foundation programs under one release contract while pres
 2. **C-SDLC v3** implements the independently reviewed Rust architecture through its declared construction, lifecycle, remote-operation, canary, and cutover phases.
 3. **Distributed multi-agent Runtime proof** validates the existing distributed Runtime and Observatory implementation across real nodes, agents, trust boundaries, failure modes, replay, and bounded soak.
 
-The three lanes share milestone setup, final review, and release closeout. They do not depend on one another for implementation progress. A delay in counsel review, C-SDLC v3, or Runtime proof must not strand the other lanes.
+The three lanes share a WP-01 milestone-opening gate, final review, and release
+closeout. They do not depend on one another for implementation progress. A
+delay in counsel review, C-SDLC v3, or Runtime proof must not strand the other
+lanes.
 
 ## Source authority
 
@@ -58,7 +61,13 @@ The issue wave preserves all eleven required operator decisions in a decision re
 
 ## Lane C: Distributed multi-agent Runtime proof cycle
 
-This lane validates, rather than reimplements, the distributed Runtime. It is split into explicit preparation, deterministic contract, native topology, fault/recovery, soak, and synthesis issues. DRT-01 planning may start immediately, but every live topology issue is hard-gated on terminal #142 production proof and consumes its exact runner, revision, and receipt contract. The lane tests additional release-candidate qualification; it does not duplicate or bypass #142 or WP-04.16.
+This lane validates, rather than reimplements, the distributed Runtime. It is
+split into explicit preparation, deterministic contract, native topology,
+fault/recovery, soak, and synthesis issues. DRT-01 may start only after WP-01
+opens and validates the issue wave. Every live topology issue is additionally
+hard-gated on terminal #142 production proof and consumes its exact runner,
+revision, and receipt contract. The lane tests additional release-candidate
+qualification; it does not duplicate or bypass #142 or WP-04.16.
 
 ### Minimum proving topology
 
@@ -87,12 +96,15 @@ Every machine-readable receipt is derived from producer output and tied to the e
 
 ## Execution topology
 
-After milestone setup:
+After WP-01 is terminal and execution is explicitly authorized:
 
 - Lane A, Lane B, and Lane C may start concurrently.
 - Each lane has its own umbrella, sprint sequence, readiness gates, and review/remediation tail.
 - Lane C may depend on specific existing Runtime implementation issues being terminal, but not on Lane A or Lane B.
 - Final milestone review begins only after each lane publishes its own terminal evidence or an explicit approved deferral.
+- INT-01 through INT-06 preserve separate integrated review, release qualification,
+  next-milestone planning, next-milestone review, release ceremony, and terminal
+  closeout gates.
 
 ## Release gates
 

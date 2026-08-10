@@ -8,14 +8,16 @@
 
 ## Sequence
 
-1. Freeze the release-candidate revision and evidence inventory.
-2. Verify every source revision and terminal dependency is ancestral or explicitly external.
-3. Run independent lane reviews and dispose all blocking findings.
-4. Run INT-01 integrated review without substituting evidence across lanes.
-5. Rehearse C-SDLC writer-fence rollback and corporate infrastructure rollback.
+1. WP-01 must have opened and validated the exact issue wave.
+2. Freeze the release-candidate revision and evidence inventory.
+3. Verify every source revision and terminal dependency is ancestral or explicitly external.
+4. Complete INT-01 independent integrated review and remediation.
+5. Complete INT-02 qualification and rehearse C-SDLC and corporate rollback.
 6. Confirm distributed cloud cleanup and absence of unintended public endpoints.
-7. Produce release notes, residual-risk register, and go/no-go recommendation.
-8. Release only after explicit operator authorization.
+7. Complete INT-03 next-milestone planning and INT-04 independent handoff review.
+8. Produce release notes, residual-risk register, and go/no-go recommendation.
+9. Execute INT-05 only after explicit operator authorization.
+10. Execute INT-06 terminal issue, umbrella, milestone, lifecycle, handoff, and cleanup closeout.
 
 ## Rollback
 
