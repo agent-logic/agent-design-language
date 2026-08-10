@@ -1,9 +1,0 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
-────────────
- Nextest run ID 0b39f155-a169-45eb-a687-02b2c72ddd24 with nextest profile: default
-    Starting 3 tests across 1 binary
-        PASS [   0.357s] (1/3) adl-runtime::distributed_migration pre_fence_abort_resumes_source_and_post_fence_skip_is_denied
-        PASS [   0.382s] (2/3) adl-runtime::distributed_migration mismatched_replay_corrupt_restart_and_bounds_fail_closed
-        PASS [   0.580s] (3/3) adl-runtime::distributed_migration migration_orders_authority_and_survives_restart
-────────────
-     Summary [   0.580s] 3 tests run: 3 passed, 0 skipped
