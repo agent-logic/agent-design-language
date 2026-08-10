@@ -7,24 +7,58 @@
     "title": "[v0.92][WP-04.06] Failure detection and partition classification",
     "slug": "v0-92-wp-04-06-failure-partition",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/failure_detection.rs\nadl-runtime/tests/distributed_failure_detection.rs\n.csdlc/prepared/issues/5868/derive-negative-cases.rb\n.csdlc/prepared/issues/5868/validate-proof-receipt.rb\n.csdlc/evidence/5868\n.csdlc/issues/5868",
+      "review_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+      "reviewer": "/root/review_5863/review_5868_operator_repair",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
         "Are receipts exact-revision and digest bound?",
         "Does rollback restore one authoritative owner without weakening security?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "5868-operator-current-generation-attestation",
+          "severity": "p1",
+          "summary": "Probe acceptance must atomically attest the current observer identity generation and reject retained historical generations regardless of arrival order.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+          "route": null
+        },
+        {
+          "id": "5868-operator-machine-derived-negatives",
+          "severity": "p1",
+          "summary": "Negative-case proof must derive exact case identifiers and results from executed test output rather than self-attested receipt entries.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+          "route": null
+        },
+        {
+          "id": "5868-review-intermediate-symlink-containment",
+          "severity": "p2",
+          "summary": "The issue evidence producer and verifier must reject intermediate symlink components before evidence reads or writes.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Ordinary local-filesystem race windows remain between component validation and later writes; eliminating them would require directory-descriptor APIs and is not actionable for this bounded local producer.",
+        "Module registration and integrated sibling compilation remain explicitly deferred to issue #5878."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -4,13 +4,62 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29c5a05595fdcb29e36234ad214a9a40a290a730c24e6735814b42eda9e6d252",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "87d999d558ea481895a5d96939ac6297b87fe4edfa8d0c63b789126bf95bb893",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "b1f902485bc74f66e79750d23725e5b445bb210e37b2b81675621098b6df5190",
   "branch": "codex/5868-failure-detection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5868-failure-detection",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "/root/review_5863/review_5868_operator_repair",
+    "scope": [
+      "adl-runtime/src/distributed/failure_detection.rs",
+      "adl-runtime/tests/distributed_failure_detection.rs",
+      ".csdlc/prepared/issues/5868/derive-negative-cases.rb",
+      ".csdlc/prepared/issues/5868/validate-proof-receipt.rb",
+      ".csdlc/evidence/5868",
+      ".csdlc/issues/5868"
+    ],
+    "reviewed_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+    "findings": [
+      {
+        "id": "5868-operator-current-generation-attestation",
+        "severity": "p1",
+        "summary": "Probe acceptance must atomically attest the current observer identity generation and reject retained historical generations regardless of arrival order.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+        "route": null
+      },
+      {
+        "id": "5868-operator-machine-derived-negatives",
+        "severity": "p1",
+        "summary": "Negative-case proof must derive exact case identifiers and results from executed test output rather than self-attested receipt entries.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+        "route": null
+      },
+      {
+        "id": "5868-review-intermediate-symlink-containment",
+        "severity": "p2",
+        "summary": "The issue evidence producer and verifier must reject intermediate symlink components before evidence reads or writes.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d856f547ac8ed1779630f79e28cb7cd7701ea0fd:c7acd55af5ff0c7a5d2fa04890aa1b73fcd9bca3d66819fecd96635d953cab54",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Ordinary local-filesystem race windows remain between component validation and later writes; eliminating them would require directory-descriptor APIs and is not actionable for this bounded local producer.",
+      "Module registration and integrated sibling compilation remain explicitly deferred to issue #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +74,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fab1f72cf2e312a1f54a68bc73db14882ae5b97d984464bab08b82dff638f05d",
+      "values_digest": "5a4d4334aeac3511f825b13a26b3fec029ad236b4004520e0bbd8e07164d2537",
       "rendered_digest": "81ed27fc8905e3b38759f3e01d32858b59f999f1509d73740f36b9c3df71edae",
       "ast_digest": "bbb72a932bcc08840c5d5a511789b0e0e5d44699bc48332d3d43374f635ebef4"
     },
     "stp": {
-      "values_digest": "0ca3f72ab2fb54ed2f81200013d3fd6678e5f48e9fbec3880efaa008dc5a1a82",
+      "values_digest": "9c54b0b7484d23f1d3cd52870ce26ae44443fc719b48edeb034c76dc1ac883a1",
       "rendered_digest": "95ca1f4417ca8d3b972a340136b52bc95b84282716ac2ba992452648267ad150",
       "ast_digest": "4d0f2e29993b709f39bd26ef9cd520c4bd6ac49d54d9743f754ae8e499d87704"
     },
     "spp": {
-      "values_digest": "630f2a1cd615ab4b3d8dd06649e0495741d952fce5e04136dfdd08f695a4d62d",
+      "values_digest": "e97392c3f2c7313a39cf77bc336eb2d5ea95f87652b091e519e8a0ca85e617e4",
       "rendered_digest": "11199fd9752dc6dae46c7470cd2cdf9934949eb900c71b67730b505d34f0f042",
       "ast_digest": "a51998aae3c617fd28873298ade34cbe8e902f8f3c1185c9fe0c675a2549feee"
     },
     "vpp": {
-      "values_digest": "baaceaff91d91366c65c564c14124c26e1e65f46e29bcc25539dba770aa5ba7a",
+      "values_digest": "f870cac80e096fb27560717adf90bd0473f5202fd3b1c7b3c0a6fc6e7633373f",
       "rendered_digest": "765bda7176c88b2ad45352988c376854b57342b30611c69561ea1e4baaa068cd",
       "ast_digest": "9865834729c77af749fe7548ae33483d5ccb68fd577d89535f86b7ccfed1cb2b"
     },
     "srp": {
-      "values_digest": "353eeea613cf787e41cb99dabe11f133e251351e746dca47037d5adc8cf8f872",
-      "rendered_digest": "614df1598990c86f5e724d5c98edafe07c09f534a6035def5568c58d6de94857",
-      "ast_digest": "0cd2aac8029b61a092bdbea5177d985297a09edfd1723bbc3d956391f19c876f"
+      "values_digest": "79f71dd2319dbd352cad834ec6b6b019685d15cb889737b026e856c6eb154f2f",
+      "rendered_digest": "2cbbb66a9b4a4510b2af5515612d8de518ec9bc09b4969024db88a89c9ee49da",
+      "ast_digest": "5fc2aafa3216fea99509be7777ab955cb3d8d25e05f2b578135e94794957f55d"
     },
     "sor": {
-      "values_digest": "defc61b2df0fbd94fd23e839e4f499932ddf7c6050686289fc714eba07d0df01",
+      "values_digest": "56a04481afc9e97a2f5853c4c0a782fe637206bd633c0c35cf14a6b073949399",
       "rendered_digest": "1ec63e140801be310c27e82b3563231ab9cea1d88dae3a30a524ef78e7e47e79",
       "ast_digest": "de002627f4de9389c9c63e6d5d55a1b6643b89cdd1aba89b618eac0ef84bdcab"
     }
@@ -118,6 +167,13 @@
       "to": "implemented",
       "actor": "codex:repair-5868-operator-findings",
       "reason": "Recover stale review and publication truth for operator-supplied exact-head findings: current observer identity generation attestation and machine-derived negative-case proof."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:record-independent-operator-repair-review-5868",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -330,6 +386,13 @@
       "actor": "codex:repair-5868-operator-findings",
       "reason": "Recover stale review and publication truth for operator-supplied exact-head findings: current observer identity generation attestation and machine-derived negative-case proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 14,
+      "actor": "codex:record-independent-operator-repair-review-5868",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
