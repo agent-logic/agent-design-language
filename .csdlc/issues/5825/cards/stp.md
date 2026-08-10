@@ -22,6 +22,7 @@ Deliver the WP-08 birthday-decision contract, complete negative fixture matrix, 
 - docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
 - .csdlc/prepared/issues/5825/validate-native-receipts.rb
 - .csdlc/prepared/issues/5825/produce-native-receipt.rb
+- .github/workflows/wp08-native-birthday.yml
 - Complete valid and disqualifying fixture matrix under the owned birthday fixture directory
 - Focused positive and fail-closed negative tests
 - Digest-bound native macOS and Linux exact-revision proof

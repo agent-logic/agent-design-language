@@ -331,7 +331,7 @@ jobs:
     name: adl-runtime-v3-fast
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:

@@ -51,11 +51,11 @@ Implemented the deterministic WP-08 birthday decision contract with fail-closed 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

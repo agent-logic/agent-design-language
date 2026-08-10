@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 79
+    "generation": 84
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,9 @@
         "adl-runtime-kernel/tests/fixtures/birthday/",
         "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
         ".csdlc/prepared/issues/5825/validate-native-receipts.rb",
-        ".csdlc/evidence/5825/"
+        ".csdlc/prepared/issues/5825/produce-native-receipt.rb",
+        ".csdlc/evidence/5825/",
+        ".github/workflows/wp08-native-birthday.yml"
       ],
       "authority_boundary": [
         "Issue 5825 owns only the WP-08 birth decision contract and disqualifying cases.",

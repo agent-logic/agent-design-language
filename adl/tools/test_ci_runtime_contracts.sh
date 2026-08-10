@@ -156,14 +156,14 @@ def step_count(name: str) -> int:
         )
     )
 
-def job_block(job_name: str, source: str = workflow) -> str:
-    start = re.search(rf"^  {re.escape(job_name)}:\n", source, re.MULTILINE)
+def job_block(job_name: str) -> str:
+    start = re.search(rf"^  {re.escape(job_name)}:\n", workflow, re.MULTILINE)
     if not start:
         raise SystemExit(f"missing workflow job: {job_name}")
-    next_job = re.search(r"^  [A-Za-z0-9_-]+:\n", source[start.end() :], re.MULTILINE)
+    next_job = re.search(r"^  [A-Za-z0-9_-]+:\n", workflow[start.end() :], re.MULTILINE)
     if next_job:
-        return source[start.start() : start.end() + next_job.start()]
-    return source[start.start() :]
+        return workflow[start.start() : start.end() + next_job.start()]
+    return workflow[start.start() :]
 
 canonical_actions = {
     "actions/checkout": "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
@@ -997,46 +997,10 @@ for required_fragment in (
     if required_fragment not in adl_ci_job:
         raise SystemExit(f"adl-ci narrow Rust-test route is missing {required_fragment}")
 
-if workflow.count(selected_runner) != 10:
-    raise SystemExit(
-        "all ten heavy jobs other than adl-runtime-v3-fast must share the centralized "
-        "ADL_HEAVY_RUNNER selector"
-    )
+if workflow.count(selected_runner) != 11:
+    raise SystemExit("all eleven heavy jobs must share the centralized ADL_HEAVY_RUNNER selector")
 if "runs-on: adl-ubuntu-24.04-16core" in workflow:
     raise SystemExit("heavy runner selection must not be duplicated outside the centralized variable expression")
-
-def runtime_v3_runner_contract_holds(source: str) -> bool:
-    runtime_job = job_block("adl_runtime_v3_fast", source)
-    job_level_runners = re.findall(r"^    runs-on:\s*(\S(?:.*\S)?)\s*$", runtime_job, re.MULTILINE)
-    return job_level_runners == ["ubuntu-latest"] and selected_runner not in runtime_job
-
-if not runtime_v3_runner_contract_holds(workflow):
-    raise SystemExit(
-        "adl-runtime-v3-fast must use exactly one job-level ubuntu-latest runner selector "
-        "and must not use the centralized heavy-runner selector"
-    )
-
-runtime_v3_runner_line = (
-    "  adl_runtime_v3_fast:\n"
-    "    name: adl-runtime-v3-fast\n"
-    "    needs: adl_path_policy\n"
-    "    if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'\n"
-    "    runs-on: ubuntu-latest"
-)
-invalid_runtime_v3_runner_fixtures = (
-    workflow.replace(
-        runtime_v3_runner_line,
-        runtime_v3_runner_line + "\n    runs-on: windows-latest",
-        1,
-    ),
-    workflow.replace(
-        runtime_v3_runner_line,
-        runtime_v3_runner_line.replace("ubuntu-latest", "windows-latest"),
-        1,
-    ),
-)
-if any(runtime_v3_runner_contract_holds(fixture) for fixture in invalid_runtime_v3_runner_fixtures):
-    raise SystemExit("invalid adl-runtime-v3-fast runner mutation escaped enforcement")
 
 narrow_route = [
     sys.executable,
@@ -1064,6 +1028,7 @@ if subprocess.run(failed_narrow_route, capture_output=True, text=True).returncod
 for heavy_job_name in (
     "csdlc_v2_standalone",
     "adl_v2_standalone",
+    "adl_runtime_v3_fast",
     "adl_rust_fmt_clippy",
     "adl_demo_proof",
     "adl-slow-proof",

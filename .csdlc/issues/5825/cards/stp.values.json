@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 79
+    "generation": 84
   },
   "status": "ready",
   "content": {
@@ -21,6 +21,7 @@
         "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
         ".csdlc/prepared/issues/5825/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5825/produce-native-receipt.rb",
+        ".github/workflows/wp08-native-birthday.yml",
         "Complete valid and disqualifying fixture matrix under the owned birthday fixture directory",
         "Focused positive and fail-closed negative tests",
         "Digest-bound native macOS and Linux exact-revision proof",

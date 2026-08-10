@@ -1,0 +1,94 @@
+name: wp08-native-birthday
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/wp08-native-birthday.yml"
+      - ".csdlc/prepared/issues/5825/produce-native-receipt.rb"
+      - ".csdlc/prepared/issues/5825/validate-native-receipts.rb"
+      - "adl-runtime-kernel/Cargo.toml"
+      - "adl-runtime-kernel/src/birthday.rs"
+      - "adl-runtime-kernel/src/lib.rs"
+      - "adl-runtime-kernel/tests/birthday.rs"
+      - "adl-runtime-kernel/tests/fixtures/birthday/**"
+      - "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  produce-native-receipt:
+    name: birthday-native-${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux
+            os: ubuntu-latest
+          - platform: macos
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout exact pull-request head
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
+        with:
+          tool: nextest@0.9.140
+          fallback: none
+
+      - name: Produce exact-head native birthday receipt
+        env:
+          PLATFORM: ${{ matrix.platform }}
+        run: |
+          ruby .csdlc/prepared/issues/5825/produce-native-receipt.rb \
+            --platform "$PLATFORM" \
+            --receipt ".csdlc/evidence/5825/native-platform/${PLATFORM}.json" \
+            --semantic-output ".csdlc/evidence/5825/native-platform/${PLATFORM}-semantic.json"
+
+      - name: Upload native birthday receipt fragment
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wp08-native-birthday-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5825/native-platform/
+          if-no-files-found: error
+          retention-days: 14
+
+  validate-native-receipts:
+    name: birthday-native-receipts-validated
+    needs: produce-native-receipt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact pull-request head
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Download both native receipt fragments
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v8.0.1
+        with:
+          pattern: wp08-native-birthday-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5825/native-platform
+          merge-multiple: true
+
+      - name: Validate exact-head native receipt packet
+        run: |
+          ruby .csdlc/prepared/issues/5825/validate-native-receipts.rb \
+            .csdlc/evidence/5825/native-platform/macos.json \
+            .csdlc/evidence/5825/native-platform/linux.json
+
+      - name: Retain validated native receipt packet
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wp08-native-birthday-validated-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5825/native-platform/
+          if-no-files-found: error
+          retention-days: 14

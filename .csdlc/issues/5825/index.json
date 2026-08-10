@@ -4,44 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "904390dda83597a867777bbf16ebbe9907f65b6d6481c7be13b55d2ed2e2de2d",
-  "phase": "published",
-  "generation": 79,
-  "digest": "aefe79e15dba8916ca18460c63a710760d98942556ffa12db014c206ef9492d2",
+  "phase": "implemented",
+  "generation": 84,
+  "digest": "c19aefdb0797477ac4cd6117f3e410312803f668d067ce793c58636b5e9484d4",
   "branch": "codex/5825-birthday-contract",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5825-birthday-contract",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:review_5825_exact_head",
-    "scope": [
-      ".csdlc/issues/5825",
-      ".csdlc/evidence/5825",
-      ".csdlc/prepared/issues/5825/validate-native-receipts.rb",
-      "adl-runtime-kernel/src/birthday.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/birthday.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday",
-      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"
-    ],
-    "reviewed_revision": "git-blake3:0cb12f10f87e39d8050aa1657d3d328fae1103b3:373ace0ed331ccd45506d18e7891ba8125fa531149e5f2dc64e6d8d9a1d9578b",
-    "findings": [],
-    "residual_risks": [
-      "Native macOS and Linux exact-head portability receipts remain explicitly deferred to the issue-owned CI producer lanes and are not claimed by local proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5825,
-    "pull_request": 104,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/104",
-    "base": "main",
-    "head": "codex/5825-birthday-contract",
-    "revision": "git-blake3:b6dad1dca54adbb83717e7fa5dbc3bd0d6fe2aa5:c5a68b4e25a6389db07bec17bc1d4a2bc4d1f4c8fb8aa4b8a6315f15ed7c6789",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -49,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/5825/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "f04080d6b3bc8bc4d9c062333476ab8d4a44b464205d149c001a48c317361621"
+      "reviewer": "operator:pr104-changes-requested",
+      "revision": "9c839d6a89c75ecf5e3b5d8932f6e99669a5c91d3062802fcc0f610f5f244ecb"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "211a448fa6bf6d242acf11e5dfee4b0f67f907f7b9f5da691f35a768c2d9f457",
-      "rendered_digest": "d6a522f9b96a13db366a0ee6b8ce2cdab3049852134faabe28fe9a42af07fe66",
-      "ast_digest": "8d6bf8fbed7abdd44c892e87970e36f564d7ffc9fc248f3cae3aa1c0b8185d8a"
+      "values_digest": "bb46ee39b87bf5e880191a62781583ee5fceceed4f6cbcbbacac6e53573d9028",
+      "rendered_digest": "562c7bfc490d7284291d56b367ff81c6592be8d921d8f1839ee20c7d349ec3fe",
+      "ast_digest": "261cba2f9b6292cb356cb44c4435f67aaf77b6f7a2f9b0ae52d9ef6e051e31ea"
     },
     "stp": {
-      "values_digest": "04383a63b166f00ff1ac99b8f1748cf33193942eed59637394a258ceeec7b052",
-      "rendered_digest": "7f2ed62aa061ee33c6e06ddc3acfce0107c77caed88d88e2f317f3d1bc6f20a1",
-      "ast_digest": "cb270301e62edfc3d61461b34ba1c12e046d6f9c153bc1d44a45b1e05ec76eed"
+      "values_digest": "01c010a117f284cc879acd3a438295836435526a99c3095f50e25d5d841bd82d",
+      "rendered_digest": "ca441f83e7c60f77aa833ae6fb1148e64cc124bbafff1d43fdbfdbfe699edd4f",
+      "ast_digest": "d8f1c631dd8e95217c917065d59544f72a7046e9f4d6efa9a57fc05f03964d3c"
     },
     "spp": {
-      "values_digest": "5d251a5b27e89ee2bf1e789901162234eee0344738a6b36a1faa10fce438b8cc",
-      "rendered_digest": "5afcede0d064f0d7a2c481e49c8ff50ab27d35a136f930da24319bb6394d7dfa",
-      "ast_digest": "7ce4cd2aeb855f10a329117709ba3ca48d295d52bf453db6a7ba802c425e7828"
+      "values_digest": "722c475f1cd597ca81914d53851c70e9fbc4400cb913a872dcca52a9c7421800",
+      "rendered_digest": "ce28a36beb7302c926d6f30c76262fe9a55b0a06ccdcf86835010dc28fd712c9",
+      "ast_digest": "cea7f6a0ab83613094c814dc0782731afae754b1d49abebc60f9feb92f3a0165"
     },
     "vpp": {
-      "values_digest": "34a88af096d6e6555dc5475ca44fa625cd43b2fd076ba659f8259497298d2b7e",
+      "values_digest": "c08acc231a429c96ed96fe9e20f347ccc70d3ecf13a1ed3cfd2bb87d84b70322",
       "rendered_digest": "99bfa9cb57e3bce8a94bfa4265fa7a503aa89e00d653fbe0317b74a0bd3c4754",
       "ast_digest": "800cdc9faf9d9e8150d11b8b7cc41d660c8619ab66d8fb3f17913ec956c5f6e9"
     },
     "srp": {
-      "values_digest": "37b33b150ca841a842c6107e9067e52b5a231c5d3d4154bee9d10d4a2f9429be",
-      "rendered_digest": "d812e6fa6d99df1b644c4b0d5cd2b8292498092e0fc91904120472fb5307fe30",
-      "ast_digest": "8756273ef895e84c3fb3370abae5510cc7646582a6af6a1929a1a85bdcf61850"
+      "values_digest": "49bea646d4a7a791e8d24ae618b8e99707c84f3bc357442e04cf31a85ea995f3",
+      "rendered_digest": "6b6a03d554f044d44d68163df345325f0214cb585557bdb5e3e7090dd6d8b83c",
+      "ast_digest": "a93d3d3215784c11f8dd8b01f591317dcbc19739c782626caf23217292cdcaa2"
     },
     "sor": {
-      "values_digest": "fef5502cef704dfeefffb3901a61d7812ce8952210ffc235e66418a926c294b6",
-      "rendered_digest": "34c80198ab564da65af59fc94a796b98d95b573f67a69f0c7a90ea388f1c3b7d",
-      "ast_digest": "d66fb6577e6167a43441f71f966c6b55ab6d3a8f336ed14acba0e2f3c1da4d53"
+      "values_digest": "dad606cd771913124021ce712e15de4306079e60ee723c285b65a0b717fd09cb",
+      "rendered_digest": "aa95b736113ade848c1e0951587de2cc58f0577756fd43aab871dc9e012265f4",
+      "ast_digest": "bc734be261eccb7c82e24a2d7c17b806da2c2b0f39d958e976b04ec980f0deac"
     }
   },
   "transitions": [
@@ -141,6 +111,13 @@
       "to": "published",
       "actor": "codex:5825-birthday-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Operator review of PR #104 requested removal of unrelated CI policy, mandatory exact-head macOS/Linux native receipts, and a fresh exact-head review after proof; recover stale review/publication truth before repair."
     }
   ],
   "audit": [
@@ -857,6 +834,41 @@
       "actor": "codex:5825-birthday-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 103,
+      "generation": 80,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Operator review of PR #104 requested removal of unrelated CI policy, mandatory exact-head macOS/Linux native receipts, and a fresh exact-head review after proof; recover stale review/publication truth before repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 104,
+      "generation": 81,
+      "actor": "operator:pr104-changes-requested",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 105,
+      "generation": 82,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Formally own only the narrowly issue-specific native birthday proof workflow required by AC-8.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday/\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/evidence/5825/\",\".github/workflows/wp08-native-birthday.yml\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday/\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/\"]}"
+    },
+    {
+      "sequence": 106,
+      "generation": 83,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Align the implemented plan boundary with the operator-approved issue-specific native birthday workflow.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/evidence/5825\",\".github/workflows/wp08-native-birthday.yml\"]}"
+    },
+    {
+      "sequence": 107,
+      "generation": 84,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Add the operator-approved issue-specific native workflow as the exact missing AC-8 deliverable after typed review recovery.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".github/workflows/wp08-native-birthday.yml\",\"Complete valid and disqualifying fixture matrix under the owned birthday fixture directory\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"Complete valid and disqualifying fixture matrix under the owned birthday fixture directory\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }
