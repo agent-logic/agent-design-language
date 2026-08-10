@@ -11,6 +11,9 @@ fn main() {
 fn git_revision() -> Option<String> {
     let root = std::env::var("CARGO_MANIFEST_DIR").ok()?;
     emit_git_rerun_path(&root, "HEAD");
+    if let Some(head_ref) = git(&root, &["symbolic-ref", "-q", "HEAD"]) {
+        emit_git_rerun_path(&root, head_ref.trim());
+    }
     emit_git_rerun_path(&root, "index");
     let status = git(&root, &["status", "--porcelain", "--untracked-files=no"])?;
     if !status.trim().is_empty() {

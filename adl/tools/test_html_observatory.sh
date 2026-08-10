@@ -31,6 +31,7 @@ if rg -n 'std::env::var\("ADL_SOURCE_REVISION"\)|rerun-if-env-changed=ADL_SOURCE
   exit 1
 fi
 rg -F 'status", "--porcelain", "--untracked-files=no"' "${RUNTIME_BUILD_RS}" >/dev/null
+rg -F 'symbolic-ref", "-q", "HEAD"' "${RUNTIME_BUILD_RS}" >/dev/null
 rg -F 'unavailable-or-dirty' "${RUNTIME_BUILD_RS}" >/dev/null
 
 node - <<'NODE' "${APP_JS}" "${CONFIG_JSON}"
