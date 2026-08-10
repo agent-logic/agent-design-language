@@ -1,0 +1,128 @@
+name: wp04-native-distributed
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: Exact 40-character lowercase commit SHA to prove
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  produce-native-receipt:
+    name: distributed-guardian-native-${{ matrix.platform }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux
+            os: ubuntu-latest
+          - platform: macos
+            os: macos-latest
+          - platform: windows
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Require an exact source commit SHA
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: |
+          if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "source_sha must be an exact 40-character lowercase commit SHA" >&2
+            exit 64
+          fi
+
+      - name: Checkout exact source commit
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ inputs.source_sha }}
+
+      - name: Verify exact source checkout
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
+        with:
+          tool: nextest@0.9.140
+          fallback: none
+
+      - name: Produce exact native distributed receipt
+        shell: bash
+        run: bash adl/tools/validate_v092_distributed_guardian.sh
+
+      - name: Upload native receipt fragment
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wp04-native-distributed-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5878/native/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
+  validate-native-receipts:
+    name: distributed-guardian-native-receipts-validated
+    needs: produce-native-receipt
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require an exact source commit SHA
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: |
+          if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "source_sha must be an exact 40-character lowercase commit SHA" >&2
+            exit 64
+          fi
+
+      - name: Checkout exact source commit
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ inputs.source_sha }}
+
+      - name: Verify exact source checkout
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+
+      - name: Download all native receipt fragments
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v8.0.1
+        with:
+          pattern: wp04-native-distributed-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5878/native/
+          merge-multiple: true
+
+      - name: Require all three native receipt fragments
+        shell: bash
+        run: |
+          for platform in linux macos windows; do
+            test -s ".csdlc/evidence/5878/native/$platform/receipt.json"
+          done
+
+      - name: Validate exact three-platform receipt packet
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ruby adl/tools/validate_v092_distributed_native_receipts.rb
+
+      - name: Retain validated native receipt matrix
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wp04-native-distributed-validated-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/5878/native/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true

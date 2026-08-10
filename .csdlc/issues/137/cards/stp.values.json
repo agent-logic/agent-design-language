@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 137,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
+    "slug": "wp04-native-distributed-workflow",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Create, prove, independently review, publish, shepherd, and merge only the WP-04 native distributed workflow and issue #137 lifecycle/proof surfaces.",
+      "deliverables": [
+        ".github/workflows/wp04-native-distributed.yml",
+        ".csdlc/prepared/issues/137/validate-workflow.rb"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Manual dispatch requires an exact 40-character lowercase hexadecimal commit SHA and checks out exactly that revision.",
+        "AC-2: A bounded matrix runs Linux, macOS, and Windows with Rust and cargo-nextest installed and the existing producer invoked through Bash.",
+        "AC-3: Each platform uploads a distinct fail-closed receipt fragment and Ubuntu downloads all fragments for validation with the existing aggregate validator.",
+        "AC-4: Actions are commit-pinned, permissions are read-only, timeouts are bounded, and no #5878 producer, validator, manifest, or evidence file changes.",
+        "AC-5: Focused workflow contract validation, repository path-policy validation, diff hygiene, exact-head independent review, and full hosted CI pass."
+      ],
+      "dependencies": [
+        "agent-logic/agent-design-language#5878",
+        "Existing #5878 producer and aggregate validator at origin/main"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        ".github/workflows/ci.yaml",
+        "adl/tools/validate_v092_distributed_guardian.sh",
+        "adl/tools/validate_v092_distributed_native_receipts.rb",
+        "adl/tools/test_ci_path_policy.sh",
+        "git commit d401c2d1627ac9596e3b8bd1636987beed02274e:.github/workflows/wp04-native-distributed.yml"
+      ],
+      "non_goals": [
+        "Changing #5878 product code, producer, validator, manifest, or evidence",
+        "Claiming native proof before hosted jobs execute",
+        "Adding secrets, write permissions, schedules, or unbounded jobs",
+        "Post-merge closeout or cleanup bookkeeping"
+      ]
+    }
+  }
+}

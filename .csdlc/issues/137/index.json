@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 137,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ef35b5ed2a3b43bfceb363ad9a226ca55483fa764afa32a2dea51654c84ea8b6",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "dac126c17082aa6421f8e28a5d95fe0431aed47d6855302d9be77ca1e329ed74",
+  "branch": "codex/137-wp04-native-distributed-workflow",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-137-wp04-native-workflow",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/137/design.md",
+  "diagram_path": ".csdlc/prepared/issues/137/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:authorized-issue-137",
+      "revision": "9b186b59424e873be1c371c9c336dcfaf6c94b7c3ab8272a004eee3ec6b1c65f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f1961afe4911f8acc0ca570ae3b9cc0e5825bbf87c28fac22bc809d2fe69564e",
+      "rendered_digest": "fdf6fb7c6194070e959f6f8178a7b24b3b4651a2d51479e3284dfdc834505bac",
+      "ast_digest": "95a85a24f9cfa33009ae5b9a075acb102dd11c02bbe9e146668f40255a38dab5"
+    },
+    "stp": {
+      "values_digest": "0e938ffd83ddef39538d31a1f7322f23cac65b02a4138665054afe8d8ed2ad7e",
+      "rendered_digest": "782f38c4d1a66ad621410d0df18fb45d9800e9c8f0a4fccac31a19c42d145c8e",
+      "ast_digest": "afc3cbf1a8e836520d346d60dd16aa22fcc22510e138004d8f9d45284c98f13e"
+    },
+    "spp": {
+      "values_digest": "65e662fa34e15f14ab2cc0e5ee0d4682ecc1b490c74908136f1fd48fa52c93ce",
+      "rendered_digest": "0dae0bcdc72ad56272f14aec47f9b6f919ae2e9bed836191cb60162c82d17d8f",
+      "ast_digest": "e027ea35a27dbb808bf553c96a1080bd134161fce73517409e39f75080e1a472"
+    },
+    "vpp": {
+      "values_digest": "79892c1ac31d98b48e02b1a3000b661c96e5e862a8aecafcd6372598b8725f6f",
+      "rendered_digest": "ad7d584d779d235d127c3c00f6a55e205a32fee1057e588b0545dcfdd3425dc1",
+      "ast_digest": "5e854751a6414f27fb10eeab3e954588e09872c0bbef6e9cfef421aa724aa0f2"
+    },
+    "srp": {
+      "values_digest": "84203612adb863ebc31df7b2a3ba402b0c7e9ef415aff82c9d16337c95b5d7ca",
+      "rendered_digest": "ba2cd2c5e7ddf3d5b63c152e619f292a5ff83d12e9781704d7f90dcb79a57296",
+      "ast_digest": "6f695f2b84f04689b72e01c9db9fc3e08be1625af458dd6d5d481d6e44af7d85"
+    },
+    "sor": {
+      "values_digest": "f263ab08138af0ea18ec801a08c089a7936e9c96dd8f2947354bf5f9f9186164",
+      "rendered_digest": "8090035861fb829d86f548312b70384723d47fa444e02bde346bee62c6070136",
+      "ast_digest": "fd843ab2a6a67de990dfe65c465b51438e15afe3a6434c6f780abb197802464e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:authorized-issue-137",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "Name the deferred issue-owned workflow validator exactly so typed readiness can authorize its creation after binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/wp04-native-distributed.yml\",\".csdlc/prepared/issues/137/validate-workflow.rb\",\".csdlc/issues/137\",\".csdlc/prepared/issues/137\",\".csdlc/evidence/137\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "Route the repository path-policy suite through the issue-owned focused validator so readiness has one governed issue-specific proving denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp04-native-workflow-contract\",\"proof_role\":\"Prove exact checkout, three-platform production, distinct artifacts, live hosted attestation, aggregate validation, pinned actions, bounded timeouts, fail-closed behavior, and repository path-policy compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":500,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/137/validate-workflow.rb\"],\"parallel_group\":\"workflow\",\"defer_reason\":\"The issue-owned workflow and focused validator are created only after typed binding.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and unintended tracked churn.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"workflow\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

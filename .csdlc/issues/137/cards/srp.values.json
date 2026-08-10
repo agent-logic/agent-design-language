@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 137,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
+    "slug": "wp04-native-distributed-workflow",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #137 workflow, focused validator, lifecycle/proof records, exact-revision checkout, three-platform matrix, artifact aggregation, action pins, permissions, timeouts, and path ownership.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can manual dispatch check out a mutable or unintended revision?",
+        "Can a missing Linux, macOS, or Windows receipt still allow aggregation to pass?",
+        "Are action revisions pinned, permissions read-only, and timeouts bounded?",
+        "Does the artifact layout match the existing producer and validator without overwriting platform fragments?",
+        "Did the change touch any #5878-owned source, tool, manifest, or evidence path?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

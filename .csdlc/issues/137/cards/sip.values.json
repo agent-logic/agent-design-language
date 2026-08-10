@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 137,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
+    "slug": "wp04-native-distributed-workflow",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Register the bounded GitHub Actions workflow that produces and aggregates WP-04 native proof receipts on Linux, macOS, and Windows.",
+      "required_outcome": "One read-only, pinned, fail-closed workflow checks out an exact commit, runs the existing #5878 producer on three operating systems, retains distinct fragments, and validates their aggregate on Ubuntu.",
+      "declared_scope": [
+        ".github/workflows/wp04-native-distributed.yml",
+        "Issue-local C-SDLC lifecycle and proof records for #137"
+      ],
+      "authority_boundary": [
+        "The workflow only orchestrates existing #5878 producer and validator paths; it does not alter their logic or evidence claims",
+        "Manual dispatch authority is limited to an explicit 40-character lowercase hexadecimal commit SHA",
+        "Hosted jobs retain read-only repository permissions and pinned action revisions",
+        "A successful workflow requires all three native producers, live hosted-run and job attestation, and the aggregate validator"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Work only in a bound FastWork worktree",
+        "Modify no #5878-owned file other than copying its proposed workflow into this issue-owned workflow path",
+        "Merge the exact reviewed green head as soon as CI is green",
+        "Do not delay for asynchronous closeout bookkeeping"
+      ]
+    }
+  }
+}
