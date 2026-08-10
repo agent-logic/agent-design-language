@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-profile contract, including authority-bound evidence, revision semantics, bounded projections, privacy, and explicit nonclaims; native macOS/Linux proof remains deferred to publication CI.
+Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-profile contract, including authority-bound evidence, canonical revision lineage, governed nonclaims, unique profile fields, bounded projections, privacy, and explicit unsupported-inference boundaries; mandatory native proof remains deferred to CI.
 
 ## Artifacts
 
@@ -24,28 +24,22 @@ Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-prof
 - .csdlc/prepared/issues/5830/produce-native-receipt.rb
 - .csdlc/prepared/issues/5830/validate-native-receipts.rb
 - .github/workflows/wp13-native-cognitive-profile.yml
+- .csdlc/evidence/5830/cognitive-profile-runtime-v3.log
+- .csdlc/evidence/5830/cognitive-profile-strict-clippy.log
+- .csdlc/evidence/5830/cognitive-profile-native-scripts.log
+- .csdlc/evidence/5830/review-fix-validation.json
 
 ## Execution
 
-- Add full cognitive-profile construction and reconstruction validation over birthday, identity, continuity, and capability authorities.
-- Add an exact 11-test positive and negative matrix for deterministic revision, evidence, privacy, projection, and unsupported-inference boundaries.
-- Add issue-local native receipt producer, validator, retained local proof, feature truth, and a narrowly scoped WP-13 native workflow.
+- Added full cognitive-profile construction and reconstruction validation over birthday, identity, continuity, and capability authorities.
+- Bound seven evidence categories, exact revision digests, update actor and reason, predecessor lineage, privacy policy, canonical fields, and bounded internal/public projections.
+- Rejected stale, missing, duplicate, colliding, or forbidden evidence; authority substitution; unexplained revision changes; secret and host paths; private-evidence public derivation; and unsupported status or personhood inferences.
+- Rejected ungoverned extra nonclaims, recomputed complete predecessor profile and public-projection integrity, and rejected case-fold duplicate field keys before revision-delta calculation.
+- Added an exact 11-test matrix, issue-local native producer/validator, and the narrowly scoped WP-13 native workflow required by AC-8.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "ruby",
-      "-e",
-      "ARGV.each { |path| RubyVM::InstructionSequence.compile_file(path) }",
-      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5830/validate-native-receipts.rb"
-    ],
-    "purpose": "Check both issue-local Ruby proof scripts.",
-    "outcome": "passed",
-    "evidence_ref": "cognitive-profile-native-scripts.log"
-  },
   {
     "command": [
       "cargo",
@@ -59,9 +53,9 @@ Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-prof
       "--status-level",
       "all"
     ],
-    "purpose": "Run the exact nonzero issue-owned cognitive_profile target.",
+    "purpose": "Prove the exact 11-test profile and all three review-fix regressions at product revision 4bb049b83d69937c041b9fd380320d20e425aa9c.",
     "outcome": "passed",
-    "evidence_ref": "cognitive-profile-runtime-v3.log"
+    "evidence_ref": ".csdlc/evidence/5830/review-fix-validation.json"
   },
   {
     "command": [
@@ -75,9 +69,9 @@ Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-prof
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict Clippy over cognitive_profile.",
+    "purpose": "Prove strict lint cleanliness at the reviewed product revision.",
     "outcome": "passed",
-    "evidence_ref": "cognitive-profile-strict-clippy.log"
+    "evidence_ref": ".csdlc/evidence/5830/review-fix-validation.json"
   }
 ]
 
