@@ -6,7 +6,9 @@ require "fileutils"
 require "json"
 require "open3"
 require "pathname"
+require "rbconfig"
 require "time"
+require "tmpdir"
 
 SCHEMA = "adl.wp04.negative_cases.machine.v1"
 ISSUE = 5868
@@ -34,6 +36,7 @@ STRICT_CLIPPY = [
   "distributed_failure_detection", "--", "-D", "warnings"
 ].freeze
 REPO_ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
+ISSUE_EVIDENCE_PREFIX = ".csdlc/evidence/#{ISSUE}/"
 
 def abort_with(message)
   warn(message)
@@ -49,14 +52,45 @@ rescue ArgumentError
   abort_with("evidence path escapes repository")
 end
 
+def checked_issue_path(relative, label, leaf: :file)
+  cleaned = Pathname.new(relative.to_s).cleanpath.to_s
+  abort_with("#{label} path is not normalized") unless cleaned == relative.to_s
+  abort_with("#{label} path escapes issue evidence") unless cleaned.start_with?(ISSUE_EVIDENCE_PREFIX)
+
+  current = REPO_ROOT
+  missing = false
+  cleaned.split("/").each_with_index do |component, index|
+    current = current.join(component)
+    next if missing
+
+    begin
+      metadata = File.lstat(current)
+    rescue Errno::ENOENT
+      missing = true
+      next
+    end
+    abort_with("#{label} path contains a symlink component") if metadata.symlink?
+    abort_with("#{label} path contains a non-directory ancestor") if index < cleaned.split("/").length - 1 && !metadata.directory?
+  end
+
+  case leaf
+  when :file
+    abort_with("missing #{label}: #{relative}") if missing
+    metadata = File.lstat(current)
+    abort_with("#{label} must be an ordinary file") unless metadata.file? && !metadata.symlink?
+  when :output_directory
+    unless missing
+      metadata = File.lstat(current)
+      abort_with("#{label} must be a directory") unless metadata.directory? && !metadata.symlink?
+    end
+  else
+    abort_with("unsupported path check")
+  end
+  current
+end
+
 def ordinary_file!(relative, label)
-  abort_with("#{label} path escapes issue evidence") unless relative.start_with?(".csdlc/evidence/#{ISSUE}/")
-  path = REPO_ROOT.join(relative)
-  metadata = File.lstat(path)
-  abort_with("#{label} must be an ordinary file") unless metadata.file? && !metadata.symlink?
-  path
-rescue Errno::ENOENT
-  abort_with("missing #{label}: #{relative}")
+  checked_issue_path(relative, label, leaf: :file)
 end
 
 def digest(path)
@@ -126,6 +160,29 @@ end
 
 mode = ARGV.shift
 case mode
+when "test-path-safety"
+  head, head_error, head_status = Open3.capture3("git", "rev-parse", "HEAD", chdir: REPO_ROOT.to_s)
+  abort_with("cannot resolve source revision: #{head_error.strip}") unless head_status.success?
+  issue_evidence_root = REPO_ROOT.join(".csdlc/evidence/#{ISSUE}")
+  Dir.mktmpdir("path-safety-", issue_evidence_root.to_s) do |inside|
+    Dir.mktmpdir("adl-5868-outside-") do |outside|
+      link = Pathname.new(inside).join("linked-outside")
+      File.symlink(outside, link)
+      outside_file = Pathname.new(outside).join("negative-cases.json")
+      File.write(outside_file, "{}\n")
+
+      checks = [
+        ["produce", head.strip, link.join("new-proof").to_s],
+        ["verify", link.join("negative-cases.json").to_s, head.strip]
+      ]
+      checks.each do |arguments|
+        _stdout, stderr, status = Open3.capture3(RbConfig.ruby, __FILE__, *arguments, chdir: REPO_ROOT.to_s)
+        abort_with("symlink-component regression unexpectedly passed") if status.success?
+        abort_with("symlink-component regression returned the wrong diagnostic") unless stderr.include?("path contains a symlink component")
+      end
+    end
+  end
+  puts("PASS: producer and verifier reject intermediate symlink components")
 when "produce"
   source = ARGV.shift.to_s
   output_dir = Pathname.new(ARGV.shift.to_s).expand_path
@@ -134,9 +191,10 @@ when "produce"
   abort_with("cannot resolve source revision: #{head_error.strip}") unless head_status.success?
   abort_with("producer must run at exact source revision") unless head.strip == source
   relative_dir = relative_repo_path(output_dir)
-  abort_with("output directory escapes issue evidence") unless relative_dir.start_with?(".csdlc/evidence/#{ISSUE}/")
+  checked_issue_path(relative_dir, "output directory", leaf: :output_directory)
   abort_with("output directory must be absent or empty") if output_dir.exist? && !output_dir.children.empty?
   FileUtils.mkdir_p(output_dir)
+  checked_issue_path(relative_dir, "output directory", leaf: :output_directory)
 
   nextest_started_at = Time.now.utc.iso8601(6)
   nextest_stdout, nextest_stderr, nextest_status = Open3.capture3(
