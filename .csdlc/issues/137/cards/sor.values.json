@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
     "slug": "wp04-native-distributed-workflow",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
@@ -47,8 +47,8 @@
           "evidence_ref": "wp04-native-workflow-contract.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 137,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/137-wp04-native-distributed-workflow",
+  "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
+  "body": "Closes #137\n\n## Summary\n- register a dispatch-only WP-04 native proof workflow with a required exact 40-hex source SHA bound to the workflow dispatch commit before checkout\n- run the existing #5878 producer on pinned Linux, macOS, and Windows jobs with distinct run-attempt-platform receipts\n- aggregate all three fragments on Ubuntu and invoke the existing live GitHub run/job attestation validator\n- retain an issue-owned static workflow contract plus repository path-policy proof\n\n## Validation\n- issue-owned workflow contract and full repository path-policy suite: passed\n- YAML parse and diff hygiene: passed\n- independent exact-head review: approved after fixing dispatch-source binding P1\n- hosted CI: required before merge\n\n## Scope\nOnly `.github/workflows/wp04-native-distributed.yml` and issue #137 lifecycle/proof paths; no #5878 producer, validator, manifest, or evidence files changed.\n",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:f6a715ac3814b07990edb99b527b0de9b0c28882:191232b87ea430b04d21a490fb25e671c8ad9af00144056c715aef253c81bf82",
+  "commit_sha": "f6a715ac3814b07990edb99b527b0de9b0c28882"
+}

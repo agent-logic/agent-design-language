@@ -54,11 +54,11 @@ Registered a dispatch-only, exact-SHA, three-platform native receipt workflow wi
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
