@@ -206,7 +206,11 @@ when "produce"
   )
   nextest_finished_at = Time.now.utc.iso8601(6)
   nextest_log = output_dir.join("exact-child-tests.log")
+  nextest_stdout_path = output_dir.join("exact-child-tests.stdout.log")
+  nextest_stderr_path = output_dir.join("exact-child-tests.stderr.log")
   File.binwrite(nextest_log, nextest_stdout + nextest_stderr)
+  File.binwrite(nextest_stdout_path, nextest_stdout)
+  File.binwrite(nextest_stderr_path, nextest_stderr)
   abort_with("exact nextest command failed with exit #{nextest_status.exitstatus}") unless nextest_status.success?
   summary = (nextest_stdout + nextest_stderr).match(/Summary .*?(\d+) tests run: (\d+) passed, 0 skipped/)
   abort_with("exact nextest output has no nonzero all-pass summary") unless summary && summary[1].to_i.positive? && summary[1] == summary[2]
