@@ -209,12 +209,38 @@ pub trait ProbeAuthority {
     fn is_member(&self, node_id: &str, membership_epoch: u64) -> bool;
 }
 
-pub trait FailureMembershipAuthority {
-    fn membership_epoch(&self) -> u64;
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct FailureMembershipSnapshot {
+    membership_epoch: u64,
+    committed_log_index: u64,
+    members: Vec<(String, String)>,
+}
 
-    fn committed_log_index(&self) -> u64;
+impl FailureMembershipSnapshot {
+    #[cfg(not(test))]
+    pub fn from_membership(authority: &super::membership::MembershipState) -> Self {
+        Self {
+            membership_epoch: authority.epoch(),
+            committed_log_index: authority.committed_log_index(),
+            members: authority
+                .members()
+                .map(|member| (member.node_id.clone(), member.guardian_id.clone()))
+                .collect(),
+        }
+    }
 
-    fn complete_members(&self) -> FailureResult<Vec<(String, String)>>;
+    #[cfg(test)]
+    pub(crate) fn from_test_rows(
+        membership_epoch: u64,
+        committed_log_index: u64,
+        members: Vec<(String, String)>,
+    ) -> Self {
+        Self {
+            membership_epoch,
+            committed_log_index,
+            members,
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -574,9 +600,9 @@ impl FailureDetector {
         self.last_sequences.len()
     }
 
-    pub fn authority_revision<A: FailureMembershipAuthority>(
+    pub fn authority_revision(
         &self,
-        membership: &A,
+        membership: &FailureMembershipSnapshot,
         now_unix_secs: u64,
     ) -> FailureResult<FailureAuthorityRevision> {
         let rows = self.redacted_rows(membership, now_unix_secs)?;
@@ -584,18 +610,18 @@ impl FailureDetector {
             sequence: self.revision_sequence,
             content_sha256: failure_content_sha256(
                 &self.policy.trust_domain,
-                membership.membership_epoch(),
-                membership.committed_log_index(),
+                membership.membership_epoch,
+                membership.committed_log_index,
                 now_unix_secs,
                 &rows,
             ),
         })
     }
 
-    pub fn redacted_snapshot_at<A: FailureMembershipAuthority>(
+    pub fn redacted_snapshot_at(
         &self,
         expected_revision: FailureAuthorityRevision,
-        membership: &A,
+        membership: &FailureMembershipSnapshot,
         now_unix_secs: u64,
     ) -> FailureResult<RedactedFailureSnapshot> {
         let rows = self.redacted_rows(membership, now_unix_secs)?;
@@ -603,8 +629,8 @@ impl FailureDetector {
             sequence: self.revision_sequence,
             content_sha256: failure_content_sha256(
                 &self.policy.trust_domain,
-                membership.membership_epoch(),
-                membership.committed_log_index(),
+                membership.membership_epoch,
+                membership.committed_log_index,
                 now_unix_secs,
                 &rows,
             ),
@@ -614,23 +640,24 @@ impl FailureDetector {
         }
         Ok(RedactedFailureSnapshot {
             trust_domain: self.policy.trust_domain.clone(),
-            membership_epoch: membership.membership_epoch(),
-            committed_log_index: membership.committed_log_index(),
+            membership_epoch: membership.membership_epoch,
+            committed_log_index: membership.committed_log_index,
             captured_at_unix_secs: now_unix_secs,
             revision,
             rows,
         })
     }
 
-    fn redacted_rows<A: FailureMembershipAuthority>(
+    fn redacted_rows(
         &self,
-        membership: &A,
+        membership: &FailureMembershipSnapshot,
         now_unix_secs: u64,
     ) -> FailureResult<Vec<RedactedFailureRow>> {
-        let members = membership.complete_members()?;
-        if membership.membership_epoch() != self.policy.membership_epoch
-            || members.len() > self.policy.max_nodes
-        {
+        let members = membership.members.clone();
+        if members.len() > self.policy.max_nodes {
+            return Err(FailureError::ResourceExhausted);
+        }
+        if membership.membership_epoch != self.policy.membership_epoch {
             return Err(FailureError::WrongMembershipEpoch);
         }
         let mut previous = None;

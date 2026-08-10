@@ -40,6 +40,7 @@ pub enum PlacementError {
     FencingAheadOfMembership,
     NoEligibleTarget,
     RevisionDrift,
+    AuthorityUnavailable,
 }
 
 impl PlacementError {
@@ -55,6 +56,7 @@ impl PlacementError {
             Self::FencingAheadOfMembership => "fencing_ahead_of_membership",
             Self::NoEligibleTarget => "no_eligible_target",
             Self::RevisionDrift => "revision_drift",
+            Self::AuthorityUnavailable => "authority_unavailable",
         }
     }
 }
@@ -528,6 +530,7 @@ struct StoredPlacementDecision {
 
 #[derive(Debug, Default)]
 struct PlacementAuthorityState {
+    available: bool,
     sequence: u64,
     membership_epoch: u64,
     committed_log_index: u64,
@@ -584,6 +587,9 @@ impl<C: PlacementClock> PlacementService<C> {
             .authority
             .lock()
             .map_err(|_| PlacementError::InconsistentEvidence)?;
+        if !authority.available {
+            return Err(PlacementError::AuthorityUnavailable);
+        }
         Ok(placement_revision(&authority))
     }
 
@@ -595,6 +601,9 @@ impl<C: PlacementClock> PlacementService<C> {
             .authority
             .lock()
             .map_err(|_| PlacementError::InconsistentEvidence)?;
+        if !authority.available {
+            return Err(PlacementError::AuthorityUnavailable);
+        }
         let revision = placement_revision(&authority);
         if revision != expected_revision {
             return Err(PlacementError::RevisionDrift);
@@ -667,6 +676,7 @@ impl<C: PlacementClock> PlacementService<C> {
         }
         authority.membership_epoch = decision.membership_epoch;
         authority.committed_log_index = decision.committed_log_index;
+        authority.available = true;
         authority.decisions.insert(
             decision.lineage_id.clone(),
             StoredPlacementDecision {

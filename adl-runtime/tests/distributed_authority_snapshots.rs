@@ -46,7 +46,7 @@ use certificates::{
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use failure_detection::{
-    FailureDetector, FailureError, FailureMembershipAuthority, FailurePolicy, FailureProbeClaims,
+    FailureDetector, FailureError, FailureMembershipSnapshot, FailurePolicy, FailureProbeClaims,
     FailureSnapshotReason, FailureThresholds, ProbeAuthority, ProbeResult, SignedFailureProbe,
     FAILURE_PROBE_SCHEMA,
 };
@@ -198,20 +198,6 @@ impl ProbeAuthority for FailureAuthority {
     }
 }
 
-impl FailureMembershipAuthority for FailureAuthority {
-    fn membership_epoch(&self) -> u64 {
-        7
-    }
-
-    fn committed_log_index(&self) -> u64 {
-        11
-    }
-
-    fn complete_members(&self) -> failure_detection::FailureResult<Vec<(String, String)>> {
-        Ok(self.complete.clone())
-    }
-}
-
 fn failure_policy() -> FailurePolicy {
     FailurePolicy::new(
         FAILURE_DOMAIN,
@@ -245,10 +231,11 @@ fn failure_snapshot_enumerates_missing_members_and_rejects_revision_drift() {
         .insert(("node-a".into(), 1), observer.verifying_key());
     authority.members.insert(("node-a".into(), 7));
     authority.members.insert(("node-b".into(), 7));
+    let membership = FailureMembershipSnapshot::from_test_rows(7, 11, authority.complete.clone());
     let mut detector = FailureDetector::new(failure_policy());
-    let empty_revision = detector.authority_revision(&authority, 100).unwrap();
+    let empty_revision = detector.authority_revision(&membership, 100).unwrap();
     let empty = detector
-        .redacted_snapshot_at(empty_revision, &authority, 100)
+        .redacted_snapshot_at(empty_revision, &membership, 100)
         .unwrap();
     assert_eq!(empty.rows().len(), 2);
     assert!(empty
@@ -274,14 +261,14 @@ fn failure_snapshot_enumerates_missing_members_and_rejects_revision_drift() {
     detector.observe(&authority, &probe, 100).unwrap();
     assert_eq!(
         detector
-            .redacted_snapshot_at(empty_revision, &authority, 100)
+            .redacted_snapshot_at(empty_revision, &membership, 100)
             .unwrap_err(),
         FailureError::RevisionDrift
     );
     let changed = detector
         .redacted_snapshot_at(
-            detector.authority_revision(&authority, 100).unwrap(),
-            &authority,
+            detector.authority_revision(&membership, 100).unwrap(),
+            &membership,
             100,
         )
         .unwrap();
@@ -317,6 +304,14 @@ fn placement_decision(node: &str, pressure_permille: u16) -> PlacementDecision {
 
 #[test]
 fn placement_snapshot_retains_replaces_removes_and_buckets_capacity() {
+    let restarted = PlacementService::new(
+        PlacementPolicy::new(CERT_DOMAIN).unwrap(),
+        FixedPlacementClock,
+    );
+    assert_eq!(
+        restarted.authority_revision().unwrap_err(),
+        placement::PlacementError::AuthorityUnavailable
+    );
     let service = PlacementService::new(
         PlacementPolicy::new(CERT_DOMAIN).unwrap(),
         FixedPlacementClock,
@@ -772,4 +767,144 @@ fn fencing_snapshot_is_complete_content_bound_restart_stable_and_ref_aligned() {
         snapshot.rows().next().unwrap().lineage_ref(),
         lease_snapshot.rows().next().unwrap().lineage_ref()
     );
+}
+
+#[test]
+fn snapshot_bounds_reject_n_plus_one_without_partial_mutation() {
+    let certificate_directory = tempfile::tempdir().unwrap();
+    let certificate_root = key(40);
+    let bounded_certificate_policy =
+        CertificatePolicy::new(CERT_DOMAIN, [certificate_root.verifying_key()])
+            .unwrap()
+            .with_bounds(3_600, 30, 10, 1, 1)
+            .unwrap();
+    let certificate_store = DistributedCertificateStore::open(
+        certificate_directory
+            .path()
+            .canonicalize()
+            .unwrap()
+            .join("certificates.redb"),
+        bounded_certificate_policy,
+    )
+    .unwrap();
+    certificate_store
+        .activate(
+            &certificate(
+                &certificate_root,
+                "node-a",
+                CertificatePurpose::Transport,
+                1,
+                &key(41),
+            ),
+            NOW,
+        )
+        .unwrap();
+    let certificate_revision = certificate_store.authority_revision().unwrap();
+    assert_eq!(
+        certificate_store
+            .activate(
+                &certificate(
+                    &certificate_root,
+                    "node-b",
+                    CertificatePurpose::Transport,
+                    1,
+                    &key(42),
+                ),
+                NOW,
+            )
+            .unwrap_err(),
+        CertificateError::ResourceExhausted
+    );
+    assert_eq!(
+        certificate_store.authority_revision().unwrap(),
+        certificate_revision
+    );
+
+    let oversized_membership = FailureMembershipSnapshot::from_test_rows(
+        7,
+        11,
+        vec![
+            ("node-a".into(), "guardian-a".into()),
+            ("node-b".into(), "guardian-b".into()),
+            ("node-c".into(), "guardian-c".into()),
+        ],
+    );
+    let bounded_failure =
+        FailureDetector::new(failure_policy().with_bounds(2, 8, 2, 4, 8).unwrap());
+    assert_eq!(
+        bounded_failure
+            .authority_revision(&oversized_membership, 100)
+            .unwrap_err(),
+        FailureError::ResourceExhausted
+    );
+
+    let bounded_placement = PlacementService::new(
+        PlacementPolicy::with_bounds(CERT_DOMAIN, 1, 4, 100, 1_000, 10, 900, 5).unwrap(),
+        FixedPlacementClock,
+    );
+    bounded_placement
+        .seed_decision_for_snapshot_test(placement_decision("node-a", 100), 100)
+        .unwrap();
+    let placement_revision = bounded_placement.authority_revision().unwrap();
+    let mut second = placement_decision("node-b", 100);
+    second.lineage_id = "lineage-b".into();
+    assert_eq!(
+        bounded_placement
+            .seed_decision_for_snapshot_test(second, 100)
+            .unwrap_err(),
+        placement::PlacementError::ResourceExhausted
+    );
+    assert_eq!(
+        bounded_placement.authority_revision().unwrap(),
+        placement_revision
+    );
+
+    let mut bounded_lease_policy = lease_policy();
+    bounded_lease_policy.max_lineages = 1;
+    let mut ledger = AuthorityLedger::new(bounded_lease_policy).unwrap();
+    ledger.seed_lease_for_snapshot_test(lease_state()).unwrap();
+    let lease_revision = ledger.authority_revision().unwrap();
+    let mut second_lease = lease_state();
+    second_lease.lineage_id = b"lineage-b".to_vec();
+    assert_eq!(
+        ledger
+            .seed_lease_for_snapshot_test(second_lease)
+            .unwrap_err(),
+        lease::AuthorityError::ResourceExhausted
+    );
+    assert_eq!(ledger.authority_revision().unwrap(), lease_revision);
+
+    let directory = tempfile::tempdir().unwrap();
+    let authority = FenceAuthority::default();
+    let mut bounded_fencing_policy = fencing_policy();
+    bounded_fencing_policy.max_lineages = 1;
+    let mut fencing = FencingStore::create(
+        directory.path().canonicalize().unwrap(),
+        bounded_fencing_policy,
+        Arc::new(authority),
+    )
+    .unwrap();
+    let floor = |lineage: &[u8]| FenceReceipt {
+        request_id: lineage.to_vec(),
+        request_sha256: [8; 32],
+        trust_domain_id: CERT_DOMAIN.as_bytes().to_vec(),
+        lineage_id: lineage.to_vec(),
+        epoch: 2,
+        committed_log_index: 11,
+        voter_set_generation: 1,
+        operation_class: OperationClass::Fence as u32,
+        certificate_sha256: [9; 32],
+        safety_deadline_unix_millis: 2_000,
+    };
+    fencing
+        .seed_floor_for_snapshot_test(floor(b"lineage-a"))
+        .unwrap();
+    let fencing_revision = fencing.authority_revision().unwrap();
+    assert_eq!(
+        fencing
+            .seed_floor_for_snapshot_test(floor(b"lineage-b"))
+            .unwrap_err(),
+        FencingError::ResourceExhausted
+    );
+    assert_eq!(fencing.authority_revision().unwrap(), fencing_revision);
 }
