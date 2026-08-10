@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
-  "phase": "bound",
-  "generation": 57,
-  "digest": "1f82e6f8f430f4e9d89e84c15707eef408252acb416cc9f9d8d629c6df0820cb",
+  "phase": "implemented",
+  "generation": 63,
+  "digest": "b6932779fae4b57bf55cde2ed5a61bbf059cb74959127478d38bb0ded0b887ce",
   "branch": "codex/5830-cognitive-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9f86df16b6ea19333127476173f72d61024906c154023bcc55064a3669850f5d",
+      "values_digest": "4c400ef8d8df3e8a9bf83463f5e87071734eeb7a129daa333b321baffe625553",
       "rendered_digest": "f693dd3d3ed034e3ffbaff3348331e986f4f5cc9ae5fce166acecd4f23918b30",
       "ast_digest": "3fd878ebfe7fe0596cb55885b39a06ca0f8b84f87406ef8b718c3f501ba84fa1"
     },
     "stp": {
-      "values_digest": "455afcae70a5512de4c187c2e21f63804ca913e70672e4dd662e7c5c96f4b069",
+      "values_digest": "5db9582134a834b6239bc9a030c3b46250c7215a50f0d81796f35438d2c27395",
       "rendered_digest": "1df53b8620d6186ab4e2530b690ebb3a8ce38acf08e9d190d31d106be4961954",
       "ast_digest": "26506815840b2c74b6f70a43469e76cfde25a47d07a10b3a03f8154ada085cca"
     },
     "spp": {
-      "values_digest": "2145efeacbe188aa14a010815609c878dd20d05e02bf134c2f018c779464d860",
-      "rendered_digest": "58abd7e43ddd693718c52aa8879bc60833475111cf23948b91a7b6c0d1eafa59",
-      "ast_digest": "0017e44a95220d8cc34af34d57845c1ee5d836e6c7c900da0fcbf2ec07fa7cf4"
+      "values_digest": "e085bf3ac2482e5f55dada8e09c585998de2def7013e22869b14a5abad69ed99",
+      "rendered_digest": "5bbd53c6a215939a4937497b080b9c646899130418cec7b7282b256e27749b71",
+      "ast_digest": "0e2ffb11caab962358ccb56c06c6802a83520137f00390a8dee1f3099e882b31"
     },
     "vpp": {
-      "values_digest": "142a9c499cea62074a38694ffb80022b28268b1f61519ee3f0ed451d2f8a1e75",
-      "rendered_digest": "eca4db15b7a88809f1593d12ffd3060220619a844a5cb4ac61ce994ee6a87f69",
-      "ast_digest": "c046d4503574bee67d1ee841cb70300f78c43f81259520fd9fe8b8d96317b7c2"
+      "values_digest": "f44053ec99372f4c1d56a6db32bf3b21beb507445a45352108a863bdd567c02a",
+      "rendered_digest": "f2b7aa172dc011f3fcb386b2e080ba95808c637689a34456e44b11a2f9f94bcd",
+      "ast_digest": "c2739d91f782cbe4088e1dc4a498bf6ca3ef11244caf5dcb0bc956251d42991c"
     },
     "srp": {
-      "values_digest": "a2ee65a4a223864c638ef742045a119c1ed03191f3004519967ea3566c1190fe",
+      "values_digest": "3e842bf3d4a9d5acbc5c4b9c3bcae030c48c9a039ca39dcd756b6f58ed1c48db",
       "rendered_digest": "5cf1d14625cc5c42441e85503a8ba2347ee72f5b8a6c55327ebb7b4d02773ec8",
       "ast_digest": "a0c0d5d841942e9187eedd87886ba119301e1a7842960f3b8e41ca367ba925ca"
     },
     "sor": {
-      "values_digest": "58e15ed396959802281b3fd641d81f17cfbce7f30ff4fe8abd9f686f3d61c4dd",
-      "rendered_digest": "8dbf031f6e2f727893acd7c4297a6e74d21ecc2bad913bb38629f4c172994b2e",
-      "ast_digest": "80a35a095cda2e9920e7a586f841529fd4f683612c6d4f7f185bba3eddcdef26"
+      "values_digest": "9d3e97564d0d8021d1fa943ace78bb00646684a1e7ce9f29b20933d18cfcef73",
+      "rendered_digest": "43c1453290f4880520d6ad2e58cd865676ee3b5414f2359518356a9cf5881c84",
+      "ast_digest": "be4a4deb31455d723b3d7aa829c052e63b844558cac40ce9dbe87b825967b498"
     }
   },
   "transitions": [
@@ -90,6 +90,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -652,6 +659,48 @@
       "actor": "operator-approved:wp13-native-cognitive-profile-scope",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 81,
+      "generation": 58,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Record the now-materialized cognitive_profile core target and successful nonzero local proof while preserving mandatory native producer deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"cognitive_profile-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5830-core\",\"defer_reason\":null},{\"lane\":\"cognitive_profile-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5830/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5830/native-platform/macos-semantic.json\"],\"parallel_group\":\"5830-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"cognitive_profile-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5830/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5830/native-platform/linux-semantic.json\"],\"parallel_group\":\"5830-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"cognitive_profile-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=fa412b35b507c62cb55ba3386ad9f76a2d53d0a7a47c18ebcf960608857bd04c]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".csdlc/evidence/5830/native-platform/macos.json\",\".csdlc/evidence/5830/native-platform/linux.json\"],\"parallel_group\":\"5830-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 82,
+      "generation": 59,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Dependencies #5827/#5828/#5829 are closed and ancestral, Runtime v3 authorities were inspected, and the issue is bound to exact owned paths.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 83,
+      "generation": 60,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "The versioned profile, evidence categories, revision-linked updates, privacy policy, projections, and fixture matrix are implemented at exact product revision c22ac7b14.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 84,
+      "generation": 61,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "The exact 11-test target passed canonical replay, stale and forbidden evidence, authority mismatch, privacy projection, secret/path, and unsupported-inference negatives with strict checks green.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 85,
+      "generation": 62,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Product and local proof are complete; exact-head review, publication, native proof, and terminal delivery are now the only active plan step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 86,
+      "generation": 63,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

@@ -12,19 +12,74 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-profile contract, including authority-bound evidence, revision semantics, bounded projections, privacy, and explicit nonclaims; native macOS/Linux proof remains deferred to publication CI.
 
 ## Artifacts
 
-- none
+- adl-runtime-kernel/src/cognitive_profile.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/cognitive_profile.rs
+- adl-runtime-kernel/tests/fixtures/cognitive_profile/matrix.json
+- docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
+- .csdlc/prepared/issues/5830/produce-native-receipt.rb
+- .csdlc/prepared/issues/5830/validate-native-receipts.rb
+- .github/workflows/wp13-native-cognitive-profile.yml
 
 ## Execution
 
-- none
+- Add full cognitive-profile construction and reconstruction validation over birthday, identity, continuity, and capability authorities.
+- Add an exact 11-test positive and negative matrix for deterministic revision, evidence, privacy, projection, and unsupported-inference boundaries.
+- Add issue-local native receipt producer, validator, retained local proof, feature truth, and a narrowly scoped WP-13 native workflow.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "ruby",
+      "-e",
+      "ARGV.each { |path| RubyVM::InstructionSequence.compile_file(path) }",
+      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5830/validate-native-receipts.rb"
+    ],
+    "purpose": "Check both issue-local Ruby proof scripts.",
+    "outcome": "passed",
+    "evidence_ref": "cognitive-profile-native-scripts.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "cognitive_profile",
+      "--no-tests=fail",
+      "--status-level",
+      "all"
+    ],
+    "purpose": "Run the exact nonzero issue-owned cognitive_profile target.",
+    "outcome": "passed",
+    "evidence_ref": "cognitive-profile-runtime-v3.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "cognitive_profile",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict Clippy over cognitive_profile.",
+    "outcome": "passed",
+    "evidence_ref": "cognitive-profile-strict-clippy.log"
+  }
+]
 
 ## Integration
 
