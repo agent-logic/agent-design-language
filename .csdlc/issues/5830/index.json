@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
-  "phase": "implemented",
-  "generation": 70,
-  "digest": "3787a721535fd7a226a4169f0662835d8cb5a57d20590980f597a9436efdff92",
+  "phase": "reviewed",
+  "generation": 71,
+  "digest": "403988d34b5d04058fb16803667c53a4ee241b05d10edc467a8bfe1e62139ea3",
   "branch": "codex/5830-cognitive-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
   "review_assignment": {
@@ -26,7 +26,26 @@
       ".csdlc/issues/5830"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5830_exact_head",
+    "scope": [
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile",
+      "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
+      ".github/workflows/wp13-native-cognitive-profile.yml",
+      ".csdlc/evidence/5830",
+      ".csdlc/issues/5830"
+    ],
+    "reviewed_revision": "git-blake3:4ce4f737eaedb3c8d011bdfe4da345491aee09c3:ee4f3d04932204f34399cd0c857304747aa1b630b13a6fcc51176360db01d2c7",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c33206bfb9e6a932f50335da7a8f8a493373a947f7605805fd31bb86f025c7c4",
+      "values_digest": "071f48058487eddc25a771595e5a41219bdffcbcd68cb40233bc1408303c503a",
       "rendered_digest": "f693dd3d3ed034e3ffbaff3348331e986f4f5cc9ae5fce166acecd4f23918b30",
       "ast_digest": "3fd878ebfe7fe0596cb55885b39a06ca0f8b84f87406ef8b718c3f501ba84fa1"
     },
     "stp": {
-      "values_digest": "b1dc6c22fb563e8bf585f49317f439c24d37d90b6f66ec6af5a8fc31dfe91b93",
+      "values_digest": "1160c1a4311193c2e3320d2a5fe99b8c798d607c860a1b8ed23810b02ed9d146",
       "rendered_digest": "1df53b8620d6186ab4e2530b690ebb3a8ce38acf08e9d190d31d106be4961954",
       "ast_digest": "26506815840b2c74b6f70a43469e76cfde25a47d07a10b3a03f8154ada085cca"
     },
     "spp": {
-      "values_digest": "ad109d136e0e8f590cb8a8df03e79f4cef63ba7ca2415442a18ffa54a9df49dc",
+      "values_digest": "87d680e5820bc1e0124a879972a90d0712b722fcd9e095d17baf935adaabaeed",
       "rendered_digest": "5bbd53c6a215939a4937497b080b9c646899130418cec7b7282b256e27749b71",
       "ast_digest": "0e2ffb11caab962358ccb56c06c6802a83520137f00390a8dee1f3099e882b31"
     },
     "vpp": {
-      "values_digest": "e88f3017896bbe8925afeecaba4ed916f960708543fb3aa5ed39a24a2687e8bd",
+      "values_digest": "f191f3e2f68c16b2a131ac11cf9c3d7a6bcfe5eb45866de7f48058c7f4d97897",
       "rendered_digest": "a7a97577baa119dc5d59e112bf549fac8c96187080bcb502611baaf79890fa66",
       "ast_digest": "566beeb9e5296d766f4f5bd4cbe4d22a3252bb3440ccfb7eddb8caed5a448e50"
     },
     "srp": {
-      "values_digest": "53e7687d341d03115659356183a31e46e2c95578487823cddab6dbb2dcd9ab70",
-      "rendered_digest": "e52ee4d44c65d2da9742e55ce761a402de4a0e6e1ed7d623f7149e782bd73818",
-      "ast_digest": "e357213f8b2758ca19199fb9fb0efd476115806faee323cfaa75f0751882d712"
+      "values_digest": "ee4237240b82d84a55490abd22709a536b2c60c3af384f1ac832416ce86a9f9a",
+      "rendered_digest": "5dbec8cd6a73f5e2e441f00f5917232dea426f7e16419841dcfaa04688bcc369",
+      "ast_digest": "4cc504edb9c5117ba12202f1f3da39aec14cc2e64e64aae3f8ac40421cd1997a"
     },
     "sor": {
-      "values_digest": "0fff7ab92b44f1ae766936092ae45d927b48eee09f21ee58eefe9a32a399d088",
+      "values_digest": "22fc53bbd1ea3e86c3f61de7210fc76eb293cd2fe6f033aebd70ac6a7335cd46",
       "rendered_digest": "1878136c663c1d654bd759cc68a1b5486066b80ce8fd740e85e9c21f9e95e287",
       "ast_digest": "e14b7903d3cd5b2abf11529f25e6f86cd2d71216c12374650037ed67e9d77f02"
     }
@@ -134,6 +153,13 @@
       "to": "implemented",
       "actor": "codex:5830-cognitive-profile",
       "reason": "Exact-head native Linux and macOS receipts from GitHub Actions run 31400973911 are now retained and independently validated; recover publication truth so VPP, SOR, and final exact-head review can bind the mandatory hosted proof."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -822,6 +848,13 @@
       "actor": "codex:5830-cognitive-profile",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 99,
+      "generation": 71,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

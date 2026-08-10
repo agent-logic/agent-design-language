@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-13] ACP / cognitive profiles",
     "slug": "v0-92-wp-13-acp-cognitive-profiles",
     "version": "v0.92",
-    "generation": 70
+    "generation": 71
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/cognitive_profile.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile\ndocs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\n.csdlc/prepared/issues/5830/produce-native-receipt.rb\n.csdlc/prepared/issues/5830/validate-native-receipts.rb\n.github/workflows/wp13-native-cognitive-profile.yml\n.csdlc/evidence/5830\n.csdlc/issues/5830",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:4ce4f737eaedb3c8d011bdfe4da345491aee09c3:ee4f3d04932204f34399cd0c857304747aa1b630b13a6fcc51176360db01d2c7",
+      "reviewer": "/root/sprint4_5857/review_5830_exact_head",
       "review_prompts": [
         "Does every profile value cite an allowed current evidence digest and preserve identity, continuity, actor, reason, and prior revision linkage?",
         "Can stale, forbidden, mismatched, or private evidence influence any internal or public projection?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

@@ -44,8 +44,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4ce4f737eaedb3c8d011bdfe4da345491aee09c3:ee4f3d04932204f34399cd0c857304747aa1b630b13a6fcc51176360db01d2c7")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5830_exact_head")
 
-Result: pre_review
+Result: pass
