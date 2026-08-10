@@ -60,11 +60,11 @@ Authored the complete v0.92.1 planning package with independent corporate/IP, C-
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

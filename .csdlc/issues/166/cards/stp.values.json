@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 166,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-05] Implement Repository Context And Read-Only V2 Import",
+    "slug": "v3-05-implement-repository-context-and-read-only-v2-import",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-05 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Repository and issue context types, discovery adapter, read-only importer, compatibility report, representative v2 fixture corpus, and normalized parity output."
+      ],
+      "acceptance_criteria": [
+        "Resolution precedence is explicit and produces one canonical identity.",
+        "Symlink, path escape, ambiguous remote, and ambiguous issue cases fail closed.",
+        "Every unsupported v2 field is reported with record and field identity.",
+        "Unsupported fields produce `ImportStatus::BlockedUnsupportedFields`; the record cannot enter a v3 mutation path until every field has a reviewed preserve, map, or explicit operator disposition.",
+        "Import never writes v2 or v3 state and does not infer missing authority."
+      ],
+      "dependencies": [
+        "V3-01: issue #161",
+        "V3-03: issue #164",
+        "V3-04: issue #165"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-05",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "V3 state writes, binding, lifecycle transitions, GitHub mutation, or automatic conversion of v2 records."
+      ]
+    }
+  }
+}

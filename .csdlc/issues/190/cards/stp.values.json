@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 190,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-03] Publish next-milestone and deferred retirement handoff",
+    "slug": "int-03-publish-next-milestone-and-deferred-retirement-handoff",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only INT-03 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Accepted next-milestone handoff packet.",
+        "V3-R01 eligibility record that remains blocked until rollback expiry and stability approval."
+      ],
+      "acceptance_criteria": [
+        "The handoff cites exact terminal release evidence and every accepted residual risk.",
+        "Deferred work retains owners, dependencies, proof requirements, and routing without being presented as complete.",
+        "V3-R01 remains ineligible until rollback expiry, stability metrics, historical readability, and explicit operator approval all pass.",
+        "The downstream milestone can consume the packet without relying on chat or machine-local state."
+      ],
+      "dependencies": [
+        "INT-02: issue #189"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-03",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Starting the downstream milestone",
+        "Deleting v2",
+        "Rewriting v0.92.1 history"
+      ]
+    }
+  }
+}

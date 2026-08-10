@@ -1,0 +1,140 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 174
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Execute only approved PVF plans through bounded structured concurrency, joined Tokio tasks, registered OS children, root cancellation, platform termination, capped streams, and tamper-evident non-authorizing evidence.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Consume only V3-11A-approved plans and construct bounded scheduler scopes with explicit dependency and concurrency limits.",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Register every Tokio task and OS child under root cancellation; implement platform terminate/escalate/wait/drain behavior.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement selected cancellation for sleeps and process/network awaits with no detached operations.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Implement versioned evidence, stream byte accounting/truncation, digests, tamper detection, and distinct cancelled/timed-out/incomplete outcomes.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Prove passing evidence has no review/publication/merge authority and exercise interruption, cancellation, timeout, truncation, tamper, and platform fixtures.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
+    "action": "Join and clean every resource, retain producer receipts, and stop on unproven termination or any incomplete pass.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S7",
+    "action": "Cancel and join every scheduler scope, terminate/wait/drain every child, finalize or classify each evidence file, and prove no incomplete lane appears passed.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Issue V3-11B owns only its declared repository paths and named external operation/evidence boundary.
+- Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
+- The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+- No unsupported completion, legal, production, or release claim
+- No mutation outside exact owned paths
+
+## Risks
+
+- A passing artifact could overstate production, legal, or release authority.
+- Path or external-account overlap could collide with another active issue.
+- Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/174/design.md
+
+Digest: 263a531200db2e9dcfa3e2b7c64b9bb088b7b2479e6ecaa9193b3ad3de425f59
+
+## Diagram
+
+.csdlc/prepared/issues/174/diagram.mmd
+
+Digest: b1b6b01fa831afe880585b66ba54c81974773450e6561d44d01fd6de3e26c680
+
+## Stop Conditions
+
+- Detached work remains, child termination is unproven on a supported platform, live/cloud work becomes implicit, or incomplete evidence can appear passed.
+- Typed doctor is not ready
+- A required dependency is nonterminal
+- An owned-path collision is discovered
+
+## Handoff
+
+Proceed only after doctor readiness.

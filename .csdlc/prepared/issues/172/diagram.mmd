@@ -1,0 +1,11 @@
+flowchart TD
+  MATRIX["V3-01 capability matrix"] --> CARD["semantic card operations"]
+  STATE["canonical state.json"] --> CARD
+  CARD --> TX["transaction store"]
+  TX --> PROJ["regenerate affected projections"]
+  STATE --> DOCTOR["read-only doctor"]
+  TOPO["observed topology"] --> DOCTOR
+  PROJ --> DOCTOR
+  DOCTOR --> FIND["specific typed finding"]
+  FIND --> NEXT["capability-derived next operation"]
+  FIND --> STRAND["dedicated stranded-state failure"]

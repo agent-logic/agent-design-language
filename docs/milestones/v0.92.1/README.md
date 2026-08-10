@@ -18,7 +18,7 @@ The lanes may execute concurrently and converge only at integrated review and re
 
 - Corporate infrastructure source: [promoted corporate migration requirements](sources/CORPORATE_INFRASTRUCTURE_CONSOLIDATION_SOURCE.md), rerouted from v0.92.5 into this package.
 - C-SDLC v3 source: reviewed Rust architecture in `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md`, accepted through PR `#77` merge `413fa9b8588dd25be3785cfe111c4f1df3af36eb`.
-- Runtime qualification source: terminal issue `#142`, WP-04.16, and the v0.92 distributed Guardian, ACIP, TLS, authority, resilience, and Observatory contracts.
+- Runtime qualification source: the future terminal revision and retained proof from issue `#142`, WP-04.16, and the v0.92 distributed Guardian, ACIP, TLS, authority, resilience, and Observatory contracts. This package does not treat `#142` as terminal; live qualification cannot begin until its exact terminal evidence is recorded and verified.
 
 ## Release Boundary
 
@@ -32,6 +32,8 @@ Release requires all three lane gates or an explicit operator-approved milestone
 - [Work breakdown](WBS_v0.92.1.md)
 - [Sprint plan](SPRINT_v0.92.1.md)
 - [Issue wave](WP_ISSUE_WAVE_v0.92.1.yaml)
+- [Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml)
+- [Live issue map](WP_LIVE_ISSUE_MAP_v0.92.1.yaml)
 - [Demo matrix](DEMO_MATRIX_v0.92.1.md)
 - [Quality gate](QUALITY_GATE_v0.92.1.md)
 - [Feature proof coverage](FEATURE_PROOF_COVERAGE_v0.92.1.md)

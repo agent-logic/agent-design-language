@@ -7,15 +7,15 @@
     "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
     "slug": "v0921-corporate-csdlc-v3-runtime-proof",
     "version": "v0.92.0",
-    "generation": 16
+    "generation": 18
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Milestone completeness, source-plan preservation, legal/IP coverage boundaries, C-SDLC v3 dependency fidelity, distributed Runtime proof quality, independent lane topology, and truthful planning language.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/146/**\n.csdlc/prepared/issues/146/**\ndocs/milestones/v0.92.1/**",
+      "review_revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
+      "reviewer": "subagent:019fed19-77c2-7f70-82c0-10b69a4555fc",
       "review_prompts": [
         "Does any planned acceptance claim legal completion without a counsel-reviewed instrument and corporate acceptance evidence?",
         "Are all V3-01 through V3-16 and deferred V3-R01 responsibilities preserved with their reviewed dependencies and cutover controls?",
@@ -24,8 +24,12 @@
         "Are all first-class work tracks represented in WBS, issue wave, features, ADR plan, proof coverage, quality gates, and release closeout?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Corporate chain-of-title execution remains counsel-owned and blocks release until privately executed and redacted receipts are retained.",
+        "Live distributed qualification remains blocked until issue #142 is terminal at an exact merged revision with passing retained production proof.",
+        "C-SDLC v3 schedule and implementation choices may be revised only through the declared construction-spike and Decision 11 gates."
+      ],
+      "review_result": "pass"
     }
   }
 }

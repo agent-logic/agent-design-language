@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 180,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-R01] Retire V2 After The Rollback Window",
+    "slug": "v3-r01-retire-v2-after-the-rollback-window",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-R01 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Deletion manifest, eligibility decision, retained-evidence inventory, reviewed removal diff, clean installation inventory, and final authority audit."
+      ],
+      "acceptance_criteria": [
+        "Every deletion target is classified before mutation.",
+        "Historical Gate and migration evidence remains readable and immutable.",
+        "No v2 executable, operator skill, selector route, or writable state authority remains after removal.",
+        "V3 can install, validate, review, publish, finish, and clean from a fresh checkout without v2 artifacts."
+      ],
+      "dependencies": [
+        "V3-16: issue #179"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-r01",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "V3 feature work, migration repair hidden inside deletion, removal of immutable historical evidence, or waiver of unresolved stability findings."
+      ]
+    }
+  }
+}

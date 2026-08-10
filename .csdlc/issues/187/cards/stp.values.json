@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 187,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-07] Complete soak replay resource cleanup and synthesis",
+    "slug": "drt-07-complete-soak-replay-resource-cleanup-and-synthesis",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only DRT-07 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Producer-derived soak and resource receipt bundles for both live windows.",
+        "Independent replay and cleanup verification plus final qualification report with explicit non-claims and residual risks."
+      ],
+      "acceptance_criteria": [
+        "Both soak durations complete under declared workload, fault, resource, and error thresholds.",
+        "Receipts bind exact commands, terms, committed indexes, envelopes, source revisions, model digests, clocks, and cleanup outcomes.",
+        "Independent replay reproduces the declared deterministic outcomes without live-provider dependence.",
+        "Provider and process readback proves cleanup after normal completion and every injected or unexpected failure phase."
+      ],
+      "dependencies": [
+        "DRT-05: issue #185",
+        "DRT-06: issue #186"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#drt-07",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Extending soak duration after seeing results",
+        "Replacing failed proof with screenshots",
+        "Claiming release approval"
+      ]
+    }
+  }
+}

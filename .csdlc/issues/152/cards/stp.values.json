@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 152,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-U] Integrated review and release",
+    "slug": "int-u-integrated-review-and-release",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only INT-U within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Exact child dependency and status ledger",
+        "Lane evidence inventory, finding route, and closeout synthesis"
+      ],
+      "acceptance_criteria": [
+        "All 3 declared children have complete six-card packets and approved designs before start.",
+        "Every dependency and serialization gate is checked before child binding.",
+        "No child implementation path is changed by the umbrella.",
+        "The umbrella closes only after all non-deferred children reach their declared terminal state."
+      ],
+      "dependencies": [
+        "No child dependency; setup issue #146 and umbrella readiness only"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Product implementation",
+        "Bypassing child gates",
+        "Treating coordination status as release proof"
+      ]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 186,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-06] Validate Observatory coherent evidence",
+    "slug": "drt-06-validate-observatory-coherent-evidence",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Validate that the single Observatory presents a coherent, causal, authority-aware, redacted distributed evidence surface.",
+      "required_outcome": "coherent authority cut causal trace redaction stale-read denial and singleton ownership is produced at an exact revision and independently reproducible.",
+      "declared_scope": [
+        "Quorum-leased singleton ownership, coherent authority cuts, node and agent correlation, causation, terms, commit indexes, state revisions, stale-read denial, redaction, partition and recovery visibility."
+      ],
+      "authority_boundary": [
+        "Issue DRT-06 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Bind only after typed doctor reports ready",
+        "Do not cross dependency or stop gates",
+        "Keep evidence producer-derived and exact-revision bound"
+      ]
+    }
+  }
+}

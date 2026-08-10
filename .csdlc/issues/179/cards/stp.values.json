@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 179,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-16] Prove Parity, Run Canary Migration, And Cut Over Authority",
+    "slug": "v3-16-prove-parity-run-canary-migration-and-cut-over-authority",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-16 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Parity matrix, shadow reports, canary receipts, measured effect report, migration map, freeze/delta/cutover runbook, rollback criteria, stable binary installation, operator skill, selector change, post-cutover audit, and a retained regression corpus for every known v2 tooling failure and lifecycle dead end discovered before cutover."
+      ],
+      "acceptance_criteria": [
+        "Normalized parity covers cards, lifecycle, validation, review, both publication linkage modes, linkage-aware finish, and cleanup with no unexplained mismatch.",
+        "Every imported record reports unsupported fields before mutation.",
+        "At least the approved canary cohort completes end to end on v3-only authority.",
+        "The canary cohort includes normal authoring and post-review correction for every card family, plus the issue #73 STP-denominator recovery journey; doctor must identify a valid next operation at each intermediate state.",
+        "Every known v2 tooling defect in the retained register has a passing v3 positive or negative regression, or a reviewed explicit non-parity decision.",
+        "Each migrated issue receives an archived exact v2 snapshot and a durable writer fence; the canonical v2 index is absent before v3 mutation begins.",
+        "Supported v2 tools and repository guards reject fenced issue mutation and any reintroduced v2 index or post-fence v2 state.",
+        "No issue is writable by supported v2 and v3 authorities simultaneously.",
+        "The final delta precedes authority switch; source archival follows cutover.",
+        "Cutover requires exact independent review and explicit operator approval.",
+        "V2 remains available only as the time-bounded read-only importer/rollback surface defined by policy."
+      ],
+      "dependencies": [
+        "V3-10A: issue #171",
+        "V3-10B: issue #172",
+        "V3-11A: issue #173",
+        "V3-11B: issue #174",
+        "V3-12: issue #175",
+        "V3-13: issue #176",
+        "V3-14: issue #177",
+        "V3-15: issue #178"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-16",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Immediate v2 deletion, rewriting remote history, transactional remote rollback, migration without freeze/delta reconciliation, or forcing all open v2 issues to v3."
+      ]
+    }
+  }
+}

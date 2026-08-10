@@ -1,0 +1,11 @@
+flowchart TB
+  C["Terminal CORP-08 revision"] --> I["Independent integrated review"]
+  V["Terminal V3-16 revision"] --> I
+  D["Terminal DRT-07 revision"] --> I
+  I --> CI["Corporate evidence recomputation"]
+  I --> VI["C-SDLC v3 evidence recomputation"]
+  I --> DI["Runtime evidence recomputation"]
+  CI & VI & DI --> F["Findings-first ledger"]
+  F --> O["Owning remediation issues"]
+  O --> X["Exact fix revision and rerun proof"]
+  X --> R["Bounded release recommendation"]

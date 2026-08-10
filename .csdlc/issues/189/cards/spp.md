@@ -1,0 +1,124 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 189
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Pin the exact release candidate, rehearse rollback against it, verify company authority and abort paths, and prepare the operator ceremony without performing publication before explicit authorization.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Freeze the candidate manifest with exact source revisions, artifact and schema digests, evidence bundles, external dependencies, and terminal INT-01 recommendation.",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Verify named company release authority, observers, credential custody, change window, communication channels, post-release checks, abort triggers, and bounded rollback ownership.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Execute the rollback rehearsal from the exact candidate in an isolated environment, recording pre-state, commands, authority transitions, data/state digests, failure injection, rollback duration, and final restoration.",
+    "acceptance_ids": [
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Prove rehearsal leaves no data loss, dual authority, hidden personal credentials, stale resources, or untracked manual steps; stop and invalidate the candidate on any drift or rollback failure.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Run the issue validator over manifest digests, authority readback, rehearsal receipts, invariants, and abort path; complete independent ceremony review.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
+    "action": "Publish the ready ceremony packet while retaining the final release action as operator-gated and unexecuted until explicit authorization.",
+    "acceptance_ids": [
+      "AC-4"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Issue INT-02 owns only its declared repository paths and named external operation/evidence boundary.
+- Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
+- The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+- No unsupported completion, legal, production, or release claim
+- No mutation outside exact owned paths
+
+## Risks
+
+- A passing artifact could overstate production, legal, or release authority.
+- Path or external-account overlap could collide with another active issue.
+- Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/189/design.md
+
+Digest: deda02780ab0d6d8e22290d8c3a58af4104d7234153debd94bc516544f6538fa
+
+## Diagram
+
+.csdlc/prepared/issues/189/diagram.mmd
+
+Digest: 9540e686a033eb3ddaadf2c55eba7600bb751f83f964bb7bd8857bfcf32a7a00
+
+## Stop Conditions
+
+- Candidate inputs drift
+- Rollback fails
+- Authority is ambiguous
+- An unresolved blocker or external dependency appears
+- Typed doctor is not ready
+- A required dependency is nonterminal
+- An owned-path collision is discovered
+
+## Handoff
+
+Proceed only after doctor readiness.

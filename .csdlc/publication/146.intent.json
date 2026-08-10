@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 146,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/146-v0921-milestone-planning",
+  "title": "[v0.92][planning] Establish the v0.92.1 corporate, C-SDLC v3, and distributed Runtime milestone",
+  "body": "## Summary\n\n- establish the canonical v0.92.1 milestone package\n- define independent corporate/IP, C-SDLC v3, and distributed Runtime qualification lanes\n- retain the complete 38-package issue graph, proof gates, consultation dispositions, and tracked source inputs\n\n## Validation\n\n- `ruby .csdlc/prepared/issues/146/validate-v0921-package.rb`\n- `ruby .csdlc/prepared/issues/146/validate-v0921-links.rb`\n- `git diff --check origin/main...HEAD`\n- independent exact-head review: PASS at `f3a6c30b8a4307bbfaf00ba842830c33a3382f1b`\n\nCloses #146",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
+  "commit_sha": "f3a6c30b8a4307bbfaf00ba842830c33a3382f1b"
+}

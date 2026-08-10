@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 159,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-07] Move Terraform CI deployment and runbook authority",
+    "slug": "corp-07-move-terraform-ci-deployment-and-runbook-authority",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only CORP-07 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Company-owned infrastructure-state and deployment-authority manifest.",
+        "Proven deployment and rollback runbooks executable by an authorized company operator."
+      ],
+      "acceptance_criteria": [
+        "Terraform state, locks, plans, applies, and recovery operate under company custody.",
+        "CI uses company-controlled OIDC or equivalent short-lived identity and least privilege.",
+        "A clean deployment and rollback complete without founder-local credentials or unrecorded manual steps.",
+        "Runbooks name prerequisites, single commands, expected outputs, rollback, cleanup, and escalation without exposing secrets."
+      ],
+      "dependencies": [
+        "CORP-05: issue #157",
+        "CORP-06: issue #158"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#corp-07",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Embedding credentials in workflows or runbooks",
+        "Replacing proven infrastructure during authority migration",
+        "Treating an unexecuted plan as deployment proof"
+      ]
+    }
+  }
+}

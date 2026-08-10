@@ -1,0 +1,19 @@
+flowchart LR
+  SERVICES["Terminal CORP-01\ncritical-service denominator"] --> MATRIX["Redacted service custody matrix"]
+  COMPANY["Company admin and billing roles"] --> MATRIX
+  MFA["Secure MFA and recovery channels"] --> MATRIX
+  VAULT["Company vault\nrecord identifiers only"] --> MATRIX
+  MATRIX --> RECOVERY["Company-context recovery exercise"]
+  MATRIX --> BREAKGLASS["Audited break-glass exercise"]
+  RECOVERY --> NEGATIVE{"Sole founder factor?"}
+  NEGATIVE -->|"yes"| STOP["STOP: restore prior posture\nand mark service blocked"]
+  NEGATIVE -->|"no"| RECEIPTS["Role/outcome recovery receipts"]
+  BREAKGLASS --> RECEIPTS
+  RECEIPTS --> RESTORE["Restore routine access\nand verify audit trail"]
+  RESTORE --> REVIEW["Independent custody and\nsecret-redaction review"]
+  REVIEW --> HANDOFF["CORP-04 custody proof"]
+
+  subgraph PRIVATE["Credential boundary"]
+    MFA
+    VAULT
+  end

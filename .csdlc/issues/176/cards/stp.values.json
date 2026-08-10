@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 176,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-13] Implement GitHub Adapter And Read-Only Observation",
+    "slug": "v3-13-implement-github-adapter-and-read-only-observation",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-13 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Narrow GitHub trait, Octocrab adapter, concrete V3-04 `ReviewerIdentityResolver` implementation, normalized observation types, unexpected/unconsumed HTTP fixtures, pagination/retry policy, and read-only status commands."
+      ],
+      "acceptance_criteria": [
+        "Domain modules depend only on normalized GitHub observations.",
+        "Pagination, rate limits, authentication, missing resources, and unknown mergeability remain distinct.",
+        "Required checks bind to exact head SHA and terminal conclusions.",
+        "`IssueObservation` is populated from the typed REST issue endpoint and preserves qualified identity, `state`, `state_reason`, `updated_at`, and observation time; missing or ambiguous fields cannot be normalized to open.",
+        "REST fixtures separately prove `state: null`, HTTP 404, and `state: closed` with `state_reason: completed`; none can normalize to an open checkpoint target.",
+        "Every raw-request endpoint names its GitHub API reference and has typed request/response structures plus transport-level fixtures.",
+        "Read-only commands perform no remote or local lifecycle mutation.",
+        "Authenticated human-principal observation is typed and activates no publication authority until V3-12 independently evaluates it."
+      ],
+      "dependencies": [
+        "V3-04: issue #165",
+        "V3-08: issue #169",
+        "V3-09: issue #170",
+        "V3-12: issue #175"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-13",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "GitHub mutation, publication, foreground watch, merge, finish, cleanup, lifecycle transitions, or raw `gh`/shell fallback."
+      ]
+    }
+  }
+}

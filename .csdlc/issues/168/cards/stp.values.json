@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 168,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-07] Implement The Pure Lifecycle Kernel",
+    "slug": "v3-07-implement-the-pure-lifecycle-kernel",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-07 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Pure transition API, transition-and-correction table generated from the V3-01 capability matrix, recovery graph, invariant/property tests, negative transition corpus, idempotency model, and v2 behavior mapping."
+      ],
+      "acceptance_criteria": [
+        "Every state/command pair has an explicit allowed or rejected outcome.",
+        "The compiler enforces exhaustive closed-state handling.",
+        "Branch/worktree topology is the only local ownership authority.",
+        "Review staleness, publication gates, terminal truth, and cleanup eligibility remain fail-closed.",
+        "Every accepted recovery transition preserves a reachable typed correction or typed terminal-disposition command; no supported state is a lifecycle dead end and no abstract operator-required sink satisfies reachability.",
+        "The generated transition table accepts `review recover` only from `reviewed`, `published`, or `merge_ready`, returns to `implemented`, rejects `merged` and `closed_out`, and proves the matrix-declared atomic invalidations.",
+        "Removing or changing any authorization predicate causes mutation/property tests to fail, including correction invalidation and stale-CAS predicates.",
+        "Cleanup eligibility requires committed `closed_out` state and a retained terminal receipt; remote merge observation alone is insufficient."
+      ],
+      "dependencies": [
+        "V3-06: issue #167"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-07",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "File writes, Git commands, GitHub calls, clock reads, prompting, process execution, or retry policy."
+      ]
+    }
+  }
+}

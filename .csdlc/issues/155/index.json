@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 155,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4e0a95241fe5887e1871bd54abcb56191d5b1de531f7de49287c70d5f810868c",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "e22cd715ede87b203b9059d712b92f5f608656c69b52f291b5d97a7b8ad0d1f8",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/155/design.md",
+  "diagram_path": ".csdlc/prepared/issues/155/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "b6f9fb3fad2fef6f0b39d591ebf71d809380f7f86074c0651b9f2406ddd37d56"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3ce70bf062e6c5d3c4f460e6310cf27064e0e6ebb379ea771531b3f31c6bc31a",
+      "rendered_digest": "2a813a7ab7815c154619e722a9dc5fc0bf13c35e386fee721cb484e890fdff11",
+      "ast_digest": "67e5ce27c3de22f772fdc45d2afefe2127bda9b7062044e838f6fb542aa2ca20"
+    },
+    "stp": {
+      "values_digest": "3cb1774e5f054929c35a1e8804ac6803943b1e51328079659051a49e1a52a629",
+      "rendered_digest": "3d5af5735ed50e37a1132155483b43b6f2f8b652ccc7518aec2115cb2fe204a0",
+      "ast_digest": "a1cee5163e9691534093d608e50e147851b1ba6cbe4dec35bab98d87e32dd15f"
+    },
+    "spp": {
+      "values_digest": "033072eeeca162e7640673fbbd45fa6cf5a33672353c7efcbdd74ee20b84e0d1",
+      "rendered_digest": "b2468fd349fa1d342be8584e5456658c174456a3e1378f2cb8d85da28f537193",
+      "ast_digest": "89e06b1bdb96c9d648597d56bfccb15579371721b4408912bac9f91405c85fa5"
+    },
+    "vpp": {
+      "values_digest": "23c3b0d6b7a0f939d8465af9c17e4b53f89e31c6958f01a5302fc204fa8bed89",
+      "rendered_digest": "d121addea80d2cf33e65ed7bcce1c5e10221ccdbff5a2a52a423054e2c9106b0",
+      "ast_digest": "4887b1ae88b204c5c0dc5c4323443788dacf9885be7929d663ef957d099af0bb"
+    },
+    "srp": {
+      "values_digest": "3938f41b058d61ff4400beb4ecb118a6e2c0bf3d13c20dcc84b61b0a3a0ab5a6",
+      "rendered_digest": "e115fce7624c244974862325aed1bf6b5e7bc84273cc53b447b727125103abe2",
+      "ast_digest": "00e06ae02729fa8ed2d06ebd767466c8429e641cd5d86d7f69bc8c5046516e5e"
+    },
+    "sor": {
+      "values_digest": "05f795c3ac03aa464b09c0232551b453dbbd05b95efba4db8e895addaf27eab1",
+      "rendered_digest": "cbbe0d57f3915d12fd8afa2d6e286bcff53d3ae3ea486bdaed9d740aea1146e3",
+      "ast_digest": "2460c55aca4a5fd3c5011a320f770dc3e55c11dae5b61cdc4f12419626ff7b50"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:146-corporate-readiness-remediation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:146-review-remediation",
+      "reason": "Remove the redundant exact validator path already covered by the issue prepared-root declaration.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/corporate/corp-03/**\",\"docs/operations/corporate/corp-03/**\",\".csdlc/issues/155/**\",\".csdlc/prepared/issues/155/**\",\".csdlc/evidence/155/**\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

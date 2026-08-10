@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 172,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-10B] Implement Card And Doctor Commands",
+    "slug": "v3-10b-implement-card-and-doctor-commands",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-10B within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Card command modules and semantic edit operations generated from or mechanically checked against the V3-01 capability matrix, doctor finding registry, read-only repair recommendations, stranded-state detector, projection repair fixtures, and typed result schemas."
+      ],
+      "acceptance_criteria": [
+        "Card edits mutate semantic values and regenerate all affected projections.",
+        "Rendered Markdown and stale projections never become input authority.",
+        "Doctor is read-only, specific, and identifies the next valid operation.",
+        "Doctor reports a dedicated invariant failure when a wrong or stale acceptance-bearing field has no authorized correction path; ordinary healthy states always receive a capability-derived next operation.",
+        "Projection drift, invalid schema, unsupported import fields, and topology blockers remain distinguishable.",
+        "`card show`, `card edit`, and doctor enforce the V3-06 per-phase required and optional field table and its one declared placeholder."
+      ],
+      "dependencies": [
+        "V3-05: issue #166",
+        "V3-06: issue #167",
+        "V3-07: issue #168",
+        "V3-08: issue #169",
+        "V3-09: issue #170"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-10b",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Binding, PVF execution, formal review, GitHub mutation, automatic repair without typed edit authority, finish, cleanup, or cutover."
+      ]
+    }
+  }
+}

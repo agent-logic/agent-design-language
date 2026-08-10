@@ -1,0 +1,13 @@
+stateDiagram-v2
+  Implemented --> Reviewed: independent exact-head review
+  Reviewed --> Published: linkage-bound authorization
+  Published --> MergeReady: checks and policy
+  Reviewed --> Implemented: recover + invalidate
+  Published --> Implemented: recover + invalidate
+  MergeReady --> Implemented: recover + invalidate
+  state Linkage <<choice>>
+  Reviewed --> Linkage
+  Linkage --> Published: Closing
+  Linkage --> Published: PartOf
+  Merged --> Merged: recover rejected
+  ClosedOut --> ClosedOut: recover rejected

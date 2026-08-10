@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 153,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-01] Freeze critical asset and account inventory",
+    "slug": "corp-01-freeze-critical-asset-and-account-inventory",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only CORP-01 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Redacted critical-asset register with current and target owner, custodian, recovery authority, transfer method, dependency, and disposition.",
+        "Machine-checkable denominator and exclusion matrix with stable asset identifiers."
+      ],
+      "acceptance_criteria": [
+        "Every asset class named by the promoted corporate source has at least one inventoried row or an explicit not-applicable disposition.",
+        "Each critical row identifies current control, target corporate control, transfer dependency, verification method, rollback posture, and evidence location.",
+        "The validator rejects duplicate identifiers, missing owners, missing recovery authority, unbounded secret fields, and unapproved exclusions.",
+        "No transfer or credential rotation occurs in this inventory issue."
+      ],
+      "dependencies": [
+        "No child dependency; setup issue #146 and umbrella readiness only"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#corp-01",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Executing transfers",
+        "Storing secrets or private legal instruments",
+        "Inferring ownership from billing screenshots alone"
+      ]
+    }
+  }
+}

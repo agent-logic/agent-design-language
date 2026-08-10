@@ -37,6 +37,19 @@ files.each do |path|
   end
 end
 
+specs = YAML.safe_load(milestone.join("WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml").read, permitted_classes: [], aliases: false)
+specs.fetch("work_packages").each do |spec|
+  spec.fetch("source_refs").each do |target|
+    relative = target.split("#", 2).first
+    resolved = root.join(relative).cleanpath
+    missing << "#{spec.fetch('id')} source -> #{target}" unless resolved.exist?
+    next unless resolved.exist?
+    tracked = system("git", "ls-files", "--error-unmatch", "--", resolved.relative_path_from(root).to_s,
+                     chdir: root.to_s, out: File::NULL, err: File::NULL)
+    untracked << "#{spec.fetch('id')} source -> #{target}" unless tracked
+  end
+end
+
 abort("missing local links:\n#{missing.join("\n")}") unless missing.empty?
 abort("local links target untracked files:\n#{untracked.join("\n")}") unless untracked.empty?
 abort("unresolved placeholders:\n#{placeholder_hits.join("\n")}") unless placeholder_hits.empty?

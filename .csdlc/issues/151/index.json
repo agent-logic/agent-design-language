@@ -1,0 +1,88 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 151,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b52fdc398b7cedba1cb60dfb59a9d53d7927a5b30b15d6b5f8fb580748385003",
+  "phase": "initialized",
+  "generation": 3,
+  "digest": "2061c7d41265e3247089b500c47864ddb2737aea80cd84e1306523b27e5f3125",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/151/design.md",
+  "diagram_path": ".csdlc/prepared/issues/151/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "627ba10a3f86810b7fa21138fa4d78cec60fd7da5336e3ecf026b2553498d53a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "379c3865834ac9865a2433e57cee5d697cfc8d7fdca62eb39178dc97e033480d",
+      "rendered_digest": "85254de2088a5f4e137797ff36e5af935b337dfae943917457a6a1d455de9526",
+      "ast_digest": "33d098d18b9beb2b49512b48965766265cb61ed7d8b8619f7c306e07155bcfb5"
+    },
+    "stp": {
+      "values_digest": "e2b25815315b857d8cfe870629ff46afadb07d887996efbe10e1887ecb633551",
+      "rendered_digest": "e1ca37a05deb828bf3c7248400e4a0dfc738dcff35d11407b31b1536fdd76d4f",
+      "ast_digest": "a416af30bcb4eac637544a671d38bf9e25ac48fbcd0426b8eda2b8ce484f9e9c"
+    },
+    "spp": {
+      "values_digest": "736e6bd2e87887ab8e34180092774901f7be518d6b1b624ebefe88d5714a09ba",
+      "rendered_digest": "4686ab4c76e001cb7c380ab9d17adb3f5620727c8d41f24c1a87d20a156cad6f",
+      "ast_digest": "cb88817ef5a73b976d83dad9eb6f76c5230884896f8f0b3cb180d6c5f824620b"
+    },
+    "vpp": {
+      "values_digest": "674bedd715bd89f2a67f7c47c5e2762fab750b24a5712c219657dfe40868d986",
+      "rendered_digest": "e29a98663802e484c80c363b657808f1747528af7004e1d86f5adb328aadb6e7",
+      "ast_digest": "0bbe859c7f57d821bd24a9b001cff8acd24460c9b10795f3128341423876fb2c"
+    },
+    "srp": {
+      "values_digest": "550462914215e0d0886a3ced2886d64c3caa69db1ec89bed10cb940a29e60001",
+      "rendered_digest": "ad87c44168a7cf073e045c189a7b6fed4f4dc9d5352bfbd49a22369077006cc3",
+      "ast_digest": "faa91d7d47d18866a6506e59a150cf2564ffefeebfbd3c8d7f76ac31a9c35bb6"
+    },
+    "sor": {
+      "values_digest": "d237b4acaea2607e8c6a257979da7c04a9bc2071206deeb9f53d949f54387f91",
+      "rendered_digest": "d6ebe2eab1479acf69f149794f737080886af43cda179e1c65888b4b4774beb0",
+      "ast_digest": "b5254352479fd0ae04995843e12fb14debf0c1dcead0287fb395e4f9507d95f1"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:146-v0921-wave-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:146-umbrella-review-remediation",
+      "reason": "Finalize the issue-specific umbrella plan through the typed semantic editor without approving its design.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Coordinate the seven distributed Runtime qualification packages through deterministic contract proof, the external #142 production gate, Wuji and hybrid topologies, security/Observatory checks, and terminal soak cleanup. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:146-umbrella-review-remediation",
+      "reason": "Activate the now-authored issue-specific fail-closed umbrella validator while leaving design approval pending.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"drt-u-coordination\",\"proof_role\":\"Validate exact child denominator, readiness, dependency, terminal, and no-product-ownership truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/151/validate-outcome.rb\"],\"parallel_group\":\"drt-u-coordination\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

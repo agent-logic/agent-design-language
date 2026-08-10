@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 151,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-U] Distributed multi-agent Runtime qualification",
+    "slug": "drt-u-distributed-multi-agent-runtime-qualification",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "drt-u-coordination",
+          "proof_role": "Validate exact child denominator, readiness, dependency, terminal, and no-product-ownership truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/151/validate-outcome.rb"
+          ],
+          "parallel_group": "drt-u-coordination",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/151/design.md",
+      "design_digest": "627ba10a3f86810b7fa21138fa4d78cec60fd7da5336e3ecf026b2553498d53a",
+      "diagram_ref": ".csdlc/prepared/issues/151/diagram.mmd",
+      "diagram_digest": "c9ac6407bf9b1e9aa8f65d66d9282381e17b90a1ffd14930c6d345e0703d367d"
+    }
+  }
+}

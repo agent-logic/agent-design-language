@@ -1,0 +1,74 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 186,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "44d5d33dc0d466f3e0760dd777946848db189f108843125e093afe124e079dee",
+  "phase": "initialized",
+  "generation": 1,
+  "digest": "ed7232b66799b8433f0d6002e4b9adb68fd2619c4018f431f7d167b5a23787f5",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/186/design.md",
+  "diagram_path": ".csdlc/prepared/issues/186/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "0094a845fca2e44aca0c1449c22658c483a6074c18f70e0bd0b3bb3ddda7141f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ae82f64b545d488ce8d568c1adc865e858d5db3dba2206db8dcd714ae5182837",
+      "rendered_digest": "c14701cff3a6ed0021009824512f1a6571b2f3b6cc3512b939e7ceff1f54aed3",
+      "ast_digest": "48a80fce535daf334ef6e44db10d0e0a52e503f1de7aab0351a571d16404222b"
+    },
+    "stp": {
+      "values_digest": "ac46496979d972c4086768bdac5e8993957263c67a016169086d6fbe9d5c9fc9",
+      "rendered_digest": "5ff98e0c746ba3f69488230c29c9d04dd6c5247e8e88d74f7cdff65c293424de",
+      "ast_digest": "b9c5134e76c9bdab7bbb8e635b5c30d1b7e4860954c2262e52aea52a4a232984"
+    },
+    "spp": {
+      "values_digest": "2e265cd1af88a5697d010293f2cd4c4314b872e6d5e49d49c44434a342bc155a",
+      "rendered_digest": "93d2c5ba14549a22874f96b4aa3a2892797c1ce1f30f93f500d80327dec7f440",
+      "ast_digest": "8f81a0960168270f6de9085c90e5c6550d0143ce97041e3e7cf531972e608400"
+    },
+    "vpp": {
+      "values_digest": "7ebb34b6a110d7026b771d3ab5ff427236a56f72497d0de7bea14b75c8733285",
+      "rendered_digest": "fbffb2e2dfaa089b2658c505190558a886c1dfa58a612692f349a3695d492cce",
+      "ast_digest": "e3e65f1895c3fd78d8a789d0157fb6ea82607672ae9d1f836630aeca0722e15b"
+    },
+    "srp": {
+      "values_digest": "4eed64309c1f81531a3faf6b0f338a11bbcb4047e7fb0aa98d2244b40712aae6",
+      "rendered_digest": "8234fb8828de2ba1c533ada675760b9863f64d6b71be6ec888d35e7dada52093",
+      "ast_digest": "20247ca1472f3c8f49d0e7ddfaadd565bcf2fc84c6be9b06e0c9c57dfa865290"
+    },
+    "sor": {
+      "values_digest": "fede77ebddfc0977ca8903a30c249f6b3d2114b9a3b45bc8f9b2d90439ebec88",
+      "rendered_digest": "eaf0ea11e6cdf2e10444325c183d9cd7b1e62f3a564cfade8bdaea8131fefbf3",
+      "ast_digest": "1fc7791a5792403e27e649afb989271c0f7f9134ea35b9fe6c68aa74bc4349c5"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:146-runtime-integration-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

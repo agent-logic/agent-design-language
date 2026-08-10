@@ -1,0 +1,100 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 174,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-11B] Implement PVF Execution And Evidence",
+    "slug": "v3-11b-implement-pvf-execution-and-evidence",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "v3-11b-outcome-contract",
+          "proof_role": "Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/174/validate-outcome.rb"
+          ],
+          "parallel_group": "v3-11b-outcome-contract",
+          "defer_reason": "The issue-delivered validator is authored with the implementation and must pass before review."
+        },
+        {
+          "lane": "v3-11b-focused-rust",
+          "proof_role": "Run the focused C-SDLC v3 implementation tests owned by this work package.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all-targets"
+          ],
+          "parallel_group": "v3-11b-focused-rust",
+          "defer_reason": "The csdlc-v3 crate is created by the implementation wave; this lane becomes executable with the owned slice."
+        },
+        {
+          "lane": "v3-11b-diff-hygiene",
+          "proof_role": "Reject whitespace and malformed-diff defects before exact-head review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "parallel_group": "v3-11b-diff-hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/174/design.md",
+      "design_digest": "263a531200db2e9dcfa3e2b7c64b9bb088b7b2479e6ecaa9193b3ad3de425f59",
+      "diagram_ref": ".csdlc/prepared/issues/174/diagram.mmd",
+      "diagram_digest": "b1b6b01fa831afe880585b66ba54c81974773450e6561d44d01fd6de3e26c680"
+    }
+  }
+}

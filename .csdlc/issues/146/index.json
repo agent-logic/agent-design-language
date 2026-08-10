@@ -4,14 +4,50 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3a49b58d5ed74ad42ce9c9f58a4d3174e5c90ecc75d9efb944e061612e120434",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "9f335ad52e2b2c571ccb7d05184ca2ab583e314a8008602e7a43fdc733be6ca3",
+  "phase": "published",
+  "generation": 18,
+  "digest": "6d633663210fc7cbd20e500cf5711d6a1fb584a89bd195c30328f964fe328478",
   "branch": "codex/146-v0921-milestone-planning",
   "worktree": "/Volumes/FastWork/adl-issue-146-v0921-milestone",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fed19-77c2-7f70-82c0-10b69a4555fc",
+    "assigned_by": "codex-v0921-planner",
+    "revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
+    "scope": [
+      ".csdlc/issues/146/**",
+      ".csdlc/prepared/issues/146/**",
+      "docs/milestones/v0.92.1/**"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fed19-77c2-7f70-82c0-10b69a4555fc",
+    "scope": [
+      ".csdlc/issues/146/**",
+      ".csdlc/prepared/issues/146/**",
+      "docs/milestones/v0.92.1/**"
+    ],
+    "reviewed_revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
+    "findings": [],
+    "residual_risks": [
+      "Corporate chain-of-title execution remains counsel-owned and blocks release until privately executed and redacted receipts are retained.",
+      "Live distributed qualification remains blocked until issue #142 is terminal at an exact merged revision with passing retained production proof.",
+      "C-SDLC v3 schedule and implementation choices may be revised only through the declared construction-spike and Decision 11 gates."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 146,
+    "pull_request": 148,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/148",
+    "base": "main",
+    "head": "codex/146-v0921-milestone-planning",
+    "revision": "git-blake3:f3a6c30b8a4307bbfaf00ba842830c33a3382f1b:f0b1ce3756bcd30db7a786083b46c0ca01660cf1cdd5775da29b4687c5245733",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "09229c5178f0de76da54d3ce8a08a156dbfe0b31322d218920ddc04ab36363d7",
+      "values_digest": "167af553ca1e04cd9ade43b7c840feaf3e2dbe7f8b244734be5f617e7b13460e",
       "rendered_digest": "68927ffb54723f56ff825c5269ece58bed93af405d9e4bd314052a228df967ce",
       "ast_digest": "c1f7e80d671dd1f6b49c81d35f828b550fd775eadd6b6c6c18c152c0648622fe"
     },
     "stp": {
-      "values_digest": "79b705b7b80153e65454913909e1bced845efe7ef57186f18d6d86e14647b4b9",
+      "values_digest": "8d1ba6847aea61731deeb1767c74f74bc0e9a1d16c3636d93b21587d1aca80dd",
       "rendered_digest": "a13d3199e0b206fcac2f97d24a55c3c976be0b803a3a92f78be085684cbfc957",
       "ast_digest": "cb391b19a99e1d45219ae0d892cf4219811981e69f6c5ce19b658d72abdc6063"
     },
     "spp": {
-      "values_digest": "ee6c4b57efb0e042cb508be002c2419b7c998c524f4c3f1c363d0363063ac7eb",
+      "values_digest": "a00ed65e1126a48ce963ec1cbe63fdb101d679cf074473a3163f8fa70b837f0e",
       "rendered_digest": "91e1d4b056a4882a433e6ddbc983aeaa2f67252c6902702b52a36f7b95fdbb3e",
       "ast_digest": "6a61dc1ddc60c817f34640a51e914aab4a5a4c298f3e0eb97775c595c1a21500"
     },
     "vpp": {
-      "values_digest": "ad195987e630728724026651f8bfc2309053bd8566616eae22654645211b7a0c",
+      "values_digest": "5cf48093ef8aacabc34d3c328d29a984cc00d49c5f55dbe860bf3eb0326e7536",
       "rendered_digest": "d812a8beef5b179f5e1d96cf62eea63ec114c6795c61ff2848c6c42def76302a",
       "ast_digest": "bd7b1510ffdf88f12625aabde61c020e6ab4ec0f1dd083e989d09f816332aa20"
     },
     "srp": {
-      "values_digest": "590b9a3a952a377a1032436fa1cdde985403d664757e1e59b01cfe211f92f22d",
-      "rendered_digest": "06cddf1703aa2d3d98533e5de9ccb1d423bb5724cf7714b01b1f7ff0318492b7",
-      "ast_digest": "56e34ddb8f564e053f5fea472bae1ccb091ddef058cce939cc2d0ca91cc48293"
+      "values_digest": "06ec5212b59d5fcb950f4d1028ebf0fbbb7cacdbe5d84ccc00536d841594413e",
+      "rendered_digest": "4e286ceb1dcef3c8e7c5a77b18b1029e7e711bd0233ca0ac7324451650a1e7e9",
+      "ast_digest": "070acdefb4da873e5a6e0bd10a60c18ae519f01401e3780c5185de40fb048fb2"
     },
     "sor": {
-      "values_digest": "a92407933a19109a4b05ee600986abb923713ee01da2968678e729425d0ec6ba",
-      "rendered_digest": "c6bf5d0a05c8b3d35894f9b921a441c7a6c6088e87445aa8a1ebc9daae94a796",
-      "ast_digest": "b5d503fd62f0e521422c09dd59a934699256ae22d526475146e05e354e206254"
+      "values_digest": "e9cc8eb519532263638a1ab8e0196187dba2a9fadd5704142b20d0c8fcab8a93",
+      "rendered_digest": "c47a8e78e1bc3209550b0d021139e77f707426f2c92e4c57c36c83f9ff674344",
+      "ast_digest": "db1ed82e0efbeec5fb1ab26375694e689f03926d8f86fe65ca6b7aa059ee4092"
     }
   },
   "transitions": [
@@ -76,6 +112,20 @@
       "to": "implemented",
       "actor": "codex-v0921-planner",
       "reason": "Bounded planning implementation and focused deterministic validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-v0921-planner",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-v0921-planner",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -204,6 +254,27 @@
       "actor": "codex-v0921-planner",
       "reason": "Bounded planning implementation and focused deterministic validation are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex-v0921-planner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex-v0921-planner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex-v0921-planner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

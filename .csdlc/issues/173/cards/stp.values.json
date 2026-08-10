@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 173,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-11A] Implement PVF Planning Domain",
+    "slug": "v3-11a-implement-pvf-planning-domain",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-11A within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Pure validation-planning domain, manifest schema, exhaustive classification tables, DAG validator, typed errors, and representative plans."
+      ],
+      "acceptance_criteria": [
+        "Every lane declares proof role, determinism, resource profile, gate posture, command, timeout, dependencies, and evidence destination.",
+        "Pending, deferred, blocked, failed, skipped, and passed cannot be conflated.",
+        "Cycles, duplicate ownership, missing acceptance coverage, and hidden routing policy fail before execution.",
+        "Planning has no process, network, clock, or filesystem side effects beyond declared input loading."
+      ],
+      "dependencies": [
+        "V3-01: issue #161",
+        "V3-06: issue #167"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-11a",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Process execution, scheduling runtime, timing behavior, evidence writes, cloud runners, review, publication, or authority from planned tests."
+      ]
+    }
+  }
+}

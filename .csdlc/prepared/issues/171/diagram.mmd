@@ -1,0 +1,12 @@
+flowchart LR
+  FLAGS["direct flags"] --> PARSE["exclusive typed command input"]
+  JSON["--input JSON"] --> PARSE
+  PARSE --> ISSUE["issue initialize/show"]
+  PARSE --> BIND["bind"]
+  TOPO["canonical Git worktree topology"] --> BIND
+  REPO["qualified repository identity"] --> BIND
+  BIND --> COLLIDE{"collision or drift?"}
+  COLLIDE -->|yes| REJECT["typed fail-closed result"]
+  COLLIDE -->|no| STATE["transactional bound state"]
+  ISSUE --> STATE
+  STATE --> OUTPUT["equivalent human/JSON outcome"]

@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 179,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-16] Prove Parity, Run Canary Migration, And Cut Over Authority",
+    "slug": "v3-16-prove-parity-run-canary-migration-and-cut-over-authority",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prove complete safety parity, execute bounded v3-only canaries, migrate authority without dual writes, and perform the separately approved selector cutover.",
+      "required_outcome": "shadow corpus live canaries migration rehearsal authority scan rollback and independent review is produced at an exact revision and independently reproducible.",
+      "declared_scope": [
+        "Representative v2 corpus, normalized parity runner, unsupported-field register, read-only shadow, opt-in v3 issue canaries, performance/effect measurement, migration tooling, operator runbook, rollback window, installation, one operator skill, selector switch, and post-cutover audit."
+      ],
+      "authority_boundary": [
+        "Issue V3-16 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Bind only after typed doctor reports ready",
+        "Do not cross dependency or stop gates",
+        "Keep evidence producer-derived and exact-revision bound"
+      ]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 184,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-04] Run hybrid Wuji and AWS continuity proof",
+    "slug": "drt-04-run-hybrid-wuji-and-aws-continuity-proof",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only DRT-04 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Single-command hybrid qualification runner using the Agent Logic business AWS profile.",
+        "Placement, transport, snapshot, quorum, election, commit, fence, partition, heal, halt, resource, cost, and cleanup receipts."
+      ],
+      "acceptance_criteria": [
+        "AWS identity resolves to the approved Agent Logic business account before provisioning.",
+        "AWS voters use separate AZs, private authenticated transport, distinct state and independently materialized snapshots.",
+        "Isolating Wuji preserves AWS-only quorum continuity while the isolated stale voter cannot mutate; loss of quorum halts mutation.",
+        "Healing converges term, commit index, state digest, fence, and Observatory ownership before traffic resumes; every phase cleans up."
+      ],
+      "dependencies": [
+        "DRT-03: issue #183"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#drt-04",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Public control endpoints",
+        "Shared state or manually copied snapshots",
+        "Dynamic IAM profile creation",
+        "Leaving cloud resources after failure"
+      ]
+    }
+  }
+}
