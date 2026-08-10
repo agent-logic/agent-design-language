@@ -42,11 +42,42 @@ def validate_parallel_ownership!(lanes, affected_by_issue)
   end
 end
 
+def parse_human_parallel_lanes(text)
+  section = text.split("## Safe Parallel Lanes", 2).fetch(1).split(/\n## /, 2).first
+  rows = section.lines.select { |line| line.lstrip.start_with?("|") }
+  raise "human parallel-lane table is incomplete" if rows.length < 3
+  rows.drop(2).map do |line|
+    cells = line.split("|").map(&:strip).reject(&:empty?)
+    raise "human parallel-lane row is malformed: #{line.strip}" unless cells.length == 4
+    issues = cells.fetch(1).scan(/#(\d+)/).flatten.map(&:to_i)
+    raise "human parallel-lane row has fewer than two issues: #{line.strip}" if issues.length < 2
+    {
+      "issues" => issues,
+      "boundary" => cells.fetch(2),
+      "gate" => cells.fetch(3)
+    }
+  end
+end
+
 if ARGV == ["--negative-overlap"]
   lane = { "issues" => [1, 2], "gate" => "terminal prerequisites", "boundary" => "disjoint paths" }
   begin
     validate_parallel_contract!([lane], [lane.merge("gate" => "weaker gate")], [lane])
     raise "negative authority control accepted divergent lane semantics"
+  rescue RuntimeError => error
+    raise unless error.message == "canonical parallel-lane contract differs across authorities"
+  end
+  divergent_human = <<~MARKDOWN
+    ## Safe Parallel Lanes
+
+    | Lane | Issues | Why parallel-safe | Required coordination |
+    |---|---|---|---|
+    | expected | `#1`, `#2` | disjoint paths | terminal prerequisites |
+    | hidden extra | `#2`, `#3` | unknown paths | weaker gate |
+  MARKDOWN
+  begin
+    validate_parallel_contract!([lane], [lane], parse_human_parallel_lanes(divergent_human))
+    raise "negative authority control accepted an extra human-only lane"
   rescue RuntimeError => error
     raise unless error.message == "canonical parallel-lane contract differs across authorities"
   end
@@ -88,15 +119,7 @@ end
 raise "WP-24A non-gating boundary missing" unless human.include?("cannot gate Sprint 5")
 raise "deferred proof is overstated" unless human.include?("never validation evidence")
 raise "human packet retains an ungoverned candidate parallel lane" if human.include?("## Candidate Parallel Lanes")
-human_parallel_lanes = human.lines.each_with_object([]) do |line, lanes|
-  next unless line.start_with?("| first downstream pair |")
-  cells = line.split("|").map(&:strip).reject(&:empty?)
-  lanes << {
-    "issues" => cells.fetch(1).scan(/#(\d+)/).flatten.map(&:to_i),
-    "boundary" => cells.fetch(2),
-    "gate" => cells.fetch(3)
-  }
-end
+human_parallel_lanes = parse_human_parallel_lanes(human)
 
 stp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/stp.values.json").read).dig("content", "values")
 operative_closeout = "the five operative children (#5835, #5836, #5838, #5839, and #5840)"
