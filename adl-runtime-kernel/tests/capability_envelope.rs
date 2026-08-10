@@ -478,6 +478,11 @@ fn policy_itself_fails_closed_on_missing_roots_and_collisions() {
     let mut collision = policy();
     collision.allowed_tools.push("TOOL:READ-REPOSITORY".into());
     assert!(build_capability_envelope(&birthday, &identity, &base, &collision).is_err());
+    let mut provider_collision = policy();
+    let mut duplicate = provider_collision.provider_models[0].clone();
+    duplicate.provider_id = duplicate.provider_id.to_ascii_uppercase();
+    provider_collision.provider_models.push(duplicate);
+    assert!(build_capability_envelope(&birthday, &identity, &base, &provider_collision).is_err());
 }
 
 #[test]

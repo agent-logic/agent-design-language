@@ -358,6 +358,7 @@ fn validate_policy(
     validate_identifier_collection(policy.allowed_grants.iter(), errors);
     validate_identifier_collection(policy.required_denials.iter(), errors);
     validate_identifier_collection(policy.required_unsupported_claims.iter(), errors);
+    let mut provider_models = BTreeMap::<(String, String), (&str, &str)>::new();
     for selection in &policy.provider_models {
         if !valid_identifier(&selection.provider_id)
             || !valid_identifier(&selection.model_id)
@@ -370,6 +371,20 @@ fn validate_policy(
             errors.insert(CapabilityEnvelopeRejection::InvalidDeclaration {
                 id: format!("{}/{}", selection.provider_id, selection.model_id),
             });
+        }
+        let key = (
+            selection.provider_id.to_ascii_lowercase(),
+            selection.model_id.to_ascii_lowercase(),
+        );
+        if let Some(previous) = provider_models.insert(
+            key,
+            (selection.provider_id.as_str(), selection.model_id.as_str()),
+        ) {
+            if previous != (selection.provider_id.as_str(), selection.model_id.as_str()) {
+                errors.insert(CapabilityEnvelopeRejection::IdentifierCollision {
+                    id: format!("{}/{}", selection.provider_id, selection.model_id),
+                });
+            }
         }
     }
     if [
