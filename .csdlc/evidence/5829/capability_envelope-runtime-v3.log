@@ -1,0 +1,19 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+────────────
+ Nextest run ID 052ac013-b2d3-4c3b-b8b4-56487ce9fd5f with nextest profile: default
+    Starting 13 tests across 1 binary
+        PASS [   0.015s] ( 1/13) adl-runtime-kernel::capability_envelope invalid_birthday_identity_and_cross_binding_fail_closed
+        PASS [   0.015s] ( 2/13) adl-runtime-kernel::capability_envelope unknown_fields_fail_during_deserialization_at_every_layer
+        PASS [   0.016s] ( 3/13) adl-runtime-kernel::capability_envelope policy_itself_fails_closed_on_missing_roots_and_collisions
+        PASS [   0.016s] ( 4/13) adl-runtime-kernel::capability_envelope canonical_digest_round_trip_is_stable
+        PASS [   0.017s] ( 5/13) adl-runtime-kernel::capability_envelope authority_escalation_conflict_and_missing_denials_fail_closed
+        PASS [   0.017s] ( 6/13) adl-runtime-kernel::capability_envelope stale_unknown_missing_and_duplicate_evidence_fail_closed
+        PASS [   0.017s] ( 7/13) adl-runtime-kernel::capability_envelope unsupported_claim_omission_and_missing_provenance_fail_closed
+        PASS [   0.020s] ( 8/13) adl-runtime-kernel::capability_envelope omitted_zero_and_escalated_resource_limits_fail_closed
+        PASS [   0.020s] ( 9/13) adl-runtime-kernel::capability_envelope unsupported_provider_model_tool_and_skill_fail_closed
+        PASS [   0.020s] (10/13) adl-runtime-kernel::capability_envelope identifier_collisions_fail_closed_while_exact_duplicates_canonicalize
+        PASS [   0.023s] (11/13) adl-runtime-kernel::capability_envelope exported_validator_rejects_rehashed_field_and_policy_forgery
+        PASS [   0.023s] (12/13) adl-runtime-kernel::capability_envelope canonical_envelope_is_deterministic_and_emits_native_semantics
+        PASS [   0.029s] (13/13) adl-runtime-kernel::capability_envelope secrets_private_paths_and_host_paths_fail_closed
+────────────
+     Summary [   0.029s] 13 tests run: 13 passed, 0 skipped

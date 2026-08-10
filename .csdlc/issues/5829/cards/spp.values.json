@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-12] Capability envelope",
     "slug": "v0-92-wp-12-capability-envelope",
     "version": "v0.92",
-    "generation": 73
+    "generation": 97
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 29,
+      "plan_revision": 30,
       "summary": "Implement and prove WP-12 canonical capability envelopes with explicit providers, tools, skills, grants, denials, limits, provenance, and secret-safe failure handling.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -66,9 +66,10 @@
         "adl-runtime-kernel/tests/capability_envelope.rs",
         "adl-runtime-kernel/tests/fixtures/capability_envelope",
         "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
-        ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
-        ".csdlc/evidence/5829"
+        ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+        ".csdlc/evidence/5829",
+        ".github/workflows/wp12-native-capability-envelope.yml"
       ],
       "invariants": [
         "Capability description never grants authority or proves invocation.",
@@ -100,7 +101,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5829-grounding-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"issues\":[5829,5843],\"order\":[5829,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5829/design.md",
-      "design_digest": "400f77c40eaf597d65642059156fbd5c24f778d6be041e9509012c6282d24fc3",
+      "design_digest": "9df2c70f7704c2ca3dc1e9e9b477970cb4549a7be0bcd9d6def42220aa8ea112",
       "diagram_ref": ".csdlc/prepared/issues/5829/diagram.mmd",
       "diagram_digest": "78acf0d1432d60e5c4c8b3eba8f887a035f2f55abeee4cc19537b6495dc5de3a"
     }

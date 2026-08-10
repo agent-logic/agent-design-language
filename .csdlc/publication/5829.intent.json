@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5829,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5829-capability-envelope",
+  "title": "[v0.92][WP-12][runtime] Implement the canonical capability envelope",
+  "body": "Closes danielbaustin/agent-design-language#5829\n\n## Summary\n- adds a versioned deterministic Runtime v3 capability envelope bound to accepted WP-08 birthday evidence and digest-valid WP-09 identity evidence\n- separates untrusted requests from provisioned provider/model/tool/skill policy and enforces explicit grants, denials, resource limits, provenance, and unsupported claims\n- fails closed on stale or unknown evidence, escalation, omissions, collisions, secret-like content, private paths, host paths, and reconstructed packet forgery\n- adds an issue-specific native macOS/Linux receipt workflow with exact inventory, provenance, artifact isolation, semantic-equivalence validation, and sanitized retained logs\n\n## Validation\n- focused capability-envelope nextest: 13/13 passed\n- strict Clippy, formatting, Ruby syntax, workflow YAML, and diff hygiene: passed\n- WP-08/#5825 and WP-09/#5826 verified closed and ancestral\n- retained #4761 capability-envelope evidence independently validates at exact revision e93b36cc996429783f68ac4bed5365fb30fe3e07\n- native Linux x86_64 and macOS arm64 run 31392866245 passed at exact head 5b078101282d0e3334629bc5f2ab54e4900be6a4 with identical semantic SHA-256 acc29fdad59c65423f052d2d453dccbf9850bd06552c288aa6bf9e87ca95ec4e\n- the validated eight-file artifact archive and sanitized logs were independently recomputed and contain no machine-local host, private, or worktree paths\n\n## Review\n- exact assigned review by /root/sprint4_5857/review_5829_exact_head: APPROVED, no findings\n- reviewed revision git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62\n\n## Non-claims\n- does not execute providers, configure credentials, grant authority, complete witnesses, or approve downstream Birthday work",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:04e952e9f20ed84ae382fc9878366ef1703f9482:7356c5a5ad322426a523ef38366f9e13fd0abe812fbdd5e656cb99b8519b1a7b",
+  "commit_sha": "04e952e9f20ed84ae382fc9878366ef1703f9482"
+}
