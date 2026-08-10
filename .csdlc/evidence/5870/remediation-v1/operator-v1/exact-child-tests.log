@@ -1,0 +1,10 @@
+{"schema":"adl.wp04.exact_child_summary.v1","selected_tests":3,"passed_tests":3,"skipped_tests":0}
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID f9819b68-7f1a-4965-b033-efc3c2d5e9ea with nextest profile: default
+    Starting 3 tests across 1 binary
+        PASS [   0.089s] (1/3) adl-runtime::distributed_fencing state_paths_and_capacity_fail_closed
+        PASS [   0.129s] (2/3) adl-runtime::distributed_fencing quorum_fence_revoke_epoch_and_replay_contract
+        PASS [   0.184s] (3/3) adl-runtime::distributed_fencing durable_floor_fences_restart_rollback_and_failed_commit
+────────────
+     Summary [   0.184s] 3 tests run: 3 passed, 0 skipped
