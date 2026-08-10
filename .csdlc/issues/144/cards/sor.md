@@ -86,7 +86,7 @@ Repaired WP-13 cognitive profiles with externally provisioned Ed25519 authority,
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

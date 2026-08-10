@@ -5,26 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "87301a8064ac673d55f7c15dc47a2d592c524f48ba67d3d0a43a1f5e9663f7ed",
+  "generation": 5,
+  "digest": "41d6447f5c36d583fb322c1af55152842b71f7049bd893cb36157236d4e9940b",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_144_exact_head",
-    "assigned_by": "codex:144-cognitive-authority-repair",
-    "revision": "git-blake3:a851ccf3ef4b27b5df4d8a9ec97c472bc0c84a25:7c73a9e5cd41d46e19ff94d0ade3601aed7171d92cfef93877511c7fdbe8e2b3",
-    "scope": [
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/fixtures/cognitive_profile",
-      "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
-      ".csdlc/prepared/issues/144/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
-      ".github/workflows/wp13-authority-repair.yml",
-      ".csdlc/evidence/144",
-      ".csdlc/issues/144"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -40,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "603dadefa6a7dd490ebf5120ab7df4ff5a90df1751b50bcc953e04ad99130ffb",
+      "values_digest": "bae7be8d6193a727b93857ba8c26d6292c300bd0c613533eb956c1fc058d4bc1",
       "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
       "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
     },
     "stp": {
-      "values_digest": "65d9f51ca9889a11b2b72780124521e09f909d388aca190826cf419d1f07c693",
+      "values_digest": "7d3840d168db0bc84ddb389d187a6b44db5e32fe496e0242775dfb81b23c7a8d",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "f4c6d213deedb982e4f588e1ab266d777d36112567ea5852061cc148695a767d",
+      "values_digest": "c949f48bc7a767b2d9fe275bf89d9a7fb455127c9e5dfcf8a98b71de8ff54811",
       "rendered_digest": "588cfe1efc4a7f4280af8fef9e86221b19bb321d93c2a54bb3deb16bd551d7a5",
       "ast_digest": "2c96ed08afa71aab84ef48ef6a320c73bea6d72440bed8b432649bb4d3617c6f"
     },
     "vpp": {
-      "values_digest": "51e90df94b37c6593da2f91d694dcfd590741d9272f266bf002922e000971324",
+      "values_digest": "86c0216bf61e16fb23ef2d4e57f205a0c7c58907a17f6eaa0c3b2dad8ceb59e1",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "c05af430071a7341148fa5c01d91dc363260b69844ea0bab66141e975c0a73d8",
-      "rendered_digest": "b0677e0bfd23428578d5b0c93edfca387b9df2a4a580bd88a43e99fd07315acd",
-      "ast_digest": "0a11a97035586d12f2fd23a5fe30952f513b13efa63645a03d6d5140a4ed0c03"
+      "values_digest": "82fbfa10508fc35797dc1d799c3cc8fed0670f0b25afcfab914265b5515a43f0",
+      "rendered_digest": "67504f7e4c84c6af80b9fb9000a91c7750b05f193afffbf24a6797a375de09ff",
+      "ast_digest": "9c1916056920759c01939cf9c2341b1635d10e3c9a6b6f3c4a5fb2e32daa3f0e"
     },
     "sor": {
-      "values_digest": "250ee412694fab72be6f3b5ca0a9e45d2285e508ffa59fb95b75554c857798c8",
-      "rendered_digest": "616c4cf5d8f1687c2acc6b9f775cc535e9f52127ee94581c894ca104feaa7118",
-      "ast_digest": "c834fd742f0df0e823a92a3a9733f9053e89cc80a75e79039355be412c8925d9"
+      "values_digest": "dd2aedcd34b21875d04cff212d279d48660af3845f949fb3294858dfcb7cba8b",
+      "rendered_digest": "4f09a6c3745ea9a447da0070198ec73e81755de4d45365cc89fbc679c8bfe3c0",
+      "ast_digest": "8731ed421b15fd4edf9a70294937f11b4762de1dce524d9c6ab8c4d209e2e077"
     }
   },
   "transitions": [
@@ -142,6 +127,13 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Fresh exact-head review found one P1: public caller-supplied genesis authority remains replaceable together with its proof and does not pin authorized canonical policy/evidence digests. Repair requires a runtime-owned unforgeable authority handle/registry plus adversarial both-root-and-proof replacement proof.",
+      "operation": "recover_review"
     }
   ]
 }

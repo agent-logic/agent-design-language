@@ -8,19 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/cognitive_profile.rs
-adl-runtime-kernel/tests/cognitive_profile.rs
-adl-runtime-kernel/tests/fixtures/cognitive_profile
-docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
-.csdlc/prepared/issues/144/produce-native-receipt.rb
-.csdlc/prepared/issues/144/validate-native-receipts.rb
-.github/workflows/wp13-authority-repair.yml
-.csdlc/evidence/144
-.csdlc/issues/144
+
 
 ## Prompts
 
