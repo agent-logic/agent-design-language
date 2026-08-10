@@ -22,7 +22,13 @@ EXPECTED = {
   "wrong_trust_domain_begin" => "rejected",
   "zero_valid_committed_prefix" => "fail_closed",
   "divergent_committed_prefix" => "fail_closed",
-  "rollback_before_target_cleanup" => "rejected"
+  "rollback_before_target_cleanup" => "rejected",
+  "operator_required_terminal" => "fail_closed",
+  "pending_fence_crash_reconciliation" => "recovered",
+  "initial_checkpoint_failure" => "recovered",
+  "side_effect_crossed_recovery_deadline" => "fail_closed",
+  "symlinked_recovery_state" => "rejected",
+  "symlinked_recovery_journal" => "rejected"
 }.freeze
 EXACT = ["ruby", ".csdlc/evidence/5876/run-exact-child-tests.rb", "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_recovery", "--no-tests=fail"].freeze
 CLIPPY = ["cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_recovery", "--", "-D", "warnings"].freeze
