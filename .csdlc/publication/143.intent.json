@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 143,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/143-v092-adr-authoring",
+  "title": "[v0.92][ADR] Author the milestone architecture decision record set",
+  "body": "Closes #143\n\nAuthors the complete v0.92 ADR 0059-0071 candidate packet and corrects the milestone ADR plan to the accepted baseline through ADR 0058. The packet contains seven Proposed and six Deferred records, a reviewer index, explicit evidence and supersession boundaries, and standardized non-claims.\n\nNo ADR is accepted by this PR. Operational cross-polis continuity, Observatory governed-runtime consumption, provider-neutral multi-agent proof, witness receipts, ACP authority, adaptive learning, and governance handoff remain bounded or deferred where terminal evidence is absent.\n\nFocused packet validation and documentation diff hygiene pass. Fresh exact-head independent review at fda3b101fa20dce11db0f1d7d260e50b574a364e found no actionable findings.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:e6abea1b0737013522b9e0017a69764d6af97922:b8c859eaae0b7aba1aa847c863301b0831abb2e1f532b6826dd329fcdfdc6ff6",
+  "commit_sha": "e6abea1b0737013522b9e0017a69764d6af97922"
+}
