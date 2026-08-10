@@ -28,7 +28,10 @@ EXPECTED = {
   "initial_checkpoint_failure" => "recovered",
   "side_effect_crossed_recovery_deadline" => "fail_closed",
   "symlinked_recovery_state" => "rejected",
-  "symlinked_recovery_journal" => "rejected"
+  "symlinked_recovery_journal" => "rejected",
+  "oversized_recovery_state" => "rejected",
+  "oversized_recovery_journal" => "rejected",
+  "post_activation_ambiguity_refence" => "recovered"
 }.freeze
 EXACT = ["ruby", ".csdlc/evidence/5876/run-exact-child-tests.rb", "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_recovery", "--no-tests=fail"].freeze
 CLIPPY = ["cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_recovery", "--", "-D", "warnings"].freeze
