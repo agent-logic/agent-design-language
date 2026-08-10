@@ -1,0 +1,8 @@
+source_revision=41755b0e3b1fb927b19770243572aa028eb6444e
+command=cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test memory_palace --no-tests=fail --status-level all
+nextest_run_id=baf1eec9-3ca9-4ce9-800a-268a8126f04f
+tests_run=12
+tests_passed=12
+tests_failed=0
+tests_skipped=0
+result=passed

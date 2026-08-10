@@ -11,6 +11,16 @@ AUTHORITY_PATHS = [
   "adl-runtime-kernel/src/observability.rs",
   "adl-runtime-kernel/src/proof.rs"
 ].freeze
+PRODUCT_PATHS = [
+  "adl-runtime-kernel/src/memory_palace.rs",
+  "adl-runtime-kernel/src/lib.rs",
+  "adl-runtime-kernel/tests/memory_palace.rs",
+  "adl-runtime-kernel/tests/fixtures/memory_palace",
+  "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+  ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+  ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+  ".github/workflows/wp11-native-memory-palace.yml"
+].freeze
 EXPECTED_ARGV = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
   "--test", "memory_palace", "--no-tests=fail", "--status-level", "all"
@@ -20,6 +30,17 @@ FIXTURE_PATH = "adl-runtime-kernel/tests/fixtures/memory_palace"
 def fail!(message)
   warn(message)
   exit 1
+end
+
+def canonical_json(value)
+  case value
+  when Hash
+    "{" + value.keys.sort.map { |key| "#{JSON.generate(key)}:#{canonical_json(value.fetch(key))}" }.join(",") + "}"
+  when Array
+    "[" + value.map { |entry| canonical_json(entry) }.join(",") + "]"
+  else
+    JSON.generate(value)
+  end
 end
 
 def repo_file(root, value, label)
@@ -58,7 +79,12 @@ receipt = JSON.parse(receipt_path.read)
 fail!("status must be passed") unless receipt["status"] == "passed"
 tests_run = Integer(receipt["tests_run"], exception: false)
 fail!("tests_run must be positive") unless tests_run&.positive?
-fail!("source_sha must equal exact candidate HEAD") unless receipt["source_sha"] == head
+source_sha = receipt["source_sha"].to_s
+fail!("source_sha must be a full Git revision") unless /\A[0-9a-f]{40}\z/.match?(source_sha)
+_, ancestor_status = Open3.capture2("git", "merge-base", "--is-ancestor", source_sha, head, chdir: root.to_s)
+fail!("source_sha must be ancestral to validated HEAD") unless ancestor_status.success?
+_, product_status = Open3.capture2("git", "diff", "--quiet", "#{source_sha}..#{head}", "--", *PRODUCT_PATHS, chdir: root.to_s)
+fail!("product/proof surface changed after source_sha") unless product_status.success?
 fail!("argv does not match the declared exact test") unless receipt["argv"] == EXPECTED_ARGV
 fail!("runner_identity is required") unless receipt["runner_identity"].is_a?(String) && !receipt["runner_identity"].strip.empty?
 fail!("trace_id is required") unless receipt["trace_id"].is_a?(String) && !receipt["trace_id"].strip.empty?
@@ -79,5 +105,20 @@ fail!("fixture digest mismatch") unless receipt["fixture_digest"] == actual_fixt
 output = repo_file(root, receipt["output_path"], "output_path")
 actual_output_digest = Digest::SHA256.file(output).hexdigest
 fail!("output digest mismatch") unless receipt["output_digest"] == actual_output_digest
+packet = JSON.parse(output.read)
+fail!("semantic output must be a Memory Palace packet") unless packet["schema"] == "adl.memory_palace.context_packet.v1"
+unsigned = packet.merge("packet_sha256" => "")
+fail!("semantic packet checksum mismatch") unless packet["packet_sha256"] == Digest::SHA256.hexdigest(canonical_json(unsigned))
+trace_reference = packet["trace_reference"]
+fail!("semantic trace reference is missing") unless trace_reference.is_a?(Hash)
+fail!("receipt trace_id does not bind semantic packet") unless receipt["trace_id"] == packet["trace_id"] && packet["trace_id"] == trace_reference["id"]
+packet_citations = Array(packet["working_set"]).flat_map { |item| Array(item["citations"]).map { |citation| citation["id"] } }.uniq.sort
+fail!("receipt citation_ids do not bind semantic packet") unless citations.sort == packet_citations
+fail!("semantic packet lacks the exact trace citation") unless Array(packet["working_set"]).all? do |item|
+  Array(item["citations"]).include?(trace_reference)
+end
+fail!("semantic packet contains private visibility") if Array(packet["working_set"]).any? do |item|
+  %w[private raw_private].include?(item["visibility"])
+end
 
 puts JSON.generate(status: "passed", reviewed_head: head, source_sha: receipt["source_sha"], fixture_digest: actual_fixture_digest, output_digest: actual_output_digest, trace_id: receipt["trace_id"], citation_count: citations.length)
