@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 82
+    "generation": 86
   },
   "status": "ready",
   "content": {
@@ -29,14 +29,14 @@
         "Independent exact-head security/privacy review and rollback evidence"
       ],
       "acceptance_criteria": [
-        "The WP-09 record deterministically binds stable name, identity root, aliases, origin evidence, continuity head, provenance, and redaction policy while rejecting ambiguous or substituted identity.",
+        "The WP-09 record deterministically binds stable name, identity root, aliases, origin evidence, continuity head, provenance, and redaction policy while rejecting ambiguous or substituted identity; external callers cannot establish BirthdayAuthorityPolicy or construct/deserialize VerifiedBirthdayEvidence, so self-consistent attacker roots fail at the crate boundary.",
         "WP-08/#5825 terminal proof and current lineage authority are verified before implementation begins.",
-        "Implementation is confined to adl-runtime-kernel/src/birthday_identity.rs, lib.rs module registration, tests/birthday_identity.rs, tests/fixtures/birthday_identity/, the identity feature contract, and .csdlc/evidence/5826/.",
+        "Implementation is confined to adl-runtime-kernel/src/birthday_identity.rs, lib.rs module registration, tests/fixtures/birthday_identity/ including the internal authority proof, the identity feature contract, issue-local native receipt tooling/workflow, and .csdlc/evidence/5826/.",
         "Canonical serialization, root derivation, and alias ordering replay identically and are retained at the exact reviewed revision.",
         "Empty roots, alias collision, provenance mismatch, substituted continuity, raw private state, and absolute or path-unsafe references fail closed.",
-        "One bounded exact-head SRP review records no unresolved actionable findings.",
+        "One fresh independent exact-head security/privacy SRP review records no unresolved actionable findings.",
         "The implementation PR targets the intended base and includes Closes #5826 without claiming completion of downstream Birthday work.",
-        "The exact birthday_identity nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence."
+        "The exact internal birthday_identity authority lane runs a positive test count on native GitHub Actions macOS and Linux at the exact candidate product head; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence."
       ],
       "dependencies": [
         "WP-08 / issue #5825 terminal proof",

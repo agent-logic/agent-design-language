@@ -8,7 +8,7 @@ Define the WP-09 identity record from `docs/milestones/v0.92/features/IDENTITY_S
 
 - `adl-runtime-kernel/src/birthday_identity.rs`
 - `adl-runtime-kernel/src/lib.rs`
-- `adl-runtime-kernel/tests/birthday_identity.rs`
+- `adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs`
 - `adl-runtime-kernel/tests/fixtures/birthday_identity`
 - `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`
 - `.csdlc/prepared/issues/5826/validate-native-receipts.rb`
@@ -87,7 +87,7 @@ Define the WP-09 identity record from `docs/milestones/v0.92/features/IDENTITY_S
 
 ## Contract
 
-Stable name is a label bound to an identity root, never the root itself. Aliases are ordered, provenance-bearing additions and cannot silently replace the root. A Birthday Identity may be constructed or revalidated only with an opaque verified-evidence capability produced from the existing Runtime v3 authorities: `verify_binding` plus `MemoryLedger::restore` must authenticate the `IdentityBinding` and signed `MemoryCheckpoint`, while `PrivateStateLineage::append` plus `project_private_state` must authenticate the accepted private-state record, lineage position, signer, generation, sanctuary policy, principal, and projection bytes. The Birthday layer must not duplicate those cryptographic authorities or accept caller-supplied visibility/redaction booleans as proof.
+Stable name is a label bound to an identity root, never the root itself. Aliases are ordered, provenance-bearing additions and cannot silently replace the root. A Birthday Identity may be constructed or revalidated only with an opaque verified-evidence capability produced from the existing Runtime v3 authorities: `verify_binding` plus `MemoryLedger::restore` must authenticate the `IdentityBinding` and signed `MemoryCheckpoint`, while `PrivateStateLineage::append` plus `project_private_state` must authenticate the accepted private-state record, lineage position, signer, generation, sanctuary policy, principal, and projection bytes. Trust-policy establishment is crate-private so external callers cannot nominate self-consistent attacker roots; evidence verification consumes the already-provisioned opaque policy capability. The Birthday layer must not duplicate those cryptographic authorities or accept caller-supplied visibility/redaction booleans as proof.
 
 The verified capability binds the candidate's citizen/runtime/continuity identity, origin reference, signed checkpoint head, private-state record hash, governed projection digest, signer, and generation. Construction fails closed for invented provenance, wrong continuity heads, forged or mismatched bindings, stale/wrong signers or generations, projection tampering, and raw-private artifacts mislabeled as reviewer-visible. Identity creation also rejects empty or ambiguous roots, duplicate/conflicting aliases, path-unsafe references, and unsupported root bases.
 

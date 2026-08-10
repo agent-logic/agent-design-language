@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 82
+    "generation": 86
   },
   "status": "ready",
   "content": {
@@ -121,7 +121,7 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5826/design.md",
-      "design_digest": "a69f934b04e88947ec33ea9749c107afa3fb8d638a977b08dbb8002f8b1e01ca",
+      "design_digest": "9c143b55f2e75010e7f934806c64fb50b3b46fc7456253871c91947bcbfb71d2",
       "diagram_ref": ".csdlc/prepared/issues/5826/diagram.mmd",
       "diagram_digest": "0c8418cba179260289efc43a6ec61eb785f3973ba701053a09c7066f5e59adfd"
     }
