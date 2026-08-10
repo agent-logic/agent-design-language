@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5829,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
-  "phase": "initialized",
-  "generation": 77,
-  "digest": "8b5c7486ed3bab53794f31da8edc8ba77ce7aecd5cda9339a2964d69bf72e6e5",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 78,
+  "digest": "ac45fffbd35401f42a7e549957ff49668d13e6c8980cb2c9a8cc431ce98a41ec",
+  "branch": "codex/5829-capability-envelope",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -18,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/5829/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "400f77c40eaf597d65642059156fbd5c24f778d6be041e9509012c6282d24fc3"
+      "reviewer": "operator-approved:wp12-native-capability-envelope-scope",
+      "revision": "9df2c70f7704c2ca3dc1e9e9b477970cb4549a7be0bcd9d6def42220aa8ea112"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "5c4ad58122f8589899cbf409f59440a2b0c8e3f2c590c3e1bb1c03bdac6c8a9d",
+      "values_digest": "45358709379cde9151f31227828b106359fb61944d7c33c5abf633a27ac8ae16",
       "rendered_digest": "f072c6b2526b3264fafda2ef258cf23cd0cc9fd52b92a53668e2bb409a970d55",
       "ast_digest": "40dcbfc18fc63c6a847abfbb52256a4fdbf34e6110c8710cb57eacc518678bdd"
     },
     "stp": {
-      "values_digest": "322f17693d46bdfe32d818bf4b169c58d057dff6cab906887a5d9e994f60cd18",
+      "values_digest": "4cfd84cdf6666d79d7a2c9b3fba8236f3b513483f4f20ca4a00ef7bae483cadd",
       "rendered_digest": "4530795f5583eac9367fb96c125d8912c3d78ef63c0f283390696c3d5bb88841",
       "ast_digest": "d510e7df6320dafad5eeceb31a143e20d10b5e18c221c34c0cf97f10b3f670a6"
     },
     "spp": {
-      "values_digest": "e6c353efda7fda8fd29a94d78c6ea8bab3cea36efc77b95ac5c7f85056dea53b",
-      "rendered_digest": "8a33f2db0a509199b994b9d49a1fcf4867782ac694a8152ec0799fe7a30dcb67",
-      "ast_digest": "b1b8ae733f4dd17dba05cc7f8fa8251a2501b44737e05cf61985401214e16853"
+      "values_digest": "93daa01ceac4a113822d817d0db6db8149e4de66621e9afe1b8a4a2d5598cde3",
+      "rendered_digest": "7b734a8a386a85280d55bf4586adfd5c432f21f3a7090fe2acf04366ac8b578f",
+      "ast_digest": "ab3b2a5b4c44030bc42144fcceaef81f1a1d4a1501788ebb079221525cce7bba"
     },
     "vpp": {
-      "values_digest": "f3bd6f81c7af75ecad879615cbdafaa7c12915d9e7f8383c346dba8556915a79",
+      "values_digest": "4ec7db07a5638019f1423b157cd5c6891d1aeb36595e5793d0c1f0e036b2218c",
       "rendered_digest": "4093a7b040502a8d4bcc774c439687623095b1bb2c50c82c7a68d17a3563c1f2",
       "ast_digest": "117a57a3bcd0cfc114604f22cd66cf0fc93a31c9a0d85d4608be54d69454f405"
     },
     "srp": {
-      "values_digest": "d68aa74ca91665b825fc4d6735bf982e74c270aa10f3e78a8c328cf95f1dd5b5",
+      "values_digest": "735ae963e5f32a8120a628c3b55c3c030dde402573ed4c961689d4a7cca5dfb8",
       "rendered_digest": "e6e1a97391151d19fad085f398bbda73030215208cf8ac0674304a1ab40ae872",
       "ast_digest": "20dbe7c3c54c99f572aabb26933bd4d07cb4a1d3199b1d7bcb772ab3b1ca91ed"
     },
     "sor": {
-      "values_digest": "a0012b6bdb6286537890c30f800a142fbdf156dab12d3da79a0a974365c98717",
+      "values_digest": "37e9afb3699d26994cf692c5753326678b89958c2645c96b46c0d881bad279b1",
       "rendered_digest": "da54e67fc459cdf7ec6dda0ac8e9ca53c1e23d70a238b1dbee9e9fcd5f6688db",
       "ast_digest": "c287e02c30ccc4bca25aaccc60ed0cd16f884134eae9223911ec39db96ceec3b"
     }
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -784,6 +799,20 @@
       "actor": "codex:5829-capability-envelope",
       "reason": "Normalize WP-12 deliverables to exact issue-owned implementation, proof, documentation, and narrow native workflow paths before binding.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829\",\".github/workflows/wp12-native-capability-envelope.yml\",\"Complete canonical provider/model/tool/skill/grant/deny/limit fixture matrix and fail-closed stale provenance, escalation, omitted-limit, secret, private-path, and host-path proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 102,
+      "generation": 77,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 103,
+      "generation": 78,
+      "actor": "operator-approved:wp12-native-capability-envelope-scope",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

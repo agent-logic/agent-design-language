@@ -14,6 +14,7 @@ Define WP-12's birthday-consumable provider, model, tool, skill, authority, and 
 - `.csdlc/prepared/issues/5829/validate-native-receipts.rb`
 - `.csdlc/prepared/issues/5829/produce-native-receipt.rb`
 - `.csdlc/evidence/5829`
+- `.github/workflows/wp12-native-capability-envelope.yml`
 
 ## Read-Only Inputs
 
@@ -94,7 +95,7 @@ WP-08/#5825 and WP-09/#5826 must be terminal, and #4761 evidence must remain ver
 
 ## Validation
 
-The exact `capability_envelope` integration-test target must run a nonzero count proving complete deterministic envelopes and stale-provenance, unsupported-provider/model, unauthorized-capability, omitted-limit, secret-like-content, and path-portability failures. The issue-local producer must run that target on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete nextest log, and canonical semantic-output artifact. The independent validator recomputes those files and producer digest, parses the positive test count, verifies workflow/run/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
+The exact `capability_envelope` integration-test target must run a nonzero count proving complete deterministic envelopes and stale-provenance, unsupported-provider/model, unauthorized-capability, omitted-limit, secret-like-content, and path-portability failures. The narrow issue-specific workflow must run the issue-local producer on native GitHub Actions macOS and Linux jobs at exact candidate HEAD, retain disjoint platform fragments, and expose a success-only aggregate containing only the exact current validated files. The independent validator recomputes those files and producer digest, parses the positive test count, binds current workflow/run/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden. Global CI policy and unrelated workflows remain out of scope.
 
 ## Rollback
 
