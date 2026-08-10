@@ -8,8 +8,8 @@ Recover the complete 34-file ADL Medium launch publication package without inven
 
 - Recovery and reconciliation only.
 - Preserve every distinct substantive draft and its provenance.
-- Do not delete source material. Remote overwrite authority is limited to the three operator-authorized title-only corrections for article 1, its editorial review, and its source packet.
-- Do not publish articles or change Drive sharing.
+- Do not delete source material. Remote overwrite authority is limited to the three operator-authorized article-1 corrections plus the eight title-only alignments required by the live issue's launch-title acceptance criterion.
+- Do not publish articles or invoke Drive permission mutation. Current live validation must reject public permissions on every recovered file; historical private-permission equivalence is not claimed.
 - Do not synthesize missing articles without explicit operator approval.
 - Leave PR #98 and its review state untouched.
 
@@ -29,10 +29,11 @@ Recover the complete 34-file ADL Medium launch publication package without inven
 - The original issue folder `1hacu6zwCUlIYXYtvpMW0IFtk506LUb8Q` is obsolete and inaccessible to the approved company credential.
 - The approved Agent Logic company folder is `1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd` under `daniel@agent-logic.ai`.
 - No personal Drive account is an authorized destination.
+- The rendered STP retains the original issue title and obsolete folder as historical bootstrap input. Implemented-phase card mutation is intentionally prohibited; this design and the company-folder receipts are execution authority.
 
 ## Prevention
 
-A focused verifier must fail when the manifest does not contain exactly ten distinct required titles, when any canonical source revision or digest is false, when the 34-file package is incomplete, when correction proof is absent, when the destination authority is wrong, or when mutation totals exceed the three authorized title-only overwrites.
+A focused verifier must fail when the manifest does not contain exactly ten distinct required titles, when any canonical source revision or digest is false, when the 34-file package is incomplete, when correction proof is absent, when the destination authority is wrong, when any file is publicly shared, or when mutation totals exceed the eleven authorized title-only overwrites.
 
 ## Validation
 
