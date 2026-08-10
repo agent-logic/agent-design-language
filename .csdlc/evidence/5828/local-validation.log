@@ -1,0 +1,11 @@
+source_revision=272a1b43c76cd65aaad3139df1aa616b62b7def6
+target=memory_palace
+tests_run=8
+tests_passed=8
+tests_failed=0
+tests_skipped=0
+strict_clippy=passed
+format_check=passed
+ruby_syntax=passed
+workflow_yaml=passed
+diff_check=passed
