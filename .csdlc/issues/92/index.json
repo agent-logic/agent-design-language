@@ -4,35 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "published",
-  "generation": 25,
-  "digest": "af0239fef4f7a8d1c1c54f6ba6ae58d41a1ee0a11fb9d26c2bedcfc36d7f0e4a",
+  "phase": "implemented",
+  "generation": 26,
+  "digest": "ab7639a445c3be0d46df8e905646d09e0720ac7c23e5212cfc52b817016bb34b",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
-  "review": {
-    "reviewer": "Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:d986f3a8710e0f21a115ad13342814eac051d822:233103e5fd2591b60272ffb23a24b821e46d9d014c0ae78f54517f538bc3e672",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 92,
-    "pull_request": 98,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/98",
-    "base": "main",
-    "head": "codex/92-runtime-tls-standardization",
-    "revision": "git-blake3:e93fde30a5b6b889eaddd31ffa4af581f1a5358d:36d696f15b3c8da510b9827e6b1dec70db44d3080ffb776597f1a3eb7b45acd0",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -46,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "568635028965c1c1e1bc6f1f54424b9408d200ce581ef7fa57157964e6eed172",
+      "values_digest": "2a3fb2977b7b37fc7340167b318bac68443052e656869056c00b89d19cec6698",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "b02d47bf0b040dccebfafdbc9435ab6faa6d44cfa508e46eaf722f7d36af98d7",
+      "values_digest": "d7e3e7a837f41206e9c5717e829f9f18cefd387892eb379ff140d61daead2b10",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "5ea47d65edb224c8ed3908c15126378365f8c8e3061dbdc877e05802b796f127",
+      "values_digest": "662dbf9c1422bfa94a9f0403ba1d96280077d4a07afe14cf6cd3dfefb91e6332",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "d5a7e39eae890b5df3ec934bae3fb3209d55c75f980ce6f51aeb10892bb2037b",
+      "values_digest": "406329a48100ef2f4152620f2f7b8b26104384721721816ef9a097adf7eb43d6",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "076f1147343a920465040876b7072185054edac5f3ca1a3a207e120af90caeaa",
-      "rendered_digest": "75d736bfbf9c8cc3d362cec8d64d10fb35b05b1fdf9c83a9745ddb26e87f0d72",
-      "ast_digest": "cc207d7538337878646a652b95084d24a859621df1e15b7c3f175f098c3534aa"
+      "values_digest": "0c8ca765056cd438ced92260106b064d3dabb7f734ae008ef9d3f05c9234853a",
+      "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
+      "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
     },
     "sor": {
-      "values_digest": "96fe8f2fa1ba01f7075b8fe5f45c78ef27d99ffdb8ee757286a4a394f0dd5868",
-      "rendered_digest": "a7e7e04e3d8dc0f477b7b79a4a51d1b5515f3925f2dce54c5ac9b6f3c3a780b1",
-      "ast_digest": "7fd70e885f9db5d7a6ef14d74f9c254c5e0a95f902c94eea155230d3581988c7"
+      "values_digest": "623e1f72f12fcf82c35e160c6b4f8879628d946564322796cd2b8dde20b717b6",
+      "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
+      "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
     }
   },
   "transitions": [
@@ -153,6 +132,13 @@
       "to": "published",
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover review and publication truth after the fail-closed coverage gate exposed a missing explicit mapping from the changed Guardian transport source to its existing distributed_transport integration-test binary."
     }
   ],
   "audit": [
@@ -344,6 +330,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover review and publication truth after the fail-closed coverage gate exposed a missing explicit mapping from the changed Guardian transport source to its existing distributed_transport integration-test binary.",
+      "operation": "recover_review"
     }
   ]
 }
