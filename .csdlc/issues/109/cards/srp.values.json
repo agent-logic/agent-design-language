@@ -7,15 +7,15 @@
     "title": "Use fresh sessions for standard SRP review",
     "slug": "fresh-session-standard-srp-review",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/109/focused-srp-contract.log\n.csdlc/issues/109/audit.jsonl\n.csdlc/issues/109/cards/sip.md\n.csdlc/issues/109/cards/sip.values.json\n.csdlc/issues/109/cards/sor.md\n.csdlc/issues/109/cards/sor.values.json\n.csdlc/issues/109/cards/spp.md\n.csdlc/issues/109/cards/spp.values.json\n.csdlc/issues/109/cards/srp.md\n.csdlc/issues/109/cards/srp.values.json\n.csdlc/issues/109/cards/stp.md\n.csdlc/issues/109/cards/stp.values.json\n.csdlc/issues/109/cards/vpp.md\n.csdlc/issues/109/cards/vpp.values.json\n.csdlc/issues/109/index.json\n.csdlc/prepared/issues/109/design.md\n.csdlc/prepared/issues/109/diagram.mmd\n.csdlc/prepared/issues/109/validate-fresh-session-srp.sh\ncsdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\ndocs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      "review_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+      "reviewer": "fresh-session:019fea2f-95fc-7212-8891-1de38b56c85e",
       "review_prompts": [
         "Review only the named immutable commit SHA in the named worktree; do not inherit or rely on the implementation conversation.",
         "Operate read-only: do not edit files, lifecycle state, PR state, or GitHub state.",
@@ -25,9 +25,110 @@
         "Verify the standard SRP remains the sole review-result authority and that any substantive fix requires a refreshed SRP and fresh-session review at the new exact head.",
         "Verify no daemon, scheduler, registry, claim, parallel review record, provider abstraction, lifecycle phase, or redundant broad validation was added."
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "R109-P1-SRP",
+          "severity": "p1",
+          "summary": "Standard SRP initially omitted self-contained reviewer instructions.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P2-VALIDATOR",
+          "severity": "p2",
+          "summary": "Initial focused validator did not prove the complete acceptance contract.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P2-PRECEDENCE",
+          "severity": "p2",
+          "summary": "Review-depth rules initially omitted authority-critical precedence.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P1-REVIEW-PROOF",
+          "severity": "p1",
+          "summary": "Validator could pass without completed fresh-session review evidence.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P1-REUSABLE-SCOPE",
+          "severity": "p1",
+          "summary": "Reusable review skill omitted authority-critical scope requirements.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P1-ASSIGNMENT-ORDER",
+          "severity": "p1",
+          "summary": "Review assignment was not required before review activity.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P1-SUBSTANTIVE-BINDING",
+          "severity": "p1",
+          "summary": "Review evidence was not required to match the exact substantive SHA and typed digest.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P1-SRP-PARITY",
+          "severity": "p1",
+          "summary": "Structured SRP fields were not compared with retained review evidence.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P1-METADATA-SATISFIABILITY",
+          "severity": "p1",
+          "summary": "Completed review metadata was rejected by an overbroad raw drift check.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        },
+        {
+          "id": "R109-P1-METADATA-ALLOWLIST",
+          "severity": "p1",
+          "summary": "Generic metadata acceptance allowed unrelated lifecycle and evidence drift.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
