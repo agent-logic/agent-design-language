@@ -1,0 +1,48 @@
+{
+  "schema": "adl.native_validation_manifest.v1",
+  "issue": 5830,
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 139,
+  "validated_revision": "60197504fa86566c8c4b1983d3be09f89b595e94",
+  "workflow": ".github/workflows/wp13-native-cognitive-profile.yml",
+  "workflow_run_id": "31400973911",
+  "workflow_run_attempt": "1",
+  "jobs": {
+    "linux": {
+      "job_id": "93495562800",
+      "status": "success",
+      "os": "Linux",
+      "architecture": "x86_64",
+      "tests_passed": 11,
+      "receipt_sha256": "1746302f1a7ac2986961ad980693153b95faa16a5e2186115268bbcf7ea44150",
+      "command_output_sha256": "55fd96d80a38c40bb74be3da1ece34eb2ac06422eaf0aaa9e57cf36dd257c033"
+    },
+    "macos": {
+      "job_id": "93495562807",
+      "status": "success",
+      "os": "Darwin",
+      "architecture": "arm64",
+      "tests_passed": 11,
+      "receipt_sha256": "323bdd25506caaade7e7ad6d263ad90a8da57ba28074b25a2786bcf995d5ca9e",
+      "command_output_sha256": "bcc21ffad41e98fd8fad029111149d8c0176da48c20ab57b12d2946594caecee"
+    },
+    "aggregate": {
+      "job_id": "93498847977",
+      "status": "success"
+    }
+  },
+  "artifact": {
+    "id": "9068009246",
+    "name": "wp13-native-cognitive-profile-validated-31400973911-1",
+    "archive_sha256": "b79d6d51a9735e5d0444e391cd67e27dc3b301a3527118f410597e658262ae76"
+  },
+  "source_manifest_sha256": "7519407aec8ede39754222c8b0c18a927b1728b55f27d57eccb81593bd47ec66",
+  "semantic_output_sha256": "dd8cb6901d88b1412ed89715ccf053f26eb95c47e69be2174b447e14ba08b736",
+  "independent_validation": {
+    "status": "passed",
+    "detached_exact_head": "60197504fa86566c8c4b1983d3be09f89b595e94",
+    "command": ["ruby", ".csdlc/prepared/issues/5830/validate-native-receipts.rb", ".csdlc/evidence/5830/native-platform/linux.json", ".csdlc/evidence/5830/native-platform/macos.json"],
+    "output_ref": ".csdlc/evidence/5830/native-platform/independent-validator.log",
+    "output_sha256": "7a4a76d4f01514629c49af7b676b2cad461ff5a4d68e5f2274a74e739800963d"
+  }
+}

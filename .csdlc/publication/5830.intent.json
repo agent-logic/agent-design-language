@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5830,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5830-cognitive-profile",
+  "title": "[v0.92][WP-13] ACP / cognitive profiles",
+  "body": "Closes danielbaustin/agent-design-language#5830\n\nImplements the deterministic WP-13 Runtime v3 cognitive-profile contract over landed birthday, identity, continuity, and capability authorities. Profiles bind seven governed evidence categories, canonical revision lineage, bounded internal/public projections, privacy policy, and explicit nonclaims.\n\nFocused proof: exact cognitive_profile target 11/11 passed and strict Clippy passed. GitHub Actions run 31400973911 passed the exact 11-test inventory on native Linux x86_64 and macOS arm64; independent validation bound both receipt packets, source manifests, runner provenance, sanitized logs, artifact 9068009246, and identical semantic SHA dd8cb6901d88b1412ed89715ccf053f26eb95c47e69be2174b447e14ba08b736 to exact candidate head 60197504fa86566c8c4b1983d3be09f89b595e94. Final exact-head review approved with no actionable findings.\n\nThis does not claim diagnosis, reputation, standing, rights, citizenship, personhood, consciousness, downstream governance, or final birthday completion.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:d358714c3f7780027c07f4cfbb165e1db3b75f5e:76ac819dd5db3b3e475d7b46720ba6cf291fb7aee14f1dffbe10be367064a51b",
+  "commit_sha": "d358714c3f7780027c07f4cfbb165e1db3b75f5e"
+}

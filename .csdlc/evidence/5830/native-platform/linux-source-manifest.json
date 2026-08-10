@@ -1,0 +1,26 @@
+[
+  {
+    "path": "adl-runtime-kernel/Cargo.toml",
+    "sha256": "92466f21e0dfd70d6ba8b6fe7d9674b2a5a75eb624e422c46de3e7d79f2117a7"
+  },
+  {
+    "path": "adl-runtime-kernel/src/cognitive_profile.rs",
+    "sha256": "3e2a75789b8a2ade2b34dc4c8a090fea6aec6550ca306cda082e00902d53695c"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "463e1f2040ebf9d2131b99f30161c3c39c5d5ef2063ce9f0616a503ccce09694"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/cognitive_profile.rs",
+    "sha256": "09214e6d2c24e471de42cd5ae05fdad1d1a7282ef9a0bdf165874738aa90322b"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/cognitive_profile/matrix.json",
+    "sha256": "536ac854d3b927039d155bcfaa0d789efe4eb65c846cc34e9947c5b89261d0ac"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+    "sha256": "a44126912b72213b1c796c36332458dd0f15a1e629f6d43366f197dd0ec4b540"
+  }
+]

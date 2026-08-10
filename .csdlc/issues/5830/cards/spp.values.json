@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-13] ACP / cognitive profiles",
     "slug": "v0-92-wp-13-acp-cognitive-profiles",
     "version": "v0.92",
-    "generation": 51
+    "generation": 72
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 20,
+      "plan_revision": 21,
       "summary": "Implement and prove WP-13 canonical evidence maps with revision-linked updates, bounded projections, privacy, and explicit non-reputation/personhood boundaries.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -56,7 +56,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [
@@ -67,7 +67,8 @@
         "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
         ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
-        ".csdlc/evidence/5830"
+        ".csdlc/evidence/5830",
+        ".github/workflows/wp13-native-cognitive-profile.yml"
       ],
       "invariants": [
         "Every profile field cites an allowed current evidence category and digest.",

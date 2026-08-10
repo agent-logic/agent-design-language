@@ -8,11 +8,20 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact-head review of WP-13 evidence categories, revision semantics, identity/continuity binding, private/public projections, unsupported inference rejection, and dependency proof only.
+adl-runtime-kernel/src/cognitive_profile.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/cognitive_profile.rs
+adl-runtime-kernel/tests/fixtures/cognitive_profile
+docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
+.csdlc/prepared/issues/5830/produce-native-receipt.rb
+.csdlc/prepared/issues/5830/validate-native-receipts.rb
+.github/workflows/wp13-native-cognitive-profile.yml
+.csdlc/evidence/5830
+.csdlc/issues/5830
 
 ## Prompts
 
@@ -35,8 +44,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4ce4f737eaedb3c8d011bdfe4da345491aee09c3:ee4f3d04932204f34399cd0c857304747aa1b630b13a6fcc51176360db01d2c7")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5830_exact_head")
 
-Result: pre_review
+Result: pass
