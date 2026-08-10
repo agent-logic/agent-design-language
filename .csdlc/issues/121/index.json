@@ -3,11 +3,11 @@
   "issue": 121,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 0,
-  "digest": "692588867fb3cb0cb476d9d95059f5a71020fb70d3bb8c027cd7dbca63009401",
-  "branch": null,
-  "worktree": null,
+  "digest": "5e3f5849489719737963dee99260266120cd685ba906eac54aef1d749fb12f25",
+  "branch": "codex/121-quorum-fence-restart-safe-epochs",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +54,22 @@
       "ast_digest": "b31c65f36b19256ec4940ece9f085000ccc03b0c5758738c830568d9c06771e7"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -62,6 +77,13 @@
       "actor": "codex:121-quorum-fence-repair",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
