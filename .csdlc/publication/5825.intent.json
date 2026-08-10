@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5825,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5825-birthday-contract",
+  "title": "[v0.92][WP-08] Implement deterministic birthday contract",
+  "body": "Closes danielbaustin/agent-design-language#5825\n\n## Summary\n- add a deterministic Runtime v3 birthday decision contract\n- reject lifecycle lookalikes, incomplete or contradictory evidence, unsafe/private paths, packet drift, and prohibited public claims\n- retain positive and table-driven negative fixtures plus truthful birthday non-claims\n- correct native receipt validation for the canonical Agent Logic repository\n\n## Validation\n- exact `birthday` nextest target: 6/6 passed\n- strict Clippy and formatting: passed\n- receipt producer and validator Ruby syntax: passed\n- typed C-SDLC validation and exact-head review: passed\n\n## Review\nIndependent exact-head review approved the product and digest-bound local evidence with no actionable findings. Native macOS/Linux portability receipts remain explicitly deferred to their CI producer lanes and are not claimed by local proof.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:493cef375f6bb05817202fd5673bf4b768091065:33d4c25fcb626b2468748a86d80dcdf4e5cea65ddda69068fbe68c6d811872ff",
+  "commit_sha": "493cef375f6bb05817202fd5673bf4b768091065"
+}

@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "904390dda83597a867777bbf16ebbe9907f65b6d6481c7be13b55d2ed2e2de2d",
-  "phase": "reviewed",
-  "generation": 76,
-  "digest": "46078d160a949c3fb42fcde34fcb5a1b7c88e1d9a667b36a48f11639e7dacaa4",
+  "phase": "published",
+  "generation": 77,
+  "digest": "7fd5d7b8ffb48d3204045f4d8d0f6a16807e9ff2922a6e0475fff6a3d0aa0c44",
   "branch": "codex/5825-birthday-contract",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5825-birthday-contract",
   "review_assignment": null,
@@ -30,7 +30,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5825,
+    "pull_request": 104,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/104",
+    "base": "main",
+    "head": "codex/5825-birthday-contract",
+    "revision": "git-blake3:493cef375f6bb05817202fd5673bf4b768091065:33d4c25fcb626b2468748a86d80dcdf4e5cea65ddda69068fbe68c6d811872ff",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -44,34 +55,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0e38b514f2ffda7c916ddfb47f893f48ae8f309642c1a101dd64b7b99b056012",
+      "values_digest": "de107f2399a50e172b094474067d9af140d64a02de258dd5a68b1693118e716b",
       "rendered_digest": "d6a522f9b96a13db366a0ee6b8ce2cdab3049852134faabe28fe9a42af07fe66",
       "ast_digest": "8d6bf8fbed7abdd44c892e87970e36f564d7ffc9fc248f3cae3aa1c0b8185d8a"
     },
     "stp": {
-      "values_digest": "4fb2a34cc8af00fc530ff3cc6e2acfbb242ba5e539d113df95f57d7567c770b7",
+      "values_digest": "42a4b6733965c6ec3250d4d363ab65cf4d966949b6a2aba407f6076b5ecf2a67",
       "rendered_digest": "7f2ed62aa061ee33c6e06ddc3acfce0107c77caed88d88e2f317f3d1bc6f20a1",
       "ast_digest": "cb270301e62edfc3d61461b34ba1c12e046d6f9c153bc1d44a45b1e05ec76eed"
     },
     "spp": {
-      "values_digest": "8df1b1dffdf52e8a35d476b9b708cce2496c264b632abfb736b16eb72763903d",
+      "values_digest": "93b9824541bdf3f593baa59fbbc13a82c4df79e8c5989f6358d12c07792aae45",
       "rendered_digest": "5afcede0d064f0d7a2c481e49c8ff50ab27d35a136f930da24319bb6394d7dfa",
       "ast_digest": "7ce4cd2aeb855f10a329117709ba3ca48d295d52bf453db6a7ba802c425e7828"
     },
     "vpp": {
-      "values_digest": "951860e92aaec4150813e1c187e0689186f5b9904038e333b87f80d486cc2d65",
+      "values_digest": "b9b8ed9dbcc2715d8421d814ca1576e85eeb5098c6aa6b6e9607c11628cdb38c",
       "rendered_digest": "99bfa9cb57e3bce8a94bfa4265fa7a503aa89e00d653fbe0317b74a0bd3c4754",
       "ast_digest": "800cdc9faf9d9e8150d11b8b7cc41d660c8619ab66d8fb3f17913ec956c5f6e9"
     },
     "srp": {
-      "values_digest": "62eaa8e0f6e6c357fde5e056b04c6cec7b6f5d112ac11dc6b437929c1b84767e",
+      "values_digest": "5461180ca8aff559792ade8ee8ad06d890ca73fa4db18cea314101bcdecae110",
       "rendered_digest": "d812e6fa6d99df1b644c4b0d5cd2b8292498092e0fc91904120472fb5307fe30",
       "ast_digest": "8756273ef895e84c3fb3370abae5510cc7646582a6af6a1929a1a85bdcf61850"
     },
     "sor": {
-      "values_digest": "98b134651391d003c9899459333fce879a338599f07c77a29b2f9f843f1dc0e9",
-      "rendered_digest": "a55fc2e01bfd5d2edf14049175de1b5d58278d3377419c418a470e516ed470ca",
-      "ast_digest": "76a5853a16d81d61045d44ed85ea5e5618dfa2720cd312431357d96042057475"
+      "values_digest": "9649edfc4119510c58fa699accbed0544c441347e6d883986917f3cd403656e9",
+      "rendered_digest": "34c80198ab564da65af59fc94a796b98d95b573f67a69f0c7a90ea388f1c3b7d",
+      "ast_digest": "d66fb6577e6167a43441f71f966c6b55ab6d3a8f336ed14acba0e2f3c1da4d53"
     }
   },
   "transitions": [
@@ -123,6 +134,13 @@
       "to": "reviewed",
       "actor": "codex:5825-birthday-review-record",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5825-birthday-publication",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -818,6 +836,13 @@
       "actor": "codex:5825-birthday-review-record",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 100,
+      "generation": 77,
+      "actor": "codex:5825-birthday-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
