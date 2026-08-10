@@ -4,13 +4,38 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
-  "phase": "implemented",
-  "generation": 33,
-  "digest": "9bba4c860da4db2de55cf9abfe780ba1a138ab3410cc442a62b71aca117277ed",
+  "phase": "reviewed",
+  "generation": 34,
+  "digest": "5034b3e5339d6c5eae786cdd66c9aa3bfa7592049471d1407583577e34d87ed8",
   "branch": "codex/5854-sprint5-readiness-current",
   "worktree": "/Volumes/FastWork/adl-standalone-5854",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:019fe955-79e8-7af3-8281-4d69cc807568",
+    "assigned_by": "codex-sprint-readiness-remediation",
+    "revision": "git-blake3:f9a06470bbf088af51f4e168f4feedee556feb4f:864851e36719d19e22e6e51bf0e3be88e5b8b6ac9e73c165f9b70f63e2e78455",
+    "scope": [
+      ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
+      ".csdlc/prepared/issues/5854",
+      ".csdlc/evidence/5854",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/SPRINT_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019fe955-79e8-7af3-8281-4d69cc807568",
+    "scope": [
+      ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
+      ".csdlc/prepared/issues/5854",
+      ".csdlc/evidence/5854",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/SPRINT_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:f9a06470bbf088af51f4e168f4feedee556feb4f:864851e36719d19e22e6e51bf0e3be88e5b8b6ac9e73c165f9b70f63e2e78455",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "435dbc7aa447af5194512606e54fc66fd83d1a170ba8db1f1cd308980c8ad2f5",
+      "values_digest": "af6db9b7e3f33f8c45b6e7cc8a460ecf6fd58dd17bd14ca92785967a2c969774",
       "rendered_digest": "736d117ea18341186e50fda1cebe344d0fc95ef90d37f5b7bbaa40a84dcd04e6",
       "ast_digest": "7f4260c9e4cd7426d86876332af57f58a103630bca2b4872f3c48dd28e288d34"
     },
     "stp": {
-      "values_digest": "7102f02ecf657353fb3d4ebb8ba1c7c2b58cb2ad19d25d5edbfa8165bb6873af",
+      "values_digest": "8f39e2507cc66b3d35f513b156ca3b70b85f2134bfd4cb21f6ae2040f49ba6eb",
       "rendered_digest": "44cb2cea999def662671ef6605cc45b621764178c0034deb52b9fa275edab745",
       "ast_digest": "e679cdeae0f2418955ab66ecfc7f29e0dc64a51866217538271519dc2245bc01"
     },
     "spp": {
-      "values_digest": "a643a146c65d370f481b0806bdfe11ffde7ad9625effc89e30200f9ebffbcf17",
+      "values_digest": "9d7be9f604f9631deeca03d6d153a44e2c33b5592395ea30a21d77f75616df09",
       "rendered_digest": "25c9743d694a1c4730ae6237ae5932e7acf687b0cb0eb95c660b4187112c279b",
       "ast_digest": "9ed0abe0672515f3dc72e97bfb0728fcb9e07bc35c0f52837678e3ab8e93e6a8"
     },
     "vpp": {
-      "values_digest": "2fa8d4f11ba3d0e0eba1a6e7f35a66b1cec3f4aa49103008e4e3ee1cf9837893",
+      "values_digest": "bd3ea2f1159570ab837c6bec724c8e8dfc1d306f9401a7662ece36e710deba6c",
       "rendered_digest": "ef9a6f9f2d7cb5126e6761a85a1d4a001ee493b80ecbb2e7292bb3e0a3e99235",
       "ast_digest": "fef0cdf5e711632e18ce1a1493c5543ca09ddc65aa7c8adf82335c56b566ecc4"
     },
     "srp": {
-      "values_digest": "473d543c71856037ef6d93029e5010675d4c31abfb1a03333c157f228f5495a0",
-      "rendered_digest": "cc80b27fa1702b0f994379958027e15a281175d9ee8ecd5ef5e0478620384d77",
-      "ast_digest": "cb94b8f8bd3efa95ad2ab46a7377b0dfcbe23f2c1d581f40af43fc664983389c"
+      "values_digest": "e31d6d24848299381b7650928b78dc6f86479564397c6d05144afa14b0d03dc5",
+      "rendered_digest": "074950c25726da8a4aebf935c453e6e7cbbe7e00e41a8d288bac8327e1e5dcc3",
+      "ast_digest": "f88301ff021e35827174f71203e8f5bf270a2e499ded10b81dc56d48f7c91753"
     },
     "sor": {
-      "values_digest": "7206ef1231b4afa15dcfcd278695228115f6e4ab9cdc540a3396b234d381a3f8",
+      "values_digest": "37050daf259a08adae22bc4373e4622641b941d07b58e1b15aaee49d0f6f5ac8",
       "rendered_digest": "ee6437c3cfdf3826fccc88ab83c01074e1f025447d343aaa29c4857010d62582",
       "ast_digest": "f4f9cee2005a5a793828a0d8c8f58c248b15a728f259196a7240dd41a8693b17"
     }
@@ -118,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:5854-pr103-review-remediation",
       "reason": "Recover exact review and publication truth to resolve all five actionable findings from the independent review of PR #103 head 60825d18693c6ceb95e48caf06231cbf5005088c."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fe955-79e8-7af3-8281-4d69cc807568",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -372,6 +404,20 @@
       "actor": "codex:5854-pr103-review-remediation",
       "reason": "Replace stale readiness execution truth with the complete observed PR #103 review remediation and focused validation results.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved all five actionable findings from the independent review of PR #103 without starting Sprint 5 or binding any child.\",\"changes\":[\"Retained exact split-authority bind requests for #5835, #5836, #5838, #5839, and #5840 and documented the correct bind-before-ordinary-doctor startup route.\",\"Reconciled the milestone issue wave and live legacy #5854 body to one five-child execution denominator, completed WP-24 product truth, and non-gating out-of-band WP-24A.\",\"Added the complete WP-19 gate and fail-closed pairwise path-overlap validation for every declared parallel lane.\",\"Refreshed typed live evidence to prove tooling issue #74 is closed and removed the obsolete sparse-checkout workaround.\"],\"artifacts\":[\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\",\".csdlc/evidence/5854/diff-hygiene.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"purpose\":\"Validate canonical membership parity, all five split-authority request contracts, complete serial gates, child ownership, typed live evidence, and publication boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\"--negative-overlap\"],\"purpose\":\"Prove the path-collision guard rejects ancestor/descendant ownership while preserving disjoint sibling paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"actual_binaries_create_validate_doctor_and_bind_without_claims\",\"--\",\"--exact\"],\"purpose\":\"Exercise the production typed bind path that rejects an undeclared split repository and succeeds when code_repository is explicit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"5854\"],\"purpose\":\"Validate canonical typed issue and card projections after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5854/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors across the exact remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 33,
+      "actor": "codex-sprint-readiness-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 34,
+      "actor": "codex-subagent:019fe955-79e8-7af3-8281-4d69cc807568",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
