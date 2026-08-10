@@ -1,4 +1,0 @@
-provider=local-codex
-run_id=5873-local-operator-v1
-os=macos
-arch=aarch64
