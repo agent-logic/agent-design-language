@@ -78,11 +78,11 @@ Reconciled PR #120 terminal lifecycle truth atomically and made strict-Clippy pr
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

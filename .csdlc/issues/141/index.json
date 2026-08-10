@@ -4,20 +4,23 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3ea9b62d90eb407d9cb5f7c4a476a2e498edf2b6745691575087074cdb69ea73",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "8538427fe8da72843b61b22e00df832d2c06cda526cd357249db3d81e682ede5",
+  "phase": "published",
+  "generation": 17,
+  "digest": "515cb495f66de9eb39663e6237bacef07882cae9dd957f0fe8f8fb3813a9abe5",
   "branch": "codex/141-pr120-terminal-proof-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-141-pr120-terminal-proof-repair",
   "review_assignment": {
     "reviewer": "subagent:Aquinas",
     "assigned_by": "codex:141-pr120-review-repair",
-    "revision": "git-blake3:ec2208c32f76cf3965d4b1ca3a1b790c01769cd2:c0ba0e494357a51f70fe42b9ea1d73cc25e147e541fae48b06abe9364619c787",
+    "revision": "git-blake3:9548180f98126e1b664bc0a2a5d6c4c084519a3e:ecc63968d2fd8b4496d32b7b03fbd62d1eb63ce6fcf491f7dc8d526b65014b05",
     "scope": [
       "csdlc-v2/src/store.rs",
       ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
       ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
-      ".csdlc/prepared/issues/141",
+      ".csdlc/prepared/issues/141/design.md",
+      ".csdlc/prepared/issues/141/diagram.mmd",
+      ".csdlc/prepared/issues/141/test-strict-clippy-proof.rb",
+      ".csdlc/prepared/issues/141/validate-terminal-records.rb",
       ".csdlc/evidence/141",
       ".csdlc/issues/141",
       ".csdlc/issues/5909"
@@ -29,12 +32,15 @@
       "csdlc-v2/src/store.rs",
       ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
       ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
-      ".csdlc/prepared/issues/141",
+      ".csdlc/prepared/issues/141/design.md",
+      ".csdlc/prepared/issues/141/diagram.mmd",
+      ".csdlc/prepared/issues/141/test-strict-clippy-proof.rb",
+      ".csdlc/prepared/issues/141/validate-terminal-records.rb",
       ".csdlc/evidence/141",
       ".csdlc/issues/141",
       ".csdlc/issues/5909"
     ],
-    "reviewed_revision": "git-blake3:ec2208c32f76cf3965d4b1ca3a1b790c01769cd2:c0ba0e494357a51f70fe42b9ea1d73cc25e147e541fae48b06abe9364619c787",
+    "reviewed_revision": "git-blake3:9548180f98126e1b664bc0a2a5d6c4c084519a3e:ecc63968d2fd8b4496d32b7b03fbd62d1eb63ce6fcf491f7dc8d526b65014b05",
     "findings": [],
     "residual_risks": [
       "Dedicated end-to-end Rust fixtures do not yet exercise all three terminal dispositions; the merged fixture, receipt validation, source inspection, and focused compilation pass."
@@ -42,7 +48,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 141,
+    "pull_request": 145,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/145",
+    "base": "main",
+    "head": "codex/141-pr120-terminal-proof-repair",
+    "revision": "git-blake3:9548180f98126e1b664bc0a2a5d6c4c084519a3e:ecc63968d2fd8b4496d32b7b03fbd62d1eb63ce6fcf491f7dc8d526b65014b05",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -56,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "49f39e2c2b4f068f3046cb7d871269fc72df7679c1fe64a9bf169a0cab4d700b",
+      "values_digest": "34ea33a041a4e148243cffaa56413d9b7276681f00807bbeaabce6eae7fa2468",
       "rendered_digest": "f90a0783c6b5ee3a5175dd5b5ac10cb7ca5fd4f2a29a0e8d515957f54aa3fa00",
       "ast_digest": "d1005afcfd3ca69fa355e3d72de9eed7af836cc89ee7c8b7dc2a533c57e4dede"
     },
     "stp": {
-      "values_digest": "9ce697dcb6d1b3eef12ea5762b8655994b39e111709296d8070cf6a04b83dea6",
+      "values_digest": "52b0bcd7d04be338f73cf86f160f071e434d62862fcbb6e0221bac454b1a67af",
       "rendered_digest": "610c850c552bc5b1055f72ca8a8297af6ee0e9c14e564e8a2b9ad5156cb5b06b",
       "ast_digest": "926920f67e072b4b67a471166fb5aad23caa642f07d2d32fdfac41f093bb1351"
     },
     "spp": {
-      "values_digest": "a384140d8d3f3b4ee2097e1ada86e357b392a80f9dbd853877b1842b0ed32c90",
+      "values_digest": "337b4690b94e63d1d4fd1ac96caed3dd4b1dfbb8f96a9aa1a28e7fbc69d525c4",
       "rendered_digest": "a649fd7e17c7c437508b697a42b9bcf221de729c47be18592d1ba5627fd7e7d5",
       "ast_digest": "c787aefe7c1785885b7c18a9945de952dc4daf3087a29b8a080928c96830d326"
     },
     "vpp": {
-      "values_digest": "7893ab8114f4098283d0d86c7f994e5c5b21dba8385a62cdc8ccc509bb00d1ca",
+      "values_digest": "3f800f6b46d6e94b922bfd52758bbf2c7c99b907cd094a3419509fe830f04e9e",
       "rendered_digest": "3d24d3ed9bbc849689df3c971619a520d84c04d549193d20b1bc8ca46e72cdde",
       "ast_digest": "cbc97bd714eb8e7747c229cfce5692a4706cdf54cc7711244c4c8cf232f65e8f"
     },
     "srp": {
-      "values_digest": "e8926bf9f388ea453d47dd253b46ebd3118947c6c7f93bd246d6de5c53e51bd0",
-      "rendered_digest": "213a8997640acda794c00a6a1cbac89b8179a7738564f218ba9f2e3ee7160fda",
-      "ast_digest": "fc01db5ca80fc8ba4e817d2b6b573c50da271f584256e2f64ca914f59e60e11b"
+      "values_digest": "6898a4f8549845691dbd187c02e966a12f19cef39e923590e56afb43caf1ddd8",
+      "rendered_digest": "5955622f7e1111828df8425d93752df2c11e9f17acae2b57febef8fb78f9be76",
+      "ast_digest": "cb00b287892739b9f06638c90ab9f8246924c1817d97cb32fd8e405cef6a6e01"
     },
     "sor": {
-      "values_digest": "e76bb595d85347e1e1db8f2eebb2985cf77a83106ecae19f89f0f6c440046956",
-      "rendered_digest": "bd9a19e7429c8d701c5fc2715ef1ce09d59ccd0fe8b1e901f6a6abdcc0699254",
-      "ast_digest": "79d690095c890bb4c1598ac8d616dc1befb17b5457d627915fc9f66c7942bb50"
+      "values_digest": "9d4aac684dc8145c536ec67e8ceeb22a3539dd393306af1d07439433681a4c41",
+      "rendered_digest": "27184970be1b2bf16fee694c5b7d3a46c8b2971c6e634d0688991fdf28f6e6c4",
+      "ast_digest": "37cf787b5d9712c6772ad4d238c737747b5a03a74023f65c56a60de7035d99c6"
     }
   },
   "transitions": [
@@ -114,6 +131,27 @@
       "to": "reviewed",
       "actor": "subagent:Aquinas",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Record the Aquinas review against committed head 9548180 with an exact substantive scope that excludes operational request JSON."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:Aquinas",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -249,6 +287,34 @@
       "actor": "subagent:Aquinas",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Record the Aquinas review against committed head 9548180 with an exact substantive scope that excludes operational request JSON.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "subagent:Aquinas",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

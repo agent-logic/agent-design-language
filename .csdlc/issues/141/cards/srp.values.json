@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.07][defect] Reconcile PR #120 terminal truth and strict Clippy proof",
     "slug": "pr120-terminal-strict-clippy-proof-repair",
     "version": "v0.92",
-    "generation": 14
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/store.rs\n.csdlc/prepared/issues/5862/proof-receipt-contract.rb\n.csdlc/prepared/issues/5909/validate-proof-receipt.rb\n.csdlc/prepared/issues/141\n.csdlc/evidence/141\n.csdlc/issues/141\n.csdlc/issues/5909",
-      "review_revision": "git-blake3:ec2208c32f76cf3965d4b1ca3a1b790c01769cd2:c0ba0e494357a51f70fe42b9ea1d73cc25e147e541fae48b06abe9364619c787",
+      "review_scope": "csdlc-v2/src/store.rs\n.csdlc/prepared/issues/5862/proof-receipt-contract.rb\n.csdlc/prepared/issues/5909/validate-proof-receipt.rb\n.csdlc/prepared/issues/141/design.md\n.csdlc/prepared/issues/141/diagram.mmd\n.csdlc/prepared/issues/141/test-strict-clippy-proof.rb\n.csdlc/prepared/issues/141/validate-terminal-records.rb\n.csdlc/evidence/141\n.csdlc/issues/141\n.csdlc/issues/5909",
+      "review_revision": "git-blake3:9548180f98126e1b664bc0a2a5d6c4c084519a3e:ecc63968d2fd8b4496d32b7b03fbd62d1eb63ce6fcf491f7dc8d526b65014b05",
       "reviewer": "subagent:Aquinas",
       "review_prompts": [
         "Can an opaque artifact still satisfy Clippy proof?",

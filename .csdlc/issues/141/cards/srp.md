@@ -15,7 +15,10 @@ Status: draft
 csdlc-v2/src/store.rs
 .csdlc/prepared/issues/5862/proof-receipt-contract.rb
 .csdlc/prepared/issues/5909/validate-proof-receipt.rb
-.csdlc/prepared/issues/141
+.csdlc/prepared/issues/141/design.md
+.csdlc/prepared/issues/141/diagram.mmd
+.csdlc/prepared/issues/141/test-strict-clippy-proof.rb
+.csdlc/prepared/issues/141/validate-terminal-records.rb
 .csdlc/evidence/141
 .csdlc/issues/141
 .csdlc/issues/5909
@@ -40,7 +43,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:ec2208c32f76cf3965d4b1ca3a1b790c01769cd2:c0ba0e494357a51f70fe42b9ea1d73cc25e147e541fae48b06abe9364619c787")
+Revision: Some("git-blake3:9548180f98126e1b664bc0a2a5d6c4c084519a3e:ecc63968d2fd8b4496d32b7b03fbd62d1eb63ce6fcf491f7dc8d526b65014b05")
 
 Reviewer: Some("subagent:Aquinas")
 
