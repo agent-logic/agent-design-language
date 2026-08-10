@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/lease.rs
-adl-runtime/tests/distributed_lease.rs
-.csdlc/issues/121
-.csdlc/evidence/121
-.csdlc/prepared/issues/121
+
 
 ## Prompts
 
@@ -36,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Full stacked diff-check reports final blank lines in retained machine stdout logs; the exact source, receipt, test, lint, tamper, and path-safety proofs remain valid.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:03d0854fd749986895c283d114c20a681f624098:a791ba537d35c5877869e61703359c09dbe17e7081f7126d6d61a50eea26c0c7")
+Revision: None
 
-Reviewer: Some("subagent:issue-121-exact-head-security-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
