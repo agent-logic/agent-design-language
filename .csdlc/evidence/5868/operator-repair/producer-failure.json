@@ -1,0 +1,16 @@
+{
+  "schema": "adl.wp04.negative_cases.producer_failure.v1",
+  "issue": 5868,
+  "source_revision": "1db76e7bc25236e9f7744c9a8a13f98a51d0e0c4",
+  "exit_code": 1,
+  "error_class": "NoMethodError",
+  "error": "undefined method filter_map for Array on the approved host Ruby",
+  "disposition": "superseded_by_compatibility_repair",
+  "repair_revision": "43d5f40ba0e1be54f6060e2217be2db0e2e4c0e7",
+  "artifacts": [
+    { "path": ".csdlc/evidence/5868/operator-repair/exact-child-tests.log", "sha256": "1ec7b1cfea9ceeb797706d047d0eac11575145e2a66932243f2719d58c7b0b78" },
+    { "path": ".csdlc/evidence/5868/operator-repair/strict-focused-clippy.log", "sha256": "2bc683fb4e4f4f21ee9ee39e2b8ecce2efe20d3b1be57bda5316aa519ab3d30a" },
+    { "path": ".csdlc/evidence/5868/operator-repair/negative-cases.stdout.log", "sha256": "079d221e668c908b10f48412a2d43f00f9b1972cc1ec545b188a2de46c4db08d" },
+    { "path": ".csdlc/evidence/5868/operator-repair/negative-cases.stderr.log", "sha256": "0ef1c2b5b6780f29baf00781eba3c855eb0fdd1379d0eea7baebe7c3876cd437" }
+  ]
+}

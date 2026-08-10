@@ -1,0 +1,9 @@
+{
+  "schema": "adl.wp04.negative_cases.superseded.v1",
+  "issue": 5868,
+  "source_revision": "43d5f40ba0e1be54f6060e2217be2db0e2e4c0e7",
+  "negative_evidence_sha256": "6873cb0f0bac3842a64dee7a480ba721a478665c7ab51219d41076a878bc2518",
+  "validation_manifest_sha256": "8fa841c90192bc9150371940af979bfe5f1efc7a5240a2db393032d96ce4ed30",
+  "disposition": "superseded_before_receipt_by_exact_proof_case_binding",
+  "replacement_source_revision": "b98da2f21283961284039c921c8457e8d45d3430"
+}
