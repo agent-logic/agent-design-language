@@ -84,6 +84,10 @@ def machine_local_command_log?(text, root)
   ].any? { |pattern| text.match?(pattern) }
 end
 
+def expected_authority_test_name(name)
+  "adl-runtime-kernel::adl_runtime_kernel$cognitive_profile::authority_tests::#{name}"
+end
+
 if ARGV == ["--self-test"]
   synthetic_root = Pathname.new("/repo")
   accepted = '{"type":"test","event":"ok","path":"./adl-runtime-kernel/src/lib.rs"}'
@@ -102,6 +106,8 @@ if ARGV == ["--self-test"]
   rejected.each do |value|
     fail!("self-test accepted machine-local command log") unless machine_local_command_log?(value, synthetic_root)
   end
+  expected = "adl-runtime-kernel::adl_runtime_kernel$cognitive_profile::authority_tests::unknown_json_fields_fail_closed"
+  fail!("self-test authority inventory name mismatch") unless expected_authority_test_name("unknown_json_fields_fail_closed") == expected
   puts JSON.generate(status: "passed", check: "native-log-path-rejection")
   exit 0
 end
@@ -216,8 +222,7 @@ receipts.each do |receipt|
   fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
   observed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
-  prefix = "adl-runtime-kernel::cognitive_profile::authority_tests$"
-  expected_tests = required_tests.map { |name| "#{prefix}#{name}" }.sort
+  expected_tests = required_tests.map { |name| expected_authority_test_name(name) }.sort
   fail!("#{platform}: exact cognitive-profile test inventory mismatch") unless observed_tests == expected_tests
   fail!("#{platform}: exact test count mismatch") unless receipt["tests_run"] == required_tests.length
 
