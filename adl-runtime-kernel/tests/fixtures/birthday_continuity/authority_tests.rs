@@ -4,6 +4,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     path::{Component, Path},
+    time::Duration,
 };
 
 use super::{
@@ -15,10 +16,11 @@ use crate::{
     build_birthday_identity, derive_identity_root, verify_birthday_evidence, AliasBinding,
     BirthdayAuthorityPolicy as IdentityAuthorityPolicy, BirthdayEvidenceRequirements,
     BirthdayIdentityCandidate, BirthdayIdentityRecord, CheckpointAuthority, CheckpointManifest,
-    IdentityAuthority, IdentityBasis, IdentityReference, MemoryClass, MemoryLedger,
-    MigrationPolicy, PrivateStateAuthority, PrivateStateLineage, PrivateStateSealRequest,
-    ProjectionRequest, SanctuaryPolicy, SnapshotEntry, BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA,
-    CHECKPOINT_SCHEMA, LIVE_KERNEL_CHECKPOINT_SCHEMA,
+    IdentityAuthority, IdentityBasis, IdentityReference, LifecycleState, LiveContinuity,
+    LiveKernelSnapshot, MemoryClass, MemoryLedger, MigrationPolicy, PrivateStateAuthority,
+    PrivateStateLineage, PrivateStateSealRequest, ProjectionRequest, RuntimeRecorder,
+    SanctuaryPolicy, SnapshotEntry, BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA, CHECKPOINT_SCHEMA,
+    LIVE_KERNEL_CHECKPOINT_SCHEMA,
 };
 
 const H: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -182,23 +184,22 @@ fn reference_with_digest(id: &str, sha256: &str) -> IdentityReference {
 
 fn signed_manifest(
     authority: &CheckpointAuthority,
-    identity: &BirthdayIdentityRecord,
     generation: u64,
-    previous: &str,
+    previous: Option<&str>,
 ) -> CheckpointManifest {
     let mut manifest = CheckpointManifest {
         schema: CHECKPOINT_SCHEMA.to_owned(),
         generation,
-        previous_integrity: Some(previous.to_owned()),
+        previous_integrity: previous.map(str::to_owned),
         accepted_through: generation,
-        provenance: format!("birthday-identity:{}", identity.record_sha256),
+        provenance: "runtime-v3-live-shutdown".to_owned(),
         topology_hash: H.to_owned(),
         config_hash: "b".repeat(64),
         migration: MigrationPolicy::Exact,
         snapshots: vec![SnapshotEntry {
             service: "live_kernel".to_owned(),
             service_schema: LIVE_KERNEL_CHECKPOINT_SCHEMA.to_owned(),
-            file: format!("evidence/continuity/live-kernel/cycle-{generation}.bin"),
+            file: "0000-live_kernel.bin".to_owned(),
             bytes: 4,
             checksum: "c".repeat(64),
         }],
@@ -229,8 +230,44 @@ fn material() -> (
         1,
     )
     .unwrap();
-    let first = signed_manifest(&authority, &identity, 1, &identity.continuity.head_sha256);
-    let second = signed_manifest(&authority, &identity, 2, &first.integrity);
+    let first = signed_manifest(&authority, 1, None);
+    let second = signed_manifest(&authority, 2, Some(&first.integrity));
+    (identity, policy, vec![first, second])
+}
+
+async fn real_live_material() -> (
+    BirthdayIdentityRecord,
+    BirthdayContinuityAuthorityPolicy,
+    Vec<CheckpointManifest>,
+) {
+    let (identity, identity_evidence) = verified_identity_fixture();
+    let authority = CheckpointAuthority::from_bytes("runtime-continuity", &[19; 32]);
+    let policy = BirthdayContinuityAuthorityPolicy::establish(
+        BTreeMap::from([("runtime-continuity".to_owned(), authority.verifying_key())]),
+        "runtime-continuity",
+        &identity,
+        &identity_evidence,
+        H,
+        "b".repeat(64),
+        LIVE_KERNEL_CHECKPOINT_SCHEMA,
+        1,
+    )
+    .unwrap();
+    let root = tempfile::tempdir().unwrap();
+    let recorder = RuntimeRecorder::new(16);
+    recorder.set_lifecycle(LifecycleState::Running);
+    let snapshot = LiveKernelSnapshot::new(H, "b".repeat(64), BTreeMap::new());
+    let mut continuity =
+        LiveContinuity::new(root.path(), "runtime-continuity", &[19; 32], snapshot, 0);
+    let first = continuity
+        .checkpoint(&recorder, Duration::from_secs(1))
+        .await
+        .unwrap();
+    recorder.set_lifecycle(LifecycleState::Stopping);
+    let second = continuity
+        .checkpoint(&recorder, Duration::from_secs(1))
+        .await
+        .unwrap();
     (identity, policy, vec![first, second])
 }
 
@@ -269,9 +306,9 @@ fn semantic_output_path(value: &str) -> Result<std::path::PathBuf, &'static str>
     Ok(output)
 }
 
-#[test]
-fn continuity_record_replays_identically_across_two_signed_cycles() {
-    let (identity, policy, manifests) = material();
+#[tokio::test]
+async fn continuity_record_replays_identically_across_two_signed_cycles() {
+    let (identity, policy, manifests) = real_live_material().await;
     let verified = verify(&policy, &identity, &manifests).unwrap();
     let first = build_birthday_continuity(&identity, &verified).unwrap();
     let second = build_birthday_continuity(&identity, &verified).unwrap();
@@ -279,6 +316,34 @@ fn continuity_record_replays_identically_across_two_signed_cycles() {
     assert_eq!(first.cycles.len(), 2);
     assert_eq!(first.grade, ContinuityGrade::EvidenceBacked);
     validate_birthday_continuity_record(&first, &identity, &verified).unwrap();
+
+    let authority = CheckpointAuthority::from_bytes("runtime-continuity", &[19; 32]);
+    let mut wrong_provenance = manifests[0].clone();
+    wrong_provenance.provenance = "birthday-identity:invented".to_owned();
+    authority.sign_manifest(&mut wrong_provenance).unwrap();
+    assert!(verify(
+        &policy,
+        &identity,
+        &[wrong_provenance, manifests[1].clone()]
+    )
+    .unwrap_err()
+    .contains(&ContinuityRejection::RuntimeProvenanceMismatch { generation: 1 }));
+
+    let mut wrong_path = manifests[0].clone();
+    wrong_path.snapshots[0].file = "0001-live_kernel.bin".to_owned();
+    authority.sign_manifest(&mut wrong_path).unwrap();
+    assert!(
+        verify(&policy, &identity, &[wrong_path, manifests[1].clone()])
+            .unwrap_err()
+            .contains(&ContinuityRejection::UnsafeWitnessPath { generation: 1 })
+    );
+
+    let mut tampered = manifests.clone();
+    tampered[0].accepted_through += 1;
+    let tamper_errors = verify(&policy, &identity, &tampered).unwrap_err();
+    assert!(tamper_errors.contains(&ContinuityRejection::InvalidSignature { generation: 1 }));
+    assert!(tamper_errors.contains(&ContinuityRejection::InvalidIntegrity { generation: 1 }));
+
     if let Ok(path) = std::env::var("ADL_NATIVE_SEMANTIC_OUTPUT") {
         let path = semantic_output_path(&path).expect("safe semantic output path");
         std::fs::create_dir_all(path.parent().unwrap()).unwrap();
@@ -357,17 +422,11 @@ fn verified_tokens_cannot_be_reordered_duplicated_or_relabelled() {
         1,
     )
     .unwrap();
-    let replacement_first = signed_manifest(
-        &replacement_authority,
-        &identity,
-        1,
-        &identity.continuity.head_sha256,
-    );
+    let replacement_first = signed_manifest(&replacement_authority, 1, None);
     let replacement_second = signed_manifest(
         &replacement_authority,
-        &identity,
         2,
-        &replacement_first.integrity,
+        Some(&replacement_first.integrity),
     );
     let replacement_verified = verify(
         &replacement_policy,
@@ -400,14 +459,9 @@ fn terminal_generation_overflow_fails_closed() {
         u64::MAX - 1,
     )
     .unwrap();
-    let first = signed_manifest(
-        &authority,
-        &identity,
-        u64::MAX - 1,
-        &identity.continuity.head_sha256,
-    );
-    let second = signed_manifest(&authority, &identity, u64::MAX, &first.integrity);
-    let third = signed_manifest(&authority, &identity, u64::MAX, &second.integrity);
+    let first = signed_manifest(&authority, u64::MAX - 1, None);
+    let second = signed_manifest(&authority, u64::MAX, Some(&first.integrity));
+    let third = signed_manifest(&authority, u64::MAX, Some(&second.integrity));
     assert!(verify(&policy, &identity, &[first, second, third])
         .unwrap_err()
         .contains(&ContinuityRejection::GenerationOverflow));
@@ -449,10 +503,10 @@ fn copied_state_and_host_paths_fail_closed() {
         1,
     )
     .unwrap();
-    let mut private = signed_manifest(&authority, &identity, 1, &identity.continuity.head_sha256);
+    let mut private = signed_manifest(&authority, 1, None);
     private.snapshots[0].file = "evidence/private/raw-state.bin".to_owned();
     authority.sign_manifest(&mut private).unwrap();
-    let second = signed_manifest(&authority, &identity, 2, &private.integrity);
+    let second = signed_manifest(&authority, 2, Some(&private.integrity));
     let errors = verify_birthday_cycles(
         &policy,
         &identity,
@@ -482,11 +536,10 @@ fn copied_state_and_host_paths_fail_closed() {
         "evidence/continuity/live-kernel/cycle-2.bin",
         "evidence/continuity/cycle-1.bin",
     ] {
-        let mut unsafe_manifest =
-            signed_manifest(&authority, &identity, 1, &identity.continuity.head_sha256);
+        let mut unsafe_manifest = signed_manifest(&authority, 1, None);
         unsafe_manifest.snapshots[0].file = path.to_owned();
         authority.sign_manifest(&mut unsafe_manifest).unwrap();
-        let next = signed_manifest(&authority, &identity, 2, &unsafe_manifest.integrity);
+        let next = signed_manifest(&authority, 2, Some(&unsafe_manifest.integrity));
         let errors = verify_birthday_cycles(
             &policy,
             &identity,
@@ -511,7 +564,7 @@ fn copied_state_and_host_paths_fail_closed() {
 fn wrong_signer_and_generation_fail_closed() {
     let (identity, policy, mut manifests) = material();
     let attacker = CheckpointAuthority::from_bytes("attacker", &[23; 32]);
-    manifests[0] = signed_manifest(&attacker, &identity, 1, &identity.continuity.head_sha256);
+    manifests[0] = signed_manifest(&attacker, 1, None);
     let errors = verify(&policy, &identity, &manifests).unwrap_err();
     assert!(errors
         .iter()
@@ -540,7 +593,7 @@ fn missing_runtime_witness_and_wrong_provenance_fail_closed() {
     )));
     assert!(errors.iter().any(|error| matches!(
         error,
-        ContinuityRejection::IdentityProvenanceMismatch { generation: 1 }
+        ContinuityRejection::RuntimeProvenanceMismatch { generation: 1 }
     )));
 }
 

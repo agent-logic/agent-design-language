@@ -16,6 +16,8 @@ pub const BIRTHDAY_CONTINUITY_RECORD_SCHEMA: &str = "adl.birthday.continuity_rec
 const BIRTHDAY_CONTINUITY_HEAD_SCHEMA: &str = "adl.birthday.continuity_head.v1";
 const BIRTHDAY_CONTINUITY_AUTHORITY_CONTEXT_SCHEMA: &str =
     "adl.birthday.continuity_authority_context.v1";
+const LIVE_RUNTIME_PROVENANCE: &str = "runtime-v3-live-shutdown";
+const LIVE_RUNTIME_SNAPSHOT_FILE: &str = "0000-live_kernel.bin";
 
 /// Runtime-provisioned authority for accepting Birthday continuity evidence.
 ///
@@ -142,7 +144,7 @@ pub enum ContinuityRejection {
     DiscontinuousPredecessor { generation: u64 },
     NonMonotonicEvidence { generation: u64 },
     RuntimeIdentityMismatch { generation: u64 },
-    IdentityProvenanceMismatch { generation: u64 },
+    RuntimeProvenanceMismatch { generation: u64 },
     MissingRuntimeWitness { generation: u64 },
     DuplicateRuntimeWitness { generation: u64 },
     UnsafeWitnessPath { generation: u64 },
@@ -171,10 +173,9 @@ pub fn verify_birthday_cycles(
     }
 
     let mut expected_generation = policy.first_generation;
-    let mut expected_predecessor = identity.continuity.head_sha256.clone();
+    let mut expected_runtime_predecessor: Option<&str> = None;
     let mut previous_accepted = 0;
     let mut seen_integrities = BTreeSet::new();
-    let expected_provenance = format!("birthday-identity:{}", identity.record_sha256);
     let mut verified = Vec::with_capacity(evidence.len());
 
     for (index, item) in evidence.iter().enumerate() {
@@ -198,14 +199,12 @@ pub fn verify_birthday_cycles(
                 actual: generation,
             });
         }
-        match manifest.previous_integrity.as_deref() {
-            None => {
+        if manifest.previous_integrity.as_deref() != expected_runtime_predecessor {
+            if manifest.previous_integrity.is_none() && expected_runtime_predecessor.is_some() {
                 rejections.insert(ContinuityRejection::MissingPredecessor { generation });
-            }
-            Some(previous) if previous != expected_predecessor => {
+            } else {
                 rejections.insert(ContinuityRejection::DiscontinuousPredecessor { generation });
             }
-            Some(_) => {}
         }
         if manifest.accepted_through <= previous_accepted {
             rejections.insert(ContinuityRejection::NonMonotonicEvidence { generation });
@@ -215,8 +214,8 @@ pub fn verify_birthday_cycles(
         {
             rejections.insert(ContinuityRejection::RuntimeIdentityMismatch { generation });
         }
-        if manifest.provenance != expected_provenance {
-            rejections.insert(ContinuityRejection::IdentityProvenanceMismatch { generation });
+        if manifest.provenance != LIVE_RUNTIME_PROVENANCE {
+            rejections.insert(ContinuityRejection::RuntimeProvenanceMismatch { generation });
         }
         let matching_services = manifest
             .snapshots
@@ -233,7 +232,7 @@ pub fn verify_birthday_cycles(
         if manifest.snapshots.iter().any(|entry| {
             entry.service != "live_kernel"
                 || entry.service_schema != policy.service_schema
-                || !governed_continuity_path(&entry.file, generation)
+                || !governed_continuity_path(&entry.file)
         }) {
             rejections.insert(ContinuityRejection::UnsafeWitnessPath { generation });
         }
@@ -246,7 +245,11 @@ pub fn verify_birthday_cycles(
             identity_record_sha256: identity.record_sha256.clone(),
             generation,
             accepted_through: manifest.accepted_through,
-            previous_integrity: manifest.previous_integrity.clone().unwrap_or_default(),
+            previous_integrity: if index == 0 {
+                identity.continuity.head_sha256.clone()
+            } else {
+                manifest.previous_integrity.clone().unwrap_or_default()
+            },
             integrity: manifest.integrity.clone(),
             signing_key_id: manifest.signing_key_id.clone(),
             reference: canonical_cycle_reference(manifest)
@@ -260,7 +263,7 @@ pub fn verify_birthday_cycles(
             }
             None => {}
         }
-        expected_predecessor = manifest.integrity.clone();
+        expected_runtime_predecessor = Some(&manifest.integrity);
         previous_accepted = manifest.accepted_through;
     }
     if rejections.is_empty() {
@@ -547,6 +550,6 @@ fn safe_path(value: &str) -> bool {
             .all(|segment| !segment.is_empty() && segment != "." && segment != "..")
 }
 
-fn governed_continuity_path(value: &str, generation: u64) -> bool {
-    safe_path(value) && value == format!("evidence/continuity/live-kernel/cycle-{generation}.bin")
+fn governed_continuity_path(value: &str) -> bool {
+    safe_path(value) && value == LIVE_RUNTIME_SNAPSHOT_FILE
 }
