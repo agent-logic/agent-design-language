@@ -1,0 +1,20 @@
+{
+  "issue": 5875,
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "ea9d662c087022af907edb92108e9fb898d2beb3471dce2ed359a4b921b87fe8",
+  "actor": "codex:5875-readiness-preparation",
+  "reason": "Declare the exact two exclusive product paths and bounded migration proof deliverables without approving unmerged predecessor interfaces.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/tests/distributed_migration.rs",
+      "Focused deterministic positive, interruption, and fail-closed negative tests",
+      "Digest-bound exact-revision execution proof",
+      "Independent exact-head review and rollback evidence",
+      "Authority safety: before fence the source may resume; after fence both candidates remain non-authoritative until verified activation"
+    ]
+  }
+}

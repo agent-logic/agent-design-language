@@ -1,0 +1,10 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID acfd44ab-c04c-4984-acc6-535f9a16c5aa with nextest profile: default
+    Starting 4 tests across 1 binary
+        PASS [   0.479s] (1/4) adl-runtime::distributed_migration mismatched_replay_corrupt_restart_and_bounds_fail_closed
+        PASS [   0.484s] (2/4) adl-runtime::distributed_migration pre_fence_abort_resumes_source_and_post_fence_skip_is_denied
+        PASS [   0.556s] (3/4) adl-runtime::distributed_migration timeout_and_interrupted_commit_recovery_fail_closed
+        PASS [   0.782s] (4/4) adl-runtime::distributed_migration migration_orders_authority_and_survives_restart
+────────────
+     Summary [   0.782s] 4 tests run: 4 passed, 0 skipped

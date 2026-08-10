@@ -1,0 +1,194 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5875,
+  "wp": "WP-04.13",
+  "source_revision": "c7e6c5e7b94a03414151d7bcf4293b49e9ca7e4c",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/migration.rs",
+    "adl-runtime/tests/distributed_migration.rs"
+  ],
+  "source_artifacts": [
+    {
+      "path": "adl-runtime/src/distributed/migration.rs",
+      "sha256": "0893736a784df0c8b2abdb8722c908224c923b4fdcaef2240ac3174e132e3a91"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_migration.rs",
+      "sha256": "e40dc76dc5aabfd374e370e631006c4761e61f88198144b213e40e27ca5ad8e5"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/evidence/5875/run-exact-child-tests.rb",
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_migration",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 4,
+      "started_at": "2026-08-10T10:01:19.011489Z",
+      "finished_at": "2026-08-10T10:01:20.152985Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5875-local-operator-v3",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "805b0569756c00e6bc474107012e2f2efb01354b0be36b8017f36ef7d14f9785"
+      },
+      "stdout_path": ".csdlc/evidence/5875/operator-v3/exact-child-tests.stdout.log",
+      "stdout_sha256": "8bd3d917e022732f37e4ad3d9f17f5a549eb0a33af99ece5542f531a0d753995",
+      "stderr_path": ".csdlc/evidence/5875/operator-v3/exact-child-tests.stderr.log",
+      "stderr_sha256": "5c57a432cacd81776a34175f6e0c394abdcf03daae4fc853276e260cbf8cab88"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_migration",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T10:01:20.153413Z",
+      "finished_at": "2026-08-10T10:01:20.334511Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5875-local-operator-v3",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "805b0569756c00e6bc474107012e2f2efb01354b0be36b8017f36ef7d14f9785"
+      },
+      "stdout_path": ".csdlc/evidence/5875/operator-v3/strict-focused-clippy.stdout.log",
+      "stdout_sha256": "62d401addf5b136df381ee75cfd7d3c3b5e3d8c4a2f9cb01c831d9a5612ce4e0",
+      "stderr_path": ".csdlc/evidence/5875/operator-v3/strict-focused-clippy.stderr.log",
+      "stderr_sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "unknown_migration",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "rollback_restart",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "corrupt_restart",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "zero_capacity",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "skip_after_abort",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "post_fence_abort",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "wrong_activation_key",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "stale_authority_retry",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "crash_recovery",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "case": "timeout_expired",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "evidence_sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5875/derive-negative-cases.rb",
+      "sha256": "775a344428747263cc4358a807ff7c3e8c0520f4f56715edba8c9d8d1c0a003c"
+    },
+    {
+      "path": ".csdlc/evidence/5875/run-exact-child-tests.rb",
+      "sha256": "12c1834f5a0201d180cfb6eedd993ab48e054a07658781588ce43320c13fe328"
+    },
+    {
+      "path": ".csdlc/evidence/5875/runner.txt",
+      "sha256": "805b0569756c00e6bc474107012e2f2efb01354b0be36b8017f36ef7d14f9785"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/exact-child-tests.log",
+      "sha256": "dcfdf31e35835efa6e47284bd7f040279a3fd3d055d00e9b6ef6b93eb0fa1059"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/exact-child-tests.stdout.log",
+      "sha256": "8bd3d917e022732f37e4ad3d9f17f5a549eb0a33af99ece5542f531a0d753995"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/exact-child-tests.stderr.log",
+      "sha256": "5c57a432cacd81776a34175f6e0c394abdcf03daae4fc853276e260cbf8cab88"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/strict-focused-clippy.log",
+      "sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/strict-focused-clippy.stderr.log",
+      "sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/negative-cases.json",
+      "sha256": "6cdedbe83707f43636ec0a0ff86820335a690a9445f1b7533c7ac06396381c28"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/negative-cases.stdout.log",
+      "sha256": "cbfdcb8752a23a63f4e84667c7cdac509853366f99484c83d2260f6de4610507"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/negative-cases.stderr.log",
+      "sha256": "e43a485166dc922fb12bca1ff2cd58b1c2604df8d9c32b4c9fe4314b1cd6f8b0"
+    },
+    {
+      "path": ".csdlc/evidence/5875/operator-v3/validation-manifest.json",
+      "sha256": "5af8a44dc42ce794fe383f42e1c6c317b81652452459b88d444e4a06e59eae41"
+    }
+  ],
+  "native_receipts": [
+
+  ]
+}

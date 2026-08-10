@@ -1,0 +1,65 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 5875,
+  "expected_generation": 17,
+  "expected_digest": "19e120dd163f650ed2e834780f775c3e7341c02ab7d7b3115a927baa0a1a00f3",
+  "actor": "codex:5875-migration",
+  "summary": "Implemented the bounded durable distributed migration state machine with authority-verified placement, snapshot transfer, fencing, activation, owner commit, crash reconciliation, and fail-closed restart behavior.",
+  "changes": [
+    "Added a bounded canonical migration store with external generation-and-digest checkpoint authority and rollback detection.",
+    "Implemented strict prepare, quiesce, checkpoint, transfer, validate, fence, activate, and owner-commit transitions with exact retry semantics.",
+    "Bound placement, snapshot, lease, fencing, quiescence, and isolated-restore evidence to authoritative producers rather than caller assertions.",
+    "Added focused restart, replay, corruption, capacity, abort, fencing, and activation-key regressions."
+  ],
+  "artifacts": [
+    "adl-runtime/src/distributed/migration.rs",
+    "adl-runtime/tests/distributed_migration.rs",
+    ".csdlc/evidence/5875/execution-proof.json"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "exact-child-tests",
+          "proof_role": "Exact nonzero migration state-machine behavior proof",
+          "purpose": "Prove ordered and idempotent migration, restart recovery, authority boundaries, and fail-closed negative paths",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 2048, "tokens": 8000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "child",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1800,
+          "executable": "cargo",
+          "argv": ["nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_migration", "--no-tests=fail"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "strict-focused-clippy",
+          "proof_role": "Strict focused lint proof for the migration state-machine target",
+          "purpose": "Reject warnings in the exact migration test and implementation surface",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 3000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["exact-child-tests"],
+          "parallel_group": "lint",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "cargo",
+          "argv": ["clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_migration", "--", "-D", "warnings"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {"requested_lanes": ["exact-child-tests", "strict-focused-clippy"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 2, "cpu_units": 3, "memory_mib": 2304, "tokens": 11000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-5875-migration",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-5875-migration/.csdlc/evidence/5875",
+    "cancellation_file": null
+  }
+}

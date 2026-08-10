@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 
@@ -61,11 +61,13 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
-- Evidence is exact-revision and digest bound
+- Only adl-runtime/src/distributed/migration.rs and adl-runtime/tests/distributed_migration.rs are mutable; module registration remains owned by #5878
+- Source authority remains valid through exact target validation; fencing consumes current merged authority input, and activation is limited to the exact validated target afterward
+- Every accepted transition and its audit state are persisted atomically before phase advancement becomes observable
+- Restart recovers the last committed transition and fails closed on durable corruption or ambiguous authority
+- Active migrations, retained transition history, manifest and snapshot bytes, identifiers, timeouts, retries, and evidence payloads are hard bounded with checked arithmetic
+- Only exact idempotent retries are accepted; out-of-order, stale, replayed, mismatched, wrong-domain, unauthorized, incomplete, corrupt, or resource-exhausted input is rejected
+- Exact source, command, nonzero test, artifact, machine-derived negative-case, runner, receipt, and independent-review evidence remains digest bound
 
 ## Risks
 
@@ -96,11 +98,14 @@ Digest: cce3eba1094ebf7104a4a56009784c3cddac29d5aea119937333219cd7bfaf6d
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Corrective issue #5909 PR #120 is not merged or its exact merge revision is not ancestral to the selected execution base
+- Issue #5870 is not closed through a merged PR or its exact merge revision is not ancestral to the selected execution base
+- Issue #5873 or #5874 is not closed through a merged PR or either exact merge revision is not ancestral to the selected execution base
+- The merged lease, fencing, placement, or snapshot-catalog source does not expose sufficient verified and bounded input behavior without inventing interfaces or widening the two owned paths
+- Either exact owned path is already present in or collides with another live issue worktree
+- Atomic durable transition recovery, bounded state, source retention before fence, or non-authoritative ambiguity after fence cannot be proved within issue scope
+- After implementation the distributed_migration target is absent, selects zero tests, or any required positive, interruption, negative, receipt, or review proof fails
+- Module registration, product scope, dependency ownership, interface authority, or rollback authority must widen beyond issue #5875
 
 ## Handoff
 

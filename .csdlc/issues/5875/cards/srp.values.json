@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.13] Migration state machine",
     "slug": "v0-92-wp-04-13-migration-state-machine",
     "version": "v0.92",
-    "generation": 11
+    "generation": 23
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.13 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/migration.rs\nadl-runtime/tests/distributed_migration.rs\n.csdlc/evidence/5875\n.csdlc/issues/5875",
+      "review_revision": "git-blake3:85c4023c5fdd0776177b3dc87adbdd203cf8c375:778d772d22b56bc27032efc48c7271c61293f255489ea48e9d97b98237e63c46",
+      "reviewer": "codex:independent-5875-exact-head-review",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Production module registration remains intentionally owned by integration issue #5878."
+      ],
+      "review_result": "pass"
     }
   }
 }

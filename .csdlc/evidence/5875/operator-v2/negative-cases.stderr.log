@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running tests/distributed_migration.rs (adl-runtime/target/debug/deps/distributed_migration-2f69d2be38650cb2)

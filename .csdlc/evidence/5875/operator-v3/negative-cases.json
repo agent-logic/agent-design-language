@@ -1,0 +1,78 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5875,
+  "source_revision": "c7e6c5e7b94a03414151d7bcf4293b49e9ca7e4c",
+  "producer_path": ".csdlc/evidence/5875/derive-negative-cases.rb",
+  "producer_sha256": "775a344428747263cc4358a807ff7c3e8c0520f4f56715edba8c9d8d1c0a003c",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_migration",
+      "--",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T10:01:20.334856Z",
+    "finished_at": "2026-08-10T10:01:21.284061Z"
+  },
+  "stdout_path": ".csdlc/evidence/5875/operator-v3/negative-cases.stdout.log",
+  "stdout_sha256": "cbfdcb8752a23a63f4e84667c7cdac509853366f99484c83d2260f6de4610507",
+  "stderr_path": ".csdlc/evidence/5875/operator-v3/negative-cases.stderr.log",
+  "stderr_sha256": "e43a485166dc922fb12bca1ff2cd58b1c2604df8d9c32b4c9fe4314b1cd6f8b0",
+  "cases": [
+    {
+      "case": "unknown_migration",
+      "result": "rejected",
+      "observed_line_sha256": "f93cca6b230add4e1bdfcd168c224d4757882d8aa4af400d94203c70a0367098"
+    },
+    {
+      "case": "rollback_restart",
+      "result": "rejected",
+      "observed_line_sha256": "996ec47b5c226aebf146b4bd025e6217acf6efdb4b4908f6af89a26986f3e49d"
+    },
+    {
+      "case": "corrupt_restart",
+      "result": "rejected",
+      "observed_line_sha256": "352db54125db352596e1340ff95ece51136ab6a12ef3f760a53f164de2cae83f"
+    },
+    {
+      "case": "zero_capacity",
+      "result": "rejected",
+      "observed_line_sha256": "022e3e8b018db7600dd466dc8d2f725178299d9eabfe5918972767b9100f2d1b"
+    },
+    {
+      "case": "skip_after_abort",
+      "result": "rejected",
+      "observed_line_sha256": "2d7a36db7ff19abe97899fd4fc8926f7baa919b1013071d47f0c2d56f6052566"
+    },
+    {
+      "case": "post_fence_abort",
+      "result": "rejected",
+      "observed_line_sha256": "addea100c06cc40484ab9208161bd9d5de732468816bbdd8c5cdf71345c797fd"
+    },
+    {
+      "case": "wrong_activation_key",
+      "result": "rejected",
+      "observed_line_sha256": "9220e539c3675ede0b0ea84926dcf10c106b44e8ee48e8b12fa8366042f6f301"
+    },
+    {
+      "case": "stale_authority_retry",
+      "result": "rejected",
+      "observed_line_sha256": "1a486bcbfd7d36632dd3ba2da729f3e36caed67f2ff801310803928a14f91346"
+    },
+    {
+      "case": "crash_recovery",
+      "result": "rejected",
+      "observed_line_sha256": "744aea8605161bb71f0b00d6c1b37b5e458b15ace2776ef89c79f19949db6c70"
+    },
+    {
+      "case": "timeout_expired",
+      "result": "rejected",
+      "observed_line_sha256": "c396505773fa31a5b4b6b149df9f1fba9876b184fea91550005d30ad80f7b33a"
+    }
+  ]
+}
