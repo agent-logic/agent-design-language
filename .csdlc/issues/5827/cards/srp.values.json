@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 96
+    "generation": 97
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5827\n.csdlc/prepared/issues/5827/design.md\n.csdlc/prepared/issues/5827/produce-native-receipt.rb\n.csdlc/prepared/issues/5827/validate-native-receipts.rb\n.csdlc/evidence/5827\n.github/workflows/wp10-native-birthday-continuity.yml\nadl-runtime-kernel/src/birthday_continuity.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/fixtures/birthday_continuity\ndocs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
+      "review_revision": "git-blake3:84ece3b6f7565d9cf7361a277f67e0a3618fcc06:3783225b1d78a72caea22cad93fa14ef314565da7f9ecda9d927586ce9b7359c",
+      "reviewer": "codex:review_5827_predecessor_final",
       "review_prompts": [
         "Can restart, wake, restore, snapshot, copied state, duplicate, or reordered cycles incorrectly establish continuity?",
         "Does every head bind one root, predecessor, ordered current evidence, and witness references deterministically?",
@@ -23,8 +23,10 @@
         "Is #5826 terminal evidence current and is every WP-10 acceptance claim proven at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Replacement exact-head native macOS and Linux receipts remain mandatory after publication before final post-native review and merge."
+      ],
+      "review_result": "pass"
     }
   }
 }
