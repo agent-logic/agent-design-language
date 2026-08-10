@@ -158,6 +158,9 @@ pub fn adapt_normalized_obsmem_record(
             id: source.id.clone(),
         }
     })?;
+    if anchor.continuity_id.as_deref() != Some(continuity_head) {
+        return Err(MemoryPalaceRejection::AuthorityMismatch { id: source.id });
+    }
     let created_epoch_ms = u64::try_from(anchor.t_created_epoch_ms).map_err(|_| {
         MemoryPalaceRejection::InvalidTemporalAnchor {
             id: source.id.clone(),
@@ -276,6 +279,9 @@ pub struct MemoryPalaceContextPacket {
     pub trace_id: String,
     pub trace_reference: MemoryReference,
     pub redaction_policy_sha256: String,
+    pub observed_epoch_ms: u64,
+    pub stale_after_ms: u64,
+    pub max_working_set_items: usize,
     pub authority_sha256: String,
     pub canonical_input_sha256: String,
     pub rooms: Vec<MemoryPalaceRoom>,
@@ -521,14 +527,20 @@ pub fn build_memory_palace(
             });
         }
     }
-    let rooms = room_records
+    let mut rooms: Vec<_> = room_records
         .into_iter()
-        .map(|(workflow_id, record_ids)| MemoryPalaceRoom {
-            room_id: format!("room:{}", stable_id(&workflow_id)),
-            workflow_id,
-            record_ids,
+        .map(|(workflow_id, mut record_ids)| {
+            record_ids.sort();
+            MemoryPalaceRoom {
+                room_id: format!("room:{}", stable_id(&workflow_id)),
+                workflow_id,
+                record_ids,
+            }
         })
         .collect();
+    rooms.sort_by(|a, b| a.workflow_id.cmp(&b.workflow_id));
+    working_set.sort_by(|a, b| a.record_id.cmp(&b.record_id));
+    overflow.sort_by(|a, b| a.record_id.cmp(&b.record_id));
     let mut packet = MemoryPalaceContextPacket {
         schema: MEMORY_PALACE_PACKET_SCHEMA.to_owned(),
         identity_root: identity.identity_root.clone(),
@@ -538,6 +550,9 @@ pub fn build_memory_palace(
         trace_id: input.trace_reference.id.clone(),
         trace_reference: input.trace_reference.clone(),
         redaction_policy_sha256: input.redaction_policy_sha256.clone(),
+        observed_epoch_ms: input.observed_epoch_ms,
+        stale_after_ms: input.stale_after_ms,
+        max_working_set_items: input.max_working_set_items,
         authority_sha256,
         canonical_input_sha256,
         rooms,
@@ -569,6 +584,10 @@ pub fn validate_memory_palace_packet(
             .trace_reference
             .path
             .starts_with(".adl/runtime-v3/observability/")
+        || packet.max_working_set_items == 0
+        || packet.max_working_set_items > 64
+        || packet.working_set.len() > packet.max_working_set_items
+        || packet.stale_after_ms == 0
     {
         return Err(MemoryPalaceRejection::EncodingFailure);
     }
@@ -579,6 +598,7 @@ pub fn validate_memory_palace_packet(
             || room.room_id != format!("room:{}", stable_id(&room.workflow_id))
             || !room_ids.insert(room.room_id.as_str())
             || room.record_ids.is_empty()
+            || !room.record_ids.windows(2).all(|pair| pair[0] < pair[1])
         {
             return Err(MemoryPalaceRejection::DuplicateRoom {
                 id: room.room_id.clone(),
@@ -594,6 +614,21 @@ pub fn validate_memory_palace_packet(
                 id: room.room_id.clone(),
             });
         }
+    }
+    if !packet
+        .rooms
+        .windows(2)
+        .all(|pair| pair[0].workflow_id < pair[1].workflow_id)
+        || !packet
+            .working_set
+            .windows(2)
+            .all(|pair| pair[0].record_id < pair[1].record_id)
+        || !packet
+            .overflow
+            .windows(2)
+            .all(|pair| pair[0].record_id < pair[1].record_id)
+    {
+        return Err(MemoryPalaceRejection::EncodingFailure);
     }
     let mut seen_records = BTreeSet::new();
     for item in &packet.working_set {
@@ -622,6 +657,12 @@ pub fn validate_memory_palace_packet(
             || item.temporal_anchor.effective_epoch_ms < item.temporal_anchor.created_epoch_ms
             || item.temporal_anchor.effective_epoch_ms > item.temporal_anchor.observed_epoch_ms
             || item.temporal_anchor.event_sequence == 0
+            || item.temporal_anchor.observed_epoch_ms > packet.observed_epoch_ms
+            || packet
+                .observed_epoch_ms
+                .saturating_sub(item.temporal_anchor.effective_epoch_ms)
+                > packet.stale_after_ms
+            || !item.citations.windows(2).all(|pair| pair[0] < pair[1])
         {
             return Err(MemoryPalaceRejection::InvalidRecord {
                 id: item.record_id.clone(),
@@ -645,7 +686,7 @@ pub fn validate_memory_palace_packet(
         if !valid_identifier(&overflow.record_id)
             || !seen_records.insert(overflow.record_id.as_str())
             || !is_sha256(&overflow.record_sha256)
-            || !overflow.reason.starts_with("bounded_after_")
+            || overflow.reason != format!("bounded_after_{}", packet.max_working_set_items)
         {
             return Err(MemoryPalaceRejection::InvalidRecord {
                 id: overflow.record_id.clone(),
@@ -663,7 +704,7 @@ pub fn validate_memory_palace_packet(
 }
 
 fn valid_reference(reference: &MemoryReference) -> bool {
-    !reference.id.trim().is_empty()
+    valid_identifier(&reference.id)
         && safe_repo_path(&reference.path)
         && is_sha256(&reference.sha256)
 }

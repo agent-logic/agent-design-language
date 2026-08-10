@@ -13,6 +13,8 @@
     "unsafe_record_identifier", "unsafe_run_identifier", "unsafe_workflow_identifier",
     "home_path_payload", "github_token_payload", "provider_key_payload",
     "normalized_room_slug_collision", "obsmem_trace_event_substitution",
-    "obsmem_trace_citation_substitution"
+    "obsmem_trace_citation_substitution", "obsmem_continuity_substitution",
+    "unsafe_trace_reference_id", "unsafe_citation_reference_id",
+    "noncanonical_room_order", "forged_overflow_bound", "working_set_over_64"
   ]
 }

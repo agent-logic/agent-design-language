@@ -89,7 +89,8 @@ policy digest, a fixed observation time, and the canonical serialized
 `MemoryRecord` shape from the authoritative ObsMem contract. The Runtime v3
 adapter normalizes tags, citations, trace-event references, and residual risks,
 derives trace identity from the normalized trace-event references, and requires
-the exact cited trace artifact before a record can enter the palace.
+the exact cited trace artifact plus the active continuity head in the source
+temporal anchor before a record can enter the palace.
 It recomputes both predecessor record digests and rejects identity-root,
 continuity-head, trace, citation, temporal, or redaction substitutions before
 materializing context.
@@ -105,7 +106,9 @@ and unbound trace citations fail closed.
 The exported packet validator replays the packet's privacy and integrity
 boundary: it validates authority/reference digests, exact room membership,
 unique digest-suffixed room identities, item hashes, citations, temporal
-anchors, visibility/redaction rules, and host-path/secret screening. Recomputing
+anchors, the 64-item ceiling, exact overflow bounds, canonical collection
+ordering, visibility/redaction rules, and host-path/secret screening across
+payloads and emitted identifiers. Recomputing
 the outer packet checksum cannot make a private or structurally forged packet
 valid.
 

@@ -333,4 +333,75 @@ fn normalized_obsmem_adapter_binds_trace_events_and_citation() {
         adapt_normalized_obsmem_record(wrong_citation, MemoryVisibility::Public, H, H, &trace)
             .is_err()
     );
+    let mut wrong_continuity = NormalizedObsMemRecord {
+        id: "record-b".into(),
+        run_id: "run-b".into(),
+        workflow_id: "flow-b".into(),
+        tags: vec![],
+        payload: "bounded".into(),
+        score: "1.0".into(),
+        citations: vec![NormalizedObsMemCitation {
+            path: trace.path.clone(),
+            hash: trace.sha256.clone(),
+        }],
+        trace_event_refs: trace_event_refs(),
+        temporal_anchor: Some(NormalizedObsMemTemporalAnchor {
+            t_created_epoch_ms: 1,
+            t_observed_epoch_ms: Some(2),
+            t_effective_epoch_ms: Some(2),
+            continuity_id: Some("b".repeat(64)),
+            event_sequence: Some(1),
+        }),
+        review_findings: vec![],
+        residual_risks: vec![],
+        follow_on_refs: vec![],
+    };
+    assert!(adapt_normalized_obsmem_record(
+        wrong_continuity.clone(),
+        MemoryVisibility::Public,
+        H,
+        H,
+        &trace
+    )
+    .is_err());
+    wrong_continuity
+        .temporal_anchor
+        .as_mut()
+        .unwrap()
+        .continuity_id = None;
+    assert!(adapt_normalized_obsmem_record(
+        wrong_continuity,
+        MemoryVisibility::Public,
+        H,
+        H,
+        &trace
+    )
+    .is_err());
+}
+
+#[test]
+fn reference_identifier_privacy_and_canonical_packet_bounds_fail_closed() {
+    let (identity, continuity, base) = input(
+        vec![record("a", "alpha", 1500), record("b", "beta", 1500)],
+        1,
+    );
+    for unsafe_id in ["/Users/operator/private", "gho_secret", "sk-secret"] {
+        let mut bad = base.clone();
+        bad.trace_reference.id = unsafe_id.into();
+        bad.records[0].trace_id = unsafe_id.into();
+        bad.records[0].citations[0].id = unsafe_id.into();
+        assert!(build_memory_palace(&identity, &continuity, &bad).is_err());
+    }
+    let packet = build_memory_palace(&identity, &continuity, &base).unwrap();
+    for mutate in 0..3 {
+        let mut forged = packet.clone();
+        match mutate {
+            0 => forged.rooms.reverse(),
+            1 => forged.overflow[0].reason = "bounded_after_64".into(),
+            _ => forged.max_working_set_items = 65,
+        }
+        forged.packet_sha256.clear();
+        forged.packet_sha256 = format!("{:x}", Sha256::digest(serde_jcs::to_vec(&forged).unwrap()));
+        assert!(validate_memory_palace_packet(&forged).is_err());
+    }
 }
