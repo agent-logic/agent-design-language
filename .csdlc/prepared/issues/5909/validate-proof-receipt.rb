@@ -35,7 +35,7 @@ end
 
 evidence_path = ARGV.fetch(
   0,
-  ".csdlc/evidence/5909/review-repair-v2/execution-proof.json"
+  ".csdlc/evidence/5909/review-repair-v3/execution-proof.json"
 )
 fail_receipt("execution proof missing") unless File.file?(evidence_path)
 proof = JSON.parse(File.read(evidence_path))

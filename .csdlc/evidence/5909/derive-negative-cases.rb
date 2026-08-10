@@ -22,8 +22,9 @@ EXPECTED = {
   "serialized_snapshot_capacity" => "denied"
 }.freeze
 EXACT_NEXTEST = [
-  "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test",
-  "distributed_lease", "--no-tests=fail"
+  "ruby", ".csdlc/evidence/5909/run-exact-child-tests.rb",
+  "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml",
+  "--test", "distributed_lease", "--no-tests=fail"
 ].freeze
 STRICT_CLIPPY = [
   "cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test",
@@ -96,7 +97,7 @@ nextest_log = output.join("exact-child-tests.log")
 nextest_stdout_path = output.join("exact-child-tests.stdout.log")
 nextest_stderr_path = output.join("exact-child-tests.stderr.log")
 File.binwrite(nextest_log, nextest_stdout + nextest_stderr)
-File.binwrite(nextest_stdout_path, nextest_stdout + nextest_stderr)
+File.binwrite(nextest_stdout_path, nextest_stdout)
 File.binwrite(nextest_stderr_path, nextest_stderr)
 abort_with("exact nextest failed") unless nextest_status.success?
 summary = (nextest_stdout + nextest_stderr).match(/Summary .*?(\d+) tests run: (\d+) passed, 0 skipped/)
