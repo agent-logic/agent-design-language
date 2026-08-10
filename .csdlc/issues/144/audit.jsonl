@@ -11,3 +11,4 @@
 {"sequence":11,"generation":7,"actor":"codex:144-cognitive-authority-repair","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":8,"actor":"codex:144-cognitive-authority-repair","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":13,"generation":9,"actor":"codex:144-cognitive-authority-repair","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":14,"generation":10,"actor":"codex:144-cognitive-authority-repair","reason":"Published native run 31421144797 proved both platforms passed 15 tests but aggregate validation rejected the correct libtest-json-plus names because the issue-local validator retained a stale integration-test name prefix. Recover review/publication truth for the bounded exact inventory-name repair and replacement native proof.","operation":"recover_review"}

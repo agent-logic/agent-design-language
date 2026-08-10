@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/cognitive_profile.rs
-adl-runtime-kernel/tests/cognitive_profile.rs
-adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs
-docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
-.csdlc/prepared/issues/144/produce-native-receipt.rb
-.csdlc/prepared/issues/144/validate-native-receipts.rb
-.github/workflows/wp13-authority-repair.yml
-.csdlc/evidence/144
-.csdlc/issues/144
-Review the opaque runtime-owned authority establishment boundary, canonical policy/evidence pins, full genesis lineage replay, old-key-governed rotation, public API non-construction boundary, exact filtered native inventory, retained evidence bindings, and truthful lifecycle claims. Explicitly attempt replacement of both attacker root and proof; verify no caller-controlled trust root is accepted.
+
 
 ## Prompts
 
@@ -41,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Mandatory native Linux and macOS execution remains deferred to the issue-specific publication workflow and must pass at the exact published head before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b3306d2ebab8dcb7e314fb74b253c32a9285fb41:5db45f14081e6d306337f38074f5543a576add99d35ec2e6576daccf9a00e27d")
+Revision: None
 
-Reviewer: Some("/root/sprint4_5857/review_144_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review
