@@ -150,6 +150,7 @@ ADL_OBSERVATORY_EVIDENCE_DIR=<absolute-fastwork-evidence-directory> \
 ADL_TLS_PROOF_CONNECT_HOST=127.0.0.1 \
 ADL_PLAYWRIGHT_HOST_RESOLVER_RULES='MAP <certificate-hostname> 127.0.0.1' \
 ADL_ALLOW_RUNTIME_RESTART_PROOF=1 \
+ADL_SOURCE_REVISION="$(git rev-parse HEAD)" \
 node adl/tools/validate_v092_html_observatory_live.mjs
 ```
 

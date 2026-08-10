@@ -1993,6 +1993,15 @@ textarea,
     padding: 0.42rem;
   }
 
+  .ops-sidecar .inspector-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .ops-sidecar .runtime-test-card .row-detail {
+    max-height: none;
+    overflow: visible;
+  }
+
   .topbar-controls {
     display: flex;
     width: 100%;

@@ -24,12 +24,14 @@ const operatorKeyFile = process.env.ADL_OPERATOR_KEY_FILE;
 const evidenceRoot = process.env.ADL_OBSERVATORY_EVIDENCE_DIR;
 const tlsConnectHost = process.env.ADL_TLS_PROOF_CONNECT_HOST || null;
 const allowRuntimeRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
+const sourceRevision = process.env.ADL_SOURCE_REVISION;
 
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the served HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the exact Runtime candidate URL");
 assert(operatorKeyFile, "ADL_OPERATOR_KEY_FILE must name the trusted operator Ed25519 seed file");
 assert(evidenceRoot, "ADL_OBSERVATORY_EVIDENCE_DIR must name a retained FastWork evidence directory");
 assert(allowRuntimeRestartProof, "ADL_ALLOW_RUNTIME_RESTART_PROOF=1 is required for the isolated Guardian restart proof");
+assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact 40-character source commit");
 const fastWorkRoot = await fs.realpath("/Volumes/FastWork");
 const requestedEvidenceRoot = path.resolve(evidenceRoot);
 assert(
@@ -146,12 +148,13 @@ const expectedTransientResponses = [];
 const controlRequests = [];
 let lastControlCommand = null;
 let guardianRestartInProgress = false;
+let proofPhase = "baseline";
 page.on("console", (message) => {
   if (message.type() === "error" && !message.text().startsWith("Failed to load resource:")) {
-    consoleErrors.push(message.text());
+    consoleErrors.push({ message: message.text(), phase: proofPhase });
   }
 });
-page.on("pageerror", (error) => consoleErrors.push(error.message));
+page.on("pageerror", (error) => consoleErrors.push({ message: error.message, phase: proofPhase }));
 page.on("response", (response) => {
   if (response.status() < 400) return;
   const pathname = new URL(response.url()).pathname;
@@ -173,6 +176,7 @@ page.on("request", (request) => {
 
 const report = {
   schema: "adl.v092.html_observatory_live_validation.v1",
+  source_revision: sourceRevision,
   observatory_url: url.toString(),
   runtime_api_base: runtimeUrl.origin,
   tls_trust: "platform_trust_store",
@@ -356,6 +360,7 @@ try {
   }, runtimeUrl.origin);
   assert(Number.isSafeInteger(restartTarget.pid) && restartTarget.pid > 1, "Runtime feed did not expose an exact candidate PID");
   assert.equal(restartTarget.runtime_instance_id, automaticReconnectBefore.runtime_instance, "restart target identity drifted before the proof");
+  proofPhase = "guardian_restart";
   guardianRestartInProgress = true;
   process.kill(restartTarget.pid, "SIGKILL");
   await page.waitForFunction(() => {
@@ -375,6 +380,7 @@ try {
     applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events"))
   };
   guardianRestartInProgress = false;
+  proofPhase = "baseline";
   assert.equal(automaticReconnectAfter.transcript, automaticReconnectBefore.transcript, "automatic reconnect duplicated chat");
   assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts, "automatic reconnect replayed a control POST");
   assert.notEqual(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "Guardian restart did not establish a new Runtime instance");
@@ -404,6 +410,7 @@ try {
   await railLink("Runtime").click();
   const unavailableRuntime = new URL(runtimeUrl.origin);
   unavailableRuntime.port = "21984";
+  proofPhase = "unbound_runtime_negative_test";
   await page.locator("#dashboard-live-api-base").fill(unavailableRuntime.origin);
   await page.locator("#dashboard-connect-live").click();
   await page.waitForFunction(() => {
@@ -422,6 +429,7 @@ try {
 
   await railLink("Runtime").click();
   await page.locator("#dashboard-stop-live").click();
+  proofPhase = "baseline";
   await page.locator("#dashboard-live-api-base").fill(runtimeUrl.origin);
   await page.locator("#dashboard-connect-live").click();
   await railLink("Chat").click();
@@ -536,12 +544,18 @@ try {
     websocket.protocol = "wss:";
     return websocket.toString();
   });
-  const expectedTransientWebSocketErrors = consoleErrors.filter((message) =>
-    expectedTransientWebSocketEndpoints.some((endpoint) => message.includes(`WebSocket connection to '${endpoint}' failed:`)) &&
-    message.includes("net::ERR_CONNECTION_REFUSED")
-  );
+  const expectedTransientWebSocketErrors = consoleErrors.filter(({ message, phase }) => {
+    const expectedEndpoint = phase === "guardian_restart"
+      ? expectedTransientWebSocketEndpoints[0]
+      : phase === "unbound_runtime_negative_test"
+        ? expectedTransientWebSocketEndpoints[1]
+        : null;
+    return expectedEndpoint !== null &&
+      message.includes(`WebSocket connection to '${expectedEndpoint}' failed:`) &&
+      message.includes("net::ERR_CONNECTION_REFUSED");
+  });
   const unexpectedConsoleErrors = consoleErrors.filter(
-    (message) => !expectedTransientWebSocketErrors.includes(message)
+    (entry) => !expectedTransientWebSocketErrors.includes(entry)
   );
   report.assertions.transient_websocket_failures_are_bounded = {
     passed: true,
@@ -552,7 +566,7 @@ try {
     passed: true,
     responses: expectedTransientResponses
   };
-  assert.equal(unexpectedConsoleErrors.length, 0, `browser errors: ${unexpectedConsoleErrors.join("; ")}`);
+  assert.equal(unexpectedConsoleErrors.length, 0, `browser errors: ${JSON.stringify(unexpectedConsoleErrors)}`);
   assert.deepEqual(badResponses, [], `unexpected HTTP failures: ${JSON.stringify(badResponses)}`);
   report.assertions.browser_console_clean = { passed: true };
 } finally {
