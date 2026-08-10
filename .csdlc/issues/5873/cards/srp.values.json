@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.11] Bounded placement decisions",
     "slug": "v0-92-wp-04-11-bounded-placement",
     "version": "v0.92",
-    "generation": 7
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.11 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/placement.rs\nadl-runtime/tests/distributed_placement.rs\n.csdlc/prepared/issues/5873/validate-proof-receipt.rb\n.csdlc/evidence/5873/remediation-v7",
+      "review_revision": "git-blake3:289badf00d1ebf1d150b09e944c853948c7c2483:7613cc5414d00eb5bce8958e88360f460b4c0bc860ffa0ee43cfaefed4881821",
+      "reviewer": "subagent:5873-final-narrow-review",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Placement remains intentionally unregistered until integration issue #5878 owns distributed module registration."
+      ],
+      "review_result": "pass"
     }
   }
 }

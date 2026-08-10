@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -96,11 +96,12 @@ Digest: d12c6bcbba3c49db3c0c5366bbfccb2704148ea353385c42e49ac369e7553216
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Corrective issue #5909 PR #120 is not merged or its exact merge revision is not ancestral to the selected execution base
+- Issue #5870 is not closed through a merged PR or its exact merge revision is not ancestral to the selected execution base
+- The merged membership, failure-detection, lease, capability, resource-weather, or fencing contracts cannot support bounded deterministic placement without widening the two owned paths
+- Either exact owned path is already present in or collides with another live issue worktree
+- After implementation the distributed_placement target is absent, selects zero tests, or any required positive, negative, receipt, or review proof fails
+- Module registration, product scope, dependency ownership, or rollback authority must widen beyond issue #5873
 
 ## Handoff
 

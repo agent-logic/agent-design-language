@@ -1,0 +1,4 @@
+provider=local-codex
+run_id=5873-local-remediation-v7
+os=macos
+arch=aarch64
