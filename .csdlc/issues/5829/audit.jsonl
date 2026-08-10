@@ -118,3 +118,4 @@
 {"sequence":118,"generation":90,"actor":"codex:5829-capability-envelope","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":119,"generation":91,"actor":"codex:5829-capability-envelope","reason":"Recover the stale post-native review after fixing issue-owned native log normalization and validator path-hygiene enforcement without editing retained receipts.","operation":"recover_review"}
 {"sequence":120,"generation":91,"actor":"codex:5829-capability-envelope","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":121,"generation":92,"actor":"codex:5829-capability-envelope","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
