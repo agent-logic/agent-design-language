@@ -90,11 +90,11 @@ Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator outpu
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
