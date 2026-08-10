@@ -30,7 +30,7 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
 - Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.
 - Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.
 - Use checked generation advancement and reject terminal overflow.
-- Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed witness path segments containing private, raw, or sealed filename tokens across extension, underscore, and hyphen boundaries.
+- Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed witness path segments containing private, raw, or sealed filename tokens across extension, underscore, hyphen, camelCase, and acronym transitions.
 - Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.
 - Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.
 
@@ -51,7 +51,7 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
       "--status-level",
       "all"
     ],
-    "purpose": "Prove real WP-09 authority grounding and nine deterministic token-chain, overflow, replay, discontinuity, substitution, copied-state, path, filename-variant, and tamper cases at product revision 0e6ab1a84decc6a74ce327f381ab521cb74cb8e5.",
+    "purpose": "Prove real WP-09 authority grounding and nine deterministic token-chain, overflow, replay, discontinuity, substitution, copied-state, path, separator and camelCase filename-variant, and tamper cases at product revision 5d7079799c3affc844d43a51611b83bd371d2567.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
   },

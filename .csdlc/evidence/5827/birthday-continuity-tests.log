@@ -5,7 +5,7 @@ PASS birthday_continuity::authority_tests::missing_or_reordered_cycle_fails_clos
 PASS birthday_continuity::authority_tests::verified_tokens_cannot_be_reordered_duplicated_or_relabelled
 PASS birthday_continuity::authority_tests::terminal_generation_overflow_fails_closed
 PASS birthday_continuity::authority_tests::forged_witness_and_identity_substitution_fail_closed
-PASS birthday_continuity::authority_tests::copied_state_and_host_paths_fail_closed (including signed repo-relative private_state.bin, raw-state.bin, and sealed_payload.json witnesses)
+PASS birthday_continuity::authority_tests::copied_state_and_host_paths_fail_closed (including signed repo-relative private_state.bin, raw-state.bin, sealed_payload.json, privateState.bin, rawState.bin, and sealedPayload.json witnesses)
 PASS birthday_continuity::authority_tests::wrong_signer_and_generation_fail_closed
 PASS birthday_continuity::authority_tests::missing_runtime_witness_and_wrong_provenance_fail_closed
 PASS birthday_continuity::authority_tests::record_tamper_and_unknown_fields_fail_closed
