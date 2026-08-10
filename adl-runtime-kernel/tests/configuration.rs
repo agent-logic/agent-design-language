@@ -550,7 +550,7 @@ sample_limit = 6
 }
 
 #[test]
-fn runtime_init_rejects_missing_state_root_and_split_tls_roots() {
+fn runtime_init_rejects_missing_state_root_and_tls_path_escape() {
     let directory = config_test_root();
     let state_root = directory.path().join("state");
     let split_root = directory.path().join("split");
@@ -636,6 +636,35 @@ private_key_path = "{}"
     for case in cases {
         assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&case).is_err());
     }
+}
+
+#[test]
+fn runtime_init_accepts_one_externally_provisioned_public_identity() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    let identity_root = directory.path().join("external-tls");
+    std::fs::create_dir_all(&state_root).unwrap();
+    std::fs::create_dir_all(&identity_root).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    let identity_root = identity_root.canonicalize().unwrap();
+    let external_certificate = identity_root.join("fullchain.pem");
+    let external_private_key = identity_root.join("privkey.pem");
+    std::fs::write(&external_certificate, "external certificate").unwrap();
+    std::fs::write(&external_private_key, "external private key").unwrap();
+
+    let configured = valid_runtime_init_toml(&state_root)
+        .replace(
+            &toml_path(&state_root.join("tls/localhost-cert.pem")),
+            &toml_path(&external_certificate),
+        )
+        .replace(
+            &toml_path(&state_root.join("tls/localhost-key.pem")),
+            &toml_path(&external_private_key),
+        );
+    let init = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&configured).unwrap();
+
+    assert_eq!(init.api.tls.certificate_chain_path, external_certificate);
+    assert_eq!(init.api.tls.private_key_path, external_private_key);
 }
 
 #[test]

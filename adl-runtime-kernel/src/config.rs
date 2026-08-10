@@ -322,19 +322,9 @@ impl RuntimeInitConfig {
             &self.api.tls.trust_roots_path,
         )?;
         validate_child_path(
-            "api.tls.certificate_chain_path",
-            &tls_root,
-            &self.api.tls.certificate_chain_path,
-        )?;
-        validate_child_path(
             "api.tls.trust_roots_path",
             &tls_root,
             &self.api.tls.trust_roots_path,
-        )?;
-        validate_child_path(
-            "api.tls.private_key_path",
-            &tls_root,
-            &self.api.tls.private_key_path,
         )?;
         for (field, value) in [
             (

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://runtime.dev.agent-logic.ai:* wss://runtime.dev.agent-logic.ai:* https://localhost:* wss://localhost:* https://127.0.0.1:* wss://127.0.0.1:*; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://wuji.agent-logic.ai:* wss://wuji.agent-logic.ai:*; object-src 'none'; base-uri 'none'; form-action 'none'">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ADL HTML Observatory - Runtime Proof</title>
@@ -291,7 +291,7 @@
             <article>
               <span class="row-kicker">CSM API</span>
               <strong id="hero-csm-api-status">pending</strong>
-              <p class="row-detail">A trusted local API base can select Runtime v3 without requiring public exposure.</p>
+              <p class="row-detail">The configured Polis API hostname selects this Runtime v3 instance without weakening TLS identity checks.</p>
               <div class="api-mini-list" id="hero-api-list" aria-label="CSM API endpoint status"></div>
             </article>
             <article class="runtime-test-card">
@@ -329,6 +329,7 @@
               <button class="button button-secondary" type="button" id="compact-clear-envelope">Clear</button>
               <a class="button button-primary" href="#communication" data-dashboard-link="communication" id="compact-prepare-envelope">Prepare Envelope</a>
             </div>
+            <pre class="message-envelope compact-envelope" id="compact-message-envelope" aria-live="polite"></pre>
           </div>
           <article class="dashboard-focus-panel" id="dashboard-focus-panel" aria-live="polite">
             <div class="panel-head">

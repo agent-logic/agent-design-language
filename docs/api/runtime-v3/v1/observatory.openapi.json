@@ -128,7 +128,7 @@
   "components": {
     "responses": {
       "OriginForbidden": {
-        "description": "Origin is absent for WSS or not present in configured observatory.allowed_origins."
+        "description": "A supplied browser Origin is not present in configured observatory.allowed_origins. Native WSS clients may omit Origin and remain subject to transport and write-authority checks."
       }
     },
     "schemas": {

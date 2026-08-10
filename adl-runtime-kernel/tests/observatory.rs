@@ -702,3 +702,30 @@ async fn observatory_websocket_revokes_an_authenticated_session_after_rotation()
     assert_eq!(feed["runtime_instance_id"], "instance-ws");
     server.abort();
 }
+
+#[tokio::test]
+async fn observatory_websocket_revalidates_binary_authority_after_rotation() {
+    let token = "test-observatory-websocket-token-0007";
+    let service = service(token);
+    let (address, connector, server) = websocket_server(service.clone()).await;
+    let mut socket = connect_authenticated(address, connector, token).await;
+    service
+        .service
+        .set_observatory_bearer_token("rotated-observatory-websocket-token-0008")
+        .unwrap();
+
+    let frame = encode_acip_envelope(
+        "acip-revoked-auth-1",
+        "source-revoked-auth",
+        "runtime",
+        "acip",
+        &serde_json::json!({"payload": "must-not-dispatch"}),
+        1,
+    )
+    .unwrap();
+    socket.send(Message::Binary(frame.into())).await.unwrap();
+    let rejected = next_json_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(rejected["status"], "rejected");
+    assert_eq!(rejected["error"], "write_authentication_required");
+    server.abort();
+}

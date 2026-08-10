@@ -1634,6 +1634,12 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                 }
                 Some(Ok(Message::Binary(payload))) => {
+                    if bearer_token
+                        .as_deref()
+                        .is_some_and(|token| !service.observatory_token_authorized(token))
+                    {
+                        bearer_token = None;
+                    }
                     if bearer_token.is_none() {
                         let rejected = ObservatoryWsControlResult {
                             schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,

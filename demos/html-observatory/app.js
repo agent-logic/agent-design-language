@@ -77,8 +77,7 @@ let runtimeV3WriteToken = "";
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
-const RUNTIME_V3_TRUSTED_HOST = "runtime.dev.agent-logic.ai";
-const RUNTIME_V3_LOCAL_HOSTS = new Set(["localhost", "127.0.0.1"]);
+const RUNTIME_V3_TRUSTED_HOST = "wuji.agent-logic.ai";
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
   api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
   observatory_endpoint: "/v1/observatory",
@@ -90,6 +89,7 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
 const RUNTIME_V3_RECONNECT_DELAYS_MILLIS = Object.freeze([250, 500, 1000, 2000, 4000]);
+const RUNTIME_V3_RECONNECT_HEALTHY_MILLIS = 10_000;
 const RUNTIME_V3_STREAM_STALE_MILLIS = 30_000;
 const RUNTIME_V3_EVENT_LIMIT = 4096;
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
@@ -111,6 +111,12 @@ function renderRuntimeV3AgentInspector(agent, runtimeInstanceId, fetchedAt = "")
     ? `${runtimeInstanceId.slice(0, 12)}${runtimeInstanceId.length > 12 ? "..." : ""}`
     : "Runtime v3";
   setText("manifold-id", runtimeLabel);
+  setText("rail-manifold-id", runtimeLabel);
+  setText("rail-state", formatLabel(agent.state || "unknown"));
+  setText(
+    "rail-capture-time",
+    fetchedAt ? new Date(fetchedAt).toLocaleTimeString() : "live"
+  );
   const manifold = document.getElementById("manifold-id");
   if (manifold) manifold.title = runtimeInstanceId || "Runtime v3";
   setText("manifold-state", formatLabel(agent.state || "unknown"));
@@ -227,12 +233,17 @@ function createRuntimeV3StreamCursor() {
       }
       runtimeInstanceId = nextRuntimeInstanceId || runtimeInstanceId;
       const incomingEvents = normalizeEventEntries(snapshot?.events);
-      const unseenSequences = incomingEvents
+      const unseenSequences = [...new Set(incomingEvents
         .map((event) => Number(event?.sequence ?? event?.event_sequence))
-        .filter((sequence) => Number.isSafeInteger(sequence) && sequence > lastSequence)
+        .filter((sequence) => Number.isSafeInteger(sequence) && sequence > lastSequence))]
         .sort((left, right) => left - right);
       if (lastSequence >= 0 && unseenSequences.length > 0 && unseenSequences[0] > lastSequence + 1) {
         throw new Error(`Runtime v3 stream cursor gap after ${lastSequence}.`);
+      }
+      for (let index = 1; index < unseenSequences.length; index += 1) {
+        if (unseenSequences[index] !== unseenSequences[index - 1] + 1) {
+          throw new Error(`Runtime v3 stream cursor gap after ${unseenSequences[index - 1]}.`);
+        }
       }
       const orderedIncomingEvents = [...incomingEvents].sort((left, right) => {
         const leftSequence = Number(left?.sequence ?? left?.event_sequence);
@@ -265,7 +276,8 @@ function createRuntimeV3StreamCursor() {
         stream_cursor: {
           runtime_instance_id: runtimeInstanceId,
           last_sequence: lastSequence,
-          last_correlation_id: lastCorrelationId
+          last_correlation_id: lastCorrelationId,
+          applied_event_count: events.length
         }
       };
     },
@@ -616,10 +628,11 @@ function buildOperatorEnvelope({ channel = "events", message = "", packetId = ""
 }
 
 function renderEnvelope(envelope) {
-  const target = document.getElementById("message-envelope");
-  if (target) {
-    target.textContent = JSON.stringify(envelope, null, 2);
-  }
+  const payload = JSON.stringify(envelope, null, 2);
+  ["message-envelope", "compact-message-envelope"].forEach((id) => {
+    const target = document.getElementById(id);
+    if (target) target.textContent = payload;
+  });
 }
 
 const DASHBOARD_FOCUS = {
@@ -843,12 +856,10 @@ function isRuntimeV3ApiBase(value) {
 function normalizeTrustedRuntimeV3ApiBase(value) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
-  const allowedHost =
-    parsed.hostname === RUNTIME_V3_TRUSTED_HOST ||
-    RUNTIME_V3_LOCAL_HOSTS.has(parsed.hostname);
+  const configuredHost = new URL(getRuntimeV3Config().api_base).hostname;
   if (
     parsed.protocol !== "https:" ||
-    !allowedHost ||
+    parsed.hostname !== configuredHost ||
     parsed.username ||
     parsed.password ||
     parsed.pathname !== "/" ||
@@ -856,7 +867,7 @@ function normalizeTrustedRuntimeV3ApiBase(value) {
     parsed.hash
   ) {
     throw new Error(
-      `Runtime v3 selection requires trusted HTTPS for ${RUNTIME_V3_TRUSTED_HOST} or a loopback host.`
+      `Runtime v3 selection requires the configured Polis HTTPS hostname.`
     );
   }
   return parsed.origin;
@@ -875,7 +886,7 @@ async function checkEventsEndpoint(apiBase) {
   if (requestedRuntimeSelection() === "v3") {
     if (!isRuntimeV3ApiBase(base)) {
       throw new Error(
-        `Runtime v3 event checks require trusted HTTPS for ${RUNTIME_V3_TRUSTED_HOST} or a loopback host.`
+        `Runtime v3 event checks require the configured Polis HTTPS hostname.`
       );
     }
     const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
@@ -1081,8 +1092,18 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
   const snapshot = feed.health?.snapshot || {};
   const weather = feed.weather || {};
   const weatherFreshness = feed.weather_freshness || {};
+  const effectiveWeatherFreshness = readiness?.weather_freshness || weatherFreshness;
+  const weatherFreshnessKnown = typeof effectiveWeatherFreshness?.stale === "boolean";
+  const weatherIsStale = !weatherFreshnessKnown || effectiveWeatherFreshness.stale === true;
   const hasReadiness = typeof readiness?.ready === "boolean";
   const degradedReasons = asArray(readiness?.degraded_reasons);
+  const observabilityReady = hasReadiness ? readiness.ready === true : snapshot.observability_ready === true;
+  const projectedReady = observabilityReady && !weatherIsStale;
+  const blockingReasons = hasReadiness
+    ? [...degradedReasons]
+    : (snapshot.observability_ready ? [] : ["observability_not_ready"]);
+  if (!weatherFreshnessKnown) blockingReasons.push("weather_freshness_missing");
+  else if (weatherIsStale) blockingReasons.push("weather_stale");
   const events = asArray(feed.events);
   return {
     mode: "live",
@@ -1108,11 +1129,13 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
     },
     ready: {
       schema: readiness?.schema,
-      status: hasReadiness ? (readiness.ready ? "ready" : "degraded") : (snapshot.observability_ready ? "ready" : "pending"),
-      ready: hasReadiness ? readiness.ready === true : snapshot.observability_ready === true,
-      state: hasReadiness ? (readiness.ready ? "ready" : "degraded") : (snapshot.observability_ready ? "ready" : "pending"),
-      blocking_reasons: hasReadiness ? degradedReasons : (snapshot.observability_ready ? [] : ["observability_not_ready"]),
-      weather_freshness: readiness?.weather_freshness || weatherFreshness
+      status: weatherIsStale ? "stale" : (projectedReady ? "ready" : (hasReadiness ? "degraded" : "pending")),
+      ready: projectedReady,
+      state: weatherIsStale ? "stale" : (projectedReady ? "ready" : (hasReadiness ? "degraded" : "pending")),
+      blocking_reasons: blockingReasons,
+      weather_freshness: weatherFreshnessKnown
+        ? effectiveWeatherFreshness
+        : { stale: true, reason: "weather_freshness_missing" }
     },
     metrics: {
       gauges: {
@@ -1921,6 +1944,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let runtimeV3Readiness = null;
   const runtimeV3StreamCursor = createRuntimeV3StreamCursor();
   let reconnectAttempt = 0;
+  let reconnectHealthyTimer = null;
   let reconnectTimer = null;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
@@ -2141,6 +2165,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       clearTimeout(reconnectTimer);
       reconnectTimer = null;
     }
+    if (reconnectHealthyTimer) {
+      clearTimeout(reconnectHealthyTimer);
+      reconnectHealthyTimer = null;
+    }
     if (livePollTimer) {
       clearInterval(livePollTimer);
       livePollTimer = null;
@@ -2159,19 +2187,16 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
-  const connectLive = async () => {
+  const connectLive = async ({ automatic = false } = {}) => {
     stopPolling();
+    if (!automatic) reconnectAttempt = 0;
     liveStoppedByOperator = false;
     const requestGeneration = nextLiveGeneration();
     setLiveConnectionState("connecting");
     if (requestedRuntimeSelection() === "v3") {
       const base = readApiBase();
       runtimeBaseActive = true;
-      const connectedHost = new URL(base).hostname;
-      setText(
-        "environment-label",
-        RUNTIME_V3_LOCAL_HOSTS.has(connectedHost) ? "Local Runtime" : "Trusted Runtime"
-      );
+      setText("environment-label", "Trusted Runtime");
       setText("live-status", "connecting secure stream");
       setText("statusbar-websocket", "connecting");
       try {
@@ -2215,7 +2240,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               root.dataset.streamLastSequence = String(cursor.last_sequence);
               root.dataset.streamAppliedEvents = String(cursor.applied_event_count);
             }
-            reconnectAttempt = 0;
+            if (!reconnectHealthyTimer) {
+              reconnectHealthyTimer = setTimeout(() => {
+                reconnectAttempt = 0;
+                reconnectHealthyTimer = null;
+              }, RUNTIME_V3_RECONNECT_HEALTHY_MILLIS);
+            }
             const streamStale = resumedSnapshot.ready?.weather_freshness?.stale === true;
             setText("live-status", streamStale ? "live data stale" : "live secure stream");
             setText("statusbar-websocket", "connected");
@@ -2240,6 +2270,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             }
             if (liveSocket === socket) {
               liveSocket = null;
+              if (reconnectHealthyTimer) {
+                clearTimeout(reconnectHealthyTimer);
+                reconnectHealthyTimer = null;
+              }
               setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
               renderLiveError(error, requestGeneration);
@@ -2252,7 +2286,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               reconnectTimer = setTimeout(() => {
                 reconnectTimer = null;
                 if (!liveStoppedByOperator && isCurrentLiveGeneration(requestGeneration)) {
-                  connectLive();
+                  connectLive({ automatic: true });
                 }
               }, delay);
             }
@@ -2278,10 +2312,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     livePollTimer = setInterval(refreshLive, 3000);
   };
 
-  if (connect) connect.onclick = connectLive;
+  if (connect) connect.onclick = () => connectLive();
   if (refresh) refresh.onclick = refreshLive;
   if (stop) stop.onclick = stopPolling;
-  if (dashboardConnect) dashboardConnect.onclick = connectLive;
+  if (dashboardConnect) dashboardConnect.onclick = () => connectLive();
   if (dashboardRefresh) dashboardRefresh.onclick = refreshLive;
   if (dashboardStop) dashboardStop.onclick = stopPolling;
   modeSelect?.addEventListener("change", () => {

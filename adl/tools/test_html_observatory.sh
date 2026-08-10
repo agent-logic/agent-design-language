@@ -119,13 +119,13 @@ const context = {
   window: { location: { search: "" } },
   fetch: async (url, options = {}) => {
     calls.push({ url: String(url), options });
-    if (String(url) === "https://runtime.dev.agent-logic.ai:20997/v1/observatory") {
+    if (String(url) === "https://wuji.agent-logic.ai:20997/v1/observatory") {
       return { ok: true, status: 200, json: async () => observatoryFeed };
     }
-    if (String(url) === "https://runtime.dev.agent-logic.ai:20997/v1/ready") {
+    if (String(url) === "https://wuji.agent-logic.ai:20997/v1/ready") {
       return { ok: true, status: 200, json: async () => readiness };
     }
-    if (String(url) === "https://runtime.dev.agent-logic.ai:20997/v1/control") {
+    if (String(url) === "https://wuji.agent-logic.ai:20997/v1/control") {
       const body = JSON.parse(String(options.body || "{}"));
       assert.equal(options.method, "POST");
       assert.equal(options.headers["Content-Type"], "application/json");
@@ -151,14 +151,14 @@ const api = context.AdlHtmlObservatory;
 api.applyRuntimeV3Config(config);
 
 assert.equal(api.requestedRuntimeSelection(), "v3");
-assert.equal(api.getQueryApiBase(), "https://runtime.dev.agent-logic.ai:20997");
-assert.equal(
-  api.normalizeTrustedRuntimeV3ApiBase("https://localhost:21983"),
-  "https://localhost:21983"
+assert.equal(api.getQueryApiBase(), "https://wuji.agent-logic.ai:20997");
+assert.throws(
+  () => api.normalizeTrustedRuntimeV3ApiBase("https://localhost:21983"),
+  /configured Polis HTTPS hostname/
 );
-assert.equal(
-  api.normalizeTrustedRuntimeV3ApiBase("https://127.0.0.1:21983"),
-  "https://127.0.0.1:21983"
+assert.throws(
+  () => api.normalizeTrustedRuntimeV3ApiBase("https://127.0.0.1:21983"),
+  /configured Polis HTTPS hostname/
 );
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
 assert.equal(api.classifyRuntimeV3Failure(new Error("backpressure")).state, "backpressure");
@@ -169,7 +169,7 @@ assert.equal(api.classifyRuntimeV3Failure(new Error("certificate failure")).stat
 
 let websocketFailure = null;
 const incompatibleSocket = api.connectRuntimeV3ObservatoryWebSocket(
-  "https://runtime.dev.agent-logic.ai:20997",
+  "https://wuji.agent-logic.ai:20997",
   () => assert.fail("incompatible frame reached snapshot projection"),
   (error) => { websocketFailure = error; }
 );
@@ -179,7 +179,7 @@ assert.deepEqual(incompatibleSocket.closeFrame, { code: 1008, reason: "invalid_o
 
 websocketFailure = null;
 const staleSocket = api.connectRuntimeV3ObservatoryWebSocket(
-  "https://runtime.dev.agent-logic.ai:20997",
+  "https://wuji.agent-logic.ai:20997",
   () => {},
   (error) => { websocketFailure = error; }
 );
@@ -200,6 +200,7 @@ let cursorSnapshot = cursor.accept({
   events: { events: [{ sequence: 9, event: "older" }, { sequence: 10, event: "current" }] }
 });
 assert.deepEqual(cursorSnapshot.events.events.map((event) => event.sequence), [9, 10]);
+assert.equal(cursorSnapshot.stream_cursor.applied_event_count, 2);
 cursorSnapshot = cursor.accept({
   status: { runtime_id: "runtime-v3-test" },
   events: { events: [{ sequence: 8, event: "late-old" }, { sequence: 11, event: "next" }] }
@@ -210,6 +211,14 @@ cursorSnapshot = cursor.accept({
   events: { events: [{ sequence: 13, event: "later" }, { sequence: 12, event: "next" }] }
 });
 assert.deepEqual(cursorSnapshot.events.events.map((event) => event.sequence), [9, 10, 11, 12, 13]);
+assert.equal(cursorSnapshot.stream_cursor.applied_event_count, 5);
+assert.throws(
+  () => cursor.accept({
+    status: { runtime_id: "runtime-v3-test" },
+    events: { events: [{ sequence: 14, event: "next" }, { sequence: 16, event: "internal-gap" }] }
+  }),
+  /stream cursor gap after 14/
+);
 assert.throws(
   () => cursor.accept({
     status: { runtime_id: "runtime-v3-test" },
@@ -296,6 +305,16 @@ assert.match(
   /weather data stale/
 );
 
+const { weather_freshness: _omittedWeatherFreshness, ...feedWithoutWeatherFreshness } = observatoryFeed;
+const missingWeatherSnapshot = api.runtimeV3SnapshotFromFeed(
+  feedWithoutWeatherFreshness,
+  readiness
+);
+assert.equal(missingWeatherSnapshot.ready.ready, false);
+assert.equal(missingWeatherSnapshot.ready.state, "stale");
+assert.equal(missingWeatherSnapshot.ready.weather_freshness.stale, true);
+assert(missingWeatherSnapshot.ready.blocking_reasons.includes("weather_freshness_missing"));
+
 const command = {
   schema: "adl.runtime.control_command.v1",
   runtime_instance_id: "runtime-v3-test",
@@ -310,19 +329,23 @@ const command = {
 const response = await api.submitRuntimeV3SignedControlCommand(api.getQueryApiBase(), command);
 assert.equal(response.schema, "adl.runtime.control_response.v1");
 assert.equal(response.command_id, "operator-message-1");
-assert(calls.some((call) => call.url === "https://runtime.dev.agent-logic.ai:20997/v1/control" && call.options.method === "POST"));
+assert(calls.some((call) => call.url === "https://wuji.agent-logic.ai:20997/v1/control" && call.options.method === "POST"));
+assert.equal(
+  api.normalizeTrustedRuntimeV3ApiBase("https://wuji.agent-logic.ai:22983"),
+  "https://wuji.agent-logic.ai:22983"
+);
 
 assert.throws(
-  () => api.normalizeTrustedRuntimeV3ApiBase("https://operator:token@runtime.dev.agent-logic.ai:20997"),
-  /trusted HTTPS for runtime.dev.agent-logic.ai or a loopback host/
+  () => api.normalizeTrustedRuntimeV3ApiBase("https://operator:token@wuji.agent-logic.ai:20997"),
+  /configured Polis HTTPS hostname/
 );
 assert.throws(
   () => api.normalizeTrustedRuntimeV3ApiBase("http://localhost:21983"),
-  /trusted HTTPS/
+  /configured Polis HTTPS hostname/
 );
 
 await assert.rejects(
-  () => api.submitRuntimeV3SignedControlCommand("https://runtime.dev.agent-logic.ai:20997", { schema: "wrong" }),
+  () => api.submitRuntimeV3SignedControlCommand("https://wuji.agent-logic.ai:20997", { schema: "wrong" }),
   /adl.runtime.control_command.v1/
 );
 })().catch((error) => {

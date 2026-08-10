@@ -467,7 +467,7 @@ h2 {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  min-height: 2.35rem;
+  min-height: 44px;
   border-radius: 8px;
   padding: 0.76rem 1rem;
   border: 1px solid var(--line-strong);
@@ -1342,6 +1342,12 @@ textarea,
   line-height: 1.55;
 }
 
+.compact-envelope {
+  max-height: 9rem;
+  min-height: 4rem;
+  margin: 0;
+}
+
 .communication-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1421,7 +1427,7 @@ textarea,
 
 .polis-chat .button {
   align-self: flex-start;
-  min-height: 2.6rem;
+  min-height: 44px;
 }
 
 .polis-chat .button:disabled {

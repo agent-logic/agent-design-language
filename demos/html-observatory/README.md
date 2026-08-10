@@ -69,28 +69,48 @@ by the browser surface.
 
 ## Run Locally
 
-Issue #83 is a private local Runtime v3 product proof. Public DNS, ACM, S3,
-CloudFront, and public Runtime ingress are deferred to #122 after the distributed
-Runtime is complete.
+Issue #83 is a private local Runtime v3 product proof. Public ingress, ACM, S3,
+and CloudFront deployment remain deferred to #122 after the distributed Runtime
+is complete. The proof nevertheless uses ordinary public PKI so its TLS posture
+matches deployment rather than relying on a development trust exception.
 
-Use two loopback-only HTTPS listeners with an operator-trusted development
-certificate whose SAN includes `localhost`. Keep the certificate and all private
-keys outside the repository. Configure the Runtime init with:
+Provision one externally issued public certificate and private key for each
+Runtime instance. Load that exact certificate chain and key into every public
+HTTPS listener on the instance, including its co-located Observatory and Runtime
+API. Keep the private key and all ACME state outside the repository. Configure
+the Runtime init with:
 
 - `api.address` bound to `127.0.0.1`;
-- `api.public_base_url` and `api.tls.server_name` set to the same trusted local
+- `api.public_base_url` and `api.tls.server_name` set to the certificate DNS
   identity;
-- certificate, private-key, and trust-root paths under the operator-local state
+- the shared, externally provisioned certificate-chain and private-key paths
+  used by every public listener in the Polis;
+- the public CA roots used by Runtime startup validation under that same state
   root;
 - the exact Observatory HTTPS origin in `observatory.allowed_origins`;
 - distinct control, operation, and continuity keys.
+
+A distributed Polis may have several Runtime instances, for example a local
+instance and one or more regional instances. Each instance declares its own
+certificate-chain and private-key paths in its listener configuration. The
+certificate may cover one name, several SANs, or a wildcard as allowed by the
+external CA and deployment policy. All public listeners on an instance must
+reference that one provisioned identity. Guardian peer mTLS is a separate
+private trust domain and is not replaced by these public endpoint certificates.
 
 Start the Runtime through its required Guardian lease and explicit init file,
 then serve this repository root from the second loopback HTTPS listener. Open:
 
 ```text
-https://localhost:<observatory-port>/demos/html-observatory/?runtime=v3&runtimeApiBase=https%3A%2F%2Flocalhost%3A<runtime-port>&live=1
+https://<certificate-hostname>:<observatory-port>/demos/html-observatory/?runtime=v3&runtimeApiBase=https%3A%2F%2F<certificate-hostname>%3A<runtime-port>&live=1
 ```
+
+For a machine-local proof, route the certificate hostname to `127.0.0.1` at
+the client or browser transport layer. Do not change the URL hostname, disable
+certificate checks, install a private development CA, pin the leaf certificate,
+or add an insecure fallback. Address routing and TLS identity are separate: the
+connection may remain loopback-only while normal hostname and public-chain
+verification stays enabled.
 
 The production binary admits the resident Shepherd through the production
 Shepherd adapter before publishing the live roster. Startup fails closed if
@@ -123,15 +143,20 @@ candidate first, then run:
 ```sh
 NODE_PATH=<playwright-node-modules> \
 PLAYWRIGHT_BROWSERS_PATH=<playwright-browser-storage> \
-ADL_OBSERVATORY_URL=https://localhost:<observatory-port>/demos/html-observatory/ \
-ADL_RUNTIME_API_BASE=https://localhost:<runtime-port> \
+ADL_OBSERVATORY_URL=https://<certificate-hostname>:<observatory-port>/demos/html-observatory/ \
+ADL_RUNTIME_API_BASE=https://<certificate-hostname>:<runtime-port> \
 ADL_OPERATOR_KEY_FILE=<operator-ed25519-seed-file> \
 ADL_OBSERVATORY_EVIDENCE_DIR=<absolute-fastwork-evidence-directory> \
+ADL_TLS_PROOF_CONNECT_HOST=127.0.0.1 \
+ADL_PLAYWRIGHT_HOST_RESOLVER_RULES='MAP <certificate-hostname> 127.0.0.1' \
+ADL_ALLOW_RUNTIME_RESTART_PROOF=1 \
 node adl/tools/validate_v092_html_observatory_live.mjs
 ```
 
-The browser context keeps certificate verification enabled. The validator
-requires the real Shepherd roster, signed selected-agent delivery, a real
+The browser context keeps certificate verification enabled. This co-located
+proof requires both listeners to present the same publicly trusted certificate,
+records their matching SHA-256 fingerprint, and rejects localhost or IP
+certificate identities. It also requires the real Shepherd roster, signed selected-agent delivery, a real
 `400 invalid_request` refusal, stopped-state authority removal, reconnect
 deduplication, secret absence, and a clean console/network result.
 
