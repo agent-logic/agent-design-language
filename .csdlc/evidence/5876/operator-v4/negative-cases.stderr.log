@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running tests/distributed_recovery.rs (adl-runtime/target/debug/deps/distributed_recovery-f3e08526f680a9e3)

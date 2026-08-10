@@ -1,0 +1,18 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID 4612205c-e9b1-4d47-8ad5-b4c08f44412a with nextest profile: default
+    Starting 12 tests across 1 binary
+        PASS [   0.844s] ( 1/12) adl-runtime::distributed_recovery recovery_open_rejects_a_symlinked_journal_file
+        PASS [   0.848s] ( 2/12) adl-runtime::distributed_recovery recovery_create_recovers_after_initial_checkpoint_failure
+        PASS [   0.848s] ( 3/12) adl-runtime::distributed_recovery recovery_open_rejects_a_symlinked_state_file
+        PASS [   1.218s] ( 4/12) adl-runtime::distributed_recovery recovery_rejects_oversized_state_and_journal_before_reading_them
+        PASS [   1.490s] ( 5/12) adl-runtime::distributed_recovery recovery_side_effect_crossing_the_bounded_recovery_deadline_requires_operator
+        PASS [   1.502s] ( 6/12) adl-runtime::distributed_recovery recovery_pre_fence_rollback_requires_live_source_authority
+        PASS [   1.674s] ( 7/12) adl-runtime::distributed_recovery recovery_restored_prefix_activates_and_commits_without_an_explicit_fencing_floor
+        PASS [   1.696s] ( 8/12) adl-runtime::distributed_recovery recovery_is_bounded_and_times_out_fail_closed
+        PASS [   1.729s] ( 9/12) adl-runtime::distributed_recovery recovery_begin_and_committed_prefix_survive_restart_without_trusting_local_owner_claims
+        PASS [   1.904s] (10/12) adl-runtime::distributed_recovery recovery_quorum_fence_safety_window_activation_commit_and_restart
+        PASS [   2.015s] (11/12) adl-runtime::distributed_recovery recovery_refences_a_real_activated_migration_before_owner_commit
+        PASS [   2.019s] (12/12) adl-runtime::distributed_recovery recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_rollback
+────────────
+     Summary [   2.019s] 12 tests run: 12 passed, 0 skipped

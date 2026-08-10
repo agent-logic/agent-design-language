@@ -1,0 +1,21 @@
+{
+  "issue": 5876,
+  "card": "stp",
+  "expected_generation": 17,
+  "expected_digest": "c1e0dcafecaa3721aa8485c325bf2de8211dd179f0544e08266e3e1938b9f3ea",
+  "actor": "codex:5876-recovery-readiness-preparation",
+  "reason": "Declare each deferred Rust source and test target as an exact deliverable required by typed bind-safe harness admission.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/recovery.rs",
+      "adl-runtime/tests/distributed_recovery.rs",
+      "Integration issue #5878 owns production module registration",
+      "Deterministic focused recovery tests covering every migration stage, restart, source and target loss, quorum loss, divergent durable histories, stale or malicious authority claims, and bounded-resource denial",
+      "Exact-revision execution proof with machine-derived negative-case evidence and immutable source/evidence bindings",
+      "Independent exact-head security and correctness review before publication with a bounded rollback path",
+      "Fail-closed ambiguous recovery: neither the highest local epoch nor the last durable local owner may confer authority without majority or quorum committed proof"
+    ]
+  }
+}
