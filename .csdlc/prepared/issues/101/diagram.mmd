@@ -1,0 +1,16 @@
+flowchart LR
+  C["Covered GitHub lifecycle operation"] --> O{"Operation owner"}
+  O -->|"Issue mutation or read"| GI["csdlc-github-issue"]
+  O -->|"PR state"| GP["csdlc-github-pr"]
+  O -->|"Publish"| P["csdlc-publish"]
+  O -->|"Finish"| F["csdlc-finish"]
+  C -. "forbidden" .-> X["ChatGPT connector"]
+  C -. "forbidden" .-> H["raw gh"]
+  GI --> M{"Owner available?"}
+  GP --> M
+  P --> M
+  F --> M
+  M -->|"yes"| R["Resolve approved token and execute"]
+  M -->|"no"| Z["Fail closed; no fallback"]
+  X --> E["403 integration authorization failure"]
+  E --> N["Not token failure; no fallback authority"]
