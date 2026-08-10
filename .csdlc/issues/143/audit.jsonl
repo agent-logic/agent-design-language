@@ -14,3 +14,5 @@
 {"sequence":14,"generation":12,"actor":"codex:143-v092-adr-authoring","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":15,"generation":13,"actor":"codex:143-v092-adr-authoring","reason":"Record completed focused validation and exact-head independent review with no remaining findings.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"}
 {"sequence":16,"generation":14,"actor":"codex:143-v092-adr-authoring","reason":"Begin publication of the reviewed documentation-only ADR candidate packet.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"in_progress\"}"}
+{"sequence":17,"generation":14,"actor":"codex:143-v092-adr-authoring","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":18,"generation":15,"actor":"subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

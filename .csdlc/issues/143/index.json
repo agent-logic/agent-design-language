@@ -4,13 +4,69 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "72ac2dc87943a4f4f702b65abca70dde6dceec9065123c6b3c1ec16f243ece85",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "d247f4b78a0f494ec10ddde87098e209266dc5eff7f5e480c9b46d08b47981fb",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "b5c11986a2493aba32f0059e8f95f85a6465ff49e6ab031db6ed7ce4ab7f20f9",
   "branch": "codex/143-v092-adr-authoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-143-v092-adrs",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462",
+    "assigned_by": "codex:143-v092-adr-authoring",
+    "revision": "git-blake3:fda3b101fa20dce11db0f1d7d260e50b574a364e:d1fc429e9742e4641e6fd278e4d232e56c31cf96759605cb4ebed64c54ee3126",
+    "scope": [
+      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      "docs/architecture/adr/README.md",
+      "docs/architecture/adr/V092_ADR_INDEX_143.md",
+      "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
+      "docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md",
+      "docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md",
+      "docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md",
+      "docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md",
+      "docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md",
+      "docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md",
+      "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
+      "docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md",
+      "docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md",
+      "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+      "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
+      "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
+      ".csdlc/issues/143",
+      ".csdlc/prepared/issues/143",
+      ".csdlc/evidence/143"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462",
+    "scope": [
+      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      "docs/architecture/adr/README.md",
+      "docs/architecture/adr/V092_ADR_INDEX_143.md",
+      "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
+      "docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md",
+      "docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md",
+      "docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md",
+      "docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md",
+      "docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md",
+      "docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md",
+      "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
+      "docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md",
+      "docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md",
+      "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+      "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
+      "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
+      ".csdlc/issues/143",
+      ".csdlc/prepared/issues/143",
+      ".csdlc/evidence/143"
+    ],
+    "reviewed_revision": "git-blake3:fda3b101fa20dce11db0f1d7d260e50b574a364e:d1fc429e9742e4641e6fd278e4d232e56c31cf96759605cb4ebed64c54ee3126",
+    "findings": [],
+    "residual_risks": [
+      "All thirteen records remain Proposed or Deferred; architecture acceptance requires separate human governance action.",
+      "Operational cross-polis continuity, Observatory runtime consumption, and provider-neutral multi-agent proof remain explicitly unproven and deferred."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +81,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "86c6600246ca35e2254b6f1ea221c63ab3cb96d4ec342fffb5cb4c0a2f8bc2f5",
+      "values_digest": "27c2ee624fbdf7756f32e91f65fa3ddb48e1c8094e0b0eff3586a0cb2c00bf20",
       "rendered_digest": "ad6dea616684bb5807185342fe293f0a53209243b3e62171aaaf611376e60a6b",
       "ast_digest": "f34bfa35468a730acf038a4bc7f427d84d1303c4780747f5b30ef145d15dedde"
     },
     "stp": {
-      "values_digest": "fb97f0c96fbda99fb71a36a041f3c328fcb054a5f9343c806e5b43bf99c6fa8b",
+      "values_digest": "e1dcc2fb3ac27186f742124ef56c259da295f87c2065a1f8b37c88d032fa1471",
       "rendered_digest": "d47a29683c881de78b3f97b649e0d081e78d854b3ef38d8e5aa8a8ee3adb0ae9",
       "ast_digest": "d59b440597105fdb6559ab1d8d25e5cab40995ff170f486561d15b6ea6f6a073"
     },
     "spp": {
-      "values_digest": "be90d01ffdf144d5c225cc7cad16e6b84eeba02946f993c73e2ca1ca4fd5d707",
+      "values_digest": "ac1b6ae84600a51c5740987d09cd46268ce291492ce04d91dde8453b7babf1ab",
       "rendered_digest": "5c91bb074696e3af208a7b2f123bb74256f79c958102c5d2e3180bfa013269d1",
       "ast_digest": "f3dc367d99d5c5d0a1b0e228ef88991e6f4bfde5b62797decada4d83d33d169b"
     },
     "vpp": {
-      "values_digest": "9b1b1cd8c26c8afa65522e2391f0d64f04de06b267b0d848a92753c697a6236a",
+      "values_digest": "bb84b8a0896fc556fd47de7635a7557279436737c87f8d9ada0bc60d80e3a2e4",
       "rendered_digest": "ae898e5e72ba0298de4e36e016b737cb7aef0da49ef9e882a4ec4326d4d8903a",
       "ast_digest": "49e4e1d4959f79a42905dea5320ffba1c19c1c0d62d617909ddf04d3967dff0e"
     },
     "srp": {
-      "values_digest": "7122e97fa3812ba6048ece47833a78944682c7b2be3ae0757ea5d27dc88501cf",
-      "rendered_digest": "dae0573ca5a13522cc035d9ab3924f2888e6ddb9e9442d9532cc626c1c315a2f",
-      "ast_digest": "66b33c6dfa183c0b49b9e3f91104f34374d3b6564ea2567279a06149fde89427"
+      "values_digest": "05d6d71be83c8d81a907b94f66bf28b87a4aa1bea45e3b26e6c299e70e94becd",
+      "rendered_digest": "c299113917aa0515146190a4bfc3c0bcbacae28def6ec8d817b23487965031ea",
+      "ast_digest": "028aa4cca17247c8d7b706f8e905a84248ed9096cf28cd4bd204b1e89335b669"
     },
     "sor": {
-      "values_digest": "dc18501c12fd3a845b9ac0c7ce65e72b880451183fec7938e7baf59648083863",
+      "values_digest": "77819b11559bea77b4b16ea6284d8e7ee4fbe8700635d70b4bb7b83e2d9e70a9",
       "rendered_digest": "627ac3827410e0f847e38e2a058811c6681063f493d9ea99368ceac2543d8426",
       "ast_digest": "115431dfc90facc0921cae6510f01ea16c8e5a2589b8bdc6db0f506a864ffe95"
     }
@@ -76,6 +132,13 @@
       "to": "implemented",
       "actor": "codex:143-v092-adr-authoring",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -190,6 +253,20 @@
       "actor": "codex:143-v092-adr-authoring",
       "reason": "Begin publication of the reviewed documentation-only ADR candidate packet.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
