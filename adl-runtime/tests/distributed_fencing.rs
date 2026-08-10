@@ -169,7 +169,7 @@ fn fencing_policy() -> FencingPolicy {
 }
 
 fn state_dir() -> tempfile::TempDir {
-    tempfile::tempdir_in("/private/tmp").unwrap()
+    tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap()
 }
 
 #[derive(Debug, Default)]
