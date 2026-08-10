@@ -16,11 +16,12 @@ try {
 }
 
 const observatoryUrl = process.env.ADL_OBSERVATORY_URL;
-const runtimeApiBase = process.env.ADL_RUNTIME_API_BASE || "https://localhost:20997";
+const runtimeApiBase = process.env.ADL_RUNTIME_API_BASE;
 const operatorKeyFile = process.env.ADL_OPERATOR_KEY_FILE;
 const evidenceRoot = process.env.ADL_OBSERVATORY_EVIDENCE_DIR;
 
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the served HTML Observatory URL");
+assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the exact Runtime candidate URL");
 assert(operatorKeyFile, "ADL_OPERATOR_KEY_FILE must name the trusted operator Ed25519 seed file");
 assert(evidenceRoot, "ADL_OBSERVATORY_EVIDENCE_DIR must name a retained FastWork evidence directory");
 assert(
@@ -33,12 +34,21 @@ assert(/^(?:0x)?[0-9a-fA-F]{64}$/.test(signingSeed), "operator key file must con
 await fs.mkdir(evidenceRoot, { recursive: true });
 
 const url = new URL(observatoryUrl);
+const runtimeUrl = new URL(runtimeApiBase);
+assert.equal(url.protocol, "https:", "Observatory proof requires HTTPS");
+assert.equal(runtimeUrl.protocol, "https:", "Runtime proof requires HTTPS");
+assert.equal(url.hostname, "observatory.dev.agent-logic.ai", "Observatory proof requires the canonical DNS identity");
+assert.equal(runtimeUrl.hostname, "runtime.dev.agent-logic.ai", "Runtime proof requires the canonical DNS identity");
+assert.notEqual(url.origin, runtimeUrl.origin, "Observatory and Runtime must use distinct HTTPS origins");
 url.searchParams.set("runtime", "v3");
 url.searchParams.set("runtimeApiBase", runtimeApiBase);
 url.searchParams.set("live", "1");
 
 const browser = await chromium.launch({
   headless: true,
+  ...(process.env.ADL_PLAYWRIGHT_HOST_RESOLVER_RULES
+    ? { args: [`--host-resolver-rules=${process.env.ADL_PLAYWRIGHT_HOST_RESOLVER_RULES}`] }
+    : {}),
   ...(process.env.ADL_PLAYWRIGHT_CHROMIUM_EXECUTABLE
     ? { executablePath: process.env.ADL_PLAYWRIGHT_CHROMIUM_EXECUTABLE }
     : {})
@@ -74,7 +84,7 @@ page.on("request", (request) => {
 const report = {
   schema: "adl.v092.html_observatory_live_validation.v1",
   observatory_url: url.toString(),
-  runtime_api_base: runtimeApiBase,
+  runtime_api_base: runtimeUrl.origin,
   assertions: {},
   artifacts: {}
 };

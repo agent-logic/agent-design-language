@@ -1,6 +1,6 @@
 {
   "issue": 83,
-  "expected_generation": 18,
-  "expected_digest": "790c47fa3530050028bae0e82f15fb44da6259737451c24c7ac157f4124caf26",
+  "expected_generation": 34,
+  "expected_digest": "42f463f2f1d0f7ff44c0639415fdab78d3c1c3647b068c409fdbd5717a20d8c0",
   "reviewer": "codex:83-layer8-chat-design"
 }

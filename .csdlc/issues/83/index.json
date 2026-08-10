@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
   "phase": "bound",
-  "generation": 34,
-  "digest": "42f463f2f1d0f7ff44c0639415fdab78d3c1c3647b068c409fdbd5717a20d8c0",
+  "generation": 36,
+  "digest": "1089882f657fe287a000fd5a4e66000428fd9b43331be26c9c1bdf27974e33dc",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": null,
@@ -19,37 +19,37 @@
   "design_review": {
     "approved": {
       "reviewer": "codex:83-layer8-chat-design",
-      "revision": "6ad7e0e3ca9f2e39afc78b7abb82f98928b68f0064c418088059666ae6844add"
+      "revision": "d99a0b952467f70b327adfe5b408f6b48314e6fd6842e4435f0389aac6fbd7b7"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "bce878006ebef8705ea13e44cbbc3035780d42251ac6c72d17432b7e7c2ac144",
+      "values_digest": "485464ba5ac1449b9b3adcfd055354e6a580b63a7d9d048353608add224065ac",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "edf0addeef1fcf09b9fdec48243304f719e6d1101ca6759db95a7f65b9a8cc50",
-      "rendered_digest": "aa7eb243a1e81117e82e86d760d9cd90c9031f0005d8f7cd7c0bc12240ede1aa",
-      "ast_digest": "6ba8cda2d2f860b3780a6d94482706e0748a8226ab266d7e0a23c6343f0aa5d8"
+      "values_digest": "d5ce38257657034b95e4b2e0d1e5fd1ae5f6eaf9e24db330ef010ddcc876bda1",
+      "rendered_digest": "4e957626a812681131246c6f3791faa20d2d9e096a206690cfdbb72d026c15c4",
+      "ast_digest": "b64606a70d1ab99323ce089836fde3c9c489f5973fdf677b736c7da11b61e372"
     },
     "spp": {
-      "values_digest": "32e922b699185399368408a51a30a35f5a57d76f5415ba7b3ed3cc3f4d29e58d",
-      "rendered_digest": "da7aa19eb6b9327a72ff16a578bdab521bffa33e87fb3659004f2d4751597f84",
-      "ast_digest": "2c0bf551e8b39166c58f5318f01133be7078c632659f9a45d131feb7c75c53e8"
+      "values_digest": "531ddaa5c4bf1cfbe80d32b7f273b7de69186754d2d3177592a9a1b79ce2bea3",
+      "rendered_digest": "91e76f2f10b2b1c8f0e299f6a53b38fd1e5fd6b003578a157ee33478b9dfc5d6",
+      "ast_digest": "558b1633473f290585a35e131e894b0956d05db242eb5d6d360edb57dc0d1fe8"
     },
     "vpp": {
-      "values_digest": "801f1ab2cde28009e290c3caa6fd019d6fad15f2232c260de55439ac579dd20b",
+      "values_digest": "cd5808b9de33e5dbc966e810b63fd69a07e002b613fac059577a202d95698060",
       "rendered_digest": "9968487528967db52cde09d6356aee5d54569d0848806961d446b1b4de719481",
       "ast_digest": "b899e81e77d4c05623d80f0e4c5aa4b6a2b4e7fd392777e4baf884bd78f72edd"
     },
     "srp": {
-      "values_digest": "63a001bd8d1f7894005deec0581d6a4b732cb50e3f3541683d0f44c12890f13d",
+      "values_digest": "d2eadb4799e0214b9875da7b3a2f197018daa2ed46151d3ea679051e9d293162",
       "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
       "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
     },
     "sor": {
-      "values_digest": "4b308688a55c24d89af30c5e91ec3934e1f28530fc56983acae1b2b1ea9a33d4",
+      "values_digest": "b58befee0ef2731a2d552c5d9098ac2ed177e8ada09516ad9740d172f24123ee",
       "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
       "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
     }
@@ -322,6 +322,20 @@
       "actor": "codex:83-layer8-chat-plan",
       "reason": "Include the live-assembly regression test for the canonical agent ingress alias exposed by exact browser proof.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl/tools/test_html_observatory.sh\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 35,
+      "actor": "codex:83-layer8-chat-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 38,
+      "generation": 36,
+      "actor": "codex:83-html-observatory-dependency-correction",
+      "reason": "Correct the stale reverse dependency: issue 83 supplies the browser interaction and proof required by the first-birthday demo in legacy issue 5836.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5800 trusted browser HTTPS is terminal\",\"#5820 stable Runtime launch and API behavior is terminal\",\"#5832 versioned ACIP/A2A and WSS contract is terminal\",\"#92 canonical external DNS and platform-trusted TLS standardization is terminal\",\"#83 supplies the live browser interaction and evidence required by #5836\",\"#5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane\"]}"
     }
   ]
 }

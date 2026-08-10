@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
     "slug": "v0-92-html-observatory-runtime-v3-client",
     "version": "v0.92",
-    "generation": 34
+    "generation": 36
   },
   "status": "ready",
   "content": {
@@ -34,9 +34,10 @@
         "No files outside the design-approved HTML, focused Runtime, API schema, test, and validator paths change during implementation"
       ],
       "dependencies": [
-        "#5800 trusted local browser HTTPS is terminal",
+        "#5800 trusted browser HTTPS is terminal",
         "#5820 stable Runtime launch and API behavior is terminal",
         "#5832 versioned ACIP/A2A and WSS contract is terminal",
+        "#92 canonical external DNS and platform-trusted TLS standardization is terminal",
         "#83 supplies the live browser interaction and evidence required by #5836",
         "#5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane"
       ],

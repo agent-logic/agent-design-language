@@ -69,8 +69,8 @@ ignored according to the shared Runtime contract.
 
 ## Read-Only Inputs
 
-- Runtime v3 HTTP/WSS implementation, schemas, authentication, certificates,
-  and launch behavior.
+- Runtime v3 HTTP/WSS implementation, schemas, authentication, externally
+  provisioned certificate material, canonical DNS identities, and launch behavior.
 - `demos/html-observatory/runtime-v3.config.json` and existing HTML structure.
 - Issue #5837 restart coordinator and issue #84 Unity outputs.
 - All sibling and dependency records.
@@ -92,8 +92,9 @@ ignored according to the shared Runtime contract.
 
 ## Dependencies And Execution Gate
 
-Issues #5800, #5820, and #5832 must remain terminal and provide trusted local
-HTTPS, stable Runtime launch/API behavior, and the versioned ACIP/WSS contract.
+Issues #5800, #5820, #5832, and #92 must remain terminal and provide trusted
+browser HTTPS, canonical external DNS identities, stable Runtime launch/API
+behavior, and the versioned ACIP/WSS contract.
 Issue #83 is an input to the first-birthday demo in #5836: this lane must finish
 its live browser behavior and evidence before #5836 claims the integrated demo.
 Issue #5837 may consume the completed browser hooks for shared restart
@@ -102,7 +103,9 @@ coordination, but it does not gate this independent HTML lane.
 ## Validation Boundary
 
 `adl/tools/validate_v092_html_observatory_live.mjs` drives the real browser
-against Runtime HTTPS/WSS. It proves fresh live rendering, menu and control
+against the canonical Runtime and Observatory DNS identities over ordinarily
+trusted HTTPS/WSS. A loopback host-resolver rule may route those names for an
+isolated local process, but certificate validation remains mandatory. It proves fresh live rendering, menu and control
 behavior, agent selection, authenticated Layer 8 chat, refusal and redaction, stale/unavailable
 states, bounded reconnect, no duplicate application, and fresh post-reconnect
 correlation. It retains screenshots and machine-readable assertions from the

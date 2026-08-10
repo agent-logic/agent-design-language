@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
     "slug": "v0-92-html-observatory-runtime-v3-client",
     "version": "v0.92",
-    "generation": 34
+    "generation": 36
   },
   "status": "ready",
   "content": {
@@ -167,7 +167,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed into an explicit read-only, stale, denied, version-mismatch, or unavailable state; never synthesize live success.",
       "design_ref": ".csdlc/prepared/issues/83/design.md",
-      "design_digest": "6ad7e0e3ca9f2e39afc78b7abb82f98928b68f0064c418088059666ae6844add",
+      "design_digest": "d99a0b952467f70b327adfe5b408f6b48314e6fd6842e4435f0389aac6fbd7b7",
       "diagram_ref": ".csdlc/prepared/issues/83/diagram.mmd",
       "diagram_digest": "73c36947a5904687d840ee521edfe34e2e888c91649ef3a9f38fe73b83e6117d"
     }

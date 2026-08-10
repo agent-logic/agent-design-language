@@ -37,9 +37,10 @@ Implement and prove the first live Layer 8 operator-to-agent chat vertical slice
 
 ## Dependencies
 
-- #5800 trusted local browser HTTPS is terminal
+- #5800 trusted browser HTTPS is terminal
 - #5820 stable Runtime launch and API behavior is terminal
 - #5832 versioned ACIP/A2A and WSS contract is terminal
+- #92 canonical external DNS and platform-trusted TLS standardization is terminal
 - #83 supplies the live browser interaction and evidence required by #5836
 - #5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane
 

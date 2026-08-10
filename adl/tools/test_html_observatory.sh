@@ -91,13 +91,13 @@ const context = {
   window: { location: { search: "" } },
   fetch: async (url, options = {}) => {
     calls.push({ url: String(url), options });
-    if (String(url) === "https://localhost:20997/v1/observatory") {
+    if (String(url) === "https://runtime.dev.agent-logic.ai:20997/v1/observatory") {
       return { ok: true, status: 200, json: async () => observatoryFeed };
     }
-    if (String(url) === "https://localhost:20997/v1/ready") {
+    if (String(url) === "https://runtime.dev.agent-logic.ai:20997/v1/ready") {
       return { ok: true, status: 200, json: async () => readiness };
     }
-    if (String(url) === "https://localhost:20997/v1/control") {
+    if (String(url) === "https://runtime.dev.agent-logic.ai:20997/v1/control") {
       const body = JSON.parse(String(options.body || "{}"));
       assert.equal(options.method, "POST");
       assert.equal(options.headers["Content-Type"], "application/json");
@@ -123,7 +123,7 @@ const api = context.AdlHtmlObservatory;
 api.applyRuntimeV3Config(config);
 
 assert.equal(api.requestedRuntimeSelection(), "v3");
-assert.equal(api.getQueryApiBase(), "https://localhost:20997");
+assert.equal(api.getQueryApiBase(), "https://runtime.dev.agent-logic.ai:20997");
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
 
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
@@ -167,15 +167,15 @@ const command = {
 const response = await api.submitRuntimeV3SignedControlCommand(api.getQueryApiBase(), command);
 assert.equal(response.schema, "adl.runtime.control_response.v1");
 assert.equal(response.command_id, "operator-message-1");
-assert(calls.some((call) => call.url === "https://localhost:20997/v1/control" && call.options.method === "POST"));
+assert(calls.some((call) => call.url === "https://runtime.dev.agent-logic.ai:20997/v1/control" && call.options.method === "POST"));
 
 assert.throws(
-  () => api.normalizeTrustedRuntimeV3ApiBase("https://operator:token@localhost:20997"),
-  /trusted HTTPS localhost:20997/
+  () => api.normalizeTrustedRuntimeV3ApiBase("https://operator:token@runtime.dev.agent-logic.ai:20997"),
+  /HTTPS for runtime.dev.agent-logic.ai/
 );
 
 await assert.rejects(
-  () => api.submitRuntimeV3SignedControlCommand("https://localhost:20997", { schema: "wrong" }),
+  () => api.submitRuntimeV3SignedControlCommand("https://runtime.dev.agent-logic.ai:20997", { schema: "wrong" }),
   /adl.runtime.control_command.v1/
 );
 })().catch((error) => {
