@@ -76,7 +76,7 @@ Implemented deterministic committed membership epochs, bounded replay, duplicate
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

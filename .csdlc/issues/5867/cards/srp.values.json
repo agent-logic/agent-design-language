@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.05] Membership state and topology convergence",
     "slug": "v0-92-wp-04-05-membership-topology",
     "version": "v0.92",
-    "generation": 18
+    "generation": 19
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/membership.rs\nadl-runtime/tests/distributed_membership.rs",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
