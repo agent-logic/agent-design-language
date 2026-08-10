@@ -4,13 +4,29 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "387afe04e311ffa378b933030f6b3bda3d446135c0f1c0c52b61f04a5c956645",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "1911f950551fe67e4e1bc883545a7d7ac63cb2949826aae97da11c886f8f6262",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "cb2ac1227b9e3f1d95a07318840af7a5bde72d78c3fd5d819ef7b259f3c6101d",
   "branch": "codex/5909-lease-authority-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5909-lease-defect",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "/root/issue_5909_repair/exact_head_review",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/evidence/5909",
+      ".csdlc/issues/5909",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb"
+    ],
+    "reviewed_revision": "git-blake3:121e281c9f844666ea291a082484c92990e003e0:cddd61239e65e1fb4f8e303a6483cfb0f0d2f91ba60e979870a611109e579677",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration proof; no merge authority is implied."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +41,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cd7c5f74756c34eb8096ab022f16c708aefbcfac324c6630fd274089d8f5a6ff",
+      "values_digest": "3bc2bb7aa94abe3d706a82b0588b6285e25835185f8ac1252b56fe96e102c761",
       "rendered_digest": "0839d3ff00dfc774bbbac553de6388120b4cbb3476c0380f132ce4a724316b0d",
       "ast_digest": "9c11c0b586d938abcb773cd8e58a013f5708e85bcea10be47c76e1b6560dfa8d"
     },
     "stp": {
-      "values_digest": "9bdaf3a55dc3e31d2a69a52a5af2c678ab4ec577ec141fd60806703aa78d509b",
+      "values_digest": "7291f20495af739e76b4e3c2b637430089fa62fd913776f472853103ff9bf24c",
       "rendered_digest": "2c30883b1af731bea35d8bae09ff21d04d0714c41731307d67c32d6bc1c7e03c",
       "ast_digest": "d087c8195d755525fb81be0330f611e947b9e75289dcb338f133e1b1775f0be2"
     },
     "spp": {
-      "values_digest": "5a436cbc535606bf1386bbcc4c994d3384806e626e03fdd11bcc6bdb2487a7b0",
+      "values_digest": "de089576a88793df594f7d10c9ec585c2f0933449d4c74b2d784fb941b0a60d6",
       "rendered_digest": "401d9a7771046e3cc9247bd85650cf9808ca9d522fc5464ef620f16d9ec628ec",
       "ast_digest": "a38fc0451dc6d606ba51a2c8ecc19832e0c8a30268b983e56815c8c554536062"
     },
     "vpp": {
-      "values_digest": "a8721c563e331d1736e769322c24c292e6de71408215429a55485c54e39700e2",
+      "values_digest": "3bf8d6459a9c00e7a9b45036bf36fc86ec929824146aeaed20c888f4650bead8",
       "rendered_digest": "aae25417f9caf72bba1541c8035682e80ff38ea03ab94d833ff3988029cf033d",
       "ast_digest": "4c72ef770066bded42fddc7e34580523214a8f9a7ee49c7ba911794f531ba519"
     },
     "srp": {
-      "values_digest": "b7797880e30d6ebde2dd575f67262b56015dc0102c61664b435ebf7e61a460e0",
-      "rendered_digest": "f81713f6d181a76d573937022b8445416f39286be3beb62f9a9bdcd18d8d9579",
-      "ast_digest": "a51aa478df42c5f8690a380381e9973ee923a805f0f60e3c2d34eedf4d496392"
+      "values_digest": "db033de381ac5270e3070405677c08314b384d2c67f367e79313c72b58193271",
+      "rendered_digest": "1aa472cf6335e65e4416c4f3f5f7ef0acdbc0301cf28caaadeb9d7c6976bc042",
+      "ast_digest": "deb68974df3288ae3df20ee8a6afaaa726598e361b64984a0baf6d09a7bff17c"
     },
     "sor": {
-      "values_digest": "e007975d4b095384a7c8070963f13b7a6c3d1b4bd59a3343f02c256478b3cab9",
+      "values_digest": "b1465a8a055c60539c0c026a3cd5f1505db439d047aa8856f3975e6a69e9da33",
       "rendered_digest": "59abbd132f1fe413ec51f5fce69c3f892b807481902f768fbe0276c808f54ac7",
       "ast_digest": "b42d7c8a902afcaba641ec61524b23b2bd1e4cc45638fe745e75d8de04c408e6"
     }
@@ -76,6 +92,13 @@
       "to": "implemented",
       "actor": "codex:5909-lease-authority-defect",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -120,6 +143,13 @@
       "actor": "codex:5909-lease-authority-defect",
       "reason": "Replace prior V2 receipt references with the stream-accurate deep-bound V3 evidence generation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected lease mutation authority, bounded lineage state atomically, separated grant and activation transitions, and rebuilt machine-derived proof with exact nine-case deep validation.\",\"changes\":[\"Require mutation authorization to match the ledger-owned applied log index.\",\"Reject lineage-count and prospective snapshot capacity overflow before state mutation.\",\"Enforce distinct initial LeaseGrant and successor Activate semantics.\",\"Derive and deeply validate nine exact negative cases against executed Rust marker output.\"],\"artifacts\":[\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/tests/distributed_lease.rs\",\".csdlc/evidence/5909/review-repair-v3/execution-proof.json\",\".csdlc/evidence/5909/operator-repair-v3/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"purpose\":\"Run the exact distributed lease target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v3/exact-child-tests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\"],\"purpose\":\"Deeply bind the exact nine machine-derived cases, producer and stream digests, source artifacts, and two-revision topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/review-repair-v3/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the exact distributed lease test surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v3/strict-focused-clippy.log\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Exact two-file corrective diff, issue-owned proof, and typed lifecycle truth.
+adl-runtime/src/distributed/lease.rs
+adl-runtime/tests/distributed_lease.rs
+.csdlc/evidence/5909
+.csdlc/issues/5909
+.csdlc/prepared/issues/5909/validate-proof-receipt.rb
 
 ## Prompts
 
@@ -31,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final integration proof; no merge authority is implied.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:121e281c9f844666ea291a082484c92990e003e0:cddd61239e65e1fb4f8e303a6483cfb0f0d2f91ba60e979870a611109e579677")
 
-Reviewer: None
+Reviewer: Some("/root/issue_5909_repair/exact_head_review")
 
-Result: pre_review
+Result: pass
