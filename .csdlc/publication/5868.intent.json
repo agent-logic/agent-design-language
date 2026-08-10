@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5868,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5868-failure-detection",
+  "title": "feat(runtime): add authenticated bounded failure detection",
+  "body": "Closes danielbaustin/agent-design-language#5868\n\nImplements authenticated, deterministic, advisory-only distributed failure detection in the two issue-owned paths. Distinguishes suspect, unavailable, partitioned, recovered, and flapping states without granting authority; binds probes and event identities to enrolled identity generation, membership epoch, and trust domain; and keeps replay, subject, observer, and event state hard bounded.\n\nValidation:\n- cargo nextest run --manifest-path adl-runtime/Cargo.toml --test distributed_failure_detection --no-tests=fail (14/14)\n- cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_failure_detection -- -D warnings\n- exact v3 receipt validator PASS\n- independent exact-head review PASS with no findings\n\nModule registration remains deferred to #5878 by design.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:ac95dd66496ae2f6163bcbbac1eeaff7b1757fa4:6fb661ac802ab4082763d7604c68c1992bb8213482473e7830c9301c7d56cb7c",
+  "commit_sha": "ac95dd66496ae2f6163bcbbac1eeaff7b1757fa4"
+}
