@@ -1,0 +1,88 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5876,
+  "source_revision": "a7ffebf270d2fe0f056bf710ce2b228bf8a7426e",
+  "producer_path": ".csdlc/evidence/5876/derive-negative-cases.rb",
+  "producer_sha256": "d099d7b21104fceb3652cd9fd71fd862d8d446e521267041d9ad55605afacb86",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_recovery",
+      "--",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T10:49:30.775755Z",
+    "finished_at": "2026-08-10T10:49:32.044956Z"
+  },
+  "stdout_path": ".csdlc/evidence/5876/operator-v3b/negative-cases.stdout.log",
+  "stdout_sha256": "f37781e99d9c2249c7a7f23bab044a653221af5e15238ac6c9a06139786c7ad3",
+  "stderr_path": ".csdlc/evidence/5876/operator-v3b/negative-cases.stderr.log",
+  "stderr_sha256": "80870ee25c27aeb3711aa501cab50e9c7bf826334d5c360daa15e6a34dabb5f0",
+  "cases": [
+    {
+      "case": "local_claimed_owner_not_authority",
+      "result": "rejected",
+      "observed_line_sha256": "c40f5431e7fec921f720a13700da1507b868770def04820d837ad396a3b96e82"
+    },
+    {
+      "case": "rollback_without_live_source_authority",
+      "result": "rejected",
+      "observed_line_sha256": "b944a8f092381dec3736a4d09acf973272f973567270976f27f14a992d83f313"
+    },
+    {
+      "case": "minority_fence",
+      "result": "rejected",
+      "observed_line_sha256": "da2c2c396d06840850f6ea27484adb06c9f2646fe57715aa203dfcb0f5849a13"
+    },
+    {
+      "case": "wrong_trust_domain_fence",
+      "result": "rejected",
+      "observed_line_sha256": "7358d3446bd8d5f6b754ae457524c540b2600adb62fbf523e488363b20901a54"
+    },
+    {
+      "case": "activation_inside_safety_window",
+      "result": "rejected",
+      "observed_line_sha256": "93646f3027dae954f92255c6065940bd39993cd229246fb621e4204981ada337"
+    },
+    {
+      "case": "stale_membership_generation",
+      "result": "rejected",
+      "observed_line_sha256": "6e0ba8b97697f5195e07685f820a3c9d87f4a97b222507bf8362f789e1e92449"
+    },
+    {
+      "case": "record_capacity",
+      "result": "rejected",
+      "observed_line_sha256": "888ecddc30eab40cbe7b35728f8a7c0f9140f40ff2accd034c2ef5701d9d78c2"
+    },
+    {
+      "case": "recovery_timeout",
+      "result": "rejected",
+      "observed_line_sha256": "925d1f071b90b924079326a957d69d88f2c6db2ebc1714a6e51abcc073dba1df"
+    },
+    {
+      "case": "wrong_trust_domain_begin",
+      "result": "rejected",
+      "observed_line_sha256": "20ea5693f398244888d13dd9cab9dd4a096826e6bf0157afd00ae7bc982c4eeb"
+    },
+    {
+      "case": "zero_valid_committed_prefix",
+      "result": "fail_closed",
+      "observed_line_sha256": "e8c8f709d4c8f6523a8658d350806b6be2c71e40e99bb5dd3295319c74adae1a"
+    },
+    {
+      "case": "divergent_committed_prefix",
+      "result": "fail_closed",
+      "observed_line_sha256": "0ae30466e8c06a8ea7ac73f903b9a1824228cb5a156ec95bb51e817f36178624"
+    },
+    {
+      "case": "rollback_before_target_cleanup",
+      "result": "rejected",
+      "observed_line_sha256": "6960d70ab2e6f1b98fa9697d2359c6c930302a67c9a1a73102ec57a76b2a91ff"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID bfcb8fb0-f964-45f0-8aec-fc2bca13e76a with nextest profile: default
+    Starting 5 tests across 1 binary
+        PASS [   0.814s] (1/5) adl-runtime::distributed_recovery recovery_pre_fence_rollback_requires_live_source_authority
+        PASS [   0.911s] (2/5) adl-runtime::distributed_recovery recovery_quorum_fence_safety_window_activation_commit_and_restart
+        PASS [   0.971s] (3/5) adl-runtime::distributed_recovery recovery_is_bounded_and_times_out_fail_closed
+        PASS [   1.069s] (4/5) adl-runtime::distributed_recovery recovery_begin_and_committed_prefix_survive_restart_without_trusting_local_owner_claims
+        PASS [   1.099s] (5/5) adl-runtime::distributed_recovery recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_rollback
+────────────
+     Summary [   1.100s] 5 tests run: 5 passed, 0 skipped
