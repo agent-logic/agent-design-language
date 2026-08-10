@@ -8,20 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/cognitive_profile.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/cognitive_profile.rs
-adl-runtime-kernel/tests/fixtures/cognitive_profile
-docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
-.csdlc/prepared/issues/5830/produce-native-receipt.rb
-.csdlc/prepared/issues/5830/validate-native-receipts.rb
-.github/workflows/wp13-native-cognitive-profile.yml
-.csdlc/evidence/5830
-.csdlc/issues/5830
+
 
 ## Prompts
 
@@ -40,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Exact-head native Linux and macOS receipt production and semantic-equivalence validation remain mandatory at publication before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:3f8c4eed489cd3da55086b76b842e2b5a88722d3:50a5e4c73f97093485bb7d178f9ddf7d5b82edd28334dee53351cbd4e3eccaad")
+Revision: None
 
-Reviewer: Some("/root/sprint4_5857/review_5830_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review

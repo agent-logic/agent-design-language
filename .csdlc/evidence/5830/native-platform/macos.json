@@ -1,0 +1,70 @@
+{
+  "schema": "adl.native_ci_receipt.v1",
+  "payload": {
+    "issue": 5830,
+    "platform": "macos",
+    "source_sha": "60197504fa86566c8c4b1983d3be09f89b595e94",
+    "producer_path": ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+    "producer_sha256": "8c924bd1dc65fb148d58220df8f6d39ac2cdd6b461f02c967354fb5b40d4d7ce",
+    "producer_argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+      "--platform",
+      "macos",
+      "--receipt",
+      ".csdlc/evidence/5830/native-platform/macos.json",
+      "--semantic-output",
+      ".csdlc/evidence/5830/native-platform/macos-semantic.json"
+    ],
+    "test_argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "cognitive_profile",
+      "--no-tests=fail",
+      "--status-level",
+      "all",
+      "--message-format",
+      "libtest-json-plus"
+    ],
+    "test_environment": {
+      "ADL_NATIVE_SEMANTIC_OUTPUT": ".csdlc/evidence/5830/native-platform/macos-semantic.json",
+      "NEXTEST_EXPERIMENTAL_LIBTEST_JSON": "1"
+    },
+    "tests_run": 11,
+    "passed_tests": [
+      "adl-runtime-kernel::cognitive_profile$broken_revision_link_and_unexplained_delta_fail_closed",
+      "adl-runtime-kernel::cognitive_profile$canonical_creation_is_deterministic_and_public_projection_is_narrow",
+      "adl-runtime-kernel::cognitive_profile$exact_duplicates_canonicalize_and_case_collisions_fail",
+      "adl-runtime-kernel::cognitive_profile$exported_validator_rejects_rehashed_forgery",
+      "adl-runtime-kernel::cognitive_profile$identity_continuity_capability_and_birthday_substitution_fail_closed",
+      "adl-runtime-kernel::cognitive_profile$missing_nonclaims_and_public_everything_fail_closed",
+      "adl-runtime-kernel::cognitive_profile$privacy_secrets_paths_and_raw_state_fail_closed",
+      "adl-runtime-kernel::cognitive_profile$revision_updates_link_and_explain_exact_delta",
+      "adl-runtime-kernel::cognitive_profile$stale_missing_duplicate_and_forbidden_evidence_fail_closed",
+      "adl-runtime-kernel::cognitive_profile$unknown_json_fields_fail_closed",
+      "adl-runtime-kernel::cognitive_profile$unsupported_labels_diagnosis_and_status_inference_fail_closed"
+    ],
+    "command_output_path": ".csdlc/evidence/5830/native-platform/macos-nextest.log",
+    "command_output_sha256": "bcc21ffad41e98fd8fad029111149d8c0176da48c20ab57b12d2946594caecee",
+    "semantic_output_path": ".csdlc/evidence/5830/native-platform/macos-semantic.json",
+    "semantic_output_sha256": "dd8cb6901d88b1412ed89715ccf053f26eb95c47e69be2174b447e14ba08b736",
+    "source_manifest_path": ".csdlc/evidence/5830/native-platform/macos-source-manifest.json",
+    "source_manifest_sha256": "7519407aec8ede39754222c8b0c18a927b1728b55f27d57eccb81593bd47ec66",
+    "runner": {
+      "provider": "github_actions",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp13-native-cognitive-profile.yml@refs/pull/139/merge",
+      "run_id": "31400973911",
+      "run_attempt": "1",
+      "job": "produce-native-receipt",
+      "os": "Darwin",
+      "architecture": "arm64"
+    },
+    "status": "passed"
+  },
+  "payload_sha256": "f3ec37bdec97f731404c4bb01e05f19213ccb0c60795f74b3d09c7a526c7d1c5"
+}

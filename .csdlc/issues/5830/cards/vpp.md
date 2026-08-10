@@ -77,7 +77,7 @@ Diagram: .csdlc/prepared/issues/5830/diagram.mmd
       ".csdlc/evidence/5830/native-platform/macos-semantic.json"
     ],
     "parallel_group": "5830-native-produce",
-    "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "cognitive_profile-linux-native-ci-producer",
@@ -101,7 +101,7 @@ Diagram: .csdlc/prepared/issues/5830/diagram.mmd
       ".csdlc/evidence/5830/native-platform/linux-semantic.json"
     ],
     "parallel_group": "5830-native-produce",
-    "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "cognitive_profile-native-ci-receipt-verification",

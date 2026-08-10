@@ -4,62 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
-  "phase": "published",
-  "generation": 67,
-  "digest": "d3e801796f221788ca7002a4910b7bfbb4e1a2c54ba49505a8c5b6f0cf117d79",
+  "phase": "implemented",
+  "generation": 70,
+  "digest": "d0d702ae0351001169f362b67646a1145e56f254aaf75f96732b9e13fbd1d576",
   "branch": "codex/5830-cognitive-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5830_exact_head",
-    "assigned_by": "codex:5830-cognitive-profile",
-    "revision": "git-blake3:3f8c4eed489cd3da55086b76b842e2b5a88722d3:50a5e4c73f97093485bb7d178f9ddf7d5b82edd28334dee53351cbd4e3eccaad",
-    "scope": [
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/fixtures/cognitive_profile",
-      "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
-      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
-      ".github/workflows/wp13-native-cognitive-profile.yml",
-      ".csdlc/evidence/5830",
-      ".csdlc/issues/5830"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/sprint4_5857/review_5830_exact_head",
-    "scope": [
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/fixtures/cognitive_profile",
-      "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
-      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
-      ".github/workflows/wp13-native-cognitive-profile.yml",
-      ".csdlc/evidence/5830",
-      ".csdlc/issues/5830"
-    ],
-    "reviewed_revision": "git-blake3:3f8c4eed489cd3da55086b76b842e2b5a88722d3:50a5e4c73f97093485bb7d178f9ddf7d5b82edd28334dee53351cbd4e3eccaad",
-    "findings": [],
-    "residual_risks": [
-      "Exact-head native Linux and macOS receipt production and semantic-equivalence validation remain mandatory at publication before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5830,
-    "pull_request": 139,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/139",
-    "base": "main",
-    "head": "codex/5830-cognitive-profile",
-    "revision": "git-blake3:09e6c8123d4dc6168e7500626e4a5449558be7f4:5758b939cdf45195961f223c8b1508f05c50359859972db4558b9918f1e8a3fe",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f50c68bd9064983e7f06d8e0f31255a8bc26a19f046f5a69e33e1d741a2616cf",
+      "values_digest": "c33206bfb9e6a932f50335da7a8f8a493373a947f7605805fd31bb86f025c7c4",
       "rendered_digest": "f693dd3d3ed034e3ffbaff3348331e986f4f5cc9ae5fce166acecd4f23918b30",
       "ast_digest": "3fd878ebfe7fe0596cb55885b39a06ca0f8b84f87406ef8b718c3f501ba84fa1"
     },
     "stp": {
-      "values_digest": "de0f4688f87e60c3d6dd10471d664ce3a9819eae45d0a9948c5d6b554446265a",
+      "values_digest": "b1dc6c22fb563e8bf585f49317f439c24d37d90b6f66ec6af5a8fc31dfe91b93",
       "rendered_digest": "1df53b8620d6186ab4e2530b690ebb3a8ce38acf08e9d190d31d106be4961954",
       "ast_digest": "26506815840b2c74b6f70a43469e76cfde25a47d07a10b3a03f8154ada085cca"
     },
     "spp": {
-      "values_digest": "fea547ed1eb577d4a8164ec13d94c28017ccf071090bd52e2030e28d5db0edba",
+      "values_digest": "ad109d136e0e8f590cb8a8df03e79f4cef63ba7ca2415442a18ffa54a9df49dc",
       "rendered_digest": "5bbd53c6a215939a4937497b080b9c646899130418cec7b7282b256e27749b71",
       "ast_digest": "0e2ffb11caab962358ccb56c06c6802a83520137f00390a8dee1f3099e882b31"
     },
     "vpp": {
-      "values_digest": "a07b08064ad7bb225f401cd9c9348c248476eeac2af9228e3237a3148d455923",
-      "rendered_digest": "f2b7aa172dc011f3fcb386b2e080ba95808c637689a34456e44b11a2f9f94bcd",
-      "ast_digest": "c2739d91f782cbe4088e1dc4a498bf6ca3ef11244caf5dcb0bc956251d42991c"
+      "values_digest": "e88f3017896bbe8925afeecaba4ed916f960708543fb3aa5ed39a24a2687e8bd",
+      "rendered_digest": "a7a97577baa119dc5d59e112bf549fac8c96187080bcb502611baaf79890fa66",
+      "ast_digest": "566beeb9e5296d766f4f5bd4cbe4d22a3252bb3440ccfb7eddb8caed5a448e50"
     },
     "srp": {
-      "values_digest": "be3302462381eb56fd824d521ba7ef44a89081f7d83dcdcfd6db6a764a434bb7",
-      "rendered_digest": "2331db6e95cd3a126f56298c7ef0e179217213abcbca7c1b520c7299ef34cf1a",
-      "ast_digest": "8512365a1b15744ca88785651d7b2a709e395d573780c2130f6fb56d8f52d5dc"
+      "values_digest": "3fc73dd618d2be30e8b667431b9ed71a05cb74ba40c98ed0775cc913ff1e9c22",
+      "rendered_digest": "bceae367d3dacadc68cb4ac25993557d749f9a9ceabab4aff1574972a1f654b9",
+      "ast_digest": "a246336c0a8cd274fa2905fc4c08a5742e5938cde465d2c8a39cef4def8a9daf"
     },
     "sor": {
-      "values_digest": "bc2aa1937bcfe655774a275c4a8d171b82836bf0fe3a751f72f77341685bee88",
-      "rendered_digest": "3dd7c8b05510ac5701172e153ad88d0cf7f35680799dff0c05fcbbe02e37fd81",
-      "ast_digest": "10ddee61ccb82986e348ee758cc9acc28a46b3c7f2fb3e6bc293dcf79c4296d3"
+      "values_digest": "0fff7ab92b44f1ae766936092ae45d927b48eee09f21ee58eefe9a32a399d088",
+      "rendered_digest": "1878136c663c1d654bd759cc68a1b5486066b80ce8fd740e85e9c21f9e95e287",
+      "ast_digest": "e14b7903d3cd5b2abf11529f25e6f86cd2d71216c12374650037ed67e9d77f02"
     }
   },
   "transitions": [
@@ -159,6 +111,13 @@
       "to": "published",
       "actor": "codex:5830-cognitive-profile",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Exact-head native Linux and macOS receipts from GitHub Actions run 31400973911 are now retained and independently validated; recover publication truth so VPP, SOR, and final exact-head review can bind the mandatory hosted proof."
     }
   ],
   "audit": [
@@ -819,6 +778,27 @@
       "actor": "codex:5830-cognitive-profile",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 95,
+      "generation": 68,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Exact-head native Linux and macOS receipts from GitHub Actions run 31400973911 are now retained and independently validated; recover publication truth so VPP, SOR, and final exact-head review can bind the mandatory hosted proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 96,
+      "generation": 69,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Record successful exact-head native Linux and macOS producers and independent receipt validation from GitHub Actions run 31400973911.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"cognitive_profile-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5830-core\",\"defer_reason\":null},{\"lane\":\"cognitive_profile-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5830/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5830/native-platform/macos-semantic.json\"],\"parallel_group\":\"5830-native-produce\",\"defer_reason\":null},{\"lane\":\"cognitive_profile-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5830/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5830/native-platform/linux-semantic.json\"],\"parallel_group\":\"5830-native-produce\",\"defer_reason\":null},{\"lane\":\"cognitive_profile-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=fa412b35b507c62cb55ba3386ad9f76a2d53d0a7a47c18ebcf960608857bd04c]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".csdlc/evidence/5830/native-platform/macos.json\",\".csdlc/evidence/5830/native-platform/linux.json\"],\"parallel_group\":\"5830-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 97,
+      "generation": 70,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Record the exact WP-13 Linux and macOS native receipt packet, semantic equivalence, artifact custody, and independent validation from GitHub Actions run 31400973911.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved the deterministic WP-13 Runtime v3 cognitive-profile contract, including authority-bound evidence, canonical revision lineage, governed nonclaims, unique profile fields, bounded projections, privacy, explicit unsupported-inference boundaries, and exact-head native Linux/macOS semantic equivalence.\",\"changes\":[\"Added full cognitive-profile construction and reconstruction validation over birthday, identity, continuity, and capability authorities.\",\"Bound seven evidence categories, exact revision digests, update actor and reason, predecessor lineage, privacy policy, canonical fields, and bounded internal/public projections.\",\"Rejected stale, missing, duplicate, colliding, or forbidden evidence; authority substitution; unexplained revision changes; secret and host paths; private-evidence public derivation; and unsupported status or personhood inferences.\",\"Rejected ungoverned extra nonclaims, recomputed complete predecessor profile and public-projection integrity, bound predecessor continuity and canonical history shape, and rejected case-fold duplicate field keys before revision-delta calculation.\",\"Added and executed the exact 11-test matrix on native Linux and macOS through the issue-specific WP-13 workflow; retained and independently validated the eight-file receipt packet with identical semantic output.\"],\"artifacts\":[\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/cognitive_profile.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/matrix.json\",\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".github/workflows/wp13-native-cognitive-profile.yml\",\".csdlc/evidence/5830/cognitive-profile-runtime-v3.log\",\".csdlc/evidence/5830/cognitive-profile-strict-clippy.log\",\".csdlc/evidence/5830/cognitive-profile-native-scripts.log\",\".csdlc/evidence/5830/review-fix-validation.json\",\".csdlc/evidence/5830/native-platform/linux.json\",\".csdlc/evidence/5830/native-platform/linux-nextest.log\",\".csdlc/evidence/5830/native-platform/linux-semantic.json\",\".csdlc/evidence/5830/native-platform/linux-source-manifest.json\",\".csdlc/evidence/5830/native-platform/macos.json\",\".csdlc/evidence/5830/native-platform/macos-nextest.log\",\".csdlc/evidence/5830/native-platform/macos-semantic.json\",\".csdlc/evidence/5830/native-platform/macos-source-manifest.json\",\".csdlc/evidence/5830/native-platform/independent-validator.log\",\".csdlc/evidence/5830/native-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 11-test profile and all review-fix regressions at product revision 0e2f1de8766c2495db8d5433bb8d5475cfe29712.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5830/review-fix-validation.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness at the reviewed product revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5830/review-fix-validation.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".csdlc/evidence/5830/native-platform/linux.json\",\".csdlc/evidence/5830/native-platform/macos.json\"],\"purpose\":\"Independently bind exact candidate head 60197504fa86566c8c4b1983d3be09f89b595e94 to native Linux and macOS 11-test receipts from run 31400973911, exact source manifests, runner provenance, artifact custody, and identical semantic SHA dd8cb6901d88b1412ed89715ccf053f26eb95c47e69be2174b447e14ba08b736.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5830/native-validation-manifest.json\"}]}"
     }
   ]
 }
