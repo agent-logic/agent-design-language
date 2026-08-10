@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Register and integrate the distributed module, then prove real multi-node Guardian behavior, API/WSS continuity, adversarial failures, and native macOS/Linux/Windows receipts.
+Register all fifteen reviewed distributed modules as one callable production library surface, prove bounded canonical transport and quorum authority failures through the exact integration target, and produce live-attested macOS, Linux, and Windows receipts through the issue-owned workflow without modifying or claiming unowned Guardian, API, or WSS routes.
 
 ## Deliverables
 

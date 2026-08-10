@@ -1,0 +1,22 @@
+{
+  "issue": 5878,
+  "card": "spp",
+  "expected_generation": 20,
+  "expected_digest": "c19671dd8a1fa71ce13ef8500124d402f17e4cb653fbb4c1ef480616e5d8c80b",
+  "actor": "codex-sprint-5862",
+  "reason": "Align fail-closed stops with the six-path library-registration and native-proof boundary.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with all downstream serial gates satisfied",
+      "Stop if any sibling input path, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent",
+      "Stop on any active collision or requested mutation outside the six canonical owned paths",
+      "Stop if library registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or modifying an unowned Guardian, API, or WSS route",
+      "Stop if bounded canonical transport, quorum authority, replay rejection, wrong-domain rejection, redaction, deterministic output, or rollback safety cannot be proved",
+      "After all six owned paths are implemented, stop if the exact integration target selects zero tests or any integration, workflow, native, receipt, strict-Clippy, diff, or review validation fails",
+      "Stop if any macOS, Linux, or Windows receipt is missing, duplicated, synthetic, relabeled, self-attested, shares a run identity, lacks live GitHub job attestation, lacks native rustc host proof, or is not bound to the exact protected source revision",
+      "Stop if production runtime-route behavior must be claimed without explicit ownership"
+    ]
+  }
+}

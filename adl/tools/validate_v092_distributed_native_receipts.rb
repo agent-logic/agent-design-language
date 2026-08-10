@@ -15,6 +15,11 @@ SHA256 = /\A[0-9a-f]{64}\z/
 MAX_FILE_BYTES = 4 * 1024 * 1024
 EXPECTED_ROLES = %w[integration_stdout integration_stderr runner_provenance].freeze
 EXPECTED_ARGV = ["bash", "adl/tools/validate_v092_distributed_guardian.sh"].freeze
+EXPECTED_NEGATIVE_CASES = %w[
+  authority_replay
+  oversized_protobuf_frame
+  wrong_authority_domain
+].freeze
 
 def abort_with(message)
   warn(message)
@@ -135,7 +140,8 @@ def validate_receipt(path, platform, revision)
   summary_output = output + File.read(stderr)
   abort_with("#{platform} output lacks test completion") unless summary_output.match?(/\btests? run\b/)
   cases = output.scan(/ADL_ISSUE_5878_NEGATIVE_CASE_V1\s+([a-z0-9_]+)/).flatten.uniq.sort
-  abort_with("#{platform} negative cases are not producer-derived") unless cases == Array(receipt["negative_cases"]).sort && !cases.empty?
+  abort_with("#{platform} negative-case denominator mismatch") unless cases == EXPECTED_NEGATIVE_CASES
+  abort_with("#{platform} negative cases are not producer-derived") unless cases == Array(receipt["negative_cases"]).sort
 
   runner = command.fetch("runner")
   %w[provider run_id os arch commit provenance_path provenance_sha256 identity_sha256].each do |field|
@@ -179,6 +185,7 @@ end
 if ARGV == ["--self-test"]
   abort_with("platform denominator invariant failed") unless PLATFORMS.sort == %w[linux macos windows]
   abort_with("artifact denominator contains duplicates") unless EXPECTED_ROLES.uniq.length == EXPECTED_ROLES.length
+  abort_with("negative-case denominator contains duplicates") unless EXPECTED_NEGATIVE_CASES.uniq.length == EXPECTED_NEGATIVE_CASES.length
   abort_with("unsafe path policy") if Pathname.new("../escape").each_filename.none? { |part| part == ".." }
   puts "PASS: distributed native receipt policy self-test"
   exit(0)

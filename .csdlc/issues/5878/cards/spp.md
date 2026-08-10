@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 6
+Revision 7
 
 ## Steps
 
@@ -102,14 +102,14 @@ Digest: 6c8b714c4987361c7d51ad9a3fffcdf0ff3f94a7dd8b7e6ac7d1e392a173caf0
 
 ## Stop Conditions
 
-- Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with #5909 preceding #5870 and all downstream serial gates satisfied
-- Stop if any sibling input path, terminal receipt, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent
-- Stop on any active path collision or any requested mutation outside the five canonical owned paths
-- Stop if production registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or diverging from the issue-owned OpenAPI contract
-- Stop if coherent integration, deterministic ordering, redaction, hard bounds, finite cancellation, rollback or disable safety, or fenced remote ownership cannot be proved
-- After all five owned paths are implemented, stop if distributed_guardian or either owned validator target is absent, the exact integration target selects zero tests, or any integration, native, receipt, or diff validation fails
-- Stop if any macOS, Linux, or Windows receipt is missing, duplicated, self-attested, shares a run identity, lacks production command logs or artifacts, or is not bound to the exact protected source revision
-- Stop if scope, registration, interface, platform, authority, proof, or rollback behavior must widen
+- Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with all downstream serial gates satisfied
+- Stop if any sibling input path, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent
+- Stop on any active collision or requested mutation outside the six canonical owned paths
+- Stop if library registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or modifying an unowned Guardian, API, or WSS route
+- Stop if bounded canonical transport, quorum authority, replay rejection, wrong-domain rejection, redaction, deterministic output, or rollback safety cannot be proved
+- After all six owned paths are implemented, stop if the exact integration target selects zero tests or any integration, workflow, native, receipt, strict-Clippy, diff, or review validation fails
+- Stop if any macOS, Linux, or Windows receipt is missing, duplicated, synthetic, relabeled, self-attested, shares a run identity, lacks live GitHub job attestation, lacks native rustc host proof, or is not bound to the exact protected source revision
+- Stop if production runtime-route behavior must be claimed without explicit ownership
 
 ## Handoff
 
