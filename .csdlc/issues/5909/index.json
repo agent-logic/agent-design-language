@@ -4,13 +4,40 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "387afe04e311ffa378b933030f6b3bda3d446135c0f1c0c52b61f04a5c956645",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "39a94aa12b5f2d9203c56c53dffb14210264e26de4ff6fcf7dec2114066faad3",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "ec9e47adeb5edcabf3c60febcc05b89505e97bdb164bb427793af4a84317120e",
   "branch": "codex/5909-lease-authority-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5909-lease-defect",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/review_5909_pr120_repair",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4af5e240b9ce43aabb028e1aa8ce532890811b3b:e3c25832f09f4f22131315bb8723b01d0035fbbbd355a03f016902c27f8f3e43",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/evidence/5909",
+      ".csdlc/issues/5909",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_5909_pr120_repair",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/evidence/5909",
+      ".csdlc/issues/5909",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb"
+    ],
+    "reviewed_revision": "git-blake3:4af5e240b9ce43aabb028e1aa8ce532890811b3b:e3c25832f09f4f22131315bb8723b01d0035fbbbd355a03f016902c27f8f3e43",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI and republication for exact repaired head 4af5e240b remain pending under S3; no merge authority is implied."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "888a72a9e13b9fa36e447acab8cece2d64b0afcbd95d0e6d50370c4e5e9709f1",
+      "values_digest": "c4038307ea6db9338aa090c6da92cf0704e38952541977eeb8091178757f5548",
       "rendered_digest": "0839d3ff00dfc774bbbac553de6388120b4cbb3476c0380f132ce4a724316b0d",
       "ast_digest": "9c11c0b586d938abcb773cd8e58a013f5708e85bcea10be47c76e1b6560dfa8d"
     },
     "stp": {
-      "values_digest": "bc17752be753cda1ed60e87f643fe14db537d047739a311cf8500015671236da",
+      "values_digest": "7e0d79617c342d277d7cdba21b6c79449c4d7e0685c408060662b9f42404e595",
       "rendered_digest": "2c30883b1af731bea35d8bae09ff21d04d0714c41731307d67c32d6bc1c7e03c",
       "ast_digest": "d087c8195d755525fb81be0330f611e947b9e75289dcb338f133e1b1775f0be2"
     },
     "spp": {
-      "values_digest": "a1cf70dee7fd3c58475169443057980cfdf4732c08fc3f0701b20cd7a550d69d",
+      "values_digest": "23474b38dd8726a30734e5b24e4d1491739cb26b336280795f373ecd1c40a15f",
       "rendered_digest": "0f782534b35612aab6b44b201bed9259c4fd94d4abf381d1cdeb4da7ce9e024c",
       "ast_digest": "43be87c2ce6575db134c6e26e43d4026b7d23352ea8ca35a9ba2dee19b981884"
     },
     "vpp": {
-      "values_digest": "3d26182b228066f9e871a067b838681c883a44bcfde04edb3b352ce2ff3ec4b7",
+      "values_digest": "d3d51d239c1bc00dcdd0640adbdd6cb07c54a225383467fb09af833124b5708c",
       "rendered_digest": "aae25417f9caf72bba1541c8035682e80ff38ea03ab94d833ff3988029cf033d",
       "ast_digest": "4c72ef770066bded42fddc7e34580523214a8f9a7ee49c7ba911794f531ba519"
     },
     "srp": {
-      "values_digest": "35f1e4a15cb7e416169fb8701df4bcf4d74937790a056d2dd8b7e40e60499907",
-      "rendered_digest": "db9bfd0fda8478e5a7fb7c63f8ffebf5a082952c34c62b116adaf81d235e1764",
-      "ast_digest": "1d6cbe1945f849ef43794c7ee32f06e40f8ed226de1791aed3d01ae6286a51d9"
+      "values_digest": "7f1f09175e189662c45d34f5fb187f150a10c8396704f4e3152ff3cc8aea1d73",
+      "rendered_digest": "8292ba5855d2ef81ed9105476989f9af8110e579ba596d6ebcbfe813602aebfa",
+      "ast_digest": "a28ea318a1997d4f8be25bb350ab85eeeb02353b3824662541982a67322c30fe"
     },
     "sor": {
-      "values_digest": "d07ab066e6d05ca5d8c647726d910bd2bf59763cbe2f8dfb847362113d33c188",
+      "values_digest": "5f207856162736de8fd3c65084bdd11652a9aa3af3afe615339049280b43501e",
       "rendered_digest": "9e56b3d6ad122f388aa3c3fe213f6b031f4e534fb722c03b959d82d3d7df78a7",
       "ast_digest": "53dd96bee24ad5a74fbca269bf310fe412f3c7e42306b38efc79e057a75a6513"
     }
@@ -97,6 +124,13 @@
       "to": "implemented",
       "actor": "codex:pr120-review-findings",
       "reason": "Recover published review truth after operator changes-requested finding: retained review lacks fresh independent session provenance and SPP execution statuses are stale."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:pr120-review-findings",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -183,6 +217,20 @@
       "actor": "codex:pr120-review-findings",
       "reason": "Mark S3 in progress while fresh independently assigned exact-head review and republication are being performed.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:pr120-review-findings",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

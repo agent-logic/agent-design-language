@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/src/distributed/lease.rs
+adl-runtime/tests/distributed_lease.rs
+.csdlc/evidence/5909
+.csdlc/issues/5909
+.csdlc/prepared/issues/5909/validate-proof-receipt.rb
 
 ## Prompts
 
@@ -31,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI and republication for exact repaired head 4af5e240b remain pending under S3; no merge authority is implied.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4af5e240b9ce43aabb028e1aa8ce532890811b3b:e3c25832f09f4f22131315bb8723b01d0035fbbbd355a03f016902c27f8f3e43")
 
-Reviewer: None
+Reviewer: Some("/root/review_5909_pr120_repair")
 
-Result: pre_review
+Result: pass
