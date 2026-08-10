@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 100,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency] Recover and publish the 10 Medium launch article drafts to Google Drive",
+    "slug": "recover-medium-launch-article-drafts",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "recovery-manifest-and-drive-receipt",
+          "proof_role": "Prove search provenance, exact ten-title coverage, non-empty content, unique canonical selection, digest integrity, source attribution, and retained approved-credential Drive readability evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/100/validate-recovery.rb"
+          ],
+          "parallel_group": "focused-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing titles, ambiguous canonical selection, absent provenance, digest mismatch, unreadable Drive content, destructive upload requirements, publication or sharing drift, or synthetic substitution.",
+      "design_ref": ".csdlc/prepared/issues/100/design.md",
+      "design_digest": "00a5438bd5fefb92a6781b0eda0f4b09df37fb710657a50ed67ac199790bf712",
+      "diagram_ref": ".csdlc/prepared/issues/100/diagram.mmd",
+      "diagram_digest": "4dfd6f906d9392e8ce2d4d60fe548f02e6859457143e10a2ee83966f3a376733"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 100,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency] Recover and publish the 10 Medium launch article drafts to Google Drive",
+    "slug": "recover-medium-launch-article-drafts",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #100 recovery inventory, canonical-selection evidence, Drive placement and readability, manifest integrity, non-destructive behavior, and focused completeness guard.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every canonical article trace to exact retained source evidence?",
+        "Were all substantive variants preserved rather than silently collapsed?",
+        "Can the verifier reject empty, partial, duplicate, unreadable, or provenance-free results?",
+        "Did any operation overwrite, delete, publish, or alter sharing?",
+        "Was PR #98 left completely untouched?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

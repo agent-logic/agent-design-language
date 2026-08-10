@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 100,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency] Recover and publish the 10 Medium launch article drafts to Google Drive",
+    "slug": "recover-medium-launch-article-drafts",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Recovered and verified the complete 34-file Medium launch package in the approved Agent Logic company Drive folder: 10 canonical articles, 10 editorial reviews, 10 source packets, and 4 series records. The original issue folder is obsolete and inaccessible to the company credential. Three title-only remote corrections were explicitly operator-authorized for What is ADL?; there were no other overwrites, no deletions, and no sharing changes.",
+      "actual_changes": [
+        "Corrected the article 1, editorial review, and source packet headings to the exact operator-approved title What is ADL?.",
+        "Recovered and verified 34 publication files under the approved company credential and folder 1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd.",
+        "Retained exact source provenance, content digests, Drive URLs, destination reconciliation, and remote mutation totals.",
+        "Added a focused fail-closed validator for source-at-revision provenance, package completeness, Drive receipts, and title-correction authority."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/100/recovery-manifest.json",
+        ".csdlc/evidence/100/recovery-report.md",
+        ".csdlc/evidence/100/company-drive-upload-receipt.json",
+        ".csdlc/evidence/100/company-drive-support-upload-receipt.json",
+        ".csdlc/evidence/100/company-drive-title-correction-receipt.json",
+        ".csdlc/prepared/issues/100/validate-recovery.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/100/validate-recovery.rb"
+          ],
+          "purpose": "Prove exact source provenance, the 34-file package, approved company destination, Drive readbacks, and three authorized title-only corrections.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/100/recovery-manifest.json"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Verify whitespace and patch hygiene for the bounded issue diff.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/100/recovery-report.md"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
