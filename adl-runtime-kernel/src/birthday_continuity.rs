@@ -37,6 +37,7 @@ pub struct BirthdayContinuityAuthorityPolicy {
     config_hash: String,
     service_schema: String,
     first_generation: u64,
+    first_previous_integrity: Option<String>,
     authority_context_sha256: String,
 }
 
@@ -52,6 +53,7 @@ impl BirthdayContinuityAuthorityPolicy {
         config_hash: impl Into<String>,
         service_schema: impl Into<String>,
         first_generation: u64,
+        first_previous_integrity: Option<String>,
     ) -> Result<Self, ContinuityRejection> {
         let mut policy = Self {
             trusted_keys,
@@ -61,6 +63,7 @@ impl BirthdayContinuityAuthorityPolicy {
             config_hash: config_hash.into(),
             service_schema: service_schema.into(),
             first_generation,
+            first_previous_integrity,
             authority_context_sha256: String::new(),
         };
         if !policy.trusted_keys.contains_key(&policy.signing_key_id)
@@ -69,6 +72,12 @@ impl BirthdayContinuityAuthorityPolicy {
             || !is_sha256(&policy.config_hash)
             || policy.service_schema.is_empty()
             || policy.first_generation == 0
+            || (policy.first_generation == 1 && policy.first_previous_integrity.is_some())
+            || (policy.first_generation > 1
+                && !policy
+                    .first_previous_integrity
+                    .as_deref()
+                    .is_some_and(is_canonical_digest))
         {
             return Err(ContinuityRejection::PolicyInvalid);
         }
@@ -173,7 +182,7 @@ pub fn verify_birthday_cycles(
     }
 
     let mut expected_generation = policy.first_generation;
-    let mut expected_runtime_predecessor: Option<&str> = None;
+    let mut expected_runtime_predecessor = policy.first_previous_integrity.as_deref();
     let mut previous_accepted = 0;
     let mut seen_integrities = BTreeSet::new();
     let mut verified = Vec::with_capacity(evidence.len());
@@ -498,6 +507,7 @@ fn authority_context_digest(
         config_hash: &'a str,
         service_schema: &'a str,
         first_generation: u64,
+        first_previous_integrity: Option<&'a str>,
     }
 
     let trusted_keys = policy
@@ -517,6 +527,7 @@ fn authority_context_digest(
         config_hash: &policy.config_hash,
         service_schema: &policy.service_schema,
         first_generation: policy.first_generation,
+        first_previous_integrity: policy.first_previous_integrity.as_deref(),
     })
 }
 
@@ -533,6 +544,10 @@ fn is_sha256(value: &str) -> bool {
         && value
             .bytes()
             .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+}
+
+fn is_canonical_digest(value: &str) -> bool {
+    is_sha256(value)
 }
 
 #[cfg(test)]

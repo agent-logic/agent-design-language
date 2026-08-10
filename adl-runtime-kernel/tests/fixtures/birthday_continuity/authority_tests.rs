@@ -228,6 +228,7 @@ fn material() -> (
         "b".repeat(64),
         LIVE_KERNEL_CHECKPOINT_SCHEMA,
         1,
+        None,
     )
     .unwrap();
     let first = signed_manifest(&authority, 1, None);
@@ -242,17 +243,6 @@ async fn real_live_material() -> (
 ) {
     let (identity, identity_evidence) = verified_identity_fixture();
     let authority = CheckpointAuthority::from_bytes("runtime-continuity", &[19; 32]);
-    let policy = BirthdayContinuityAuthorityPolicy::establish(
-        BTreeMap::from([("runtime-continuity".to_owned(), authority.verifying_key())]),
-        "runtime-continuity",
-        &identity,
-        &identity_evidence,
-        H,
-        "b".repeat(64),
-        LIVE_KERNEL_CHECKPOINT_SCHEMA,
-        1,
-    )
-    .unwrap();
     let root = tempfile::tempdir().unwrap();
     let recorder = RuntimeRecorder::new(16);
     recorder.set_lifecycle(LifecycleState::Running);
@@ -268,7 +258,52 @@ async fn real_live_material() -> (
         .checkpoint(&recorder, Duration::from_secs(1))
         .await
         .unwrap();
-    (identity, policy, vec![first, second])
+    recorder.set_lifecycle(LifecycleState::Running);
+    let third = continuity
+        .checkpoint(&recorder, Duration::from_secs(1))
+        .await
+        .unwrap();
+    assert!(matches!(
+        BirthdayContinuityAuthorityPolicy::establish(
+            BTreeMap::from([("runtime-continuity".to_owned(), authority.verifying_key())]),
+            "runtime-continuity",
+            &identity,
+            &identity_evidence,
+            H,
+            "b".repeat(64),
+            LIVE_KERNEL_CHECKPOINT_SCHEMA,
+            1,
+            Some(first.integrity.clone()),
+        ),
+        Err(ContinuityRejection::PolicyInvalid)
+    ));
+    assert!(matches!(
+        BirthdayContinuityAuthorityPolicy::establish(
+            BTreeMap::from([("runtime-continuity".to_owned(), authority.verifying_key())]),
+            "runtime-continuity",
+            &identity,
+            &identity_evidence,
+            H,
+            "b".repeat(64),
+            LIVE_KERNEL_CHECKPOINT_SCHEMA,
+            2,
+            None,
+        ),
+        Err(ContinuityRejection::PolicyInvalid)
+    ));
+    let policy = BirthdayContinuityAuthorityPolicy::establish(
+        BTreeMap::from([("runtime-continuity".to_owned(), authority.verifying_key())]),
+        "runtime-continuity",
+        &identity,
+        &identity_evidence,
+        H,
+        "b".repeat(64),
+        LIVE_KERNEL_CHECKPOINT_SCHEMA,
+        2,
+        Some(first.integrity),
+    )
+    .unwrap();
+    (identity, policy, vec![second, third])
 }
 
 fn verify(
@@ -327,7 +362,7 @@ async fn continuity_record_replays_identically_across_two_signed_cycles() {
         &[wrong_provenance, manifests[1].clone()]
     )
     .unwrap_err()
-    .contains(&ContinuityRejection::RuntimeProvenanceMismatch { generation: 1 }));
+    .contains(&ContinuityRejection::RuntimeProvenanceMismatch { generation: 2 }));
 
     let mut wrong_path = manifests[0].clone();
     wrong_path.snapshots[0].file = "0001-live_kernel.bin".to_owned();
@@ -335,14 +370,36 @@ async fn continuity_record_replays_identically_across_two_signed_cycles() {
     assert!(
         verify(&policy, &identity, &[wrong_path, manifests[1].clone()])
             .unwrap_err()
-            .contains(&ContinuityRejection::UnsafeWitnessPath { generation: 1 })
+            .contains(&ContinuityRejection::UnsafeWitnessPath { generation: 2 })
     );
+
+    let mut missing_predecessor = manifests[0].clone();
+    missing_predecessor.previous_integrity = None;
+    authority.sign_manifest(&mut missing_predecessor).unwrap();
+    assert!(verify(
+        &policy,
+        &identity,
+        &[missing_predecessor, manifests[1].clone()]
+    )
+    .unwrap_err()
+    .contains(&ContinuityRejection::MissingPredecessor { generation: 2 }));
+
+    let mut wrong_predecessor = manifests[0].clone();
+    wrong_predecessor.previous_integrity = Some("d".repeat(64));
+    authority.sign_manifest(&mut wrong_predecessor).unwrap();
+    assert!(verify(
+        &policy,
+        &identity,
+        &[wrong_predecessor, manifests[1].clone()]
+    )
+    .unwrap_err()
+    .contains(&ContinuityRejection::DiscontinuousPredecessor { generation: 2 }));
 
     let mut tampered = manifests.clone();
     tampered[0].accepted_through += 1;
     let tamper_errors = verify(&policy, &identity, &tampered).unwrap_err();
-    assert!(tamper_errors.contains(&ContinuityRejection::InvalidSignature { generation: 1 }));
-    assert!(tamper_errors.contains(&ContinuityRejection::InvalidIntegrity { generation: 1 }));
+    assert!(tamper_errors.contains(&ContinuityRejection::InvalidSignature { generation: 2 }));
+    assert!(tamper_errors.contains(&ContinuityRejection::InvalidIntegrity { generation: 2 }));
 
     if let Ok(path) = std::env::var("ADL_NATIVE_SEMANTIC_OUTPUT") {
         let path = semantic_output_path(&path).expect("safe semantic output path");
@@ -420,6 +477,7 @@ fn verified_tokens_cannot_be_reordered_duplicated_or_relabelled() {
         "b".repeat(64),
         LIVE_KERNEL_CHECKPOINT_SCHEMA,
         1,
+        None,
     )
     .unwrap();
     let replacement_first = signed_manifest(&replacement_authority, 1, None);
@@ -457,9 +515,10 @@ fn terminal_generation_overflow_fails_closed() {
         "b".repeat(64),
         LIVE_KERNEL_CHECKPOINT_SCHEMA,
         u64::MAX - 1,
+        Some("f".repeat(64)),
     )
     .unwrap();
-    let first = signed_manifest(&authority, u64::MAX - 1, None);
+    let first = signed_manifest(&authority, u64::MAX - 1, Some(&"f".repeat(64)));
     let second = signed_manifest(&authority, u64::MAX, Some(&first.integrity));
     let third = signed_manifest(&authority, u64::MAX, Some(&second.integrity));
     assert!(verify(&policy, &identity, &[first, second, third])
@@ -501,6 +560,7 @@ fn copied_state_and_host_paths_fail_closed() {
         "b".repeat(64),
         LIVE_KERNEL_CHECKPOINT_SCHEMA,
         1,
+        None,
     )
     .unwrap();
     let mut private = signed_manifest(&authority, 1, None);
