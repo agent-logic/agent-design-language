@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact-head review of WP-13A evaluation evidence, proposal/policy ordering, accepted and rejected mutation, deterministic replay/resume, resource bounds, rollback history, and Runtime v3 integration only.",
+      "review_scope": "adl-runtime-kernel/src/adaptive_learning.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/adaptive_learning.rs\nadl-runtime-kernel/tests/fixtures/adaptive_learning\ndocs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\n.csdlc/prepared/issues/5831/produce-native-receipt.rb\n.csdlc/prepared/issues/5831/validate-native-receipts.rb\n.github/workflows/wp13a-native-adaptive-learning.yml\n.csdlc/evidence/5831\n.csdlc/issues/5831",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
