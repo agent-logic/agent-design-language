@@ -87,11 +87,11 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
