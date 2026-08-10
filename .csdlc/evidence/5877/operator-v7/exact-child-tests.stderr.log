@@ -1,0 +1,10 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID ee0c6491-85eb-4c9a-926e-aab621513e62 with nextest profile: default
+    Starting 4 tests across 1 binary
+        PASS [   0.008s] (1/4) adl-runtime::distributed_projection openapi_nested_dtos_enums_limits_security_and_errors_match_rust_contract
+        PASS [   0.183s] (2/4) adl-runtime::distributed_projection request_and_authority_failures_are_closed_and_bounded
+        PASS [   0.205s] (3/4) adl-runtime::distributed_projection coherent_projection_is_deterministic_redacted_and_openapi_aligned
+        PASS [   0.253s] (4/4) adl-runtime::distributed_projection readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed
+────────────
+     Summary [   0.254s] 4 tests run: 4 passed, 0 skipped

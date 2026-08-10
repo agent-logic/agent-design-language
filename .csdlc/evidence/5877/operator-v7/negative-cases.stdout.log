@@ -1,0 +1,29 @@
+
+running 4 tests
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"nested_openapi_parity","result":"recovered"}
+test openapi_nested_dtos_enums_limits_security_and_errors_match_rust_contract ... ok
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"deterministic_jcs","result":"recovered"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"raw_evidence_redaction","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"openapi_parity","result":"recovered"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"response_byte_bound","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"unauthorized_request","result":"denied"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"authorization_before_read","result":"denied"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"unsupported_version","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"wrong_authority_domain","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"authority_voter_membership_mismatch","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"authority_index_behind_membership","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"authority_index_ahead_of_membership","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"unknown_member_reference","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"zero_reference_key","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"placement_authority_unavailable","result":"fail_closed"}
+test coherent_projection_is_deterministic_redacted_and_openapi_aligned ... ok
+test request_and_authority_failures_are_closed_and_bounded ... ok
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"identity_without_transport","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"exact_identity_and_transport","result":"recovered"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"certificate_count_n_plus_one","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"identity_rotation_overlap","result":"rejected"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"keyed_opaque_references","result":"recovered"}
+ADL_ISSUE_5877_NEGATIVE_CASE_V1 {"case":"stale_authority_cut","result":"rejected"}
+test readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
