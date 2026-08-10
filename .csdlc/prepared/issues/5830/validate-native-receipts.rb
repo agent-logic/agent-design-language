@@ -83,6 +83,10 @@ def machine_local_command_log?(text, root)
   ].any? { |pattern| text.match?(pattern) }
 end
 
+def expected_authority_test_name(name)
+  "adl-runtime-kernel::adl_runtime_kernel$cognitive_profile::authority_tests::#{name}"
+end
+
 if ARGV == ["--self-test"]
   synthetic_root = Pathname.new("/repo")
   accepted = '{"type":"test","event":"ok","path":"./adl-runtime-kernel/src/lib.rs"}'
@@ -101,6 +105,8 @@ if ARGV == ["--self-test"]
   rejected.each do |value|
     fail!("self-test accepted machine-local command log") unless machine_local_command_log?(value, synthetic_root)
   end
+  expected = "adl-runtime-kernel::adl_runtime_kernel$cognitive_profile::authority_tests::unknown_json_fields_fail_closed"
+  fail!("self-test authority inventory name mismatch") unless expected_authority_test_name("unknown_json_fields_fail_closed") == expected
   puts JSON.generate(status: "passed", check: "native-log-path-rejection")
   exit 0
 end
@@ -127,8 +133,9 @@ producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
 expected_test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all",
-  "--message-format", "libtest-json-plus"
+  "--lib", "--no-tests=fail", "--status-level", "all",
+  "--message-format", "libtest-json-plus", "-E",
+  "test(/^cognitive_profile::authority_tests::/)"
 ]
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
@@ -139,10 +146,14 @@ required_tests = %w[
   exact_duplicates_canonicalize_and_case_collisions_fail
   exported_validator_rejects_rehashed_forgery
   identity_continuity_capability_and_birthday_substitution_fail_closed
+  deep_rehash_truncation_substitution_and_rotation_attacks_fail_closed
   missing_nonclaims_and_public_everything_fail_closed
+  old_key_governs_rotation_and_new_key_governs_followup
   privacy_secrets_paths_and_raw_state_fail_closed
   revision_updates_link_and_explain_exact_delta
+  self_authorized_policy_statement_and_transplant_fail_closed
   stale_missing_duplicate_and_forbidden_evidence_fail_closed
+  trusted_genesis_and_complete_four_revision_chain_replay
   unknown_json_fields_fail_closed
   unsupported_labels_diagnosis_and_status_inference_fail_closed
 ]
@@ -210,8 +221,7 @@ receipts.each do |receipt|
   fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
   observed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
-  prefix = "adl-runtime-kernel::cognitive_profile$"
-  expected_tests = required_tests.map { |name| "#{prefix}#{name}" }.sort
+  expected_tests = required_tests.map { |name| expected_authority_test_name(name) }.sort
   fail!("#{platform}: exact cognitive-profile test inventory mismatch") unless observed_tests == expected_tests
   fail!("#{platform}: exact test count mismatch") unless receipt["tests_run"] == required_tests.length
 

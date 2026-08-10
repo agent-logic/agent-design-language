@@ -20,11 +20,16 @@ Cognitive profiles cannot self-authorize policy or evidence, every revision thro
 
 ## Scope
 
-- Trusted cognitive-profile policy and evidence authority
-- Complete predecessor-chain validation through genesis
-- Governed authority rotation
-- Focused cognitive-profile positive and adversarial proof
-- Issue-specific exact-head native Linux/macOS receipts and validation
+- adl-runtime-kernel/src/cognitive_profile.rs
+- adl-runtime-kernel/tests/cognitive_profile.rs
+- adl-runtime-kernel/tests/fixtures/cognitive_profile
+- docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
+- .csdlc/prepared/issues/144
+- .csdlc/evidence/144
+- .github/workflows/wp13-authority-repair.yml
+- .csdlc/prepared/issues/5830/produce-native-receipt.rb
+- .csdlc/prepared/issues/5830/validate-native-receipts.rb
+- .github/workflows/wp13-native-cognitive-profile.yml
 
 ## Authority
 

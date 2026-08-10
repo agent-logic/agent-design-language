@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-13][defect] Anchor cognitive-profile authority and verify full revision lineage",
     "slug": "wp13-cognitive-authority-lineage-rotation",
     "version": "v0.92",
-    "generation": 12
+    "generation": 15
   },
   "status": "ready",
   "content": {
@@ -16,11 +16,16 @@
       "goal": "Repair WP-13 cognitive profiles with trusted signed authority, full revision-chain verification, and governed authority rotation before #5831 publication.",
       "required_outcome": "Cognitive profiles cannot self-authorize policy or evidence, every revision through genesis is verified, authority rotation is signed and monotonic, and exact local/native proof plus independent review pass.",
       "declared_scope": [
-        "Trusted cognitive-profile policy and evidence authority",
-        "Complete predecessor-chain validation through genesis",
-        "Governed authority rotation",
-        "Focused cognitive-profile positive and adversarial proof",
-        "Issue-specific exact-head native Linux/macOS receipts and validation"
+        "adl-runtime-kernel/src/cognitive_profile.rs",
+        "adl-runtime-kernel/tests/cognitive_profile.rs",
+        "adl-runtime-kernel/tests/fixtures/cognitive_profile",
+        "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+        ".csdlc/prepared/issues/144",
+        ".csdlc/evidence/144",
+        ".github/workflows/wp13-authority-repair.yml",
+        ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+        ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
+        ".github/workflows/wp13-native-cognitive-profile.yml"
       ],
       "authority_boundary": [
         "Provisioned verifying keys and signed authority statements are trust roots; caller-supplied policy and evidence are untrusted",

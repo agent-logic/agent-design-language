@@ -88,7 +88,7 @@ end.parse!
 fail!("unexpected positional arguments") unless ARGV.empty?
 if options[:self_test]
   synthetic_root = Pathname.new("/Users/runner/work/agent-design-language/agent-design-language")
-  test_name = "adl-runtime-kernel::cognitive_profile$synthetic_case"
+  test_name = "adl-runtime-kernel::adl_runtime_kernel$cognitive_profile::authority_tests::synthetic_case"
   synthetic = JSON.generate("type" => "test", "event" => "ok", "name" => test_name,
                             "path" => synthetic_root.join("adl-runtime-kernel/src/lib.rs").to_s) + "\n"
   normalized = normalize_command_output(synthetic, synthetic_root)
@@ -128,8 +128,9 @@ manifest_path = receipt_path.dirname.join("#{options[:platform]}-source-manifest
 
 test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all",
-  "--message-format", "libtest-json-plus"
+  "--lib", "--no-tests=fail", "--status-level", "all",
+  "--message-format", "libtest-json-plus", "-E",
+  "test(/^cognitive_profile::authority_tests::/)"
 ]
 stdout, stderr, status = Open3.capture3(
   {

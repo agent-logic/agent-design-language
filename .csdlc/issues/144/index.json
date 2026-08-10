@@ -4,54 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
-  "phase": "published",
-  "generation": 12,
-  "digest": "776d9bf306905fd1b2df6e532ce0487f41deab94f7727d589d673b39da6374af",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "adc86e435e3dfaa5f978a0384db84813af615ee075f472fc089ffe29ba947a97",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_144_exact_head",
-    "assigned_by": "codex:144-cognitive-authority-repair",
-    "revision": "git-blake3:6f8d4e0f373b217509d9960d3da881a12bb8cd27:b57d0a21cfb61a46511baf3889607dd2584a8ee1b10aba53c4561a966e42e932",
-    "scope": [
-      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
-      ".github/workflows/wp13-authority-repair.yml",
-      ".csdlc/prepared/issues/144/produce-native-receipt.rb",
-      ".csdlc/evidence/144",
-      ".csdlc/issues/144",
-      "Review the exact libtest-json-plus authority inventory repair against failed native run 31421144797. Confirm the validator expects the exact observed 15 structured names without weakening count, receipt digests, source-head, producer, workflow/run/job, artifact, semantic-equivalence, manifest, or path-hygiene checks. Confirm product/source remains unchanged from the approved opaque-authority revision."
-    ]
-  },
-  "review": {
-    "reviewer": "/root/sprint4_5857/review_144_exact_head",
-    "scope": [
-      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
-      ".github/workflows/wp13-authority-repair.yml",
-      ".csdlc/prepared/issues/144/produce-native-receipt.rb",
-      ".csdlc/evidence/144",
-      ".csdlc/issues/144",
-      "Review the exact libtest-json-plus authority inventory repair against failed native run 31421144797. Confirm the validator expects the exact observed 15 structured names without weakening count, receipt digests, source-head, producer, workflow/run/job, artifact, semantic-equivalence, manifest, or path-hygiene checks. Confirm product/source remains unchanged from the approved opaque-authority revision."
-    ],
-    "reviewed_revision": "git-blake3:6f8d4e0f373b217509d9960d3da881a12bb8cd27:b57d0a21cfb61a46511baf3889607dd2584a8ee1b10aba53c4561a966e42e932",
-    "findings": [],
-    "residual_risks": [
-      "Replacement native Linux and macOS receipts must pass the corrected independent validator at the exact republished head before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 144,
-    "pull_request": 147,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/147",
-    "base": "main",
-    "head": "codex/144-cognitive-authority-repair",
-    "revision": "git-blake3:9ec5e03183b71f7c66f37806230585c809f95759:5c99819e78984f86703453262ddb84f361d2ad3d690fb3712177746cb0c1a84c",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -59,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/144/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-approved:144-opaque-runtime-authority-policy",
-      "revision": "27210e5a3cb32cb34a28e4eca1a81807fa98c51530ba1c7d44abe32fe9557538"
+      "reviewer": "operator-approved:144-generic-wp13-native-compatibility",
+      "revision": "abbc7763f0b9b76e506eba224c054896d486104250412c28dc6634ce4507a41b"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "cc90e008edb3846d188b84e409b274b4b8513b01e1e29bdf3f7bd8f66d85e622",
-      "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
-      "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
+      "values_digest": "876ec84254411d798938937d89d9ea5d06dcd87f349e8231a4aa1af6e7d516a7",
+      "rendered_digest": "4004621723dd841853ccc2cfab0f5aee3347439ec90b76d097559c00db5ace7c",
+      "ast_digest": "db952cd8c031e13c7eaed23555c23f6383fabbcdfbc724acf2926b8600983943"
     },
     "stp": {
-      "values_digest": "eb1becf13bf5b658342fe75fac31d985db4e270ed3f7767d25c1e00b2515623b",
+      "values_digest": "5576855dcc6eae4ef044be38caac15f634337efe2f43098c3242152a48fb9454",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "3d635f4f5de21bdc56d016ffb73f516c9e94d32fc56ccf21db4cef487ee0d158",
-      "rendered_digest": "c1c6e474855fe4e807320379343f9f82bddc60a5eb838aa926d3c08e7e610c07",
-      "ast_digest": "a3f7373f20029e5b2ad38224de40c19bb60a23798c009c87d17d2e40768e8abb"
+      "values_digest": "8f7eb3ac530b2b3c2d05e97736776cc80b4771ce7eb35597ef67d332168822dd",
+      "rendered_digest": "24a6184a59fe6ad7b1c6d9238c095f0b35d327c5c55beccd849e454948d9356b",
+      "ast_digest": "c98327bd98b689ff803ceba35aab8099e5f38114a07dba167e4332844a7e8594"
     },
     "vpp": {
-      "values_digest": "8639bfb357c1d8143d2fe6af8c6e24931af4cce05c2c1d2af080d9fe0701dca5",
+      "values_digest": "dd6234d8213c7ac52d1b1270edf59fad738f3e34d1b538ed0c7c018818e19e2c",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "f4e571cfb233fb9ed289110c2844dab0a66ae4ee282f28f93a0ce252e632e470",
-      "rendered_digest": "4bd761105a0b8fbe18b78fdd60ecc45cb82df9824a4293c2ede073ad19271385",
-      "ast_digest": "41472434efa1261bf3c51e2e06bbe1df6b206f51031129e4d3d5a2a2ea60c42d"
+      "values_digest": "21b0cbbd298e593ee8bce2f1b210b7beebacce51df31ae8a44d37aa9b7696ace",
+      "rendered_digest": "67504f7e4c84c6af80b9fb9000a91c7750b05f193afffbf24a6797a375de09ff",
+      "ast_digest": "9c1916056920759c01939cf9c2341b1635d10e3c9a6b6f3c4a5fb2e32daa3f0e"
     },
     "sor": {
-      "values_digest": "67405563fc03495c689aca72a818b24d956597f5655bb25df2c266eeabcc7935",
-      "rendered_digest": "ee92a1abbfb8df08e3ad6f43f95bba6a675dee157decec2c8614e6786cdf0a6c",
-      "ast_digest": "f32436c55e226e2955c5e54b6470b1b7275fe96399f1966ccd62d57a56166532"
+      "values_digest": "674a5874560e9c7292a019f98f7b1ca2b4bc40fa6d6d8982f13ff7d8fb8e359a",
+      "rendered_digest": "bcc1f0874c3cefd9b4644d9d3c37ec5a27ce5e283f20d5220e0c0bec79da35ea",
+      "ast_digest": "d08473ac3a5b6a91d3150f2cd9dd0fd7619a3f1e47644be57d0500825bea44da"
     }
   },
   "transitions": [
@@ -151,6 +111,13 @@
       "to": "published",
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Replacement exact-head run 31422154377 proved the merged generic WP13 native workflow still invokes stale #5830 producer/validator inventory after #144 moved governed authority proof to a filtered crate-internal lane. Recover publication and widen narrowly to keep the existing generic WP13 proof contract exact and green."
     }
   ],
   "audit": [
@@ -272,6 +239,27 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Replacement exact-head run 31422154377 proved the merged generic WP13 native workflow still invokes stale #5830 producer/validator inventory after #144 moved governed authority proof to a filtered crate-internal lane. Recover publication and widen narrowly to keep the existing generic WP13 proof contract exact and green.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Exact PR run 31422154377 proved the already-merged generic WP-13 producer/validator is coupled to cognitive_profile and must migrate to the same opaque-authority target; widen only to those issue-specific proof paths and workflow identity.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/cognitive_profile.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile\",\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\",\".csdlc/prepared/issues/144\",\".csdlc/evidence/144\",\".github/workflows/wp13-authority-repair.yml\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".github/workflows/wp13-native-cognitive-profile.yml\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"Trusted cognitive-profile policy and evidence authority\",\"Complete predecessor-chain validation through genesis\",\"Governed authority rotation\",\"Focused cognitive-profile positive and adversarial proof\",\"Issue-specific exact-head native Linux/macOS receipts and validation\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "operator-approved:144-generic-wp13-native-compatibility",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

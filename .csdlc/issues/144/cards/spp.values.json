@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-13][defect] Anchor cognitive-profile authority and verify full revision lineage",
     "slug": "wp13-cognitive-authority-lineage-rotation",
     "version": "v0.92",
-    "generation": 12
+    "generation": 15
   },
   "status": "ready",
   "content": {
@@ -98,7 +98,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/144/design.md",
-      "design_digest": "27210e5a3cb32cb34a28e4eca1a81807fa98c51530ba1c7d44abe32fe9557538",
+      "design_digest": "abbc7763f0b9b76e506eba224c054896d486104250412c28dc6634ce4507a41b",
       "diagram_ref": ".csdlc/prepared/issues/144/diagram.mmd",
       "diagram_digest": "ed3e101b563b88645cb09dc5fcfac4b7cab69bddcbf590c9a90ec4fc41ce214d"
     }

@@ -14,6 +14,9 @@ Repair the merged WP-13 cognitive-profile contract so profile policy and evidenc
 - `.csdlc/prepared/issues/144/validate-native-receipts.rb`
 - `.csdlc/evidence/144`
 - `.github/workflows/wp13-authority-repair.yml`
+- `.csdlc/prepared/issues/5830/produce-native-receipt.rb`
+- `.csdlc/prepared/issues/5830/validate-native-receipts.rb`
+- `.github/workflows/wp13-native-cognitive-profile.yml`
 
 ## Read-Only Inputs
 
@@ -21,6 +24,7 @@ Repair the merged WP-13 cognitive-profile contract so profile policy and evidenc
 - `adl-runtime-kernel/src/identity.rs`
 - `adl-runtime-kernel/src/continuity.rs`
 - Merged PR #139 and legacy issue #5830 records
+- Legacy issue #5830 cards and retained evidence
 - Every other source, sibling issue, Sprint 3 path, global workflow, and closeout surface
 
 ## Contract
@@ -35,7 +39,7 @@ This corrective issue is a mandatory predecessor of legacy issue #5831 publicati
 
 ## Validation
 
-The exact crate-internal `cognitive_profile::authority_tests` target must prove trusted creation, same-authority update, governed rotation, complete multi-revision replay, external policy-establishment compile failure, self-authorized policy/evidence rejection, deep-chain substitution/truncation/rehash rejection, stale/wrong-key/wrong-epoch rotation rejection, privacy, and unchanged nonclaims. Native Linux and macOS jobs must execute that exact nonzero filtered library target at candidate HEAD, retain sanitized digest-bound receipts, and pass independent cross-platform semantic-equivalence validation. The public integration target remains a separate compatibility/privacy boundary and cannot construct the opaque trust policy.
+The exact crate-internal `cognitive_profile::authority_tests` target must prove trusted creation, same-authority update, governed rotation, complete multi-revision replay, external policy-establishment compile failure, self-authorized policy/evidence rejection, deep-chain substitution/truncation/rehash rejection, stale/wrong-key/wrong-epoch rotation rejection, privacy, and unchanged nonclaims. Both the corrective #144 workflow and the already-merged generic WP-13 workflow must execute that same exact nonzero filtered library target on native Linux and macOS, retain sanitized digest-bound receipts, and pass independent cross-platform semantic-equivalence validation. The generic #5830 producer/validator may be migrated only to the new target and exact inventory; its cards and retained historical evidence remain immutable. The public integration target remains a separate compatibility/privacy boundary and cannot construct the opaque trust policy.
 
 ## Rollback
 

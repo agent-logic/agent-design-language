@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/144/validate-native-receipts.rb
-.github/workflows/wp13-authority-repair.yml
-.csdlc/prepared/issues/144/produce-native-receipt.rb
-.csdlc/evidence/144
-.csdlc/issues/144
-Review the exact libtest-json-plus authority inventory repair against failed native run 31421144797. Confirm the validator expects the exact observed 15 structured names without weakening count, receipt digests, source-head, producer, workflow/run/job, artifact, semantic-equivalence, manifest, or path-hygiene checks. Confirm product/source remains unchanged from the approved opaque-authority revision.
+
 
 ## Prompts
 
@@ -37,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Replacement native Linux and macOS receipts must pass the corrected independent validator at the exact republished head before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:6f8d4e0f373b217509d9960d3da881a12bb8cd27:b57d0a21cfb61a46511baf3889607dd2584a8ee1b10aba53c4561a966e42e932")
+Revision: None
 
-Reviewer: Some("/root/sprint4_5857/review_144_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review
