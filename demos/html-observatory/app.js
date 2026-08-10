@@ -2219,6 +2219,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const scheduleReconnect = (requestGeneration) => {
+    if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
+      return;
+    }
     const delay = RUNTIME_V3_RECONNECT_DELAYS_MILLIS[
       Math.min(reconnectAttempt, RUNTIME_V3_RECONNECT_DELAYS_MILLIS.length - 1)
     ];
