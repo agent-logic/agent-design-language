@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5874,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5874-snapshot-catalog",
+  "title": "[v0.92][WP-04.12] Snapshot catalog and transfer manifest",
+  "body": "## Summary\n\n- add authenticated snapshot catalog entries and target-bound transfer manifests\n- require current owner SnapshotSigning authority plus active lease and fencing authority\n- verify canonical protobuf, bounded content and chunk digests, redaction, expiry, target binding, and durable replay state\n\n## Validation\n\n- focused nextest: 14 passed, 0 skipped\n- strict focused Clippy: passed\n- 17 machine-derived negative cases: passed\n- exact-revision receipt and producer mapping: passed\n- independent exact-head security review: passed\n\nCloses danielbaustin/agent-design-language#5874",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:6e48e613fde8ba21471bf06df9893e4c3e61b8e2:d9b56a27149db6dc4605ecb1782701da7493a677726be4f103237fca4f7b1515",
+  "commit_sha": "6e48e613fde8ba21471bf06df9893e4c3e61b8e2"
+}

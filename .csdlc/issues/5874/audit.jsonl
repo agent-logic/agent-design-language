@@ -30,3 +30,4 @@
 {"sequence":30,"generation":13,"actor":"codex:5874-snapshot-catalog","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":31,"generation":13,"actor":"codex:5874-snapshot-catalog","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":32,"generation":14,"actor":"subagent:5874-exact-head-security-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":33,"generation":15,"actor":"codex:5874-snapshot-catalog","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

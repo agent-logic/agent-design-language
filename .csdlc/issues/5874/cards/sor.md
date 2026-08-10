@@ -74,11 +74,11 @@ Implemented purpose-bound authenticated snapshot catalog entries and transfer ma
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
