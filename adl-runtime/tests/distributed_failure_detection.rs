@@ -617,6 +617,61 @@ fn replay_is_scoped_to_enrolled_identity_generation() {
         detector.observe(&authority, &generation_two, 100),
         Err(FailureError::Replay)
     );
+    assert_eq!(
+        detector.observe(&authority, &generation_one, 100),
+        Err(FailureError::Replay)
+    );
+    assert_eq!(detector.replay_record_count(), 1);
+}
+
+#[test]
+fn identity_rotation_replaces_bounded_replay_state() {
+    let (mut authority, _) = authority();
+    let mut detector = FailureDetector::new(policy(8, 4, 8));
+    for generation in 1..=300 {
+        let key = signer(u8::try_from((generation % 250) + 1).unwrap());
+        authority.enroll("node_b", generation, &key, 7);
+        let signed = SignedFailureProbe::sign(
+            FailureProbeClaims {
+                schema: FAILURE_PROBE_SCHEMA.into(),
+                trust_domain: "polis.test".into(),
+                membership_epoch: 7,
+                observer_node_id: "node_b".into(),
+                observer_identity_generation: generation,
+                subject_node_id: "node_a".into(),
+                sequence: 1,
+                observed_at_unix_secs: 100,
+                expires_at_unix_secs: 120,
+                result: ProbeResult::Reachable,
+            },
+            &key,
+        )
+        .unwrap();
+        detector.observe(&authority, &signed, 100).unwrap();
+    }
+    assert_eq!(detector.replay_record_count(), 1);
+
+    let old_key = signer(2);
+    let stale_generation = SignedFailureProbe::sign(
+        FailureProbeClaims {
+            schema: FAILURE_PROBE_SCHEMA.into(),
+            trust_domain: "polis.test".into(),
+            membership_epoch: 7,
+            observer_node_id: "node_b".into(),
+            observer_identity_generation: 1,
+            subject_node_id: "node_a".into(),
+            sequence: 2,
+            observed_at_unix_secs: 101,
+            expires_at_unix_secs: 121,
+            result: ProbeResult::Reachable,
+        },
+        &old_key,
+    )
+    .unwrap();
+    assert_eq!(
+        detector.observe(&authority, &stale_generation, 101),
+        Err(FailureError::Replay)
+    );
 }
 
 #[test]

@@ -276,7 +276,7 @@ impl SubjectState {
 pub struct FailureDetector {
     policy: FailurePolicy,
     subjects: BTreeMap<String, SubjectState>,
-    last_sequences: BTreeMap<(String, u64, String), u64>,
+    last_sequences: BTreeMap<(String, String), (u64, u64)>,
     events: VecDeque<FailureEvent>,
     next_event_sequence: u64,
 }
@@ -307,15 +307,15 @@ impl FailureDetector {
         }
         let key = (
             claims.observer_node_id.clone(),
-            claims.observer_identity_generation,
             claims.subject_node_id.clone(),
         );
-        if self
-            .last_sequences
-            .get(&key)
-            .is_some_and(|last| claims.sequence <= *last)
-        {
-            return Err(FailureError::Replay);
+        if let Some((generation, sequence)) = self.last_sequences.get(&key) {
+            if claims.observer_identity_generation < *generation
+                || (claims.observer_identity_generation == *generation
+                    && claims.sequence <= *sequence)
+            {
+                return Err(FailureError::Replay);
+            }
         }
 
         let state = self
@@ -345,7 +345,8 @@ impl FailureDetector {
                 expires_at_unix_secs: claims.expires_at_unix_secs,
             },
         );
-        self.last_sequences.insert(key, claims.sequence);
+        self.last_sequences
+            .insert(key, (claims.observer_identity_generation, claims.sequence));
         self.evaluate(&claims.subject_node_id, now_unix_secs)
     }
 
@@ -432,6 +433,10 @@ impl FailureDetector {
 
     pub fn events(&self) -> impl Iterator<Item = &FailureEvent> {
         self.events.iter()
+    }
+
+    pub fn replay_record_count(&self) -> usize {
+        self.last_sequences.len()
     }
 
     fn verify<A: ProbeAuthority>(
