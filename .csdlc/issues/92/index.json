@@ -4,13 +4,23 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "ab7639a445c3be0d46df8e905646d09e0720ac7c23e5212cfc52b817016bb34b",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "8a6866883e84a5c23f5e006a2cda2d701e84eb180d3115c935e124839e89c5c4",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:28cabb229894f1b3df276c1c3f57cc92f8850bae:fb8e47ac479d5534f0851d86cbb1f247744cb48069d4f6c2767cffbe5eef488f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +35,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2a3fb2977b7b37fc7340167b318bac68443052e656869056c00b89d19cec6698",
+      "values_digest": "80baa90cded6ebb76e5a08699ee5d4fab9487670fd7bb2e31237c474d3b46f46",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "d7e3e7a837f41206e9c5717e829f9f18cefd387892eb379ff140d61daead2b10",
+      "values_digest": "35f0909d7393e2d839d459425a42ef97ad231c2bece5c9e30e5ae2db573b7cad",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "662dbf9c1422bfa94a9f0403ba1d96280077d4a07afe14cf6cd3dfefb91e6332",
+      "values_digest": "cb2f1f7fcf1e2fe13c241f672b61fe3964bfa1b8b242214e0f28c9b134ba7cda",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "406329a48100ef2f4152620f2f7b8b26104384721721816ef9a097adf7eb43d6",
+      "values_digest": "6501c8c4398d26c79ffda4f59066ea90d4d766d1049853b561abbc5f9edc6236",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "0c8ca765056cd438ced92260106b064d3dabb7f734ae008ef9d3f05c9234853a",
-      "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
-      "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
+      "values_digest": "3d5ea9f9f4e8573f48c877195ce276bcb28ba014df809035a1bb174db79add2c",
+      "rendered_digest": "14416ed66a49a91e724ef9bf1eb4448b32fa7cff50041e6431adc7e0f8543bd6",
+      "ast_digest": "1fddac1ce8b76d5c6665d4d1ed51647ff5d8a1313fac49325eaf65bbac211b7b"
     },
     "sor": {
-      "values_digest": "623e1f72f12fcf82c35e160c6b4f8879628d946564322796cd2b8dde20b717b6",
+      "values_digest": "9e368b3402665e700aec9aeb1893cd45dc519f647b2f9aff6c83d4d6cca533c7",
       "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
       "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
     }
@@ -139,6 +149,13 @@
       "to": "implemented",
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "Recover review and publication truth after the fail-closed coverage gate exposed a missing explicit mapping from the changed Guardian transport source to its existing distributed_transport integration-test binary."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -337,6 +354,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "Recover review and publication truth after the fail-closed coverage gate exposed a missing explicit mapping from the changed Guardian transport source to its existing distributed_transport integration-test binary.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
