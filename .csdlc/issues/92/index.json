@@ -4,13 +4,23 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "implemented",
-  "generation": 29,
-  "digest": "cbc376d064c0779be4dec470e9ceab0177579f08710a67d0529ac0abda991805",
+  "phase": "reviewed",
+  "generation": 30,
+  "digest": "0f64a4d8f59c945414427fb80b445510e2d2413144a811799ce0a9481794d7e0",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:5308ba89b81c333fa6b1b08f5d5ac9cee461622c:ff95ddecce3579bc88f89dcbe7fd12ea19ce40a86516676760dc2403b7899ce8",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +35,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c6360791642de000bfbcbdfdd4f236a2e06aad9ba86c50307d27061983d38d66",
+      "values_digest": "8174c74d92c38bab9645023bc54f213c024a03a28a0e04df4b14ce584a81f26a",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "78091d35eafc929f0d3361fdcc782269015d877e9e56a44f2c9007390607dd8c",
+      "values_digest": "e91fdb9f5bd0d36785c6758b0444c172c25dd5b7802e038e3c7b4727d5a287a8",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "3832a663707a7988c79b306be6b2960b4e280dc4b6cda3da137648b3807cf8cf",
+      "values_digest": "6dbdb89469afc07b04f57f0666944f38d422ac71a25535fc2b0f33484dc163a9",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "3ba4ab1839be6090fc73ed52184266dcc3e9804091c98b3dea8249e518d6844e",
+      "values_digest": "2cbac363280b6ee8a8c4c3bcdfb8b13bfb01fa01655670cb953e5b1f4779553c",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "06a73e336daba4b37a69e11e0e0b3b5573feed341c7b201654d3ad0ba2733965",
-      "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
-      "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
+      "values_digest": "9de267203d31d8209dd813338af8681f959c0c510c493f4d25e570b9100d28c1",
+      "rendered_digest": "bf8cf235f80f64454f6de219fa943e4129d16d8dcc09f647ac3d604e3c22d5f0",
+      "ast_digest": "b408cb71b202eac687820f28f8e330f9033fef9bb39f035bf75c175b1ee02cf6"
     },
     "sor": {
-      "values_digest": "94f040422c60fdb3c089cbf765561b995615c08a814d8504d76f82007ff3284e",
+      "values_digest": "37ddcb374780a2e4eac81df8ecaefbbcae7523c6aa2d0ba315e57bf38d657687",
       "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
       "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
     }
@@ -160,6 +170,13 @@
       "to": "implemented",
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "Recover review and publication truth after integrating current main, which added the required native Birthday workflow and test target after this branch was created."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -379,6 +396,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "Recover review and publication truth after integrating current main, which added the required native Birthday workflow and test target after this branch was created.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
