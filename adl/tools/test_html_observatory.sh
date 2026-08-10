@@ -6,6 +6,7 @@ APP_JS="${ROOT_DIR}/demos/html-observatory/app.js"
 CONFIG_JSON="${ROOT_DIR}/demos/html-observatory/runtime-v3.config.json"
 SERVER_JS="${ROOT_DIR}/adl/tools/serve_v092_html_observatory.mjs"
 LIVE_VALIDATOR_JS="${ROOT_DIR}/adl/tools/validate_v092_html_observatory_live.mjs"
+RUNTIME_BUILD_RS="${ROOT_DIR}/adl-runtime-kernel/build.rs"
 
 node --check "${SERVER_JS}"
 if rg -n 'wuji|localhost|127\.0\.0\.1' "${SERVER_JS}" | rg -v 'LISTEN_ADDRESS.*127\.0\.0\.1' >/dev/null; then
@@ -25,6 +26,12 @@ rg -F 'fs.open(pathname, "wx", 0o600)' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'assert.equal(sourceRevision, repositoryRevision' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'assert.equal(restartTarget.source_revision, sourceRevision' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'bytes differ from exact source revision' "${LIVE_VALIDATOR_JS}" >/dev/null
+if rg -n 'std::env::var\("ADL_SOURCE_REVISION"\)|rerun-if-env-changed=ADL_SOURCE_REVISION' "${RUNTIME_BUILD_RS}" >/dev/null; then
+  echo "Runtime source provenance must not accept a caller-supplied revision" >&2
+  exit 1
+fi
+rg -F 'status", "--porcelain", "--untracked-files=no"' "${RUNTIME_BUILD_RS}" >/dev/null
+rg -F 'unavailable-or-dirty' "${RUNTIME_BUILD_RS}" >/dev/null
 
 node - <<'NODE' "${APP_JS}" "${CONFIG_JSON}"
 const fs = require("fs");
