@@ -20,6 +20,10 @@ assert_contract(!SOURCE.match?(/^  (pull_request|push|schedule):$/), "unexpected
 require_text("source_sha:")
 require_text("required: true")
 require_text('if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]')
+assert_contract(SOURCE.scan('DISPATCH_SHA: ${{ github.sha }}').length == 2,
+                "dispatch SHA environment denominator")
+assert_contract(SOURCE.scan('if [[ "$SOURCE_SHA" != "$DISPATCH_SHA" ]]').length == 2,
+                "dispatch SHA equality gate denominator")
 assert_contract(SOURCE.scan('ref: ${{ inputs.source_sha }}').length == 2, "exact checkout denominator")
 assert_contract(SOURCE.scan('test "$(git rev-parse HEAD)" = "$SOURCE_SHA"').length == 2,
                 "post-checkout revision verification denominator")
@@ -36,6 +40,17 @@ require_text("timeout-minutes: 20")
 require_text("timeout-minutes: 10")
 require_text("fail-fast: false")
 require_text("permissions:\n  contents: read\n  actions: read")
+
+producer = SOURCE.split("  produce-native-receipt:\n", 2).fetch(1).split("  validate-native-receipts:\n", 2).fetch(0)
+aggregate = SOURCE.split("  validate-native-receipts:\n", 2).fetch(1)
+[producer, aggregate].each do |job|
+  gate = job.index('if [[ "$SOURCE_SHA" != "$DISPATCH_SHA" ]]')
+  checkout = job.index("uses: actions/checkout@")
+  assert_contract(gate && checkout && gate < checkout, "dispatch SHA gate must precede checkout")
+end
+token = aggregate.index('GITHUB_TOKEN: ${{ github.token }}')
+gate = aggregate.index('if [[ "$SOURCE_SHA" != "$DISPATCH_SHA" ]]')
+assert_contract(token && gate && gate < token, "dispatch SHA gate must precede token exposure")
 
 action_refs = SOURCE.scan(%r{uses: [^@\s]+@([^\s]+)}).flatten
 assert_contract(action_refs.length == 7, "pinned action-use denominator")

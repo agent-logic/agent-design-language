@@ -32,10 +32,15 @@ jobs:
         shell: bash
         env:
           SOURCE_SHA: ${{ inputs.source_sha }}
+          DISPATCH_SHA: ${{ github.sha }}
         run: |
           if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
             echo "source_sha must be an exact 40-character lowercase commit SHA" >&2
             exit 64
+          fi
+          if [[ "$SOURCE_SHA" != "$DISPATCH_SHA" ]]; then
+            echo "source_sha must equal the workflow dispatch commit" >&2
+            exit 65
           fi
 
       - name: Checkout exact source commit
@@ -82,10 +87,15 @@ jobs:
         shell: bash
         env:
           SOURCE_SHA: ${{ inputs.source_sha }}
+          DISPATCH_SHA: ${{ github.sha }}
         run: |
           if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
             echo "source_sha must be an exact 40-character lowercase commit SHA" >&2
             exit 64
+          fi
+          if [[ "$SOURCE_SHA" != "$DISPATCH_SHA" ]]; then
+            echo "source_sha must equal the workflow dispatch commit" >&2
+            exit 65
           fi
 
       - name: Checkout exact source commit
