@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
-  "phase": "implemented",
-  "generation": 67,
-  "digest": "600038c2dab3b523284bf14b42cb93cb97c461b0cb8b2a0b8e18e8c812816e31",
+  "phase": "reviewed",
+  "generation": 68,
+  "digest": "961ce679cb940b4f25ade263c6c8e02dab7cb986c7cf9d7de6bab3efb25a1965",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
   "review_assignment": {
@@ -28,7 +28,30 @@
       "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:a357c76c4038be9b7fa6aba74ba3a16f1ca8a590:e81430503a8f0a8474ca45e39655f0d7f653f48d50f3b18c7971883e9abb4c19",
+    "findings": [],
+    "residual_risks": [
+      "Exact-head native macOS and Linux proof remains mandatory after publication before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b0989b075bc90907fb1145f095b990479ee4b4a7c442d9ad75edc3deff5e69c2",
+      "values_digest": "c1eca9253243c6c4d1cfd3557c23b89f8ee14ebe132c32e9c743a39d268ce562",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "9ba3ccb5ee8352a1dca90f0573ef86d245655a44ee4d8d02d32aa16bcd070867",
+      "values_digest": "229e0d990d9e473e7a1fe6d7303577fb5aac60193a861008f7f656ff06b81b8f",
       "rendered_digest": "4ba4d82b147eabdf904eb7995b5458c1be0049ceca63b65b8454d66fd9358453",
       "ast_digest": "1ad097bdb44240b3d12005f3e9d222849b7b35fa19b1865020a630a1b040357f"
     },
     "spp": {
-      "values_digest": "89c16c1187e54347d9699a9b5b821d894f5fb6235af2f2e91a231ab523db6d2e",
+      "values_digest": "bf5e5116027bfba9827af16088f3f6bbba47dad9cbdb57e6d27972b9e7de7b8e",
       "rendered_digest": "cf0eba6c9800078a7e6bd05218c25f9dd6e00f646627710975e0f7ed4d4990ac",
       "ast_digest": "66da938636bb1ddbc2431c34cef2eb54bb8b772c4c4450270c7df6916fb177ab"
     },
     "vpp": {
-      "values_digest": "d895adec57b6d6937405c88d00968c1a777f2ef974a4ada2a53fd96e5e0fd12d",
+      "values_digest": "235ad1caa1e830c829b8ea74780cf13898091e72e6e10f28103fc08f4e0ee035",
       "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "57f51b0f67abef784f5266ead169b6b3e6799a399b08cdff1e2e0711cd8c434b",
-      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
-      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
+      "values_digest": "0ddc6be34dcc0d56bdcc24326adf988641710b847dfb26c0c194db418cd1e9d4",
+      "rendered_digest": "d357a03b9bd0aec2e91025be53352b02053071d327b8f411af1641e285ab75f0",
+      "ast_digest": "2900de030a2cd7fde52a5dd31cc8efc5aaedaa06319671bdd4f5db9fb408e52f"
     },
     "sor": {
-      "values_digest": "85aaa1d14c33deda05116897c9126b273849bf8ff3d10aa03b0861c0685c8fb3",
+      "values_digest": "50230283b7bd1da8f4bd2d3662065adbfc0ff0b5a150598e2d441a55a86d3398",
       "rendered_digest": "b7a9eff5bdf642c4b17882069036aea9bcb51b442344ff0dae54559623e02e54",
       "ast_digest": "88fd2b8e1061792129d99cd3bd3f3cdcb91467002f9fab3e16d1eba23e913e94"
     }
@@ -150,6 +173,13 @@
       "to": "implemented",
       "actor": "codex:5828-memory-palace",
       "reason": "Recover published review after native run 31384744903 exposed and exact artifacts proved the issue-owned nextest structured-name separator fix."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5828-memory-palace",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -817,6 +847,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 96,
+      "generation": 68,
+      "actor": "codex:5828-memory-palace",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
