@@ -12,27 +12,30 @@ Status: pre_phase
 
 ## Summary
 
-Repaired WP-13 cognitive profiles with externally provisioned Ed25519 authority, signed canonical policy/evidence/input statements, complete revision replay through genesis, and old-key-governed exact-epoch authority rotation; native Linux/macOS proof remains deferred to publication CI.
+Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority policy, pinned canonical policy/evidence digests, signed canonical input and predecessor statements, complete revision replay through genesis, and old-key-governed exact-epoch authority rotation; native Linux/macOS proof remains deferred to publication CI.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/cognitive_profile.rs
 - adl-runtime-kernel/tests/cognitive_profile.rs
-- adl-runtime-kernel/tests/fixtures/cognitive_profile/matrix.json
+- adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs
 - docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
 - .csdlc/prepared/issues/144/produce-native-receipt.rb
 - .csdlc/prepared/issues/144/validate-native-receipts.rb
 - .github/workflows/wp13-authority-repair.yml
 - .csdlc/evidence/144/cognitive-profile-authority-v1.log
+- .csdlc/evidence/144/cognitive-profile-public-integration.log
+- .csdlc/evidence/144/cognitive-profile-compile-fail.log
 - .csdlc/evidence/144/local-validation-manifest.json
 
 ## Execution
 
-- Add a governed cognitive-profile API that separates provisioned verifying authority from untrusted input and permanently fails closed through the legacy self-authorizing API.
+- Replace the caller-constructible authority root with an opaque runtime-owned cognitive authority policy whose private state can be established only inside the runtime crate.
+- Pin canonical policy and evidence digests in the opaque authority policy and require every current and historical profile input to match those trusted pins.
 - Bind every signed statement to profile, revision, predecessor, recomputed authority context, canonical input, canonical policy, and canonical evidence digests.
 - Rebuild and verify the complete ordered predecessor chain through genesis, including every profile, public projection, authority proof, and exact link.
 - Require rotation to be signed by the current old key, advance exactly one epoch, change real key material, and govern the new revision statement with the new key.
-- Add fifteen focused positive/adversarial cases plus issue-local native producer, validator, workflow, fixture, feature truth, and retained local proof.
+- Add fifteen crate-internal authority cases, a public fail-closed serialization boundary, an external-establishment compile-fail proof, and an exact filtered native producer/validator inventory.
 
 ## Validation
 
@@ -44,15 +47,57 @@ Repaired WP-13 cognitive profiles with externally provisioned Ed25519 authority,
       "run",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "cognitive_profile",
+      "--lib",
       "--no-tests=fail",
       "--status-level",
-      "all"
+      "all",
+      "-E",
+      "test(/^cognitive_profile::authority_tests::/)"
     ],
-    "purpose": "Run the exact nonzero issue-owned cognitive_profile target.",
+    "purpose": "Run the exact nonzero crate-internal opaque cognitive authority lane.",
     "outcome": "passed",
-    "evidence_ref": "cognitive-profile-authority.log"
+    "evidence_ref": ".csdlc/evidence/144/cognitive-profile-authority-v1.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "cognitive_profile"
+    ],
+    "purpose": "Prove the public cognitive-profile serialization and fail-closed boundary without exposing authority establishment.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/144/cognitive-profile-public-integration.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--doc",
+      "cognitive_profile"
+    ],
+    "purpose": "Prove external callers cannot establish the opaque cognitive authority policy.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/144/cognitive-profile-compile-fail.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict Clippy over the repaired runtime library.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/144/cognitive-profile-strict-clippy.log"
   },
   {
     "command": [
@@ -62,25 +107,9 @@ Repaired WP-13 cognitive profiles with externally provisioned Ed25519 authority,
       ".csdlc/prepared/issues/144/produce-native-receipt.rb",
       ".csdlc/prepared/issues/144/validate-native-receipts.rb"
     ],
-    "purpose": "Compile the issue-local Ruby proof scripts.",
+    "purpose": "Compile the issue-local native proof scripts and retain their fail-closed self-test result.",
     "outcome": "passed",
-    "evidence_ref": "cognitive-profile-native-scripts.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "cognitive_profile",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Run strict Clippy over the exact issue-owned target.",
-    "outcome": "passed",
-    "evidence_ref": "cognitive-profile-strict-clippy.log"
+    "evidence_ref": ".csdlc/evidence/144/cognitive-profile-native-scripts.log"
   }
 ]
 
