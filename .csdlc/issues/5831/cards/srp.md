@@ -44,12 +44,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Native Linux and macOS receipts plus the issue-specific aggregate validator must pass at the exact published PR head before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ab20beeae7ba1a3016008d004ecf99c76d118e9a:7806d8aa086ac35d3227f53f53656a268f52600944957f3414027d1d1e42fb38")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5831_exact_head")
 
-Result: pre_review
+Result: pass

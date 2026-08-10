@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
-  "phase": "implemented",
-  "generation": 81,
-  "digest": "277e7b4eed15ec16931f63558883d713ea53bae4d1f6da9bb14264b11b7ad417",
+  "phase": "reviewed",
+  "generation": 82,
+  "digest": "89dfec1bb354eb45a9e864d5ea8ebe6a749008781b81e9df3f810603d37efa3a",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": {
@@ -30,7 +30,32 @@
       "Review final #5831 at exact clean evidence HEAD ab20beeae7ba1a3016008d004ecf99c76d118e9a and substantive/native source head 6c548cc36df074ab77f23d4e2f1aea9a459a8b89. Verify sole latest P1 is closed: producer source manifest hashes reasoning.rs, durable_state.rs, tests/durable_state.rs in addition to adaptive surfaces, self-test locks those paths, and WP13A PR triggers include all three. Reconfirm transaction/reconciliation semantics, all prior findings, exact 20/20 proof, inventory, scope/design/SOR truth, #144 ancestry, and no unrelated drift."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      "adl-runtime-kernel/tests/fixtures/adaptive_learning",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      ".csdlc/evidence/5831",
+      ".csdlc/issues/5831",
+      "Review final #5831 at exact clean evidence HEAD ab20beeae7ba1a3016008d004ecf99c76d118e9a and substantive/native source head 6c548cc36df074ab77f23d4e2f1aea9a459a8b89. Verify sole latest P1 is closed: producer source manifest hashes reasoning.rs, durable_state.rs, tests/durable_state.rs in addition to adaptive surfaces, self-test locks those paths, and WP13A PR triggers include all three. Reconfirm transaction/reconciliation semantics, all prior findings, exact 20/20 proof, inventory, scope/design/SOR truth, #144 ancestry, and no unrelated drift."
+    ],
+    "reviewed_revision": "git-blake3:ab20beeae7ba1a3016008d004ecf99c76d118e9a:7806d8aa086ac35d3227f53f53656a268f52600944957f3414027d1d1e42fb38",
+    "findings": [],
+    "residual_risks": [
+      "Native Linux and macOS receipts plus the issue-specific aggregate validator must pass at the exact published PR head before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4476e6ce454c5fba0150fc21be4cff0359205f143c198fd82dc8c94b15307790",
+      "values_digest": "71a04045b93c30fd20236eebfefcc3878d1629df9fa6df993f2edf48db4633ee",
       "rendered_digest": "0db5a50b8b18fb55476374e044eb1b0c5f912734fcd350f59ed9e486d94a770c",
       "ast_digest": "435e246381810627c72031a04e455f28daf269e67a3f2f493be5a78546d6cadd"
     },
     "stp": {
-      "values_digest": "70aed33d03fdd5568fd7250d62c6c27eb99db223d2bd57f7c2c359c0ab0bb38c",
+      "values_digest": "ba39d93a250eacda648cf8cd5da6b584a66bd13fabe3d44bb64d7d366fd18a15",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "9a43392e251c58f7e1d1a8bb488f24d0eea2d89c3ff760a3b45e5625157eac53",
+      "values_digest": "28b3413612fd85627174215dbd5e112922bd74a93334be3f7678e5d61387662a",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "d399112109b59f77908611eff76024c706778bfebd7878b8098a535ce6a4ac51",
+      "values_digest": "adf349a0b7d2c01ce03e02cbcc47a93555c8bd4a3537d4284c89042c7da9bcf3",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "c0775e94e85705c421be2ae0af846c4775820eaf53d1708efbb5c3645a2e0f01",
-      "rendered_digest": "8653b0c854ac7d462a247f8ad27b4731f3045915259a7eb1f612a5320994efea",
-      "ast_digest": "ef71570ab10ebab2928f76651411d3c85b8d547081b67b00498ec4cb038d59fa"
+      "values_digest": "461551e37d58270ef338c814abcb14c2bc823f210243f3a07ced1751a3d3e06a",
+      "rendered_digest": "a18c60c3165ee157db25d86f08deb5addd56a4d785a99dde805b8fb9118a4d7d",
+      "ast_digest": "054ba5fce108601c6d47fe715c07042c41a0ddb7c8fa0241a589b60be5392f93"
     },
     "sor": {
-      "values_digest": "cdfdf2d4d52f52de3a88ea9a36ede04d3ba89b4992a0d0d5a3929e2680b0739d",
+      "values_digest": "9cd9e133a1198ba2a83cfd2a99e5fe2991a83b3e1e2ce9f30c44abc6ca6f446c",
       "rendered_digest": "d8d138c29f28d6b5f5b7dd3bff6a579c728ae75e820270a707cab61dbbea738a",
       "ast_digest": "db391c5a0de88bc2aa1ca508f20f28a2f52e988d672187fc291823b858ec9ead"
     }
@@ -117,6 +142,13 @@
       "to": "implemented",
       "actor": "codex:5831-adaptive-learning",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -889,6 +921,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 111,
+      "generation": 82,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
