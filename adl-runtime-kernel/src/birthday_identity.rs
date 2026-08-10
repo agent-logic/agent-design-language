@@ -5,9 +5,9 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use crate::{
-    project_private_state, verify_binding, IdentityBinding, IdentityMemoryError, MemoryCheckpoint,
-    MemoryLedger, PrivateStateError, PrivateStateLineage, PrivateStateRecord, ProjectionRequest,
-    SanctuaryPolicy,
+    project_private_state, verify_binding, verify_record, IdentityBinding, IdentityMemoryError,
+    MemoryCheckpoint, MemoryLedger, PrivateStateError, PrivateStateLineage, PrivateStateRecord,
+    ProjectionRequest, SanctuaryPolicy,
 };
 
 pub const BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA: &str = "adl.birthday.identity_candidate.v2";
@@ -240,9 +240,7 @@ pub fn verify_birthday_evidence(
         return Err(BirthdayEvidenceError::ContinuityGenerationMismatch);
     }
 
-    let accepted_record_hash = private_lineage
-        .append(private_record, private_keys)
-        .map_err(map_private_error)?;
+    verify_record(private_record, private_keys).map_err(map_private_error)?;
     if private_record.signing_key_id != requirements.private_state_signing_key_id {
         return Err(BirthdayEvidenceError::PrivateSignerMismatch);
     }
@@ -254,6 +252,9 @@ pub fn verify_birthday_evidence(
     {
         return Err(BirthdayEvidenceError::AuthoritySubjectMismatch);
     }
+    let accepted_record_hash = private_lineage
+        .append(private_record, private_keys)
+        .map_err(map_private_error)?;
     let projection = project_private_state(
         private_lineage,
         private_keys,
