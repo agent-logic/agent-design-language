@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "72ac2dc87943a4f4f702b65abca70dde6dceec9065123c6b3c1ec16f243ece85",
   "phase": "bound",
-  "generation": 10,
-  "digest": "d9009853f34b98e4d49e741f789bc28a76e7d8a3d2c3f726a2d2b7ad3aae814d",
+  "generation": 11,
+  "digest": "43ef6d89864fd1fdf7c717648cfbde269b7eecb27468b0152d3e2c84e6e08e27",
   "branch": "codex/143-v092-adr-authoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-143-v092-adrs",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "87b54867f798f15ac45b67ae00b29e6799dddfe878a062d665deeb4573a3466b",
+      "values_digest": "8bfac4fb97aff7773007e8b7a05c5d310490ef861bc2a4af3f9e6cd544319bf5",
       "rendered_digest": "ad6dea616684bb5807185342fe293f0a53209243b3e62171aaaf611376e60a6b",
       "ast_digest": "f34bfa35468a730acf038a4bc7f427d84d1303c4780747f5b30ef145d15dedde"
     },
     "stp": {
-      "values_digest": "0b8b7bc53f3aba56fcc064c44687d201ea23a868f9c152e926fd9faae7dd76e6",
+      "values_digest": "377630924afe6392969bdbaee66947fd8255c9c01800d23cb3c80c3aeabc77d1",
       "rendered_digest": "d47a29683c881de78b3f97b649e0d081e78d854b3ef38d8e5aa8a8ee3adb0ae9",
       "ast_digest": "d59b440597105fdb6559ab1d8d25e5cab40995ff170f486561d15b6ea6f6a073"
     },
     "spp": {
-      "values_digest": "eef72a25fa6d60b07e6c1fdf5805655d17a8ef42888f94ff47528181fa4454b4",
+      "values_digest": "1080998d8a34fcfd7863c8ec80c0cff52eddda77c5ebe048fad40dbc3a47e17f",
       "rendered_digest": "6512fc58ab8529cac8b20e089f498e49e41865aec1dd0014c5d3012bc013c6ef",
       "ast_digest": "90bae988f6c0c7831b09bf785ab23bf74a0c1bb4c329c28465ae25a26a7aa8df"
     },
     "vpp": {
-      "values_digest": "595326653e360dfa94ef62bbd351ca8a16af2e1fca2e249866293c4e72a815d9",
-      "rendered_digest": "7c0bae2013c5093aefd4c0720b21d084178d414dc0ae7b1fe741f9c5962e762c",
-      "ast_digest": "885f5c488e1ac14bf845517f54604112a936183c49ccc8749411ab75c78fe5db"
+      "values_digest": "521049b86ed4f29c7609b3ea63d10baca7f4633b4daf7a682b68f0f2849d6bbd",
+      "rendered_digest": "ae898e5e72ba0298de4e36e016b737cb7aef0da49ef9e882a4ec4326d4d8903a",
+      "ast_digest": "49e4e1d4959f79a42905dea5320ffba1c19c1c0d62d617909ddf04d3967dff0e"
     },
     "srp": {
-      "values_digest": "39a5c7100afba13e633563926938630362bd469676979bacd2920720320318f2",
+      "values_digest": "1e7c144b519a884d793558f87f8c2812d8fcde337ecfc7c6ae727cdb2928fd1f",
       "rendered_digest": "dae0573ca5a13522cc035d9ab3924f2888e6ddb9e9442d9532cc626c1c315a2f",
       "ast_digest": "66b33c6dfa183c0b49b9e3f91104f34374d3b6564ea2567279a06149fde89427"
     },
     "sor": {
-      "values_digest": "e0a2d1c3d76dd1e87adb0b8e240d9a72dfbba57c6fa0bb8c88941c6f346ae8bd",
+      "values_digest": "75b0f955c82a4292c0592b63db3a68b3b46dfa1600bdf12f42e6e7f78bf95607",
       "rendered_digest": "068d9a926c2287405cedf949d2e51b4ec7c391e5dc84f415aebd3080e29c393d",
       "ast_digest": "282cbf7fc4f4484f24335fb6e6ec121475e2895175fe8dd79f1e9f44c0ae118c"
     }
@@ -155,6 +155,13 @@
       "actor": "codex:143-v092-adr-authoring",
       "reason": "Resolve review finding by narrowing mechanical validator claims and preserving semantic claim review as an independent human gate.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v092-adr-packet-contract\",\"proof_role\":\"Mechanically validate candidate numbering, Proposed/Deferred status, required sections, exact index parity, repository-path existence, accepted-file non-mutation, named deferrals, and standardized non-claims. Semantic evidence attribution and architecture correctness remain the independent review lane's responsibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\"],\"parallel_group\":\"adr-docs\",\"defer_reason\":null},{\"lane\":\"v092-adr-diff-hygiene\",\"proof_role\":\"Reject malformed documentation changes across the exact issue delta.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"adr-docs\",\"defer_reason\":null},{\"lane\":\"v092-adr-independent-review\",\"proof_role\":\"Fresh exact-head architecture, security-boundary, documentation, evidence-attribution, and unsupported-claim review of every candidate disposition.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-10\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/143/review-request.json\"],\"parallel_group\":\"pre-publication-review\",\"defer_reason\":\"Runs only after the complete candidate packet and deterministic validation are current.\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "Resolve final review finding by assigning semantic proof fidelity AC-7 exclusively to independent review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v092-adr-packet-contract\",\"proof_role\":\"Mechanically validate candidate numbering, Proposed/Deferred status, required sections, exact index parity, repository-path existence, accepted-file non-mutation, named deferrals, and standardized non-claims. Semantic evidence attribution and architecture correctness remain the independent review lane's responsibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\"],\"parallel_group\":\"adr-docs\",\"defer_reason\":null},{\"lane\":\"v092-adr-diff-hygiene\",\"proof_role\":\"Reject malformed documentation changes across the exact issue delta.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"adr-docs\",\"defer_reason\":null},{\"lane\":\"v092-adr-independent-review\",\"proof_role\":\"Fresh exact-head architecture, security-boundary, documentation, evidence-attribution, positive and fail-closed proof fidelity, and unsupported-claim review of every candidate disposition.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-10\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/143/review-request.json\"],\"parallel_group\":\"pre-publication-review\",\"defer_reason\":\"Runs only after the complete candidate packet and deterministic validation are current.\"}]}"
     }
   ]
 }

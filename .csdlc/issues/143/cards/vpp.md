@@ -30,7 +30,6 @@ Diagram: .csdlc/prepared/issues/143/diagram.mmd
       "AC-1",
       "AC-2",
       "AC-3",
-      "AC-7",
       "AC-8",
       "AC-9"
     ],
@@ -66,11 +65,12 @@ Diagram: .csdlc/prepared/issues/143/diagram.mmd
   },
   {
     "lane": "v092-adr-independent-review",
-    "proof_role": "Fresh exact-head architecture, security-boundary, documentation, evidence-attribution, and unsupported-claim review of every candidate disposition.",
+    "proof_role": "Fresh exact-head architecture, security-boundary, documentation, evidence-attribution, positive and fail-closed proof fidelity, and unsupported-claim review of every candidate disposition.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
       "AC-6",
+      "AC-7",
       "AC-10"
     ],
     "deterministic": false,
