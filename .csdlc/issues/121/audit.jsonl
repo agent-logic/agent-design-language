@@ -14,3 +14,4 @@
 {"sequence":14,"generation":8,"actor":"codex:121-quorum-fence-repair","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":15,"generation":9,"actor":"codex:121-stack-refresh","reason":"Recover stale review and publication truth before merging exact advanced parent head 309d170dc569ca43fa74ce6d73d68857ce82c994 into the child stack.","operation":"recover_review"}
 {"sequence":16,"generation":9,"actor":"codex:121-stack-refresh","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":10,"actor":"subagent:issue-121-stack-refresh-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

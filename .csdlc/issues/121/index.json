@@ -3,9 +3,9 @@
   "issue": 121,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "a0ec3843072fd38a8f89348cb54fc8ec3559f3e0111d64e7bc6a8fbe590e6530",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "00fda7573ffc27dc72bc40391c1afb602fdec063a253528267e72c71f651d4bb",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
   "review_assignment": {
@@ -20,7 +20,21 @@
       ".csdlc/prepared/issues/121"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:issue-121-stack-refresh-review",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121"
+    ],
+    "reviewed_revision": "git-blake3:1e6d7169a197bfff79c8cd0514977ecd76a28bce:6edd6bd5b3c6b6a28479d15ee475b59f6d669f25021447897fdf1a7fe8cebb9c",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3d59a0d36d8b6669f8f198ea285f41d9685030bf4ef37fe7dcc2852336f99094",
+      "values_digest": "a9ce0e0831cdf9184595d30c6e914fa0aad748ccd6f0220cb3968c23697d69a6",
       "rendered_digest": "b8fb383ef2efb210c1835ca5caa89f1a1b57945dcebe86833449c7d703300088",
       "ast_digest": "28d9d9764b5edc0763207de94cd4120e324f83e10e24c0304a04532ae39f8c24"
     },
     "stp": {
-      "values_digest": "472b0d9d15d1e48e310804054b24387c343a8c32bb19ae57d737f512f84cc481",
+      "values_digest": "3ce42a8815a1d8072da992e14a2831ed8b565f83a9c05af155510a6adee45b27",
       "rendered_digest": "f59864e9168036e26931bd53b0fa4976f089bdb8c611728396088f87cc245bbd",
       "ast_digest": "1c4fa5956407020683ec31dbeeae560ac39e71c279fc303cd8d51f75cebbe11e"
     },
     "spp": {
-      "values_digest": "888eb04c65aa4aa9d2b487d544cfe457729af8b3db6af501b79c249bc89b733e",
+      "values_digest": "b325a81665262644d59e72c867955109e987a13c15019fbd3e7ac4535e20e012",
       "rendered_digest": "25c70ab7a3a48bc4a99573138db5e45486c0e6e5026dee29efc0bf6f980ddfdb",
       "ast_digest": "d83f34dc5520914cea7b2f269e56d31196579bab949d0ef825532862fef2e068"
     },
     "vpp": {
-      "values_digest": "21e0a51209a0fa70038a812c154a90fc96bc53bbc75d31369dc8784abb387b99",
+      "values_digest": "fad9d338cf8c3c29c2423230bc334f14593e0beb305eeee67770db734317af86",
       "rendered_digest": "475d39da1386ca2c4ec1f149b6ef6bfcfb336559e45dbe29734d3ac5b8e76b09",
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "d4073b7bc457c05015004dd4d99b4271fbeb08de2a13bd3ad1722223cf8d94ab",
-      "rendered_digest": "fdddb384499f5506070f72c8564a05807c27366facb8744cbcac9df38d73ecb8",
-      "ast_digest": "47a4704fef99a2af581371ad46ac1b7a68ba36095bb5b576b991e8bbd8ff6600"
+      "values_digest": "790226c1c2591310987c3bfc2c6465cffb02a755f40c619f0ee773d5b61b9d4a",
+      "rendered_digest": "d99b43316bb0ab17d53b172d4de54700c6cc4c57443e0600913ab1ef00e24a7a",
+      "ast_digest": "2840a87dca5aaa2ac26ca9a7abe3a0a681ad5c6046f703b83605b170766f99f7"
     },
     "sor": {
-      "values_digest": "d09e6a661d69a76b9fc47e8517d9cbfadd771ab87c3b9e5c1888150fd6996c27",
+      "values_digest": "03ba970b350fac022ae3c745a81156a4addabf02185b133f3f1eaf36e31e023a",
       "rendered_digest": "18279efdcd52712ff24202a13ed748cca211a0fb932c56e5cc512a99c6b45aff",
       "ast_digest": "695ab9273bc2bad6cecba25ab0caa43e8729a092961efd85df3ece51a120f767"
     }
@@ -135,6 +149,13 @@
       "to": "implemented",
       "actor": "codex:121-stack-refresh",
       "reason": "Recover stale review and publication truth before merging exact advanced parent head 309d170dc569ca43fa74ce6d73d68857ce82c994 into the child stack."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-121-stack-refresh-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -249,6 +270,13 @@
       "actor": "codex:121-stack-refresh",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "subagent:issue-121-stack-refresh-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
