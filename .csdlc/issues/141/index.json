@@ -6,10 +6,23 @@
   "initialization_digest": "3ea9b62d90eb407d9cb5f7c4a476a2e498edf2b6745691575087074cdb69ea73",
   "phase": "implemented",
   "generation": 13,
-  "digest": "d66d17a3fed355c713bfc722092dd94d5b07354a0b5f40c59b030012a2f20e3e",
+  "digest": "c23c70bb846104775eeedb44a668a51fd61dd2dcc9b3c1f1d9accc82c1ec0788",
   "branch": "codex/141-pr120-terminal-proof-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-141-pr120-terminal-proof-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:Aquinas",
+    "assigned_by": "codex:141-pr120-review-repair",
+    "revision": "git-blake3:ec2208c32f76cf3965d4b1ca3a1b790c01769cd2:c0ba0e494357a51f70fe42b9ea1d73cc25e147e541fae48b06abe9364619c787",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/evidence/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +58,9 @@
       "ast_digest": "cbc97bd714eb8e7747c229cfce5692a4706cdf54cc7711244c4c8cf232f65e8f"
     },
     "srp": {
-      "values_digest": "8bb5c6af5db37c2753cd98d9b53bb69bae52a700c3936ca273c42cb8002bd0fe",
-      "rendered_digest": "9539440eca5f65771a20e2e5465190110fa767d6fa99d834b273a188bea73fbb",
-      "ast_digest": "47a27eac22762800bc243769d0ae01eb491388762e7c3ddc1df5022efcbb168c"
+      "values_digest": "5d255777e6f61be9d6fda2942f80987461512f040ea3052aa66b9bd2dbb89d55",
+      "rendered_digest": "48c91a7374e114c8000feaa6466534eb783c54324a26c1be9e32a55d6f2e6222",
+      "ast_digest": "27fe9eb5c043b87b8be2e3cf7e821989406c753e97605549535045bca21e9764"
     },
     "sor": {
       "values_digest": "1a8cb80f3971db001346ced428aad18d2c1ca3ef1e85a0c502e487b7f0b522af",
@@ -197,6 +210,13 @@
       "actor": "codex:141-pr120-review-repair",
       "reason": "Recover after resolving all three Aquinas findings with disposition-aware terminal state and committed review provenance.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

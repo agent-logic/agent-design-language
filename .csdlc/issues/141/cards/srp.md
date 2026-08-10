@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/store.rs
+.csdlc/prepared/issues/5862/proof-receipt-contract.rb
+.csdlc/prepared/issues/5909/validate-proof-receipt.rb
+.csdlc/prepared/issues/141
+.csdlc/evidence/141
+.csdlc/issues/141
+.csdlc/issues/5909
 
 ## Prompts
 
