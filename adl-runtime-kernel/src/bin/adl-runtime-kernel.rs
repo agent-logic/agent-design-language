@@ -598,6 +598,9 @@ async fn main() -> ExitCode {
                         Some(request),
                     ),
                 };
+                let restart_requested = request
+                    .as_ref()
+                    .is_some_and(CheckpointShutdownRequest::restart_requested);
                 let terminal_result = service
                     .serialize_terminal_checkpoint(&mut continuity, deadline)
                     .await;
@@ -629,7 +632,11 @@ async fn main() -> ExitCode {
                         if let Some(request) = request.take() {
                             request.respond(Ok(exit.clone()));
                         }
-                        process_exit(exit)
+                        if restart_requested {
+                            ExitCode::from(70)
+                        } else {
+                            process_exit(exit)
+                        }
                     }
                     Err(error) => {
                         eprintln!("runtime {label} shutdown failed: {error}");

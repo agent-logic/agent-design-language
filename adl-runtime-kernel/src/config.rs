@@ -449,7 +449,6 @@ impl RuntimeInitConfig {
         let mut value = serde_json::to_value(self)?;
         if let Some(root) = value.as_object_mut() {
             root.remove("polis_name");
-            root.remove("runtime_instance_id");
         }
         if let Some(credentials) = value
             .get_mut("credentials")

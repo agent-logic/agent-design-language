@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { createHash, createPrivateKey, randomUUID, sign as signBytes } from "node:crypto";
 import fs from "node:fs/promises";
 import https from "node:https";
 import net from "node:net";
@@ -25,8 +27,8 @@ const evidenceRoot = process.env.ADL_OBSERVATORY_EVIDENCE_DIR;
 const tlsConnectHost = process.env.ADL_TLS_PROOF_CONNECT_HOST || null;
 const allowRuntimeRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
 const sourceRevision = process.env.ADL_SOURCE_REVISION;
-const expectedRuntimePid = Number(process.env.ADL_EXPECTED_RUNTIME_PID);
 const expectedPolisName = process.env.ADL_EXPECTED_POLIS_NAME;
+const repositoryRootInput = process.env.ADL_REPOSITORY_ROOT;
 
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the served HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the exact Runtime candidate URL");
@@ -34,15 +36,23 @@ assert(operatorKeyFile, "ADL_OPERATOR_KEY_FILE must name the trusted operator Ed
 assert(evidenceRoot, "ADL_OBSERVATORY_EVIDENCE_DIR must name a retained FastWork evidence directory");
 assert(allowRuntimeRestartProof, "ADL_ALLOW_RUNTIME_RESTART_PROOF=1 is required for the isolated Guardian restart proof");
 assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact 40-character source commit");
-assert(
-  Number.isSafeInteger(expectedRuntimePid) && expectedRuntimePid > 1,
-  "ADL_EXPECTED_RUNTIME_PID must independently name the exact Runtime child approved for restart"
-);
+assert(repositoryRootInput, "ADL_REPOSITORY_ROOT must name the exact clean source worktree");
 assert(
   expectedPolisName?.trim() === expectedPolisName && expectedPolisName.length > 0,
   "ADL_EXPECTED_POLIS_NAME must name the configured logical Polis"
 );
 const fastWorkRoot = await fs.realpath("/Volumes/FastWork");
+const repositoryRoot = await fs.realpath(repositoryRootInput);
+const repositoryRevision = execFileSync("git", ["-C", repositoryRoot, "rev-parse", "HEAD"], {
+  encoding: "utf8"
+}).trim();
+assert.equal(sourceRevision, repositoryRevision, "ADL_SOURCE_REVISION does not match repository HEAD");
+const repositoryStatus = execFileSync(
+  "git",
+  ["-C", repositoryRoot, "status", "--porcelain", "--untracked-files=no"],
+  { encoding: "utf8" }
+).trim();
+assert.equal(repositoryStatus, "", "live proof requires a clean tracked repository state");
 const requestedEvidenceRoot = path.resolve(evidenceRoot);
 assert(
   requestedEvidenceRoot.startsWith(`${fastWorkRoot}${path.sep}`),
@@ -126,6 +136,39 @@ function postTrustedJson(endpoint, pathname, headers, value) {
   });
 }
 
+function buildSignedRestartCommand(runtimeInstanceId) {
+  const seedHex = signingSeed.replace(/^0x/, "");
+  const pkcs8Prefix = Buffer.from("302e020100300506032b657004220420", "hex");
+  const privateKey = createPrivateKey({
+    key: Buffer.concat([pkcs8Prefix, Buffer.from(seedHex, "hex")]),
+    format: "der",
+    type: "pkcs8"
+  });
+  const correlationId = randomUUID().replaceAll("-", "");
+  const command = {
+    schema: "adl.runtime.control_command.v1",
+    runtime_instance_id: runtimeInstanceId,
+    command_id: `restart-${correlationId}`,
+    correlation_id: correlationId,
+    principal: "operator",
+    action: { action: "restart", grace_millis: 10_000 },
+    signing_algorithm: "ed25519",
+    signing_key_id: "operator-key",
+    signature: ""
+  };
+  command.signature = signBytes(null, Buffer.from(JSON.stringify(command)), privateKey).toString("hex");
+  return command;
+}
+
+async function writeExclusive(pathname, value) {
+  const handle = await fs.open(pathname, "wx", 0o600);
+  try {
+    await handle.writeFile(value);
+  } finally {
+    await handle.close();
+  }
+}
+
 function getTrusted(endpoint, pathname) {
   return new Promise((resolve, reject) => {
     const request = https.request({
@@ -138,10 +181,12 @@ function getTrusted(endpoint, pathname) {
       ca: tls.rootCertificates,
       headers: { Host: endpoint.host }
     }, (response) => {
-      response.resume();
+      const chunks = [];
+      response.on("data", (chunk) => chunks.push(chunk));
       response.once("end", () => resolve({
         status: response.statusCode,
-        headers: response.headers
+        headers: response.headers,
+        body: Buffer.concat(chunks)
       }));
     });
     request.setTimeout(10_000, () => request.destroy(new Error(`HTTPS GET timed out for ${endpoint.origin}${pathname}`)));
@@ -161,6 +206,27 @@ assert.equal(
 );
 const observatoryDocument = await getTrusted(url, url.pathname || "/");
 assert.equal(observatoryDocument.status, 200, "Observatory HTML did not load through the trusted listener");
+assert.equal(
+  observatoryDocument.headers["x-adl-source-revision"],
+  sourceRevision,
+  "running Observatory server source revision does not match the proof revision"
+);
+const assetProof = {};
+for (const relativeAsset of [
+  "demos/html-observatory/index.html",
+  "demos/html-observatory/app.js",
+  "demos/html-observatory/styles.css"
+]) {
+  const served = relativeAsset.endsWith("index.html")
+    ? observatoryDocument
+    : await getTrusted(url, `/${relativeAsset}`);
+  assert.equal(served.status, 200, `${relativeAsset} was not served`);
+  const local = await fs.readFile(path.join(repositoryRoot, relativeAsset));
+  const localDigest = createHash("sha256").update(local).digest("hex");
+  const servedDigest = createHash("sha256").update(served.body).digest("hex");
+  assert.equal(servedDigest, localDigest, `${relativeAsset} bytes differ from exact source revision`);
+  assetProof[relativeAsset] = servedDigest;
+}
 const contentSecurityPolicy = String(observatoryDocument.headers["content-security-policy"] || "");
 for (const directive of [
   `https://${url.hostname}:*`,
@@ -228,6 +294,12 @@ page.on("request", (request) => {
 const report = {
   schema: "adl.v092.html_observatory_live_validation.v1",
   source_revision: sourceRevision,
+  source_provenance: {
+    repository_head: repositoryRevision,
+    tracked_worktree_clean: true,
+    repository_root_verified: true,
+    served_asset_sha256: assetProof
+  },
   observatory_url: url.toString(),
   runtime_api_base: runtimeUrl.origin,
   tls_trust: "browser_platform_and_node_public_roots",
@@ -240,6 +312,7 @@ const report = {
   assertions: {},
   artifacts: {}
 };
+const artifactStem = `observatory-layer8-chat-${sourceRevision.slice(0, 12)}-${randomUUID()}`;
 
 try {
   await page.goto(url.toString(), { waitUntil: "networkidle", timeout: 30_000 });
@@ -417,19 +490,22 @@ try {
     const feed = await response.json();
     return {
       pid: feed.runtime_process_id,
-      runtime_instance_id: feed.runtime_instance_id
+      runtime_instance_id: feed.runtime_instance_id,
+      source_revision: feed.source_revision
     };
   }, runtimeUrl.origin);
   assert(Number.isSafeInteger(restartTarget.pid) && restartTarget.pid > 1, "Runtime feed did not expose an exact candidate PID");
-  assert.equal(
-    restartTarget.pid,
-    expectedRuntimePid,
-    "public Runtime feed PID did not match the independently approved restart target"
-  );
   assert.equal(restartTarget.runtime_instance_id, automaticReconnectBefore.runtime_instance, "restart target identity drifted before the proof");
+  assert.equal(restartTarget.source_revision, sourceRevision, "Runtime binary source revision does not match the proof revision");
   proofPhase = "guardian_restart";
   guardianRestartInProgress = true;
-  process.kill(expectedRuntimePid, "SIGKILL");
+  const restartResponse = await postTrustedJson(
+    runtimeUrl,
+    "/v1/control",
+    { Origin: new URL(observatoryUrl).origin },
+    buildSignedRestartCommand(restartTarget.runtime_instance_id)
+  );
+  assert.equal(restartResponse.status, 200, "signed checkpointed restart request was not accepted");
   await page.waitForFunction(() => {
     const state = document.querySelector(".observatory")?.dataset.liveConnection;
     const status = document.getElementById("statusbar-websocket")?.textContent || "";
@@ -460,7 +536,9 @@ try {
     guardian_restart: {
       previous_pid: restartTarget.pid,
       previous_runtime_instance: automaticReconnectBefore.runtime_instance,
-      next_runtime_instance: automaticReconnectAfter.runtime_instance
+      next_runtime_instance: automaticReconnectAfter.runtime_instance,
+      restart_authority: "signed_control_stop_capability",
+      source_revision: restartTarget.source_revision
     },
     before: automaticReconnectBefore,
     after: automaticReconnectAfter,
@@ -589,8 +667,8 @@ try {
   await page.locator("#dashboard-connect-live").click();
   await page.locator("#statusbar-websocket").filter({ hasText: "connected" }).waitFor({ timeout: 20_000 });
   await railLink("Chat").click();
-  const desktopScreenshot = path.join(retainedEvidenceRoot, "observatory-layer8-chat-desktop.png");
-  await page.screenshot({ path: desktopScreenshot, fullPage: true });
+  const desktopScreenshot = path.join(retainedEvidenceRoot, `${artifactStem}-desktop.png`);
+  await writeExclusive(desktopScreenshot, await page.screenshot({ fullPage: true }));
   report.artifacts.desktop_screenshot = desktopScreenshot;
 
   await page.setViewportSize({ width: 390, height: 844 });
@@ -603,8 +681,8 @@ try {
   assert(mobileLayout.sendHeight >= 44, `mobile primary action is too small: ${mobileLayout.sendHeight}`);
   report.assertions.mobile_layout = { passed: true, ...mobileLayout };
 
-  const mobileScreenshot = path.join(retainedEvidenceRoot, "observatory-layer8-chat-mobile.png");
-  await page.screenshot({ path: mobileScreenshot, fullPage: true });
+  const mobileScreenshot = path.join(retainedEvidenceRoot, `${artifactStem}-mobile.png`);
+  await writeExclusive(mobileScreenshot, await page.screenshot({ fullPage: true }));
   report.artifacts.mobile_screenshot = mobileScreenshot;
   const expectedTransientWebSocketEndpoints = [runtimeUrl, unavailableRuntime].map((endpoint) => {
     const websocket = new URL(`${endpoint.origin}/v1/observatory/ws`);
@@ -642,9 +720,9 @@ try {
 }
 
 report.result = "pass";
-const reportPath = path.join(retainedEvidenceRoot, "observatory-layer8-chat-report.json");
+const reportPath = path.join(retainedEvidenceRoot, `${artifactStem}-report.json`);
 const serializedReport = `${JSON.stringify(report, null, 2)}\n`;
 assert(!serializedReport.includes(signingSeed), "operator signing seed appeared in retained report");
 assert(!serializedReport.includes(path.basename(operatorKeyFile)), "operator key filename appeared in retained report");
-await fs.writeFile(reportPath, serializedReport, { mode: 0o600 });
+await writeExclusive(reportPath, serializedReport);
 console.log(JSON.stringify({ schema: report.schema, result: "pass", report: reportPath }));

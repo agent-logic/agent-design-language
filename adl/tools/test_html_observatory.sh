@@ -5,6 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 APP_JS="${ROOT_DIR}/demos/html-observatory/app.js"
 CONFIG_JSON="${ROOT_DIR}/demos/html-observatory/runtime-v3.config.json"
 SERVER_JS="${ROOT_DIR}/adl/tools/serve_v092_html_observatory.mjs"
+LIVE_VALIDATOR_JS="${ROOT_DIR}/adl/tools/validate_v092_html_observatory_live.mjs"
 
 node --check "${SERVER_JS}"
 if rg -n 'wuji|localhost|127\.0\.0\.1' "${SERVER_JS}" | rg -v 'LISTEN_ADDRESS.*127\.0\.0\.1' >/dev/null; then
@@ -13,6 +14,17 @@ if rg -n 'wuji|localhost|127\.0\.0\.1' "${SERVER_JS}" | rg -v 'LISTEN_ADDRESS.*1
 fi
 rg -F 'sectionValue("api", "public_base_url")' "${SERVER_JS}" >/dev/null
 rg -F 'https://${runtimeHostname}:* wss://${runtimeHostname}:*' "${SERVER_JS}" >/dev/null
+rg -F 'x-adl-source-revision' "${SERVER_JS}" >/dev/null
+rg -F 'ADL_SOURCE_REVISION does not match Observatory repository HEAD' "${SERVER_JS}" >/dev/null
+node --check "${LIVE_VALIDATOR_JS}"
+if rg -n 'process\.kill|ADL_EXPECTED_RUNTIME_PID' "${LIVE_VALIDATOR_JS}" >/dev/null; then
+  echo "live Observatory proof must use Guardian-owned signed restart, never raw PID signaling" >&2
+  exit 1
+fi
+rg -F 'fs.open(pathname, "wx", 0o600)' "${LIVE_VALIDATOR_JS}" >/dev/null
+rg -F 'assert.equal(sourceRevision, repositoryRevision' "${LIVE_VALIDATOR_JS}" >/dev/null
+rg -F 'assert.equal(restartTarget.source_revision, sourceRevision' "${LIVE_VALIDATOR_JS}" >/dev/null
+rg -F 'bytes differ from exact source revision' "${LIVE_VALIDATOR_JS}" >/dev/null
 
 node - <<'NODE' "${APP_JS}" "${CONFIG_JSON}"
 const fs = require("fs");
@@ -28,6 +40,7 @@ const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 (async () => {
 const observatoryFeed = {
   schema: "adl.runtime_v3.observatory_feed.v2",
+  source_revision: "0".repeat(40),
   polis_name: "Konishi",
   runtime_instance_id: "runtime-v3-test",
   runtime_process_id: 12345,

@@ -123,6 +123,7 @@ pub enum ControlAction {
     Snapshot,
     Submit { work: DomainWork },
     Shutdown { grace_millis: u64 },
+    Restart { grace_millis: u64 },
 }
 
 impl ControlAction {
@@ -130,7 +131,7 @@ impl ControlAction {
         match self {
             Self::Snapshot => ControlCapability::Read,
             Self::Submit { .. } => ControlCapability::Execute,
-            Self::Shutdown { .. } => ControlCapability::Stop,
+            Self::Shutdown { .. } | Self::Restart { .. } => ControlCapability::Stop,
         }
     }
 }
@@ -200,7 +201,8 @@ impl SignedControlCommand {
         }
         if matches!(
             self.action,
-            ControlAction::Shutdown { grace_millis } if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
+            ControlAction::Shutdown { grace_millis } | ControlAction::Restart { grace_millis }
+                if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
         ) {
             return Err(ControlError::InvalidBounds);
         }
@@ -275,6 +277,7 @@ pub enum ControlOutcome {
     Snapshot { snapshot: Box<RuntimeSnapshot> },
     Submitted { work_result: DomainResult },
     Shutdown { exit: ControlExit },
+    Restart { exit: ControlExit },
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -288,6 +291,10 @@ pub struct ControlResponse {
 #[async_trait]
 pub trait LifecycleControl: Send + Sync {
     async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()>;
+
+    async fn restart(&self, grace: Duration) -> Result<KernelExit, ()> {
+        self.shutdown(grace).await
+    }
 }
 
 #[async_trait]
@@ -720,6 +727,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         });
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
+            source_revision: env!("ADL_BUILD_SOURCE_REVISION").to_owned(),
             polis_name: self
                 .polis_name
                 .lock()
@@ -831,7 +839,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 };
                 state.records.pop(&completed);
             }
-            if matches!(command.action, ControlAction::Shutdown { .. }) {
+            if matches!(
+                command.action,
+                ControlAction::Shutdown { .. } | ControlAction::Restart { .. }
+            ) {
                 if state.terminal_action.is_some() {
                     return Err(ControlError::LifecycleAlreadyRequested);
                 }
@@ -851,7 +862,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
 
         let command_id = command.command_id.clone();
-        let terminal = matches!(command.action, ControlAction::Shutdown { .. });
+        let terminal = matches!(
+            command.action,
+            ControlAction::Shutdown { .. } | ControlAction::Restart { .. }
+        );
         let service = Arc::clone(self);
         let result = tokio::spawn(async move { service.execute_reserved(command).await })
             .await
@@ -941,6 +955,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         })
                         .unwrap_or(ControlExit::Failed);
                     Ok(ControlOutcome::Shutdown { exit })
+                }
+                ControlAction::Restart { grace_millis } => {
+                    let exit = self
+                        .lifecycle
+                        .restart(Duration::from_millis(grace_millis))
+                        .await
+                        .map(|exit| match exit {
+                            KernelExit::Clean => ControlExit::Clean,
+                            _ => ControlExit::Failed,
+                        })
+                        .unwrap_or(ControlExit::Failed);
+                    Ok(ControlOutcome::Restart { exit })
                 }
             }
         }
@@ -1173,6 +1199,7 @@ pub struct ObservatoryProofFeed {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct ObservatoryFeed {
     pub schema: String,
+    pub source_revision: String,
     pub polis_name: String,
     pub runtime_instance_id: String,
     pub runtime_process_id: u32,

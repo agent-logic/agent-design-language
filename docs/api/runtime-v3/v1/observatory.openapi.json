@@ -211,6 +211,19 @@
                     "maximum": 60000
                   }
                 }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["action", "grace_millis"],
+                "properties": {
+                  "action": { "const": "restart" },
+                  "grace_millis": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 60000
+                  }
+                }
               }
             ]
           },
@@ -249,7 +262,8 @@
             "oneOf": [
               { "$ref": "#/components/schemas/ControlOutcomeSnapshot" },
               { "$ref": "#/components/schemas/ControlOutcomeSubmitted" },
-              { "$ref": "#/components/schemas/ControlOutcomeShutdown" }
+              { "$ref": "#/components/schemas/ControlOutcomeShutdown" },
+              { "$ref": "#/components/schemas/ControlOutcomeRestart" }
             ]
           }
         }
@@ -281,11 +295,21 @@
           "exit": { "enum": ["clean", "failed"] }
         }
       },
+      "ControlOutcomeRestart": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["result", "exit"],
+        "properties": {
+          "result": { "const": "restart" },
+          "exit": { "enum": ["clean", "failed"] }
+        }
+      },
       "ObservatoryFeed": {
         "type": "object",
         "additionalProperties": false,
         "required": [
           "schema",
+          "source_revision",
           "polis_name",
           "runtime_instance_id",
           "runtime_process_id",
@@ -302,6 +326,10 @@
         "properties": {
           "schema": {
             "const": "adl.runtime_v3.observatory_feed.v2"
+          },
+          "source_revision": {
+            "type": "string",
+            "description": "Exact source revision embedded when the Runtime binary was built."
           },
           "polis_name": {
             "type": "string",

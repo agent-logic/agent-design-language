@@ -4,20 +4,36 @@ import { createReadStream } from "node:fs";
 import { readFile, realpath, stat } from "node:fs/promises";
 import { createServer } from "node:https";
 import { extname, join, relative } from "node:path";
+import { execFileSync } from "node:child_process";
 
 const rootInput = process.env.ADL_OBSERVATORY_ROOT;
 const runtimeInitPath = process.env.ADL_RUNTIME_INIT_FILE;
 const listenAddress = process.env.ADL_OBSERVATORY_LISTEN_ADDRESS || "127.0.0.1";
 const listenPort = Number(process.env.ADL_OBSERVATORY_LISTEN_PORT || "18783");
+const sourceRevision = process.env.ADL_SOURCE_REVISION;
 
-if (!rootInput || !runtimeInitPath) {
-  throw new Error("ADL_OBSERVATORY_ROOT and ADL_RUNTIME_INIT_FILE are required");
+if (!rootInput || !runtimeInitPath || !/^[0-9a-f]{40}$/.test(sourceRevision || "")) {
+  throw new Error("ADL_OBSERVATORY_ROOT, ADL_RUNTIME_INIT_FILE, and exact ADL_SOURCE_REVISION are required");
 }
 if (!Number.isSafeInteger(listenPort) || listenPort < 1 || listenPort > 65535) {
   throw new Error("ADL_OBSERVATORY_LISTEN_PORT must be a valid TCP port");
 }
 
 const root = await realpath(rootInput);
+const repositoryRevision = execFileSync("git", ["-C", root, "rev-parse", "HEAD"], {
+  encoding: "utf8"
+}).trim();
+if (sourceRevision !== repositoryRevision) {
+  throw new Error("ADL_SOURCE_REVISION does not match Observatory repository HEAD");
+}
+const repositoryStatus = execFileSync(
+  "git",
+  ["-C", root, "status", "--porcelain", "--untracked-files=no"],
+  { encoding: "utf8" }
+).trim();
+if (repositoryStatus !== "") {
+  throw new Error("Observatory serving requires a clean tracked repository state");
+}
 const runtimeInit = await readFile(runtimeInitPath, "utf8");
 
 function sectionValue(sectionName, name) {
@@ -65,7 +81,8 @@ const server = createServer({ cert, key }, async (request, response) => {
     const headers = {
       "cache-control": "no-store",
       "content-type": contentTypes[extname(candidate)] || "application/octet-stream",
-      "x-content-type-options": "nosniff"
+      "x-content-type-options": "nosniff",
+      "x-adl-source-revision": sourceRevision
     };
     if (extname(candidate) === ".html") {
       headers["content-security-policy"] = contentSecurityPolicy;

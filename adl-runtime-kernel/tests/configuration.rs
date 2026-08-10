@@ -564,14 +564,19 @@ fn runtime_init_rejects_ipv6_bind_addresses() {
 }
 
 #[test]
-fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
+fn continuity_identity_excludes_display_and_cycle_metadata_only() {
     let root = config_test_root();
     let config =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
     let expected = config.continuity_identity_projection().unwrap();
     assert!(expected.get("polis_name").is_none());
-    assert!(expected.get("runtime_instance_id").is_none());
+    assert_eq!(
+        expected
+            .get("runtime_instance_id")
+            .and_then(|value| value.as_str()),
+        Some("test-runtime-instance")
+    );
 
     let mut next_cycle = config.clone();
     next_cycle.polis_name = "Axioma".to_owned();
@@ -584,6 +589,12 @@ fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
     );
 
     let mut changed_runtime = config;
+    changed_runtime.runtime_instance_id = "replacement-runtime-instance".to_owned();
+    assert_ne!(
+        changed_runtime.continuity_identity_projection().unwrap(),
+        expected
+    );
+    changed_runtime.runtime_instance_id = "test-runtime-instance".to_owned();
     changed_runtime.api.address = "127.0.0.1:20998".to_owned();
     assert_ne!(
         changed_runtime.continuity_identity_projection().unwrap(),

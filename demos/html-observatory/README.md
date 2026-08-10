@@ -121,6 +121,7 @@ ADL_OBSERVATORY_ROOT="$(git rev-parse --show-toplevel)" \
 ADL_RUNTIME_INIT_FILE=<absolute-runtime-init-file> \
 ADL_OBSERVATORY_LISTEN_ADDRESS=127.0.0.1 \
 ADL_OBSERVATORY_LISTEN_PORT=<observatory-port> \
+ADL_SOURCE_REVISION="$(git rev-parse HEAD)" \
 node adl/tools/serve_v092_html_observatory.mjs
 ```
 
@@ -185,7 +186,7 @@ ADL_TLS_PROOF_CONNECT_HOST=127.0.0.1 \
 ADL_PLAYWRIGHT_HOST_RESOLVER_RULES='MAP <runtime-instance-hostname> 127.0.0.1' \
 ADL_ALLOW_RUNTIME_RESTART_PROOF=1 \
 ADL_SOURCE_REVISION="$(git rev-parse HEAD)" \
-ADL_EXPECTED_RUNTIME_PID=<independently-confirmed-runtime-child-pid> \
+ADL_REPOSITORY_ROOT="$(git rev-parse --show-toplevel)" \
 ADL_EXPECTED_POLIS_NAME=<configured-logical-polis-name> \
 node adl/tools/validate_v092_html_observatory_live.mjs
 ```
@@ -203,6 +204,19 @@ records their matching SHA-256 fingerprint, and rejects localhost or IP
 certificate identities. It also requires the real Shepherd roster, signed selected-agent delivery, a real
 `400 invalid_request` refusal, stopped-state authority removal, reconnect
 deduplication, secret absence, and a clean console/network result.
+
+The restart proof submits a signed, capability-checked Runtime restart command.
+Runtime serializes its terminal checkpoint and exits with the Guardian restart
+classification; the Guardian remains the only process owner and launches the
+replacement child. The validator never signals a feed-supplied PID. It also
+requires a clean source worktree, an exact embedded Runtime source revision,
+an exact running Observatory server revision, byte-for-byte source parity for
+the served HTML/JavaScript/CSS, and unique exclusive evidence destinations
+before retaining proof.
+
+This co-located proof uses the authenticated loopback Guardian lease. It does
+not claim or test Guardian-to-Guardian transport. Distributed Guardian peer
+mTLS remains a separate private-trust-domain contract and proof surface.
 
 Focused deterministic validation is:
 

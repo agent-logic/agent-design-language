@@ -1088,6 +1088,44 @@ async fn pressure_cannot_reopen_after_signed_shutdown_is_enqueued() {
 }
 
 #[tokio::test]
+async fn signed_restart_routes_through_checkpointed_supervisor_control() {
+    let key = SigningKey::from_bytes(&[33; 32]);
+    let (lifecycle, mut requests) = CheckpointingControl::channel(1);
+    let service = Arc::new(ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(4),
+        lifecycle,
+        authority(&key, [ControlCapability::Stop]),
+        4,
+    ));
+    let restart = {
+        let service = service.clone();
+        let restart_key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &restart_key,
+                    "signed-restart",
+                    ControlAction::Restart { grace_millis: 50 },
+                ))
+                .await
+        })
+    };
+    let request = tokio::time::timeout(Duration::from_secs(1), requests.recv())
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(request.restart_requested());
+    request.respond(Ok(KernelExit::Clean));
+    assert_eq!(
+        restart.await.unwrap().unwrap().outcome,
+        ControlOutcome::Restart {
+            exit: ControlExit::Clean
+        }
+    );
+}
+
+#[tokio::test]
 async fn duplicate_shutdown_executes_once_and_conflicting_reuse_fails() {
     let key = SigningKey::from_bytes(&[4; 32]);
     let calls = Arc::new(AtomicUsize::new(0));
