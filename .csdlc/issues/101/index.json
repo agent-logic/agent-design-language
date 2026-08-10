@@ -3,13 +3,73 @@
   "issue": 101,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f09a35e236f4f77ec4793207c044d5bc698a2e14b0883b7ff2efb2b7f8938d1c",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "04907fb1101a41cd0e44e022f5799f6465a760a327c7b47eaf026de788617d66",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "acbcfa83ea64165597476e4f7fe2871e9b9db9baf9489d604db60507a6afc8a1",
   "branch": "codex/101-github-route-guardrail",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-101-github-route-guardrail",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+    "assigned_by": "codex:101-github-route-guardrail",
+    "revision": "git-blake3:fb2705e1ad3d019118611a76643b3e5e7bdd0b7c:5678fe75e1cfa4eb11811e2dbada73e0424a8bbce1af684dd302bf285a2e3a48",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      "csdlc-v2/tests/fixtures/github_connector_403.json",
+      ".csdlc/issues/101",
+      ".csdlc/prepared/issues/101",
+      ".csdlc/evidence/101"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      "csdlc-v2/tests/fixtures/github_connector_403.json",
+      ".csdlc/issues/101",
+      ".csdlc/prepared/issues/101",
+      ".csdlc/evidence/101"
+    ],
+    "reviewed_revision": "git-blake3:fb2705e1ad3d019118611a76643b3e5e7bdd0b7c:5678fe75e1cfa4eb11811e2dbada73e0424a8bbce1af684dd302bf285a2e3a48",
+    "findings": [
+      {
+        "id": "F-101-1",
+        "severity": "p2",
+        "summary": "Connector-403 regression was self-asserting instead of coupled to the incident fields and authoritative policy.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:fb2705e1ad3d019118611a76643b3e5e7bdd0b7c:5678fe75e1cfa4eb11811e2dbada73e0424a8bbce1af684dd302bf285a2e3a48",
+        "route": null
+      },
+      {
+        "id": "F-101-2",
+        "severity": "p2",
+        "summary": "The default HOME token-file fallback was created but never exercised by the regression test.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:fb2705e1ad3d019118611a76643b3e5e7bdd0b7c:5678fe75e1cfa4eb11811e2dbada73e0424a8bbce1af684dd302bf285a2e3a48",
+        "route": null
+      },
+      {
+        "id": "F-101-3",
+        "severity": "p3",
+        "summary": "The focused installation gate checked only one of the four declared lifecycle route owners.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:fb2705e1ad3d019118611a76643b3e5e7bdd0b7c:5678fe75e1cfa4eb11811e2dbada73e0424a8bbce1af684dd302bf285a2e3a48",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9753eb54db0dc71831c797a898e01864a29e8234ecaed594e6b0c87d3cba0060",
+      "values_digest": "00a2751c4e91e135caedfd97b00039e0d4dfcdadc067ec27ddcef671d4dd0b9f",
       "rendered_digest": "63100f5fcb1d48b1f753ba14c9c41a94e7bd0e2e222c9e997eec6b3c860545aa",
       "ast_digest": "99ea2fb6afaff543d4649d369a5f537baf85119fd7fe20c96c7b8b2c034b9c09"
     },
     "stp": {
-      "values_digest": "8e50ff128c01f465591cd4d42340c739c257c114141c13892b37010f5010104d",
+      "values_digest": "616bb4d7272bd79676e4cd5314db352eeb01f29f25435a693cd7df9a5a045fc4",
       "rendered_digest": "54c9e464390fd891ae2de164632237532d34a324e712d9032803b63309dc23b6",
       "ast_digest": "b69a05627ab869a03f1617a861b4e041bbd5a4d1a1eaa8d11f46ebb89aa36f14"
     },
     "spp": {
-      "values_digest": "d0a7a378c35273242b14e724f295480d1345324daed20e22366039df89dd260a",
+      "values_digest": "7d40598866393452d0ce9bdeff4c93f8e4618fde7dfb551b00bf879ff04480aa",
       "rendered_digest": "fa8469d76f449cfd1c33a4cdf395417312168660676687a0528195718d01725b",
       "ast_digest": "808fe00a235c7ea955fbe3d39aadbd305bb70f47e5ec8d56a08dab35c8012aab"
     },
     "vpp": {
-      "values_digest": "c8e8ecdee7217d5e2c71dcdf6ace9cb5a2a59d80c8c5e82ff3598bafacf8746f",
+      "values_digest": "d80a23f688a1b1812765baa48703d1ddf010448832d7fc1ed4549596b242105f",
       "rendered_digest": "776d35205f4b693d749bf21c6ec7a33935e5a6ee163f6fb30f7915a67e028044",
       "ast_digest": "f3c8dd764dcac133bc81d375b2d8dd6c628afc138068e1ed97d8e24c30b33cda"
     },
     "srp": {
-      "values_digest": "44ba066f3d08b9c0bbc3113c16be46d9ddec7df71eb04d97dd635838486f8255",
-      "rendered_digest": "2968571035cbefa130277dedacff9cae27670904e3bb41985f07385980772657",
-      "ast_digest": "c40225151e000e77ced4187a3f67a157fd4ff2eb5dba1ed7842a1b2610328290"
+      "values_digest": "bdc4cb357a98f022363854c84ffb8ff5dfa30868b0364e522d2f5ab23522582d",
+      "rendered_digest": "3059fe8012270a93d79ae751d91e80e2a3812e35eb736e5b9ea30851d71d317e",
+      "ast_digest": "54af2691450075e241b5fcfc8ceb4910780d5967cfea16fce42caee6e9ef002c"
     },
     "sor": {
-      "values_digest": "864eca8185112c11e19e926aee7c768fb0eb6dcf1041c4e4a9d75dc514901db8",
+      "values_digest": "5ff837d27135915852efc1d3cfcf86840e5d751e92dd829037da29d46cb505c2",
       "rendered_digest": "3d85eb8c073a4fe63fcf855516a84a9c583a5e8db4bf595a4aaeac33495b9983",
       "ast_digest": "3d45b3eef3a5717ec7af782faab8c3f5f8c95921e27237bce82e19b80c4716d1"
     }
@@ -89,6 +149,13 @@
       "to": "implemented",
       "actor": "codex:101-proof-hook-repair",
       "reason": "Recover review before adding the operator-requested dedicated proof hook to the authoritative boundary document."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -196,6 +263,20 @@
       "actor": "codex:101-proof-hook-repair",
       "reason": "Record the focused test rerun after adding and self-enforcing the dedicated boundary proof hook.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Prove the authoritative boundary lists the dedicated route-policy target and the target enforces that hook alongside all issue guardrails.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-proof-hook-review-fix.log\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
