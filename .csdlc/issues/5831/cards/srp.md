@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/adaptive_learning.rs
+adl-runtime-kernel/src/reasoning.rs
+adl-runtime-kernel/src/durable_state.rs
+adl-runtime-kernel/tests/adaptive_learning.rs
+adl-runtime-kernel/tests/durable_state.rs
+.csdlc/prepared/issues/5831/produce-native-receipt.rb
+.csdlc/prepared/issues/5831/validate-native-receipts.rb
+.github/workflows/wp13a-native-adaptive-learning.yml
+.csdlc/evidence/5831
+.csdlc/issues/5831
+Final post-native exact-head review at clean evidence HEAD f16ec055dd00b4310eb1c57ef4a736dc3d0ca34a. Recompute replacement run 31430072319 artifact 9078997724 and ZIP SHA 2e9a55703ce659bb19dc01ba1843c3b8ea9850eb05cf2f3cf434f3b7d047cf23; verify exact source head 4cff1680fa6ad97b3002dee070521b7ab24bd08c, all eight retained artifact files, receipt payload/file/source-manifest/log/semantic hashes, exact 15-test inventories, runner/workflow/run/attempt/job/OS provenance, path hygiene, semantic equivalence, detached validator output and native manifest. Confirm VPP native deferrals are cleared, SOR remains truthful, product/proof scripts are unchanged from prior approval, and standard/native PR checks are terminal green before merge.
 
 ## Prompts
 

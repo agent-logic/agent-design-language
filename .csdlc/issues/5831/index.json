@@ -6,10 +6,27 @@
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
   "generation": 91,
-  "digest": "14c66fb4a435845cc014f4d84e0564ff6d8b95b606ec38eb8e76e2f41db34953",
+  "digest": "0a6b3bcdabadec16703458f7cbdc2f22c1df6865e4300df21753e306ba6d47fb",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
+    "assigned_by": "codex:5831-adaptive-learning",
+    "revision": "git-blake3:f16ec055dd00b4310eb1c57ef4a736dc3d0ca34a:a1fb97a5c4cc4b42fefcbee1bf50c3d43f509f57fa5cfa6e11badbe475356d36",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      ".csdlc/evidence/5831",
+      ".csdlc/issues/5831",
+      "Final post-native exact-head review at clean evidence HEAD f16ec055dd00b4310eb1c57ef4a736dc3d0ca34a. Recompute replacement run 31430072319 artifact 9078997724 and ZIP SHA 2e9a55703ce659bb19dc01ba1843c3b8ea9850eb05cf2f3cf434f3b7d047cf23; verify exact source head 4cff1680fa6ad97b3002dee070521b7ab24bd08c, all eight retained artifact files, receipt payload/file/source-manifest/log/semantic hashes, exact 15-test inventories, runner/workflow/run/attempt/job/OS provenance, path hygiene, semantic equivalence, detached validator output and native manifest. Confirm VPP native deferrals are cleared, SOR remains truthful, product/proof scripts are unchanged from prior approval, and standard/native PR checks are terminal green before merge."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "a271ce004bfc72275637e57ffc38a337cfa35ac1c72b2e590edf443adfe6b9f9"
     },
     "srp": {
-      "values_digest": "d5c73e2688e556b7fba1807b2230ba813bedb144b92b87bc086f0010e53c31e6",
-      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
-      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
+      "values_digest": "1b60a8f08317ff4846cfa1a5704b190331d9174e726b46f0b1661314fbfdf6de",
+      "rendered_digest": "3ec9ad42962dc05a92f1cba7ad60f3c4f5a7ad94ff0b20c52a6289692dbc6b6e",
+      "ast_digest": "9b896fec3d69edb40425dd72aa561aefc5a26d253a17890c5b4d04c564e63faf"
     },
     "sor": {
       "values_digest": "9d202fa2c7ac648f9d9edd2f8fe66c310e267ca4b744007f2fd40463b60e4ec2",
@@ -988,6 +1005,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "Record detached exact-head validation of the replacement native packet from run 31430072319.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/evidence/5831/native-platform/linux.json\",\".csdlc/evidence/5831/native-platform/macos.json\"],\"purpose\":\"Independently validate exact replacement run 31430072319 in a detached checkout at 4cff1680fa6ad97b3002dee070521b7ab24bd08c, including exact 15-test inventories, all source and output hashes, workflow provenance, path hygiene, and Linux/macOS semantic equivalence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/native-validation-manifest.json\"}}"
+    },
+    {
+      "sequence": 122,
+      "generation": 91,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
