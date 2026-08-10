@@ -14,9 +14,7 @@ const EVIDENCE_SCHEMA = "adl.v092.browser_trusted_observatory.evidence.v1";
 const FASTWORK_ROOT = "/Volumes/FastWork";
 const CONCURRENT_RUNTIME_CONNECTIONS = 50;
 const SCOPED_PRODUCT_PATHS = [
-  "adl-runtime/src/local_tls.rs",
-  "adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs",
-  "adl-runtime/tests/local_tls.rs",
+  "docs/api/runtime-v3/v1/openapi.json",
   "demos/html-observatory/runtime-v3.config.json",
   "demos/html-observatory/README.md",
   "adl/tools/validate_v092_browser_trusted_observatory.mjs",
@@ -42,27 +40,19 @@ const repoRoot = await canonicalExistingFastWorkPath(
 );
 const certificate = await requiredPath("ADL_V092_TLS_CERT");
 const privateKey = await requiredPath("ADL_V092_TLS_KEY");
+await rejectSelfIssuedServerLeaf(certificate);
 const runtimeCommand = parseRuntimeCommand(process.env.ADL_V092_RUNTIME_COMMAND_JSON);
 const runtimeGuardian = await requiredPath("ADL_V092_RUNTIME_GUARDIAN");
 const runtimeKernel = await requiredPath("ADL_V092_RUNTIME_KERNEL");
-const runtimeBootstrap = await requiredPath("ADL_V092_TLS_BOOTSTRAP");
-const runtimeBootstrapConfig = await requiredPath("ADL_V092_TLS_BOOTSTRAP_CONFIG");
 const exactBuild = await buildExactHeadBinaries({
   repoRoot,
   guardian: runtimeGuardian,
   kernel: runtimeKernel,
-  bootstrap: runtimeBootstrap,
-});
-const tlsBootstrap = await verifyDurableTlsBootstrap({
-  bootstrap: runtimeBootstrap,
-  config: runtimeBootstrapConfig,
-  certificate,
-  privateKey,
 });
 const runtimeTlsPaths = await verifyRuntimeTlsPaths({
   command: runtimeCommand,
-  certificate: tlsBootstrap.certificate_path,
-  privateKey: tlsBootstrap.private_key_path,
+  certificate,
+  privateKey,
 });
 if (await fs.realpath(runtimeCommand[0]) !== runtimeGuardian) {
   fail("Runtime candidate command must launch the declared Guardian binary directly");
@@ -71,8 +61,8 @@ const evidencePath = args.evidence ? await canonicalFastWorkOutput(args.evidence
 const sourceBefore = await gitScopedIdentity(repoRoot);
 const observatory = new URL(args.observatoryUrl);
 const runtime = new URL(args.runtimeUrl);
-assertHttpsLocalhost(observatory, "Observatory");
-assertHttpsLocalhost(runtime, "Runtime");
+assertHttpsExternalDns(observatory, "Observatory");
+assertHttpsExternalDns(runtime, "Runtime");
 if (observatory.port === runtime.port) {
   fail("Observatory and Runtime must remain separate HTTPS listeners");
 }
@@ -89,22 +79,22 @@ try {
   staticServer = await startStaticServer({
     certificate,
     privateKey,
-    hostname: observatory.hostname,
+    hostname: "127.0.0.1",
     port: Number(observatory.port),
     root: repoRoot,
   });
-  await waitForTrustedEndpoint(new URL("/v1/health", runtime), certificate, runtimeProcess);
-  await waitForRuntimeReady(new URL("/v1/ready", runtime), certificate, runtimeProcess);
+  await waitForTrustedEndpoint(new URL("/v1/health", runtime), runtimeProcess);
+  await waitForRuntimeReady(new URL("/v1/ready", runtime), runtimeProcess);
   const listenerCertificateSha256 = {
-    observatory: await peerCertificateSha256(observatory, certificate),
-    runtime: await peerCertificateSha256(runtime, certificate),
+    observatory: await peerCertificateSha256(observatory),
+    runtime: await peerCertificateSha256(runtime),
   };
   if (new Set(Object.values(listenerCertificateSha256)).size !== 1
       || listenerCertificateSha256.runtime !== await certificateDerSha256(certificate)) {
-    fail("all HTTPS listeners must present the one current manifest certificate identity");
+    fail("all HTTPS listeners must present the supplied external certificate identity");
   }
   runtimeOwnership = await proveRuntimeCandidateOwnership({
-    feed: await curlTrustedJson(new URL("/v1/observatory", runtime), certificate),
+    feed: await curlTrustedJson(new URL("/v1/observatory", runtime)),
     guardian: runtimeGuardian,
     guardianProcess: runtimeProcess,
     kernel: runtimeKernel,
@@ -113,18 +103,20 @@ try {
   runtimeProcessId = runtimeOwnership.runtime_pid;
 
   const { chromium, version } = await loadPinnedPlaywright();
-  browser = await chromium.launch({ channel: args.browser, headless: true });
+  browser = await chromium.launch({
+    channel: args.browser,
+    headless: true,
+    args: [`--host-resolver-rules=MAP ${runtime.hostname} 127.0.0.1,MAP ${observatory.hostname} 127.0.0.1`],
+  });
   const context = await browser.newContext({ ignoreHTTPSErrors: false });
   const page = await context.newPage();
   const dashboardRuntimeRequests = [];
-  if (runtime.origin !== "https://localhost:20997") {
-    await page.route("https://localhost:20997/**", async (route) => {
-      const requested = new URL(route.request().url());
-      const candidate = new URL(`${requested.pathname}${requested.search}`, runtime);
-      dashboardRuntimeRequests.push({ requested: requested.href, candidate: candidate.href });
-      await route.continue({ url: candidate.href });
-    });
-  }
+  page.on("request", (request) => {
+    const requested = new URL(request.url());
+    if (requested.origin === runtime.origin) {
+      dashboardRuntimeRequests.push({ requested: requested.href, candidate: requested.href });
+    }
+  });
   page.on("requestfailed", (request) => {
     const text = request.failure()?.errorText ?? "request failed";
     if (isTlsError(text)) tlsErrors.push(`network:${request.url()}:${text}`);
@@ -132,7 +124,7 @@ try {
 
   const dashboard = new URL("/demos/html-observatory/", observatory);
   dashboard.searchParams.set("runtime", "v3");
-  dashboard.searchParams.set("runtimeApiBase", "https://localhost:20997");
+  dashboard.searchParams.set("runtimeApiBase", runtime.origin);
   const response = await page.goto(dashboard.href, { waitUntil: "domcontentloaded" });
   if (!response || !response.ok()) fail(`Observatory HTML returned ${response?.status() ?? "no response"}`);
   const title = await page.title();
@@ -149,7 +141,7 @@ try {
     dashboardRuntimeRequests.map(({ requested }) => new URL(requested).pathname),
   );
   for (const path of ["/v1/ready", "/v1/observatory"]) {
-    if (runtime.origin !== "https://localhost:20997" && !dashboardRuntimePaths.has(path)) {
+    if (!dashboardRuntimePaths.has(path)) {
       fail(`Observatory dashboard did not request ${path} from the isolated Runtime candidate`);
     }
   }
@@ -199,10 +191,10 @@ try {
     new URL("/v1/ready", runtime),
     new URL("/v1/observatory", runtime),
   ];
-  for (const endpoint of curlEndpoints) await curlTrusted(endpoint, certificate);
+  for (const endpoint of curlEndpoints) await curlTrusted(endpoint);
   const concurrentRuntimeProof = await proveConcurrentTrustedConnections(
     new URL("/v1/health", runtime),
-    certificate,
+    await certificateDerSha256(certificate),
     CONCURRENT_RUNTIME_CONNECTIONS,
   );
 
@@ -233,7 +225,7 @@ try {
     runtime_candidate: runtimeOwnership,
     runtime_tls_paths: runtimeTlsPaths,
     exact_head_build: exactBuild,
-    tls_bootstrap: tlsBootstrap,
+    tls_source: "externally_issued_platform_trusted",
     platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
   };
   if (evidencePath) await writeEvidence(evidencePath, evidence);
@@ -247,8 +239,8 @@ try {
 function parseArgs(argv) {
   const parsed = {
     browser: "chrome",
-    runtimeUrl: "https://localhost:20997",
-    observatoryUrl: "https://localhost:8765",
+    runtimeUrl: "https://runtime.dev.agent-logic.ai:20997",
+    observatoryUrl: "https://observatory.dev.agent-logic.ai:8765",
     requireTrustedTls: false,
     evidence: null,
     nativePlatforms: null,
@@ -291,17 +283,16 @@ async function loadPinnedPlaywright() {
   return { chromium: playwright.chromium, version: packageJson.version };
 }
 
-async function buildExactHeadBinaries({ repoRoot, guardian, kernel, bootstrap }) {
+async function buildExactHeadBinaries({ repoRoot, guardian, kernel }) {
   const expected = {
     guardian: await fs.realpath(join(repoRoot, "adl-runtime/target/debug/adl-runtime-guardian")),
     kernel: await fs.realpath(join(repoRoot, "adl-runtime-kernel/target/debug/adl-runtime-kernel")),
-    bootstrap: await fs.realpath(join(repoRoot, "adl-runtime/target/debug/adl-runtime-local-tls-bootstrap")),
   };
-  if (guardian !== expected.guardian || kernel !== expected.kernel || bootstrap !== expected.bootstrap) {
+  if (guardian !== expected.guardian || kernel !== expected.kernel) {
     fail("Runtime proof binaries must be the exact issue-worktree Cargo outputs");
   }
   const commands = [
-    ["cargo", "build", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--bin", "adl-runtime-guardian", "--bin", "adl-runtime-local-tls-bootstrap"],
+    ["cargo", "build", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--bin", "adl-runtime-guardian"],
     ["cargo", "build", "--locked", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--bin", "adl-runtime-kernel"],
   ];
   for (const [executable, ...argv] of commands) await runChecked(executable, argv, repoRoot);
@@ -310,47 +301,6 @@ async function buildExactHeadBinaries({ repoRoot, guardian, kernel, bootstrap })
     commands: commands.map((command) => command.join(" ")),
     guardian_sha256: await fileSha256(guardian),
     kernel_sha256: await fileSha256(kernel),
-    bootstrap_sha256: await fileSha256(bootstrap),
-  };
-}
-
-async function verifyDurableTlsBootstrap({ bootstrap, config, certificate, privateKey }) {
-  const output = await capture(bootstrap, ["--config", config, "--operation", "bootstrap"]);
-  let outcome;
-  try {
-    outcome = JSON.parse(output);
-  } catch (error) {
-    fail(`TLS bootstrap returned invalid JSON: ${error.message}`);
-  }
-  if (outcome.manifest_durable !== true) fail("TLS bootstrap manifest is not durably synchronized");
-  if (await fs.realpath(outcome.certificate_chain_path) !== certificate
-      || await fs.realpath(outcome.private_key_path) !== privateKey) {
-    fail("TLS proof paths do not match the durable current-generation manifest");
-  }
-  const marker = `${join("tls", "generations")}/`;
-  const markerIndex = certificate.lastIndexOf(marker);
-  if (markerIndex < 0) fail("TLS certificate is not inside a generated manifest identity");
-  const tlsRoot = certificate.slice(0, markerIndex + "tls".length);
-  const manifestPath = join(tlsRoot, "current-generation.json");
-  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
-  const manifestCertificate = await fs.realpath(join(tlsRoot, manifest.certificate_chain_path));
-  const manifestPrivateKey = await fs.realpath(join(tlsRoot, manifest.private_key_path));
-  const certificateSha256 = (await certificateDerSha256(certificate)).toUpperCase();
-  if (manifestCertificate !== certificate
-      || manifestPrivateKey !== privateKey
-      || manifest.certificate_sha256 !== certificateSha256
-      || outcome.certificate_sha256 !== certificateSha256) {
-    fail("TLS manifest, bootstrap outcome, and supplied identity do not match");
-  }
-  return {
-    manifest_durable: true,
-    manifest_path: manifestPath,
-    manifest_sha256: await fileSha256(manifestPath),
-    certificate_sha256: certificateSha256.toLowerCase(),
-    certificate_path: manifestCertificate,
-    private_key_path: manifestPrivateKey,
-    bootstrap_sha256: await fileSha256(bootstrap),
-    bootstrap_config_sha256: await fileSha256(config),
   };
 }
 
@@ -375,13 +325,13 @@ async function verifyRuntimeTlsPaths({ command, certificate, privateKey }) {
     "Runtime TLS private key",
   );
   if (configuredCertificate !== certificate || configuredPrivateKey !== privateKey) {
-    fail("Runtime init TLS paths do not match the one durable manifest identity");
+    fail("Runtime init TLS paths do not match the supplied external certificate identity");
   }
   return {
     init_path: initPath,
     certificate_path: configuredCertificate,
     private_key_path: configuredPrivateKey,
-    matches_manifest: true,
+    matches_external_material: true,
   };
 }
 
@@ -431,7 +381,7 @@ async function startStaticServer({ certificate, privateKey, hostname, port, root
     { cert: await fs.readFile(certificate), key: await fs.readFile(privateKey) },
     async (request, response) => {
       try {
-        const pathname = decodeURIComponent(new URL(request.url, "https://localhost").pathname);
+        const pathname = decodeURIComponent(new URL(request.url, `https://${hostname}`).pathname);
         const requested = pathname.endsWith("/") ? `${pathname}index.html` : pathname;
         const target = normalize(join(root, requested));
         if (relative(root, target).startsWith("..")) throw new Error("path escaped root");
@@ -452,12 +402,12 @@ async function startStaticServer({ certificate, privateKey, hostname, port, root
   return server;
 }
 
-async function waitForTrustedEndpoint(url, certificate, child) {
+async function waitForTrustedEndpoint(url, child) {
   const deadline = Date.now() + 30000;
   while (Date.now() < deadline) {
     if (child.exitCode !== null) fail(`Runtime candidate exited early with status ${child.exitCode}`);
     try {
-      await curlTrusted(url, certificate);
+      await curlTrusted(url);
       return;
     } catch {
       await delay(250);
@@ -466,13 +416,13 @@ async function waitForTrustedEndpoint(url, certificate, child) {
   fail(`Runtime candidate did not become healthy at ${url.pathname}`);
 }
 
-async function waitForRuntimeReady(url, certificate, child) {
+async function waitForRuntimeReady(url, child) {
   const deadline = Date.now() + 30000;
   let lastObservation = "no readiness response";
   while (Date.now() < deadline) {
     if (child.exitCode !== null) fail(`Runtime candidate exited early with status ${child.exitCode}`);
     try {
-      const readiness = await curlTrustedJson(url, certificate);
+      const readiness = await curlTrustedJson(url);
       lastObservation = JSON.stringify(readiness);
       if (readiness.ready === true) return;
     } catch (error) {
@@ -483,8 +433,19 @@ async function waitForRuntimeReady(url, certificate, child) {
   fail(`Runtime candidate did not become ready: ${lastObservation}`);
 }
 
-async function curlTrusted(url, certificate) {
-  const child = spawn("curl", ["--fail", "--silent", "--show-error", "--cacert", certificate, url.href], {
+function curlTrustedArgs(url) {
+  return [
+    "--fail",
+    "--silent",
+    "--show-error",
+    "--resolve",
+    `${url.hostname}:${url.port || 443}:127.0.0.1`,
+    url.href,
+  ];
+}
+
+async function curlTrusted(url) {
+  const child = spawn("curl", curlTrustedArgs(url), {
     stdio: ["ignore", "ignore", "pipe"],
   });
   let stderr = "";
@@ -493,8 +454,8 @@ async function curlTrusted(url, certificate) {
   if (code !== 0) throw new Error(`curl verified probe failed for ${url.pathname}: ${stderr.trim()}`);
 }
 
-async function curlTrustedJson(url, certificate) {
-  const child = spawn("curl", ["--fail", "--silent", "--show-error", "--cacert", certificate, url.href], {
+async function curlTrustedJson(url) {
+  const child = spawn("curl", curlTrustedArgs(url), {
     stdio: ["ignore", "pipe", "pipe"],
   });
   let stdout = "";
@@ -510,16 +471,13 @@ async function curlTrustedJson(url, certificate) {
   }
 }
 
-async function proveConcurrentTrustedConnections(url, certificate, count) {
-  const ca = await fs.readFile(certificate);
-  const expectedPeerSha256 = new X509Certificate(ca).fingerprint256.replaceAll(":", "").toLowerCase();
+async function proveConcurrentTrustedConnections(url, expectedPeerSha256, count) {
   const sessions = await Promise.all(Array.from({ length: count }, (_, index) => new Promise((resolveSession, rejectSession) => {
     const socket = tlsConnect({
-      host: url.hostname,
+      host: "127.0.0.1",
       port: Number(url.port),
-      ca,
       rejectUnauthorized: true,
-      servername: "localhost",
+      servername: url.hostname,
       ALPNProtocols: ["http/1.1"],
     });
     socket.setTimeout(10_000, () => socket.destroy(new Error(`connection ${index + 1} timed out`)));
@@ -557,7 +515,7 @@ async function proveConcurrentTrustedConnections(url, certificate, count) {
       resolveResponse({ peerSha256, status });
     });
     socket.once("error", rejectResponse);
-    socket.write(`GET ${url.pathname}${url.search} HTTP/1.1\r\nHost: localhost:${url.port}\r\nConnection: close\r\n\r\n`);
+    socket.write(`GET ${url.pathname}${url.search} HTTP/1.1\r\nHost: ${url.host}\r\nConnection: close\r\n\r\n`);
   })));
   return {
     requested: count,
@@ -675,15 +633,13 @@ async function waitForPidExit(pid, timeoutMilliseconds) {
   return false;
 }
 
-async function peerCertificateSha256(url, certificate) {
-  const ca = await fs.readFile(certificate);
+async function peerCertificateSha256(url) {
   return new Promise((resolvePeer, rejectPeer) => {
     const socket = tlsConnect({
-      host: url.hostname,
+      host: "127.0.0.1",
       port: Number(url.port),
-      ca,
       rejectUnauthorized: true,
-      servername: "localhost",
+      servername: url.hostname,
     });
     socket.setTimeout(10_000, () => socket.destroy(new Error(`TLS probe timed out for ${url.origin}`)));
     socket.once("secureConnect", () => {
@@ -703,6 +659,13 @@ async function peerCertificateSha256(url, certificate) {
 async function certificateDerSha256(path) {
   const certificate = new X509Certificate(await fs.readFile(path));
   return createHash("sha256").update(certificate.raw).digest("hex");
+}
+
+async function rejectSelfIssuedServerLeaf(path) {
+  const certificate = new X509Certificate(await fs.readFile(path));
+  if (certificate.checkIssued(certificate)) {
+    fail("self-issued Runtime server leaf certificates are not accepted");
+  }
 }
 
 async function fileSha256(path) {
@@ -774,18 +737,19 @@ async function assertCanonicalFastWorkPath(path, label) {
   }
 }
 
-function assertHttpsLocalhost(url, label) {
-  if (url.protocol !== "https:" || url.hostname !== "localhost" || !url.port) {
-    fail(`${label} URL must be an explicit https://localhost:<port> URL`);
+function assertHttpsExternalDns(url, label) {
+  if (url.protocol !== "https:" || !url.port || url.hostname === "localhost"
+      || /^[0-9.]+$/u.test(url.hostname) || url.hostname.includes(":")) {
+    fail(`${label} URL must be an explicit HTTPS endpoint on a real DNS name`);
   }
 }
 
 function platformDispositions(platforms) {
   const normalized = platforms.map((platform) => platform === "darwin" ? "macos" : platform);
   const supported = {
-    macos: { status: "supported", trust: "explicit user-keychain security(1) transaction" },
-    linux: { status: "blocked", reason: "Chrome NSS trust and system curl trust are separate stores; no single reversible native transaction is implemented" },
-    windows: { status: "blocked", reason: "CurrentUser Root import/removal has not received native Windows execution proof" },
+    macos: { status: "live_proof_required", trust: "ordinary platform trust; no repository-managed trust mutation" },
+    linux: { status: "live_proof_required", trust: "ordinary platform trust; no repository-managed trust mutation" },
+    windows: { status: "live_proof_required", trust: "ordinary platform trust; no repository-managed trust mutation" },
   };
   return normalized.map((platform) => ({ platform, ...(supported[platform] ?? { status: "blocked", reason: "unknown platform" }) }));
 }

@@ -15,7 +15,6 @@ use adl_runtime_kernel::{
     MAX_PROTOCOL_RESPONSE_BYTES, OPERATION_REQUEST_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
-use rcgen::{generate_simple_self_signed, CertifiedKey};
 use tempfile::TempDir;
 use tokio::{
     io::{AsyncBufReadExt, AsyncRead, AsyncWrite, AsyncWriteExt, BufReader},
@@ -24,15 +23,16 @@ use tokio::{
 };
 use tokio_rustls::{
     rustls::server::WebPkiClientVerifier,
-    rustls::{
-        pki_types::{CertificateDer, PrivateKeyDer, PrivatePkcs8KeyDer},
-        ClientConfig, RootCertStore, ServerConfig,
-    },
+    rustls::{ClientConfig, RootCertStore, ServerConfig},
     TlsAcceptor,
 };
 use tokio_util::sync::CancellationToken;
 
 static ENV_LOCK: StdMutex<()> = StdMutex::new(());
+
+#[path = "../../adl-runtime/tests/support/tls.rs"]
+mod tls_support;
+use tls_support::TestPki;
 
 fn operation(id: &str, payload: &[u8]) -> OperationRequest {
     OperationRequest {
@@ -75,12 +75,38 @@ fn endpoint(
 ) -> ProtocolEndpoint {
     ProtocolEndpoint {
         address,
-        security: ProtocolSecurity::PlainForLocalTest,
+        security: trusted_client_security(),
         timeout: Duration::from_millis(250),
         frame_freshness: Duration::from_millis(250),
         secret,
         capabilities: BTreeSet::from([kind.service_name().to_owned()]),
     }
+}
+
+fn trusted_client_security() -> ProtocolSecurity {
+    let pki = TestPki::new("protocol adapter transport");
+    let client = pki.client(&["adl-runtime-client"]);
+    ProtocolSecurity::rustls_mutual_tls_client_from_der(
+        pki.roots(),
+        client.certificate.as_ref().to_vec(),
+        client.private_key_bytes(),
+        "localhost",
+    )
+    .unwrap()
+}
+
+fn trusted_acceptor() -> TlsAcceptor {
+    let pki = TestPki::new("protocol adapter transport");
+    let server = pki.server(&["localhost"]);
+    let verifier = WebPkiClientVerifier::builder(Arc::new(pki.roots()))
+        .build()
+        .unwrap();
+    TlsAcceptor::from(Arc::new(
+        ServerConfig::builder()
+            .with_client_cert_verifier(verifier)
+            .with_single_cert(server.chain_der(), server.private_key_der())
+            .unwrap(),
+    ))
 }
 
 fn policy() -> AdapterPolicy {
@@ -103,6 +129,7 @@ async fn spawn_peer(
     let address = listener.local_addr().unwrap();
     let remaining = Arc::new(Mutex::new(VecDeque::from(responses)));
     let seen = Arc::new(Mutex::new(BTreeSet::<String>::new()));
+    let acceptor = trusted_acceptor();
     tokio::spawn(async move {
         loop {
             let Ok((stream, _)) = listener.accept().await else {
@@ -111,8 +138,11 @@ async fn spawn_peer(
             let secret = secret.clone();
             let remaining = remaining.clone();
             let seen = seen.clone();
+            let acceptor = acceptor.clone();
             tokio::spawn(async move {
-                handle_peer_stream(stream, secret, remaining, seen, delay).await;
+                if let Ok(stream) = acceptor.accept(stream).await {
+                    handle_peer_stream(stream, secret, remaining, seen, delay).await;
+                }
             });
         }
     });
@@ -122,9 +152,12 @@ async fn spawn_peer(
 async fn spawn_tampered_peer(secret: ProtocolSecret) -> std::net::SocketAddr {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let address = listener.local_addr().unwrap();
+    let acceptor = trusted_acceptor();
     tokio::spawn(async move {
         if let Ok((stream, _)) = listener.accept().await {
-            handle_tampered_peer_stream(stream, secret).await;
+            if let Ok(stream) = acceptor.accept(stream).await {
+                handle_tampered_peer_stream(stream, secret).await;
+            }
         }
     });
     address
@@ -133,9 +166,12 @@ async fn spawn_tampered_peer(secret: ProtocolSecret) -> std::net::SocketAddr {
 async fn spawn_expiring_peer(secret: ProtocolSecret, delay: Duration) -> std::net::SocketAddr {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let address = listener.local_addr().unwrap();
+    let acceptor = trusted_acceptor();
     tokio::spawn(async move {
         if let Ok((stream, _)) = listener.accept().await {
-            handle_expiring_peer_stream(stream, secret, delay).await;
+            if let Ok(stream) = acceptor.accept(stream).await {
+                handle_expiring_peer_stream(stream, secret, delay).await;
+            }
         }
     });
     address
@@ -144,8 +180,12 @@ async fn spawn_expiring_peer(secret: ProtocolSecret, delay: Duration) -> std::ne
 async fn spawn_oversized_peer() -> std::net::SocketAddr {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let address = listener.local_addr().unwrap();
+    let acceptor = trusted_acceptor();
     tokio::spawn(async move {
         if let Ok((stream, _)) = listener.accept().await {
+            let Ok(stream) = acceptor.accept(stream).await else {
+                return;
+            };
             let mut reader = BufReader::new(stream);
             let mut line = String::new();
             if reader.read_line(&mut line).await.unwrap_or_default() == 0 {
@@ -163,14 +203,17 @@ async fn spawn_oversized_peer() -> std::net::SocketAddr {
 async fn spawn_hanging_peer() -> std::net::SocketAddr {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let address = listener.local_addr().unwrap();
+    let acceptor = trusted_acceptor();
     tokio::spawn(async move {
         loop {
             let Ok((stream, _)) = listener.accept().await else {
                 break;
             };
+            let acceptor = acceptor.clone();
             tokio::spawn(async move {
-                let _stream = stream;
-                tokio::time::sleep(Duration::from_secs(5)).await;
+                if let Ok(_stream) = acceptor.accept(stream).await {
+                    tokio::time::sleep(Duration::from_secs(5)).await;
+                }
             });
         }
     });
@@ -182,13 +225,18 @@ async fn spawn_read_then_hang_peer() -> (std::net::SocketAddr, Arc<Notify>) {
     let address = listener.local_addr().unwrap();
     let read = Arc::new(Notify::new());
     let read_peer = read.clone();
+    let acceptor = trusted_acceptor();
     tokio::spawn(async move {
         loop {
             let Ok((stream, _)) = listener.accept().await else {
                 break;
             };
             let read_peer = read_peer.clone();
+            let acceptor = acceptor.clone();
             tokio::spawn(async move {
+                let Ok(stream) = acceptor.accept(stream).await else {
+                    return;
+                };
                 let mut reader = BufReader::new(stream);
                 let mut line = String::new();
                 if reader.read_line(&mut line).await.unwrap_or_default() == 0 {
@@ -211,43 +259,57 @@ async fn spawn_mtls_peer(
     String,
     Arc<Mutex<Option<String>>>,
 ) {
-    let CertifiedKey {
-        cert: server_cert,
-        signing_key: server_key,
-    } = generate_simple_self_signed(["localhost".to_owned()]).unwrap();
-    let CertifiedKey {
-        cert: client_cert,
-        signing_key: client_key,
-    } = generate_simple_self_signed(["adl-runtime-client".to_owned()]).unwrap();
-    let server_certificate = CertificateDer::from(server_cert.der().to_vec());
-    let client_certificate = CertificateDer::from(client_cert.der().to_vec());
+    spawn_mtls_peer_with_fixture(secret, responses, MtlsFixture::Trusted).await
+}
+
+#[derive(Clone, Copy)]
+enum MtlsFixture {
+    Trusted,
+    UnknownServerCa,
+    WrongClientCa,
+}
+
+async fn spawn_mtls_peer_with_fixture(
+    secret: ProtocolSecret,
+    responses: Vec<ProtocolStatus>,
+    fixture: MtlsFixture,
+) -> (
+    std::net::SocketAddr,
+    ProtocolSecurity,
+    String,
+    Arc<Mutex<Option<String>>>,
+) {
+    let pki = TestPki::new("protocol adapter mtls");
+    let server_identity = pki.server(&["localhost"]);
+    let client_identity = match fixture {
+        MtlsFixture::WrongClientCa => pki.wrong_client(),
+        MtlsFixture::Trusted | MtlsFixture::UnknownServerCa => pki.client(&["adl-runtime-client"]),
+    };
+    let client_certificate = client_identity.certificate.clone();
     let expected_client_hash = blake3::hash(client_certificate.as_ref())
         .to_hex()
         .to_string();
 
-    let mut client_roots = RootCertStore::empty();
-    client_roots.add(server_certificate.clone()).unwrap();
-    let mut client_verifier_roots = RootCertStore::empty();
-    client_verifier_roots
-        .add(client_certificate.clone())
-        .unwrap();
-    let client_verifier = WebPkiClientVerifier::builder(Arc::new(client_verifier_roots))
+    let client_roots = match fixture {
+        MtlsFixture::UnknownServerCa => pki.wrong_roots(),
+        MtlsFixture::Trusted | MtlsFixture::WrongClientCa => pki.roots(),
+    };
+    let client_verifier = WebPkiClientVerifier::builder(Arc::new(pki.roots()))
         .build()
         .unwrap();
     let server = Arc::new(
         ServerConfig::builder()
             .with_client_cert_verifier(client_verifier)
             .with_single_cert(
-                vec![server_certificate],
-                PrivateKeyDer::Pkcs8(PrivatePkcs8KeyDer::from(server_key.serialize_der())),
+                server_identity.chain_der(),
+                server_identity.private_key_der(),
             )
             .unwrap(),
     );
-    let client_key_der = client_key.serialize_der();
     let client_security = ProtocolSecurity::rustls_mutual_tls_client_from_der(
         client_roots,
         client_certificate.as_ref().to_vec(),
-        client_key_der,
+        client_identity.private_key_bytes(),
         "localhost",
     )
     .unwrap();
@@ -417,20 +479,8 @@ async fn provider_dispatch_uses_real_authenticated_transport_and_caches_replay_r
 }
 
 #[test]
-fn endpoint_validation_rejects_plaintext_nonloopback_zero_timeout_and_missing_capability() {
+fn endpoint_validation_rejects_zero_timeout_and_missing_capability() {
     let secret = ProtocolSecret::from_key([19; 32]);
-    let nonloopback = ProtocolEndpoint {
-        address: "192.0.2.1:443".parse().unwrap(),
-        ..endpoint(
-            "127.0.0.1:1".parse().unwrap(),
-            AdapterKind::Provider,
-            secret.clone(),
-        )
-    };
-    assert!(
-        ProtocolAdapter::new(AdapterKind::Provider, nonloopback, CancellationToken::new()).is_err()
-    );
-
     let zero_timeout = ProtocolEndpoint {
         timeout: Duration::ZERO,
         ..endpoint(
@@ -485,6 +535,7 @@ async fn protocol_frame_freshness_is_mac_bound_and_peer_verifiable() {
             .unwrap()
     });
     let (stream, _) = listener.accept().await.unwrap();
+    let stream = trusted_acceptor().accept(stream).await.unwrap();
     let mut reader = BufReader::new(stream);
     let mut line = String::new();
     assert!(reader.read_line(&mut line).await.unwrap() > 0);
@@ -801,6 +852,46 @@ async fn cloud_bridge_capability_and_mtls_boundary_are_explicit() {
     );
 }
 
+#[tokio::test]
+async fn protocol_mtls_rejects_unknown_server_ca_and_wrong_client_ca() {
+    for (variant, request_id) in [
+        (MtlsFixture::UnknownServerCa, "unknown-server-ca"),
+        (MtlsFixture::WrongClientCa, "wrong-client-ca"),
+    ] {
+        let secret = ProtocolSecret::from_key([31; 32]);
+        let (address, security, _, _) =
+            spawn_mtls_peer_with_fixture(secret.clone(), vec![ProtocolStatus::Ok], variant).await;
+        let adapter = ProtocolAdapter::new(
+            AdapterKind::CloudBridge,
+            ProtocolEndpoint {
+                security,
+                ..endpoint(address, AdapterKind::CloudBridge, secret)
+            },
+            CancellationToken::new(),
+        )
+        .unwrap();
+        let error = adapter
+            .execute(&operation(
+                request_id,
+                b"must not cross an untrusted TLS boundary",
+            ))
+            .await
+            .unwrap_err();
+        assert!(matches!(
+            error.class,
+            FailureClass::Retryable | FailureClass::Fatal
+        ));
+        assert!(
+            error.message.contains("TLS")
+                || error.message.contains("certificate")
+                || error.message.contains("transport unavailable")
+                || error.message.contains("fatal alert"),
+            "unexpected mTLS rejection: {}",
+            error.message
+        );
+    }
+}
+
 #[test]
 fn production_builder_returns_no_partial_executors_when_protocol_config_is_missing() {
     let _guard = ENV_LOCK.lock().unwrap();
@@ -884,14 +975,15 @@ fn protocol_env_reports_client_key_surface_for_invalid_mtls_key_material() {
         env::remove_var(key);
     }
     let root = TempDir::new().unwrap();
-    let CertifiedKey { cert, .. } = generate_simple_self_signed(["localhost".to_owned()]).unwrap();
+    let pki = TestPki::new("protocol environment");
+    let client = pki.client(&["adl-runtime-client"]);
     let secret_path = root.path().join("secret.key");
     let ca_path = root.path().join("ca.der");
     let cert_path = root.path().join("client.der");
     let key_path = root.path().join("client.key");
     std::fs::write(&secret_path, [7; 32]).unwrap();
-    std::fs::write(&ca_path, cert.der()).unwrap();
-    std::fs::write(&cert_path, cert.der()).unwrap();
+    std::fs::write(&ca_path, pki.root_der()).unwrap();
+    std::fs::write(&cert_path, client.certificate).unwrap();
     std::fs::write(&key_path, b"not-a-pkcs8-key").unwrap();
     env::set_var("ADL_RUNTIME_PROVIDER_ENDPOINT", "127.0.0.1:1");
     env::set_var("ADL_RUNTIME_PROVIDER_SECRET_FILE", &secret_path);

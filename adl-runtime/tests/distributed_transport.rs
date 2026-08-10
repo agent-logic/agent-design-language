@@ -783,7 +783,7 @@ fn dependency_contract_is_exactly_pinned_in_manifest_and_lockfile() {
         "openraft = { version = \"=0.9.21\"",
         "quinn = { version = \"=0.11.11\"",
         "prost = \"=0.13.5\"",
-        "rustls = { version = \"=0.23.42\"",
+        "rustls = { version = \"=0.23.43\"",
     ] {
         assert!(manifest.contains(declaration), "missing pin: {declaration}");
     }
@@ -791,7 +791,7 @@ fn dependency_contract_is_exactly_pinned_in_manifest_and_lockfile() {
         "name = \"openraft\"\nversion = \"0.9.21\"",
         "name = \"quinn\"\nversion = \"0.11.11\"",
         "name = \"prost\"\nversion = \"0.13.5\"",
-        "name = \"rustls\"\nversion = \"0.23.42\"",
+        "name = \"rustls\"\nversion = \"0.23.43\"",
     ] {
         assert!(lockfile.contains(package), "missing lock entry: {package}");
     }

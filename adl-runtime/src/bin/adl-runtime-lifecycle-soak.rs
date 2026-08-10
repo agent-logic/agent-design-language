@@ -2,7 +2,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     fs::File,
     io::Write,
-    net::{IpAddr, Ipv4Addr, SocketAddr, ToSocketAddrs},
+    net::{SocketAddr, ToSocketAddrs},
     path::{Path, PathBuf},
     process::{ExitCode, Stdio},
     sync::Arc,
@@ -10,10 +10,6 @@ use std::{
 };
 
 use adl_runtime::guardian::{GuardianOutcome, GuardianTerminalState};
-use adl_runtime::local_tls::{
-    bootstrap_runtime_tls, RuntimeTlsBootstrapConfig, RuntimeTlsBootstrapMode,
-    LOCAL_TLS_BOOTSTRAP_SCHEMA,
-};
 use adl_runtime_kernel::verify_live_continuity_lineage;
 use base64::Engine;
 use ed25519_dalek::{SigningKey, VerifyingKey};
@@ -83,6 +79,9 @@ async fn main() -> ExitCode {
         &args.init_template,
         &args.kernel,
         &args.vector,
+        &args.tls_certificate_chain,
+        &args.tls_private_key,
+        &args.tls_trust_roots,
         args.suite,
         &args.revision,
     )
@@ -121,6 +120,9 @@ struct Args {
     guardian: PathBuf,
     kernel: PathBuf,
     vector: PathBuf,
+    tls_certificate_chain: PathBuf,
+    tls_private_key: PathBuf,
+    tls_trust_roots: PathBuf,
     init_template: PathBuf,
     state_root: PathBuf,
     report: PathBuf,
@@ -139,6 +141,7 @@ struct ProductionFixture {
     master_log: PathBuf,
     log_audit: PathBuf,
     tls_connector: tokio_rustls::TlsConnector,
+    tls_server_name: String,
     continuity_verifying_key: VerifyingKey,
     observatory_token: String,
     readiness_timeout: Duration,
@@ -228,6 +231,9 @@ impl ProductionFixture {
         init_template: &Path,
         kernel: &Path,
         vector: &Path,
+        tls_certificate_chain: &Path,
+        tls_private_key: &Path,
+        tls_trust_roots: &Path,
         suite: Suite,
         revision: &str,
     ) -> Result<Self, String> {
@@ -289,32 +295,17 @@ impl ProductionFixture {
                 .map_err(|error| format!("could not create {}: {error}", path.display()))?;
         }
 
-        let certificate_name =
-            toml_file_name(&init_document, &["api", "tls", "certificate_chain_path"])?;
-        let private_key_name = toml_file_name(&init_document, &["api", "tls", "private_key_path"])?;
-        let public_certificate_name = "runtime-local-public.pem";
-        let tls_outcome = bootstrap_runtime_tls(&RuntimeTlsBootstrapConfig {
-            schema: LOCAL_TLS_BOOTSTRAP_SCHEMA.to_owned(),
-            mode: RuntimeTlsBootstrapMode::LocalSelfSigned,
-            state_root: Some(state_root.clone()),
-            tls_dir: Some(PathBuf::from(toml_string(
-                &init_document,
-                &["paths", "tls_dir"],
-            )?)),
-            certificate_chain_path: PathBuf::from(&certificate_name),
-            public_certificate_path: Some(PathBuf::from(public_certificate_name)),
-            private_key_path: PathBuf::from(&private_key_name),
-            dns_names: vec!["localhost".to_owned()],
-            ip_addresses: vec![IpAddr::V4(Ipv4Addr::LOCALHOST)],
-            replace: false,
-        })
-        .await
-        .map_err(|error| error.to_string())?;
-        let certificate = tls_outcome.certificate_chain_path;
-        let public_certificate = tls_outcome
-            .public_certificate_path
-            .ok_or_else(|| "local TLS bootstrap did not return a public certificate".to_owned())?;
-        let private_key = tls_outcome.private_key_path;
+        let certificate = tls_certificate_chain
+            .canonicalize()
+            .map_err(|error| format!("TLS certificate chain is unavailable: {error}"))?;
+        let private_key = tls_private_key
+            .canonicalize()
+            .map_err(|error| format!("TLS private key is unavailable: {error}"))?;
+        let trust_roots = tls_trust_roots
+            .canonicalize()
+            .map_err(|error| format!("TLS trust roots are unavailable: {error}"))?;
+        let tls_server_name =
+            toml_string(&init_document, &["api", "tls", "server_name"])?.to_owned();
 
         let control_key = SigningKey::from_bytes(&[17_u8; 32]);
         let operation_key = SigningKey::from_bytes(&[29_u8; 32]);
@@ -323,6 +314,7 @@ impl ProductionFixture {
         let operation_public_key = hex::encode(operation_key.verifying_key().as_bytes());
         let continuity_signing_key = hex::encode([23_u8; 32]);
         let observatory_token = "wp12-observatory-token-000000000001".to_owned();
+        let acip_write_token = "wp12-acip-write-token-0000000000001".to_owned();
         let control_public_key_path = credentials_root.join(toml_file_name(
             &init_document,
             &["credentials", "control_public_key_path"],
@@ -339,6 +331,10 @@ impl ProductionFixture {
             &init_document,
             &["credentials", "observatory_token_path"],
         )?);
+        let acip_write_token_path = credentials_root.join(toml_file_name(
+            &init_document,
+            &["credentials", "acip_write_token_path"],
+        )?);
         std::fs::write(&control_public_key_path, &control_public_key)
             .map_err(|error| error.to_string())?;
         std::fs::write(&operation_public_key_path, &operation_public_key)
@@ -349,6 +345,8 @@ impl ProductionFixture {
         )
         .map_err(|error| error.to_string())?;
         write_secret(&observatory_token_path, observatory_token.as_bytes())
+            .map_err(|error| error.to_string())?;
+        write_secret(&acip_write_token_path, acip_write_token.as_bytes())
             .map_err(|error| error.to_string())?;
 
         set_toml_string(&mut init_document, &["state_root"], toml_path(&state_root)?)?;
@@ -372,11 +370,17 @@ impl ProductionFixture {
             &["api", "tls", "private_key_path"],
             toml_path(&private_key)?,
         )?;
+        set_toml_string(
+            &mut init_document,
+            &["api", "tls", "trust_roots_path"],
+            toml_path(&trust_roots)?,
+        )?;
         for (field, path) in [
             ("control_public_key_path", &control_public_key_path),
             ("operation_public_key_path", &operation_public_key_path),
             ("continuity_signing_key_path", &continuity_signing_key_path),
             ("observatory_token_path", &observatory_token_path),
+            ("acip_write_token_path", &acip_write_token_path),
         ] {
             set_toml_string(
                 &mut init_document,
@@ -405,7 +409,7 @@ impl ProductionFixture {
 
         let mut roots = RootCertStore::empty();
         roots
-            .add(CertificateDer::from(read_pem_der(&public_certificate)?))
+            .add(CertificateDer::from(read_pem_der(&trust_roots)?))
             .map_err(|error| error.to_string())?;
         let client_config = ClientConfig::builder()
             .with_root_certificates(roots)
@@ -419,6 +423,7 @@ impl ProductionFixture {
             master_log,
             log_audit,
             tls_connector: tokio_rustls::TlsConnector::from(Arc::new(client_config)),
+            tls_server_name,
             continuity_verifying_key: continuity_key.verifying_key(),
             observatory_token,
             readiness_timeout,
@@ -571,6 +576,9 @@ impl Args {
         let mut guardian = None;
         let mut kernel = None;
         let mut vector = None;
+        let mut tls_certificate_chain = None;
+        let mut tls_private_key = None;
+        let mut tls_trust_roots = None;
         let mut init_template = None;
         let mut state_root = None;
         let mut report = None;
@@ -587,6 +595,16 @@ impl Args {
                 "--guardian" => guardian = Some(PathBuf::from(value(&mut args, "--guardian")?)),
                 "--kernel" => kernel = Some(PathBuf::from(value(&mut args, "--kernel")?)),
                 "--vector" => vector = Some(PathBuf::from(value(&mut args, "--vector")?)),
+                "--tls-certificate-chain" => {
+                    tls_certificate_chain =
+                        Some(PathBuf::from(value(&mut args, "--tls-certificate-chain")?))
+                }
+                "--tls-private-key" => {
+                    tls_private_key = Some(PathBuf::from(value(&mut args, "--tls-private-key")?))
+                }
+                "--tls-trust-roots" => {
+                    tls_trust_roots = Some(PathBuf::from(value(&mut args, "--tls-trust-roots")?))
+                }
                 "--init-template" => {
                     init_template = Some(PathBuf::from(value(&mut args, "--init-template")?))
                 }
@@ -629,6 +647,12 @@ impl Args {
         let guardian = guardian.ok_or_else(|| "--guardian is required".to_owned())?;
         let kernel = kernel.ok_or_else(|| "--kernel is required".to_owned())?;
         let vector = vector.ok_or_else(|| "--vector is required".to_owned())?;
+        let tls_certificate_chain = tls_certificate_chain
+            .ok_or_else(|| "--tls-certificate-chain is required".to_owned())?;
+        let tls_private_key =
+            tls_private_key.ok_or_else(|| "--tls-private-key is required".to_owned())?;
+        let tls_trust_roots =
+            tls_trust_roots.ok_or_else(|| "--tls-trust-roots is required".to_owned())?;
         let init_template =
             init_template.ok_or_else(|| "--init-template is required".to_owned())?;
         let state_root = state_root.ok_or_else(|| "--state-root is required".to_owned())?;
@@ -642,6 +666,23 @@ impl Args {
         }
         if !vector.is_absolute() || !vector.is_file() {
             return Err("--vector must be an absolute existing file".to_owned());
+        }
+        for (name, path) in [
+            ("--tls-certificate-chain", &tls_certificate_chain),
+            ("--tls-private-key", &tls_private_key),
+            ("--tls-trust-roots", &tls_trust_roots),
+        ] {
+            if !path.is_absolute() || !path.is_file() {
+                return Err(format!("{name} must be an absolute existing file"));
+            }
+        }
+        if tls_certificate_chain == tls_private_key
+            || tls_certificate_chain == tls_trust_roots
+            || tls_private_key == tls_trust_roots
+        {
+            return Err(
+                "TLS certificate chain, private key, and trust roots must be distinct".to_owned(),
+            );
         }
         if !init_template.is_absolute() || !init_template.is_file() {
             return Err("--init-template must be an absolute existing file".to_owned());
@@ -707,6 +748,9 @@ impl Args {
             guardian,
             kernel,
             vector,
+            tls_certificate_chain,
+            tls_private_key,
+            tls_trust_roots,
             init_template,
             state_root,
             report,
@@ -1614,15 +1658,16 @@ async fn authenticated_observatory(
     let stream = tokio::net::TcpStream::connect(fixture.address)
         .await
         .map_err(|error| error.to_string())?;
-    let server_name = ServerName::try_from("localhost").map_err(|error| error.to_string())?;
+    let server_name =
+        ServerName::try_from(fixture.tls_server_name.clone()).map_err(|error| error.to_string())?;
     let mut stream = fixture
         .tls_connector
         .connect(server_name, stream)
         .await
         .map_err(|error| error.to_string())?;
     let request = format!(
-        "GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer {}\r\nConnection: close\r\n\r\n",
-        fixture.observatory_token
+        "GET /v1/observatory HTTP/1.1\r\nHost: {}\r\nAuthorization: Bearer {}\r\nConnection: close\r\n\r\n",
+        fixture.tls_server_name, fixture.observatory_token
     );
     stream
         .write_all(request.as_bytes())
@@ -2394,7 +2439,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn init_fixture_uses_stable_local_tls_bootstrap() {
+    async fn init_fixture_uses_externally_provisioned_tls() {
         let current_dir = std::env::current_dir().expect("current directory");
         let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
         let executable = std::env::current_exe().expect("current executable");
@@ -2403,17 +2448,27 @@ mod tests {
             .join("infra")
             .join("runtime-v3")
             .join("runtime-init.toml");
+        let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests")
+            .join("support")
+            .join("tls-fixtures");
+        let certificate_chain = fixtures.join("server-cert.pem");
+        let private_key = fixtures.join("server-key.pem");
+        let trust_roots = fixtures.join("root-ca.pem");
 
         let fixture = ProductionFixture::create(
             directory.path(),
             &init_template,
             &executable,
             &executable,
+            &certificate_chain,
+            &private_key,
+            &trust_roots,
             Suite::Preflight,
             "0123456789abcdef0123456789abcdef01234567",
         )
         .await
-        .expect("fixture should bootstrap local TLS through the shared path");
+        .expect("fixture should use externally provisioned TLS material");
 
         let init = std::fs::read_to_string(&fixture.init).expect("runtime init");
         let parsed = toml::from_str::<toml::Value>(&init).expect("runtime init toml");
@@ -2427,15 +2482,8 @@ mod tests {
                 .as_str()
                 .expect("private key path"),
         );
-        assert!(certificate.exists());
-        assert!(private_key.exists());
-        let manifest_path = certificate
-            .parent()
-            .and_then(Path::parent)
-            .and_then(Path::parent)
-            .expect("generation certificate path")
-            .join("current-generation.json");
-        assert!(manifest_path.exists());
+        assert_eq!(certificate, certificate_chain.canonicalize().unwrap());
+        assert_eq!(private_key, private_key.canonicalize().unwrap());
     }
 
     fn arguments(mode: &[&str]) -> Vec<String> {
@@ -2449,6 +2497,10 @@ mod tests {
             .join("infra")
             .join("runtime-v3")
             .join("runtime-init.toml");
+        let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests")
+            .join("support")
+            .join("tls-fixtures");
         let mut values = vec![
             "--guardian".to_owned(),
             executable.clone(),
@@ -2456,6 +2508,18 @@ mod tests {
             executable.clone(),
             "--vector".to_owned(),
             executable,
+            "--tls-certificate-chain".to_owned(),
+            fixtures
+                .join("server-cert.pem")
+                .to_string_lossy()
+                .into_owned(),
+            "--tls-private-key".to_owned(),
+            fixtures
+                .join("server-key.pem")
+                .to_string_lossy()
+                .into_owned(),
+            "--tls-trust-roots".to_owned(),
+            fixtures.join("root-ca.pem").to_string_lossy().into_owned(),
             "--init-template".to_owned(),
             init_template.to_string_lossy().into_owned(),
             "--state-root".to_owned(),

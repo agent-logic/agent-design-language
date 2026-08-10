@@ -23,20 +23,20 @@ use adl_runtime_kernel::{
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
-use rcgen::{generate_simple_self_signed, CertifiedKey};
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
     sync::Notify,
 };
 use tokio_rustls::{
-    rustls::{
-        pki_types::{CertificateDer, ServerName},
-        ClientConfig, RootCertStore,
-    },
+    rustls::{pki_types::ServerName, ClientConfig},
     TlsConnector,
 };
 
 const TEST_BIND_HOST: &str = "127.0.0.1";
+
+#[path = "../../adl-runtime/tests/support/tls.rs"]
+mod tls_support;
+use tls_support::TestPki;
 
 fn test_api_policy() -> ControlApiPolicy {
     ControlApiPolicy::new(
@@ -49,22 +49,17 @@ fn test_api_policy() -> ControlApiPolicy {
 }
 
 async fn test_https() -> (axum_server::tls_rustls::RustlsConfig, TlsConnector) {
-    let CertifiedKey { cert, signing_key } =
-        generate_simple_self_signed(["localhost".to_owned(), TEST_BIND_HOST.to_owned()]).unwrap();
-    let certificate = cert.pem();
+    let pki = TestPki::new("kernel control https");
+    let identity = pki.server(&["localhost", TEST_BIND_HOST]);
     let server = axum_server::tls_rustls::RustlsConfig::from_pem(
-        certificate.as_bytes().to_vec(),
-        signing_key.serialize_pem().into_bytes(),
+        identity.certificate_pem(),
+        identity.private_key_pem(),
     )
     .await
     .unwrap();
-    let mut roots = RootCertStore::empty();
-    roots
-        .add(CertificateDer::from(cert.der().to_vec()))
-        .unwrap();
     let client = TlsConnector::from(Arc::new(
         ClientConfig::builder()
-            .with_root_certificates(roots)
+            .with_root_certificates(pki.roots())
             .with_no_client_auth(),
     ));
     (server, client)
@@ -1606,20 +1601,101 @@ async fn tls_configuration_fails_closed_for_missing_and_mismatched_pem_material(
     let missing = RuntimeTlsInitConfig {
         certificate_chain_path: temp.path().join("missing-cert.pem"),
         private_key_path: temp.path().join("missing-key.pem"),
+        trust_roots_path: temp.path().join("missing-roots.pem"),
+        server_name: "localhost".to_owned(),
     };
     assert!(load_control_tls(&missing).await.is_err());
 
-    let first = generate_simple_self_signed(["localhost".to_owned()]).unwrap();
-    let second = generate_simple_self_signed(["localhost".to_owned()]).unwrap();
+    let pki = TestPki::new("kernel control mismatch");
+    let first = pki.server(&["localhost"]);
+    let second = pki.wrong_san_server();
     let certificate = temp.path().join("cert.pem");
     let wrong_key = temp.path().join("wrong-key.pem");
-    std::fs::write(&certificate, first.cert.pem()).unwrap();
-    std::fs::write(&wrong_key, second.signing_key.serialize_pem()).unwrap();
+    let trust_roots = temp.path().join("roots.pem");
+    std::fs::write(&certificate, first.certificate_pem()).unwrap();
+    std::fs::write(&wrong_key, second.private_key_pem()).unwrap();
+    std::fs::write(&trust_roots, pki.root_pem()).unwrap();
     let mismatched = RuntimeTlsInitConfig {
         certificate_chain_path: certificate,
         private_key_path: wrong_key,
+        trust_roots_path: trust_roots,
+        server_name: "localhost".to_owned(),
     };
     assert!(load_control_tls(&mismatched).await.is_err());
+
+    let write_config = |name: &str,
+                        identity: &tls_support::TestIdentity,
+                        certificate_pem: Vec<u8>,
+                        roots: &[u8],
+                        server_name: &str| {
+        let certificate = temp.path().join(format!("{name}-chain.pem"));
+        let private_key = temp.path().join(format!("{name}-key.pem"));
+        let trust_roots = temp.path().join(format!("{name}-roots.pem"));
+        std::fs::write(&certificate, certificate_pem).unwrap();
+        std::fs::write(&private_key, identity.private_key_pem()).unwrap();
+        std::fs::write(&trust_roots, roots).unwrap();
+        RuntimeTlsInitConfig {
+            certificate_chain_path: certificate,
+            private_key_path: private_key,
+            trust_roots_path: trust_roots,
+            server_name: server_name.to_owned(),
+        }
+    };
+
+    let valid = pki.server(&["localhost"]);
+    assert!(load_control_tls(&write_config(
+        "valid",
+        &valid,
+        valid.certificate_pem(),
+        pki.root_pem(),
+        "localhost",
+    ))
+    .await
+    .is_ok());
+
+    let wrong_san = pki.wrong_san_server();
+    assert!(load_control_tls(&write_config(
+        "wrong-san",
+        &wrong_san,
+        wrong_san.certificate_pem(),
+        pki.root_pem(),
+        "localhost",
+    ))
+    .await
+    .is_err());
+
+    let unknown_ca = pki.server(&["localhost"]);
+    assert!(load_control_tls(&write_config(
+        "unknown-ca",
+        &unknown_ca,
+        unknown_ca.certificate_pem(),
+        pki.wrong_root_pem(),
+        "localhost",
+    ))
+    .await
+    .is_err());
+
+    let incomplete = pki.server(&["localhost"]);
+    assert!(load_control_tls(&write_config(
+        "incomplete-chain",
+        &incomplete,
+        incomplete.leaf_only_pem(),
+        pki.root_pem(),
+        "localhost",
+    ))
+    .await
+    .is_err());
+
+    let self_signed = pki.self_signed_server();
+    assert!(load_control_tls(&write_config(
+        "self-signed",
+        &self_signed,
+        self_signed.certificate_pem(),
+        pki.root_pem(),
+        "localhost",
+    ))
+    .await
+    .is_err());
 }
 
 #[tokio::test]

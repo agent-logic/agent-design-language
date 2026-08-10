@@ -11,16 +11,16 @@ use quinn::{
     crypto::rustls::{QuicClientConfig, QuicServerConfig},
     Connection, Endpoint,
 };
-use rustls::{
-    pki_types::{CertificateDer, PrivateKeyDer},
-    server::WebPkiClientVerifier,
-    RootCertStore,
-};
+use rustls::pki_types::{CertificateDer, PrivateKeyDer};
 use sha2::{Digest, Sha256};
 use tokio::time::Instant;
 use tokio_util::sync::CancellationToken;
 
 use super::certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore};
+use adl_runtime_kernel::tls::{
+    build_mutual_tls_client_config, build_mutual_tls_server_config, trust_roots_from_der,
+    TlsIdentity,
+};
 
 pub const TRANSPORT_SCHEMA: &str = "adl.distributed.transport_envelope.v1";
 pub const TRANSPORT_ALPN: &[u8] = b"adl-guardian/1";
@@ -340,19 +340,14 @@ pub fn server_endpoint(
     if certificate_chain.is_empty() || client_roots.is_empty() {
         return Err(TransportError::InvalidTlsMaterial);
     }
-    let provider = Arc::new(rustls::crypto::aws_lc_rs::default_provider());
-    let roots = roots(client_roots)?;
-    let verifier = WebPkiClientVerifier::builder_with_provider(Arc::new(roots), provider.clone())
-        .build()
-        .map_err(|_| TransportError::TlsConfiguration)?;
-    let mut tls = rustls::ServerConfig::builder_with_provider(provider)
-        .with_protocol_versions(&[&rustls::version::TLS13])
-        .map_err(|_| TransportError::TlsConfiguration)?
-        .with_client_cert_verifier(verifier)
-        .with_single_cert(certificate_chain, private_key)
+    let identity = TlsIdentity::from_der(certificate_chain, private_key)
         .map_err(|_| TransportError::InvalidTlsMaterial)?;
-    tls.alpn_protocols = vec![TRANSPORT_ALPN.to_vec()];
-    let crypto = QuicServerConfig::try_from(tls).map_err(|_| TransportError::TlsConfiguration)?;
+    let roots =
+        trust_roots_from_der(client_roots).map_err(|_| TransportError::InvalidTlsMaterial)?;
+    let tls = build_mutual_tls_server_config(identity, roots, &[TRANSPORT_ALPN])
+        .map_err(|_| TransportError::TlsConfiguration)?;
+    let crypto =
+        QuicServerConfig::try_from((*tls).clone()).map_err(|_| TransportError::TlsConfiguration)?;
     let mut config = quinn::ServerConfig::with_crypto(Arc::new(crypto));
     config.transport_config(transport_config(limits)?);
     Endpoint::server(config, bind).map_err(|_| TransportError::Endpoint)
@@ -368,30 +363,19 @@ pub fn client_endpoint(
     if certificate_chain.is_empty() || server_roots.is_empty() {
         return Err(TransportError::InvalidTlsMaterial);
     }
-    let provider = Arc::new(rustls::crypto::aws_lc_rs::default_provider());
-    let mut tls = rustls::ClientConfig::builder_with_provider(provider)
-        .with_protocol_versions(&[&rustls::version::TLS13])
-        .map_err(|_| TransportError::TlsConfiguration)?
-        .with_root_certificates(roots(server_roots)?)
-        .with_client_auth_cert(certificate_chain, private_key)
+    let identity = TlsIdentity::from_der(certificate_chain, private_key)
         .map_err(|_| TransportError::InvalidTlsMaterial)?;
-    tls.alpn_protocols = vec![TRANSPORT_ALPN.to_vec()];
-    let crypto = QuicClientConfig::try_from(tls).map_err(|_| TransportError::TlsConfiguration)?;
+    let roots =
+        trust_roots_from_der(server_roots).map_err(|_| TransportError::InvalidTlsMaterial)?;
+    let tls = build_mutual_tls_client_config(identity, roots, &[TRANSPORT_ALPN])
+        .map_err(|_| TransportError::TlsConfiguration)?;
+    let crypto =
+        QuicClientConfig::try_from((*tls).clone()).map_err(|_| TransportError::TlsConfiguration)?;
     let mut config = quinn::ClientConfig::new(Arc::new(crypto));
     config.transport_config(transport_config(limits)?);
     let mut endpoint = Endpoint::client(bind).map_err(|_| TransportError::Endpoint)?;
     endpoint.set_default_client_config(config);
     Ok(endpoint)
-}
-
-fn roots(certificates: &[CertificateDer<'static>]) -> TransportResult<RootCertStore> {
-    let mut roots = RootCertStore::empty();
-    for certificate in certificates {
-        roots
-            .add(certificate.clone())
-            .map_err(|_| TransportError::InvalidTlsMaterial)?;
-    }
-    Ok(roots)
 }
 
 fn ed25519_subject_public_key(certificate: &CertificateDer<'_>) -> TransportResult<[u8; 32]> {

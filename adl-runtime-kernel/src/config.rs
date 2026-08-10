@@ -267,6 +267,20 @@ impl RuntimeInitConfig {
             ));
         }
         validate_https_base_url("api.public_base_url", &self.api.public_base_url)?;
+        let public_uri = parse_http_uri(&self.api.public_base_url)?;
+        let public_host =
+            public_uri
+                .host()
+                .ok_or_else(|| RuntimeInitError::InvalidHttpsBaseUrl {
+                    field: "api.public_base_url",
+                    value: self.api.public_base_url.clone(),
+                })?;
+        if self.api.tls.server_name != public_host {
+            return Err(RuntimeInitError::TlsServerNameMismatch {
+                configured: self.api.tls.server_name.clone(),
+                public_host: public_host.to_owned(),
+            });
+        }
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
                 "api.bind_attempts must be between 1 and 100".to_owned(),
@@ -295,10 +309,27 @@ impl RuntimeInitConfig {
             "api.tls.private_key_path",
             &self.api.tls.private_key_path,
         )?;
+        validate_distinct_paths(
+            "api.tls.certificate_chain_path",
+            &self.api.tls.certificate_chain_path,
+            "api.tls.trust_roots_path",
+            &self.api.tls.trust_roots_path,
+        )?;
+        validate_distinct_paths(
+            "api.tls.private_key_path",
+            &self.api.tls.private_key_path,
+            "api.tls.trust_roots_path",
+            &self.api.tls.trust_roots_path,
+        )?;
         validate_child_path(
             "api.tls.certificate_chain_path",
             &tls_root,
             &self.api.tls.certificate_chain_path,
+        )?;
+        validate_child_path(
+            "api.tls.trust_roots_path",
+            &tls_root,
+            &self.api.tls.trust_roots_path,
         )?;
         validate_child_path(
             "api.tls.private_key_path",
@@ -342,6 +373,10 @@ impl RuntimeInitConfig {
             (
                 "credentials.observatory_token_path",
                 &self.credentials.observatory_token_path,
+            ),
+            (
+                "credentials.acip_write_token_path",
+                &self.credentials.acip_write_token_path,
             ),
         ] {
             validate_child_path(field, &credential_root, path)?;
@@ -566,6 +601,24 @@ pub struct RuntimeApiInitConfig {
 pub struct RuntimeTlsInitConfig {
     pub certificate_chain_path: PathBuf,
     pub private_key_path: PathBuf,
+    pub trust_roots_path: PathBuf,
+    pub server_name: String,
+}
+
+impl RuntimeTlsInitConfig {
+    pub fn identity_paths(&self) -> crate::tls::TlsIdentityPaths {
+        crate::tls::TlsIdentityPaths {
+            certificate_chain_path: self.certificate_chain_path.clone(),
+            private_key_path: self.private_key_path.clone(),
+        }
+    }
+
+    pub fn server_validation(&self) -> crate::tls::TlsServerValidation {
+        crate::tls::TlsServerValidation {
+            trust_roots_path: self.trust_roots_path.clone(),
+            server_name: self.server_name.clone(),
+        }
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -579,6 +632,7 @@ pub struct RuntimeCredentialInitConfig {
     pub continuity_signing_key_path: PathBuf,
     pub continuity_key_id: String,
     pub observatory_token_path: PathBuf,
+    pub acip_write_token_path: PathBuf,
     pub continuity_min_generation: u64,
     pub sntp_server: String,
 }
@@ -1124,6 +1178,13 @@ pub enum RuntimeInitError {
     BindAddress(String),
     #[error("runtime init TLS certificate and private-key paths must be non-empty and distinct")]
     InvalidTlsPaths,
+    #[error(
+        "runtime init TLS server name {configured} does not match public API host {public_host}"
+    )]
+    TlsServerNameMismatch {
+        configured: String,
+        public_host: String,
+    },
     #[error("runtime init {0} must be an absolute path without parent traversal")]
     RelativePath(&'static str),
     #[error("runtime init {0} must stay inside state_root")]
