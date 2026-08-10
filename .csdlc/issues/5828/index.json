@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5828,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
-  "phase": "initialized",
-  "generation": 52,
-  "digest": "98fcc033ecb67112f87f9ce19b756e69acb2c988f4b483d9e58a4ce1c54e74eb",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 55,
+  "digest": "26e99664a36a2e1ccd71c98807849deb0224a8cb17c03e3bee90f5d82d878e52",
+  "branch": "codex/5828-memory-palace-context-topology",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -18,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/5828/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "f45c9ef86e3ddd174ed2b1f1ab71865ef6ff02989b5ab3e4205845499160dd50"
+      "reviewer": "operator-approved:wp11-native-memory-palace-scope",
+      "revision": "077de77e1c857ca4bf1b996885f9d5b33e4e051c98ae1634c37b8cf2dc78311f"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "dc5f5ceba03f17d2c8bbc1701569717f2d38e3a6da977f229801a8b757455468",
+      "values_digest": "2bc33c1ade2b3e5260b41f14405392ed4249dc9348d4d33cb3e2888ea513ed6d",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "5b76ff9218cec496fd382d13ce827a19f96602563c410bcb855547a0e74b2c14",
-      "rendered_digest": "431ab54df25be93738380daff3cd8598bbb9da5e19c3dd09e87e38a202792aa9",
-      "ast_digest": "81fe032b64fdfd56e7e57972839647ea9d06ee80389f6380f5613398fe63ce42"
+      "values_digest": "e5006a88b240011e81da206e585fe112b0b69323051950416b8e08b89d874a79",
+      "rendered_digest": "4ba4d82b147eabdf904eb7995b5458c1be0049ceca63b65b8454d66fd9358453",
+      "ast_digest": "1ad097bdb44240b3d12005f3e9d222849b7b35fa19b1865020a630a1b040357f"
     },
     "spp": {
-      "values_digest": "f9c95931131e51fd62983a31ac43413641e9150eb3b48247dc36a571324e1c10",
-      "rendered_digest": "6995345221b37e3126cfa43ea99b7f2b4936e145ac88d307f5fd49caf6efde55",
-      "ast_digest": "36d7d94e1350b31e66e1ebc852781f9cb74c400c5b75c4fe66381af97fe67623"
+      "values_digest": "540b6b34db03970906a29209568633d6157d9008b8b463cd08bc196970e1a184",
+      "rendered_digest": "67dd1b0ba15ec640a913eee7ba78125d8e9a43372c2f2cfbdbe4f04ce6fcc22d",
+      "ast_digest": "f9193b7c42807d8f78cf2f9ca35e9132c97db5dbf3cc9528b77ffbdd96c3fb8f"
     },
     "vpp": {
-      "values_digest": "6b4e469262e8794a2936a937d5465f2a3f033a3a8fd17926a7ba93548f2d8b8b",
+      "values_digest": "018b2e6b3350aba7c5dae4bbdedb9b870a9698af8ddffed3d79af16a5007a4ff",
       "rendered_digest": "d3c3d755bf9718bee42ed47a5e7fa3ea32fa467164d5ee2388dbd58769e02ac3",
       "ast_digest": "508bd96d5bde486223a4afa74b493e9fde9fb612e7e06c3d870098129718772e"
     },
     "srp": {
-      "values_digest": "070396fb5c54a34b4a0ef8204d44475f833b08587945de331d0538d3dd9869a1",
+      "values_digest": "9a0a23e2d87f7aa4385e391a7ce10c3c7da649ef89576ed3fa8fda6a96a78ffc",
       "rendered_digest": "a386a7a66824d71565a419f005749b9fb09aecb865c20be51cd73937a0f0036b",
       "ast_digest": "c653e05218569adeb17f8286178b1b2df6e1868a2d4c71939cd7a8d74d0db880"
     },
     "sor": {
-      "values_digest": "531acce25cfeba16dc88bdb07ab077bb3c07fc74d9fa3921262c5bcda3756b64",
+      "values_digest": "1bc5d17f14200a1a48df48cc2982377953225a80060c5f9574ce8fb36c6ebf77",
       "rendered_digest": "9c018b2ba3e28cf57fd83b5636f3fe930ff2346d6d8213436593e71770fb5b88",
       "ast_digest": "afb543ca8a8e6c1b8d2315e85b515c56d417ee01ccc5525600001b34d79b4f05"
     }
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -595,6 +610,34 @@
       "actor": "codex:sprint4-readiness-repair",
       "reason": "Represent the future fixture directory for #5828 as bounded proof prose so only the missing exact Rust test target is bind-safely deferred.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/memory_palace.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/memory_palace.rs\",\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\".csdlc/evidence/5828\",\"Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/memory_palace/\",\"Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 75,
+      "generation": 52,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 76,
+      "generation": 53,
+      "actor": "operator-approved:wp11-native-memory-palace-scope",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 77,
+      "generation": 54,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Formally widen WP-11 to the operator-authorized narrow issue-specific native receipt workflow without altering global CI.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/memory_palace.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/memory_palace.rs\",\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\".csdlc/evidence/5828\",\".github/workflows/wp11-native-memory-palace.yml\",\"Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/memory_palace/\",\"Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 78,
+      "generation": 55,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Add only the operator-authorized WP-11 native receipt workflow to the issue plan ownership surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/memory_palace.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/memory_palace.rs\",\"adl-runtime-kernel/tests/fixtures/memory_palace\",\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\".csdlc/evidence/5828\",\".github/workflows/wp11-native-memory-palace.yml\"]}"
     }
   ]
 }

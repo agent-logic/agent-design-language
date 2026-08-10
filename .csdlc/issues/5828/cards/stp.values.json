@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
     "slug": "v0-92-wp-11-runtime-implement-first-memory-palace-context-topology-slice",
     "version": "v0.92",
-    "generation": 52
+    "generation": 55
   },
   "status": "ready",
   "content": {
@@ -23,6 +23,7 @@
         ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
         ".csdlc/evidence/5828",
+        ".github/workflows/wp11-native-memory-palace.yml",
         "Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/memory_palace/",
         "Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests",
         "Digest-bound native macOS and Linux exact-revision proof",

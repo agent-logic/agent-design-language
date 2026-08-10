@@ -24,6 +24,7 @@ Extend only the existing Memory Palace and long-lived-agent slice, fixtures, tes
 - .csdlc/prepared/issues/5828/validate-native-receipts.rb
 - .csdlc/prepared/issues/5828/produce-native-receipt.rb
 - .csdlc/evidence/5828
+- .github/workflows/wp11-native-memory-palace.yml
 - Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/memory_palace/
 - Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests
 - Digest-bound native macOS and Linux exact-revision proof

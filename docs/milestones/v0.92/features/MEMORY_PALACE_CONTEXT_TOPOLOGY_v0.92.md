@@ -20,8 +20,9 @@ tests, and retained proof are required before the feature is complete.
 
 ## Status
 
-Active v0.92 implementation contract. Planning text alone or a blocked
-disposition cannot satisfy WP-11.
+Implemented by WP-11 as an additive Runtime v3 kernel boundary. The contract
+remains incomplete until exact-head local and native proof, independent review,
+and publication are recorded; planning text alone cannot satisfy WP-11.
 
 ## Purpose
 
@@ -79,6 +80,23 @@ This feature should establish:
   context detection
 
 ## Design
+
+### Runtime v3 contract
+
+`adl-runtime-kernel::memory_palace` consumes the durable WP-09 identity record,
+the WP-10 continuity record, one exact Runtime v3 trace reference, a redaction
+policy digest, a fixed observation time, and normalized ObsMem-shaped records.
+It recomputes both predecessor record digests and rejects identity-root,
+continuity-head, trace, citation, temporal, or redaction substitutions before
+materializing context.
+
+The canonical output binds those authorities into `authority_sha256`, sorts
+rooms, records, and citations deterministically, and produces a JCS-hashed
+context packet. `max_working_set_items` is bounded to 1–64. Additional valid
+records become digest-bearing overflow entries and are never silently loaded.
+Only public summaries and the exact literal `[REDACTED]` may enter the working
+set; raw/private memory, host paths, parent traversal, secret-like payloads,
+and unbound trace citations fail closed.
 
 ### Core Concepts
 
@@ -140,6 +158,13 @@ This feature should establish:
   mismatch, and unauthorized private-state access.
 - Review / Proof Surface: v0.92 review packets should cite this feature doc
   when Memory Palace scope is included or deferred.
+- Exact Runtime v3 target: `cargo nextest run --manifest-path
+  adl-runtime-kernel/Cargo.toml --test memory_palace --no-tests=fail
+  --status-level all`.
+- Native portability: the same target emits one repository-contained canonical
+  semantic packet on macOS and Linux; the issue-local validator recomputes the
+  producer, manifest, log, output, workflow, run, and exact-head bindings and
+  requires byte-identical semantic output.
 
 ## Non-goals
 

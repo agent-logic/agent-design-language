@@ -1,0 +1,13 @@
+{
+  "schema": "adl.memory_palace.fixture_matrix.v1",
+  "positive_cases": ["canonical_replay", "bounded_overflow", "redacted_payload"],
+  "negative_cases": [
+    "identity_record_substitution", "continuity_record_substitution",
+    "identity_root_substitution", "continuity_head_substitution", "trace_id_substitution",
+    "stale_anchor", "future_observation", "zero_event_sequence", "missing_citation",
+    "absolute_citation_path", "parent_traversal_citation_path", "malformed_citation_digest",
+    "trace_citation_digest_mismatch", "private_visibility", "raw_private_visibility",
+    "unredacted_redacted_payload", "secret_like_payload", "private_host_path_payload",
+    "unknown_input_field", "duplicate_record", "duplicate_citation"
+  ]
+}
