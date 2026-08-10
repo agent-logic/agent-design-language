@@ -159,10 +159,15 @@ capability-envelope checks, witness/receipt fixtures, and private-state denial
 cases. The focused `capability_envelope` integration target covers deterministic
 positive construction and comprehensive negative evidence, authorization,
 limit, provenance, parsing, privacy, portability, and packet-forgery cases.
-The focused `birth_witness` integration target covers the exact four-role signed
-witness surface, deterministic accept/reject receipts, signature and lineage
+The focused crate-internal `birth_witness::authority_tests` lane contains 13
+tests covering the exact four-role signed witness surface, deterministic
+accept/reject receipts, executable fixture negatives, signature and candidate
 substitution, generation freshness, roster/policy binding, redaction and path
-hygiene, unknown-field rejection, and complete packet reconstruction.
+hygiene, and complete packet reconstruction. The separate public
+`birth_witness` integration target contains one serialization-boundary test for
+unknown-field rejection; it is not the authority proof. A compile-fail doctest
+separately proves that external callers cannot establish the opaque authority
+root.
 
 ## Source Inputs
 

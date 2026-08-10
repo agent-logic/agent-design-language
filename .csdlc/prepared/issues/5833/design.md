@@ -13,6 +13,7 @@ Define WP-15 Runtime v3 witness and receipt contracts from `docs/milestones/v0.9
 - `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`
 - `.csdlc/prepared/issues/5833/validate-native-receipts.rb`
 - `.csdlc/prepared/issues/5833/produce-native-receipt.rb`
+- `.github/workflows/wp15-native-birth-witness.yml`
 - `.csdlc/evidence/5833`
 
 ## Read-Only Inputs
@@ -98,8 +99,9 @@ The exact crate-internal `birth_witness::authority_tests` Runtime v3 lane must r
 
 ## Rollback
 
-Remove only the WP-15 witness module, registration, integration test, fixtures,
-and owned feature-document edits. Preserve retained #4762 evidence, all emitted
+Remove only the WP-15 witness module, registration, authority/public tests,
+fixtures, issue-local native workflow/scripts, and owned feature-document
+edits. Preserve retained #4762 evidence, all emitted
 audit receipts, rejected witness sets, and native CI receipts; rollback must
 not erase equivocation evidence or authorize a premature birth.
 

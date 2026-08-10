@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-15] Birth witnesses and receipts",
     "slug": "v0-92-wp-15-birth-witnesses-and-receipts",
     "version": "v0.92",
-    "generation": 65
+    "generation": 67
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5833\n.csdlc/prepared/issues/5833/design.md\n.csdlc/prepared/issues/5833/produce-native-receipt.rb\n.csdlc/prepared/issues/5833/validate-native-receipts.rb\n.csdlc/evidence/5833\n.github/workflows/wp15-native-birth-witness.yml\nadl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/birth_witness.rs\nadl-runtime-kernel/tests/fixtures/birth_witness\ndocs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

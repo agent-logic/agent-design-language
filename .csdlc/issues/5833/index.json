@@ -5,28 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "implemented",
-  "generation": 65,
-  "digest": "36cd76910b8ced68c12178e0a4373e391d3511db4ba2ec4971ad0059993f8209",
+  "generation": 67,
+  "digest": "80e13773c097cf1a6bd61333391e13f4c43896d9f28809bc656facfc088469e1",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5833_exact_head",
-    "assigned_by": "/root/sprint4_5857",
-    "revision": "git-blake3:f423e4d27ca4ef9c3d56cb8b29a06eb891146cab:68c0ca23b33dfeb710671fe8f9891779e1593ec6f93412dfe41b6dfc74151361",
-    "scope": [
-      ".csdlc/issues/5833",
-      ".csdlc/prepared/issues/5833/design.md",
-      ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
-      ".csdlc/evidence/5833",
-      ".github/workflows/wp15-native-birth-witness.yml",
-      "adl-runtime-kernel/src/birth_witness.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/birth_witness.rs",
-      "adl-runtime-kernel/tests/fixtures/birth_witness",
-      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/5833/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:authorized-review-findings-repair",
-      "revision": "919537c4162eec5bf5a3570f09a66b3607c58a9a9b603b9efa5f6b241c13a22b"
+      "reviewer": "operator:authorized-review-truth-repair",
+      "revision": "7521c94e9bb9fde6a8e59345d2eb620514add091448de3db7f449e32c52666b1"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "9c3d90825f5e1c48d708527d77d88ad547c7e3fb0eb0d26b8b0dc8faddc6d0ab",
+      "values_digest": "a6f77e03898d9431a336f3d431e050517830d1577823f5b1ccfbb8e3c420bc4c",
       "rendered_digest": "477aa501f9e874202ec0e5f251ef5eecf0e66c2ddffa5f13a553e7a0ada1cc65",
       "ast_digest": "405c48deb4505cebfb6dc08d2018c6d971c11105e0d9fe9db08649cc0821e1af"
     },
     "stp": {
-      "values_digest": "b70361aa3a228c32b1f202f8a2c084107669f1e67ed8661e02b9dedfa5236881",
+      "values_digest": "914940370679384051b6dc1ba22481981e47b29607db2e1217ddd600f65569c0",
       "rendered_digest": "d2df01151976c29fe3fb8d512ce6624343cee597726be70de93117b8573c080f",
       "ast_digest": "7741a87889a28e451995cc70fd975b31ed4cc0cf56fee554e0c28f988ea22cc3"
     },
     "spp": {
-      "values_digest": "85b98262e4a99ae5561f6e84780be6e099b90b298a97d645a6000bc70cdcb90b",
-      "rendered_digest": "61cbf2d31b96c513eeea797a82a8e587b231e5e7c8daf9b1b167cb450371fe93",
-      "ast_digest": "339c33490f091fdbf617c5ef725ef40a02cc7f926d5f0bd60f35091815b2a113"
+      "values_digest": "c6c407128bc33cbb7626eb85118137b8e43258c7cd94d830e291d72863f31462",
+      "rendered_digest": "5376d6b31a5d47b82c529a9ddabcc5ddec6c8c5a3f3af9cccba88d89eef9a926",
+      "ast_digest": "c0783e54f48cc692ef09ca2049da3c224246ad90b080bb0718c0a31408d0dd5b"
     },
     "vpp": {
-      "values_digest": "c89571a2f3f074d3911cc1a9d00b32b22d75e6b20fe9a17cc20eedf039e7db32",
+      "values_digest": "963aa30435ee8113bac2dff0e188834e22017ef8bdc947f147ecc13a6d5afb47",
       "rendered_digest": "4b26f41af663fbdca0364b7329fc7e13287433d097bedf1505005c446013f35a",
       "ast_digest": "75c30a9fff7c69af0c919442af28b369b8f7a09dbae786c8175bbd8c38dba4db"
     },
     "srp": {
-      "values_digest": "c023ea2844361e9b7775a49bc3445f470465a05ac529671d7eca4ee912657085",
-      "rendered_digest": "fb3641c95fa06384c6dc2c057f544604b24284d2e4f42b727dd7d1dc9221e716",
-      "ast_digest": "010da6fa1ce1edfbff27b57f65768a7936aa6dbe40374edd4d9bbb14de1827e6"
+      "values_digest": "3a9911d20fe93caa58dfbdcfbbe9a54acabf6e5c0b45f4ec4a161ab6c2eae6f2",
+      "rendered_digest": "4b6b2d69d7863380474666cdea35225e1e88e7e783e3c357c211ceae05eacfcf",
+      "ast_digest": "25540fb62a38a3c9058d80a9295f40cb1745178df3de4a8535f50cc38f25a030"
     },
     "sor": {
-      "values_digest": "fd2302daec5429544fa46edbf441353de0463bf1eb5afd9f99cfecc7dc46ed37",
+      "values_digest": "11ccd4f8811a8db1126f3ff14b83c22d8f36da53a391503502a1066aec818a4c",
       "rendered_digest": "2322ebf7a3aa5baea9f1e39a99d6b782aa566ee9bc9d8d4f3fa1803afee47b35",
       "ast_digest": "983b79524623f0c457d5fca2dd1573b6da0d8eca675fabd0b3fb930d7505769b"
     }
@@ -746,6 +729,20 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 66,
+      "actor": "codex:5833-birth-witness",
+      "reason": "Recover the non-approved assignment to correct only workflow ownership and feature validation-target truth after the product/security repairs were approved.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 92,
+      "generation": 67,
+      "actor": "operator:authorized-review-truth-repair",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
