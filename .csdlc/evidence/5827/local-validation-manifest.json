@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.local_validation_manifest.v1",
   "issue": 5827,
-  "validated_revision": "2e99f069abef00078b51aef5eda46edd9b8f1cf3",
-  "validated_tree": "6fc375e493d8f3d9b0d5b9d708200b6d8561fe9f",
+  "validated_revision": "220274828c8235b552a4d94f9d77d88b401c13e6",
+  "validated_tree": "58005e774720c19ffad3dc0de0b08671218117d4",
   "results": [
     {
       "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "-E", "test(/^birthday_continuity::authority_tests::/)", "--no-tests=fail", "--status-level", "all"],
@@ -10,7 +10,7 @@
       "tests_run": 9,
       "tests_passed": 9,
       "log": ".csdlc/evidence/5827/birthday-continuity-tests.log",
-      "log_sha256": "7d44927584ce7ab22db496a74bf434e95269f973d0dc1c799d332254061ed38b"
+      "log_sha256": "8b666bf553e56ff039e2a78f956d0be767629c9a67640c34395ed913af5a56a8"
     },
     {
       "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--doc", "birthday_continuity"],
@@ -28,8 +28,8 @@
     }
   ],
   "source_sha256": {
-    "adl-runtime-kernel/src/birthday_continuity.rs": "776aa438a9b9952f7dc08e011025ee8fd0f9956aeb0820650a44662c477d0afb",
-    "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs": "411bc3f5698701f97d034d6aaa75c39f0a1b1a68c45be7a949f1c2f1bf407d0a",
+    "adl-runtime-kernel/src/birthday_continuity.rs": "7a5428512b31a94bdd84f57978b6c8d77be55d9c5d0132b98e16af051c0497d6",
+    "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs": "033c43506042209a08726d59f0274f4b96b7e318926c099c5349e00da2b620cb",
     "adl-runtime-kernel/src/birthday_identity.rs": "69c8b2b80a2acdde4b76fad7905d82da968b0ddb5a4461b4be86d95c48ee87cd",
     "adl-runtime-kernel/src/identity_memory.rs": "37d59ad08f6b0cae8236e8ff3f689ea0f590b6b82b53dd937bb8c82c4cef04b5",
     "adl-runtime-kernel/src/private_state.rs": "793c03ae098a566d4b117ef657bddab5810c73a869e6bf3e264ca4d6e45e2d64",
