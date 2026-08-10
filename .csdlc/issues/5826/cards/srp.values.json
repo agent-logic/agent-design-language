@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 66
+    "generation": 68
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/5826\n.csdlc/prepared/issues/5826/design.md\n.csdlc/prepared/issues/5826/produce-native-receipt.rb\n.csdlc/prepared/issues/5826/validate-native-receipts.rb\n.csdlc/evidence/5826\n.github/workflows/wp09-native-birthday-identity.yml\nadl-runtime-kernel/src/birthday_identity.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/birthday_identity.rs\nadl-runtime-kernel/tests/fixtures/birthday_identity\ndocs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:822d4bbcd891eb5d82496696f8c14ebf530799a3:4d589236610bde40c093d6c658d6c5f57cb3c9612def46d0d3c50c58b0cf60cd",
+      "reviewer": "codex:review_5826_exact_head",
       "review_prompts": [
         "Can any display name, wake, snapshot, copied state, or alias establish or replace identity root authority?",
         "Are root derivation, ordering, serialization, and provenance replay-deterministic?",
@@ -23,8 +23,10 @@
         "Is #5825 terminal evidence current and is every WP-09 acceptance claim proven at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Native macOS and Linux receipt execution remains required after the issue-specific workflow is published."
+      ],
+      "review_result": "pass"
     }
   }
 }

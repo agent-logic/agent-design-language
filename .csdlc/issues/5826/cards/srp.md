@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -41,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Native macOS and Linux receipt execution remains required after the issue-specific workflow is published.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:822d4bbcd891eb5d82496696f8c14ebf530799a3:4d589236610bde40c093d6c658d6c5f57cb3c9612def46d0d3c50c58b0cf60cd")
 
-Reviewer: None
+Reviewer: Some("codex:review_5826_exact_head")
 
-Result: pre_review
+Result: pass

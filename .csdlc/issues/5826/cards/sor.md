@@ -55,7 +55,7 @@ Implemented the deterministic WP-09 stable-name and identity-root contract with 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
