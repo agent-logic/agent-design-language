@@ -12,7 +12,8 @@ EXPECTED_CASES = %w[
   content_length_mismatch corrupt_chunk replay_after_restart chunk_exceeds_signed_total
 ].freeze
 
-evidence_path = ARGV.fetch(0, ".csdlc/evidence/5874/execution-proof.json")
+ARGV[0] ||= ".csdlc/evidence/5874/remediation-v1/execution-proof.json"
+evidence_path = ARGV.fetch(0)
 
 Wp04ProofReceiptContract.validate(
   issue: 5874,
