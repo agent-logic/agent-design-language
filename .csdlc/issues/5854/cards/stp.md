@@ -19,9 +19,13 @@ Prepare and operate only the demonstration-handoff-publication sprint umbrella; 
 - Issue-specific six-card sprint record
 - Sprint Execution Packet with membership, lanes, gates, review path, and activity log
 - Integrated sprint review and truthful umbrella closeout record
+- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
+- .csdlc/prepared/issues/5854/split-authority-bind-requests.json
 - .csdlc/prepared/issues/5854/validate-sprint-readiness.rb
 - .csdlc/evidence/5854/live-gates.json
 - .csdlc/evidence/5854/live-gates-source.json
+- .csdlc/evidence/5854/v092-sprint5-readiness.log
+- .csdlc/evidence/5854/diff-hygiene.log
 
 ## Acceptance
 

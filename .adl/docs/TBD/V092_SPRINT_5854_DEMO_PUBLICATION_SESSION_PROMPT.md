@@ -18,9 +18,17 @@ Startup:
 1. Verify WP-01 #5817 is merged and ancestral to current main.
 2. Read issue #5854, .csdlc/issues/5854/, both Sprint Execution Packets under
    .csdlc/prepared/issues/5854/, the v0.92 issue wave, and publication plans.
-3. Run typed doctor for #5854 and each child. Trust canonical .csdlc records;
-   never recreate initialized cards through a sunset .adl task-bundle route.
-4. Prepare all child plans, but execute only lanes with satisfied dependencies.
+3. Run typed doctor for #5854. For each unbound split-authority child, validate
+   its exact retained request in
+   `.csdlc/prepared/issues/5854/split-authority-bind-requests.json`; ordinary
+   doctor is expected to report `repository_identity_drift` until typed bind
+   records the code repository. Never recreate initialized cards through a
+   sunset `.adl` task-bundle route.
+4. When a child's dependencies are terminal, submit that exact typed bind
+   request. `csdlc-bind` performs the source diagnosis with the explicit code
+   repository before any Git mutation. Run ordinary doctor in the child
+   worktree only after bind succeeds.
+5. Prepare all child plans, but execute only lanes with satisfied dependencies.
 
 For each unbound child, use a dedicated FastWork worktree and a typed
 `csdlc-bind` request that records `agent-logic/agent-design-language` as the
@@ -47,6 +55,7 @@ Serial gates:
 - #5835 follows #5826, #5827, and #5834.
 - #5836 follows #5825-#5830 and #5832-#5834.
 - #5838 follows #5832, #5834, and #5836.
+- #5839 follows #5834 and #5835 plus accepted v0.93 allocation.
 - #5840 follows #5836, #5837, #5838, and #5839.
 - Final publication claims align with release truth only after #5843.
 

@@ -7,7 +7,7 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 25
+    "generation": 33
   },
   "status": "ready",
   "content": {
@@ -41,7 +41,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on overlapping ownership, unmet serial gates, missing child readiness, or unsupported completion claims.",
       "design_ref": ".csdlc/prepared/issues/5854/design.md",
-      "design_digest": "8d0df302d445b11a2e4f6b17a5a958d4960130e452c499170e44a80cd20af9c6",
+      "design_digest": "a0a6e1b058b5e13de3776447dc39c940a3bf51a0d1b80b51e31fa1fbeb16a477",
       "diagram_ref": ".csdlc/prepared/issues/5854/diagram.mmd",
       "diagram_digest": "18ce9d40dd473f07a2fee4d52ebcdeae0635b197e62c970ec5d507c77ca279d8"
     }

@@ -1,0 +1,64 @@
+{
+  "schema": "adl.v092.sprint_5854_split_authority_bind_requests.v1",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "ordinary_doctor_before_bind": "expected_repository_identity_drift",
+  "binding_rule": "csdlc-bind performs its own non-mutating source diagnosis with request.code_repository before any Git worktree mutation; run ordinary doctor only in the successfully bound child worktree.",
+  "requests": [
+    {
+      "source_generation": 34,
+      "source_digest": "15c1eabf5f3eab3c5143a03538a7082e9f7e264faaa862be6e89992bcedfa00b",
+      "request": {
+        "issue": 5835,
+        "base_branch": "main",
+        "branch": "codex/5835-wp17-continuity-migration",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5835-wp17-continuity-migration",
+        "code_repository": "agent-logic/agent-design-language"
+      }
+    },
+    {
+      "source_generation": 43,
+      "source_digest": "42dd645fa4fb8fe14a504ee940e19013cb943a87b16fd0b6734c39d6669c4ef2",
+      "request": {
+        "issue": 5836,
+        "base_branch": "main",
+        "branch": "codex/5836-wp18-first-birthday-demo",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5836-wp18-first-birthday-demo",
+        "code_repository": "agent-logic/agent-design-language"
+      }
+    },
+    {
+      "source_generation": 34,
+      "source_digest": "1072cd866dd495a863c2c6c9f9504d200931785cae25f736311abf1b9ad602f4",
+      "request": {
+        "issue": 5838,
+        "base_branch": "main",
+        "branch": "codex/5838-wp18b-provider-neutral-proof",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5838-wp18b-provider-neutral-proof",
+        "code_repository": "agent-logic/agent-design-language"
+      }
+    },
+    {
+      "source_generation": 34,
+      "source_digest": "510858d531b99eb76154488de6f8e4ec7bcc0530336e19c168ec430aa496e19a",
+      "request": {
+        "issue": 5839,
+        "base_branch": "main",
+        "branch": "codex/5839-wp19-governance-handoff",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-wp19-governance-handoff",
+        "code_repository": "agent-logic/agent-design-language"
+      }
+    },
+    {
+      "source_generation": 34,
+      "source_digest": "13eaccb3237cd7e892a02040a6d1833c6c99de6d81c83bee836b1c3232765cc6",
+      "request": {
+        "issue": 5840,
+        "base_branch": "main",
+        "branch": "codex/5840-wp20-demo-proof-matrix",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5840-wp20-demo-proof-matrix",
+        "code_repository": "agent-logic/agent-design-language"
+      }
+    }
+  ]
+}

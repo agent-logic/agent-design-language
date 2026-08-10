@@ -1,1 +1,8 @@
+sprint 5854 overlap negative control: PASS
 sprint 5854 readiness: PASS
+child 5835: expected repository_identity_drift is the only ordinary pre-bind blocker
+child 5836: expected repository_identity_drift is the only ordinary pre-bind blocker
+child 5838: expected repository_identity_drift is the only ordinary pre-bind blocker
+child 5839: expected repository_identity_drift is the only ordinary pre-bind blocker
+child 5840: expected repository_identity_drift is the only ordinary pre-bind blocker
+csdlc-v2 gate2 split-authority bind regression: PASS (1 passed, 0 failed)

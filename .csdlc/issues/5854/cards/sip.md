@@ -20,6 +20,8 @@ A reviewed Sprint 5 coordination packet routes prepared #5835, #5836, #5838, #58
 
 ## Scope
 
+- .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
+- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
 - .csdlc/issues/5854
 - .csdlc/prepared/issues/5854
 - .csdlc/evidence/5854

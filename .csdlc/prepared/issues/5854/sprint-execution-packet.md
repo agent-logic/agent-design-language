@@ -7,6 +7,7 @@
 - Execution mode: `hybrid`
 - Status: `ready_for_execution`
 - Machine packet: `.csdlc/prepared/issues/5854/sprint-execution-packet.yaml`
+- Split-authority bind requests: `.csdlc/prepared/issues/5854/split-authority-bind-requests.json`
 - Live gate snapshot: `.csdlc/evidence/5854/live-gates.json`
 
 ## Sprint Goal
@@ -23,9 +24,9 @@ The umbrella coordinates the listed children through their typed v2 lifecycles. 
 |---|---|---|---|
 | `#5835` | WP-17 | prepared and unbound; blocked on `#5826`, `#5827`, and `#5834` | bind only after every dependency is terminal |
 | `#5836` | WP-18 | prepared and unbound; blocked on `#5825`-`#5830`, `#5833`, and `#5834`; `#5832` is complete | bind only after every dependency is terminal |
-| `#5838` | WP-18B | bind-ready after this readiness change; blocked on `#5834` and `#5836` | preserve the provider-proof gate |
-| `#5839` | WP-19 | bind-ready after this readiness change; blocked on `#5835` and the v0.93 allocation | preserve governance boundaries |
-| `#5840` | WP-20 | bind-ready after this readiness change; blocked on `#5836`, `#5837`, `#5838`, and `#5839` | run only after all proof producers finish |
+| `#5838` | WP-18B | prepared and unbound; blocked on `#5832`, `#5834`, and `#5836` | preserve the provider-proof gate |
+| `#5839` | WP-19 | prepared and unbound; blocked on `#5834`, `#5835`, and accepted v0.93 allocation | preserve governance boundaries |
+| `#5840` | WP-20 | prepared and unbound; blocked on `#5836`, `#5837`, `#5838`, and `#5839` | run only after all proof producers finish |
 | `#5844` | WP-24 | product/GitHub complete; canonical issue `#10` and PR `#14` are merged; typed closeout remains asynchronous | no further product execution |
 
 ### Out-Of-Band Stream
@@ -36,6 +37,12 @@ readiness, execution, review, or closeout. Episode 001 is an informational
 checkpoint only; nine episodes remain under WP-24A's separate ownership.
 
 ## Recommended Execution Order
+
+For each child, submit its retained split-authority bind request only after the
+listed gate is terminal. Ordinary doctor before bind is expected to report
+repository identity drift; typed bind supplies the canonical code repository
+during its pre-mutation diagnosis, and ordinary doctor runs after successful
+binding.
 
 1. Start `#5835` only after `#5826`, `#5827`, and `#5834` are terminal.
 2. Start `#5836` only after `#5825`-`#5830` and `#5832`-`#5834` are terminal.

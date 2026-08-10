@@ -21,7 +21,10 @@ cannot gate this sprint's readiness, execution, review, or closeout.
 - Finalize public claims only after WP-23 release truth and explicit operator
   authorization.
 - Bind each unbound child in a dedicated FastWork worktree with the company
-  code repository recorded by typed C-SDLC v2.
+  code repository recorded by typed C-SDLC v2. The exact five requests are
+  retained in `split-authority-bind-requests.json`; ordinary doctor is expected
+  to report repository identity drift before bind, while typed bind performs
+  the explicit code-repository diagnosis before any Git mutation.
 
 ## Non-Goals
 

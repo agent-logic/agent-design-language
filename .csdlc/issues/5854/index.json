@@ -4,48 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
-  "phase": "published",
-  "generation": 25,
-  "digest": "e06f2b3d9f4a1266020675deabadd4f2563b7a7e271b509be6b800edddb0bcf1",
+  "phase": "implemented",
+  "generation": 33,
+  "digest": "9bba4c860da4db2de55cf9abfe780ba1a138ab3410cc442a62b71aca117277ed",
   "branch": "codex/5854-sprint5-readiness-current",
   "worktree": "/Volumes/FastWork/adl-standalone-5854",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex-subagent:019fe8e6-bd12-7962-95e3-24ec07c762d8",
-    "scope": [
-      ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
-      ".csdlc/issues/5835",
-      ".csdlc/issues/5836",
-      ".csdlc/issues/5838",
-      ".csdlc/issues/5839",
-      ".csdlc/issues/5840",
-      ".csdlc/issues/5854",
-      ".csdlc/prepared/issues/5854",
-      ".csdlc/evidence/5854",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
-      "docs/milestones/v0.92/SPRINT_v0.92.md"
-    ],
-    "reviewed_revision": "git-blake3:5401ef042608cc6c0a45c746f857c4317f6b2179:1f5314066799476ab830d6f3306f83e84bff871f0b643107d2dead95efacad01",
-    "findings": [],
-    "residual_risks": [
-      "The retained GitHub live-gate snapshot expires after 24 hours and must be refreshed before any later execution or publication decision relies on it.",
-      "This readiness change proves preparation only; every operative child remains initialized and requires its own typed bind, goal, implementation, proof, review, and closeout."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5854,
-    "pull_request": 103,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/103",
-    "base": "main",
-    "head": "codex/5854-sprint5-readiness-current",
-    "revision": "git-blake3:6e1622b677379802e38e8f7f5129e3c06dcb739d:e842cd8e576b24142d8211a138046f8328fedd377b08d3c7b7dc176c4051a308",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -53,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/5854/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5854-sprint5-readiness-design-review",
-      "revision": "8d0df302d445b11a2e4f6b17a5a958d4960130e452c499170e44a80cd20af9c6"
+      "reviewer": "codex:5854-pr103-review-remediation-design-review",
+      "revision": "a0a6e1b058b5e13de3776447dc39c940a3bf51a0d1b80b51e31fa1fbeb16a477"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "d574243056150de6a645e13cc466d203e4505ca042ce432eeabd04d104acf2fd",
-      "rendered_digest": "8e60bae838bbf26c627c83cf48972b8f8fb1991686a33689be97f5ca7891361e",
-      "ast_digest": "d00dfe284b4358626040d840749447ae53c3dfc55071dcaab9c676c4ccc6dc6b"
+      "values_digest": "435dbc7aa447af5194512606e54fc66fd83d1a170ba8db1f1cd308980c8ad2f5",
+      "rendered_digest": "736d117ea18341186e50fda1cebe344d0fc95ef90d37f5b7bbaa40a84dcd04e6",
+      "ast_digest": "7f4260c9e4cd7426d86876332af57f58a103630bca2b4872f3c48dd28e288d34"
     },
     "stp": {
-      "values_digest": "0d517934e643e8e12ba2ed4df6846d2381e383151ddc35e7f6d4d9aca835d721",
-      "rendered_digest": "ca2d6a4888020a0f26642981295f20ccfb56224379267fe5d3a0f4a7b8d05dc6",
-      "ast_digest": "12262ec87dc12d923fd9330f72b142e28e759bc999393c143b703074dc593880"
+      "values_digest": "7102f02ecf657353fb3d4ebb8ba1c7c2b58cb2ad19d25d5edbfa8165bb6873af",
+      "rendered_digest": "44cb2cea999def662671ef6605cc45b621764178c0034deb52b9fa275edab745",
+      "ast_digest": "e679cdeae0f2418955ab66ecfc7f29e0dc64a51866217538271519dc2245bc01"
     },
     "spp": {
-      "values_digest": "400996b4d8ef2fea40091f13515b5e2edfbd8ed40f86899f9597a191326cc526",
-      "rendered_digest": "7b8d045715d710f28a6bf9e54e8d47417a27d39a2898ba4b5fdd2584156fc949",
-      "ast_digest": "e6f262f01ba32f22a25da01cec1e2ba1b279fcc9998c8828e413a42d47b14668"
+      "values_digest": "a643a146c65d370f481b0806bdfe11ffde7ad9625effc89e30200f9ebffbcf17",
+      "rendered_digest": "25c9743d694a1c4730ae6237ae5932e7acf687b0cb0eb95c660b4187112c279b",
+      "ast_digest": "9ed0abe0672515f3dc72e97bfb0728fcb9e07bc35c0f52837678e3ab8e93e6a8"
     },
     "vpp": {
-      "values_digest": "40cbd45e636778d1fae793c46851bc3e27cd7a190c06bd28f5b8997eeaf4afd9",
+      "values_digest": "2fa8d4f11ba3d0e0eba1a6e7f35a66b1cec3f4aa49103008e4e3ee1cf9837893",
       "rendered_digest": "ef9a6f9f2d7cb5126e6761a85a1d4a001ee493b80ecbb2e7292bb3e0a3e99235",
       "ast_digest": "fef0cdf5e711632e18ce1a1493c5543ca09ddc65aa7c8adf82335c56b566ecc4"
     },
     "srp": {
-      "values_digest": "7cfe8ac8075ec87cfb0582cc7ca11c46263898e097d4bcb1164364a9626f8f58",
-      "rendered_digest": "05576a4e775fbf2c9e13770d0cf4ab6bc6921a66cf7b0c95d324a44c6a86327f",
-      "ast_digest": "fa778d6bf96e0773963d12f3d9f7387a3c81d80071ee99cd73796b9434a66706"
+      "values_digest": "473d543c71856037ef6d93029e5010675d4c31abfb1a03333c157f228f5495a0",
+      "rendered_digest": "cc80b27fa1702b0f994379958027e15a281175d9ee8ecd5ef5e0478620384d77",
+      "ast_digest": "cb94b8f8bd3efa95ad2ab46a7377b0dfcbe23f2c1d581f40af43fc664983389c"
     },
     "sor": {
-      "values_digest": "2a4085584b35e1170f48b867398b6d2ffe4b843451a2d8906f978204d8be8694",
-      "rendered_digest": "14126b5f139444e9b218b43658a67bbf85090ff177a604fe6ec7aabf845a982b",
-      "ast_digest": "041b8280c94af2ce9cd731b46c7720bd80fc63c00db64d37baf19a317a42bef6"
+      "values_digest": "7206ef1231b4afa15dcfcd278695228115f6e4ab9cdc540a3396b234d381a3f8",
+      "rendered_digest": "ee6437c3cfdf3826fccc88ab83c01074e1f025447d343aaa29c4857010d62582",
+      "ast_digest": "f4f9cee2005a5a793828a0d8c8f58c248b15a728f259196a7240dd41a8693b17"
     }
   },
   "transitions": [
@@ -145,6 +111,13 @@
       "to": "published",
       "actor": "codex:5854-sprint5-readiness",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Recover exact review and publication truth to resolve all five actionable findings from the independent review of PR #103 head 60825d18693c6ceb95e48caf06231cbf5005088c."
     }
   ],
   "audit": [
@@ -343,6 +316,62 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 26,
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Recover exact review and publication truth to resolve all five actionable findings from the independent review of PR #103 head 60825d18693c6ceb95e48caf06231cbf5005088c.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Declare the canonical sprint membership contract and retained split-authority bind-request manifest required by PR #103 review remediation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/prepared/issues/5854/design.md\",\".csdlc/prepared/issues/5854/diagram.mmd\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/sprint-review.md\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Add the retained split-authority bind-request manifest and canonical issue-wave parity to the Sprint 5 readiness deliverables after review recovery.",
+      "operation": "{\"new_values\":[\"Issue-specific six-card sprint record\",\"Sprint Execution Packet with membership, lanes, gates, review path, and activity log\",\"Integrated sprint review and truthful umbrella closeout record\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Issue-specific six-card sprint record\",\"Sprint Execution Packet with membership, lanes, gates, review path, and activity log\",\"Integrated sprint review and truthful umbrella closeout record\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\"]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "codex:5854-pr103-review-remediation-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 33,
+      "generation": 30,
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Correct the declared readiness scope after review recovery so it includes the canonical milestone membership and operator session prompt authorities.",
+      "operation": "{\"new_values\":[\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/issues/5854\",\".csdlc/prepared/issues/5854\",\".csdlc/evidence/5854\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\".csdlc/issues/5854\",\".csdlc/prepared/issues/5854\",\".csdlc/evidence/5854\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 31,
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Include both retained focused validation logs in the declared readiness ownership surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/prepared/issues/5854/design.md\",\".csdlc/prepared/issues/5854/diagram.mmd\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\",\".csdlc/evidence/5854/diff-hygiene.log\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 32,
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Retain the focused readiness and diff-hygiene evidence as explicit post-recovery deliverables.",
+      "operation": "{\"new_values\":[\"Issue-specific six-card sprint record\",\"Sprint Execution Packet with membership, lanes, gates, review path, and activity log\",\"Integrated sprint review and truthful umbrella closeout record\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\",\".csdlc/evidence/5854/diff-hygiene.log\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Issue-specific six-card sprint record\",\"Sprint Execution Packet with membership, lanes, gates, review path, and activity log\",\"Integrated sprint review and truthful umbrella closeout record\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 33,
+      "actor": "codex:5854-pr103-review-remediation",
+      "reason": "Replace stale readiness execution truth with the complete observed PR #103 review remediation and focused validation results.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved all five actionable findings from the independent review of PR #103 without starting Sprint 5 or binding any child.\",\"changes\":[\"Retained exact split-authority bind requests for #5835, #5836, #5838, #5839, and #5840 and documented the correct bind-before-ordinary-doctor startup route.\",\"Reconciled the milestone issue wave and live legacy #5854 body to one five-child execution denominator, completed WP-24 product truth, and non-gating out-of-band WP-24A.\",\"Added the complete WP-19 gate and fail-closed pairwise path-overlap validation for every declared parallel lane.\",\"Refreshed typed live evidence to prove tooling issue #74 is closed and removed the obsolete sparse-checkout workaround.\"],\"artifacts\":[\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\",\".csdlc/evidence/5854/diff-hygiene.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"purpose\":\"Validate canonical membership parity, all five split-authority request contracts, complete serial gates, child ownership, typed live evidence, and publication boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\"--negative-overlap\"],\"purpose\":\"Prove the path-collision guard rejects ancestor/descendant ownership while preserving disjoint sibling paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"actual_binaries_create_validate_doctor_and_bind_without_claims\",\"--\",\"--exact\"],\"purpose\":\"Exercise the production typed bind path that rejects an undeclared split repository and succeeds when code_repository is explicit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"5854\"],\"purpose\":\"Validate canonical typed issue and card projections after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5854/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors across the exact remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/diff-hygiene.log\"}]}"
     }
   ]
 }

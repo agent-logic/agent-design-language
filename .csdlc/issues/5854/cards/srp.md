@@ -12,17 +12,7 @@ Status: draft
 
 ## Scope
 
-.adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
-.csdlc/issues/5835
-.csdlc/issues/5836
-.csdlc/issues/5838
-.csdlc/issues/5839
-.csdlc/issues/5840
-.csdlc/issues/5854
-.csdlc/prepared/issues/5854
-.csdlc/evidence/5854
-docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
-docs/milestones/v0.92/SPRINT_v0.92.md
+
 
 ## Prompts
 
@@ -41,13 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The retained GitHub live-gate snapshot expires after 24 hours and must be refreshed before any later execution or publication decision relies on it.
-- This readiness change proves preparation only; every operative child remains initialized and requires its own typed bind, goal, implementation, proof, review, and closeout.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:5401ef042608cc6c0a45c746f857c4317f6b2179:1f5314066799476ab830d6f3306f83e84bff871f0b643107d2dead95efacad01")
+Revision: None
 
-Reviewer: Some("codex-subagent:019fe8e6-bd12-7962-95e3-24ec07c762d8")
+Reviewer: None
 
-Result: pass
+Result: pre_review

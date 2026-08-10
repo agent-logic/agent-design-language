@@ -11,6 +11,28 @@ SPRINT = 5854
 UNBOUND = [5835, 5836, 5838, 5839, 5840].freeze
 CARDS = %w[sip stp spp vpp srp sor].freeze
 EXPECTED_CODE_REPOSITORY = "agent-logic/agent-design-language"
+EXPECTED_WAVE_MEMBERS = %w[WP-17 WP-18 WP-18B WP-19 WP-20 WP-24].freeze
+EXPECTED_WAVE_GATES = [
+  "WP-17 after #5826, #5827, and #5834",
+  "WP-18 after #5825 through #5830 and #5832 through #5834",
+  "WP-18B after #5832, #5834, and WP-18",
+  "WP-19 after #5834 and WP-17 plus accepted v0.93 allocation",
+  "WP-20 after WP-18, WP-18A, WP-18B, and WP-19",
+  "WP-24 final claims after WP-23"
+].freeze
+
+def path_overlap?(left, right)
+  left_path = Pathname.new(left).cleanpath.to_s.sub(%r{/+\z}, "")
+  right_path = Pathname.new(right).cleanpath.to_s.sub(%r{/+\z}, "")
+  left_path == right_path || left_path.start_with?("#{right_path}/") || right_path.start_with?("#{left_path}/")
+end
+
+if ARGV == ["--negative-overlap"]
+  raise "negative overlap control did not detect descendant ownership" unless path_overlap?("docs/shared", "docs/shared/child.md")
+  raise "negative overlap control falsely overlaps siblings" if path_overlap?("docs/left", "docs/right")
+  puts "sprint 5854 overlap negative control: PASS"
+  exit 0
+end
 
 packet = YAML.safe_load((ROOT / ".csdlc/prepared/issues/5854/sprint-execution-packet.yaml").read)
 raise "sprint identity mismatch" unless packet.fetch("sprint_issue") == SPRINT
@@ -23,6 +45,15 @@ raise "WP-24A is not explicitly out of band" unless wp24a
 raise "WP-24A can gate Sprint 5" unless wp24a["gates_sprint"] == false
 raise "WP-24A incorrectly depends on Sprint 5" unless wp24a["dependency_on_sprint"] == false
 raise "WP-24A leaked into execution order" if packet.fetch("ordered_issue_numbers").include?(5845)
+
+wave = YAML.safe_load((ROOT / "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml").read)
+wave_sprint = wave.fetch("execution_sprints").find { |candidate| candidate.fetch("issue") == SPRINT }
+raise "Sprint 5 missing from canonical issue wave" unless wave_sprint
+raise "canonical issue-wave membership differs from packet" unless wave_sprint.fetch("members") == EXPECTED_WAVE_MEMBERS
+raise "canonical issue-wave gates differ from packet" unless wave_sprint.fetch("serial_gates") == EXPECTED_WAVE_GATES
+wave_wp24a = wave_sprint.fetch("out_of_band_streams").find { |stream| stream.fetch("issue") == 5845 }
+raise "canonical issue wave does not exclude WP-24A" unless wave_wp24a&.fetch("member") == "WP-24A"
+raise "canonical issue wave lets WP-24A gate" unless wave_wp24a["gates_sprint"] == false && wave_wp24a["dependency_on_sprint"] == false
 
 human = (ROOT / ".csdlc/prepared/issues/5854/sprint-execution-packet.md").read
 %w[Child\ Issue\ Wave Recommended\ Execution\ Order Watcher\ Policy Budget\ And\ Goal\ Accounting Safe\ Parallel\ Lanes Serial\ Gates Sprint-Level\ Review].each do |section|
@@ -39,8 +70,31 @@ srp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/srp.values.json").read
 raise "SRP does not review the exact operative closeout boundary" unless srp_values.fetch("review_prompts").any? { |prompt| prompt.include?(operative_closeout) && prompt.include?("WP-24A #5845 excluded") }
 
 session_prompt = (ROOT / ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md").read
+session_text = session_prompt.split.join(" ")
 raise "session prompt falsely calls WP-24 typed-terminal" if session_prompt.include?("#5844, WP-24: terminal")
 raise "session prompt omits asynchronous WP-24 typed closeout" unless session_prompt.include?("typed closeout continues asynchronously")
+raise "session prompt still requires ordinary pre-bind child doctor" if session_prompt.include?("typed doctor for #5854 and each child")
+raise "session prompt omits expected split-authority diagnosis" unless session_text.include?("ordinary doctor is expected to report `repository_identity_drift` until typed bind")
+raise "session prompt omits post-bind doctor" unless session_text.include?("Run ordinary doctor in the child worktree only after bind succeeds")
+raise "session prompt omits WP-19 serial gate" unless session_prompt.include?("#5839 follows #5834 and #5835 plus accepted v0.93 allocation")
+
+bind_manifest = JSON.parse((ROOT / ".csdlc/prepared/issues/5854/split-authority-bind-requests.json").read)
+raise "split-authority manifest schema mismatch" unless bind_manifest.fetch("schema") == "adl.v092.sprint_5854_split_authority_bind_requests.v1"
+raise "split-authority issue repository mismatch" unless bind_manifest.fetch("issue_repository") == "danielbaustin/agent-design-language"
+raise "split-authority code repository mismatch" unless bind_manifest.fetch("code_repository") == EXPECTED_CODE_REPOSITORY
+raise "ordinary pre-bind doctor behavior is not explicit" unless bind_manifest.fetch("ordinary_doctor_before_bind") == "expected_repository_identity_drift"
+bind_entries = bind_manifest.fetch("requests")
+raise "split-authority manifest child set mismatch" unless bind_entries.map { |entry| entry.dig("request", "issue") } == UNBOUND
+
+bind_source = (ROOT / "csdlc-v2/src/lifecycle.rs").read
+diagnosis_offset = bind_source.index("crate::doctor::diagnose_with_code_repository(")
+topology_offset = bind_source.index("let listed = git::worktrees(store.root())?")
+raise "typed bind no longer performs split-authority source diagnosis" unless diagnosis_offset && topology_offset && diagnosis_offset < topology_offset
+raise "typed bind does not pass request.code_repository to diagnosis" unless bind_source.include?("request.code_repository.as_deref(),")
+gate2 = (ROOT / "csdlc-v2/tests/gate2.rs").read
+raise "split-authority bind regression proof missing" unless gate2.include?("split_without_contract") && gate2.include?("code_repository\": \"agent-logic/agent-design-language")
+
+affected_by_issue = {}
 
 UNBOUND.each do |issue|
   issue_root = ROOT / ".csdlc/issues/#{issue}"
@@ -59,8 +113,19 @@ UNBOUND.each do |issue|
 
   spp = JSON.parse((issue_root / "cards/spp.values.json").read).dig("content", "values")
   affected = spp.fetch("affected_areas")
+  affected_by_issue[issue] = affected
   raise "issue #{issue} has non-path ownership" if affected.any? { |path| path.start_with?("SERIALIZATION_GATE") }
   raise "issue #{issue} has a started plan step" unless spp.fetch("steps").all? { |step| step.fetch("status") == "pending" }
+
+  bind_entry = bind_entries.find { |entry| entry.dig("request", "issue") == issue }
+  request = bind_entry.fetch("request")
+  raise "issue #{issue} split-authority generation drift" unless bind_entry.fetch("source_generation") == record.fetch("generation")
+  raise "issue #{issue} split-authority digest drift" unless bind_entry.fetch("source_digest") == record.fetch("digest")
+  raise "issue #{issue} unexpectedly records a code repository before bind" unless record["code_repository"].nil?
+  raise "issue #{issue} bind request base mismatch" unless request.fetch("base_branch") == "main"
+  raise "issue #{issue} bind request branch mismatch" unless request.fetch("branch").start_with?("codex/#{issue}-")
+  raise "issue #{issue} bind request is not on FastWork" unless request.fetch("worktree").start_with?("/Volumes/FastWork/adl-worktrees/adl-issue-#{issue}-")
+  raise "issue #{issue} bind request code repository mismatch" unless request.fetch("code_repository") == EXPECTED_CODE_REPOSITORY
 
   stp = JSON.parse((issue_root / "cards/stp.values.json").read).dig("content", "values")
   deliverables = stp.fetch("deliverables")
@@ -78,6 +143,15 @@ UNBOUND.each do |issue|
     target
   end.compact
   raise "issue #{issue} lacks an issue-specific proof target" if missing_targets.empty? && vpp.fetch("lanes").none? { |lane| lane.fetch("argv").any? { |arg| affected.include?(arg) && (ROOT / arg).file? } }
+end
+
+packet.fetch("safe_parallel_lanes").each do |lane|
+  lane.fetch("issues").combination(2) do |left_issue, right_issue|
+    overlaps = affected_by_issue.fetch(left_issue).product(affected_by_issue.fetch(right_issue)).select do |left_path, right_path|
+      path_overlap?(left_path, right_path)
+    end
+    raise "parallel ownership overlap between #{left_issue} and #{right_issue}: #{overlaps.inspect}" unless overlaps.empty?
+  end
 end
 
 gates = JSON.parse((ROOT / ".csdlc/evidence/5854/live-gates.json").read)
@@ -119,6 +193,23 @@ source_states = source.fetch("issue_results").to_h do |entry|
   [[issue.fetch("repository"), issue.fetch("number")], issue.fetch("state")]
 end
 raise "live-gate issue projection differs from retained source" unless states == source_states
+source_umbrella = source.fetch("issue_results").find do |entry|
+  issue = entry.fetch("response").fetch("issue")
+  issue.fetch("repository") == "danielbaustin/agent-design-language" && issue.fetch("number") == SPRINT
+end&.fetch("response")&.fetch("issue")
+raise "live source issue #5854 missing" unless source_umbrella
+umbrella_body = source_umbrella.fetch("body")
+raise "live source issue does not name five operative children" unless UNBOUND.all? { |issue| umbrella_body.include?("- ##{issue}") }
+raise "live source issue retains the obsolete all-child exit" if umbrella_body.include?("Every child is merged")
+raise "live source issue retains podcast-package exit scope" if umbrella_body.include?("podcast packages")
+raise "live source issue does not exclude WP-24A" unless umbrella_body.include?("#5845 (WP-24A) has no Sprint 5 dependency") && umbrella_body.include?("cannot block exit")
+
+tooling_74 = source.fetch("issue_results").find do |entry|
+  issue = entry.fetch("response").fetch("issue")
+  issue.fetch("repository") == "agent-logic/agent-design-language" && issue.fetch("number") == 74
+end&.fetch("response")&.fetch("issue")
+raise "typed tooling issue #74 observation missing" unless tooling_74
+raise "tooling issue #74 is not closed" unless tooling_74.fetch("state") == "closed" && tooling_74.fetch("closed_at") == "2026-08-10T00:11:18Z"
 expected_states = {
   5819 => "closed",
   5825 => "open",

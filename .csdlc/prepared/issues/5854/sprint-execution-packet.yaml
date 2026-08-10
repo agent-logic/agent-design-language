@@ -26,5 +26,6 @@ serial_gates:
 review_path: .csdlc/evidence/5854/sprint-review.md
 activity_log_path: .csdlc/evidence/5854/activity.jsonl
 live_gate_path: .csdlc/evidence/5854/live-gates.json
+split_authority_bind_manifest_path: .csdlc/prepared/issues/5854/split-authority-bind-requests.json
 child_goal_rule: Each unbound child uses its own FastWork worktree, typed split-repository bind request, and issue-bound goal before implementation.
 closeout_rule: Review the five operative child outcomes and publication truth before umbrella closeout; WP-24A is excluded and cannot block closeout.

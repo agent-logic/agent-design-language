@@ -25,7 +25,7 @@ The live-gate projection is bound to `live-gates-source.json`, which retains the
 
 ## Tooling Note
 
-Typed bind is still affected by open tooling issue `agent-logic/agent-design-language#74` when unrelated historical records are visible. The umbrella was bound from a standalone sparse FastWork checkout containing only Sprint 5 issue records. No unrelated worktree or lifecycle record was changed or removed. Issue `#74` remains owned by its separate repair session.
+Tooling issue `agent-logic/agent-design-language#74` closed on `2026-08-10T00:11:18Z`. Sprint 5 requires no sparse-checkout workaround. Each child uses the retained split-authority request: typed bind supplies the canonical code repository during its own pre-mutation diagnosis, then ordinary doctor verifies the successfully bound child worktree.
 
 ## Remaining Work
 

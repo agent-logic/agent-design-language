@@ -1,11 +1,11 @@
 {
   "schema": "adl.v092.sprint_5854_live_gate_source.v1",
-  "collected_at": "2026-08-10T00:14:03Z",
+  "collected_at": "2026-08-10T01:34:29Z",
   "collector": {
     "issue_binary": "csdlc-github-issue",
-    "issue_binary_sha256": "c08c9702affb2de6e96bcead46d86338bee8bfe7145a1b4b877f584872c1da9e",
+    "issue_binary_sha256": "bb97b712e4e08c193607e21ecbb8e784355bb408b2fe3dd4a3cc17fa7f9d9fea",
     "pull_request_binary": "csdlc-github-pr",
-    "pull_request_binary_sha256": "4532450e2d598d81b9ff8a12f385effb54da262ddc9efa5a6ec33612311f7542",
+    "pull_request_binary_sha256": "54e2f229e0e13ae2b38000dde5f8a2abb888fe3f79fe27f4910596d879f2d9ce",
     "contract": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
     "credential_source": "operator-approved default token resolver; secret contents not retained"
   },
@@ -13,7 +13,7 @@
     "GitHub REST issue read through typed csdlc-github-issue issue_read",
     "GitHub REST pull request/check/linkage read through typed csdlc-github-pr state"
   ],
-  "request_manifest_sha256": "53d4ccbcbe93e660a78c0eae3bc88d253deaab2aa2889d0443ae508a2d90db8e",
+  "request_manifest_sha256": "39d9699eedc988d57c82b75beedc9512f379dd428a3977133e1f14386680162e",
   "issue_results": [
     {
       "request": {
@@ -1055,7 +1055,7 @@
           "assignees": [
 
           ],
-          "body": "## Goal\nProduce real demonstrations, consumer proofs, governance handoff, and complete launch media.\n\n## Child Issues\n- #5835 (WP-17)\n- #5836 (WP-18)\n- #5838 (WP-18B)\n- #5839 (WP-19)\n- #5840 (WP-20)\n- #5844 (WP-24)\n- #5845 (WP-24A)\n\n## Execution Mode\nHybrid. Article and podcast production may begin after WP-02. WP-17 and WP-18 follow WP-16. WP-18B follows WP-14, WP-16, and WP-18. WP-20 follows WP-18, WP-18A, WP-18B, and WP-19. Public claims finalize only after WP-23 release truth.\n\n## Boundary\nThis umbrella coordinates migration semantics, birthday demos, provider-neutral proof, governance handoff, proof coverage, articles, and podcasts. It does not publish externally or replace child C-SDLC authority.\n\n## Exit Criteria\nEvery child is merged with reviewed artifacts, all demos use real paths, all ten articles and ten podcast packages are review-ready, and one sprint review passes.\n<!-- csdlc-github-operation:v092-sprint-demo-publication -->\n",
+          "body": "## Goal\nProduce real demonstrations, consumer proofs, governance handoff, and complete launch media.\n\n## Operative Child Issues\n- #5835 (WP-17)\n- #5836 (WP-18)\n- #5838 (WP-18B)\n- #5839 (WP-19)\n- #5840 (WP-20)\n\n## Completed Product Stream\n- #5844 (WP-24) is product/GitHub complete; its typed closeout continues asynchronously and does not add an execution child to this sprint.\n\n## Independent Out-of-Band Stream\n- #5845 (WP-24A) has no Sprint 5 dependency, is not part of this sprint's execution denominator, and cannot gate readiness, execution, review, or closeout.\n\n## Execution Mode\nHybrid. WP-17 follows #5826, #5827, and #5834. WP-18 follows #5825-#5830 and #5832-#5834. WP-18B follows #5832, #5834, and WP-18. WP-19 follows #5834 and WP-17 plus accepted v0.93 allocation. WP-20 follows WP-18, #5837, WP-18B, and WP-19. Public claims finalize only after #5843 release truth.\n\n## Boundary\nThis umbrella coordinates migration semantics, birthday demos, provider-neutral proof, governance handoff, and proof coverage. It does not publish externally, coordinate WP-24A, or replace child C-SDLC authority.\n\n## Exit Criteria\nThe five operative children #5835, #5836, #5838, #5839, and #5840 have truthful terminal outcomes, every claimed demo uses real paths, release-truth gates are satisfied, and one sprint review passes. WP-24A #5845 is excluded and cannot block exit.\n<!-- csdlc-github-operation:v092-sprint-5854-five-child-authority-v2 -->\n",
           "closed_at": null,
           "created_at": "2026-08-05T08:20:21Z",
           "labels": [
@@ -1076,6 +1076,59 @@
         "pr_state": null,
         "reconciled": true,
         "repository": "danielbaustin/agent-design-language",
+        "schema": "csdlc.github_action_result.v1"
+      }
+    },
+    {
+      "request": {
+        "repository": "agent-logic/agent-design-language",
+        "action": "issue_read",
+        "operation_key": null,
+        "token_file": null,
+        "issue": 74,
+        "pull_request": null,
+        "title": null,
+        "body": null,
+        "labels": [
+
+        ],
+        "assignees": [
+
+        ],
+        "milestone": null,
+        "state": null,
+        "comment_body": null,
+        "required_checks": [
+
+        ],
+        "require_review": false,
+        "linked_issue": null
+      },
+      "response": {
+        "action": "issue_read",
+        "comment_id": null,
+        "issue": {
+          "assignees": [
+
+          ],
+          "body": "## Problem\\n\\nThe v2 csdlc-bind topology scan aborts when any unrelated registered worktree contains a pre-v2 issue record with the retired claim field. This prevents a valid existing issue worktree from recording explicit split issue/code repository authority.\\n\\n## Reproduction\\n\\nFrom issue #5845 worktree /Volumes/FastWork/adl-wp-5845-v092-wp24a, rerun csdlc-bind with code_repository agent-logic/agent-design-language. The command aborts while reading unrelated worktree .worktrees/adl-5855-child-readiness-fixes/.csdlc/issues/5845/index.json: unknown field claim.\\n\\n## Required behavior\\n\\n- Scope topology validation to authoritative/current records or classify stale foreign records without blocking unrelated bind operations.\\n- Preserve fail-closed behavior for genuine branch/worktree collisions.\\n- Add a regression fixture containing an unrelated legacy record with claim and prove a valid bind can proceed.\\n- Do not require operators to mutate or delete unrelated worktrees as a workaround.\\n\\n## Evidence\\n\\nError code: corrupt_record. Current command is v2 csdlc-bind from the stable repo-local install.",
+          "closed_at": "2026-08-10T00:11:18Z",
+          "created_at": "2026-08-09T02:32:01Z",
+          "labels": [
+
+          ],
+          "marker_present": false,
+          "milestone": null,
+          "number": 74,
+          "repository": "agent-logic/agent-design-language",
+          "schema": "csdlc.github_issue.v1",
+          "state": "closed",
+          "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records"
+        },
+        "operation_key": null,
+        "pr_state": null,
+        "reconciled": true,
+        "repository": "agent-logic/agent-design-language",
         "schema": "csdlc.github_action_result.v1"
       }
     }

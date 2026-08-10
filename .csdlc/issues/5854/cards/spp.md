@@ -16,7 +16,7 @@ Validate the current child wave, preserve completed WP-24 product truth, route o
 
 ## Plan
 
-Revision 5
+Revision 7
 
 ## Steps
 
@@ -77,7 +77,7 @@ Revision 5
 
 .csdlc/prepared/issues/5854/design.md
 
-Digest: 8d0df302d445b11a2e4f6b17a5a958d4960130e452c499170e44a80cd20af9c6
+Digest: a0a6e1b058b5e13de3776447dc39c940a3bf51a0d1b80b51e31fa1fbeb16a477
 
 ## Diagram
 
