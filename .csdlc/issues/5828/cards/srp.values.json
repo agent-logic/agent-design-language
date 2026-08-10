@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
     "slug": "v0-92-wp-11-runtime-implement-first-memory-palace-context-topology-slice",
     "version": "v0.92",
-    "generation": 60
+    "generation": 61
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5828\n.csdlc/prepared/issues/5828/design.md\n.csdlc/prepared/issues/5828/produce-native-receipt.rb\n.csdlc/prepared/issues/5828/validate-native-receipts.rb\n.csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\n.csdlc/evidence/5828\n.github/workflows/wp11-native-memory-palace.yml\nadl-runtime-kernel/src/memory_palace.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/memory_palace.rs\nadl-runtime-kernel/tests/fixtures/memory_palace\ndocs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

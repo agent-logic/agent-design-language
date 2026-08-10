@@ -8,22 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/issues/5828
-.csdlc/prepared/issues/5828/design.md
-.csdlc/prepared/issues/5828/produce-native-receipt.rb
-.csdlc/prepared/issues/5828/validate-native-receipts.rb
-.csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb
-.csdlc/evidence/5828
-.github/workflows/wp11-native-memory-palace.yml
-adl-runtime-kernel/src/memory_palace.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/memory_palace.rs
-adl-runtime-kernel/tests/fixtures/memory_palace
-docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md
+
 
 ## Prompts
 

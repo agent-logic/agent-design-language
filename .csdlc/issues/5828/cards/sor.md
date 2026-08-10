@@ -57,7 +57,7 @@ Implemented the deterministic WP-11 Memory Palace topology with bounded working-
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
