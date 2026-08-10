@@ -4,16 +4,17 @@
 //! committed membership and the verified/admitted projections owned by the preceding distributed
 //! modules; it does not verify wire messages, grant leases, activate owners, or mutate authority.
 
-use std::{cmp::Ordering, collections::BTreeMap, fmt};
+use std::{cmp::Ordering, collections::BTreeMap, fmt, time::SystemTime};
 
 use serde::Deserialize;
 
 use super::{
     capability_advertisement::VerifiedCapabilityAdvertisement,
+    certificates::{CertificatePurpose, DistributedCertificateStore},
     fencing::{FenceReceipt, FencingStore},
-    lease::OperationClass,
+    lease::{AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA},
     membership::{Member, MemberRole, MembershipState},
-    resource_weather::{PlacementWeather, WeatherAvailability},
+    resource_weather::{PlacementWeather, ResourceWeatherStore, WeatherAvailability},
 };
 
 const MAX_TEXT_BYTES: usize = 128;
@@ -142,7 +143,6 @@ pub struct PlacementRequest {
     pub minimum_membership_epoch: u64,
     pub minimum_committed_log_index: u64,
     pub required_slots: u16,
-    pub now_unix_secs: u64,
     pub requirements: Vec<CapabilityRequirement>,
 }
 
@@ -150,8 +150,39 @@ pub struct PlacementRequest {
 pub struct PlacementInputs<'a> {
     pub membership: &'a MembershipState,
     pub capabilities: &'a [VerifiedCapabilityAdvertisement],
-    pub weather: &'a [PlacementWeather],
+    pub weather: &'a PlacementWeatherSnapshot,
     pub fencing: &'a PlacementFencingSnapshot,
+}
+
+/// Opaque weather projected from the durable verified-advertisement store at service time.
+#[derive(Clone, Debug)]
+pub struct PlacementWeatherSnapshot {
+    captured_at_unix_secs: u64,
+    rows: Vec<PlacementWeather>,
+}
+
+impl PlacementWeatherSnapshot {
+    pub fn capture(
+        store: &ResourceWeatherStore,
+        certificates: &DistributedCertificateStore,
+        now_unix_secs: u64,
+    ) -> PlacementResult<Self> {
+        let rows = store
+            .snapshot(certificates, now_unix_secs)
+            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        Ok(Self {
+            captured_at_unix_secs: now_unix_secs,
+            rows,
+        })
+    }
+
+    #[cfg(test)]
+    pub fn from_rows_for_test(now_unix_secs: u64, rows: &[PlacementWeather]) -> Self {
+        Self {
+            captured_at_unix_secs: now_unix_secs,
+            rows: rows.to_vec(),
+        }
+    }
 }
 
 /// A complete, opaque projection of fencing floors for one exact membership revision.
@@ -170,17 +201,35 @@ impl PlacementFencingSnapshot {
     pub fn capture(
         policy: &PlacementPolicy,
         membership: &MembershipState,
+        ledger: &AuthorityLedger,
         store: &FencingStore,
     ) -> PlacementResult<Self> {
-        let mut receipts = Vec::new();
-        for member in membership.members() {
-            for identity in [member.node_id.as_str(), member.guardian_id.as_str()] {
-                if let Some(receipt) = store.floor(identity.as_bytes()) {
-                    receipts.push((identity, receipt));
-                }
-            }
+        let bytes = ledger
+            .snapshot()
+            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        let snapshot: AuthoritySnapshotEnvelopeView =
+            serde_json::from_slice(&bytes).map_err(|_| PlacementError::InconsistentEvidence)?;
+        if snapshot.body.schema != AUTHORITY_SNAPSHOT_SCHEMA
+            || snapshot.body.applied_log_index != membership.committed_log_index()
+        {
+            return Err(PlacementError::StaleMembership);
         }
-        build_fencing_snapshot(policy, membership, receipts)
+        let lineages = snapshot
+            .body
+            .leases
+            .into_iter()
+            .map(PlacementLineageBinding::try_from)
+            .collect::<PlacementResult<Vec<_>>>()?;
+        let receipts = lineages
+            .iter()
+            .filter_map(|lineage| {
+                store
+                    .floor(lineage.lineage_id.as_bytes())
+                    .cloned()
+                    .map(|receipt| (lineage.lineage_id.clone(), receipt))
+            })
+            .collect();
+        build_fencing_snapshot(policy, membership, lineages, receipts)
     }
 
     #[cfg(test)]
@@ -189,15 +238,111 @@ impl PlacementFencingSnapshot {
         membership: &MembershipState,
         receipts: &[FenceReceipt],
     ) -> PlacementResult<Self> {
+        let lineages = receipts
+            .iter()
+            .map(|receipt| {
+                let lineage_id = std::str::from_utf8(&receipt.lineage_id)
+                    .map_err(|_| PlacementError::InconsistentEvidence)?;
+                let node_id = lineage_id
+                    .strip_prefix("lineage-")
+                    .map(|suffix| format!("node-{suffix}"))
+                    .ok_or(PlacementError::InconsistentEvidence)?;
+                let member = membership
+                    .members()
+                    .find(|member| member.node_id == node_id)
+                    .ok_or(PlacementError::InconsistentEvidence)?;
+                Ok(PlacementLineageBinding {
+                    lineage_id: lineage_id.to_owned(),
+                    node_id: member.node_id.clone(),
+                    guardian_id: member.guardian_id.clone(),
+                    revoked: true,
+                })
+            })
+            .collect::<PlacementResult<Vec<_>>>()?;
         let receipts = receipts
             .iter()
             .map(|receipt| {
-                let identity = std::str::from_utf8(&receipt.lineage_id)
+                let lineage_id = std::str::from_utf8(&receipt.lineage_id)
                     .map_err(|_| PlacementError::InconsistentEvidence)?;
-                Ok((identity, receipt))
+                Ok((lineage_id.to_owned(), receipt.clone()))
             })
-            .collect::<PlacementResult<Vec<_>>>()?;
-        build_fencing_snapshot(policy, membership, receipts)
+            .collect::<PlacementResult<BTreeMap<_, _>>>()?;
+        build_fencing_snapshot(policy, membership, lineages, receipts)
+    }
+
+    #[cfg(test)]
+    pub fn missing_floor_for_test(
+        policy: &PlacementPolicy,
+        membership: &MembershipState,
+        lineage_id: &str,
+        node_id: &str,
+        guardian_id: &str,
+    ) -> PlacementResult<Self> {
+        build_fencing_snapshot(
+            policy,
+            membership,
+            vec![PlacementLineageBinding {
+                lineage_id: lineage_id.to_owned(),
+                node_id: node_id.to_owned(),
+                guardian_id: guardian_id.to_owned(),
+                revoked: true,
+            }],
+            BTreeMap::new(),
+        )
+    }
+}
+
+pub trait PlacementClock: fmt::Debug + Send + Sync {
+    fn now_unix_secs(&self) -> PlacementResult<u64>;
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+pub struct SystemPlacementClock;
+
+impl PlacementClock for SystemPlacementClock {
+    fn now_unix_secs(&self) -> PlacementResult<u64> {
+        SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .map(|duration| duration.as_secs())
+            .map_err(|_| PlacementError::InconsistentEvidence)
+    }
+}
+
+pub struct PlacementService<'a, C> {
+    policy: PlacementPolicy,
+    certificates: &'a DistributedCertificateStore,
+    clock: C,
+}
+
+impl<'a, C: PlacementClock> PlacementService<'a, C> {
+    pub fn new(
+        policy: PlacementPolicy,
+        certificates: &'a DistributedCertificateStore,
+        clock: C,
+    ) -> Self {
+        Self {
+            policy,
+            certificates,
+            clock,
+        }
+    }
+
+    pub fn decide(
+        &self,
+        request: &PlacementRequest,
+        inputs: PlacementInputs<'_>,
+    ) -> PlacementResult<PlacementDecision> {
+        let now_unix_secs = self.clock.now_unix_secs()?;
+        if inputs.weather.captured_at_unix_secs != now_unix_secs {
+            return Err(PlacementError::InconsistentEvidence);
+        }
+        decide(
+            &self.policy,
+            self.certificates,
+            now_unix_secs,
+            request,
+            inputs,
+        )
     }
 }
 
@@ -228,8 +373,10 @@ impl Rank {
     }
 }
 
-pub fn decide(
+fn decide(
     policy: &PlacementPolicy,
+    certificates: &DistributedCertificateStore,
+    now_unix_secs: u64,
     request: &PlacementRequest,
     inputs: PlacementInputs<'_>,
 ) -> PlacementResult<PlacementDecision> {
@@ -246,7 +393,7 @@ pub fn decide(
     }
     if inputs.membership.members().count() > policy.max_inputs
         || inputs.capabilities.len() > policy.max_inputs
-        || inputs.weather.len() > policy.max_inputs
+        || inputs.weather.rows.len() > policy.max_inputs
     {
         return Err(PlacementError::ResourceExhausted);
     }
@@ -259,7 +406,7 @@ pub fn decide(
 
     let members = index_members(inputs.membership)?;
     let capabilities = index_capabilities(policy, inputs.capabilities, &members)?;
-    let weather = index_weather(inputs.weather, &members)?;
+    let weather = index_weather(&inputs.weather.rows, &members)?;
     let fenced = &inputs.fencing.fenced;
     let mut candidates = Vec::new();
 
@@ -276,9 +423,26 @@ pub fn decide(
         let Some(weather) = lookup(&weather, member) else {
             continue;
         };
-        if !fresh_capability(policy, capability, request.now_unix_secs)
-            || !fresh_weather(policy, weather, request.now_unix_secs)
+        if capability.issuer_id != member.guardian_id
+            || weather.holder_id != member.guardian_id
+            || capability.issuer_id != weather.holder_id
             || capability.certificate_generation != weather.certificate_generation
+            || certificates
+                .authorize(
+                    &member.guardian_id,
+                    CertificatePurpose::AdvertisementSigning,
+                    capability.certificate_generation,
+                    now_unix_secs,
+                )
+                .ok()
+                .is_none_or(|authorized| {
+                    authorized.certificate_id != capability.certificate_id
+                        || authorized.holder_id != capability.issuer_id
+                        || authorized.generation != capability.certificate_generation
+                        || authorized.purpose != CertificatePurpose::AdvertisementSigning
+                })
+            || !fresh_capability(policy, capability, now_unix_secs)
+            || !fresh_weather(policy, weather, now_unix_secs)
             || weather.availability == WeatherAvailability::Unavailable
             || !weather.advisory_only
         {
@@ -413,17 +577,68 @@ fn index_weather<'a>(
     Ok(result)
 }
 
-fn build_fencing_snapshot<'a>(
+#[derive(Clone, Debug)]
+struct PlacementLineageBinding {
+    lineage_id: String,
+    node_id: String,
+    guardian_id: String,
+    revoked: bool,
+}
+
+impl TryFrom<LeaseState> for PlacementLineageBinding {
+    type Error = PlacementError;
+
+    fn try_from(lease: LeaseState) -> PlacementResult<Self> {
+        Ok(Self {
+            lineage_id: String::from_utf8(lease.lineage_id)
+                .map_err(|_| PlacementError::InconsistentEvidence)?,
+            node_id: String::from_utf8(lease.holder_node_id)
+                .map_err(|_| PlacementError::InconsistentEvidence)?,
+            guardian_id: String::from_utf8(lease.holder_guardian_id)
+                .map_err(|_| PlacementError::InconsistentEvidence)?,
+            revoked: lease.revoked,
+        })
+    }
+}
+
+fn build_fencing_snapshot(
     policy: &PlacementPolicy,
     membership: &MembershipState,
-    values: impl IntoIterator<Item = (&'a str, &'a FenceReceipt)>,
+    lineages: Vec<PlacementLineageBinding>,
+    receipts: BTreeMap<String, FenceReceipt>,
 ) -> PlacementResult<PlacementFencingSnapshot> {
     if membership_trust_domain(membership)? != policy.trust_domain {
         return Err(PlacementError::WrongTrustDomain);
     }
     let members = index_members(membership)?;
+    if lineages.len() > policy.max_inputs || receipts.len() > policy.max_inputs {
+        return Err(PlacementError::ResourceExhausted);
+    }
     let mut result = BTreeMap::new();
-    for (identity, value) in values {
+    let mut seen_lineages = BTreeMap::new();
+    for lineage in lineages {
+        if !valid_text(&lineage.lineage_id)
+            || !valid_text(&lineage.node_id)
+            || !valid_text(&lineage.guardian_id)
+            || seen_lineages
+                .insert(lineage.lineage_id.clone(), ())
+                .is_some()
+        {
+            return Err(PlacementError::InconsistentEvidence);
+        }
+        let Some(member) = members.get(lineage.node_id.as_str()) else {
+            return Err(PlacementError::InconsistentEvidence);
+        };
+        if member.guardian_id != lineage.guardian_id {
+            return Err(PlacementError::InconsistentEvidence);
+        }
+        let receipt = receipts.get(&lineage.lineage_id);
+        if lineage.revoked && receipt.is_none() {
+            return Err(PlacementError::InconsistentEvidence);
+        }
+        let Some(value) = receipt else {
+            continue;
+        };
         let trust_domain = std::str::from_utf8(&value.trust_domain_id)
             .map_err(|_| PlacementError::WrongTrustDomain)?;
         if trust_domain != policy.trust_domain {
@@ -432,20 +647,23 @@ fn build_fencing_snapshot<'a>(
         if value.committed_log_index > membership.committed_log_index() {
             return Err(PlacementError::FencingAheadOfMembership);
         }
-        if value.lineage_id != identity.as_bytes()
-            || !members.contains_key(identity)
+        if value.lineage_id != lineage.lineage_id.as_bytes()
             || value.epoch == 0
             || value.committed_log_index == 0
             || value.voter_set_generation == 0
             || (value.operation_class != OperationClass::Fence as u32
                 && value.operation_class != OperationClass::Revoke as u32)
-            || result.insert(identity.to_owned(), value.clone()).is_some()
         {
             return Err(PlacementError::InconsistentEvidence);
         }
+        result.insert(lineage.node_id.clone(), value.clone());
+        result.insert(lineage.guardian_id.clone(), value.clone());
     }
-    if result.len() > policy.max_inputs {
-        return Err(PlacementError::ResourceExhausted);
+    if receipts
+        .keys()
+        .any(|lineage| !seen_lineages.contains_key(lineage))
+    {
+        return Err(PlacementError::InconsistentEvidence);
     }
     Ok(PlacementFencingSnapshot {
         membership_epoch: membership.epoch(),
@@ -511,6 +729,18 @@ struct MembershipSnapshotEnvelopeView {
 struct MembershipSnapshotBodyView {
     schema: String,
     trust_domain: String,
+}
+
+#[derive(Deserialize)]
+struct AuthoritySnapshotEnvelopeView {
+    body: AuthoritySnapshotBodyView,
+}
+
+#[derive(Deserialize)]
+struct AuthoritySnapshotBodyView {
+    schema: String,
+    applied_log_index: u64,
+    leases: Vec<LeaseState>,
 }
 
 fn membership_trust_domain(membership: &MembershipState) -> PlacementResult<String> {

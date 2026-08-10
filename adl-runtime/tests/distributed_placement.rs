@@ -20,23 +20,96 @@ mod placement;
 mod resource_weather;
 
 use capability_advertisement::{CapabilityEvidence, VerifiedCapabilityAdvertisement};
+use certificates::{
+    AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
+    CertificateValidity, DistributedCertificateStore,
+};
+use ed25519_dalek::SigningKey;
 use fencing::{
     FenceReceipt, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
     FencingStore,
 };
-use lease::OperationClass;
+use lease::{AuthorityLedger, LeasePolicy, OperationClass};
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
     MembershipState,
 };
 use placement::{
-    decide, CapabilityRequirement, PlacementError, PlacementFencingSnapshot, PlacementInputs,
-    PlacementPolicy, PlacementRequest,
+    CapabilityRequirement, PlacementClock, PlacementError, PlacementFencingSnapshot,
+    PlacementInputs, PlacementPolicy, PlacementRequest, PlacementService, PlacementWeatherSnapshot,
 };
-use resource_weather::{PlacementWeather, WeatherAvailability};
+use resource_weather::{
+    PlacementWeather, ResourceWeatherPolicy, ResourceWeatherStore, WeatherAvailability,
+};
 
 const TRUST: &str = "polis.test";
 const NOW: u64 = 1_787_000_100;
+
+#[derive(Clone, Copy, Debug)]
+struct FixedClock(u64);
+
+impl PlacementClock for FixedClock {
+    fn now_unix_secs(&self) -> Result<u64, PlacementError> {
+        Ok(self.0)
+    }
+}
+
+struct AdvertisementCertificates {
+    _directory: tempfile::TempDir,
+    store: DistributedCertificateStore,
+}
+
+impl AdvertisementCertificates {
+    fn new(holders: impl IntoIterator<Item = String>) -> Self {
+        let root = SigningKey::from_bytes(&[91; 32]);
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory
+            .path()
+            .canonicalize()
+            .unwrap()
+            .join("certificates.redb");
+        let policy = CertificatePolicy::new(TRUST, [root.verifying_key()])
+            .unwrap()
+            .with_bounds(3_600, 60, 60, 64, 64)
+            .unwrap();
+        let store = DistributedCertificateStore::open(path, policy).unwrap();
+        for holder in holders
+            .into_iter()
+            .collect::<std::collections::BTreeSet<_>>()
+        {
+            let certificate = advertisement_certificate(&holder, 3);
+            store.activate(&certificate, NOW - 10).unwrap();
+        }
+        Self {
+            _directory: directory,
+            store,
+        }
+    }
+}
+
+fn advertisement_certificate(holder: &str, generation: u64) -> AuthorityCertificate {
+    let root = SigningKey::from_bytes(&[91; 32]);
+    let seed = holder
+        .bytes()
+        .fold(17_u8, |acc, byte| acc.wrapping_add(byte));
+    let signer = SigningKey::from_bytes(&[seed; 32]);
+    AuthorityCertificate::issue(
+        CertificateBody::new(
+            TRUST,
+            holder,
+            CertificatePurpose::AdvertisementSigning,
+            generation,
+            CertificateValidity {
+                issued_at_unix_secs: NOW - 100,
+                expires_at_unix_secs: NOW + 600,
+            },
+            signer.verifying_key(),
+            &root.verifying_key(),
+        ),
+        &root,
+    )
+    .unwrap()
+}
 
 #[derive(Debug, Default)]
 struct CheckpointAuthority(std::sync::Mutex<Option<FencingCheckpoint>>);
@@ -124,7 +197,9 @@ fn capability(
     VerifiedCapabilityAdvertisement {
         trust_domain: TRUST.to_owned(),
         issuer_id: holder.to_owned(),
-        certificate_id: format!("cert-{holder}-{generation}"),
+        certificate_id: advertisement_certificate(holder, generation)
+            .certificate_id()
+            .unwrap(),
         certificate_generation: generation,
         sequence,
         measured_at_unix_secs: NOW - 5,
@@ -179,7 +254,6 @@ fn request(state: &MembershipState) -> PlacementRequest {
         minimum_membership_epoch: state.epoch(),
         minimum_committed_log_index: state.committed_log_index(),
         required_slots: 2,
-        now_unix_secs: NOW,
         requirements: vec![
             CapabilityRequirement::new("cpu", 4),
             CapabilityRequirement::new("memory", 8),
@@ -195,20 +269,51 @@ fn decide_with(
 ) -> Result<placement::PlacementDecision, PlacementError> {
     let policy = PlacementPolicy::new(TRUST).unwrap();
     let fencing = PlacementFencingSnapshot::from_receipts_for_test(&policy, state, fencing)?;
-    decide(
-        &policy,
+    let certificates = AdvertisementCertificates::new(
+        capabilities
+            .iter()
+            .map(|capability| capability.issuer_id.clone()),
+    );
+    let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
+    PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
         &request(state),
         PlacementInputs {
             membership: state,
             capabilities,
-            weather,
+            weather: &weather,
             fencing: &fencing,
+        },
+    )
+}
+
+fn decide_request(
+    policy: PlacementPolicy,
+    state: &MembershipState,
+    request: &PlacementRequest,
+    capabilities: &[VerifiedCapabilityAdvertisement],
+    weather: &[PlacementWeather],
+    fencing: &PlacementFencingSnapshot,
+) -> Result<placement::PlacementDecision, PlacementError> {
+    let certificates = AdvertisementCertificates::new(
+        capabilities
+            .iter()
+            .map(|capability| capability.issuer_id.clone()),
+    );
+    let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
+    PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
+        request,
+        PlacementInputs {
+            membership: state,
+            capabilities,
+            weather: &weather,
+            fencing,
         },
     )
 }
 
 #[test]
 fn deterministic_ranking_is_independent_of_input_order() {
+    let _production_clock = placement::SystemPlacementClock;
     let state = membership(&[1, 2, 3], &[]);
     let capabilities = vec![
         capability("guardian-1", 3, 11, NOW + 60),
@@ -216,9 +321,9 @@ fn deterministic_ranking_is_independent_of_input_order() {
         capability("guardian-3", 3, 13, NOW + 60),
     ];
     let weather_rows = vec![
-        weather("node-1", 3, 21, 500, 8, NOW + 60),
-        weather("node-2", 3, 22, 200, 4, NOW + 60),
-        weather("node-3", 3, 23, 200, 9, NOW + 60),
+        weather("guardian-1", 3, 21, 500, 8, NOW + 60),
+        weather("guardian-2", 3, 22, 200, 4, NOW + 60),
+        weather("guardian-3", 3, 23, 200, 9, NOW + 60),
     ];
     let left = decide_with(&state, &capabilities, &weather_rows, &[]).unwrap();
     let mut reversed_capabilities = capabilities.clone();
@@ -232,7 +337,7 @@ fn deterministic_ranking_is_independent_of_input_order() {
 }
 
 #[test]
-fn production_fencing_snapshot_is_captured_from_the_authoritative_store() {
+fn authoritative_lineage_fencing_cannot_be_omitted() {
     let state = membership(&[1], &[]);
     let directory = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
     let store = FencingStore::create(
@@ -248,19 +353,36 @@ fn production_fencing_snapshot_is_captured_from_the_authoritative_store() {
     )
     .unwrap();
     let policy = PlacementPolicy::new(TRUST).unwrap();
-    let snapshot = PlacementFencingSnapshot::capture(&policy, &state, &store).unwrap();
-    let decision = decide(
-        &policy,
-        &request(&state),
-        PlacementInputs {
-            membership: &state,
-            capabilities: &[capability("guardian-1", 3, 11, NOW + 60)],
-            weather: &[weather("node-1", 3, 21, 200, 8, NOW + 60)],
-            fencing: &snapshot,
-        },
+    let certificates = AdvertisementCertificates::new(Vec::<String>::new());
+    let weather_store = ResourceWeatherStore::open(
+        directory.path().join("weather.redb"),
+        ResourceWeatherPolicy::new(TRUST).unwrap(),
     )
     .unwrap();
-    assert_eq!(decision.node_id, "node-1");
+    let _weather =
+        PlacementWeatherSnapshot::capture(&weather_store, &certificates.store, NOW).unwrap();
+    let ledger = AuthorityLedger::new(LeasePolicy {
+        max_lease_duration_millis: 2_000,
+        max_clock_uncertainty_millis: 10,
+        message_delay_margin_millis: 5,
+        max_lineages: 32,
+        max_snapshot_bytes: 64 * 1024,
+    })
+    .unwrap();
+    assert!(matches!(
+        PlacementFencingSnapshot::capture(&policy, &state, &ledger, &store),
+        Err(PlacementError::StaleMembership)
+    ));
+    assert!(matches!(
+        PlacementFencingSnapshot::missing_floor_for_test(
+            &policy,
+            &state,
+            "lineage-1",
+            "node-1",
+            "guardian-1",
+        ),
+        Err(PlacementError::InconsistentEvidence)
+    ));
     marker("caller_selected_fencing_slice_unavailable", "denied");
 }
 
@@ -272,8 +394,8 @@ fn stable_node_identifier_breaks_an_exact_score_tie() {
         capability("guardian-1", 3, 11, NOW + 60),
     ];
     let weather_rows = vec![
-        weather("node-2", 3, 22, 200, 8, NOW + 60),
-        weather("node-1", 3, 21, 200, 8, NOW + 60),
+        weather("guardian-2", 3, 22, 200, 8, NOW + 60),
+        weather("guardian-1", 3, 21, 200, 8, NOW + 60),
     ];
     assert_eq!(
         decide_with(&state, &capabilities, &weather_rows, &[])
@@ -291,14 +413,14 @@ fn fenced_candidate_is_excluded_from_selection() {
         capability("guardian-2", 3, 12, NOW + 60),
     ];
     let weather_rows = vec![
-        weather("node-1", 3, 21, 100, 8, NOW + 60),
-        weather("node-2", 3, 22, 400, 8, NOW + 60),
+        weather("guardian-1", 3, 21, 100, 8, NOW + 60),
+        weather("guardian-2", 3, 22, 400, 8, NOW + 60),
     ];
     let result = decide_with(
         &state,
         &capabilities,
         &weather_rows,
-        &[fence("node-1", state.committed_log_index())],
+        &[fence("lineage-1", state.committed_log_index())],
     )
     .unwrap();
     assert_eq!(result.node_id, "node-2");
@@ -309,13 +431,13 @@ fn fenced_candidate_is_excluded_from_selection() {
 fn stale_capability_and_weather_never_place() {
     let state = membership(&[1], &[]);
     let stale_capability = [capability("guardian-1", 3, 11, NOW)];
-    let fresh_weather = [weather("node-1", 3, 21, 100, 8, NOW + 60)];
+    let fresh_weather = [weather("guardian-1", 3, 21, 100, 8, NOW + 60)];
     assert_eq!(
         decide_with(&state, &stale_capability, &fresh_weather, &[]),
         Err(PlacementError::NoEligibleTarget)
     );
     let fresh_capability = [capability("guardian-1", 3, 11, NOW + 60)];
-    let stale_weather = [weather("node-1", 3, 21, 100, 8, NOW)];
+    let stale_weather = [weather("guardian-1", 3, 21, 100, 8, NOW)];
     assert_eq!(
         decide_with(&state, &fresh_capability, &stale_weather, &[]),
         Err(PlacementError::NoEligibleTarget)
@@ -332,7 +454,7 @@ fn wrong_trust_domain_fails_the_entire_decision() {
         decide_with(
             &state,
             &[capability],
-            &[weather("node-1", 3, 21, 100, 8, NOW + 60)],
+            &[weather("guardian-1", 3, 21, 100, 8, NOW + 60)],
             &[]
         ),
         Err(PlacementError::WrongTrustDomain)
@@ -366,16 +488,7 @@ fn fencing_snapshot_cannot_be_reused_after_membership_advances() {
         ))
         .unwrap();
     assert_eq!(
-        decide(
-            &policy,
-            &request(&state),
-            PlacementInputs {
-                membership: &state,
-                capabilities: &[],
-                weather: &[],
-                fencing: &fencing,
-            },
-        ),
+        decide_request(policy, &state, &request(&state), &[], &[], &fencing,),
         Err(PlacementError::StaleMembership)
     );
     marker("incomplete_fencing_view_denied", "denied");
@@ -389,16 +502,7 @@ fn stale_membership_floor_fails_closed() {
     let mut request = request(&state);
     request.minimum_committed_log_index += 1;
     assert_eq!(
-        decide(
-            &policy,
-            &request,
-            PlacementInputs {
-                membership: &state,
-                capabilities: &[],
-                weather: &[],
-                fencing: &fencing,
-            },
-        ),
+        decide_request(policy, &state, &request, &[], &[], &fencing,),
         Err(PlacementError::StaleMembership)
     );
     marker("stale_membership_denied", "denied");
@@ -411,8 +515,8 @@ fn fencing_ahead_of_membership_is_not_treated_as_authority() {
         decide_with(
             &state,
             &[capability("guardian-1", 3, 11, NOW + 60)],
-            &[weather("node-1", 3, 21, 100, 8, NOW + 60)],
-            &[fence("node-1", state.committed_log_index() + 1)],
+            &[weather("guardian-1", 3, 21, 100, 8, NOW + 60)],
+            &[fence("lineage-1", state.committed_log_index() + 1)],
         ),
         Err(PlacementError::FencingAheadOfMembership)
     );
@@ -425,7 +529,7 @@ fn capacity_capability_pressure_and_generation_constraints_are_fail_closed() {
     let cases = [
         (
             capability("guardian-1", 3, 11, NOW + 60),
-            weather("node-1", 3, 21, 100, 1, NOW + 60),
+            weather("guardian-1", 3, 21, 100, 1, NOW + 60),
         ),
         (
             {
@@ -433,15 +537,27 @@ fn capacity_capability_pressure_and_generation_constraints_are_fail_closed() {
                 value.capabilities[0].observed_units = 1;
                 value
             },
+            weather("guardian-1", 3, 21, 100, 8, NOW + 60),
+        ),
+        (
+            capability("guardian-1", 3, 11, NOW + 60),
+            weather("guardian-1", 3, 21, 901, 8, NOW + 60),
+        ),
+        (
+            capability("guardian-1", 3, 11, NOW + 60),
+            weather("guardian-1", 4, 21, 100, 8, NOW + 60),
+        ),
+        (
+            {
+                let mut value = capability("guardian-1", 3, 11, NOW + 60);
+                value.certificate_id = "invented-certificate".to_owned();
+                value
+            },
+            weather("guardian-1", 3, 21, 100, 8, NOW + 60),
+        ),
+        (
+            capability("guardian-1", 3, 11, NOW + 60),
             weather("node-1", 3, 21, 100, 8, NOW + 60),
-        ),
-        (
-            capability("guardian-1", 3, 11, NOW + 60),
-            weather("node-1", 3, 21, 901, 8, NOW + 60),
-        ),
-        (
-            capability("guardian-1", 3, 11, NOW + 60),
-            weather("node-1", 4, 21, 100, 8, NOW + 60),
         ),
     ];
     for (capability, weather) in cases {
@@ -461,13 +577,13 @@ fn missing_unavailable_or_non_advisory_weather_never_places() {
         decide_with(&state, &capabilities, &[], &[]),
         Err(PlacementError::NoEligibleTarget)
     );
-    let mut unavailable = weather("node-1", 3, 21, 100, 8, NOW + 60);
+    let mut unavailable = weather("guardian-1", 3, 21, 100, 8, NOW + 60);
     unavailable.availability = WeatherAvailability::Unavailable;
     assert_eq!(
         decide_with(&state, &capabilities, &[unavailable], &[]),
         Err(PlacementError::NoEligibleTarget)
     );
-    let mut commanding = weather("node-1", 3, 21, 100, 8, NOW + 60);
+    let mut commanding = weather("guardian-1", 3, 21, 100, 8, NOW + 60);
     commanding.advisory_only = false;
     assert_eq!(
         decide_with(&state, &capabilities, &[commanding], &[]),
@@ -483,7 +599,7 @@ fn nonvoter_and_uncommitted_evidence_cannot_be_selected() {
         decide_with(
             &state,
             &[capability("guardian-1", 3, 11, NOW + 60)],
-            &[weather("node-1", 3, 21, 100, 8, NOW + 60)],
+            &[weather("guardian-1", 3, 21, 100, 8, NOW + 60)],
             &[]
         ),
         Err(PlacementError::NoEligibleTarget)
@@ -503,7 +619,7 @@ fn duplicate_evidence_and_alias_collisions_fail_closed() {
         decide_with(&state, &[capability.clone(), capability], &[], &[]),
         Err(PlacementError::InconsistentEvidence)
     );
-    let weather = weather("node-1", 3, 21, 100, 8, NOW + 60);
+    let weather = weather("guardian-1", 3, 21, 100, 8, NOW + 60);
     assert_eq!(
         decide_with(&state, &[], &[weather.clone(), weather], &[]),
         Err(PlacementError::InconsistentEvidence)
@@ -524,15 +640,13 @@ fn request_and_policy_bounds_are_enforced_before_ranking() {
     let mut noncanonical = request(&state);
     noncanonical.requirements.reverse();
     assert_eq!(
-        decide(
-            &default_policy,
+        decide_request(
+            default_policy,
+            &state,
             &noncanonical,
-            PlacementInputs {
-                membership: &state,
-                capabilities: &[],
-                weather: &[],
-                fencing: &default_fencing,
-            }
+            &[],
+            &[],
+            &default_fencing,
         ),
         Err(PlacementError::NonCanonicalRequirements)
     );
@@ -540,18 +654,16 @@ fn request_and_policy_bounds_are_enforced_before_ranking() {
     let bounded_fencing =
         PlacementFencingSnapshot::from_receipts_for_test(&bounded, &state, &[]).unwrap();
     assert_eq!(
-        decide(
-            &bounded,
+        decide_request(
+            bounded,
+            &state,
             &request(&state),
-            PlacementInputs {
-                membership: &state,
-                capabilities: &[
-                    capability("guardian-1", 3, 1, NOW + 60),
-                    capability("node-1", 3, 2, NOW + 60),
-                ],
-                weather: &[],
-                fencing: &bounded_fencing,
-            }
+            &[
+                capability("guardian-1", 3, 1, NOW + 60),
+                capability("node-1", 3, 2, NOW + 60),
+            ],
+            &[],
+            &bounded_fencing,
         ),
         Err(PlacementError::ResourceExhausted)
     );
