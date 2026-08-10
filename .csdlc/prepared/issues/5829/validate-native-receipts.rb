@@ -69,6 +69,13 @@ end
 issue = File.basename(File.dirname(__FILE__)).to_i
 test_target, feature_path = ISSUE_CONFIG.fetch(issue) { fail!("unsupported issue-local validator path") }
 fail!("expected exactly two receipt paths") unless ARGV.length == 2
+fail!("native receipts must be validated by GitHub Actions") unless ENV["GITHUB_ACTIONS"] == "true"
+
+current_workflow_ref = ENV.fetch("GITHUB_WORKFLOW_REF")
+current_run_id = ENV.fetch("GITHUB_RUN_ID")
+current_run_attempt = ENV.fetch("GITHUB_RUN_ATTEMPT")
+expected_workflow_prefix = "agent-logic/agent-design-language/.github/workflows/wp12-native-capability-envelope.yml@"
+fail!("validator workflow identity mismatch") unless current_workflow_ref.start_with?(expected_workflow_prefix)
 
 root_text, root_status = Open3.capture2("git", "rev-parse", "--show-toplevel")
 fail!("cannot resolve repository root") unless root_status.success?
@@ -81,11 +88,27 @@ producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
 expected_test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all"
+  "--test", test_target, "--no-tests=fail", "--status-level", "all",
+  "--message-format", "libtest-json-plus"
 ]
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/
+required_tests = %w[
+  authority_escalation_conflict_and_missing_denials_fail_closed
+  canonical_digest_round_trip_is_stable
+  canonical_envelope_is_deterministic_and_emits_native_semantics
+  exported_validator_rejects_rehashed_field_and_policy_forgery
+  identifier_collisions_fail_closed_while_exact_duplicates_canonicalize
+  invalid_birthday_identity_and_cross_binding_fail_closed
+  omitted_zero_and_escalated_resource_limits_fail_closed
+  policy_itself_fails_closed_on_missing_roots_and_collisions
+  secrets_private_paths_and_host_paths_fail_closed
+  stale_unknown_missing_and_duplicate_evidence_fail_closed
+  unknown_fields_fail_during_deserialization_at_every_layer
+  unsupported_claim_omission_and_missing_provenance_fail_closed
+  unsupported_provider_model_tool_and_skill_fail_closed
+]
 
 receipts = ARGV.map do |receipt_relative|
   receipt_file = repo_file(root, receipt_relative, "receipt", required_prefix: evidence_prefix)
@@ -113,7 +136,10 @@ receipts.each do |receipt|
   fail!("#{platform}: producer argv mismatch") unless receipt["producer_argv"] == expected_producer_argv
   fail!("#{platform}: test argv mismatch") unless receipt["test_argv"] == expected_test_argv
   expected_semantic_path = ".csdlc/evidence/#{issue}/native-platform/#{platform}-semantic.json"
-  fail!("#{platform}: semantic-output environment mismatch") unless receipt["test_environment"] == { "ADL_NATIVE_SEMANTIC_OUTPUT" => expected_semantic_path }
+  fail!("#{platform}: semantic-output environment mismatch") unless receipt["test_environment"] == {
+    "ADL_NATIVE_SEMANTIC_OUTPUT" => expected_semantic_path,
+    "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
+  }
   fail!("#{platform}: status must be passed") unless receipt["status"] == "passed"
 
   runner = receipt["runner"]
@@ -122,14 +148,33 @@ receipts.each do |receipt|
   %w[repository workflow_ref run_id run_attempt job os architecture].each do |field|
     fail!("#{platform}: runner #{field} is required") unless runner[field].is_a?(String) && !runner[field].strip.empty?
   end
-  fail!("#{platform}: repository mismatch") unless runner["repository"] == "danielbaustin/agent-design-language"
+  fail!("#{platform}: repository mismatch") unless runner["repository"] == "agent-logic/agent-design-language"
+  fail!("#{platform}: workflow identity mismatch") unless runner["workflow_ref"] == current_workflow_ref
+  fail!("#{platform}: workflow run mismatch") unless runner["run_id"] == current_run_id
+  fail!("#{platform}: workflow attempt mismatch") unless runner["run_attempt"] == current_run_attempt
+  fail!("#{platform}: producer job mismatch") unless runner["job"] == "produce-native-receipt"
   fail!("#{platform}: native OS mismatch") unless runner["os"] == (platform == "macos" ? "Darwin" : "Linux")
 
   command_output = repo_file(root, receipt["command_output_path"], "#{platform} command output", required_prefix: evidence_prefix)
   fail!("#{platform}: command output digest mismatch") unless required_hex.match?(receipt["command_output_sha256"].to_s) && receipt["command_output_sha256"] == Digest::SHA256.file(command_output).hexdigest
-  summary = command_output.read.match(/(?<count>\d+)\s+tests?\s+run:/)
-  fail!("#{platform}: command output lacks a positive test summary") unless summary && summary[:count].to_i.positive?
-  fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == summary[:count].to_i
+  suites = []
+  passed_tests = []
+  command_output.each_line do |line|
+    parsed = JSON.parse(line)
+    suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
+    passed_tests << parsed["name"] if parsed["type"] == "test" && parsed["event"] == "ok"
+  rescue JSON::ParserError
+    next
+  end
+  suite = suites.last
+  fail!("#{platform}: command output lacks a passing structured suite summary") unless suite && suite["passed"].to_i.positive? && suite["failed"].to_i.zero?
+  fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
+  observed_tests = receipt["passed_tests"]
+  fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
+  prefix = "adl-runtime-kernel::capability_envelope$"
+  expected_tests = required_tests.map { |name| "#{prefix}#{name}" }.sort
+  fail!("#{platform}: exact capability-envelope test inventory mismatch") unless observed_tests == expected_tests
+  fail!("#{platform}: exact test count mismatch") unless receipt["tests_run"] == required_tests.length
 
   semantic_output = repo_file(root, receipt["semantic_output_path"], "#{platform} semantic output", required_prefix: evidence_prefix)
   fail!("#{platform}: semantic path mismatch") unless receipt["semantic_output_path"] == expected_semantic_path
@@ -141,5 +186,7 @@ receipts.each do |receipt|
   fail!("#{platform}: source manifest does not match candidate HEAD files") unless parsed_manifest == expected_manifest
 end
 
+fail!("native receipts must come from one workflow run") unless receipts.map { |receipt| receipt.dig("runner", "run_id") }.uniq.one?
+fail!("native receipts must come from one workflow attempt") unless receipts.map { |receipt| receipt.dig("runner", "run_attempt") }.uniq.one?
 fail!("native semantic outputs differ") unless receipts.map { |receipt| receipt["semantic_output_sha256"] }.uniq.one?
 puts JSON.generate(issue: issue, status: "passed", reviewed_head: head, platforms: %w[linux macos], semantic_output_sha256: receipts.first["semantic_output_sha256"])

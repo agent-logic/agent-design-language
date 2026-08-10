@@ -5,6 +5,7 @@ pub mod assembly;
 pub mod birthday;
 pub mod birthday_continuity;
 pub mod birthday_identity;
+pub mod capability_envelope;
 pub mod channel;
 pub mod cognition;
 pub mod component;
@@ -38,6 +39,7 @@ pub use assembly::*;
 pub use birthday::*;
 pub use birthday_continuity::*;
 pub use birthday_identity::*;
+pub use capability_envelope::*;
 pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, SendError};
 pub use cognition::*;
 pub use component::{
