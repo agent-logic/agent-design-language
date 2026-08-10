@@ -3,6 +3,9 @@
 
 require "digest"
 require "json"
+require "open3"
+require "pathname"
+require "rbconfig"
 
 require_relative "../5862/proof-receipt-contract"
 
@@ -21,23 +24,46 @@ EXPECTED_NEGATIVE_CASES = {
 }.freeze
 ISSUE_EVIDENCE_PREFIX = ".csdlc/evidence/121/"
 MACHINE_MARKER = "ADL_ISSUE_121_NEGATIVE_CASE_V1 "
+REPO_ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
+PRODUCER_PATH = ".csdlc/evidence/121/review-v2/derive-negative-cases.rb"
 
 def fail_receipt(message)
   abort "issue 121 receipt: #{message}"
 end
 
 def issue_evidence_file(path, digest, label)
-  fail_receipt("#{label} escapes issue evidence") unless path.is_a?(String) &&
-    path.start_with?(ISSUE_EVIDENCE_PREFIX) &&
-    !path.split("/").include?("..")
-  fail_receipt("#{label} missing") unless File.file?(path)
-  fail_receipt("#{label} digest malformed") unless digest.to_s.match?(/\A[0-9a-f]{64}\z/)
-  fail_receipt("#{label} digest mismatch") unless Digest::SHA256.file(path).hexdigest == digest
+  fail_receipt("#{label} path is not normalized") unless path.is_a?(String) &&
+    Pathname.new(path).cleanpath.to_s == path
+  fail_receipt("#{label} escapes issue evidence") unless path.start_with?(ISSUE_EVIDENCE_PREFIX)
+  current = REPO_ROOT
+  path.split("/").each_with_index do |component, index|
+    current = current.join(component)
+    begin
+      metadata = File.lstat(current)
+    rescue Errno::ENOENT
+      fail_receipt("#{label} missing")
+    end
+    fail_receipt("#{label} path contains a symlink component") if metadata.symlink?
+    if index < path.split("/").length - 1 && !metadata.directory?
+      fail_receipt("#{label} path contains a non-directory ancestor")
+    end
+  end
+  metadata = File.lstat(current)
+  fail_receipt("#{label} must be an ordinary file") unless metadata.file? && !metadata.symlink?
+  unless digest.nil?
+    fail_receipt("#{label} digest malformed") unless digest.to_s.match?(/\A[0-9a-f]{64}\z/)
+    fail_receipt("#{label} digest mismatch") unless Digest::SHA256.file(current).hexdigest == digest
+  end
+  current
 end
 
 evidence_path = ARGV.fetch(0, ".csdlc/evidence/121/execution-proof.json")
-fail_receipt("execution proof missing") unless File.file?(evidence_path)
-proof = JSON.parse(File.read(evidence_path))
+evidence_file = issue_evidence_file(
+  evidence_path,
+  nil,
+  "execution proof"
+)
+proof = JSON.parse(File.read(evidence_file))
 fail_receipt("execution proof issue mismatch") unless proof["issue"] == 121
 
 outer_cases = Array(proof["negative_cases"])
@@ -62,7 +88,7 @@ fail_receipt("machine evidence source mismatch") unless
 
 producer_path = machine["producer_path"]
 fail_receipt("producer path mismatch") unless
-  producer_path == ".csdlc/evidence/121/derive-negative-cases.rb"
+  producer_path == PRODUCER_PATH
 issue_evidence_file(producer_path, machine["producer_sha256"], "machine producer")
 stdout_path = machine["stdout_path"]
 stderr_path = machine["stderr_path"]
@@ -87,6 +113,17 @@ fail_receipt("machine case records do not match executed markers") unless
   Array(machine["cases"]) == EXPECTED_NEGATIVE_CASES.keys.map { |name|
     observed.find { |entry| entry["case"] == name }
   }
+
+producer_stdout, producer_stderr, producer_status = Open3.capture3(
+  RbConfig.ruby,
+  PRODUCER_PATH,
+  "verify",
+  machine_path,
+  proof.fetch("source_revision"),
+  chdir: REPO_ROOT.to_s
+)
+fail_receipt("machine producer verification failed: #{producer_stderr.strip}") unless
+  producer_status.success? && producer_stdout.start_with?("PASS:")
 
 ARGV[0] = evidence_path
 Wp04ProofReceiptContract.validate(

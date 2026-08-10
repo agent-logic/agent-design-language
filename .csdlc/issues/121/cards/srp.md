@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Exact two-file lease authority diff, machine-derived proof, restart safety, and operation-class security boundary.
+adl-runtime/src/distributed/lease.rs
+adl-runtime/tests/distributed_lease.rs
+.csdlc/issues/121
+.csdlc/evidence/121
+.csdlc/prepared/issues/121
 
 ## Prompts
 
