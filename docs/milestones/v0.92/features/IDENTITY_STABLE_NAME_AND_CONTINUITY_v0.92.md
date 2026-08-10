@@ -4,7 +4,7 @@
 
 - Feature Name: Identity, Stable Name, and Continuity
 - Milestone Target: `v0.92`
-- Status: WP-09 identity record implemented; multi-cycle continuity pending
+- Status: WP-09 identity record and WP-10 bounded multi-cycle continuity implemented
 - Related issues: `#3377`, `#3434`, `#5826`
 - Planning template set: `docs/templates/planning/1.0.0`
 
@@ -15,9 +15,10 @@ claiming implementation has landed.
 
 ## Status
 
-WP-09 implements the deterministic stable-name and identity-root record. This
-does not claim multi-cycle continuity, birthday approval, citizenship, or a
-completed governance identity.
+WP-09 implements the deterministic stable-name and identity-root record. WP-10
+implements bounded evidence-backed continuity across signed runtime cycles.
+Neither work package claims birthday approval, citizenship, or a completed
+governance identity.
 
 Related readiness issue: `#3377`.
 
@@ -58,7 +59,14 @@ evidence-reference digest; either substitution fails closed.
 Aliases are canonical provenance-bearing labels: input order does not affect
 the retained record, adding an alias does not rotate the root, and an alias can
 never replace root authority. Continuity heads remain references to prior
-evidence; WP-10 owns multi-cycle continuity proof.
+evidence. The executable WP-10 contract is
+`adl-runtime-kernel/src/birthday_continuity.rs`: a crate-private runtime policy
+pins the accepted Birthday Identity record, trusted checkpoint signer, runtime
+topology/configuration, service schema, and first generation. At least two
+signed checkpoint cycles must advance monotonically from the Birthday Identity
+continuity head. Caller-created keys, restart or snapshot narratives,
+duplicated cycles, reordered generations, unsafe paths, and record tampering
+fail closed.
 
 ## Execution Flow
 
@@ -87,6 +95,12 @@ path portability, private-state redaction, unknown-field rejection, and the
 display-name, boot-admission, wake, snapshot, and copied-state negatives.
 Native macOS and Linux jobs must retain semantically equivalent exact-head
 receipts before portability is claimed.
+
+The exact `birthday_continuity` integration target covers deterministic
+two-cycle replay, signer and generation policy, predecessor continuity,
+runtime-witness and provenance binding, copied-state rejection, path
+portability, record tamper, and unknown-field rejection. Native macOS and Linux
+jobs retain and independently compare exact-head semantic receipts.
 
 ## Source Inputs
 

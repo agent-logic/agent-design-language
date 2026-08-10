@@ -3,6 +3,7 @@
 pub mod acip;
 pub mod assembly;
 pub mod birthday;
+pub mod birthday_continuity;
 pub mod birthday_identity;
 pub mod channel;
 pub mod cognition;
@@ -34,6 +35,7 @@ pub mod weather;
 pub use acip::*;
 pub use assembly::*;
 pub use birthday::*;
+pub use birthday_continuity::*;
 pub use birthday_identity::*;
 pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, SendError};
 pub use cognition::*;
