@@ -1,7 +1,10 @@
 //! PVF: deterministic-core, release-gating identity-contract proof with a small
 //! resource profile. The positive case is the sole native semantic-output writer.
 
-use std::{fs, path::Path};
+use std::{
+    fs,
+    path::{Component, Path, PathBuf},
+};
 
 use adl_runtime_kernel::{
     build_birthday_identity, derive_identity_root, record_digest,
@@ -24,6 +27,29 @@ fn valid_candidate() -> BirthdayIdentityCandidate {
 fn valid_value() -> serde_json::Value {
     serde_json::from_str(&fs::read_to_string(fixture("valid.json")).expect("read valid fixture"))
         .expect("parse valid fixture value")
+}
+
+fn semantic_output_path(value: &str) -> Result<PathBuf, &'static str> {
+    let relative = Path::new(value);
+    if value.is_empty()
+        || relative.is_absolute()
+        || value.starts_with('\\')
+        || value.contains('\\')
+        || value.as_bytes().get(1).copied() == Some(b':')
+        || relative
+            .components()
+            .any(|component| !matches!(component, Component::Normal(_)))
+    {
+        return Err("semantic output must be a normalized repository-relative path");
+    }
+    let repository_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .ok_or("manifest directory must have a repository parent")?;
+    let output = repository_root.join(relative);
+    if !output.starts_with(repository_root.join(".csdlc/evidence/5826")) {
+        return Err("semantic output must remain below .csdlc/evidence/5826");
+    }
+    Ok(output)
 }
 
 #[test]
@@ -56,13 +82,38 @@ fn builds_canonical_identity_and_emits_semantic_output() {
     );
 
     if let Ok(output) = std::env::var("ADL_NATIVE_SEMANTIC_OUTPUT") {
-        let path = Path::new(&output);
+        let path = semantic_output_path(&output).expect("safe semantic output path");
         if let Some(parent) = path.parent() {
             fs::create_dir_all(parent).expect("create semantic output directory");
         }
-        fs::write(path, serde_jcs::to_vec(&record).expect("canonical record"))
+        fs::write(&path, serde_jcs::to_vec(&record).expect("canonical record"))
             .expect("write semantic output");
     }
+}
+
+#[test]
+fn semantic_output_rejects_host_paths_and_traversal() {
+    for unsafe_path in [
+        "",
+        "/tmp/identity.json",
+        "../identity.json",
+        ".csdlc/evidence/5826/../identity.json",
+        "C:\\tmp\\identity.json",
+        "adl-runtime-kernel/identity.json",
+    ] {
+        assert!(
+            semantic_output_path(unsafe_path).is_err(),
+            "unsafe semantic output path accepted: {unsafe_path}"
+        );
+    }
+    let safe = ".csdlc/evidence/5826/native-platform/linux-semantic.json";
+    assert_eq!(
+        semantic_output_path(safe).expect("safe evidence path"),
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .expect("repository root")
+            .join(safe)
+    );
 }
 
 #[test]
