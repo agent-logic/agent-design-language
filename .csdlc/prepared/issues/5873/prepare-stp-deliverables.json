@@ -1,0 +1,19 @@
+{
+  "issue": 5873,
+  "card": "stp",
+  "expected_generation": 7,
+  "expected_digest": "4cdb08fc3b248edac2aa6195a875f6677e875f23010bb26f4083929839fb1734",
+  "actor": "codex:5873-readiness-preparation",
+  "reason": "Declare the exact two exclusive product paths and bounded proof deliverables before execution binding.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/placement.rs",
+      "adl-runtime/tests/distributed_placement.rs",
+      "Focused deterministic positive and fail-closed negative tests",
+      "Digest-bound exact-revision execution proof",
+      "Independent exact-head review and rollback evidence"
+    ]
+  }
+}
