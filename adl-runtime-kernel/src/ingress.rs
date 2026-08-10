@@ -12,9 +12,9 @@ use tokio::sync::{oneshot, Mutex as AsyncMutex, Notify};
 
 use crate::{
     channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, Component, ComponentContext,
-    ComponentError, ComponentFactory, ComponentId, ComponentSpec, FailurePolicy, OperationError,
-    OperationRequest, OperationalFactory, RuntimeEvent, RuntimeRecorder, SendError,
-    OPERATION_REQUEST_SCHEMA,
+    ComponentError, ComponentFactory, ComponentId, ComponentSpec, FailurePolicy,
+    KernelDurableState, KernelDurableStateError, OperationError, OperationRequest,
+    OperationalFactory, RuntimeEvent, RuntimeRecorder, SendError, OPERATION_REQUEST_SCHEMA,
 };
 
 pub const DOMAIN_WORK_SCHEMA: &str = "adl.runtime.domain_work.v1";
@@ -88,6 +88,7 @@ pub struct CanonicalIngress {
     dispatchers: Arc<BTreeMap<String, OperationalFactory>>,
     communication_keys: Arc<BTreeMap<String, CommunicationVerifyingIdentity>>,
     communication_sequences: Arc<Mutex<BTreeMap<String, u64>>>,
+    communication_replay_store: Option<Arc<KernelDurableState>>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -172,7 +173,27 @@ impl CanonicalIngress {
             dispatchers: Arc::new(dispatchers),
             communication_keys: Arc::new(communication_keys),
             communication_sequences: Arc::new(Mutex::new(BTreeMap::new())),
+            communication_replay_store: None,
         }
+    }
+
+    pub fn with_communication_replay_store(
+        mut self,
+        store: Arc<KernelDurableState>,
+    ) -> Result<Self, IngressError> {
+        let restored = store
+            .communication_inbound_sequences()
+            .map_err(|_| IngressError::ExecutionFailed)?;
+        *self
+            .communication_sequences
+            .lock()
+            .expect("communication sequence state poisoned") = restored.clone();
+        self.state
+            .lock()
+            .expect("ingress state mutex poisoned")
+            .communication_sequences = restored;
+        self.communication_replay_store = Some(store);
+        Ok(self)
     }
 
     pub async fn submit(
@@ -188,15 +209,7 @@ impl CanonicalIngress {
                 &self.communication_keys,
                 self.recorder.qualified_time_now_unix_millis(),
             )? {
-            let mut sequences = self
-                .communication_sequences
-                .lock()
-                .expect("communication sequence state poisoned");
-            if sequence <= sequences.get(&sender_id).copied().unwrap_or(0) {
-                return Err(IngressError::Conflict);
-            }
-            let previous = sequences.insert(sender_id.clone(), sequence);
-            Some((sender_id, sequence, previous))
+            Some(self.reserve_communication_sequence(sender_id, sequence)?)
         } else {
             None
         };
@@ -221,7 +234,9 @@ impl CanonicalIngress {
         let outcome = match result.await {
             Ok(outcome) => outcome,
             Err(_) => {
-                self.rollback_communication_sequence(communication_reservation);
+                // Once dispatch succeeded, a dropped reply is ambiguous: the work may have
+                // executed before the process or worker disappeared. Retain the replay
+                // reservation so a restart cannot execute the signed message twice.
                 return Err(IngressError::Closed);
             }
         };
@@ -255,6 +270,18 @@ impl CanonicalIngress {
     }
 
     pub fn restore(&self, snapshot: IngressSnapshot) {
+        let mut snapshot = snapshot;
+        if let Some(store) = &self.communication_replay_store {
+            if let Ok(durable) = store.communication_inbound_sequences() {
+                for (sender_id, sequence) in durable {
+                    let restored = snapshot
+                        .communication_sequences
+                        .entry(sender_id)
+                        .or_default();
+                    *restored = (*restored).max(sequence);
+                }
+            }
+        }
         *self
             .communication_sequences
             .lock()
@@ -263,10 +290,56 @@ impl CanonicalIngress {
         *self.state.lock().expect("ingress state mutex poisoned") = snapshot;
     }
 
+    fn reserve_communication_sequence(
+        &self,
+        sender_id: String,
+        sequence: u64,
+    ) -> Result<(String, u64, Option<u64>), IngressError> {
+        let previous = if let Some(store) = &self.communication_replay_store {
+            store
+                .reserve_communication_inbound_sequence(&sender_id, sequence)
+                .map_err(|error| match error {
+                    KernelDurableStateError::CommunicationSequenceConflict => {
+                        IngressError::Conflict
+                    }
+                    _ => IngressError::ExecutionFailed,
+                })?
+        } else {
+            let sequences = self
+                .communication_sequences
+                .lock()
+                .expect("communication sequence state poisoned");
+            let previous = sequences.get(&sender_id).copied();
+            if sequence <= previous.unwrap_or(0) {
+                return Err(IngressError::Conflict);
+            }
+            previous
+        };
+        let mut sequences = self
+            .communication_sequences
+            .lock()
+            .expect("communication sequence state poisoned");
+        let current = sequences.entry(sender_id.clone()).or_default();
+        *current = (*current).max(sequence);
+        Ok((sender_id, sequence, previous))
+    }
+
     fn rollback_communication_sequence(&self, reservation: Option<(String, u64, Option<u64>)>) {
         let Some((sender_id, sequence, previous)) = reservation else {
             return;
         };
+        if let Some(store) = &self.communication_replay_store {
+            if let Err(error) =
+                store.rollback_communication_inbound_sequence(&sender_id, sequence, previous)
+            {
+                tracing::warn!(
+                    sender_id = %sender_id,
+                    sequence,
+                    error = %error,
+                    "durable communication replay reservation retained after rollback failure"
+                );
+            }
+        }
         let mut sequences = self
             .communication_sequences
             .lock()

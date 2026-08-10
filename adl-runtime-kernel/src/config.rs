@@ -398,8 +398,44 @@ impl RuntimeInitConfig {
         }
         let mut principal_ids = std::collections::BTreeSet::new();
         let mut signing_key_ids = std::collections::BTreeSet::new();
+        let mut credential_paths = vec![
+            (
+                "credentials.control_public_key_path".to_owned(),
+                self.credentials.control_public_key_path.as_path(),
+            ),
+            (
+                "credentials.operation_public_key_path".to_owned(),
+                self.credentials.operation_public_key_path.as_path(),
+            ),
+            (
+                "credentials.continuity_signing_key_path".to_owned(),
+                self.credentials.continuity_signing_key_path.as_path(),
+            ),
+            (
+                "credentials.observatory_token_path".to_owned(),
+                self.credentials.observatory_token_path.as_path(),
+            ),
+            (
+                "credentials.acip_write_token_path".to_owned(),
+                self.credentials.acip_write_token_path.as_path(),
+            ),
+        ];
         for identity in &self.communication_identities {
             identity.validate(&credential_root)?;
+            credential_paths.push((
+                format!(
+                    "communication_identities[{}].signing_private_key_path",
+                    identity.principal_id
+                ),
+                identity.signing_private_key_path.as_path(),
+            ));
+            credential_paths.push((
+                format!(
+                    "communication_identities[{}].signing_public_key_path",
+                    identity.principal_id
+                ),
+                identity.signing_public_key_path.as_path(),
+            ));
             if !principal_ids.insert(identity.principal_id.clone()) {
                 return Err(RuntimeInitError::Policy(format!(
                     "duplicate communication identity: {}",
@@ -413,6 +449,7 @@ impl RuntimeInitConfig {
                 )));
             }
         }
+        validate_credential_paths_distinct(&credential_paths)?;
         if !principal_ids.contains(crate::RESIDENT_SHEPHERD_ID)
             || !principal_ids.contains("layer8-operator")
         {
@@ -1170,6 +1207,37 @@ fn validate_distinct_paths(
     validate_absolute_path(left_field, left)?;
     validate_absolute_path(right_field, right)?;
     Ok(())
+}
+
+fn validate_credential_paths_distinct(paths: &[(String, &Path)]) -> Result<(), RuntimeInitError> {
+    for (index, (left_field, left)) in paths.iter().enumerate() {
+        let left_identity = left.canonicalize().unwrap_or_else(|_| left.to_path_buf());
+        #[cfg(unix)]
+        let left_file_identity = credential_file_identity(left);
+        for (right_field, right) in &paths[index + 1..] {
+            let right_identity = right.canonicalize().unwrap_or_else(|_| right.to_path_buf());
+            #[cfg(unix)]
+            let same_existing_file = left_file_identity.is_some()
+                && left_file_identity == credential_file_identity(right);
+            #[cfg(not(unix))]
+            let same_existing_file = false;
+            if left_identity == right_identity || same_existing_file {
+                return Err(RuntimeInitError::Policy(format!(
+                    "credential paths must be distinct: {left_field} and {right_field}"
+                )));
+            }
+        }
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn credential_file_identity(path: &Path) -> Option<(u64, u64)> {
+    use std::os::unix::fs::MetadataExt;
+
+    path.metadata()
+        .ok()
+        .map(|metadata| (metadata.dev(), metadata.ino()))
 }
 
 fn lexically_contains(root: &Path, path: &Path) -> bool {

@@ -21,6 +21,8 @@ const GOVERNED_STATE: TableDefinition<&str, &[u8]> = TableDefinition::new("gover
 const GOVERNED_LIFELOG: TableDefinition<u64, &[u8]> = TableDefinition::new("governed_lifelog_v1");
 const COMMUNICATION_OUTBOUND_SEQUENCES: TableDefinition<&str, u64> =
     TableDefinition::new("communication_outbound_sequences_v1");
+const COMMUNICATION_INBOUND_SEQUENCES: TableDefinition<&str, u64> =
+    TableDefinition::new("communication_inbound_sequences_v1");
 const MAX_COMMUNICATION_SEQUENCE: u64 = 9_007_199_254_740_991;
 
 #[derive(Debug, thiserror::Error)]
@@ -43,6 +45,8 @@ pub enum KernelDurableStateError {
     CheckpointIdentityOrIntegrity,
     #[error("durable communication sequence exhausted")]
     CommunicationSequenceExhausted,
+    #[error("durable communication sequence must advance")]
+    CommunicationSequenceConflict,
 }
 
 pub type KernelDurableStateResult<T> = Result<T, KernelDurableStateError>;
@@ -253,6 +257,88 @@ impl KernelDurableState {
         Ok(next)
     }
 
+    pub fn communication_inbound_sequences(
+        &self,
+    ) -> KernelDurableStateResult<std::collections::BTreeMap<String, u64>> {
+        let read = self.database.begin_read().map_err(database_error)?;
+        let table = read
+            .open_table(COMMUNICATION_INBOUND_SEQUENCES)
+            .map_err(database_error)?;
+        let mut sequences = std::collections::BTreeMap::new();
+        for row in table.iter().map_err(database_error)? {
+            let (principal, sequence) = row.map_err(database_error)?;
+            sequences.insert(principal.value().to_owned(), sequence.value());
+        }
+        Ok(sequences)
+    }
+
+    pub fn reserve_communication_inbound_sequence(
+        &self,
+        principal_id: &str,
+        sequence: u64,
+    ) -> KernelDurableStateResult<Option<u64>> {
+        if sequence == 0 || sequence > MAX_COMMUNICATION_SEQUENCE {
+            return Err(KernelDurableStateError::CommunicationSequenceExhausted);
+        }
+        let mut write = self.database.begin_write().map_err(database_error)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(database_error)?;
+        let previous = {
+            let mut sequences = write
+                .open_table(COMMUNICATION_INBOUND_SEQUENCES)
+                .map_err(database_error)?;
+            let previous = sequences
+                .get(principal_id)
+                .map_err(database_error)?
+                .map(|value| value.value());
+            if sequence <= previous.unwrap_or(0) {
+                return Err(KernelDurableStateError::CommunicationSequenceConflict);
+            }
+            sequences
+                .insert(principal_id, sequence)
+                .map_err(database_error)?;
+            previous
+        };
+        write.commit().map_err(database_error)?;
+        Ok(previous)
+    }
+
+    pub fn rollback_communication_inbound_sequence(
+        &self,
+        principal_id: &str,
+        sequence: u64,
+        previous: Option<u64>,
+    ) -> KernelDurableStateResult<()> {
+        let mut write = self.database.begin_write().map_err(database_error)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(database_error)?;
+        {
+            let mut sequences = write
+                .open_table(COMMUNICATION_INBOUND_SEQUENCES)
+                .map_err(database_error)?;
+            let current = sequences
+                .get(principal_id)
+                .map_err(database_error)?
+                .map(|value| value.value());
+            if current == Some(sequence) {
+                match previous {
+                    Some(previous) => {
+                        sequences
+                            .insert(principal_id, previous)
+                            .map_err(database_error)?;
+                    }
+                    None => {
+                        sequences.remove(principal_id).map_err(database_error)?;
+                    }
+                }
+            }
+        }
+        write.commit().map_err(database_error)?;
+        Ok(())
+    }
+
     pub fn local_lifelog_len(&self) -> KernelDurableStateResult<usize> {
         table_len(&self.database, LOCAL_LIFELOG)
     }
@@ -286,6 +372,9 @@ impl KernelDurableState {
         write.open_table(GOVERNED_LIFELOG).map_err(database_error)?;
         write
             .open_table(COMMUNICATION_OUTBOUND_SEQUENCES)
+            .map_err(database_error)?;
+        write
+            .open_table(COMMUNICATION_INBOUND_SEQUENCES)
             .map_err(database_error)?;
         write.commit().map_err(database_error)?;
         Ok(())

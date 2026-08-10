@@ -68,11 +68,20 @@ const contentTypes = {
   ".json": "application/json; charset=utf-8",
   ".svg": "image/svg+xml"
 };
+const publicAssets = new Set([
+  "/demos/html-observatory/index.html",
+  "/demos/html-observatory/app.js",
+  "/demos/html-observatory/styles.css",
+  "/demos/html-observatory/runtime-v3.config.json"
+]);
 
 const server = createServer({ cert, key }, async (request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url, publicBaseUrl).pathname);
     const requested = pathname.endsWith("/") ? `${pathname}index.html` : pathname;
+    if (!publicAssets.has(requested)) {
+      throw new Error("not found");
+    }
     const candidate = await realpath(join(root, requested));
     const fromRoot = relative(root, candidate);
     if (fromRoot.startsWith("..") || fromRoot === "" || (await stat(candidate)).isFile() === false) {

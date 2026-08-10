@@ -17,9 +17,9 @@ use adl_runtime_kernel::{
     validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
     AgentSample, CheckpointShutdownRequest, CheckpointingControl, CommunicationSigningIdentity,
     CommunicationVerifyingIdentity, ControlApiPolicy, ControlAuthority, ControlCapability,
-    ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot,
-    RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
-    TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
+    ControlService, Kernel, KernelDurableState, KernelExit, LiveBindings, LiveContinuity,
+    LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -250,11 +250,21 @@ async fn main() -> ExitCode {
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
             ));
+            let communication_replay_store = match KernelDurableState::open(
+                operation_state_identity.join("communication-ingress"),
+            ) {
+                Ok(store) => Arc::new(store),
+                Err(error) => {
+                    eprintln!("runtime communication replay state unavailable: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 communication_keys: communication_keys.clone(),
+                communication_replay_store: Some(communication_replay_store),
                 reasoning,
                 time_source,
                 time_bounds: TimeQualificationBounds {

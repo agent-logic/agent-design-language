@@ -14,8 +14,8 @@ use adl_runtime_kernel::{
     build_production_operation_executors_with_communication_signers,
     build_production_operation_executors_with_recorder, AdapterKind, AdapterPolicy, AuthorityMode,
     ClockAuthority, CommunicationSigningIdentity, ComponentRegistry, DomainWork, ExecutorError,
-    FailureClass, InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor,
-    OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
+    FailureClass, InProcessOperationExecutor, IngressError, LiveBindings, OperationError,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
     SignedIdentityMessage, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
     ACIP_IDENTITY_MESSAGE_SCHEMA, DOMAIN_WORK_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
 };
@@ -124,6 +124,10 @@ fn bindings(recorder: RuntimeRecorder, state_root: &Path) -> LiveBindings {
         .unwrap(),
         permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
         communication_keys,
+        communication_replay_store: Some(Arc::new(
+            adl_runtime_kernel::KernelDurableState::open(state_root.join("communication-ingress"))
+                .unwrap(),
+        )),
         reasoning: bootstrap_reasoning_services(recorder).unwrap(),
         time_source: Arc::new(FixedTime),
         time_bounds: TimeQualificationBounds {
@@ -392,9 +396,23 @@ async fn resident_shepherd_is_admitted_through_the_production_adapter() {
 }
 
 #[tokio::test]
-async fn resident_shepherd_admission_replays_across_process_cycles() {
+async fn communication_replay_and_ack_sequences_survive_process_cycles_without_snapshot_restore() {
     let root = TempDir::new().unwrap();
-    let (snapshot, pre_restart_ack) = {
+    let pre_restart_work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "pre-restart-layer8-shepherd".to_owned(),
+        kind: "shepherd".to_owned(),
+        payload: agent_work(serde_json::json!([{
+            "op": "layer8_message",
+            "message": signed_layer8_message(
+                "shepherd",
+                "00112233445566778899aabbccddee0001",
+                1,
+                "Before restart",
+            )
+        }])),
+    };
+    let pre_restart_ack = {
         let recorder = authoritative_recorder();
         let assembly = build_live_assembly(bindings(recorder.clone(), root.path())).unwrap();
         let ingress = assembly.canonical_ingress.clone();
@@ -408,55 +426,40 @@ async fn resident_shepherd_admission_replays_across_process_cycles() {
             .unwrap();
         let pre_restart = ingress
             .submit(
-                DomainWork {
-                    schema: DOMAIN_WORK_SCHEMA.to_owned(),
-                    work_id: "pre-restart-layer8-shepherd".to_owned(),
-                    kind: "shepherd".to_owned(),
-                    payload: agent_work(serde_json::json!([{
-                        "op": "layer8_message",
-                        "message": signed_layer8_message(
-                            "shepherd",
-                            "00112233445566778899aabbccddee0001",
-                            1,
-                            "Before restart",
-                        )
-                    }])),
-                },
+                pre_restart_work.clone(),
                 "00112233445566778899aabbccddee0001".to_owned(),
             )
             .await
             .unwrap();
         let pre_restart_ack: SignedIdentityMessage =
             serde_json::from_value(pre_restart.public_output.unwrap()).unwrap();
-        let snapshot = ingress.snapshot();
-        assert_eq!(snapshot.accepted_through, 2);
-        assert_eq!(
-            snapshot
-                .communication_acknowledgement_sequences
-                .get("shepherd"),
-            Some(&pre_restart_ack.monotonic_sequence)
-        );
         assert_eq!(
             handle.shutdown(Duration::from_secs(1)).await.unwrap(),
             adl_runtime_kernel::KernelExit::Clean
         );
         drop(ingress);
-        (snapshot, pre_restart_ack)
+        pre_restart_ack
     };
 
     let recorder = authoritative_recorder();
     let assembly = build_live_assembly(bindings(recorder.clone(), root.path())).unwrap();
     let ingress = assembly.canonical_ingress.clone();
-    ingress.restore(snapshot);
     let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
         .start()
         .await
         .unwrap();
 
+    let replay = ingress
+        .submit(
+            pre_restart_work,
+            "00112233445566778899aabbccddee0001".to_owned(),
+        )
+        .await;
+    assert_eq!(replay.unwrap_err(), IngressError::Conflict);
+
     admit_resident_shepherd(&ingress, "runtime-shepherd-restart-test")
         .await
         .unwrap();
-    assert_eq!(ingress.snapshot().accepted_through, 2);
     let shepherd_work = DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
         work_id: "restart-layer8-shepherd".to_owned(),
@@ -475,7 +478,6 @@ async fn resident_shepherd_admission_replays_across_process_cycles() {
         .submit(shepherd_work, "00112233445566778899aabbccddeeff".to_owned())
         .await
         .unwrap();
-    assert_eq!(shepherd_result.accepted_sequence, 3);
     let post_restart_ack: SignedIdentityMessage =
         serde_json::from_value(shepherd_result.public_output.clone().unwrap()).unwrap();
     assert!(

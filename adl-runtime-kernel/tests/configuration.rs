@@ -509,6 +509,50 @@ fn runtime_init_v1_is_rejected_after_communication_identity_contract_versioning(
 }
 
 #[test]
+fn runtime_init_rejects_communication_private_key_and_bearer_token_path_aliases() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    std::fs::create_dir_all(state_root.join("credentials")).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    let token_path = state_root.join("credentials/observatory-token.txt");
+    std::fs::write(&token_path, "not-a-real-token").unwrap();
+    let original = state_root.join("credentials/layer8-private-key.hex");
+    let candidate = valid_runtime_init_toml(&state_root)
+        .replace(&toml_path(&original), &toml_path(&token_path));
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&candidate).unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("credential paths must be distinct"),
+        "{error}"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn runtime_init_rejects_hard_linked_credential_aliases() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    let credentials = state_root.join("credentials");
+    std::fs::create_dir_all(&credentials).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    let token_path = state_root.join("credentials/observatory-token.txt");
+    let private_key_path = state_root.join("credentials/layer8-private-key.hex");
+    std::fs::write(&token_path, "shared-secret-material").unwrap();
+    std::fs::hard_link(&token_path, &private_key_path).unwrap();
+
+    let error =
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(&state_root))
+            .unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("credential paths must be distinct"),
+        "{error}"
+    );
+}
+
+#[test]
 fn polis_rename_changes_only_mutable_display_metadata() {
     let directory = config_test_root();
     let state_root = directory.path().join("state");

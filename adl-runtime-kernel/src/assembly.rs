@@ -62,6 +62,7 @@ pub struct LiveBindings {
     pub operation_executors: BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
     pub permit_keys: BTreeMap<String, ed25519_dalek::VerifyingKey>,
     pub communication_keys: BTreeMap<String, CommunicationVerifyingIdentity>,
+    pub communication_replay_store: Option<Arc<KernelDurableState>>,
     pub reasoning: Arc<ReasoningServices>,
     pub time_source: Arc<dyn TimeSampleSource>,
     pub time_bounds: TimeQualificationBounds,
@@ -88,6 +89,8 @@ pub enum AssemblyError {
     Encoding(String),
     #[error("resident Shepherd admission failed: {0}")]
     ShepherdAdmission(String),
+    #[error("durable communication replay state unavailable: {0}")]
+    CommunicationReplay(String),
 }
 
 pub async fn admit_resident_shepherd(
@@ -218,12 +221,17 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         let factory = InfrastructureFactory { role };
         registrations.push((Arc::new(factory), role.contract()));
     }
-    let canonical_ingress = CanonicalIngress::new_with_communication_keys(
+    let mut canonical_ingress = CanonicalIngress::new_with_communication_keys(
         64,
         bindings.recorder.clone(),
         ingress_dispatchers,
         bindings.communication_keys,
     );
+    if let Some(store) = bindings.communication_replay_store {
+        canonical_ingress = canonical_ingress
+            .with_communication_replay_store(store)
+            .map_err(|error| AssemblyError::CommunicationReplay(error.to_string()))?;
+    }
     registrations.push((
         Arc::new(canonical_ingress.clone()),
         ServiceContract {

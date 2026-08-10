@@ -54,9 +54,17 @@ impl GuardianLease {
         let expected = token.clone();
         let (release_tx, release_rx) = std::sync::mpsc::channel();
         let thread = std::thread::spawn(move || {
-            let (mut stream, peer) = loop {
+            let mut active_leases = Vec::new();
+            loop {
                 match listener.accept() {
-                    Ok(connection) => break connection,
+                    Ok((mut stream, peer)) => {
+                        assert!(peer.ip().is_loopback());
+                        let mut supplied = vec![0_u8; expected.len()];
+                        stream.read_exact(&mut supplied).unwrap();
+                        assert_eq!(supplied, expected.as_bytes());
+                        stream.write_all(b"ok").unwrap();
+                        active_leases.push(stream);
+                    }
                     Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                         if release_rx.try_recv().is_ok() {
                             return;
@@ -65,13 +73,7 @@ impl GuardianLease {
                     }
                     Err(error) => panic!("Guardian lease accept failed: {error}"),
                 }
-            };
-            assert!(peer.ip().is_loopback());
-            let mut supplied = vec![0_u8; expected.len()];
-            stream.read_exact(&mut supplied).unwrap();
-            assert_eq!(supplied, expected.as_bytes());
-            stream.write_all(b"ok").unwrap();
-            let _ = release_rx.recv();
+            }
         });
         Self {
             address,
@@ -113,6 +115,46 @@ impl Drop for ChildGuard {
             let _ = child.wait();
         }
     }
+}
+
+fn spawn_runtime(
+    init: &Path,
+    lease: &GuardianLease,
+) -> (
+    ChildGuard,
+    std::sync::mpsc::Receiver<String>,
+    std::thread::JoinHandle<String>,
+) {
+    let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
+    command.arg("serve").arg("--init").arg(init);
+    lease.apply(&mut command);
+    let mut child = ChildGuard(Some(
+        command
+            .stdout(Stdio::null())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap(),
+    ));
+    let stderr = child.0.as_mut().unwrap().stderr.take().unwrap();
+    let (ready_tx, ready_rx) = std::sync::mpsc::channel();
+    let stderr_reader = std::thread::spawn(move || {
+        let mut output = String::new();
+        for line in BufReader::new(stderr).lines() {
+            let line = line.unwrap();
+            if line.contains("event=control_ready") {
+                let instance_id = line
+                    .split_whitespace()
+                    .find_map(|field| field.strip_prefix("instance_id="))
+                    .unwrap()
+                    .to_owned();
+                let _ = ready_tx.send(instance_id);
+            }
+            output.push_str(&line);
+            output.push('\n');
+        }
+        output
+    });
+    (child, ready_rx, stderr_reader)
 }
 
 fn state_root(directory: &Path) -> std::path::PathBuf {
@@ -241,6 +283,16 @@ fn signed_agent_carrier_for_runtime(
     .encode_to_vec()
 }
 
+fn tampered_signed_agent_carrier(
+    message: &SignedIdentityMessage,
+    mutate: impl FnOnce(&mut AcipEnvelope),
+) -> Vec<u8> {
+    let mut envelope = AcipEnvelope::decode(signed_agent_carrier(message, "agent-0002").as_slice())
+        .expect("current carrier");
+    mutate(&mut envelope);
+    envelope.encode_to_vec()
+}
+
 fn legacy_signed_agent_carrier(message: &SignedIdentityMessage, target: &str) -> Vec<u8> {
     let mut envelope = AcipEnvelope::decode(signed_agent_carrier(message, target).as_slice())
         .expect("current carrier");
@@ -323,35 +375,7 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         runtime_init::write_with_certificate_for_state(directory.path(), address, &root);
     let config = client_config(certificate_der);
     let lease = GuardianLease::start();
-    let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
-    command.arg("serve").arg("--init").arg(&init);
-    lease.apply(&mut command);
-    let mut child = ChildGuard(Some(
-        command
-            .stdout(Stdio::null())
-            .stderr(Stdio::piped())
-            .spawn()
-            .unwrap(),
-    ));
-    let stderr = child.0.as_mut().unwrap().stderr.take().unwrap();
-    let (ready_tx, ready_rx) = std::sync::mpsc::channel();
-    let stderr_reader = std::thread::spawn(move || {
-        let mut output = String::new();
-        for line in BufReader::new(stderr).lines() {
-            let line = line.unwrap();
-            if line.contains("event=control_ready") {
-                let instance_id = line
-                    .split_whitespace()
-                    .find_map(|field| field.strip_prefix("instance_id="))
-                    .unwrap()
-                    .to_owned();
-                let _ = ready_tx.send(instance_id);
-            }
-            output.push_str(&line);
-            output.push('\n');
-        }
-        output
-    });
+    let (mut child, ready_rx, mut stderr_reader) = spawn_runtime(&init, &lease);
     let instance_id = ready_rx
         .recv_timeout(Duration::from_secs(10))
         .expect("production kernel did not report control readiness");
@@ -522,6 +546,67 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         "evidence": "agent-0001 sent a signed ACIP identity message to agent-0002 and verified the returned agent-0002-signed acknowledgement"
     }));
 
+    child.0.as_mut().unwrap().kill().unwrap();
+    let crashed_status = child.0.as_mut().unwrap().wait().unwrap();
+    assert!(!crashed_status.success());
+    drop(socket);
+    let _crashed_stderr = stderr_reader.join().unwrap();
+
+    let (replacement, replacement_ready, replacement_stderr) = spawn_runtime(&init, &lease);
+    child = replacement;
+    stderr_reader = replacement_stderr;
+    let replacement_instance_id = replacement_ready
+        .recv_timeout(Duration::from_secs(10))
+        .expect("replacement production kernel did not report control readiness");
+    assert_eq!(replacement_instance_id, instance_id);
+    let qualification_deadline = std::time::Instant::now() + Duration::from_secs(10);
+    loop {
+        let response = get_https(config.clone(), address, "/v1/observatory").await;
+        let captured = response
+            .split_once("\r\n\r\n")
+            .and_then(|(_, body)| serde_json::from_str::<serde_json::Value>(body).ok())
+            .and_then(|feed| feed["captured_at_unix_millis"].as_u64());
+        if captured.is_some() {
+            break;
+        }
+        assert!(
+            std::time::Instant::now() < qualification_deadline,
+            "replacement Runtime time authority did not qualify"
+        );
+        tokio::time::sleep(Duration::from_millis(20)).await;
+    }
+    let stream = tokio::net::TcpStream::connect(address).await.unwrap();
+    let (replacement_socket, response) = tokio_tungstenite::client_async_tls_with_config(
+        acip_request(address, ACIP_WRITE_TOKEN),
+        stream,
+        None,
+        Some(Connector::Rustls(config.clone())),
+    )
+    .await
+    .unwrap();
+    assert_eq!(response.status(), StatusCode::SWITCHING_PROTOCOLS);
+    socket = replacement_socket;
+    assert_eq!(next_acip_json(&mut socket).await["event"], "authenticated");
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&direct, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let crash_replay = next_acip_json(&mut socket).await;
+    assert_eq!(crash_replay["status"], "rejected", "{crash_replay}");
+    assert_eq!(
+        crash_replay["reason"], "monotonic_sequence_must_advance",
+        "{crash_replay}"
+    );
+    assert_eq!(crash_replay["sequence_reserved"], false);
+    assertions.push(serde_json::json!({
+        "name": "signed_agent_replay_rejected_after_ungraceful_restart",
+        "class": "negative_case",
+        "result": "passed",
+        "evidence": "after the production Runtime was killed without checkpoint shutdown and restarted against the same durable state, the already-delivered signed agent frame was rejected before dispatch"
+    }));
+
     let advanced = signed_agent_message(2);
     let mut forged = advanced.clone();
     forged.content = "forged after signing".to_owned();
@@ -558,6 +643,25 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
     assert_eq!(wrong_runtime["status"], "rejected");
     assert_eq!(wrong_runtime["reason"], "signed_identity_carrier_mismatch");
     assert_eq!(wrong_runtime["sequence_reserved"], false);
+    for carrier in [
+        tampered_signed_agent_carrier(&advanced, |value| value.trace_id = "wrong-trace".into()),
+        tampered_signed_agent_carrier(&advanced, |value| value.authority = "other".into()),
+        tampered_signed_agent_carrier(&advanced, |value| value.payload_type = "text/plain".into()),
+        tampered_signed_agent_carrier(&advanced, |value| value.acknowledgement_requested = false),
+        tampered_signed_agent_carrier(&advanced, |value| value.error_code = Some("error".into())),
+        tampered_signed_agent_carrier(&advanced, |value| {
+            value.required_features = vec!["trace-context".into()]
+        }),
+    ] {
+        socket.send(Message::Binary(carrier.into())).await.unwrap();
+        let rejected = next_acip_json(&mut socket).await;
+        assert_eq!(rejected["status"], "rejected", "{rejected}");
+        assert_eq!(
+            rejected["reason"], "signed_identity_carrier_mismatch",
+            "{rejected}"
+        );
+        assert_eq!(rejected["sequence_reserved"], false, "{rejected}");
+    }
     socket
         .send(Message::Binary(
             legacy_signed_agent_carrier(&advanced, "agent-0002").into(),

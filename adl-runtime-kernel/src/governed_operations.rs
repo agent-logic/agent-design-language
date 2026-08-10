@@ -555,6 +555,7 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
         operation_executors: executors,
         permit_keys: BTreeMap::from([("permit".to_owned(), permit_key)]),
         communication_keys: BTreeMap::new(),
+        communication_replay_store: None,
         reasoning: bootstrap_reasoning_services(recorder.clone())
             .map_err(|_| "reasoning_configuration".to_owned())?,
         time_source: Arc::new(FixedTime(config.trusted_time_millis)),

@@ -231,6 +231,11 @@ for (const relativeAsset of [
   assert.equal(servedDigest, localDigest, `${relativeAsset} bytes differ from exact source revision`);
   assetProof[relativeAsset] = servedDigest;
 }
+const blockedRepositoryPaths = ["/AGENTS.md", "/.git/HEAD", "/.csdlc/issues/83/index.json"];
+for (const blockedPath of blockedRepositoryPaths) {
+  const response = await getTrusted(url, blockedPath);
+  assert.equal(response.status, 404, `repository path was publicly served: ${blockedPath}`);
+}
 const contentSecurityPolicy = String(observatoryDocument.headers["content-security-policy"] || "");
 for (const directive of [
   `https://${url.hostname}:*`,
@@ -339,6 +344,10 @@ try {
     passed: true,
     policy: contentSecurityPolicy,
     runtime_hostname: runtimeUrl.hostname
+  };
+  report.assertions.repository_files_not_served = {
+    passed: true,
+    blocked_paths: blockedRepositoryPaths
   };
   const capture = await page.evaluate(() => ({
     iso: document.querySelector(".observatory")?.dataset.captureTime || "",

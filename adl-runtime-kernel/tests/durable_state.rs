@@ -1,6 +1,8 @@
 use std::sync::Arc;
 
-use adl_runtime_kernel::{KernelDurableState, KERNEL_DURABLE_STATE_DB_FILE};
+use adl_runtime_kernel::{
+    KernelDurableState, KernelDurableStateError, KERNEL_DURABLE_STATE_DB_FILE,
+};
 use tempfile::TempDir;
 
 #[test]
@@ -139,5 +141,41 @@ fn communication_outbound_sequences_are_per_principal_and_survive_restart() {
             .next_communication_outbound_sequence("agent-0002")
             .unwrap(),
         2
+    );
+}
+
+#[test]
+fn communication_inbound_reservations_survive_restart_and_roll_back_definite_failures() {
+    let root = TempDir::new().unwrap();
+    let state = KernelDurableState::open(root.path()).unwrap();
+    assert_eq!(
+        state
+            .reserve_communication_inbound_sequence("agent-0001", 7)
+            .unwrap(),
+        None
+    );
+    assert_eq!(
+        state.communication_inbound_sequences().unwrap()["agent-0001"],
+        7
+    );
+    drop(state);
+
+    let reopened = KernelDurableState::open(root.path()).unwrap();
+    assert!(matches!(
+        reopened.reserve_communication_inbound_sequence("agent-0001", 7),
+        Err(KernelDurableStateError::CommunicationSequenceConflict)
+    ));
+    assert_eq!(
+        reopened
+            .reserve_communication_inbound_sequence("agent-0001", 8)
+            .unwrap(),
+        Some(7)
+    );
+    reopened
+        .rollback_communication_inbound_sequence("agent-0001", 8, Some(7))
+        .unwrap();
+    assert_eq!(
+        reopened.communication_inbound_sequences().unwrap()["agent-0001"],
+        7
     );
 }

@@ -832,9 +832,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 || envelope.capability != expected_route
                 || envelope.correlation_id != message.correlation_id
                 || envelope.causation_id != message.causation_id
+                || envelope.trace_id != message.correlation_id
                 || envelope.monotonic_sequence != message.monotonic_sequence
                 || envelope.replay_id != expected_replay_id
                 || envelope.runtime_id != self.instance_id
+                || envelope.authority != "signed-communication-identity"
+                || envelope.payload_type != "application/json"
+                || !envelope.acknowledgement_requested
+                || envelope.error_code.is_some()
+                || !envelope.required_features.is_empty()
             {
                 return serde_json::json!({
                     "schema": ACIP_WEBSOCKET_SCHEMA,

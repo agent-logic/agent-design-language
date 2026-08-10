@@ -19,6 +19,8 @@ rg -F 'sectionValue("api", "public_base_url")' "${SERVER_JS}" >/dev/null
 rg -F 'https://${runtimeHostname}:* wss://${runtimeHostname}:*' "${SERVER_JS}" >/dev/null
 rg -F 'x-adl-source-revision' "${SERVER_JS}" >/dev/null
 rg -F 'ADL_SOURCE_REVISION does not match Observatory repository HEAD' "${SERVER_JS}" >/dev/null
+rg -F 'const publicAssets = new Set([' "${SERVER_JS}" >/dev/null
+rg -F 'if (!publicAssets.has(requested))' "${SERVER_JS}" >/dev/null
 node --check "${LIVE_VALIDATOR_JS}"
 if rg -n 'process\.kill|ADL_EXPECTED_RUNTIME_PID' "${LIVE_VALIDATOR_JS}" >/dev/null; then
   echo "live Observatory proof must use Guardian-owned signed restart, never raw PID signaling" >&2
