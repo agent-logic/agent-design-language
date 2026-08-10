@@ -37,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Replacement native Linux and macOS receipts must pass the corrected independent validator at the exact republished head before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6f8d4e0f373b217509d9960d3da881a12bb8cd27:b57d0a21cfb61a46511baf3889607dd2584a8ee1b10aba53c4561a966e42e932")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_144_exact_head")
 
-Result: pre_review
+Result: pass
