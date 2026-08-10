@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 191,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "dcb1229e2db94769b80427fa6b0e8a4fbaf64f62dd32dd1e35e34768ee9d2a79",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/191/design.md",
+  "diagram_path": ".csdlc/prepared/issues/191/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:prepare_5875_release",
+      "revision": "67e89d04a23163ac830a6995571e3b04e850aef200801d553b6eaa62e16504ce"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "bda91e2922d942277d5b6e514434586b7e57ef2def5986125d0c2c8dd7835782",
+      "rendered_digest": "f7e3f002e85eb0c155766d4587bb7b76a27bb0dc56cb15b4622bb6aea51ddda9",
+      "ast_digest": "11427429647037945ad5e43fbf88664d0f1be67699ae4b14bcdd586f6faf7646"
+    },
+    "stp": {
+      "values_digest": "d98e796513e3572d2bc05d39ccaccc59783fa9c4829055411c4765277e10abd0",
+      "rendered_digest": "065fe8a7452f3075f3397caf696d8889f8a08481704c76108683b629dadf734c",
+      "ast_digest": "fcc8267234a6809aa018659352b7fc18899b4f03c7c7b5d4b62cec03763acde3"
+    },
+    "spp": {
+      "values_digest": "60abc5332debfd64d2e4bc37d469c34f65fe52a7507bc2b0bdfbfc7cd196998a",
+      "rendered_digest": "254ff1c060b9838df5f8b5474830d0224e0ff2d5231efbc0524f4dd684737ca0",
+      "ast_digest": "c64eaaae59c6b143fb51a598178422355d28a00dd9146be7a7d662df2925ebe1"
+    },
+    "vpp": {
+      "values_digest": "2f8e993a6776aa8dda02e2a568f1a91915fd8999ff94a35eb58d01804b865e65",
+      "rendered_digest": "b2b2651da34e6d519099a1279329f22db5adff209aaa751e29fb97fca49f1418",
+      "ast_digest": "35bbc6648ad9002e93ca20ef5c353a0f09130acfc2ea4e7577c2b83608ccbf4f"
+    },
+    "srp": {
+      "values_digest": "330ba83b0e375756a4f3ecb4cba8250f9429d1f330d9c0c7f4f7d1a7e700bcfc",
+      "rendered_digest": "611315316d8ba28e8764c137288eabc3e4f60649b935e3764ab4b2c173dd793c",
+      "ast_digest": "02a5453f28ff27cf91eba3a8aa9f4bc4e56869bd98032399bac16fe8e1b59127"
+    },
+    "sor": {
+      "values_digest": "fe4f25e869077a03f8d00cc1804c42ba54ae5c536ec4c8708ba79d8f70a8dc50",
+      "rendered_digest": "eed03ff3037131f9452247e95d78f5020b310b86a69a0c63e1cc4751b7378a23",
+      "ast_digest": "f4c26aad48625ef85c9302457d7d6e6008ac15f8cdc4288b772addadb02d2bf7"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:191-secure-raft-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:191-design-review-repair",
+      "reason": "Make absent implementation targets machine-recognizably deferred and bind the repaired authority/replay/rollback proof denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-secure-raft-runtime\",\"proof_role\":\"Run the exact three-voter encrypted transport, authority-derived topology, durable retry cache, external rollback checkpoint, fault and restart denominator through a bounded temporary path harness.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":\"Deferred only until this issue creates owned target adl-runtime/tests/distributed_runtime_transport.rs, which must compile the unregistered source through #[path = \\\"../src/distributed/polis_runtime.rs\\\"] for adl-runtime/src/distributed/polis_runtime.rs; fail closed until both exact owned deliverables exist and the target selects nonzero tests.\"},{\"lane\":\"strict-secure-raft-clippy\",\"proof_role\":\"Reject warnings and API misuse in the same exact temporary-path implementation and test surface.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":15000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":\"Deferred only until the same owned target and #[path = \\\"../src/distributed/polis_runtime.rs\\\"] source harness exist; fail closed on a missing target, missing source, warnings, or zero proving tests.\"},{\"lane\":\"exact-proof-and-review\",\"proof_role\":\"Bind exact source, transport extension, nonzero tests, authority topology, retry, rollback, artifact, negative-case, strict Clippy, secret/path hygiene and independent review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"parallel_group\":\"serial-proof\",\"defer_reason\":\"Deferred only until this issue creates owned validator .csdlc/prepared/issues/191/validate-proof-receipt.rb; fail closed until it exists and validates exact current source and nonzero proof.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:prepare_5875_release",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}
