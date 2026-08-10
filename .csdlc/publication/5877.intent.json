@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5877,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5877-projection-api",
+  "title": "[v0.92][WP-04.15] Add authenticated distributed reviewer projection",
+  "body": "## Summary\n\n- add one authenticated, coherent, bounded, least-privilege distributed reviewer projection\n- bind topology and authority rows to exact membership/voter parity and keyed opaque identifiers\n- publish exact OpenAPI v1 behavior without production route or module registration\n\n## Validation\n\n- focused distributed projection tests: 4 passed\n- machine-derived negative cases: 21\n- strict focused Clippy: passed\n- deep exact-revision receipt: passed\n- independent exact-head review: approved\n\nCloses danielbaustin/agent-design-language#5877",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:1c417ece0d2cfb19e28bb903a054f0616905cc9f:66e6fe53856864a15f961dc9dda177681a983d03caec321fffd68537f1604afe",
+  "commit_sha": "1c417ece0d2cfb19e28bb903a054f0616905cc9f"
+}

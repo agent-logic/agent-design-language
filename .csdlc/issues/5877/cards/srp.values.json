@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.15] Versioned distributed topology and migration projection",
     "slug": "v0-92-wp-04-15-distributed-projection",
     "version": "v0.92",
-    "generation": 7
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.15 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/projection.rs\nadl-runtime/tests/distributed_projection.rs\ndocs/api/runtime-v3/v1/distributed.openapi.json",
+      "review_revision": "git-blake3:bedde511d6523d1e7e4f8c5189f7dd8198ab50b5:45d7ce54be48bd7712b0aeda4bb5fe7feec048eebd1fa2856e42f05e32ff7c2f",
+      "reviewer": "subagent:Raman",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
