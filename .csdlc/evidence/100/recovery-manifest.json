@@ -1,0 +1,146 @@
+{
+  "schema": "adl.medium-recovery-manifest.v1",
+  "issue": 100,
+  "canonical_revision": "bf66695ced6db9227562a99dbe1615297cb35ed2",
+  "search_inventory": ".csdlc/evidence/100/recovery-search-inventory.json",
+  "articles": [
+    {
+      "title": "What is ADL?",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/ARTICLE.md",
+      "source": "git:1f6dceeee8deefcce56a56031f884b7074648e32:docs/milestones/v0.92/publication/articles/01-what-is-adl/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "68f2bb7092c1d5b1fddefad85955bb50db31dd28368f2de974325bf4c38bbd64",
+      "drive_url": "https://drive.google.com/file/d/1itmvJmB3dbDq805OLddtKapxe9jKoBoK/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/01-what-is-adl/ARTICLE.md","sha256":"a06996d8dc1a1f25ed1964769978c8224bb465843c314204d67bd1b610a61906"},
+        {"source":"demos/v0.90.2/arxiv_writer_field_test/what_is_adl_manuscript_packet.md","sha256":"5987d620170d629e98888a7aaed504572bafa84ee8ead64e2f546a803da016f0"},
+        {"source":"demos/v0.90.5/publication/what_is_adl/what_is_adl_manuscript_packet.md","sha256":"31dbd48762f5870e4403a5ab957cf43624e895b7a96ac3a6bc0aa4c037452f28"}
+      ]
+    },
+    {
+      "title": "The ADL Runtime and the Cognitive Spacetime Model",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "77cd4a778464de3cf709f8d248af0ddfb203c32e1ed5cf54ccb70f07c476b699",
+      "drive_url": "https://drive.google.com/file/d/1QKZV8OtyGo_1n3FkTBD_wOfrctXkH93M/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md","sha256":"5520611dcc4ba1e8125063aeffa121f6b1c211d16ede2f8471916fcfe195b7b2"},
+        {"source":"demos/v0.90.5/publication/cognitive_spacetime_manifold/cognitive_spacetime_manifold_manuscript_packet.md","sha256":"f530f27fa69b224addfa30a548422d8676f682316d08afb0c7115350986f1386"},
+        {"source":"demos/v0.90.5/publication/determinism_in_the_adl_runtime/determinism_in_the_adl_runtime_manuscript_packet.md","sha256":"491870b030a4bcc602ad095c828ac3288e548f14f751696cec2c78e244200621"}
+      ]
+    },
+    {
+      "title": "Goedel Agents and the Goedel-Hadamard-Bayes Algorithm",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/ARTICLE.md",
+      "source": "git:d691378f6252500443ed430ff41961b054e5017c:docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "5a55b1a9194272e55e184c91419b430b4defc06675c337bb20253170e8552145",
+      "drive_url": "https://drive.google.com/file/d/1SZRJfcM6uq0itr6y9_bCUZ4HwL30gYoh/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/ARTICLE.md","sha256":"cbdd850f51974818350dc4c6546d6430bdac47cf6c113a335cc6f64c20ba9167"},
+        {"source":"demos/v0.90.5/publication/godel_agents_ghb_algorithm/godel_agents_ghb_algorithm_manuscript_packet.md","sha256":"d2f35d3748e0160256bb598b3b0e7467c10dea0a6567c15bdabf61bd35dae717"},
+        {"source":"demos/v0.90.5/publication/godel_agents_and_adl/godel_agents_and_adl_manuscript_packet.md","sha256":"29f860bc7a7a60f6da29bc52eed5850c69a56a571e8aab97a9ed3369b2c2bc70"}
+      ]
+    },
+    {
+      "title": "The Freedom Gate",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/ARTICLE.md",
+      "source": "git:337b52fe:docs/milestones/v0.92/publication/articles/04-the-freedom-gate/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "aae4f70c351af64c27c3cfc7fdd1eb68b05c14985211756a0b7317e699dfc490",
+      "drive_url": "https://drive.google.com/file/d/1H0p5UcmSty4jq1c6qhTBsDeDyFid50KG/view",
+      "preserved_variants": []
+    },
+    {
+      "title": "UTS and ACC - Making Agents With Tools Safe",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "2edfa80138ca7f78515fc3eeb9674c6981d320ae99cf4344e7a909a63e6e28dd",
+      "drive_url": "https://drive.google.com/file/d/1QTjQuAHoR_7pHMaBuyoVomF0hqK62m2q/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md","sha256":"c099588b48dc18187345474c5f6e12ef9d27e62ca1562e07eb9be74cf3a34920"}
+      ]
+    },
+    {
+      "title": "CodeFriend and the Cognitive SDLC",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/ARTICLE.md",
+      "source": "git:d691378f6252500443ed430ff41961b054e5017c:docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "896d92b182d1e4627a768b98e3e804f23fdb742d86dc6b57a2612185ca646b1e",
+      "drive_url": "https://drive.google.com/file/d/1_rsf5z09YKY86zYu7PAzT1JuLs9UJ2PH/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/ARTICLE.md","sha256":"2c1bc19cc027fcf3896a5d617f1f7372a8bf1320a7a0f5511d653b8f5a55551c"}
+      ]
+    },
+    {
+      "title": "Continuous Adversarial Verification For Continuous Security",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "863c8cff14ecca43fd5235a2994b31ab2b517727610c27fd65a3aa77ce9c2429",
+      "drive_url": "https://drive.google.com/file/d/1FRcvIHa4BJKWb3UJb0Z00aQm8ei3YtUu/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md","sha256":"bde4dc3bcb4c7a40ba3cb511cb4ce9549f5e4f0c8a05b4c0b5a23c03543b399c"}
+      ]
+    },
+    {
+      "title": "Agent Economics",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/08-agent-economics/ARTICLE.md",
+      "source": "git:d691378f6252500443ed430ff41961b054e5017c:docs/milestones/v0.92/publication/articles/08-agent-economics/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "58b89d7152f97af30e8eec3a8b7b1eed63b8550e108ff131e7d1cb359e05c4ca",
+      "drive_url": "https://drive.google.com/file/d/1EFom0gO-0PhnQ3zwfMYKSimwzs-kty6c/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/08-agent-economics/ARTICLE.md","sha256":"60c44b86d3a5c4ef449c54f3c765a2d98786d5026a1793b5890efca718b2ad01"}
+      ]
+    },
+    {
+      "title": "ADL and Social Intelligence",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/ARTICLE.md",
+      "source": "git:337b52fe:docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "7cdfbbc2a50a73c3015bfd2a81da0f69efdf5562cdb1e983768723896ac4544f",
+      "drive_url": "https://drive.google.com/file/d/1tdzEyCPTYxCvT3EsPllMsnjYjmHGpuDR/view",
+      "preserved_variants": []
+    },
+    {
+      "title": "What's Next for ADL?",
+      "canonical_path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
+      "recovery_status": "recovered",
+      "sha256": "9a693546f68bd20d8f6c9686510c5380c7f2a84e250101696bef51f163c7ea1d",
+      "drive_url": "https://drive.google.com/file/d/1GvvyQ8KLe1ChZ-4nl4Nq6zsOdnW9sqdj/view",
+      "preserved_variants": [
+        {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md","sha256":"62e5c12d8d9afb7da7aa6ad393da5f369b16606cd17d92073c0f194d04ad9af4"}
+      ]
+    }
+  ],
+  "drive_verification": {
+    "credential_scope": "approved_company",
+    "account": "daniel@agent-logic.ai",
+    "folder_id": "1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd",
+    "folder_url": "https://drive.google.com/drive/folders/1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd",
+    "readable_canonical_count": 10,
+    "readable_supporting_count": 24,
+    "readable_package_count": 34,
+    "exact_content_readback": true,
+    "canonical_receipt": ".csdlc/evidence/100/company-drive-upload-receipt.json",
+    "supporting_receipt": ".csdlc/evidence/100/company-drive-support-upload-receipt.json",
+    "title_correction_receipt": ".csdlc/evidence/100/company-drive-title-correction-receipt.json"
+    ,"title_alignment_receipt": ".csdlc/evidence/100/company-drive-title-alignment-receipt.json"
+  },
+  "destination_reconciliation": {
+    "issue_body_folder_id": "1hacu6zwCUlIYXYtvpMW0IFtk506LUb8Q",
+    "issue_body_folder_company_access": "not_found",
+    "correct_company_folder_id": "1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd",
+    "preexisting_zero_byte_placeholder_preserved": "1-WHY-ADL.md"
+  },
+  "unrecoverable_articles": [],
+  "remote_deletions": 0,
+  "authorized_title_corrections": 3,
+  "remote_overwrites": 11,
+  "sharing_changes": 0,
+  "synthetic_replacements": 0
+}

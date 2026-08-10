@@ -1,0 +1,294 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 100,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "239a9c5d2d3e4197e42022ea7a7b40b71f70510f26118688d6a09f95bb74c40c",
+  "phase": "published",
+  "generation": 20,
+  "digest": "96a1b43d2aad2a63850866d35e376564aa294bc005607a058c1ee99397087c7d",
+  "branch": "codex/issue-100-medium-launch-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-100-medium-launch-recovery",
+  "review_assignment": {
+    "reviewer": "codex-subagent:019fea49-63fd-70b3-9c19-d18a9311a621",
+    "assigned_by": "codex:issue-100-closeout",
+    "revision": "git-blake3:c42c9ea751d6d911dba9274ace80c2042c526dbe:c0521f8c8a81517b13c96cbde117dda69ab632470d34a00c5211825bf3ff2428",
+    "scope": [
+      "docs/milestones/v0.92/publication/articles",
+      ".csdlc/evidence/100",
+      ".csdlc/prepared/issues/100",
+      ".csdlc/issues/100"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019fea49-63fd-70b3-9c19-d18a9311a621",
+    "scope": [
+      "docs/milestones/v0.92/publication/articles",
+      ".csdlc/evidence/100",
+      ".csdlc/prepared/issues/100",
+      ".csdlc/issues/100"
+    ],
+    "reviewed_revision": "git-blake3:c42c9ea751d6d911dba9274ace80c2042c526dbe:c0521f8c8a81517b13c96cbde117dda69ab632470d34a00c5211825bf3ff2428",
+    "findings": [],
+    "residual_risks": [
+      "The implemented-phase STP preserves the obsolete original folder and historical publish wording; current execution authority is the approved design and company-folder receipts.",
+      "Live proof rejects public permissions but does not claim historical private-permission equivalence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 100,
+    "pull_request": 124,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/124",
+    "base": "main",
+    "head": "codex/issue-100-medium-launch-recovery",
+    "revision": "git-blake3:6e37c923bb6e6d1a41fa0c152c577eeb49dd69ec:45a4c003ed41084998cc35b18b5b4c3ebc1e6106838f67b06bd1f8cabdce843d",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/100/design.md",
+  "diagram_path": ".csdlc/prepared/issues/100/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-subagent:019fea49-63fd-70b3-9c19-d18a9311a621",
+      "revision": "d1ce2cd06e2a0913c437f608c1452a6ce74ab0f0aec94814638d30446e4ea0c0"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "73885f6d8766914635d06ca8ef5087a9eb35659f48f36731984cb525a065b1c6",
+      "rendered_digest": "e414c4de263dd6faa28c58eedf91727ead0f4b1a8fb91d395fe5a355a2e0ded8",
+      "ast_digest": "9f61a5ed3f920aae4112bf0e11c29bc80a6d9632668cb713772b74f41b4a524a"
+    },
+    "stp": {
+      "values_digest": "f4e0f84db7e713677cf65f0e3edbf4eba5d1c5b74191207e7661410d034dd04f",
+      "rendered_digest": "00b83304f010d219341a963a7f0e2fc24ae992aded83a7d775b1f6387a7f4fd3",
+      "ast_digest": "9ea16d043ceb367e9792d4ffe2a7daeafcbfea4728466036c6f74ddb0092a335"
+    },
+    "spp": {
+      "values_digest": "939447a6bc487a62801e7f3092e1ae609c623ff7ba6a7209489f5be0c8e3eb3c",
+      "rendered_digest": "29e3fdf4e85fff400d77580b2692960b9aed455df359842112f2685522ff7163",
+      "ast_digest": "92810e6f5e266e2fded266eb09ea8f2ceea4097f28c548da5a2ae1c8a5e23a1a"
+    },
+    "vpp": {
+      "values_digest": "c034619a0f49ccb882fae164837570378eeaea449387f435aa55299c64d0b906",
+      "rendered_digest": "7d2add67942dcdc966691fe9a955b9bd378db430f47acd3c6100215686364c5c",
+      "ast_digest": "ad8210ee3abe61f2f09420c9ae4ff319d88898d6351a4251618a0e9d9e3c7d93"
+    },
+    "srp": {
+      "values_digest": "62cdcb872a4393305fb564e894efa0c67cd8adcd366a522561c4b48b3ffec3c7",
+      "rendered_digest": "1299483a2655a5a4de0a146cc6f378e7973df0675962850b7923111f6cc40b27",
+      "ast_digest": "07c760596a953a411be2c1b47f9322a99496d74488fcca746c4273df188f8919"
+    },
+    "sor": {
+      "values_digest": "405c100b22921c3d12aa670da31a878b6c8d191da3d3cd0a1668e38d14cc798b",
+      "rendered_digest": "5354c604e07bbb73978c938b19dbfefe8296e5ed1c9156dcc193b2ba37bd95b8",
+      "ast_digest": "1d9397e2cbb741b1e8c44848466d311e62302c529f4a6979bd876ed0c0961a8d"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:100-closeout",
+      "reason": "The 34-file recovery and focused validation are complete; independent review remains pending."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fea49-63fd-70b3-9c19-d18a9311a621",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-100-closeout",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:100-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:100-readiness",
+      "reason": "Use one issue-owned focused verifier over the retained recovery manifest and live Drive verification receipt.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"recovery-manifest-and-drive-receipt\",\"proof_role\":\"Prove search provenance, exact ten-title coverage, non-empty content, unique canonical selection, digest integrity, source attribution, and retained approved-credential Drive readability evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/100/validate-recovery.rb\"],\"parallel_group\":\"focused-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:100-readiness",
+      "reason": "Declare the exact issue-owned recovery validator path used by the focused validation lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/100/design.md\",\".csdlc/prepared/issues/100/diagram.mmd\",\".csdlc/prepared/issues/100/validate-recovery.rb\",\".csdlc/issues/100\",\".csdlc/evidence/100\",\".adl/docs/TBD/publication\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "operator-authorized-scope-widening",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:100-closeout",
+      "reason": "Replace the stale publication planning path with the actual 34-file source package while retaining issue-owned design, evidence, and lifecycle paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/100/design.md\",\".csdlc/prepared/issues/100/diagram.mmd\",\".csdlc/prepared/issues/100/validate-recovery.rb\",\".csdlc/issues/100\",\".csdlc/evidence/100\",\"docs/milestones/v0.92/publication/articles\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:100-closeout",
+      "reason": "Record the operator-widened 34-file recovery scope and approved company Drive destination in planning truth.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Recover and verify the complete 34-file Medium launch package: 10 canonical articles, 10 editorial reviews, 10 source packets, and 4 series records. Preserve variants and exact provenance, use only the approved Agent Logic company Drive folder 1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd, retain the original issue folder as obsolete and inaccessible to the company credential, and limit remote overwrites to the three operator-authorized title-only corrections for What is ADL?.\",\"operation\":\"replan\",\"previous_value\":\"Inventory every source, preserve and digest candidate variants, select canonical drafts from evidence, upload all ten non-destructively, verify credentialed readability, and retain a complete recovery manifest and guard.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:100-closeout",
+      "reason": "Record completion of the evidence-backed recovery plan step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:100-closeout",
+      "reason": "Record completion of the evidence-backed recovery plan step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:100-closeout",
+      "reason": "Record completion of the evidence-backed recovery plan step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:100-closeout",
+      "reason": "Record completion of the evidence-backed recovery plan step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:100-closeout",
+      "reason": "Record the completed 34-file company Drive recovery and focused proof before independent review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Recovered and verified the complete 34-file Medium launch package in the approved Agent Logic company Drive folder: 10 canonical articles, 10 editorial reviews, 10 source packets, and 4 series records. The original issue folder is obsolete and inaccessible to the company credential. Three title-only remote corrections were explicitly operator-authorized for What is ADL?; there were no other overwrites, no deletions, and no sharing changes.\",\"changes\":[\"Corrected the article 1, editorial review, and source packet headings to the exact operator-approved title What is ADL?.\",\"Recovered and verified 34 publication files under the approved company credential and folder 1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd.\",\"Retained exact source provenance, content digests, Drive URLs, destination reconciliation, and remote mutation totals.\",\"Added a focused fail-closed validator for source-at-revision provenance, package completeness, Drive receipts, and title-correction authority.\"],\"artifacts\":[\".csdlc/evidence/100/recovery-manifest.json\",\".csdlc/evidence/100/recovery-report.md\",\".csdlc/evidence/100/company-drive-upload-receipt.json\",\".csdlc/evidence/100/company-drive-support-upload-receipt.json\",\".csdlc/evidence/100/company-drive-title-correction-receipt.json\",\".csdlc/prepared/issues/100/validate-recovery.rb\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:100-closeout",
+      "reason": "Record focused 34-file recovery validation truth.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/100/validate-recovery.rb\"],\"purpose\":\"Prove exact source provenance, the 34-file package, approved company destination, Drive readbacks, and three authorized title-only corrections.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/100/recovery-manifest.json\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:100-closeout",
+      "reason": "Record bounded diff-hygiene validation truth.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace and patch hygiene for the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/100/recovery-report.md\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:100-closeout",
+      "reason": "The 34-file recovery and focused validation are complete; independent review remains pending.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:100-review-repair",
+      "reason": "Correct the plan so independent exact-head review remains pending until the repaired head passes.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Inventory the destination and search approved Drive, repository history, and registered FastWork worktrees for all ten article titles and variants.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Digest and classify candidates, preserve substantive variants, and select one evidence-backed canonical revision per title.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Upload ten stable canonical drafts without destructive replacement and verify credentialed readability.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Retain the provenance manifest, completeness guard, and focused validation; independent exact-head review remains pending until the repaired head passes.\",\"acceptance_ids\":[\"AC-5\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:100-review-repair",
+      "reason": "Restore completed execution-step truth while leaving independent review pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:100-review-repair",
+      "reason": "Restore completed execution-step truth while leaving independent review pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:100-review-repair",
+      "reason": "Restore completed execution-step truth while leaving independent review pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex-subagent:019fea49-63fd-70b3-9c19-d18a9311a621",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:issue-100-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex-subagent:019fea49-63fd-70b3-9c19-d18a9311a621",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:issue-100-closeout",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

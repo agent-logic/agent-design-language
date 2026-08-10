@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 100,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency] Recover and publish the 10 Medium launch article drafts to Google Drive",
+    "slug": "recover-medium-launch-article-drafts",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Recover all ten existing ADL Medium launch article drafts and establish verified canonical copies in the approved company Drive folder.",
+      "required_outcome": "The destination contains ten readable canonical drafts with preserved variants and a source-grounded digest manifest, without publication, sharing changes, destructive replacement, or synthetic prose.",
+      "declared_scope": [
+        "Approved company Google Drive inventory and upload",
+        "Repository, Git history, and registered FastWork recovery search",
+        "Canonical revision selection and substantive variant preservation",
+        "Ten-article provenance and digest manifest",
+        "Focused completeness and readability verification"
+      ],
+      "authority_boundary": [
+        "Issue #100 owns recovery and reconciliation only",
+        "The operator retains publication, sharing, deletion, overwrite, and synthetic-authoring authority",
+        "PR #98 and its ongoing review are outside scope"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked work on main",
+        "Use only registered FastWork paths for issue work",
+        "Use the approved company Drive credential",
+        "Do not delete, overwrite, publish, or change sharing",
+        "Do not invent missing article prose",
+        "Do not touch PR #98"
+      ]
+    }
+  }
+}

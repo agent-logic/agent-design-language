@@ -1,0 +1,64 @@
+{
+  "schema": "adl.medium-drive-title-alignment-receipt.v1",
+  "account": "daniel@agent-logic.ai",
+  "folder_id": "1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd",
+  "aligned_count": 8,
+  "results": [
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
+      "drive_id": "1QKZV8OtyGo_1n3FkTBD_wOfrctXkH93M",
+      "sha256": "77cd4a778464de3cf709f8d248af0ddfb203c32e1ed5cf54ccb70f07c476b699",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    },
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/EDITORIAL_REVIEW.md",
+      "drive_id": "1ipRerhu0TT95a8mVjKVnYUUOI8NASy38",
+      "sha256": "a93614ea3d52e1d5ff3071ef6e3ab878b4e5b785e6c9feab70067ee6ed506617",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    },
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/SOURCE_PACKET.md",
+      "drive_id": "17MgM2U3AI-Z2RVcKumrA91e1IiOhwrOu",
+      "sha256": "e19ebf9627ff03def8ecbfdbe9632e041e4882bd7c5a2f13828be64aec75b7f8",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    },
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
+      "drive_id": "1QTjQuAHoR_7pHMaBuyoVomF0hqK62m2q",
+      "sha256": "2edfa80138ca7f78515fc3eeb9674c6981d320ae99cf4344e7a909a63e6e28dd",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    },
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
+      "drive_id": "1FRcvIHa4BJKWb3UJb0Z00aQm8ei3YtUu",
+      "sha256": "863c8cff14ecca43fd5235a2994b31ab2b517727610c27fd65a3aa77ce9c2429",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    },
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
+      "drive_id": "1GvvyQ8KLe1ChZ-4nl4Nq6zsOdnW9sqdj",
+      "sha256": "9a693546f68bd20d8f6c9686510c5380c7f2a84e250101696bef51f163c7ea1d",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    },
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/EDITORIAL_REVIEW.md",
+      "drive_id": "1gaD7f2PORIvkggiLcFcrFyse7ZxXU96D",
+      "sha256": "d9cf7e8796a3f62b38160f77fb8df19be31b78b8c6b5dca1b7781d9697b84094",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    },
+    {
+      "source_path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/SOURCE_PACKET.md",
+      "drive_id": "1vEXFkUkvqPZqCz2AUwOlVdp3XSiUs2bh",
+      "sha256": "557329d19391f709bcfc42ab198b5d1130e2aabf43894b19fa361be33b557b5c",
+      "exact_readback": true,
+      "change": "launch_title_alignment_only"
+    }
+  ]
+}

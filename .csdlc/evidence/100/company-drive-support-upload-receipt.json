@@ -1,0 +1,255 @@
+{
+  "schema": "adl.medium-launch-drive-support-upload.v1",
+  "issue": 100,
+  "completed_at": "2026-08-10T00:42:28Z",
+  "account": "daniel@agent-logic.ai",
+  "folder_id": "1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd",
+  "folder_name": "medium_launch_articles",
+  "supporting_results": [
+    {
+      "name": "01-what-is-adl--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/EDITORIAL_REVIEW.md",
+      "sha256": "31169d5f490e2d18fe69bf25f32dad541337b3a3bd3a4cce5c2b9e6a6a980ca9",
+      "bytes": 1677,
+      "drive_id": "1dULgzjoSO483oqrcGs_1dHmHPGDXVYrm",
+      "drive_url": "https://drive.google.com/file/d/1dULgzjoSO483oqrcGs_1dHmHPGDXVYrm/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "01-what-is-adl--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/SOURCE_PACKET.md",
+      "sha256": "7ef8e471e57cf72085c1a71f19f9ed607997d7d54eb27e9a35b144e499ad45dd",
+      "bytes": 2623,
+      "drive_id": "1pZ2Jb7GMAVbJIyl-FVQZGrR-ZGJjzkoL",
+      "drive_url": "https://drive.google.com/file/d/1pZ2Jb7GMAVbJIyl-FVQZGrR-ZGJjzkoL/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "02-adl-runtime-and-cognitive-spacetime-model--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/EDITORIAL_REVIEW.md",
+      "sha256": "afad8f2f84a1495e521969dd800852b5fe6611dba34211aa6c03c4a925808570",
+      "bytes": 1680,
+      "drive_id": "1ipRerhu0TT95a8mVjKVnYUUOI8NASy38",
+      "drive_url": "https://drive.google.com/file/d/1ipRerhu0TT95a8mVjKVnYUUOI8NASy38/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "02-adl-runtime-and-cognitive-spacetime-model--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/SOURCE_PACKET.md",
+      "sha256": "a054ff5a259b3bd62e1620b65f0bd17a8fe6849d6a9ac4aab78423a6490828ee",
+      "bytes": 1953,
+      "drive_id": "17MgM2U3AI-Z2RVcKumrA91e1IiOhwrOu",
+      "drive_url": "https://drive.google.com/file/d/17MgM2U3AI-Z2RVcKumrA91e1IiOhwrOu/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "03-godel-agents-and-godel-hadamard-bayes-algorithm--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/EDITORIAL_REVIEW.md",
+      "sha256": "6000cdacae2caba4003b05b45dd01d7f1e2bbe8888c26dacbae47d1454cb35b4",
+      "bytes": 1563,
+      "drive_id": "1LRA_wfpgImyjie25nj_qsda5HNbrcAqD",
+      "drive_url": "https://drive.google.com/file/d/1LRA_wfpgImyjie25nj_qsda5HNbrcAqD/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "03-godel-agents-and-godel-hadamard-bayes-algorithm--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/SOURCE_PACKET.md",
+      "sha256": "740474a50b8d30ee86288d0d87618a5ec26433e4f2c0092c665b52383a13ed59",
+      "bytes": 1919,
+      "drive_id": "1hRRyzu5XIzYFGpss7syZ8lL_YwqGkHLg",
+      "drive_url": "https://drive.google.com/file/d/1hRRyzu5XIzYFGpss7syZ8lL_YwqGkHLg/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "04-the-freedom-gate--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/EDITORIAL_REVIEW.md",
+      "sha256": "85823f48baf7f049f0ab9f33c628874f9f146f07de394335a6a5ec96b0fbf11b",
+      "bytes": 1517,
+      "drive_id": "1zi0lT9syAYDU8MjiQeap_ClDlRSUMmi8",
+      "drive_url": "https://drive.google.com/file/d/1zi0lT9syAYDU8MjiQeap_ClDlRSUMmi8/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "04-the-freedom-gate--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/SOURCE_PACKET.md",
+      "sha256": "901cf060dbe1bd0c8f1920445e47be700652bd80ab6128f78706e53f244a85f4",
+      "bytes": 2009,
+      "drive_id": "11r-XR3Jxag29V4eobuGeBt23QGjTtM1-",
+      "drive_url": "https://drive.google.com/file/d/11r-XR3Jxag29V4eobuGeBt23QGjTtM1-/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "05-uts-and-acc-making-agents-with-tools-safe--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/EDITORIAL_REVIEW.md",
+      "sha256": "84f4327a4a46ce5fee2e3e456fd373ca8cc9fdb4557d205dbf92328274aaf501",
+      "bytes": 1652,
+      "drive_id": "1HbXWd5jJLPF0IMO4oIEJNpSu8m0WRweL",
+      "drive_url": "https://drive.google.com/file/d/1HbXWd5jJLPF0IMO4oIEJNpSu8m0WRweL/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "05-uts-and-acc-making-agents-with-tools-safe--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/SOURCE_PACKET.md",
+      "sha256": "c4639b679d7d35a5931ddc86bab075ebe4606fc1d9a0f9a7fec9a16db34ab23c",
+      "bytes": 1956,
+      "drive_id": "1bnmgS_R7rd8GIIufIa6ZznR2Xgdt7CK4",
+      "drive_url": "https://drive.google.com/file/d/1bnmgS_R7rd8GIIufIa6ZznR2Xgdt7CK4/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "06-codefriend-and-the-cognitive-sdlc--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/EDITORIAL_REVIEW.md",
+      "sha256": "194219e01b39fea819f4c48ad062456854589e7b531b64dd1ca2229359dfda54",
+      "bytes": 1488,
+      "drive_id": "1CDmE5k1-X2Kaw6MsR2PxqJb02a9Q4T7z",
+      "drive_url": "https://drive.google.com/file/d/1CDmE5k1-X2Kaw6MsR2PxqJb02a9Q4T7z/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "06-codefriend-and-the-cognitive-sdlc--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/SOURCE_PACKET.md",
+      "sha256": "e7a951db6f0c125c12ec0c65f47f086bdf0e07a2257b9c88e1c03768aba76404",
+      "bytes": 1932,
+      "drive_id": "1W2a5Gjol56ArT8El9KSyDs9MtWDdqbIR",
+      "drive_url": "https://drive.google.com/file/d/1W2a5Gjol56ArT8El9KSyDs9MtWDdqbIR/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "07-continuous-adversarial-verification-for-continuous-security--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/EDITORIAL_REVIEW.md",
+      "sha256": "ad4081cdbcbfb78ccb8373f3b34b0390b8aa14a213c0dcedae36fe6d28bdfc2a",
+      "bytes": 1464,
+      "drive_id": "1Fzk-Duz-Oiz8vQGcEpQ5uGw1s3Kp2EvR",
+      "drive_url": "https://drive.google.com/file/d/1Fzk-Duz-Oiz8vQGcEpQ5uGw1s3Kp2EvR/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "07-continuous-adversarial-verification-for-continuous-security--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/SOURCE_PACKET.md",
+      "sha256": "f57ec23c7870f5f23624bb618910dcfea097de0d1b6776d47e9afd76e254b471",
+      "bytes": 1996,
+      "drive_id": "1wy0btNV5UZTxseM8AKT2qGoB4ADuH5rs",
+      "drive_url": "https://drive.google.com/file/d/1wy0btNV5UZTxseM8AKT2qGoB4ADuH5rs/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "08-agent-economics--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/08-agent-economics/EDITORIAL_REVIEW.md",
+      "sha256": "7764df3ed376e459d13eb3cb3f490688c67f4252e7254f9fb8b378bdf0d958f5",
+      "bytes": 1439,
+      "drive_id": "1WrN5d5O80NDVuIm2l-sRXMNKDsLYMuYd",
+      "drive_url": "https://drive.google.com/file/d/1WrN5d5O80NDVuIm2l-sRXMNKDsLYMuYd/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "08-agent-economics--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/08-agent-economics/SOURCE_PACKET.md",
+      "sha256": "bdf3a85eb5aee4ff3a3c783549d64b1fb08a6cd68338f9c5085ecc556f8d4ea2",
+      "bytes": 1973,
+      "drive_id": "18objBYLLZzUtLXzsAyhqI1llaVtDODgL",
+      "drive_url": "https://drive.google.com/file/d/18objBYLLZzUtLXzsAyhqI1llaVtDODgL/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "09-adl-and-social-intelligence--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/EDITORIAL_REVIEW.md",
+      "sha256": "9f38eeb660bfc10fe3f8ef17cdc418350a311a9ffa5d3c84dbbf9763af280df2",
+      "bytes": 1533,
+      "drive_id": "1x0zlm7oDSb0xy36XLORuJ-C3RsT6G-7v",
+      "drive_url": "https://drive.google.com/file/d/1x0zlm7oDSb0xy36XLORuJ-C3RsT6G-7v/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "09-adl-and-social-intelligence--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/SOURCE_PACKET.md",
+      "sha256": "ec373b898d4131c01c62e5d50a0cdbc911727e3853bcd0f938702bfe2551017d",
+      "bytes": 2010,
+      "drive_id": "11BBMHTkL-sks5sCcqUFbiaDhAFPntnqe",
+      "drive_url": "https://drive.google.com/file/d/11BBMHTkL-sks5sCcqUFbiaDhAFPntnqe/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "10-whats-next-for-adl--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/EDITORIAL_REVIEW.md",
+      "sha256": "2ad9e8a82d38f6a8ad8cf164c15b749d2daf10d2b73bea5bf22c9ff798b2fae3",
+      "bytes": 1556,
+      "drive_id": "1gaD7f2PORIvkggiLcFcrFyse7ZxXU96D",
+      "drive_url": "https://drive.google.com/file/d/1gaD7f2PORIvkggiLcFcrFyse7ZxXU96D/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "10-whats-next-for-adl--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/SOURCE_PACKET.md",
+      "sha256": "8c619df8533df8b064079bccddcdae3ce0638e0182240f6411be6a081e7abbcf",
+      "bytes": 1995,
+      "drive_id": "1vEXFkUkvqPZqCz2AUwOlVdp3XSiUs2bh",
+      "drive_url": "https://drive.google.com/file/d/1vEXFkUkvqPZqCz2AUwOlVdp3XSiUs2bh/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "SERIES--EDITORIAL_PANEL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/EDITORIAL_PANEL_REVIEW.md",
+      "sha256": "a0de6aa547a6c8a9acd73629076d6c8604769ec857fa973467ffcb4f0bb9b4af",
+      "bytes": 4139,
+      "drive_id": "1Oc_HDyaa2VdVtjkHw0GJGdGvS14UOF4g",
+      "drive_url": "https://drive.google.com/file/d/1Oc_HDyaa2VdVtjkHw0GJGdGvS14UOF4g/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "SERIES--PUBLICATION_DISPOSITION.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/PUBLICATION_DISPOSITION.md",
+      "sha256": "35e670a1058fbba38bd57617ff76a56e0f0c17c4b91ff0b0e7d6a8410122fbbe",
+      "bytes": 1699,
+      "drive_id": "1MR1WwaYRsH2PS3SddDnzGAtAqz1Ud1gS",
+      "drive_url": "https://drive.google.com/file/d/1MR1WwaYRsH2PS3SddDnzGAtAqz1Ud1gS/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "SERIES--README.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/README.md",
+      "sha256": "e3b5d55eae8ae8fb495bae18e03882f46453f898540a394786fd052486c8d2ce",
+      "bytes": 457,
+      "drive_id": "11R8ckrlF3iUOPXf5wgrawhn9ZCbuvjuK",
+      "drive_url": "https://drive.google.com/file/d/11R8ckrlF3iUOPXf5wgrawhn9ZCbuvjuK/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    },
+    {
+      "name": "SERIES--SERIES_ARC_AND_CLAIM_MATRIX.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/SERIES_ARC_AND_CLAIM_MATRIX.md",
+      "sha256": "eaaeb8a76d2268e163ae89843eab36e2b6e95a02c8fa9b2b1e0db3bef0c533c4",
+      "bytes": 3634,
+      "drive_id": "1k2zsVZgswLFE1jBZTdDZFm6D6b47rv0J",
+      "drive_url": "https://drive.google.com/file/d/1k2zsVZgswLFE1jBZTdDZFm6D6b47rv0J/view?usp=drivesdk",
+      "disposition": "reused_exact",
+      "exact_readback": true
+    }
+  ],
+  "supporting_count": 24,
+  "all_exact_readback": true,
+  "remote_deletions": 0,
+  "remote_overwrites": 0,
+  "sharing_changes": 0
+}

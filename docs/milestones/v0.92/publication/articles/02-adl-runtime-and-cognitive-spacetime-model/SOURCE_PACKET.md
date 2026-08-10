@@ -1,4 +1,4 @@
-# Source Packet: ADL Runtime and the Cognitive Spacetime Manifold
+# Source Packet: The ADL Runtime and the Cognitive Spacetime Model
 
 ## Brief
 

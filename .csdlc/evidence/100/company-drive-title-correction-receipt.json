@@ -1,0 +1,44 @@
+{
+  "schema": "adl.medium-launch-drive-title-correction.v1",
+  "issue": 100,
+  "completed_at": "2026-08-10T00:45:10Z",
+  "account": "daniel@agent-logic.ai",
+  "folder_id": "1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd",
+  "requested_title": "What is ADL?",
+  "results": [
+    {
+      "name": "01-what-is-adl.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/ARTICLE.md",
+      "drive_id": "1itmvJmB3dbDq805OLddtKapxe9jKoBoK",
+      "drive_url": "https://drive.google.com/file/d/1itmvJmB3dbDq805OLddtKapxe9jKoBoK/view?usp=drivesdk",
+      "sha256": "68f2bb7092c1d5b1fddefad85955bb50db31dd28368f2de974325bf4c38bbd64",
+      "bytes": 7280,
+      "change": "title_case_only",
+      "exact_readback": true
+    },
+    {
+      "name": "01-what-is-adl--EDITORIAL_REVIEW.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/EDITORIAL_REVIEW.md",
+      "drive_id": "1dULgzjoSO483oqrcGs_1dHmHPGDXVYrm",
+      "drive_url": "https://drive.google.com/file/d/1dULgzjoSO483oqrcGs_1dHmHPGDXVYrm/view?usp=drivesdk",
+      "sha256": "d8fa846a243a487d0f51bbcb9d954474e81b6bd6a6b4109ed9ca3e6b1e42699a",
+      "bytes": 1677,
+      "change": "title_case_only",
+      "exact_readback": true
+    },
+    {
+      "name": "01-what-is-adl--SOURCE_PACKET.md",
+      "source_path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/SOURCE_PACKET.md",
+      "drive_id": "1pZ2Jb7GMAVbJIyl-FVQZGrR-ZGJjzkoL",
+      "drive_url": "https://drive.google.com/file/d/1pZ2Jb7GMAVbJIyl-FVQZGrR-ZGJjzkoL/view?usp=drivesdk",
+      "sha256": "b47c667f8a3363eecbfdfd19efa3c189a814781914fedeb6c7b19b7870fb3647",
+      "bytes": 2623,
+      "change": "title_case_only",
+      "exact_readback": true
+    }
+  ],
+  "corrected_count": 3,
+  "all_exact_readback": true,
+  "remote_deletions": 0,
+  "sharing_changes": 0
+}
