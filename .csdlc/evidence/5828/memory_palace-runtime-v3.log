@@ -1,14 +1,8 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
-────────────
- Nextest run ID 3da2df73-90e0-4ae6-af90-8cfc77eb2508 with nextest profile: default
-    Starting 8 tests across 1 binary
-        PASS [   0.009s] (1/8) adl-runtime-kernel::memory_palace duplicate_records_and_citations_are_rejected
-        PASS [   0.010s] (2/8) adl-runtime-kernel::memory_palace private_raw_and_unredacted_memory_never_enters_working_set
-        PASS [   0.010s] (3/8) adl-runtime-kernel::memory_palace stale_future_and_invalid_temporal_anchors_fail_closed
-        PASS [   0.010s] (4/8) adl-runtime-kernel::memory_palace secret_like_payloads_and_unknown_json_fields_fail_closed
-        PASS [   0.010s] (5/8) adl-runtime-kernel::memory_palace bounded_selection_records_overflow_without_loading_it
-        PASS [   0.010s] (6/8) adl-runtime-kernel::memory_palace identity_continuity_and_trace_substitution_fail_closed
-        PASS [   0.010s] (7/8) adl-runtime-kernel::memory_palace citation_path_hash_and_presence_fail_closed
-        PASS [   0.011s] (8/8) adl-runtime-kernel::memory_palace canonical_topology_is_deterministic_and_native_semantic_output_is_contained
-────────────
-     Summary [   0.011s] 8 tests run: 8 passed, 0 skipped
+source_revision=6a4a13b0fd956031d7c861ed886e3cd8516057dc
+command=cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test memory_palace --no-tests=fail --status-level all
+nextest_run_id=5265e224-8353-4d3c-8308-b9a5ec791432
+tests_run=11
+tests_passed=11
+tests_failed=0
+tests_skipped=0
+result=passed
