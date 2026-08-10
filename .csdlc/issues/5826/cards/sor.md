@@ -55,11 +55,11 @@ Implemented the deterministic WP-09 stable-name and identity-root contract with 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

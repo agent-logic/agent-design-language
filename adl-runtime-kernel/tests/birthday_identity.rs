@@ -2,31 +2,204 @@
 //! resource profile. The positive case is the sole native semantic-output writer.
 
 use std::{
+    collections::{BTreeMap, BTreeSet},
     fs,
     path::{Component, Path, PathBuf},
 };
 
 use adl_runtime_kernel::{
     build_birthday_identity, derive_identity_root, record_digest,
-    validate_birthday_identity_record, AliasBinding, BirthdayIdentityCandidate, IdentityBasis,
-    IdentityReference, IdentityReferenceVisibility, IdentityRejection,
+    validate_birthday_identity_record, verify_birthday_evidence, AliasBinding,
+    BirthdayEvidenceError, BirthdayEvidenceRequirements, BirthdayIdentityCandidate,
+    IdentityAuthority, IdentityBasis, IdentityBinding, IdentityReference, IdentityRejection,
+    MemoryCheckpoint, MemoryClass, MemoryLedger, PrivateStateAuthority, PrivateStateLineage,
+    PrivateStateRecord, PrivateStateSealRequest, ProjectionRequest, SanctuaryPolicy,
+    VerifiedBirthdayEvidence, BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA,
 };
+use ed25519_dalek::VerifyingKey;
 
-fn fixture(name: &str) -> String {
-    format!(
-        "{}/tests/fixtures/birthday_identity/{name}",
-        env!("CARGO_MANIFEST_DIR")
-    )
+const GENESIS: &str = "0000000000000000000000000000000000000000000000000000000000000000";
+
+#[derive(Clone)]
+struct AuthorityMaterial {
+    binding: IdentityBinding,
+    checkpoint: MemoryCheckpoint,
+    identity_keys: BTreeMap<String, VerifyingKey>,
+    private_record: PrivateStateRecord,
+    private_keys: BTreeMap<String, VerifyingKey>,
+    projection: BTreeMap<String, String>,
+    policy: SanctuaryPolicy,
+    request: ProjectionRequest,
+    requirements: BirthdayEvidenceRequirements,
 }
 
-fn valid_candidate() -> BirthdayIdentityCandidate {
-    serde_json::from_str(&fs::read_to_string(fixture("valid.json")).expect("read valid fixture"))
-        .expect("parse valid fixture")
+impl AuthorityMaterial {
+    fn verify(&self) -> Result<VerifiedBirthdayEvidence, BirthdayEvidenceError> {
+        verify_birthday_evidence(
+            &self.binding,
+            &self.checkpoint,
+            &self.identity_keys,
+            &self.private_record,
+            &mut PrivateStateLineage::default(),
+            &self.private_keys,
+            &self.projection,
+            &self.policy,
+            &self.request,
+            &self.requirements,
+        )
+    }
 }
 
-fn valid_value() -> serde_json::Value {
-    serde_json::from_str(&fs::read_to_string(fixture("valid.json")).expect("read valid fixture"))
-        .expect("parse valid fixture value")
+fn authoritative_material() -> AuthorityMaterial {
+    let identity_authority = IdentityAuthority::from_bytes("identity-birthday-key", &[11_u8; 32]);
+    let identity_keys = BTreeMap::from([(
+        "identity-birthday-key".to_owned(),
+        identity_authority.verifying_key(),
+    )]);
+    let binding = identity_authority
+        .bind(
+            "citizen-aster",
+            "runtime-v3",
+            "continuity-aster",
+            7,
+            BTreeSet::from(["birthday.identity".to_owned()]),
+        )
+        .expect("signed identity binding");
+    let mut ledger = MemoryLedger::default();
+    ledger
+        .append(
+            &binding,
+            &identity_keys,
+            MemoryClass::Identity,
+            BTreeMap::from([
+                (
+                    "birthday.origin_event".to_owned(),
+                    "origin-event-001".to_owned(),
+                ),
+                ("birthday.stable_name".to_owned(), "Aster".to_owned()),
+                (
+                    "birthday.alias.alias-one".to_owned(),
+                    "Aster One".to_owned(),
+                ),
+                (
+                    "birthday.alias.alias-north".to_owned(),
+                    "North Star".to_owned(),
+                ),
+            ]),
+            None,
+        )
+        .expect("accepted identity event");
+    let checkpoint = ledger
+        .checkpoint(&binding, &identity_keys, &identity_authority)
+        .expect("signed memory checkpoint");
+
+    let private_authority = PrivateStateAuthority::from_bytes("private-birthday-key", &[7_u8; 32]);
+    let private_keys = BTreeMap::from([(
+        "private-birthday-key".to_owned(),
+        private_authority.verifying_key(),
+    )]);
+    let projection = BTreeMap::from([
+        (
+            "identity_summary".to_owned(),
+            "Aster continuity accepted".to_owned(),
+        ),
+        ("witness_status".to_owned(), "governed".to_owned()),
+    ]);
+    let private_record = private_authority
+        .issue_record(PrivateStateSealRequest {
+            subject_id: binding.citizen_id.clone(),
+            lineage_id: binding.continuity_id.clone(),
+            sequence: 1,
+            predecessor_hash: GENESIS.to_owned(),
+            private_payload: b"raw private birthday state that must never be projected".to_vec(),
+            projection: projection.clone(),
+            sanctuary_level: 1,
+        })
+        .expect("signed private-state record");
+    AuthorityMaterial {
+        binding,
+        checkpoint,
+        identity_keys,
+        private_record,
+        private_keys,
+        projection,
+        policy: SanctuaryPolicy {
+            allowed_principals: BTreeSet::from(["birthday-reviewer".to_owned()]),
+            max_sanctuary_level: 1,
+            allow_raw_export: false,
+        },
+        request: ProjectionRequest {
+            principal: "birthday-reviewer".to_owned(),
+            requested_fields: BTreeSet::from([
+                "identity_summary".to_owned(),
+                "sealed_payload".to_owned(),
+            ]),
+            raw_export: false,
+        },
+        requirements: BirthdayEvidenceRequirements {
+            identity_signing_key_id: "identity-birthday-key".to_owned(),
+            private_state_signing_key_id: "private-birthday-key".to_owned(),
+            identity_generation: 7,
+            continuity_generation: 1,
+            projection_generation: 1,
+        },
+    }
+}
+
+fn authoritative_candidate(evidence: &VerifiedBirthdayEvidence) -> BirthdayIdentityCandidate {
+    let mut candidate = BirthdayIdentityCandidate {
+        schema: BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA.to_owned(),
+        basis: IdentityBasis::OriginEvidence,
+        stable_name: "Aster".to_owned(),
+        identity_root: "0".repeat(64),
+        aliases: vec![
+            AliasBinding {
+                name: "North Star".to_owned(),
+                provenance_id: "alias-north".to_owned(),
+            },
+            AliasBinding {
+                name: "Aster One".to_owned(),
+                provenance_id: "alias-one".to_owned(),
+            },
+        ],
+        origin: adl_runtime_kernel::OriginBinding {
+            event_id: "origin-event-001".to_owned(),
+            provenance_id: "origin-prov".to_owned(),
+            reference: reference("origin-binding", evidence.binding_sha256()),
+        },
+        continuity: adl_runtime_kernel::ContinuityBinding {
+            identity_root: "0".repeat(64),
+            head_sha256: evidence.checkpoint_head().to_owned(),
+            reference: reference("continuity-checkpoint", evidence.checkpoint_sha256()),
+        },
+        provenance: vec![
+            reference("origin-prov", evidence.binding_sha256()),
+            reference("alias-one", evidence.checkpoint_sha256()),
+            reference("alias-north", evidence.checkpoint_sha256()),
+        ],
+        witnesses: vec![
+            reference("private-record", evidence.private_record_sha256()),
+            reference(
+                "governed-projection-witness",
+                &evidence.projection_receipt().projection_sha256,
+            ),
+        ],
+        governed_projection: reference(
+            "governed-projection",
+            &evidence.projection_receipt().projection_sha256,
+        ),
+    };
+    candidate.identity_root = derive_identity_root(&candidate, evidence).expect("identity root");
+    candidate.continuity.identity_root = candidate.identity_root.clone();
+    candidate
+}
+
+fn reference(id: &str, sha256: &str) -> IdentityReference {
+    IdentityReference {
+        id: id.to_owned(),
+        path: format!("evidence/identity/{id}.json"),
+        sha256: sha256.to_owned(),
+    }
 }
 
 fn semantic_output_path(value: &str) -> Result<PathBuf, &'static str> {
@@ -53,42 +226,220 @@ fn semantic_output_path(value: &str) -> Result<PathBuf, &'static str> {
 }
 
 #[test]
-fn builds_canonical_identity_and_emits_semantic_output() {
-    let candidate = valid_candidate();
+fn builds_from_signed_lineage_and_governed_projection() {
+    let evidence = authoritative_material()
+        .verify()
+        .expect("verified evidence");
+    let candidate = authoritative_candidate(&evidence);
+    let record = build_birthday_identity(&candidate, &evidence).expect("identity record");
+    validate_birthday_identity_record(&record, &evidence).expect("canonical record");
+    assert_eq!(record.record_sha256, record_digest(&record).unwrap());
+    assert_eq!(record.aliases[0].name, "Aster One");
+    assert_eq!(record.projection_receipt.visible_fields.len(), 1);
     assert_eq!(
-        candidate.identity_root,
-        derive_identity_root(&candidate).expect("derive identity root")
+        record.projection_receipt.redacted_fields,
+        vec!["sealed_payload"]
     );
-    let record = build_birthday_identity(&candidate).expect("valid identity record");
-    assert_eq!(record.identity_root, candidate.identity_root);
-    assert_eq!(
-        record.record_sha256,
-        record_digest(&record).expect("record digest")
-    );
-    validate_birthday_identity_record(&record).expect("validate canonical identity record");
-    assert_eq!(
-        record
-            .aliases
-            .iter()
-            .map(|alias| alias.name.as_str())
-            .collect::<Vec<_>>(),
-        vec!["Aster One", "North Star"]
-    );
-    assert_eq!(record.provenance[0].id, "alias-north");
-    assert_eq!(record.witnesses[0].id, "witness-a");
-    assert_eq!(
-        record.redaction_policy.redacted_fields,
-        vec!["private_state", "sealed_payload"]
-    );
+    assert!(!serde_json::to_string(&record)
+        .unwrap()
+        .contains("raw private birthday state"));
 
     if let Ok(output) = std::env::var("ADL_NATIVE_SEMANTIC_OUTPUT") {
         let path = semantic_output_path(&output).expect("safe semantic output path");
-        if let Some(parent) = path.parent() {
-            fs::create_dir_all(parent).expect("create semantic output directory");
-        }
-        fs::write(&path, serde_jcs::to_vec(&record).expect("canonical record"))
-            .expect("write semantic output");
+        fs::create_dir_all(path.parent().unwrap()).expect("semantic output directory");
+        fs::write(
+            path,
+            serde_jcs::to_vec(&record).expect("canonical record bytes"),
+        )
+        .expect("semantic output");
     }
+}
+
+#[test]
+fn rejects_forged_mismatched_and_stale_authorities() {
+    let material = authoritative_material();
+
+    let mut forged_binding = material.clone();
+    forged_binding.binding.citizen_id = "invented-citizen".to_owned();
+    assert_eq!(
+        forged_binding.verify(),
+        Err(BirthdayEvidenceError::IdentitySignature)
+    );
+
+    let mut forged_private = material.clone();
+    forged_private.private_record.subject_id = "invented-citizen".to_owned();
+    assert_eq!(
+        forged_private.verify(),
+        Err(BirthdayEvidenceError::PrivateSignature)
+    );
+
+    let other_private = PrivateStateAuthority::from_bytes("private-birthday-key", &[8_u8; 32]);
+    let mut mismatched_subject = material.clone();
+    mismatched_subject.private_keys = BTreeMap::from([(
+        "private-birthday-key".to_owned(),
+        other_private.verifying_key(),
+    )]);
+    mismatched_subject.private_record = other_private
+        .issue_record(PrivateStateSealRequest {
+            subject_id: "other-citizen".to_owned(),
+            lineage_id: "continuity-aster".to_owned(),
+            sequence: 1,
+            predecessor_hash: GENESIS.to_owned(),
+            private_payload: b"private".to_vec(),
+            projection: material.projection.clone(),
+            sanctuary_level: 1,
+        })
+        .unwrap();
+    assert_eq!(
+        mismatched_subject.verify(),
+        Err(BirthdayEvidenceError::AuthoritySubjectMismatch)
+    );
+
+    for expected in [
+        BirthdayEvidenceError::IdentitySignerMismatch,
+        BirthdayEvidenceError::PrivateSignerMismatch,
+        BirthdayEvidenceError::IdentityGenerationMismatch,
+        BirthdayEvidenceError::ContinuityGenerationMismatch,
+        BirthdayEvidenceError::ProjectionGenerationMismatch,
+    ] {
+        let mut stale = material.clone();
+        match expected {
+            BirthdayEvidenceError::IdentitySignerMismatch => {
+                stale.requirements.identity_signing_key_id = "stale-identity-key".to_owned()
+            }
+            BirthdayEvidenceError::PrivateSignerMismatch => {
+                stale.requirements.private_state_signing_key_id = "stale-private-key".to_owned()
+            }
+            BirthdayEvidenceError::IdentityGenerationMismatch => {
+                stale.requirements.identity_generation += 1
+            }
+            BirthdayEvidenceError::ContinuityGenerationMismatch => {
+                stale.requirements.continuity_generation += 1
+            }
+            BirthdayEvidenceError::ProjectionGenerationMismatch => {
+                stale.requirements.projection_generation += 1
+            }
+            _ => unreachable!(),
+        }
+        assert_eq!(stale.verify(), Err(expected));
+    }
+}
+
+#[test]
+fn rejects_projection_tamper_and_raw_private_mislabelling() {
+    let mut tampered = authoritative_material();
+    tampered
+        .projection
+        .insert("identity_summary".to_owned(), "tampered".to_owned());
+    assert_eq!(
+        tampered.verify(),
+        Err(BirthdayEvidenceError::PrivateProjection)
+    );
+
+    let private_authority = PrivateStateAuthority::from_bytes("private-birthday-key", &[7_u8; 32]);
+    let mut raw = authoritative_material();
+    raw.projection
+        .insert("raw_private_state".to_owned(), "secret".to_owned());
+    raw.private_record = private_authority
+        .issue_record(PrivateStateSealRequest {
+            subject_id: raw.binding.citizen_id.clone(),
+            lineage_id: raw.binding.continuity_id.clone(),
+            sequence: 1,
+            predecessor_hash: GENESIS.to_owned(),
+            private_payload: b"private".to_vec(),
+            projection: raw.projection.clone(),
+            sanctuary_level: 1,
+        })
+        .unwrap();
+    raw.request.requested_fields = BTreeSet::from(["raw_private_state".to_owned()]);
+    assert_eq!(
+        raw.verify(),
+        Err(BirthdayEvidenceError::RawPrivateProjection)
+    );
+}
+
+#[test]
+fn rejects_invented_provenance_wrong_continuity_and_projection_substitution() {
+    let evidence = authoritative_material().verify().unwrap();
+    let candidate = authoritative_candidate(&evidence);
+
+    let mut invented = candidate.clone();
+    invented.provenance[0].sha256 = "a".repeat(64);
+    assert!(build_birthday_identity(&invented, &evidence)
+        .unwrap_err()
+        .iter()
+        .any(|error| matches!(error, IdentityRejection::UnverifiedProvenance { .. })));
+
+    let mut wrong_head = candidate.clone();
+    wrong_head.continuity.head_sha256 = "b".repeat(64);
+    assert!(build_birthday_identity(&wrong_head, &evidence)
+        .unwrap_err()
+        .contains(&IdentityRejection::ContinuityHeadMismatch));
+
+    let mut missing_witness = candidate.clone();
+    missing_witness.witnesses.clear();
+    let errors = build_birthday_identity(&missing_witness, &evidence).unwrap_err();
+    assert!(errors.contains(&IdentityRejection::MissingWitnesses));
+    assert!(errors.contains(&IdentityRejection::MissingGovernedWitness));
+
+    let mut projection_substitution = candidate;
+    projection_substitution.governed_projection.sha256 = "c".repeat(64);
+    assert!(build_birthday_identity(&projection_substitution, &evidence)
+        .unwrap_err()
+        .contains(&IdentityRejection::ProjectionAuthorityMismatch));
+}
+
+#[test]
+fn replay_order_is_deterministic_and_record_tampering_fails() {
+    let evidence = authoritative_material().verify().unwrap();
+    let candidate = authoritative_candidate(&evidence);
+    let first = build_birthday_identity(&candidate, &evidence).unwrap();
+    let mut reordered = candidate;
+    reordered.aliases.reverse();
+    reordered.provenance.reverse();
+    reordered.witnesses.reverse();
+    let second = build_birthday_identity(&reordered, &evidence).unwrap();
+    assert_eq!(first, second);
+
+    let mut tampered = first;
+    tampered.stable_name = "Tampered".to_owned();
+    assert!(validate_birthday_identity_record(&tampered, &evidence)
+        .unwrap_err()
+        .contains(&IdentityRejection::RecordDigestMismatch));
+}
+
+#[test]
+fn rejects_non_origin_bases_unknown_fields_and_unsafe_paths() {
+    let evidence = authoritative_material().verify().unwrap();
+    for basis in [
+        IdentityBasis::DisplayName,
+        IdentityBasis::BootAdmission,
+        IdentityBasis::WakeState,
+        IdentityBasis::Snapshot,
+        IdentityBasis::CopiedState,
+    ] {
+        let mut candidate = authoritative_candidate(&evidence);
+        candidate.basis = basis;
+        assert_eq!(
+            build_birthday_identity(&candidate, &evidence),
+            Err(vec![IdentityRejection::UnsupportedBasis { basis }])
+        );
+    }
+
+    let candidate = authoritative_candidate(&evidence);
+    let mut value = serde_json::to_value(&candidate).unwrap();
+    value
+        .as_object_mut()
+        .unwrap()
+        .insert("reviewer_visible".to_owned(), serde_json::Value::Bool(true));
+    assert!(serde_json::from_value::<BirthdayIdentityCandidate>(value).is_err());
+
+    let mut unsafe_path = candidate;
+    unsafe_path.origin.reference.path = "/tmp/private.json".to_owned();
+    assert!(build_birthday_identity(&unsafe_path, &evidence)
+        .unwrap_err()
+        .iter()
+        .any(|error| matches!(error, IdentityRejection::UnsafeReferencePath { .. })));
 }
 
 #[test]
@@ -101,270 +452,9 @@ fn semantic_output_rejects_host_paths_and_traversal() {
         "C:\\tmp\\identity.json",
         "adl-runtime-kernel/identity.json",
     ] {
-        assert!(
-            semantic_output_path(unsafe_path).is_err(),
-            "unsafe semantic output path accepted: {unsafe_path}"
-        );
+        assert!(semantic_output_path(unsafe_path).is_err());
     }
-    let safe = ".csdlc/evidence/5826/native-platform/linux-semantic.json";
-    assert_eq!(
-        semantic_output_path(safe).expect("safe evidence path"),
-        Path::new(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .expect("repository root")
-            .join(safe)
+    assert!(
+        semantic_output_path(".csdlc/evidence/5826/native-platform/linux-semantic.json").is_ok()
     );
-}
-
-#[test]
-fn record_validator_rejects_digest_tampering_and_noncanonical_order() {
-    let record = build_birthday_identity(&valid_candidate()).expect("valid identity record");
-
-    let mut tampered = record.clone();
-    tampered.stable_name = "Tampered".to_owned();
-    let tampered_rejections =
-        validate_birthday_identity_record(&tampered).expect_err("tampered record must reject");
-    assert!(tampered_rejections.contains(&IdentityRejection::RecordDigestMismatch));
-
-    let mut reordered = record;
-    reordered.aliases.reverse();
-    reordered.record_sha256 = record_digest(&reordered).expect("digest reordered record");
-    assert_eq!(
-        validate_birthday_identity_record(&reordered),
-        Err(vec![IdentityRejection::NonCanonicalRecord])
-    );
-}
-
-#[test]
-fn replay_and_input_order_produce_identical_records() {
-    let candidate = valid_candidate();
-    let first = build_birthday_identity(&candidate).expect("first record");
-    let mut reordered = candidate.clone();
-    reordered.aliases.reverse();
-    reordered.provenance.reverse();
-    reordered.witnesses.reverse();
-    reordered.redaction_policy.redacted_fields.reverse();
-    let second = build_birthday_identity(&reordered).expect("reordered record");
-    assert_eq!(first, second);
-    assert_eq!(
-        serde_jcs::to_vec(&first).expect("first canonical record"),
-        serde_jcs::to_vec(&second).expect("second canonical record")
-    );
-
-    let mut alias_added = candidate.clone();
-    alias_added.aliases.push(AliasBinding {
-        name: "Aster Two".to_owned(),
-        provenance_id: "alias-two".to_owned(),
-    });
-    alias_added.provenance.push(IdentityReference {
-        id: "alias-two".to_owned(),
-        path: "evidence/identity/provenance-alias-two.json".to_owned(),
-        sha256: "8".repeat(64),
-        visibility: IdentityReferenceVisibility::ReviewerVisible,
-    });
-    assert_eq!(
-        derive_identity_root(&candidate).expect("original root"),
-        derive_identity_root(&alias_added).expect("root with new alias"),
-        "an alias addition must not rotate root authority"
-    );
-}
-
-#[test]
-fn rejects_display_wake_snapshot_admission_and_copied_state_as_root_authority() {
-    let bases: Vec<IdentityBasis> = serde_json::from_str(
-        &fs::read_to_string(fixture("substituted_bases.json")).expect("read basis matrix"),
-    )
-    .expect("parse basis matrix");
-    assert_eq!(bases.len(), 5);
-    for basis in bases {
-        let mut candidate = valid_candidate();
-        candidate.basis = basis;
-        assert_eq!(
-            build_birthday_identity(&candidate),
-            Err(vec![IdentityRejection::UnsupportedBasis { basis }])
-        );
-    }
-}
-
-#[test]
-fn rejects_collision_provenance_substitution_privacy_and_path_matrix() {
-    let cases: Vec<String> = serde_json::from_str(
-        &fs::read_to_string(fixture("negative_cases.json")).expect("read negative matrix"),
-    )
-    .expect("parse negative matrix");
-    assert_eq!(cases.len(), 24);
-    for case in cases {
-        let mut candidate = valid_candidate();
-        let expected = mutate_case(&case, &mut candidate);
-        let rejections = build_birthday_identity(&candidate).expect_err("negative must reject");
-        assert!(
-            rejections.contains(&expected),
-            "case {case} expected {expected:?}, got {rejections:?}"
-        );
-    }
-}
-
-#[test]
-fn rejects_unknown_top_level_and_nested_fields_during_parse() {
-    let mut top = valid_value();
-    top.as_object_mut()
-        .expect("candidate object")
-        .insert("display_authority".to_owned(), serde_json::json!(true));
-    assert!(serde_json::from_value::<BirthdayIdentityCandidate>(top).is_err());
-
-    let mut alias = valid_value();
-    alias["aliases"][0]
-        .as_object_mut()
-        .expect("alias object")
-        .insert("replace_root".to_owned(), serde_json::json!(true));
-    assert!(serde_json::from_value::<BirthdayIdentityCandidate>(alias).is_err());
-
-    let mut reference = valid_value();
-    reference["origin"]["reference"]
-        .as_object_mut()
-        .expect("reference object")
-        .insert("raw_payload".to_owned(), serde_json::json!("private"));
-    assert!(serde_json::from_value::<BirthdayIdentityCandidate>(reference).is_err());
-
-    let mut policy = valid_value();
-    policy["redaction_policy"]
-        .as_object_mut()
-        .expect("policy object")
-        .insert("allow_export".to_owned(), serde_json::json!(true));
-    assert!(serde_json::from_value::<BirthdayIdentityCandidate>(policy).is_err());
-}
-
-fn mutate_case(case: &str, candidate: &mut BirthdayIdentityCandidate) -> IdentityRejection {
-    match case {
-        "empty_identity_root" => {
-            candidate.identity_root.clear();
-            IdentityRejection::EmptyIdentityRoot
-        }
-        "malformed_identity_root" => {
-            candidate.identity_root = "short".to_owned();
-            IdentityRejection::MalformedIdentityRoot
-        }
-        "identity_root_mismatch" => {
-            candidate.identity_root = "a".repeat(64);
-            candidate.continuity.identity_root = candidate.identity_root.clone();
-            IdentityRejection::IdentityRootMismatch
-        }
-        "invalid_stable_name" => {
-            candidate.stable_name = " Aster ".to_owned();
-            IdentityRejection::InvalidStableName
-        }
-        "alias_collision" => {
-            candidate.aliases[1].name = candidate.aliases[0].name.to_ascii_lowercase();
-            IdentityRejection::AliasCollision {
-                name: candidate.aliases[1].name.clone(),
-            }
-        }
-        "alias_stable_name_collision" => {
-            candidate.aliases[0].name = candidate.stable_name.to_ascii_lowercase();
-            IdentityRejection::AliasCollision {
-                name: candidate.aliases[0].name.clone(),
-            }
-        }
-        "alias_missing_provenance" => {
-            candidate.aliases[0].provenance_id = "absent-alias-proof".to_owned();
-            IdentityRejection::MissingProvenance {
-                id: "absent-alias-proof".to_owned(),
-            }
-        }
-        "origin_missing_provenance" => {
-            candidate.origin.provenance_id = "absent-origin-proof".to_owned();
-            IdentityRejection::MissingProvenance {
-                id: "absent-origin-proof".to_owned(),
-            }
-        }
-        "origin_provenance_mismatch" => {
-            let origin_provenance = candidate
-                .provenance
-                .iter_mut()
-                .find(|reference| reference.id == candidate.origin.provenance_id)
-                .expect("origin provenance");
-            origin_provenance.sha256 = "a".repeat(64);
-            IdentityRejection::OriginProvenanceMismatch
-        }
-        "duplicate_provenance" => {
-            candidate.provenance.push(candidate.provenance[0].clone());
-            IdentityRejection::DuplicateProvenance {
-                id: candidate.provenance[0].id.clone(),
-            }
-        }
-        "duplicate_witness" => {
-            candidate.witnesses.push(candidate.witnesses[0].clone());
-            IdentityRejection::DuplicateWitness {
-                id: candidate.witnesses[0].id.clone(),
-            }
-        }
-        "provenance_digest_mismatch" => {
-            candidate.provenance[0].sha256 = "not-a-digest".to_owned();
-            IdentityRejection::MalformedReferenceDigest {
-                id: candidate.provenance[0].id.clone(),
-            }
-        }
-        "substituted_continuity_identity" => {
-            candidate.continuity.identity_root = "a".repeat(64);
-            IdentityRejection::ContinuityIdentitySubstitution
-        }
-        "malformed_continuity_head" => {
-            candidate.continuity.head_sha256 = "short".to_owned();
-            IdentityRejection::MalformedContinuityHead
-        }
-        "continuity_reference_mismatch" => {
-            candidate.continuity.reference.sha256 = "a".repeat(64);
-            IdentityRejection::ContinuityReferenceMismatch
-        }
-        "absolute_reference_path" => {
-            candidate.origin.reference.path = "/private/identity.json".to_owned();
-            IdentityRejection::UnsafeReferencePath {
-                id: candidate.origin.reference.id.clone(),
-            }
-        }
-        "windows_reference_path" => {
-            candidate.origin.reference.path = "C:\\private\\identity.json".to_owned();
-            IdentityRejection::UnsafeReferencePath {
-                id: candidate.origin.reference.id.clone(),
-            }
-        }
-        "parent_reference_path" => {
-            candidate.origin.reference.path = "evidence/../private.json".to_owned();
-            IdentityRejection::UnsafeReferencePath {
-                id: candidate.origin.reference.id.clone(),
-            }
-        }
-        "raw_private_reference" => {
-            candidate.origin.reference.visibility = IdentityReferenceVisibility::RawPrivate;
-            IdentityRejection::PrivateReference {
-                id: candidate.origin.reference.id.clone(),
-            }
-        }
-        "raw_private_policy" => {
-            candidate.redaction_policy.raw_private_state = true;
-            IdentityRejection::UnsafeRedactionPolicy
-        }
-        "non_projection_policy" => {
-            candidate.redaction_policy.projection_only = false;
-            IdentityRejection::UnsafeRedactionPolicy
-        }
-        "missing_witnesses" => {
-            candidate.witnesses.clear();
-            IdentityRejection::MissingWitnesses
-        }
-        "duplicate_redacted_field" => {
-            candidate
-                .redaction_policy
-                .redacted_fields
-                .push("private_state".to_owned());
-            IdentityRejection::DuplicateRedactedField {
-                field: "private_state".to_owned(),
-            }
-        }
-        "unsupported_schema" => {
-            candidate.schema = "adl.birthday.identity_candidate.v2".to_owned();
-            IdentityRejection::UnsupportedSchema
-        }
-        other => panic!("unknown negative case: {other}"),
-    }
 }

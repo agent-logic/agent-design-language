@@ -92,3 +92,5 @@
 {"sequence":92,"generation":67,"actor":"codex:5826-birthday-identity","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":93,"generation":68,"actor":"codex:5826-birthday-identity","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":94,"generation":69,"actor":"codex:5826-birthday-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":95,"generation":70,"actor":"codex:5826-security-privacy-repair","reason":"Recover published review truth after operator changes-requested security/privacy findings: provenance and privacy authority are self-attested and native proof omits canonical identity-memory/private-state grounding.","operation":"recover_review"}
+{"sequence":96,"generation":71,"actor":"operator:pr118-security-privacy-findings","reason":"reapprove changed issue design","operation":"approve_design"}

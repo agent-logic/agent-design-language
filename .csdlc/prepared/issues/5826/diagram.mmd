@@ -1,8 +1,12 @@
 flowchart LR
-  O["Origin and lineage evidence"] --> R["Identity root"]
-  N["Stable name and aliases"] --> I["Identity record"]
-  R --> I
-  C["Continuity head reference"] --> I
-  I --> V{"Schema, provenance, redaction valid?"}
+  B["Signed IdentityBinding"] --> M["MemoryLedger restore verifies signed checkpoint"]
+  C["Signed MemoryCheckpoint"] --> M
+  P["Signed PrivateStateRecord"] --> G["Accepted lineage plus governed projection"]
+  Q["Sanctuary policy and projection request"] --> G
+  M --> T["Opaque verified Birthday evidence"]
+  G --> T
+  O["Origin, stable name, aliases, continuity references"] --> I["Birthday Identity construction"]
+  T --> I
+  I --> V{"Authority bindings, generation, projection and schema valid?"}
   V -- "No" --> X["Reject with field-specific reason"]
-  V -- "Yes" --> W["WP-10 continuity input"]
+  V -- "Yes" --> W["Canonical WP-10 continuity input"]

@@ -45,7 +45,7 @@ def repo_path(root, relative, label)
 end
 
 def source_paths(test_target, feature_path)
-  [
+  paths = [
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
@@ -53,6 +53,13 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
   ]
+  if test_target == "birthday_identity"
+    paths += [
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/private_state.rs"
+    ]
+  end
+  paths
 end
 
 def source_manifest(root, paths)
@@ -119,9 +126,11 @@ command_output = stdout + stderr
 command_output_path.write(command_output)
 fail!("native nextest command failed") unless status.success?
 suites = []
+passed_tests = []
 command_output.each_line do |line|
   parsed = JSON.parse(line)
   suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
+  passed_tests << parsed["name"] if parsed["type"] == "test" && parsed["event"] == "ok"
 rescue JSON::ParserError
   next
 end
@@ -145,6 +154,7 @@ payload = {
     "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
   },
   "tests_run" => suite["passed"].to_i,
+  "passed_tests" => passed_tests.sort,
   "command_output_path" => command_output_path.relative_path_from(root).to_s,
   "command_output_sha256" => Digest::SHA256.file(command_output_path).hexdigest,
   "semantic_output_path" => semantic_path.relative_path_from(root).to_s,

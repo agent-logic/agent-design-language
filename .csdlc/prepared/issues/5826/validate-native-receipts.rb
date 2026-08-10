@@ -44,7 +44,7 @@ def repo_file(root, value, label, required_prefix: nil)
 end
 
 def source_paths(test_target, feature_path)
-  [
+  paths = [
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
@@ -52,6 +52,13 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
   ]
+  if test_target == "birthday_identity"
+    paths += [
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/private_state.rs"
+    ]
+  end
+  paths
 end
 
 def source_manifest(root, paths)
@@ -94,6 +101,12 @@ expected_test_argv = [
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/
+required_authority_tests = %w[
+  builds_from_signed_lineage_and_governed_projection
+  rejects_forged_mismatched_and_stale_authorities
+  rejects_projection_tamper_and_raw_private_mislabelling
+  rejects_invented_provenance_wrong_continuity_and_projection_substitution
+]
 
 receipts = ARGV.map do |receipt_relative|
   receipt_file = repo_file(root, receipt_relative, "receipt", required_prefix: evidence_prefix)
@@ -144,15 +157,22 @@ receipts.each do |receipt|
   command_output = repo_file(root, receipt["command_output_path"], "#{platform} command output", required_prefix: evidence_prefix)
   fail!("#{platform}: command output digest mismatch") unless required_hex.match?(receipt["command_output_sha256"].to_s) && receipt["command_output_sha256"] == Digest::SHA256.file(command_output).hexdigest
   suites = []
+  passed_tests = []
   command_output.each_line do |line|
     parsed = JSON.parse(line)
     suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
+    passed_tests << parsed["name"] if parsed["type"] == "test" && parsed["event"] == "ok"
   rescue JSON::ParserError
     next
   end
   suite = suites.last
   fail!("#{platform}: command output lacks a passing structured suite summary") unless suite && suite["passed"].to_i.positive? && suite["failed"].to_i.zero?
   fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
+  observed_passed_tests = receipt["passed_tests"]
+  fail!("#{platform}: passed test inventory is missing") unless observed_passed_tests.is_a?(Array)
+  fail!("#{platform}: passed test inventory disagrees with command output") unless observed_passed_tests == passed_tests.sort
+  missing_authority_tests = required_authority_tests - observed_passed_tests
+  fail!("#{platform}: authority-negative proof is incomplete: #{missing_authority_tests.join(', ')}") unless missing_authority_tests.empty?
 
   semantic_output = repo_file(root, receipt["semantic_output_path"], "#{platform} semantic output", required_prefix: evidence_prefix)
   fail!("#{platform}: semantic path mismatch") unless receipt["semantic_output_path"] == expected_semantic_path

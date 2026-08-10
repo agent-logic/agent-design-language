@@ -89,13 +89,13 @@ Revision 21
 
 .csdlc/prepared/issues/5826/design.md
 
-Digest: 57ed587dacdd292837d1a80a202d8ff7800a5aa3da079adc56291be3d1619a75
+Digest: a69f934b04e88947ec33ea9749c107afa3fb8d638a977b08dbb8002f8b1e01ca
 
 ## Diagram
 
 .csdlc/prepared/issues/5826/diagram.mmd
 
-Digest: d5cc198edc4895057317ca54fe8aa3c676496c00d23ba4718aa88f17ac266f58
+Digest: 0c8418cba179260289efc43a6ec61eb785f3973ba701053a09c7066f5e59adfd
 
 ## Stop Conditions
 
