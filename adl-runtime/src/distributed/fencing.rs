@@ -459,7 +459,8 @@ impl FencingStore {
                 return Err(FencingError::Fenced);
             }
             if check.lease.epoch == floor.epoch {
-                if body.operation_class != OperationClass::Activate as u32
+                if floor.operation_class == OperationClass::Revoke as u32
+                    || body.operation_class != OperationClass::Activate as u32
                     || check.lease.committed_log_index <= floor.committed_log_index
                 {
                     return Err(FencingError::Fenced);

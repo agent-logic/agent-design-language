@@ -226,6 +226,35 @@ fn activation_proof(fixture: &Fixture, lease: &LeaseState) -> [u8; 64] {
     activation_signature(certificate.body.as_ref().unwrap(), &fixture.activation)
 }
 
+fn active_lease(
+    fixture: &Fixture,
+    index: u64,
+    epoch: u64,
+) -> (LeaseState, AuthorityCertificateBodyV1) {
+    let mut body = fixture.body(OperationClass::Activate, index, epoch);
+    body.issued_unix_seconds = NOW + 3;
+    let certificate_bytes = fixture.certificate(body.clone());
+    (
+        LeaseState {
+            lineage_id: body.lineage_id.clone(),
+            holder_node_id: body.holder_node_id.clone(),
+            holder_guardian_id: body.holder_guardian_id.clone(),
+            activation_public_key: fixture.activation.verifying_key().to_bytes(),
+            raft_term: body.raft_term,
+            committed_log_index: body.committed_log_index,
+            epoch: body.epoch,
+            certificate_generation: body.voter_set_generation,
+            activated_elapsed_millis: 20,
+            deadline_elapsed_millis: 2_020,
+            deadline_unix_millis: ((NOW + 3) as u64) * 1_000 + 2_000,
+            certificate_bytes,
+            revoked: false,
+            last_mutation_sequence: 0,
+        },
+        body,
+    )
+}
+
 #[test]
 fn quorum_fence_revoke_epoch_and_replay_contract() {
     let fixture = Fixture::new(101);
@@ -374,6 +403,35 @@ fn quorum_fence_revoke_epoch_and_replay_contract() {
         1,
     )
     .unwrap();
+    let mut post_revoke_membership = fixture.membership.clone();
+    post_revoke_membership.committed_log_index = 102;
+    let (same_epoch, same_epoch_body) = active_lease(&fixture, 102, 1);
+    let same_epoch_proof = activation_signature(&same_epoch_body, &fixture.activation);
+    assert_eq!(
+        revoke_store.authorize_active_lease(ActiveLeaseCheck {
+            membership: Some(&post_revoke_membership),
+            lease: &same_epoch,
+            applied_log_index: 102,
+            now_unix_seconds: NOW + 3,
+            now_unix_millis: ((NOW + 3) as u64) * 1_000,
+            now_elapsed_millis: 21,
+            activation_proof: &same_epoch_proof,
+        }),
+        Err(FencingError::Fenced)
+    );
+    let (next_epoch, next_epoch_body) = active_lease(&fixture, 102, 2);
+    let next_epoch_proof = activation_signature(&next_epoch_body, &fixture.activation);
+    revoke_store
+        .authorize_active_lease(ActiveLeaseCheck {
+            membership: Some(&post_revoke_membership),
+            lease: &next_epoch,
+            applied_log_index: 102,
+            now_unix_seconds: NOW + 3,
+            now_unix_millis: ((NOW + 3) as u64) * 1_000,
+            now_elapsed_millis: 21,
+            activation_proof: &next_epoch_proof,
+        })
+        .unwrap();
     marker("revoke_without_old_holder_activation_proof", "fenced");
 }
 
