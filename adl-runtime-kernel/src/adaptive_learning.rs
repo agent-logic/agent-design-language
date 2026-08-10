@@ -19,6 +19,8 @@ const ADAPTIVE_LEARNING_PENDING_SCHEMA: &str = "adl.adaptive_learning.pending.v1
 const MAX_POLICY_EVIDENCE: usize = 256;
 const MAX_FEEDBACK_SOURCES: usize = 64;
 const MAX_RATIONALE_BYTES: usize = 512;
+const MAX_PENDING_INTENT_BYTES: usize = 4 * 1024 * 1024;
+const MAX_GATE_SNAPSHOT_BYTES: usize = 2 * 1024 * 1024;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -34,6 +36,8 @@ struct AdaptiveLearningPendingIntent {
     schema: String,
     status: PendingStatus,
     history: AdaptiveLearningHistory,
+    before_gate_snapshot_hex: String,
+    before_gate_snapshot_sha256: String,
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
@@ -506,25 +510,40 @@ pub fn execute_governed_adaptive_learning(
         loop_binding,
         evidence,
     )?;
-    reserve_pending_intent(durable, &history)?;
+    reserve_pending_intent(durable, &history, &gate_snapshot)?;
     if let Some((grant, patches)) = mutation.filter(|_| accepted) {
-        let live_evidence = match gate.apply_and_migrate(grant, patches) {
-            Ok(evidence) => evidence,
-            Err(_) => {
-                abort_pending_intent(durable, &history);
-                return Err(vec![AdaptiveLearningRejection::MutationFailed]);
-            }
-        };
-        if history.mutation_evidence.as_ref() != Some(&live_evidence)
-            || gate.graph().hash() != history.resulting_graph_sha256
-            || gate.adaptation().state().hash().ok().as_deref()
-                != Some(history.resulting_state_sha256.as_str())
-        {
+        let mut commit_error = None;
+        let transaction = gate.apply_and_migrate_transactional(
+            grant,
+            patches,
+            |live_evidence, live_graph, live_adaptation| {
+                if history.mutation_evidence.as_ref() != Some(live_evidence)
+                    || live_graph.hash() != history.resulting_graph_sha256
+                    || live_adaptation.hash().ok().as_deref()
+                        != Some(history.resulting_state_sha256.as_str())
+                {
+                    commit_error = Some(vec![AdaptiveLearningRejection::MutationFailed]);
+                    return false;
+                }
+                match complete_pending_intent(durable, &history) {
+                    Ok(()) => true,
+                    Err(error) => {
+                        commit_error = Some(error);
+                        false
+                    }
+                }
+            },
+        );
+        if transaction.is_err() {
             abort_pending_intent(durable, &history);
-            return Err(vec![AdaptiveLearningRejection::MutationFailed]);
+            return Err(
+                commit_error.unwrap_or_else(|| vec![AdaptiveLearningRejection::MutationFailed])
+            );
         }
+    } else if let Err(error) = complete_pending_intent(durable, &history) {
+        abort_pending_intent(durable, &history);
+        return Err(error);
     }
-    complete_pending_intent(durable, gate, &history)?;
     Ok(history)
 }
 
@@ -540,28 +559,37 @@ pub fn adaptive_learning_pending_domain(history_id: &str, sequence: u64) -> Stri
 fn pending_intent(
     history: &AdaptiveLearningHistory,
     status: PendingStatus,
+    before_gate_snapshot: &[u8],
 ) -> AdaptiveLearningPendingIntent {
     AdaptiveLearningPendingIntent {
         schema: ADAPTIVE_LEARNING_PENDING_SCHEMA.into(),
         status,
         history: history.clone(),
+        before_gate_snapshot_hex: hex::encode(before_gate_snapshot),
+        before_gate_snapshot_sha256: format!("{:x}", Sha256::digest(before_gate_snapshot)),
     }
 }
 
 fn pending_bytes(
-    history: &AdaptiveLearningHistory,
-    status: PendingStatus,
+    intent: &AdaptiveLearningPendingIntent,
 ) -> Result<Vec<u8>, Vec<AdaptiveLearningRejection>> {
-    serde_jcs::to_vec(&pending_intent(history, status))
-        .map_err(|_| vec![AdaptiveLearningRejection::EncodingFailure])
+    serde_jcs::to_vec(intent).map_err(|_| vec![AdaptiveLearningRejection::EncodingFailure])
 }
 
 fn reserve_pending_intent(
     durable: &KernelDurableState,
     history: &AdaptiveLearningHistory,
+    before_gate_snapshot: &[u8],
 ) -> Result<(), Vec<AdaptiveLearningRejection>> {
+    if before_gate_snapshot.is_empty() || before_gate_snapshot.len() > MAX_GATE_SNAPSHOT_BYTES {
+        return Err(vec![AdaptiveLearningRejection::EncodingFailure]);
+    }
     let domain = adaptive_learning_pending_domain(&history.history_id, history.sequence);
-    let reserved = pending_bytes(history, PendingStatus::Reserved)?;
+    let reserved = pending_bytes(&pending_intent(
+        history,
+        PendingStatus::Reserved,
+        before_gate_snapshot,
+    ))?;
     let applied = durable
         .compare_and_set_governed_state(&domain, None, &reserved)
         .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
@@ -599,11 +627,16 @@ fn reserve_pending_intent(
 
 fn abort_pending_intent(durable: &KernelDurableState, history: &AdaptiveLearningHistory) {
     let domain = adaptive_learning_pending_domain(&history.history_id, history.sequence);
-    if let (Ok(reserved), Ok(aborted)) = (
-        pending_bytes(history, PendingStatus::Reserved),
-        pending_bytes(history, PendingStatus::Aborted),
-    ) {
-        let _ = durable.compare_and_set_governed_state(&domain, Some(&reserved), &aborted);
+    if let Ok(Some(current)) = durable.load_governed_state(&domain) {
+        if let Ok(mut intent) = serde_json::from_slice::<AdaptiveLearningPendingIntent>(&current) {
+            if intent.status == PendingStatus::Reserved && intent.history == *history {
+                intent.status = PendingStatus::Aborted;
+                if let Ok(aborted) = pending_bytes(&intent) {
+                    let _ =
+                        durable.compare_and_set_governed_state(&domain, Some(&current), &aborted);
+                }
+            }
+        }
     }
 }
 
@@ -626,12 +659,8 @@ fn gate_matches_history(gate: &MutationGate, history: &AdaptiveLearningHistory) 
 
 fn complete_pending_intent(
     durable: &KernelDurableState,
-    gate: &MutationGate,
     history: &AdaptiveLearningHistory,
 ) -> Result<(), Vec<AdaptiveLearningRejection>> {
-    if !gate_matches_history(gate, history) {
-        return Err(vec![AdaptiveLearningRejection::MutationFailed]);
-    }
     let encoded =
         serde_jcs::to_vec(history).map_err(|_| vec![AdaptiveLearningRejection::EncodingFailure])?;
     let sequence_domain = adaptive_learning_history_domain(&history.history_id, history.sequence);
@@ -651,8 +680,17 @@ fn complete_pending_intent(
         .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
         .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
     let domain = adaptive_learning_pending_domain(&history.history_id, history.sequence);
-    let reserved = pending_bytes(history, PendingStatus::Reserved)?;
-    let committed = pending_bytes(history, PendingStatus::Committed)?;
+    let reserved = durable
+        .load_governed_state(&domain)
+        .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?
+        .ok_or_else(|| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
+    let mut intent: AdaptiveLearningPendingIntent = serde_json::from_slice(&reserved)
+        .map_err(|_| vec![AdaptiveLearningRejection::NonCanonicalHistory])?;
+    if intent.status != PendingStatus::Reserved || intent.history != *history {
+        return Err(vec![AdaptiveLearningRejection::DurableWriteFailed]);
+    }
+    intent.status = PendingStatus::Committed;
+    let committed = pending_bytes(&intent)?;
     if current_head.as_deref() == Some(encoded.as_slice())
         && durable
             .load_governed_state(&sequence_domain)
@@ -690,41 +728,125 @@ fn complete_pending_intent(
     Ok(())
 }
 
-pub fn reconcile_adaptive_learning_pending(
+pub fn reconcile_adaptive_learning_startup(
     durable: &KernelDurableState,
-    gate: &MutationGate,
-    history_id: &str,
-    sequence: u64,
+    gate: &mut MutationGate,
+    profile: &CognitiveProfile,
+    policy: &AdaptiveLearningPolicy,
+    authority: &MutationAuthority,
 ) -> Result<Option<AdaptiveLearningHistory>, AdaptiveLearningRejection> {
-    let domain = adaptive_learning_pending_domain(history_id, sequence);
+    let domain = ADAPTIVE_LEARNING_PENDING_DOMAIN;
     let Some(bytes) = durable
-        .load_governed_state(&domain)
+        .load_governed_state(domain)
         .map_err(|_| AdaptiveLearningRejection::DurableWriteFailed)?
     else {
         return Ok(None);
     };
+    if bytes.len() > MAX_PENDING_INTENT_BYTES {
+        return Err(AdaptiveLearningRejection::NonCanonicalHistory);
+    }
     let intent: AdaptiveLearningPendingIntent = serde_json::from_slice(&bytes)
         .map_err(|_| AdaptiveLearningRejection::NonCanonicalHistory)?;
+    let before_snapshot = hex::decode(&intent.before_gate_snapshot_hex)
+        .map_err(|_| AdaptiveLearningRejection::NonCanonicalHistory)?;
     if intent.schema != ADAPTIVE_LEARNING_PENDING_SCHEMA
-        || intent.history.history_id != history_id
-        || intent.history.sequence != sequence
+        || before_snapshot.is_empty()
+        || before_snapshot.len() > MAX_GATE_SNAPSHOT_BYTES
+        || serde_jcs::to_vec(&intent).ok().as_deref() != Some(bytes.as_slice())
+        || format!("{:x}", Sha256::digest(&before_snapshot)) != intent.before_gate_snapshot_sha256
         || history_digest(&intent.history).ok().as_deref()
             != Some(intent.history.history_sha256.as_str())
     {
         return Err(AdaptiveLearningRejection::NonCanonicalHistory);
     }
+    let before_gate = gate
+        .restore_from_snapshot(&before_snapshot)
+        .map_err(|_| AdaptiveLearningRejection::InvalidAuthority)?;
+    let before_graph = before_gate.graph();
+    let previous = if intent.history.sequence == 1 {
+        None
+    } else {
+        let previous = load_adaptive_learning_history(
+            durable,
+            &intent.history.history_id,
+            intent.history.sequence - 1,
+        )?
+        .ok_or(AdaptiveLearningRejection::InvalidHistoryPrefix)?;
+        validate_durable_history_chain(durable, &previous, authority, &before_gate, policy)?;
+        Some(previous)
+    };
+    validate_adaptive_learning_history(
+        &intent.history,
+        &before_graph,
+        profile,
+        policy,
+        previous.as_ref(),
+    )
+    .map_err(|_| AdaptiveLearningRejection::NonCanonicalHistory)?;
+    match (
+        &intent.history.decision.disposition,
+        &intent.history.mutation_evidence,
+    ) {
+        (LearningDisposition::Accepted, Some(evidence))
+            if authority.verify_evidence(evidence).is_ok()
+                && evidence.rollback == *before_graph.definition()
+                && evidence.before_hash == before_graph.hash()
+                && evidence.after_hash == intent.history.resulting_graph_sha256 => {}
+        (LearningDisposition::Rejected, None)
+            if intent.history.resulting_graph_sha256 == before_graph.hash() => {}
+        _ => return Err(AdaptiveLearningRejection::InvalidAuthority),
+    }
+    let gate_before = gate.snapshot_bytes().ok().as_deref() == Some(before_snapshot.as_slice());
+    let gate_after = gate_matches_history(gate, &intent.history);
+    let encoded_history = serde_jcs::to_vec(&intent.history)
+        .map_err(|_| AdaptiveLearningRejection::EncodingFailure)?;
+    let durable_committed = durable
+        .load_governed_state(&adaptive_learning_history_domain(
+            &intent.history.history_id,
+            intent.history.sequence,
+        ))
+        .map_err(|_| AdaptiveLearningRejection::DurableWriteFailed)?
+        .as_deref()
+        == Some(encoded_history.as_slice())
+        && durable
+            .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+            .map_err(|_| AdaptiveLearningRejection::DurableWriteFailed)?
+            .as_deref()
+            == Some(encoded_history.as_slice());
     match intent.status {
-        PendingStatus::Committed => Ok(Some(intent.history)),
-        PendingStatus::Aborted => Ok(None),
-        PendingStatus::Reserved if gate_matches_history(gate, &intent.history) => {
-            complete_pending_intent(durable, gate, &intent.history)
+        PendingStatus::Committed if !durable_committed => {
+            Err(AdaptiveLearningRejection::DurableWriteFailed)
+        }
+        PendingStatus::Committed if gate_after => Ok(Some(intent.history)),
+        PendingStatus::Committed if gate_before => {
+            if let Some(evidence) = &intent.history.mutation_evidence {
+                let recovered = gate
+                    .apply_and_migrate(&evidence.grant, &evidence.patches)
+                    .map_err(|_| AdaptiveLearningRejection::MutationFailed)?;
+                if recovered != *evidence || !gate_matches_history(gate, &intent.history) {
+                    *gate = before_gate;
+                    return Err(AdaptiveLearningRejection::MutationFailed);
+                }
+            }
+            Ok(Some(intent.history))
+        }
+        PendingStatus::Committed => Err(AdaptiveLearningRejection::MutationFailed),
+        PendingStatus::Aborted if gate_before => Ok(None),
+        PendingStatus::Aborted if gate_after => {
+            *gate = before_gate;
+            Ok(None)
+        }
+        PendingStatus::Aborted => Err(AdaptiveLearningRejection::MutationFailed),
+        PendingStatus::Reserved if gate_after => {
+            complete_pending_intent(durable, &intent.history)
                 .map_err(|_| AdaptiveLearningRejection::DurableWriteFailed)?;
             Ok(Some(intent.history))
         }
-        PendingStatus::Reserved => {
+        PendingStatus::Reserved if gate_before => {
             abort_pending_intent(durable, &intent.history);
             Ok(None)
         }
+        PendingStatus::Reserved => Err(AdaptiveLearningRejection::MutationFailed),
     }
 }
 

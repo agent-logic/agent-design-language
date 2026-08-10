@@ -930,6 +930,23 @@ impl MutationGate {
         grant: &MutationGrant,
         patches: &[GraphPatch],
     ) -> Result<MutationEvidence, ReasoningError> {
+        self.apply_and_migrate_transactional(grant, patches, |_, _, _| true)
+    }
+
+    /// Applies a governed mutation only after `commit` accepts the fully validated candidate.
+    ///
+    /// The gate and adaptation locks remain held across candidate construction and the callback,
+    /// so other public mutation callers cannot race the before-state or become visible before the
+    /// caller's durable commit succeeds. The callback must not call back into this gate.
+    pub fn apply_and_migrate_transactional<F>(
+        &self,
+        grant: &MutationGrant,
+        patches: &[GraphPatch],
+        commit: F,
+    ) -> Result<MutationEvidence, ReasoningError>
+    where
+        F: FnOnce(&MutationEvidence, &ValidatedReasoningGraph, &AdaptationState) -> bool,
+    {
         self.authority.verify(grant)?;
         let patch_hash = graph_patch_hash(patches)?;
         let operations = patches
@@ -988,15 +1005,19 @@ impl MutationGate {
             rollback: state.graph.definition.clone(),
         };
         evidence.evidence_hash = canonical_hash(&evidence)?;
-        adaptation.state.version = adaptation
-            .state
+        let mut next_adaptation = adaptation.state.clone();
+        next_adaptation.version = next_adaptation
             .version
             .checked_add(1)
             .ok_or(ReasoningError::StateOverflow)?;
-        adaptation.state.graph_hash = evidence.after_hash.clone();
+        next_adaptation.graph_hash = evidence.after_hash.clone();
+        if !commit(&evidence, &validated, &next_adaptation) {
+            return Err(ReasoningError::MutationEvidence);
+        }
         state.consumed_grants.insert(grant.grant_id.clone());
         state.graph = validated;
         state.evidence.push(evidence.clone());
+        adaptation.state = next_adaptation;
         Ok(evidence)
     }
 }

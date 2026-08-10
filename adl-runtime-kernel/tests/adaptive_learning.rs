@@ -7,6 +7,7 @@ use std::{
 
 use adl_runtime_kernel::*;
 use ed25519_dalek::SigningKey;
+use serde_json::json;
 use sha2::Digest;
 use tokio_util::sync::CancellationToken;
 
@@ -684,6 +685,229 @@ fn proposal_patch_mismatch_and_durable_collision_are_nonmutating() {
                 .is_none());
         }
     }
+}
+
+fn pending_value(durable: &KernelDurableState) -> serde_json::Value {
+    serde_json::from_slice(
+        &durable
+            .load_governed_state(&adaptive_learning_pending_domain("ignored", 0))
+            .unwrap()
+            .unwrap(),
+    )
+    .unwrap()
+}
+
+fn store_pending(durable: &KernelDurableState, value: &serde_json::Value) {
+    durable
+        .store_governed_state(
+            &adaptive_learning_pending_domain("ignored", 0),
+            &serde_jcs::to_vec(value).unwrap(),
+        )
+        .unwrap();
+}
+
+#[test]
+fn startup_discovers_reserved_intent_and_rejects_tampering() {
+    let h = harness();
+    let before_snapshot = h.gate.snapshot_bytes().unwrap();
+    let patch_set = patches();
+    let grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&h.policy));
+    execute_governed_adaptive_learning(
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &input(&h.graph, &h.outcome, &h.profile, &h.policy),
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&grant, &patch_set)),
+    )
+    .unwrap();
+    let mut reserved = pending_value(&h.durable);
+    reserved["status"] = json!("reserved");
+
+    let directory = tempfile::tempdir().unwrap();
+    let durable = KernelDurableState::open(directory.path()).unwrap();
+    store_pending(&durable, &reserved);
+    let mut restarted = h.gate.restore_from_snapshot(&before_snapshot).unwrap();
+    assert_eq!(
+        reconcile_adaptive_learning_startup(
+            &durable,
+            &mut restarted,
+            &h.profile,
+            &h.policy,
+            &h.authority,
+        )
+        .unwrap(),
+        None
+    );
+    assert_eq!(pending_value(&durable)["status"], json!("aborted"));
+    assert_eq!(restarted.snapshot_bytes().unwrap(), before_snapshot);
+
+    let directory = tempfile::tempdir().unwrap();
+    let durable = KernelDurableState::open(directory.path()).unwrap();
+    let mut tampered: AdaptiveLearningHistory =
+        serde_json::from_value(reserved["history"].clone()).unwrap();
+    tampered.adaptation.rationale = "attacker rehashed replacement rationale".into();
+    tampered.history_sha256 = history_digest(&tampered).unwrap();
+    reserved["history"] = serde_json::to_value(tampered).unwrap();
+    store_pending(&durable, &reserved);
+    let mut restarted = h.gate.restore_from_snapshot(&before_snapshot).unwrap();
+    assert_eq!(
+        reconcile_adaptive_learning_startup(
+            &durable,
+            &mut restarted,
+            &h.profile,
+            &h.policy,
+            &h.authority,
+        ),
+        Err(AdaptiveLearningRejection::NonCanonicalHistory)
+    );
+    assert_eq!(restarted.snapshot_bytes().unwrap(), before_snapshot);
+}
+
+#[test]
+fn startup_completes_committed_intent_and_restores_aborted_live_gate() {
+    let mut h = harness();
+    let before_snapshot = h.gate.snapshot_bytes().unwrap();
+    let patch_set = patches();
+    let grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&h.policy));
+    let history = execute_governed_adaptive_learning(
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &input(&h.graph, &h.outcome, &h.profile, &h.policy),
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&grant, &patch_set)),
+    )
+    .unwrap();
+    let committed = pending_value(&h.durable);
+    let encoded = serde_jcs::to_vec(&history).unwrap();
+
+    let directory = tempfile::tempdir().unwrap();
+    let durable = KernelDurableState::open(directory.path()).unwrap();
+    store_pending(&durable, &committed);
+    durable
+        .store_governed_state(&adaptive_learning_history_domain("history", 1), &encoded)
+        .unwrap();
+    durable
+        .store_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN, &encoded)
+        .unwrap();
+    let mut restarted = h.gate.restore_from_snapshot(&before_snapshot).unwrap();
+    assert_eq!(
+        reconcile_adaptive_learning_startup(
+            &durable,
+            &mut restarted,
+            &h.profile,
+            &h.policy,
+            &h.authority,
+        )
+        .unwrap(),
+        Some(history.clone())
+    );
+    assert_eq!(restarted.graph().hash(), history.resulting_graph_sha256);
+
+    let directory = tempfile::tempdir().unwrap();
+    let durable = KernelDurableState::open(directory.path()).unwrap();
+    let mut aborted = committed;
+    aborted["status"] = json!("aborted");
+    store_pending(&durable, &aborted);
+    assert_eq!(
+        reconcile_adaptive_learning_startup(
+            &durable,
+            &mut h.gate,
+            &h.profile,
+            &h.policy,
+            &h.authority,
+        )
+        .unwrap(),
+        None
+    );
+    assert_eq!(h.gate.snapshot_bytes().unwrap(), before_snapshot);
+}
+
+#[test]
+fn transactional_completion_and_postcheck_failure_leave_gate_unchanged() {
+    let h = harness();
+    let patch_set = patches();
+    let grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&h.policy));
+    let before = h.gate.snapshot_bytes().unwrap();
+    assert!(h
+        .gate
+        .apply_and_migrate_transactional(&grant, &patch_set, |_, _, _| h
+            .durable
+            .compare_and_set_governed_state("completion-cas", Some(b"missing"), b"must-not-commit",)
+            .unwrap())
+        .is_err());
+    assert_eq!(h.gate.snapshot_bytes().unwrap(), before);
+    assert!(h
+        .gate
+        .apply_and_migrate_transactional(&grant, &patch_set, |evidence, graph, _| {
+            evidence.after_hash == R && graph.hash() == R
+        })
+        .is_err());
+    assert_eq!(h.gate.snapshot_bytes().unwrap(), before);
+}
+
+#[test]
+fn concurrent_adaptive_executions_have_one_authoritative_winner() {
+    use std::sync::Barrier;
+
+    let h = harness();
+    let gate = Arc::new(h.gate);
+    let durable = Arc::new(h.durable);
+    let profile = Arc::new(h.profile);
+    let policy = Arc::new(h.policy);
+    let outcome = Arc::new(h.outcome);
+    let patch_set = patches();
+    let grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&policy));
+    let initial = input(&h.graph, &outcome, &profile, &policy);
+    let barrier = Arc::new(Barrier::new(3));
+    let mut workers = Vec::new();
+    for _ in 0..2 {
+        let gate = gate.clone();
+        let durable = durable.clone();
+        let profile = profile.clone();
+        let policy = policy.clone();
+        let outcome = outcome.clone();
+        let patch_set = patch_set.clone();
+        let grant = grant.clone();
+        let initial = initial.clone();
+        let barrier = barrier.clone();
+        workers.push(std::thread::spawn(move || {
+            barrier.wait();
+            execute_governed_adaptive_learning(
+                &gate,
+                &durable,
+                &profile,
+                &initial,
+                &policy,
+                None,
+                &outcome,
+                &CancellationToken::new(),
+                Some((&grant, &patch_set)),
+            )
+        }));
+    }
+    barrier.wait();
+    let results = workers
+        .into_iter()
+        .map(|worker| worker.join().unwrap())
+        .collect::<Vec<_>>();
+    assert_eq!(results.iter().filter(|result| result.is_ok()).count(), 1);
+    assert_eq!(gate.evidence().len(), 1);
+    let retained: AdaptiveLearningHistory = serde_json::from_slice(
+        &durable
+            .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+            .unwrap()
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(retained.resulting_graph_sha256, gate.graph().hash());
 }
 
 #[test]

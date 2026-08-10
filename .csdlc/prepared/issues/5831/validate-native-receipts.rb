@@ -134,6 +134,7 @@ expected_manifest = source_manifest(root, source_paths(test_target, feature_path
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/
 required_tests = %w[
+  concurrent_adaptive_executions_have_one_authoritative_winner
   fixture_matrix_tracks_the_governed_negative_surface
   forged_grant_and_authority_fail_before_history_acceptance
   governed_acceptance_mutates_and_persists_exact_history
@@ -142,7 +143,10 @@ required_tests = %w[
   proposal_patch_mismatch_and_durable_collision_are_nonmutating
   recurrence_roundtrip_and_capacity_bounds_fail_closed
   rejected_and_cancelled_paths_are_durable_and_nonmutating
+  startup_completes_committed_intent_and_restores_aborted_live_gate
+  startup_discovers_reserved_intent_and_rejects_tampering
   tampered_history_and_rollback_never_return_attacker_hashes
+  transactional_completion_and_postcheck_failure_leave_gate_unchanged
   two_sequence_history_survives_restart_and_supports_authoritative_rollback
   unsafe_ids_rationale_paths_and_unknown_fields_fail_closed
 ]
