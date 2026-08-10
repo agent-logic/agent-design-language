@@ -477,11 +477,35 @@ fn safe_path(value: &str) -> bool {
 }
 
 fn governed_continuity_path(value: &str) -> bool {
-    safe_path(value)
-        && value.split('/').all(|segment| {
-            !segment
-                .to_ascii_lowercase()
-                .split(|character: char| !character.is_ascii_alphanumeric())
-                .any(|token| matches!(token, "private" | "raw" | "sealed"))
-        })
+    safe_path(value) && value.split('/').all(governed_continuity_segment)
+}
+
+fn governed_continuity_segment(segment: &str) -> bool {
+    let characters: Vec<char> = segment.chars().collect();
+    let mut normalized = String::with_capacity(segment.len());
+    for (index, character) in characters.iter().copied().enumerate() {
+        if !character.is_ascii_alphanumeric() {
+            normalized.push('_');
+            continue;
+        }
+        if character.is_ascii_uppercase() {
+            let previous = index.checked_sub(1).and_then(|i| characters.get(i));
+            let next = characters.get(index + 1);
+            let begins_word = previous.is_some_and(|value| {
+                value.is_ascii_lowercase()
+                    || value.is_ascii_digit()
+                    || (value.is_ascii_uppercase()
+                        && next.is_some_and(|next| next.is_ascii_lowercase()))
+            });
+            if begins_word && !normalized.ends_with('_') {
+                normalized.push('_');
+            }
+            normalized.push(character.to_ascii_lowercase());
+        } else {
+            normalized.push(character);
+        }
+    }
+    !normalized
+        .split('_')
+        .any(|token| matches!(token, "private" | "raw" | "sealed"))
 }

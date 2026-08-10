@@ -415,6 +415,9 @@ fn copied_state_and_host_paths_fail_closed() {
         "evidence/continuity/private_state.bin",
         "evidence/continuity/raw-state.bin",
         "evidence/continuity/sealed_payload.json",
+        "evidence/continuity/privateState.bin",
+        "evidence/continuity/rawState.bin",
+        "evidence/continuity/sealedPayload.json",
     ] {
         let mut unsafe_manifest =
             signed_manifest(&authority, &identity, 1, &identity.continuity.head_sha256);
