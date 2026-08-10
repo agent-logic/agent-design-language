@@ -44,7 +44,7 @@ Implemented and proved the deterministic WP-12 Runtime v3 capability envelope wi
 - Required explicit grants, denials, recurrence and resource ceilings, provenance, unsupported claims, and canonical deterministic ordering.
 - Prevented rejected secret-like attacker values from appearing in serialized or debug diagnostics by retaining only stable SHA-256 fingerprints.
 - Enforced lexical cross-platform repository paths and independent provider plus provider-scoped model case-fold collision boundaries.
-- Added a focused 13-test target with a 33-case negative matrix and retained equivalent exact-head Linux x86_64 and macOS arm64 receipts from run 31391052361.
+- Added a focused 13-test target with a 33-case negative matrix and retained equivalent exact-head Linux x86_64 and macOS arm64 receipts with sanitized logs from run 31392866245.
 
 ## Validation
 
@@ -71,11 +71,11 @@ Implemented and proved the deterministic WP-12 Runtime v3 capability envelope wi
       "github-actions",
       "wp12-native-capability-envelope",
       "run",
-      "31391052361",
+      "31392866245",
       "attempt",
       "1"
     ],
-    "purpose": "Run the exact 13-test WP-12 inventory on native Linux x86_64 and macOS arm64 at PR head b2dcfd3075371d98b384b62d1443353ea73c48fc and require identical semantic output.",
+    "purpose": "Run the exact 13-test WP-12 inventory on native Linux x86_64 and macOS arm64 at PR head 5b078101282d0e3334629bc5f2ab54e4900be6a4, sanitize retained runner paths, and require identical semantic output.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5829/native-validation-manifest.json"
   },
@@ -94,11 +94,11 @@ Implemented and proved the deterministic WP-12 Runtime v3 capability envelope wi
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

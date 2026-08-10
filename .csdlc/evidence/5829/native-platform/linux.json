@@ -3,9 +3,9 @@
   "payload": {
     "issue": 5829,
     "platform": "linux",
-    "source_sha": "b2dcfd3075371d98b384b62d1443353ea73c48fc",
+    "source_sha": "5b078101282d0e3334629bc5f2ab54e4900be6a4",
     "producer_path": ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
-    "producer_sha256": "3916241f8465cb77916fe461cdbdf4667f75ff883e25c79291b812ec3e581724",
+    "producer_sha256": "a6678a1d14e096d4cfca95722576fd2ff18ea9e25c0d52c38ea91aab8a171b8a",
     "producer_argv": [
       "ruby",
       ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
@@ -51,7 +51,7 @@
       "adl-runtime-kernel::capability_envelope$unsupported_provider_model_tool_and_skill_fail_closed"
     ],
     "command_output_path": ".csdlc/evidence/5829/native-platform/linux-nextest.log",
-    "command_output_sha256": "0822f77fc8a16126d3c990d6a8857280eae14052e58d6502aad548430d0b92fa",
+    "command_output_sha256": "5378406e1979fff4ecdf776d77104ded5321017eb1fa4443ccaec5cda999f611",
     "semantic_output_path": ".csdlc/evidence/5829/native-platform/linux-semantic.json",
     "semantic_output_sha256": "acc29fdad59c65423f052d2d453dccbf9850bd06552c288aa6bf9e87ca95ec4e",
     "source_manifest_path": ".csdlc/evidence/5829/native-platform/linux-source-manifest.json",
@@ -60,7 +60,7 @@
       "provider": "github_actions",
       "repository": "agent-logic/agent-design-language",
       "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp12-native-capability-envelope.yml@refs/pull/135/merge",
-      "run_id": "31391052361",
+      "run_id": "31392866245",
       "run_attempt": "1",
       "job": "produce-native-receipt",
       "os": "Linux",
@@ -68,5 +68,5 @@
     },
     "status": "passed"
   },
-  "payload_sha256": "c1e2cd6c31a14442587af635017487fae8627c95545819bfd9f7b8f095938c15"
+  "payload_sha256": "977ed20a5cd9535414e3bb506458e119e6033fc84e6c6c0e1702c26550c8031e"
 }

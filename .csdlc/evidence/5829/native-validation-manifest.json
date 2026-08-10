@@ -3,46 +3,46 @@
   "issue": 5829,
   "repository": "agent-logic/agent-design-language",
   "pull_request": 135,
-  "validated_revision": "b2dcfd3075371d98b384b62d1443353ea73c48fc",
+  "validated_revision": "5b078101282d0e3334629bc5f2ab54e4900be6a4",
   "workflow": ".github/workflows/wp12-native-capability-envelope.yml",
-  "workflow_run_id": "31391052361",
+  "workflow_run_id": "31392866245",
   "workflow_run_attempt": "1",
   "jobs": {
     "linux": {
-      "job_id": "93462627805",
+      "job_id": "93468556558",
       "status": "success",
       "os": "Linux",
       "architecture": "x86_64",
       "tests_passed": 13,
-      "receipt_sha256": "34871b4a0003ac5cafbac8494de6510a4ec82467e123750e2d41571d50ed4050",
-      "command_output_sha256": "0822f77fc8a16126d3c990d6a8857280eae14052e58d6502aad548430d0b92fa"
+      "receipt_sha256": "2727100229f8cd02bb6b1c56ac97d55a4738452c3bdfdc4ffa1d88e464cbc87b",
+      "command_output_sha256": "5378406e1979fff4ecdf776d77104ded5321017eb1fa4443ccaec5cda999f611"
     },
     "macos": {
-      "job_id": "93462627831",
+      "job_id": "93468556413",
       "status": "success",
       "os": "Darwin",
       "architecture": "arm64",
       "tests_passed": 13,
-      "receipt_sha256": "e0a92253302b529b5d2bf3f63e682ea3cb6a5624ce43337b12269ac28d800ab9",
-      "command_output_sha256": "7fb4d42f207e7134b5a878484cf84124d58f275d703c36a673dcb11c353773d3"
+      "receipt_sha256": "963ce60e96cc4020155e908a0f3b462af2b20ea520c7ebeac7e73d5df6ab7184",
+      "command_output_sha256": "906fa2768ec2fbe3ab9510a0a8457c5ba4713b5990c4b935db8d64d39821467d"
     },
     "aggregate": {
-      "job_id": "93464133461",
+      "job_id": "93469841070",
       "status": "success"
     }
   },
   "artifact": {
-    "id": "9063848120",
-    "name": "wp12-native-capability-envelope-validated-31391052361-1",
-    "archive_sha256": "6cb2c9e80c0a2f503313a31fb11f9157d558d382a3ca7df2e2e48a7ff8650eb1"
+    "id": "9064523460",
+    "name": "wp12-native-capability-envelope-validated-31392866245-1",
+    "archive_sha256": "26eeaed50610b271082ff2bbce47b3a50ed610e6d9e14619f5ec1716fcc36e1d"
   },
   "source_manifest_sha256": "775c4767cf80d618845119c8d42c4efed1b70a3818527b862ad92aa5c32028af",
   "semantic_output_sha256": "acc29fdad59c65423f052d2d453dccbf9850bd06552c288aa6bf9e87ca95ec4e",
   "independent_validation": {
     "status": "passed",
-    "detached_exact_head": "b2dcfd3075371d98b384b62d1443353ea73c48fc",
+    "detached_exact_head": "5b078101282d0e3334629bc5f2ab54e4900be6a4",
     "command": ["ruby", ".csdlc/prepared/issues/5829/validate-native-receipts.rb", ".csdlc/evidence/5829/native-platform/linux.json", ".csdlc/evidence/5829/native-platform/macos.json"],
     "output_ref": ".csdlc/evidence/5829/native-platform/independent-validator.log",
-    "output_sha256": "dc27e1b857f41e1b9e3ecb1f8002d8af92aa0ff04ea6a663fffaabf6c9e6ccdd"
+    "output_sha256": "50bc2e38435f7711d478079d415dcace49fa65148b973dd4a3d8db5ab59cb265"
   }
 }
