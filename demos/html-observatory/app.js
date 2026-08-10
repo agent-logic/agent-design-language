@@ -90,6 +90,7 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
 const RUNTIME_V3_RECONNECT_DELAYS_MILLIS = Object.freeze([250, 500, 1000, 2000, 4000]);
+const RUNTIME_V3_STREAM_STALE_MILLIS = 30_000;
 const RUNTIME_V3_EVENT_LIMIT = 4096;
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
 const runtimeV3ChatState = {
@@ -179,13 +180,16 @@ function classifyRuntimeV3Failure(error) {
   if (message.includes("unsupported runtime v3 observatory schema") || message.includes("version")) {
     return { state: "incompatible", label: "incompatible version" };
   }
+  if (message.includes("stale_runtime_instance") || message.includes("stream stale")) {
+    return { state: "stale", label: "runtime data stale" };
+  }
   if (message.includes("backpressure") || message.includes("saturated") || message.includes("1009")) {
     return { state: "backpressure", label: "runtime backpressure" };
   }
   if (message.includes("malformed") || message.includes("invalid") || message.includes("1008")) {
     return { state: "malformed", label: "malformed runtime data" };
   }
-  if (message.includes("403") || message.includes("origin") || message.includes("denied") || message.includes("unauthorized")) {
+  if (message.includes("403") || message.includes("origin") || message.includes("denied") || message.includes("unauthorized") || message.includes("authentication_failed")) {
     return { state: "denied", label: "origin or authority denied" };
   }
   if (message.includes("runtime_unavailable") || message.includes("temporarily_unavailable")) {
@@ -230,7 +234,17 @@ function createRuntimeV3StreamCursor() {
       if (lastSequence >= 0 && unseenSequences.length > 0 && unseenSequences[0] > lastSequence + 1) {
         throw new Error(`Runtime v3 stream cursor gap after ${lastSequence}.`);
       }
-      for (const event of incomingEvents) {
+      const orderedIncomingEvents = [...incomingEvents].sort((left, right) => {
+        const leftSequence = Number(left?.sequence ?? left?.event_sequence);
+        const rightSequence = Number(right?.sequence ?? right?.event_sequence);
+        const leftValid = Number.isSafeInteger(leftSequence);
+        const rightValid = Number.isSafeInteger(rightSequence);
+        if (leftValid && rightValid) return leftSequence - rightSequence;
+        if (leftValid) return -1;
+        if (rightValid) return 1;
+        return 0;
+      });
+      for (const event of orderedIncomingEvents) {
         const sequence = Number(event?.sequence ?? event?.event_sequence);
         if (Number.isSafeInteger(sequence) && sequence <= lastSequence) continue;
         const key = runtimeV3EventKey(event);
@@ -1139,7 +1153,18 @@ function connectRuntimeV3ObservatoryWebSocket(
   const endpoint = new URL(`${base}${getRuntimeV3Config().observatory_websocket_endpoint}`);
   endpoint.protocol = "wss:";
   const socket = new WebSocket(endpoint.toString());
+  let freshnessTimer = null;
+  let terminalFailure = null;
+  const armFreshnessTimer = () => {
+    clearTimeout(freshnessTimer);
+    freshnessTimer = setTimeout(() => {
+      terminalFailure = new Error("Runtime v3 Observatory stream stale.");
+      onError(terminalFailure);
+      socket.close(1008, "stale_observatory_stream");
+    }, RUNTIME_V3_STREAM_STALE_MILLIS);
+  };
   socket.addEventListener("open", () => {
+    armFreshnessTimer();
     if (runtimeV3WriteToken) {
       authenticateRuntimeV3ObservatorySocket(socket, runtimeV3WriteToken);
     }
@@ -1148,13 +1173,17 @@ function connectRuntimeV3ObservatoryWebSocket(
     try {
       const frame = JSON.parse(String(event.data));
       if (frame.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
+        armFreshnessTimer();
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
         onControlFrame(frame);
+      } else {
+        throw new Error(`Unsupported Runtime v3 Observatory schema: ${frame.schema || "missing"}`);
       }
     } catch (error) {
-      onError(error instanceof Error ? error : new Error("Runtime v3 Observatory frame is invalid."));
+      terminalFailure = error instanceof Error ? error : new Error("Runtime v3 Observatory frame is invalid.");
+      onError(terminalFailure);
       socket.close(1008, "invalid_observatory_frame");
     }
   });
@@ -1162,7 +1191,8 @@ function connectRuntimeV3ObservatoryWebSocket(
     onError(new Error("Runtime v3 Observatory WebSocket failed."));
   });
   socket.addEventListener("close", (event) => {
-    onClose(new Error(`Runtime v3 Observatory WebSocket closed (${event.code}).`));
+    clearTimeout(freshnessTimer);
+    onClose(terminalFailure || new Error(`Runtime v3 Observatory WebSocket closed (${event.code}).`));
   });
   return socket;
 }
@@ -2013,6 +2043,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       return;
     }
     lastLiveError = error instanceof Error ? error.message : "unknown live polling error";
+    const failure = classifyRuntimeV3Failure(error);
+    updateRuntimeV3ChatSnapshot({}, [], false);
     if (requestedRuntimeSelection() === "v3") {
       const base = readApiBase() || getRuntimeV3Config().api_base;
       try {
@@ -2028,10 +2060,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
           }
         };
         renderPanopticon(mergedSnapshot, packet);
-        setText("live-status", "live read / stream unavailable");
+        setText("live-status", failure.label);
         setText("statusbar-websocket", "disconnected");
-        setLiveConnectionState("live-read");
-        setRuntimeTestStatus("live read / stream unavailable", `Runtime v3 GET feed is active; WebSocket stream not proved: ${lastLiveError}`);
+        setLiveConnectionState(failure.state);
+        setRuntimeTestStatus(failure.label, `Runtime v3 GET feed is active; WebSocket stream not proved: ${lastLiveError}`);
         setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
         return;
       } catch (_refreshError) {
@@ -2172,9 +2204,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               return;
             }
             lastLiveError = null;
-            const streamSnapshot = runtimeV3Readiness
-              ? { ...snapshot, ready: runtimeV3Readiness }
-              : snapshot;
+            const streamSnapshot = snapshot;
+            runtimeV3Readiness = streamSnapshot.ready || runtimeV3Readiness;
             const resumedSnapshot = runtimeV3StreamCursor.accept(streamSnapshot);
             renderPanopticon(resumedSnapshot, packet, { chatLive: true });
             const cursor = resumedSnapshot.stream_cursor;

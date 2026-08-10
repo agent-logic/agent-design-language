@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
   "phase": "bound",
-  "generation": 47,
-  "digest": "4d858bd723b518d0e8ed233e9c2da36c640e8f86392e699da3394550ff61d9ca",
+  "generation": 49,
+  "digest": "a923b89b764e35f85924da57bf5b0ee53fc069dc13a5e2e6deae602148ef7761",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/83/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:83-local-shepherd-design-boundary",
-      "revision": "4cc32245a7c8f499aa4df653ecd32ec29af5202ea548a4ad84cd206a8e1f01bc"
+      "reviewer": "codex:83-review-fix-design-approval",
+      "revision": "0ca10f9acda24b10f48c3c5c53c0f7247449606d9578ce8504dc46db915c943c"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "148ae6258c473605a26f29d5678c81720ab764f25d88e354814a1987efb15523",
+      "values_digest": "549af871bb5dcecb5b1c428ea0a24b538eefbf0e86179a21e5c4e9835e0c1115",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "22a30dfb090b2878a1852a1e3725543ed77e38a0bca7b06deb15e5ec36a4f17c",
+      "values_digest": "6d4828ed51d8afc2bf132b38352cdf919d1acf9e21928b93497afe553ba76777",
       "rendered_digest": "42120fd7d65d69dfbd457025d49050551eb47205c2e60f07cac3bc26f41588be",
       "ast_digest": "8891d1ddfa62ae38e2b75fe6da010b8a9f3c462aaadaa3a9c3dc40259c79e52a"
     },
     "spp": {
-      "values_digest": "9631a0ec9e97adc6a178b98cdab511ba9658fac1bc2d54b60fb3191dd6efd2c2",
-      "rendered_digest": "33409465e9b25d2d4b9a2286e1fd6461e9762bcb5ce0b54c90291cfb59422f38",
-      "ast_digest": "403edbf84a6f6e7d7004d64d0628c660e90fd65e55682e736158bad0d1cc65a7"
+      "values_digest": "5cbf0dac676a74a4ddd04eef688ba127b20c6177fed52c2d99c785485790396c",
+      "rendered_digest": "cd5eb8bf32b5b30d286383bf994eb78302c9b0b0963c57dc4fdc6f60fca42971",
+      "ast_digest": "d54aa2730220480c11b294f9b5a1ae5ebe926500b2f9c1a4c04de0b025900573"
     },
     "vpp": {
-      "values_digest": "37fbb65e508ec561d41d25d0e356c2f77919911a6f39c0dc1bf37f7e06f8e0a0",
+      "values_digest": "838b22e7f31ce52a57bd89a91c88ee95ce9eac3928f9f602660c505dae374d76",
       "rendered_digest": "9968487528967db52cde09d6356aee5d54569d0848806961d446b1b4de719481",
       "ast_digest": "b899e81e77d4c05623d80f0e4c5aa4b6a2b4e7fd392777e4baf884bd78f72edd"
     },
     "srp": {
-      "values_digest": "0cd7c50530a93aa581b41fa0f9868384160316c7889d5e754691968c82309454",
+      "values_digest": "7f7cf97181227f5a9377bb80e93507479ac40c4e9c4fd9ff8a31414c2c83c4bf",
       "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
       "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
     },
     "sor": {
-      "values_digest": "80e8b47b763c022e1a7c28011484f6e6007c9ed7f0ae03ab4fc905254d0399fe",
+      "values_digest": "e25b1196516a5214b61c49e82ca0457adac58b397175fa6a1590b3806f5da51b",
       "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
       "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
     }
@@ -413,6 +413,20 @@
       "actor": "codex:83-local-shepherd-execution",
       "reason": "Focused Runtime, schema, shell, syntax, lifecycle, and diff proof pass; exact browser proof is running but remains fail-closed on local CA trust.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 48,
+      "actor": "codex:83-review-fix-design-approval",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 51,
+      "generation": 49,
+      "actor": "codex:83-review-fix-path-boundary",
+      "reason": "Approve the focused production startup and Observatory WSS regression tests required to prove canonical Shepherd admission and the current full-duplex contract.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/README.md\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl/tools/test_html_observatory.sh\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
     }
   ]
 }

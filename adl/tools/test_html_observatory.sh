@@ -83,10 +83,36 @@ const readiness = {
 };
 
 const calls = [];
+let pendingTimer = null;
+class MockWebSocket {
+  constructor(url) {
+    this.url = url;
+    this.listeners = new Map();
+    this.closeFrame = null;
+  }
+  addEventListener(name, listener) {
+    this.listeners.set(name, listener);
+  }
+  emit(name, event = {}) {
+    this.listeners.get(name)?.(event);
+  }
+  close(code, reason) {
+    this.closeFrame = { code, reason };
+  }
+  send() {}
+}
 const context = {
   console,
   TextEncoder,
   crypto: webcrypto,
+  WebSocket: MockWebSocket,
+  setTimeout: (callback) => {
+    pendingTimer = callback;
+    return 1;
+  },
+  clearTimeout: () => {
+    pendingTimer = null;
+  },
   URL,
   URLSearchParams,
   location: { search: "" },
@@ -141,6 +167,28 @@ assert.equal(api.classifyRuntimeV3Failure(new Error("403 origin denied")).state,
 assert.equal(api.classifyRuntimeV3Failure(new Error("temporarily_unavailable")).state, "unavailable");
 assert.equal(api.classifyRuntimeV3Failure(new Error("certificate failure")).state, "tls-or-origin");
 
+let websocketFailure = null;
+const incompatibleSocket = api.connectRuntimeV3ObservatoryWebSocket(
+  "https://runtime.dev.agent-logic.ai:20997",
+  () => assert.fail("incompatible frame reached snapshot projection"),
+  (error) => { websocketFailure = error; }
+);
+incompatibleSocket.emit("message", { data: JSON.stringify({ schema: "adl.runtime.future.v99" }) });
+assert.match(websocketFailure.message, /Unsupported Runtime v3 Observatory schema/);
+assert.deepEqual(incompatibleSocket.closeFrame, { code: 1008, reason: "invalid_observatory_frame" });
+
+websocketFailure = null;
+const staleSocket = api.connectRuntimeV3ObservatoryWebSocket(
+  "https://runtime.dev.agent-logic.ai:20997",
+  () => {},
+  (error) => { websocketFailure = error; }
+);
+staleSocket.emit("open");
+assert.equal(typeof pendingTimer, "function");
+pendingTimer();
+assert.match(websocketFailure.message, /stream stale/);
+assert.deepEqual(staleSocket.closeFrame, { code: 1008, reason: "stale_observatory_stream" });
+
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
 assert.equal(eventCheck.events[0].event, "agent_ready");
@@ -157,12 +205,17 @@ cursorSnapshot = cursor.accept({
   events: { events: [{ sequence: 8, event: "late-old" }, { sequence: 11, event: "next" }] }
 });
 assert.deepEqual(cursorSnapshot.events.events.map((event) => event.sequence), [9, 10, 11]);
+cursorSnapshot = cursor.accept({
+  status: { runtime_id: "runtime-v3-test" },
+  events: { events: [{ sequence: 13, event: "later" }, { sequence: 12, event: "next" }] }
+});
+assert.deepEqual(cursorSnapshot.events.events.map((event) => event.sequence), [9, 10, 11, 12, 13]);
 assert.throws(
   () => cursor.accept({
     status: { runtime_id: "runtime-v3-test" },
-    events: { events: [{ sequence: 13, event: "gap" }] }
+    events: { events: [{ sequence: 15, event: "gap" }] }
   }),
-  /stream cursor gap after 11/
+  /stream cursor gap after 13/
 );
 
 await assert.rejects(
@@ -201,6 +254,12 @@ assert.deepEqual(api.classifyRuntimeV3Failure(new Error("invalid_request")), {
 });
 assert.deepEqual(api.classifyRuntimeV3Failure(new Error("403 origin denied")), {
   state: "denied", label: "origin or authority denied"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("authentication_failed")), {
+  state: "denied", label: "origin or authority denied"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("stale_runtime_instance")), {
+  state: "stale", label: "runtime data stale"
 });
 assert.deepEqual(api.classifyRuntimeV3Failure(new Error("temporarily_unavailable")), {
   state: "unavailable", label: "runtime unavailable"

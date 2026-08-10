@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
     "slug": "v0-92-html-observatory-runtime-v3-client",
     "version": "v0.92",
-    "generation": 47
+    "generation": 49
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 11,
+      "plan_revision": 12,
       "summary": "Extend the existing Observatory into the first truthful Layer 8 chat vertical slice: live roster and status, selected-agent signed messaging through canonical Runtime ingress, bounded public-safe response or refusal, reconnect continuity, and retained live-browser proof.",
       "steps": [
         {
@@ -82,6 +82,8 @@
         "adl-runtime-kernel/src/ingress.rs",
         "adl-runtime-kernel/tests/control.rs",
         "adl-runtime-kernel/tests/assembly.rs",
+        "adl-runtime-kernel/tests/guardian_soak.rs",
+        "adl-runtime-kernel/tests/observatory.rs",
         "docs/api/runtime-v3/v1/observatory.openapi.json"
       ],
       "invariants": [
@@ -109,7 +111,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/83/design.md",
-      "design_digest": "4cc32245a7c8f499aa4df653ecd32ec29af5202ea548a4ad84cd206a8e1f01bc",
+      "design_digest": "0ca10f9acda24b10f48c3c5c53c0f7247449606d9578ce8504dc46db915c943c",
       "diagram_ref": ".csdlc/prepared/issues/83/diagram.mmd",
       "diagram_digest": "73c36947a5904687d840ee521edfe34e2e888c91649ef3a9f38fe73b83e6117d"
     }

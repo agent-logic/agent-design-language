@@ -16,7 +16,7 @@ Extend the existing Observatory into the first truthful Layer 8 chat vertical sl
 
 ## Plan
 
-Revision 11
+Revision 12
 
 ## Steps
 
@@ -102,7 +102,7 @@ Revision 11
 
 .csdlc/prepared/issues/83/design.md
 
-Digest: 4cc32245a7c8f499aa4df653ecd32ec29af5202ea548a4ad84cd206a8e1f01bc
+Digest: 0ca10f9acda24b10f48c3c5c53c0f7247449606d9578ce8504dc46db915c943c
 
 ## Diagram
 

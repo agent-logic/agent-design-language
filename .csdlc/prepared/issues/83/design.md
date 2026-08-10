@@ -69,6 +69,8 @@ ignored according to the shared Runtime contract.
 - `adl-runtime-kernel/src/ingress.rs`
 - `adl-runtime-kernel/tests/control.rs`
 - `adl-runtime-kernel/tests/assembly.rs`
+- `adl-runtime-kernel/tests/guardian_soak.rs`
+- `adl-runtime-kernel/tests/observatory.rs`
 - `docs/api/runtime-v3/v1/observatory.openapi.json`
 
 ## Read-Only Inputs

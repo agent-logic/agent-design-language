@@ -146,7 +146,7 @@ cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract
 
 ## Claim Boundary
 
-The local proof establishes a real loopback-only Runtime v3, production-admitted
+When the live validator completes successfully, its retained evidence establishes a real loopback-only Runtime v3, production-admitted
 Shepherd roster, governed one-to-one Layer 8 message, bounded response/refusal,
 and reconnect behavior in a real browser. It does not establish durable
 conversation history, rooms, Unity integration, distributed Runtime completion,

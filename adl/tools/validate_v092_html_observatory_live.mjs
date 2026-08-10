@@ -65,6 +65,7 @@ const context = await browser.newContext({
   ignoreHTTPSErrors: false
 });
 const page = await context.newPage();
+const railLink = (name) => page.locator(".dashboard-rail").getByRole("link", { name, exact: true });
 const consoleErrors = [];
 const badResponses = [];
 const controlRequests = [];
@@ -94,6 +95,7 @@ const report = {
   schema: "adl.v092.html_observatory_live_validation.v1",
   observatory_url: url.toString(),
   runtime_api_base: runtimeUrl.origin,
+  tls_trust: "platform_trust_store",
   assertions: {},
   artifacts: {}
 };
@@ -112,9 +114,9 @@ try {
 
   const navigation = ["Runtime", "Agents", "Chat", "Events", "AWS", "Governance", "Evidence"];
   for (const name of navigation) {
-    await page.getByRole("link", { name, exact: true }).click();
+    await railLink(name).click();
     assert.equal(
-      await page.getByRole("link", { name, exact: true }).getAttribute("aria-current"),
+      await railLink(name).getAttribute("aria-current"),
       "page",
       `${name} navigation did not activate its dashboard view`
     );
@@ -124,7 +126,7 @@ try {
   await page.locator("#message-envelope").filter({ hasText: "Prepare a bounded operator envelope." }).waitFor();
   report.assertions.visible_navigation_and_envelope_control = { passed: true, views: navigation };
 
-  await page.getByRole("link", { name: "Chat", exact: true }).click();
+  await railLink("Chat").click();
   await page.locator("#agent-chat-target:not([disabled])").waitFor({ timeout: 20_000 });
   const agents = await page.locator("#agent-chat-target option").allTextContents();
   assert.equal(agents.length, 1, `live Runtime roster must contain only the resident Shepherd: ${JSON.stringify(agents)}`);
@@ -245,14 +247,52 @@ try {
   }, runtimeUrl.origin);
   assert.equal(ingressAfterDeniedAuthority, ingressBeforeDeniedAuthority, "denied authority reached canonical ingress");
 
+  const automaticReconnectBefore = {
+    transcript: await page.locator(".chat-message").count(),
+    control_posts: controlRequests.length,
+    runtime_instance: await page.locator(".observatory").getAttribute("data-stream-runtime-instance"),
+    last_sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence")),
+    applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events"))
+  };
+  await context.setOffline(true);
+  await page.waitForFunction(() => {
+    const state = document.querySelector(".observatory")?.dataset.liveConnection;
+    const status = document.getElementById("statusbar-websocket")?.textContent || "";
+    return state === "reconnecting" && /reconnecting in (500|1000|2000|4000)ms/.test(status);
+  }, null, { timeout: 20_000 });
+  const observedBackoff = await page.locator("#statusbar-websocket").textContent();
+  await context.setOffline(false);
+  await page.waitForFunction(() => {
+    return document.querySelector(".observatory")?.dataset.liveConnection === "connected";
+  }, null, { timeout: 20_000 });
+  const automaticReconnectAfter = {
+    transcript: await page.locator(".chat-message").count(),
+    control_posts: controlRequests.length,
+    runtime_instance: await page.locator(".observatory").getAttribute("data-stream-runtime-instance"),
+    last_sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence")),
+    applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events"))
+  };
+  assert.equal(automaticReconnectAfter.transcript, automaticReconnectBefore.transcript, "automatic reconnect duplicated chat");
+  assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts, "automatic reconnect replayed a control POST");
+  assert.equal(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "automatic reconnect lost Runtime identity");
+  assert(automaticReconnectAfter.last_sequence >= automaticReconnectBefore.last_sequence, "automatic reconnect regressed the event cursor");
+  assert(automaticReconnectAfter.applied_events >= automaticReconnectBefore.applied_events, "automatic reconnect lost applied events");
+  report.assertions.automatic_bounded_reconnect = {
+    passed: true,
+    observed_backoff: observedBackoff,
+    before: automaticReconnectBefore,
+    after: automaticReconnectAfter,
+    command_replay_count: 0
+  };
+
   const beforeReconnect = await page.locator(".chat-message").count();
-  await page.getByRole("link", { name: "Runtime", exact: true }).click();
+  await railLink("Runtime").click();
   await page.locator("#dashboard-stop-live").click();
-  await page.getByRole("link", { name: "Chat", exact: true }).click();
+  await railLink("Chat").click();
   assert(await page.locator("#send-agent-message").isDisabled(), "stopped Runtime left chat writes enabled");
   assert(await page.locator("#agent-chat-target").isDisabled(), "stopped Runtime retained an addressable roster");
 
-  await page.getByRole("link", { name: "Runtime", exact: true }).click();
+  await railLink("Runtime").click();
   await page.locator("#dashboard-live-api-base").fill("https://localhost:21984");
   await page.locator("#dashboard-connect-live").click();
   await page.waitForFunction(() => {
@@ -260,7 +300,7 @@ try {
     const status = document.getElementById("live-status")?.textContent || "";
     return root?.dataset.liveConnection === "reconnecting" && !status.startsWith("live ");
   }, null, { timeout: 20_000 });
-  await page.getByRole("link", { name: "Chat", exact: true }).click();
+  await railLink("Chat").click();
   assert(await page.locator("#send-agent-message").isDisabled(), "unavailable Runtime left chat writes enabled");
   assert(await page.locator("#agent-chat-target").isDisabled(), "unavailable Runtime retained an addressable roster");
   report.assertions.runtime_unavailability_not_presented_as_live = {
@@ -269,11 +309,11 @@ try {
     connection_state: await page.locator(".observatory").getAttribute("data-live-connection")
   };
 
-  await page.getByRole("link", { name: "Runtime", exact: true }).click();
+  await railLink("Runtime").click();
   await page.locator("#dashboard-stop-live").click();
   await page.locator("#dashboard-live-api-base").fill(runtimeUrl.origin);
   await page.locator("#dashboard-connect-live").click();
-  await page.getByRole("link", { name: "Chat", exact: true }).click();
+  await railLink("Chat").click();
   await page.locator("#agent-chat-target:not([disabled])").waitFor({ timeout: 20_000 });
   const afterReconnect = await page.locator(".chat-message").count();
   assert.equal(afterReconnect, beforeReconnect, "reconnect duplicated the conversation transcript");
@@ -355,12 +395,12 @@ try {
   });
   report.assertions.hostile_runtime_roster_rendered_inertly = { passed: true, ...hostileRoster };
 
-  await page.getByRole("link", { name: "Runtime", exact: true }).click();
+  await railLink("Runtime").click();
   await page.locator("#dashboard-connect-live").click();
   await page.locator("#statusbar-websocket").filter({ hasText: "connected" }).waitFor({ timeout: 20_000 });
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole("link", { name: "Chat", exact: true }).click();
+  await railLink("Chat").click();
   const mobileLayout = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
     document: document.documentElement.scrollWidth,
