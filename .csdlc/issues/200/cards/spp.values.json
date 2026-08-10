@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
     "slug": "crash-safe-authority-reconciliation-barrier",
     "version": "v0.92",
-    "generation": 1
+    "generation": 2
   },
   "status": "ready",
   "content": {
@@ -105,9 +105,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/200/design.md",
-      "design_digest": "37f5fc0350ffd6404a9816a7475efc431d82334b09eb7c8d46e3f3f34af1e768",
+      "design_digest": "7ad324d6833f2baa41d41a3115316e62df7cdc2863d54384d61c059316cd44ae",
       "diagram_ref": ".csdlc/prepared/issues/200/diagram.mmd",
-      "diagram_digest": "68cd0656d469977e47a7d32d07425adbfcec3be1ad1a814cd779ca3c1c978410"
+      "diagram_digest": "b121a59cca8190c82a2fe1b53a658d318dd2e74f45263861fb4729a14743ab7b"
     }
   }
 }
