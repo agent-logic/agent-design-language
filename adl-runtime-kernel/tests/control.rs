@@ -224,6 +224,17 @@ fn layer8_ingress(recorder: RuntimeRecorder) -> (CanonicalIngress, OperationalFa
     (ingress, factory)
 }
 
+fn set_qualified_test_clock(recorder: &RuntimeRecorder) {
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    recorder.set_clock_authority(adl_runtime_kernel::ClockAuthority::Authoritative {
+        source: "test-qualified-clock".to_owned(),
+        unix_millis: now,
+    });
+}
+
 fn test_communication_keys() -> BTreeMap<String, adl_runtime_kernel::CommunicationVerifyingIdentity>
 {
     BTreeMap::from([
@@ -338,6 +349,7 @@ fn layer8_work_for_kind(
 async fn shepherd_layer8_message_requires_matching_correlation_and_running_roster_state() {
     let key = SigningKey::from_bytes(&[40; 32]);
     let recorder = RuntimeRecorder::new(32);
+    set_qualified_test_clock(&recorder);
     recorder.set_component_state(
         ComponentId::new("shepherd"),
         adl_runtime_kernel::RunningState::Running,
@@ -498,6 +510,7 @@ fn signed(key: &SigningKey, id: &str, action: ControlAction) -> SignedControlCom
 async fn layer8_operator_message_reaches_only_a_visible_agent() {
     let key = SigningKey::from_bytes(&[39; 32]);
     let recorder = RuntimeRecorder::new(32);
+    set_qualified_test_clock(&recorder);
     let (ingress, operation) = layer8_ingress(recorder.clone());
     let mut registry = ComponentRegistry::new();
     registry.register(operation);
@@ -509,7 +522,7 @@ async fn layer8_operator_message_reaches_only_a_visible_agent() {
     let service = Arc::new(
         ControlService::new_with_observatory_config_and_agents(
             "instance-1",
-            recorder,
+            recorder.clone(),
             handle.control(),
             authority(&key, [ControlCapability::Execute]),
             8,
@@ -596,6 +609,32 @@ async fn layer8_operator_message_reaches_only_a_visible_agent() {
         ))
         .await;
     assert_eq!(malformed.unwrap_err(), ControlError::InvalidBounds);
+
+    let accepted_before_degraded_clock = ingress.snapshot().accepted_through;
+    recorder.set_clock_authority(adl_runtime_kernel::ClockAuthority::Degraded {
+        reason: "qualified clock unavailable".to_owned(),
+    });
+    let unavailable_id = "layer8-submit-clock-unavailable";
+    let unavailable_correlation = blake3::hash(unavailable_id.as_bytes()).to_hex()[..32].to_owned();
+    let unavailable = service
+        .execute(signed(
+            &key,
+            unavailable_id,
+            ControlAction::Submit {
+                work: layer8_work(
+                    "layer8-work-clock-unavailable",
+                    "agent-0001",
+                    &unavailable_correlation,
+                    "Hello",
+                ),
+            },
+        ))
+        .await;
+    assert_eq!(unavailable.unwrap_err(), ControlError::Internal);
+    assert_eq!(
+        ingress.snapshot().accepted_through,
+        accepted_before_degraded_clock
+    );
 
     let stopped_id = "layer8-submit-5";
     let stopped_correlation = blake3::hash(stopped_id.as_bytes()).to_hex()[..32].to_owned();

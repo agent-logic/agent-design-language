@@ -183,8 +183,11 @@ impl CanonicalIngress {
         validate(&work)?;
         let _lease = self.begin_admission()?;
         let communication_reservation = if let Some((sender_id, sequence)) =
-            validate_signed_identity_work(&work, &self.communication_keys, now_unix_millis())?
-        {
+            validate_signed_identity_work(
+                &work,
+                &self.communication_keys,
+                self.recorder.qualified_time_now_unix_millis(),
+            )? {
             let mut sequences = self
                 .communication_sequences
                 .lock()
@@ -361,7 +364,13 @@ impl CanonicalIngress {
                     _ => IngressError::ExecutionFailed,
                 }
             })?;
-        apply(&self.state, work, &operation, &self.communication_keys)
+        apply(
+            &self.state,
+            work,
+            &operation,
+            &self.communication_keys,
+            self.recorder.qualified_time_now_unix_millis(),
+        )
     }
 }
 
@@ -428,7 +437,7 @@ pub fn verify_signed_identity_message(
 fn validate_signed_identity_work(
     work: &DomainWork,
     communication_keys: &BTreeMap<String, CommunicationVerifyingIdentity>,
-    now_unix_millis: u64,
+    now_unix_millis: Option<u64>,
 ) -> Result<Option<(String, u64)>, IngressError> {
     if work.kind != "agent" && work.kind != "shepherd" {
         return Ok(None);
@@ -467,10 +476,15 @@ fn validate_signed_identity_work(
     {
         return Err(IngressError::Invalid);
     }
-    verify_signed_identity_message(&message, communication_keys, now_unix_millis)?;
+    verify_signed_identity_message(
+        &message,
+        communication_keys,
+        now_unix_millis.ok_or(IngressError::ExecutionFailed)?,
+    )?;
     Ok(Some((message.sender_id, message.monotonic_sequence)))
 }
 
+#[cfg(test)]
 fn now_unix_millis() -> u64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -539,6 +553,7 @@ fn apply(
     work: &DomainWork,
     operation: &crate::OperationResult,
     communication_keys: &BTreeMap<String, CommunicationVerifyingIdentity>,
+    now_unix_millis: Option<u64>,
 ) -> Result<DomainResult, IngressError> {
     let result_hash =
         blake3::hash(&serde_json::to_vec(&(work, operation)).map_err(|_| IngressError::Invalid)?)
@@ -554,6 +569,7 @@ fn apply(
         work,
         operation,
         communication_keys,
+        now_unix_millis,
         &mut state.communication_acknowledgement_sequences,
     )?;
     state.accepted_through = state.accepted_through.saturating_add(1);
@@ -572,6 +588,7 @@ fn public_agent_output(
     work: &DomainWork,
     operation: &crate::OperationResult,
     communication_keys: &BTreeMap<String, CommunicationVerifyingIdentity>,
+    now_unix_millis: Option<u64>,
     acknowledgement_sequences: &mut BTreeMap<String, u64>,
 ) -> Result<Option<serde_json::Value>, IngressError> {
     if work.kind != "agent" && work.kind != "shepherd" {
@@ -630,7 +647,7 @@ fn public_agent_output(
     verify_signed_identity_message_with_watermark(
         &output,
         communication_keys,
-        now_unix_millis(),
+        now_unix_millis.ok_or(IngressError::ExecutionFailed)?,
         acknowledgement_sequences,
     )
     .map_err(|_| IngressError::ExecutionFailed)?;
@@ -757,11 +774,13 @@ mod tests {
     fn public_layer8_projection_rejects_extra_or_mismatched_executor_fields() {
         let signing_key = SigningKey::from_bytes(&[91; 32]);
         let keys = communication_keys(&signing_key);
+        let now = now_unix_millis();
         let valid = serde_json::to_value(signed_ack(&signing_key)).unwrap();
         assert!(public_agent_output(
             &layer8_work(),
             &operation_with_output(valid),
             &keys,
+            Some(now),
             &mut BTreeMap::new(),
         )
         .unwrap()
@@ -774,6 +793,7 @@ mod tests {
                 &layer8_work(),
                 &operation_with_output(leaked),
                 &keys,
+                Some(now),
                 &mut BTreeMap::new(),
             ),
             Err(IngressError::ExecutionFailed)
@@ -791,12 +811,12 @@ mod tests {
                 &layer8_work(),
                 &operation_with_output(serde_json::to_value(mismatched).unwrap()),
                 &keys,
+                Some(now),
                 &mut BTreeMap::new(),
             ),
             Err(IngressError::ExecutionFailed)
         );
 
-        let now = now_unix_millis();
         let mut wrong_causation = signed_ack(&signing_key);
         wrong_causation.causation_id = "different-request-nonce".to_owned();
         resign(&mut wrong_causation, &signing_key);
@@ -805,6 +825,7 @@ mod tests {
                 &layer8_work(),
                 &operation_with_output(serde_json::to_value(wrong_causation).unwrap()),
                 &keys,
+                Some(now),
                 &mut BTreeMap::new(),
             ),
             Err(IngressError::ExecutionFailed)
@@ -819,6 +840,7 @@ mod tests {
                 &layer8_work(),
                 &operation_with_output(serde_json::to_value(stale).unwrap()),
                 &keys,
+                Some(now),
                 &mut BTreeMap::new(),
             ),
             Err(IngressError::ExecutionFailed)
@@ -833,6 +855,7 @@ mod tests {
                 &layer8_work(),
                 &operation_with_output(serde_json::to_value(future).unwrap()),
                 &keys,
+                Some(now),
                 &mut BTreeMap::new(),
             ),
             Err(IngressError::ExecutionFailed)
@@ -926,9 +949,15 @@ mod tests {
     #[tokio::test]
     async fn restored_ingress_rejects_signed_replay_before_dispatch() {
         let signing_key = SigningKey::from_bytes(&[93; 32]);
+        let now = 10_000;
+        let recorder = RuntimeRecorder::new(4);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now,
+        });
         let ingress = CanonicalIngress::new_with_communication_keys(
             1,
-            RuntimeRecorder::new(4),
+            recorder,
             BTreeMap::new(),
             BTreeMap::from([(
                 "layer8-operator".to_owned(),
@@ -944,7 +973,6 @@ mod tests {
             communication_sequences: BTreeMap::from([("layer8-operator".to_owned(), 17)]),
             communication_acknowledgement_sequences: BTreeMap::new(),
         });
-        let now = now_unix_millis();
         let mut message = SignedIdentityMessage {
             schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
             message_kind: "request".to_owned(),
@@ -972,7 +1000,7 @@ mod tests {
             kind: "agent".to_owned(),
             payload: serde_json::to_vec(&serde_json::json!({
                 "schema": LOCAL_AGENT_WORK_SCHEMA,
-                "tasks": [{"op": LAYER8_MESSAGE_TASK_OP, "message": message}]
+                "tasks": [{"op": LAYER8_MESSAGE_TASK_OP, "message": message.clone()}]
             }))
             .unwrap(),
         };
@@ -981,6 +1009,38 @@ mod tests {
                 .submit(work, "restored-replay-correlation".to_owned())
                 .await,
             Err(IngressError::Conflict)
+        );
+        assert_eq!(
+            ingress
+                .snapshot()
+                .communication_sequences
+                .get("layer8-operator"),
+            Some(&17)
+        );
+
+        ingress
+            .recorder
+            .set_clock_authority(crate::ClockAuthority::Degraded {
+                reason: "qualified clock unavailable".to_owned(),
+            });
+        message.monotonic_sequence = 18;
+        message.nonce = "degraded-clock-nonce".to_owned();
+        resign(&mut message, &signing_key);
+        let degraded_work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "degraded-clock-work".to_owned(),
+            kind: "agent".to_owned(),
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": LOCAL_AGENT_WORK_SCHEMA,
+                "tasks": [{"op": LAYER8_MESSAGE_TASK_OP, "message": message}]
+            }))
+            .unwrap(),
+        };
+        assert_eq!(
+            ingress
+                .submit(degraded_work, "degraded-clock-correlation".to_owned())
+                .await,
+            Err(IngressError::ExecutionFailed)
         );
         assert_eq!(
             ingress

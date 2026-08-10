@@ -1,6 +1,6 @@
 use std::{
     fmt,
-    sync::{Arc, Mutex},
+    sync::Arc,
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
@@ -303,32 +303,17 @@ impl Component for QualifiedTimeComponent {
 #[derive(Clone)]
 pub struct RecorderTrustedTime {
     recorder: RuntimeRecorder,
-    state: Arc<Mutex<TrustedTimeState>>,
-}
-
-struct TrustedTimeState {
-    high_water: u64,
 }
 
 impl RecorderTrustedTime {
     pub fn new(recorder: RuntimeRecorder) -> Self {
-        Self {
-            recorder,
-            state: Arc::new(Mutex::new(TrustedTimeState { high_water: 0 })),
-        }
+        Self { recorder }
     }
 }
 
 impl crate::TrustedTime for RecorderTrustedTime {
     fn now_unix_millis(&self) -> u64 {
-        match self.recorder.qualified_time_now_unix_millis() {
-            Some(candidate) => {
-                let mut state = self.state.lock().expect("trusted time mutex poisoned");
-                state.high_water = state.high_water.max(candidate);
-                state.high_water
-            }
-            None => 0,
-        }
+        self.recorder.qualified_time_now_unix_millis().unwrap_or(0)
     }
 }
 

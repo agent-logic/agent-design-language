@@ -147,6 +147,7 @@ struct RecorderState {
     queues: BTreeMap<String, ChannelMetrics>,
     clock: ClockAuthority,
     clock_observed_at: Option<Instant>,
+    clock_high_water: u64,
     continuity_head: Option<ContinuityHead>,
     observability: ObservabilityHealth,
     observability_pipeline: Option<ObservabilityPipelineSnapshot>,
@@ -182,6 +183,7 @@ impl RuntimeRecorder {
                     reason: "wall_clock_unsynchronized".to_owned(),
                 },
                 clock_observed_at: None,
+                clock_high_water: 0,
                 continuity_head: None,
                 observability: ObservabilityHealth::Pending,
                 observability_pipeline: None,
@@ -303,8 +305,8 @@ impl RuntimeRecorder {
         self.emit(None, RuntimeEvent::ClockAuthorityUpdated);
     }
 
-    pub(crate) fn qualified_time_now_unix_millis(&self) -> Option<u64> {
-        let state = self.state.lock().expect("recorder state mutex poisoned");
+    pub fn qualified_time_now_unix_millis(&self) -> Option<u64> {
+        let mut state = self.state.lock().expect("recorder state mutex poisoned");
         let ClockAuthority::Authoritative { unix_millis, .. } = state.clock else {
             return None;
         };
@@ -314,7 +316,9 @@ impl RuntimeRecorder {
             .as_millis()
             .try_into()
             .unwrap_or(u64::MAX);
-        Some(unix_millis.saturating_add(elapsed_millis))
+        let candidate = unix_millis.saturating_add(elapsed_millis);
+        state.clock_high_water = state.clock_high_water.max(candidate);
+        Some(state.clock_high_water)
     }
 
     pub fn set_topology_generation(&self, generation: u64) {

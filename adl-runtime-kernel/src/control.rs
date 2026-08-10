@@ -462,7 +462,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .layer8_signer
             .as_ref()
             .ok_or(ControlError::Unauthorized)?;
-        let now = now_unix_millis();
+        let now = self
+            .recorder
+            .qualified_time_now_unix_millis()
+            .ok_or(ControlError::Internal)?;
         let sequence = self
             .layer8_sequence
             .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |current| {
@@ -797,10 +800,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     "sequence_reserved": false
                 });
             }
-            if ingress
-                .verify_communication_message(&message, now_unix_millis())
-                .is_err()
-            {
+            let Some(now) = self.recorder.qualified_time_now_unix_millis() else {
+                return serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "message_id": envelope.message_id,
+                    "reason": "trusted_time_unavailable",
+                    "sequence_reserved": false
+                });
+            };
+            if ingress.verify_communication_message(&message, now).is_err() {
                 return serde_json::json!({
                     "schema": ACIP_WEBSOCKET_SCHEMA,
                     "status": "rejected",
