@@ -6,10 +6,33 @@
   "initialization_digest": "a13e7b2cafb69b7f88ae5bf1b68f54d9860fcc0d88fdba8c0376532d63b714ad",
   "phase": "implemented",
   "generation": 70,
-  "digest": "7c139461e476c71c8c32a48bb770d2bd3d0004afcc09ba91c5f051a736630f83",
+  "digest": "11bca4e332d1cd2f7438827cee7ae72d7959931b5372005adc1bb93d03a76860",
   "branch": "codex/5827-bounded-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5827-bounded-continuity",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/review_5827_exact_head",
+    "assigned_by": "codex:5827-bounded-continuity",
+    "revision": "git-blake3:906fcd8927b993f782e69e0e9c17a809dfc0f25d:0a1c3a23a61235a6c053bb29d0841a576d0c4c7976b6fc17e842be5c4fe04945",
+    "scope": [
+      ".csdlc/evidence/5827",
+      ".csdlc/issues/5827",
+      ".csdlc/prepared/issues/5827/design.md",
+      ".csdlc/prepared/issues/5827/diagram.mmd",
+      ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+      ".github/workflows/wp10-native-birthday-continuity.yml",
+      "adl-runtime-kernel/src/birthday_continuity.rs",
+      "adl-runtime-kernel/src/birthday_identity.rs",
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/private_state.rs",
+      "adl-runtime-kernel/tests/birthday_continuity.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_continuity/identity_record.json",
+      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +68,9 @@
       "ast_digest": "0d1438f5498310d7ec460c746cebd126a49c46f49ef464c932db566ead95089b"
     },
     "srp": {
-      "values_digest": "0c63d26b8e90f6142314ae7ee4b0d9079c70890ad351234e5cbe1ee4d469c716",
-      "rendered_digest": "039b3bfc0e7c8a008d1d2ff066fafff6d4aecaa07c85757c7edd6f2da6746081",
-      "ast_digest": "19608ab935e0231b356bddbaf72d8b212d59fced2bc8098fd8ccd26cab3d59e3"
+      "values_digest": "84ad296e0e8b09bc5090759d91c2143facbf2b3effec5f580ea52bc52efea758",
+      "rendered_digest": "bebc9c5b6ea0095701eafa09c0c751c7d698e0c5fb073720961e71b2d1ec7efc",
+      "ast_digest": "2a6d01e56508f4f80b81d0c8e59061d5ed938cd3c8f6ae7c0393cd1cdb863c28"
     },
     "sor": {
       "values_digest": "b068f466207c94d3e8c80da95ea781adc809276611db92fa9ca74691eb5ede27",
@@ -750,6 +773,13 @@
       "actor": "codex:5827-bounded-continuity",
       "reason": "Record completed deterministic replay, authority substitution, discontinuity, privacy, and portability validation lanes.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 94,
+      "generation": 70,
+      "actor": "codex:5827-bounded-continuity",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
