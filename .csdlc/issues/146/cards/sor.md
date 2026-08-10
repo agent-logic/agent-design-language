@@ -22,6 +22,7 @@ Corrected the v0.92.1 milestone package to planning-only posture. The complete 4
 - docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
 - docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml
 - docs/milestones/v0.92.1/planned-issue-packets/README.md
+- docs/milestones/v0.92.1/planned-issue-packets/manifest.json
 - docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md
 - docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md
 - docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md
@@ -45,7 +46,7 @@ Corrected the v0.92.1 milestone package to planning-only posture. The complete 4
       "ruby",
       ".csdlc/prepared/issues/146/validate-v0921-package.rb"
     ],
-    "purpose": "Validate planning-only posture, the preserved 42-work-package denominator, WP-01 creation authority, retirement truth, complete lifecycle sequence, dependency graph, and all eleven v3 decisions.",
+    "purpose": "Validate planning-only posture, the preserved 42-work-package denominator, all 721 archived file digests, WP-01 creation authority, retirement truth, complete lifecycle sequence, dependency graph, and exact ownership mapping for all eleven v3 decisions.",
     "outcome": "passed",
     "evidence_ref": "PASS: v0.92.1 planning-only package and standard lifecycle WBS"
   },

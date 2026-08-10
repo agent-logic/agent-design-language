@@ -1585,6 +1585,7 @@ work_packages:
     - origin/main...HEAD
     defer_reason: null
   architecture_decisions:
+  - V3-D06
   - V3-D07
   authority_boundary:
   - Issue V3-10A owns only its declared repository paths and named external operation/evidence boundary.
@@ -1673,7 +1674,8 @@ work_packages:
     - "--check"
     - origin/main...HEAD
     defer_reason: null
-  architecture_decisions: []
+  architecture_decisions:
+  - V3-D06
   authority_boundary:
   - Issue V3-10B owns only its declared repository paths and named external operation/evidence boundary.
   - Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.

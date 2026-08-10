@@ -20,3 +20,5 @@ copy stale lifecycle state or treat the retired issue numbers as authority.
   issue numbers.
 - `prepared/issues/`: preserved designs, diagrams, and draft outcome validators.
 - `proof-stubs/`: preserved draft distributed-proof entrypoints.
+- `manifest.json`: exact source-to-archive paths, byte counts, and SHA-256
+  digests for all 721 preserved files.

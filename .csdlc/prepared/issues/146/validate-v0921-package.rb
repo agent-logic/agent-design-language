@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "digest"
+require "json"
 require "yaml"
 
 root = File.expand_path("../../../..", __dir__)
@@ -104,10 +106,39 @@ end
 abort("premature Runtime proof stubs remain") if Dir.exist?(File.join(root, "adl/tools/v0921"))
 
 archive = File.join(milestone, "planned-issue-packets")
-abort("preserved planning archive README missing") unless File.file?(File.join(archive, "README.md"))
+archive_readme = File.join(archive, "README.md")
+abort("preserved planning archive README missing") unless File.file?(archive_readme)
+archive_text = File.read(archive_readme)
+abort("archive authority boundary missing") unless archive_text.include?("planning inputs only") && archive_text.include?("do not represent open issues") && archive_text.include?("must not")
 abort("preserved issue packet denominator mismatch") unless Dir.glob(File.join(archive, "issues", "*")).select { |path| File.directory?(path) }.size == 42
 abort("preserved prepared packet denominator mismatch") unless Dir.glob(File.join(archive, "prepared/issues", "*")).select { |path| File.directory?(path) }.size == 42
 abort("preserved proof-stub archive missing") unless Dir.exist?(File.join(archive, "proof-stubs/v0921"))
+
+archive_manifest = JSON.parse(File.read(File.join(archive, "manifest.json")))
+abort("archive manifest schema mismatch") unless archive_manifest["schema"] == "adl.milestone.planning_archive_manifest.v1"
+abort("archive manifest authority mismatch") unless archive_manifest["authority"] == "non_authoritative_planning_input"
+archive_entries = archive_manifest.fetch("files")
+abort("archive manifest denominator mismatch") unless archive_manifest["file_count"] == 721 && archive_entries.size == 721
+manifest_paths = archive_entries.map { |entry| entry.fetch("archive_path") }
+actual_paths = Dir.glob(File.join(archive, "{issues,prepared,proof-stubs}", "**", "*"))
+  .select { |path| File.file?(path) }
+  .map { |path| path.delete_prefix("#{archive}/") }
+  .sort
+abort("archive path inventory mismatch") unless manifest_paths.sort == actual_paths
+abort("archive manifest contains duplicate paths") unless manifest_paths.uniq.size == manifest_paths.size
+archive_entries.each do |entry|
+  relative = entry.fetch("archive_path")
+  source = entry.fetch("source_path")
+  expected_source = if relative.start_with?("issues/", "prepared/")
+                      ".csdlc/#{relative}"
+                    elsif relative.start_with?("proof-stubs/v0921/")
+                      "adl/tools/#{relative.delete_prefix("proof-stubs/")}"
+                    end
+  abort("archive source mapping mismatch for #{relative}") unless source == expected_source
+  path = File.join(archive, relative)
+  abort("archive byte count mismatch for #{relative}") unless File.size(path) == entry.fetch("bytes")
+  abort("archive digest mismatch for #{relative}") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
+end
 
 retired_issues = retired.fetch("issues")
 abort("retirement ledger denominator mismatch") unless retired["required_retired_count"] == 42 && retired_issues.size == 42
@@ -185,6 +216,28 @@ architecture_decisions.each do |id, wording|
   abort("missing architecture decision #{id}") unless decision_text.include?("| #{id} | #{wording} |")
 end
 abort("architecture decision denominator mismatch") unless decision_text.scan(/^\| V3-D\d{2} \|/).size == 11
+
+decision_owners = Hash.new { |hash, key| hash[key] = [] }
+spec_doc.fetch("work_packages").each do |entry|
+  Array(entry["architecture_decisions"]).each { |decision| decision_owners[decision] << entry.fetch("id") }
+end
+expected_decision_owners = {
+  "V3-D01" => %w[V3-01],
+  "V3-D02" => %w[V3-02],
+  "V3-D03" => %w[V3-03],
+  "V3-D04" => %w[V3-04],
+  "V3-D05" => %w[V3-06 V3-08],
+  "V3-D06" => %w[V3-03 V3-10A V3-10B],
+  "V3-D07" => %w[V3-10A],
+  "V3-D08" => %w[V3-14],
+  "V3-D09" => %w[V3-11A V3-11B],
+  "V3-D10" => %w[V3-15],
+  "V3-D11" => %w[V3-D11 V3-08]
+}
+abort("architecture decision identifier mismatch") unless decision_owners.keys.sort == expected_decision_owners.keys.sort
+expected_decision_owners.each do |decision, expected|
+  abort("#{decision} package mapping mismatch") unless decision_owners.fetch(decision).sort == expected.sort
+end
 
 readme = File.read(File.join(milestone, "README.md"))
 abort("README missing planning-only posture") unless readme.include?("Planning-only package") && readme.include?("WP-01")
