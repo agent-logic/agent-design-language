@@ -62,7 +62,7 @@ Implemented and proved the deterministic WP-11 Memory Palace topology with bound
     ],
     "purpose": "Prove the exact 12-test deterministic topology, bounded overflow, authority binding, temporal safety, citation integrity, and redaction privacy surface.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5828/local-validation-manifest.json"
+    "evidence_ref": ".csdlc/evidence/5828/memory_palace-runtime-v3.log"
   },
   {
     "command": [
