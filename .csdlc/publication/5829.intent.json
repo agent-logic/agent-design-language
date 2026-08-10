@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5829,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5829-capability-envelope",
+  "title": "[v0.92][WP-12][runtime] Implement the canonical capability envelope",
+  "body": "Closes danielbaustin/agent-design-language#5829\n\n## Summary\n- adds a versioned deterministic Runtime v3 capability envelope bound to accepted WP-08 birthday evidence and digest-valid WP-09 identity evidence\n- separates untrusted requests from provisioned provider/model/tool/skill policy and enforces explicit grants, denials, resource limits, provenance, and unsupported claims\n- fails closed on stale or unknown evidence, escalation, omissions, collisions, secret-like content, private paths, host paths, and reconstructed packet forgery\n- adds an issue-specific native macOS/Linux receipt workflow with exact inventory, provenance, artifact isolation, and semantic-equivalence validation\n\n## Validation\n- focused capability-envelope nextest: 13/13 passed\n- strict Clippy, formatting, Ruby syntax, workflow YAML, and diff hygiene: passed\n- WP-08/#5825 and WP-09/#5826 verified closed and ancestral\n- retained #4761 capability-envelope evidence independently validates at exact revision e93b36cc996429783f68ac4bed5365fb30fe3e07\n- native exact-head macOS/Linux execution remains mandatory before merge\n\n## Review\n- exact assigned review by /root/sprint4_5857/review_5829_exact_head: APPROVED, no findings\n- reviewed revision git-blake3:a3d8022b9830279b5b6c32dfcecde9f183632f6a:eaafc0e803e7fee02356aed1b57a3a643d5a4e2c9de4bcdca2e7ed902ff51ed1\n\n## Non-claims\n- does not execute providers, configure credentials, grant authority, complete witnesses, or approve downstream Birthday work",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:6d4b83405f5eb7f744ecf41a9a8fbb944549bc11:ca84a836eeebdd120f3505f08c359b920633c12e812574fccf87164e997a2e80",
+  "commit_sha": "6d4b83405f5eb7f744ecf41a9a8fbb944549bc11"
+}
