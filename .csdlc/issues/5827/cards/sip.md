@@ -28,6 +28,7 @@ A versioned continuity record and validator linking identity root, predecessor a
 - .csdlc/prepared/issues/5827/validate-native-receipts.rb
 - .csdlc/prepared/issues/5827/produce-native-receipt.rb
 - .csdlc/evidence/5827
+- .github/workflows/wp10-native-birthday-continuity.yml
 
 ## Authority
 

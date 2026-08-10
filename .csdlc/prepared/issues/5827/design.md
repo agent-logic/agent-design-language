@@ -14,6 +14,7 @@ Implement the WP-10 continuity record defined by `docs/milestones/v0.92/features
 - `.csdlc/prepared/issues/5827/validate-native-receipts.rb`
 - `.csdlc/prepared/issues/5827/produce-native-receipt.rb`
 - `.csdlc/evidence/5827`
+- `.github/workflows/wp10-native-birthday-continuity.yml`
 
 ## Read-Only Inputs
 
@@ -86,7 +87,14 @@ Implement the WP-10 continuity record defined by `docs/milestones/v0.92/features
 
 ## Contract
 
-The next continuity head is derived from canonical predecessor head and current cycle evidence. Replays of identical inputs match; missing predecessor, root substitution, discontinuous cycle order, forged witness, duplicate cycle, copied state without lineage, or narrative-only continuity fails closed.
+The next continuity head is derived from the canonical predecessor head and at
+least two signed current-cycle checkpoints. A crate-private runtime policy pins
+the already accepted Birthday Identity record, trusted signer, runtime
+topology/configuration, service schema, and first generation before it can mint
+opaque verified-cycle evidence. Replays of identical inputs match; a
+caller-nominated signer, missing predecessor, root substitution, discontinuous
+cycle order, forged witness, duplicate cycle, copied state without lineage, or
+narrative-only continuity fails closed.
 
 ## Dependencies And Invariants
 
@@ -94,7 +102,7 @@ WP-09/#5826 must be terminal. Existing private-state lineage and wake evidence r
 
 ## Validation
 
-The exact `birthday_continuity` integration-test target must run a nonzero test count proving a two-or-more-cycle chain, deterministic head derivation, substitution/discontinuity/duplicate/reordered/missing-evidence failures, and copied-state rejection. The issue-local producer must run that target on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete nextest log, and canonical semantic-output artifact. The independent validator recomputes those files and producer digest, parses the positive test count, verifies workflow/run/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
+The exact `birthday_continuity` integration-test target must run a nonzero test count proving a two-or-more-cycle chain, deterministic head derivation, signer/generation policy, substitution/discontinuity/duplicate/reordered/missing-evidence failures, and copied-state rejection. The narrow issue-specific WP-10 workflow must run that target on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete structured nextest log, passed-test inventory, and canonical semantic-output artifact. The independent validator recomputes those files and producer digest, verifies exact workflow/run/attempt/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
 
 ## Rollback
 

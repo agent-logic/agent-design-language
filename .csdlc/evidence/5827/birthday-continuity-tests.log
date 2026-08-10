@@ -1,0 +1,15 @@
+    Blocking waiting for file lock on build directory
+   Compiling adl-runtime-kernel v0.92.0 (adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.12s
+────────────
+ Nextest run ID e74b6303-459d-4768-8d7e-bf5ce2c88878 with nextest profile: default
+    Starting 7 tests across 1 binary
+        PASS [   0.011s] (1/7) adl-runtime-kernel::birthday_continuity missing_runtime_witness_and_wrong_provenance_fail_closed
+        PASS [   0.011s] (2/7) adl-runtime-kernel::birthday_continuity record_tamper_and_unknown_fields_fail_closed
+        PASS [   0.011s] (3/7) adl-runtime-kernel::birthday_continuity continuity_record_replays_identically_across_two_signed_cycles
+        PASS [   0.012s] (4/7) adl-runtime-kernel::birthday_continuity copied_state_and_host_paths_fail_closed
+        PASS [   0.012s] (5/7) adl-runtime-kernel::birthday_continuity wrong_signer_and_generation_fail_closed
+        PASS [   0.013s] (6/7) adl-runtime-kernel::birthday_continuity forged_witness_and_identity_substitution_fail_closed
+        PASS [   0.013s] (7/7) adl-runtime-kernel::birthday_continuity missing_or_reordered_cycle_fails_closed
+────────────
+     Summary [   0.013s] 7 tests run: 7 passed, 0 skipped

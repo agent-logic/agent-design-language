@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 62
+    "generation": 70
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 22,
+      "plan_revision": 23,
       "summary": "Implement and prove WP-10 canonical multi-cycle continuity with predecessor binding, deterministic head derivation, and complete discontinuity negatives.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -67,7 +67,8 @@
         "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
         ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
-        ".csdlc/evidence/5827"
+        ".csdlc/evidence/5827",
+        ".github/workflows/wp10-native-birthday-continuity.yml"
       ],
       "invariants": [
         "Each continuity head binds its predecessor, current cycle evidence, and one identity root.",
@@ -102,7 +103,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5827-continuity-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"],\"issues\":[5827,5843],\"order\":[5827,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5827/design.md",
-      "design_digest": "0bd21395dbab703e08bfa7129d326f01aa7b9e431efab8588627d575e2924f7d",
+      "design_digest": "ea7f971605b4da995be304d0290449bbfce39e9544610b05dcdf546cd154e74e",
       "diagram_ref": ".csdlc/prepared/issues/5827/diagram.mmd",
       "diagram_digest": "b8e8902ce03c1fd254d2be626f03fb412db939612b74f42de3942fcfd6cdbbb4"
     }
