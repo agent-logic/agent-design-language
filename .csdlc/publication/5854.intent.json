@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5854,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5854-sprint5-readiness-current",
+  "title": "[v0.92][readiness] Prepare Sprint 5 without starting child work",
+  "body": "Part of danielbaustin/agent-design-language#5854\n\nPrepares the v0.92 Sprint 5 coordination umbrella and five operative child readiness contracts without binding or executing any child deliverable.\n\nScope:\n- prepares #5835, #5836, #5838, #5839, and #5840 with explicit dependency gates and issue-owned proof surfaces; all remain initialized with null branch/worktree and pending plans\n- records legacy WP-24 #5844 as product/GitHub complete while typed closeout continues asynchronously\n- excludes WP-24A #5845 as an independently owned out-of-band stream that cannot gate Sprint 5 readiness, execution, review, or closeout\n- retains digest-bound typed GitHub issue/PR readbacks, freshness, closing-relation, and merge-ancestry evidence\n- preserves external deployment and publication as operator-only authority\n\nValidation:\n- `ruby .csdlc/prepared/issues/5854/validate-sprint-readiness.rb`\n- typed `csdlc-validate issue --issue 5854`\n- typed `csdlc-doctor --issue 5854`\n- `git diff --check`\n\nIndependent exact-head review approved implementation head `0b4a266db6947509c22487312d9f8039a4061124` with no actionable findings. Typed review truth is recorded at generation 21.\n\nThis is a non-closing readiness publication. It does not start Sprint 5, execute children, close #5854, merge this PR, deploy demos, or publish articles/media. Tooling issue agent-logic/agent-design-language#74 remains independently owned and was not modified.",
+  "linkage_mode": "part_of",
+  "draft": false,
+  "revision": "git-blake3:1c5cc188128d5bbe052a7e97b3f892f6b0b388ec:ce24fcee924eee5af1b1a7a845c9575c9027974e1ea0f8703f2cf7b726de6910",
+  "commit_sha": "1c5cc188128d5bbe052a7e97b3f892f6b0b388ec"
+}
