@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "7c38faf496974e30766352413f2d7d47625a032ab706b2fc2c8ad1971551c084",
+  "generation": 1,
+  "digest": "23cc6230a1a2631e9083492bb8df69f0d04e521b8caf57066f897a62d3d1d769",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "47acde752a18e90242325ce630d75aff7695c4533933815cec2b0c5a29b1f56d",
+      "values_digest": "25c415656e4751e863009d68cda97198b1a81525024438af7acd0b9de1a59215",
       "rendered_digest": "91bb3630513c9a9bfad6185b12fa5276eed36ea046eb76960e53bf4d0a050b30",
       "ast_digest": "ea47ab671e957142ba6a9e32683a4eb5d45b5c8f563f087db7a981041f055010"
     },
     "stp": {
-      "values_digest": "4d4ac97440b31a2807de2361c19cdbd584600fabba2f828000a75b9db7b50a24",
+      "values_digest": "81bcf491de1a0d94b25af3dd642d1f23b424ad8e7bb0063d54476c2ac1ca0ecf",
       "rendered_digest": "59c4587ca87e676d0ccbc1e464e63c96d231e42fc0a7aee5add38d46b5f1c04f",
       "ast_digest": "be9f117f88cdacb054b3bbe4d8f05730d27a287da8a866a23f7d8124f58998db"
     },
     "spp": {
-      "values_digest": "7aa842db77e6287977b4860f1b0346caf687037d4074f0404d920cfd1791e2eb",
+      "values_digest": "715a1e7acacb7544d8297044831ed3b29a757e367fc1a1e4e94627ff0459f7e9",
       "rendered_digest": "7825e4bb365efd2bec1e995bbd44c3e6368f2da2667936bb5403a9a4c8db1d14",
       "ast_digest": "4521ec7e8f05625319e6e76b96f91d99544cbb17ebed80a3a9b21e3b1285bb7c"
     },
     "vpp": {
-      "values_digest": "8c0c5d03a279a607b2b6e611abb0c117f772fd53d5c095ea1fab6f2b0623899a",
-      "rendered_digest": "001b4923e1a0ebd5c5a27116c3ba764f4a7dd9ffa5ac703df045ddbed2082cc8",
-      "ast_digest": "28cc56f504034a3a82e1905cb895293a84e504c43277f0db2a2ece08ebb3e91c"
+      "values_digest": "4abc1654b1ad6e2e9ea87a609274d626f4a9c22d92dd07702b97c5e591591eca",
+      "rendered_digest": "c561fe76e62b26f9f32ff9ac8fc3fce0dce3ea207a7f434c3cf584d850b86446",
+      "ast_digest": "2d566b51b4596ca0b81831d783e345c6a4026a781c432cc408fb56d231369b70"
     },
     "srp": {
-      "values_digest": "d5f97cba9d0adea59e7f0a085a7283701be52370aa3a44ca827a297c4c6e0738",
+      "values_digest": "961a1db5b3adda5851f25d2b845a2bd20b27ac2a8b7f0ddf3636bf153adb2bf9",
       "rendered_digest": "8bf620f4cc247af7d8a3cd38e6efe3104d77eb9e87789e672405e01889144d8e",
       "ast_digest": "299c5607827b7ed64e2095422e15ca7dc30b335ff2f96505f0420e093fc35603"
     },
     "sor": {
-      "values_digest": "3fafc7fbcd62de42e0208a5d47a8938031f51db0c08f2463c783c2538b482383",
+      "values_digest": "92f9fda9c21ad13eea395ef0e6d37a188dafc05cae008bee04353a531785fe12",
       "rendered_digest": "0bb71a8fd20d97cd498a69f9b60412cf0c9e7a4055843cc865151941c07887d7",
       "ast_digest": "6e4b1d84fcc54c2d4a2682998e7102ef3cc3e229da4fb56f030b18043c6d703d"
     }
@@ -57,6 +57,13 @@
       "actor": "codex:202-authorized-learner-transport-preparation",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:202-design-review-repair",
+      "reason": "Bind generation-pinned authorization order, opaque learner RPC enforcement, certificate successor semantics, deterministic expiry, and every admission/exclusion crash window into the exact thirty-six-case denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authorized-learner-transport\",\"proof_role\":\"Prove exact thirty-six-case denominator: real_four_node_learner_replication, current_voter_cut_unchanged, excluded_node_recovery_learner, learner_promotion_route_handoff, exact_retry_session, reconnect_boot_rotation, certificate_overlap_authorized, missing_201_token, public_caller_denied, wrong_operation_kind, wrong_domain, wrong_polis, wrong_learner, wrong_guardian, wrong_certificate_generation, expired_certificate, revoked_certificate, wrong_boot_generation, wrong_address, learner_vote_rpc_denied, learner_endorsement_denied, learner_finalize_denied, learner_mutation_denied, learner_renewal_denied, learner_shepherd_denied, learner_observatory_denied, exclusion_ordinary_session_denied, exclusion_wrong_recovery_token, stale_admission, replay_conflict, oversized_frame, truncated_frame, capacity_n_plus_one_no_partial, crash_before_exclusion_checkpoint, crash_after_exclusion_checkpoint, state_or_lock_symlink_rejected. real_four_node_learner_replication must prove the private typed AppendEntries/InstallSnapshot surface plus vote, generic-send, and unknown-kind rejection with zero bytes dispatched. current_voter_cut_unchanged must cover exact cut digest/index and stable-Raft-id mismatch. exact_retry_session must prove cache-first token/result retrieval before and after exclusion activation without reauthorization. certificate_overlap_authorized must prove old-during-overlap, exact successor generation/token, cross-generation mismatch, and old post-overlap denial. exclusion_ordinary_session_denied must cover retained open-session revalidation. excluded_node_recovery_learner must prove remaining nonexcluded voters authorize the new-identity recovery token before admission exists. capacity_n_plus_one_no_partial must cover serialized admission and exclusion bounds. The two crash cases must mechanically enumerate every admission and exclusion journal, state, result-cache, checkpoint CAS before/after, marker, published-view flip, route install/remove, expiry, and restart-reconciliation window, including opened-handle MAX+1 and replacement races.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--no-tests=fail\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Deferred until #191 and #201 merge and this issue creates adl-runtime/tests/distributed_authorized_learner_transport.rs plus adl-runtime/src/distributed/learner_transport.rs; fail closed on missing targets, zero tests, or any result not mapping exactly once to all thirty-six names and every required subassertion.\"},{\"lane\":\"authorized-learner-transport-clippy\",\"proof_role\":\"Reject warnings and API misuse across the exact learner/exclusion target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"authorized-learner-transport-producer\",\"proof_role\":\"Produce exact source, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker evidence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status.\"},{\"lane\":\"authorized-learner-transport-receipt\",\"proof_role\":\"Bind exact protected source, commands, thirty-six cases and required subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, all thirty-six cases, and every required subassertion are bound.\"}]}"
     }
   ]
 }

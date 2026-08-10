@@ -1,13 +1,17 @@
 flowchart LR
   V["Exact unchanged #191 voter route cut"] --> T["VerifiedPolisLearnerTopology"]
-  O["Opaque #201 EnrollNonVoting token"] --> A["VerifiedLearnerAdmission"]
+  O["Opaque #201 EnrollNonVoting token bound to exclusion generation"] --> A["Private VerifiedLearnerAdmission for one certificate generation"]
   A --> T
-  T --> H["Role-bound signed mTLS polis handshake"]
-  H --> R["AppendEntries and InstallSnapshot only"]
-  H -. "Vote client write endorsement renewal Shepherd Observatory" .-> D["Reject before dispatch"]
-  X["Opaque #201 RemoveVoter token"] --> J["Pending exclusion journal"]
-  J --> C["External checkpoint plus result cache"]
-  C --> P["Published exclusion generation"]
-  P --> E["#201 eligibility and ordinary voter sessions deny target"]
-  P --> G["Exact later recovery learner token may grant replication only"]
-  J -. "crash rollback conflict or ambiguity" .-> Z["No visible change; reconcile exact operation or fail closed"]
+  T --> H["Private EstablishedLearnerSession over signed mTLS polis handshake"]
+  H --> R["Typed AppendEntries and InstallSnapshot surface only"]
+  H -. "Vote generic send unknown kind client endorsement renewal Shepherd Observatory" .-> D["Reject before bytes or dispatch"]
+  X0["#201 RemoveVoter prepare and finalize bind old exclusion generation"] --> X1["#201 caches exact finalized token"]
+  X1 --> J["Pending exclusion journal"]
+  J --> S["Private durable state and result cache"]
+  S --> C["External node-local checkpoint plus local marker"]
+  C --> P["Atomic published exclusion generation"]
+  P --> E["#201 new eligibility and ordinary sessions deny target"]
+  P --> G["Remaining voters may authorize new-identity recovery token"]
+  G --> A
+  ROT["Successor token for rotated certificate generation"] --> A
+  J -. "crash rollback conflict deadline or ambiguity" .-> Z["No visible change; reconcile exact operation or fail closed"]

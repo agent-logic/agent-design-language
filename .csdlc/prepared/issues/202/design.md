@@ -23,6 +23,18 @@ session admission consult its published snapshot. A future governed rejoin uses
 a different #201 enrollment token, current identity/certificate/boot, and one
 explicit recovery-learner admission without restoring old authority.
 
+The ordering is generation-pinned rather than circular. A `RemoveVoter`
+prepare/finalize binds the old published exclusion generation; #201 publishes
+and caches that exact finalized token before #202 may activate exclusion.
+Retrieving the exact cached token after activation is cache-first and never
+reruns live signer eligibility. Any new prepare/finalize that observes a
+different exclusion generation fails and must be prepared again. Once exclusion
+is published, the excluded target cannot sign or use ordinary authority, but a
+quorum of the remaining nonexcluded voters may authorize a narrowly typed
+`EnrollNonVoting` recovery intent for the target's new identity and boot. That
+token creates the recovery learner admission; no admission is a prerequisite to
+authorizing the token.
+
 ## Authority construction
 
 - `VerifiedPolisRouteCut` remains the exact voter-only authority and retains its
@@ -33,6 +45,13 @@ explicit recovery-learner admission without restoring old authority.
   stable Raft id, certificate generation, boot generation, address, old voter
   cut digest, and bounded expiration/operation index, and whose exact result is
   durably published.
+- Each admission binds exactly one transport certificate generation. A
+  certificate rotation requires a distinct successor #201 token whose payload
+  binds the successor generation, the previous admission namespace, the
+  authority-approved overlap end, and the successor operation digest. During
+  overlap the certificate authority may verify both certificates, but neither
+  token authorizes the other generation. The old admission is denied at its
+  token deadline or overlap end, whichever is earlier.
 - `VerifiedPolisLearnerTopology` contains the unchanged voter cut plus zero or
   one admission. A learner is never inserted into `AuthorityMembership` voter
   configurations or counted toward quorum.
@@ -42,8 +61,16 @@ explicit recovery-learner admission without restoring old authority.
 
 ## Session and RPC boundary
 
-The existing signed polis handshake gains a role-bound session variant. It
-binds domain, polis, source and target node/guardian identities, stable Raft id,
+The existing signed polis handshake gains a role-bound session variant. A
+private-field `EstablishedLearnerSession` can be constructed only from a
+`VerifiedPolisLearnerTopology`; generic polis request APIs reject learner
+bindings. A typed learner network surface exposes only AppendEntries and
+InstallSnapshot sends. OpenRaft's required learner-side `vote` implementation
+returns authority denied without opening a stream or sending bytes. The single
+server ingress maps a closed message-kind enum and authorizes the opaque session
+role before decoding or dispatching a payload; unknown or future kinds fail
+closed. The session binds domain, polis, source and target node/guardian
+identities, stable Raft id,
 certificate and boot generations, exact current voter-cut digest, learner
 operation digest, role `replication_only_learner`, sequence namespace, message
 kind, payload digest, address, deadline, and protocol version.
@@ -83,6 +110,9 @@ The snapshot distinguishes `ordinary_authority_denied` from one exact
 #201 `EnrollNonVoting` token, new operation/replay namespace, current
 certificate and boot generation, and exact target catch-up boundary. It grants
 replication only. It never clears the pending exclusion or restores a vote.
+An already-open ordinary connection is revalidated against the published
+exclusion generation before every request and is closed before dispatch once
+its target is excluded.
 
 ## Crash and publication boundary
 
@@ -99,16 +129,27 @@ session-visible change. On restart:
 
 No session or eligibility snapshot observes a new admission/exclusion until the
 state, result cache, and checkpoint agree and one published generation flips.
+The exact injected crash denominator covers, independently for admission and
+exclusion: journal introduction, durable-state write, result-cache write,
+external checkpoint CAS before/after outcomes, local checkpoint marker,
+published-view flip, route installation/removal, and restart reconciliation.
 Bounded canonical reads use opened-handle size limits and reject symlink
-ancestors, replacement races, noncanonical bytes, rollback, and corruption.
+ancestors, replacement/grow-after-open races, MAX+1 bytes, noncanonical bytes,
+rollback, and corruption.
 
 ## Bounds and lifecycle
 
 There is at most one learner admission and one active membership transition per
 polis. Admission has a bounded log/snapshot catch-up boundary, wall/elapsed
 deadline policy, RPC size, concurrent stream count, queue, replay cache, and
-retry window. Expiry or cancellation removes only the learner session after
-durable publication; it does not mutate voter membership.
+retry window. The opaque admission binds an authority-provided absolute deadline
+plus a monotonic elapsed budget and uncertainty bound. The trusted clock sample
+and derived deadline are persisted in the journal. Transient cancellation closes
+only the connection. Durable admission expiry is a separate checkpointed,
+idempotent transition driven by that trusted clock; restart clock rollback,
+ambiguous elapsed time, and route installation that crosses the deadline fail
+closed. Expiry removes only the learner admission/session after durable
+publication; it does not mutate voter membership.
 
 The learner transport owns no model, Guardian, API/WSS, or cloud behavior. It
 does not choose when the learner is caught up or promoted; #199 does.
@@ -122,10 +163,12 @@ does not choose when the learner is caught up or promoted; #199 does.
   namespace, and permits only a separately token-authorized replication-only
   recovery learner with new identity generation.
 - Rotation/reconnect tests cover certificate overlap, post-overlap denial, boot
-  change, lost response/exact retry, stale admission, and exclusion during an
-  active connection.
+  change, old and successor generation namespaces, cross-generation mismatch,
+  lost response/cache-first exact retry before and after exclusion, stale
+  admission, and exclusion during an active connection.
 - Crash tests inject before and after state write, checkpoint CAS, result-cache
-  write, published-view flip, route installation, and route removal.
+  write, local marker, published-view flip, route installation, and route
+  removal for both admission and exclusion.
 - Machine evidence binds exact source, commands, the typed named denominator,
   strict Clippy, protected-source drift, immutable introduction, review, and
   squash-merge-safe validation.
