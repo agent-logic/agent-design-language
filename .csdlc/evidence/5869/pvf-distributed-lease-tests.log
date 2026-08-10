@@ -1,0 +1,22 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+────────────
+ Nextest run ID 09e8d26a-cd3f-45c2-a7bb-6f125471b122 with nextest profile: default
+    Starting 16 tests across 1 binary
+        PASS [   0.014s] ( 1/16) adl-runtime::distributed_lease mid_second_expired_certificate_cannot_gain_local_elapsed_authority
+        PASS [   0.014s] ( 2/16) adl-runtime::distributed_lease endorsements_bind_body_identity_generation_algorithm_and_strict_signature
+        PASS [   0.014s] ( 3/16) adl-runtime::distributed_lease copied_and_superseded_domain_signatures_never_authorize
+        PASS [   0.014s] ( 4/16) adl-runtime::distributed_lease membership_rejects_small_sets_duplicate_keys_and_invalid_identity_bounds
+        PASS [   0.015s] ( 5/16) adl-runtime::distributed_lease canonical_wire_rejects_unknown_duplicate_nonminimal_unsorted_and_truncated_data
+        PASS [   0.015s] ( 6/16) adl-runtime::distributed_lease mutation_sink_enforces_holder_epoch_deadline_and_applied_index
+        PASS [   0.015s] ( 7/16) adl-runtime::distributed_lease certificate_context_rejects_wrong_domain_generation_applied_index_and_operation
+        PASS [   0.018s] ( 8/16) adl-runtime::distributed_lease stable_and_joint_openraft_membership_enforce_exact_quorum
+        PASS [   0.018s] ( 9/16) adl-runtime::distributed_lease restart_uses_portable_wall_safety_anchor_not_foreign_elapsed_clock
+        PASS [   0.019s] (10/16) adl-runtime::distributed_lease delayed_apply_never_extends_the_signed_portable_lease_deadline
+        PASS [   0.019s] (11/16) adl-runtime::distributed_lease policy_digest_and_future_issuance_are_rejected_before_state_mutation
+        PASS [   0.020s] (12/16) adl-runtime::distributed_lease activation_possession_epoch_safety_and_clock_bounds_fail_closed
+        PASS [   0.020s] (13/16) adl-runtime::distributed_lease canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds
+        PASS [   0.022s] (14/16) adl-runtime::distributed_lease ledger_serializes_grant_renewal_owner_commit_and_revocation
+        PASS [   0.011s] (15/16) adl-runtime::distributed_lease voter_authorization_is_live_purpose_domain_expiry_and_revocation_bound
+        PASS [   0.012s] (16/16) adl-runtime::distributed_lease stale_replay_quorum_loss_and_malicious_minority_cannot_mutate
+────────────
+     Summary [   0.026s] 16 tests run: 16 passed, 0 skipped
