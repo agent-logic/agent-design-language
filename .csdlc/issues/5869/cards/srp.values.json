@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.07] Epoch and lease authority",
     "slug": "v0-92-wp-04-07-epoch-lease-authority",
     "version": "v0.92",
-    "generation": 34
+    "generation": 35
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime/src/distributed/lease.rs\nadl-runtime/tests/distributed_lease.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:f3ddd8292c00afcfa7c577ab7bdd3e72f4f02502:054f3b961948f0c01b314380478181c1008434c57ebdac790e39990b3bcf3ec5",
+      "reviewer": "Codex independent exact-head code/security/lifecycle reviewer",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The issue-owned source remains intentionally unregistered until integration issue #5878 owns distributed module registration."
+      ],
+      "review_result": "pass"
     }
   }
 }
