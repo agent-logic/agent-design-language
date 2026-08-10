@@ -1409,6 +1409,10 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
   const agentPopulation = status.agent_population || {};
   const agentSample = asArray(agentPopulation.sample);
 
+  if (status.status === "unavailable") {
+    return [];
+  }
+
   if (!hasApiStatus) {
     return retainedCitizens.map((citizen) => ({
       id: citizen.citizen_id || citizen.display_name,
@@ -1531,27 +1535,48 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   };
 }
 
+function runtimeUnavailableSnapshot(error) {
+  const message = error instanceof Error ? error.message : String(error || "Runtime v3 is unavailable");
+  return {
+    mode: "unavailable",
+    fetchedAt: "",
+    status: {
+      status: "unavailable",
+      polis_name: "Polis unavailable",
+      agent_population: { total_count: 0, sample: [] }
+    },
+    health: { status: "unavailable", reason: message },
+    ready: { state: "unavailable", reason: message },
+    metrics: {},
+    events: [],
+    errors: { live: message }
+  };
+}
+
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET, { chatLive = false } = {}) {
   const vm = buildPanopticonViewModel(snapshot, packet);
   const stale = vm.readyState === "stale";
+  const unavailable = vm.mode === "unavailable";
   updateRuntimeV3ChatSnapshot(snapshot, vm.agents, chatLive && !stale);
   if (vm.mode === "live" && vm.agents.length) {
     const selectedId = document.getElementById("agent-chat-target")?.value;
     const inspectedAgent = vm.agents.find((agent) => agent.id === selectedId) || vm.agents[0];
     renderRuntimeV3AgentInspector(inspectedAgent, vm.runtimeInstanceId, vm.fetchedAt);
   }
-  setText("live-status", vm.mode === "live" ? (stale ? "live data stale" : "live loopback") : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
-  setText("hero-live-mode", vm.mode === "live" ? (stale ? "Stale" : "Online") : vm.mode === "published" ? "Published" : "Retained");
-  setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
+  setText("live-status", unavailable ? "runtime unavailable" : vm.mode === "live" ? (stale ? "live data stale" : "live loopback") : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
+  setText("hero-live-mode", unavailable ? "Unavailable" : vm.mode === "live" ? (stale ? "Stale" : "Online") : vm.mode === "published" ? "Published" : "Retained");
+  setText("hero-map-mode", unavailable ? "runtime unavailable" : vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
   setText("hero-event-title", vm.mode === "live" ? "Event Stream (Live Loopback)" : "Event Stream");
-  setText("statusbar-mode", vm.mode === "live" ? (stale ? "Live Stale" : "Live Loopback") : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
+  setText("statusbar-mode", unavailable ? "Runtime Unavailable" : vm.mode === "live" ? (stale ? "Live Stale" : "Live Loopback") : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
   const modeSelect = document.getElementById("top-mode-select");
   if (modeSelect) {
-    modeSelect.value = vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
+    modeSelect.value = unavailable || vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
   }
-  setText("statusbar-updated", vm.fetchedAt ? formatTimestampLabel(vm.fetchedAt) : "timestamp unavailable");
+  const captureTime = vm.fetchedAt ? formatTimestampLabel(vm.fetchedAt) : unavailable ? "No live capture" : "timestamp unavailable";
+  setText("statusbar-updated", captureTime);
+  setText("rail-capture-time", captureTime);
   setText("polis-name", vm.polisName);
-  setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
+  setDataset("statusbar-indicator", "state", unavailable ? "unavailable" : vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("agent-count", `${vm.agentTotal.toLocaleString()} agents`);
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()} Agents`);
   setText("live-readiness", formatLabel(vm.readyState));
@@ -2094,12 +2119,15 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
         return;
       } catch (_refreshError) {
-        // Fall through to retained evidence only when the Runtime v3 GET feed is also unavailable.
+        // Fall through to an explicit unavailable state when the GET feed is also unavailable.
       }
     }
-    await refreshRetained({
-      live: lastLiveError
-    }, requestGeneration);
+    renderPanopticon(runtimeUnavailableSnapshot(error), packet);
+    setText("live-status", failure.label);
+    setText("statusbar-websocket", "disconnected");
+    setLiveConnectionState(failure.state);
+    setRuntimeTestStatus(failure.label, `Runtime v3 is unavailable: ${lastLiveError}`);
+    setWriteAccess(false, "runtime unavailable", "Runtime v3 must be connected before operator actions are available.");
   };
 
   const refreshLive = async () => {
@@ -2610,6 +2638,7 @@ globalThis.AdlHtmlObservatory = {
   submitRuntimeV3SignedControlCommand,
   buildSignedLayer8MessageCommand,
   classifyRuntimeV3Failure,
+  runtimeUnavailableSnapshot,
   createRuntimeV3StreamCursor,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,

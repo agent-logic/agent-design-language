@@ -173,7 +173,7 @@ fn agent_sleep_request(millis: u64, request_id: &str) -> OperationRequest {
 
 fn shepherd_admission(admit: bool) -> Vec<u8> {
     serde_json::json!({
-        "schema":"adl.runtime.local_shepherd_admission.v1",
+        "schema":"adl.runtime.local_shepherd_admission.v2",
         "agent_id":"shepherd",
         "admit":admit
     })
@@ -331,6 +331,71 @@ async fn resident_shepherd_is_admitted_through_the_production_adapter() {
         .await
         .unwrap();
     assert_eq!(ingress.snapshot().accepted_through, 1);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        adl_runtime_kernel::KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn resident_shepherd_admission_replays_across_process_cycles() {
+    let root = TempDir::new().unwrap();
+    let snapshot = {
+        let recorder = authoritative_recorder();
+        let assembly = build_live_assembly(bindings(recorder.clone(), root.path())).unwrap();
+        let ingress = assembly.canonical_ingress.clone();
+        let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
+            .start()
+            .await
+            .unwrap();
+
+        admit_resident_shepherd(&ingress, "runtime-shepherd-restart-test")
+            .await
+            .unwrap();
+        let snapshot = ingress.snapshot();
+        assert_eq!(snapshot.accepted_through, 1);
+        assert_eq!(
+            handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+            adl_runtime_kernel::KernelExit::Clean
+        );
+        drop(ingress);
+        snapshot
+    };
+
+    let recorder = authoritative_recorder();
+    let assembly = build_live_assembly(bindings(recorder.clone(), root.path())).unwrap();
+    let ingress = assembly.canonical_ingress.clone();
+    ingress.restore(snapshot);
+    let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
+        .start()
+        .await
+        .unwrap();
+
+    admit_resident_shepherd(&ingress, "runtime-shepherd-restart-test")
+        .await
+        .unwrap();
+    assert_eq!(ingress.snapshot().accepted_through, 1);
+    let shepherd_work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "restart-layer8-shepherd".to_owned(),
+        kind: "shepherd".to_owned(),
+        payload: agent_work(serde_json::json!([{
+            "op": "layer8_message",
+            "sender": "layer8-operator",
+            "recipient_id": "shepherd",
+            "correlation_id": "00112233445566778899aabbccddeeff",
+            "content": "Still there?"
+        }])),
+    };
+    let shepherd_result = ingress
+        .submit(shepherd_work, "00112233445566778899aabbccddeeff".to_owned())
+        .await
+        .unwrap();
+    assert_eq!(shepherd_result.accepted_sequence, 2);
+    assert_eq!(
+        shepherd_result.public_output.unwrap()["recipient_id"],
+        "shepherd"
+    );
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         adl_runtime_kernel::KernelExit::Clean

@@ -53,7 +53,7 @@ pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
     AdapterKind::Lifelog,
 ];
 const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
-const LOCAL_SHEPHERD_ADMISSION_SCHEMA: &str = "adl.runtime.local_shepherd_admission.v1";
+const LOCAL_SHEPHERD_ADMISSION_SCHEMA: &str = "adl.runtime.local_shepherd_admission.v2";
 pub const RESIDENT_SHEPHERD_ID: &str = "shepherd";
 
 pub struct LiveBindings {
@@ -92,7 +92,7 @@ pub async fn admit_resident_shepherd(
     ingress: &CanonicalIngress,
     runtime_instance_id: &str,
 ) -> Result<(), AssemblyError> {
-    let work_id = format!("{runtime_instance_id}:resident-shepherd-admission");
+    let work_id = format!("{runtime_instance_id}:resident-shepherd-admission:v2");
     ingress
         .submit(
             DomainWork {
@@ -956,17 +956,22 @@ impl InProcessOperationExecutor {
                         "shepherd admission rejected",
                     ));
                 }
-                let admitted = self
-                    .state
+                self.state
                     .admitted
                     .lock()
                     .expect("local shepherd state poisoned")
                     .insert(RESIDENT_SHEPHERD_ID.to_owned());
-                let mut value =
-                    self.result(request, if admitted { "admitted" } else { "duplicate" });
-                value["agent_id"] = RESIDENT_SHEPHERD_ID.into();
-                value["admitted"] = admitted.into();
-                Ok(value)
+                Ok(serde_json::json!({
+                    "schema": "adl.runtime.local_shepherd_admission_result.v2",
+                    "adapter": self.kind.service_name(),
+                    "operation": self.kind.operation_name(),
+                    "request_id": request.request_id,
+                    "principal": request.principal,
+                    "payload_hash": blake3::hash(&request.payload).to_hex().to_string(),
+                    "status": "admitted",
+                    "agent_id": RESIDENT_SHEPHERD_ID,
+                    "admitted": true
+                }))
             }
             Some(LOCAL_AGENT_WORK_SCHEMA) => {
                 if !self

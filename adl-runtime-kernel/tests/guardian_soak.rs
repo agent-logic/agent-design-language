@@ -611,7 +611,7 @@ async fn pressure_closes_ingress_serializes_live_work_and_stops_cleanly() {
         .as_object()
         .unwrap()
         .keys()
-        .any(|work_id| work_id.ends_with(":resident-shepherd-admission")));
+        .any(|work_id| work_id.ends_with(":resident-shepherd-admission:v2")));
     assert!(checkpoint["ingress"]["completed"]["pressure-work"]["result_hash"].is_string());
 }
 
@@ -854,7 +854,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     let observatory: serde_json::Value =
         serde_json::from_str(observatory_response.split("\r\n\r\n").nth(1).unwrap()).unwrap();
     assert_eq!(observatory["ingress"]["accepted_through"], 2);
-    let shepherd_admission_id = format!("{instance_id}:resident-shepherd-admission");
+    let shepherd_admission_id = format!("{instance_id}:resident-shepherd-admission:v2");
     assert_eq!(
         observatory["ingress"]["completed"][&shepherd_admission_id]["work_id"],
         shepherd_admission_id

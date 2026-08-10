@@ -310,6 +310,14 @@ assert.deepEqual(api.classifyRuntimeV3Failure(new Error("connection reset")), {
   state: "offline", label: "runtime offline"
 });
 
+const unavailableSnapshot = api.runtimeUnavailableSnapshot(new Error("connection refused"));
+const unavailableView = api.buildPanopticonViewModel(unavailableSnapshot);
+assert.equal(unavailableView.mode, "unavailable");
+assert.equal(unavailableView.fetchedAt, "");
+assert.equal(unavailableView.polisName, "Polis unavailable");
+assert.equal(unavailableView.agentTotal, 0);
+assert.equal(unavailableView.readyState, "unavailable");
+
 const staleSnapshot = api.runtimeV3SnapshotFromFeed({
   ...observatoryFeed,
   weather_freshness: {
