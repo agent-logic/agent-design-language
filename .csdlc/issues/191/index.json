@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "127262980866ba932135a8b771848f0f7ddcd4512f72eb9bf0c028f099c3f1c2",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "db846af66519748971782e8c2189bbaaf10cb05ed51d3c5962e17dca98e32d30",
   "branch": "codex/191-secure-durable-openraft",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-191-secure-raft",
   "review_assignment": {
@@ -26,7 +26,28 @@
       "adl-runtime/tests/distributed_discovery.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:prepare_5875_release",
+    "scope": [
+      ".csdlc/issues/191",
+      ".csdlc/prepared/issues/191",
+      ".csdlc/evidence/191",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs"
+    ],
+    "reviewed_revision": "git-blake3:fe948c207dfa2d64071bd6beac4eb4e0df415dfa:8c69febe67f3a65cdbc047acf3bef19a24b853fc973a8acf808ead0e521d1855",
+    "findings": [],
+    "residual_risks": [
+      "Replacement hosted CI and operator external review remain required before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "80e5e763f2bf6c7582d25d4f3045ff39b61aed8ef6e7a502ec33d6e3db5fe482",
+      "values_digest": "73b9ddce6040ae9ab6b9040fa1141f89b3f4440c73e5f7a122b1b4f9e25c7d16",
       "rendered_digest": "f7e3f002e85eb0c155766d4587bb7b76a27bb0dc56cb15b4622bb6aea51ddda9",
       "ast_digest": "11427429647037945ad5e43fbf88664d0f1be67699ae4b14bcdd586f6faf7646"
     },
     "stp": {
-      "values_digest": "522731cfda3f6c0589802248242d54a0ccce683b0c4ac4355d155ac1aba0e2e0",
+      "values_digest": "5ed616affad392b823a05482eb82dd578bdb4053501b87c95f6764af74758f80",
       "rendered_digest": "f71b97706f3c4eae65036ae701a9e6c66538b940f1ded01934f8d765c4f61698",
       "ast_digest": "7159078e019855720720e4630880ff9efd53c9de412df79cdff5ace38106341b"
     },
     "spp": {
-      "values_digest": "a62624135dd41fa1d3cb6d348fec675a6a9917ae3c75b159e89e39ac6b4cbe1f",
+      "values_digest": "20239132d19a4807fc984e22b04559158b23de4e6e7ef1d8d33d1057ba44cba7",
       "rendered_digest": "4eb12a39051a11ac4fbb55105f9581dcca47b443276a890eb2b389104e423113",
       "ast_digest": "1c7e12ce5bb274aef2c03199f0c82ec89351379d7f0682505826fefa798584ed"
     },
     "vpp": {
-      "values_digest": "c506a0cca4067c0b97580ca90131d378d5a20e14d5d95746f92015997c3ac0ee",
+      "values_digest": "bb18e2a6f9e5fc6ac57b63739ff58c40b11f9c5e37f47efa0f6f507ebc37f225",
       "rendered_digest": "b2b2651da34e6d519099a1279329f22db5adff209aaa751e29fb97fca49f1418",
       "ast_digest": "35bbc6648ad9002e93ca20ef5c353a0f09130acfc2ea4e7577c2b83608ccbf4f"
     },
     "srp": {
-      "values_digest": "d5f9444aa4c342f04adb30173f2981d4b9408a7885b501c13fe27a2ae0193e91",
-      "rendered_digest": "436062a3e2d81439900232d6a428d4a90ff0ebd4613a26602f8509d7f243e03a",
-      "ast_digest": "b1c55a38e581788a121cafdbb0c8dec2f7e6fae0cec353dcb3ce853937fdad09"
+      "values_digest": "755fb4709c95da8c34e225a2f575c4fe039dca730f40e372edd786af8bb89f72",
+      "rendered_digest": "5a87649a7f394c98d8b398614e8fe9c77ac1094d155071bdfa7f254e3f7f2dda",
+      "ast_digest": "9ef11c854616aeaf9649543c783f4e951bf86cb72c58a90ecae8f218106de6d7"
     },
     "sor": {
-      "values_digest": "c833952cce54d46f7c1829b5e6155a26c8e0dd1cc616ddede543c60ad0e164cf",
+      "values_digest": "13d7e93c4c5bed223b67865f9c762c086ea63b09f9ea519c266f13a0bb218fb8",
       "rendered_digest": "aa1b7f93a1dd66a1831cefd9137cf68b88b00cd50ae62341b76fad48a056ca45",
       "ast_digest": "bc478224ae71dfb84c4a3be9df9117b168f465edd426fafe2e16dc3e83811380"
     }
@@ -113,6 +134,13 @@
       "to": "implemented",
       "actor": "codex:191-ci-repair",
       "reason": "Hosted CI exposed that the existing distributed_transport integration harness does not declare the lease and membership sibling modules now required by the reviewed transport implementation. Recover stale review and publication truth before the bounded harness repair, fresh validation, and exact-head re-review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:191-ci-repair-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -213,6 +241,13 @@
       "actor": "codex:191-ci-repair",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:191-ci-repair-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

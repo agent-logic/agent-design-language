@@ -39,12 +39,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Replacement hosted CI and operator external review remain required before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fe948c207dfa2d64071bd6beac4eb4e0df415dfa:8c69febe67f3a65cdbc047acf3bef19a24b853fc973a8acf808ead0e521d1855")
 
-Reviewer: None
+Reviewer: Some("subagent:prepare_5875_release")
 
-Result: pre_review
+Result: pass
