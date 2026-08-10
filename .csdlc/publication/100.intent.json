@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 100,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/issue-100-medium-launch-recovery",
+  "title": "[v0.92][publication] Recover the 10 Medium launch article drafts to Google Drive",
+  "body": "Closes #100\n\n## Summary\n- recover all 10 canonical Medium launch drafts plus 24 supporting editorial and source records\n- preserve 14 substantive variants with source revisions and SHA-256 provenance\n- align all article headings to the launch-series plan and retain exact company Drive readback\n- add a focused fail-closed recovery verifier and search inventory\n\n## Validation\n- live company Drive readback: PASS for 34 unique files under daniel@agent-logic.ai\n- source and Drive SHA-256 parity: PASS\n- current public-permission rejection: PASS\n- retained variant provenance: PASS for 14 variants\n- git diff --check: PASS\n- no broad repository test suite was run for this docs/recovery-only issue\n\n## Review\n- independent exact-head review approved c42c9ea751d6d911dba9274ace80c2042c526dbe with no remaining findings",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:6e37c923bb6e6d1a41fa0c152c577eeb49dd69ec:45a4c003ed41084998cc35b18b5b4c3ebc1e6106838f67b06bd1f8cabdce843d",
+  "commit_sha": "6e37c923bb6e6d1a41fa0c152c577eeb49dd69ec"
+}
