@@ -168,8 +168,27 @@ fn application_at<'a>(
     now_elapsed_millis: u64,
     clock_uncertainty_millis: u64,
 ) -> AuthorityApplication<'a> {
+    application_at_nanos(
+        activation,
+        proof,
+        now_unix_seconds,
+        0,
+        now_elapsed_millis,
+        clock_uncertainty_millis,
+    )
+}
+
+fn application_at_nanos<'a>(
+    activation: &SigningKey,
+    proof: &'a [u8],
+    now_unix_seconds: i64,
+    now_unix_nanos: u32,
+    now_elapsed_millis: u64,
+    clock_uncertainty_millis: u64,
+) -> AuthorityApplication<'a> {
     AuthorityApplication {
         now_unix_seconds,
+        now_unix_nanos,
         now_elapsed_millis,
         clock_uncertainty_millis,
         activation_public_key: activation.verifying_key().to_bytes(),
@@ -971,6 +990,27 @@ fn delayed_apply_never_extends_the_signed_portable_lease_deadline() {
             application_at(&replacement, &replacement_proof, NOW_UNIX_SECONDS + 6, 1, 5),
         )
         .unwrap();
+}
+
+#[test]
+fn mid_second_expired_certificate_cannot_gain_local_elapsed_authority() {
+    let fixture = Fixture::stable();
+    let activation = activation(20);
+    let mut grant = body(OperationClass::LeaseGrant, 130, 1, &activation);
+    grant.issued_nanos = 0;
+    grant.lease_duration_millis = 500;
+    let proof = activation_signature(&grant, &activation);
+    let certificate = fixture.certificate(grant, &[0, 1]);
+    let mut ledger = AuthorityLedger::new(policy()).unwrap();
+    assert_eq!(
+        ledger.apply(
+            &certificate,
+            &fixture.membership,
+            application_at_nanos(&activation, &proof, NOW_UNIX_SECONDS, 900_000_000, 10, 5,),
+        ),
+        Err(AuthorityError::LeaseExpired)
+    );
+    assert_eq!(ledger.applied_log_index(), 0);
 }
 
 fn body_with_suffix_certificate(

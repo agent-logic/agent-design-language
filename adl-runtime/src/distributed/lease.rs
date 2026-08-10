@@ -318,6 +318,7 @@ pub struct VerifiedAuthority {
 #[derive(Clone, Copy, Debug)]
 pub struct AuthorityApplication<'a> {
     pub now_unix_seconds: i64,
+    pub now_unix_nanos: u32,
     pub now_elapsed_millis: u64,
     pub clock_uncertainty_millis: u64,
     pub activation_public_key: [u8; 32],
@@ -660,9 +661,15 @@ impl AuthorityLedger {
         }
         let certificate_deadline_unix_millis =
             certificate_deadline_unix_millis(body).ok_or(AuthorityError::ResourceExhausted)?;
+        if application.now_unix_nanos >= 1_000_000_000 {
+            return Err(AuthorityError::ClockUncertain);
+        }
         let now_unix_millis = u64::try_from(application.now_unix_seconds)
             .ok()
             .and_then(|seconds| seconds.checked_mul(1_000))
+            .and_then(|millis| {
+                millis.checked_add(u64::from(application.now_unix_nanos) / 1_000_000)
+            })
             .ok_or(AuthorityError::ClockUncertain)?;
         if now_unix_millis >= certificate_deadline_unix_millis {
             return Err(AuthorityError::LeaseExpired);
