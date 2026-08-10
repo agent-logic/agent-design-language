@@ -95,6 +95,7 @@ pub enum IdentityRejection {
     AliasCollision { name: String },
     InvalidOriginEvent,
     MissingProvenance { id: String },
+    OriginProvenanceMismatch,
     DuplicateProvenance { id: String },
     DuplicateWitness { id: String },
     MissingWitnesses,
@@ -104,6 +105,7 @@ pub enum IdentityRejection {
     MalformedReferenceDigest { id: String },
     ContinuityIdentitySubstitution,
     MalformedContinuityHead,
+    ContinuityReferenceMismatch,
     UnsafeRedactionPolicy,
     InvalidRedactedField { field: String },
     DuplicateRedactedField { field: String },
@@ -188,10 +190,16 @@ pub fn build_birthday_identity(
         }
         validate_reference(reference, &mut rejections);
     }
-    if !provenance_by_id.contains_key(&candidate.origin.provenance_id) {
-        rejections.insert(IdentityRejection::MissingProvenance {
-            id: candidate.origin.provenance_id.clone(),
-        });
+    match provenance_by_id.get(&candidate.origin.provenance_id) {
+        None => {
+            rejections.insert(IdentityRejection::MissingProvenance {
+                id: candidate.origin.provenance_id.clone(),
+            });
+        }
+        Some(provenance) if provenance.sha256 != candidate.origin.reference.sha256 => {
+            rejections.insert(IdentityRejection::OriginProvenanceMismatch);
+        }
+        Some(_) => {}
     }
     validate_reference(&candidate.origin.reference, &mut rejections);
 
@@ -221,6 +229,9 @@ pub fn build_birthday_identity(
     }
     if !is_sha256(&candidate.continuity.head_sha256) {
         rejections.insert(IdentityRejection::MalformedContinuityHead);
+    }
+    if candidate.continuity.head_sha256 != candidate.continuity.reference.sha256 {
+        rejections.insert(IdentityRejection::ContinuityReferenceMismatch);
     }
     validate_reference(&candidate.continuity.reference, &mut rejections);
 

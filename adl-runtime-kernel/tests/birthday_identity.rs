@@ -141,7 +141,7 @@ fn rejects_collision_provenance_substitution_privacy_and_path_matrix() {
         &fs::read_to_string(fixture("negative_cases.json")).expect("read negative matrix"),
     )
     .expect("parse negative matrix");
-    assert_eq!(cases.len(), 22);
+    assert_eq!(cases.len(), 24);
     for case in cases {
         let mut candidate = valid_candidate();
         let expected = mutate_case(&case, &mut candidate);
@@ -226,6 +226,15 @@ fn mutate_case(case: &str, candidate: &mut BirthdayIdentityCandidate) -> Identit
                 id: "absent-origin-proof".to_owned(),
             }
         }
+        "origin_provenance_mismatch" => {
+            let origin_provenance = candidate
+                .provenance
+                .iter_mut()
+                .find(|reference| reference.id == candidate.origin.provenance_id)
+                .expect("origin provenance");
+            origin_provenance.sha256 = "a".repeat(64);
+            IdentityRejection::OriginProvenanceMismatch
+        }
         "duplicate_provenance" => {
             candidate.provenance.push(candidate.provenance[0].clone());
             IdentityRejection::DuplicateProvenance {
@@ -251,6 +260,10 @@ fn mutate_case(case: &str, candidate: &mut BirthdayIdentityCandidate) -> Identit
         "malformed_continuity_head" => {
             candidate.continuity.head_sha256 = "short".to_owned();
             IdentityRejection::MalformedContinuityHead
+        }
+        "continuity_reference_mismatch" => {
+            candidate.continuity.reference.sha256 = "a".repeat(64);
+            IdentityRejection::ContinuityReferenceMismatch
         }
         "absolute_reference_path" => {
             candidate.origin.reference.path = "/private/identity.json".to_owned();

@@ -52,6 +52,9 @@ reference, witness reference, and redaction policy.
 The executable WP-09 contract is
 `adl-runtime-kernel/src/birthday_identity.rs`. Identity-root authority derives
 only from the canonical stable name and reviewer-visible origin provenance.
+The origin provenance identifier must resolve to the same digest as the
+declared origin reference, and the continuity head must equal its declared
+evidence-reference digest; either substitution fails closed.
 Aliases are canonical provenance-bearing labels: input order does not affect
 the retained record, adding an alias does not rotate the root, and an alias can
 never replace root authority. Continuity heads remain references to prior

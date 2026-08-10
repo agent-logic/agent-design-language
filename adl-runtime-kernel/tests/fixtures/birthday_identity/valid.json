@@ -23,12 +23,12 @@
     "reference": {
       "id": "continuity-proof",
       "path": "evidence/identity/continuity.json",
-      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
       "visibility": "reviewer_visible"
     }
   },
   "provenance": [
-    { "id": "origin-prov", "path": "evidence/identity/provenance-origin.json", "sha256": "3333333333333333333333333333333333333333333333333333333333333333", "visibility": "reviewer_visible" },
+    { "id": "origin-prov", "path": "evidence/identity/provenance-origin.json", "sha256": "1111111111111111111111111111111111111111111111111111111111111111", "visibility": "reviewer_visible" },
     { "id": "alias-one", "path": "evidence/identity/provenance-alias-one.json", "sha256": "4444444444444444444444444444444444444444444444444444444444444444", "visibility": "reviewer_visible" },
     { "id": "alias-north", "path": "evidence/identity/provenance-alias-north.json", "sha256": "5555555555555555555555555555555555555555555555555555555555555555", "visibility": "reviewer_visible" }
   ],
