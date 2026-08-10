@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 74,
-  "digest": "5e814e01bd80762619a2895b7a9a6e37697b45823242b4dce3b2c341bb3effaa",
+  "generation": 75,
+  "digest": "d415b4ab89a6dba3bc8769eb775a3449995e4c7e06911eef60f5ae37e89ca77c",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d71187e0cac0c80e836c6daa271137ae47f04f978721f88a45fa81d60c01aee9",
+      "values_digest": "d493eb3ee1b7c84700159e8feae2ce8ef2fb7f60a7b039d6494fce7c9c5cfb6d",
       "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
       "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
     },
     "stp": {
-      "values_digest": "4ca264dae6f1f09f75dfe5875a17f9aaecfeb1feb857dcd9ca33f0dd7b03e251",
+      "values_digest": "a8331890c51b2e8f37ef154568f1025a025323d884f4f77ceb83083b1ca0a1b0",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "7222c75a29989d41b4905356e82509e2e73f9f548aa73c25478000851ea95e98",
+      "values_digest": "3c0f22ef68f113e053ca46a614a09e3f5ca9ce73933576889b690a7d835d84c4",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "12247b3b7e6ea226a0a460095cc06da5fa917c872d05f2ca19019f86017a468c",
+      "values_digest": "a24bdb665a12f61669def6aefb4b0c4d3946e845b152faef37511eb42ce1d710",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "fc7acda7581672b7832d36e4d6a768746922d51f2227e25262ce96b2a8b18680",
+      "values_digest": "2c0a13e842f8a9cd615f99a4ece8e99a8803c0799c0de4e68d2d4141995b450f",
       "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
       "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "4b9ec13293e7364b5c8628d1dbc123e382d4f1477d72ba2d19b75a6d1f1c17d2",
-      "rendered_digest": "80525f18c4217b9cffb8783aa9d210e58e01e0666ee41842216e5ba92c1df451",
-      "ast_digest": "404c51e1eafd44d84a38450d269bf9e27465a79cdd4daa102a3e22d50c6553f1"
+      "values_digest": "2b73aa8366f67833db8c272c4f4f8bd891a6f3b8d0275b3b964d8e2fe3345d71",
+      "rendered_digest": "a9bf21d0ae38b754ff6f4e82b983cbc03b9a66b71e95be67632e573beb33d962",
+      "ast_digest": "768acff41a4d090a9ee2a29af7a7f8fa4b04159df4d4fb6267ced9e1fbb46a8b"
     }
   },
   "transitions": [
@@ -799,6 +799,13 @@
       "actor": "operator-approved:5831-atomic-durable-cas-scope",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 101,
+      "generation": 75,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Record the completed atomic reservation repair and exact rebased proof after blocking cognitive-authority issue #144 merged as 9e16c621.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the governed WP-13A adaptive-learning DAG over real mutation, loop, cancellation, and durable-state authorities. A global pending reservation plus atomic multi-domain compare-and-commit prevents concurrent or crash-interrupted accepted histories from becoming authoritative before live mutation; deterministic reconciliation completes or aborts pending intent. The exact repair is rebased on merged cognitive-authority fix #144 at 9e16c621 and passes sixteen focused adaptive/durable tests; mandatory native proof remains deferred to CI.\",\"changes\":[\"Execute accepted adaptive learning only through signed MutationGate authority, verified LoopOutcome replay/state, cancellation, AdaptationStore, and KernelDurableState.\",\"Bind canonical AdaptiveLearningPolicy digest to the gate snapshot, signed grant, mutation evidence, retained history, cognitive profile, capability envelope, and complete predecessor lineage.\",\"Preview-apply signed patches on an isolated restored gate and require the result to equal the governed proposal before reserving mutation authority.\",\"Reserve a non-authoritative global pending intent with atomic governed-state compare-and-set, apply the live mutation, then atomically publish the sequence record, head, full history, and committed pending state.\",\"Reconcile reserved intent deterministically after restart by completing only an exactly matching live mutation or marking it aborted; rejected, cancelled, collision, stale, and mismatched paths remain non-authoritative.\",\"Persist sequence-addressed complete histories and validate every retained record for authoritative restart and rollback; retain recurrence and bound/redact identifiers, rationale, evidence, and policy collections.\",\"Rebase the adaptive proof on merged issue #144 cognitive-authority schema, adding a signed CognitiveAuthorityProof fixture and retaining strict Clippy through a named governed-state compare-and-set tuple type.\",\"Maintain the exact eleven-test adaptive native inventory plus five focused durable-state atomicity/restart tests locally; native macOS/Linux receipts remain publication-stage proof.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".csdlc/evidence/5831/adaptive-learning-runtime-v3.log\",\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\",\".csdlc/evidence/5831/adaptive-learning-native-scripts.log\",\".csdlc/evidence/5831/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove eleven governed adaptive-learning cases plus five atomic CAS, restart, and durable-state cases at exact revision cab02a10f5adb088ededda7ba1ba75048e9e188c with merged #144 authority ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the governed executor, durable transaction primitive, and focused tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\"}]}"
     }
   ]
 }

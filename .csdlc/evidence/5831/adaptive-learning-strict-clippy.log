@@ -1,1 +1,4 @@
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.16s
+command=cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test adaptive_learning --test durable_state -- -D warnings
+validated_revision=cab02a10f5adb088ededda7ba1ba75048e9e188c
+validated_dependency_merge=9e16c621e02224927ac9f19ebebdf66b85abfffc
+result=passed
