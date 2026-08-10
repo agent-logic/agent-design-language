@@ -192,10 +192,22 @@ fn valid_runtime_init_toml(state_root: &Path) -> String {
     std::fs::write(&trust_roots, "test trust roots").unwrap();
     format!(
         r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
+
+[[communication_identities]]
+principal_id = "shepherd"
+signing_key_id = "shepherd-communication"
+signing_private_key_path = "{}"
+signing_public_key_path = "{}"
+
+[[communication_identities]]
+principal_id = "layer8-operator"
+signing_key_id = "layer8-communication"
+signing_private_key_path = "{}"
+signing_public_key_path = "{}"
 
 [api]
 address = "127.0.0.1:20997"
@@ -217,6 +229,10 @@ allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
 {}
 "#,
         toml_path(state_root),
+        toml_path(&state_root.join("credentials/shepherd-private-key.hex")),
+        toml_path(&state_root.join("credentials/shepherd-public-key.hex")),
+        toml_path(&state_root.join("credentials/layer8-private-key.hex")),
+        toml_path(&state_root.join("credentials/layer8-public-key.hex")),
         toml_path(&certificate),
         toml_path(&private_key),
         toml_path(&trust_roots),
@@ -232,7 +248,7 @@ fn runtime_init_toml(body: &str) -> String {
     let trust_roots = state_root.join("tls/trust-roots.pem");
     format!(
         r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
@@ -476,6 +492,23 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
 }
 
 #[test]
+fn runtime_init_v1_is_rejected_after_communication_identity_contract_versioning() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    std::fs::create_dir_all(&state_root).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    let legacy = valid_runtime_init_toml(&state_root)
+        .replace("adl.runtime_v3.init.v2", "adl.runtime_v3.init.v1");
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&legacy).unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("unsupported runtime init schema"),
+        "{error}"
+    );
+}
+
+#[test]
 fn polis_rename_changes_only_mutable_display_metadata() {
     let directory = config_test_root();
     let state_root = directory.path().join("state");
@@ -633,7 +666,7 @@ fn runtime_init_rejects_missing_state_root_and_tls_path_escape() {
     let cases = [
         format!(
             r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 
@@ -650,7 +683,7 @@ private_key_path = "{}"
         ),
         format!(
             r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
@@ -669,7 +702,7 @@ private_key_path = "{}"
         ),
         format!(
             r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
@@ -688,7 +721,7 @@ private_key_path = "{}"
         ),
         format!(
             r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
@@ -774,7 +807,7 @@ fn runtime_init_rejects_missing_or_reused_tls_paths() {
     let cases = [
         format!(
             r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
@@ -792,7 +825,7 @@ private_key_path = "{}"
         ),
         format!(
             r#"
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"

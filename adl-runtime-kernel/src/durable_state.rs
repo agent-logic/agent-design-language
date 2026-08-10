@@ -19,6 +19,9 @@ const LOCAL_CHECKPOINT_BYTES: TableDefinition<u64, &[u8]> =
 const LOCAL_LIFELOG: TableDefinition<u64, &[u8]> = TableDefinition::new("local_lifelog_v1");
 const GOVERNED_STATE: TableDefinition<&str, &[u8]> = TableDefinition::new("governed_state_v1");
 const GOVERNED_LIFELOG: TableDefinition<u64, &[u8]> = TableDefinition::new("governed_lifelog_v1");
+const COMMUNICATION_OUTBOUND_SEQUENCES: TableDefinition<&str, u64> =
+    TableDefinition::new("communication_outbound_sequences_v1");
+const MAX_COMMUNICATION_SEQUENCE: u64 = 9_007_199_254_740_991;
 
 #[derive(Debug, thiserror::Error)]
 pub enum KernelDurableStateError {
@@ -38,6 +41,8 @@ pub enum KernelDurableStateError {
     CheckpointCorrupt,
     #[error("durable checkpoint identity or integrity mismatch")]
     CheckpointIdentityOrIntegrity,
+    #[error("durable communication sequence exhausted")]
+    CommunicationSequenceExhausted,
 }
 
 pub type KernelDurableStateResult<T> = Result<T, KernelDurableStateError>;
@@ -221,6 +226,33 @@ impl KernelDurableState {
         Ok(())
     }
 
+    pub fn next_communication_outbound_sequence(
+        &self,
+        principal_id: &str,
+    ) -> KernelDurableStateResult<u64> {
+        let mut write = self.database.begin_write().map_err(database_error)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(database_error)?;
+        let next = {
+            let mut sequences = write
+                .open_table(COMMUNICATION_OUTBOUND_SEQUENCES)
+                .map_err(database_error)?;
+            let next = sequences
+                .get(principal_id)
+                .map_err(database_error)?
+                .map(|value| next_communication_sequence(Some(value.value())))
+                .transpose()?
+                .unwrap_or(1);
+            sequences
+                .insert(principal_id, next)
+                .map_err(database_error)?;
+            next
+        };
+        write.commit().map_err(database_error)?;
+        Ok(next)
+    }
+
     pub fn local_lifelog_len(&self) -> KernelDurableStateResult<usize> {
         table_len(&self.database, LOCAL_LIFELOG)
     }
@@ -252,8 +284,19 @@ impl KernelDurableState {
         write.open_table(LOCAL_LIFELOG).map_err(database_error)?;
         write.open_table(GOVERNED_STATE).map_err(database_error)?;
         write.open_table(GOVERNED_LIFELOG).map_err(database_error)?;
+        write
+            .open_table(COMMUNICATION_OUTBOUND_SEQUENCES)
+            .map_err(database_error)?;
         write.commit().map_err(database_error)?;
         Ok(())
+    }
+}
+
+fn next_communication_sequence(previous: Option<u64>) -> KernelDurableStateResult<u64> {
+    match previous {
+        None => Ok(1),
+        Some(previous) if previous < MAX_COMMUNICATION_SEQUENCE => Ok(previous + 1),
+        Some(_) => Err(KernelDurableStateError::CommunicationSequenceExhausted),
     }
 }
 
@@ -329,4 +372,22 @@ where
 
 fn database_error(error: impl std::fmt::Display) -> KernelDurableStateError {
     KernelDurableStateError::Database(error.to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn communication_sequence_fails_closed_at_the_interoperable_maximum() {
+        assert_eq!(next_communication_sequence(None).unwrap(), 1);
+        assert_eq!(
+            next_communication_sequence(Some(MAX_COMMUNICATION_SEQUENCE - 1)).unwrap(),
+            MAX_COMMUNICATION_SEQUENCE
+        );
+        assert!(matches!(
+            next_communication_sequence(Some(MAX_COMMUNICATION_SEQUENCE)),
+            Err(KernelDurableStateError::CommunicationSequenceExhausted)
+        ));
+    }
 }

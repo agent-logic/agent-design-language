@@ -1,7 +1,19 @@
-schema = "adl.runtime_v3.init.v1"
+schema = "adl.runtime_v3.init.v2"
 polis_name = "Agent Logic Local"
 runtime_instance_id = "runtime-instance-001"
 state_root = "/var/lib/adl/runtime-v3"
+
+[[communication_identities]]
+principal_id = "shepherd"
+signing_key_id = "shepherd-communication"
+signing_private_key_path = "/var/lib/adl/runtime-v3/credentials/shepherd-communication-private-key.hex"
+signing_public_key_path = "/var/lib/adl/runtime-v3/credentials/shepherd-communication-public-key.hex"
+
+[[communication_identities]]
+principal_id = "layer8-operator"
+signing_key_id = "layer8-communication"
+signing_private_key_path = "/var/lib/adl/runtime-v3/credentials/layer8-communication-private-key.hex"
+signing_public_key_path = "/var/lib/adl/runtime-v3/credentials/layer8-communication-public-key.hex"
 
 [binaries]
 kernel_path = "/opt/adl/bin/adl-runtime-kernel"

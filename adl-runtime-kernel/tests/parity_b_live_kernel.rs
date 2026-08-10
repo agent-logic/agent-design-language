@@ -239,7 +239,10 @@ async fn live_graph_executes_through_guardian_canonical_ingress() {
     let ControlOutcome::Submitted { work_result } = response.outcome else {
         panic!("signed submit did not reach canonical ingress")
     };
-    assert_eq!(work_result.accepted_sequence, 1);
+    assert_eq!(
+        work_result.accepted_sequence, 2,
+        "resident Shepherd admission must precede external live work"
+    );
     let expected_payload = executor()
         .execute(&operation("parity-b-live-graph", &request()))
         .await

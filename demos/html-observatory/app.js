@@ -993,96 +993,94 @@ async function submitRuntimeV3SignedControlCommand(apiBase, command) {
   return payload;
 }
 
-function decodeOperatorSigningSeed(value) {
-  const normalized = String(value || "").trim().replace(/^0x/, "");
-  if (!/^[0-9a-fA-F]{64}$/.test(normalized)) {
-    throw new Error("The operator signing key must contain one 32-byte Ed25519 seed encoded as hex.");
+function hexToBytes(value, expectedBytes) {
+  const normalized = String(value || "").trim();
+  if (!new RegExp(`^[0-9a-fA-F]{${expectedBytes * 2}}$`).test(normalized)) {
+    throw new Error("Runtime supplied malformed communication key material.");
   }
   return Uint8Array.from(normalized.match(/../g), (byte) => Number.parseInt(byte, 16));
 }
 
-async function importOperatorSigningKey(seed) {
-  if (!globalThis.crypto?.subtle) {
-    throw new Error("This browser cannot use the required local Ed25519 signing API.");
+function canonicalJson(value) {
+  if (value === null || typeof value !== "object") {
+    return JSON.stringify(value);
   }
-  const pkcs8Prefix = Uint8Array.from([
-    0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06,
-    0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20
-  ]);
-  const pkcs8 = new Uint8Array(pkcs8Prefix.length + seed.length);
-  pkcs8.set(pkcs8Prefix);
-  pkcs8.set(seed, pkcs8Prefix.length);
-  return globalThis.crypto.subtle.importKey(
-    "pkcs8",
-    pkcs8,
-    { name: "Ed25519" },
-    false,
-    ["sign"]
-  );
+  if (Array.isArray(value)) {
+    return `[${value.map((entry) => canonicalJson(entry)).join(",")}]`;
+  }
+  return `{${Object.keys(value)
+    .sort()
+    .map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`)
+    .join(",")}}`;
 }
 
-function bytesToHex(value) {
-  return Array.from(new Uint8Array(value), (byte) => byte.toString(16).padStart(2, "0")).join("");
-}
+const agentResponseSequenceWatermarks = new Map();
 
-async function buildSignedLayer8MessageCommand({
-  runtimeInstanceId,
-  recipientId,
-  content,
-  signingKeyText,
-  keyId = "operator-key",
-  principal = "operator"
-}) {
-  const message = String(content || "").trim();
-  if (!recipientId || !message || new TextEncoder().encode(message).length > 4000) {
-    throw new Error("Select a live agent and enter a message of at most 4000 UTF-8 bytes.");
-  }
+async function verifySignedIdentityMessage(message, agent, expectedCorrelationId, expectedRequestNonce) {
   const now = Date.now();
-  const nonce = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${now}`;
-  const correlationId = nonce.padStart(32, "0").slice(-32);
-  const workId = `layer8-${nonce}`;
-  const payload = new TextEncoder().encode(JSON.stringify({
-    schema: "adl.runtime.local_agent_work.v1",
-    tasks: [{
-      op: "layer8_message",
-      sender: "layer8-operator",
-      recipient_id: recipientId,
-      correlation_id: correlationId,
-      content: message
-    }]
-  }));
-  const command = {
-    schema: "adl.runtime.control_command.v1",
-    runtime_instance_id: runtimeInstanceId,
-    command_id: workId,
-    correlation_id: correlationId,
-    principal,
-    action: {
-      action: "submit",
-      work: {
-        schema: "adl.runtime.domain_work.v1",
-        work_id: workId,
-        kind: recipientId === "shepherd" ? "shepherd" : "agent",
-        payload: Array.from(payload)
-      }
-    },
-    signing_algorithm: "ed25519",
-    signing_key_id: keyId,
+  if (!globalThis.crypto?.subtle ||
+      message?.schema !== "adl.acip.identity_message.v1" ||
+      message?.message_kind !== "ack" ||
+      message?.sender_id !== agent?.id ||
+      message?.recipient_id !== "layer8-operator" ||
+      message?.correlation_id !== expectedCorrelationId ||
+      message?.causation_id !== expectedRequestNonce ||
+      !Number.isSafeInteger(message?.monotonic_sequence) ||
+      message.monotonic_sequence <= 0 ||
+      !Number.isSafeInteger(message?.issued_at_unix_millis) ||
+      !Number.isSafeInteger(message?.expires_at_unix_millis) ||
+      message.expires_at_unix_millis <= message.issued_at_unix_millis ||
+      message.issued_at_unix_millis > now + 5_000 ||
+      message.expires_at_unix_millis < now ||
+      message.expires_at_unix_millis - message.issued_at_unix_millis > 60_000 ||
+      !message?.nonce ||
+      !message?.content ||
+      message?.signing_algorithm !== "ed25519" ||
+      message?.signing_key_id !== agent?.signing_key_id ||
+      agent?.signing_algorithm !== "ed25519") {
+    throw new Error("Runtime returned an untrusted or misrouted agent response.");
+  }
+  const unsigned = {
+    schema: message.schema,
+    message_kind: message.message_kind,
+    sender_id: message.sender_id,
+    recipient_id: message.recipient_id,
+    correlation_id: message.correlation_id,
+    causation_id: message.causation_id,
+    monotonic_sequence: message.monotonic_sequence,
+    issued_at_unix_millis: message.issued_at_unix_millis,
+    expires_at_unix_millis: message.expires_at_unix_millis,
+    nonce: message.nonce,
+    content: message.content,
+    signing_algorithm: message.signing_algorithm,
+    signing_key_id: message.signing_key_id,
     signature: ""
   };
-  const seed = decodeOperatorSigningSeed(signingKeyText);
-  try {
-    const signingKey = await importOperatorSigningKey(seed);
-    const signature = await globalThis.crypto.subtle.sign(
-      { name: "Ed25519" },
-      signingKey,
-      new TextEncoder().encode(JSON.stringify(command))
-    );
-    command.signature = bytesToHex(signature);
-    return command;
-  } finally {
-    seed.fill(0);
+  const domain = new TextEncoder().encode("adl.acip.identity_message.v1\0");
+  const payload = new TextEncoder().encode(canonicalJson(unsigned));
+  const signedBytes = new Uint8Array(domain.length + payload.length);
+  signedBytes.set(domain);
+  signedBytes.set(payload, domain.length);
+  const key = await globalThis.crypto.subtle.importKey(
+    "raw",
+    hexToBytes(agent.signing_public_key, 32),
+    { name: "Ed25519" },
+    false,
+    ["verify"]
+  );
+  const verified = await globalThis.crypto.subtle.verify(
+    { name: "Ed25519" },
+    key,
+    hexToBytes(message.signature, 64),
+    signedBytes
+  );
+  if (!verified) throw new Error("Agent response signature verification failed.");
+  const previousSequence = agentResponseSequenceWatermarks.get(message.sender_id) || 0;
+  if (message.monotonic_sequence <= previousSequence) {
+    throw new Error("Agent response replayed or arrived behind the verified sender sequence.");
   }
+  agentResponseSequenceWatermarks.set(message.sender_id, message.monotonic_sequence);
+  return message;
 }
 
 function runtimeV3SnapshotFromFeed(feed, readiness = null) {
@@ -1429,7 +1427,10 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
       state: agent.state || primaryState,
-      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`
+      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`,
+      signing_algorithm: agent.signing_algorithm,
+      signing_key_id: agent.signing_key_id,
+      signing_public_key: agent.signing_public_key
     }));
   }
 
@@ -1573,6 +1574,9 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET, { chatLive = 
     modeSelect.value = unavailable || vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
   }
   const captureTime = vm.fetchedAt ? formatTimestampLabel(vm.fetchedAt) : unavailable ? "No live capture" : "timestamp unavailable";
+  const observatoryRoot = document.querySelector(".observatory");
+  if (observatoryRoot) observatoryRoot.dataset.captureTime = vm.fetchedAt || "";
+  setText("hero-uptime", captureTime);
   setText("statusbar-updated", captureTime);
   setText("rail-capture-time", captureTime);
   setText("polis-name", vm.polisName);
@@ -1959,11 +1963,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const sendSignedCommand = document.getElementById("send-signed-command");
   const operatorControlResult = document.getElementById("operator-control-result");
   const agentChatTarget = document.getElementById("agent-chat-target");
-  const agentChatKeyFile = document.getElementById("agent-chat-key-file");
   const agentChatMessage = document.getElementById("operator-message");
   const sendAgentMessage = document.getElementById("send-agent-message");
   const agentChatStatus = document.getElementById("agent-chat-status");
-  let operatorSigningKeyText = "";
+  let runtimeV3WriteAuthorized = false;
+  const pendingAgentMessages = new Map();
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
@@ -2004,6 +2008,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const setWriteAccess = (enabled, status, detail) => {
+    runtimeV3WriteAuthorized = enabled;
     if (operatorAuthStatus) {
       operatorAuthStatus.textContent = status;
       operatorAuthStatus.dataset.state = enabled ? "passed" : "open";
@@ -2023,23 +2028,47 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       runtimeV3ChatState.live &&
       runtimeV3ChatState.runtimeInstanceId &&
       agentChatTarget?.value &&
-      operatorSigningKeyText &&
+      runtimeV3WriteAuthorized &&
+      liveSocket?.readyState === WebSocket.OPEN &&
       agentChatMessage?.value.trim()
     );
     if (sendAgentMessage) sendAgentMessage.disabled = !enabled;
   };
 
-  const renderControlFrame = (frame) => {
+  const renderControlFrame = async (frame) => {
     if (frame.status === "authenticated") {
+      runtimeV3WriteAuthorized = true;
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
+      updateAgentChatAccess();
       return;
     }
     if (frame.error === "credential_revoked" ||
         frame.error === "authentication_failed" ||
         frame.error === "write_authentication_required") {
       runtimeV3WriteToken = "";
+      runtimeV3WriteAuthorized = false;
       setWriteAccess(false, "public read", JSON.stringify(frame, null, 2));
+      updateAgentChatAccess();
       return;
+    }
+    const pending = pendingAgentMessages.get(frame.correlation_id);
+    if (pending) {
+      pendingAgentMessages.delete(frame.correlation_id);
+      if (frame.status !== "accepted") {
+        pending.reject(new Error(frame.error || "Runtime refused the agent message."));
+      } else {
+        try {
+          const output = frame.response?.outcome?.work_result?.public_output;
+          pending.resolve(await verifySignedIdentityMessage(
+            output,
+            pending.agent,
+            frame.correlation_id,
+            pending.requestNonce
+          ));
+        } catch (error) {
+          pending.reject(error);
+        }
+      }
     }
     if (operatorControlResult) {
       operatorControlResult.textContent = JSON.stringify(frame, null, 2);
@@ -2186,6 +2215,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
 
   const stopPolling = () => {
     liveStoppedByOperator = true;
+    runtimeV3WriteToken = "";
+    setWriteAccess(false, "public read", "Write access cleared when the operator stopped the live session.");
     nextLiveGeneration();
     setLiveConnectionState("stopped");
     if (liveSocket) {
@@ -2247,6 +2278,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     stopPolling();
     if (!automatic) reconnectAttempt = 0;
     liveStoppedByOperator = false;
+    setWriteAccess(false, "public read", "A new live connection starts without write authority until Runtime authenticates it.");
+    updateAgentChatAccess();
     const requestGeneration = nextLiveGeneration();
     setLiveConnectionState("connecting");
     if (requestedRuntimeSelection() === "v3") {
@@ -2405,11 +2438,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   });
   operatorLogout?.addEventListener("click", () => {
     runtimeV3WriteToken = "";
+    runtimeV3WriteAuthorized = false;
     if (operatorToken) {
       operatorToken.value = "";
     }
-    operatorSigningKeyText = "";
-    if (agentChatKeyFile) agentChatKeyFile.value = "";
     updateAgentChatAccess();
     liveSocket?.close(1000, "operator_logout");
     liveSocket = null;
@@ -2467,32 +2499,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     updateAgentChatAccess();
   });
   agentChatMessage?.addEventListener("input", updateAgentChatAccess);
-  agentChatKeyFile?.addEventListener("change", async () => {
-    operatorSigningKeyText = "";
-    const file = agentChatKeyFile.files?.[0];
-    if (!file) {
-      if (agentChatStatus) agentChatStatus.textContent = "signing key required";
-      updateAgentChatAccess();
-      return;
-    }
-    try {
-      const text = (await file.text()).trim();
-      decodeOperatorSigningSeed(text);
-      operatorSigningKeyText = text;
-      if (agentChatStatus) agentChatStatus.textContent = "ready";
-    } catch (error) {
-      if (agentChatStatus) agentChatStatus.textContent = "invalid signing key";
-      appendRuntimeV3ChatMessage(
-        "system",
-        "Runtime",
-        error instanceof Error ? error.message : "The signing key could not be loaded.",
-        "denied"
-      );
-    } finally {
-      agentChatKeyFile.value = "";
-    }
-    updateAgentChatAccess();
-  });
   sendAgentMessage?.addEventListener("click", async () => {
     const recipientId = agentChatTarget?.value || "";
     const agent = runtimeV3ChatState.agents.find((candidate) => candidate.id === recipientId);
@@ -2501,7 +2507,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       !runtimeV3ChatState.live ||
       !agent ||
       !content ||
-      !operatorSigningKeyText ||
+      !runtimeV3WriteAuthorized ||
+      !liveSocket ||
+      liveSocket.readyState !== WebSocket.OPEN ||
       !runtimeV3ChatState.runtimeInstanceId
     ) {
       updateAgentChatAccess();
@@ -2511,32 +2519,36 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (agentChatStatus) agentChatStatus.textContent = "sending";
     appendRuntimeV3ChatMessage("operator", "You", content, "sending");
     try {
-      const command = await buildSignedLayer8MessageCommand({
-        runtimeInstanceId: runtimeV3ChatState.runtimeInstanceId,
-        recipientId,
-        content,
-        signingKeyText: operatorSigningKeyText
+      const nonce = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now()}`;
+      const correlationId = nonce.padStart(32, "0").slice(-32);
+      const responsePromise = new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          pendingAgentMessages.delete(correlationId);
+          reject(new Error("Timed out waiting for the signed agent response."));
+        }, 15_000);
+        pendingAgentMessages.set(correlationId, {
+          agent,
+          requestNonce: correlationId,
+          resolve: (value) => { clearTimeout(timeout); resolve(value); },
+          reject: (error) => { clearTimeout(timeout); reject(error); }
+        });
       });
-      const response = await submitRuntimeV3SignedControlCommand(
-        readApiBase() || getRuntimeV3Config().api_base,
-        command
-      );
-      const output = response?.outcome?.work_result?.public_output;
-      if (
-        output?.schema !== "adl.runtime.layer8.agent_response.v1" ||
-        output.recipient_id !== recipientId ||
-        output.correlation_id !== command.correlation_id
-      ) {
-        throw new Error("Runtime accepted the command without a valid correlated agent response.");
-      }
+      liveSocket.send(JSON.stringify({
+        schema: "adl.runtime_v3.observatory_layer8_intent.v1",
+        recipient_id: recipientId,
+        correlation_id: correlationId,
+        causation_id: correlationId,
+        content
+      }));
+      const output = await responsePromise;
       appendRuntimeV3ChatMessage(
         "agent",
         agent.label || recipientId,
-        output.message,
-        output.status
+        output.content,
+        "verified"
       );
       if (agentChatMessage) agentChatMessage.value = "";
-      if (agentChatStatus) agentChatStatus.textContent = "delivered";
+      if (agentChatStatus) agentChatStatus.textContent = `delivered · ${output.signing_key_id} verified`;
     } catch (error) {
       const failure = classifyRuntimeV3Failure(error);
       appendRuntimeV3ChatMessage(
@@ -2651,7 +2663,8 @@ globalThis.AdlHtmlObservatory = {
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
   submitRuntimeV3SignedControlCommand,
-  buildSignedLayer8MessageCommand,
+  verifySignedIdentityMessage,
+  canonicalJson,
   classifyRuntimeV3Failure,
   runtimeUnavailableSnapshot,
   createRuntimeV3StreamCursor,

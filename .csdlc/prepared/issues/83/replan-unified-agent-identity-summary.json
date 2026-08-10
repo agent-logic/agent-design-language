@@ -1,0 +1,13 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 49,
+  "expected_digest": "a923b89b764e35f85924da57bf5b0ee53fc069dc13a5e2e6deae602148ef7761",
+  "actor": "codex:83-agent-identity-envelope",
+  "reason": "The operator required every agent to own a signing identity and selected-agent messaging to choose and verify the correct recipient identity without browser private keys.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Complete the investor-visible Layer 8 chat slice with fresh live capture time and one governed signed identity-envelope path for Layer 8 and agent-to-agent messages: canonical sender verification before delivery, recipient-selected Runtime-side response signing, browser verification against the live roster, no browser private-key material, reconnect continuity, and retained live proof."
+  }
+}

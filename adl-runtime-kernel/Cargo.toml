@@ -39,6 +39,7 @@ tracing-subscriber = "0.3"
 utoipa-swagger-ui = { version = "9.0.2", features = ["axum", "vendored"] }
 uuid = { version = "1", features = ["v4"] }
 x509-parser = "0.18.1"
+zeroize = "1"
 
 [target.'cfg(unix)'.dependencies]
 libc = "0.2"

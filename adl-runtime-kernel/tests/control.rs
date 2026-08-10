@@ -13,16 +13,16 @@ use adl_runtime_kernel::{
     AdapterPolicy, AuthorityMode, CanonicalIngress, CheckpointingControl, ClockAuthority,
     ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlApiPolicy,
     ControlAuthority, ControlCapability, ControlError, ControlExit, ControlObservabilityEvent,
-    ControlOutcome, ControlService, DiskWeather, DomainWork, ExecutorError,
-    InProcessOperationExecutor, Kernel, KernelExit, LifecycleControl, LiveContinuity,
-    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
-    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, ResourceState,
-    RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
-    TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample, DOMAIN_WORK_SCHEMA,
-    LAYER8_AGENT_RESPONSE_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
+    ControlOutcome, ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit,
+    LifecycleControl, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
+    ObservabilityHealth, Observation, OperationExecutor, OperationRequest, OperationalAdapter,
+    OperationalFactory, ResourceState, RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig,
+    ShutdownDecision, SignedControlCommand, SignedIdentityMessage, TrustedControlKey,
+    WeatherConfig, WeatherHealthReport, WeatherSample, ACIP_IDENTITY_MESSAGE_SCHEMA,
+    DOMAIN_WORK_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
 };
 use async_trait::async_trait;
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{Signer, SigningKey};
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
     sync::Notify,
@@ -111,18 +111,39 @@ impl OperationExecutor for EchoExecutor {
 impl OperationExecutor for Layer8Executor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
         let command: serde_json::Value = serde_json::from_slice(&request.payload).unwrap();
-        let task = &command["tasks"][0];
+        let request: SignedIdentityMessage =
+            serde_json::from_value(command["tasks"][0]["message"].clone()).unwrap();
+        let signing_key = SigningKey::from_bytes(&[41; 32]);
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_millis() as u64;
+        let mut output = SignedIdentityMessage {
+            schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+            message_kind: "ack".to_owned(),
+            sender_id: request.recipient_id,
+            recipient_id: request.sender_id,
+            correlation_id: request.correlation_id,
+            causation_id: request.nonce,
+            monotonic_sequence: 2,
+            issued_at_unix_millis: now,
+            expires_at_unix_millis: now + 60_000,
+            nonce: "agent-ack-0001".to_owned(),
+            content: "agent-0001 received your message.".to_owned(),
+            signing_algorithm: "ed25519".to_owned(),
+            signing_key_id: "agent-key".to_owned(),
+            signature: String::new(),
+        };
+        output.signature = hex::encode(
+            signing_key
+                .sign(&output.signing_bytes().unwrap())
+                .to_bytes(),
+        );
         serde_json::to_vec(&serde_json::json!({
             "schema": "adl.runtime.local_agent_execution.v1",
             "outputs": [{
                 "unit": 0,
-                "output": {
-                    "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
-                    "recipient_id": task["recipient_id"],
-                    "correlation_id": task["correlation_id"],
-                    "status": "received",
-                    "message": "agent-0001 received your message."
-                }
+                "output": output
             }]
         }))
         .map_err(|error| ExecutorError {
@@ -194,12 +215,66 @@ fn layer8_ingress(recorder: RuntimeRecorder) -> (CanonicalIngress, OperationalFa
         .unwrap(),
     );
     let factory = OperationalFactory::new(adapter, vec![]);
-    let ingress = CanonicalIngress::new(
+    let ingress = CanonicalIngress::new_with_communication_keys(
         2,
         recorder,
         BTreeMap::from([("agent".to_owned(), factory.clone())]),
+        test_communication_keys(),
     );
     (ingress, factory)
+}
+
+fn test_communication_keys() -> BTreeMap<String, adl_runtime_kernel::CommunicationVerifyingIdentity>
+{
+    BTreeMap::from([
+        (
+            "layer8-operator".to_owned(),
+            adl_runtime_kernel::CommunicationVerifyingIdentity {
+                signing_key_id: "operator-communication-key".to_owned(),
+                verifying_key: SigningKey::from_bytes(&[42; 32]).verifying_key(),
+            },
+        ),
+        (
+            "agent-0001".to_owned(),
+            adl_runtime_kernel::CommunicationVerifyingIdentity {
+                signing_key_id: "agent-key".to_owned(),
+                verifying_key: SigningKey::from_bytes(&[41; 32]).verifying_key(),
+            },
+        ),
+        (
+            "shepherd".to_owned(),
+            adl_runtime_kernel::CommunicationVerifyingIdentity {
+                signing_key_id: "agent-key".to_owned(),
+                verifying_key: SigningKey::from_bytes(&[41; 32]).verifying_key(),
+            },
+        ),
+    ])
+}
+
+fn resident_shepherd_population() -> adl_runtime_kernel::AgentPopulationFeed {
+    let key = SigningKey::from_bytes(&[71; 32]);
+    adl_runtime_kernel::AgentPopulationFeed::resident_shepherd_with_identity(
+        "shepherd-test-response-key",
+        &hex::encode(key.verifying_key().to_bytes()),
+    )
+}
+
+fn test_agent_population() -> adl_runtime_kernel::AgentPopulationFeed {
+    let key = SigningKey::from_bytes(&[41; 32]);
+    adl_runtime_kernel::AgentPopulationFeed {
+        total_count: 1,
+        rendered_sample_count: 1,
+        sample: vec![adl_runtime_kernel::AgentSample {
+            id: "agent-0001".to_owned(),
+            label: "Runtime agent 1".to_owned(),
+            role: "runtime agent".to_owned(),
+            state: "running".to_owned(),
+            detail: "Configured test communication principal".to_owned(),
+            signing_algorithm: "ed25519".to_owned(),
+            signing_key_id: "agent-key".to_owned(),
+            signing_public_key: hex::encode(key.verifying_key().to_bytes()),
+        }],
+    }
 }
 
 fn layer8_work(
@@ -218,6 +293,32 @@ fn layer8_work_for_kind(
     correlation_id: &str,
     content: &str,
 ) -> DomainWork {
+    let signing_key = SigningKey::from_bytes(&[42; 32]);
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    let mut message = SignedIdentityMessage {
+        schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+        message_kind: "request".to_owned(),
+        sender_id: "layer8-operator".to_owned(),
+        recipient_id: recipient_id.to_owned(),
+        correlation_id: correlation_id.to_owned(),
+        causation_id: correlation_id.to_owned(),
+        monotonic_sequence: u64::from(work_id.as_bytes().last().copied().unwrap_or(1)).max(1),
+        issued_at_unix_millis: now,
+        expires_at_unix_millis: now + 60_000,
+        nonce: format!("nonce-{work_id}"),
+        content: content.to_owned(),
+        signing_algorithm: "ed25519".to_owned(),
+        signing_key_id: "operator-communication-key".to_owned(),
+        signature: String::new(),
+    };
+    message.signature = hex::encode(
+        signing_key
+            .sign(&message.signing_bytes().unwrap())
+            .to_bytes(),
+    );
     DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
         work_id: work_id.to_owned(),
@@ -226,10 +327,7 @@ fn layer8_work_for_kind(
             "schema": LOCAL_AGENT_WORK_SCHEMA,
             "tasks": [{
                 "op": LAYER8_MESSAGE_TASK_OP,
-                "sender": "layer8-operator",
-                "recipient_id": recipient_id,
-                "correlation_id": correlation_id,
-                "content": content
+                "message": message
             }]
         }))
         .unwrap(),
@@ -260,10 +358,11 @@ async fn shepherd_layer8_message_requires_matching_correlation_and_running_roste
         .unwrap(),
     );
     let factory = OperationalFactory::new(adapter, vec![]);
-    let ingress = CanonicalIngress::new(
+    let ingress = CanonicalIngress::new_with_communication_keys(
         2,
         recorder.clone(),
         BTreeMap::from([("shepherd".to_owned(), factory.clone())]),
+        test_communication_keys(),
     );
     let mut registry = ComponentRegistry::new();
     registry.register(factory);
@@ -280,7 +379,7 @@ async fn shepherd_layer8_message_requires_matching_correlation_and_running_roste
             authority(&key, [ControlCapability::Execute]),
             8,
             std::iter::empty(),
-            adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+            resident_shepherd_population(),
         )
         .with_canonical_ingress(ingress),
     );
@@ -408,12 +507,14 @@ async fn layer8_operator_message_reaches_only_a_visible_agent() {
         .await
         .unwrap();
     let service = Arc::new(
-        ControlService::new(
+        ControlService::new_with_observatory_config_and_agents(
             "instance-1",
             recorder,
             handle.control(),
             authority(&key, [ControlCapability::Execute]),
             8,
+            std::iter::empty(),
+            test_agent_population(),
         )
         .with_canonical_ingress(ingress.clone()),
     );
@@ -439,9 +540,10 @@ async fn layer8_operator_message_reaches_only_a_visible_agent() {
         panic!("submit outcome")
     };
     let output = work_result.public_output.expect("public Layer 8 response");
-    assert_eq!(output["schema"], LAYER8_AGENT_RESPONSE_SCHEMA);
-    assert_eq!(output["recipient_id"], "agent-0001");
-    assert_eq!(output["status"], "received");
+    assert_eq!(output["schema"], ACIP_IDENTITY_MESSAGE_SCHEMA);
+    assert_eq!(output["sender_id"], "agent-0001");
+    assert_eq!(output["recipient_id"], "layer8-operator");
+    assert_eq!(output["message_kind"], "ack");
 
     let hidden_id = "layer8-submit-2";
     let hidden_correlation = blake3::hash(hidden_id.as_bytes()).to_hex()[..32].to_owned();
@@ -514,6 +616,11 @@ async fn layer8_operator_message_reaches_only_a_visible_agent() {
                     role: "runtime agent".to_owned(),
                     state: "stopped".to_owned(),
                     detail: "not addressable".to_owned(),
+                    signing_algorithm: "ed25519".to_owned(),
+                    signing_key_id: "agent-key".to_owned(),
+                    signing_public_key: hex::encode(
+                        SigningKey::from_bytes(&[41; 32]).verifying_key().to_bytes(),
+                    ),
                 }],
             },
         )
@@ -539,18 +646,42 @@ async fn layer8_operator_message_reaches_only_a_visible_agent() {
 #[tokio::test]
 async fn production_agent_executor_returns_only_the_bounded_layer8_receipt() {
     let state = tempfile::tempdir().unwrap();
-    let executor = InProcessOperationExecutor::with_state_dir(AdapterKind::Agent, state.path());
-    let payload = serde_json::to_vec(&serde_json::json!({
-        "schema": LOCAL_AGENT_WORK_SCHEMA,
-        "tasks": [{
-            "op": LAYER8_MESSAGE_TASK_OP,
-            "sender": "layer8-operator",
-            "recipient_id": "agent-0001",
-            "correlation_id": "layer8-correlation-2",
-            "content": "Hello"
-        }]
-    }))
-    .unwrap();
+    let recorder = RuntimeRecorder::new(16);
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    recorder.set_clock_authority(adl_runtime_kernel::ClockAuthority::Authoritative {
+        source: "test-clock".to_owned(),
+        unix_millis: now,
+    });
+    let executors =
+        adl_runtime_kernel::build_production_operation_executors_with_communication_signers(
+            state.path(),
+            recorder,
+            BTreeMap::from([
+                (
+                    "layer8-operator".to_owned(),
+                    adl_runtime_kernel::CommunicationSigningIdentity::new(
+                        "operator-communication-key",
+                        [42; 32],
+                    ),
+                ),
+                (
+                    "agent-0001".to_owned(),
+                    adl_runtime_kernel::CommunicationSigningIdentity::new("agent-key", [41; 32]),
+                ),
+            ]),
+        )
+        .unwrap();
+    let executor = executors.get(&AdapterKind::Agent).unwrap();
+    let payload = layer8_work(
+        "layer8-production-1",
+        "agent-0001",
+        "layer8-correlation-2",
+        "Hello",
+    )
+    .payload;
     let response = executor
         .execute(&OperationRequest {
             schema: adl_runtime_kernel::OPERATION_REQUEST_SCHEMA.to_owned(),
@@ -564,11 +695,12 @@ async fn production_agent_executor_returns_only_the_bounded_layer8_receipt() {
         .unwrap();
     let response: serde_json::Value = serde_json::from_slice(&response).unwrap();
     let output = &response["outputs"][0]["output"];
-    assert_eq!(output["schema"], LAYER8_AGENT_RESPONSE_SCHEMA);
-    assert_eq!(output["recipient_id"], "agent-0001");
+    assert_eq!(output["schema"], ACIP_IDENTITY_MESSAGE_SCHEMA);
+    assert_eq!(output["sender_id"], "agent-0001");
+    assert_eq!(output["recipient_id"], "layer8-operator");
     assert_eq!(output["correlation_id"], "layer8-correlation-2");
-    assert_eq!(output["status"], "received");
-    assert_eq!(output["message"], "agent-0001 received your message.");
+    assert_eq!(output["message_kind"], "ack");
+    assert_eq!(output["content"], "agent-0001 received your message.");
     assert!(response.get("content").is_none());
 }
 
@@ -1362,6 +1494,10 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
         ComponentId::new("runtime_api"),
         adl_runtime_kernel::RunningState::Running,
     );
+    recorder.set_component_state(
+        ComponentId::new("agent_runtime"),
+        adl_runtime_kernel::RunningState::Running,
+    );
     recorder.set_clock_authority(ClockAuthority::Authoritative {
         source: "sntp".to_owned(),
         unix_millis: 1_789_000_000,
@@ -1374,7 +1510,7 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
         integrity: "snapshot-hash".to_owned(),
     });
     recorder.promote_observability();
-    let service = Arc::new(ControlService::new_with_observatory_config(
+    let service = Arc::new(ControlService::new_with_observatory_config_and_agents(
         "instance-1",
         recorder,
         FakeLifecycle {
@@ -1383,6 +1519,7 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
         authority(&key, [ControlCapability::Read]),
         4,
         ["https://localhost:8765".to_owned()],
+        test_agent_population(),
     ));
     let weather_config = WeatherConfig {
         disk_stop_free_bytes: 256,
@@ -1626,9 +1763,14 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
 #[tokio::test]
 async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
     let key = SigningKey::from_bytes(&[14; 32]);
+    let recorder = RuntimeRecorder::new(4);
+    recorder.set_component_state(
+        ComponentId::new("agent_runtime"),
+        adl_runtime_kernel::RunningState::Running,
+    );
     let service = Arc::new(ControlService::new_with_observatory_config_and_agents(
         "instance-1",
-        RuntimeRecorder::new(4),
+        recorder,
         FakeLifecycle {
             calls: Arc::new(AtomicUsize::new(0)),
         },
@@ -1645,6 +1787,9 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),
                     detail: "sample 1 of 10000".to_owned(),
+                    signing_algorithm: "ed25519".to_owned(),
+                    signing_key_id: "agent-key-1".to_owned(),
+                    signing_public_key: "11".repeat(32),
                 },
                 adl_runtime_kernel::AgentSample {
                     id: "agent-00002".to_owned(),
@@ -1652,6 +1797,9 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),
                     detail: "sample 2 of 10000".to_owned(),
+                    signing_algorithm: "ed25519".to_owned(),
+                    signing_key_id: "agent-key-2".to_owned(),
+                    signing_public_key: "22".repeat(32),
                 },
             ],
         },
@@ -1676,7 +1824,7 @@ fn resident_shepherd_population_is_truthfully_addressable() {
         authority(&key, [ControlCapability::Read]),
         4,
         std::iter::empty(),
-        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+        resident_shepherd_population(),
     );
     assert!(service.observatory_feed().agents.sample.is_empty());
 
@@ -1714,7 +1862,7 @@ fn resident_shepherd_population_tracks_runtime_component_health() {
         authority(&key, [ControlCapability::Read]),
         4,
         std::iter::empty(),
-        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+        resident_shepherd_population(),
     );
     let shepherd = &service.observatory_feed().agents.sample[0];
     assert_eq!(shepherd.id, "shepherd");

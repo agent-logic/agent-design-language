@@ -102,3 +102,42 @@ fn concurrent_writes_advance_sequences_and_head_atomically() {
     assert_eq!(restored["generation"], 16);
     assert_eq!(state.local_lifelog_len().unwrap(), 16);
 }
+
+#[test]
+fn communication_outbound_sequences_are_per_principal_and_survive_restart() {
+    let root = TempDir::new().unwrap();
+    let state = KernelDurableState::open(root.path()).unwrap();
+    assert_eq!(
+        state
+            .next_communication_outbound_sequence("agent-0001")
+            .unwrap(),
+        1
+    );
+    assert_eq!(
+        state
+            .next_communication_outbound_sequence("agent-0002")
+            .unwrap(),
+        1
+    );
+    assert_eq!(
+        state
+            .next_communication_outbound_sequence("agent-0001")
+            .unwrap(),
+        2
+    );
+    drop(state);
+
+    let reopened = KernelDurableState::open(root.path()).unwrap();
+    assert_eq!(
+        reopened
+            .next_communication_outbound_sequence("agent-0001")
+            .unwrap(),
+        3
+    );
+    assert_eq!(
+        reopened
+            .next_communication_outbound_sequence("agent-0002")
+            .unwrap(),
+        2
+    );
+}

@@ -3,8 +3,10 @@ use std::{
     future::Future,
     io::Write,
     net::SocketAddr,
-    sync::Arc,
-    sync::Mutex,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc, Mutex,
+    },
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
@@ -28,11 +30,12 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
-    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, ComponentId,
-    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
-    LiveContinuity, ObservabilityHealth, RunningState, RuntimeRecorder, RuntimeSnapshot,
-    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, LAYER8_MESSAGE_TASK_OP,
-    LOCAL_AGENT_WORK_SCHEMA,
+    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest,
+    CommunicationSigningIdentity, ComponentId, DomainResult, DomainWork, IngressError,
+    KernelControl, KernelExit, LifecycleState, LiveContinuity, ObservabilityHealth, RunningState,
+    RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig, SignedIdentityMessage,
+    WeatherHealthReport, ACIP_IDENTITY_MESSAGE_SCHEMA, ACIP_WEBSOCKET_SCHEMA,
+    LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -52,6 +55,7 @@ pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
 pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth.v1";
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
+pub const OBSERVATORY_WS_LAYER8_INTENT_SCHEMA: &str = "adl.runtime_v3.observatory_layer8_intent.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
@@ -344,6 +348,8 @@ pub struct ControlService<C> {
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
+    layer8_signer: Option<CommunicationSigningIdentity>,
+    layer8_sequence: AtomicU64,
 }
 
 impl<C: LifecycleControl + 'static> ControlService<C> {
@@ -361,7 +367,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             std::iter::empty(),
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -380,7 +386,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             observatory_allowed_origins,
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -425,7 +431,96 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             public_base_url: Mutex::new("https://runtime.invalid".to_owned()),
             canonical_ingress: None,
             api_policy: Mutex::new(None),
+            layer8_signer: None,
+            layer8_sequence: AtomicU64::new(0),
         }
+    }
+
+    pub fn with_layer8_signer(mut self, signer: CommunicationSigningIdentity) -> Self {
+        self.layer8_signer = Some(signer);
+        self
+    }
+
+    async fn execute_layer8_intent(
+        self: &Arc<Self>,
+        intent: ObservatoryWsLayer8Intent,
+    ) -> Result<ControlResponse, ControlError> {
+        if intent.schema != OBSERVATORY_WS_LAYER8_INTENT_SCHEMA
+            || !is_safe_identifier(&intent.recipient_id)
+            || !is_correlation_id(&intent.correlation_id)
+            || !is_safe_identifier(&intent.causation_id)
+            || intent.content.trim().is_empty()
+            || intent.content.len() > 4_000
+            || intent
+                .content
+                .chars()
+                .any(|character| character.is_control() && !matches!(character, '\n' | '\t'))
+        {
+            return Err(ControlError::InvalidBounds);
+        }
+        let signer = self
+            .layer8_signer
+            .as_ref()
+            .ok_or(ControlError::Unauthorized)?;
+        let now = now_unix_millis();
+        let sequence = self
+            .layer8_sequence
+            .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |current| {
+                Some(current.saturating_add(1).max(now))
+            })
+            .unwrap_or(0)
+            .saturating_add(1)
+            .max(now);
+        let nonce = intent.causation_id.clone();
+        let mut message = SignedIdentityMessage {
+            schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+            message_kind: "request".to_owned(),
+            sender_id: "layer8-operator".to_owned(),
+            recipient_id: intent.recipient_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            causation_id: intent.causation_id,
+            monotonic_sequence: sequence,
+            issued_at_unix_millis: now,
+            expires_at_unix_millis: now.saturating_add(60_000),
+            nonce: nonce.clone(),
+            content: intent.content,
+            signing_algorithm: "ed25519".to_owned(),
+            signing_key_id: signer.signing_key_id.clone(),
+            signature: String::new(),
+        };
+        message.signature = hex::encode(
+            signer
+                .signing_key
+                .sign(&message.signing_bytes().ok_or(ControlError::Encoding(
+                    "identity message encoding".to_owned(),
+                ))?)
+                .to_bytes(),
+        );
+        let work_id = format!("layer8-{sequence:016x}");
+        let work = DomainWork {
+            schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: work_id.clone(),
+            kind: if intent.recipient_id == crate::RESIDENT_SHEPHERD_ID {
+                crate::RESIDENT_SHEPHERD_ID.to_owned()
+            } else {
+                "agent".to_owned()
+            },
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": LOCAL_AGENT_WORK_SCHEMA,
+                "tasks": [{"op": LAYER8_MESSAGE_TASK_OP, "message": message}]
+            }))
+            .map_err(|error| ControlError::Encoding(error.to_string()))?,
+        };
+        let command = SignedControlCommand::sign(
+            work_id,
+            intent.correlation_id,
+            self.instance_id.clone(),
+            "layer8-operator",
+            ControlAction::Submit { work },
+            signer.signing_key_id.clone(),
+            &signer.signing_key,
+        )?;
+        self.execute(command).await
     }
 
     fn set_api_policy(&self, policy: ControlApiPolicy) {
@@ -661,6 +756,85 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sequence_reserved": false
             });
         };
+        let secure_route = matches!(envelope.route.as_str(), "agent" | "shepherd");
+        let secure_message = if secure_route {
+            let message =
+                match serde_json::from_str::<SignedIdentityMessage>(&envelope.payload_json) {
+                    Ok(message) => message,
+                    Err(_) => {
+                        return serde_json::json!({
+                            "schema": ACIP_WEBSOCKET_SCHEMA,
+                            "status": "rejected",
+                            "message_id": envelope.message_id,
+                            "reason": "signed_identity_message_required",
+                            "sequence_reserved": false
+                        });
+                    }
+                };
+            let expected_route = if message.recipient_id == crate::RESIDENT_SHEPHERD_ID {
+                "shepherd"
+            } else {
+                "agent"
+            };
+            let expected_replay_id =
+                format!("{}:{}", message.sender_id, message.monotonic_sequence);
+            if message.message_kind != "request"
+                || envelope.message_id != message.nonce
+                || envelope.source != message.sender_id
+                || envelope.target != message.recipient_id
+                || envelope.route != expected_route
+                || envelope.capability != expected_route
+                || envelope.correlation_id != message.correlation_id
+                || envelope.causation_id != message.causation_id
+                || envelope.monotonic_sequence != message.monotonic_sequence
+                || envelope.replay_id != expected_replay_id
+            {
+                return serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "message_id": envelope.message_id,
+                    "reason": "signed_identity_carrier_mismatch",
+                    "sequence_reserved": false
+                });
+            }
+            if ingress
+                .verify_communication_message(&message, now_unix_millis())
+                .is_err()
+            {
+                return serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "message_id": envelope.message_id,
+                    "reason": "signed_identity_verification_failed",
+                    "sequence_reserved": false
+                });
+            }
+            let addressable_agents = self
+                .agent_population
+                .clone()
+                .with_runtime_snapshot(&self.recorder.snapshot());
+            if !recipient_is_running(&addressable_agents, &message.sender_id) {
+                return serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "message_id": envelope.message_id,
+                    "reason": "sender_not_running",
+                    "sequence_reserved": false
+                });
+            }
+            if !recipient_is_running(&addressable_agents, &message.recipient_id) {
+                return serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "message_id": envelope.message_id,
+                    "reason": "recipient_not_running",
+                    "sequence_reserved": false
+                });
+            }
+            Some(message)
+        } else {
+            None
+        };
         let Some(reservation) =
             self.reserve_acip_sequence(&envelope.source, envelope.monotonic_sequence)
         else {
@@ -672,28 +846,42 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sequence_reserved": false
             });
         };
+        let work_payload = match secure_message {
+            Some(message) => serde_json::to_vec(&serde_json::json!({
+                "schema": LOCAL_AGENT_WORK_SCHEMA,
+                "tasks": [{"op": LAYER8_MESSAGE_TASK_OP, "message": message}]
+            }))
+            .expect("signed communication work projection is JSON serializable"),
+            None => envelope.payload_json.as_bytes().to_vec(),
+        };
         let work = DomainWork {
             schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
             work_id: envelope.message_id.clone(),
             kind: envelope.route.clone(),
-            payload: envelope.payload_json.as_bytes().to_vec(),
+            payload: work_payload,
         };
-        match ingress.submit(work, envelope.message_id.clone()).await {
+        match ingress.submit(work, envelope.correlation_id.clone()).await {
             Ok(result) => serde_json::json!({
                 "schema": ACIP_WEBSOCKET_SCHEMA,
                 "status": "completed",
                 "message_id": envelope.message_id,
                 "accepted_sequence": result.accepted_sequence,
                 "result_hash": result.result_hash,
+                "signed_ack": result.public_output,
                 "sequence_reserved": true
             }),
             Err(error) => {
                 self.rollback_acip_sequence(reservation);
+                let reason = if secure_route && error == IngressError::Conflict {
+                    "monotonic_sequence_must_advance".to_owned()
+                } else {
+                    error.to_string()
+                };
                 serde_json::json!({
                     "schema": ACIP_WEBSOCKET_SCHEMA,
                     "status": "rejected",
                     "message_id": envelope.message_id,
-                    "reason": error.to_string(),
+                    "reason": reason,
                     "sequence_reserved": false
                 })
             }
@@ -1056,47 +1244,30 @@ fn validate_layer8_recipient(
     if tasks.len() != 1 || layer8_tasks.len() != 1 {
         return Err(ControlError::InvalidBounds);
     }
-    let recipient = layer8_tasks[0]
-        .get("recipient_id")
-        .and_then(serde_json::Value::as_str)
-        .ok_or(ControlError::InvalidBounds)?;
-    let sender = layer8_tasks[0]
-        .get("sender")
-        .and_then(serde_json::Value::as_str)
-        .ok_or(ControlError::InvalidBounds)?;
-    let correlation_id = layer8_tasks[0]
-        .get("correlation_id")
-        .and_then(serde_json::Value::as_str)
-        .ok_or(ControlError::InvalidBounds)?;
-    let content = layer8_tasks[0]
-        .get("content")
-        .and_then(serde_json::Value::as_str)
-        .ok_or(ControlError::InvalidBounds)?;
-    let safe_id = |value: &str| {
-        !value.is_empty()
-            && value.len() <= 128
-            && value.bytes().all(|byte| {
-                byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-')
-            })
-    };
-    if sender != "layer8-operator"
-        || !safe_id(recipient)
-        || !safe_id(correlation_id)
-        || correlation_id != command_correlation_id
-        || content.trim().is_empty()
-        || content.len() > 4_000
-        || content
-            .chars()
-            .any(|character| character.is_control() && !matches!(character, '\n' | '\t'))
+    let message: SignedIdentityMessage = serde_json::from_value(
+        layer8_tasks[0]
+            .get("message")
+            .cloned()
+            .ok_or(ControlError::InvalidBounds)?,
+    )
+    .map_err(|_| ControlError::InvalidBounds)?;
+    if message.message_kind != "request"
+        || message.correlation_id != command_correlation_id
+        || (work.kind == "shepherd" && message.recipient_id != crate::RESIDENT_SHEPHERD_ID)
+        || (work.kind == "agent" && message.recipient_id == crate::RESIDENT_SHEPHERD_ID)
     {
         return Err(ControlError::InvalidBounds);
     }
+    recipient_is_running(agents, &message.recipient_id)
+        .then_some(())
+        .ok_or(ControlError::Unauthorized)
+}
+
+fn recipient_is_running(agents: &AgentPopulationFeed, recipient_id: &str) -> bool {
     agents
         .sample
         .iter()
-        .any(|agent| agent.id == recipient && agent.state == "running")
-        .then_some(())
-        .ok_or(ControlError::Unauthorized)
+        .any(|agent| agent.id == recipient_id && agent.state == "running")
 }
 
 pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
@@ -1126,21 +1297,7 @@ pub struct AgentPopulationFeed {
 }
 
 impl AgentPopulationFeed {
-    pub fn single() -> Self {
-        Self {
-            total_count: 1,
-            rendered_sample_count: 1,
-            sample: vec![AgentSample {
-                id: "agent-0001".to_owned(),
-                label: "Runtime agent 1".to_owned(),
-                role: "runtime agent".to_owned(),
-                state: "running".to_owned(),
-                detail: "sample 1 of 1".to_owned(),
-            }],
-        }
-    }
-
-    pub fn resident_shepherd() -> Self {
+    pub fn empty() -> Self {
         Self {
             total_count: 0,
             rendered_sample_count: 0,
@@ -1148,22 +1305,47 @@ impl AgentPopulationFeed {
         }
     }
 
-    fn with_runtime_snapshot(mut self, snapshot: &RuntimeSnapshot) -> Self {
-        if !self.sample.is_empty() {
-            return self;
-        }
-        let shepherd_id = ComponentId::new(crate::RESIDENT_SHEPHERD_ID);
-        if let Some(state) = snapshot.components.get(&shepherd_id) {
-            self.sample.push(AgentSample {
+    pub fn resident_shepherd_with_identity(signing_key_id: &str, signing_public_key: &str) -> Self {
+        Self {
+            total_count: 0,
+            rendered_sample_count: 0,
+            sample: vec![AgentSample {
                 id: crate::RESIDENT_SHEPHERD_ID.to_owned(),
                 label: "Shepherd".to_owned(),
                 role: "resident shepherd".to_owned(),
-                state: runtime_agent_state(state).to_owned(),
-                detail: format!("Runtime component state: {}", runtime_agent_state(state)),
-            });
+                state: "starting".to_owned(),
+                detail: "Runtime component state: starting".to_owned(),
+                signing_algorithm: "ed25519".to_owned(),
+                signing_key_id: signing_key_id.to_owned(),
+                signing_public_key: signing_public_key.to_owned(),
+            }],
         }
-        self.total_count = self.sample.len() as u64;
-        self.rendered_sample_count = self.total_count;
+    }
+
+    fn with_runtime_snapshot(mut self, snapshot: &RuntimeSnapshot) -> Self {
+        let shepherd_id = ComponentId::new(crate::RESIDENT_SHEPHERD_ID);
+        let agent_id = ComponentId::new("agent_runtime");
+        let shepherd_state = snapshot.components.get(&shepherd_id);
+        let agent_state = snapshot.components.get(&agent_id);
+        self.sample.retain_mut(|agent| {
+            let state = if agent.id == crate::RESIDENT_SHEPHERD_ID {
+                shepherd_state
+            } else {
+                agent_state
+            };
+            let Some(state) = state else {
+                return false;
+            };
+            agent.state = runtime_agent_state(state).to_owned();
+            agent.detail = format!("Runtime component state: {}", runtime_agent_state(state));
+            true
+        });
+        self.rendered_sample_count = self.sample.len() as u64;
+        if self.sample.is_empty() {
+            self.total_count = 0;
+        } else {
+            self.total_count = self.total_count.max(self.rendered_sample_count);
+        }
         self
     }
 }
@@ -1186,6 +1368,9 @@ pub struct AgentSample {
     pub role: String,
     pub state: String,
     pub detail: String,
+    pub signing_algorithm: String,
+    pub signing_key_id: String,
+    pub signing_public_key: String,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1505,6 +1690,16 @@ struct ObservatoryWsAuth {
     bearer_token: String,
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryWsLayer8Intent {
+    schema: String,
+    recipient_id: String,
+    correlation_id: String,
+    causation_id: String,
+    content: String,
+}
+
 #[derive(Serialize)]
 struct ObservatoryWsControlResult {
     schema: &'static str,
@@ -1593,6 +1788,69 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             error: (!authorized).then_some("authentication_failed"),
                         };
                         let Ok(payload) = serde_json::to_string(&result) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        continue;
+                    }
+                    if let Ok(intent) = serde_json::from_str::<ObservatoryWsLayer8Intent>(&payload) {
+                        let correlation_id = is_correlation_id(&intent.correlation_id)
+                            .then(|| intent.correlation_id.clone());
+                        if bearer_token.is_none() {
+                            let rejected = ObservatoryWsControlResult {
+                                schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                status: "rejected",
+                                command_id: None,
+                                correlation_id,
+                                response: None,
+                                error: Some("write_authentication_required"),
+                            };
+                            let Ok(payload) = serde_json::to_string(&rejected) else {
+                                break;
+                            };
+                            if socket.send(Message::Text(payload.into())).await.is_err() {
+                                break;
+                            }
+                            continue;
+                        }
+                        if let Ok(permit) = command_results_tx.clone().try_reserve_owned() {
+                            let service = service.clone();
+                            tokio::spawn(async move {
+                                let result = match service.execute_layer8_intent(intent).await {
+                                    Ok(response) => ObservatoryWsControlResult {
+                                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                        status: "accepted",
+                                        command_id: None,
+                                        correlation_id,
+                                        response: Some(response),
+                                        error: None,
+                                    },
+                                    Err(error) => ObservatoryWsControlResult {
+                                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                        status: "rejected",
+                                        command_id: None,
+                                        correlation_id,
+                                        response: None,
+                                        error: Some(control_error_code(&error)),
+                                    },
+                                };
+                                if let Ok(payload) = serde_json::to_string(&result) {
+                                    permit.send(payload);
+                                }
+                            });
+                            continue;
+                        }
+                        let backpressure = ObservatoryWsControlResult {
+                            schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                            status: "rejected",
+                            command_id: None,
+                            correlation_id,
+                            response: None,
+                            error: Some("backpressure"),
+                        };
+                        let Ok(payload) = serde_json::to_string(&backpressure) else {
                             break;
                         };
                         if socket.send(Message::Text(payload.into())).await.is_err() {

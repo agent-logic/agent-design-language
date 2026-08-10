@@ -636,7 +636,7 @@ fn serve_requires_init_declared_state_root_before_live_adapters_start() {
     std::fs::write(
         &init,
         format!(
-            r#"schema = "adl.runtime_v3.init.v1"
+            r#"schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 [api]
@@ -859,9 +859,14 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         observatory["ingress"]["completed"][&shepherd_admission_id]["work_id"],
         shepherd_admission_id
     );
-    assert_eq!(observatory["agents"]["total_count"], 1);
-    assert_eq!(observatory["agents"]["sample"][0]["id"], "shepherd");
-    assert_eq!(observatory["agents"]["sample"][0]["state"], "running");
+    assert_eq!(observatory["agents"]["total_count"], 3);
+    let shepherd = observatory["agents"]["sample"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|agent| agent["id"] == "shepherd")
+        .expect("configured Shepherd must be visible");
+    assert_eq!(shepherd["state"], "running");
     assert_eq!(
         observatory["ingress"]["completed"]["guardian-work-1"]["result_hash"],
         submit["outcome"]["work_result"]["result_hash"]
@@ -1095,6 +1100,23 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     .unwrap();
     assert_eq!(manifest["generation"], 1);
     assert_eq!(manifest["signing_algorithm"], "ed25519");
+    let rotated_agent_key = SigningKey::from_bytes(&[75_u8; 32]);
+    std::fs::write(
+        state_root.join("credentials/agent-0002-private-key.hex"),
+        hex::encode([75_u8; 32]),
+    )
+    .unwrap();
+    std::fs::write(
+        state_root.join("credentials/agent-0002-public-key.hex"),
+        hex::encode(rotated_agent_key.verifying_key().to_bytes()),
+    )
+    .unwrap();
+    let rotated_lease = TestGuardianLease::new("remote-control-rotated-agent-key");
+    let mut restore_with_rotated_agent_key = runtime_kernel_command(&init, &rotated_lease);
+    let rotated_output = bounded_output(&mut restore_with_rotated_agent_key);
+    assert_eq!(rotated_output.status.code(), Some(78));
+    assert!(String::from_utf8_lossy(&rotated_output.stderr)
+        .contains("runtime continuity restore refused"));
     let different_state_root = local_state_root(directory.path(), "remote-control-different-state");
     let different_continuity_root = different_state_root.join("continuity");
     copy_directory(&continuity_root, &different_continuity_root);

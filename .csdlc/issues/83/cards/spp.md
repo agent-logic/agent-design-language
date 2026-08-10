@@ -12,47 +12,57 @@ Status: ready
 
 ## Summary
 
-Extend the existing Observatory into the first truthful Layer 8 chat vertical slice: live roster and status, selected-agent signed messaging through canonical Runtime ingress, bounded public-safe response or refusal, reconnect continuity, and retained live-browser proof.
+Complete the investor-visible Layer 8 chat slice with fresh live capture time and one governed signed identity-envelope path for Layer 8 and agent-to-agent messages: canonical sender verification before delivery, recipient-selected Runtime-side response signing, browser verification against the live roster, no browser private-key material, reconnect continuity, and retained live proof.
 
 ## Plan
 
-Revision 12
+Revision 16
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Implement the live Runtime roster and WSS client state machine with fresh, stale, unavailable, and bounded reconnect behavior.",
+    "action": "Retain the live Runtime roster and WSS state machine with fresh, stale, unavailable, and bounded reconnect behavior, and drive every visible Capture Time surface from the same fresh live timestamp.",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
       "AC-5"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement selected-agent Layer 8 messaging through canonical signed Runtime ingress with visible-recipient validation and bounded public-safe response or refusal.",
+    "action": "Implement one bounded signed identity envelope for Layer 8 and agent-to-agent messages with sender identity, recipient identity, correlation, causation, nonce, sequence, expiry, content, key id, algorithm, and signature verified against the canonical identity registry before delivery.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Implement the familiar Observatory chat surface without persisting or exposing signing material and retain truthful failure states.",
+    "action": "Configure one distinct Runtime-side signing identity per roster agent, sign the response with the selected recipient identity, verify before canonical completion/public projection, and expose only public verification identity in the roster.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
       "AC-4"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Run focused Runtime, OpenAPI, browser-shell, live-browser, reconnect, redaction, refusal, and diff-hygiene proof.",
+    "action": "Replace browser private-key input with authenticated WSS Layer 8 intent delegation; verify the selected agent response against its roster key and display verified identity without persisting or rendering private material.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Run focused forged-envelope, wrong-agent-key, wrong-correlation, expiry, replay, response-signature, fresh-capture, Runtime, OpenAPI, browser-shell, live-browser, reconnect, redaction, refusal, and diff-hygiene proof.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -62,11 +72,11 @@ Revision 12
       "AC-6",
       "AC-7"
     ],
-    "status": "in_progress"
+    "status": "pending"
   },
   {
-    "id": "S5",
-    "action": "Review exact-head behavior and preserve the strict design-approved path boundary for publication.",
+    "id": "S6",
+    "action": "Review exact-head behavior and preserve the strict no-publication boundary while legacy issue #5836 remains open.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"

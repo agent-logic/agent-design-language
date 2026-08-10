@@ -9,10 +9,14 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    encode_acip_envelope, ControlAction, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA,
+    encode_acip_envelope, verify_signed_identity_message, AcipEnvelope,
+    CommunicationVerifyingIdentity, ControlAction, SignedControlCommand, SignedIdentityMessage,
+    ACIP_IDENTITY_MESSAGE_SCHEMA, ACIP_PROTOBUF_SCHEMA, ACIP_PROTOCOL_FAMILY, ACIP_VERSION_MAJOR,
+    ACIP_VERSION_MINOR, ACIP_WEBSOCKET_SCHEMA,
 };
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{Signer, SigningKey};
 use futures::{SinkExt, StreamExt};
+use prost::Message as ProstMessage;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio_rustls::rustls::{
     pki_types::{CertificateDer, ServerName},
@@ -154,6 +158,79 @@ where
     })
     .await
     .expect("ACIP protocol result timed out")
+}
+
+fn signed_agent_message(sequence: u64) -> SignedIdentityMessage {
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    let mut message = SignedIdentityMessage {
+        schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+        message_kind: "request".to_owned(),
+        sender_id: "agent-0001".to_owned(),
+        recipient_id: "agent-0002".to_owned(),
+        correlation_id: format!("agent-correlation-{sequence:08}"),
+        causation_id: format!("agent-causation-{sequence:08}"),
+        monotonic_sequence: sequence,
+        issued_at_unix_millis: now,
+        expires_at_unix_millis: now + 60_000,
+        nonce: format!("agent-message-{sequence:08}"),
+        content: "Confirm governed agent-to-agent delivery.".to_owned(),
+        signing_algorithm: "ed25519".to_owned(),
+        signing_key_id: "agent-0001-communication".to_owned(),
+        signature: String::new(),
+    };
+    message.signature = hex::encode(
+        SigningKey::from_bytes(&[73; 32])
+            .sign(&message.signing_bytes().unwrap())
+            .to_bytes(),
+    );
+    message
+}
+
+fn resign_agent_message(message: &mut SignedIdentityMessage) {
+    resign_message(message, [73; 32]);
+}
+
+fn resign_message(message: &mut SignedIdentityMessage, seed: [u8; 32]) {
+    message.signature = hex::encode(
+        SigningKey::from_bytes(&seed)
+            .sign(&message.signing_bytes().unwrap())
+            .to_bytes(),
+    );
+}
+
+fn signed_agent_carrier(message: &SignedIdentityMessage, target: &str) -> Vec<u8> {
+    let route = if target == "shepherd" {
+        "shepherd"
+    } else {
+        "agent"
+    };
+    AcipEnvelope {
+        schema: ACIP_PROTOBUF_SCHEMA.to_owned(),
+        message_id: message.nonce.clone(),
+        source: message.sender_id.clone(),
+        target: target.to_owned(),
+        route: route.to_owned(),
+        payload_json: serde_jcs::to_string(message).unwrap(),
+        monotonic_sequence: message.monotonic_sequence,
+        protocol_family: ACIP_PROTOCOL_FAMILY.to_owned(),
+        version_major: ACIP_VERSION_MAJOR,
+        version_minor: ACIP_VERSION_MINOR,
+        runtime_id: "test-runtime-instance".to_owned(),
+        correlation_id: message.correlation_id.clone(),
+        causation_id: message.causation_id.clone(),
+        trace_id: message.correlation_id.clone(),
+        replay_id: format!("{}:{}", message.sender_id, message.monotonic_sequence),
+        capability: route.to_owned(),
+        authority: "signed-communication-identity".to_owned(),
+        payload_type: "application/json".to_owned(),
+        acknowledgement_requested: true,
+        error_code: None,
+        required_features: Vec::new(),
+    }
+    .encode_to_vec()
 }
 
 async fn shutdown(
@@ -314,6 +391,134 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         "class": "negative_case",
         "result": "passed",
         "evidence": "the production ingress rejected a repeated monotonic sequence"
+    }));
+
+    let direct = signed_agent_message(1);
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&direct, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let delivered = next_acip_json(&mut socket).await;
+    assert_eq!(delivered["status"], "completed", "{delivered}");
+    let ack: SignedIdentityMessage =
+        serde_json::from_value(delivered["signed_ack"].clone()).unwrap();
+    verify_signed_identity_message(
+        &ack,
+        &std::collections::BTreeMap::from([(
+            "agent-0002".to_owned(),
+            CommunicationVerifyingIdentity {
+                signing_key_id: "agent-0002-communication".to_owned(),
+                verifying_key: SigningKey::from_bytes(&[74; 32]).verifying_key(),
+            },
+        )]),
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_millis() as u64,
+    )
+    .unwrap();
+    assert_eq!(ack.sender_id, "agent-0002");
+    assert_eq!(ack.recipient_id, "agent-0001");
+    assert_eq!(ack.correlation_id, direct.correlation_id);
+    assert_eq!(ack.causation_id, direct.nonce);
+    assertions.push(serde_json::json!({
+        "name": "signed_agent_to_agent_ack_verified",
+        "class": "successful_exchange",
+        "result": "passed",
+        "evidence": "agent-0001 sent a signed ACIP identity message to agent-0002 and verified the returned agent-0002-signed acknowledgement"
+    }));
+
+    let advanced = signed_agent_message(2);
+    let mut forged = advanced.clone();
+    forged.content = "forged after signing".to_owned();
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&forged, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let forged_result = next_acip_json(&mut socket).await;
+    assert_eq!(forged_result["status"], "rejected");
+    assert_eq!(
+        forged_result["reason"],
+        "signed_identity_verification_failed"
+    );
+    assert_eq!(forged_result["sequence_reserved"], false);
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&advanced, "wrong-recipient").into(),
+        ))
+        .await
+        .unwrap();
+    let tampered = next_acip_json(&mut socket).await;
+    assert_eq!(tampered["status"], "rejected");
+    assert_eq!(tampered["reason"], "signed_identity_carrier_mismatch");
+    assert_eq!(tampered["sequence_reserved"], false);
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&advanced, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let corrected = next_acip_json(&mut socket).await;
+    assert_eq!(corrected["status"], "completed", "{corrected}");
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&advanced, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let secure_replay = next_acip_json(&mut socket).await;
+    assert_eq!(secure_replay["status"], "rejected");
+    assert_eq!(secure_replay["reason"], "monotonic_sequence_must_advance");
+
+    let mut wrong_recipient = signed_agent_message(3);
+    wrong_recipient.recipient_id = "agent-missing".to_owned();
+    resign_agent_message(&mut wrong_recipient);
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&wrong_recipient, "agent-missing").into(),
+        ))
+        .await
+        .unwrap();
+    let refused_recipient = next_acip_json(&mut socket).await;
+    assert_eq!(refused_recipient["status"], "rejected");
+    assert_eq!(refused_recipient["reason"], "recipient_not_running");
+    assert_eq!(refused_recipient["sequence_reserved"], false);
+    let corrected_recipient = signed_agent_message(3);
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&corrected_recipient, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let corrected_after_refusal = next_acip_json(&mut socket).await;
+    assert_eq!(
+        corrected_after_refusal["status"], "completed",
+        "{corrected_after_refusal}"
+    );
+    let mut stopped_sender = signed_agent_message(1);
+    stopped_sender.sender_id = "layer8-operator".to_owned();
+    stopped_sender.signing_key_id = "layer8-communication".to_owned();
+    stopped_sender.nonce = "layer8-direct-agent-message-00000001".to_owned();
+    resign_message(&mut stopped_sender, [72; 32]);
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier(&stopped_sender, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let refused_sender = next_acip_json(&mut socket).await;
+    assert_eq!(refused_sender["status"], "rejected");
+    assert_eq!(refused_sender["reason"], "sender_not_running");
+    assert_eq!(refused_sender["sequence_reserved"], false);
+    assertions.push(serde_json::json!({
+        "name": "secure_carrier_tamper_and_replay_rejected",
+        "class": "negative_case",
+        "result": "passed",
+        "evidence": "tampered routing did not reserve sequence state; corrected delivery succeeded once; replay was rejected; a correctly signed absent recipient was rejected before sequence consumption; and a configured signer absent from the running-agent roster could not originate direct agent traffic"
     }));
 
     socket

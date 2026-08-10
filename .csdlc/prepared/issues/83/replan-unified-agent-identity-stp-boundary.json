@@ -1,0 +1,13 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 53,
+  "expected_digest": "fac17a3e7bb86933fcd206e38778553c18918703e0e2ac14eed96689b6693446",
+  "actor": "codex:83-agent-identity-envelope",
+  "reason": "Align the task boundary with the operator-required unified Layer 8 and direct agent-to-agent signed communication contract.",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Implement and prove one governed signed ACIP identity-message contract for authenticated Layer 8-to-agent and direct agent-to-agent communication, including canonical JCS signing, configured per-principal keys, sender and recipient routing, freshness and replay enforcement, recipient-signed acknowledgements, browser delegation without private keys, and the investor-visible live Observatory proof."
+  }
+}

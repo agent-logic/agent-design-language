@@ -1,0 +1,20 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 55,
+  "expected_digest": "ee3d14e5c738ac9513bc362c14e250482252b7a6119b7438b4a633744af9b77d",
+  "actor": "codex:83-agent-identity-envelope",
+  "reason": "Require the same signed identity, routing, replay, and acknowledgement semantics for Layer 8 and a generic non-Shepherd agent recipient.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "The local browser renders the current Runtime v3 capture time, configured Polis name, and roster with Shepherd present as an admitted running agent",
+      "Authenticated Layer 8 intent and direct agent-to-agent traffic use the same signed ACIP identity-message fields, RFC 8785/JCS signing bytes, identity registry, routing checks, freshness bounds, nonce, monotonic sequence, replay protection, and recipient-signed acknowledgement",
+      "The normal Chat UI holds no private signing key, selects the roster recipient, and verifies the returned acknowledgement against that recipient public key before displaying verified delivery",
+      "A production binary ACIP WebSocket proof sends agent-0001 to configured non-Shepherd agent-0002, verifies agent-0002's signed acknowledgement, and rejects signed-body forgery, outer-carrier tamper, unknown recipient, and replay before canonical completion or sequence consumption",
+      "Wrong correlation or causation, stale or future acknowledgement, same-process replay, and restored-watermark replay fail closed; Runtime init v2 requires externally provisioned distinct communication identities and the tracked baseline plus lifecycle provisioner supply required keys without embedding secrets",
+      "TLS trust, origin refusal, version mismatch, stale data, backpressure, Runtime unavailability, disconnect, and reconnect are visible and never presented as live success; reconnect clears write authority until authenticated again",
+      "Live browser proof uses the exact committed Runtime and assets, trusted HTTPS/WSS, no fixture substitution, fresh evidence paths, and retained source revision; no files outside the typed affected-area contract change"
+    ]
+  }
+}

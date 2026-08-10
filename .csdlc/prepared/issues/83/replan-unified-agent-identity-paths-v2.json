@@ -1,0 +1,39 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 56,
+  "expected_digest": "c7b4cef281b69312785437b18b70f4112c59f34a7e11a90f0e8603c1f73587fb",
+  "actor": "codex:83-agent-identity-envelope",
+  "reason": "Include the live-kernel parity assertion that proves resident Shepherd admission precedes external work under the v2 communication identity contract.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_live.mjs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "docs/api/runtime-v3/v1/acip-identity-message-golden.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml"
+    ]
+  }
+}

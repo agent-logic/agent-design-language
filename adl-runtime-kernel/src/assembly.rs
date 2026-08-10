@@ -16,6 +16,7 @@ use windows_sys::Win32::{
     System::Threading::{GetExitCodeProcess, OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION},
 };
 
+use ed25519_dalek::{Signer, SigningKey};
 use semver::{Version, VersionReq};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -24,20 +25,20 @@ use tokio_util::sync::CancellationToken;
 use crate::{
     cognition_component_factories, cognition_service_contracts, governance_component_factories,
     governance_service_contracts, reasoning_component_factories, reasoning_service_contracts,
-    representative_dependencies, AdaptationState, AdaptationStore, AdapterKind, AdapterPolicy,
-    AuthorityMode, CanonicalIngress, Capability, CapabilityRequirement, ClockAuthority, Component,
-    ComponentConfig, ComponentContext, ComponentError, ComponentFactory, ComponentId,
-    ComponentSpec, DeterminismClass, DomainWork, ExecutorError, FactoryRegistration,
-    FactoryRegistry, FailureClass, FailurePolicy, KernelDurableState, LifecycleGuarantees,
-    LoopDefinition, MutationAuthority, MutationGate, OperationError, OperationExecutor,
-    OperationRequest, OperationalAdapter, OperationalFactory, QualifiedTimeFactory,
-    ReasoningGraphDefinition, ReasoningNode, ReasoningServices, RecordedObservation,
-    RecorderTrustedTime, RuntimeConfig, RuntimeRecorder, ServiceContract, SysinfoWeatherObserver,
-    TimeQualificationBounds, TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts,
-    ValidatedReasoningGraph, ValidatedTopology, WeatherConfig, WeatherObserver, DOMAIN_WORK_SCHEMA,
-    LAYER8_AGENT_RESPONSE_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
-    OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA,
-    SERVICE_CONTRACT_SCHEMA,
+    representative_dependencies, verify_signed_identity_message, AdaptationState, AdaptationStore,
+    AdapterKind, AdapterPolicy, AuthorityMode, CanonicalIngress, Capability, CapabilityRequirement,
+    ClockAuthority, CommunicationVerifyingIdentity, Component, ComponentConfig, ComponentContext,
+    ComponentError, ComponentFactory, ComponentId, ComponentSpec, DeterminismClass, DomainWork,
+    ExecutorError, FactoryRegistration, FactoryRegistry, FailureClass, FailurePolicy,
+    KernelDurableState, LifecycleGuarantees, LoopDefinition, MutationAuthority, MutationGate,
+    OperationError, OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory,
+    QualifiedTimeFactory, ReasoningGraphDefinition, ReasoningNode, ReasoningServices,
+    RecordedObservation, RecorderTrustedTime, RuntimeConfig, RuntimeRecorder, ServiceContract,
+    SignedIdentityMessage, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
+    TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph, ValidatedTopology,
+    WeatherConfig, WeatherObserver, ACIP_IDENTITY_MESSAGE_SCHEMA, DOMAIN_WORK_SCHEMA,
+    LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA, OPERATION_REQUEST_SCHEMA,
+    REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -60,6 +61,7 @@ pub struct LiveBindings {
     pub recorder: RuntimeRecorder,
     pub operation_executors: BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
     pub permit_keys: BTreeMap<String, ed25519_dalek::VerifyingKey>,
+    pub communication_keys: BTreeMap<String, CommunicationVerifyingIdentity>,
     pub reasoning: Arc<ReasoningServices>,
     pub time_source: Arc<dyn TimeSampleSource>,
     pub time_bounds: TimeQualificationBounds,
@@ -216,8 +218,12 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         let factory = InfrastructureFactory { role };
         registrations.push((Arc::new(factory), role.contract()));
     }
-    let canonical_ingress =
-        CanonicalIngress::new(64, bindings.recorder.clone(), ingress_dispatchers);
+    let canonical_ingress = CanonicalIngress::new_with_communication_keys(
+        64,
+        bindings.recorder.clone(),
+        ingress_dispatchers,
+        bindings.communication_keys,
+    );
     registrations.push((
         Arc::new(canonical_ingress.clone()),
         ServiceContract {
@@ -514,6 +520,28 @@ pub struct InProcessOperationExecutor {
     state: Arc<LocalRuntimeState>,
 }
 
+#[derive(Clone)]
+pub struct CommunicationSigningIdentity {
+    pub signing_key_id: String,
+    pub(crate) signing_key: Arc<SigningKey>,
+}
+
+impl CommunicationSigningIdentity {
+    pub fn new(signing_key_id: impl Into<String>, secret: [u8; 32]) -> Self {
+        Self {
+            signing_key_id: signing_key_id.into(),
+            signing_key: Arc::new(SigningKey::from_bytes(&secret)),
+        }
+    }
+
+    pub fn verifying_identity(&self) -> CommunicationVerifyingIdentity {
+        CommunicationVerifyingIdentity {
+            signing_key_id: self.signing_key_id.clone(),
+            verifying_key: self.signing_key.verifying_key(),
+        }
+    }
+}
+
 impl InProcessOperationExecutor {
     pub fn with_state_dir(kind: AdapterKind, state_dir: impl Into<PathBuf>) -> Self {
         Self::try_with_state_dir(kind, state_dir)
@@ -540,6 +568,7 @@ impl InProcessOperationExecutor {
             state: Arc::new(LocalRuntimeState::new_in(
                 state_dir.into(),
                 Arc::new(RecorderTrustedTime::new(recorder)),
+                BTreeMap::new(),
             )?),
         })
     }
@@ -558,6 +587,7 @@ struct LocalRuntimeState {
     writer_pid: u32,
     writer_lock_path: PathBuf,
     trusted_time: Arc<dyn TrustedTime>,
+    communication_signers: BTreeMap<String, CommunicationSigningIdentity>,
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -568,7 +598,11 @@ struct WriterLockOwner {
 }
 
 impl LocalRuntimeState {
-    fn new_in(state_dir: PathBuf, trusted_time: Arc<dyn TrustedTime>) -> std::io::Result<Self> {
+    fn new_in(
+        state_dir: PathBuf,
+        trusted_time: Arc<dyn TrustedTime>,
+        communication_signers: BTreeMap<String, CommunicationSigningIdentity>,
+    ) -> std::io::Result<Self> {
         if state_dir.as_os_str().is_empty() || !state_dir.is_absolute() {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -596,6 +630,7 @@ impl LocalRuntimeState {
             writer_pid,
             writer_lock_path: lock_path,
             trusted_time,
+            communication_signers,
         })
     }
 
@@ -785,9 +820,22 @@ pub fn build_production_operation_executors_with_recorder(
     state_dir: impl Into<PathBuf>,
     recorder: RuntimeRecorder,
 ) -> io::Result<BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>> {
+    build_production_operation_executors_with_communication_signers(
+        state_dir,
+        recorder,
+        BTreeMap::new(),
+    )
+}
+
+pub fn build_production_operation_executors_with_communication_signers(
+    state_dir: impl Into<PathBuf>,
+    recorder: RuntimeRecorder,
+    communication_signers: BTreeMap<String, CommunicationSigningIdentity>,
+) -> io::Result<BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>> {
     let state = Arc::new(LocalRuntimeState::new_in(
         state_dir.into(),
         Arc::new(RecorderTrustedTime::new(recorder)),
+        communication_signers,
     )?);
     Ok(REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
@@ -905,8 +953,8 @@ impl InProcessOperationExecutor {
                     }
                 }
                 LAYER8_MESSAGE_TASK_OP => {
-                    let output = layer8_response(task, None)?;
-                    if output["recipient_id"] == RESIDENT_SHEPHERD_ID {
+                    let output = layer8_response(task, None, &self.state)?;
+                    if output["sender_id"] == RESIDENT_SHEPHERD_ID {
                         return Err(adapter_error(
                             FailureClass::Fatal,
                             "resident Shepherd requires the Shepherd adapter",
@@ -990,7 +1038,7 @@ impl InProcessOperationExecutor {
                     .as_array()
                     .filter(|tasks| tasks.len() == 1)
                     .ok_or_else(|| adapter_error(FailureClass::Fatal, "shepherd_work_bound"))?;
-                let output = layer8_response(&tasks[0], Some(RESIDENT_SHEPHERD_ID))?;
+                let output = layer8_response(&tasks[0], Some(RESIDENT_SHEPHERD_ID), &self.state)?;
                 let mut value = self.result(request, "completed");
                 value["schema"] = "adl.runtime.local_agent_execution.v1".into();
                 value["work_units"] = 1.into();
@@ -1160,6 +1208,7 @@ impl InProcessOperationExecutor {
 fn layer8_response(
     task: &serde_json::Value,
     required_recipient: Option<&str>,
+    state: &LocalRuntimeState,
 ) -> Result<serde_json::Value, ExecutorError> {
     if task["op"] != LAYER8_MESSAGE_TASK_OP {
         return Err(adapter_error(
@@ -1167,18 +1216,9 @@ fn layer8_response(
             "layer8_operation_required",
         ));
     }
-    let sender = task["sender"]
-        .as_str()
-        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_sender_malformed"))?;
-    let recipient_id = task["recipient_id"]
-        .as_str()
-        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_recipient_malformed"))?;
-    let correlation_id = task["correlation_id"]
-        .as_str()
-        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_correlation_malformed"))?;
-    let content = task["content"]
-        .as_str()
-        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_content_malformed"))?;
+    let request: SignedIdentityMessage = serde_json::from_value(task["message"].clone())
+        .map_err(|_| adapter_error(FailureClass::Fatal, "identity_message_malformed"))?;
+    let recipient_id = request.recipient_id.as_str();
     let safe_id = |value: &str| {
         !value.is_empty()
             && value.len() <= 128
@@ -1186,30 +1226,77 @@ fn layer8_response(
                 byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-')
             })
     };
-    if sender != "layer8-operator"
+    if request.schema != ACIP_IDENTITY_MESSAGE_SCHEMA
+        || request.message_kind != "request"
+        || !safe_id(&request.sender_id)
         || !safe_id(recipient_id)
-        || !safe_id(correlation_id)
+        || !safe_id(&request.correlation_id)
+        || !safe_id(&request.causation_id)
+        || !safe_id(&request.nonce)
         || required_recipient.is_some_and(|expected| recipient_id != expected)
-        || content.trim().is_empty()
-        || content.len() > 4_000
-        || content
+        || request.content.trim().is_empty()
+        || request.content.len() > 4_000
+        || request
+            .content
             .chars()
             .any(|character| character.is_control() && !matches!(character, '\n' | '\t'))
+        || request.signing_algorithm != "ed25519"
+        || request.monotonic_sequence == 0
     {
         return Err(adapter_error(FailureClass::Fatal, "layer8_message_bound"));
     }
+    let now = state.trusted_time.now_unix_millis();
+    let communication_keys = state
+        .communication_signers
+        .iter()
+        .map(|(principal_id, signer)| (principal_id.clone(), signer.verifying_identity()))
+        .collect();
+    verify_signed_identity_message(&request, &communication_keys, now)
+        .map_err(|_| adapter_error(FailureClass::Fatal, "identity_message_verification"))?;
     let message = if required_recipient == Some(RESIDENT_SHEPHERD_ID) {
         format!("{recipient_id} received your message through the Shepherd adapter.")
     } else {
         format!("{recipient_id} received your message.")
     };
-    Ok(serde_json::json!({
-        "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
-        "recipient_id": recipient_id,
-        "correlation_id": correlation_id,
-        "status": "received",
-        "message": message
-    }))
+    let signer = state
+        .communication_signers
+        .get(recipient_id)
+        .ok_or_else(|| {
+            adapter_error(
+                FailureClass::Fatal,
+                "layer8_agent_signing_identity_unavailable",
+            )
+        })?;
+    let response_sequence = state
+        .durable
+        .next_communication_outbound_sequence(recipient_id)
+        .map_err(|error| local_io("communication_sequence_unavailable", error))?;
+    let mut response = SignedIdentityMessage {
+        schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+        message_kind: "ack".to_owned(),
+        sender_id: recipient_id.to_owned(),
+        recipient_id: request.sender_id.clone(),
+        correlation_id: request.correlation_id.clone(),
+        causation_id: request.nonce.clone(),
+        monotonic_sequence: response_sequence,
+        issued_at_unix_millis: now,
+        expires_at_unix_millis: now.saturating_add(60_000),
+        nonce: format!("ack-{response_sequence:016x}"),
+        content: message,
+        signing_algorithm: "ed25519".to_owned(),
+        signing_key_id: signer.signing_key_id.clone(),
+        signature: String::new(),
+    };
+    response.signature = hex::encode(
+        signer
+            .signing_key
+            .sign(&response.signing_bytes().ok_or_else(|| {
+                adapter_error(FailureClass::Fatal, "layer8_agent_response_encoding")
+            })?)
+            .to_bytes(),
+    );
+    serde_json::to_value(response)
+        .map_err(|_| adapter_error(FailureClass::Fatal, "layer8_agent_response_encoding"))
 }
 
 fn adapter_error(class: FailureClass, message: impl Into<String>) -> ExecutorError {

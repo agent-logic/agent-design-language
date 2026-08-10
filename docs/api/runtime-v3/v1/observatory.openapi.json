@@ -73,7 +73,7 @@
         "operationId": "openObservatoryWebSocket",
         "tags": ["observatory"],
         "summary": "Open a public-read, authenticated-write Observatory WSS session",
-        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands or bounded ACIP Protobuf binary envelopes.",
+        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. An authenticated browser may submit a bounded Layer 8 intent; Runtime signs the corresponding ACIP identity message with its configured delegated operator identity. Agent private keys never enter the browser.",
         "security": [],
         "responses": {
           "101": {
@@ -101,6 +101,10 @@
               "serverReply": "close"
             },
             {
+              "$ref": "#/components/schemas/ObservatoryWsLayer8Intent",
+              "purpose": "authenticated_agent_message"
+            },
+            {
               "$ref": "#/components/schemas/SignedControlCommand"
             },
             {
@@ -119,7 +123,7 @@
           "publicReadFrames": true,
           "writeAuthentication": "observatory_bearer_frame",
           "credentialRevocation": "write_authority_removed_read_stream_continues",
-          "signedTextControlAuthority": "signed_control_command_only",
+          "signedTextControlAuthority": "authenticated_layer8_intent_or_signed_control_command",
           "binaryAcipAuthority": "authenticated_session_and_canonical_ingress_policy"
         }
       }
@@ -145,6 +149,18 @@
             "minLength": 32,
             "maxLength": 256
           }
+        }
+      },
+      "ObservatoryWsLayer8Intent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "recipient_id", "correlation_id", "causation_id", "content"],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.observatory_layer8_intent.v1" },
+          "recipient_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "correlation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "causation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "content": { "type": "string", "minLength": 1, "maxLength": 4000 }
         }
       },
       "DomainWork": {
@@ -470,7 +486,7 @@
       },
       "AgentSample": {
         "type": "object",
-        "required": ["id", "label", "role", "state", "detail"],
+        "required": ["id", "label", "role", "state", "detail", "signing_algorithm", "signing_key_id", "signing_public_key"],
         "properties": {
           "id": {
             "type": "string"
@@ -486,6 +502,16 @@
           },
           "detail": {
             "type": "string"
+          },
+          "signing_algorithm": {
+            "const": "ed25519"
+          },
+          "signing_key_id": {
+            "type": "string"
+          },
+          "signing_public_key": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
           }
         }
       },

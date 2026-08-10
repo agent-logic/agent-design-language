@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
 
 [
   {
-    "lane": "runtime-layer8-public-projection",
-    "proof_role": "Prove executor output with extra private fields or mismatched correlation cannot enter the bounded public Layer 8 response.",
+    "lane": "runtime-signed-identity-projection",
+    "proof_role": "Reject private-field leakage, wrong correlation or causation, invalid signatures, stale acknowledgements, future acknowledgements, and invalid validity windows before canonical completion or public projection.",
     "acceptance_ids": [
       "AC-3",
       "AC-4"
@@ -46,11 +46,58 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "runtime-live-assembly",
-    "proof_role": "Prove the production live assembly registers the canonical agent ingress alias and dispatches an ordinary Layer 8 message through the real agent executor.",
+    "lane": "runtime-restored-communication-replay",
+    "proof_role": "Restore a persisted request-sender watermark and reject a valid signed replay before dispatch without changing canonical state.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "restored_ingress_rejects_signed_replay_before_dispatch"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-acknowledgement-sequence-continuity",
+    "proof_role": "Restart the production assembly on the same durable state root, require the recipient acknowledgement sequence to advance, and retain a receiver watermark that rejects the pre-restart acknowledgement replay.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "assembly",
+      "resident_shepherd_admission_replays_across_process_cycles"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-agent-to-agent-acip-wss",
+    "proof_role": "Send a signed agent-originated binary ACIP message through the production WebSocket route, verify the recipient-signed acknowledgement, and reject carrier tampering and replay.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -62,14 +109,37 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "assembly"
+      "production_acip_wss",
+      "production_binary_acip_wss_produces_observed_receipt"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-communication-identity-config",
+    "proof_role": "Require externally provisioned, distinct communication identities while keeping Polis display-name migration separate from continuity identity and endpoint certificates.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "configuration"
     ],
     "parallel_group": "local",
     "defer_reason": null
   },
   {
     "lane": "runtime-layer8-control",
-    "proof_role": "Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.",
+    "proof_role": "Prove authenticated Layer 8 intent delegation, visible-recipient routing, unknown-recipient denial, and recipient-signed bounded response projection.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
@@ -84,14 +154,15 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "control"
+      "control",
+      "layer8"
     ],
     "parallel_group": "local",
     "defer_reason": null
   },
   {
     "lane": "observatory-openapi-contract",
-    "proof_role": "Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.",
+    "proof_role": "Prove the Observatory contract documents authenticated Layer 8 intent, signed control compatibility, public verification identities, and the binary ACIP authority boundary.",
     "acceptance_ids": [
       "AC-2",
       "AC-4"
@@ -113,7 +184,7 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
   },
   {
     "lane": "html-observatory-shell",
-    "proof_role": "Prove the Observatory module, signed-command contract, out-of-order cursor rejection, and UTF-8 message bound before live browser execution.",
+    "proof_role": "Prove no browser signing-key surface, strict signed-response and acknowledgement-replay verification, fresh capture-time projection, cursor-gap rejection, reconnect authorization reset, and UTF-8 message bounds.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -132,7 +203,7 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
   },
   {
     "lane": "html-observatory-live-browser",
-    "proof_role": "Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.",
+    "proof_role": "Prove the exact Runtime candidate in a real browser over trusted HTTPS/WSS, including current capture time, Polis identity, roster, keyless authenticated chat, selected-agent signature verification, refusal, disconnect, and bounded reauthentication.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -185,8 +256,11 @@ Tokens: 25000
 ## Commands
 
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib public_layer8_projection_rejects_extra_or_mismatched_executor_fields`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test control`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib restored_ingress_rejects_signed_replay_before_dispatch`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly resident_shepherd_admission_replays_across_process_cycles`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss production_binary_acip_wss_produces_observed_receipt`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test configuration`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test control layer8`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract`
 - `bash adl/tools/test_html_observatory.sh`
 - `node adl/tools/validate_v092_html_observatory_live.mjs`

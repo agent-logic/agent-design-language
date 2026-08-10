@@ -23,6 +23,7 @@ try {
 const observatoryUrl = process.env.ADL_OBSERVATORY_URL;
 const runtimeApiBase = process.env.ADL_RUNTIME_API_BASE;
 const operatorKeyFile = process.env.ADL_OPERATOR_KEY_FILE;
+const observatoryTokenFile = process.env.ADL_OBSERVATORY_TOKEN_FILE;
 const evidenceRoot = process.env.ADL_OBSERVATORY_EVIDENCE_DIR;
 const tlsConnectHost = process.env.ADL_TLS_PROOF_CONNECT_HOST || null;
 const allowRuntimeRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
@@ -33,6 +34,7 @@ const repositoryRootInput = process.env.ADL_REPOSITORY_ROOT;
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the served HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the exact Runtime candidate URL");
 assert(operatorKeyFile, "ADL_OPERATOR_KEY_FILE must name the trusted operator Ed25519 seed file");
+assert(observatoryTokenFile, "ADL_OBSERVATORY_TOKEN_FILE must name the Observatory write credential file");
 assert(evidenceRoot, "ADL_OBSERVATORY_EVIDENCE_DIR must name a retained FastWork evidence directory");
 assert(allowRuntimeRestartProof, "ADL_ALLOW_RUNTIME_RESTART_PROOF=1 is required for the isolated Guardian restart proof");
 assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact 40-character source commit");
@@ -65,6 +67,8 @@ assert(
 
 const signingSeed = (await fs.readFile(operatorKeyFile, "utf8")).trim();
 assert(/^(?:0x)?[0-9a-fA-F]{64}$/.test(signingSeed), "operator key file must contain one hex Ed25519 seed");
+const observatoryToken = (await fs.readFile(observatoryTokenFile, "utf8")).trim();
+assert(observatoryToken.length >= 32 && observatoryToken.length <= 256, "Observatory token must satisfy Runtime bounds");
 const retainedEvidenceRoot = await fs.realpath(requestedEvidenceRoot);
 assert(
   retainedEvidenceRoot.startsWith(`${fastWorkRoot}${path.sep}`),
@@ -336,6 +340,17 @@ try {
     policy: contentSecurityPolicy,
     runtime_hostname: runtimeUrl.hostname
   };
+  const capture = await page.evaluate(() => ({
+    iso: document.querySelector(".observatory")?.dataset.captureTime || "",
+    hero: document.getElementById("hero-uptime")?.textContent?.trim() || "",
+    rail: document.getElementById("rail-capture-time")?.textContent?.trim() || "",
+    status: document.getElementById("statusbar-updated")?.textContent?.trim() || ""
+  }));
+  const captureMillis = Date.parse(capture.iso);
+  assert(Number.isFinite(captureMillis), `live capture time is not an ISO timestamp: ${capture.iso}`);
+  assert(Date.now() - captureMillis >= 0 && Date.now() - captureMillis < 30_000, `live capture time is stale: ${capture.iso}`);
+  assert(capture.hero && capture.hero === capture.rail && capture.hero === capture.status, `capture time surfaces diverged: ${JSON.stringify(capture)}`);
+  report.assertions.fresh_consistent_capture_time = { passed: true, ...capture };
 
   const navigation = ["Runtime", "Agents", "Chat", "Events", "AWS", "Governance", "Evidence"];
   for (const name of navigation) {
@@ -360,29 +375,21 @@ try {
   assert.equal(await page.locator("#agent-chat-target").inputValue(), "shepherd", "Shepherd was not the selected live agent");
   report.assertions.live_agent_roster = { passed: true, agents };
 
-  await page.locator("#agent-chat-key-file").setInputFiles(operatorKeyFile);
-  await page.waitForFunction(() => {
-    const input = document.getElementById("agent-chat-key-file");
-    const status = document.getElementById("agent-chat-status")?.textContent || "";
-    return input?.value === "" && status === "ready";
-  });
-  await page.locator("#agent-chat-key-file").evaluate((element) => {
-    if (element.value !== "") throw new Error("operator key file input was not cleared after import");
-  });
-  report.assertions.native_key_input_cleared = { passed: true };
+  assert.equal(await page.locator("#agent-chat-key-file").count(), 0, "normal chat exposed a private-key file input");
+  await page.locator("#operator-write-token").fill(observatoryToken);
+  await page.locator("#operator-login").click();
+  await page.locator("#operator-auth-status").filter({ hasText: "write access enabled" }).waitFor({ timeout: 20_000 });
+  report.assertions.authenticated_chat_has_no_browser_private_key = { passed: true };
   await page.locator("#operator-message").fill("Hello Shepherd. Please confirm that you are present.");
   await page.locator("#send-agent-message:not([disabled])").click();
   await page.locator('.chat-message[data-role="agent"], .chat-message[data-role="system"]').waitFor({ timeout: 20_000 });
   const agentMessages = await page.locator('.chat-message[data-role="agent"]').count();
   if (agentMessages === 0) {
     const refusal = await page.locator('.chat-message[data-role="system"] span').last().textContent();
-    const diagnostic = lastControlCommand
-      ? { ...lastControlCommand, signature: `<${String(lastControlCommand.signature || "").length} hex characters>` }
-      : null;
-    throw new Error(`signed selected-agent chat was refused: ${refusal}; command=${JSON.stringify(diagnostic)}`);
+    throw new Error(`signed selected-agent chat was refused: ${refusal}`);
   }
   const deliveredStatus = await page.locator("#agent-chat-status").textContent();
-  assert.equal(deliveredStatus, "delivered");
+  assert.match(deliveredStatus, /^delivered · .+ verified$/);
   report.assertions.signed_selected_agent_chat = {
     passed: true,
     status: deliveredStatus,
@@ -397,11 +404,14 @@ try {
     sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence"))
   };
 
+  const forbiddenOriginCommand = buildSignedRestartCommand(
+    await page.locator(".observatory").getAttribute("data-stream-runtime-instance")
+  );
   const forbiddenOriginResponse = await postTrustedJson(
     runtimeUrl,
     "/v1/control",
     { Origin: "https://forbidden.example.test" },
-    lastControlCommand
+    forbiddenOriginCommand
   );
   assert.equal(forbiddenOriginResponse.status, 403, "forbidden browser origin was not refused");
   report.assertions.forbidden_origin_refused = {
@@ -437,45 +447,17 @@ try {
     element.value = "This message contains a forbidden control character.\u0001";
     element.dispatchEvent(new Event("input", { bubbles: true }));
   });
-  const refusalResponsePromise = page.waitForResponse(
-    (response) => new URL(response.url()).pathname === "/v1/control"
-  );
   await page.locator("#send-agent-message:not([disabled])").click();
-  const refusalResponse = await refusalResponsePromise;
-  const refusalPayload = await refusalResponse.json();
-  assert.equal(refusalResponse.status(), 400, "malformed Layer 8 content was not rejected as invalid input");
-  assert.equal(refusalPayload?.code, "invalid_request", "malformed Layer 8 content returned the wrong refusal code");
   await page.locator('.chat-message[data-role="system"]').nth(systemMessagesBefore).waitFor({ timeout: 20_000 });
   const refusalStatus = await page.locator("#agent-chat-status").textContent();
   assert.equal(refusalStatus, "malformed runtime data", "Runtime refusal was not presented as malformed input");
   report.assertions.runtime_refusal_remains_denied = {
     passed: true,
-    response_status: refusalResponse.status(),
-    response_code: refusalPayload.code,
+    transport: "authenticated_wss_intent",
     ui_status: refusalStatus
   };
 
-  const ingressBeforeDeniedAuthority = await page.evaluate(async (base) => {
-    const response = await fetch(`${base}/v1/observatory`);
-    return (await response.json()).ingress.accepted_through;
-  }, runtimeUrl.origin);
-  await page.locator("#agent-chat-key-file").setInputFiles({
-    name: "invalid-operator.key",
-    mimeType: "text/plain",
-    buffer: Buffer.from("11".repeat(32))
-  });
-  const deniedBeforeReconnect = page.waitForResponse(
-    (response) => new URL(response.url()).pathname === "/v1/control" && response.status() === 401
-  );
-  await page.locator("#operator-message").fill("This identity must be denied.");
-  await page.locator("#send-agent-message:not([disabled])").click();
-  await deniedBeforeReconnect;
-  assert.equal(await page.locator("#agent-chat-status").textContent(), "origin or authority denied");
-  const ingressAfterDeniedAuthority = await page.evaluate(async (base) => {
-    const response = await fetch(`${base}/v1/observatory`);
-    return (await response.json()).ingress.accepted_through;
-  }, runtimeUrl.origin);
-  assert.equal(ingressAfterDeniedAuthority, ingressBeforeDeniedAuthority, "denied authority reached canonical ingress");
+  assert.equal(await page.locator('input[type="file"]').count(), 0, "Observatory retained a private-key input after chat");
 
   const automaticReconnectBefore = {
     transcript: await page.locator(".chat-message").count(),
@@ -529,7 +511,7 @@ try {
   guardianRestartInProgress = false;
   proofPhase = "baseline";
   assert.equal(automaticReconnectAfter.transcript, automaticReconnectBefore.transcript, "automatic reconnect duplicated chat");
-  assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts, "automatic reconnect replayed a control POST");
+  assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts + 1, "automatic reconnect replayed or lost the single signed restart POST");
   assert.equal(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "Runtime restart changed configured instance identity");
   assert(automaticReconnectAfter.reconnect_decisions > automaticReconnectBefore.reconnect_decisions, "restart did not produce a fresh reconnect decision");
   assert(automaticReconnectAfter.last_sequence >= 0, "automatic reconnect did not establish a valid event cursor");
@@ -583,6 +565,7 @@ try {
   await page.locator("#dashboard-live-api-base").fill(runtimeUrl.origin);
   await page.locator("#dashboard-connect-live").click();
   await railLink("Chat").click();
+  await page.locator("#operator-logout").click();
   await page.locator("#agent-chat-target:not([disabled])").waitFor({ timeout: 20_000 });
   const afterReconnect = await page.locator(".chat-message").count();
   assert.equal(afterReconnect, beforeReconnect, "reconnect duplicated the conversation transcript");
@@ -591,21 +574,27 @@ try {
     const response = await fetch(`${base}/v1/observatory`);
     return (await response.json()).ingress.accepted_through;
   }, runtimeUrl.origin);
-  await page.locator("#operator-message").fill("This identity must remain denied after reconnect.");
-  const deniedAfterReconnect = page.waitForResponse(
-    (response) => new URL(response.url()).pathname === "/v1/control" && response.status() === 401
-  );
-  await page.locator("#send-agent-message:not([disabled])").click();
-  await deniedAfterReconnect;
-  assert.equal(controlRequests.length, postsAfterReconnect + 1, "reconnect replayed a control POST");
-  const ingressAfterReconnectDenial = await page.evaluate(async (base) => {
+  await page.locator("#operator-message").fill("Confirm the reauthenticated channel after reconnect.");
+  assert(await page.locator("#send-agent-message").isDisabled(), "manual reconnect retained browser write authority");
+  const ingressWhileUnauthenticated = await page.evaluate(async (base) => {
     const response = await fetch(`${base}/v1/observatory`);
     return (await response.json()).ingress.accepted_through;
   }, runtimeUrl.origin);
-  assert.equal(ingressAfterReconnectDenial, ingressBeforeReconnectDenial, "denied authority reached ingress after reconnect");
+  assert.equal(ingressWhileUnauthenticated, ingressBeforeReconnectDenial, "manual reconnect changed ingress before reauthentication");
+  assert.equal(controlRequests.length, postsAfterReconnect, "manual reconnect replayed a control POST");
+  const agentMessagesBeforeReauth = await page.locator('.chat-message[data-role="agent"]').count();
+  await page.locator("#operator-write-token").fill(observatoryToken);
+  await page.locator("#operator-login").click();
+  await page.locator("#operator-auth-status").filter({ hasText: "write access enabled" }).waitFor({ timeout: 20_000 });
+  await page.locator("#send-agent-message:not([disabled])").click();
+  await page.locator('.chat-message[data-role="agent"]').nth(agentMessagesBeforeReauth).waitFor({ timeout: 20_000 });
+  assert.match(await page.locator("#agent-chat-status").textContent(), /^delivered · .+ verified$/);
+  assert.equal(controlRequests.length, postsAfterReconnect, "WSS chat emitted an obsolete control POST after reconnect");
   report.assertions.bounded_reconnect_without_chat_duplication = {
     passed: true,
-    authority_denied_before_and_after: true,
+    logout_forced_public_read_before_denial_check: true,
+    authority_cleared_before_reauthentication: true,
+    signed_agent_ack_verified_after_reauthentication: true,
     command_replay_count: 0
   };
 

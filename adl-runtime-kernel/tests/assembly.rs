@@ -11,14 +11,16 @@ use std::{
 
 use adl_runtime_kernel::{
     admit_resident_shepherd, bootstrap_reasoning_services, build_live_assembly,
+    build_production_operation_executors_with_communication_signers,
     build_production_operation_executors_with_recorder, AdapterKind, AdapterPolicy, AuthorityMode,
-    ClockAuthority, ComponentRegistry, DomainWork, ExecutorError, FailureClass,
-    InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor, OperationRequest,
-    OperationalAdapter, OperationalFactory, RuntimeRecorder, TimeQualificationBounds, TimeSample,
-    TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
+    ClockAuthority, CommunicationSigningIdentity, ComponentRegistry, DomainWork, ExecutorError,
+    FailureClass, InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor,
+    OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
+    SignedIdentityMessage, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
+    ACIP_IDENTITY_MESSAGE_SCHEMA, DOMAIN_WORK_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
 };
 use async_trait::async_trait;
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{Signer, SigningKey};
 use serde_json::Value;
 use tempfile::TempDir;
 use tokio_util::sync::CancellationToken;
@@ -47,7 +49,7 @@ impl TimeSampleSource for FixedTime {
     async fn sample(&self) -> Result<TimeSample, TimeSampleError> {
         Ok(TimeSample {
             source: "test-sntp".to_owned(),
-            unix_millis: 1_720_000_000_000,
+            unix_millis: current_unix_millis(),
             offset_millis: 1,
             round_trip: Duration::from_millis(1),
         })
@@ -100,14 +102,28 @@ impl OperationExecutor for NonCooperativeExecutor {
 
 fn bindings(recorder: RuntimeRecorder, state_root: &Path) -> LiveBindings {
     let key = SigningKey::from_bytes(&[31; 32]);
+    let shepherd = CommunicationSigningIdentity::new("shepherd-response-key", [71; 32]);
+    let agent = CommunicationSigningIdentity::new("agent-0001-response-key", [72; 32]);
+    let layer8 = CommunicationSigningIdentity::new("layer8-operator-key", [70; 32]);
+    let communication_keys = BTreeMap::from([
+        ("shepherd".to_owned(), shepherd.verifying_identity()),
+        ("agent-0001".to_owned(), agent.verifying_identity()),
+        ("layer8-operator".to_owned(), layer8.verifying_identity()),
+    ]);
     LiveBindings {
         recorder: recorder.clone(),
-        operation_executors: build_production_operation_executors_with_recorder(
+        operation_executors: build_production_operation_executors_with_communication_signers(
             state_root.join("production"),
             recorder.clone(),
+            BTreeMap::from([
+                ("shepherd".to_owned(), shepherd),
+                ("agent-0001".to_owned(), agent),
+                ("layer8-operator".to_owned(), layer8),
+            ]),
         )
         .unwrap(),
         permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
+        communication_keys,
         reasoning: bootstrap_reasoning_services(recorder).unwrap(),
         time_source: Arc::new(FixedTime),
         time_bounds: TimeQualificationBounds {
@@ -160,6 +176,44 @@ fn agent_work(tasks: Value) -> Vec<u8> {
     serde_json::json!({"schema":"adl.runtime.local_agent_work.v1","tasks":tasks})
         .to_string()
         .into_bytes()
+}
+
+fn signed_layer8_message(
+    recipient_id: &str,
+    correlation_id: &str,
+    sequence: u64,
+    content: &str,
+) -> SignedIdentityMessage {
+    let now = current_unix_millis();
+    let mut message = SignedIdentityMessage {
+        schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+        message_kind: "request".to_owned(),
+        sender_id: "layer8-operator".to_owned(),
+        recipient_id: recipient_id.to_owned(),
+        correlation_id: correlation_id.to_owned(),
+        causation_id: format!("assembly-causation-{sequence:08}"),
+        monotonic_sequence: sequence,
+        issued_at_unix_millis: now,
+        expires_at_unix_millis: now + 60_000,
+        nonce: format!("assembly-message-{sequence:08}"),
+        content: content.to_owned(),
+        signing_algorithm: "ed25519".to_owned(),
+        signing_key_id: "layer8-operator-key".to_owned(),
+        signature: String::new(),
+    };
+    message.signature = hex::encode(
+        SigningKey::from_bytes(&[70; 32])
+            .sign(&message.signing_bytes().unwrap())
+            .to_bytes(),
+    );
+    message
+}
+
+fn current_unix_millis() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64
 }
 
 fn agent_sleep_request(millis: u64, request_id: &str) -> OperationRequest {
@@ -340,7 +394,7 @@ async fn resident_shepherd_is_admitted_through_the_production_adapter() {
 #[tokio::test]
 async fn resident_shepherd_admission_replays_across_process_cycles() {
     let root = TempDir::new().unwrap();
-    let snapshot = {
+    let (snapshot, pre_restart_ack) = {
         let recorder = authoritative_recorder();
         let assembly = build_live_assembly(bindings(recorder.clone(), root.path())).unwrap();
         let ingress = assembly.canonical_ingress.clone();
@@ -352,14 +406,42 @@ async fn resident_shepherd_admission_replays_across_process_cycles() {
         admit_resident_shepherd(&ingress, "runtime-shepherd-restart-test")
             .await
             .unwrap();
+        let pre_restart = ingress
+            .submit(
+                DomainWork {
+                    schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                    work_id: "pre-restart-layer8-shepherd".to_owned(),
+                    kind: "shepherd".to_owned(),
+                    payload: agent_work(serde_json::json!([{
+                        "op": "layer8_message",
+                        "message": signed_layer8_message(
+                            "shepherd",
+                            "00112233445566778899aabbccddee0001",
+                            1,
+                            "Before restart",
+                        )
+                    }])),
+                },
+                "00112233445566778899aabbccddee0001".to_owned(),
+            )
+            .await
+            .unwrap();
+        let pre_restart_ack: SignedIdentityMessage =
+            serde_json::from_value(pre_restart.public_output.unwrap()).unwrap();
         let snapshot = ingress.snapshot();
-        assert_eq!(snapshot.accepted_through, 1);
+        assert_eq!(snapshot.accepted_through, 2);
+        assert_eq!(
+            snapshot
+                .communication_acknowledgement_sequences
+                .get("shepherd"),
+            Some(&pre_restart_ack.monotonic_sequence)
+        );
         assert_eq!(
             handle.shutdown(Duration::from_secs(1)).await.unwrap(),
             adl_runtime_kernel::KernelExit::Clean
         );
         drop(ingress);
-        snapshot
+        (snapshot, pre_restart_ack)
     };
 
     let recorder = authoritative_recorder();
@@ -374,27 +456,35 @@ async fn resident_shepherd_admission_replays_across_process_cycles() {
     admit_resident_shepherd(&ingress, "runtime-shepherd-restart-test")
         .await
         .unwrap();
-    assert_eq!(ingress.snapshot().accepted_through, 1);
+    assert_eq!(ingress.snapshot().accepted_through, 2);
     let shepherd_work = DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
         work_id: "restart-layer8-shepherd".to_owned(),
         kind: "shepherd".to_owned(),
         payload: agent_work(serde_json::json!([{
             "op": "layer8_message",
-            "sender": "layer8-operator",
-            "recipient_id": "shepherd",
-            "correlation_id": "00112233445566778899aabbccddeeff",
-            "content": "Still there?"
+            "message": signed_layer8_message(
+                "shepherd",
+                "00112233445566778899aabbccddeeff",
+                2,
+                "Still there?",
+            )
         }])),
     };
     let shepherd_result = ingress
         .submit(shepherd_work, "00112233445566778899aabbccddeeff".to_owned())
         .await
         .unwrap();
-    assert_eq!(shepherd_result.accepted_sequence, 2);
+    assert_eq!(shepherd_result.accepted_sequence, 3);
+    let post_restart_ack: SignedIdentityMessage =
+        serde_json::from_value(shepherd_result.public_output.clone().unwrap()).unwrap();
+    assert!(
+        post_restart_ack.monotonic_sequence > pre_restart_ack.monotonic_sequence,
+        "the recipient acknowledgement sequence must advance across process restart"
+    );
     assert_eq!(
         shepherd_result.public_output.unwrap()["recipient_id"],
-        "shepherd"
+        "layer8-operator"
     );
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
@@ -934,10 +1024,12 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         kind: "agent".to_owned(),
         payload: agent_work(serde_json::json!([{
             "op": "layer8_message",
-            "sender": "layer8-operator",
-            "recipient_id": "agent-0001",
-            "correlation_id": "abcdef0123456789abcdef0123456789",
-            "content": "Hello"
+            "message": signed_layer8_message(
+                "agent-0001",
+                "abcdef0123456789abcdef0123456789",
+                1,
+                "Hello",
+            )
         }])),
     };
     let layer8_accepted = ingress
@@ -947,7 +1039,7 @@ async fn canonical_ingress_dispatches_real_agent_work() {
     assert_eq!(layer8_accepted.accepted_sequence, 3);
     assert_eq!(
         layer8_accepted.public_output.unwrap()["schema"],
-        "adl.runtime.layer8.agent_response.v1"
+        ACIP_IDENTITY_MESSAGE_SCHEMA
     );
     let shepherd_through_generic_agent = DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
@@ -955,10 +1047,12 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         kind: "agent".to_owned(),
         payload: agent_work(serde_json::json!([{
             "op": "layer8_message",
-            "sender": "layer8-operator",
-            "recipient_id": "shepherd",
-            "correlation_id": "11223344556677889900aabbccddeeff",
-            "content": "Wrong route"
+            "message": signed_layer8_message(
+                "shepherd",
+                "11223344556677889900aabbccddeeff",
+                2,
+                "Wrong route",
+            )
         }])),
     };
     assert_eq!(
@@ -969,7 +1063,7 @@ async fn canonical_ingress_dispatches_real_agent_work() {
             )
             .await
             .unwrap_err(),
-        adl_runtime_kernel::IngressError::ExecutionFailed
+        adl_runtime_kernel::IngressError::Invalid
     );
     let shepherd = DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
@@ -977,10 +1071,12 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         kind: "shepherd".to_owned(),
         payload: agent_work(serde_json::json!([{
             "op": "layer8_message",
-            "sender": "layer8-operator",
-            "recipient_id": "shepherd",
-            "correlation_id": "fedcba9876543210fedcba9876543210",
-            "content": "Hello Shepherd"
+            "message": signed_layer8_message(
+                "shepherd",
+                "fedcba9876543210fedcba9876543210",
+                2,
+                "Hello Shepherd",
+            )
         }])),
     };
     let shepherd_accepted = ingress
@@ -990,7 +1086,7 @@ async fn canonical_ingress_dispatches_real_agent_work() {
     assert_eq!(shepherd_accepted.accepted_sequence, 4);
     assert_eq!(
         shepherd_accepted.public_output.unwrap()["recipient_id"],
-        "shepherd"
+        "layer8-operator"
     );
     assert_eq!(ingress.snapshot().accepted_through, 4);
     assert_eq!(

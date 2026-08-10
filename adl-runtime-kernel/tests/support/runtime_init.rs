@@ -49,6 +49,14 @@ pub fn write_with_certificate_for_state(
     let continuity_signing_key = credentials_root.join("continuity-signing-key.hex");
     let observatory_token = credentials_root.join("observatory-token.txt");
     let acip_write_token = credentials_root.join("acip-write-token.txt");
+    let shepherd_private_key = credentials_root.join("shepherd-private-key.hex");
+    let shepherd_public_key = credentials_root.join("shepherd-public-key.hex");
+    let layer8_private_key = credentials_root.join("layer8-private-key.hex");
+    let layer8_public_key = credentials_root.join("layer8-public-key.hex");
+    let agent_private_key = credentials_root.join("agent-0001-private-key.hex");
+    let agent_public_key = credentials_root.join("agent-0001-public-key.hex");
+    let agent_two_private_key = credentials_root.join("agent-0002-private-key.hex");
+    let agent_two_public_key = credentials_root.join("agent-0002-public-key.hex");
     std::fs::write(
         &control_public_key,
         hex::encode(
@@ -70,16 +78,50 @@ pub fn write_with_certificate_for_state(
     std::fs::write(&continuity_signing_key, hex::encode([23_u8; 32])).unwrap();
     std::fs::write(&observatory_token, "guardian-observatory-token-00000001").unwrap();
     std::fs::write(&acip_write_token, "guardian-acip-write-token-000000001").unwrap();
+    for (private_path, public_path, seed) in [
+        (&shepherd_private_key, &shepherd_public_key, [71_u8; 32]),
+        (&layer8_private_key, &layer8_public_key, [72_u8; 32]),
+        (&agent_private_key, &agent_public_key, [73_u8; 32]),
+        (&agent_two_private_key, &agent_two_public_key, [74_u8; 32]),
+    ] {
+        let signing_key = ed25519_dalek::SigningKey::from_bytes(&seed);
+        std::fs::write(private_path, hex::encode(seed)).unwrap();
+        std::fs::write(
+            public_path,
+            hex::encode(signing_key.verifying_key().to_bytes()),
+        )
+        .unwrap();
+    }
     let vector = repo_vector_binary();
     let kernel = std::env::current_exe().unwrap();
     let init = directory.join("runtime-init.toml");
     std::fs::write(
         &init,
         format!(
-            r#"schema = "adl.runtime_v3.init.v1"
+            r#"schema = "adl.runtime_v3.init.v2"
 polis_name = "Test Polis"
 runtime_instance_id = "test-runtime-instance"
 state_root = "{}"
+[[communication_identities]]
+principal_id = "shepherd"
+signing_key_id = "shepherd-communication"
+signing_private_key_path = "{}"
+signing_public_key_path = "{}"
+[[communication_identities]]
+principal_id = "layer8-operator"
+signing_key_id = "layer8-communication"
+signing_private_key_path = "{}"
+signing_public_key_path = "{}"
+[[communication_identities]]
+principal_id = "agent-0001"
+signing_key_id = "agent-0001-communication"
+signing_private_key_path = "{}"
+signing_public_key_path = "{}"
+[[communication_identities]]
+principal_id = "agent-0002"
+signing_key_id = "agent-0002-communication"
+signing_private_key_path = "{}"
+signing_public_key_path = "{}"
 [binaries]
 kernel_path = "{}"
 [paths]
@@ -185,6 +227,14 @@ checkpoint_deadline_millis = 750
 snapshot_concurrency = 4
 "#,
             toml_path(state_root),
+            toml_path(&shepherd_private_key),
+            toml_path(&shepherd_public_key),
+            toml_path(&layer8_private_key),
+            toml_path(&layer8_public_key),
+            toml_path(&agent_private_key),
+            toml_path(&agent_public_key),
+            toml_path(&agent_two_private_key),
+            toml_path(&agent_two_public_key),
             toml_path(&kernel),
             address,
             address.port(),

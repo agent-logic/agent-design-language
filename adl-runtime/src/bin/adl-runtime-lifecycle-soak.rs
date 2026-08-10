@@ -348,6 +348,7 @@ impl ProductionFixture {
             .map_err(|error| error.to_string())?;
         write_secret(&acip_write_token_path, acip_write_token.as_bytes())
             .map_err(|error| error.to_string())?;
+        provision_communication_identities(&mut init_document, &credentials_root)?;
 
         set_toml_string(&mut init_document, &["state_root"], toml_path(&state_root)?)?;
         set_toml_string(
@@ -528,6 +529,55 @@ fn set_toml_string(document: &mut toml::Value, path: &[&str], value: String) -> 
         .get_mut(*field)
         .ok_or_else(|| format!("init template is missing {}", path.join(".")))?;
     *slot = toml::Value::String(value);
+    Ok(())
+}
+
+fn provision_communication_identities(
+    document: &mut toml::Value,
+    credentials_root: &Path,
+) -> Result<(), String> {
+    let identities = document
+        .get_mut("communication_identities")
+        .and_then(toml::Value::as_array_mut)
+        .ok_or_else(|| "init template is missing communication_identities".to_owned())?;
+    if identities.is_empty() {
+        return Err("init template communication_identities must not be empty".to_owned());
+    }
+    for (index, identity) in identities.iter_mut().enumerate() {
+        let table = identity
+            .as_table_mut()
+            .ok_or_else(|| "communication identity must be a TOML table".to_owned())?;
+        let private_name = table
+            .get("signing_private_key_path")
+            .and_then(toml::Value::as_str)
+            .and_then(|path| Path::new(path).file_name())
+            .ok_or_else(|| "communication identity private key path has no file name".to_owned())?
+            .to_owned();
+        let public_name = table
+            .get("signing_public_key_path")
+            .and_then(toml::Value::as_str)
+            .and_then(|path| Path::new(path).file_name())
+            .ok_or_else(|| "communication identity public key path has no file name".to_owned())?
+            .to_owned();
+        let seed_byte = 71_u8
+            .checked_add(u8::try_from(index).map_err(|_| "too many communication identities")?)
+            .ok_or_else(|| "too many communication identities".to_owned())?;
+        let signer = SigningKey::from_bytes(&[seed_byte; 32]);
+        let private_path = credentials_root.join(private_name);
+        let public_path = credentials_root.join(public_name);
+        write_secret(&private_path, hex::encode([seed_byte; 32]).as_bytes())
+            .map_err(|error| error.to_string())?;
+        std::fs::write(&public_path, hex::encode(signer.verifying_key().to_bytes()))
+            .map_err(|error| error.to_string())?;
+        table.insert(
+            "signing_private_key_path".to_owned(),
+            toml::Value::String(toml_path(&private_path)?),
+        );
+        table.insert(
+            "signing_public_key_path".to_owned(),
+            toml::Value::String(toml_path(&public_path)?),
+        );
+    }
     Ok(())
 }
 

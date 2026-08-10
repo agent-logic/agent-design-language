@@ -12,17 +12,19 @@ mod observability;
 
 use adl_runtime_kernel::{
     admit_resident_shepherd, bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, load_control_tls, monitor_until_stop,
-    serve_control_listener_until_ready, validate_production_operation_executors,
-    verifying_key_from_hex, AgentPopulationFeed, CheckpointShutdownRequest, CheckpointingControl,
-    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit,
-    LiveBindings, LiveContinuity, LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig,
-    RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
-    TrustedControlKey,
+    build_production_operation_executors_with_communication_signers, load_control_tls,
+    monitor_until_stop, serve_control_listener_until_ready,
+    validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
+    AgentSample, CheckpointShutdownRequest, CheckpointingControl, CommunicationSigningIdentity,
+    CommunicationVerifyingIdentity, ControlApiPolicy, ControlAuthority, ControlCapability,
+    ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot,
+    RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
+    TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
+use zeroize::Zeroizing;
 
 const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
@@ -109,15 +111,15 @@ async fn main() -> ExitCode {
             )
             .await
             {
-                Ok(value) => value,
+                Ok(value) => Zeroizing::new(value),
                 Err(error) => {
                     eprintln!("{error}");
                     return ExitCode::from(78);
                 }
             };
             let continuity_secret =
-                match LiveContinuity::signing_key_from_hex(&continuity_secret_text) {
-                    Ok(secret) => secret,
+                match LiveContinuity::signing_key_from_hex(continuity_secret_text.as_str()) {
+                    Ok(secret) => Zeroizing::new(secret),
                     Err(_) => {
                         eprintln!("runtime continuity signing key is missing or invalid");
                         return ExitCode::from(78);
@@ -145,16 +147,75 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let operation_executors = match build_production_operation_executors_with_recorder(
-                operation_state_identity.clone(),
-                recorder.clone(),
-            ) {
-                Ok(executors) => executors,
-                Err(error) => {
-                    eprintln!("runtime local adapter state root is invalid: {error}");
+            let mut communication_signers = BTreeMap::new();
+            let mut communication_keys = BTreeMap::new();
+            for identity in &init.communication_identities {
+                let private_text = match read_trimmed_config_file(
+                    &identity.signing_private_key_path,
+                    "agent response signing key",
+                )
+                .await
+                {
+                    Ok(value) => Zeroizing::new(value),
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                };
+                let secret = match LiveContinuity::signing_key_from_hex(private_text.as_str()) {
+                    Ok(secret) => Zeroizing::new(secret),
+                    Err(_) => {
+                        eprintln!("agent response signing key is missing or invalid");
+                        return ExitCode::from(78);
+                    }
+                };
+                let public_text = match read_trimmed_config_file(
+                    &identity.signing_public_key_path,
+                    "agent response public key",
+                )
+                .await
+                {
+                    Ok(value) => value,
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                };
+                let public_key = match verifying_key_from_hex(&public_text) {
+                    Ok(key) => key,
+                    Err(_) => {
+                        eprintln!("agent response public key is missing or invalid");
+                        return ExitCode::from(78);
+                    }
+                };
+                let signer =
+                    CommunicationSigningIdentity::new(identity.signing_key_id.clone(), *secret);
+                if signer.verifying_identity().verifying_key != public_key {
+                    eprintln!("agent response private and public keys do not match");
                     return ExitCode::from(78);
                 }
-            };
+                communication_keys.insert(
+                    identity.principal_id.clone(),
+                    CommunicationVerifyingIdentity {
+                        signing_key_id: identity.signing_key_id.clone(),
+                        verifying_key: public_key,
+                    },
+                );
+                communication_signers.insert(identity.principal_id.clone(), signer);
+            }
+            let layer8_signer = communication_signers["layer8-operator"].clone();
+            let operation_executors =
+                match build_production_operation_executors_with_communication_signers(
+                    operation_state_identity.clone(),
+                    recorder.clone(),
+                    communication_signers,
+                ) {
+                    Ok(executors) => executors,
+                    Err(error) => {
+                        eprintln!("runtime local adapter state root is invalid: {error}");
+                        return ExitCode::from(78);
+                    }
+                };
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
@@ -193,6 +254,7 @@ async fn main() -> ExitCode {
                 recorder: recorder.clone(),
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
+                communication_keys: communication_keys.clone(),
                 reasoning,
                 time_source,
                 time_bounds: TimeQualificationBounds {
@@ -245,6 +307,20 @@ async fn main() -> ExitCode {
                 eprintln!("runtime control, operation, and continuity keys must be distinct");
                 return ExitCode::from(78);
             }
+            let mut communication_public_keys = BTreeSet::new();
+            for identity in communication_keys.values() {
+                let encoded = identity.verifying_key.to_bytes();
+                if !communication_public_keys.insert(encoded)
+                    || identity.verifying_key == public_key
+                    || identity.verifying_key == operation_key
+                    || identity.verifying_key == continuity_public_key
+                {
+                    eprintln!(
+                        "runtime communication, control, operation, and continuity keys must be distinct"
+                    );
+                    return ExitCode::from(78);
+                }
+            }
             let key_id = init.credentials.control_key_id.clone();
             let principal = init.credentials.control_principal.clone();
             let service_schemas = assembly
@@ -266,9 +342,20 @@ async fn main() -> ExitCode {
                     return ExitCode::from(70);
                 }
             };
+            let communication_identity_projection = communication_keys
+                .iter()
+                .map(|(principal_id, identity)| {
+                    serde_json::json!({
+                        "principal_id": principal_id,
+                        "signing_key_id": identity.signing_key_id,
+                        "public_key": hex::encode(identity.verifying_key.to_bytes()),
+                    })
+                })
+                .collect::<Vec<_>>();
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
                 "runtime_init": runtime_init_identity,
+                "communication_identities": communication_identity_projection,
                 "time_source": &time_source_identity,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),
@@ -303,20 +390,60 @@ async fn main() -> ExitCode {
                 eprintln!("runtime continuity restore refused: {error}");
                 return ExitCode::from(78);
             }
-            let authority = ControlAuthority::new(BTreeMap::from([(
-                key_id,
-                TrustedControlKey {
-                    principal,
-                    verifying_key: public_key,
-                    capabilities: BTreeSet::from([
-                        ControlCapability::Read,
-                        ControlCapability::Execute,
-                        ControlCapability::Stop,
-                    ]),
-                },
-            )]));
+            let authority = ControlAuthority::new(BTreeMap::from([
+                (
+                    key_id,
+                    TrustedControlKey {
+                        principal,
+                        verifying_key: public_key,
+                        capabilities: BTreeSet::from([
+                            ControlCapability::Read,
+                            ControlCapability::Execute,
+                            ControlCapability::Stop,
+                        ]),
+                    },
+                ),
+                (
+                    layer8_signer.signing_key_id.clone(),
+                    TrustedControlKey {
+                        principal: "layer8-operator".to_owned(),
+                        verifying_key: layer8_signer.verifying_identity().verifying_key,
+                        capabilities: BTreeSet::from([ControlCapability::Execute]),
+                    },
+                ),
+            ]));
             let (lifecycle, mut shutdown_requests) =
                 CheckpointingControl::channel(init.kernel.checkpoint_channel_capacity);
+            let agent_sample = communication_keys
+                .iter()
+                .filter(|(principal_id, _)| principal_id.as_str() != "layer8-operator")
+                .map(|(principal_id, identity)| {
+                    let is_shepherd = principal_id == adl_runtime_kernel::RESIDENT_SHEPHERD_ID;
+                    AgentSample {
+                        id: principal_id.clone(),
+                        label: if is_shepherd {
+                            "Shepherd".to_owned()
+                        } else {
+                            principal_id.clone()
+                        },
+                        role: if is_shepherd {
+                            "resident shepherd".to_owned()
+                        } else {
+                            "runtime agent".to_owned()
+                        },
+                        state: "starting".to_owned(),
+                        detail: "Awaiting Runtime component state".to_owned(),
+                        signing_algorithm: "ed25519".to_owned(),
+                        signing_key_id: identity.signing_key_id.clone(),
+                        signing_public_key: hex::encode(identity.verifying_key.to_bytes()),
+                    }
+                })
+                .collect::<Vec<_>>();
+            let agent_population = AgentPopulationFeed {
+                total_count: agent_sample.len() as u64,
+                rendered_sample_count: agent_sample.len() as u64,
+                sample: agent_sample,
+            };
             let service = Arc::new(
                 ControlService::new_with_observatory_config_and_agents(
                     instance_id.clone(),
@@ -325,8 +452,9 @@ async fn main() -> ExitCode {
                     authority,
                     init.kernel.control_history_capacity,
                     init.observatory_allowed_origins(),
-                    AgentPopulationFeed::resident_shepherd(),
+                    agent_population,
                 )
+                .with_layer8_signer(layer8_signer)
                 .with_canonical_ingress(assembly.canonical_ingress.clone()),
             );
             let api_policy = ControlApiPolicy::new(

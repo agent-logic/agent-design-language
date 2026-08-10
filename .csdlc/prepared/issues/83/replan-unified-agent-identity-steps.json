@@ -1,0 +1,19 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 50,
+  "expected_digest": "621927095b0006323d8e4b2f812dbbf785d0c64199d45c4b98fc451d8d09aa66",
+  "actor": "codex:83-agent-identity-envelope",
+  "reason": "Record the material execution-plan change before continuing agent identity and browser delegation implementation.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {"id":"S1","action":"Retain the live Runtime roster and WSS state machine with fresh, stale, unavailable, and bounded reconnect behavior, and drive every visible Capture Time surface from the same fresh live timestamp.","acceptance_ids":["AC-1","AC-4","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Implement one bounded signed identity envelope for Layer 8 and agent-to-agent messages with sender identity, recipient identity, correlation, causation, nonce, sequence, expiry, content, key id, algorithm, and signature verified against the canonical identity registry before delivery.","acceptance_ids":["AC-2","AC-3"],"status":"pending"},
+      {"id":"S3","action":"Configure one distinct Runtime-side signing identity per roster agent, sign the response with the selected recipient identity, verify before canonical completion/public projection, and expose only public verification identity in the roster.","acceptance_ids":["AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S4","action":"Replace browser private-key input with authenticated WSS Layer 8 intent delegation; verify the selected agent response against its roster key and display verified identity without persisting or rendering private material.","acceptance_ids":["AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S5","action":"Run focused forged-envelope, wrong-agent-key, wrong-correlation, expiry, replay, response-signature, fresh-capture, Runtime, OpenAPI, browser-shell, live-browser, reconnect, redaction, refusal, and diff-hygiene proof.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
+      {"id":"S6","action":"Review exact-head behavior and preserve the strict no-publication boundary while legacy issue #5836 remains open.","acceptance_ids":["AC-6","AC-7"],"status":"pending"}
+    ]
+  }
+}

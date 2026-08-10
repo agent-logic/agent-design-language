@@ -10,7 +10,7 @@ use thiserror::Error;
 use crate::ComponentId;
 
 pub const RUNTIME_CONFIG_SCHEMA: &str = "adl.runtime.config.v1";
-pub const RUNTIME_INIT_SCHEMA: &str = "adl.runtime_v3.init.v1";
+pub const RUNTIME_INIT_SCHEMA: &str = "adl.runtime_v3.init.v2";
 const MAX_RUNTIME_INIT_MILLIS: u64 = 600_000;
 const MAX_RUNTIME_INIT_CAPACITY: usize = 1_000_000;
 const MAX_GUARDIAN_RESTART_BUDGET: u32 = 10_000;
@@ -225,6 +225,7 @@ pub struct RuntimeInitConfig {
     pub api: RuntimeApiInitConfig,
     pub kernel: RuntimeKernelInitConfig,
     pub credentials: RuntimeCredentialInitConfig,
+    pub communication_identities: Vec<RuntimeCommunicationIdentityInitConfig>,
     pub shutdown: RuntimeShutdownInitConfig,
     pub guardian: RuntimeGuardianInitConfig,
     pub qualification: RuntimeQualificationInitConfig,
@@ -389,6 +390,36 @@ impl RuntimeInitConfig {
             ),
         ] {
             validate_child_path(field, &credential_root, path)?;
+        }
+        if self.communication_identities.is_empty() {
+            return Err(RuntimeInitError::Policy(
+                "communication_identities must configure every messaging principal".to_owned(),
+            ));
+        }
+        let mut principal_ids = std::collections::BTreeSet::new();
+        let mut signing_key_ids = std::collections::BTreeSet::new();
+        for identity in &self.communication_identities {
+            identity.validate(&credential_root)?;
+            if !principal_ids.insert(identity.principal_id.clone()) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "duplicate communication identity: {}",
+                    identity.principal_id
+                )));
+            }
+            if !signing_key_ids.insert(identity.signing_key_id.clone()) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "duplicate agent signing key id: {}",
+                    identity.signing_key_id
+                )));
+            }
+        }
+        if !principal_ids.contains(crate::RESIDENT_SHEPHERD_ID)
+            || !principal_ids.contains("layer8-operator")
+        {
+            return Err(RuntimeInitError::Policy(
+                "communication_identities must configure the resident Shepherd and Layer 8 operator"
+                    .to_owned(),
+            ));
         }
         self.shutdown.validate()?;
         self.guardian.validate()?;
@@ -647,6 +678,49 @@ pub struct RuntimeCredentialInitConfig {
     pub acip_write_token_path: PathBuf,
     pub continuity_min_generation: u64,
     pub sntp_server: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeCommunicationIdentityInitConfig {
+    pub principal_id: String,
+    pub signing_key_id: String,
+    pub signing_private_key_path: PathBuf,
+    pub signing_public_key_path: PathBuf,
+}
+
+impl RuntimeCommunicationIdentityInitConfig {
+    fn validate(&self, credential_root: &Path) -> Result<(), RuntimeInitError> {
+        for (field, value) in [
+            ("communication_identities.principal_id", &self.principal_id),
+            (
+                "communication_identities.signing_key_id",
+                &self.signing_key_id,
+            ),
+        ] {
+            validate_non_empty_trimmed(field, value)?;
+            if value.len() > 128
+                || !value.bytes().all(|byte| {
+                    byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-')
+                })
+            {
+                return Err(RuntimeInitError::Policy(format!(
+                    "{field} must be a bounded safe identifier"
+                )));
+            }
+        }
+        validate_child_path(
+            "communication_identities.signing_private_key_path",
+            credential_root,
+            &self.signing_private_key_path,
+        )?;
+        validate_child_path(
+            "communication_identities.signing_public_key_path",
+            credential_root,
+            &self.signing_public_key_path,
+        )?;
+        Ok(())
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

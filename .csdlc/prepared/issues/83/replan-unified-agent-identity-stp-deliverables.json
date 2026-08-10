@@ -1,0 +1,25 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 54,
+  "expected_digest": "cc4033683768681123f3974721e385a7f02a4c125cdeaa0b38f7f78b63219eb4",
+  "actor": "codex:83-agent-identity-envelope",
+  "reason": "Record both authenticated Observatory delegation and generic direct agent-to-agent exchange as required deliverables of the same protocol.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Live local Runtime v3 HTTPS/WSS browser integration with current capture time and configured Polis identity",
+      "Production-admitted Shepherd in the live roster with truthful running status and public verification identity",
+      "One RFC 8785/JCS-canonical signed ACIP identity-message contract shared by Layer 8 and agents",
+      "Authenticated Layer 8 intent delegation with no browser-held private key and selected-agent signed acknowledgement verification",
+      "Direct agent-0001 to agent-0002 binary ACIP exchange with agent-0002 signed acknowledgement verification",
+      "Forgery, carrier tamper, wrong or unknown recipient, stale response, future response, replay, restored-replay, and wrong-causation refusal proof",
+      "Externally provisioned distinct per-principal communication keys in the versioned production init and lifecycle provisioner",
+      "Explicit trust, stale, unavailable, backpressure, and version-mismatch states",
+      "Browser reconnect with cleared write authority, bounded replay, and no duplicate application",
+      "Live Playwright validation entrypoint and retained browser evidence",
+      "adl/tools/validate_v092_html_observatory_live.mjs"
+    ]
+  }
+}

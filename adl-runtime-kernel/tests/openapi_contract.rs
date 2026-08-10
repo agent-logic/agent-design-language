@@ -126,7 +126,7 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         .any(|frame| frame["$ref"] == "#/components/schemas/ObservatoryFeed"));
     assert_eq!(
         ws["signedTextControlAuthority"],
-        "signed_control_command_only"
+        "authenticated_layer8_intent_or_signed_control_command"
     );
     assert_eq!(
         ws["binaryAcipAuthority"],
