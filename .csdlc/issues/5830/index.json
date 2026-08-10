@@ -6,10 +6,26 @@
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
   "phase": "implemented",
   "generation": 63,
-  "digest": "b6932779fae4b57bf55cde2ed5a61bbf059cb74959127478d38bb0ded0b887ce",
+  "digest": "4bd8e22eb828803e5d6f17efba336383173ad9aaf5c9fc8caa22fbd9454d916c",
   "branch": "codex/5830-cognitive-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "assigned_by": "codex:5830-cognitive-profile",
+    "revision": "git-blake3:c43b2d0d7e8948f56d3e9f22752d7605a26ec42c:7f56d1daa9cf4c63d31a3612365683440a82a14e70f9c8fe1fff07472ae508fe",
+    "scope": [
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile",
+      "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
+      ".github/workflows/wp13-native-cognitive-profile.yml",
+      ".csdlc/evidence/5830",
+      ".csdlc/issues/5830"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "c2739d91f782cbe4088e1dc4a498bf6ca3ef11244caf5dcb0bc956251d42991c"
     },
     "srp": {
-      "values_digest": "3e842bf3d4a9d5acbc5c4b9c3bcae030c48c9a039ca39dcd756b6f58ed1c48db",
-      "rendered_digest": "5cf1d14625cc5c42441e85503a8ba2347ee72f5b8a6c55327ebb7b4d02773ec8",
-      "ast_digest": "a0c0d5d841942e9187eedd87886ba119301e1a7842960f3b8e41ca367ba925ca"
+      "values_digest": "95f91327053ec9abbeee9cf3babf5edaf12cbd6190727d0047bfd293f0b61ddd",
+      "rendered_digest": "198c4ef75b9b942c991a32bb021029f29b3b91d79fae89322ef5911b670a498a",
+      "ast_digest": "edad3dc4f197b4f0139c930237b5c4e0ec54aa9d8d9410f0ea6e1c4791e8dd25"
     },
     "sor": {
       "values_digest": "9d3e97564d0d8021d1fa943ace78bb00646684a1e7ce9f29b20933d18cfcef73",
@@ -701,6 +717,13 @@
       "actor": "codex:5830-cognitive-profile",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 87,
+      "generation": 63,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

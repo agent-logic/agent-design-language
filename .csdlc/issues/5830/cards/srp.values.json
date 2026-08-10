@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact-head review of WP-13 evidence categories, revision semantics, identity/continuity binding, private/public projections, unsupported inference rejection, and dependency proof only.",
+      "review_scope": "adl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/cognitive_profile.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile\ndocs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\n.csdlc/prepared/issues/5830/produce-native-receipt.rb\n.csdlc/prepared/issues/5830/validate-native-receipts.rb\n.github/workflows/wp13-native-cognitive-profile.yml\n.csdlc/evidence/5830\n.csdlc/issues/5830",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
