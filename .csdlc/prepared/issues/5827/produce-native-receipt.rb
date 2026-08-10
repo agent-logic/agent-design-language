@@ -49,10 +49,10 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
-    "adl-runtime-kernel/tests/#{test_target}.rs",
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
   ]
+  paths << "adl-runtime-kernel/tests/#{test_target}.rs" unless test_target == "birthday_continuity"
   paths += [
     "adl-runtime-kernel/src/birthday_identity.rs",
     "adl-runtime-kernel/src/continuity.rs",
@@ -110,11 +110,19 @@ FileUtils.mkdir_p(semantic_path.dirname)
 command_output_path = receipt_path.dirname.join("#{options[:platform]}-nextest.log")
 manifest_path = receipt_path.dirname.join("#{options[:platform]}-source-manifest.json")
 
-test_argv = [
-  "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all",
-  "--message-format", "libtest-json-plus"
-]
+test_argv = if test_target == "birthday_continuity"
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--lib", "-E", "test(/^birthday_continuity::authority_tests::/)",
+    "--no-tests=fail", "--status-level", "all", "--message-format", "libtest-json-plus"
+  ]
+else
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--test", test_target, "--no-tests=fail", "--status-level", "all",
+    "--message-format", "libtest-json-plus"
+  ]
+end
 stdout, stderr, status = Open3.capture3(
   {
     "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s,

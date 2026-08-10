@@ -5,8 +5,11 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use crate::{
-    birthday_identity::record_digest as identity_record_digest, BirthdayIdentityRecord,
-    CheckpointManifest, IdentityReference, BIRTHDAY_IDENTITY_RECORD_SCHEMA, CHECKPOINT_SCHEMA,
+    birthday_identity::{
+        record_digest as identity_record_digest, validate_birthday_identity_record,
+    },
+    BirthdayIdentityRecord, CheckpointManifest, IdentityReference, VerifiedBirthdayEvidence,
+    CHECKPOINT_SCHEMA,
 };
 
 pub const BIRTHDAY_CONTINUITY_RECORD_SCHEMA: &str = "adl.birthday.continuity_record.v1";
@@ -34,10 +37,12 @@ pub struct BirthdayContinuityAuthorityPolicy {
 
 impl BirthdayContinuityAuthorityPolicy {
     #[cfg_attr(not(test), allow(dead_code))]
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn establish(
         trusted_keys: BTreeMap<String, VerifyingKey>,
         signing_key_id: impl Into<String>,
         identity: &BirthdayIdentityRecord,
+        identity_evidence: &VerifiedBirthdayEvidence,
         topology_hash: impl Into<String>,
         config_hash: impl Into<String>,
         service_schema: impl Into<String>,
@@ -53,7 +58,7 @@ impl BirthdayContinuityAuthorityPolicy {
             first_generation,
         };
         if !policy.trusted_keys.contains_key(&policy.signing_key_id)
-            || !valid_identity_record(identity)
+            || validate_birthday_identity_record(identity, identity_evidence).is_err()
             || !is_sha256(&policy.topology_hash)
             || !is_sha256(&policy.config_hash)
             || policy.service_schema.is_empty()
@@ -75,6 +80,7 @@ pub struct BirthdayCycleEvidence<'a> {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct VerifiedBirthdayCycle {
     identity_root: String,
+    identity_record_sha256: String,
     generation: u64,
     accepted_through: u64,
     previous_integrity: String,
@@ -134,6 +140,7 @@ pub enum ContinuityRejection {
     UnsafeWitnessPath { generation: u64 },
     WitnessDigestMismatch { generation: u64 },
     DuplicateCycle { generation: u64 },
+    GenerationOverflow,
     RecordDigestMismatch,
     ContinuityHeadMismatch,
     NonCanonicalRecord,
@@ -162,7 +169,7 @@ pub fn verify_birthday_cycles(
     let expected_provenance = format!("birthday-identity:{}", identity.record_sha256);
     let mut verified = Vec::with_capacity(evidence.len());
 
-    for item in evidence {
+    for (index, item) in evidence.iter().enumerate() {
         let manifest = item.manifest;
         let generation = manifest.generation;
         if manifest.schema != CHECKPOINT_SCHEMA {
@@ -232,6 +239,7 @@ pub fn verify_birthday_cycles(
 
         verified.push(VerifiedBirthdayCycle {
             identity_root: identity.identity_root.clone(),
+            identity_record_sha256: identity.record_sha256.clone(),
             generation,
             accepted_through: manifest.accepted_through,
             previous_integrity: manifest.previous_integrity.clone().unwrap_or_default(),
@@ -239,7 +247,13 @@ pub fn verify_birthday_cycles(
             signing_key_id: manifest.signing_key_id.clone(),
             reference: item.reference.clone(),
         });
-        expected_generation = expected_generation.saturating_add(1);
+        match expected_generation.checked_add(1) {
+            Some(next) => expected_generation = next,
+            None if index + 1 < evidence.len() => {
+                rejections.insert(ContinuityRejection::GenerationOverflow);
+            }
+            None => {}
+        }
         expected_predecessor = manifest.integrity.clone();
         previous_accepted = manifest.accepted_through;
     }
@@ -257,11 +271,50 @@ pub fn build_birthday_continuity(
     if cycles.len() < 2 {
         return Err(vec![ContinuityRejection::InsufficientCycles]);
     }
-    if cycles
-        .iter()
-        .any(|cycle| cycle.identity_root != identity.identity_root)
-    {
-        return Err(vec![ContinuityRejection::IdentityRecordMismatch]);
+    let mut rejections = BTreeSet::new();
+    let mut expected_generation = cycles[0].generation;
+    let mut expected_predecessor = identity.continuity.head_sha256.as_str();
+    let mut previous_accepted = 0;
+    let mut seen_integrities = BTreeSet::new();
+    for (index, cycle) in cycles.iter().enumerate() {
+        if cycle.identity_root != identity.identity_root
+            || cycle.identity_record_sha256 != identity.record_sha256
+        {
+            rejections.insert(ContinuityRejection::IdentityRecordMismatch);
+        }
+        if cycle.generation != expected_generation {
+            rejections.insert(ContinuityRejection::WrongGeneration {
+                expected: expected_generation,
+                actual: cycle.generation,
+            });
+        }
+        if cycle.previous_integrity != expected_predecessor {
+            rejections.insert(ContinuityRejection::DiscontinuousPredecessor {
+                generation: cycle.generation,
+            });
+        }
+        if cycle.accepted_through <= previous_accepted {
+            rejections.insert(ContinuityRejection::NonMonotonicEvidence {
+                generation: cycle.generation,
+            });
+        }
+        if !seen_integrities.insert(cycle.integrity.clone()) {
+            rejections.insert(ContinuityRejection::DuplicateCycle {
+                generation: cycle.generation,
+            });
+        }
+        expected_predecessor = &cycle.integrity;
+        previous_accepted = cycle.accepted_through;
+        match expected_generation.checked_add(1) {
+            Some(next) => expected_generation = next,
+            None if index + 1 < cycles.len() => {
+                rejections.insert(ContinuityRejection::GenerationOverflow);
+            }
+            None => {}
+        }
+    }
+    if !rejections.is_empty() {
+        return Err(rejections.into_iter().collect());
     }
     let cycle_records = cycles
         .iter()
@@ -402,29 +455,9 @@ fn is_sha256(value: &str) -> bool {
             .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
-fn valid_identity_record(identity: &BirthdayIdentityRecord) -> bool {
-    identity.schema == BIRTHDAY_IDENTITY_RECORD_SCHEMA
-        && identity_record_digest(identity).ok().as_deref() == Some(&identity.record_sha256)
-        && is_sha256(&identity.identity_root)
-        && identity.continuity.identity_root == identity.identity_root
-        && is_sha256(&identity.continuity.head_sha256)
-        && !identity.provenance.is_empty()
-        && !identity.witnesses.is_empty()
-        && identity.governed_projection.sha256 == identity.projection_receipt.projection_sha256
-        && identity.projection_receipt.generation > 0
-        && !identity.projection_receipt.signing_key_id.is_empty()
-        && is_sha256(&identity.projection_receipt.accepted_record_hash)
-        && identity
-            .projection_receipt
-            .visible_fields
-            .keys()
-            .all(|field| {
-                !matches!(
-                    field.as_str(),
-                    "raw" | "raw_private_state" | "private_state" | "sealed_payload"
-                )
-            })
-}
+#[cfg(test)]
+#[path = "../tests/fixtures/birthday_continuity/authority_tests.rs"]
+mod authority_tests;
 
 fn safe_path(value: &str) -> bool {
     !value.is_empty()

@@ -48,10 +48,10 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
-    "adl-runtime-kernel/tests/#{test_target}.rs",
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
   ]
+  paths << "adl-runtime-kernel/tests/#{test_target}.rs" unless test_target == "birthday_continuity"
   paths += [
     "adl-runtime-kernel/src/birthday_identity.rs",
     "adl-runtime-kernel/src/continuity.rs",
@@ -94,11 +94,19 @@ head = head_text.strip
 
 producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
-expected_test_argv = [
-  "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all",
-  "--message-format", "libtest-json-plus"
-]
+expected_test_argv = if test_target == "birthday_continuity"
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--lib", "-E", "test(/^birthday_continuity::authority_tests::/)",
+    "--no-tests=fail", "--status-level", "all", "--message-format", "libtest-json-plus"
+  ]
+else
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--test", test_target, "--no-tests=fail", "--status-level", "all",
+    "--message-format", "libtest-json-plus"
+  ]
+end
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/
@@ -110,6 +118,8 @@ required_tests = %w[
   wrong_signer_and_generation_fail_closed
   missing_runtime_witness_and_wrong_provenance_fail_closed
   record_tamper_and_unknown_fields_fail_closed
+  verified_tokens_cannot_be_reordered_duplicated_or_relabelled
+  terminal_generation_overflow_fails_closed
 ]
 
 receipts = ARGV.map do |receipt_relative|
@@ -173,7 +183,7 @@ receipts.each do |receipt|
   fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
   observed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
-  prefix = "adl-runtime-kernel::birthday_continuity$"
+  prefix = "adl-runtime-kernel::adl_runtime_kernel$birthday_continuity::authority_tests::"
   fail!("#{platform}: test inventory escaped Birthday continuity") unless observed_tests.all? { |name| name.start_with?(prefix) }
   missing_tests = required_tests - observed_tests.map { |name| name.delete_prefix(prefix) }
   fail!("#{platform}: required negative proof is incomplete: #{missing_tests.join(', ')}") unless missing_tests.empty?
