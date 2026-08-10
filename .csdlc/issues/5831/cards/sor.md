@@ -98,11 +98,11 @@ Implemented and locally proved governed WP-13A adaptive learning with discoverab
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -6,9 +6,9 @@
   "base": "main",
   "head": "codex/5831-adaptive-learning",
   "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
-  "body": "Closes danielbaustin/agent-design-language#5831\n\n## Outcome\n\nImplements governed Runtime v3 adaptive learning with signed mutation authority, deterministic proposal and history validation, fully validated discoverable startup reconciliation, and an exclusive MutationGate transaction that publishes live state only after durable commit succeeds.\n\n## Proof\n\n- Focused adaptive-learning authority/reconciliation matrix: 15/15 passed\n- Focused durable atomic-CAS/restart matrix: 5/5 passed\n- Strict Clippy, formatting, native producer/validator self-tests, workflow YAML, inventory, and diff checks passed\n- Native source provenance and PR triggers bind adaptive_learning.rs, reasoning.rs, durable_state.rs, and both focused test targets\n- Fresh independent exact-head review: APPROVED, no findings\n\nExact-head native Linux and macOS receipts plus aggregate validation are required before merge. No downstream Birthday completion is claimed.",
+  "body": "Closes danielbaustin/agent-design-language#5831\n\n## Outcome\n\nImplements governed Runtime v3 adaptive learning with signed mutation authority, deterministic proposal and history validation, fully validated discoverable startup reconciliation, and an exclusive MutationGate transaction that publishes live state only after durable commit succeeds.\n\n## Proof\n\n- Focused adaptive-learning authority/reconciliation matrix: 15/15 passed\n- Focused durable atomic-CAS/restart matrix: 5/5 passed\n- Strict Clippy, formatting, native producer/validator self-tests, workflow YAML, inventory, and diff checks passed\n- Native producer and validator source manifests plus PR triggers bind adaptive_learning.rs, reasoning.rs, durable_state.rs, and both focused test targets\n- Fresh independent exact-head review after failed run 31429043531: APPROVED, no findings\n\nReplacement exact-head native Linux and macOS receipts plus aggregate validation are required before merge. No downstream Birthday completion is claimed.",
   "linkage_mode": "closing",
   "draft": false,
-  "revision": "git-blake3:fa6cfc252da367860c915c4668c26a05545138b0:d10581109a793330b71f6f2240a997b84f07ba491ce3f7d466fb6e381f5f5eed",
-  "commit_sha": "fa6cfc252da367860c915c4668c26a05545138b0"
+  "revision": "git-blake3:7718592a0d1794e9075dd1da609f7cac713a9b71:26339c3be687d7d76a86ad8ad92de17efefb51440149baae12a207933173b376",
+  "commit_sha": "7718592a0d1794e9075dd1da609f7cac713a9b71"
 }
