@@ -171,7 +171,8 @@ receipts.each do |receipt|
   observed_passed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory is missing") unless observed_passed_tests.is_a?(Array)
   fail!("#{platform}: passed test inventory disagrees with command output") unless observed_passed_tests == passed_tests.sort
-  missing_authority_tests = required_authority_tests - observed_passed_tests
+  observed_test_functions = observed_passed_tests.map { |name| name.to_s.split("$").last }
+  missing_authority_tests = required_authority_tests - observed_test_functions
   fail!("#{platform}: authority-negative proof is incomplete: #{missing_authority_tests.join(', ')}") unless missing_authority_tests.empty?
 
   semantic_output = repo_file(root, receipt["semantic_output_path"], "#{platform} semantic output", required_prefix: evidence_prefix)
