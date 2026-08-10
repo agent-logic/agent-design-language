@@ -12,19 +12,76 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented bounded majority-committed epoch and lease authority with exact stable and joint quorum, canonical signed certificates, activation possession, monotonic fencing, policy binding, and restart-safe durable state.
 
 ## Artifacts
 
-- none
+- adl-runtime/src/distributed/lease.rs
+- adl-runtime/tests/distributed_lease.rs
+- .csdlc/evidence/5869
 
 ## Execution
 
-- none
+- Added the issue-owned unregistered OpenRaft membership and authority-ledger state machine for exact stable and joint quorum authorization.
+- Added frozen canonical AuthorityCertificateV1 encoding, domain-separated strict Ed25519 endorsements, and live purpose, domain, generation, expiry, and revocation validation.
+- Added bounded monotonic grant, activation, renewal, owner-commit, fence, revoke, mutation-sink, policy-digest, replay, and restart recovery enforcement.
+- Added the temporary issue-owned #[path] test harness with positive, malformed, unauthorized, quorum-loss, clone, clock, snapshot, and resource-bound coverage.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "ruby",
+      "-rfileutils",
+      "-e",
+      "source='.csdlc/evidence/5869'; targets=Dir['.csdlc/evidence/.csdlc-finalize-5869-*'].select { |path| File.directory?(path) }; abort('unique finalize staging directory required') unless targets.length == 1; Dir.children(source).sort.each { |name| FileUtils.cp_r(File.join(source,name), targets.fetch(0)) }"
+    ],
+    "purpose": "Copy the issue-owned reviewed proof packet into the typed finalize staging directory before validation logs are added.",
+    "outcome": "passed",
+    "evidence_ref": "preserve-digest-bound-proof.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_lease",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict focused Clippy for the distributed lease test surface.",
+    "outcome": "passed",
+    "evidence_ref": "pvf-distributed-lease-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_lease",
+      "--no-tests=fail"
+    ],
+    "purpose": "Run the exact issue-owned distributed lease target.",
+    "outcome": "passed",
+    "evidence_ref": "pvf-distributed-lease-tests.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5869/validate-proof-receipt.rb"
+    ],
+    "purpose": "Validate the retained issue #5869 exact-revision proof receipt.",
+    "outcome": "passed",
+    "evidence_ref": "pvf-exact-revision-proof-receipt.log"
+  }
+]
 
 ## Integration
 
