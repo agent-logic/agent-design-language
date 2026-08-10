@@ -6,10 +6,28 @@
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
   "generation": 75,
-  "digest": "35663f5ecc023099cc9a7f2e52a2de3cabfb2baf336229bdd683ba35fdb38bd6",
+  "digest": "4cac258c7828bebb5e5d4d4c99b94dad9f2335413bd59cf3d33c2fa2bfaf46ad",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "assigned_by": "codex:5828-memory-palace",
+    "revision": "git-blake3:c370a3096afe9e6486444cf1e76ab527cf3f212d:e28cdafe669d5292380a7aba7c05a05cc0ea7b3a2b2a5bd7e7f7fcdc07aa31da",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "3735be4c238ca921871a019682c57be0498a10f223aa0bd21a47f62548c63b03"
     },
     "srp": {
-      "values_digest": "c11e8f8e12876b555ef4fe7be21917a1a0d519054db92cba638dff9563752338",
-      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
-      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
+      "values_digest": "6738f7539a9f8aa8b8f1b0132fbd31b8f8640d4182ab73cea753015b76104f67",
+      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
+      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
     },
     "sor": {
       "values_digest": "628dfb563402076fd6e79bf4d9bb6603aea1250bdda7e90a5a7e522d5daf2e0d",
@@ -883,6 +901,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "Recover the exact review assignment after correcting only the SOR local evidence reference to the retained Memory Palace validation log.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 105,
+      "generation": 75,
+      "actor": "codex:5828-memory-palace",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
