@@ -6,10 +6,27 @@
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "implemented",
   "generation": 74,
-  "digest": "a4e85f1f1d9eba535debd0717a670a88b02af9fc85eb6140a2c73c55cf4cdddd",
+  "digest": "9ca5529eee46e91ac96c23be22ad5c19985accaceb0a192be268309a3bc3f0d5",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5833_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:c2c4c275d89501a9e8d81a8ee595ae76d5892c48:08c85d180df1d3b7fa2e903adf47685aa1fa0a8aeada7ae1465d28f8cd8ec754",
+    "scope": [
+      ".csdlc/issues/5833",
+      ".csdlc/prepared/issues/5833/design.md",
+      ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
+      ".csdlc/evidence/5833",
+      ".github/workflows/wp15-native-birth-witness.yml",
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/fixtures/birth_witness",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "baac1ece07d129ac5f3ede85777c57f227ec790143b7ca8836ab834793ab59a0"
     },
     "srp": {
-      "values_digest": "259f0ab37dfa1f2977bd2b11538d758321d701b7ceec291bc115c5806d42e292",
-      "rendered_digest": "4b6b2d69d7863380474666cdea35225e1e88e7e783e3c357c211ceae05eacfcf",
-      "ast_digest": "25540fb62a38a3c9058d80a9295f40cb1745178df3de4a8535f50cc38f25a030"
+      "values_digest": "0791048fb62a035bec66b99a2fdc57d739bb1cfac81f484d2d43d7e96908e1fb",
+      "rendered_digest": "fb3641c95fa06384c6dc2c057f544604b24284d2e4f42b727dd7d1dc9221e716",
+      "ast_digest": "010da6fa1ce1edfbff27b57f65768a7936aa6dbe40374edd4d9bbb14de1827e6"
     },
     "sor": {
       "values_digest": "305f4dd1264027bc06723ce5b2f62e03378394cd75f20eab181cc33799748c98",
@@ -827,6 +844,13 @@
       "actor": "codex:5833-birth-witness",
       "reason": "Correct only the detached-validator purpose attribution before restoring the separately observed live PR publication state.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved WP-15 opaque-authority exact-candidate witnesses and deterministic path-redacted citizen receipts, including retained exact-head Linux/macOS native equivalence proof, without manufacturing birth authority.\",\"changes\":[\"Replaced caller-provisionable roots with a non-serializable opaque runtime-established policy; external authority establishment now fails to compile.\",\"Required exact canonical witness identity equality and executable all-case negative fixtures, closing case-variant equivocation and inert-matrix gaps.\",\"Replaced original evidence paths in the receipt with deterministic kind-and-digest tokens and rejected secret-bearing path syntax before projection.\",\"Added hidden-file opt-in to both exact native uploads while preserving four-file producer isolation and success-only exact eight-file aggregate retention.\",\"Updated native proof to the exact 13-test crate-internal authority lane with a separate one-test public serialization boundary.\",\"Retained the exact eight-file Linux/macOS packet from successful run 31438894269 and independently revalidated its source, producer, test inventory, provenance, path hygiene, and byte-identical semantic output at head 33dad75ef.\"],\"artifacts\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness/matrix.json\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5833/design.md\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".github/workflows/wp15-native-birth-witness.yml\",\".csdlc/evidence/5833/local-validation-manifest.json\",\".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log\",\".csdlc/evidence/5833/birth-witness-public-boundary.log\",\".csdlc/evidence/5833/birth-witness-compile-fail.log\",\".csdlc/evidence/5833/birth-witness-strict-clippy.log\",\".csdlc/evidence/5833/birth-witness-native-scripts.log\",\".csdlc/evidence/5833/native-platform/linux.json\",\".csdlc/evidence/5833/native-platform/linux-nextest.log\",\".csdlc/evidence/5833/native-platform/linux-semantic.json\",\".csdlc/evidence/5833/native-platform/linux-source-manifest.json\",\".csdlc/evidence/5833/native-platform/macos.json\",\".csdlc/evidence/5833/native-platform/macos-nextest.log\",\".csdlc/evidence/5833/native-platform/macos-semantic.json\",\".csdlc/evidence/5833/native-platform/macos-source-manifest.json\",\".csdlc/evidence/5833/native-platform/independent-validator.log\",\".csdlc/evidence/5833/native-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birth_witness::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 13-test opaque authority, canonical identity, executable negative matrix, receipt redaction, signature, freshness, substitution, and no-premature-claim surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the public packet serialization boundary rejects undeclared private fields without exposing authority establishment.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-public-boundary.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birth_witness\"],\"purpose\":\"Prove external callers cannot establish or nominate the opaque trusted witness root.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-compile-fail.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Require the authority-bearing library and public integration target to compile without warnings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-strict-clippy.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\"--self-test\"],\"purpose\":\"Prove log path hygiene, exact 13-test inventory scaffolding, both hidden-upload opt-ins, Ruby syntax, and workflow YAML before native CI.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-native-scripts.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5833/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/linux-semantic.json\"],\"purpose\":\"Prove the exact 13-test authority lane on native Linux at candidate head 33dad75ef with complete normalized structured output and source provenance.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/native-platform/linux.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5833/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/macos-semantic.json\"],\"purpose\":\"Prove the exact 13-test authority lane on native macOS at candidate head 33dad75ef with complete normalized structured output and source provenance.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/native-platform/macos.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".csdlc/evidence/5833/native-platform/linux.json\",\".csdlc/evidence/5833/native-platform/macos.json\"],\"purpose\":\"Independently revalidate the extracted exact-head eight-file native packet in a detached clone, including exact inventory, receipt provenance, path hygiene, source manifests, and semantic equivalence; archive identity and digest are recorded separately in the native validation manifest from live artifact metadata.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/native-platform/independent-validator.log\"}]}"
+    },
+    {
+      "sequence": 102,
+      "generation": 74,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
