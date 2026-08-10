@@ -1,4 +1,4 @@
 command=cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test adaptive_learning --test durable_state -- -D warnings
-validated_revision=6c548cc36df074ab77f23d4e2f1aea9a459a8b89
-validated_tree=d267a3d44f13067c07e5a3089672b72bc29ca795
+validated_revision=1f6977214eacf71c61eeb2f868fc27d5a97a9f80
+validated_tree=da93f550ecb9a53ce377c6c94b381d25bb37d6c0
 result=passed

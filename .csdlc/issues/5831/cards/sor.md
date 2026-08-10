@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and locally proved governed WP-13A adaptive learning with fully validated discoverable startup reconciliation and an exclusive MutationGate durable transaction. The native producer source manifest and WP-13A PR path triggers now also bind reasoning.rs, durable_state.rs, and tests/durable_state.rs, so transactional and atomic-CAS changes cannot evade native proof. Exact proof at 6c548cc36 passes twenty adaptive/durable tests; native execution remains deferred to CI.
+Implemented and locally proved governed WP-13A adaptive learning with discoverable fully validated reconciliation and durable-before-live MutationGate transaction semantics. After PR run 31429043531 proved both native producers passed but aggregate validation rejected the widened source manifest, the validator now mirrors the producer's reasoning.rs, durable_state.rs, and tests/durable_state.rs authority paths and locks them in its self-test. Replacement native execution remains required before merge.
 
 ## Artifacts
 
@@ -42,6 +42,7 @@ Implemented and locally proved governed WP-13A adaptive learning with fully vali
 - Reconcile reserved, committed, and aborted intents deterministically and allow one authoritative winner under concurrent adaptive execution.
 - Persist complete sequence-addressed histories for restart and rollback while bounding durable text, collections, snapshots, and pending payloads.
 - Bind the native source manifest and workflow triggers to adaptive_learning.rs, reasoning.rs, durable_state.rs, adaptive_learning tests, and durable_state tests.
+- Align the independent native validator source manifest exactly with the producer's authority-bearing reasoning.rs, durable_state.rs, and tests/durable_state.rs paths, and retain a self-test that fails if any is omitted.
 
 ## Validation
 

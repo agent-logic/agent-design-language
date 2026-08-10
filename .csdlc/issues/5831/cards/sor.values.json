@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
     "slug": "v0-92-wp-13a-runtime-implement-adaptive-learning-dag",
     "version": "v0.92",
-    "generation": 84
+    "generation": 85
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented and locally proved governed WP-13A adaptive learning with fully validated discoverable startup reconciliation and an exclusive MutationGate durable transaction. The native producer source manifest and WP-13A PR path triggers now also bind reasoning.rs, durable_state.rs, and tests/durable_state.rs, so transactional and atomic-CAS changes cannot evade native proof. Exact proof at 6c548cc36 passes twenty adaptive/durable tests; native execution remains deferred to CI.",
+      "summary": "Implemented and locally proved governed WP-13A adaptive learning with discoverable fully validated reconciliation and durable-before-live MutationGate transaction semantics. After PR run 31429043531 proved both native producers passed but aggregate validation rejected the widened source manifest, the validator now mirrors the producer's reasoning.rs, durable_state.rs, and tests/durable_state.rs authority paths and locks them in its self-test. Replacement native execution remains required before merge.",
       "actual_changes": [
         "Execute accepted learning only through signed mutation, loop, cancellation, cognitive-profile, capability, and durable-state authorities.",
         "Bind policy, grant, mutation evidence, profile, capability, proposal, and complete predecessor history.",
@@ -22,7 +22,8 @@
         "Hold gate and adaptation locks across candidate construction and the durable callback; publish live state only after durable success, leaving failures nonmutating.",
         "Reconcile reserved, committed, and aborted intents deterministically and allow one authoritative winner under concurrent adaptive execution.",
         "Persist complete sequence-addressed histories for restart and rollback while bounding durable text, collections, snapshots, and pending payloads.",
-        "Bind the native source manifest and workflow triggers to adaptive_learning.rs, reasoning.rs, durable_state.rs, adaptive_learning tests, and durable_state tests."
+        "Bind the native source manifest and workflow triggers to adaptive_learning.rs, reasoning.rs, durable_state.rs, adaptive_learning tests, and durable_state tests.",
+        "Align the independent native validator source manifest exactly with the producer's authority-bearing reasoning.rs, durable_state.rs, and tests/durable_state.rs paths, and retain a self-test that fails if any is omitted."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/adaptive_learning.rs",

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 84,
-  "digest": "9b0bb53b7d53b5ba89560454e9f8d4ce0b982c950e30687691d40af8af58cd20",
+  "generation": 85,
+  "digest": "524897789ac71e4493fbb8b833b27bba991a9993e8300064c74c9d05a1243be5",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "37a9805de7174f911f12e49e274a613dceb366eba9f0a7dadd4778754f11ee08",
+      "values_digest": "a0efc6c4b699a81ec0e1349826e19d91fd4157bcf613ba583a3e85a0c529a9f0",
       "rendered_digest": "0db5a50b8b18fb55476374e044eb1b0c5f912734fcd350f59ed9e486d94a770c",
       "ast_digest": "435e246381810627c72031a04e455f28daf269e67a3f2f493be5a78546d6cadd"
     },
     "stp": {
-      "values_digest": "044c084689b5806182add22c69c8721d569ea2e00551d23c277330409fd9b0b1",
+      "values_digest": "77866bef141b203eba56006a5f0053645b17aa00c79c6f1681cd11afd2209923",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "ee8db1f2e95444dcace1e7d42233638b0fe514d2d299bdfc6cc72c3f65c74ec5",
+      "values_digest": "50e008e6a5032bb3f7a2e9e424f7951c6a0d11f9a0e792070963609093ef2047",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "3bccfb7e1f2c57226587ec235ad37db84b2de4045b4acc801e5b01415948229e",
+      "values_digest": "bcd7a314560b8cd5e38092690e3f019946d12f19d5db13ee34b93a16677ce405",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "5f87f4ff0d3c55ac5088a6ddf1c686376c3a517f8d262f4f0457d602f92ebd89",
+      "values_digest": "0a42277b0dc7b4ddf552f10adad71bd3babc07ef7ed27a97d2e9cf2476e9652c",
       "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
       "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "70c5e60b42b69ce2ec0302b9b66810406620bf0d4f64fcefb1927b31d2534f6c",
-      "rendered_digest": "d8d138c29f28d6b5f5b7dd3bff6a579c728ae75e820270a707cab61dbbea738a",
-      "ast_digest": "db391c5a0de88bc2aa1ca508f20f28a2f52e988d672187fc291823b858ec9ead"
+      "values_digest": "34ffdedbafcf7969dc86500ddf416f27137ec35ead493a2e28ff959a8ad48d53",
+      "rendered_digest": "188c2656cb55367f916ddc948407d0e71728857b1f1de1277c55c146fac5c07b",
+      "ast_digest": "86669007e4c5009804ac5c3ab30b9937c6cbedbefb4a3c82fa56470282baf9f5"
     }
   },
   "transitions": [
@@ -911,6 +911,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "Exact PR run 31429043531 produced passing Linux and macOS receipts but aggregate validation failed because validator source_paths retained the old six-file manifest while the producer correctly added reasoning.rs, durable_state.rs, and tests/durable_state.rs. Recover review/publication for exact producer-validator source parity and replacement native proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 114,
+      "generation": 85,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Record the exact aggregate failure diagnosis and validator source-manifest parity repair after native run 31429043531.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented and locally proved governed WP-13A adaptive learning with discoverable fully validated reconciliation and durable-before-live MutationGate transaction semantics. After PR run 31429043531 proved both native producers passed but aggregate validation rejected the widened source manifest, the validator now mirrors the producer's reasoning.rs, durable_state.rs, and tests/durable_state.rs authority paths and locks them in its self-test. Replacement native execution remains required before merge.\",\"changes\":[\"Align the independent native validator source manifest exactly with the producer's authority-bearing reasoning.rs, durable_state.rs, and tests/durable_state.rs paths, and retain a self-test that fails if any is omitted.\"],\"artifacts\":[]}"
     }
   ]
 }
