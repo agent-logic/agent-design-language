@@ -2,6 +2,7 @@
 
 use adl_runtime_kernel::*;
 use serde_json::json;
+use sha2::{Digest, Sha256};
 use std::{
     fs,
     path::{Component, Path},
@@ -408,6 +409,43 @@ fn broken_revision_link_and_unexplained_delta_fail_closed() {
         x.added_fields.clear();
         assert!(build_cognitive_profile(&b, &i, &c, &cap, &x, &p, Some(&previous)).is_err());
     }
+
+    let mut forged_continuity = first.clone();
+    forged_continuity.continuity_head = R.into();
+    forged_continuity.profile_sha256 = profile_digest(&forged_continuity).unwrap();
+    forged_continuity.public_projection.source_profile_sha256 =
+        forged_continuity.profile_sha256.clone();
+    forged_continuity.public_projection.projection_sha256 =
+        public_projection_digest(&forged_continuity.public_projection).unwrap();
+    let mut x = input(&b, &i, &c, &cap, &p);
+    x.revision = 2;
+    x.previous_profile_sha256 = Some(forged_continuity.profile_sha256.clone());
+    x.added_fields.clear();
+    assert!(build_cognitive_profile(&b, &i, &c, &cap, &x, &p, Some(&forged_continuity)).is_err());
+
+    let mut second_input = input(&b, &i, &c, &cap, &p);
+    second_input.revision = 2;
+    second_input.previous_profile_sha256 = Some(first.profile_sha256.clone());
+    second_input.added_fields.clear();
+    let mut forged_history =
+        build_cognitive_profile(&b, &i, &c, &cap, &second_input, &p, Some(&first)).unwrap();
+    forged_history.previous_profile_sha256 = None;
+    second_input.previous_profile_sha256 = None;
+    forged_history.canonical_input_sha256 = format!(
+        "{:x}",
+        Sha256::digest(serde_jcs::to_vec(&second_input).unwrap())
+    );
+    forged_history.profile_sha256 = profile_digest(&forged_history).unwrap();
+    forged_history.public_projection.source_profile_sha256 = forged_history.profile_sha256.clone();
+    forged_history.public_projection.projection_sha256 =
+        public_projection_digest(&forged_history.public_projection).unwrap();
+    let mut third_input = input(&b, &i, &c, &cap, &p);
+    third_input.revision = 3;
+    third_input.previous_profile_sha256 = Some(forged_history.profile_sha256.clone());
+    third_input.added_fields.clear();
+    assert!(
+        build_cognitive_profile(&b, &i, &c, &cap, &third_input, &p, Some(&forged_history)).is_err()
+    );
 }
 #[test]
 fn privacy_secrets_paths_and_raw_state_fail_closed() {
@@ -498,8 +536,6 @@ fn exact_duplicates_canonicalize_and_case_collisions_fail() {
     });
     assert!(build_cognitive_profile(&b, &i, &c, &cap, &bad, &p, None).is_err());
 
-    let first =
-        build_cognitive_profile(&b, &i, &c, &cap, &input(&b, &i, &c, &cap, &p), &p, None).unwrap();
     let mut update_policy = p.clone();
     update_policy
         .allowed_fields
@@ -508,6 +544,16 @@ fn exact_duplicates_canonicalize_and_case_collisions_fail() {
         .unwrap()
         .allowed_values
         .push("bounded".into());
+    let first = build_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &input(&b, &i, &c, &cap, &update_policy),
+        &update_policy,
+        None,
+    )
+    .unwrap();
     let mut update = input(&b, &i, &c, &cap, &update_policy);
     update.revision = 2;
     update.previous_profile_sha256 = Some(first.profile_sha256.clone());

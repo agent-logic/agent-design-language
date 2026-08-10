@@ -210,6 +210,7 @@ pub fn build_cognitive_profile(
         &canonical_policy,
         previous,
         &identity.identity_root,
+        &continuity.continuity_head,
         expected_policy_sha256.as_deref(),
         &mut errors,
     );
@@ -416,6 +417,7 @@ fn validate_policy_and_input(
     policy: &CognitiveProfilePolicy,
     previous: Option<&CognitiveProfile>,
     identity_root: &str,
+    continuity_head: &str,
     expected_policy_sha256: Option<&str>,
     errors: &mut BTreeSet<CognitiveProfileRejection>,
 ) {
@@ -539,7 +541,14 @@ fn validate_policy_and_input(
             }
         }
         Some(prev) => {
-            if !valid_prior_profile(prev, input, policy, identity_root, expected_policy_sha256) {
+            if !valid_prior_profile(
+                prev,
+                input,
+                policy,
+                identity_root,
+                continuity_head,
+                expected_policy_sha256,
+            ) {
                 errors.insert(CognitiveProfileRejection::NonCanonicalProfile);
             }
             if input.revision != prev.revision + 1
@@ -569,6 +578,7 @@ fn valid_prior_profile(
     current: &CognitiveProfileInput,
     policy: &CognitiveProfilePolicy,
     identity_root: &str,
+    continuity_head: &str,
     expected_policy_sha256: Option<&str>,
 ) -> bool {
     let prior_input = input_from_profile(previous);
@@ -580,6 +590,7 @@ fn valid_prior_profile(
         policy,
         None,
         identity_root,
+        continuity_head,
         expected_policy_sha256,
         &mut payload_errors,
     );
@@ -625,11 +636,48 @@ fn valid_prior_profile(
         && profile_digest(previous).ok().as_deref() == Some(previous.profile_sha256.as_str())
         && expected_policy_sha256 == Some(previous.policy_sha256.as_str())
         && previous.identity_root == identity_root
+        && previous.continuity_head == continuity_head
         && previous.birthday_candidate_sha256 == current.birthday_candidate_sha256
         && previous.identity_record_sha256 == current.identity_record_sha256
         && previous.continuity_record_sha256 == current.continuity_record_sha256
         && previous.capability_envelope_sha256 == current.capability_envelope_sha256
+        && valid_prior_revision_shape(previous)
+        && previous.public_projection.fields.len() < previous.fields.len()
         && previous.public_projection == expected_projection
+}
+
+fn valid_prior_revision_shape(previous: &CognitiveProfile) -> bool {
+    if previous.revision == 0 {
+        return false;
+    }
+    if previous.revision == 1 {
+        let field_keys = previous
+            .fields
+            .iter()
+            .map(|field| field.key.as_str())
+            .collect::<Vec<_>>();
+        return previous.previous_profile_sha256.is_none()
+            && previous.removed_fields.is_empty()
+            && previous
+                .added_fields
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>()
+                == field_keys;
+    }
+    previous
+        .previous_profile_sha256
+        .as_deref()
+        .is_some_and(is_sha)
+        && previous
+            .added_fields
+            .iter()
+            .chain(&previous.removed_fields)
+            .all(|value| syntactic_id(value))
+        && previous
+            .added_fields
+            .iter()
+            .all(|value| !previous.removed_fields.contains(value))
 }
 
 fn canonicalize_input(input: &mut CognitiveProfileInput) {
