@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #100 recovery inventory, canonical-selection evidence, Drive placement and readability, manifest integrity, non-destructive behavior, and focused completeness guard.
+docs/milestones/v0.92/publication/articles
+.csdlc/evidence/100
+.csdlc/prepared/issues/100
+.csdlc/issues/100
 
 ## Prompts
 
@@ -32,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The implemented-phase STP preserves the obsolete original folder and historical publish wording; current execution authority is the approved design and company-folder receipts.
+- Live proof rejects public permissions but does not claim historical private-permission equivalence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c42c9ea751d6d911dba9274ace80c2042c526dbe:c0521f8c8a81517b13c96cbde117dda69ab632470d34a00c5211825bf3ff2428")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:019fea49-63fd-70b3-9c19-d18a9311a621")
 
-Result: pre_review
+Result: pass
