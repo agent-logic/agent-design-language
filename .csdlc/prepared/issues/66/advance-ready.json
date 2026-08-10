@@ -1,0 +1,10 @@
+{
+  "issue": 66,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "d6a60d46ec73acfdccd91a3d78760c750fa8ee335bbb1245fca593f857091857",
+  "actor": "codex:66-deepgram-provider",
+  "reason": "The approved design and all four planning cards are execution-ready after readiness review repair and PASS.",
+  "operation": {"operation": "advance_phase", "phase": "ready"},
+  "fail_after_backup": false
+}

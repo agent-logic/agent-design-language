@@ -1,0 +1,6 @@
+{
+  "issue": 66,
+  "expected_generation": 7,
+  "expected_digest": "0047f94dbdf3e0a986e5f9dd559ebefd9dca998d84dff8eb1b89296b40816234",
+  "reviewer": "subagent:66-readiness-review"
+}

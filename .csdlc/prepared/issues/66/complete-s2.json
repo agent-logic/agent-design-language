@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "adb335f8e1aec1c1370c6cfbc25d52852d5348509c2889767990d9988131ed9b",
+  "actor": "codex:66-implementation",
+  "reason": "The bounded Deepgram batch TTS and prerecorded STT adapter plus profile-based factory wiring are implemented.",
+  "operation": {"operation":"update_plan_step","step_id":"S2","status":"completed"}
+}

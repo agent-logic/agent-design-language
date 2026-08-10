@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 66,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/66-deepgram-speech-provider",
+  "title": "[v0.92][Provider] Add first-class Deepgram speech provider",
+  "body": "Closes #66\n\nAdds a first-class typed Deepgram speech provider for batch Aura-2 synthesis and Nova-3 prerecorded transcription. The provider exposes explicit media settings, structured redacted provenance, stable errors, canonical profiles, per-request external credential resolution, and official-endpoint restrictions without implying text-completion support.\n\nDeterministic loopback coverage proves WAV and MP3 request/media contracts, STT parsing, endpoint restriction, redaction, timeout, malformed-response, status mapping, fail-closed configuration and credential behavior, and invalid request handling. Focused coverage measures deepgram.rs at 422/510 lines (82.745%), above the 80% changed-source gate. A bounded live Aura-2 Pluto to Nova-3 round trip passed with a metadata-only receipt that retains no source text, transcript, audio, authorization header, or credential. Independent review found no remaining actionable findings.\n\nPodcast Studio can consume the typed provider without owning Deepgram HTTP or credential handling. Realtime streaming, Gemini Live routing, episode rerendering, and provider selection policy remain out of scope.",
+  "draft": false,
+  "revision": "git-blake3:eb841f84b071cb5a0c7ded29ead29fe6987a83cb:9a97fad8642d80cf73b4fe9093944749d959a51ea2d093ef6a5fff1bbdfad203",
+  "commit_sha": "eb841f84b071cb5a0c7ded29ead29fe6987a83cb"
+}

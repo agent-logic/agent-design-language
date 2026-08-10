@@ -1,0 +1,6 @@
+{
+  "issue": 66,
+  "base_branch": "main",
+  "branch": "codex/66-deepgram-speech-provider",
+  "worktree": "."
+}

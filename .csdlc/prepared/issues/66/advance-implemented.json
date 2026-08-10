@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "7f8ca4ca78072da4b4ee0b726fd5ac497ddcdea9389498b71ba6921ee718d1b7",
+  "actor": "codex:66-implementation",
+  "reason": "The bounded Deepgram provider implementation and focused local/live proof are complete; exact-head review is next.",
+  "operation": {"operation":"advance_phase","phase":"implemented"}
+}

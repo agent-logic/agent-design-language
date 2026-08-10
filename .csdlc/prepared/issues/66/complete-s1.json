@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "ba5ddc4b54cea517cdf687508aea420189d40fe14b474b3a794043145a81733c",
+  "actor": "codex:66-implementation",
+  "reason": "The typed speech contracts, media settings, provenance boundary, credential resolution, stable errors, and canonical profiles are implemented.",
+  "operation": {"operation":"update_plan_step","step_id":"S1","status":"completed"}
+}

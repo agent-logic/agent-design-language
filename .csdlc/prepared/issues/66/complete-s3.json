@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "spp",
+  "expected_generation": 10,
+  "expected_digest": "9065043422b010a5c91f249b90ac3886b868a5ca0000ba0513d12d42384f855d",
+  "actor": "codex:66-implementation",
+  "reason": "Deterministic loopback tests, the opt-in Pluto/Nova-3 canary, redacted receipt, and focused operator and Podcast Studio documentation are complete.",
+  "operation": {"operation":"update_plan_step","step_id":"S3","status":"completed"}
+}

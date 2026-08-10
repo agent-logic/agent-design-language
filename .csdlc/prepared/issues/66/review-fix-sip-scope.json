@@ -1,0 +1,26 @@
+{
+  "issue": 66,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "b43bafbaa081bf2c37159a513b3d530f4e33e16e59fbfd05514dcea42967bc06",
+  "actor": "codex:66-deepgram-provider",
+  "reason": "Resolve readiness review by declaring the exact Podcast Studio consumption guide path.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "adl/src/provider/deepgram.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tests/provider_tests.rs",
+      "adl/tests/provider_tests/deepgram.rs",
+      "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      ".csdlc/prepared/issues/66",
+      ".csdlc/issues/66",
+      ".csdlc/evidence/66"
+    ]
+  },
+  "fail_after_backup": false
+}

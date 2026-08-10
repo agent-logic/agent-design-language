@@ -30,6 +30,7 @@ fn profile_vendor(profile: &str) -> Option<&'static str> {
         Some("gemini") => Some("google"),
         Some("chatgpt") => Some("openai"),
         Some("claude") => Some("anthropic"),
+        Some("deepgram") => Some("deepgram"),
         _ => None,
     }
 }
@@ -96,6 +97,7 @@ pub(crate) const XAI_CHAT_COMPLETIONS_ENDPOINT: &str = "https://api.x.ai/v1/chat
 pub(crate) const MISTRAL_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.mistral.ai/v1/chat/completions";
 pub(crate) const COHERE_CHAT_ENDPOINT: &str = "https://api.cohere.com/v2/chat";
+pub(crate) const DEEPGRAM_API_ENDPOINT: &str = "https://api.deepgram.com";
 /// Canonical Anthropic API version used by the HTTP adapter.
 pub(crate) const ANTHROPIC_VERSION: &str = "2023-06-01";
 
@@ -180,6 +182,20 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             endpoint: Some(Z_AI_CHAT_COMPLETIONS_ENDPOINT),
         },
     );
+    for (name, model) in [
+        ("deepgram:aura-2-pluto-en", "aura-2-pluto-en"),
+        ("deepgram:nova-3", "nova-3"),
+    ] {
+        m.insert(
+            name,
+            ProviderProfilePreset {
+                kind: "deepgram",
+                default_model: Some(model),
+                provider_model_id: Some(model),
+                endpoint: Some(DEEPGRAM_API_ENDPOINT),
+            },
+        );
+    }
     // First-class hosted provider identities. These profiles intentionally
     // share the bounded HTTP transport while retaining vendor/model identity.
     for (name, model, endpoint) in [

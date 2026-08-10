@@ -1,0 +1,19 @@
+{
+  "issue": 66,
+  "expected_generation": 21,
+  "expected_digest": "b74fe2c02958e8967f60f8a07a86868027026d949e80d1bdabbd31c69ae6ac67",
+  "reviewer": "subagent:66-final-review",
+  "assigned_by": "codex:66-implementation",
+  "scope": [
+    "adl/src/provider/deepgram.rs",
+    "adl/src/provider/mod.rs",
+    "adl/src/provider/profiles.rs",
+    "adl/src/provider_substrate.rs",
+    "adl/src/provider/http_family/tests.rs",
+    "adl/tests/provider_tests.rs",
+    "adl/tests/provider_tests/deepgram.rs",
+    "docs/tooling/PROVIDER_SETUP.md",
+    "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+    ".csdlc/evidence/66"
+  ]
+}
