@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
   "phase": "bound",
-  "generation": 0,
-  "digest": "b1df7d055e6ee84fce9a54c71daa2b46ac30ab6a8601c416f1b94e708681f136",
+  "generation": 1,
+  "digest": "61f355ab98917bf11f388f81376d7517b74c95cef9b1cb7655cce90d3d2ebbbd",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e5f7fb509a00a6e47b4dda0b5a8a7efa6638484eeaf689fd461627bd940fee11",
+      "values_digest": "21cfedd490266b47d52052ffc546e4ed7cf4bb47622f92cbd8d8ddd122bebc8d",
       "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
       "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
     },
     "stp": {
-      "values_digest": "38045fd6f7d90df8b6febef55fef6c05f4e55729cedefd34a91278fbdc3a7657",
+      "values_digest": "5f4633ccea4e5039c55a096584094c4a5a0bd76d8b2d3f570b9db5d4a403ed1f",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "805afac4b59e3d5009988d7dc526eb9a4a2f66a2f3b184df8977b36132238bd6",
-      "rendered_digest": "e79aff80db2860ac79cb0b4b1f06b9821124b58ca14281a4a7cf814269f1c16d",
-      "ast_digest": "8c1c8382dcc84f68376d48de48f27eed3c8afe650eec6d19f88a43419a45ecd6"
+      "values_digest": "cc4c4712d59125cf1ce8ecf5ec0411351608beca3846997a1c2533bc331e1df8",
+      "rendered_digest": "50adcd8f4fa63f23ba06b7ed35fb2f712ab9a327702b6524686c7fa0bf344b7a",
+      "ast_digest": "4076be55ce5a172b16d945e0b534f03e74862707a4e17c1b062545bbdab5b4eb"
     },
     "vpp": {
-      "values_digest": "a14577f49bc8722c4942deed3e39094fed76ab0ea8268c0cbeeb8da9cf06b445",
+      "values_digest": "0e87921135ccb60b7d2d7feb21d641647e93a4915a9aaf88bd74e4a961f9a0d3",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "25476e7c4f872fee13a59756ab53a2e92d710bf92044123dcf673d32b74cdd3f",
+      "values_digest": "626c4370aa8bbc8c8230632daee8fe56bfd068114a199b0708509e6510949f4d",
       "rendered_digest": "56c913ee1c7ec09c5d2bf94973e001ebc0b0012ff297b7d84fef740fa57538fd",
       "ast_digest": "cc129244b5761121740074ab9278cdf43b82c25894a066f65f9d6d9b12622134"
     },
     "sor": {
-      "values_digest": "58ddd6f5196d3cf01d4a627d53e8af68dfd19d1b4cb7f7a5d0de0c1f2caa6ebe",
+      "values_digest": "5cf498ab8cb8019318b2dfa109bf9b79180eb4f348a519e2ab6f18cb8554924e",
       "rendered_digest": "bcd455f696ff7ee456f8726de1f92394d947519a311457692212b0b0353a75e9",
       "ast_digest": "ef2ed769aae91199db2b43548e28fffc84de859eb415430816cbcab197f6945c"
     }
@@ -85,6 +85,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Inspected current cognitive_profile, governance signing, identity, continuity, merged #5830 proof, and issue #144 contract; froze provisioned authority, full-chain genesis verification, and monotonic signed rotation boundaries before product edits.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
     }
   ]
 }
