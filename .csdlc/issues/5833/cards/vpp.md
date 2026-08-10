@@ -54,7 +54,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       "all"
     ],
     "parallel_group": "5833-core",
-    "defer_reason": null
+    "defer_reason": "Planned issue-owned target is not materialized yet; implementation must create it and clear this defer reason only after a nonzero focused run passes."
   },
   {
     "lane": "birth_witness-macos-native-ci-producer",

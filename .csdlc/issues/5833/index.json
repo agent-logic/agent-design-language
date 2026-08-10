@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "initialized",
-  "generation": 54,
-  "digest": "c6e6377bd86ee32589f7ad8800aabe4b1af9e709bc78424177739e59320c6afb",
+  "generation": 56,
+  "digest": "28aacd5607f08915e93252a119da8d061ff37ebf14b950888dcb68cc9c23b9df",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3272310af2137f7ffaeff38970e9a1b60c90c22007868a186dbda9fa6d0fdab4",
+      "values_digest": "0a224bc2090d4280a65e658fd651bdda1d660cffe8d83e1c4ed6de5fa1d76eaa",
       "rendered_digest": "4e9e7a9567e44df1394f9a49bc5edc0555f72716a212416ef18cbbc5b327f5f3",
       "ast_digest": "9664f858ce942b6f8655428aa5ab4925b3377db0a94dc02ba3a52b369337dda6"
     },
     "stp": {
-      "values_digest": "0d9c99a201b2af7aeaecb1c4d9654130b282c28ec0972c813f59234099765475",
-      "rendered_digest": "b13af1dbc57234f4d2824a4bcfb0263f2462d7b975e04c2435c242f21fc37b13",
-      "ast_digest": "17a37f66142a7fd32297bd1ab1cedf6f9a484d88e4c73534055fdf0644d0884c"
+      "values_digest": "d5252dce1affb445feeae2ffe82d90872355fe267fd229a4d9b0c6f395590b2f",
+      "rendered_digest": "d2df01151976c29fe3fb8d512ce6624343cee597726be70de93117b8573c080f",
+      "ast_digest": "7741a87889a28e451995cc70fd975b31ed4cc0cf56fee554e0c28f988ea22cc3"
     },
     "spp": {
-      "values_digest": "c14c6dee853b66719f6cfaa2dca2972899fc36332f42f315b32432309e041416",
+      "values_digest": "74073c69d98eeda0522c84219da935fab166f50bb626cf1dbb2d8aaa7707d03d",
       "rendered_digest": "356534fcaa96c49f9721dadee9b270a0e25196325b1ed2f9886223f1b1270269",
       "ast_digest": "2b86ef2e8fbe38039e3584497704f32d9ce68e9561edf66a0f727d9c60270768"
     },
     "vpp": {
-      "values_digest": "f9aaf804cf2b913f62bdf1f8766e9d7cc97a389391747ef035074c4f9be315c8",
-      "rendered_digest": "6f2795ca920d4851c8a092b86009ab5b1e8ee71d7d44bf6bd8b5b197c5838fe0",
-      "ast_digest": "083bc139251dd364ddfbd5072c5232973d85c21f30bf33de2342713f60ac9d60"
+      "values_digest": "d3bd8d09b5abd0fd4912b2bad8465a4e1372d779e5ecd4400c8e473444846f81",
+      "rendered_digest": "5bef23be1b40b6d0a11500613e21e06b1e2aa107329bb22ed1b705c2bbfa2cb6",
+      "ast_digest": "401e73dc93a7d0aede1dcb7a40e4991dacd9396c71aeaa75f87302f8604b8dfa"
     },
     "srp": {
-      "values_digest": "cef83bd5a22580348c846da0844cebc90480026579b60686a1b1c6bc7b0cf032",
+      "values_digest": "8b3f4954872247b04270469af217fefce0526b94e05eef3a1b952e371f85bb49",
       "rendered_digest": "56ec22df18e5ffdda568c7610c4251591f6e155519434631b3105bced42eb7e1",
       "ast_digest": "e8ad26ffda18e702a9a1dd14d163e259f5edcd2334f3de62fb9aee08b81b99b8"
     },
     "sor": {
-      "values_digest": "6d52827f669d38340038c8c9137b2547eea47d3e1035ff7f8db90e07994401c6",
+      "values_digest": "2c0298396287b8b601d72f430607bd586ee5ebed0c7430568c6d0ea220d00ee0",
       "rendered_digest": "80cfc253b18a6a049c6e3fbf9ba4c4d5770cc274c8f3e5103a4e4671ad3b4602",
       "ast_digest": "bc866d00481ec5943d6b753a3283ff8031e449d344cc5c773db718db37bb7bb0"
     }
@@ -609,6 +609,20 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"Witness role/distinctness policy changes.\",\"Existing integrity references require a versioned adapter.\",\"Review identifies a receipt field that substitutes for birthday authority.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-memory-capability-witness-feature-doc-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5833],\\\"order\\\":[5829,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5833-witness-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5833,5843],\\\"order\\\":[5833,5843]}\"]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 55,
+      "actor": "codex:5833-birth-witness",
+      "reason": "Truthfully defer the planned focused lane until the issue-owned birth_witness target is materialized in the bound implementation worktree; preserve mandatory native deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birth_witness-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5833-core\",\"defer_reason\":\"Planned issue-owned target is not materialized yet; implementation must create it and clear this defer reason only after a nonzero focused run passes.\"},{\"lane\":\"birth_witness-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5833/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/macos-semantic.json\"],\"parallel_group\":\"5833-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birth_witness-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5833/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/linux-semantic.json\"],\"parallel_group\":\"5833-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birth_witness-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=4642a6843434bf0f51560bd78bc2de1fe7f0c2645d4a55e92efa10b384b9383c]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".csdlc/evidence/5833/native-platform/macos.json\",\".csdlc/evidence/5833/native-platform/linux.json\"],\"parallel_group\":\"5833-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 78,
+      "generation": 56,
+      "actor": "codex:5833-birth-witness",
+      "reason": "Declare the exact issue-owned focused target as a deliverable so initialized-phase readiness can defer it truthfully until bound implementation materializes it.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Versioned witness-set schema and validator\",\"Deterministic accepted/rejected citizen receipt contract\",\"Equivocation, duplicate, stale, forged, mismatch, authority, and redaction fixtures\",\"Retained focused, security, privacy, and premature-claim evidence\",\"adl-runtime-kernel/tests/birth_witness.rs\"]}"
     }
   ]
 }

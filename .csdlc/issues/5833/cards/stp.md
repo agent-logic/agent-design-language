@@ -20,6 +20,7 @@ Deliver only WP-15 witness and receipt schemas, validators, fixtures, security/p
 - Deterministic accepted/rejected citizen receipt contract
 - Equivocation, duplicate, stale, forged, mismatch, authority, and redaction fixtures
 - Retained focused, security, privacy, and premature-claim evidence
+- adl-runtime-kernel/tests/birth_witness.rs
 
 ## Acceptance
 
