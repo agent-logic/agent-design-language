@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/5830/produce-native-receipt.rb
+.csdlc/prepared/issues/5830/validate-native-receipts.rb
+.github/workflows/wp13-native-cognitive-profile.yml
+.csdlc/prepared/issues/144/produce-native-receipt.rb
+.csdlc/prepared/issues/144/validate-native-receipts.rb
+.github/workflows/wp13-authority-repair.yml
+adl-runtime-kernel/src/cognitive_profile.rs
+adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs
+.csdlc/evidence/144
+.csdlc/issues/144
+Review the formally widened generic WP-13 compatibility repair after failed run 31422154377. Confirm both distinct producer/validator pairs execute and validate the same exact filtered fifteen-test internal authority lane while retaining their own issue, evidence namespace, workflow identity, run/job, artifact, digest, source-manifest, semantic-equivalence, and path-hygiene gates. Confirm generic #5830 cards/evidence are unchanged and opaque-authority product source remains the previously approved implementation.
 
 ## Prompts
 
