@@ -1,4 +1,4 @@
-# Source Packet: What Is ADL?
+# Source Packet: What is ADL?
 
 ## Brief
 
