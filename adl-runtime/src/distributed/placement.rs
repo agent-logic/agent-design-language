@@ -12,7 +12,9 @@ use super::{
     capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
     certificates::{CertificatePurpose, DistributedCertificateStore},
     fencing::{FenceReceipt, FencingStore},
-    lease::{AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA},
+    lease::{
+        decode_certificate, AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA,
+    },
     membership::{Member, MemberRole, MembershipState},
     resource_weather::{PlacementWeather, ResourceWeatherStore, WeatherAvailability},
 };
@@ -197,7 +199,21 @@ impl PlacementCapabilitySnapshot {
 #[derive(Clone, Debug)]
 pub struct PlacementWeatherSnapshot {
     captured_at_unix_secs: u64,
-    rows: Vec<PlacementWeather>,
+    rows: Vec<BoundWeather>,
+}
+
+#[derive(Clone, Debug)]
+struct BoundWeather {
+    row: PlacementWeather,
+    certificate_id: String,
+}
+
+impl std::ops::Deref for BoundWeather {
+    type Target = PlacementWeather;
+
+    fn deref(&self) -> &Self::Target {
+        &self.row
+    }
 }
 
 impl PlacementWeatherSnapshot {
@@ -206,9 +222,26 @@ impl PlacementWeatherSnapshot {
         certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> PlacementResult<Self> {
-        let rows = store
+        let projected = store
             .snapshot(certificates, now_unix_secs)
             .map_err(|_| PlacementError::InconsistentEvidence)?;
+        let rows = projected
+            .into_iter()
+            .map(|row| {
+                let authorized = certificates
+                    .authorize(
+                        &row.holder_id,
+                        CertificatePurpose::AdvertisementSigning,
+                        row.certificate_generation,
+                        now_unix_secs,
+                    )
+                    .map_err(|_| PlacementError::InconsistentEvidence)?;
+                Ok(BoundWeather {
+                    row,
+                    certificate_id: authorized.certificate_id,
+                })
+            })
+            .collect::<PlacementResult<Vec<_>>>()?;
         Ok(Self {
             captured_at_unix_secs: now_unix_secs,
             rows,
@@ -216,10 +249,16 @@ impl PlacementWeatherSnapshot {
     }
 
     #[cfg(test)]
-    pub fn from_rows_for_test(now_unix_secs: u64, rows: &[PlacementWeather]) -> Self {
+    pub fn from_rows_for_test(now_unix_secs: u64, rows: &[(PlacementWeather, String)]) -> Self {
         Self {
             captured_at_unix_secs: now_unix_secs,
-            rows: rows.to_vec(),
+            rows: rows
+                .iter()
+                .map(|(row, certificate_id)| BoundWeather {
+                    row: row.clone(),
+                    certificate_id: certificate_id.clone(),
+                })
+                .collect(),
         }
     }
 }
@@ -295,6 +334,8 @@ impl PlacementFencingSnapshot {
                     node_id: member.node_id.clone(),
                     guardian_id: member.guardian_id.clone(),
                     epoch: receipt.epoch,
+                    committed_log_index: receipt.committed_log_index,
+                    operation_class: receipt.operation_class,
                     revoked: true,
                 })
             })
@@ -326,6 +367,8 @@ impl PlacementFencingSnapshot {
                 node_id: node_id.to_owned(),
                 guardian_id: guardian_id.to_owned(),
                 epoch: 1,
+                committed_log_index: membership.committed_log_index(),
+                operation_class: OperationClass::Fence as u32,
                 revoked: true,
             }],
             BTreeMap::new(),
@@ -336,26 +379,17 @@ impl PlacementFencingSnapshot {
     pub fn active_successor_for_test(
         policy: &PlacementPolicy,
         membership: &MembershipState,
-        node_id: &str,
-        guardian_id: &str,
+        lease: LeaseState,
         receipt: FenceReceipt,
     ) -> PlacementResult<Self> {
         let lineage_id = std::str::from_utf8(&receipt.lineage_id)
             .map_err(|_| PlacementError::InconsistentEvidence)?
             .to_owned();
+        let binding = PlacementLineageBinding::try_from(lease)?;
         build_fencing_snapshot(
             policy,
             membership,
-            vec![PlacementLineageBinding {
-                lineage_id: lineage_id.clone(),
-                node_id: node_id.to_owned(),
-                guardian_id: guardian_id.to_owned(),
-                epoch: receipt
-                    .epoch
-                    .checked_add(1)
-                    .ok_or(PlacementError::InconsistentEvidence)?,
-                revoked: false,
-            }],
+            vec![binding],
             BTreeMap::from([(lineage_id, receipt)]),
         )
     }
@@ -377,23 +411,14 @@ impl PlacementClock for SystemPlacementClock {
     }
 }
 
-pub struct PlacementService<'a, C> {
+pub struct PlacementService<C> {
     policy: PlacementPolicy,
-    certificates: &'a DistributedCertificateStore,
     clock: C,
 }
 
-impl<'a, C: PlacementClock> PlacementService<'a, C> {
-    pub fn new(
-        policy: PlacementPolicy,
-        certificates: &'a DistributedCertificateStore,
-        clock: C,
-    ) -> Self {
-        Self {
-            policy,
-            certificates,
-            clock,
-        }
+impl<C: PlacementClock> PlacementService<C> {
+    pub fn new(policy: PlacementPolicy, clock: C) -> Self {
+        Self { policy, clock }
     }
 
     pub fn decide(
@@ -407,13 +432,7 @@ impl<'a, C: PlacementClock> PlacementService<'a, C> {
         {
             return Err(PlacementError::InconsistentEvidence);
         }
-        decide(
-            &self.policy,
-            self.certificates,
-            now_unix_secs,
-            request,
-            inputs,
-        )
+        decide(&self.policy, now_unix_secs, request, inputs)
     }
 }
 
@@ -446,7 +465,6 @@ impl Rank {
 
 fn decide(
     policy: &PlacementPolicy,
-    certificates: &DistributedCertificateStore,
     now_unix_secs: u64,
     request: &PlacementRequest,
     inputs: PlacementInputs<'_>,
@@ -498,20 +516,7 @@ fn decide(
             || weather.holder_id != member.guardian_id
             || capability.issuer_id != weather.holder_id
             || capability.certificate_generation != weather.certificate_generation
-            || certificates
-                .authorize(
-                    &member.guardian_id,
-                    CertificatePurpose::AdvertisementSigning,
-                    capability.certificate_generation,
-                    now_unix_secs,
-                )
-                .ok()
-                .is_none_or(|authorized| {
-                    authorized.certificate_id != capability.certificate_id
-                        || authorized.holder_id != capability.issuer_id
-                        || authorized.generation != capability.certificate_generation
-                        || authorized.purpose != CertificatePurpose::AdvertisementSigning
-                })
+            || capability.certificate_id != weather.certificate_id
             || !fresh_capability(policy, capability, now_unix_secs)
             || !fresh_weather(policy, weather, now_unix_secs)
             || weather.availability == WeatherAvailability::Unavailable
@@ -634,9 +639,9 @@ fn index_capabilities<'a>(
 }
 
 fn index_weather<'a>(
-    values: &'a [PlacementWeather],
+    values: &'a [BoundWeather],
     members: &BTreeMap<&str, &Member>,
-) -> PlacementResult<BTreeMap<&'a str, &'a PlacementWeather>> {
+) -> PlacementResult<BTreeMap<&'a str, &'a BoundWeather>> {
     let mut result = BTreeMap::new();
     for value in values {
         if !members.contains_key(value.holder_id.as_str())
@@ -654,6 +659,8 @@ struct PlacementLineageBinding {
     node_id: String,
     guardian_id: String,
     epoch: u64,
+    committed_log_index: u64,
+    operation_class: u32,
     revoked: bool,
 }
 
@@ -661,6 +668,19 @@ impl TryFrom<LeaseState> for PlacementLineageBinding {
     type Error = PlacementError;
 
     fn try_from(lease: LeaseState) -> PlacementResult<Self> {
+        let certificate = decode_certificate(&lease.certificate_bytes)
+            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        let body = certificate
+            .body
+            .ok_or(PlacementError::InconsistentEvidence)?;
+        if body.lineage_id != lease.lineage_id
+            || body.holder_node_id != lease.holder_node_id
+            || body.holder_guardian_id != lease.holder_guardian_id
+            || body.epoch != lease.epoch
+            || body.committed_log_index != lease.committed_log_index
+        {
+            return Err(PlacementError::InconsistentEvidence);
+        }
         Ok(Self {
             lineage_id: String::from_utf8(lease.lineage_id)
                 .map_err(|_| PlacementError::InconsistentEvidence)?,
@@ -669,6 +689,8 @@ impl TryFrom<LeaseState> for PlacementLineageBinding {
             guardian_id: String::from_utf8(lease.holder_guardian_id)
                 .map_err(|_| PlacementError::InconsistentEvidence)?,
             epoch: lease.epoch,
+            committed_log_index: lease.committed_log_index,
+            operation_class: body.operation_class,
             revoked: lease.revoked,
         })
     }
@@ -694,6 +716,7 @@ fn build_fencing_snapshot(
             || !valid_text(&lineage.node_id)
             || !valid_text(&lineage.guardian_id)
             || lineage.epoch == 0
+            || lineage.committed_log_index == 0
             || seen_lineages
                 .insert(lineage.lineage_id.clone(), ())
                 .is_some()
@@ -734,9 +757,18 @@ fn build_fencing_snapshot(
             if value.epoch < lineage.epoch {
                 continue;
             }
+            if value.epoch == lineage.epoch
+                && value.committed_log_index < lineage.committed_log_index
+                && matches!(lineage.operation_class, 4 | 5)
+            {
+                continue;
+            }
             return Err(PlacementError::InconsistentEvidence);
         }
-        if value.epoch != lineage.epoch {
+        if value.epoch != lineage.epoch
+            || value.committed_log_index != lineage.committed_log_index
+            || value.operation_class != lineage.operation_class
+        {
             return Err(PlacementError::InconsistentEvidence);
         }
         result.insert(lineage.node_id.clone(), value.clone());

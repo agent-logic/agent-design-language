@@ -34,7 +34,10 @@ use fencing::{
     FenceReceipt, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
     FencingStore,
 };
-use lease::{AuthorityLedger, LeasePolicy, OperationClass};
+use lease::{
+    AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, LeasePolicy, LeaseState,
+    OperationClass,
+};
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
     MembershipState,
@@ -44,6 +47,7 @@ use placement::{
     PlacementFencingSnapshot, PlacementInputs, PlacementPolicy, PlacementRequest, PlacementService,
     PlacementWeatherSnapshot,
 };
+use prost::Message;
 use resource_weather::{
     PlacementWeather, ResourceWeatherPolicy, ResourceWeatherStore, WeatherAvailability,
 };
@@ -263,6 +267,49 @@ fn fence(identity: &str, log_index: u64) -> FenceReceipt {
     }
 }
 
+fn same_epoch_activation(receipt: &FenceReceipt) -> LeaseState {
+    let committed_log_index = receipt.committed_log_index + 1;
+    let body = AuthorityCertificateBodyV1 {
+        schema_version: 1,
+        trust_domain_id: TRUST.as_bytes().to_vec(),
+        lineage_id: receipt.lineage_id.clone(),
+        voter_set_generation: receipt.voter_set_generation,
+        raft_term: 8,
+        committed_log_index,
+        epoch: receipt.epoch,
+        holder_node_id: b"node-1".to_vec(),
+        holder_guardian_id: b"guardian-1".to_vec(),
+        activation_key_sha256: vec![3; 32],
+        operation_class: OperationClass::Activate as u32,
+        issued_unix_seconds: NOW as i64,
+        issued_nanos: 0,
+        lease_duration_millis: 2_000,
+        policy_sha256: vec![4; 32],
+        signing_algorithm: 1,
+    };
+    let certificate_bytes = AuthorityCertificateV1 {
+        body: Some(body),
+        endorsements: Vec::new(),
+    }
+    .encode_to_vec();
+    LeaseState {
+        lineage_id: receipt.lineage_id.clone(),
+        holder_node_id: b"node-1".to_vec(),
+        holder_guardian_id: b"guardian-1".to_vec(),
+        activation_public_key: [5; 32],
+        raft_term: 8,
+        committed_log_index,
+        epoch: receipt.epoch,
+        certificate_generation: receipt.voter_set_generation,
+        activated_elapsed_millis: 100,
+        deadline_elapsed_millis: 2_100,
+        deadline_unix_millis: (NOW + 2) * 1_000,
+        certificate_bytes,
+        revoked: false,
+        last_mutation_sequence: 0,
+    }
+}
+
 fn request(state: &MembershipState) -> PlacementRequest {
     PlacementRequest {
         lineage_id: "lineage-a".to_owned(),
@@ -284,10 +331,20 @@ fn decide_with(
 ) -> Result<placement::PlacementDecision, PlacementError> {
     let policy = PlacementPolicy::new(TRUST).unwrap();
     let fencing = PlacementFencingSnapshot::from_receipts_for_test(&policy, state, fencing)?;
-    let certificates = advertisement_certificates();
-    let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
+    let weather = weather
+        .iter()
+        .map(|row| {
+            (
+                row.clone(),
+                advertisement_certificate(&row.holder_id, row.certificate_generation)
+                    .certificate_id()
+                    .unwrap(),
+            )
+        })
+        .collect::<Vec<_>>();
+    let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, &weather);
     let capabilities = PlacementCapabilitySnapshot::from_rows_for_test(NOW, capabilities);
-    PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
+    PlacementService::new(policy, FixedClock(NOW)).decide(
         &request(state),
         PlacementInputs {
             membership: state,
@@ -306,10 +363,20 @@ fn decide_request(
     weather: &[PlacementWeather],
     fencing: &PlacementFencingSnapshot,
 ) -> Result<placement::PlacementDecision, PlacementError> {
-    let certificates = advertisement_certificates();
-    let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
+    let weather = weather
+        .iter()
+        .map(|row| {
+            (
+                row.clone(),
+                advertisement_certificate(&row.holder_id, row.certificate_generation)
+                    .certificate_id()
+                    .unwrap(),
+            )
+        })
+        .collect::<Vec<_>>();
+    let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, &weather);
     let capabilities = PlacementCapabilitySnapshot::from_rows_for_test(NOW, capabilities);
-    PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
+    PlacementService::new(policy, FixedClock(NOW)).decide(
         request,
         PlacementInputs {
             membership: state,
@@ -481,12 +548,12 @@ fn fenced_candidate_is_excluded_from_selection() {
     .unwrap();
     assert_eq!(result.node_id, "node-2");
     let policy = PlacementPolicy::new(TRUST).unwrap();
+    let floor = fence("lineage-1", state.committed_log_index());
     let historical = PlacementFencingSnapshot::active_successor_for_test(
         &policy,
         &state,
-        "node-1",
-        "guardian-1",
-        fence("lineage-1", state.committed_log_index()),
+        same_epoch_activation(&floor),
+        floor,
     )
     .unwrap();
     let successor = decide_request(
