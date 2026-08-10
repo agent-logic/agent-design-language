@@ -7,15 +7,15 @@
     "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
     "slug": "v0921-corporate-csdlc-v3-runtime-proof",
     "version": "v0.92.0",
-    "generation": 22
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/146\n.csdlc/issues/149-190\n.csdlc/prepared/issues/146\n.csdlc/prepared/issues/149-190\ndocs/milestones/v0.92.1\nadl/tools/v0921\ncsdlc-v3/README.md",
+      "review_revision": "git-blake3:7adb3f723b2c0f2179b2bbfcee01d67f4a34151d:1109fbe4a456eb5b44a6b099dde2c56cdb3170f628de211758b181b78596a723",
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
       "review_prompts": [
         "Does any planned acceptance claim legal completion without a counsel-reviewed instrument and corporate acceptance evidence?",
         "Are all V3-01 through V3-16 and deferred V3-R01 responsibilities preserved with their reviewed dependencies and cutover controls?",
@@ -24,8 +24,10 @@
         "Are all first-class work tracks represented in WBS, issue wave, features, ADR plan, proof coverage, quality gates, and release closeout?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Two optional workspace-coverage shards were still in progress at review completion; they are not merge requirements but must not subsequently fail."
+      ],
+      "review_result": "pass"
     }
   }
 }

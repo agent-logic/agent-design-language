@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/146
+.csdlc/issues/149-190
+.csdlc/prepared/issues/146
+.csdlc/prepared/issues/149-190
+docs/milestones/v0.92.1
+adl/tools/v0921
+csdlc-v3/README.md
 
 ## Prompts
 
@@ -32,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Two optional workspace-coverage shards were still in progress at review completion; they are not merge requirements but must not subsequently fail.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7adb3f723b2c0f2179b2bbfcee01d67f4a34151d:1109fbe4a456eb5b44a6b099dde2c56cdb3170f628de211758b181b78596a723")
 
-Reviewer: None
+Reviewer: Some("subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1")
 
-Result: pre_review
+Result: pass

@@ -82,11 +82,11 @@ Completed the execution-ready v0.92.1 planning wave: four sprint umbrellas and 3
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
