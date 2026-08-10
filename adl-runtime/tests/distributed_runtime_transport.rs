@@ -1,0 +1,1476 @@
+// PVF: lane=focused-secure-raft-runtime; proof=real mTLS Quinn transport, authority-derived
+// three-voter topology, durable retry/rollback and OpenRaft quorum behavior;
+// deterministic=true; resource_profile=large; release_gate=true; nonzero selection required.
+mod distributed {
+    pub use adl_runtime::distributed::*;
+}
+
+#[path = "../src/distributed/polis_runtime.rs"]
+mod polis_runtime;
+
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    net::{Ipv4Addr, SocketAddr},
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc, Mutex,
+    },
+    time::{Duration, SystemTime, UNIX_EPOCH},
+};
+
+use adl_runtime::distributed::{
+    certificates::{
+        AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
+        CertificateValidity, DistributedCertificateStore,
+    },
+    lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
+    membership::{
+        CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
+        MembershipState,
+    },
+    transport::{
+        client_endpoint, decode_frame, encode_frame, polis_identity_signing_payload,
+        server_endpoint, AuthenticatedConnection, ConnectionSecurity, EstablishedPolisSession,
+        PeerBinding, PolisIdentityBinding, TransportAuthorization, TransportEnvelope,
+        TransportError, TransportLimits, VerifiedPolisRouteCut, TRANSPORT_SCHEMA,
+    },
+};
+use ed25519_dalek::{Signer, SigningKey, VerifyingKey};
+use openraft::{
+    storage::{RaftLogStorage, RaftSnapshotBuilder, RaftStateMachine},
+    BasicNode, Vote,
+};
+use polis_runtime::{
+    advance_secure_boot_generation, derive_authority_cut, new_secure_raft_node,
+    serve_secure_raft_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
+    DurableRpcResponses, PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError,
+    SecurePolisNetworkFactory,
+};
+use rcgen::{
+    BasicConstraints, CertificateParams, CertifiedIssuer, ExtendedKeyUsagePurpose, IsCa, KeyPair,
+    KeyUsagePurpose, PKCS_ED25519,
+};
+use rustls::pki_types::{CertificateDer, PrivateKeyDer, PrivatePkcs8KeyDer};
+use tokio_util::sync::CancellationToken;
+
+const DOMAIN: &str = "polis.secure.test";
+const POLIS: &str = "polis-alpha";
+
+#[derive(Default)]
+struct MemoryCheckpointAuthority {
+    checkpoints: Mutex<BTreeMap<String, ConsensusCheckpoint>>,
+    fail_next_compare_and_swap: AtomicBool,
+}
+
+impl MemoryCheckpointAuthority {
+    fn fail_next_compare_and_swap(&self) {
+        self.fail_next_compare_and_swap
+            .store(true, Ordering::SeqCst);
+    }
+}
+
+impl ConsensusCheckpointAuthority for MemoryCheckpointAuthority {
+    fn load(&self, object: &str) -> Result<Option<ConsensusCheckpoint>, PolisRuntimeError> {
+        Ok(self.checkpoints.lock().unwrap().get(object).cloned())
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<&ConsensusCheckpoint>,
+        candidate: &ConsensusCheckpoint,
+    ) -> Result<(), PolisRuntimeError> {
+        if self
+            .fail_next_compare_and_swap
+            .swap(false, Ordering::SeqCst)
+        {
+            return Err(PolisRuntimeError::Storage);
+        }
+        let mut checkpoints = self.checkpoints.lock().unwrap();
+        if checkpoints.get(&candidate.object) != expected {
+            return Err(PolisRuntimeError::StateRegression);
+        }
+        if let Some(previous) = expected {
+            if candidate.generation <= previous.generation
+                || matches!(
+                    (previous.committed_log_index, candidate.committed_log_index),
+                    (Some(old), Some(new)) if new < old
+                )
+                || matches!(
+                    (previous.snapshot_log_index, candidate.snapshot_log_index),
+                    (Some(old), Some(new)) if new < old
+                )
+            {
+                return Err(PolisRuntimeError::StateRegression);
+            }
+        }
+        checkpoints.insert(candidate.object.clone(), candidate.clone());
+        Ok(())
+    }
+}
+
+struct EndpointMaterial {
+    certificate: CertificateDer<'static>,
+    private_key_der: Vec<u8>,
+    subject_public_key: VerifyingKey,
+}
+
+impl EndpointMaterial {
+    fn private_key(&self) -> PrivateKeyDer<'static> {
+        PrivatePkcs8KeyDer::from(self.private_key_der.clone()).into()
+    }
+}
+
+fn certificate_authority() -> CertifiedIssuer<'static, KeyPair> {
+    let mut params = CertificateParams::new(Vec::<String>::new()).unwrap();
+    params.is_ca = IsCa::Ca(BasicConstraints::Unconstrained);
+    params.key_usages = vec![
+        KeyUsagePurpose::KeyCertSign,
+        KeyUsagePurpose::DigitalSignature,
+        KeyUsagePurpose::CrlSign,
+    ];
+    CertifiedIssuer::self_signed(params, KeyPair::generate().unwrap()).unwrap()
+}
+
+fn leaf(issuer: &CertifiedIssuer<'_, KeyPair>, name: &str) -> EndpointMaterial {
+    let mut params = CertificateParams::new(vec!["localhost".to_owned()]).unwrap();
+    params
+        .distinguished_name
+        .push(rcgen::DnType::CommonName, name);
+    params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+    params.extended_key_usages = vec![
+        ExtendedKeyUsagePurpose::ServerAuth,
+        ExtendedKeyUsagePurpose::ClientAuth,
+    ];
+    let key = KeyPair::generate_for(&PKCS_ED25519).unwrap();
+    let subject_public_key =
+        VerifyingKey::from_bytes(key.public_key_raw().try_into().unwrap()).unwrap();
+    let certificate = params.signed_by(&key, issuer).unwrap().der().clone();
+    EndpointMaterial {
+        certificate,
+        private_key_der: key.serialize_der(),
+        subject_public_key,
+    }
+}
+
+fn now() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_secs()
+}
+
+fn limits() -> TransportLimits {
+    TransportLimits::bounded(
+        256 * 1024,
+        32,
+        Duration::from_secs(10),
+        Duration::from_secs(30),
+    )
+    .unwrap()
+}
+
+fn certificate_store() -> (
+    Arc<DistributedCertificateStore>,
+    SigningKey,
+    tempfile::TempDir,
+) {
+    let root = SigningKey::from_bytes(&[91; 32]);
+    let policy = CertificatePolicy::new(DOMAIN, [root.verifying_key()])
+        .unwrap()
+        .with_bounds(3600, 60, 60, 128, 128)
+        .unwrap();
+    let directory = tempfile::tempdir().unwrap();
+    let store = DistributedCertificateStore::open(
+        directory
+            .path()
+            .canonicalize()
+            .unwrap()
+            .join("certificates.redb"),
+        policy,
+    )
+    .unwrap();
+    (Arc::new(store), root, directory)
+}
+
+fn transport_authorization(
+    store: &Arc<DistributedCertificateStore>,
+    root: &SigningKey,
+    node: &str,
+    key: VerifyingKey,
+    generation: u64,
+) -> TransportAuthorization {
+    let issued = now().saturating_sub(1);
+    let body = CertificateBody::new(
+        DOMAIN,
+        node,
+        CertificatePurpose::Transport,
+        generation,
+        CertificateValidity {
+            issued_at_unix_secs: issued,
+            expires_at_unix_secs: issued + 300,
+        },
+        key,
+        &root.verifying_key(),
+    );
+    let certificate = AuthorityCertificate::issue(body, root).unwrap();
+    store.activate(&certificate, now()).unwrap();
+    TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
+}
+
+async fn connected_pair() -> (
+    Arc<AuthenticatedConnection>,
+    Arc<AuthenticatedConnection>,
+    TransportLimits,
+    quinn::Endpoint,
+    quinn::Endpoint,
+    tempfile::TempDir,
+) {
+    connected_pair_at(1).await
+}
+
+async fn connected_pair_at(
+    certificate_generation: u64,
+) -> (
+    Arc<AuthenticatedConnection>,
+    Arc<AuthenticatedConnection>,
+    TransportLimits,
+    quinn::Endpoint,
+    quinn::Endpoint,
+    tempfile::TempDir,
+) {
+    connected_pair_with(certificate_generation, limits()).await
+}
+
+async fn connected_pair_with(
+    certificate_generation: u64,
+    configured_limits: TransportLimits,
+) -> (
+    Arc<AuthenticatedConnection>,
+    Arc<AuthenticatedConnection>,
+    TransportLimits,
+    quinn::Endpoint,
+    quinn::Endpoint,
+    tempfile::TempDir,
+) {
+    let issuer = certificate_authority();
+    let root = issuer.der().clone();
+    let left_material = leaf(&issuer, "node-1");
+    let right_material = leaf(&issuer, "node-2");
+    let (store, signing_root, store_dir) = certificate_store();
+    let left_authorization = transport_authorization(
+        &store,
+        &signing_root,
+        "node-1",
+        left_material.subject_public_key,
+        certificate_generation,
+    );
+    let right_authorization = transport_authorization(
+        &store,
+        &signing_root,
+        "node-2",
+        right_material.subject_public_key,
+        certificate_generation,
+    );
+    let left_binding = PeerBinding::new(
+        &left_material.certificate,
+        DOMAIN,
+        "node-1",
+        "guardian-1",
+        1,
+        certificate_generation,
+    )
+    .unwrap();
+    let right_binding = PeerBinding::new(
+        &right_material.certificate,
+        DOMAIN,
+        "node-2",
+        "guardian-2",
+        1,
+        certificate_generation,
+    )
+    .unwrap();
+    let left_endpoint = server_endpoint(
+        (Ipv4Addr::LOCALHOST, 0).into(),
+        vec![left_material.certificate.clone()],
+        left_material.private_key(),
+        std::slice::from_ref(&root),
+        &configured_limits,
+    )
+    .unwrap();
+    let right_endpoint = client_endpoint(
+        (Ipv4Addr::LOCALHOST, 0).into(),
+        vec![right_material.certificate.clone()],
+        right_material.private_key(),
+        &[root],
+        &configured_limits,
+    )
+    .unwrap();
+    let left_address = left_endpoint.local_addr().unwrap();
+    let (left, right) = tokio::join!(
+        AuthenticatedConnection::accept(
+            &left_endpoint,
+            ConnectionSecurity::new(
+                left_binding.clone(),
+                right_binding.clone(),
+                left_authorization.clone(),
+                right_authorization.clone(),
+                configured_limits.clone(),
+                CancellationToken::new(),
+            )
+            .unwrap(),
+        ),
+        AuthenticatedConnection::connect(
+            &right_endpoint,
+            left_address,
+            "localhost",
+            ConnectionSecurity::new(
+                right_binding,
+                left_binding,
+                right_authorization,
+                left_authorization,
+                configured_limits.clone(),
+                CancellationToken::new(),
+            )
+            .unwrap(),
+        )
+    );
+    (
+        Arc::new(left.unwrap()),
+        Arc::new(right.unwrap()),
+        configured_limits,
+        left_endpoint,
+        right_endpoint,
+        store_dir,
+    )
+}
+
+struct ThreeNodeMesh {
+    connections: BTreeMap<(u64, u64), Arc<AuthenticatedConnection>>,
+    endpoints: Vec<quinn::Endpoint>,
+    limits: TransportLimits,
+    _store_dir: tempfile::TempDir,
+}
+
+async fn three_node_mesh() -> ThreeNodeMesh {
+    let issuer = certificate_authority();
+    let root = issuer.der().clone();
+    let materials = (1..=3)
+        .map(|node| (node, leaf(&issuer, &format!("node-{node}"))))
+        .collect::<BTreeMap<_, _>>();
+    let (store, signing_root, store_dir) = certificate_store();
+    let authorizations = materials
+        .iter()
+        .map(|(node, material)| {
+            (
+                *node,
+                transport_authorization(
+                    &store,
+                    &signing_root,
+                    &format!("node-{node}"),
+                    material.subject_public_key,
+                    1,
+                ),
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    let bindings = materials
+        .iter()
+        .map(|(node, material)| {
+            (
+                *node,
+                PeerBinding::new(
+                    &material.certificate,
+                    DOMAIN,
+                    format!("node-{node}"),
+                    format!("guardian-{node}"),
+                    1,
+                    1,
+                )
+                .unwrap(),
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    let configured_limits = limits();
+    let mut connections = BTreeMap::new();
+    let mut endpoints = Vec::new();
+    for (lower, higher) in [(1, 2), (1, 3), (2, 3)] {
+        let lower_material = &materials[&lower];
+        let higher_material = &materials[&higher];
+        let lower_endpoint = server_endpoint(
+            (Ipv4Addr::LOCALHOST, 0).into(),
+            vec![lower_material.certificate.clone()],
+            lower_material.private_key(),
+            std::slice::from_ref(&root),
+            &configured_limits,
+        )
+        .unwrap();
+        let higher_endpoint = client_endpoint(
+            (Ipv4Addr::LOCALHOST, 0).into(),
+            vec![higher_material.certificate.clone()],
+            higher_material.private_key(),
+            std::slice::from_ref(&root),
+            &configured_limits,
+        )
+        .unwrap();
+        let lower_address = lower_endpoint.local_addr().unwrap();
+        let (lower_connection, higher_connection) = tokio::join!(
+            AuthenticatedConnection::accept(
+                &lower_endpoint,
+                ConnectionSecurity::new(
+                    bindings[&lower].clone(),
+                    bindings[&higher].clone(),
+                    authorizations[&lower].clone(),
+                    authorizations[&higher].clone(),
+                    configured_limits.clone(),
+                    CancellationToken::new(),
+                )
+                .unwrap(),
+            ),
+            AuthenticatedConnection::connect(
+                &higher_endpoint,
+                lower_address,
+                "localhost",
+                ConnectionSecurity::new(
+                    bindings[&higher].clone(),
+                    bindings[&lower].clone(),
+                    authorizations[&higher].clone(),
+                    authorizations[&lower].clone(),
+                    configured_limits.clone(),
+                    CancellationToken::new(),
+                )
+                .unwrap(),
+            )
+        );
+        connections.insert((lower, higher), Arc::new(lower_connection.unwrap()));
+        connections.insert((higher, lower), Arc::new(higher_connection.unwrap()));
+        endpoints.push(lower_endpoint);
+        endpoints.push(higher_endpoint);
+    }
+    ThreeNodeMesh {
+        connections,
+        endpoints,
+        limits: configured_limits,
+        _store_dir: store_dir,
+    }
+}
+
+async fn wait_for_leader(nodes: &BTreeMap<u64, PolisRaft>) -> u64 {
+    tokio::time::timeout(Duration::from_secs(12), async {
+        let mut stable = None;
+        let mut stable_observations = 0_u8;
+        loop {
+            let leaders = nodes
+                .values()
+                .filter_map(|raft| raft.metrics().borrow().current_leader)
+                .collect::<Vec<_>>();
+            if leaders.len() == nodes.len()
+                && leaders
+                    .first()
+                    .is_some_and(|first| leaders.iter().all(|leader| leader == first))
+            {
+                if stable == Some(leaders[0]) {
+                    stable_observations += 1;
+                } else {
+                    stable = Some(leaders[0]);
+                    stable_observations = 1;
+                }
+                if stable_observations >= 8 {
+                    return leaders[0];
+                }
+            } else {
+                stable = None;
+                stable_observations = 0;
+            }
+            tokio::time::sleep(Duration::from_millis(50)).await;
+        }
+    })
+    .await
+    .expect("three secure voters elect one leader")
+}
+
+async fn commit_on_current_leader(nodes: &BTreeMap<u64, PolisRaft>, command: PolisCommand) -> u64 {
+    tokio::time::timeout(Duration::from_secs(12), async {
+        loop {
+            for (node, raft) in nodes {
+                if let Ok(Ok(response)) = tokio::time::timeout(
+                    Duration::from_millis(500),
+                    raft.client_write(command.clone()),
+                )
+                .await
+                {
+                    assert!(response.data.accepted);
+                    return *node;
+                }
+            }
+            tokio::time::sleep(Duration::from_millis(50)).await;
+        }
+    })
+    .await
+    .expect("a stable secure leader accepts the governed mutation")
+}
+
+fn authority_topology() -> (
+    MembershipState,
+    AuthorityMembership,
+    BTreeMap<String, SocketAddr>,
+    BTreeMap<u64, SigningKey>,
+) {
+    let keys = [
+        SigningKey::from_bytes(&[11; 32]),
+        SigningKey::from_bytes(&[12; 32]),
+        SigningKey::from_bytes(&[13; 32]),
+    ];
+    let mut membership = MembershipState::new(MembershipPolicy::new(DOMAIN, 8, 16).unwrap());
+    let mut index = 0_u64;
+    for (offset, key) in keys.iter().enumerate() {
+        index += 1;
+        membership
+            .apply(&CommittedMembershipEvent::new(
+                DOMAIN,
+                [index as u8; 32],
+                index,
+                index,
+                MembershipOperation::Join {
+                    member: Member {
+                        node_id: format!("node-{}", offset + 1),
+                        guardian_id: format!("guardian-{}", offset + 1),
+                        identity_generation: 1,
+                        guardian_control_public_key: key.verifying_key().to_bytes(),
+                        role: MemberRole::NonVoting,
+                    },
+                },
+            ))
+            .unwrap();
+    }
+    for offset in 0..3 {
+        index += 1;
+        membership
+            .apply(&CommittedMembershipEvent::new(
+                DOMAIN,
+                [index as u8; 32],
+                index,
+                index,
+                MembershipOperation::Promote {
+                    node_id: format!("node-{}", offset + 1),
+                },
+            ))
+            .unwrap();
+    }
+    let guardians = (1..=3)
+        .map(|id| format!("guardian-{id}").into_bytes())
+        .collect::<BTreeSet<_>>();
+    let voters = keys
+        .iter()
+        .enumerate()
+        .map(|(offset, key)| VoterAuthority {
+            guardian_id: format!("guardian-{}", offset + 1).into_bytes(),
+            trust_domain_id: DOMAIN.as_bytes().to_vec(),
+            certificate_generation: 1,
+            purpose: ControlCertificatePurpose::AuthorityEndorsement,
+            not_before_unix_seconds: 1,
+            not_after_unix_seconds: i64::MAX,
+            revoked: false,
+            control_public_key: key.verifying_key().to_bytes(),
+        })
+        .collect();
+    let authority = AuthorityMembership::new(
+        DOMAIN.as_bytes().to_vec(),
+        1,
+        index,
+        vec![guardians],
+        voters,
+    )
+    .unwrap();
+    let addresses = (1..=3)
+        .map(|id| {
+            (
+                format!("node-{id}"),
+                SocketAddr::from((Ipv4Addr::LOCALHOST, 4100 + id)),
+            )
+        })
+        .collect();
+    (
+        membership,
+        authority,
+        addresses,
+        keys.into_iter()
+            .enumerate()
+            .map(|(offset, key)| ((offset + 1) as u64, key))
+            .collect(),
+    )
+}
+
+fn polis_identity(
+    authority: &AuthorityMembership,
+    keys: &BTreeMap<u64, SigningKey>,
+    boot_generations: &BTreeMap<u64, u64>,
+) -> PolisIdentityBinding {
+    let payload = polis_identity_signing_payload(
+        POLIS,
+        DOMAIN,
+        authority.committed_log_index,
+        boot_generations,
+    )
+    .unwrap();
+    let endorsements = authority
+        .raft_ids
+        .iter()
+        .map(|(guardian, raft_id)| {
+            (
+                guardian.clone(),
+                keys[raft_id].sign(&payload).to_bytes().to_vec(),
+            )
+        })
+        .collect();
+    PolisIdentityBinding::verify(
+        POLIS,
+        DOMAIN,
+        authority.committed_log_index,
+        boot_generations,
+        &endorsements,
+        authority,
+    )
+    .unwrap()
+}
+
+fn verified_cut(
+    boot_generations: &BTreeMap<u64, u64>,
+) -> (
+    VerifiedPolisRouteCut,
+    BTreeMap<u64, SigningKey>,
+    BTreeMap<u64, BasicNode>,
+) {
+    let (membership, authority, addresses, keys) = authority_topology();
+    let polis = polis_identity(&authority, &keys, boot_generations);
+    let cut = derive_authority_cut(&polis, &membership, &authority, &addresses, 100).unwrap();
+    let routes = cut
+        .routes()
+        .into_iter()
+        .map(|(node, address)| (node, BasicNode::new(address)))
+        .collect();
+    (cut, keys, routes)
+}
+
+async fn establish_mesh_sessions(
+    mesh: &ThreeNodeMesh,
+    factories: &BTreeMap<u64, SecurePolisNetworkFactory>,
+    keys: &BTreeMap<u64, SigningKey>,
+) -> BTreeMap<(u64, u64), EstablishedPolisSession> {
+    let mut sessions = BTreeMap::new();
+    for (lower, higher) in [(1, 2), (1, 3), (2, 3)] {
+        assert_eq!(
+            SecurePolisNetworkFactory::connection_owner(lower, higher).unwrap(),
+            lower
+        );
+        let lower_pending = factories[&lower]
+            .pending_session(higher, &mesh.connections[&(lower, higher)])
+            .await
+            .unwrap();
+        let higher_pending = factories[&higher]
+            .pending_session(lower, &mesh.connections[&(higher, lower)])
+            .await
+            .unwrap();
+        let (lower_session, higher_session) = tokio::join!(
+            mesh.connections[&(lower, higher)].accept_polis_session(lower_pending, &keys[&lower]),
+            mesh.connections[&(higher, lower)]
+                .initiate_polis_session(higher_pending, &keys[&higher]),
+        );
+        sessions.insert((lower, higher), lower_session.unwrap());
+        sessions.insert((higher, lower), higher_session.unwrap());
+    }
+    sessions
+}
+
+#[tokio::test]
+async fn authenticated_quinn_binds_signed_authority_session_and_returns_bounded_response() {
+    let (left, right, configured_limits, left_endpoint, right_endpoint, store_dir) =
+        connected_pair().await;
+    let boots = [(1, 7), (2, 8), (3, 9)].into_iter().collect();
+    let (cut, keys, _routes) = verified_cut(&boots);
+    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_pending = left_factory.pending_session(2, &left).await.unwrap();
+    let right_pending = right_factory.pending_session(1, &right).await.unwrap();
+    let (left_session, right_session) = tokio::join!(
+        left.accept_polis_session(left_pending, &keys[&1]),
+        right.initiate_polis_session(right_pending, &keys[&2]),
+    );
+    let left_session = left_session.unwrap();
+    let right_session = right_session.unwrap();
+    let server = tokio::spawn(async move {
+        let request = left.accept_polis_request(&left_session).await?;
+        assert_eq!(request.message_kind, "vote");
+        assert_eq!(request.payload, b"canonical-vote");
+        request
+            .respond(b"canonical-response".to_vec(), &configured_limits)
+            .await?;
+        Ok::<(), TransportError>(())
+    });
+    let response = right.request_polis(&right_session, 1, "vote", b"canonical-vote".to_vec());
+    let (response, server_result) = tokio::join!(response, server);
+    assert!(server_result.unwrap().is_ok(), "server rejected request");
+    assert_eq!(response.unwrap(), b"canonical-response");
+    assert!(left_endpoint.local_addr().is_ok());
+    assert!(right_endpoint.local_addr().is_ok());
+    assert!(store_dir.path().exists());
+    eprintln!("ADL_ISSUE_191_CASE signed_mtls_polis_session=passed");
+}
+
+#[tokio::test]
+async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
+    let short_limits = TransportLimits::bounded(
+        256 * 1024,
+        32,
+        Duration::from_millis(100),
+        Duration::from_secs(5),
+    )
+    .unwrap();
+    let (left, right, _, _left_endpoint, _right_endpoint, _store) =
+        connected_pair_with(1, short_limits).await;
+    let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
+    let (cut, keys, _) = verified_cut(&boots);
+    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_pending = left_factory.pending_session(2, &left).await.unwrap();
+    let right_pending = right_factory.pending_session(1, &right).await.unwrap();
+    let (left_session, right_session) = tokio::join!(
+        left.accept_polis_session(left_pending, &keys[&1]),
+        right.initiate_polis_session(right_pending, &keys[&2]),
+    );
+    let left_session = left_session.unwrap();
+    let right_session = right_session.unwrap();
+    let stalled = tokio::spawn(async move {
+        let _request = left.accept_polis_request(&left_session).await.unwrap();
+        tokio::time::sleep(Duration::from_secs(1)).await;
+    });
+    assert_eq!(
+        right
+            .request_polis(&right_session, 1, "vote", b"bounded-stall".to_vec())
+            .await
+            .unwrap_err(),
+        TransportError::IdleTimeout
+    );
+    stalled.abort();
+    let _ = stalled.await;
+    eprintln!("ADL_ISSUE_191_CASE stalled_rpc_idle_timeout=passed");
+}
+
+#[tokio::test]
+async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation() {
+    let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
+    let (cut, keys, _) = verified_cut(&boots);
+    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let (old_left, old_right, _, old_left_endpoint, old_right_endpoint, old_store) =
+        connected_pair_at(1).await;
+    let old_left_pending = left_factory.pending_session(2, &old_left).await.unwrap();
+    let old_right_pending = right_factory.pending_session(1, &old_right).await.unwrap();
+    let (old_left_session, old_right_session) = tokio::join!(
+        old_left.accept_polis_session(old_left_pending, &keys[&1]),
+        old_right.initiate_polis_session(old_right_pending, &keys[&2]),
+    );
+    left_factory
+        .install_route(2, old_left.clone(), old_left_session.unwrap())
+        .await
+        .unwrap();
+    drop(old_right_session.unwrap());
+    old_left.close();
+    old_right.close();
+
+    let retry = tokio::spawn({
+        let factory = left_factory.clone();
+        async move {
+            factory
+                .request_bytes(2, "vote", b"same-request-after-restart".to_vec())
+                .await
+        }
+    });
+    tokio::time::sleep(Duration::from_millis(50)).await;
+
+    let restarted_boots = [(1, 1), (2, 2), (3, 1)].into_iter().collect();
+    let (restarted_cut, restarted_keys, _) = verified_cut(&restarted_boots);
+    left_factory
+        .replace_authority_cut(restarted_cut.clone())
+        .await
+        .unwrap();
+    right_factory
+        .replace_authority_cut(restarted_cut)
+        .await
+        .unwrap();
+    let (new_left, new_right, new_limits, new_left_endpoint, new_right_endpoint, new_store) =
+        connected_pair_at(2).await;
+    let new_left_pending = left_factory.pending_session(2, &new_left).await.unwrap();
+    let new_right_pending = right_factory.pending_session(1, &new_right).await.unwrap();
+    let (new_left_session, new_right_session) = tokio::join!(
+        new_left.accept_polis_session(new_left_pending, &restarted_keys[&1]),
+        new_right.initiate_polis_session(new_right_pending, &restarted_keys[&2]),
+    );
+    let new_left_session = new_left_session.unwrap();
+    let new_right_session = new_right_session.unwrap();
+    left_factory
+        .replace_route(2, new_left, new_left_session)
+        .await
+        .unwrap();
+    let responder = tokio::spawn(async move {
+        let request = new_right
+            .accept_polis_request(&new_right_session)
+            .await
+            .unwrap();
+        assert_eq!(request.sequence, 1);
+        assert_eq!(request.payload, b"same-request-after-restart");
+        request
+            .respond(b"replacement-response".to_vec(), &new_limits)
+            .await
+            .unwrap();
+    });
+    assert_eq!(retry.await.unwrap().unwrap(), b"replacement-response");
+    responder.await.unwrap();
+    assert!(old_left_endpoint.local_addr().is_ok());
+    assert!(old_right_endpoint.local_addr().is_ok());
+    assert!(new_left_endpoint.local_addr().is_ok());
+    assert!(new_right_endpoint.local_addr().is_ok());
+    assert!(old_store.path().exists());
+    assert!(new_store.path().exists());
+    eprintln!("ADL_ISSUE_191_CASE exact_retry_after_boot_and_cert_rotation=passed");
+}
+
+#[tokio::test]
+async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rollback() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let root_path = root.path().canonicalize().unwrap();
+    let authority = Arc::new(MemoryCheckpointAuthority::default());
+    let cache = DurableRpcResponses::open_unbound_for_test(
+        root_path.as_path(),
+        1,
+        2,
+        1,
+        3,
+        8,
+        authority.clone(),
+    )
+    .unwrap();
+    let request = [7_u8; 32];
+    cache
+        .commit(1, &request, b"accepted-response".to_vec())
+        .await
+        .unwrap();
+    assert_eq!(
+        cache.lookup(1, &request).await.unwrap().unwrap(),
+        b"accepted-response"
+    );
+    assert_eq!(
+        cache.lookup(1, &[8_u8; 32]).await.unwrap_err(),
+        PolisRuntimeError::Replay
+    );
+    assert_eq!(
+        cache.lookup(3, &[9_u8; 32]).await.unwrap_err(),
+        PolisRuntimeError::Replay
+    );
+
+    let state_path = root_path.join("raft-rpc-node-1-peer-2-cert-1-boot-3.json");
+    let accepted = std::fs::read(&state_path).unwrap();
+    cache
+        .commit(2, &[9_u8; 32], b"new-response".to_vec())
+        .await
+        .unwrap();
+    std::fs::write(&state_path, accepted).unwrap();
+    let rollback =
+        DurableRpcResponses::open_unbound_for_test(root_path.as_path(), 1, 2, 1, 3, 8, authority);
+    assert!(matches!(rollback, Err(PolisRuntimeError::StateRegression)));
+    eprintln!("ADL_ISSUE_191_CASE retry_cache_conflict_and_rollback=passed");
+}
+
+#[tokio::test]
+async fn log_store_does_not_publish_vote_before_external_checkpoint_commit() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let root_path = root.path().canonicalize().unwrap();
+    let authority = Arc::new(MemoryCheckpointAuthority::default());
+    let mut store = PolisLogStore::open(root_path.as_path(), 1, authority.clone()).unwrap();
+    let vote = Vote::new(3, 1);
+    authority.fail_next_compare_and_swap();
+    assert!(store.save_vote(&vote).await.is_err());
+    assert_eq!(store.read_vote().await.unwrap(), None);
+    drop(store);
+    let mut recovered_after_failure =
+        PolisLogStore::open(root_path.as_path(), 1, authority.clone()).unwrap();
+    assert_eq!(recovered_after_failure.read_vote().await.unwrap(), None);
+    recovered_after_failure.save_vote(&vote).await.unwrap();
+    assert_eq!(
+        recovered_after_failure.read_vote().await.unwrap(),
+        Some(vote)
+    );
+    drop(recovered_after_failure);
+    let reopened = PolisLogStore::open(root_path.as_path(), 1, authority).unwrap();
+    let mut reopened = reopened;
+    assert_eq!(reopened.read_vote().await.unwrap(), Some(vote));
+    eprintln!("ADL_ISSUE_191_CASE durable_vote_restart=passed");
+}
+
+#[test]
+fn fresh_store_initialization_rolls_back_an_ambiguous_checkpoint_failure() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let root_path = root.path().canonicalize().unwrap();
+    let authority = Arc::new(MemoryCheckpointAuthority::default());
+    authority.fail_next_compare_and_swap();
+    assert!(matches!(
+        PolisLogStore::open(root_path.as_path(), 1, authority.clone()),
+        Err(PolisRuntimeError::Storage)
+    ));
+    assert!(!root_path.join("raft-log.json").exists());
+    assert!(!root_path.join(".raft-log.json.journal").exists());
+    assert!(PolisLogStore::open(root_path.as_path(), 1, authority).is_ok());
+    eprintln!("ADL_ISSUE_191_CASE journaled_initial_checkpoint=passed");
+}
+
+#[tokio::test]
+async fn snapshot_install_rejects_noncanonical_bytes_and_preserves_exact_identity() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let root_path = root.path().canonicalize().unwrap();
+    let authority = Arc::new(MemoryCheckpointAuthority::default());
+    let source_root = root_path.join("source");
+    let target_root = root_path.join("target");
+    std::fs::create_dir(&source_root).unwrap();
+    std::fs::create_dir(&target_root).unwrap();
+    let mut source =
+        polis_runtime::PolisStateMachineStore::open(&source_root, 1, authority.clone()).unwrap();
+    let snapshot = source.build_snapshot().await.unwrap();
+    let meta = snapshot.meta.clone();
+    let canonical = snapshot.snapshot.get_ref().clone();
+    let mut noncanonical = canonical.clone();
+    noncanonical.push(b'\n');
+    let mut target =
+        polis_runtime::PolisStateMachineStore::open(&target_root, 2, authority.clone()).unwrap();
+    assert!(target
+        .install_snapshot(&meta, Box::new(std::io::Cursor::new(noncanonical)))
+        .await
+        .is_err());
+    target
+        .install_snapshot(&meta, Box::new(std::io::Cursor::new(canonical)))
+        .await
+        .unwrap();
+    drop(target);
+    let mut reopened =
+        polis_runtime::PolisStateMachineStore::open(&target_root, 2, authority).unwrap();
+    assert_eq!(
+        reopened.get_current_snapshot().await.unwrap().unwrap().meta,
+        meta
+    );
+    eprintln!("ADL_ISSUE_191_CASE canonical_snapshot_identity=passed");
+}
+
+#[test]
+fn boot_generation_is_externally_monotonic_and_rejects_coherent_disk_rollback() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let root_path = root.path().canonicalize().unwrap();
+    let authority = Arc::new(MemoryCheckpointAuthority::default());
+    assert_eq!(
+        advance_secure_boot_generation(&root_path, 1, authority.clone()).unwrap(),
+        1
+    );
+    let path = root_path.join("raft-boot-generation.json");
+    let first = std::fs::read(&path).unwrap();
+    assert_eq!(
+        advance_secure_boot_generation(&root_path, 1, authority.clone()).unwrap(),
+        2
+    );
+    std::fs::write(&path, first).unwrap();
+    assert_eq!(
+        advance_secure_boot_generation(&root_path, 1, authority).unwrap_err(),
+        PolisRuntimeError::StateRegression
+    );
+    eprintln!("ADL_ISSUE_191_CASE boot_generation_rollback=passed");
+}
+
+#[test]
+fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity() {
+    let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
+    let (membership, authority, addresses, keys) = authority_topology();
+    let polis = polis_identity(&authority, &keys, &boots);
+    let cut = derive_authority_cut(&polis, &membership, &authority, &addresses, 100).unwrap();
+    assert_eq!(cut.routes().len(), 3);
+    assert_eq!(
+        cut.routes()[&1],
+        SocketAddr::from((Ipv4Addr::LOCALHOST, 4101))
+    );
+
+    let mut incomplete = addresses.clone();
+    incomplete.remove("node-3");
+    assert_eq!(
+        derive_authority_cut(&polis, &membership, &authority, &incomplete, 100).unwrap_err(),
+        PolisRuntimeError::AuthorityDenied
+    );
+
+    let original_payload =
+        polis_identity_signing_payload(POLIS, DOMAIN, authority.committed_log_index, &boots)
+            .unwrap();
+    let original_endorsements = authority
+        .raft_ids
+        .iter()
+        .map(|(guardian, raft_id)| {
+            (
+                guardian.clone(),
+                keys[raft_id].sign(&original_payload).to_bytes().to_vec(),
+            )
+        })
+        .collect();
+    let mut invented_boots = boots.clone();
+    invented_boots.insert(2, 99);
+    assert!(PolisIdentityBinding::verify(
+        POLIS,
+        DOMAIN,
+        authority.committed_log_index,
+        &invented_boots,
+        &original_endorsements,
+        &authority,
+    )
+    .is_err());
+
+    let wrong_payload = polis_identity_signing_payload(
+        "invented-polis",
+        DOMAIN,
+        authority.committed_log_index,
+        &boots,
+    )
+    .unwrap();
+    let one_endorsement = [(
+        b"guardian-1".to_vec(),
+        keys[&1].sign(&wrong_payload).to_bytes().to_vec(),
+    )]
+    .into_iter()
+    .collect();
+    assert!(PolisIdentityBinding::verify(
+        "invented-polis",
+        DOMAIN,
+        authority.committed_log_index,
+        &boots,
+        &one_endorsement,
+        &authority,
+    )
+    .is_err());
+    eprintln!("ADL_ISSUE_191_CASE authority_cut_and_polis_quorum=passed");
+}
+#[test]
+fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
+    let signing_root = SigningKey::from_bytes(&[92; 32]);
+    let policy = CertificatePolicy::new(DOMAIN, [signing_root.verifying_key()])
+        .unwrap()
+        .with_bounds(3600, 60, 60, 16, 16)
+        .unwrap();
+    let directory = tempfile::tempdir().unwrap();
+    let store = DistributedCertificateStore::open(
+        directory
+            .path()
+            .canonicalize()
+            .unwrap()
+            .join("overlap.redb"),
+        policy,
+    )
+    .unwrap();
+    let make = |generation, seed| {
+        AuthorityCertificate::issue(
+            CertificateBody::new(
+                DOMAIN,
+                "overlap-node",
+                CertificatePurpose::Transport,
+                generation,
+                CertificateValidity {
+                    issued_at_unix_secs: 90,
+                    expires_at_unix_secs: 1000,
+                },
+                SigningKey::from_bytes(&[seed; 32]).verifying_key(),
+                &signing_root.verifying_key(),
+            ),
+            &signing_root,
+        )
+        .unwrap()
+    };
+    let first = make(1, 41);
+    let second = make(2, 42);
+    store.activate(&first, 100).unwrap();
+    store.activate(&second, 100).unwrap();
+    assert!(store
+        .authorize("overlap-node", CertificatePurpose::Transport, 1, 159)
+        .is_ok());
+    assert!(store
+        .authorize("overlap-node", CertificatePurpose::Transport, 1, 160)
+        .is_err());
+    assert!(store
+        .authorize("overlap-node", CertificatePurpose::Transport, 2, 160)
+        .is_ok());
+    eprintln!("ADL_ISSUE_191_CASE certificate_overlap_boundary=passed");
+}
+
+#[tokio::test]
+async fn polis_frames_reject_unproved_polis_and_oversized_payload_before_dispatch() {
+    let (left, right, configured_limits, _left_endpoint, _right_endpoint, _store_dir) =
+        connected_pair().await;
+    let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
+    let (cut, keys, _routes) = verified_cut(&boots);
+    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_pending = left_factory.pending_session(2, &left).await.unwrap();
+    let right_pending = right_factory.pending_session(1, &right).await.unwrap();
+    let (left_session, right_session) = tokio::join!(
+        left.accept_polis_session(left_pending, &keys[&1]),
+        right.initiate_polis_session(right_pending, &keys[&2]),
+    );
+    let left_session = left_session.unwrap();
+    let right_session = right_session.unwrap();
+    let stalled_server =
+        tokio::spawn(async move { left.accept_polis_request(&left_session).await });
+    assert_eq!(
+        right
+            .request_polis(
+                &right_session,
+                1,
+                "append_entries",
+                vec![0; configured_limits.max_frame_bytes],
+            )
+            .await
+            .unwrap_err(),
+        TransportError::FrameTooLarge
+    );
+    stalled_server.abort();
+    let _ = stalled_server.await;
+    eprintln!("ADL_ISSUE_191_CASE unproved_polis_and_oversized_frame=passed");
+}
+
+#[test]
+fn transport_frames_reject_truncated_and_noncanonical_trailing_bytes() {
+    let configured_limits = limits();
+    let envelope = TransportEnvelope {
+        schema: TRANSPORT_SCHEMA.to_owned(),
+        trust_domain: DOMAIN.to_owned(),
+        node_id: "node-1".to_owned(),
+        guardian_id: "guardian-1".to_owned(),
+        protocol_version: 1,
+        certificate_generation: 1,
+        sequence: 1,
+        payload: b"canonical".to_vec(),
+    };
+    let canonical = encode_frame(envelope, &configured_limits).unwrap();
+    assert_eq!(
+        decode_frame(&canonical[..canonical.len() - 1], &configured_limits).unwrap_err(),
+        TransportError::MalformedFrame
+    );
+    let mut trailing = canonical;
+    trailing.extend_from_slice(&[0x78, 0x01]);
+    assert_eq!(
+        decode_frame(&trailing, &configured_limits).unwrap_err(),
+        TransportError::MalformedFrame
+    );
+    eprintln!("ADL_ISSUE_191_CASE canonical_transport_frame=passed");
+}
+#[cfg(unix)]
+#[test]
+fn durable_store_rejects_symlinked_ancestors_and_oversized_state() {
+    use std::os::unix::fs::symlink;
+
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let canonical = root.path().canonicalize().unwrap();
+    let real = canonical.join("real");
+    std::fs::create_dir(&real).unwrap();
+    let linked = canonical.join("linked");
+    symlink(&real, &linked).unwrap();
+    assert!(matches!(
+        PolisLogStore::open(&linked, 1, Arc::new(MemoryCheckpointAuthority::default())),
+        Err(PolisRuntimeError::InvalidConfiguration)
+    ));
+
+    let oversized = canonical.join("oversized");
+    std::fs::create_dir(&oversized).unwrap();
+    let file = std::fs::File::create(oversized.join("raft-log.json")).unwrap();
+    file.set_len(16 * 1024 * 1024 + 1).unwrap();
+    assert!(PolisLogStore::open(
+        &oversized,
+        1,
+        Arc::new(MemoryCheckpointAuthority::default())
+    )
+    .is_err());
+
+    let locked = canonical.join("locked");
+    std::fs::create_dir(&locked).unwrap();
+    let lock_authority = Arc::new(MemoryCheckpointAuthority::default());
+    let first = PolisLogStore::open(&locked, 1, lock_authority.clone()).unwrap();
+    assert!(matches!(
+        PolisLogStore::open(&locked, 1, lock_authority.clone()),
+        Err(PolisRuntimeError::StateRegression)
+    ));
+    drop(first);
+    assert!(PolisLogStore::open(&locked, 1, lock_authority).is_ok());
+
+    let linked_lock_root = canonical.join("linked-lock");
+    std::fs::create_dir(&linked_lock_root).unwrap();
+    symlink(&real, linked_lock_root.join(".raft-log.json.lock")).unwrap();
+    assert!(matches!(
+        PolisLogStore::open(
+            &linked_lock_root,
+            1,
+            Arc::new(MemoryCheckpointAuthority::default())
+        ),
+        Err(PolisRuntimeError::InvalidConfiguration)
+    ));
+    eprintln!("ADL_ISSUE_191_CASE path_and_state_bounds=passed");
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 6)]
+async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let root_path = root.path().canonicalize().unwrap();
+    let authority = Arc::new(MemoryCheckpointAuthority::default());
+    let mesh = three_node_mesh().await;
+    assert_eq!(mesh.endpoints.len(), 6);
+    let mut boot_generations = BTreeMap::new();
+    for node in 1..=3 {
+        let node_root = root_path.join(format!("node-{node}"));
+        std::fs::create_dir(&node_root).unwrap();
+        boot_generations.insert(
+            node,
+            advance_secure_boot_generation(&node_root, node, authority.clone()).unwrap(),
+        );
+    }
+
+    let (cut, keys, routes) = verified_cut(&boot_generations);
+    let factories = (1..=3)
+        .map(|node| {
+            (
+                node,
+                SecurePolisNetworkFactory::from_authority_cut(node, cut.clone()).unwrap(),
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    let sessions = establish_mesh_sessions(&mesh, &factories, &keys).await;
+    for local in 1..=3 {
+        for peer in 1..=3 {
+            if local == peer {
+                continue;
+            }
+            factories[&local]
+                .install_route(
+                    peer,
+                    Arc::clone(&mesh.connections[&(local, peer)]),
+                    sessions[&(local, peer)].clone(),
+                )
+                .await
+                .unwrap();
+        }
+    }
+    let mut nodes = BTreeMap::new();
+    let mut machines = BTreeMap::new();
+    for node in 1..=3 {
+        let node_root = root_path.join(format!("node-{node}"));
+        let (raft, machine) = new_secure_raft_node(
+            node,
+            &node_root,
+            factories[&node].clone(),
+            authority.clone(),
+        )
+        .await
+        .unwrap();
+        nodes.insert(node, raft);
+        machines.insert(node, machine);
+    }
+
+    let cancellation = CancellationToken::new();
+    let mut servers = Vec::new();
+    for local in 1..=3 {
+        for peer in 1..=3 {
+            if local == peer {
+                continue;
+            }
+            let cache = DurableRpcResponses::open(
+                &root_path.join(format!("node-{local}")),
+                local,
+                peer,
+                &sessions[&(local, peer)],
+                256,
+                authority.clone(),
+            )
+            .unwrap();
+            servers.push(tokio::spawn(serve_secure_raft_connection(
+                nodes[&local].clone(),
+                Arc::clone(&mesh.connections[&(local, peer)]),
+                sessions[&(local, peer)].clone(),
+                mesh.limits.clone(),
+                cache,
+                cancellation.child_token(),
+            )));
+        }
+    }
+
+    nodes[&1].initialize(routes).await.unwrap();
+    let _observed_leader = wait_for_leader(&nodes).await;
+    let leader = commit_on_current_leader(
+        &nodes,
+        PolisCommand::GovernedMutation {
+            mutation_id: "three-voter-commit".to_owned(),
+            payload_sha256: "11".repeat(32),
+        },
+    )
+    .await;
+    let followers = (1..=3).filter(|node| *node != leader).collect::<Vec<_>>();
+
+    for peer in 1..=3 {
+        if peer != followers[0] {
+            mesh.connections[&(followers[0], peer)].close();
+        }
+    }
+    let with_two = nodes[&leader]
+        .client_write(PolisCommand::GovernedMutation {
+            mutation_id: "two-voter-commit".to_owned(),
+            payload_sha256: "22".repeat(32),
+        })
+        .await
+        .unwrap();
+    assert!(with_two.data.accepted);
+    nodes[&leader].trigger().snapshot().await.unwrap();
+
+    for peer in 1..=3 {
+        if peer != followers[1] {
+            mesh.connections[&(followers[1], peer)].close();
+        }
+    }
+    let no_quorum = tokio::time::timeout(
+        Duration::from_secs(2),
+        nodes[&leader].client_write(PolisCommand::GovernedMutation {
+            mutation_id: "one-voter-must-halt".to_owned(),
+            payload_sha256: "33".repeat(32),
+        }),
+    )
+    .await;
+    assert!(no_quorum.is_err() || no_quorum.unwrap().is_err());
+    assert!(!machines[&leader]
+        .application_state()
+        .await
+        .mutation_ids
+        .contains("one-voter-must-halt"));
+    tokio::time::sleep(Duration::from_millis(100)).await;
+    let mut snapshot_reader = machines[&leader].clone();
+    let retained_snapshot = snapshot_reader
+        .get_current_snapshot()
+        .await
+        .unwrap()
+        .expect("leader retained a compacted snapshot");
+    let retained_snapshot_meta = retained_snapshot.meta.clone();
+    drop(snapshot_reader);
+
+    cancellation.cancel();
+    for raft in nodes.values() {
+        raft.shutdown().await.unwrap();
+    }
+    for server in servers {
+        server.abort();
+        let _ = server.await;
+    }
+    drop(nodes);
+    drop(machines);
+    drop(factories);
+    drop(sessions);
+    drop(mesh);
+
+    let mut restarted_boot_generations = BTreeMap::new();
+    for node in 1..=3 {
+        let node_root = root_path.join(format!("node-{node}"));
+        restarted_boot_generations.insert(
+            node,
+            advance_secure_boot_generation(&node_root, node, authority.clone()).unwrap(),
+        );
+    }
+    let restarted_mesh = three_node_mesh().await;
+    let (restarted_cut, restarted_keys, _) = verified_cut(&restarted_boot_generations);
+    let restarted_factories = (1..=3)
+        .map(|node| {
+            (
+                node,
+                SecurePolisNetworkFactory::from_authority_cut(node, restarted_cut.clone()).unwrap(),
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    let restarted_sessions =
+        establish_mesh_sessions(&restarted_mesh, &restarted_factories, &restarted_keys).await;
+    for local in 1..=3 {
+        for peer in 1..=3 {
+            if local != peer {
+                restarted_factories[&local]
+                    .install_route(
+                        peer,
+                        Arc::clone(&restarted_mesh.connections[&(local, peer)]),
+                        restarted_sessions[&(local, peer)].clone(),
+                    )
+                    .await
+                    .unwrap();
+            }
+        }
+    }
+    let mut restarted_nodes = BTreeMap::new();
+    let mut restarted_machines = BTreeMap::new();
+    for node in 1..=3 {
+        let (raft, machine) = new_secure_raft_node(
+            node,
+            &root_path.join(format!("node-{node}")),
+            restarted_factories[&node].clone(),
+            authority.clone(),
+        )
+        .await
+        .unwrap();
+        restarted_nodes.insert(node, raft);
+        restarted_machines.insert(node, machine);
+    }
+    let restarted_cancellation = CancellationToken::new();
+    let mut restarted_servers = Vec::new();
+    for local in 1..=3 {
+        for peer in 1..=3 {
+            if local == peer {
+                continue;
+            }
+            let cache = DurableRpcResponses::open(
+                &root_path.join(format!("node-{local}")),
+                local,
+                peer,
+                &restarted_sessions[&(local, peer)],
+                256,
+                authority.clone(),
+            )
+            .unwrap();
+            restarted_servers.push(tokio::spawn(serve_secure_raft_connection(
+                restarted_nodes[&local].clone(),
+                Arc::clone(&restarted_mesh.connections[&(local, peer)]),
+                restarted_sessions[&(local, peer)].clone(),
+                restarted_mesh.limits.clone(),
+                cache,
+                restarted_cancellation.child_token(),
+            )));
+        }
+    }
+    let mut restored_snapshot_reader = restarted_machines[&leader].clone();
+    let restored_snapshot = restored_snapshot_reader
+        .get_current_snapshot()
+        .await
+        .unwrap()
+        .expect("snapshot survives a real voter restart");
+    assert_eq!(restored_snapshot.meta, retained_snapshot_meta);
+    let _ = wait_for_leader(&restarted_nodes).await;
+    let restored_leader = commit_on_current_leader(
+        &restarted_nodes,
+        PolisCommand::GovernedMutation {
+            mutation_id: "post-restart-commit".to_owned(),
+            payload_sha256: "44".repeat(32),
+        },
+    )
+    .await;
+    let restored = restarted_machines[&restored_leader]
+        .application_state()
+        .await;
+    assert!(restored.mutation_ids.contains("three-voter-commit"));
+    assert!(restored.mutation_ids.contains("two-voter-commit"));
+    assert!(restored.mutation_ids.contains("post-restart-commit"));
+    restarted_cancellation.cancel();
+    for raft in restarted_nodes.values() {
+        raft.shutdown().await.unwrap();
+    }
+    for server in restarted_servers {
+        server.abort();
+        let _ = server.await;
+    }
+    eprintln!("ADL_ISSUE_191_CASE secure_three_two_one_real_restart=passed");
+}

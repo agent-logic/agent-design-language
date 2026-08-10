@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 191,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 2,
-  "digest": "dcb1229e2db94769b80427fa6b0e8a4fbaf64f62dd32dd1e35e34768ee9d2a79",
-  "branch": null,
-  "worktree": null,
+  "digest": "3f258f665a8b2c64628856de028b37793f1848277d6c7a299eb42e90147551b9",
+  "branch": "codex/191-secure-durable-openraft",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-191-secure-raft",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +55,22 @@
       "ast_digest": "f4c26aad48625ef85c9302457d7d6e6008ac15f8cdc4288b772addadb02d2bf7"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +92,13 @@
       "actor": "subagent:prepare_5875_release",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
