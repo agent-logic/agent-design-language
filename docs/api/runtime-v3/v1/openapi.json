@@ -1139,7 +1139,8 @@
             "items": {
               "enum": [
                 "observability_not_ready",
-                "weather_stale"
+                "weather_stale",
+                "trusted_time_unavailable"
               ]
             }
           }

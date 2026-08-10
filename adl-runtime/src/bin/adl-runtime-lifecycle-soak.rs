@@ -14,6 +14,7 @@ use adl_runtime_kernel::verify_live_continuity_lineage;
 use base64::Engine;
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use fs2::FileExt;
+use rand::RngCore;
 use sha2::{Digest, Sha256};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::process::{Child, ChildStderr, ChildStdout, Command};
@@ -543,7 +544,7 @@ fn provision_communication_identities(
     if identities.is_empty() {
         return Err("init template communication_identities must not be empty".to_owned());
     }
-    for (index, identity) in identities.iter_mut().enumerate() {
+    for identity in identities.iter_mut() {
         let table = identity
             .as_table_mut()
             .ok_or_else(|| "communication identity must be a TOML table".to_owned())?;
@@ -559,14 +560,14 @@ fn provision_communication_identities(
             .and_then(|path| Path::new(path).file_name())
             .ok_or_else(|| "communication identity public key path has no file name".to_owned())?
             .to_owned();
-        let seed_byte = 71_u8
-            .checked_add(u8::try_from(index).map_err(|_| "too many communication identities")?)
-            .ok_or_else(|| "too many communication identities".to_owned())?;
-        let signer = SigningKey::from_bytes(&[seed_byte; 32]);
+        let mut seed = [0_u8; 32];
+        rand::rngs::OsRng.fill_bytes(&mut seed);
+        let signer = SigningKey::from_bytes(&seed);
         let private_path = credentials_root.join(private_name);
         let public_path = credentials_root.join(public_name);
-        write_secret(&private_path, hex::encode([seed_byte; 32]).as_bytes())
+        write_secret(&private_path, hex::encode(seed).as_bytes())
             .map_err(|error| error.to_string())?;
+        seed.fill(0);
         std::fs::write(&public_path, hex::encode(signer.verifying_key().to_bytes()))
             .map_err(|error| error.to_string())?;
         table.insert(
@@ -2534,6 +2535,25 @@ mod tests {
         );
         assert_eq!(certificate, certificate_chain.canonicalize().unwrap());
         assert_eq!(private_key, private_key.canonicalize().unwrap());
+        let communication_private_keys = parsed["communication_identities"]
+            .as_array()
+            .expect("communication identities")
+            .iter()
+            .map(|identity| {
+                let path = identity["signing_private_key_path"]
+                    .as_str()
+                    .expect("communication private key path");
+                std::fs::read_to_string(path).expect("externally provisioned communication key")
+            })
+            .collect::<Vec<_>>();
+        assert!(communication_private_keys.len() >= 2);
+        assert!(communication_private_keys
+            .iter()
+            .all(|key| key.len() == 64 && key.bytes().all(|byte| byte.is_ascii_hexdigit())));
+        assert_ne!(communication_private_keys[0], communication_private_keys[1]);
+        assert!(!communication_private_keys
+            .iter()
+            .any(|key| key == &hex::encode([71_u8; 32]) || key == &hex::encode([72_u8; 32])));
     }
 
     fn arguments(mode: &[&str]) -> Vec<String> {

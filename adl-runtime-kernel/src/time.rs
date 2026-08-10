@@ -264,9 +264,11 @@ struct QualifiedTimeComponent {
 #[async_trait]
 impl Component for QualifiedTimeComponent {
     async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
-        let bootstrap =
-            qualify_time(&SystemTimeSampleSource, self.bounds, &context.cancellation).await;
-        context.recorder.set_clock_authority(bootstrap);
+        context
+            .recorder
+            .set_clock_authority(ClockAuthority::Degraded {
+                reason: "configured_time_authority_not_yet_qualified".to_owned(),
+            });
         context.ready();
 
         loop {
@@ -285,9 +287,12 @@ impl Component for QualifiedTimeComponent {
                 ClockAuthority::Degraded { reason } => {
                     tracing::warn!(
                         event = "trusted_time_refresh_failed",
-                        reason,
-                        "SNTP refresh failed; retaining the last authoritative clock"
+                        reason = %reason,
+                        "configured time authority is unavailable"
                     );
+                    context
+                        .recorder
+                        .set_clock_authority(ClockAuthority::Degraded { reason });
                     self.bounds.retry_delay
                 }
             };

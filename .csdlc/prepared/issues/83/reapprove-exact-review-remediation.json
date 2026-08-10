@@ -1,0 +1,6 @@
+{
+  "issue": 83,
+  "expected_generation": 62,
+  "expected_digest": "af33fc61be82b0a8da51a29df61848baf4ff472718f03c01089972a733d4eb56",
+  "reviewer": "codex:83-exact-review-remediation-design"
+}

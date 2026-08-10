@@ -217,6 +217,7 @@ function runtimeV3EventKey(event) {
 
 function createRuntimeV3StreamCursor() {
   let runtimeInstanceId = null;
+  let runtimeIncarnationId = null;
   let lastSequence = -1;
   let lastCorrelationId = null;
   let events = [];
@@ -225,13 +226,18 @@ function createRuntimeV3StreamCursor() {
   return {
     accept(snapshot) {
       const nextRuntimeInstanceId = snapshot?.status?.runtime_id || null;
-      if (runtimeInstanceId && nextRuntimeInstanceId && runtimeInstanceId !== nextRuntimeInstanceId) {
+      const nextRuntimeIncarnationId = snapshot?.status?.runtime_incarnation_id || null;
+      const incarnationChanged = runtimeIncarnationId
+        && nextRuntimeIncarnationId
+        && runtimeIncarnationId !== nextRuntimeIncarnationId;
+      if ((runtimeInstanceId && nextRuntimeInstanceId && runtimeInstanceId !== nextRuntimeInstanceId) || incarnationChanged) {
         events = [];
         seen.clear();
         lastSequence = -1;
         lastCorrelationId = null;
       }
       runtimeInstanceId = nextRuntimeInstanceId || runtimeInstanceId;
+      runtimeIncarnationId = nextRuntimeIncarnationId || runtimeIncarnationId;
       const incomingEvents = normalizeEventEntries(snapshot?.events);
       const unseenSequences = [...new Set(incomingEvents
         .map((event) => Number(event?.sequence ?? event?.event_sequence))
@@ -275,6 +281,7 @@ function createRuntimeV3StreamCursor() {
         events: { events: [...events] },
         stream_cursor: {
           runtime_instance_id: runtimeInstanceId,
+          runtime_incarnation_id: runtimeIncarnationId,
           last_sequence: lastSequence,
           last_correlation_id: lastCorrelationId,
           applied_event_count: events.length
@@ -284,6 +291,7 @@ function createRuntimeV3StreamCursor() {
     snapshot() {
       return {
         runtime_instance_id: runtimeInstanceId,
+        runtime_incarnation_id: runtimeIncarnationId,
         last_sequence: lastSequence,
         last_correlation_id: lastCorrelationId,
         applied_event_count: events.length
@@ -1106,12 +1114,19 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
   return {
     mode: "live",
     runtimeSelection: feed.runtime_selection || "runtime_v3_explicit_opt_in",
-    fetchedAt: new Date().toISOString(),
+    fetchedAt: Number.isSafeInteger(feed.captured_at_unix_millis)
+      ? new Date(feed.captured_at_unix_millis).toISOString()
+      : null,
+    capturedAtUnixMillis: Number.isSafeInteger(feed.captured_at_unix_millis)
+      ? feed.captured_at_unix_millis
+      : null,
     status: {
       schema: feed.schema,
       polis_name: feed.polis_name,
       runtime_owner: "runtime-v3",
       runtime_id: feed.runtime_instance_id,
+      runtime_incarnation_id: feed.runtime_incarnation_id,
+      runtime_process_id: feed.runtime_process_id,
       agent_instance_id: feed.runtime_instance_id,
       agent_population: feed.agents,
       status: snapshot.lifecycle || "unknown",
@@ -1524,6 +1539,7 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   return {
     mode: snapshot.mode || "retained",
     fetchedAt: snapshot.fetchedAt || "",
+    capturedAtUnixMillis: snapshot.capturedAtUnixMillis ?? null,
     agents: liveAgents,
     agentTotal,
     signals: signalRows,
@@ -1575,7 +1591,12 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET, { chatLive = 
   }
   const captureTime = vm.fetchedAt ? formatTimestampLabel(vm.fetchedAt) : unavailable ? "No live capture" : "timestamp unavailable";
   const observatoryRoot = document.querySelector(".observatory");
-  if (observatoryRoot) observatoryRoot.dataset.captureTime = vm.fetchedAt || "";
+  if (observatoryRoot) {
+    observatoryRoot.dataset.captureTime = vm.fetchedAt || "";
+    observatoryRoot.dataset.captureSourceMillis = Number.isSafeInteger(vm.capturedAtUnixMillis)
+      ? String(vm.capturedAtUnixMillis)
+      : "";
+  }
   setText("hero-uptime", captureTime);
   setText("statusbar-updated", captureTime);
   setText("rail-capture-time", captureTime);
@@ -2326,6 +2347,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const root = document.querySelector(".observatory");
             if (root && cursor) {
               root.dataset.streamRuntimeInstance = cursor.runtime_instance_id || "";
+              root.dataset.streamRuntimeIncarnation = cursor.runtime_incarnation_id || "";
               root.dataset.streamLastSequence = String(cursor.last_sequence);
               root.dataset.streamAppliedEvents = String(cursor.applied_event_count);
             }

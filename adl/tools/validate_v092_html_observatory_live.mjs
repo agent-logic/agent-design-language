@@ -342,15 +342,23 @@ try {
   };
   const capture = await page.evaluate(() => ({
     iso: document.querySelector(".observatory")?.dataset.captureTime || "",
+    source_millis: Number(document.querySelector(".observatory")?.dataset.captureSourceMillis),
     hero: document.getElementById("hero-uptime")?.textContent?.trim() || "",
     rail: document.getElementById("rail-capture-time")?.textContent?.trim() || "",
     status: document.getElementById("statusbar-updated")?.textContent?.trim() || ""
   }));
   const captureMillis = Date.parse(capture.iso);
   assert(Number.isFinite(captureMillis), `live capture time is not an ISO timestamp: ${capture.iso}`);
+  assert(Number.isSafeInteger(capture.source_millis) && capture.source_millis > 0, "Runtime capture source was not retained by the page");
+  assert.equal(captureMillis, capture.source_millis, "displayed capture time was not copied exactly from the consumed Runtime feed");
   assert(Date.now() - captureMillis >= 0 && Date.now() - captureMillis < 30_000, `live capture time is stale: ${capture.iso}`);
   assert(capture.hero && capture.hero === capture.rail && capture.hero === capture.status, `capture time surfaces diverged: ${JSON.stringify(capture)}`);
-  report.assertions.fresh_consistent_capture_time = { passed: true, ...capture };
+  report.assertions.fresh_consistent_capture_time = {
+    passed: true,
+    authority: "runtime_qualified_time",
+    runtime_captured_at_unix_millis: capture.source_millis,
+    ...capture
+  };
 
   const navigation = ["Runtime", "Agents", "Chat", "Events", "AWS", "Governance", "Evidence"];
   for (const name of navigation) {
@@ -486,6 +494,7 @@ try {
     transcript: await page.locator(".chat-message").count(),
     control_posts: controlRequests.length,
     runtime_instance: await page.locator(".observatory").getAttribute("data-stream-runtime-instance"),
+    runtime_incarnation: await page.locator(".observatory").getAttribute("data-stream-runtime-incarnation"),
     last_sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence")),
     applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events")),
     reconnect_decisions: Number(await page.locator(".observatory").getAttribute("data-reconnect-decision-count") || 0)
@@ -496,6 +505,7 @@ try {
     const feed = await response.json();
     return {
       pid: feed.runtime_process_id,
+      runtime_incarnation_id: feed.runtime_incarnation_id,
       runtime_instance_id: feed.runtime_instance_id,
       source_revision: feed.source_revision
     };
@@ -527,24 +537,45 @@ try {
     transcript: await page.locator(".chat-message").count(),
     control_posts: controlRequests.length,
     runtime_instance: await page.locator(".observatory").getAttribute("data-stream-runtime-instance"),
+    runtime_incarnation: await page.locator(".observatory").getAttribute("data-stream-runtime-incarnation"),
     last_sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence")),
     applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events")),
     reconnect_decisions: Number(await page.locator(".observatory").getAttribute("data-reconnect-decision-count") || 0)
   };
   guardianRestartInProgress = false;
   proofPhase = "baseline";
+  const restartedTarget = await page.evaluate(async (base) => {
+    const response = await fetch(`${base}/v1/observatory`);
+    if (!response.ok) throw new Error(`Runtime feed returned ${response.status}`);
+    const feed = await response.json();
+    return {
+      pid: feed.runtime_process_id,
+      runtime_incarnation_id: feed.runtime_incarnation_id,
+      source_revision: feed.source_revision
+    };
+  }, runtimeUrl.origin);
   assert.equal(automaticReconnectAfter.transcript, automaticReconnectBefore.transcript, "automatic reconnect duplicated chat");
   assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts, "automatic reconnect emitted or replayed a browser control POST");
   assert.equal(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "Runtime restart changed configured instance identity");
+  assert.notEqual(
+    automaticReconnectAfter.runtime_incarnation,
+    automaticReconnectBefore.runtime_incarnation,
+    "Runtime restart did not change the explicit process incarnation"
+  );
+  assert.equal(automaticReconnectAfter.runtime_incarnation, restartedTarget.runtime_incarnation_id);
+  assert.equal(restartedTarget.source_revision, sourceRevision);
   assert(automaticReconnectAfter.reconnect_decisions > automaticReconnectBefore.reconnect_decisions, "restart did not produce a fresh reconnect decision");
   assert(automaticReconnectAfter.last_sequence >= 0, "automatic reconnect did not establish a valid event cursor");
-  assert(automaticReconnectAfter.applied_events >= 0, "automatic reconnect did not restore event accounting");
+  assert(automaticReconnectAfter.applied_events > 0, "automatic reconnect dropped all new-process bootstrap events");
   report.assertions.automatic_bounded_reconnect = {
     passed: true,
     observed_backoff_millis: observedBackoff,
     healthy_reset_millis: 10_000,
     guardian_restart: {
       previous_pid: restartTarget.pid,
+      next_pid: restartedTarget.pid,
+      previous_runtime_incarnation: automaticReconnectBefore.runtime_incarnation,
+      next_runtime_incarnation: automaticReconnectAfter.runtime_incarnation,
       previous_runtime_instance: automaticReconnectBefore.runtime_instance,
       next_runtime_instance: automaticReconnectAfter.runtime_instance,
       restart_authority: "signed_control_stop_capability",

@@ -35,7 +35,9 @@ fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
     assert!(required.contains("polis_name"));
     assert!(required.contains("source_revision"));
     assert!(required.contains("runtime_instance_id"));
+    assert!(required.contains("runtime_incarnation_id"));
     assert!(required.contains("runtime_process_id"));
+    assert!(required.contains("captured_at_unix_millis"));
     assert!(observatory_feed["properties"]["polis_name"].is_object());
 
     for shared_schema in ["ClockAuthority", "ObservabilityHealth"] {

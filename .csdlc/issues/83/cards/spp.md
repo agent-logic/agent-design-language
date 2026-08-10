@@ -16,7 +16,7 @@ Complete the investor-visible Layer 8 chat slice with fresh live capture time an
 
 ## Plan
 
-Revision 19
+Revision 20
 
 ## Steps
 
@@ -112,7 +112,7 @@ Revision 19
 
 .csdlc/prepared/issues/83/design.md
 
-Digest: 0ca10f9acda24b10f48c3c5c53c0f7247449606d9578ce8504dc46db915c943c
+Digest: 3574fc0bab0670d64c9f5bce7c60cd3ec26a24926cc7c71726983ec462c9fb50
 
 ## Diagram
 

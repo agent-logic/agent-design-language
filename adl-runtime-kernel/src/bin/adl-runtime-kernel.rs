@@ -390,28 +390,18 @@ async fn main() -> ExitCode {
                 eprintln!("runtime continuity restore refused: {error}");
                 return ExitCode::from(78);
             }
-            let authority = ControlAuthority::new(BTreeMap::from([
-                (
-                    key_id,
-                    TrustedControlKey {
-                        principal,
-                        verifying_key: public_key,
-                        capabilities: BTreeSet::from([
-                            ControlCapability::Read,
-                            ControlCapability::Execute,
-                            ControlCapability::Stop,
-                        ]),
-                    },
-                ),
-                (
-                    layer8_signer.signing_key_id.clone(),
-                    TrustedControlKey {
-                        principal: "layer8-operator".to_owned(),
-                        verifying_key: layer8_signer.verifying_identity().verifying_key,
-                        capabilities: BTreeSet::from([ControlCapability::Execute]),
-                    },
-                ),
-            ]));
+            let authority = ControlAuthority::new(BTreeMap::from([(
+                key_id,
+                TrustedControlKey {
+                    principal,
+                    verifying_key: public_key,
+                    capabilities: BTreeSet::from([
+                        ControlCapability::Read,
+                        ControlCapability::Execute,
+                        ControlCapability::Stop,
+                    ]),
+                },
+            )]));
             let (lifecycle, mut shutdown_requests) =
                 CheckpointingControl::channel(init.kernel.checkpoint_channel_capacity);
             let agent_sample = communication_keys

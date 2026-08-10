@@ -202,6 +202,14 @@ fn resign_message(message: &mut SignedIdentityMessage, seed: [u8; 32]) {
 }
 
 fn signed_agent_carrier(message: &SignedIdentityMessage, target: &str) -> Vec<u8> {
+    signed_agent_carrier_for_runtime(message, target, "test-runtime-instance")
+}
+
+fn signed_agent_carrier_for_runtime(
+    message: &SignedIdentityMessage,
+    target: &str,
+    runtime_id: &str,
+) -> Vec<u8> {
     let route = if target == "shepherd" {
         "shepherd"
     } else {
@@ -218,7 +226,7 @@ fn signed_agent_carrier(message: &SignedIdentityMessage, target: &str) -> Vec<u8
         protocol_family: ACIP_PROTOCOL_FAMILY.to_owned(),
         version_major: ACIP_VERSION_MAJOR,
         version_minor: ACIP_VERSION_MINOR,
-        runtime_id: "test-runtime-instance".to_owned(),
+        runtime_id: runtime_id.to_owned(),
         correlation_id: message.correlation_id.clone(),
         causation_id: message.causation_id.clone(),
         trace_id: message.correlation_id.clone(),
@@ -231,6 +239,24 @@ fn signed_agent_carrier(message: &SignedIdentityMessage, target: &str) -> Vec<u8
         required_features: Vec::new(),
     }
     .encode_to_vec()
+}
+
+fn legacy_signed_agent_carrier(message: &SignedIdentityMessage, target: &str) -> Vec<u8> {
+    let mut envelope = AcipEnvelope::decode(signed_agent_carrier(message, target).as_slice())
+        .expect("current carrier");
+    envelope.protocol_family.clear();
+    envelope.version_major = 0;
+    envelope.version_minor = 0;
+    envelope.runtime_id.clear();
+    envelope.correlation_id.clear();
+    envelope.causation_id.clear();
+    envelope.trace_id.clear();
+    envelope.replay_id.clear();
+    envelope.capability.clear();
+    envelope.authority.clear();
+    envelope.payload_type.clear();
+    envelope.acknowledgement_requested = false;
+    envelope.encode_to_vec()
 }
 
 async fn shutdown(
@@ -248,7 +274,15 @@ async fn shutdown(
         &SigningKey::from_bytes(&[17_u8; 32]),
     )
     .unwrap();
-    let body = serde_json::to_vec(&command).unwrap();
+    post_control(config, address, &command).await
+}
+
+async fn post_control(
+    config: Arc<ClientConfig>,
+    address: std::net::SocketAddr,
+    command: &SignedControlCommand,
+) -> String {
+    let body = serde_json::to_vec(command).unwrap();
     let stream = tokio::net::TcpStream::connect(address).await.unwrap();
     let mut stream = tokio_rustls::TlsConnector::from(config)
         .connect(ServerName::try_from("localhost").unwrap(), stream)
@@ -260,6 +294,19 @@ async fn shutdown(
     );
     stream.write_all(headers.as_bytes()).await.unwrap();
     stream.write_all(&body).await.unwrap();
+    let mut response = Vec::new();
+    stream.read_to_end(&mut response).await.unwrap();
+    String::from_utf8(response).unwrap()
+}
+
+async fn get_https(config: Arc<ClientConfig>, address: std::net::SocketAddr, path: &str) -> String {
+    let stream = tokio::net::TcpStream::connect(address).await.unwrap();
+    let mut stream = tokio_rustls::TlsConnector::from(config)
+        .connect(ServerName::try_from("localhost").unwrap(), stream)
+        .await
+        .unwrap();
+    let request = format!("GET {path} HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n");
+    stream.write_all(request.as_bytes()).await.unwrap();
     let mut response = Vec::new();
     stream.read_to_end(&mut response).await.unwrap();
     String::from_utf8(response).unwrap()
@@ -308,8 +355,53 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
     let instance_id = ready_rx
         .recv_timeout(Duration::from_secs(10))
         .expect("production kernel did not report control readiness");
+    let qualification_deadline = std::time::Instant::now() + Duration::from_secs(10);
+    loop {
+        let response = get_https(config.clone(), address, "/v1/observatory").await;
+        let captured = response
+            .split_once("\r\n\r\n")
+            .and_then(|(_, body)| serde_json::from_str::<serde_json::Value>(body).ok())
+            .and_then(|feed| feed["captured_at_unix_millis"].as_u64());
+        if captured.is_some() {
+            break;
+        }
+        assert!(
+            std::time::Instant::now() < qualification_deadline,
+            "configured Runtime time authority did not qualify before secure messaging"
+        );
+        tokio::time::sleep(Duration::from_millis(20)).await;
+    }
+
+    let unauthorized_layer8_submit = SignedControlCommand::sign(
+        "layer8-must-not-control-runtime",
+        blake3::hash(b"layer8-must-not-control-runtime").to_hex()[..32].to_owned(),
+        &instance_id,
+        "layer8-operator",
+        ControlAction::Submit {
+            work: adl_runtime_kernel::DomainWork {
+                schema: adl_runtime_kernel::DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: "layer8-general-control-submit".to_owned(),
+                kind: "agent_runtime".to_owned(),
+                payload: br#"{"schema":"adl.runtime.local_agent_work.v1","tasks":[{"op":"blake3","input":"must not dispatch"}]}"#.to_vec(),
+            },
+        },
+        "layer8-communication",
+        &SigningKey::from_bytes(&[72_u8; 32]),
+    )
+    .unwrap();
+    let unauthorized = post_control(config.clone(), address, &unauthorized_layer8_submit).await;
+    assert!(
+        unauthorized.starts_with("HTTP/1.1 401 Unauthorized"),
+        "Layer 8 communication key reached general control authority: {unauthorized}"
+    );
 
     let mut assertions = Vec::new();
+    assertions.push(serde_json::json!({
+        "name": "layer8_communication_key_rejected_by_control_authority",
+        "class": "negative_case",
+        "result": "passed",
+        "evidence": "the production Runtime rejected a general ControlAction::Submit signed by the configured Layer 8 communication key"
+    }));
     assertions.push(serde_json::json!({
         "name": "exact_production_binary_tls_ready",
         "class": "lifecycle",
@@ -456,6 +548,26 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
     assert_eq!(tampered["status"], "rejected");
     assert_eq!(tampered["reason"], "signed_identity_carrier_mismatch");
     assert_eq!(tampered["sequence_reserved"], false);
+    socket
+        .send(Message::Binary(
+            signed_agent_carrier_for_runtime(&advanced, "agent-0002", "other-runtime").into(),
+        ))
+        .await
+        .unwrap();
+    let wrong_runtime = next_acip_json(&mut socket).await;
+    assert_eq!(wrong_runtime["status"], "rejected");
+    assert_eq!(wrong_runtime["reason"], "signed_identity_carrier_mismatch");
+    assert_eq!(wrong_runtime["sequence_reserved"], false);
+    socket
+        .send(Message::Binary(
+            legacy_signed_agent_carrier(&advanced, "agent-0002").into(),
+        ))
+        .await
+        .unwrap();
+    let legacy_secure = next_acip_json(&mut socket).await;
+    assert_eq!(legacy_secure["status"], "rejected");
+    assert_eq!(legacy_secure["reason"], "secure_carrier_v1_required");
+    assert_eq!(legacy_secure["sequence_reserved"], false);
     socket
         .send(Message::Binary(
             signed_agent_carrier(&advanced, "agent-0002").into(),

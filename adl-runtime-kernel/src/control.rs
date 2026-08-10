@@ -30,12 +30,12 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
-    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest,
-    CommunicationSigningIdentity, ComponentId, DomainResult, DomainWork, IngressError,
-    KernelControl, KernelExit, LifecycleState, LiveContinuity, ObservabilityHealth, RunningState,
-    RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig, SignedIdentityMessage,
-    WeatherHealthReport, ACIP_IDENTITY_MESSAGE_SCHEMA, ACIP_WEBSOCKET_SCHEMA,
-    LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
+    decode_acip_envelope, decode_strict_acip_envelope, BootstrapEvent, CanonicalIngress,
+    CheckpointManifest, ClockAuthority, CommunicationSigningIdentity, ComponentId, DomainResult,
+    DomainWork, IngressError, KernelControl, KernelExit, LifecycleState, LiveContinuity,
+    ObservabilityHealth, RunningState, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
+    SignedIdentityMessage, WeatherHealthReport, ACIP_IDENTITY_MESSAGE_SCHEMA,
+    ACIP_WEBSOCKET_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -57,6 +57,7 @@ pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
 pub const OBSERVATORY_WS_LAYER8_INTENT_SCHEMA: &str = "adl.runtime_v3.observatory_layer8_intent.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
+const MAX_INTEROPERABLE_SEQUENCE: u64 = 9_007_199_254_740_991;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
@@ -331,6 +332,7 @@ struct AcipSequenceReservation {
 
 pub struct ControlService<C> {
     instance_id: String,
+    incarnation_id: String,
     polis_name: Mutex<String>,
     recorder: RuntimeRecorder,
     lifecycle: C,
@@ -408,6 +410,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let observatory_allowed_origins = observatory_allowed_origins.into_iter().collect();
         Self {
             instance_id,
+            incarnation_id: uuid::Uuid::new_v4().simple().to_string(),
             polis_name: Mutex::new("Unconfigured Polis".to_owned()),
             recorder,
             lifecycle,
@@ -466,14 +469,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .recorder
             .qualified_time_now_unix_millis()
             .ok_or(ControlError::Internal)?;
-        let sequence = self
-            .layer8_sequence
-            .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |current| {
-                Some(current.saturating_add(1).max(now))
-            })
-            .unwrap_or(0)
-            .saturating_add(1)
-            .max(now);
+        let sequence = self.allocate_layer8_sequence(now)?;
         let nonce = intent.causation_id.clone();
         let mut message = SignedIdentityMessage {
             schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
@@ -514,16 +510,36 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             }))
             .map_err(|error| ControlError::Encoding(error.to_string()))?,
         };
-        let command = SignedControlCommand::sign(
-            work_id,
-            intent.correlation_id,
-            self.instance_id.clone(),
-            "layer8-operator",
-            ControlAction::Submit { work },
-            signer.signing_key_id.clone(),
-            &signer.signing_key,
-        )?;
-        self.execute(command).await
+        let addressable_agents = self
+            .agent_population
+            .clone()
+            .with_runtime_snapshot(&self.recorder.snapshot());
+        validate_layer8_recipient(&work, &addressable_agents, &intent.correlation_id)?;
+        let result = self
+            .canonical_ingress
+            .as_ref()
+            .ok_or(ControlError::AdmissionClosed)?
+            .submit(work, intent.correlation_id.clone())
+            .await
+            .map_err(|error| match error {
+                IngressError::Invalid | IngressError::UnsupportedKind => {
+                    ControlError::InvalidBounds
+                }
+                IngressError::Conflict => ControlError::IdempotencyConflict,
+                IngressError::Saturated => ControlError::Backpressure,
+                IngressError::Closed => ControlError::AdmissionClosed,
+                IngressError::ExecutionFailed | IngressError::DrainTimeout => {
+                    ControlError::Internal
+                }
+            })?;
+        Ok(ControlResponse {
+            schema: CONTROL_RESPONSE_SCHEMA.to_owned(),
+            command_id: work_id,
+            correlation_id: intent.correlation_id,
+            outcome: ControlOutcome::Submitted {
+                work_result: result,
+            },
+        })
     }
 
     fn set_api_policy(&self, policy: ControlApiPolicy) {
@@ -541,8 +557,26 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
+        let restored_sequence = ingress
+            .snapshot()
+            .communication_sequences
+            .get("layer8-operator")
+            .copied()
+            .unwrap_or(0);
+        self.layer8_sequence
+            .fetch_max(restored_sequence, Ordering::SeqCst);
         self.canonical_ingress = Some(ingress);
         self
+    }
+
+    fn allocate_layer8_sequence(&self, qualified_now: u64) -> Result<u64, ControlError> {
+        self.layer8_sequence
+            .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |current| {
+                next_layer8_sequence(current, qualified_now)
+            })
+            .ok()
+            .and_then(|current| next_layer8_sequence(current, qualified_now))
+            .ok_or(ControlError::Internal)
     }
 
     pub fn initialize_observability(
@@ -761,6 +795,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         };
         let secure_route = matches!(envelope.route.as_str(), "agent" | "shepherd");
         let secure_message = if secure_route {
+            if decode_strict_acip_envelope(payload).is_err() {
+                return serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "message_id": envelope.message_id,
+                    "reason": "secure_carrier_v1_required",
+                    "sequence_reserved": false
+                });
+            }
             let message =
                 match serde_json::from_str::<SignedIdentityMessage>(&envelope.payload_json) {
                     Ok(message) => message,
@@ -791,6 +834,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 || envelope.causation_id != message.causation_id
                 || envelope.monotonic_sequence != message.monotonic_sequence
                 || envelope.replay_id != expected_replay_id
+                || envelope.runtime_id != self.instance_id
             {
                 return serde_json::json!({
                     "schema": ACIP_WEBSOCKET_SCHEMA,
@@ -898,6 +942,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub fn observatory_feed(&self) -> ObservatoryFeed {
+        let captured_at_unix_millis = self.recorder.qualified_time_now_unix_millis();
         let snapshot = self.recorder.snapshot();
         let agents = self
             .agent_population
@@ -911,15 +956,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .weather_stale_after_millis
             .lock()
             .expect("weather staleness mutex poisoned");
-        let now = now_unix_millis();
         let weather_freshness = weather.as_ref().map(|weather| {
             let observed_at_unix_millis = weather.observed_at_unix_millis;
-            let age_millis = now.saturating_sub(observed_at_unix_millis);
+            let age_millis = captured_at_unix_millis
+                .map(|now| now.saturating_sub(observed_at_unix_millis))
+                .unwrap_or(u64::MAX);
             ObservatoryWeatherFreshness {
                 observed_at_unix_millis,
                 age_millis,
                 stale_after_millis,
-                stale: age_millis > stale_after_millis,
+                stale: captured_at_unix_millis.is_none() || age_millis > stale_after_millis,
             }
         });
         ObservatoryFeed {
@@ -931,7 +977,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .expect("Polis name mutex poisoned")
                 .clone(),
             runtime_instance_id: self.instance_id.clone(),
+            runtime_incarnation_id: self.incarnation_id.clone(),
             runtime_process_id: std::process::id(),
+            captured_at_unix_millis,
             default_runtime_changed: false,
             runtime_selection: "runtime_v3_explicit_opt_in".to_owned(),
             control: ObservatoryControlFeed {
@@ -989,6 +1037,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let mut degraded_reasons = Vec::new();
         if !feed.health.observability_ready {
             degraded_reasons.push("observability_not_ready".to_owned());
+        }
+        if matches!(feed.health.snapshot.clock, ClockAuthority::Degraded { .. }) {
+            degraded_reasons.push("trusted_time_unavailable".to_owned());
         }
         if weather_stale {
             degraded_reasons.push("weather_stale".to_owned());
@@ -1225,6 +1276,13 @@ pub struct ObservatoryHealthFeed {
     pub observability_ready: bool,
 }
 
+fn next_layer8_sequence(current: u64, qualified_now: u64) -> Option<u64> {
+    current
+        .checked_add(1)
+        .map(|next| next.max(qualified_now))
+        .filter(|next| *next <= MAX_INTEROPERABLE_SEQUENCE)
+}
+
 fn validate_layer8_recipient(
     work: &DomainWork,
     agents: &AgentPopulationFeed,
@@ -1396,7 +1454,9 @@ pub struct ObservatoryFeed {
     pub source_revision: String,
     pub polis_name: String,
     pub runtime_instance_id: String,
+    pub runtime_incarnation_id: String,
     pub runtime_process_id: u32,
+    pub captured_at_unix_millis: Option<u64>,
     pub default_runtime_changed: bool,
     pub runtime_selection: String,
     pub control: ObservatoryControlFeed,
@@ -1807,14 +1867,23 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     if let Ok(intent) = serde_json::from_str::<ObservatoryWsLayer8Intent>(&payload) {
                         let correlation_id = is_correlation_id(&intent.correlation_id)
                             .then(|| intent.correlation_id.clone());
-                        if bearer_token.is_none() {
+                        let token_was_present = bearer_token.is_some();
+                        let authorized = bearer_token.as_deref().is_some_and(|token| {
+                            service.observatory_token_authorized(token)
+                        });
+                        if !authorized {
+                            bearer_token = None;
                             let rejected = ObservatoryWsControlResult {
                                 schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
                                 status: "rejected",
                                 command_id: None,
                                 correlation_id,
                                 response: None,
-                                error: Some("write_authentication_required"),
+                                error: Some(if token_was_present {
+                                    "credential_revoked"
+                                } else {
+                                    "write_authentication_required"
+                                }),
                             };
                             let Ok(payload) = serde_json::to_string(&rejected) else {
                                 break;
@@ -2298,4 +2367,45 @@ pub enum ControlApiError {
     Tls(String),
     #[error("control API server failed: {0}")]
     Serve(String),
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::IngressSnapshot;
+
+    struct NoopLifecycle;
+
+    #[async_trait]
+    impl LifecycleControl for NoopLifecycle {
+        async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
+            Ok(KernelExit::Clean)
+        }
+    }
+
+    #[test]
+    fn restored_layer8_watermark_advances_when_qualified_time_moves_backward() {
+        let recorder = RuntimeRecorder::new(4);
+        let ingress = CanonicalIngress::new(1, recorder.clone(), BTreeMap::new());
+        ingress.restore(IngressSnapshot {
+            communication_sequences: BTreeMap::from([("layer8-operator".to_owned(), 9_876)]),
+            ..IngressSnapshot::default()
+        });
+        let service = ControlService::new(
+            "runtime-sequence-test",
+            recorder,
+            NoopLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            4,
+        )
+        .with_canonical_ingress(ingress);
+
+        assert_eq!(service.allocate_layer8_sequence(100).unwrap(), 9_877);
+        assert_eq!(service.allocate_layer8_sequence(99).unwrap(), 9_878);
+    }
+
+    #[test]
+    fn layer8_sequence_exhaustion_fails_closed_without_reuse() {
+        assert_eq!(next_layer8_sequence(MAX_INTEROPERABLE_SEQUENCE, 1), None);
+    }
 }

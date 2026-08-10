@@ -103,6 +103,17 @@ pub fn encode_acip_envelope(
 }
 
 pub fn decode_acip_envelope(bytes: &[u8]) -> Result<AcipEnvelope, String> {
+    decode_acip_envelope_with_legacy_policy(bytes, true)
+}
+
+pub fn decode_strict_acip_envelope(bytes: &[u8]) -> Result<AcipEnvelope, String> {
+    decode_acip_envelope_with_legacy_policy(bytes, false)
+}
+
+fn decode_acip_envelope_with_legacy_policy(
+    bytes: &[u8],
+    normalize_legacy: bool,
+) -> Result<AcipEnvelope, String> {
     if bytes.is_empty() {
         return Err("protobuf envelope must not be empty".to_owned());
     }
@@ -111,7 +122,9 @@ pub fn decode_acip_envelope(bytes: &[u8]) -> Result<AcipEnvelope, String> {
     }
     let mut envelope = AcipEnvelope::decode(bytes)
         .map_err(|error| format!("malformed protobuf envelope: {error}"))?;
-    normalize_legacy_v1_envelope(&mut envelope);
+    if normalize_legacy {
+        normalize_legacy_v1_envelope(&mut envelope);
+    }
     validate(&envelope)?;
     Ok(envelope)
 }

@@ -68,7 +68,9 @@ const observatoryFeed = {
   source_revision: "0".repeat(40),
   polis_name: "Konishi",
   runtime_instance_id: "runtime-v3-test",
+  runtime_incarnation_id: "a".repeat(32),
   runtime_process_id: 12345,
+  captured_at_unix_millis: 1785778500000,
   runtime_selection: "runtime_v3_explicit_opt_in",
   control: {
     port: 20997,
@@ -209,6 +211,10 @@ assert.throws(
   /configured Runtime instance HTTPS hostname/
 );
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
+const qualifiedCaptureSnapshot = api.runtimeV3SnapshotFromFeed(observatoryFeed, readiness);
+assert.equal(qualifiedCaptureSnapshot.fetchedAt, "2026-08-03T17:35:00.000Z");
+assert.equal(qualifiedCaptureSnapshot.capturedAtUnixMillis, 1785778500000);
+assert.equal(qualifiedCaptureSnapshot.status.runtime_incarnation_id, "a".repeat(32));
 assert.equal(api.classifyRuntimeV3Failure(new Error("backpressure")).state, "backpressure");
 assert.equal(api.classifyRuntimeV3Failure(new Error("unsupported Runtime v3 observatory schema")).state, "incompatible");
 assert.equal(api.classifyRuntimeV3Failure(new Error("403 origin denied")).state, "denied");
@@ -274,6 +280,30 @@ assert.throws(
   }),
   /stream cursor gap after 13/
 );
+
+const incarnationCursor = api.createRuntimeV3StreamCursor();
+incarnationCursor.accept({
+  status: {
+    runtime_id: "runtime-v3-test",
+    runtime_process_id: 12345,
+    runtime_incarnation_id: "a".repeat(32)
+  },
+  events: { events: [{ sequence: 90, event: "old-process-event" }] }
+});
+const restartedSnapshot = incarnationCursor.accept({
+  status: {
+    runtime_id: "runtime-v3-test",
+    runtime_process_id: 12345,
+    runtime_incarnation_id: "b".repeat(32)
+  },
+  events: { events: [{ sequence: 0, event: "new-process-bootstrap" }] }
+});
+assert.deepEqual(
+  restartedSnapshot.events.events.map((event) => event.sequence),
+  [0],
+  "a changed incarnation must reset only the event cursor even when the PID is reused"
+);
+assert.equal(restartedSnapshot.stream_cursor.runtime_incarnation_id, "b".repeat(32));
 
 assert.equal(typeof api.buildSignedLayer8MessageCommand, "undefined");
 const goldenUnsigned = { ...identityGolden.message, signature: "" };

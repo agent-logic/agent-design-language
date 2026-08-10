@@ -14,7 +14,7 @@ use adl_runtime_kernel::{
     LifecycleControl, OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory,
     RuntimeRecorder, SignedControlCommand, TrustedControlKey, ACIP_WEBSOCKET_SCHEMA,
     OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-    OBSERVATORY_WS_PATH,
+    OBSERVATORY_WS_LAYER8_INTENT_SCHEMA, OBSERVATORY_WS_PATH,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -715,6 +715,39 @@ async fn observatory_websocket_revokes_an_authenticated_session_after_rotation()
     assert_eq!(revoked["error"], "credential_revoked");
     let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
     assert_eq!(feed["runtime_instance_id"], "instance-ws");
+    server.abort();
+}
+
+#[tokio::test]
+async fn observatory_websocket_revalidates_layer8_intent_authority_immediately() {
+    let token = "test-observatory-websocket-token-0011";
+    let service = service(token);
+    let accepted_before = service.ingress.snapshot().accepted_through;
+    let (address, connector, server) = websocket_server(service.clone()).await;
+    let mut socket = connect_authenticated(address, connector, token).await;
+    service
+        .service
+        .set_observatory_bearer_token("rotated-observatory-websocket-token-0012")
+        .unwrap();
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_LAYER8_INTENT_SCHEMA,
+                "recipient_id": "shepherd",
+                "correlation_id": "1234567890abcdef1234567890abcdef",
+                "causation_id": "1234567890abcdef1234567890abcdef",
+                "content": "This message must not dispatch after credential rotation."
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+
+    let revoked = next_json_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(revoked["status"], "rejected");
+    assert_eq!(revoked["error"], "credential_revoked");
+    assert_eq!(service.ingress.snapshot().accepted_through, accepted_before);
     server.abort();
 }
 

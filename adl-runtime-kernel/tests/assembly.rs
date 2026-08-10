@@ -1096,7 +1096,7 @@ async fn canonical_ingress_dispatches_real_agent_work() {
 }
 
 #[tokio::test]
-async fn unavailable_sntp_does_not_block_kernel_startup_or_erase_bootstrap_time() {
+async fn unavailable_sntp_does_not_block_kernel_startup_and_fails_time_closed() {
     let recorder = RuntimeRecorder::new(128);
     let root = TempDir::new().unwrap();
     let mut live_bindings = bindings(recorder.clone(), root.path());
@@ -1114,8 +1114,9 @@ async fn unavailable_sntp_does_not_block_kernel_startup_or_erase_bootstrap_time(
 
     assert!(matches!(
         recorder.snapshot().clock,
-        ClockAuthority::Authoritative { source, .. } if source == "host_system_clock"
+        ClockAuthority::Degraded { .. }
     ));
+    assert_eq!(recorder.qualified_time_now_unix_millis(), None);
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         adl_runtime_kernel::KernelExit::Clean

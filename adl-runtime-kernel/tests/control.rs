@@ -1342,7 +1342,40 @@ async fn readiness_fails_closed_before_first_weather_sample() {
     assert!(report
         .degraded_reasons
         .contains(&"weather_stale".to_owned()));
+    assert!(report
+        .degraded_reasons
+        .contains(&"trusted_time_unavailable".to_owned()));
     assert!(report.weather_freshness.is_none());
+}
+
+#[test]
+fn runtime_incarnation_changes_between_process_services_while_instance_identity_stays_stable() {
+    let key = SigningKey::from_bytes(&[32; 32]);
+    let first = ControlService::new(
+        "stable-runtime-instance",
+        RuntimeRecorder::new(4),
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+    )
+    .observatory_feed();
+    let second = ControlService::new(
+        "stable-runtime-instance",
+        RuntimeRecorder::new(4),
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+    )
+    .observatory_feed();
+
+    assert_eq!(first.runtime_instance_id, second.runtime_instance_id);
+    assert_eq!(first.runtime_process_id, second.runtime_process_id);
+    assert_ne!(first.runtime_incarnation_id, second.runtime_incarnation_id);
+    assert_eq!(first.captured_at_unix_millis, None);
 }
 
 #[tokio::test]
