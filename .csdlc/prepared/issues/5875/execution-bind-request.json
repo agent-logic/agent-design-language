@@ -1,0 +1,7 @@
+{
+  "issue": 5875,
+  "base_branch": "codex/5875-migration-preparation",
+  "branch": "codex/5875-migration-state-machine",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5875-migration",
+  "code_repository": "agent-logic/agent-design-language"
+}

@@ -1,0 +1,21 @@
+{
+  "issue": 5875,
+  "card": "spp",
+  "expected_generation": 14,
+  "expected_digest": "e48c056df4941456e7ff63154ec5a1d9a689aa276e22e0333f2d3de358cd577e",
+  "actor": "codex:5875-readiness-preparation",
+  "reason": "Make durability, atomicity, bounds, authority, and exact-proof obligations explicit without inventing predecessor API shapes.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Only adl-runtime/src/distributed/migration.rs and adl-runtime/tests/distributed_migration.rs are mutable; module registration remains owned by #5878",
+      "Source authority remains valid through exact target validation; fencing consumes current merged authority input, and activation is limited to the exact validated target afterward",
+      "Every accepted transition and its audit state are persisted atomically before phase advancement becomes observable",
+      "Restart recovers the last committed transition and fails closed on durable corruption or ambiguous authority",
+      "Active migrations, retained transition history, manifest and snapshot bytes, identifiers, timeouts, retries, and evidence payloads are hard bounded with checked arithmetic",
+      "Only exact idempotent retries are accepted; out-of-order, stale, replayed, mismatched, wrong-domain, unauthorized, incomplete, corrupt, or resource-exhausted input is rejected",
+      "Exact source, command, nonzero test, artifact, machine-derived negative-case, runner, receipt, and independent-review evidence remains digest bound"
+    ]
+  }
+}

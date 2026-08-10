@@ -1,0 +1,23 @@
+{
+  "issue": 5875,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "e06d0fc32af6a9f4040668c6db22e9f9d1c1427f5ecbccfe1a7e6c1a8ba1577b",
+  "actor": "codex:5875-readiness-preparation",
+  "reason": "Replace generic and pre-creation stops with exact serial dependency, interface, collision, durability, and post-implementation proof gates.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Corrective issue #5909 PR #120 is not merged or its exact merge revision is not ancestral to the selected execution base",
+      "Issue #5870 is not closed through a merged PR or its exact merge revision is not ancestral to the selected execution base",
+      "Issue #5873 or #5874 is not closed through a merged PR or either exact merge revision is not ancestral to the selected execution base",
+      "The merged lease, fencing, placement, or snapshot-catalog source does not expose sufficient verified and bounded input behavior without inventing interfaces or widening the two owned paths",
+      "Either exact owned path is already present in or collides with another live issue worktree",
+      "Atomic durable transition recovery, bounded state, source retention before fence, or non-authoritative ambiguity after fence cannot be proved within issue scope",
+      "After implementation the distributed_migration target is absent, selects zero tests, or any required positive, interruption, negative, receipt, or review proof fails",
+      "Module registration, product scope, dependency ownership, interface authority, or rollback authority must widen beyond issue #5875"
+    ]
+  },
+  "fail_after_backup": false
+}
