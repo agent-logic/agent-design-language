@@ -16,7 +16,7 @@ Implement and prove the deterministic WP-08 birth decision, including complete d
 
 ## Plan
 
-Revision 30
+Revision 31
 
 ## Steps
 
@@ -28,7 +28,7 @@ Revision 30
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -37,7 +37,7 @@ Revision 30
       "AC-1",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -46,7 +46,7 @@ Revision 30
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -89,7 +89,7 @@ Revision 30
 
 .csdlc/prepared/issues/5825/design.md
 
-Digest: f04080d6b3bc8bc4d9c062333476ab8d4a44b464205d149c001a48c317361621
+Digest: 9c839d6a89c75ecf5e3b5d8932f6e99669a5c91d3062802fcc0f610f5f244ecb
 
 ## Diagram
 

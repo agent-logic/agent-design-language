@@ -1,0 +1,16 @@
+[
+  "process_startup",
+  "ordinary_task_execution",
+  "snapshot_creation",
+  "wake_or_resume",
+  "restore_from_checkpoint",
+  "test_environment_admission",
+  "copied_state",
+  "named_test_fixture",
+  "dormant_rehydration",
+  "simulation_run",
+  "in_transit_migration",
+  "forced_suspension",
+  "shutdown_and_restart",
+  "provisional_citizen_record"
+]

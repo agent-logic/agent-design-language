@@ -4,8 +4,8 @@
 
 - Feature Name: First True Godel-Agent Birthday
 - Milestone Target: `v0.92`
-- Status: planned
-- Related issues: `#3377`, `#3434`
+- Status: birthday decision contract implemented; birth event not claimed
+- Related issues: `#3377`, `#3434`, `#5825`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Template Rules
@@ -15,7 +15,10 @@ claim that the first birthday has happened.
 
 ## Status
 
-Forward-planning feature contract for `v0.92`.
+The deterministic WP-08 birthday decision and its fail-closed negative matrix
+are implemented by `#5825`. This establishes the decision boundary only. It
+does not claim that a birth has occurred, that downstream Birthday evidence is
+complete, or that public launch is ready.
 
 Related readiness issue: `#3377`.
 
@@ -47,6 +50,14 @@ The birthday record should cite stable name, identity root, continuity,
 memory grounding, capability envelope, ACP profile, witnesses, receipt, and
 inherited moral context.
 
+The executable decision contract is
+`adl-runtime-kernel/src/birthday.rs`. It accepts only the versioned
+`adl.birthday.candidate.v1` shape, requires reviewer-visible digest-bound
+references for every named evidence surface, requires identity continuity over
+at least two bounded cycles, and emits sorted typed rejection reasons. Packet
+digests use canonical JSON and SHA-256 so evidence ordering cannot change the
+decision.
+
 ## Execution Flow
 
 1. Reject not-a-birthday cases.
@@ -72,9 +83,13 @@ fail closed.
 
 ## Validation
 
-Validation should include valid birthday fixtures, negative fixtures, review
-packet checks, claim-boundary scans, and a publication-gate check that rejects
-final launch copy until #4762 accepted witness/receipt proof is cited.
+The `birthday` integration-test target includes one complete candidate plus
+table-driven lifecycle-lookalike, missing-evidence, integrity, privacy, path,
+ACP-label, and public-claim boundary fixtures. Native macOS and Linux jobs must
+run that exact non-empty target at candidate HEAD and retain digest-bound,
+semantically equivalent receipts before the implementation is publication
+ready. Final launch copy remains blocked until #4762 accepted witness/receipt
+proof is cited.
 
 ## Source Inputs
 
@@ -100,7 +115,7 @@ This feature should establish:
 
 ## Acceptance Criteria
 
-- Birthday contract and negative cases exist.
+- Birthday contract and negative cases exist. (Implemented by `#5825`.)
 - Valid birthday packet requires all named evidence surfaces.
 - Startup, wake, snapshot, admission, and copied state are rejected as birth.
 - Review packet and receipt are inspectable.
@@ -126,6 +141,8 @@ milestones can deepen migration and cross-polis continuity.
 
 This feature is the symbolic center of v0.92, but it must remain engineering
 evidence first.
+
+`birth_event_status: not_claimed`
 
 ## Non-goals
 
