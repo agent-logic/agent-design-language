@@ -1,0 +1,22 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+────────────
+ Nextest run ID 26b3cffe-dc58-4853-9a4d-9649d7e698cd with nextest profile: default
+    Starting 16 tests across 1 binary
+        PASS [   0.010s] ( 1/16) adl-runtime::distributed_failure_detection policy_and_probe_shape_are_hard_bounded
+        PASS [   0.013s] ( 2/16) adl-runtime::distributed_failure_detection forged_unenrolled_and_nonmember_reports_fail_closed
+        PASS [   0.013s] ( 3/16) adl-runtime::distributed_failure_detection deterministic_event_projection_is_stable_and_redacted
+        PASS [   0.013s] ( 4/16) adl-runtime::distributed_failure_detection historical_key_is_rejected_when_new_generation_is_current_before_first_observation
+        PASS [   0.013s] ( 5/16) adl-runtime::distributed_failure_detection active_flapping_is_preserved_in_read_only_projection
+        PASS [   0.013s] ( 6/16) adl-runtime::distributed_failure_detection replay_is_scoped_to_enrolled_identity_generation
+        PASS [   0.013s] ( 7/16) adl-runtime::distributed_failure_detection event_identity_is_separated_across_trust_domains
+        PASS [   0.013s] ( 8/16) adl-runtime::distributed_failure_detection repeated_state_changes_are_bounded_as_flapping
+        PASS [   0.013s] ( 9/16) adl-runtime::distributed_failure_detection recovery_requires_two_authenticated_direct_confirmations
+        PASS [   0.013s] (10/16) adl-runtime::distributed_failure_detection correlated_unreachable_quorum_marks_unavailable
+        PASS [   0.014s] (11/16) adl-runtime::distributed_failure_detection node_and_observer_bounds_reject_without_partial_mutation
+        PASS [   0.014s] (12/16) adl-runtime::distributed_failure_detection remote_reachable_quorum_distinguishes_local_partition
+        PASS [   0.017s] (13/16) adl-runtime::distributed_failure_detection machine_derived_negative_case_evidence
+        PASS [   0.010s] (14/16) adl-runtime::distributed_failure_detection replay_wrong_domain_epoch_and_stale_probes_fail_closed
+        PASS [   0.008s] (15/16) adl-runtime::distributed_failure_detection silence_becomes_suspect_without_granting_authority
+        PASS [   0.167s] (16/16) adl-runtime::distributed_failure_detection identity_rotation_replaces_bounded_replay_state
+────────────
+     Summary [   0.168s] 16 tests run: 16 passed, 0 skipped

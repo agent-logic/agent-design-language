@@ -7,7 +7,7 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 0
+    "generation": 35
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "v092-sprint-package",
-          "proof_role": "Sprint membership, packet completeness, child authority boundaries, and review-ready coordination truth",
+          "lane": "v092-sprint5-readiness",
+          "proof_role": "Prove current Sprint 5 membership, five-child operative closeout scope, bind-safe child contracts, dependency gates, publication boundaries, umbrella ownership, and digest-bound live GitHub provenance.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -25,25 +25,25 @@
             "AC-4",
             "AC-5"
           ],
-          "deterministic": true,
+          "deterministic": false,
           "resource_profile": "small",
           "budget_seconds": 300,
           "budget_tokens": 3000,
           "argv": [
             "ruby",
-            ".csdlc/prepared/issues/5817/validate-v092-package.rb"
+            ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb"
           ],
           "parallel_group": "v092-docs",
-          "defer_reason": null
+          "defer_reason": "The contract checks are deterministic over retained inputs, but snapshot freshness depends on wall-clock time and observed GitHub state."
         }
       ],
       "planned_validation_seconds": 3600,
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on overlapping ownership, unmet serial gates, missing child readiness, or unsupported completion claims.",
       "design_ref": ".csdlc/prepared/issues/5854/design.md",
-      "design_digest": "3a0febc8c51927d94207ad4a06ae4bc10ab3d3ac9e726eece2fce9c4263323d3",
+      "design_digest": "a0a6e1b058b5e13de3776447dc39c940a3bf51a0d1b80b51e31fa1fbeb16a477",
       "diagram_ref": ".csdlc/prepared/issues/5854/diagram.mmd",
-      "diagram_digest": "3aa3d305ede97572d5144451f5a22e0d0521938ac1cedce3bbab87ab21308a6b"
+      "diagram_digest": "18ce9d40dd473f07a2fee4d52ebcdeae0635b197e62c970ec5d507c77ca279d8"
     }
   }
 }

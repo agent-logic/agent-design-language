@@ -30,6 +30,8 @@ A row-level map from accepted v0.92 artifacts to allowed v0.93 use, redacted pro
 - WP-19 owns the evidence map and ADR planning update
 - v0.93 owns citizenship, standing, rights, duties, and governance implementation
 - WP-23/WP-30 own final milestone handoff after quality and ceremony
+- Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
+- Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
 
 ## Assumptions
 

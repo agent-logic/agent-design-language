@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
     "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -33,7 +33,7 @@
             "--positive"
           ],
           "parallel_group": "proof-index",
-          "defer_reason": null
+          "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
         },
         {
           "lane": "wp20-coverage-negative",
@@ -52,7 +52,7 @@
             "--negative"
           ],
           "parallel_group": "proof-index",
-          "defer_reason": null
+          "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
         },
         {
           "lane": "wp20-diff-review",

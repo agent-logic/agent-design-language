@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,9 @@
       "authority_boundary": [
         "WP-17 owns documentation-only movement semantics and explicit non-goals",
         "WP-04 retains Runtime, storage, networking, and distributed polis infrastructure",
-        "v0.93 retains citizenship, standing, rights, and governance decisions"
+        "v0.93 retains citizenship, standing, rights, and governance decisions",
+        "Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.",
+        "Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution."
       ],
       "initial_assumptions": [
         "#5826 supplies stable-name and identity-root truth",

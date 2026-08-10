@@ -1,0 +1,54 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5868,
+  "wp": "WP-04.06",
+  "source_revision": "b98da2f21283961284039c921c8457e8d45d3430",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/failure_detection.rs",
+    "adl-runtime/tests/distributed_failure_detection.rs"
+  ],
+  "source_artifacts": [
+    { "path": "adl-runtime/src/distributed/failure_detection.rs", "sha256": "02751a9cb9529d71a9b466119e629724239010dce55aaccd46a15712654c49ef" },
+    { "path": "adl-runtime/tests/distributed_failure_detection.rs", "sha256": "6328d42dce3cdd35c46fe7365ab4b0f9ea141e3cc09f2d80233891e7f36aa4d5" }
+  ],
+  "commands": [
+    {
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_failure_detection", "--no-tests=fail"],
+      "exit_code": 0,
+      "selected_tests": 16,
+      "started_at": "2026-08-10T01:56:47.826268Z",
+      "finished_at": "2026-08-10T01:56:48.744695Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "fc883de3-a200-41fc-815f-dcda755c7f48",
+        "os": "macos",
+        "arch": "arm64",
+        "identity_sha256": "dd52cb1b9ee224d3dfe760b66b47b29285ad078fd726352e3807dbee35776463"
+      },
+      "stdout_path": ".csdlc/evidence/5868/operator-repair-v3/exact-child-tests.log",
+      "stdout_sha256": "34a7b4d14788dc40550ab0d9387298579b9a164dce18e5f2e032d08182863347",
+      "stderr_path": ".csdlc/evidence/5868/operator-repair-v3/exact-child-tests.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    { "case": "forged_signature", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "evidence_sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" },
+    { "case": "historical_identity_generation", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "evidence_sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" },
+    { "case": "current_generation_replay", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "evidence_sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" },
+    { "case": "wrong_trust_domain", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "evidence_sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" },
+    { "case": "stale_probe", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "evidence_sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" },
+    { "case": "node_capacity", "result": "denied", "evidence_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "evidence_sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" },
+    { "case": "authority_escalation", "result": "denied", "evidence_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "evidence_sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" }
+  ],
+  "artifacts": [
+    { "path": ".csdlc/evidence/5868/operator-repair-v3/exact-child-tests.log", "sha256": "34a7b4d14788dc40550ab0d9387298579b9a164dce18e5f2e032d08182863347" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v3/strict-focused-clippy.log", "sha256": "5604fc8f0c276397a55db4bd7008236712075c0ad37d3b3a0f1fe362b1b85a36" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.json", "sha256": "eb5ce16c870ade05f3ab127af770b629e5eb4a75a40c6cedacfc3777c1ef197d" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v3/validation-manifest.json", "sha256": "d25c32b79cf7e2ca41f8f16d58663d95a024c8ef1be043472c7f3969e746a410" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v3/runner.txt", "sha256": "dd52cb1b9ee224d3dfe760b66b47b29285ad078fd726352e3807dbee35776463" },
+    { "path": ".csdlc/evidence/5868/operator-repair/producer-failure.json", "sha256": "ef0767832d75fce1231fa4009d348425954bd84e37a8cf675d224def5019425b" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v2/superseded-evidence.json", "sha256": "9de094984589df10bb977148dd30a1f87c90d1f33f65bdb5f57c31638fc2c58b" }
+  ],
+  "native_receipts": []
+}

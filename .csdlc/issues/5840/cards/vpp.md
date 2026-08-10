@@ -41,7 +41,7 @@ Diagram: .csdlc/prepared/issues/5840/diagram.mmd
       "--positive"
     ],
     "parallel_group": "proof-index",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp20-coverage-negative",
@@ -60,7 +60,7 @@ Diagram: .csdlc/prepared/issues/5840/diagram.mmd
       "--negative"
     ],
     "parallel_group": "proof-index",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp20-diff-review",

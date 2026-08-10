@@ -71,10 +71,11 @@ pub use lifecycle::{bind_issue, initialize_native_json, BindRequest, BindResult}
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, migrate_bound_topology,
     migrate_bound_topology_with_crash_for_test, migrate_bound_topology_with_failure_for_test,
-    write_compatibility_view_atomic, BoundTopologyDisposition, BoundTopologyMigrationItem,
-    BoundTopologyMigrationReport, BoundTopologyMigrationRequest, BoundTopologyMigrationResult,
-    ClosedIssueEvidence, ImportReport, LegacyImportRequest, MigrationIssueState, NormalizedOutcome,
-    ShadowComparison,
+    migrate_code_repository, write_compatibility_view_atomic, BoundTopologyDisposition,
+    BoundTopologyMigrationItem, BoundTopologyMigrationReport, BoundTopologyMigrationRequest,
+    BoundTopologyMigrationResult, ClosedIssueEvidence, CodeRepositoryMigrationEvidence,
+    CodeRepositoryMigrationReport, CodeRepositoryMigrationRequest, ImportReport,
+    LegacyImportRequest, MigrationIssueState, NormalizedOutcome, ShadowComparison,
 };
 pub use model::{
     DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence, NonSubstantiveProof,

@@ -2,6 +2,7 @@
 
 pub mod acip;
 pub mod assembly;
+pub mod birthday;
 pub mod channel;
 pub mod cognition;
 pub mod component;
@@ -31,6 +32,7 @@ pub mod weather;
 
 pub use acip::*;
 pub use assembly::*;
+pub use birthday::*;
 pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, SendError};
 pub use cognition::*;
 pub use component::{

@@ -81,7 +81,8 @@ producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
 expected_test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all"
+  "--test", test_target, "--no-tests=fail", "--status-level", "all",
+  "--message-format", "libtest-json-plus"
 ]
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
@@ -113,7 +114,11 @@ receipts.each do |receipt|
   fail!("#{platform}: producer argv mismatch") unless receipt["producer_argv"] == expected_producer_argv
   fail!("#{platform}: test argv mismatch") unless receipt["test_argv"] == expected_test_argv
   expected_semantic_path = ".csdlc/evidence/#{issue}/native-platform/#{platform}-semantic.json"
-  fail!("#{platform}: semantic-output environment mismatch") unless receipt["test_environment"] == { "ADL_NATIVE_SEMANTIC_OUTPUT" => expected_semantic_path }
+  expected_test_environment = {
+    "ADL_NATIVE_SEMANTIC_OUTPUT" => expected_semantic_path,
+    "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
+  }
+  fail!("#{platform}: semantic-output environment mismatch") unless receipt["test_environment"] == expected_test_environment
   fail!("#{platform}: status must be passed") unless receipt["status"] == "passed"
 
   runner = receipt["runner"]
@@ -122,14 +127,21 @@ receipts.each do |receipt|
   %w[repository workflow_ref run_id run_attempt job os architecture].each do |field|
     fail!("#{platform}: runner #{field} is required") unless runner[field].is_a?(String) && !runner[field].strip.empty?
   end
-  fail!("#{platform}: repository mismatch") unless runner["repository"] == "danielbaustin/agent-design-language"
+  fail!("#{platform}: repository mismatch") unless runner["repository"] == "agent-logic/agent-design-language"
   fail!("#{platform}: native OS mismatch") unless runner["os"] == (platform == "macos" ? "Darwin" : "Linux")
 
   command_output = repo_file(root, receipt["command_output_path"], "#{platform} command output", required_prefix: evidence_prefix)
   fail!("#{platform}: command output digest mismatch") unless required_hex.match?(receipt["command_output_sha256"].to_s) && receipt["command_output_sha256"] == Digest::SHA256.file(command_output).hexdigest
-  summary = command_output.read.match(/(?<count>\d+)\s+tests?\s+run:/)
-  fail!("#{platform}: command output lacks a positive test summary") unless summary && summary[:count].to_i.positive?
-  fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == summary[:count].to_i
+  suites = []
+  command_output.each_line do |line|
+    parsed = JSON.parse(line)
+    suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
+  rescue JSON::ParserError
+    next
+  end
+  suite = suites.last
+  fail!("#{platform}: command output lacks a passing structured suite summary") unless suite && suite["passed"].to_i.positive? && suite["failed"].to_i.zero?
+  fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
 
   semantic_output = repo_file(root, receipt["semantic_output_path"], "#{platform} semantic output", required_prefix: evidence_prefix)
   fail!("#{platform}: semantic path mismatch") unless receipt["semantic_output_path"] == expected_semantic_path

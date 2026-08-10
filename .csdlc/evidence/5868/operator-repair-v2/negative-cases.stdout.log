@@ -1,0 +1,12 @@
+
+running 1 test
+ADL_NEGATIVE_CASE_V1 {"case":"forged_signature","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"historical_identity_generation","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"current_generation_replay","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"wrong_trust_domain","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"stale_probe","result":"rejected"}
+ADL_NEGATIVE_CASE_V1 {"case":"node_capacity","result":"denied"}
+ADL_NEGATIVE_CASE_V1 {"case":"authority_escalation","result":"denied"}
+test machine_derived_negative_case_evidence ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.00s

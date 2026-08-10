@@ -5,6 +5,12 @@ use std::process::Command;
 use crate::error::{ErrorCode, Result, V2Error};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct GitHubRemoteRepositories {
+    pub fetch: Vec<String>,
+    pub push: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GitOutput {
     pub stdout: String,
     pub stderr: String,
@@ -52,6 +58,79 @@ pub fn github_remote_repository(root: &Path, remote: &str) -> Result<Option<Stri
     Ok(parse_github_repository(
         String::from_utf8_lossy(&output.stdout).trim(),
     ))
+}
+
+pub fn github_remote_repositories(
+    root: &Path,
+    remote: &str,
+) -> Result<Option<GitHubRemoteRepositories>> {
+    let Some(fetch) = github_remote_repository_urls(root, remote, false)? else {
+        return Ok(None);
+    };
+    let push = github_remote_repository_urls(root, remote, true)?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "origin push identity is unavailable",
+        )
+    })?;
+    if fetch.is_empty() || push.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "origin fetch and push identities are required",
+        ));
+    }
+    Ok(Some(GitHubRemoteRepositories { fetch, push }))
+}
+
+fn github_remote_repository_urls(
+    root: &Path,
+    remote: &str,
+    push: bool,
+) -> Result<Option<Vec<String>>> {
+    let mut command = Command::new("git");
+    command.current_dir(root).args(["remote", "get-url"]);
+    if push {
+        command.arg("--push");
+    }
+    let output = command
+        .arg("--all")
+        .arg(remote)
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        if stderr.contains("No such remote") {
+            return Ok(None);
+        }
+        return Err(V2Error::new(ErrorCode::GitFailure, stderr.trim()));
+    }
+    let repositories = String::from_utf8_lossy(&output.stdout)
+        .lines()
+        .map(|url| {
+            parse_github_repository(url).ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!("{remote} contains a non-GitHub repository URL"),
+                )
+            })
+        })
+        .collect::<Result<Vec<_>>>()?;
+    Ok(Some(repositories))
+}
+
+pub fn worktree_is_clean(root: &Path) -> Result<bool> {
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["status", "--porcelain=v1", "--untracked-files=all"])
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !output.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            String::from_utf8_lossy(&output.stderr).trim(),
+        ));
+    }
+    Ok(output.stdout.is_empty())
 }
 
 fn parse_github_repository(value: &str) -> Option<String> {

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "214155e897000ad4b833bad3f333909588f03629f193b672e5967e62750e2c3f",
   "phase": "initialized",
-  "generation": 30,
-  "digest": "749f96fed08a5a6dd7452686d3ffb45280109327f9feb2d5a6695d5fa602b31e",
+  "generation": 34,
+  "digest": "15c1eabf5f3eab3c5143a03538a7082e9f7e264faaa862be6e89992bcedfa00b",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4a831aa317b061291b2c2a109da92fad3b012d937c3f0cdf5c93307b22aaf192",
-      "rendered_digest": "ea219f7c2ad80c54b6605416ea548e9b49b04d6c32541d319e432c11d059af2b",
-      "ast_digest": "1827286784c167e52045948c1bf934beb8f503390bd63db8c0e36c14d61f85ed"
+      "values_digest": "c7d4f19adf9be70f35cfd17ffa5531ff99258557e11058c802718754f4b3b137",
+      "rendered_digest": "98b91e73cbc55145e52d5996b6a1dff499805e23a39be6827e4d14bb01ae0f59",
+      "ast_digest": "f5a8d8b3f95bdf6ad727783faa7e2a36f70c322317e400ed605c3031df82710a"
     },
     "stp": {
-      "values_digest": "9b04bf02e7f2ad3a7e97afd5a1437248ef7702b97a0ca2fa7d488ab4b367918f",
-      "rendered_digest": "f0b6964543326e05101ccee0dc23b87ce811677d4afe89496f3659f755a53661",
-      "ast_digest": "01b29ffad3b615d0a5896e1bfc9c5b9838177b2567f8bc64bb996cfb3fb85bff"
+      "values_digest": "d2d78f5fe044cfadda47ca051d1c1a537f2692b197d7d003a81da38c9b01026a",
+      "rendered_digest": "2baed4c263203eb2e7785025590b0aa94cf8064218eec14f4dfecd9792f1d6a6",
+      "ast_digest": "a72a66ab38532060b526774a11801e0ebe6defc280d10f227ae7cafc06862341"
     },
     "spp": {
-      "values_digest": "1ea1f57a6db75e642549e3a60e1dbd21b7329d2d7e81e9b576389b14ff16e2c2",
-      "rendered_digest": "496857b314a2fa95d193187537c39906913d746dc8a23cd86ca9aca78191725c",
-      "ast_digest": "629dbeb264b5aad190ae839b61a26bf450204ef0d9c611393a1cd4fd1e2ce025"
+      "values_digest": "9f4fc4e2bcbcf9a814c69b5bf798478932fde906edb8430e6b9355bca6b293cd",
+      "rendered_digest": "65a79cc4e1ae75dec47380dedf2849fa4aca3a9878c4f484463d63cda10afe72",
+      "ast_digest": "b519c1b85c7b34f4a829ef7d3fa222af8ec79b1f0174b74971d053601165d334"
     },
     "vpp": {
-      "values_digest": "31ee87e96459ba709cd7738146204cbbfdd277ad72d687099e4391ad4f1d09ec",
-      "rendered_digest": "dcf5fa300522d7f5456f6fff5261cd402539f9dd43696288df2604d0f82559ac",
-      "ast_digest": "e3156e7f3ab4a49bca087fbb7c4d8fe09a1386c9e2b7c4610ec3ae10c37768a5"
+      "values_digest": "5a086f4c9f28a2860e0f4efeb941125fc5a4e27f5015d1abd4560116026f9829",
+      "rendered_digest": "7f4bb34fc4719f658233595ea4e950a22281cc29fac1e19f8d60b3d431e51922",
+      "ast_digest": "d848349e5dae1707a9bbcfa56572e4d99ebe25b4ca2c7d26931ad359d4993081"
     },
     "srp": {
-      "values_digest": "1779d3ede893b38da1bca917e4cf742bfe59eda74f29481cbf61dfaf258fd43c",
+      "values_digest": "785074aabe54b1e4999de866dc13c62e94f105a4d280716c8f220e63a595a085",
       "rendered_digest": "1e6d53b2e231ae2f279f48d790af5e861b2807fbb318f4b9a19cc0bd380a722b",
       "ast_digest": "91b972a8c1f18ad574dd5032aacc36b7082d8968e8dc8f3447db572cb244e415"
     },
     "sor": {
-      "values_digest": "749a5da146b73099d078f619339294acec9b1b844cd10bfa5b10a3539287dc8f",
+      "values_digest": "67ca7744c8755dee87df597f261702590a0245fc19a2027a6866834ff15e4edb",
       "rendered_digest": "c886fa8cc0dc871153357eeadecb0ec0b390f00b0f9f25ca704f77b11809c88d",
       "ast_digest": "6aea77a4c7a369e4f16374211b9c606951de5f21c57053c28d811be4a2ffe185"
     }
@@ -385,6 +385,34 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 45,
+      "generation": 31,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Normalize Sprint 5 child ownership to safe repository paths and explicit deferred validators.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\",\"docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\",\".csdlc/evidence/5835\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 32,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Declare every issue-owned future validator as an explicit execution deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Field-level continuity-transfer matrix\",\"Cross-polis continuity design note with WP-04 boundary\",\"Updated v0.93 handoff inputs\",\"Copied-state, ambiguity, redaction, and forbidden-claim validation evidence\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 33,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Defer unavailable issue-owned validators only until the bound child implements them; preserve fail-closed proof semantics.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp17-doc-contract\",\"proof_role\":\"Prove all transfer rows, source paths, and WP-04/v0.93 boundaries are complete.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"],\"parallel_group\":\"docs\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp17-negative-semantics\",\"proof_role\":\"Reject copied/conflicting state, raw-memory transfer, and production/governance overclaim.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\",\"--negative\"],\"parallel_group\":\"docs\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp17-diff-review\",\"proof_role\":\"Prove clean patch structure before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 34,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Replace sunset claim language with current typed C-SDLC v2 Git topology authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-17 owns documentation-only movement semantics and explicit non-goals\",\"WP-04 retains Runtime, storage, networking, and distributed polis infrastructure\",\"v0.93 retains citizenship, standing, rights, and governance decisions\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\"]}"
     }
   ]
 }

@@ -47,7 +47,7 @@ Diagram: .csdlc/prepared/issues/5868/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": null
+    "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/failure_detection.rs\"] harness in adl-runtime/tests/distributed_failure_detection.rs routes adl-runtime/src/distributed/failure_detection.rs until issue #5878 owns module registration."
   },
   {
     "lane": "exact-revision-proof-receipt",

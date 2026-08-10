@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof",
     "slug": "v0-92-wp-18b-provider-neutral-multi-agent-proof",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -34,7 +34,7 @@
             "2"
           ],
           "parallel_group": "provider-live",
-          "defer_reason": null
+          "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
         },
         {
           "lane": "wp18b-no-substitution",
@@ -53,7 +53,7 @@
             "--negative"
           ],
           "parallel_group": "provider-negative",
-          "defer_reason": null
+          "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
         },
         {
           "lane": "wp18b-redaction-platform",
@@ -73,7 +73,7 @@
             "--platform-contract"
           ],
           "parallel_group": "platform",
-          "defer_reason": null
+          "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
         }
       ],
       "planned_validation_seconds": 3600,

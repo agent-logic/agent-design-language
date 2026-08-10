@@ -23,6 +23,8 @@ Add the WP-18 demo runner, validator, fixtures, artifacts, D1-D6 matrix updates,
 - Reconciled PUBLIC_LAUNCH_COPY_v0.92.md
 - Reconciled REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md
 - Machine-readable publication-gate checklist and fail-closed validator
+- adl/tools/test_v092_first_birthday_demo.sh
+- .csdlc/evidence/5836/validate-publication-gate.rb
 
 ## Acceptance
 

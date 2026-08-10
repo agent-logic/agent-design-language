@@ -26,7 +26,9 @@ A versioned birth-decision contract, valid fixture, disqualifying fixtures, vali
 - adl-runtime-kernel/tests/fixtures/birthday/
 - docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
 - .csdlc/prepared/issues/5825/validate-native-receipts.rb
+- .csdlc/prepared/issues/5825/produce-native-receipt.rb
 - .csdlc/evidence/5825/
+- .github/workflows/wp08-native-birthday.yml
 
 ## Authority
 

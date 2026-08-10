@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5868,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5868-failure-detection",
+  "title": "feat(runtime): add authenticated bounded failure detection",
+  "body": "Closes danielbaustin/agent-design-language#5868\n\nImplements authenticated, deterministic, advisory-only distributed failure detection in the two issue-owned runtime paths. Probe acceptance now atomically attests the authority's current observer identity generation and rejects retained historical generations regardless of arrival order while preserving one bounded replay record per observer/subject.\n\nValidation:\n- exact distributed_failure_detection nextest lane PASS (16/16, 0 skipped)\n- strict focused Clippy with warnings denied PASS\n- seven negative cases derived from executed Rust test output with exact case/result/digest binding\n- v3 receipt PASS at source dd181c09fc2291c9475d19c9c0284287bf62444f and evidence d856f547ac8ed1779630f79e28cb7cd7701ea0fd\n- independent exact-head security/correctness review PASS with no findings\n\nModule registration remains deferred to #5878 by design.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:2d7e4cf4a18c99628e104009adf4b2d35ef90468:8a5bd5f1faf8474638da0db987cbf11bedad7e82bcd2ed7132ffcae9de18f120",
+  "commit_sha": "2d7e4cf4a18c99628e104009adf4b2d35ef90468"
+}
