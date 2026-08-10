@@ -328,6 +328,50 @@ fn verified_tokens_cannot_be_reordered_duplicated_or_relabelled() {
     assert!(build_birthday_continuity(&relabelled_identity, &verified)
         .unwrap_err()
         .contains(&ContinuityRejection::IdentityRecordMismatch));
+
+    let (_, identity_evidence) = verified_identity_fixture();
+    let replacement_authority = CheckpointAuthority::from_bytes("runtime-continuity", &[29; 32]);
+    let replacement_policy = BirthdayContinuityAuthorityPolicy::establish(
+        BTreeMap::from([(
+            "runtime-continuity".to_owned(),
+            replacement_authority.verifying_key(),
+        )]),
+        "runtime-continuity",
+        &identity,
+        &identity_evidence,
+        H,
+        "b".repeat(64),
+        LIVE_KERNEL_CHECKPOINT_SCHEMA,
+        1,
+    )
+    .unwrap();
+    let replacement_first = signed_manifest(
+        &replacement_authority,
+        &identity,
+        1,
+        &identity.continuity.head_sha256,
+    );
+    let replacement_second = signed_manifest(
+        &replacement_authority,
+        &identity,
+        2,
+        &replacement_first.integrity,
+    );
+    let replacement_verified = verify(
+        &replacement_policy,
+        &identity,
+        &[replacement_first, replacement_second],
+    )
+    .unwrap();
+    let spliced = vec![verified[0].clone(), replacement_verified[1].clone()];
+    let errors = build_birthday_continuity(&identity, &spliced).unwrap_err();
+    assert!(errors.contains(&ContinuityRejection::AuthorityContextMismatch { generation: 2 }));
+    let valid_record = build_birthday_continuity(&identity, &verified).unwrap();
+    assert!(
+        validate_birthday_continuity_record(&valid_record, &identity, &spliced)
+            .unwrap_err()
+            .contains(&ContinuityRejection::AuthorityContextMismatch { generation: 2 })
+    );
 }
 
 #[test]

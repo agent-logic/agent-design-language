@@ -14,6 +14,8 @@ use crate::{
 
 pub const BIRTHDAY_CONTINUITY_RECORD_SCHEMA: &str = "adl.birthday.continuity_record.v1";
 const BIRTHDAY_CONTINUITY_HEAD_SCHEMA: &str = "adl.birthday.continuity_head.v1";
+const BIRTHDAY_CONTINUITY_AUTHORITY_CONTEXT_SCHEMA: &str =
+    "adl.birthday.continuity_authority_context.v1";
 
 /// Runtime-provisioned authority for accepting Birthday continuity evidence.
 ///
@@ -33,6 +35,7 @@ pub struct BirthdayContinuityAuthorityPolicy {
     config_hash: String,
     service_schema: String,
     first_generation: u64,
+    authority_context_sha256: String,
 }
 
 impl BirthdayContinuityAuthorityPolicy {
@@ -48,7 +51,7 @@ impl BirthdayContinuityAuthorityPolicy {
         service_schema: impl Into<String>,
         first_generation: u64,
     ) -> Result<Self, ContinuityRejection> {
-        let policy = Self {
+        let mut policy = Self {
             trusted_keys,
             signing_key_id: signing_key_id.into(),
             identity_record_sha256: identity.record_sha256.clone(),
@@ -56,6 +59,7 @@ impl BirthdayContinuityAuthorityPolicy {
             config_hash: config_hash.into(),
             service_schema: service_schema.into(),
             first_generation,
+            authority_context_sha256: String::new(),
         };
         if !policy.trusted_keys.contains_key(&policy.signing_key_id)
             || validate_birthday_identity_record(identity, identity_evidence).is_err()
@@ -66,6 +70,8 @@ impl BirthdayContinuityAuthorityPolicy {
         {
             return Err(ContinuityRejection::PolicyInvalid);
         }
+        policy.authority_context_sha256 =
+            authority_context_digest(&policy).map_err(|_| ContinuityRejection::PolicyInvalid)?;
         Ok(policy)
     }
 }
@@ -86,6 +92,7 @@ pub struct VerifiedBirthdayCycle {
     integrity: String,
     signing_key_id: String,
     reference: IdentityReference,
+    authority_context_sha256: String,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -112,6 +119,7 @@ pub struct BirthdayContinuityRecord {
     pub identity_root: String,
     pub identity_record_sha256: String,
     pub predecessor_head: String,
+    pub authority_context_sha256: String,
     pub cycles: Vec<BirthdayCycleRecord>,
     pub grade: ContinuityGrade,
     pub continuity_head: String,
@@ -123,6 +131,7 @@ pub struct BirthdayContinuityRecord {
 pub enum ContinuityRejection {
     PolicyInvalid,
     IdentityRecordMismatch,
+    AuthorityContextMismatch { generation: u64 },
     InsufficientCycles,
     UnsupportedCheckpointSchema { generation: u64 },
     WrongSigner { generation: u64 },
@@ -242,6 +251,7 @@ pub fn verify_birthday_cycles(
             signing_key_id: manifest.signing_key_id.clone(),
             reference: canonical_cycle_reference(manifest)
                 .map_err(|_| vec![ContinuityRejection::EncodingFailure])?,
+            authority_context_sha256: policy.authority_context_sha256.clone(),
         });
         match expected_generation.checked_add(1) {
             Some(next) => expected_generation = next,
@@ -268,6 +278,12 @@ pub fn build_birthday_continuity(
         return Err(vec![ContinuityRejection::InsufficientCycles]);
     }
     let mut rejections = BTreeSet::new();
+    let authority_context_sha256 = cycles[0].authority_context_sha256.clone();
+    if !is_sha256(&authority_context_sha256) {
+        rejections.insert(ContinuityRejection::AuthorityContextMismatch {
+            generation: cycles[0].generation,
+        });
+    }
     let mut expected_generation = cycles[0].generation;
     let mut expected_predecessor = identity.continuity.head_sha256.as_str();
     let mut previous_accepted = 0;
@@ -277,6 +293,11 @@ pub fn build_birthday_continuity(
             || cycle.identity_record_sha256 != identity.record_sha256
         {
             rejections.insert(ContinuityRejection::IdentityRecordMismatch);
+        }
+        if cycle.authority_context_sha256 != authority_context_sha256 {
+            rejections.insert(ContinuityRejection::AuthorityContextMismatch {
+                generation: cycle.generation,
+            });
         }
         if cycle.generation != expected_generation {
             rejections.insert(ContinuityRejection::WrongGeneration {
@@ -327,6 +348,7 @@ pub fn build_birthday_continuity(
         &identity.identity_root,
         &identity.record_sha256,
         &identity.continuity.head_sha256,
+        &authority_context_sha256,
         &cycle_records,
     )
     .map_err(|_| vec![ContinuityRejection::EncodingFailure])?;
@@ -335,6 +357,7 @@ pub fn build_birthday_continuity(
         identity_root: identity.identity_root.clone(),
         identity_record_sha256: identity.record_sha256.clone(),
         predecessor_head: identity.continuity.head_sha256.clone(),
+        authority_context_sha256,
         cycles: cycle_records,
         grade: ContinuityGrade::EvidenceBacked,
         continuity_head,
@@ -385,6 +408,7 @@ fn derive_continuity_head(
     identity_root: &str,
     identity_record_sha256: &str,
     predecessor_head: &str,
+    authority_context_sha256: &str,
     cycles: &[BirthdayCycleRecord],
 ) -> Result<String, serde_json::Error> {
     #[derive(Serialize)]
@@ -393,6 +417,7 @@ fn derive_continuity_head(
         identity_root: &'a str,
         identity_record_sha256: &'a str,
         predecessor_head: &'a str,
+        authority_context_sha256: &'a str,
         cycles: &'a [BirthdayCycleRecord],
     }
     digest_jcs(&HeadMaterial {
@@ -400,6 +425,7 @@ fn derive_continuity_head(
         identity_root,
         identity_record_sha256,
         predecessor_head,
+        authority_context_sha256,
         cycles,
     })
 }
@@ -443,6 +469,47 @@ fn canonical_cycle_reference(
         id: format!("bounded-cycle-{}", manifest.generation),
         path: format!("evidence/continuity/cycle-{}.json", manifest.generation),
         sha256: manifest_digest(manifest)?,
+    })
+}
+
+fn authority_context_digest(
+    policy: &BirthdayContinuityAuthorityPolicy,
+) -> Result<String, serde_json::Error> {
+    #[derive(Serialize)]
+    struct TrustedKey<'a> {
+        key_id: &'a str,
+        ed25519_public_key: String,
+    }
+
+    #[derive(Serialize)]
+    struct AuthorityContext<'a> {
+        schema: &'static str,
+        trusted_keys: Vec<TrustedKey<'a>>,
+        signing_key_id: &'a str,
+        identity_record_sha256: &'a str,
+        topology_hash: &'a str,
+        config_hash: &'a str,
+        service_schema: &'a str,
+        first_generation: u64,
+    }
+
+    let trusted_keys = policy
+        .trusted_keys
+        .iter()
+        .map(|(key_id, key)| TrustedKey {
+            key_id,
+            ed25519_public_key: hex::encode(key.as_bytes()),
+        })
+        .collect();
+    digest_jcs(&AuthorityContext {
+        schema: BIRTHDAY_CONTINUITY_AUTHORITY_CONTEXT_SCHEMA,
+        trusted_keys,
+        signing_key_id: &policy.signing_key_id,
+        identity_record_sha256: &policy.identity_record_sha256,
+        topology_hash: &policy.topology_hash,
+        config_hash: &policy.config_hash,
+        service_schema: &policy.service_schema,
+        first_generation: policy.first_generation,
     })
 }
 
