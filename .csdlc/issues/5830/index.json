@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
   "phase": "implemented",
-  "generation": 64,
-  "digest": "de5d05c328af1fbae838c18434bbedd1b66fc75587ffb7b0d8d4b2ec92c126e5",
+  "generation": 65,
+  "digest": "2ac588790a734150fdc61d3d8a0732dffc74be039ab2c5e0eda587ff1b1a0581",
   "branch": "codex/5830-cognitive-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
   "review_assignment": {
@@ -41,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "95f3818255a8c23d0a13f3340259755594f3b11a30c918da9faa547456f6a9da",
+      "values_digest": "e86edaa8733fadba5ee2aad362ccbadbcdf2cee939764baaf29e2b40f04af8e3",
       "rendered_digest": "f693dd3d3ed034e3ffbaff3348331e986f4f5cc9ae5fce166acecd4f23918b30",
       "ast_digest": "3fd878ebfe7fe0596cb55885b39a06ca0f8b84f87406ef8b718c3f501ba84fa1"
     },
     "stp": {
-      "values_digest": "af4134a6bbdb8f18959265a2c84140c8b57bf19161cb2a66235be805b5e89c30",
+      "values_digest": "6a9bcaa116f65c86eca97391548bd117a59cbba716a51c83fe886b78da926f79",
       "rendered_digest": "1df53b8620d6186ab4e2530b690ebb3a8ce38acf08e9d190d31d106be4961954",
       "ast_digest": "26506815840b2c74b6f70a43469e76cfde25a47d07a10b3a03f8154ada085cca"
     },
     "spp": {
-      "values_digest": "530cc89c5abdf38e74c86ea8b1853c6baaf98522f67fbaf5cdeb75506aa1722e",
+      "values_digest": "1e325a62d57af33ae4aa73af7fae5a788e446ac626130f8255bd0f4fb757854a",
       "rendered_digest": "5bbd53c6a215939a4937497b080b9c646899130418cec7b7282b256e27749b71",
       "ast_digest": "0e2ffb11caab962358ccb56c06c6802a83520137f00390a8dee1f3099e882b31"
     },
     "vpp": {
-      "values_digest": "a775682932320144fc4146a0fdfb351c3c0dd61111e8fcb79509adb8fb7724f9",
+      "values_digest": "6b275bac61ae76f1bf21404cee504fd3f835a027714b98dad1f96882ed5d82a3",
       "rendered_digest": "f2b7aa172dc011f3fcb386b2e080ba95808c637689a34456e44b11a2f9f94bcd",
       "ast_digest": "c2739d91f782cbe4088e1dc4a498bf6ca3ef11244caf5dcb0bc956251d42991c"
     },
     "srp": {
-      "values_digest": "a6509e89efec71accdf43572feafbf05ce413390bda95923aa6fb5dc73b7313d",
+      "values_digest": "48b5b113e23617152b9352caa035e88e39282f1f9a04fca0cb95ab1487c17fc3",
       "rendered_digest": "198c4ef75b9b942c991a32bb021029f29b3b91d79fae89322ef5911b670a498a",
       "ast_digest": "edad3dc4f197b4f0139c930237b5c4e0ec54aa9d8d9410f0ea6e1c4791e8dd25"
     },
     "sor": {
-      "values_digest": "a49e7a4b6cf67171c7785dd03e549cddafbadd84ce7f8753b91ba490ffd780c8",
-      "rendered_digest": "10e65d5ea4b89d620e90e9d0eaccfd1f6c71eb5a16b9245b0b5d369475815b68",
-      "ast_digest": "2cda734988c4d4eedddf02d1a2a79aa4dde79c5a1810630ff662edf247f4d213"
+      "values_digest": "a7ddeac3acbdec36cab7d745b9ae32184a87b77e6f412a5e1fcfc46283d76641",
+      "rendered_digest": "3405c0c1d2e8153e3a5ec537549c03f4d2dab6b73fe43afee701aca795051ebb",
+      "ast_digest": "1f946cbc1038262fc880bd8cb852a49e1046adb249117b38bbb0ba1a50e98df2"
     }
   },
   "transitions": [
@@ -745,6 +745,13 @@
       "actor": "codex:5830-cognitive-profile",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 65,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Refresh exact WP-13 execution truth after resolving all three pre-publication review findings; native Linux/macOS evidence remains deferred to the PR workflow.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-profile contract, including authority-bound evidence, canonical revision lineage, governed nonclaims, unique profile fields, bounded projections, privacy, and explicit unsupported-inference boundaries; mandatory native proof remains deferred to CI.\",\"changes\":[\"Added full cognitive-profile construction and reconstruction validation over birthday, identity, continuity, and capability authorities.\",\"Bound seven evidence categories, exact revision digests, update actor and reason, predecessor lineage, privacy policy, canonical fields, and bounded internal/public projections.\",\"Rejected stale, missing, duplicate, colliding, or forbidden evidence; authority substitution; unexplained revision changes; secret and host paths; private-evidence public derivation; and unsupported status or personhood inferences.\",\"Rejected ungoverned extra nonclaims, recomputed complete predecessor profile and public-projection integrity, bound predecessor continuity and canonical history shape, and rejected case-fold duplicate field keys before revision-delta calculation.\",\"Added an exact 11-test matrix, issue-local native producer/validator, and the narrowly scoped WP-13 native workflow required by AC-8.\"],\"artifacts\":[\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/cognitive_profile.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/matrix.json\",\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".github/workflows/wp13-native-cognitive-profile.yml\",\".csdlc/evidence/5830/cognitive-profile-runtime-v3.log\",\".csdlc/evidence/5830/cognitive-profile-strict-clippy.log\",\".csdlc/evidence/5830/cognitive-profile-native-scripts.log\",\".csdlc/evidence/5830/review-fix-validation.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 11-test profile and all review-fix regressions at product revision 0e2f1de8766c2495db8d5433bb8d5475cfe29712.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5830/review-fix-validation.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness at the reviewed product revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5830/review-fix-validation.json\"}]}"
     }
   ]
 }

@@ -34,7 +34,7 @@ Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-prof
 - Added full cognitive-profile construction and reconstruction validation over birthday, identity, continuity, and capability authorities.
 - Bound seven evidence categories, exact revision digests, update actor and reason, predecessor lineage, privacy policy, canonical fields, and bounded internal/public projections.
 - Rejected stale, missing, duplicate, colliding, or forbidden evidence; authority substitution; unexplained revision changes; secret and host paths; private-evidence public derivation; and unsupported status or personhood inferences.
-- Rejected ungoverned extra nonclaims, recomputed complete predecessor profile and public-projection integrity, and rejected case-fold duplicate field keys before revision-delta calculation.
+- Rejected ungoverned extra nonclaims, recomputed complete predecessor profile and public-projection integrity, bound predecessor continuity and canonical history shape, and rejected case-fold duplicate field keys before revision-delta calculation.
 - Added an exact 11-test matrix, issue-local native producer/validator, and the narrowly scoped WP-13 native workflow required by AC-8.
 
 ## Validation
@@ -53,7 +53,7 @@ Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-prof
       "--status-level",
       "all"
     ],
-    "purpose": "Prove the exact 11-test profile and all three review-fix regressions at product revision 4bb049b83d69937c041b9fd380320d20e425aa9c.",
+    "purpose": "Prove the exact 11-test profile and all review-fix regressions at product revision 0e2f1de8766c2495db8d5433bb8d5475cfe29712.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5830/review-fix-validation.json"
   },
