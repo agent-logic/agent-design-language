@@ -7,7 +7,7 @@
     "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
     "slug": "github-route-guardrail",
     "version": "v0.92",
-    "generation": 8
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -24,8 +24,7 @@
             "AC-3",
             "AC-4",
             "AC-5",
-            "AC-6",
-            "AC-7"
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "small",
@@ -40,6 +39,25 @@
             "gate_github_route_policy"
           ],
           "parallel_group": "focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-default-token-issue-read",
+          "proof_role": "Reconcile issue #101 and its creation operation marker through csdlc-github-issue using the approved default token resolver without persisting token contents.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue",
+            "run",
+            "--request",
+            "/Volumes/FastWork/csdlc-101-default-token-read.json"
+          ],
+          "parallel_group": "remote-read",
           "defer_reason": null
         },
         {

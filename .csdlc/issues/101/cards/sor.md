@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, and focused resolver regression proof.
+Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, typed default-token issue reconciliation, and focused resolver regression proof.
 
 ## Artifacts
 
@@ -55,6 +55,17 @@ Implemented a fail-closed GitHub lifecycle route guardrail with synchronized roo
     "purpose": "Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/101/github-route-policy-review-fix.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue",
+      "run",
+      "--request",
+      "/Volumes/FastWork/csdlc-101-default-token-read.json"
+    ],
+    "purpose": "Read back issue #101 and reconcile its typed creation operation marker through the approved default token resolver without retaining token contents.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/101/typed-default-token-issue-read.json"
   }
 ]
 

@@ -32,8 +32,7 @@ Diagram: .csdlc/prepared/issues/101/diagram.mmd
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6",
-      "AC-7"
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -48,6 +47,25 @@ Diagram: .csdlc/prepared/issues/101/diagram.mmd
       "gate_github_route_policy"
     ],
     "parallel_group": "focused",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-default-token-issue-read",
+    "proof_role": "Reconcile issue #101 and its creation operation marker through csdlc-github-issue using the approved default token resolver without persisting token contents.",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue",
+      "run",
+      "--request",
+      "/Volumes/FastWork/csdlc-101-default-token-read.json"
+    ],
+    "parallel_group": "remote-read",
     "defer_reason": null
   },
   {
@@ -91,6 +109,7 @@ Tokens: 10000
 ## Commands
 
 - `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy`
+- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue run --request /Volumes/FastWork/csdlc-101-default-token-read.json`
 - `git diff --check 0608764d902b02eb2965002168ae210059866e8e 33fad0d3bc70c8701a811670d8254bdef374289b`
 
 ## Failure Semantics

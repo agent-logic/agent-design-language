@@ -7,7 +7,7 @@
     "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
     "slug": "github-route-guardrail",
     "version": "v0.92",
-    "generation": 8
+    "generation": 10
   },
   "status": "ready",
   "content": {
