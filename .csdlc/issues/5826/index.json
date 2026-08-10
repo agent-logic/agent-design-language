@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
   "phase": "implemented",
-  "generation": 79,
-  "digest": "acd8196bd9302e2e0885d2a9b721400a5812dfac606ea8aa5296e218deff6a4e",
+  "generation": 80,
+  "digest": "5b670d55e266963a1cfe6ba206bb4ce421b42e17f0c81b4f4c04fa4b33aa0614",
   "branch": "codex/5826-birthday-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5826-birthday-identity",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b3bbd6589d6fda7ec5b824ef174cf1b8cadc8cdc0b238ef64781a963c4ad4120",
+      "values_digest": "945c564899881f42ebc38cddafe55c3d305ca7126460986153fd59e895bd8476",
       "rendered_digest": "0d826412308c3591d68a9c533993e827f94266dca00d3b32d66b704f077b05b7",
       "ast_digest": "66752074307e6db7a344c007aa92aac2596d616c2c97a5769e016465561c779d"
     },
     "stp": {
-      "values_digest": "5b039b64abd93fab9bee671febfde66861e6a4df60e7826b523b888e8b9bbd39",
+      "values_digest": "7087396148e3f15c7c41c3cc207ce16d4bc0b77f7287362663c14f4615ceff29",
       "rendered_digest": "df8eb6638d1ae3350c2c436d7e92305e01e12f9bc7907d58a9726745ce258b58",
       "ast_digest": "c4976f70872d18bb73a4f9f564d36b253ef689f9716ace7e240e55a237a56d2e"
     },
     "spp": {
-      "values_digest": "b6412a6b0d6268f6580084c2893ddd44410f73c552f6efeb7c3f8ac093494173",
+      "values_digest": "89cfcc707277f18b2e8b553055900a8fb8be2362aec90be238030f6f6cca4e60",
       "rendered_digest": "16c9073aae3b6676ea55ea9ac068a21f692c4dd8cccefabc9979d319b5d5e6fa",
       "ast_digest": "c42af2dc75f00377f7084b824e49be0be28575aa2a1fa459eaf2928a89e15531"
     },
     "vpp": {
-      "values_digest": "4564dcc8416703786f524f7751deadb6e3da0655cff026bb9f089ea59e9488b3",
+      "values_digest": "7f14083f68d2652287aafae28bdadfb2232831c2f134dcbcc16766b854529d6e",
       "rendered_digest": "95742c7226565f4b909e2f65aa8de7ece47146496be743d5b844571f8546cfc2",
       "ast_digest": "a26a420a94f238b0612ea26f57d8fcbc1ff3fb5d6ae390b8e0670cc4ba81440e"
     },
     "srp": {
-      "values_digest": "ddaba2743687301ab190019fb2e434e22c2ffb63d14d0f4f1ec1420c33e0f86d",
+      "values_digest": "5442cf9298d84d670e19f06ea2e22ab5bbd005c2f13489d20ccf2a0bd0cad4e6",
       "rendered_digest": "003914725e6dd8ad754414dd9dd3983cbf70dc07e31f361e50d76d8b13247d91",
       "ast_digest": "7281c75fa192914a204d2b5f4e012f8637f52d1b4f7990244dbce1e31b728f9c"
     },
     "sor": {
-      "values_digest": "65fe6025fef81eccc3dd0d01e9e1b7dd7a4bc26284e02fa22899597f299a0567",
-      "rendered_digest": "2b9576eb1906af31ac503dd41c9daa0356a1e1cdc08e359a4e6b260ec75d22e0",
-      "ast_digest": "f25885bc98e006d9bd0246fad85294499bca2a80ea091605def8cabb00747518"
+      "values_digest": "b2624dbd90309d4b2d43c7fb3157d87d831419104d3c4a2614ea8e7472763b2c",
+      "rendered_digest": "71550b6c156ae933faea153a8048f8d16f0394a8bb0457c498467b87d880e3a2",
+      "ast_digest": "72a3e7a90e6ab5f94c533c47e4e0d3f43c07155728c34e4cc7649c3bcf1554f4"
     }
   },
   "transitions": [
@@ -862,6 +862,13 @@
       "actor": "codex:5826-security-privacy-repair",
       "reason": "Replace the removed externally compiled test target with its crate-internal authority-test source inside the already-owned fixture directory.",
       "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826/\",\".github/workflows/wp09-native-birthday-identity.yml\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826/\",\".github/workflows/wp09-native-birthday-identity.yml\"]}"
+    },
+    {
+      "sequence": 107,
+      "generation": 80,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "Record the exact local authority-boundary repair and leave fresh native proof pending until the replacement PR head runs on macOS and Linux.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired WP-09 so external callers cannot establish self-consistent attacker trust roots: the runtime provisions an opaque BirthdayAuthorityPolicy capability internally, and construction requires canonical signed identity-memory/private-state evidence under that capability.\",\"changes\":[\"Made BirthdayAuthorityPolicy establishment crate-private while retaining the opaque policy as the runtime-provisioned capability required by evidence verification.\",\"Moved the authority proof behind the crate boundary and retained a compile-fail external policy-establishment test.\",\"Preserved signed IdentityBinding, MemoryCheckpoint, accepted PrivateStateRecord lineage, governed projection, signer/generation, tamper, raw-private, provenance, and continuity negatives.\",\"Updated native receipt production to bind the internal authority test, identity_memory.rs, private_state.rs, complete passed-test inventory, and semantic output.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_recipe.json\",\".csdlc/evidence/5826/birthday_identity-runtime-v3.log\",\".csdlc/evidence/5826/local-validation-manifest.json\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".github/workflows/wp09-native-birthday-identity.yml\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birthday_identity::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove canonical runtime authority construction and the complete fail-closed security/privacy matrix with a nonzero test count.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5826/birthday_identity-runtime-v3.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birthday_identity\"],\"purpose\":\"Prove external code cannot access the crate-private BirthdayAuthorityPolicy establishment function.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5826/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the repaired Runtime v3 authority surface is warning-free under strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5826/local-validation-manifest.json\"}]}"
     }
   ]
 }

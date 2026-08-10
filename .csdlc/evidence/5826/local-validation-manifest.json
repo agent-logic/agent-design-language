@@ -1,18 +1,19 @@
 {
   "schema": "adl.validation.local_exact_revision.v1",
   "issue": 5826,
-  "validated_revision": "80fb8836ad06b811ae76977c66150acc9d062c14",
-  "validated_tree": "1583a36fc4e67eb25c40f4f31441909b9d257900",
-  "product_revision": "80fb8836ad06b811ae76977c66150acc9d062c14",
-  "product_tree": "1583a36fc4e67eb25c40f4f31441909b9d257900",
+  "validated_revision": "e263d8aa349af8b70b2ee588386dc091d51ee359",
+  "validated_tree": "e03001c75b05dac3c5543bd8c5fb2ae0f5b4b85c",
+  "product_revision": "e263d8aa349af8b70b2ee588386dc091d51ee359",
+  "product_tree": "e03001c75b05dac3c5543bd8c5fb2ae0f5b4b85c",
   "command": [
     "cargo",
     "nextest",
     "run",
     "--manifest-path",
     "adl-runtime-kernel/Cargo.toml",
-    "--test",
-    "birthday_identity",
+    "--lib",
+    "-E",
+    "test(/^birthday_identity::authority_tests::/)",
     "--no-tests=fail",
     "--status-level",
     "all"
@@ -22,10 +23,10 @@
   "tests_passed": 7,
   "tests_failed": 0,
   "log_ref": ".csdlc/evidence/5826/birthday_identity-runtime-v3.log",
-  "log_sha256": "177c47a65a945f56738bdcfda94a3818a3b579523ce173242c4219c971db3533",
+  "log_sha256": "12033bd5629ff70ec5007d574b0b819ee063221db773e273da57d85543baadac",
   "strict_clippy": "passed",
   "format_check": "passed",
-  "authority_proof": "real signed IdentityBinding, MemoryCheckpoint, accepted PrivateStateRecord lineage, established BirthdayAuthorityPolicy, and governed projection",
+  "authority_proof": "crate-internal policy establishment, compile-fail external attacker-root boundary, real signed IdentityBinding, MemoryCheckpoint, accepted PrivateStateRecord lineage, established BirthdayAuthorityPolicy capability, and governed projection",
   "path_hygiene": "repository_relative",
   "native_portability": "required exact-head macOS/Linux producer receipts plus independent aggregate validation before review"
 }

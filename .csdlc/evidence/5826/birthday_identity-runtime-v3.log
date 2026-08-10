@@ -1,13 +1,13 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.52s
 ────────────
- Nextest run ID bb666410-3b7e-44ce-80b2-587084f0d5aa with nextest profile: default
-    Starting 7 tests across 1 binary
-        PASS [   0.009s] (1/7) adl-runtime-kernel::birthday_identity semantic_output_rejects_host_paths_and_traversal
-        PASS [   0.012s] (2/7) adl-runtime-kernel::birthday_identity rejects_invented_provenance_wrong_continuity_and_projection_substitution
-        PASS [   0.012s] (3/7) adl-runtime-kernel::birthday_identity rejects_non_origin_bases_unknown_fields_and_unsafe_paths
-        PASS [   0.012s] (4/7) adl-runtime-kernel::birthday_identity replay_order_is_deterministic_and_record_tampering_fails
-        PASS [   0.012s] (5/7) adl-runtime-kernel::birthday_identity builds_from_signed_lineage_and_governed_projection
-        PASS [   0.013s] (6/7) adl-runtime-kernel::birthday_identity rejects_projection_tamper_and_raw_private_mislabelling
-        PASS [   0.015s] (7/7) adl-runtime-kernel::birthday_identity rejects_forged_mismatched_and_stale_authorities
+ Nextest run ID e762874f-2def-4c57-9de4-d7c84fca9ff9 with nextest profile: default
+    Starting 7 tests across 1 binary (11 tests skipped by exact filter)
+        PASS [   0.009s] (1/7) adl-runtime-kernel birthday_identity::authority_tests::semantic_output_rejects_host_paths_and_traversal
+        PASS [   0.013s] (2/7) adl-runtime-kernel birthday_identity::authority_tests::rejects_invented_provenance_wrong_continuity_and_projection_substitution
+        PASS [   0.013s] (3/7) adl-runtime-kernel birthday_identity::authority_tests::rejects_non_origin_bases_unknown_fields_and_unsafe_paths
+        PASS [   0.013s] (4/7) adl-runtime-kernel birthday_identity::authority_tests::replay_order_is_deterministic_and_record_tampering_fails
+        PASS [   0.014s] (5/7) adl-runtime-kernel birthday_identity::authority_tests::rejects_projection_tamper_and_raw_private_mislabelling
+        PASS [   0.014s] (6/7) adl-runtime-kernel birthday_identity::authority_tests::builds_from_signed_lineage_and_governed_projection
+        PASS [   0.016s] (7/7) adl-runtime-kernel birthday_identity::authority_tests::rejects_forged_mismatched_and_stale_authorities
 ────────────
-     Summary [   0.015s] 7 tests run: 7 passed, 0 skipped
+     Summary [   0.016s] 7 tests run: 7 passed, 11 skipped by exact filter
