@@ -4,13 +4,38 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b993a3096652d7703aa471c9306f5c1b266c45e2685d26577f06d7a209557a10",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "d0cd61b95a2400490bbe8adbf02401d7017e9be27f5bfc7e09783d9e412880b1",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "f57c66a2547795ed14aa8cc4ae06aa4d1805dece656c812e15aff31a300ebfa0",
   "branch": "codex/5870-fencing-single-owner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5870-fencing-single-owner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:release_review_5870",
+    "assigned_by": "codex:5870-fencing-single-owner",
+    "revision": "git-blake3:6f1b0fc823feba1dd4128ab378f85a19804a2777:9dc598b703dfb92cacc5e601216db4e0e70eefc1c54d19696472c15f6a6c56c7",
+    "scope": [
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/tests/distributed_fencing.rs",
+      ".csdlc/evidence/5870/derive-negative-cases.rb",
+      ".csdlc/prepared/issues/5870/validate-proof-receipt.rb",
+      ".csdlc/evidence/5870/remediation-v4/execution-proof.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:release_review_5870",
+    "scope": [
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/tests/distributed_fencing.rs",
+      ".csdlc/evidence/5870/derive-negative-cases.rb",
+      ".csdlc/prepared/issues/5870/validate-proof-receipt.rb",
+      ".csdlc/evidence/5870/remediation-v4/execution-proof.json"
+    ],
+    "reviewed_revision": "git-blake3:6f1b0fc823feba1dd4128ab378f85a19804a2777:9dc598b703dfb92cacc5e601216db4e0e70eefc1c54d19696472c15f6a6c56c7",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bdf33c554e34b970e5579b2f4cee79dff3fbacd689d0c6e2048190e96dea0b0a",
+      "values_digest": "158765f9de487d87d5085eb14130cc9457bc8df59ab0d6ee3c20a3191c1993e1",
       "rendered_digest": "fcea0d4c60af606026f5d30163c71d8938d35a78374a17e471f79436e0f8f681",
       "ast_digest": "93c7a04c3b73c6a5affb4fad7108d5b8458548babd7edb23866157a277769dec"
     },
     "stp": {
-      "values_digest": "b3845888d779059d4a24640120d61241f2d8f990c9a002d3a48582c807987450",
+      "values_digest": "96a057c1be0374a61e9ebc39f0dd03bbee6183c85be9a0ebc87312293c01f99f",
       "rendered_digest": "bd20e8ef6dd2dd00516fa48cc410fa1fbf96288e268401c330dd203078062028",
       "ast_digest": "a23b3f7cfab7d9e1c197ba6a21d0e69d781b9ea9a2fce0115c695ed9ad76a92f"
     },
     "spp": {
-      "values_digest": "38b43d8cfd501a43b6847457e49e67b6474e1c061caacb9a66b0b10148be9b70",
+      "values_digest": "6012f2950ae678c5ad109c56170d572bec925e6dac15ca18a263f8eeaa4dc5ed",
       "rendered_digest": "445e6c52f024661f867be3d958df571b5ea45c307b6f0775540430f55c1ee0c8",
       "ast_digest": "017c02ee7e7f91f41b582bda811df320c130eaece9c3c477e3f228ac69866041"
     },
     "vpp": {
-      "values_digest": "1a16454495e5a03b53c429725f0cfe29dd2a6e82e09d235e2dc8d19ad251ba5c",
+      "values_digest": "ea91922857ef91f0b11cce0a4885ab3e4b37dcf0c1cdb8a720b15d571b63c7d2",
       "rendered_digest": "32ed6e4c0b9f9b59089ab30cf768be5ac2b236051290d6c4c2f81950a5e26743",
       "ast_digest": "c204edc207d5d184acd8b1caa50d76a9ab676edb35a2b0cf14d9ef64509e46fc"
     },
     "srp": {
-      "values_digest": "1e42d5c1d16ff897119d40bc9d1a297cb35b1a59d71f6168fb5998043b619906",
-      "rendered_digest": "a221ecc8dec332d492b6dc996b9e040631af360c5e4a36fb0d6135d9047412ad",
-      "ast_digest": "56805114cae04014451215298d5d9e698ff096b87aaecc25ef66a1d9e411a67a"
+      "values_digest": "3ee389f667a1decfdd5ddaf63815af934a02732e1c3e47ca0bb384c3554b7aff",
+      "rendered_digest": "a86634674fe902e71ea2500eed0d6d1d440dd03111e8fcb65429a38f5aeea763",
+      "ast_digest": "abb718e0e8a63f681f4cc0dc54aba3ef639a5b7279eeef21e7bef3fdd895a8fa"
     },
     "sor": {
-      "values_digest": "1082eb1c625c95aac5f073dc23e059e6de05ed70f98d4763eaade2426a5cb838",
+      "values_digest": "8f04b2aef6d3b5bbfe150d11659a0e23605eccb581578650b3bc0f3ea3ebf5e1",
       "rendered_digest": "51e7d90cb2c1744cc175b778870b2b276d114072ff0ab78ac62de0a5743e2bf5",
       "ast_digest": "99e323f4da4b1b8593208686498c292715ec620b1aa90401de952ed95757236b"
     }
@@ -97,6 +122,13 @@
       "to": "implemented",
       "actor": "codex:5870-fencing-single-owner",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5870-fencing-single-owner",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -379,6 +411,20 @@
       "actor": "codex:5870-fencing-single-owner",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 41,
+      "generation": 23,
+      "actor": "codex:5870-fencing-single-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 24,
+      "actor": "codex:5870-fencing-single-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
