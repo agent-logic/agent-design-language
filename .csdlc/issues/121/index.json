@@ -5,10 +5,21 @@
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
   "phase": "implemented",
   "generation": 9,
-  "digest": "5355bdd8a57f7ca0707f5834bc0233f412d5fbd796b58bb80f4e25a6ff9cf746",
+  "digest": "a0ec3843072fd38a8f89348cb54fc8ec3559f3e0111d64e7bc6a8fbe590e6530",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue-121-stack-refresh-review",
+    "assigned_by": "codex:121-stack-refresh",
+    "revision": "git-blake3:1e6d7169a197bfff79c8cd0514977ecd76a28bce:6edd6bd5b3c6b6a28479d15ee475b59f6d669f25021447897fdf1a7fe8cebb9c",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "dbc1d7a91d2896838fdaafff9b0feb40d4c5cb6d0f691a6bd1699daff01612e7",
-      "rendered_digest": "1f8484cd4c7e065f65a5a544f7834ee0ac190e5734983b75e6bae136bc4980d8",
-      "ast_digest": "57f89ed9924e3742a3f26a1f510697c5bdcb8771810f4127645b62daabdcb36e"
+      "values_digest": "d4073b7bc457c05015004dd4d99b4271fbeb08de2a13bd3ad1722223cf8d94ab",
+      "rendered_digest": "fdddb384499f5506070f72c8564a05807c27366facb8744cbcac9df38d73ecb8",
+      "ast_digest": "47a4704fef99a2af581371ad46ac1b7a68ba36095bb5b576b991e8bbd8ff6600"
     },
     "sor": {
       "values_digest": "d09e6a661d69a76b9fc47e8517d9cbfadd771ab87c3b9e5c1888150fd6996c27",
@@ -231,6 +242,13 @@
       "actor": "codex:121-stack-refresh",
       "reason": "Recover stale review and publication truth before merging exact advanced parent head 309d170dc569ca43fa74ce6d73d68857ce82c994 into the child stack.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:121-stack-refresh",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
