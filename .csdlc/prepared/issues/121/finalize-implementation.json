@@ -1,0 +1,86 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 121,
+  "expected_generation": 0,
+  "expected_digest": "5e3f5849489719737963dee99260266120cd685ba906eac54aef1d749fb12f25",
+  "actor": "codex:121-quorum-fence-repair",
+  "summary": "Implemented majority-authorized next-epoch fencing with operation-sensitive possession and restart-safe portable recovery floors.",
+  "changes": [
+    "Allow majority-endorsed Fence and Revoke operations without cooperation from an unavailable old holder while retaining activation possession for holder-authorized operations.",
+    "Commit Fence at exactly the next epoch and newer applied index, retain portable recovery safety through snapshot/restore, and remove the floor only after delayed valid activation.",
+    "Prove exact 20-test behavior, strict focused Clippy, and eleven machine-derived negative cases through a digest-bound two-revision receipt."
+  ],
+  "artifacts": [
+    "adl-runtime/src/distributed/lease.rs",
+    "adl-runtime/tests/distributed_lease.rs",
+    ".csdlc/evidence/121/execution-proof.json",
+    ".csdlc/evidence/121/operator-v1/negative-cases.json"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "exact-child-tests",
+          "proof_role": "Prove quorum fencing, restart-safe recovery, strict epoch transitions, and atomic negative behavior.",
+          "purpose": "Run the exact issue-owned distributed lease target.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 8000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "child",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1800,
+          "executable": "cargo",
+          "argv": ["nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_lease", "--no-tests=fail"],
+          "evidence": {"max_log_bytes": 200000, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "strict-focused-clippy",
+          "proof_role": "Prove strict lint cleanliness for the exact distributed lease test surface.",
+          "purpose": "Run strict focused Clippy.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 4000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "child",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1800,
+          "executable": "cargo",
+          "argv": ["clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_lease", "--", "-D", "warnings"],
+          "evidence": {"max_log_bytes": 200000, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "exact-revision-proof-receipt",
+          "proof_role": "Validate exact source, nonzero tests, machine-derived negative cases, runner identity, and retained evidence artifacts.",
+          "purpose": "Validate the issue 121 two-revision proof receipt.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 3000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["exact-child-tests", "strict-focused-clippy"],
+          "parallel_group": "receipt",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 300,
+          "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/121/validate-proof-receipt.rb", ".csdlc/evidence/121/execution-proof.json"],
+          "evidence": {"max_log_bytes": 100000, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["exact-child-tests", "strict-focused-clippy", "exact-revision-proof-receipt"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 2, "cpu_units": 4, "memory_mib": 8192, "tokens": 15000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence/.csdlc/evidence/121",
+    "cancellation_file": null
+  }
+}
