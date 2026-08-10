@@ -126,7 +126,7 @@ runner_sha = sha(runner_path)
 runner = {"provider" => "local-codex", "run_id" => "5870-local-operator-v1", "os" => "macos", "arch" => "aarch64", "identity_sha256" => runner_sha}
 artifacts = [Pathname.new(__FILE__), EVIDENCE.join("run-exact-child-tests.rb"), runner_path,
   output.join("exact-child-tests.log"), output.join("exact-child-tests.stdout.log"), output.join("exact-child-tests.stderr.log"),
-  output.join("strict-focused-clippy.log"), output.join("strict-focused-clippy.stdout.log"), output.join("strict-focused-clippy.stderr.log"),
+  output.join("strict-focused-clippy.log"), output.join("strict-focused-clippy.stderr.log"),
   machine_path, output.join("negative-cases.stdout.log"), output.join("negative-cases.stderr.log"), manifest_path]
 proof = {
   "schema" => "adl.wp04.execution_proof.v3", "issue" => ISSUE, "wp" => "WP-04.08", "source_revision" => source,
@@ -137,7 +137,7 @@ proof = {
     "stdout_path" => relative(output.join("exact-child-tests.stdout.log")), "stdout_sha256" => sha(output.join("exact-child-tests.stdout.log")),
     "stderr_path" => relative(output.join("exact-child-tests.stderr.log")), "stderr_sha256" => sha(output.join("exact-child-tests.stderr.log"))},
     {"argv" => CLIPPY, "exit_code" => 0, "started_at" => clippy_start, "finished_at" => clippy_finish, "runner" => runner,
-    "stdout_path" => relative(output.join("strict-focused-clippy.stdout.log")), "stdout_sha256" => sha(output.join("strict-focused-clippy.stdout.log")),
+    "stdout_path" => relative(output.join("strict-focused-clippy.log")), "stdout_sha256" => sha(output.join("strict-focused-clippy.log")),
     "stderr_path" => relative(output.join("strict-focused-clippy.stderr.log")), "stderr_sha256" => sha(output.join("strict-focused-clippy.stderr.log"))}],
   "negative_cases" => EXPECTED.map { |name, result| {"case" => name, "result" => result, "evidence_path" => relative(machine_path), "evidence_sha256" => sha(machine_path)} },
   "artifacts" => artifacts.map { |path| {"path" => relative(path), "sha256" => sha(path)} }, "native_receipts" => []
