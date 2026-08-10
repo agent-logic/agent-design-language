@@ -6,13 +6,13 @@
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
   "phase": "implemented",
   "generation": 63,
-  "digest": "4bd8e22eb828803e5d6f17efba336383173ad9aaf5c9fc8caa22fbd9454d916c",
+  "digest": "3648e84efeade90220ff46e87a9d1534553b33c6a0a104e68a104b389b57efab",
   "branch": "codex/5830-cognitive-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
   "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "reviewer": "/root/sprint4_5857/review_5830_exact_head",
     "assigned_by": "codex:5830-cognitive-profile",
-    "revision": "git-blake3:c43b2d0d7e8948f56d3e9f22752d7605a26ec42c:7f56d1daa9cf4c63d31a3612365683440a82a14e70f9c8fe1fff07472ae508fe",
+    "revision": "git-blake3:a2bec6e799fcd16e4a163c63135874cac6ccd46f:81378bef33e40e562ec72b957d1d98fe6039eaafb2a79e7048a9469d07e2d075",
     "scope": [
       "adl-runtime-kernel/src/cognitive_profile.rs",
       "adl-runtime-kernel/src/lib.rs",
@@ -720,6 +720,13 @@
     },
     {
       "sequence": 87,
+      "generation": 63,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 88,
       "generation": 63,
       "actor": "codex:5830-cognitive-profile",
       "reason": "assign bounded exact-revision review",
