@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
-  "generation": 56,
-  "digest": "21c1fa4fc207e31fbdbd3eb5143e7681859e9494372da6ad82706f8230c8b1eb",
+  "generation": 60,
+  "digest": "96af2bea821d8fb14b458ed7c34d28f82c3a4d3d310091dab7a93bf883921ce5",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b24bfbfb153d18e4d2dfdc6d2de2311b217cd8477c3832e69c3fc2300e6c6f4d",
+      "values_digest": "4d3752c2c68a02ead1a4a4b959649c6a3161eca95a4a93231ba21c071cc98d78",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "6e42630bd8d039f3f0118c152c92d74364f828b5ad7353a9e6a26146e959bbe6",
+      "values_digest": "99088cd09b271e4506d926a2e01f5d5c6e249acb87351052351fe840277b43d2",
       "rendered_digest": "4ba4d82b147eabdf904eb7995b5458c1be0049ceca63b65b8454d66fd9358453",
       "ast_digest": "1ad097bdb44240b3d12005f3e9d222849b7b35fa19b1865020a630a1b040357f"
     },
     "spp": {
-      "values_digest": "651234f96feafd0c1f834fb9dda89309e35c0450e4a468382169f0b96ed425f1",
-      "rendered_digest": "67dd1b0ba15ec640a913eee7ba78125d8e9a43372c2f2cfbdbe4f04ce6fcc22d",
-      "ast_digest": "f9193b7c42807d8f78cf2f9ca35e9132c97db5dbf3cc9528b77ffbdd96c3fb8f"
+      "values_digest": "3d3838405fcb9411d43007dd2333275fb4a89f621668153cf8759ace026e3d15",
+      "rendered_digest": "cf0eba6c9800078a7e6bd05218c25f9dd6e00f646627710975e0f7ed4d4990ac",
+      "ast_digest": "66da938636bb1ddbc2431c34cef2eb54bb8b772c4c4450270c7df6916fb177ab"
     },
     "vpp": {
-      "values_digest": "448f2785ad3b4429b497b52fd0278ebf8ab6db630da52c5b8ed85a0ab4851ebe",
-      "rendered_digest": "d3c3d755bf9718bee42ed47a5e7fa3ea32fa467164d5ee2388dbd58769e02ac3",
-      "ast_digest": "508bd96d5bde486223a4afa74b493e9fde9fb612e7e06c3d870098129718772e"
+      "values_digest": "95224884e23c14b0c5fac8826408e76d3e34340ead8f2c822fbe6ee1d378106c",
+      "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
+      "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "72f35b3f15259ee26cd1f45b1ae1cc77ea6f0452792ab6a5f24c2402487f304d",
+      "values_digest": "b4b00d518dd1720a232de17930a6a3ff97718b01a87773e370efbe6fbbafa5a2",
       "rendered_digest": "a386a7a66824d71565a419f005749b9fb09aecb865c20be51cd73937a0f0036b",
       "ast_digest": "c653e05218569adeb17f8286178b1b2df6e1868a2d4c71939cd7a8d74d0db880"
     },
     "sor": {
-      "values_digest": "6b312a7b1458d4524afb808500e0367f8cb8de84e18fe30fd325bb5d4cc3775d",
+      "values_digest": "6c93d88273c21b9bd44c7f3ec17e76a0215a4db5b93b2909f91d8818b70c28cc",
       "rendered_digest": "880ba78cbe273c3c93f4e1bba7a404711a2d27acfd60a261ac0df06988d45cb1",
       "ast_digest": "99a5ba2368ba8320eadd2a2a8c754b958f809c7a0384ec5c1c7833c76d51b849"
     }
@@ -652,6 +652,34 @@
       "actor": "codex:5828-memory-palace",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 80,
+      "generation": 57,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Record verified terminal WP-09/WP-10 dependencies and retained ObsMem/trace authority proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 81,
+      "generation": 58,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Record completed bounded Runtime v3 Memory Palace topology implementation in exact declared files.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 82,
+      "generation": 59,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Record completed local deterministic and negative proof while native macOS/Linux portability remains pending publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 83,
+      "generation": 60,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Clear only the completed exact local Memory Palace target defer while preserving required native macOS/Linux deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"memory_palace-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"memory_palace\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5828-core\",\"defer_reason\":null},{\"lane\":\"memory-palace-obsmem-trace-binding\",\"proof_role\":\"Recompute the exact ObsMem, Runtime v3 observability/proof, fixture, output, source-SHA, argv, runner, trace, and citation bindings in the integration receipt. [preexec_rejection exit=1 diagnostic_sha256=c3ce76747b2b2ce17fa9746fb2794051041bebcd310d9f4ccc7f7a16dd8c5f6e]\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/evidence/5828/obsmem-trace-integration-receipt.json\"],\"parallel_group\":\"5828-integration\",\"defer_reason\":null},{\"lane\":\"memory_palace-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5828/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5828/native-platform/macos-semantic.json\"],\"parallel_group\":\"5828-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"memory_palace-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5828/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5828/native-platform/linux-semantic.json\"],\"parallel_group\":\"5828-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"memory_palace-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=5dff561a38429e71f769ab6ddc31cf4e13684da2496190a046598e1b3cc281db]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/evidence/5828/native-platform/macos.json\",\".csdlc/evidence/5828/native-platform/linux.json\"],\"parallel_group\":\"5828-native-verify\",\"defer_reason\":null}]}"
     }
   ]
 }
