@@ -1,0 +1,3 @@
+command=cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings
+validated_revision=abe5607ec4825e33a9a99851fbd3e40afb8f8454
+result=passed

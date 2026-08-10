@@ -10,6 +10,7 @@ require "pathname"
 require "rbconfig"
 
 ISSUE_CONFIG = {
+  144 => ["cognitive_profile", "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md"],
   5825 => ["birthday", "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"],
   5826 => ["birthday_identity", "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"],
   5827 => ["birthday_continuity", "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"],
@@ -88,7 +89,7 @@ end.parse!
 fail!("unexpected positional arguments") unless ARGV.empty?
 if options[:self_test]
   synthetic_root = Pathname.new("/Users/runner/work/agent-design-language/agent-design-language")
-  test_name = "adl-runtime-kernel::adl_runtime_kernel$cognitive_profile::authority_tests::synthetic_case"
+  test_name = "adl-runtime-kernel::cognitive_profile::authority_tests$synthetic_case"
   synthetic = JSON.generate("type" => "test", "event" => "ok", "name" => test_name,
                             "path" => synthetic_root.join("adl-runtime-kernel/src/lib.rs").to_s) + "\n"
   normalized = normalize_command_output(synthetic, synthetic_root)

@@ -5,7 +5,7 @@
 - Feature Name: ACP / Cognitive Profiles
 - Milestone Target: `v0.92`
 - Status: implemented locally; native dual-platform proof pending CI
-- Related issues: `#3377`, `#3434`, `#5830`
+- Related issues: `#3377`, `#3434`, `#5830`, corrective authority issue `#144`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Template Rules
@@ -15,8 +15,10 @@ not implementation closeout.
 
 ## Status
 
-The bounded WP-13 contract is implemented by `adl-runtime-kernel` for `#5830`.
-Publication and dual-platform native receipts remain separate integration proof.
+The original bounded WP-13 contract from `#5830` is superseded for authority
+purposes by the corrective `#144` contract. Local governed-authority and
+full-lineage proof passes; publication and dual-platform native receipts remain
+separate integration proof.
 
 ## Purpose
 
@@ -57,11 +59,26 @@ content digest, revision digest, and `public` or `internal_redacted` visibility.
 Policy and input identifiers are collision-checked case-insensitively. Public
 fields may cite only public evidence. The generated public projection omits all
 evidence links and update metadata and must be strictly narrower than the
-internal profile.
+internal profile. A runtime-established opaque `CognitiveAuthorityPolicy`
+supplies the genesis Ed25519 verifying key and pins the exact canonical policy
+and evidence digests. Its fields and establishment function are crate-private,
+so input, policy, retained profile bytes, and external callers cannot select or
+construct their own trust root.
+
+Every revision retains a signed authority statement binding the authority ID,
+key, monotonic epoch, recomputed context digest, profile/revision/predecessor,
+canonical input digest, canonical policy digest, and canonical evidence digest.
+Rotation is signed only by the current trusted key, advances the epoch by
+exactly one, binds a genuinely new key and context, and verifies the revision
+statement under that new key. Prior key IDs, key bytes, and contexts cannot be
+reused.
 
 Updates bind the previous profile ID, identity root, policy digest, previous
-profile digest, and exact field additions/removals. The exported validator
-reconstructs the complete record from its authorities and rejects any mismatch.
+profile digest, and exact field additions/removals. The exported governed
+validator requires the complete ordered history, replays authority transitions
+from the provisioned genesis key, and reconstructs every profile and public
+projection through genesis. Tail-only, truncated, reordered, substituted, or
+deep-rehashed histories fail closed.
 
 ## Execution Flow
 
@@ -69,9 +86,11 @@ reconstructs the complete record from its authorities and rejects any mismatch.
    authorities through their exported validators and digests.
 2. Match every input evidence reference and field against the canonical policy.
 3. Validate nonclaims, privacy, revision linkage, and exact update delta.
-4. Canonicalize and hash the input, policy, internal record, and public
+4. Verify the signed authority statement and any current-key-authorized rotation.
+5. Replay and reconstruct every predecessor from genesis.
+6. Canonicalize and hash the input, policy, internal record, and public
    projection.
-5. Reconstruct the complete exported record during validation.
+7. Reconstruct the complete exported record during validation.
 
 ## Determinism and Constraints
 
@@ -90,10 +109,15 @@ echo attacker-controlled strings.
 
 ## Validation
 
-The focused `cognitive_profile` integration target contains 11 deterministic
-tests covering positive creation/update/round-trip behavior and the complete
-negative matrix above. Its fixture inventory is retained under
-`adl-runtime-kernel/tests/fixtures/cognitive_profile/`.
+The focused crate-internal `cognitive_profile::authority_tests` lane contains
+15 deterministic tests covering positive creation/update/round-trip behavior and the complete
+negative matrix above, including four-revision replay, governed rotation,
+self-authorized policy/evidence, statement transplant, deep lineage forgery,
+truncation, substitution, stale/wrong/self-signed rotation, skipped epochs, and
+same-key identifier rename. Its fixture inventory is retained under
+`adl-runtime-kernel/tests/fixtures/cognitive_profile/`. A separate public
+integration test proves the deserialization boundary remains fail closed
+without gaining access to authority establishment.
 
 Issue-local native receipt tooling runs that exact target on macOS and Linux,
 records its exact structured test inventory and semantic digest, binds source

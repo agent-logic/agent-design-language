@@ -7,6 +7,7 @@ require "open3"
 require "pathname"
 
 ISSUE_CONFIG = {
+  144 => ["cognitive_profile", "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md"],
   5825 => ["birthday", "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"],
   5826 => ["birthday_identity", "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"],
   5827 => ["birthday_continuity", "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"],
@@ -119,7 +120,7 @@ fail!("native receipts must be validated by GitHub Actions") unless ENV["GITHUB_
 current_workflow_ref = ENV.fetch("GITHUB_WORKFLOW_REF")
 current_run_id = ENV.fetch("GITHUB_RUN_ID")
 current_run_attempt = ENV.fetch("GITHUB_RUN_ATTEMPT")
-expected_workflow_prefix = "agent-logic/agent-design-language/.github/workflows/wp13-native-cognitive-profile.yml@"
+expected_workflow_prefix = "agent-logic/agent-design-language/.github/workflows/wp13-authority-repair.yml@"
 fail!("validator workflow identity mismatch") unless current_workflow_ref.start_with?(expected_workflow_prefix)
 
 root_text, root_status = Open3.capture2("git", "rev-parse", "--show-toplevel")
@@ -148,11 +149,11 @@ required_tests = %w[
   identity_continuity_capability_and_birthday_substitution_fail_closed
   deep_rehash_truncation_substitution_and_rotation_attacks_fail_closed
   missing_nonclaims_and_public_everything_fail_closed
-  old_key_governs_rotation_and_new_key_governs_followup
   privacy_secrets_paths_and_raw_state_fail_closed
+  old_key_governs_rotation_and_new_key_governs_followup
   revision_updates_link_and_explain_exact_delta
-  self_authorized_policy_statement_and_transplant_fail_closed
   stale_missing_duplicate_and_forbidden_evidence_fail_closed
+  self_authorized_policy_statement_and_transplant_fail_closed
   trusted_genesis_and_complete_four_revision_chain_replay
   unknown_json_fields_fail_closed
   unsupported_labels_diagnosis_and_status_inference_fail_closed
