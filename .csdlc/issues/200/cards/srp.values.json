@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 200,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
+    "slug": "crash-safe-authority-reconciliation-barrier",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact barrier/authority-protocol/PolisRuntime/mod integration, focused deterministic test adapter, proof/evidence, typed issue truth, and absence of concrete #203/#204 or operational side effects.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller, raw token, adapter object, closure, receipt, boolean, legacy command, or local history create a plan, result, or permit?",
+        "Does every durable phase reconcile exact old/new checkpoint outcomes without duplicating steps or losing completed authority?",
+        "Are read and mutation permits impossible until state, result, checkpoint, marker, and published view all agree?",
+        "Does deterministic time evidence pass unchanged from #201 without replica-local branching?",
+        "Do bounds, canonical encoding, exclusive locks, symlink and opened-handle race defenses prevent partial mutation and unbounded allocation?",
+        "Does the exact proof bind all thirty-six cases and avoid claiming #203/#204 concrete behavior?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
