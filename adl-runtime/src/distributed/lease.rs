@@ -15,6 +15,7 @@ pub const BODY_DOMAIN: &[u8] = b"ADL-AUTHORITY-CERTIFICATE-BODY-V1\0";
 pub const ENDORSEMENT_DOMAIN: &[u8] = b"ADL-AUTHORITY-ENDORSEMENT-V1\0";
 pub const ACTIVATION_DOMAIN: &[u8] = b"ADL-AUTHORITY-ACTIVATION-V1\0";
 pub const POLICY_DOMAIN: &[u8] = b"ADL-AUTHORITY-LEASE-POLICY-V1\0";
+pub const MUTATION_DOMAIN: &[u8] = b"ADL-AUTHORITY-MUTATION-V1\0";
 pub const AUTHORITY_SNAPSHOT_SCHEMA: &str = "adl.distributed.authority_ledger_snapshot.v1";
 
 const MAX_IDENTITY_BYTES: usize = 128;
@@ -108,6 +109,24 @@ pub struct AuthorityEndorsementPayloadV1 {
     pub certificate_generation: u64,
     #[prost(uint32, tag = "4")]
     pub signing_algorithm: u32,
+}
+
+#[derive(Clone, PartialEq, Message)]
+pub struct MutationAuthorizationPayloadV1 {
+    #[prost(bytes = "vec", tag = "1")]
+    pub lineage_id: Vec<u8>,
+    #[prost(bytes = "vec", tag = "2")]
+    pub holder_guardian_id: Vec<u8>,
+    #[prost(uint64, tag = "3")]
+    pub epoch: u64,
+    #[prost(uint64, tag = "4")]
+    pub applied_log_index: u64,
+    #[prost(uint64, tag = "5")]
+    pub sequence: u64,
+    #[prost(bytes = "vec", tag = "6")]
+    pub mutation_sha256: Vec<u8>,
+    #[prost(bytes = "vec", tag = "7")]
+    pub certificate_sha256: Vec<u8>,
 }
 
 #[derive(Clone, PartialEq, Message, Serialize, Deserialize)]
@@ -285,6 +304,7 @@ pub struct LeaseState {
     pub deadline_elapsed_millis: u64,
     pub certificate_bytes: Vec<u8>,
     pub revoked: bool,
+    pub last_mutation_sequence: u64,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -300,6 +320,18 @@ pub struct AuthorityApplication<'a> {
     pub now_elapsed_millis: u64,
     pub clock_uncertainty_millis: u64,
     pub activation_public_key: [u8; 32],
+    pub activation_proof: &'a [u8],
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct MutationAuthorization<'a> {
+    pub lineage_id: &'a [u8],
+    pub holder_guardian_id: &'a [u8],
+    pub epoch: u64,
+    pub now_elapsed_millis: u64,
+    pub applied_log_index: u64,
+    pub sequence: u64,
+    pub mutation_sha256: [u8; 32],
     pub activation_proof: &'a [u8],
 }
 
@@ -442,6 +474,40 @@ pub fn activation_signature(body: &AuthorityCertificateBodyV1, key: &SigningKey)
     .to_bytes()
 }
 
+pub fn mutation_signature(
+    lease: &LeaseState,
+    applied_log_index: u64,
+    sequence: u64,
+    mutation_sha256: [u8; 32],
+    key: &SigningKey,
+) -> [u8; 64] {
+    key.sign(&mutation_authorization_digest(
+        lease,
+        applied_log_index,
+        sequence,
+        mutation_sha256,
+    ))
+    .to_bytes()
+}
+
+fn mutation_authorization_digest(
+    lease: &LeaseState,
+    applied_log_index: u64,
+    sequence: u64,
+    mutation_sha256: [u8; 32],
+) -> [u8; 32] {
+    let payload = MutationAuthorizationPayloadV1 {
+        lineage_id: lease.lineage_id.clone(),
+        holder_guardian_id: lease.holder_guardian_id.clone(),
+        epoch: lease.epoch,
+        applied_log_index,
+        sequence,
+        mutation_sha256: mutation_sha256.to_vec(),
+        certificate_sha256: Sha256::digest(&lease.certificate_bytes).to_vec(),
+    };
+    domain_digest(MUTATION_DOMAIN, &payload.encode_to_vec())
+}
+
 pub fn verify_certificate(
     bytes: &[u8],
     membership: &AuthorityMembership,
@@ -540,6 +606,7 @@ pub struct AuthorityLedger {
     applied_log_index: u64,
     last_raft_term: u64,
     leases: BTreeMap<Vec<u8>, LeaseState>,
+    recovery_fences_unix_millis: BTreeMap<Vec<u8>, u64>,
 }
 
 impl AuthorityLedger {
@@ -550,6 +617,7 @@ impl AuthorityLedger {
             applied_log_index: 0,
             last_raft_term: 0,
             leases: BTreeMap::new(),
+            recovery_fences_unix_millis: BTreeMap::new(),
         })
     }
 
@@ -608,15 +676,29 @@ impl AuthorityLedger {
                     return Err(AuthorityError::EpochGap);
                 }
                 if let Some(previous) = current.as_ref() {
-                    let safety_deadline = previous
-                        .deadline_elapsed_millis
-                        .checked_add(self.policy.max_clock_uncertainty_millis)
-                        .and_then(|value| {
-                            value.checked_add(self.policy.message_delay_margin_millis)
-                        })
-                        .ok_or(AuthorityError::ResourceExhausted)?;
-                    if application.now_elapsed_millis < safety_deadline {
-                        return Err(AuthorityError::LeaseExpired);
+                    if let Some(safety_deadline) = self
+                        .recovery_fences_unix_millis
+                        .get(&body.lineage_id)
+                        .copied()
+                    {
+                        let now_unix_millis = u64::try_from(application.now_unix_seconds)
+                            .ok()
+                            .and_then(|seconds| seconds.checked_mul(1_000))
+                            .ok_or(AuthorityError::ClockUncertain)?;
+                        if now_unix_millis < safety_deadline {
+                            return Err(AuthorityError::LeaseExpired);
+                        }
+                    } else {
+                        let safety_deadline = previous
+                            .deadline_elapsed_millis
+                            .checked_add(self.policy.max_clock_uncertainty_millis)
+                            .and_then(|value| {
+                                value.checked_add(self.policy.message_delay_margin_millis)
+                            })
+                            .ok_or(AuthorityError::ResourceExhausted)?;
+                        if application.now_elapsed_millis < safety_deadline {
+                            return Err(AuthorityError::LeaseExpired);
+                        }
                     }
                 }
             }
@@ -695,39 +777,63 @@ impl AuthorityLedger {
             deadline_elapsed_millis: deadline,
             certificate_bytes: certificate_bytes.to_vec(),
             revoked: false,
+            last_mutation_sequence: current
+                .as_ref()
+                .filter(|previous| previous.epoch == body.epoch)
+                .map_or(0, |previous| previous.last_mutation_sequence),
         };
         self.applied_log_index = body.committed_log_index;
         self.last_raft_term = body.raft_term;
         self.leases.insert(body.lineage_id.clone(), state);
+        self.recovery_fences_unix_millis.remove(&body.lineage_id);
         self.leases
             .get(&body.lineage_id)
             .ok_or(AuthorityError::SnapshotCorrupt)
     }
 
     pub fn authorize_mutation(
-        &self,
-        lineage_id: &[u8],
-        holder_guardian_id: &[u8],
-        epoch: u64,
-        now_elapsed_millis: u64,
-        applied_log_index: u64,
+        &mut self,
+        authorization: MutationAuthorization<'_>,
     ) -> AuthorityResult<()> {
         let lease = self
             .leases
-            .get(lineage_id)
+            .get(authorization.lineage_id)
             .ok_or(AuthorityError::LeaseExpired)?;
         if lease.revoked {
             return Err(AuthorityError::LeaseRevoked);
         }
-        if lease.holder_guardian_id != holder_guardian_id || lease.epoch != epoch {
+        if lease.holder_guardian_id != authorization.holder_guardian_id
+            || lease.epoch != authorization.epoch
+        {
             return Err(AuthorityError::HolderMismatch);
         }
-        if applied_log_index < lease.committed_log_index {
+        if authorization.applied_log_index < lease.committed_log_index {
             return Err(AuthorityError::StaleAppliedIndex);
         }
-        if now_elapsed_millis >= lease.deadline_elapsed_millis {
+        if authorization.now_elapsed_millis >= lease.deadline_elapsed_millis {
             return Err(AuthorityError::LeaseExpired);
         }
+        if authorization.sequence != lease.last_mutation_sequence.saturating_add(1) {
+            return Err(AuthorityError::Replay);
+        }
+        let key = VerifyingKey::from_bytes(&lease.activation_public_key)
+            .map_err(|_| AuthorityError::ActivationPossession)?;
+        let signature = Signature::from_slice(authorization.activation_proof)
+            .map_err(|_| AuthorityError::ActivationPossession)?;
+        key.verify_strict(
+            &mutation_authorization_digest(
+                lease,
+                authorization.applied_log_index,
+                authorization.sequence,
+                authorization.mutation_sha256,
+            ),
+            &signature,
+        )
+        .map_err(|_| AuthorityError::ActivationPossession)?;
+        self.leases
+            .get_mut(authorization.lineage_id)
+            .ok_or(AuthorityError::LeaseExpired)?
+            .last_mutation_sequence = authorization.sequence;
         Ok(())
     }
 
@@ -750,7 +856,12 @@ impl AuthorityLedger {
         Ok(bytes)
     }
 
-    pub fn restore(policy: LeasePolicy, bytes: &[u8]) -> AuthorityResult<Self> {
+    pub fn restore(
+        policy: LeasePolicy,
+        bytes: &[u8],
+        membership: &AuthorityMembership,
+        now_unix_seconds: i64,
+    ) -> AuthorityResult<Self> {
         policy.validate()?;
         if bytes.is_empty() || bytes.len() > policy.max_snapshot_bytes {
             return Err(AuthorityError::ResourceExhausted);
@@ -758,12 +869,22 @@ impl AuthorityLedger {
         let envelope: SnapshotEnvelope =
             serde_json::from_slice(bytes).map_err(|_| AuthorityError::SnapshotCorrupt)?;
         let mut leases = BTreeMap::new();
+        let mut recovery_fences_unix_millis = BTreeMap::new();
         let leases_valid = envelope.body.leases.iter().all(|lease| {
-            validate_snapshot_lease(
+            let Some(body) = validate_snapshot_lease(
                 lease,
                 envelope.body.applied_log_index,
                 envelope.body.last_raft_term,
-            ) && leases
+                membership,
+                now_unix_seconds,
+            ) else {
+                return false;
+            };
+            let Some(fence) = restart_safety_deadline_unix_millis(&policy, &body) else {
+                return false;
+            };
+            recovery_fences_unix_millis.insert(lease.lineage_id.clone(), fence);
+            leases
                 .insert(lease.lineage_id.clone(), lease.clone())
                 .is_none()
         });
@@ -775,6 +896,7 @@ impl AuthorityLedger {
                 ))
             || serde_jcs::to_vec(&envelope).map_err(|_| AuthorityError::SnapshotCorrupt)? != bytes
             || !leases_valid
+            || envelope.body.applied_log_index != membership.committed_log_index
             || leases
                 .values()
                 .map(|lease| lease.committed_log_index)
@@ -795,6 +917,7 @@ impl AuthorityLedger {
             applied_log_index: envelope.body.applied_log_index,
             last_raft_term: envelope.body.last_raft_term,
             leases,
+            recovery_fences_unix_millis,
         })
     }
 }
@@ -803,14 +926,13 @@ fn validate_snapshot_lease(
     lease: &LeaseState,
     applied_log_index: u64,
     last_raft_term: u64,
-) -> bool {
-    let Ok(certificate) = decode_certificate(&lease.certificate_bytes) else {
-        return false;
-    };
-    let Some(body) = certificate.body else {
-        return false;
-    };
-    validate_body(&body).is_ok()
+    membership: &AuthorityMembership,
+    now_unix_seconds: i64,
+) -> Option<AuthorityCertificateBodyV1> {
+    let verified =
+        verify_certificate(&lease.certificate_bytes, membership, now_unix_seconds).ok()?;
+    let body = verified.body;
+    let valid = validate_body(&body).is_ok()
         && valid_identity(&lease.lineage_id)
         && valid_identity(&lease.holder_node_id)
         && valid_identity(&lease.holder_guardian_id)
@@ -830,7 +952,22 @@ fn validate_snapshot_lease(
         && body.epoch == lease.epoch
         && body.voter_set_generation == lease.certificate_generation
         && body.activation_key_sha256
-            == <[u8; 32]>::from(Sha256::digest(lease.activation_public_key)).as_slice()
+            == <[u8; 32]>::from(Sha256::digest(lease.activation_public_key)).as_slice();
+    valid.then_some(body)
+}
+
+fn restart_safety_deadline_unix_millis(
+    policy: &LeasePolicy,
+    body: &AuthorityCertificateBodyV1,
+) -> Option<u64> {
+    let issued_seconds = u64::try_from(body.issued_unix_seconds).ok()?;
+    let issued_millis = issued_seconds
+        .checked_mul(1_000)?
+        .checked_add(u64::from(body.issued_nanos) / 1_000_000)?;
+    issued_millis
+        .checked_add(body.lease_duration_millis)?
+        .checked_add(policy.max_clock_uncertainty_millis)?
+        .checked_add(policy.message_delay_margin_millis)
 }
 
 fn validate_body(body: &AuthorityCertificateBodyV1) -> AuthorityResult<()> {
@@ -914,7 +1051,7 @@ fn validate_certificate_wire(bytes: &[u8]) -> AuthorityResult<()> {
             (15, 2),
             (16, 0),
         ],
-        &(1_u32..=16).collect::<Vec<_>>(),
+        &[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16],
     )?;
     for endorsement in fields.iter().filter(|field| field.tag == 2) {
         parse_wire(

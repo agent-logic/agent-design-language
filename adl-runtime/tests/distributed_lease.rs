@@ -5,11 +5,12 @@ use std::collections::BTreeSet;
 
 use ed25519_dalek::{Signer, SigningKey};
 use lease::{
-    activation_signature, certificate_body_sha256, encode_certificate, endorse,
+    activation_signature, certificate_body_sha256, encode_certificate, endorse, mutation_signature,
     verify_certificate as verify_certificate_at, AuthorityApplication, AuthorityCertificateBodyV1,
     AuthorityCertificateV1, AuthorityEndorsementV1, AuthorityError, AuthorityLedger,
-    AuthorityMembership, ControlCertificatePurpose, LeasePolicy, OperationClass, VerifiedAuthority,
-    VoterAuthority, AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
+    AuthorityMembership, ControlCertificatePurpose, LeasePolicy, MutationAuthorization,
+    OperationClass, VerifiedAuthority, VoterAuthority, AUTHORITY_CERTIFICATE_SCHEMA_VERSION,
+    SIGNING_ALGORITHM_ED25519,
 };
 use prost::Message;
 use sha2::{Digest, Sha256};
@@ -145,12 +146,49 @@ fn application<'a>(
     now_elapsed_millis: u64,
     clock_uncertainty_millis: u64,
 ) -> AuthorityApplication<'a> {
+    application_at(
+        activation,
+        proof,
+        NOW_UNIX_SECONDS,
+        now_elapsed_millis,
+        clock_uncertainty_millis,
+    )
+}
+
+fn application_at<'a>(
+    activation: &SigningKey,
+    proof: &'a [u8],
+    now_unix_seconds: i64,
+    now_elapsed_millis: u64,
+    clock_uncertainty_millis: u64,
+) -> AuthorityApplication<'a> {
     AuthorityApplication {
-        now_unix_seconds: NOW_UNIX_SECONDS,
+        now_unix_seconds,
         now_elapsed_millis,
         clock_uncertainty_millis,
         activation_public_key: activation.verifying_key().to_bytes(),
         activation_proof: proof,
+    }
+}
+
+fn authorization<'a>(
+    holder_guardian_id: &'a [u8],
+    epoch: u64,
+    now_elapsed_millis: u64,
+    applied_log_index: u64,
+    sequence: u64,
+    mutation_sha256: [u8; 32],
+    activation_proof: &'a [u8],
+) -> MutationAuthorization<'a> {
+    MutationAuthorization {
+        lineage_id: LINEAGE,
+        holder_guardian_id,
+        epoch,
+        now_elapsed_millis,
+        applied_log_index,
+        sequence,
+        mutation_sha256,
+        activation_proof,
     }
 }
 
@@ -461,6 +499,13 @@ fn certificate_context_rejects_wrong_domain_generation_applied_index_and_operati
         ),
         Err(AuthorityError::InvalidOperationClass)
     );
+    let mut exact_second = body(OperationClass::LeaseGrant, 53, 1, &activation);
+    exact_second.issued_nanos = 0;
+    assert!(verify_certificate(
+        &fixture.certificate(exact_second, &[0, 1]),
+        &fixture.membership,
+    )
+    .is_ok());
 }
 
 #[test]
@@ -504,7 +549,7 @@ fn ledger_serializes_grant_renewal_owner_commit_and_revocation() {
     )
     .unwrap();
     assert_eq!(
-        ledger.authorize_mutation(LINEAGE, HOLDER, 1, 170, 63),
+        ledger.authorize_mutation(authorization(HOLDER, 1, 170, 63, 1, [1; 32], &[])),
         Err(AuthorityError::LeaseRevoked)
     );
     assert_eq!(ledger.applied_log_index(), 63);
@@ -664,37 +709,50 @@ fn stale_replay_quorum_loss_and_malicious_minority_cannot_mutate() {
 #[test]
 fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
     let fixture = Fixture::stable();
-    let activation = activation(10);
+    let owner_activation = activation(10);
     let mut ledger = AuthorityLedger::new(policy()).unwrap();
     apply(
         &mut ledger,
         &fixture,
-        body(OperationClass::LeaseGrant, 90, 1, &activation),
-        &activation,
+        body(OperationClass::LeaseGrant, 90, 1, &owner_activation),
+        &owner_activation,
         100,
     )
     .unwrap();
+    let mutation = Sha256::digest(b"mutation-one").into();
+    let lease = ledger.lease(LINEAGE).unwrap().clone();
+    let clone = activation(15);
+    let clone_proof = mutation_signature(&lease, 90, 1, mutation, &clone);
     assert_eq!(
-        ledger.authorize_mutation(LINEAGE, HOLDER, 1, 199, 90),
+        ledger.authorize_mutation(authorization(HOLDER, 1, 199, 90, 1, mutation, &clone_proof,)),
+        Err(AuthorityError::ActivationPossession)
+    );
+    let proof = mutation_signature(&lease, 90, 1, mutation, &owner_activation);
+    assert_eq!(
+        ledger.authorize_mutation(authorization(HOLDER, 1, 199, 90, 1, mutation, &proof)),
         Ok(())
     );
     assert_eq!(
-        ledger.authorize_mutation(LINEAGE, b"other", 1, 199, 90),
+        ledger.authorize_mutation(authorization(HOLDER, 1, 199, 90, 1, mutation, &proof)),
+        Err(AuthorityError::Replay)
+    );
+    assert_eq!(
+        ledger.authorize_mutation(authorization(b"other", 1, 199, 90, 2, [2; 32], &[])),
         Err(AuthorityError::HolderMismatch)
     );
     assert_eq!(
-        ledger.authorize_mutation(LINEAGE, HOLDER, 1, 199, 89),
+        ledger.authorize_mutation(authorization(HOLDER, 1, 199, 89, 2, [2; 32], &[])),
         Err(AuthorityError::StaleAppliedIndex)
     );
     assert_eq!(
-        ledger.authorize_mutation(LINEAGE, HOLDER, 1, 200, 90),
+        ledger.authorize_mutation(authorization(HOLDER, 1, 200, 90, 2, [2; 32], &[])),
         Err(AuthorityError::LeaseExpired)
     );
 }
 
 #[test]
 fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
-    let fixture = Fixture::stable();
+    let mut fixture = Fixture::stable();
     let initial_activation = activation(11);
     let mut ledger = AuthorityLedger::new(policy()).unwrap();
     apply(
@@ -706,16 +764,32 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
     )
     .unwrap();
     let snapshot = ledger.snapshot().unwrap();
-    let mut restored = AuthorityLedger::restore(policy(), &snapshot).unwrap();
+    let mut unproved_prefix_membership = fixture.membership.clone();
+    unproved_prefix_membership.committed_log_index = 101;
+    assert_eq!(
+        AuthorityLedger::restore(
+            policy(),
+            &snapshot,
+            &unproved_prefix_membership,
+            NOW_UNIX_SECONDS,
+        )
+        .unwrap_err(),
+        AuthorityError::SnapshotCorrupt
+    );
+    fixture.membership.committed_log_index = 100;
+    let mut restored =
+        AuthorityLedger::restore(policy(), &snapshot, &fixture.membership, NOW_UNIX_SECONDS)
+            .unwrap();
     assert_eq!(restored.applied_log_index(), 100);
     assert!(restored.lease(LINEAGE).unwrap().revoked);
     assert_eq!(
-        restored.authorize_mutation(LINEAGE, HOLDER, 1, 101, 100),
+        restored.authorize_mutation(authorization(HOLDER, 1, 101, 100, 1, [1; 32], &[])),
         Err(AuthorityError::LeaseRevoked)
     );
     let replacement = activation(14);
     let replacement_body = body(OperationClass::Activate, 101, 2, &replacement);
     let replacement_proof = activation_signature(&replacement_body, &replacement);
+    fixture.membership.committed_log_index = 101;
     restored
         .apply(
             &fixture.certificate(replacement_body, &[0, 1]),
@@ -723,18 +797,84 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
             application(&replacement, &replacement_proof, 215, 5),
         )
         .unwrap();
+    let mutation = Sha256::digest(b"post-recovery-mutation").into();
+    let proof = mutation_signature(
+        restored.lease(LINEAGE).unwrap(),
+        101,
+        1,
+        mutation,
+        &replacement,
+    );
     assert_eq!(
-        restored.authorize_mutation(LINEAGE, HOLDER, 2, 216, 101),
+        restored.authorize_mutation(authorization(HOLDER, 2, 216, 101, 1, mutation, &proof)),
         Ok(())
     );
 
     let mut tampered = snapshot;
     let offset = tampered.len() / 2;
     tampered[offset] ^= 1;
-    assert!(AuthorityLedger::restore(policy(), &tampered).is_err());
+    assert!(
+        AuthorityLedger::restore(policy(), &tampered, &fixture.membership, NOW_UNIX_SECONDS,)
+            .is_err()
+    );
     let mut too_small = policy();
     too_small.max_snapshot_bytes = 1024;
-    assert!(AuthorityLedger::restore(too_small, &vec![b'x'; 1025]).is_err());
+    assert!(AuthorityLedger::restore(
+        too_small,
+        &vec![b'x'; 1025],
+        &fixture.membership,
+        NOW_UNIX_SECONDS,
+    )
+    .is_err());
+}
+
+#[test]
+fn restart_uses_portable_wall_safety_anchor_not_foreign_elapsed_clock() {
+    let mut fixture = Fixture::stable();
+    let initial = activation(16);
+    let mut grant = body(OperationClass::LeaseGrant, 110, 1, &initial);
+    grant.issued_unix_seconds = NOW_UNIX_SECONDS;
+    let proof = activation_signature(&grant, &initial);
+    let certificate = fixture.certificate(grant, &[0, 1]);
+    let mut ledger = AuthorityLedger::new(policy()).unwrap();
+    ledger
+        .apply(
+            &certificate,
+            &fixture.membership,
+            application(&initial, &proof, 100, 5),
+        )
+        .unwrap();
+    let snapshot = ledger.snapshot().unwrap();
+    fixture.membership.committed_log_index = 110;
+    let mut restored =
+        AuthorityLedger::restore(policy(), &snapshot, &fixture.membership, NOW_UNIX_SECONDS)
+            .unwrap();
+    let replacement = activation(17);
+    let replacement_body = body(OperationClass::Activate, 111, 2, &replacement);
+    let replacement_proof = activation_signature(&replacement_body, &replacement);
+    let replacement_certificate = fixture.certificate(replacement_body, &[0, 1]);
+    fixture.membership.committed_log_index = 111;
+    assert_eq!(
+        restored.apply(
+            &replacement_certificate,
+            &fixture.membership,
+            application_at(
+                &replacement,
+                &replacement_proof,
+                NOW_UNIX_SECONDS,
+                10_000_000,
+                5,
+            ),
+        ),
+        Err(AuthorityError::LeaseExpired)
+    );
+    restored
+        .apply(
+            &replacement_certificate,
+            &fixture.membership,
+            application_at(&replacement, &replacement_proof, NOW_UNIX_SECONDS + 1, 1, 5),
+        )
+        .unwrap();
 }
 
 fn body_with_suffix_certificate(
