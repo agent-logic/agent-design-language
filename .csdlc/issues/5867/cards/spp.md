@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -96,11 +96,11 @@ Digest: 583069f1e5e23de29e40c6d6a2c6f6f2c39c31907ef9d63198e80ae2ae0a8f33
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Issue #5866 is not closed through merged PR #88 or its exact merge revision is not ancestral to the selected base
+- The merged discovery, certificate, identity, or transport contract cannot support authenticated membership without widening the two owned paths
+- Either exact owned path is already present in or collides with another live issue worktree
+- After implementation the distributed_membership target is absent, selects zero tests, or any required proof fails
+- Module registration, product scope, dependency ownership, or rollback authority must widen beyond issue #5867
 
 ## Handoff
 
