@@ -75,11 +75,11 @@ Implemented durable quorum fencing with fresh membership verification, strict ep
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
