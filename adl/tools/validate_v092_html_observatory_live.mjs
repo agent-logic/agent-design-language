@@ -324,7 +324,7 @@ const report = {
 const artifactStem = `observatory-layer8-chat-${sourceRevision.slice(0, 12)}-${randomUUID()}`;
 
 try {
-  await page.goto(url.toString(), { waitUntil: "networkidle", timeout: 30_000 });
+  await page.goto(url.toString(), { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.locator("#statusbar-websocket").filter({ hasText: "connected" }).waitFor({ timeout: 20_000 });
   await page.waitForFunction(() => {
     const value = Number(document.querySelector(".observatory")?.dataset.streamLastSequence);
