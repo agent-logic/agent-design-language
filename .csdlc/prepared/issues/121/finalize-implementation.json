@@ -13,8 +13,8 @@
   "artifacts": [
     "adl-runtime/src/distributed/lease.rs",
     "adl-runtime/tests/distributed_lease.rs",
-    ".csdlc/evidence/121/execution-proof.json",
-    ".csdlc/evidence/121/operator-v1/negative-cases.json"
+    ".csdlc/evidence/121/review-v2/execution-proof.json",
+    ".csdlc/evidence/121/review-v2/operator-v2/negative-cases.json"
   ],
   "execution": {
     "manifest": {
@@ -68,7 +68,7 @@
           "execution": "local",
           "timeout_seconds": 300,
           "executable": "ruby",
-          "argv": [".csdlc/prepared/issues/121/validate-proof-receipt.rb", ".csdlc/evidence/121/execution-proof.json"],
+          "argv": [".csdlc/prepared/issues/121/validate-proof-receipt.rb", ".csdlc/evidence/121/review-v2/execution-proof.json"],
           "evidence": {"max_log_bytes": 100000, "redact_values": [], "require_relative_paths": true}
         }
       ]
