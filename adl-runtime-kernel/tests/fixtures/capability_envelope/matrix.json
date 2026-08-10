@@ -34,6 +34,11 @@
     "cross_identity_binding",
     "unknown_json_field",
     "rehashed_packet_forgery",
-    "policy_forgery"
+    "policy_forgery",
+    "rejection_payload_redaction",
+    "windows_drive_prefix_path",
+    "leading_private_home_path",
+    "provider_namespace_case_collision",
+    "model_namespace_case_collision"
   ]
 }

@@ -109,6 +109,11 @@ grant/denial conflicts, omitted or zero limits, limit escalation, missing
 provenance, and omitted non-claims fail closed. Every serialized contract uses
 `deny_unknown_fields`. Paths must remain normalized and repository-relative;
 secret-like material and private, home, host, or traversal paths are rejected.
+Rejected untrusted identifiers are represented only by stable SHA-256
+fingerprints in serializable and debug diagnostics; raw evidence, provider,
+model, tool, skill, grant, denial, and unsupported-claim values are never
+echoed. Path checks are lexical and platform-independent, including Windows
+drive/UNC forms and leading private, home, users, or user namespaces.
 
 `validate_capability_envelope` is the exported consumption boundary. It checks
 the packet digest and reconstructs the complete expected envelope from the

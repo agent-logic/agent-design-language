@@ -132,24 +132,24 @@ pub enum CapabilityEnvelopeRejection {
     IdentityEvidenceMismatch,
     IdentityRootMismatch,
     MissingEvidence { kind: CapabilityEvidenceKind },
-    UnknownEvidence { id: String },
-    StaleEvidence { id: String },
-    InvalidEvidence { id: String },
-    DuplicateEvidence { id: String },
-    UnknownProvider { id: String },
-    UnknownModel { id: String },
-    UnsupportedTool { id: String },
-    UnsupportedSkill { id: String },
-    AuthorityEscalation { id: String },
-    MissingDenial { id: String },
-    GrantDenialConflict { id: String },
+    UnknownEvidence { fingerprint: String },
+    StaleEvidence { fingerprint: String },
+    InvalidEvidence { fingerprint: String },
+    DuplicateEvidence { fingerprint: String },
+    UnknownProvider { fingerprint: String },
+    UnknownModel { fingerprint: String },
+    UnsupportedTool { fingerprint: String },
+    UnsupportedSkill { fingerprint: String },
+    AuthorityEscalation { fingerprint: String },
+    MissingDenial { fingerprint: String },
+    GrantDenialConflict { fingerprint: String },
     MissingLimits,
-    LimitEscalation { id: String },
-    MissingUnsupportedClaim { id: String },
-    InvalidDeclaration { id: String },
-    MissingProvenance { id: String },
-    IdentifierCollision { id: String },
-    UnsafeContent { id: String },
+    LimitEscalation { fingerprint: String },
+    MissingUnsupportedClaim { fingerprint: String },
+    InvalidDeclaration { fingerprint: String },
+    MissingProvenance { fingerprint: String },
+    IdentifierCollision { fingerprint: String },
+    UnsafeContent { fingerprint: String },
     NonCanonicalEnvelope,
     EnvelopeDigestMismatch,
     EncodingFailure,
@@ -311,7 +311,7 @@ fn validate_policy(
     for reference in &policy.evidence {
         if !valid_evidence(reference) {
             errors.insert(CapabilityEnvelopeRejection::InvalidEvidence {
-                id: reference.id.clone(),
+                fingerprint: safe_fingerprint(&reference.id),
             });
         }
     }
@@ -321,7 +321,7 @@ fn validate_policy(
         if let Some(previous) = evidence_ids.insert(key, reference.id.as_str()) {
             if previous != reference.id {
                 errors.insert(CapabilityEnvelopeRejection::IdentifierCollision {
-                    id: reference.id.clone(),
+                    fingerprint: safe_fingerprint(&reference.id),
                 });
             }
         }
@@ -358,7 +358,8 @@ fn validate_policy(
     validate_identifier_collection(policy.allowed_grants.iter(), errors);
     validate_identifier_collection(policy.required_denials.iter(), errors);
     validate_identifier_collection(policy.required_unsupported_claims.iter(), errors);
-    let mut provider_models = BTreeMap::<(String, String), (&str, &str)>::new();
+    let mut provider_ids = BTreeMap::<String, &str>::new();
+    let mut model_ids = BTreeMap::<(String, String), &str>::new();
     for selection in &policy.provider_models {
         if !valid_identifier(&selection.provider_id)
             || !valid_identifier(&selection.model_id)
@@ -369,20 +370,27 @@ fn validate_policy(
                 .any(|id| !valid_identifier(id))
         {
             errors.insert(CapabilityEnvelopeRejection::InvalidDeclaration {
-                id: format!("{}/{}", selection.provider_id, selection.model_id),
+                fingerprint: safe_fingerprint(&format!(
+                    "{}/{}",
+                    selection.provider_id, selection.model_id
+                )),
             });
         }
-        let key = (
-            selection.provider_id.to_ascii_lowercase(),
-            selection.model_id.to_ascii_lowercase(),
-        );
-        if let Some(previous) = provider_models.insert(
-            key,
-            (selection.provider_id.as_str(), selection.model_id.as_str()),
-        ) {
-            if previous != (selection.provider_id.as_str(), selection.model_id.as_str()) {
+        let provider_key = selection.provider_id.to_ascii_lowercase();
+        if let Some(previous) =
+            provider_ids.insert(provider_key.clone(), selection.provider_id.as_str())
+        {
+            if previous != selection.provider_id {
                 errors.insert(CapabilityEnvelopeRejection::IdentifierCollision {
-                    id: format!("{}/{}", selection.provider_id, selection.model_id),
+                    fingerprint: safe_fingerprint(&selection.provider_id),
+                });
+            }
+        }
+        let model_key = (provider_key, selection.model_id.to_ascii_lowercase());
+        if let Some(previous) = model_ids.insert(model_key, selection.model_id.as_str()) {
+            if previous != selection.model_id {
+                errors.insert(CapabilityEnvelopeRejection::IdentifierCollision {
+                    fingerprint: safe_fingerprint(&selection.model_id),
                 });
             }
         }
@@ -411,24 +419,24 @@ fn validate_evidence(
     for reference in &input.evidence {
         if !seen.insert(reference.id.as_str()) {
             errors.insert(CapabilityEnvelopeRejection::DuplicateEvidence {
-                id: reference.id.clone(),
+                fingerprint: safe_fingerprint(&reference.id),
             });
         }
         if !valid_evidence(reference) {
             errors.insert(CapabilityEnvelopeRejection::InvalidEvidence {
-                id: reference.id.clone(),
+                fingerprint: safe_fingerprint(&reference.id),
             });
             continue;
         }
         match expected.get(reference.id.as_str()) {
             None => {
                 errors.insert(CapabilityEnvelopeRejection::UnknownEvidence {
-                    id: reference.id.clone(),
+                    fingerprint: safe_fingerprint(&reference.id),
                 });
             }
             Some(approved) if *approved != reference => {
                 errors.insert(CapabilityEnvelopeRejection::StaleEvidence {
-                    id: reference.id.clone(),
+                    fingerprint: safe_fingerprint(&reference.id),
                 });
             }
             Some(_) => {}
@@ -454,7 +462,7 @@ fn validate_selection(
         .any(|allowed| allowed.provider_id == input.provider_model.provider_id);
     if !known_provider {
         errors.insert(CapabilityEnvelopeRejection::UnknownProvider {
-            id: input.provider_model.provider_id.clone(),
+            fingerprint: safe_fingerprint(&input.provider_model.provider_id),
         });
     } else if !policy.provider_models.iter().any(|allowed| {
         allowed.provider_id == input.provider_model.provider_id
@@ -462,7 +470,7 @@ fn validate_selection(
             && allowed.provenance_ids == input.provider_model.provenance_ids
     }) {
         errors.insert(CapabilityEnvelopeRejection::UnknownModel {
-            id: input.provider_model.model_id.clone(),
+            fingerprint: safe_fingerprint(&input.provider_model.model_id),
         });
     }
     validate_declarations(&input.tools, &policy.allowed_tools, "tool", errors);
@@ -480,14 +488,14 @@ fn validate_selection(
     for grant in &input.grants {
         if denials.contains(grant.id.as_str()) {
             errors.insert(CapabilityEnvelopeRejection::GrantDenialConflict {
-                id: grant.id.clone(),
+                fingerprint: safe_fingerprint(&grant.id),
             });
         }
     }
     for required in &policy.required_denials {
         if !denials.contains(required.as_str()) {
             errors.insert(CapabilityEnvelopeRejection::MissingDenial {
-                id: required.clone(),
+                fingerprint: safe_fingerprint(required),
             });
         }
     }
@@ -499,7 +507,7 @@ fn validate_selection(
     for required in &policy.required_unsupported_claims {
         if !unsupported.contains(required.as_str()) {
             errors.insert(CapabilityEnvelopeRejection::MissingUnsupportedClaim {
-                id: required.clone(),
+                fingerprint: safe_fingerprint(required),
             });
         }
     }
@@ -513,11 +521,15 @@ fn validate_selection(
         .chain(input.unsupported_claims.iter().map(|d| &d.provenance_ids))
     {
         if declaration.is_empty() {
-            errors.insert(CapabilityEnvelopeRejection::MissingProvenance { id: "empty".into() });
+            errors.insert(CapabilityEnvelopeRejection::MissingProvenance {
+                fingerprint: safe_fingerprint("empty"),
+            });
         }
         for id in declaration {
             if !evidence_ids.contains(id.as_str()) {
-                errors.insert(CapabilityEnvelopeRejection::MissingProvenance { id: id.clone() });
+                errors.insert(CapabilityEnvelopeRejection::MissingProvenance {
+                    fingerprint: safe_fingerprint(id),
+                });
             }
         }
     }
@@ -539,33 +551,33 @@ fn validate_declarations(
                 .any(|id| !valid_identifier(id))
         {
             errors.insert(CapabilityEnvelopeRejection::InvalidDeclaration {
-                id: declaration.id.clone(),
+                fingerprint: safe_fingerprint(&declaration.id),
             });
         }
         let key = declaration.id.to_ascii_lowercase();
         if let Some(previous) = folded.insert(key, declaration.id.as_str()) {
             if previous != declaration.id {
                 errors.insert(CapabilityEnvelopeRejection::IdentifierCollision {
-                    id: declaration.id.clone(),
+                    fingerprint: safe_fingerprint(&declaration.id),
                 });
             }
         }
         if !allowed.contains(declaration.id.as_str()) {
             let rejection = match kind {
                 "tool" => CapabilityEnvelopeRejection::UnsupportedTool {
-                    id: declaration.id.clone(),
+                    fingerprint: safe_fingerprint(&declaration.id),
                 },
                 "skill" => CapabilityEnvelopeRejection::UnsupportedSkill {
-                    id: declaration.id.clone(),
+                    fingerprint: safe_fingerprint(&declaration.id),
                 },
                 "grant" => CapabilityEnvelopeRejection::AuthorityEscalation {
-                    id: declaration.id.clone(),
+                    fingerprint: safe_fingerprint(&declaration.id),
                 },
                 "denial" => CapabilityEnvelopeRejection::InvalidDeclaration {
-                    id: declaration.id.clone(),
+                    fingerprint: safe_fingerprint(&declaration.id),
                 },
                 _ => CapabilityEnvelopeRejection::InvalidDeclaration {
-                    id: declaration.id.clone(),
+                    fingerprint: safe_fingerprint(&declaration.id),
                 },
             };
             errors.insert(rejection);
@@ -611,7 +623,9 @@ fn validate_limits(
     }
     for (id, value, ceiling) in values {
         if value > ceiling {
-            errors.insert(CapabilityEnvelopeRejection::LimitEscalation { id: id.to_owned() });
+            errors.insert(CapabilityEnvelopeRejection::LimitEscalation {
+                fingerprint: safe_fingerprint(id),
+            });
         }
     }
 }
@@ -623,13 +637,16 @@ fn validate_identifier_collection<'a>(
     let mut folded = BTreeMap::<String, &str>::new();
     for value in values {
         if !valid_identifier(value) {
-            errors.insert(CapabilityEnvelopeRejection::UnsafeContent { id: value.clone() });
+            errors.insert(CapabilityEnvelopeRejection::UnsafeContent {
+                fingerprint: safe_fingerprint(value),
+            });
         }
         let key = value.to_ascii_lowercase();
         if let Some(previous) = folded.insert(key, value) {
             if previous != value {
-                errors
-                    .insert(CapabilityEnvelopeRejection::IdentifierCollision { id: value.clone() });
+                errors.insert(CapabilityEnvelopeRejection::IdentifierCollision {
+                    fingerprint: safe_fingerprint(value),
+                });
             }
         }
     }
@@ -687,7 +704,28 @@ fn valid_evidence(reference: &CapabilityEvidenceReference) -> bool {
 }
 
 fn safe_repo_path(value: &str) -> bool {
-    if value.trim().is_empty() || value.contains('\\') || unsafe_content(value) {
+    if value.trim().is_empty()
+        || value.trim() != value
+        || value.starts_with('/')
+        || value.starts_with('\\')
+        || value.contains('\\')
+        || value.contains(':')
+        || unsafe_content(value)
+    {
+        return false;
+    }
+    let segments: Vec<_> = value.split('/').collect();
+    if segments.iter().any(|segment| {
+        segment.is_empty() || *segment == "." || *segment == ".." || segment.starts_with('~')
+    }) {
+        return false;
+    }
+    if segments.first().is_some_and(|segment| {
+        matches!(
+            segment.to_ascii_lowercase().as_str(),
+            "private" | "home" | "users" | "user"
+        )
+    }) {
         return false;
     }
     let path = Path::new(value);
@@ -695,6 +733,10 @@ fn safe_repo_path(value: &str) -> bool {
         && path
             .components()
             .all(|part| matches!(part, Component::Normal(_)))
+}
+
+fn safe_fingerprint(value: &str) -> String {
+    format!("sha256:{:x}", Sha256::digest(value.as_bytes()))
 }
 
 fn valid_identifier(value: &str) -> bool {

@@ -212,6 +212,23 @@ fn authorities() -> (BirthdayCandidate, BirthdayIdentityRecord) {
     (birthday(&identity_root), identity(&identity_root))
 }
 
+fn assert_rejections_redacted(errors: &[CapabilityEnvelopeRejection], attacker_values: &[&str]) {
+    let serialized = serde_json::to_string(errors).unwrap().to_ascii_lowercase();
+    let debug = format!("{errors:?}").to_ascii_lowercase();
+    for value in attacker_values {
+        let value = value.to_ascii_lowercase();
+        assert!(!serialized.contains(&value));
+        assert!(!debug.contains(&value));
+    }
+    for error in errors {
+        let encoded = serde_json::to_value(error).unwrap();
+        if let Some(fingerprint) = encoded.get("fingerprint").and_then(|value| value.as_str()) {
+            assert!(fingerprint.starts_with("sha256:"));
+            assert_eq!(fingerprint.len(), 71);
+        }
+    }
+}
+
 #[test]
 fn canonical_envelope_is_deterministic_and_emits_native_semantics() {
     let matrix: serde_json::Value =
@@ -362,10 +379,47 @@ fn secrets_private_paths_and_host_paths_fail_closed() {
         "/private/proof.json",
         "evidence/../secret.json",
         "C:\\secret.json",
+        "C:/secret.json",
+        "private/key",
+        "home/operator/key",
+        "Private/key",
+        "HOME/operator/key",
+        "Users/operator/key",
+        "user/operator/key",
+        "./private/key",
+        "private//key",
+        " private/key",
+        "private/key ",
     ] {
         let mut bad = input(&birthday, &identity);
         bad.evidence[0].path = unsafe_path.into();
         assert!(build_capability_envelope(&birthday, &identity, &bad, &policy()).is_err());
+    }
+
+    let attacker_values = [
+        "api_key=evidence",
+        "gho_provider",
+        "Bearer model",
+        "api_key=tool",
+        "gho_skill",
+        "Bearer grant",
+        "api_key=denial",
+        "gho_claim",
+    ];
+    for case in 0..attacker_values.len() {
+        let mut bad = input(&birthday, &identity);
+        match case {
+            0 => bad.evidence[0].id = attacker_values[case].into(),
+            1 => bad.provider_model.provider_id = attacker_values[case].into(),
+            2 => bad.provider_model.model_id = attacker_values[case].into(),
+            3 => bad.tools[0].id = attacker_values[case].into(),
+            4 => bad.skills[0].id = attacker_values[case].into(),
+            5 => bad.grants[0].id = attacker_values[case].into(),
+            6 => bad.denials[0].id = attacker_values[case].into(),
+            _ => bad.unsupported_claims[0].id = attacker_values[case].into(),
+        }
+        let errors = build_capability_envelope(&birthday, &identity, &bad, &policy()).unwrap_err();
+        assert_rejections_redacted(&errors, &attacker_values);
     }
 }
 
@@ -479,10 +533,33 @@ fn policy_itself_fails_closed_on_missing_roots_and_collisions() {
     collision.allowed_tools.push("TOOL:READ-REPOSITORY".into());
     assert!(build_capability_envelope(&birthday, &identity, &base, &collision).is_err());
     let mut provider_collision = policy();
-    let mut duplicate = provider_collision.provider_models[0].clone();
-    duplicate.provider_id = duplicate.provider_id.to_ascii_uppercase();
-    provider_collision.provider_models.push(duplicate);
+    provider_collision.provider_models.extend([
+        ProviderModelSelection {
+            provider_id: "anthropic".into(),
+            model_id: "model-a".into(),
+            provenance_ids: vec!["model-proof".into()],
+        },
+        ProviderModelSelection {
+            provider_id: "ANTHROPIC".into(),
+            model_id: "model-b".into(),
+            provenance_ids: vec!["model-proof".into()],
+        },
+    ]);
     assert!(build_capability_envelope(&birthday, &identity, &base, &provider_collision).is_err());
+    let mut model_collision = policy();
+    model_collision.provider_models.extend([
+        ProviderModelSelection {
+            provider_id: "anthropic".into(),
+            model_id: "model-a".into(),
+            provenance_ids: vec!["model-proof".into()],
+        },
+        ProviderModelSelection {
+            provider_id: "anthropic".into(),
+            model_id: "MODEL-A".into(),
+            provenance_ids: vec!["model-proof".into()],
+        },
+    ]);
+    assert!(build_capability_envelope(&birthday, &identity, &base, &model_collision).is_err());
 }
 
 #[test]
