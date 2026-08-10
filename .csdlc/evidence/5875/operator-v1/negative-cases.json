@@ -1,0 +1,63 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5875,
+  "source_revision": "1b5a72cbff7e7fb2a0aaadffe04d53cd0992a549",
+  "producer_path": ".csdlc/evidence/5875/derive-negative-cases.rb",
+  "producer_sha256": "3ee25b529850bf77b1ebd2906ca102066f68e4dfbb28cdc040ab21609c04efdb",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_migration",
+      "--",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T09:44:21.304649Z",
+    "finished_at": "2026-08-10T09:44:22.000666Z"
+  },
+  "stdout_path": ".csdlc/evidence/5875/operator-v1/negative-cases.stdout.log",
+  "stdout_sha256": "2656a0e6a417b16c18e9bb767fe6569b5f5e6c894ddfc806c148aaf7289c4268",
+  "stderr_path": ".csdlc/evidence/5875/operator-v1/negative-cases.stderr.log",
+  "stderr_sha256": "e43a485166dc922fb12bca1ff2cd58b1c2604df8d9c32b4c9fe4314b1cd6f8b0",
+  "cases": [
+    {
+      "case": "unknown_migration",
+      "result": "rejected",
+      "observed_line_sha256": "f93cca6b230add4e1bdfcd168c224d4757882d8aa4af400d94203c70a0367098"
+    },
+    {
+      "case": "rollback_restart",
+      "result": "rejected",
+      "observed_line_sha256": "996ec47b5c226aebf146b4bd025e6217acf6efdb4b4908f6af89a26986f3e49d"
+    },
+    {
+      "case": "corrupt_restart",
+      "result": "rejected",
+      "observed_line_sha256": "352db54125db352596e1340ff95ece51136ab6a12ef3f760a53f164de2cae83f"
+    },
+    {
+      "case": "zero_capacity",
+      "result": "rejected",
+      "observed_line_sha256": "022e3e8b018db7600dd466dc8d2f725178299d9eabfe5918972767b9100f2d1b"
+    },
+    {
+      "case": "skip_after_abort",
+      "result": "rejected",
+      "observed_line_sha256": "2d7a36db7ff19abe97899fd4fc8926f7baa919b1013071d47f0c2d56f6052566"
+    },
+    {
+      "case": "post_fence_abort",
+      "result": "rejected",
+      "observed_line_sha256": "addea100c06cc40484ab9208161bd9d5de732468816bbdd8c5cdf71345c797fd"
+    },
+    {
+      "case": "wrong_activation_key",
+      "result": "rejected",
+      "observed_line_sha256": "9220e539c3675ede0b0ea84926dcf10c106b44e8ee48e8b12fa8366042f6f301"
+    }
+  ]
+}
