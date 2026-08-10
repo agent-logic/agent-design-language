@@ -1,0 +1,24 @@
+{
+  "issue": 5876,
+  "card": "spp",
+  "expected_generation": 14,
+  "expected_digest": "d7de8402e85eb86cd06764c5448d43833a2a98988fb0215e8c9d467d1d233659",
+  "actor": "codex:5876-recovery-readiness-preparation",
+  "reason": "Make the stable recovery authority, durability, rollback, and resource obligations explicit.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Only adl-runtime/src/distributed/recovery.rs and adl-runtime/tests/distributed_recovery.rs are mutable; #5878 owns production module registration",
+      "The highest local epoch, last durable local owner, newest timestamp, or any single-node state never confers recovery authority",
+      "Ambiguous durable histories fence every candidate until majority or quorum committed evidence proves exactly one authority",
+      "A source may resume before the fence only when durable migration state proves the fence was never crossed",
+      "After the fence, recovery never re-authorizes the source without newer majority or quorum committed authority",
+      "Every recovery decision and its audit state are persisted atomically before any observable authority or state change",
+      "Restart and rollback recover only the last committed record; corrupt, torn, missing, or inconsistent durable state fails closed",
+      "Candidates, histories, snapshot or manifest references, identifiers, retries, timeouts, evidence bytes, and arithmetic are hard bounded with checked operations",
+      "Only exact idempotent repeats are accepted; stale, replayed, mismatched, unauthorized, wrong-domain, expired, or revoked inputs fail closed",
+      "Execution evidence and independent review remain digest-bound to the exact protected source revision"
+    ]
+  }
+}
