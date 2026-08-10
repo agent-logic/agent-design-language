@@ -135,6 +135,7 @@ def relative(path):
 
 text = pathlib.Path(stdout_path).read_text(encoding="utf-8", errors="replace")
 summary_text = text + pathlib.Path(stderr_path).read_text(encoding="utf-8", errors="replace")
+summary_text = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", summary_text)
 summary = re.search(r"(?m)^\s*Summary\s+\[[^]]+\]\s+(\d+) tests? run:", summary_text)
 if summary is None:
     summary = re.search(r"(?m)(\d+) tests? run", summary_text)
