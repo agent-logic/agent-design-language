@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired WP-10 so continuity construction recomputes caller-visible WP-09 identity-record integrity before token comparisons, crate-private policy establishment requires VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound to one exact authority context, generation overflow fails closed, and signed witnesses are accepted only at the exact generation-bound governed path.
+Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator output while preserving exact signed runtime authority, separately binding accepted opaque cycles to verified WP-09 identity context, recomputing caller-visible identity integrity, and failing closed on provenance, path, lineage, authority, and tamper mismatches.
 
 ## Artifacts
 
@@ -32,7 +32,8 @@ Repaired WP-10 so continuity construction recomputes caller-visible WP-09 identi
 - Bind every opaque verified cycle, continuity record, and continuity head to a canonical digest of the trusted Ed25519 key material, selected signer, identity record, generation floor, topology, configuration, service schema, and versioned authority-context schema; reject cross-policy token splicing even when key IDs match.
 - Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.
 - Use checked generation advancement and reject terminal overflow.
-- Accept only the exact signed live-kernel witness path evidence/continuity/live-kernel/cycle-{generation}.bin after safe_path checks; reject every arbitrary relabel, including separator, camelCase, acronym, lowercase concatenation, wrong-generation, and superficially safe variants.
+- Adapt exact signed Runtime v3 manifests by requiring provenance runtime-v3-live-shutdown, the CheckpointCoordinator live_kernel service/schema and exact 0000-live_kernel.bin filename, signed runtime predecessor lineage, topology/config identity, and trusted Ed25519 authority; bind the first accepted cycle to the verified WP-09 identity head only inside the opaque authority-context token.
+- Prove the positive path with two manifests emitted by real LiveContinuity::checkpoint and reject validly signed provenance/path substitutions plus unsigned manifest tamper without changing continuity.rs or live_continuity.rs.
 - Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.
 - Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.
 
@@ -53,7 +54,7 @@ Repaired WP-10 so continuity construction recomputes caller-visible WP-09 identi
       "--status-level",
       "all"
     ],
-    "purpose": "Prove real WP-09 authority grounding and nine deterministic stale caller-visible identity-record, token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, copied-state, exact canonical witness-path allowlist, and tamper cases at product revision a554b5598eb4a66277bab43530a184c28f0dbed4.",
+    "purpose": "Prove two real authoritative LiveContinuity/CheckpointCoordinator cycles integrate with verified WP-09 identity and nine deterministic provenance/path/tamper, stale identity-record, token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, and copied-state cases at product revision 2e99f069abef00078b51aef5eda46edd9b8f1cf3.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
   },
