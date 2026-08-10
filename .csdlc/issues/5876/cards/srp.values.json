@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.14] Rollback, recovery, and relocation failure",
     "slug": "v0-92-wp-04-14-rollback-recovery-relocation",
     "version": "v0.92",
-    "generation": 19
+    "generation": 21
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.14 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/recovery.rs\nadl-runtime/tests/distributed_recovery.rs\n.csdlc/evidence/5876",
+      "review_revision": "git-blake3:b9dbcd5f524ad8f7efcf18901ffd723bafbad99c:73b331d605790af12dcd04339f31e4e0db14aed978f2e3eafb8279b2c933c4d1",
+      "reviewer": "codex:independent-5876-exact-head-review",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Production module registration remains intentionally owned by integration issue #5878."
+      ],
+      "review_result": "pass"
     }
   }
 }

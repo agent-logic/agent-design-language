@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.14 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/recovery.rs
+adl-runtime/tests/distributed_recovery.rs
+.csdlc/evidence/5876
 
 ## Prompts
 
@@ -31,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Production module registration remains intentionally owned by integration issue #5878.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b9dbcd5f524ad8f7efcf18901ffd723bafbad99c:73b331d605790af12dcd04339f31e4e0db14aed978f2e3eafb8279b2c933c4d1")
 
-Reviewer: None
+Reviewer: Some("codex:independent-5876-exact-head-review")
 
-Result: pre_review
+Result: pass

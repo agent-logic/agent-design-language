@@ -4,14 +4,48 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5464fedd5520e7a04a5a10eb8441602bc8beca37d478f97dc8d1d314987f37a4",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "f2722ebffefed768c149951db22f468ede0f65f9e9f369cdd1c8d1fc260d1a5a",
+  "phase": "published",
+  "generation": 21,
+  "digest": "0865ea7a9280634ab8ef8723f2e59161772b63afc9efb1f910f37c529316f593",
   "branch": "codex/5876-recovery-state-machine",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5876-recovery",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "codex:independent-5876-exact-head-review",
+    "assigned_by": "codex:5876-recovery",
+    "revision": "git-blake3:b9dbcd5f524ad8f7efcf18901ffd723bafbad99c:73b331d605790af12dcd04339f31e4e0db14aed978f2e3eafb8279b2c933c4d1",
+    "scope": [
+      "adl-runtime/src/distributed/recovery.rs",
+      "adl-runtime/tests/distributed_recovery.rs",
+      ".csdlc/evidence/5876"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:independent-5876-exact-head-review",
+    "scope": [
+      "adl-runtime/src/distributed/recovery.rs",
+      "adl-runtime/tests/distributed_recovery.rs",
+      ".csdlc/evidence/5876"
+    ],
+    "reviewed_revision": "git-blake3:b9dbcd5f524ad8f7efcf18901ffd723bafbad99c:73b331d605790af12dcd04339f31e4e0db14aed978f2e3eafb8279b2c933c4d1",
+    "findings": [],
+    "residual_risks": [
+      "Production module registration remains intentionally owned by integration issue #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5876,
+    "pull_request": 130,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/130",
+    "base": "main",
+    "head": "codex/5876-recovery-state-machine",
+    "revision": "git-blake3:b9dbcd5f524ad8f7efcf18901ffd723bafbad99c:73b331d605790af12dcd04339f31e4e0db14aed978f2e3eafb8279b2c933c4d1",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ba86d8dd900ee097044e7c037e7bd3522f9bc232c9d886a7831d51a4771b62b",
+      "values_digest": "29afec6efb4f564e47354116fe22ae2967b20d984e47911319198399875f7eaf",
       "rendered_digest": "9e56f81f6cabb4482fa1cb8df038a6dc945fa72eb54c50605995ccdaa2b9efb3",
       "ast_digest": "75d0ba7f74389e82187f6032f2b91ff3eaa367681889bff9d8803206b6e4413d"
     },
     "stp": {
-      "values_digest": "4f2a91529feb57caf8b2ab361782f09e674654d7e913b386788c1e8e461b272a",
+      "values_digest": "d7eebd73e4169a5776341876a11761709f8fe601feaacf2a95736a554e0ab3fe",
       "rendered_digest": "64dce80a9d3138d70330eab539fbb3060eb1d10f9072996996c916bf7ea07e0d",
       "ast_digest": "78d8b7ae86d8a8ceb8f69fd53332b2d8f2f2b4966ed7dc9ebb9142c65ddc109e"
     },
     "spp": {
-      "values_digest": "cea781dab95109e6d75413b250cecd1defb6518d30fb40d7b5f8c4a22c7467b7",
+      "values_digest": "65c65a7bc6b7af4430b9288427c8a85e0cb0aea56c6458fc32a1f65edffca167",
       "rendered_digest": "a46e4c158be2eda7afc0346b7eef44ff3337ffa90bdb2ad5b42b55adac04f73c",
       "ast_digest": "543cf947602bda56d18a14f72a9d782941b86725fa4fc43775046665b88d859c"
     },
     "vpp": {
-      "values_digest": "23278c2685fea895b4db3b259c72403d1160e2d0e6698e6eb4eae250787e39e0",
+      "values_digest": "8a62393ef6c8a2ebcaa3f4d145abce23fdedb4d6921a14865de56ce58f96b985",
       "rendered_digest": "0351b1b8eee9ddc90f2b85b163c7ccb3f95d05f72a345d87cba9d8aebcfe9487",
       "ast_digest": "acdf0e112acd5d5376dffcc3b8eef67d386c677e7f9293529582a1f197304dc5"
     },
     "srp": {
-      "values_digest": "9f0c4ea6cc5737ef5f3e8554f2dfd2ddf479b732988f233358a9b7d2e50d0c36",
-      "rendered_digest": "5b20f44940cff3244ca9e1030cc412a702120bcf2f9df0091cb7b512701aa042",
-      "ast_digest": "aca16301db783cf7bdd317a089a0c10b736de14c2638e6c3089f9a871446a5ff"
+      "values_digest": "2b6d58f668c8a7052c1ebdde82f534baeaf2763b27bc351c3a14ddda4b5360b4",
+      "rendered_digest": "95e75eaedb50437d6c0f771a53c657bbcfbd3b8baa0143eb47a90ee9abb6c92a",
+      "ast_digest": "78403bcf7a81fc7364745a0898dc83a5476d84a4f6285a650aa34b4faa9424c1"
     },
     "sor": {
-      "values_digest": "a02d75ce7cdaed85589136ab14bb29294ab4ebbba1b1ba37c4f625a090bc7bc6",
-      "rendered_digest": "a5b03428fd88f548e611256b365cd51589dec892a63594d87db5b7d35dc30ee1",
-      "ast_digest": "b150fa7faf45f46581e61c0e6b70fdbc82bd65d652fd9779da3c1e09142fb5ca"
+      "values_digest": "d0ff78e9f98fdfe72161c49f4dc3c1613b1412ff7430329a01374e724325fbbb",
+      "rendered_digest": "ed9b877ce129e089278d67ac8ed4d2e20f383f572bc0f430ca96ab402bc5c3b9",
+      "ast_digest": "62b1c2346447b25afc9c013f2c2f9108c2dbc27c0877f591039beabadf58e224"
     }
   },
   "transitions": [
@@ -97,6 +131,20 @@
       "to": "implemented",
       "actor": "codex:5876-recovery",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:independent-5876-exact-head-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5876-recovery",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -351,6 +399,27 @@
       "actor": "codex:5876-recovery",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 37,
+      "generation": 19,
+      "actor": "codex:5876-recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 20,
+      "actor": "codex:independent-5876-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 21,
+      "actor": "codex:5876-recovery",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
