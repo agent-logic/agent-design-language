@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "60ca324e2a68122997d0365937b36caf2c31b1bf1fdaf7bdcd096f936e287bac",
+  "generation": 3,
+  "digest": "94436899f79aa25ef4a898fd566eb29c5ddffcd66c01ede1ac2d7b11d8869d34",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "7e91411f3c2e38408136eadf9633591d4240dca5032e7e9fb820fe39fdbb52a6",
+      "values_digest": "b8859eb8444b957e9d93fcdc5f55c4f5d7f07ca6a7952c1c09eff87d793e8fd0",
       "rendered_digest": "b0059fecc667c9acdc2d366cd8745874312c56343e6a6d3ab0826b992b438e05",
       "ast_digest": "1dc7deda7386669a8a9bd3bb9c732f332ab33adda21e5fa388dcf59fb62a7dd0"
     },
     "stp": {
-      "values_digest": "631380c46f64d0bf4010ccebf4b67bc84f7e8c0308467c4f8d153c2092eb6ea2",
+      "values_digest": "010d372190655a720501abae458251d766c12426eb80b0700aab5a5ef6da1db8",
       "rendered_digest": "7ddd65ec7db23063f7dba55f426eba4c9209fb44d975c7384f66c3adffc78f99",
       "ast_digest": "73eb73788fdefc09408537e772f45285c3adba3ebf7ad9d391caf0833dd1095d"
     },
     "spp": {
-      "values_digest": "6f111837e6bdfa9076e83153123f3c31be881a6b56ac5a9ce79e363d277f9642",
+      "values_digest": "a5ef3c99a152a2626bc03f020809d093d2be093dfb47673aaed3f27ab7858447",
       "rendered_digest": "3548d4d75476a4a88076b61e8b623192131c8e5834311a5316736a43272ebb49",
       "ast_digest": "079ad5d8a1288791298662ef947f29b4b4735ea69965d41107c9e6097f085557"
     },
     "vpp": {
-      "values_digest": "dd26ad16219f75dae6fd5d882c6ad504e36357ceb2b8e629963e3aa7f808645f",
-      "rendered_digest": "12901101354f361ce2062aed6e4f867f221701296a651bf68070cf3c39210043",
-      "ast_digest": "5c8685bfbf5918b8d9a464ca443b0f61c3faee6270b9e2be1fdff5e36663e501"
+      "values_digest": "a03afd815f128b7be04afcafbac60dd78ce112050c50da2452f69ee80b9b3e14",
+      "rendered_digest": "c8d1ef89ebfab76254e63f4996d0bc896f54ecdb1eb155daac60d466f4b1f78c",
+      "ast_digest": "d579d83096d3faf69850e5a82bee11119dff74c9029c09bb28794046c60cad1e"
     },
     "srp": {
-      "values_digest": "27ce24b8753ba946ad7097ffdba10f9ae2151da8fb697dec02eab85ba9c02f1c",
+      "values_digest": "0519008cf92a4007d87f3624e1653083c6869de386a2d542b5099d76a31d931e",
       "rendered_digest": "b8ffd8a5373155a22600b976befabe96dc7075cbe8bf2226c6414b074d17ea0e",
       "ast_digest": "3df3bb36bcb6ecd025ef8a2b06266d124cdd0854fdf4793951f6b54c50ace426"
     },
     "sor": {
-      "values_digest": "a095218b73a5d617c24c35fbdf1f78adf622a817c203f2899e5722d6b0a442a7",
+      "values_digest": "a11f69a6a73f8b3c94b1bb90e32279b649e2b0e6f2e44d97434f968c9c5ee0e8",
       "rendered_digest": "dd074b4fa9e4431fe2d9bec84b129f0ae6f0187e7df563f658756033aa354313",
       "ast_digest": "39cc131d0e4042080ae44500a2d66d4a67ce65a724fd47e2836886ae741db8b7"
     }
@@ -71,6 +71,13 @@
       "actor": "codex:201-design-review-repair",
       "reason": "Bind the exact forty-case protocol denominator required by independent design review, including finalization freshness, joint quorum, node-local checkpoints, storage faults, and each legacy authority command.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"committed-authority-protocol\",\"proof_role\":\"Prove exact forty-case denominator: current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, delayed_finalize_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--no-tests=fail\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until PR #197 is merged and this issue creates adl-runtime/tests/distributed_authority_protocol.rs and adl-runtime/src/distributed/authority_protocol.rs; fail closed on a missing target, missing source, zero tests, or any result not mapping exactly once to all forty canonical case names.\"},{\"lane\":\"committed-authority-protocol-clippy\",\"proof_role\":\"Reject warnings and API misuse across the same bounded core protocol surface.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"committed-authority-protocol-producer\",\"proof_role\":\"Produce machine-derived execution artifacts with exact name, result, marker, command, stream, timing, Git source, and protected-digest parity for all forty declared cases.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until this issue creates exact owned producer .csdlc/prepared/issues/201/produce-proof-receipt.rb; fail closed while absent and on dirty protected source, a case count other than forty, any missing/extra/duplicate canonical name, nonpassing result, or nonzero command status.\"},{\"lane\":\"committed-authority-protocol-receipt\",\"proof_role\":\"Bind exact protected source, commands, the exact forty-case name/result/marker denominator, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until this issue creates .csdlc/prepared/issues/201/validate-proof-receipt.rb and post-finalize immutable evidence; fail closed until both exist and bind exact reviewed source plus exactly the forty declared names/results/markers.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:201-design-review-repair",
+      "reason": "Bind the exact forty-case protocol denominator required by independent design review, including finalization freshness, joint quorum, node-local checkpoints, storage faults, and each legacy authority command.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"committed-authority-protocol\",\"proof_role\":\"Prove exact forty-case denominator: current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, declared_finalize_time_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--no-tests=fail\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until PR #197 is merged and this issue creates adl-runtime/tests/distributed_authority_protocol.rs and adl-runtime/src/distributed/authority_protocol.rs; fail closed on a missing target, missing source, zero tests, or any result not mapping exactly once to all forty canonical case names.\"},{\"lane\":\"committed-authority-protocol-clippy\",\"proof_role\":\"Reject warnings and API misuse across the same bounded core protocol surface.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"committed-authority-protocol-producer\",\"proof_role\":\"Produce machine-derived execution artifacts with exact name, result, marker, command, stream, timing, Git source, and protected-digest parity for all forty declared cases.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until this issue creates exact owned producer .csdlc/prepared/issues/201/produce-proof-receipt.rb; fail closed while absent and on dirty protected source, a case count other than forty, any missing/extra/duplicate canonical name, nonpassing result, or nonzero command status.\"},{\"lane\":\"committed-authority-protocol-receipt\",\"proof_role\":\"Bind exact protected source, commands, the exact forty-case name/result/marker denominator, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until this issue creates .csdlc/prepared/issues/201/validate-proof-receipt.rb and post-finalize immutable evidence; fail closed until both exist and bind exact reviewed source plus exactly the forty declared names/results/markers.\"}]}"
     }
   ]
 }

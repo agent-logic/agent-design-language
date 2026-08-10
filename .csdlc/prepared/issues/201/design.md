@@ -40,21 +40,27 @@ Every state-changing operation uses two committed entries:
 3. `FinalizeAuthorityIntent` carries the intent digest, the exact signed
    finalization-time token, and endorsements. Replicated apply requires
    `prepare_time <= finalization_time <= inclusive_deadline` under the exact
-   committed time policy. A delayed leader therefore cannot finalize an expired
-   intent, and a replay cannot regress or replace the signed time.
+   committed time policy. This proves that quorum authorization occurred at a
+   declared time inside the intent window, and a replay cannot regress or
+   replace that signed time.
 4. A durable protocol journal records the finalized token and canonical result.
    The result becomes readable only after the exact external protocol checkpoint
    CAS and retry record are durable.
 
 Exact retries return the retained canonical result. Conflicting reuse,
 superseded membership, wrong-domain evidence, missing or duplicate voters,
-invalid keys, expired intent, rollback, and reordered finalization fail before
-protocol publication.
+invalid keys, a declared finalization time outside the inclusive intent window,
+rollback, and reordered finalization fail before protocol publication.
 
 The prepare and finalize entries contain canonical quorum-attested time tokens.
 Replica-local clocks may determine whether a voter is willing to endorse a
 proposed finalization time, but replicated apply consumes identical committed
 time bytes on every voter and cannot branch on a local wall or monotonic clock.
+The protocol defines expiry at quorum authorization time. It does not claim
+that replicated apply can discover a leader withholding already-valid signed
+endorsements after that point. Enforcing a later submission-freshness window
+would require a separate independently advancing committed freshness authority
+and is outside #201.
 
 When `AuthorityMembership` contains joint configurations, the intent binds an
 exact canonical digest of the ordered configuration set. Finalization requires
@@ -142,7 +148,7 @@ The denominator is exactly forty cases, with exact name/result/marker parity:
 `missing_quorum`, `duplicate_signer`, `wrong_voter`, `signer_unavailable`,
 `expired_signer_cert`, `stale_membership`, `config_digest_mismatch`,
 `joint_old_only`, `joint_new_only`, `joint_union_majority_only`,
-`joint_duplicate_guardian_reuse`, `delayed_finalize_after_deadline`,
+`joint_duplicate_guardian_reuse`, `declared_finalize_time_after_deadline`,
 `finalize_before_prepare_time`, `replay_with_regressed_finalize_time`,
 `local_clock_skew_apply_parity`, `checkpoint_object_collision`,
 `node_a_local_before_cas`, `node_a_cas_before_final_marker`,

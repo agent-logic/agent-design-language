@@ -1,8 +1,8 @@
 flowchart LR
   A["Concrete MembershipState plus AuthorityMembership"] --> P["Commit PrepareAuthorityIntent"]
-  C["Prepare time plus inclusive deadline"] --> P
-  P --> E["Opaque local VoterEndorsementAuthority signs proposed finalize time"]
-  E --> F["Finalize time within deadline plus majority of every current config"]
+  C["Prepare time plus inclusive authorization deadline"] --> P
+  P --> E["Opaque local VoterEndorsementAuthority signs declared authorization time"]
+  E --> F["Signed authorization time within deadline plus majority of every current config"]
   F --> J["Node-local exclusive bounded canonical protocol journal"]
   N["Domain polis node guardian boot protocol-instance namespace"] --> X
   J --> X["Node-local external checkpoint CAS binds log intent result retry digests"]
