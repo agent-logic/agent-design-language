@@ -1,0 +1,24 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5869,
+  "source_revision": "2796f8aab2f31d6c9dba6321bb87821c5758c33f",
+  "test_output": ".csdlc/evidence/5869/distributed-lease.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/lease.rs": "6ba0ef03637180dd31541a672d14931ec7f64919d1e3100aedf9d39de604a96d",
+    "adl-runtime/tests/distributed_lease.rs": "851b74ba1937f20a245d8b72e72a876f1dfde7c32f5db31800313d72f29ba25c"
+  },
+  "cases": [
+    {"case": "stable_minority_and_joint_union_majority", "test": "stable_and_joint_openraft_membership_enforce_exact_quorum", "result": "denied"},
+    {"case": "small_voter_set_duplicate_key_and_identity_overflow", "test": "membership_rejects_small_sets_duplicate_keys_and_invalid_identity_bounds", "result": "rejected"},
+    {"case": "copied_identity_generation_algorithm_or_noncanonical_signature", "test": "endorsements_bind_body_identity_generation_algorithm_and_strict_signature", "result": "rejected"},
+    {"case": "superseded_signature_domain", "test": "copied_and_superseded_domain_signatures_never_authorize", "result": "rejected"},
+    {"case": "unknown_duplicate_nonminimal_unsorted_or_truncated_wire", "test": "canonical_wire_rejects_unknown_duplicate_nonminimal_unsorted_and_truncated_data", "result": "rejected"},
+    {"case": "wrong_domain_generation_index_or_operation", "test": "certificate_context_rejects_wrong_domain_generation_applied_index_and_operation", "result": "rejected"},
+    {"case": "wrong_purpose_expired_revoked_or_wrong_domain_voter", "test": "voter_authorization_is_live_purpose_domain_expiry_and_revocation_bound", "result": "rejected"},
+    {"case": "policy_drift_or_future_issuance", "test": "policy_digest_and_future_issuance_are_rejected_before_state_mutation", "result": "fail_closed"},
+    {"case": "clone_activation_stale_epoch_epoch_gap_or_clock_uncertainty", "test": "activation_possession_epoch_safety_and_clock_bounds_fail_closed", "result": "fenced"},
+    {"case": "replay_quorum_loss_or_malicious_minority", "test": "stale_replay_quorum_loss_and_malicious_minority_cannot_mutate", "result": "denied"},
+    {"case": "wrong_holder_stale_sink_or_expired_lease", "test": "mutation_sink_enforces_holder_epoch_deadline_and_applied_index", "result": "denied"},
+    {"case": "snapshot_tamper_restart_or_oversize", "test": "canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds", "result": "recovered"}
+  ]
+}
