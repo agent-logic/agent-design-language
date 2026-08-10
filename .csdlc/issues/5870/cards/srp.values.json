@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.08] Fencing and single-owner enforcement",
     "slug": "v0-92-wp-04-08-fencing-single-owner",
     "version": "v0.92",
-    "generation": 25
+    "generation": 26
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/fencing.rs\nadl-runtime/tests/distributed_fencing.rs\n.csdlc/evidence/5870/derive-negative-cases.rb\n.csdlc/prepared/issues/5870/validate-proof-receipt.rb\n.csdlc/evidence/5870/remediation-v4/execution-proof.json",
-      "review_revision": "git-blake3:6f1b0fc823feba1dd4128ab378f85a19804a2777:9dc598b703dfb92cacc5e601216db4e0e70eefc1c54d19696472c15f6a6c56c7",
-      "reviewer": "subagent:release_review_5870",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

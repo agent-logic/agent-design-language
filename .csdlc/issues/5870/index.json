@@ -4,50 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b993a3096652d7703aa471c9306f5c1b266c45e2685d26577f06d7a209557a10",
-  "phase": "published",
-  "generation": 25,
-  "digest": "24415498ffb37a650d81520d0d3681f6e1e18ba12f526cd0239dcd1ea703a265",
+  "phase": "implemented",
+  "generation": 26,
+  "digest": "0ff81a2a3f976500e988ac27d4435ad1cfa2bb4278297ba204c4a8ce24e68bf3",
   "branch": "codex/5870-fencing-single-owner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5870-fencing-single-owner",
-  "review_assignment": {
-    "reviewer": "subagent:release_review_5870",
-    "assigned_by": "codex:5870-fencing-single-owner",
-    "revision": "git-blake3:6f1b0fc823feba1dd4128ab378f85a19804a2777:9dc598b703dfb92cacc5e601216db4e0e70eefc1c54d19696472c15f6a6c56c7",
-    "scope": [
-      "adl-runtime/src/distributed/fencing.rs",
-      "adl-runtime/tests/distributed_fencing.rs",
-      ".csdlc/evidence/5870/derive-negative-cases.rb",
-      ".csdlc/prepared/issues/5870/validate-proof-receipt.rb",
-      ".csdlc/evidence/5870/remediation-v4/execution-proof.json"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:release_review_5870",
-    "scope": [
-      "adl-runtime/src/distributed/fencing.rs",
-      "adl-runtime/tests/distributed_fencing.rs",
-      ".csdlc/evidence/5870/derive-negative-cases.rb",
-      ".csdlc/prepared/issues/5870/validate-proof-receipt.rb",
-      ".csdlc/evidence/5870/remediation-v4/execution-proof.json"
-    ],
-    "reviewed_revision": "git-blake3:6f1b0fc823feba1dd4128ab378f85a19804a2777:9dc598b703dfb92cacc5e601216db4e0e70eefc1c54d19696472c15f6a6c56c7",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5870,
-    "pull_request": 125,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/125",
-    "base": "main",
-    "head": "codex/5870-fencing-single-owner",
-    "revision": "git-blake3:d28a92fd0cc2e065494a69ff463cb916b2de4c19:0f9cfeeaa50c92d59e5f06980bac8e9bc2b28be9e4cf90d4cbc13b2d88aab253",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "08c960c2193468abc279ee5f8eb598468d01e6eaa594a69c0da6f21fabe3693b",
+      "values_digest": "2b655c531ff979a1ff7b1fd906277bb8b9fa90304b47534eab62d7d68e84233c",
       "rendered_digest": "fcea0d4c60af606026f5d30163c71d8938d35a78374a17e471f79436e0f8f681",
       "ast_digest": "93c7a04c3b73c6a5affb4fad7108d5b8458548babd7edb23866157a277769dec"
     },
     "stp": {
-      "values_digest": "189209b859cda00fa6f96695d86703683a652494cb0964b2d08ed7e32f0d5ce1",
+      "values_digest": "a61eefc809f1cde9ad33dbb718f0b9ace1daeb78a64ea29cbb23a721d607fafa",
       "rendered_digest": "bd20e8ef6dd2dd00516fa48cc410fa1fbf96288e268401c330dd203078062028",
       "ast_digest": "a23b3f7cfab7d9e1c197ba6a21d0e69d781b9ea9a2fce0115c695ed9ad76a92f"
     },
     "spp": {
-      "values_digest": "608104276bf133c0018c957a32175283593c5709104f966199b03c2431744af6",
+      "values_digest": "10c18013ed32a4781d8c658b9b93952d19a2abb3bee21d83cf1b9630f4d089f8",
       "rendered_digest": "445e6c52f024661f867be3d958df571b5ea45c307b6f0775540430f55c1ee0c8",
       "ast_digest": "017c02ee7e7f91f41b582bda811df320c130eaece9c3c477e3f228ac69866041"
     },
     "vpp": {
-      "values_digest": "4c1fd5d3e3f5092e6ee920f6e276f48b20cc16ed43d37910e90badfe095d0bc7",
+      "values_digest": "d1bce2ea24a52cf1fee0c6bc2e589e63b2b1636c9f1ee5c89b16f1d1c9a891b8",
       "rendered_digest": "32ed6e4c0b9f9b59089ab30cf768be5ac2b236051290d6c4c2f81950a5e26743",
       "ast_digest": "c204edc207d5d184acd8b1caa50d76a9ab676edb35a2b0cf14d9ef64509e46fc"
     },
     "srp": {
-      "values_digest": "00194110fdc95091027acf6cc88ab0ce11612fce14dd0287703746ce159b01c6",
-      "rendered_digest": "a86634674fe902e71ea2500eed0d6d1d440dd03111e8fcb65429a38f5aeea763",
-      "ast_digest": "abb718e0e8a63f681f4cc0dc54aba3ef639a5b7279eeef21e7bef3fdd895a8fa"
+      "values_digest": "349d18c02f90b1aa846f8aa28dd14b361785fb8d0062ab59e6e76c6b50281443",
+      "rendered_digest": "530e291c6d6ae778d7d31647e3154636ef9857468a8644be3d4a3d4748ad2e45",
+      "ast_digest": "7cc7ecc867ea3c140d95d7bd4c538bb014b3d3555fc4da13821be99ce411e0c1"
     },
     "sor": {
-      "values_digest": "60e88d5bd717e3093a8695455190d02e29fea3fffbfe841fa1526173f0666969",
-      "rendered_digest": "f99f9376d1a9e16b2350e48e02622a6afcc5ec39844ef4557ad2ec3ab0cd2967",
-      "ast_digest": "afc04332796bf7d8d40846254b268bea58547aeea7c851b3032b3139b0ca95d7"
+      "values_digest": "eddbf30b9ee00c25399e18b3e5e448f8fdda05679c9b6fc3e6dbdefecdedfb7d",
+      "rendered_digest": "23d4fdafd732067a6ebd822d7a0b80b99c36453501ab5ed13cb4caebaa41de80",
+      "ast_digest": "6dd44ede2575e085b09b5c56f117f07b29deec613df0034c68e9b34d941ed929"
     }
   },
   "transitions": [
@@ -147,6 +111,13 @@
       "to": "published",
       "actor": "codex:5870-fencing-single-owner",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5870-fencing-single-owner",
+      "reason": "Recover stale publication review after portable Linux test-root repair and exact remediation-v5 proof."
     }
   ],
   "audit": [
@@ -450,6 +421,13 @@
       "actor": "codex:5870-fencing-single-owner",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 44,
+      "generation": 26,
+      "actor": "codex:5870-fencing-single-owner",
+      "reason": "Recover stale publication review after portable Linux test-root repair and exact remediation-v5 proof.",
+      "operation": "recover_review"
     }
   ]
 }
