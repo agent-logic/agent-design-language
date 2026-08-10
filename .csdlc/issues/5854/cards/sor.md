@@ -55,11 +55,11 @@ Prepared the Sprint 5 umbrella and five child readiness contracts without bindin
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

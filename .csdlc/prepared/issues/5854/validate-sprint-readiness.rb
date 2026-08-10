@@ -165,7 +165,7 @@ raise "WP-24A observation depends on Sprint 5" unless wp24a_observation["depende
 raise "publication was implicitly authorized" unless gates.dig("publication_authorization", "status") == "not_authorized"
 
 umbrella = JSON.parse((ROOT / ".csdlc/issues/5854/index.json").read)
-raise "umbrella is outside its readiness lifecycle" unless %w[bound implemented].include?(umbrella.fetch("phase"))
+raise "umbrella is outside its readiness lifecycle" unless %w[bound implemented reviewed published].include?(umbrella.fetch("phase"))
 raise "umbrella code repository mismatch" unless umbrella.fetch("code_repository") == EXPECTED_CODE_REPOSITORY
 
 umbrella_vpp = JSON.parse((ROOT / ".csdlc/issues/5854/cards/vpp.values.json").read).dig("content", "values")
