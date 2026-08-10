@@ -28,6 +28,8 @@ rg -F 'assert.equal(restartTarget.source_revision, sourceRevision' "${LIVE_VALID
 rg -F 'bytes differ from exact source revision' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'data-last-reconnect-delay-millis' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'root.dataset.lastReconnectDelayMillis = String(delay)' "${APP_JS}" >/dev/null
+rg -F 'root.dataset.reconnectDecisionCount = String(reconnectDecisionCount + 1)' "${APP_JS}" >/dev/null
+rg -F 'restart did not produce a fresh reconnect decision' "${LIVE_VALIDATOR_JS}" >/dev/null
 if rg -n 'std::env::var\("ADL_SOURCE_REVISION"\)|rerun-if-env-changed=ADL_SOURCE_REVISION' "${RUNTIME_BUILD_RS}" >/dev/null; then
   echo "Runtime source provenance must not accept a caller-supplied revision" >&2
   exit 1

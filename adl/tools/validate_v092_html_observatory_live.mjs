@@ -482,7 +482,8 @@ try {
     control_posts: controlRequests.length,
     runtime_instance: await page.locator(".observatory").getAttribute("data-stream-runtime-instance"),
     last_sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence")),
-    applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events"))
+    applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events")),
+    reconnect_decisions: Number(await page.locator(".observatory").getAttribute("data-reconnect-decision-count") || 0)
   };
   const restartTarget = await page.evaluate(async (base) => {
     const response = await fetch(`${base}/v1/observatory`);
@@ -506,11 +507,11 @@ try {
     buildSignedRestartCommand(restartTarget.runtime_instance_id)
   );
   assert.equal(restartResponse.status, 200, "signed checkpointed restart request was not accepted");
-  await page.waitForFunction(() => {
-    return /^(250|500|1000|2000|4000)$/.test(
-      document.querySelector(".observatory")?.dataset.lastReconnectDelayMillis || ""
-    );
-  }, null, { timeout: 20_000 });
+  await page.waitForFunction((previousReconnectDecisions) => {
+    const root = document.querySelector(".observatory");
+    return Number(root?.dataset.reconnectDecisionCount || 0) > previousReconnectDecisions &&
+      /^(250|500|1000|2000|4000)$/.test(root?.dataset.lastReconnectDelayMillis || "");
+  }, automaticReconnectBefore.reconnect_decisions, { timeout: 20_000 });
   const observedBackoff = Number(
     await page.locator(".observatory").getAttribute("data-last-reconnect-delay-millis")
   );
@@ -522,13 +523,15 @@ try {
     control_posts: controlRequests.length,
     runtime_instance: await page.locator(".observatory").getAttribute("data-stream-runtime-instance"),
     last_sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence")),
-    applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events"))
+    applied_events: Number(await page.locator(".observatory").getAttribute("data-stream-applied-events")),
+    reconnect_decisions: Number(await page.locator(".observatory").getAttribute("data-reconnect-decision-count") || 0)
   };
   guardianRestartInProgress = false;
   proofPhase = "baseline";
   assert.equal(automaticReconnectAfter.transcript, automaticReconnectBefore.transcript, "automatic reconnect duplicated chat");
   assert.equal(automaticReconnectAfter.control_posts, automaticReconnectBefore.control_posts, "automatic reconnect replayed a control POST");
   assert.equal(automaticReconnectAfter.runtime_instance, automaticReconnectBefore.runtime_instance, "Runtime restart changed configured instance identity");
+  assert(automaticReconnectAfter.reconnect_decisions > automaticReconnectBefore.reconnect_decisions, "restart did not produce a fresh reconnect decision");
   assert(automaticReconnectAfter.last_sequence >= 0, "automatic reconnect did not establish a valid event cursor");
   assert(automaticReconnectAfter.applied_events >= 0, "automatic reconnect did not restore event accounting");
   report.assertions.automatic_bounded_reconnect = {
