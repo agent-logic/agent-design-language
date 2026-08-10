@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
   "phase": "initialized",
-  "generation": 51,
-  "digest": "cf64204545405241ca03f78a419e161888e1a404d24dc3af4de25f715a0043b7",
+  "generation": 52,
+  "digest": "9eee5464fb86f9966ab5d66a42323393cd3737f0a6c4ad92e3bdd3fe0b7bc086",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a48b02a1a0c2cb9a3638d320ca19be86ee330c048a9ceb2365abe9dd060f2bb",
+      "values_digest": "3bee59611be13ddd28242f75680a59b9de4029eb3f07b1e1029f31009af01ad0",
       "rendered_digest": "f693dd3d3ed034e3ffbaff3348331e986f4f5cc9ae5fce166acecd4f23918b30",
       "ast_digest": "3fd878ebfe7fe0596cb55885b39a06ca0f8b84f87406ef8b718c3f501ba84fa1"
     },
     "stp": {
-      "values_digest": "7272ca173090d7eeb84187a269bc1a9e107b80d1d8fc7f6cb106795b8a06f836",
+      "values_digest": "93f67c372df02b710edf5d648b0a1ca14f78075ae751cfeb0c9f59a6cd4e64b4",
       "rendered_digest": "fd8dce747c315f38887093f1ca7f78f40a0a717c2adea3ef1c2e910fb00e000e",
       "ast_digest": "a6776fd2b7988e12ebfb3180b974a23e81a2c5a85415af812f34310817b29558"
     },
     "spp": {
-      "values_digest": "61ff95adb81f74fe3949c566ccb8589fa1cadf282bdb518e527dd3d3082ada50",
+      "values_digest": "0ec29445a813b9991055f74ec235ec9882adbf60541742bf8b33d61ac6c41fa0",
       "rendered_digest": "767cfba0745c5e4251bdbcc998e03bf6bdc26e6debba673cac2dc07419f96d86",
       "ast_digest": "ca5085e68866962d44871a2c01a332320f900c49014d11e42ed54219f1852fc5"
     },
     "vpp": {
-      "values_digest": "372bc116436a3689bb78b295a8f592efc27874c1638c454ed03f088a745ba8ba",
-      "rendered_digest": "f2b7aa172dc011f3fcb386b2e080ba95808c637689a34456e44b11a2f9f94bcd",
-      "ast_digest": "c2739d91f782cbe4088e1dc4a498bf6ca3ef11244caf5dcb0bc956251d42991c"
+      "values_digest": "419edeea58592c7f89f63f475b4e28a157a2cd34ea2818e8539d10e457be283d",
+      "rendered_digest": "eca4db15b7a88809f1593d12ffd3060220619a844a5cb4ac61ce994ee6a87f69",
+      "ast_digest": "c046d4503574bee67d1ee841cb70300f78c43f81259520fd9fe8b8d96317b7c2"
     },
     "srp": {
-      "values_digest": "7ee8ce2895004e0360a3f0118ad5f6a4874644158f813588691f99badc4a79b9",
+      "values_digest": "01365e43b6e676e4563fc6f7e7bea5aba8cd25981c6e9438ac12592658464573",
       "rendered_digest": "5cf1d14625cc5c42441e85503a8ba2347ee72f5b8a6c55327ebb7b4d02773ec8",
       "ast_digest": "a0c0d5d841942e9187eedd87886ba119301e1a7842960f3b8e41ca367ba925ca"
     },
     "sor": {
-      "values_digest": "976e89571b17277794b1832d832c123f163e2b7bb3cf147653e3a3f9561ddfae",
+      "values_digest": "8ee491cc1b13b48b2e6477e25626b9e89b1ed8fc8c13005cd10f425be8b3d297",
       "rendered_digest": "8dbf031f6e2f727893acd7c4297a6e74d21ecc2bad913bb38629f4c172994b2e",
       "ast_digest": "80a35a095cda2e9920e7a586f841529fd4f683612c6d4f7f185bba3eddcdef26"
     }
@@ -588,6 +588,13 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"Allowed source categories change before implementation.\",\"Public projection needs a separately versioned schema.\",\"Review finds a label that functions as diagnosis, standing, reputation, or rights inference.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5830-acp-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\\\"],\\\"issues\\\":[5830,5843],\\\"order\\\":[5830,5843]}\"]}"
+    },
+    {
+      "sequence": 74,
+      "generation": 52,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Record the issue-created cognitive_profile target as intentionally deferred until binding and implementation materialize it; preserve mandatory native producer deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"cognitive_profile-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5830-core\",\"defer_reason\":\"The issue-owned cognitive_profile target is created during #5830 implementation after typed bind; missing target blocks proof, not execution readiness.\"},{\"lane\":\"cognitive_profile-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5830/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5830/native-platform/macos-semantic.json\"],\"parallel_group\":\"5830-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"cognitive_profile-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5830/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5830/native-platform/linux-semantic.json\"],\"parallel_group\":\"5830-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"cognitive_profile-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=fa412b35b507c62cb55ba3386ad9f76a2d53d0a7a47c18ebcf960608857bd04c]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".csdlc/evidence/5830/native-platform/macos.json\",\".csdlc/evidence/5830/native-platform/linux.json\"],\"parallel_group\":\"5830-native-verify\",\"defer_reason\":null}]}"
     }
   ]
 }

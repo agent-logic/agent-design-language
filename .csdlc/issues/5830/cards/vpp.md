@@ -53,7 +53,7 @@ Diagram: .csdlc/prepared/issues/5830/diagram.mmd
       "all"
     ],
     "parallel_group": "5830-core",
-    "defer_reason": null
+    "defer_reason": "The issue-owned cognitive_profile target is created during #5830 implementation after typed bind; missing target blocks proof, not execution readiness."
   },
   {
     "lane": "cognitive_profile-macos-native-ci-producer",
