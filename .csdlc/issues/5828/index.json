@@ -6,10 +6,28 @@
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
   "generation": 60,
-  "digest": "96af2bea821d8fb14b458ed7c34d28f82c3a4d3d310091dab7a93bf883921ce5",
+  "digest": "34b5bedb0aa267b60d740524794317389e3846a9e970394f3c3788e56ea952f9",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "assigned_by": "codex:5828-memory-palace",
+    "revision": "git-blake3:1f0a8b79a7bc4ec80a5c72e92d456e579c16fc56:7d7b52362d9efb0395b9e513c41a59e7f04b829be139f1f2552598bb83cb172c",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "b4b00d518dd1720a232de17930a6a3ff97718b01a87773e370efbe6fbbafa5a2",
-      "rendered_digest": "a386a7a66824d71565a419f005749b9fb09aecb865c20be51cd73937a0f0036b",
-      "ast_digest": "c653e05218569adeb17f8286178b1b2df6e1868a2d4c71939cd7a8d74d0db880"
+      "values_digest": "e0afeb4c5b0e7bd05a28afddcb9ef1a5c35d396d6c8f79ff9d3eb6d134e65a65",
+      "rendered_digest": "a1a4cd788861815a489a089f56afa745e983fce5f36e38febdfe6c2c0d93ce28",
+      "ast_digest": "81071329b99e47870af63060f18f32c58726c1599ba5f8ec2c8dae97dfd43641"
     },
     "sor": {
       "values_digest": "6c93d88273c21b9bd44c7f3ec17e76a0215a4db5b93b2909f91d8818b70c28cc",
@@ -680,6 +698,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "Clear only the completed exact local Memory Palace target defer while preserving required native macOS/Linux deferrals.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"memory_palace-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"memory_palace\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5828-core\",\"defer_reason\":null},{\"lane\":\"memory-palace-obsmem-trace-binding\",\"proof_role\":\"Recompute the exact ObsMem, Runtime v3 observability/proof, fixture, output, source-SHA, argv, runner, trace, and citation bindings in the integration receipt. [preexec_rejection exit=1 diagnostic_sha256=c3ce76747b2b2ce17fa9746fb2794051041bebcd310d9f4ccc7f7a16dd8c5f6e]\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/evidence/5828/obsmem-trace-integration-receipt.json\"],\"parallel_group\":\"5828-integration\",\"defer_reason\":null},{\"lane\":\"memory_palace-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5828/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5828/native-platform/macos-semantic.json\"],\"parallel_group\":\"5828-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"memory_palace-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5828/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5828/native-platform/linux-semantic.json\"],\"parallel_group\":\"5828-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"memory_palace-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=5dff561a38429e71f769ab6ddc31cf4e13684da2496190a046598e1b3cc281db]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/evidence/5828/native-platform/macos.json\",\".csdlc/evidence/5828/native-platform/linux.json\"],\"parallel_group\":\"5828-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 84,
+      "generation": 60,
+      "actor": "codex:5828-memory-palace",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
