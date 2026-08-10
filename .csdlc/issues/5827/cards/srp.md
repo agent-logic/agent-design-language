@@ -46,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact-head native macOS/Linux receipts remain mandatory after publication and block final review and merge until independently validated.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bd45a58a9551e0a1de99693cb57bd57c31930484:34d2d4c86ff80f55f0533cfc6b68ea6cd2251fc20daf5ccafa680da507f1eefc")
 
-Reviewer: None
+Reviewer: Some("/root/review_5827_authority_repair")
 
-Result: pre_review
+Result: pass
