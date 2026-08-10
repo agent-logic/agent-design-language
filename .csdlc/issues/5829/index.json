@@ -6,10 +6,27 @@
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
   "phase": "implemented",
   "generation": 91,
-  "digest": "dfc9e71869fc0b7937ab037af25a693b962099c6eaf219227e1b050e845be22f",
+  "digest": "d103b3207099bc86faa83c7c5521f18e630e82e08750cb93ac6768ab71790af7",
   "branch": "codex/5829-capability-envelope",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "assigned_by": "codex:5829-capability-envelope",
+    "revision": "git-blake3:b5219330eaba31730a2f2ba2a6e2d5deb9242b64:765c113755a0d5a971adf5a147d092c2b613540fbb45df47abfcf597514f3694",
+    "scope": [
+      ".csdlc/issues/5829",
+      ".csdlc/prepared/issues/5829/design.md",
+      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+      ".csdlc/evidence/5829",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "00131636b58f66756135f6808798290a89c728834a45da6c9ce8ba2056c78164"
     },
     "srp": {
-      "values_digest": "7823a5430793caf15f6362a10a718f2116cff5c02ce0227919fa5548d3d5d50a",
-      "rendered_digest": "1fc30fc9afd8018ed97c352ef14a121fbf0043ddbe2dd190f77d3cb2f1f33fb0",
-      "ast_digest": "bb68d2c7bbca8e224c874a4e35dbde17e24391a6d9a602832696edbc77b36388"
+      "values_digest": "47528153789b45c8ae308b59e3a53b140d5b347938b424f508d2e4d64a572464",
+      "rendered_digest": "dfe079c12ca91c05808df9446e239e0c73a716778dd5b3a6dd76ed8063ada51e",
+      "ast_digest": "7f986d722309c6180c168882e890b9f95983f0b03415620d23c21907d3604e11"
     },
     "sor": {
       "values_digest": "54f4eb4c7f629ad83e0625d6182afe3a989f8331a0ff9d6e805c22b6d8e5d0e4",
@@ -953,6 +970,13 @@
       "actor": "codex:5829-capability-envelope",
       "reason": "Recover the stale post-native review after fixing issue-owned native log normalization and validator path-hygiene enforcement without editing retained receipts.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 120,
+      "generation": 91,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
