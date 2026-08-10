@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "6f57ab68c0a2cead0bca8997906de0cd20daab80311e63fe02f27fbd1aa6f630",
+  "generation": 14,
+  "digest": "6214e7b3ffd012a603c38b80120be370bae00b38b54bf804cd9feed81a93c33e",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ff0a2bd3e980665ab12ace435c5b2f9fd38ccc19369753c3253963a1304e512c",
+      "values_digest": "a3956df50746d6e2ced08d6a21e8c370fb37da57884ad6c5a10576c085a90a3d",
       "rendered_digest": "b8fb383ef2efb210c1835ca5caa89f1a1b57945dcebe86833449c7d703300088",
       "ast_digest": "28d9d9764b5edc0763207de94cd4120e324f83e10e24c0304a04532ae39f8c24"
     },
     "stp": {
-      "values_digest": "6f5e59b56946de8a23b446e72be77840031d2a4bc5b4479a1f49c52fa2f2bc42",
+      "values_digest": "5f61aa9b6cfb11417f1901aa57d5e44b21db665da0ab716aec1daa8e2ebd0093",
       "rendered_digest": "f59864e9168036e26931bd53b0fa4976f089bdb8c611728396088f87cc245bbd",
       "ast_digest": "1c4fa5956407020683ec31dbeeae560ac39e71c279fc303cd8d51f75cebbe11e"
     },
     "spp": {
-      "values_digest": "cda1ff57b1921487f5247b7136d437deb04912a9ce56398626751a89537e31b1",
+      "values_digest": "da45944f69cbb68f6ee576e47b7a26a96da9b96f706ce945f0969bf00906cafe",
       "rendered_digest": "25c70ab7a3a48bc4a99573138db5e45486c0e6e5026dee29efc0bf6f980ddfdb",
       "ast_digest": "d83f34dc5520914cea7b2f269e56d31196579bab949d0ef825532862fef2e068"
     },
     "vpp": {
-      "values_digest": "ca9d042a7341cf01e90eff9b7f78f992c0621a5d10344428ca3914249e69910b",
+      "values_digest": "9f706c7418cd6fda75b900c5b28f273a4b845ea9f1de9d75d4cbeaa743b21966",
       "rendered_digest": "475d39da1386ca2c4ec1f149b6ef6bfcfb336559e45dbe29734d3ac5b8e76b09",
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "ce35582960e82b17980f436043d2da8e77a756259b3e58fe032b4771a3cd03ee",
+      "values_digest": "0d3b95261810d226873083d41fe73ccc849442fd561e5c3a9e67173f33547700",
       "rendered_digest": "1f8484cd4c7e065f65a5a544f7834ee0ac190e5734983b75e6bae136bc4980d8",
       "ast_digest": "57f89ed9924e3742a3f26a1f510697c5bdcb8771810f4127645b62daabdcb36e"
     },
     "sor": {
-      "values_digest": "48141917a90fa41ed04cff7fbd726808350477ab85ab1f9159f9326ee23ac92d",
+      "values_digest": "9aa886e6b2bb13e76749eb7ba32527fe3b4954ec62b8488b1c0cee6c397b480b",
       "rendered_digest": "18279efdcd52712ff24202a13ed748cca211a0fb932c56e5cc512a99c6b45aff",
       "ast_digest": "695ab9273bc2bad6cecba25ab0caa43e8729a092961efd85df3ece51a120f767"
     }
@@ -293,6 +293,20 @@
       "generation": 13,
       "actor": "codex:121-epoch-overflow-remediation",
       "reason": "Recover the assigned review after correcting the retained nextest stdout/stderr mapping with the issue-local exact-child summary wrapper.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 13,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 14,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "Recover the provisional assignment before selecting the truthful overflow-v2 receipt and reconciling publication intent to merged-parent main.",
       "operation": "recover_review"
     }
   ]

@@ -57,7 +57,7 @@ def issue_evidence_file(path, digest, label)
   current
 end
 
-evidence_path = ARGV.fetch(0, ".csdlc/evidence/121/overflow-v1/execution-proof.json")
+evidence_path = ARGV.fetch(0, ".csdlc/evidence/121/overflow-v2/execution-proof.json")
 evidence_file = issue_evidence_file(
   evidence_path,
   nil,
