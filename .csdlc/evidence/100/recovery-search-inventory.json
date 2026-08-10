@@ -1,0 +1,55 @@
+{
+  "schema": "adl.medium-recovery-search-inventory.v1",
+  "issue": 100,
+  "scopes": [
+    {
+      "kind": "approved_company_drive_destination",
+      "authority": "daniel@agent-logic.ai",
+      "folder_id": "1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd",
+      "entries_examined": 35,
+      "package_entries": 34,
+      "preserved_nonpackage_entries": [
+        "1-WHY-ADL.md"
+      ]
+    },
+    {
+      "kind": "repository_history",
+      "path": "docs/milestones/v0.92/publication/articles",
+      "commits_examined": 10,
+      "canonical_source_revisions": [
+        "337b52fe",
+        "d691378f6252500443ed430ff41961b054e5017c",
+        "1f6dceeee8deefcce56a56031f884b7074648e32",
+        "bf66695ced6db9227562a99dbe1615297cb35ed2"
+      ]
+    },
+    {
+      "kind": "registered_fastwork_worktrees",
+      "registered_worktrees_examined": 165,
+      "publication_package_worktrees": 59,
+      "article_files_examined": 590,
+      "distinct_digests_by_article": {
+        "01-what-is-adl": 2,
+        "02-adl-runtime-and-cognitive-spacetime-model": 2,
+        "03-godel-agents-and-godel-hadamard-bayes-algorithm": 1,
+        "04-the-freedom-gate": 1,
+        "05-uts-and-acc-making-agents-with-tools-safe": 2,
+        "06-codefriend-and-the-cognitive-sdlc": 1,
+        "07-continuous-adversarial-verification-for-continuous-security": 2,
+        "08-agent-economics": 1,
+        "09-adl-and-social-intelligence": 1,
+        "10-whats-next-for-adl": 2
+      }
+    },
+    {
+      "kind": "repository_demo_history",
+      "candidate_files_examined": 8,
+      "retained_substantive_variants": 6
+    }
+  ],
+  "result": {
+    "all_required_articles_recovered": true,
+    "unrecoverable_articles": [],
+    "substantive_variants_retained": 14
+  }
+}

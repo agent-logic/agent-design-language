@@ -16,7 +16,7 @@ Recover and verify the complete 34-file Medium launch package: 10 canonical arti
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
@@ -51,12 +51,12 @@ Revision 4
   },
   {
     "id": "S4",
-    "action": "Retain the provenance manifest, completeness guard, focused validation, and bounded independent review.",
+    "action": "Retain the provenance manifest, completeness guard, and focused validation; independent exact-head review remains pending until the repaired head passes.",
     "acceptance_ids": [
       "AC-5",
       "AC-8"
     ],
-    "status": "completed"
+    "status": "pending"
   }
 ]
 

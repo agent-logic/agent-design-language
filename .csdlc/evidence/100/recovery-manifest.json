@@ -1,7 +1,8 @@
 {
   "schema": "adl.medium-recovery-manifest.v1",
   "issue": 100,
-  "canonical_revision": "1f6dceeee8deefcce56a56031f884b7074648e32",
+  "canonical_revision": "bf66695ced6db9227562a99dbe1615297cb35ed2",
+  "search_inventory": ".csdlc/evidence/100/recovery-search-inventory.json",
   "articles": [
     {
       "title": "What is ADL?",
@@ -19,11 +20,10 @@
     {
       "title": "The ADL Runtime and the Cognitive Spacetime Model",
       "canonical_path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
-      "source": "git:d691378f6252500443ed430ff41961b054e5017c:docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
       "recovery_status": "recovered",
-      "sha256": "9979d67a077c86483155dff6d245ceecd3d4eb1ea9aab4d468ab3cb08a187f94",
+      "sha256": "77cd4a778464de3cf709f8d248af0ddfb203c32e1ed5cf54ccb70f07c476b699",
       "drive_url": "https://drive.google.com/file/d/1QKZV8OtyGo_1n3FkTBD_wOfrctXkH93M/view",
-      "title_variance": "The canonical draft heading uses Cognitive Spacetime Manifold; bytes were preserved unchanged.",
       "preserved_variants": [
         {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md","sha256":"5520611dcc4ba1e8125063aeffa121f6b1c211d16ede2f8471916fcfe195b7b2"},
         {"source":"demos/v0.90.5/publication/cognitive_spacetime_manifold/cognitive_spacetime_manifold_manuscript_packet.md","sha256":"f530f27fa69b224addfa30a548422d8676f682316d08afb0c7115350986f1386"},
@@ -55,11 +55,10 @@
     {
       "title": "UTS and ACC - Making Agents With Tools Safe",
       "canonical_path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
-      "source": "git:d691378f6252500443ed430ff41961b054e5017c:docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
       "recovery_status": "recovered",
-      "sha256": "7a622d18a66b56a239ca9739c18522d74b325a375a4ec43f550dbb42a453f112",
+      "sha256": "2edfa80138ca7f78515fc3eeb9674c6981d320ae99cf4344e7a909a63e6e28dd",
       "drive_url": "https://drive.google.com/file/d/1QTjQuAHoR_7pHMaBuyoVomF0hqK62m2q/view",
-      "title_variance": "The canonical draft heading uses Safer; bytes were preserved unchanged.",
       "preserved_variants": [
         {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md","sha256":"c099588b48dc18187345474c5f6e12ef9d27e62ca1562e07eb9be74cf3a34920"}
       ]
@@ -78,9 +77,9 @@
     {
       "title": "Continuous Adversarial Verification For Continuous Security",
       "canonical_path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
-      "source": "git:d691378f6252500443ed430ff41961b054e5017c:docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
       "recovery_status": "recovered",
-      "sha256": "abb3fa518b444506a541734fe32d6de045c259990e7dcbc7fee9ffcf64864d59",
+      "sha256": "863c8cff14ecca43fd5235a2994b31ab2b517727610c27fd65a3aa77ce9c2429",
       "drive_url": "https://drive.google.com/file/d/1FRcvIHa4BJKWb3UJb0Z00aQm8ei3YtUu/view",
       "preserved_variants": [
         {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md","sha256":"bde4dc3bcb4c7a40ba3cb511cb4ce9549f5e4f0c8a05b4c0b5a23c03543b399c"}
@@ -109,9 +108,9 @@
     {
       "title": "What's Next for ADL?",
       "canonical_path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
-      "source": "git:d691378f6252500443ed430ff41961b054e5017c:docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
+      "source": "git:bf66695ced6db9227562a99dbe1615297cb35ed2:docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
       "recovery_status": "recovered",
-      "sha256": "c2954f4139fda5cc9e41fb80c19e60976e88b8f03f07f814434aed4d7217be43",
+      "sha256": "9a693546f68bd20d8f6c9686510c5380c7f2a84e250101696bef51f163c7ea1d",
       "drive_url": "https://drive.google.com/file/d/1GvvyQ8KLe1ChZ-4nl4Nq6zsOdnW9sqdj/view",
       "preserved_variants": [
         {"source":"git:337b52fe:docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md","sha256":"62e5c12d8d9afb7da7aa6ad393da5f369b16606cd17d92073c0f194d04ad9af4"}
@@ -130,6 +129,7 @@
     "canonical_receipt": ".csdlc/evidence/100/company-drive-upload-receipt.json",
     "supporting_receipt": ".csdlc/evidence/100/company-drive-support-upload-receipt.json",
     "title_correction_receipt": ".csdlc/evidence/100/company-drive-title-correction-receipt.json"
+    ,"title_alignment_receipt": ".csdlc/evidence/100/company-drive-title-alignment-receipt.json"
   },
   "destination_reconciliation": {
     "issue_body_folder_id": "1hacu6zwCUlIYXYtvpMW0IFtk506LUb8Q",
@@ -140,7 +140,7 @@
   "unrecoverable_articles": [],
   "remote_deletions": 0,
   "authorized_title_corrections": 3,
-  "remote_overwrites": 3,
+  "remote_overwrites": 11,
   "sharing_changes": 0,
   "synthetic_replacements": 0
 }

@@ -7,13 +7,13 @@
     "title": "[Emergency] Recover and publish the 10 Medium launch article drafts to Google Drive",
     "slug": "recover-medium-launch-article-drafts",
     "version": "v0.92",
-    "generation": 13
+    "generation": 17
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 4,
+      "plan_revision": 5,
       "summary": "Recover and verify the complete 34-file Medium launch package: 10 canonical articles, 10 editorial reviews, 10 source packets, and 4 series records. Preserve variants and exact provenance, use only the approved Agent Logic company Drive folder 1hCVwqDLetD9Q8tWEDB8e3nTYzvI1Q-rd, retain the original issue folder as obsolete and inaccessible to the company credential, and limit remote overwrites to the three operator-authorized title-only corrections for What is ADL?.",
       "steps": [
         {
@@ -46,12 +46,12 @@
         },
         {
           "id": "S4",
-          "action": "Retain the provenance manifest, completeness guard, focused validation, and bounded independent review.",
+          "action": "Retain the provenance manifest, completeness guard, and focused validation; independent exact-head review remains pending until the repaired head passes.",
           "acceptance_ids": [
             "AC-5",
             "AC-8"
           ],
-          "status": "completed"
+          "status": "pending"
         }
       ],
       "affected_areas": [

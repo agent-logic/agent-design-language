@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "239a9c5d2d3e4197e42022ea7a7b40b71f70510f26118688d6a09f95bb74c40c",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "5d16e0a5ac6aa45b82535382a030353b332da1959cceaeb09381a8b3b5ca338e",
+  "generation": 17,
+  "digest": "f2408cc95783d043a5956d263316697913264d9d4cf2046af22056b791f62b40",
   "branch": "codex/issue-100-medium-launch-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-100-medium-launch-recovery",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dc3a8778210435086dbf2c537ea54f6a61515809ce99f465935b8c440f7f1dd0",
+      "values_digest": "f8ce237f7c5e971b19939af9972d91c0089145997bb4420433c3885565744b75",
       "rendered_digest": "e414c4de263dd6faa28c58eedf91727ead0f4b1a8fb91d395fe5a355a2e0ded8",
       "ast_digest": "9f61a5ed3f920aae4112bf0e11c29bc80a6d9632668cb713772b74f41b4a524a"
     },
     "stp": {
-      "values_digest": "469b4a73840ade8f371ae73bd771c9fc2d85c569344f20958cd4cc5137fa6796",
+      "values_digest": "7873de312f57c413848113c5225d72a246c8a42c3a6bc93401e34ec9c3bfa3b6",
       "rendered_digest": "00b83304f010d219341a963a7f0e2fc24ae992aded83a7d775b1f6387a7f4fd3",
       "ast_digest": "9ea16d043ceb367e9792d4ffe2a7daeafcbfea4728466036c6f74ddb0092a335"
     },
     "spp": {
-      "values_digest": "8782a5b25ad0bcf274a72d156a1c883a646edd5cd126ebb1275349264fec53ed",
-      "rendered_digest": "436e0367f5f978e9ccc6ccaad0340cc37b73267026ae56a286a419724eaad4a4",
-      "ast_digest": "f6f5c6eadd583ec027554fd98ed310301f72b083c96c7ef6646875dbce8847b2"
+      "values_digest": "731cfaa5aff1c499a94068962b135b588d2b02070828e20b3543a5839c3a1ad3",
+      "rendered_digest": "da86784c3fef2da9cca02b787bced3694576a423b74a893df30166e5e1c4503e",
+      "ast_digest": "6cf2fb45fac2209fffb7ce583504d9cca7ac6358396bcd49a153e405282df504"
     },
     "vpp": {
-      "values_digest": "f1cd4c5c7a2bb2e9599443847142224798bc4a921a44fe46f203c3451c984ac1",
+      "values_digest": "7e72e2a21e00e1b6e693b8ca6afbc61c9d12b2f1f51eeac6c6acf40afdabc2ac",
       "rendered_digest": "7d2add67942dcdc966691fe9a955b9bd378db430f47acd3c6100215686364c5c",
       "ast_digest": "ad8210ee3abe61f2f09420c9ae4ff319d88898d6351a4251618a0e9d9e3c7d93"
     },
     "srp": {
-      "values_digest": "3ae539ba7a452c4841d6a12fde5f8ebca5bb41c1ee9d25b93bfba8d6576e6882",
+      "values_digest": "3a6596ea643ef9106da05e17ff49e2aa041b564a617f9fc9eeb8d5f1de3bb85d",
       "rendered_digest": "e5e0793eeeff5cb484a644445c7082a144654c0d7dfe27ace0e1b236501ba9ca",
       "ast_digest": "832b0e7aa29b34689253a48a572dec7cb363bff31d974b77e9045e7edb0ed449"
     },
     "sor": {
-      "values_digest": "813f535c35379ac594ead4bcab02b5879653ff7ece9ed564a9ddb9a6e8589460",
+      "values_digest": "b7ffb80a2f9c899d3ec02af309522b72e8c916babf7525aadf9e069b360e3a4f",
       "rendered_digest": "e202eeb8b5634f9249f62a2a7e4efdc437d7c6b420dce48636edc362a517c373",
       "ast_digest": "4a15692812baf6d0a3f04c84234acf2da6a603c0b5bca5204dd29598f4c0580a"
     }
@@ -182,6 +182,34 @@
       "actor": "codex:100-closeout",
       "reason": "The 34-file recovery and focused validation are complete; independent review remains pending.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:100-review-repair",
+      "reason": "Correct the plan so independent exact-head review remains pending until the repaired head passes.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Inventory the destination and search approved Drive, repository history, and registered FastWork worktrees for all ten article titles and variants.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Digest and classify candidates, preserve substantive variants, and select one evidence-backed canonical revision per title.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Upload ten stable canonical drafts without destructive replacement and verify credentialed readability.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Retain the provenance manifest, completeness guard, and focused validation; independent exact-head review remains pending until the repaired head passes.\",\"acceptance_ids\":[\"AC-5\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:100-review-repair",
+      "reason": "Restore completed execution-step truth while leaving independent review pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:100-review-repair",
+      "reason": "Restore completed execution-step truth while leaving independent review pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:100-review-repair",
+      "reason": "Restore completed execution-step truth while leaving independent review pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }
