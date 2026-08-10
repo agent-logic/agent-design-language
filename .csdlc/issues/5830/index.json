@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5830,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 54,
-  "digest": "f55cca0c516362ff76c89d32ef535d17504e8702b23b8093dceac7bf586241ff",
-  "branch": null,
-  "worktree": null,
+  "digest": "1ab6e69f9b0a0026dc584c7df1c3040fb6d10ee4715283072d3bdd6fe5bdc9d4",
+  "branch": "codex/5830-cognitive-profile",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -609,6 +624,13 @@
       "actor": "codex:5830-cognitive-profile",
       "reason": "Keep the implementation-created test file as the exact deferred validator while expressing its not-yet-created fixture directory as a bounded semantic deliverable.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/cognitive_profile.rs\",\"Canonical cognitive-profile creation, update, internal-projection, public-projection, and negative fixture matrix\",\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".csdlc/evidence/5830\",\"Fail-closed stale evidence, identity/continuity mismatch, privacy, unsupported-label, diagnosis, reputation, standing, rights, personhood, and consciousness proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 54,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
