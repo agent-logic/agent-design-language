@@ -42,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Replacement native Linux and macOS receipts must pass both distinct WP-13 aggregate validators at the exact republished head before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e749241965aad8359385020e02ad95aeb655aece:ce60d2db8561603088bfd8ed2df05c6f6642d6d8d2b50a8729a9b316eeeb13f3")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_144_exact_head")
 
-Result: pre_review
+Result: pass

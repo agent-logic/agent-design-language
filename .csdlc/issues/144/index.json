@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "08de9572ca86f0292a6a892a4021ea51024bf91303a48775826ff0ce0272202f",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "629586929bc07f9fb60580cc34e4194f48f5464fd516e3235e9b0b0cf95f45c2",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
   "review_assignment": {
@@ -27,7 +27,29 @@
       "Review the formally widened generic WP-13 compatibility repair after failed run 31422154377. Confirm both distinct producer/validator pairs execute and validate the same exact filtered fifteen-test internal authority lane while retaining their own issue, evidence namespace, workflow identity, run/job, artifact, digest, source-manifest, semantic-equivalence, and path-hygiene gates. Confirm generic #5830 cards/evidence are unchanged and opaque-authority product source remains the previously approved implementation."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_144_exact_head",
+    "scope": [
+      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5830/validate-native-receipts.rb",
+      ".github/workflows/wp13-native-cognitive-profile.yml",
+      ".csdlc/prepared/issues/144/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
+      ".github/workflows/wp13-authority-repair.yml",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+      ".csdlc/evidence/144",
+      ".csdlc/issues/144",
+      "Review the formally widened generic WP-13 compatibility repair after failed run 31422154377. Confirm both distinct producer/validator pairs execute and validate the same exact filtered fifteen-test internal authority lane while retaining their own issue, evidence namespace, workflow identity, run/job, artifact, digest, source-manifest, semantic-equivalence, and path-hygiene gates. Confirm generic #5830 cards/evidence are unchanged and opaque-authority product source remains the previously approved implementation."
+    ],
+    "reviewed_revision": "git-blake3:e749241965aad8359385020e02ad95aeb655aece:ce60d2db8561603088bfd8ed2df05c6f6642d6d8d2b50a8729a9b316eeeb13f3",
+    "findings": [],
+    "residual_risks": [
+      "Replacement native Linux and macOS receipts must pass both distinct WP-13 aggregate validators at the exact republished head before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ee10154536609efe1468025e3b5e4c05e02fa2d6e2e60e16ece0929dfe574af",
+      "values_digest": "763e72a6cc2d720502d9c5fbfc198bf879e74fc98879f6d19ab021386523a88a",
       "rendered_digest": "4004621723dd841853ccc2cfab0f5aee3347439ec90b76d097559c00db5ace7c",
       "ast_digest": "db952cd8c031e13c7eaed23555c23f6383fabbcdfbc724acf2926b8600983943"
     },
     "stp": {
-      "values_digest": "eb17d3be2c8b6bc2f6caf16d4c72f986f84a51173d8f224e0e5181c897907090",
+      "values_digest": "6980bed27bb0099bdde9d59998ff652bb8c5cba2198c7af53050cd533f150a61",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "38fa6f6d7399cc7593bbb3e8a7b54d2a24ecdf13c47276228fa5b3dc8f236ead",
+      "values_digest": "ad34959d933777a8240387931538c8005f78db66e3787bd901aa065057e62f6c",
       "rendered_digest": "24a6184a59fe6ad7b1c6d9238c095f0b35d327c5c55beccd849e454948d9356b",
       "ast_digest": "c98327bd98b689ff803ceba35aab8099e5f38114a07dba167e4332844a7e8594"
     },
     "vpp": {
-      "values_digest": "2c897fad4bc120432517d06e4dc53b5180929d58084f403a9b8eb199bc1d9e9d",
+      "values_digest": "dd5fe30a30ebb33223c57f819af84465a602859a6c079e2f8a705ce7bd52cc66",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "7e84d532ec8792b17ca510195a989cc29347f1ce251939bfef3122ef5bd38bc8",
-      "rendered_digest": "2135c14fc83bb241eba1bc9310347ca098a37f097b97b7fbe9bdd510d80ebe85",
-      "ast_digest": "0ca02ba6cc3647150eb1a3d200dd55cab4e05c9c8024f6a1ac2e5cad0dc3e40b"
+      "values_digest": "a98fad29547044523b635b852973c52e4c3d2038ca7cc3b175d02b68359ab979",
+      "rendered_digest": "4c81da85a204688b5662160075889768df01a4e4ebe79712d392f67fad1a4e5c",
+      "ast_digest": "a977f72a38beee92883586d572d34e777ae9a664dc8c3e7368d8062a2dc9cd6c"
     },
     "sor": {
-      "values_digest": "42f390bcdf512d3ca93f890f2147dabbd8dfd821f2ae20b75c4fa4558b964653",
+      "values_digest": "eab2672d5820c51557f891998c3a836ac524b5d43b68ec67e48707f7c47a74d8",
       "rendered_digest": "ce868a86d97e755648d3f52d70bb164d7c5ccb106cc6c9f86d1e65266733c80f",
       "ast_digest": "93c68c159a10b495dbc135eac2fa357848cfb4c8fe17cb547b97c043dfd09826"
     }
@@ -135,6 +157,13 @@
       "to": "implemented",
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "Replacement exact-head run 31422154377 proved the merged generic WP13 native workflow still invokes stale #5830 producer/validator inventory after #144 moved governed authority proof to a filtered crate-internal lane. Recover publication and widen narrowly to keep the existing generic WP13 proof contract exact and green."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -291,6 +320,13 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

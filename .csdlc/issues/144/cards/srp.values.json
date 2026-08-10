@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-13][defect] Anchor cognitive-profile authority and verify full revision lineage",
     "slug": "wp13-cognitive-authority-lineage-rotation",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/prepared/issues/5830/produce-native-receipt.rb\n.csdlc/prepared/issues/5830/validate-native-receipts.rb\n.github/workflows/wp13-native-cognitive-profile.yml\n.csdlc/prepared/issues/144/produce-native-receipt.rb\n.csdlc/prepared/issues/144/validate-native-receipts.rb\n.github/workflows/wp13-authority-repair.yml\nadl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\n.csdlc/evidence/144\n.csdlc/issues/144\nReview the formally widened generic WP-13 compatibility repair after failed run 31422154377. Confirm both distinct producer/validator pairs execute and validate the same exact filtered fifteen-test internal authority lane while retaining their own issue, evidence namespace, workflow identity, run/job, artifact, digest, source-manifest, semantic-equivalence, and path-hygiene gates. Confirm generic #5830 cards/evidence are unchanged and opaque-authority product source remains the previously approved implementation.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:e749241965aad8359385020e02ad95aeb655aece:ce60d2db8561603088bfd8ed2df05c6f6642d6d8d2b50a8729a9b316eeeb13f3",
+      "reviewer": "/root/sprint4_5857/review_144_exact_head",
       "review_prompts": [
         "Can a caller choose both the policy/evidence and the key that supposedly authorizes them?",
         "Does validation recompute every ancestor through genesis rather than trusting stored older digests?",
@@ -24,8 +24,10 @@
         "Are native receipts and typed claims bound to the exact repaired revision?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Replacement native Linux and macOS receipts must pass both distinct WP-13 aggregate validators at the exact republished head before merge."
+      ],
+      "review_result": "pass"
     }
   }
 }
