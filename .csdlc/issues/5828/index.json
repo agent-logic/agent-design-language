@@ -6,10 +6,28 @@
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
   "generation": 64,
-  "digest": "52e46b01b3238e0c9b8d936935e8cf7d608d95911b98b2c497f9bb0eb0aa9a93",
+  "digest": "b692bd4b4d77bd594dbd01bc6841691cfb65e110c651bca165a39874cb83f341",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "assigned_by": "codex:5828-memory-palace",
+    "revision": "git-blake3:bfa4c1371b3172f835281a8fb67dfe5296aa9c23:a0a563da156d7ecdc3d787825b5bf140047c406754a94f07807f27a6cd689725",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "c8b18ea1e0fbd5594b4e84670ff12ab4f90822272e429d3089909545cc54df4f",
-      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
-      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
+      "values_digest": "a269ba4bf16bf63d922591ad6dde250ea98ec6fed9cc3156bb44b62121e99ab0",
+      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
+      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
     },
     "sor": {
       "values_digest": "d0aacdf9b46ec5b1e8f7756f78807c2410e38b1d727036e139d7699ca0a2dbfa",
@@ -743,6 +761,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "Recover review after removing only agent-created tracked lifecycle request files; product, proof, and reviewed lifecycle truth remain unchanged.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 64,
+      "actor": "codex:5828-memory-palace",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
