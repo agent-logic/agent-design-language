@@ -1,0 +1,108 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5870,
+  "source_revision": "be66403fee167b5ebbc9851ae39e6ad4dab9df76",
+  "producer_path": ".csdlc/evidence/5870/derive-negative-cases.rb",
+  "producer_sha256": "96a01a6969cc69d64d194ff92d5d8a3e96a78868f742773998fdaaed72d3a086",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_fencing",
+      "--",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T07:37:38.328210Z",
+    "finished_at": "2026-08-10T07:37:38.690255Z"
+  },
+  "stdout_path": ".csdlc/evidence/5870/remediation-v3/operator-v1/negative-cases.stdout.log",
+  "stdout_sha256": "985b14b04ba109e5d6c9b7c5bbe298181ebb4bdc7f38333083357d00a4538f11",
+  "stderr_path": ".csdlc/evidence/5870/remediation-v3/operator-v1/negative-cases.stderr.log",
+  "stderr_sha256": "2ca66592ffb684157da0e0ad322f436b8707abf75acacdce923c539f304d3698",
+  "cases": [
+    {
+      "case": "fence_without_old_holder_activation_proof",
+      "result": "fenced",
+      "observed_line_sha256": "9768eec13d1a60c0d3fa21e3ddfca34f3586863221365c7108d056ef3f23811d"
+    },
+    {
+      "case": "revoke_without_old_holder_activation_proof",
+      "result": "fenced",
+      "observed_line_sha256": "d242e19dd27df489b2389afa5f943e61bd7eb29fe5c7722d06a514f9af3fa331"
+    },
+    {
+      "case": "fence_same_epoch",
+      "result": "denied",
+      "observed_line_sha256": "99566475b2b50d66e7c772f93c6c50546454ac6656204c1acf755e48f965ff03"
+    },
+    {
+      "case": "fence_epoch_gap",
+      "result": "denied",
+      "observed_line_sha256": "63317bdc8b2f558163fcf874df20af8e4e808a49066c929b93594c2063c60d05"
+    },
+    {
+      "case": "fence_uncommitted_next_epoch",
+      "result": "denied",
+      "observed_line_sha256": "d894edfe23207b2dc2ebd0789ed71e68c9c2ea82c0f92cfc3b80d52e16e4fab5"
+    },
+    {
+      "case": "stale_authority_membership",
+      "result": "denied",
+      "observed_line_sha256": "750c3377575c6ec3fb1ab9464f19b92cf98e67d0d0730195264d6353c52c7ebe"
+    },
+    {
+      "case": "no_current_authority_membership",
+      "result": "denied",
+      "observed_line_sha256": "9f00a0f47cc85e9f85e1985160f6f5d60a5bd8e3fd76866b5df41eb24db9c555"
+    },
+    {
+      "case": "unauthorized_operation",
+      "result": "denied",
+      "observed_line_sha256": "eed3b39f92c361a11ff3b73af533d8ad9aa0cf7b8f807627966446eb046aff7a"
+    },
+    {
+      "case": "fenced_mutation",
+      "result": "denied",
+      "observed_line_sha256": "ea45f8452c56db6a42a41a6ee5a6b5427a01398754e08be9ede69791429f6530"
+    },
+    {
+      "case": "replay_receipt_mismatch",
+      "result": "denied",
+      "observed_line_sha256": "e2052df7e5bb97ec59b5a94b16c5168fea646f511f75703983879f7b5a608f57"
+    },
+    {
+      "case": "atomic_receipt_failure",
+      "result": "fail_closed",
+      "observed_line_sha256": "6ca40f152de97b46767fb07b39a2dd7061030878235e86c2efb953a07917f442"
+    },
+    {
+      "case": "restart_floor_retained",
+      "result": "fenced",
+      "observed_line_sha256": "84432df2472d9b1b7967737a8da34b075cf14340e33bbcce2948b14f10084f5b"
+    },
+    {
+      "case": "rollback_below_floor",
+      "result": "denied",
+      "observed_line_sha256": "509026dfd9970e0fe17560c95b08948c2d81517073b21ded470f58febfa745ef"
+    },
+    {
+      "case": "unsafe_state_path",
+      "result": "denied",
+      "observed_line_sha256": "ac2e1c0f87df5b66525a44a3df44c3b969762f2300c0a52d418a525db9d6e18b"
+    },
+    {
+      "case": "symlink_state_path",
+      "result": "denied",
+      "observed_line_sha256": "47d2c07f01d66db5ae82a8a194117f36aa3b3437944cf1906627fb1d6e38eeb9"
+    },
+    {
+      "case": "state_capacity",
+      "result": "denied",
+      "observed_line_sha256": "c0266b3928a75d7b344329af899d433c9a48601309d02d783e4324e41bd414d0"
+    }
+  ]
+}

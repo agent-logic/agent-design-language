@@ -1,0 +1,22 @@
+{
+  "issue": 5870,
+  "card": "stp",
+  "expected_generation": 16,
+  "expected_digest": "38d0f0ebd466d8cdc529556392148147bc244f597d122ae80a467bf1c222d4c8",
+  "actor": "codex:5870-corrective-readiness-preparation",
+  "reason": "Align fencing deliverables with the #5909 and #121 corrective authority contracts without claiming execution.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/tests/distributed_fencing.rs",
+      "Quorum-authorized fence and revoke operations that do not require old-holder activation possession, while every holder-authorized activation or mutation still requires current holder proof",
+      "Strict committed next-epoch transitions with a portable durable safety floor that survives restart, restore, and rollback",
+      "Fresh current AuthorityMembership verification and an exact operation allowlist at every authority-sensitive entry point",
+      "Atomic immediately durable replay and fence receipts with fail-closed recovery from torn, corrupt, missing, or capacity-exhausted state",
+      "Deterministic focused tests for path and symlink safety, restart, rollback, replay, capacity, and absent current membership",
+      "Exact-revision proof with an issue-specific machine-derived negative-marker denominator and independent exact-head review"
+    ]
+  }
+}

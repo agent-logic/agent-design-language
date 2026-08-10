@@ -1,0 +1,26 @@
+{
+  "issue": 5870,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "7d9d36e0dc25f593027ab0a1629878a57bd5bfc7a45c5dc39b6ec5e1f29cc944",
+  "actor": "codex:5870-corrective-readiness-preparation",
+  "reason": "Make the audited fencing authority, epoch, durability, portability, and resource invariants explicit.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Only adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs are mutable; lease.rs is a read-only imported contract and #5878 owns production registration",
+      "A valid quorum may fence or revoke an unavailable holder without old-holder activation possession, but no fenced or former holder may activate or mutate without fresh current authority and holder proof",
+      "Epoch changes are exactly the next committed epoch; same, stale, skipped, uncommitted, overflowed, or ambiguous epochs fail closed",
+      "The portable safety floor is derived from committed authority, stored independently of machine-local paths, and never decreases across restart, restore, migration, or rollback",
+      "Every request revalidates fresh current AuthorityMembership, its trust domain, voter set, generation, quorum, committed index, expiry, and revocation state; absent current membership fails closed",
+      "Only the exact declared fencing operation allowlist is accepted; unknown, confused-deputy, cross-lineage, wrong-domain, or holder-only operations without possession are denied",
+      "Fence and replay receipts are written atomically and made immediately durable before success or authority change is observable; torn, corrupt, missing, partially persisted, or reordered receipts fail closed",
+      "Exact idempotent replay returns only the committed result; nonce, digest, operation, epoch, lineage, membership, or authority mismatch is denied",
+      "State directories and files are repository-independent, normalized, ordinary, and component-wise symlink safe with bounded check-open exposure; path escape and unsafe ancestors are rejected",
+      "Lineages, memberships, receipts, replay keys, identifiers, paths, serialized bytes, retries, waits, and arithmetic have explicit hard bounds; full capacity fails closed without evicting live safety state",
+      "Restart and rollback recover only the latest valid committed floor and receipt state and never reactivate a fenced owner",
+      "Execution evidence and independent review remain digest-bound to the two exact protected paths"
+    ]
+  }
+}
