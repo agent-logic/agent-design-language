@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound after verification, and generation overflow fails closed.
+Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound after verification, generation overflow fails closed, and signed witness filenames cannot disguise private, raw, or sealed state.
 
 ## Artifacts
 
@@ -30,9 +30,9 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
 - Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.
 - Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.
 - Use checked generation advancement and reject terminal overflow.
-- Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed snapshots that name private or raw repository-relative paths.
+- Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed witness path segments containing private, raw, or sealed filename tokens across extension, underscore, and hyphen boundaries.
 - Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.
-- Update the native producer and validator to require the exact unique nine-test authority inventory and manifest the workflow, producer, validator, and complete WP-09/WP-10 source surface.
+- Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.
 
 ## Validation
 
@@ -51,7 +51,7 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
       "--status-level",
       "all"
     ],
-    "purpose": "Prove real WP-09 authority grounding and nine deterministic token-chain, overflow, replay, discontinuity, substitution, copied-state, path, and tamper cases.",
+    "purpose": "Prove real WP-09 authority grounding and nine deterministic token-chain, overflow, replay, discontinuity, substitution, copied-state, path, filename-variant, and tamper cases at product revision 0e6ab1a84decc6a74ce327f381ab521cb74cb8e5.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
   },
@@ -79,20 +79,9 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
       "-D",
       "warnings"
     ],
-    "purpose": "Prove the runtime library authority surface is warning-free under strict Clippy.",
+    "purpose": "Prove the repaired runtime library authority surface is warning-free under strict Clippy.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
-      ".csdlc/evidence/5827/native-platform/macos.json",
-      ".csdlc/evidence/5827/native-platform/linux.json"
-    ],
-    "purpose": "Prove exact PR head d6ff9e7a on native macOS and Linux with nine exact unique authority tests, matching complete proof-surface manifests, GitHub Actions provenance, and byte-identical semantic output.",
-    "outcome": "passed",
-    "evidence_ref": "https://github.com/agent-logic/agent-design-language/actions/runs/31371858441"
   }
 ]
 

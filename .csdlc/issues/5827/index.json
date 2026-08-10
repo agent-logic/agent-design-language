@@ -5,33 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a13e7b2cafb69b7f88ae5bf1b68f54d9860fcc0d88fdba8c0376532d63b714ad",
   "phase": "implemented",
-  "generation": 88,
-  "digest": "fe1cc6ad600af7e47a01f7cab3d2333c381334bc2479f6a22a80acf3ef016d76",
+  "generation": 90,
+  "digest": "ff434e4122ed163ba66559fe48540908bd8b1178881b034ad5d80db6fb00004d",
   "branch": "codex/5827-bounded-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5827-bounded-continuity",
-  "review_assignment": {
-    "reviewer": "/root/review_5827_exact_head",
-    "assigned_by": "codex:5827-bounded-continuity",
-    "revision": "git-blake3:d5a899889672070734ff4099c72a07361bb133d8:a64add38584f9b541837712858cb4962eae2b5657510eaca74d764e03d3c2590",
-    "scope": [
-      ".csdlc/evidence/5827",
-      ".csdlc/issues/5827",
-      ".csdlc/prepared/issues/5827/design.md",
-      ".csdlc/prepared/issues/5827/diagram.mmd",
-      ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
-      ".github/workflows/wp10-native-birthday-continuity.yml",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/birthday_identity.rs",
-      "adl-runtime-kernel/src/continuity.rs",
-      "adl-runtime-kernel/src/identity_memory.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/private_state.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
-      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -47,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "45e5f2731c2acb511b42f96f7255bc40614a6da1dfa01503e8ceda7c73279cf3",
+      "values_digest": "7fbcdb80fec7a24d3497e365601b6fa332f066f65cf8f4d9c172669d2f9e1d2f",
       "rendered_digest": "8cc21cfa1978be581da7b8ac3409cb3d0a092e756cede56714ab2b99017c3ea0",
       "ast_digest": "14ab891cf46d4bcc6ca5cfa79be1ea94a620f12f636d4d068597fd5259f5ca61"
     },
     "stp": {
-      "values_digest": "bda3d53366e5157b94fb242f38f40340146a3e7af59de73051e8ab82be5905a4",
+      "values_digest": "1a30340542916d8cf9c765c879cf7ffdf4589cc2ec7580a7d04cd08bfaad6066",
       "rendered_digest": "58de4172f24a8c93abb7dc2a87638f44f18e4111edd5e0c4c228df94cdfef610",
       "ast_digest": "39a6ddaa6f48fefdff485d58cfb3031703244121d9729bacfb5cd2905b8a3e4e"
     },
     "spp": {
-      "values_digest": "5c92fb4e81451f98dfb58fd1b5001b99c46c5cdb90c331b1d149fda0731304bc",
+      "values_digest": "bef5fab5f55c1666955bd4b750a2a6dd0a17e5fa6521558570130afe793777a4",
       "rendered_digest": "ff31081fcf804de7ee7f8d38749200389b886425541ba9773a7028b13227482e",
       "ast_digest": "aa412a214a2e0290595daf3769416cd75e004fd8be8002924c223845065867c7"
     },
     "vpp": {
-      "values_digest": "e80cc5221452202179e3e52d63481829edee068e80dd3fa3085086071ac8fd72",
+      "values_digest": "e94090ae9893d3770567c78ff8bc11a20339bb4ba24d0bf88dbe59944484fe28",
       "rendered_digest": "c9dcb7f27d4b56e46f98f4d276c58432538f2599f7f25463ab69b60f4575ef22",
       "ast_digest": "35e0a2c80a9dad8b659addedafcb6f07b472f9e3c4e844ec2423e9340b249ad5"
     },
     "srp": {
-      "values_digest": "1cfe3218154c85ab3cdc75ca5083a7446399f350bb14f406320cf325dcf01433",
-      "rendered_digest": "2bdffb4984795af36b34fded21532696e57627cb718d8a70910936c5b3417b71",
-      "ast_digest": "a30ea7a5b4888de6ba9d67201c86f20ce92d32f0b6cb436f76dbec507c058790"
+      "values_digest": "b15209817fb3c04ce3226c7049515b6da991c311b68dde224c36a8e95219979b",
+      "rendered_digest": "cd90f9db3b82a62f142767b18dc2db8c6f79523c9250219b2352afc78b11d388",
+      "ast_digest": "dd2c1c672f27c68a88d331797aca5fde21d60dacf8e351e4fc46cb5b1bee0426"
     },
     "sor": {
-      "values_digest": "c73644c288bfe7ee183508ff3be8e8986a596e20cbb5e654d0a078a7d6809fdd",
-      "rendered_digest": "13ac8e26d10a73dec743b3adbe00e04ca554134aa26a34786ff6150daf898d1c",
-      "ast_digest": "fcc0975e4324e5392fda1f8d296355128923b62cd5f9247b0ac5718f4c5b6821"
+      "values_digest": "ead9f62f7a81c80ee123356aa5361335c7a5ad7ac4d195569903b8fa5cc93b2b",
+      "rendered_digest": "32a994bb81b9a06a477c1be80b62f1a833ea2d08682f1e3a462167de8fbbfe63",
+      "ast_digest": "83bdff69f1bdd56049e8a06d3d1a17c2cd5468a0aa6aa92c9b29b9f36a93d9c2"
     }
   },
   "transitions": [
@@ -947,6 +925,20 @@
       "actor": "codex:5827-bounded-continuity",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 116,
+      "generation": 89,
+      "actor": "codex:5827-filename-repair",
+      "reason": "Normalize current WP-10 output truth after the reviewer-required private/raw/sealed filename repair and exact-head local proof; prior native proof remains historical and must be rerun for the repaired head.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound after verification, generation overflow fails closed, and signed witness filenames cannot disguise private, raw, or sealed state.\",\"changes\":[\"Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.\",\"Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.\",\"Use checked generation advancement and reject terminal overflow.\",\"Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed witness path segments containing private, raw, or sealed filename tokens across extension, underscore, and hyphen boundaries.\",\"Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.\",\"Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\".csdlc/evidence/5827/local-validation-manifest.json\",\".csdlc/prepared/issues/5827/produce-native-receipt.rb\",\".csdlc/prepared/issues/5827/validate-native-receipts.rb\",\".github/workflows/wp10-native-birthday-continuity.yml\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birthday_continuity::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove real WP-09 authority grounding and nine deterministic token-chain, overflow, replay, discontinuity, substitution, copied-state, path, filename-variant, and tamper cases at product revision 0e6ab1a84decc6a74ce327f381ab521cb74cb8e5.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birthday_continuity\"],\"purpose\":\"Prove external callers cannot establish a continuity authority policy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the repaired runtime library authority surface is warning-free under strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"}]}"
+    },
+    {
+      "sequence": 117,
+      "generation": 90,
+      "actor": "codex:5827-filename-repair",
+      "reason": "Clear the superseded exact-head assignment after the reviewer-required private/raw/sealed filename repair and refreshed local evidence; preserve publication as absent.",
+      "operation": "recover_review"
     }
   ]
 }
