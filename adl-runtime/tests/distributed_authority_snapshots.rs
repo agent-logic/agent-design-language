@@ -69,6 +69,7 @@ use recovery::{
     RecoveryCheckpoint, RecoveryCheckpointAuthority, RecoveryClock, RecoveryEvidence,
     RecoveryPhase, RecoveryPolicy, RecoveryRecord, RecoveryStore,
 };
+use sha2::{Digest, Sha256};
 
 const CERT_DOMAIN: &str = "polis.example";
 const FAILURE_DOMAIN: &str = "polis.test";
@@ -76,6 +77,16 @@ const NOW: u64 = 1_000_000;
 
 fn key(seed: u8) -> SigningKey {
     SigningKey::from_bytes(&[seed; 32])
+}
+
+fn expected_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 fn certificate(
@@ -145,6 +156,10 @@ fn certificate_snapshot_is_complete_redacted_revisioned_and_overlap_aware() {
     let first_row = one.rows().next().unwrap();
     assert!(first_row.node_ref().unwrap().starts_with("id_"));
     assert_ne!(first_row.node_ref(), Some("node-a"));
+    assert_eq!(
+        first_row.node_ref(),
+        Some(expected_ref(b"node", b"node-a").as_str())
+    );
     assert!(!format!("{first_row:?}").contains("node-a"));
 
     store.activate(&second, NOW + 5).unwrap();
@@ -312,6 +327,10 @@ fn placement_snapshot_retains_replaces_removes_and_buckets_capacity() {
     let first_revision = service.authority_revision().unwrap();
     let first = service.redacted_snapshot_at(first_revision).unwrap();
     let first_row = first.rows().next().unwrap();
+    assert_eq!(
+        first_row.lineage_ref(),
+        expected_ref(b"lineage", b"lineage-a")
+    );
     assert_eq!(first_row.capacity(), PlacementCapacityBand::Available);
     assert!(!format!("{first_row:?}").contains("node-a"));
 
@@ -445,6 +464,11 @@ fn migration_snapshot_enumeration_and_revision_survive_restart() {
     let snapshot = store.redacted_snapshot_at(before).unwrap();
     assert_eq!(snapshot.rows().len(), 1);
     let row = snapshot.rows().next().unwrap();
+    assert_eq!(row.lineage_ref(), expected_ref(b"lineage", b"lineage-a"));
+    assert_eq!(
+        row.migration_ref(),
+        expected_ref(b"migration", b"migration-a")
+    );
     assert!(!format!("{row:?}").contains("lineage-a"));
     drop(store);
     let reopened = MigrationStore::open(
@@ -558,7 +582,13 @@ fn recovery_snapshot_enumeration_and_revision_survive_restart() {
     let before = store.authority_revision().unwrap();
     let snapshot = store.redacted_snapshot_at(before).unwrap();
     assert_eq!(snapshot.rows().len(), 1);
-    assert!(!snapshot.rows().next().unwrap().operator_required());
+    let row = snapshot.rows().next().unwrap();
+    assert!(!row.operator_required());
+    assert_eq!(row.lineage_ref(), expected_ref(b"lineage", b"lineage-a"));
+    assert_eq!(
+        row.migration_ref(),
+        expected_ref(b"migration", b"migration-a")
+    );
     drop(store);
     let reopened = RecoveryStore::open(
         &root,
@@ -647,6 +677,10 @@ fn lease_snapshot_is_complete_content_bound_and_drift_safe() {
         .redacted_snapshot_at(revision, &membership, 100)
         .unwrap();
     assert_eq!(snapshot.rows().len(), 1);
+    assert_eq!(
+        snapshot.rows().next().unwrap().lineage_ref(),
+        expected_ref(b"lineage", b"lineage-a")
+    );
     assert_eq!(snapshot.revision(), revision);
 }
 
@@ -712,6 +746,10 @@ fn fencing_snapshot_is_complete_content_bound_restart_stable_and_ref_aligned() {
     let revision = store.authority_revision().unwrap();
     let snapshot = store.redacted_snapshot_at(revision, &membership).unwrap();
     assert_eq!(snapshot.rows().len(), 1);
+    assert_eq!(
+        snapshot.rows().next().unwrap().lineage_ref(),
+        expected_ref(b"lineage", b"lineage-a")
+    );
     drop(store);
     let reopened = FencingStore::open(&root, fencing_policy(), Arc::new(authority)).unwrap();
     assert_eq!(reopened.authority_revision().unwrap(), revision);
