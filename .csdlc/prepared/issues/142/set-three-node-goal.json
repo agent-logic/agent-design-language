@@ -1,0 +1,13 @@
+{
+  "issue": 142,
+  "card": "sip",
+  "expected_generation": 1,
+  "expected_digest": "4a43f058f9821137a60d0e2bb4bc104cb6950122d873bb8515f7ddef859028e4",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Adopt the operator-authorized three-voter serial Wuji and AWS continuity topology.",
+  "operation": {
+    "operation": "set_field",
+    "field": "goal",
+    "value": "Operationalize a real three-voter Runtime v3 polis and one polis-level Observatory, first with three configurable smaller-model instances on Wuji and then, strictly serially after cleanup, with one Wuji and two AZ-separated AWS voters using private self-hosted local models and governed AWS continuity."
+  }
+}

@@ -12,11 +12,11 @@ Status: ready
 
 ## Goal
 
-Operationalize a real multi-node Runtime v3 polis and prove one polis-level Observatory first across two Wuji nodes and then, strictly serially, across Wuji and AWS.
+Operationalize a real three-voter Runtime v3 polis and one polis-level Observatory, first with three configurable smaller-model instances on Wuji and then, strictly serially after cleanup, with one Wuji and two AZ-separated AWS voters using private self-hosted local models and governed AWS continuity.
 
 ## Required Outcome
 
-Production Guardian/kernel entrypoints run an authenticated distributed polis; one coherent redacted Observatory is shown live for each serial topology; failure, recovery, shutdown, and complete cleanup are proven.
+Production Guardian/kernel entrypoints launch three authenticated voters plus a configured non-voting shepherd from shepherd_agent_ref; one coherent redacted Observatory is shown for each serial phase; Phase B proves quorum-committed snapshot-root recovery, AWS leader/fence/owner/shepherd activation, governed continuity after live Wuji partition, stale-Wuji demotion, true one-of-three halt, private self-hosted model operation, and complete cleanup.
 
 ## Scope
 

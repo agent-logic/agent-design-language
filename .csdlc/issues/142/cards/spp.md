@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Review and bind exact production ownership, integrate real Guardian/kernel processes and one polis Observatory, prove Wuji-Wuji and clean it up, then prove Wuji-AWS and clean it up, followed by exact review, publication, and operator-gated merge.
+Implement and prove real three-voter Runtime integration with configurable shepherd_agent_ref and bounded local models; run/show/tear down three Wuji voters first, then run one Wuji plus two AZ-separated AWS voters, commit and recover from a snapshot boundary, partition live Wuji, transfer fenced authority and the single Observatory to AWS, heal and demote Wuji, prove true one-of-three halt, then tear down all AWS and local resources before exact review and operator-gated merge.
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -117,13 +117,13 @@ Revision 1
 
 .csdlc/prepared/issues/142/design.md
 
-Digest: 0d7caadd58ae5112b92710a12ded77470d555c260609b1e2844d4f144ae93454
+Digest: 3ef387ed9ba4563c10810ce21e9ea20c6eb72ccb9a9c09ba5e834e16533137ff
 
 ## Diagram
 
 .csdlc/prepared/issues/142/diagram.mmd
 
-Digest: d1f0e721fdaaf51515ac671b4ef380c4f71a237aa710dddcb2b0324687e70cef
+Digest: 1513aa03f11436453510f0fa0edf7eed81c05436eafbbfa940dc36eae6afb5c6
 
 ## Stop Conditions
 

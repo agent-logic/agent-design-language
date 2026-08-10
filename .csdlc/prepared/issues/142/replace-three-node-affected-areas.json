@@ -1,0 +1,25 @@
+{
+  "issue": 142,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "9d464ee0089dff8569ac74436a64d83c7d4d6c248738d5101b8f052def71b7dd",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Bind execution readiness to exact owned product, test, runner, proof, API, and runbook paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_operational.rs",
+      "adl/tools/run_v092_distributed_runtime_observatory_demo.sh",
+      ".csdlc/prepared/issues/142/validate-proof-receipt.rb",
+      "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "docs/demo/runtime-v3/DISTRIBUTED_RUNTIME_OBSERVATORY_RUNBOOK.md"
+    ]
+  }
+}

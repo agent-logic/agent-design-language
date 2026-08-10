@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8fc6d3478909f7449ece8bb3c0f002614ce64c5141240ffa53b95f09308960f7",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "579cec53dfb3631609177b44878b1091e68115039ebf3995090a9583a364e205",
+  "generation": 7,
+  "digest": "0fe2e6f0346713103700ffbc98c2e45c5c6ed4b48aa1de2a9e56bd9847faeb8c",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/142/design.md",
   "diagram_path": ".csdlc/prepared/issues/142/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "gemini:gemini-3.1-pro-preview:2RN6atenNYbgz7IPmomJ4As",
+      "revision": "3ef387ed9ba4563c10810ce21e9ea20c6eb72ccb9a9c09ba5e834e16533137ff"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "89bfe55c83bd1e225867cdee9313c226e6fa5d479ba744b9eaae0c80c1463b17",
-      "rendered_digest": "916754e8e73e232cf039dcf7c41b1672dddebfd8100bb6a0aa2af4e11de8688b",
-      "ast_digest": "7ffacdee00a2a763d1175fa52922f3ef649ffb2342ec8071dc1cd0b2dfe8147a"
+      "values_digest": "12b1772abcaf074b2fcdd49cebcb9ae78dcb0e7ae2c618e9e9b4b1b195a6ddba",
+      "rendered_digest": "b1a59df910ebb4deb688ea0fe4d96494191d2ecaf1f8bf05deea67463be1149e",
+      "ast_digest": "ca4f44f7bf048be519820e7c56f08883b8d755fd3aceeb0780c1a2acfc5aadf8"
     },
     "stp": {
-      "values_digest": "483ce91991107548c8f3b26a16690c1b3d2795e4cb93e96e89406f4734a51ef1",
-      "rendered_digest": "dcfcea3acd84c2a6d2170868b0e20532ff944178dbeea41241756320ee182c05",
-      "ast_digest": "e5e1f4f353f5b2a4ed695ef4cba9ec3f5e54d309b4014d4216ccc8e65ddd227b"
+      "values_digest": "9e64262a889b15bc19f668fe7c4607b43f5bb7ccc847ed65b5254539f62d9dcf",
+      "rendered_digest": "13ec916723a79eb4e1941bbfe594b4ce95900773ccd995d8f1e30173d06552ac",
+      "ast_digest": "325f71d9b60ac146983f72d51baad772f95dc6e2fb7a73864fe05ca1d51359af"
     },
     "spp": {
-      "values_digest": "21a283b7f46b0abb05924ada2a0e98635405a6a0b752d055eb2417828e8519e1",
-      "rendered_digest": "e3350a73684e249eb335856c9f6e3563f43d4b072eb4d271c9f24012ceac25a1",
-      "ast_digest": "1c23a81f332d58fbcc1ff53f8efe4be8a5b62c4f41709339bb86500cc5d4585f"
+      "values_digest": "eda8a5db78e16fb9d59909376f35cb7aed8742a15a51516698c82729f63a80dd",
+      "rendered_digest": "e7679cbf22fc7c38a82d39971e130bf9f46704dccbbbb4f123ba137093441c36",
+      "ast_digest": "50f862ed8adb9bcdaa4264956dfda4d5f6eaa9019a2b8b0a9c86b1e0c7ae636d"
     },
     "vpp": {
-      "values_digest": "eb331d85708d08276dc3ef998815046c4789758e43bb592d2827bd9d5e446a13",
+      "values_digest": "22fb4d0742778c3f1d8a9b21ce78d9f7e78506af38d1d9741b532f83a121f04c",
       "rendered_digest": "bb78d1f4e8f79cfbbfd9d39d9e74cc86bb3f3f2cf243db392567c0379635060e",
       "ast_digest": "68e4f0f524e5e6b12815b4d7a5881304359117fc865ba6641bcbbfee78a61e97"
     },
     "srp": {
-      "values_digest": "f260ad4c6269f3d8aa666b2abaa8bf350ab50f190aa22515ee54c240a5a212b2",
+      "values_digest": "093e246fac9cf6ffd1c9d94147aa49428ef48fb17b6fff86a804a957ca5a3901",
       "rendered_digest": "489231044da247571664d21f5bca79cb49ac042f0a030ca944b130232d74c184",
       "ast_digest": "55ea1e78e1ba6d28a9bc519e0def01605dad8e68f8bfa7ea0471fcb9d6b4ab32"
     },
     "sor": {
-      "values_digest": "b69141f43ddb534a7b313ff87588f5bbdafbef6e87aa3097498130de84a37bb9",
+      "values_digest": "0c9d597ddce54290ad38155c8c6bb5bbfd96d1dbdcbbba5e613b9fa747c8ad5d",
       "rendered_digest": "016310b2900e8d079f273913270d5c39913bca7a822070f608ef41905f58dfa7",
       "ast_digest": "2d1dd3135b6ed753f7c606f28849e956696900ee835839c759eefb0b6d86bcb2"
     }
@@ -57,6 +62,55 @@
       "actor": "codex:142-init",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "gemini:gemini-3.1-pro-preview:2RN6atenNYbgz7IPmomJ4As",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:142-three-node-planning",
+      "reason": "Adopt the operator-authorized three-voter serial Wuji and AWS continuity topology.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"goal\",\"value\":\"Operationalize a real three-voter Runtime v3 polis and one polis-level Observatory, first with three configurable smaller-model instances on Wuji and then, strictly serially after cleanup, with one Wuji and two AZ-separated AWS voters using private self-hosted local models and governed AWS continuity.\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:142-three-node-planning",
+      "reason": "Record the reviewed shepherd, model-serving, snapshot, failover, and Observatory outcome.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"Production Guardian/kernel entrypoints launch three authenticated voters plus a configured non-voting shepherd from shepherd_agent_ref; one coherent redacted Observatory is shown for each serial phase; Phase B proves quorum-committed snapshot-root recovery, AWS leader/fence/owner/shepherd activation, governed continuity after live Wuji partition, stale-Wuji demotion, true one-of-three halt, private self-hosted model operation, and complete cleanup.\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:142-three-node-planning",
+      "reason": "Align the task boundary with the reviewed three-voter recovery demonstration.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Close the Sprint 3 production-integration gap through real three-voter Guardian/kernel wiring, a configurable non-voting shepherd, one movable quorum-leased polis Observatory, three smaller local Wuji models, private self-hosted Wuji/AWS models, and two strictly serial live phases culminating in AWS continuity after a live Wuji partition, without redesigning the merged authority modules or performing async closeout.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:142-three-node-planning",
+      "reason": "Align the operative plan summary with the Gemini-approved serial three-voter topology.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Implement and prove real three-voter Runtime integration with configurable shepherd_agent_ref and bounded local models; run/show/tear down three Wuji voters first, then run one Wuji plus two AZ-separated AWS voters, commit and recover from a snapshot boundary, partition live Wuji, transfer fenced authority and the single Observatory to AWS, heal and demote Wuji, prove true one-of-three halt, then tear down all AWS and local resources before exact review and operator-gated merge.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:142-three-node-planning",
+      "reason": "Declare exact repository-owned implementation and proof paths before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_operational.rs\",\"adl/tools/run_v092_distributed_runtime_observatory_demo.sh\",\".csdlc/prepared/issues/142/validate-proof-receipt.rb\",\"docs/api/runtime-v3/v1/distributed.openapi.json\",\"docs/demo/runtime-v3/DISTRIBUTED_RUNTIME_OBSERVATORY_RUNBOOK.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:142-three-node-planning",
+      "reason": "Bind execution readiness to exact owned product, test, runner, proof, API, and runbook paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_operational.rs\",\"adl/tools/run_v092_distributed_runtime_observatory_demo.sh\",\".csdlc/prepared/issues/142/validate-proof-receipt.rb\",\"docs/api/runtime-v3/v1/distributed.openapi.json\",\"docs/demo/runtime-v3/DISTRIBUTED_RUNTIME_OBSERVATORY_RUNBOOK.md\"]}"
     }
   ]
 }

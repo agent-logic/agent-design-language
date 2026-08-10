@@ -1,0 +1,13 @@
+{
+  "issue": 142,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "3e03d77c23f81aca5e8e1c11981ba9889ea1b4e358fdcb845a3232cf590a9a26",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Align the task boundary with the reviewed three-voter recovery demonstration.",
+  "operation": {
+    "operation": "set_field",
+    "field": "task_boundary",
+    "value": "Close the Sprint 3 production-integration gap through real three-voter Guardian/kernel wiring, a configurable non-voting shepherd, one movable quorum-leased polis Observatory, three smaller local Wuji models, private self-hosted Wuji/AWS models, and two strictly serial live phases culminating in AWS continuity after a live Wuji partition, without redesigning the merged authority modules or performing async closeout."
+  }
+}

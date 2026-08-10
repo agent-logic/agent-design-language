@@ -7,14 +7,14 @@
     "title": "[v0.92][runtime] Operationalize distributed Runtime and polis Observatory across Wuji and AWS",
     "slug": "operational-distributed-runtime-polis-observatory-wuji-aws",
     "version": "v0.92",
-    "generation": 0
+    "generation": 7
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
-      "goal": "Operationalize a real multi-node Runtime v3 polis and prove one polis-level Observatory first across two Wuji nodes and then, strictly serially, across Wuji and AWS.",
-      "required_outcome": "Production Guardian/kernel entrypoints run an authenticated distributed polis; one coherent redacted Observatory is shown live for each serial topology; failure, recovery, shutdown, and complete cleanup are proven.",
+      "goal": "Operationalize a real three-voter Runtime v3 polis and one polis-level Observatory, first with three configurable smaller-model instances on Wuji and then, strictly serially after cleanup, with one Wuji and two AZ-separated AWS voters using private self-hosted local models and governed AWS continuity.",
+      "required_outcome": "Production Guardian/kernel entrypoints launch three authenticated voters plus a configured non-voting shepherd from shepherd_agent_ref; one coherent redacted Observatory is shown for each serial phase; Phase B proves quorum-committed snapshot-root recovery, AWS leader/fence/owner/shepherd activation, governed continuity after live Wuji partition, stale-Wuji demotion, true one-of-three halt, private self-hosted model operation, and complete cleanup.",
       "declared_scope": [
         "adl-runtime/src/bin/adl-runtime-guardian.rs",
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",

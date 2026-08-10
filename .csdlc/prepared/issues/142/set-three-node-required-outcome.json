@@ -1,0 +1,13 @@
+{
+  "issue": 142,
+  "card": "sip",
+  "expected_generation": 2,
+  "expected_digest": "15fe8e0e70de02b03d35315fbf85c9435dbc1011b6e5e6a14e22c0697a0306d0",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Record the reviewed shepherd, model-serving, snapshot, failover, and Observatory outcome.",
+  "operation": {
+    "operation": "set_field",
+    "field": "required_outcome",
+    "value": "Production Guardian/kernel entrypoints launch three authenticated voters plus a configured non-voting shepherd from shepherd_agent_ref; one coherent redacted Observatory is shown for each serial phase; Phase B proves quorum-committed snapshot-root recovery, AWS leader/fence/owner/shepherd activation, governed continuity after live Wuji partition, stale-Wuji demotion, true one-of-three halt, private self-hosted model operation, and complete cleanup."
+  }
+}

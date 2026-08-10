@@ -12,16 +12,21 @@ Status: ready
 
 ## Task
 
-Close the Sprint 3 production-integration gap through real process wiring, one polis Observatory, two serial live topologies, and exact retained proof without redesigning the merged authority modules.
+Close the Sprint 3 production-integration gap through real three-voter Guardian/kernel wiring, a configurable non-voting shepherd, one movable quorum-leased polis Observatory, three smaller local Wuji models, private self-hosted Wuji/AWS models, and two strictly serial live phases culminating in AWS continuity after a live Wuji partition, without redesigning the merged authority modules or performing async closeout.
 
 ## Deliverables
 
-- Production distributed Guardian/kernel launcher and configuration
-- Single coherent polis Observatory API/WSS integration
-- Serial Wuji-Wuji and Wuji-AWS operator runner with hard non-overlap gate
-- Focused production-process, authority, failure, recovery, shutdown, and cleanup tests
-- Exact-source live demonstration and redacted evidence packets
-- Operator runbook and independently reviewed PR
+- adl-runtime/src/bin/adl-runtime-guardian.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime/src/guardian.rs
+- adl-runtime/src/runtime_api.rs
+- adl-runtime/src/distributed/mod.rs
+- adl-runtime/src/distributed/polis_runtime.rs
+- adl-runtime/tests/distributed_runtime_operational.rs
+- adl/tools/run_v092_distributed_runtime_observatory_demo.sh
+- .csdlc/prepared/issues/142/validate-proof-receipt.rb
+- docs/api/runtime-v3/v1/distributed.openapi.json
+- docs/demo/runtime-v3/DISTRIBUTED_RUNTIME_OBSERVATORY_RUNBOOK.md
 
 ## Acceptance
 

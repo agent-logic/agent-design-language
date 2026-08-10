@@ -1,0 +1,13 @@
+{
+  "issue": 142,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "f1748b40bfffb2d36125effa1658c95a7a1d212f24fe5f4b5e2f548f8d88b91a",
+  "actor": "codex:142-three-node-planning",
+  "reason": "Align the operative plan summary with the Gemini-approved serial three-voter topology.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "Implement and prove real three-voter Runtime integration with configurable shepherd_agent_ref and bounded local models; run/show/tear down three Wuji voters first, then run one Wuji plus two AZ-separated AWS voters, commit and recover from a snapshot boundary, partition live Wuji, transfer fenced authority and the single Observatory to AWS, heal and demote Wuji, prove true one-of-three halt, then tear down all AWS and local resources before exact review and operator-gated merge."
+  }
+}
