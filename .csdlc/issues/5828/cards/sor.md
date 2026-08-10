@@ -92,11 +92,11 @@ Implemented and proved the deterministic WP-11 Memory Palace topology with bound
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

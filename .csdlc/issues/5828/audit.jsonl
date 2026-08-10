@@ -104,3 +104,4 @@
 {"sequence":104,"generation":75,"actor":"codex:5828-memory-palace","reason":"Recover the exact review assignment after correcting only the SOR local evidence reference to the retained Memory Palace validation log.","operation":"recover_review"}
 {"sequence":105,"generation":75,"actor":"codex:5828-memory-palace","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":106,"generation":76,"actor":"codex:5828-memory-palace","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":107,"generation":77,"actor":"codex:5828-memory-palace","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
