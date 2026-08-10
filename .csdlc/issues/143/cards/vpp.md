@@ -25,14 +25,11 @@ Diagram: .csdlc/prepared/issues/143/diagram.mmd
 [
   {
     "lane": "v092-adr-packet-contract",
-    "proof_role": "Validate candidate numbering, status, required sections, index completeness, evidence links, source boundaries, and forbidden claims",
+    "proof_role": "Mechanically validate candidate numbering, Proposed/Deferred status, required sections, exact index parity, repository-path existence, accepted-file non-mutation, named deferrals, and standardized non-claims. Semantic evidence attribution and architecture correctness remain the independent review lane's responsibility.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
       "AC-7",
       "AC-8",
       "AC-9"
@@ -50,7 +47,7 @@ Diagram: .csdlc/prepared/issues/143/diagram.mmd
   },
   {
     "lane": "v092-adr-diff-hygiene",
-    "proof_role": "Reject malformed documentation changes across the exact issue delta",
+    "proof_role": "Reject malformed documentation changes across the exact issue delta.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -69,8 +66,11 @@ Diagram: .csdlc/prepared/issues/143/diagram.mmd
   },
   {
     "lane": "v092-adr-independent-review",
-    "proof_role": "Fresh exact-head architecture, security-boundary, and documentation review of all candidate dispositions",
+    "proof_role": "Fresh exact-head architecture, security-boundary, documentation, evidence-attribution, and unsupported-claim review of every candidate disposition.",
     "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-6",
       "AC-10"
     ],
     "deterministic": false,
