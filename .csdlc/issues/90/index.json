@@ -1,0 +1,166 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 90,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f2456d9ca38b68c47da3bd9cd29d109b2467a93decc35f60f651495ac3094029",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "9f3090c16f2cf0cedab101a74665a7168f5e9fa0b52982bc2860e5ed6d84880b",
+  "branch": "codex/90-code-repository-migration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-90-code-repository-migration",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/90/design.md",
+  "diagram_path": ".csdlc/prepared/issues/90/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "Galileo:019fe934-3f8e-7e91-a8a9-fbcf8a1f4923",
+      "revision": "a57c38f6590ae4963fc4546ee3f254c5c1fdf2b99744b3bdd53cc96f377efc8e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "54c5e62102558d24e799b88413636c102591ea1b6127a8ccf7aee5c98fad0aff",
+      "rendered_digest": "b058026d2c9dfb4c304588a9861589f15894e37f76f85599edf01695d3ead0bf",
+      "ast_digest": "a02e6dfe1d8f56f6c21e87c0ccce41d0edec56946db65283099b60045269770c"
+    },
+    "stp": {
+      "values_digest": "df702a74dac844071477eb9fc4f34086146dbc2a4e8e5dac18f9b22efe859e83",
+      "rendered_digest": "254224ff59f2c74deca622d847d17ac011229cc042bdbaa6bd5e7dddb5595ffe",
+      "ast_digest": "ff287f3162ea010d16b6cb6ffc414ce4951c32f911f9bbc12869fe7d4c903201"
+    },
+    "spp": {
+      "values_digest": "b0497957005b36f9671aaebbaff8f9e255ddbd84e27a0ac12190e59e5281531b",
+      "rendered_digest": "1b514b59d9da119863c80d8b3803724745be9a0e4f111bb3a6383344a5283289",
+      "ast_digest": "c1e8a3c7dfa1a599795617c28bc4bc9eee311c4293fb25d640f8f54a3e4f323e"
+    },
+    "vpp": {
+      "values_digest": "f9bd0b9f7a0b144b2930917c1e14730078b768fc34282b6838d343dc58dfe70c",
+      "rendered_digest": "0d09e5d18302086d8a5840bcdf174ad7c4ab4e21037b8365f1e7256ccbe3dd0c",
+      "ast_digest": "289a49dbabcedb8010031587193a0ed5080e2d190e1747fcb90056603f29af16"
+    },
+    "srp": {
+      "values_digest": "1dc218dd8f0d01f8a8d4d7e6ac714d60d9408198d642e2e12c5e62963b22e22f",
+      "rendered_digest": "cd9a16c6bc7e780626cf3276c06aa8f72c612a8186c8557bbf3cb104e2d5ec75",
+      "ast_digest": "90148e2d36e86fb3258734c9bf9a75dff5a81854a558eea033b4f723d70a7170"
+    },
+    "sor": {
+      "values_digest": "bfc8d9661b1e610fd3e937c27e049e21a5c9c506977a3b0349df1dc79ee73f17",
+      "rendered_digest": "612795da45ab50dcdd918edfd1e4e94180922db660551352b31459771b261f9c",
+      "ast_digest": "ecb7995f58bce6d7d9ea570afedbe5782080d659475c3be08b30d15bedbf86e9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "The bounded migration command, audit evidence, operator guidance, focused tests, split-authority regression, and strict quality proof are complete; enter implemented review state."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "Galileo:019fe934-3f8e-7e91-a8a9-fbcf8a1f4923",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Declare the issue-owned migration test as an implementation-time target while retaining the existing proving lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"code-repository-migration-tests\",\"proof_role\":\"Prove allowed phases, exact identity/topology, cleanliness, CAS, idempotency, atomic audit, and all negative cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"code_repository_migration\"],\"parallel_group\":\"fastwork-rust\",\"defer_reason\":\"Issue-owned target csdlc-v2/tests/code_repository_migration.rs is created during implementation before this lane runs.\"},{\"lane\":\"reviewed-publication-regression\",\"proof_role\":\"Prove a reviewed pre-field record migrates and passes existing split-authority publication preflight without review recovery.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate6\",\"split_authority\"],\"parallel_group\":\"fastwork-rust\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-quality\",\"proof_role\":\"Prove formatting, warning-free code, and command/schema integration.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"fastwork-rust\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Name the exact issue-owned focused migration test target as a deliverable for deferred readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Versioned typed code_repository migration request and report\",\"csdlc-issue migrate-code-repository command\",\"Fail-closed topology, origin, phase, CAS, cleanliness, and prior-state guards\",\"Durable audit evidence preserving previous and adopted identity\",\"csdlc-v2/tests/code_repository_migration.rs\",\"Focused regression proving reviewed split-authority publication\",\"Updated operator recovery documentation\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Reconcile AC-4 with the required mechanical card identity and projection updates identified during independent design review.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A Bound, Implemented, or Reviewed record with absent code_repository can adopt only the exact effective GitHub origin repository through a typed request.\",\"AC-2: The operation requires the exact registered issue branch and canonical worktree, a clean tracked and untracked worktree, and current generation and digest.\",\"AC-3: Wrong origin, mismatched requested identity, missing or ambiguous topology, dirty worktree, unsupported phase, stale CAS, and existing conflicting code_repository fail closed.\",\"AC-4: The atomic update changes only code_repository, record/card identity generations, projection/canonical digests, and complete audit evidence; semantic card content, phase, review, publication, readiness, and terminal truth remain unchanged.\",\"AC-5: A reviewed pre-field record can migrate and pass the existing split-authority publication preflight without review recovery or weakened freshness checks.\",\"AC-6: Repeating the exact successful request deterministically fails with stale_digest and never changes generation or duplicates audit evidence.\",\"AC-7: Focused tests, formatting, strict Clippy, schema exposure, and installed-command smoke proof pass.\",\"AC-8: Operator documentation replaces hand-edit fallback with the typed recovery command and states every stop condition.\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Activate the issue-owned migration test lane after implementation created and passed the target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"code-repository-migration-tests\",\"proof_role\":\"Prove allowed phases, exact identity/topology, cleanliness, CAS, idempotency, atomic audit, and all negative cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"code_repository_migration\"],\"parallel_group\":\"fastwork-rust\",\"defer_reason\":null},{\"lane\":\"reviewed-publication-regression\",\"proof_role\":\"Prove a reviewed pre-field record migrates and passes existing split-authority publication preflight without review recovery.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate6\",\"split_authority\"],\"parallel_group\":\"fastwork-rust\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-quality\",\"proof_role\":\"Prove formatting, warning-free code, and command/schema integration.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"fastwork-rust\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Record the completed typed code repository migration implementation before lifecycle advancement.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a typed, audited recovery transaction that fills an absent code_repository only from the exact clean bound worktree and matching GitHub origin identities, while preserving review and publication authority.\",\"changes\":[\"Added the versioned migration request, evidence, report, and csdlc-issue command.\",\"Added binding-lock then issue-lock authorization with exact CAS, phase, branch, worktree, cleanliness, and fetch/push origin checks.\",\"Added atomic record/card projection updates, credential-safe audit evidence, schema exposure, operator guidance, and focused regressions.\"],\"artifacts\":[\"csdlc-v2/src/migration.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/git.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/code_repository_migration.rs\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Record the passing issue-owned migration regression lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"code_repository_migration\"],\"purpose\":\"Prove allowed phases, exact identity/topology, cleanliness, CAS, atomic audit behavior, deterministic retry, schema/CLI exposure, and reviewed publication compatibility.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork run: 6 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Record the passing existing split-authority publication regression.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate6\",\"split_authority\"],\"purpose\":\"Prove existing qualified split-authority publication linkage remains unchanged.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork run: 1 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Record the passing formatting and strict all-target Clippy quality lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free source and test integration after formatting verification.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork run: completed without warnings\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "The bounded migration command, audit evidence, operator guidance, focused tests, split-authority regression, and strict quality proof are complete; enter implemented review state.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

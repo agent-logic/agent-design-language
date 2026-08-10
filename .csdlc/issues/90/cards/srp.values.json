@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 90,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2: support split-repository publication for pre-code_repository bound records",
+    "slug": "split-repository-pre-code-repository-migration",
+    "version": "unversioned",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #90 request/report contract, migration authorization, atomic state and audit behavior, CLI/schema integration, focused tests, publication regression, and operator recovery documentation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any request assign a repository that differs from an effective origin fetch or push identity?",
+        "Can an unbound, dirty, stale, terminal, published, or already-conflicting record migrate?",
+        "Does the atomic update preserve every card, phase, review, publication, readiness, and terminal field?",
+        "Can a reviewed migrated record publish only by satisfying the unchanged exact-head and split-authority checks?",
+        "Is retry behavior deterministic and audit-safe?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

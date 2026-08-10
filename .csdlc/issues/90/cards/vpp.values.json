@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 90,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2: support split-repository publication for pre-code_repository bound records",
+    "slug": "split-repository-pre-code-repository-migration",
+    "version": "unversioned",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "code-repository-migration-tests",
+          "proof_role": "Prove allowed phases, exact identity/topology, cleanliness, CAS, idempotency, atomic audit, and all negative cases.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--test",
+            "code_repository_migration"
+          ],
+          "parallel_group": "fastwork-rust",
+          "defer_reason": null
+        },
+        {
+          "lane": "reviewed-publication-regression",
+          "proof_role": "Prove a reviewed pre-field record migrates and passes existing split-authority publication preflight without review recovery.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--test",
+            "gate6",
+            "split_authority"
+          ],
+          "parallel_group": "fastwork-rust",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-quality",
+          "proof_role": "Prove formatting, warning-free code, and command/schema integration.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "fastwork-rust",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on wrong repository identity, incomplete or ambiguous topology, dirty worktree, unsupported phase, stale CAS, conflicting prior identity, audit duplication, review drift, or publication-check weakening.",
+      "design_ref": ".csdlc/prepared/issues/90/design.md",
+      "design_digest": "a57c38f6590ae4963fc4546ee3f254c5c1fdf2b99744b3bdd53cc96f377efc8e",
+      "diagram_ref": ".csdlc/prepared/issues/90/diagram.mmd",
+      "diagram_digest": "a0ea4577be8c7f5c85d0ca3bef41db206fd8446235c4a4a2d431de9c02f70a62"
+    }
+  }
+}

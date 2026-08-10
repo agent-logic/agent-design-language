@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    initialize_native_json, migrate_bound_topology, BoundTopologyMigrationRequest, Store,
+    initialize_native_json, migrate_bound_topology, migrate_code_repository,
+    BoundTopologyMigrationRequest, CodeRepositoryMigrationRequest, Store,
 };
 use std::{fs, path::PathBuf};
 
@@ -22,6 +23,10 @@ enum Command {
         #[arg(long)]
         request: PathBuf,
     },
+    MigrateCodeRepository {
+        #[arg(long)]
+        request: PathBuf,
+    },
 }
 
 fn main() {
@@ -38,6 +43,14 @@ fn main() {
                     .map_err(csdlc_v2::V2Error::from)
             })
             .and_then(|request| migrate_bound_topology(&Store::new(cli.root), request))
+            .and_then(|report| serde_json::to_value(report).map_err(csdlc_v2::V2Error::from)),
+        Command::MigrateCodeRepository { request } => fs::read(request)
+            .map_err(csdlc_v2::V2Error::from)
+            .and_then(|bytes| {
+                serde_json::from_slice::<CodeRepositoryMigrationRequest>(&bytes)
+                    .map_err(csdlc_v2::V2Error::from)
+            })
+            .and_then(|request| migrate_code_repository(&Store::new(cli.root), request))
             .and_then(|report| serde_json::to_value(report).map_err(csdlc_v2::V2Error::from)),
     };
     match result {

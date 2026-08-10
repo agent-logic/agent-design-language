@@ -1,0 +1,20 @@
+flowchart TD
+  R["Typed migration request"] --> B["Acquire binding lock"]
+  B --> L["Acquire issue lock"]
+  L --> C{"CAS and allowed phase valid?"}
+  C -->|"No"| F["Typed failure; no mutation"]
+  C -->|"Yes"| T{"Exact registered branch and worktree?"}
+  T -->|"No"| F
+  T -->|"Yes"| W{"Tracked and untracked state clean?"}
+  W -->|"No"| F
+  W -->|"Yes"| O{"All origin fetch and push identities agree?"}
+  O -->|"No"| F
+  O -->|"Yes"| E{"Requested identity equals origin and field is absent?"}
+  E -->|"No"| F
+  E -->|"Yes"| V["Revalidate CAS, topology, branch, cleanliness, and identity"]
+  V -->|"Changed"| F
+  V -->|"Still valid"| A["Atomic state, card projections, digest, and audit update"]
+  A --> P["Existing review and publication checks remain unchanged"]
+  P --> Q{"csdlc-publish preflight passes?"}
+  Q -->|"No"| S["Stop at existing publication guard"]
+  Q -->|"Yes"| U["Normal typed publication may continue"]
