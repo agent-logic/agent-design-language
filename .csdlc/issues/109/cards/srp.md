@@ -8,13 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md
-docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md
-.csdlc/prepared/issues/109/validate-fresh-session-srp.sh
+
 
 ## Prompts
 
@@ -30,63 +28,23 @@ docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md
 
 [
   {
-    "id": "R109-P1-SRP",
+    "id": "R109-P1-REVIEW-PROOF",
     "severity": "p1",
-    "summary": "Standard SRP omitted self-contained read-only, findings-first, evidence, resolution, and scope-depth instructions.",
+    "summary": "Focused validator could pass before any fresh-session review assignment, evidence, exact reviewed revision, or terminal finding dispositions existed.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+    "disposition": "open",
+    "fix_revision": null,
     "route": null
   },
   {
-    "id": "R109-P2-VALIDATOR",
-    "severity": "p2",
-    "summary": "Focused validator checked isolated substrings and did not prove AC-3 through AC-7.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
-    "route": null
-  },
-  {
-    "id": "R109-P2-PRECEDENCE",
-    "severity": "p2",
-    "summary": "Review-depth rules did not define authority-critical precedence over documentation-only classification.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
-    "route": null
-  },
-  {
-    "id": "R109-P1-COMMIT-CONTENT",
+    "id": "R109-P1-REUSABLE-SCOPE",
     "severity": "p1",
-    "summary": "Validator read mutable working-tree policy files rather than proving their equality to exact-head blobs.",
+    "summary": "Reusable review skill omitted the mandatory runbook, authority-first classification, code/security/evidence coverage, acceptance review, explicit limitations, and P0-P3 ordering.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
-    "route": null
-  },
-  {
-    "id": "R109-P2-COMMAND-TRUTH",
-    "severity": "p2",
-    "summary": "VPP and SOR omitted the validator's required immutable base and exact-head arguments.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
-    "route": null
-  },
-  {
-    "id": "R109-P2-PLAN-TRUTH",
-    "severity": "p2",
-    "summary": "SPP plan steps remained pending after implementation completed.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca",
+    "disposition": "open",
+    "fix_revision": null,
     "route": null
   }
 ]
@@ -101,8 +59,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:6309cabb98605fa901ce4883ee50256f1fc72a8b:045674ae3a993d64142bb5f98f007ad8624c48eecef23a7cdca5fd4bbcec5fca")
+Revision: None
 
-Reviewer: Some("fresh-session:019fe9ad-b2d4-7fd2-b669-5abd397630b0")
+Reviewer: None
 
-Result: pass
+Result: pre_review
