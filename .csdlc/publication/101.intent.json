@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 101,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/101-github-route-guardrail",
+  "title": "[csdlc-v2] Enforce repo-native GitHub lifecycle routes",
+  "body": "Closes #101\n\nDefines one fail-closed Rust owner for each covered C-SDLC GitHub lifecycle surface and prohibits connector or raw-gh write fallback.\n\nAdds a focused deterministic guard that:\n- keeps root and boundary route-owner policy aligned\n- classifies connector 403 failures without blaming the operator token or authorizing fallback\n- exercises default and configured token-file precedence with redacted failures\n- requires all four route-owner binaries in the verified installation inventory\n- retains the dedicated proof command in the authoritative boundary\n\nValidation:\n- `cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check`\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy` (3 passed)\n- `git diff --check`\n\nIndependent exact-head review at `fb2705e1ad3d019118611a76643b3e5e7bdd0b7c` found three focused coverage gaps; all were fixed and the rereview returned no actionable findings.\n\nNo token contents are retained, and no connector/raw-gh fallback is introduced.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:3e21a0da9a6c0b39a54c4447e80a3537b1c8e629:7a0ab4747cb070c63745ab100dedc4cc90780846a07e00b4160718bdc7b17122",
+  "commit_sha": "3e21a0da9a6c0b39a54c4447e80a3537b1c8e629"
+}

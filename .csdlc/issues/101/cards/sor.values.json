@@ -7,7 +7,7 @@
     "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
     "slug": "github-route-guardrail",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
@@ -77,8 +77,8 @@
           "evidence_ref": ".csdlc/evidence/101/github-route-proof-hook-review-fix.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
