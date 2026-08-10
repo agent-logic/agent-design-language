@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 89
+    "generation": 90
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/5825\n.csdlc/prepared/issues/5825/design.md\n.csdlc/prepared/issues/5825/produce-native-receipt.rb\n.csdlc/prepared/issues/5825/validate-native-receipts.rb\n.csdlc/evidence/5825\n.github/workflows/wp08-native-birthday.yml\nadl-runtime-kernel/src/birthday.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/birthday.rs\nadl-runtime-kernel/tests/fixtures/birthday\ndocs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:a3d4ba435f4ee37d93eed06912845e5166d11420:76dd13f3839fdd8153d0185dd8bd588fdf26f0065f606a6d3522dc4ef54824ac",
+      "reviewer": "codex:review_5825_exact_head",
       "review_prompts": [
         "Does any startup, task, wake, restore, snapshot, admission, copied-state, migration, or incomplete packet incorrectly satisfy the birth contract?",
         "Are canonicalization, rejection reasons, fixtures, structured native receipts, and retained reports deterministic and bound to the reviewed product revision?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
