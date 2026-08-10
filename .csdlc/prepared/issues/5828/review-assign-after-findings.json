@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 5828,
-  "expected_generation": 61,
-  "expected_digest": "b860215c321e725c6f31c8213d1d6d373d8a19d954769b452983773cf27ef721",
+  "expected_generation": 62,
+  "expected_digest": "a3da27805eeb1d479084846ac05f0aa7e786e8ece501917c597422d97b8f555d",
   "reviewer": "/root/sprint4_5857/review_5828_exact_head",
   "assigned_by": "codex:5828-memory-palace",
   "scope": [
