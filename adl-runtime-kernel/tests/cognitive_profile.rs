@@ -1,6 +1,7 @@
 //! PVF: deterministic-core, release-gating contract proof with small resource profile.
 
 use adl_runtime_kernel::*;
+use ed25519_dalek::SigningKey;
 use serde_json::json;
 use sha2::{Digest, Sha256};
 use std::{
@@ -267,6 +268,185 @@ fn input(
         nonclaims: p.required_nonclaims.clone(),
         redaction_policy_sha256: H.into(),
     }
+}
+
+fn canonical_input_sha(input: &CognitiveProfileInput) -> String {
+    let mut value = input.clone();
+    value.evidence.sort();
+    value.fields.iter_mut().for_each(|field| {
+        field.evidence_ids.sort();
+        field.evidence_ids.dedup();
+    });
+    value.fields.sort();
+    value.fields.dedup();
+    value.added_fields.sort();
+    value.added_fields.dedup();
+    value.removed_fields.sort();
+    value.removed_fields.dedup();
+    value.nonclaims.sort();
+    value.nonclaims.dedup();
+    format!("{:x}", Sha256::digest(serde_jcs::to_vec(&value).unwrap()))
+}
+fn policy_sha(policy: &CognitiveProfilePolicy) -> String {
+    let mut value = policy.clone();
+    value.evidence.sort();
+    for field in &mut value.allowed_fields {
+        field.allowed_values.sort();
+        field.allowed_values.dedup();
+    }
+    value.allowed_fields.sort();
+    value.required_nonclaims.sort();
+    value.required_nonclaims.dedup();
+    format!("{:x}", Sha256::digest(serde_jcs::to_vec(&value).unwrap()))
+}
+fn evidence_sha(input: &CognitiveProfileInput) -> String {
+    let mut evidence = input.evidence.clone();
+    evidence.sort();
+    format!(
+        "{:x}",
+        Sha256::digest(serde_jcs::to_vec(&evidence).unwrap())
+    )
+}
+fn context(
+    authority_id: &str,
+    key_id: &str,
+    epoch: u64,
+    key: &SigningKey,
+) -> CognitiveAuthorityContext {
+    let mut context = CognitiveAuthorityContext {
+        authority_id: authority_id.into(),
+        key_id: key_id.into(),
+        epoch,
+        context_sha256: String::new(),
+        verifying_key_hex: hex::encode(key.verifying_key().as_bytes()),
+    };
+    context.context_sha256 = authority_context_payload_digest(&context).unwrap();
+    context
+}
+fn trusted(key: &SigningKey) -> ProvisionedCognitiveAuthority {
+    let context = context("cognitive-board", "cognitive-key-1", 1, key);
+    ProvisionedCognitiveAuthority {
+        authority_id: context.authority_id,
+        key_id: context.key_id,
+        epoch: context.epoch,
+        context_sha256: context.context_sha256,
+        verifying_key: key.verifying_key(),
+    }
+}
+fn authority_proof(
+    input: &CognitiveProfileInput,
+    policy: &CognitiveProfilePolicy,
+    context: CognitiveAuthorityContext,
+    key: &SigningKey,
+    rotation: Option<CognitiveAuthorityRotation>,
+) -> CognitiveAuthorityProof {
+    let statement = CognitiveAuthorityStatement {
+        schema: COGNITIVE_AUTHORITY_STATEMENT_SCHEMA.into(),
+        authority_context_sha256: format!(
+            "{:x}",
+            Sha256::digest(serde_jcs::to_vec(&context).unwrap())
+        ),
+        profile_id: input.profile_id.clone(),
+        revision: input.revision,
+        previous_profile_sha256: input.previous_profile_sha256.clone(),
+        canonical_input_sha256: canonical_input_sha(input),
+        policy_sha256: policy_sha(policy),
+        evidence_sha256: evidence_sha(input),
+        signature: String::new(),
+    }
+    .sign(key)
+    .unwrap();
+    CognitiveAuthorityProof {
+        context,
+        statement,
+        rotation,
+    }
+}
+fn build_cognitive_profile(
+    b: &BirthdayCandidate,
+    i: &BirthdayIdentityRecord,
+    c: &BirthdayContinuityRecord,
+    cap: &CapabilityEnvelope,
+    input: &CognitiveProfileInput,
+    policy: &CognitiveProfilePolicy,
+    previous: Option<&CognitiveProfile>,
+) -> Result<CognitiveProfile, Vec<CognitiveProfileRejection>> {
+    let key = SigningKey::from_bytes(&[7; 32]);
+    let authority = trusted(&key);
+    let context = context("cognitive-board", "cognitive-key-1", 1, &key);
+    let proof = authority_proof(input, policy, context, &key, None);
+    let history = previous.map(std::slice::from_ref).unwrap_or(&[]);
+    build_governed_cognitive_profile(b, i, c, cap, input, policy, history, &authority, &proof)
+}
+fn validate_cognitive_profile(
+    profile: &CognitiveProfile,
+    b: &BirthdayCandidate,
+    i: &BirthdayIdentityRecord,
+    c: &BirthdayContinuityRecord,
+    cap: &CapabilityEnvelope,
+    policy: &CognitiveProfilePolicy,
+    previous: Option<&CognitiveProfile>,
+) -> Result<(), Vec<CognitiveProfileRejection>> {
+    let key = SigningKey::from_bytes(&[7; 32]);
+    let authority = trusted(&key);
+    let history = previous.map(std::slice::from_ref).unwrap_or(&[]);
+    validate_governed_cognitive_profile(profile, b, i, c, cap, policy, history, &authority)
+}
+fn next_input(
+    b: &BirthdayCandidate,
+    i: &BirthdayIdentityRecord,
+    c: &BirthdayContinuityRecord,
+    cap: &CapabilityEnvelope,
+    policy: &CognitiveProfilePolicy,
+    history: &[CognitiveProfile],
+) -> CognitiveProfileInput {
+    let mut value = input(b, i, c, cap, policy);
+    if let Some(previous) = history.last() {
+        value.revision = previous.revision + 1;
+        value.previous_profile_sha256 = Some(previous.profile_sha256.clone());
+        value.added_fields.clear();
+        value.update_reason = "revalidate retained governed fields".into();
+    }
+    value
+}
+#[allow(clippy::too_many_arguments)]
+fn governed_build(
+    b: &BirthdayCandidate,
+    i: &BirthdayIdentityRecord,
+    c: &BirthdayContinuityRecord,
+    cap: &CapabilityEnvelope,
+    policy: &CognitiveProfilePolicy,
+    history: &[CognitiveProfile],
+    genesis: &ProvisionedCognitiveAuthority,
+    active_key: &SigningKey,
+    active_context: CognitiveAuthorityContext,
+    rotation: Option<CognitiveAuthorityRotation>,
+) -> CognitiveProfile {
+    let input = next_input(b, i, c, cap, policy, history);
+    let proof = authority_proof(&input, policy, active_context, active_key, rotation);
+    build_governed_cognitive_profile(b, i, c, cap, &input, policy, history, genesis, &proof)
+        .unwrap()
+}
+fn rotation(
+    from: &CognitiveAuthorityContext,
+    to: CognitiveAuthorityContext,
+    profile_id: &str,
+    revision: u64,
+    signing_key: &SigningKey,
+) -> CognitiveAuthorityRotation {
+    CognitiveAuthorityRotation {
+        schema: COGNITIVE_AUTHORITY_ROTATION_SCHEMA.into(),
+        from_authority_context_sha256: format!(
+            "{:x}",
+            Sha256::digest(serde_jcs::to_vec(from).unwrap())
+        ),
+        to,
+        profile_id: profile_id.into(),
+        revision,
+        signature: String::new(),
+    }
+    .sign(signing_key)
+    .unwrap()
 }
 
 #[test]
@@ -580,4 +760,327 @@ fn exact_duplicates_canonicalize_and_case_collisions_fail() {
     bad_policy.allowed_fields.push(duplicate_field);
     let x = input(&b, &i, &c, &cap, &bad_policy);
     assert!(build_cognitive_profile(&b, &i, &c, &cap, &x, &bad_policy, None).is_err());
+}
+
+#[test]
+fn trusted_genesis_and_complete_four_revision_chain_replay() {
+    let (b, i, c, cap, policy) = authorities();
+    let key = SigningKey::from_bytes(&[7; 32]);
+    let genesis = trusted(&key);
+    let context = context("cognitive-board", "cognitive-key-1", 1, &key);
+    let mut history = Vec::new();
+    for _ in 0..4 {
+        let profile = governed_build(
+            &b,
+            &i,
+            &c,
+            &cap,
+            &policy,
+            &history,
+            &genesis,
+            &key,
+            context.clone(),
+            None,
+        );
+        validate_governed_cognitive_profile(
+            &profile, &b, &i, &c, &cap, &policy, &history, &genesis,
+        )
+        .unwrap();
+        history.push(profile);
+    }
+    assert_eq!(history.len(), 4);
+    assert_eq!(
+        history[3].previous_profile_sha256.as_deref(),
+        Some(history[2].profile_sha256.as_str())
+    );
+}
+
+#[test]
+fn old_key_governs_rotation_and_new_key_governs_followup() {
+    let (b, i, c, cap, policy) = authorities();
+    let old_key = SigningKey::from_bytes(&[7; 32]);
+    let new_key = SigningKey::from_bytes(&[8; 32]);
+    let genesis = trusted(&old_key);
+    let old_context = context("cognitive-board", "cognitive-key-1", 1, &old_key);
+    let new_context = context("cognitive-board", "cognitive-key-2", 2, &new_key);
+    let mut history = vec![governed_build(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &policy,
+        &[],
+        &genesis,
+        &old_key,
+        old_context.clone(),
+        None,
+    )];
+    let rotate = rotation(
+        &old_context,
+        new_context.clone(),
+        "profile-aster",
+        2,
+        &old_key,
+    );
+    history.push(governed_build(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &policy,
+        &history,
+        &genesis,
+        &new_key,
+        new_context.clone(),
+        Some(rotate),
+    ));
+    let third = governed_build(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &policy,
+        &history,
+        &genesis,
+        &new_key,
+        new_context,
+        None,
+    );
+    validate_governed_cognitive_profile(&third, &b, &i, &c, &cap, &policy, &history, &genesis)
+        .unwrap();
+}
+
+#[test]
+fn self_authorized_policy_statement_and_transplant_fail_closed() {
+    let (b, i, c, cap, policy) = authorities();
+    let trusted_key = SigningKey::from_bytes(&[7; 32]);
+    let attacker_key = SigningKey::from_bytes(&[42; 32]);
+    let genesis = trusted(&trusted_key);
+    let mut candidate = input(&b, &i, &c, &cap, &policy);
+    let attacker_context = context("cognitive-board", "attacker-key", 1, &attacker_key);
+    let attacker_proof =
+        authority_proof(&candidate, &policy, attacker_context, &attacker_key, None);
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &candidate,
+        &policy,
+        &[],
+        &genesis,
+        &attacker_proof,
+    )
+    .is_err());
+
+    let trusted_context = context("cognitive-board", "cognitive-key-1", 1, &trusted_key);
+    let proof = authority_proof(&candidate, &policy, trusted_context, &trusted_key, None);
+    let mut altered_policy = policy.clone();
+    altered_policy
+        .required_nonclaims
+        .push("new_nonclaim".into());
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &candidate,
+        &altered_policy,
+        &[],
+        &genesis,
+        &proof,
+    )
+    .is_err());
+    candidate.profile_id = "transplanted-profile".into();
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &candidate,
+        &policy,
+        &[],
+        &genesis,
+        &proof,
+    )
+    .is_err());
+    assert!(adl_runtime_kernel::build_cognitive_profile(
+        &b, &i, &c, &cap, &candidate, &policy, None,
+    )
+    .is_err());
+}
+
+#[test]
+fn deep_rehash_truncation_substitution_and_rotation_attacks_fail_closed() {
+    let (b, i, c, cap, policy) = authorities();
+    let old_key = SigningKey::from_bytes(&[7; 32]);
+    let new_key = SigningKey::from_bytes(&[8; 32]);
+    let wrong_key = SigningKey::from_bytes(&[9; 32]);
+    let genesis = trusted(&old_key);
+    let old_context = context("cognitive-board", "cognitive-key-1", 1, &old_key);
+    let mut history = Vec::new();
+    for _ in 0..3 {
+        history.push(governed_build(
+            &b,
+            &i,
+            &c,
+            &cap,
+            &policy,
+            &history,
+            &genesis,
+            &old_key,
+            old_context.clone(),
+            None,
+        ));
+    }
+    let next = next_input(&b, &i, &c, &cap, &policy, &history);
+    let proof = authority_proof(&next, &policy, old_context.clone(), &old_key, None);
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &next,
+        &policy,
+        &history[1..],
+        &genesis,
+        &proof,
+    )
+    .is_err());
+
+    let new_context = context("cognitive-board", "cognitive-key-2", 2, &new_key);
+    let valid_rotation = rotation(
+        &old_context,
+        new_context.clone(),
+        "profile-aster",
+        4,
+        &old_key,
+    );
+    let old_key_statement = authority_proof(
+        &next,
+        &policy,
+        new_context.clone(),
+        &old_key,
+        Some(valid_rotation.clone()),
+    );
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &next,
+        &policy,
+        &history,
+        &genesis,
+        &old_key_statement,
+    )
+    .is_err());
+    let rotated = governed_build(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &policy,
+        &history,
+        &genesis,
+        &new_key,
+        new_context.clone(),
+        Some(valid_rotation.clone()),
+    );
+    let mut rotated_history = history.clone();
+    rotated_history.push(rotated);
+    let after_rotation = next_input(&b, &i, &c, &cap, &policy, &rotated_history);
+    let replayed_rotation = authority_proof(
+        &after_rotation,
+        &policy,
+        new_context.clone(),
+        &new_key,
+        Some(valid_rotation),
+    );
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &after_rotation,
+        &policy,
+        &rotated_history,
+        &genesis,
+        &replayed_rotation,
+    )
+    .is_err());
+    let rotated_back_context = context("cognitive-board", "cognitive-key-1", 3, &old_key);
+    let rotate_back = rotation(
+        &new_context,
+        rotated_back_context.clone(),
+        "profile-aster",
+        5,
+        &new_key,
+    );
+    let rotate_back_proof = authority_proof(
+        &after_rotation,
+        &policy,
+        rotated_back_context,
+        &old_key,
+        Some(rotate_back),
+    );
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &after_rotation,
+        &policy,
+        &rotated_history,
+        &genesis,
+        &rotate_back_proof,
+    )
+    .is_err());
+    let mut forged = history.clone();
+    forged[1].fields[0].value = "forged".into();
+    forged[1].profile_sha256 = profile_digest(&forged[1]).unwrap();
+    forged[1].public_projection.source_profile_sha256 = forged[1].profile_sha256.clone();
+    forged[1].public_projection.projection_sha256 =
+        public_projection_digest(&forged[1].public_projection).unwrap();
+    assert!(build_governed_cognitive_profile(
+        &b, &i, &c, &cap, &next, &policy, &forged, &genesis, &proof,
+    )
+    .is_err());
+
+    for (epoch, signer) in [(1, &new_key), (3, &old_key), (2, &wrong_key)] {
+        let to = context("cognitive-board", "cognitive-key-2", epoch, &new_key);
+        let rotate = rotation(&old_context, to.clone(), "profile-aster", 4, signer);
+        let bad_proof = authority_proof(&next, &policy, to, &new_key, Some(rotate));
+        assert!(build_governed_cognitive_profile(
+            &b, &i, &c, &cap, &next, &policy, &history, &genesis, &bad_proof,
+        )
+        .is_err());
+    }
+    let renamed_same_key = context("cognitive-board", "renamed-key", 2, &old_key);
+    let renamed_rotation = rotation(
+        &old_context,
+        renamed_same_key.clone(),
+        "profile-aster",
+        4,
+        &old_key,
+    );
+    let renamed_proof = authority_proof(
+        &next,
+        &policy,
+        renamed_same_key,
+        &old_key,
+        Some(renamed_rotation),
+    );
+    assert!(build_governed_cognitive_profile(
+        &b,
+        &i,
+        &c,
+        &cap,
+        &next,
+        &policy,
+        &history,
+        &genesis,
+        &renamed_proof,
+    )
+    .is_err());
 }

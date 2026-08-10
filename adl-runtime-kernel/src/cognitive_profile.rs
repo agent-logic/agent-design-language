@@ -3,6 +3,7 @@ use std::{
     path::{Component, Path},
 };
 
+use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -17,6 +18,77 @@ pub const COGNITIVE_PROFILE_INPUT_SCHEMA: &str = "adl.cognitive_profile.input.v1
 pub const COGNITIVE_PROFILE_POLICY_SCHEMA: &str = "adl.cognitive_profile.policy.v1";
 pub const COGNITIVE_PROFILE_SCHEMA: &str = "adl.cognitive_profile.v1";
 pub const COGNITIVE_PROFILE_PUBLIC_SCHEMA: &str = "adl.cognitive_profile.public.v1";
+pub const COGNITIVE_AUTHORITY_STATEMENT_SCHEMA: &str =
+    "adl.cognitive_profile.authority_statement.v1";
+pub const COGNITIVE_AUTHORITY_ROTATION_SCHEMA: &str = "adl.cognitive_profile.authority_rotation.v1";
+
+#[derive(Clone, Debug)]
+pub struct ProvisionedCognitiveAuthority {
+    pub authority_id: String,
+    pub key_id: String,
+    pub epoch: u64,
+    pub context_sha256: String,
+    pub verifying_key: VerifyingKey,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CognitiveAuthorityContext {
+    pub authority_id: String,
+    pub key_id: String,
+    pub epoch: u64,
+    pub context_sha256: String,
+    pub verifying_key_hex: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CognitiveAuthorityStatement {
+    pub schema: String,
+    pub authority_context_sha256: String,
+    pub profile_id: String,
+    pub revision: u64,
+    pub previous_profile_sha256: Option<String>,
+    pub canonical_input_sha256: String,
+    pub policy_sha256: String,
+    pub evidence_sha256: String,
+    pub signature: String,
+}
+
+impl CognitiveAuthorityStatement {
+    pub fn sign(mut self, key: &SigningKey) -> Result<Self, Vec<CognitiveProfileRejection>> {
+        self.signature.clear();
+        self.signature = sign_canonical(&self, key)?;
+        Ok(self)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CognitiveAuthorityRotation {
+    pub schema: String,
+    pub from_authority_context_sha256: String,
+    pub to: CognitiveAuthorityContext,
+    pub profile_id: String,
+    pub revision: u64,
+    pub signature: String,
+}
+
+impl CognitiveAuthorityRotation {
+    pub fn sign(mut self, key: &SigningKey) -> Result<Self, Vec<CognitiveProfileRejection>> {
+        self.signature.clear();
+        self.signature = sign_canonical(&self, key)?;
+        Ok(self)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CognitiveAuthorityProof {
+    pub context: CognitiveAuthorityContext,
+    pub statement: CognitiveAuthorityStatement,
+    pub rotation: Option<CognitiveAuthorityRotation>,
+}
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -153,6 +225,7 @@ pub struct CognitiveProfile {
     pub canonical_input_sha256: String,
     pub profile_sha256: String,
     pub public_projection: PublicCognitiveProfile,
+    pub authority: CognitiveAuthorityProof,
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
@@ -182,6 +255,73 @@ pub enum CognitiveProfileRejection {
 }
 
 pub fn build_cognitive_profile(
+    _birthday: &BirthdayCandidate,
+    _identity: &BirthdayIdentityRecord,
+    _continuity: &BirthdayContinuityRecord,
+    _capability: &CapabilityEnvelope,
+    _input: &CognitiveProfileInput,
+    _policy: &CognitiveProfilePolicy,
+    _previous: Option<&CognitiveProfile>,
+) -> Result<CognitiveProfile, Vec<CognitiveProfileRejection>> {
+    Err(vec![CognitiveProfileRejection::InvalidAuthority])
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn build_governed_cognitive_profile(
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &BirthdayContinuityRecord,
+    capability: &CapabilityEnvelope,
+    input: &CognitiveProfileInput,
+    policy: &CognitiveProfilePolicy,
+    complete_history: &[CognitiveProfile],
+    trusted_genesis: &ProvisionedCognitiveAuthority,
+    proof: &CognitiveAuthorityProof,
+) -> Result<CognitiveProfile, Vec<CognitiveProfileRejection>> {
+    if complete_history.len() as u64 != input.revision.saturating_sub(1) || input.revision == 0 {
+        return Err(vec![CognitiveProfileRejection::InvalidRevisionLink]);
+    }
+    let active = validate_complete_authority_history(
+        complete_history,
+        birthday,
+        identity,
+        continuity,
+        capability,
+        policy,
+        trusted_genesis,
+    )?;
+    if let Some(rotation) = &proof.rotation {
+        let genesis = provisioned_authority(trusted_genesis)?.context;
+        if std::iter::once(&genesis)
+            .chain(
+                complete_history
+                    .iter()
+                    .map(|profile| &profile.authority.context),
+            )
+            .any(|context| {
+                context.key_id == rotation.to.key_id
+                    || context.verifying_key_hex == rotation.to.verifying_key_hex
+                    || digest(context).ok() == digest(&rotation.to).ok()
+            })
+        {
+            return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+        }
+    }
+    verify_authority_proof(input, policy, &active, proof)?;
+    build_cognitive_profile_payload(
+        birthday,
+        identity,
+        continuity,
+        capability,
+        input,
+        policy,
+        complete_history.last(),
+        proof,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_cognitive_profile_payload(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &BirthdayContinuityRecord,
@@ -189,6 +329,7 @@ pub fn build_cognitive_profile(
     input: &CognitiveProfileInput,
     policy: &CognitiveProfilePolicy,
     previous: Option<&CognitiveProfile>,
+    authority: &CognitiveAuthorityProof,
 ) -> Result<CognitiveProfile, Vec<CognitiveProfileRejection>> {
     let mut errors = BTreeSet::new();
     validate_authorities(
@@ -252,6 +393,7 @@ pub fn build_cognitive_profile(
             source_profile_sha256: String::new(),
             projection_sha256: String::new(),
         },
+        authority: authority.clone(),
     };
     profile.profile_sha256 = profile_digest(&profile)?;
     let allowed: BTreeMap<_, _> = canonical_policy
@@ -291,22 +433,250 @@ pub fn build_cognitive_profile(
 }
 
 pub fn validate_cognitive_profile(
+    _profile: &CognitiveProfile,
+    _birthday: &BirthdayCandidate,
+    _identity: &BirthdayIdentityRecord,
+    _continuity: &BirthdayContinuityRecord,
+    _capability: &CapabilityEnvelope,
+    _policy: &CognitiveProfilePolicy,
+    _previous: Option<&CognitiveProfile>,
+) -> Result<(), Vec<CognitiveProfileRejection>> {
+    Err(vec![CognitiveProfileRejection::InvalidAuthority])
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn validate_governed_cognitive_profile(
     profile: &CognitiveProfile,
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &BirthdayContinuityRecord,
     capability: &CapabilityEnvelope,
     policy: &CognitiveProfilePolicy,
-    previous: Option<&CognitiveProfile>,
+    complete_history: &[CognitiveProfile],
+    trusted_genesis: &ProvisionedCognitiveAuthority,
 ) -> Result<(), Vec<CognitiveProfileRejection>> {
     let input = input_from_profile(profile);
-    match build_cognitive_profile(
-        birthday, identity, continuity, capability, &input, policy, previous,
+    match build_governed_cognitive_profile(
+        birthday,
+        identity,
+        continuity,
+        capability,
+        &input,
+        policy,
+        complete_history,
+        trusted_genesis,
+        &profile.authority,
     ) {
         Ok(expected) if &expected == profile => Ok(()),
         Ok(_) => Err(vec![CognitiveProfileRejection::NonCanonicalProfile]),
         Err(errors) => Err(errors),
     }
+}
+
+#[derive(Clone)]
+struct ActiveCognitiveAuthority {
+    context: CognitiveAuthorityContext,
+    verifying_key: VerifyingKey,
+}
+
+fn provisioned_authority(
+    authority: &ProvisionedCognitiveAuthority,
+) -> Result<ActiveCognitiveAuthority, Vec<CognitiveProfileRejection>> {
+    let context = CognitiveAuthorityContext {
+        authority_id: authority.authority_id.clone(),
+        key_id: authority.key_id.clone(),
+        epoch: authority.epoch,
+        context_sha256: authority.context_sha256.clone(),
+        verifying_key_hex: hex::encode(authority.verifying_key.as_bytes()),
+    };
+    if !valid_authority_context(&context) || authority.epoch == 0 {
+        return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+    }
+    Ok(ActiveCognitiveAuthority {
+        context,
+        verifying_key: authority.verifying_key,
+    })
+}
+
+#[allow(clippy::too_many_arguments)]
+fn validate_complete_authority_history(
+    history: &[CognitiveProfile],
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &BirthdayContinuityRecord,
+    capability: &CapabilityEnvelope,
+    policy: &CognitiveProfilePolicy,
+    trusted_genesis: &ProvisionedCognitiveAuthority,
+) -> Result<ActiveCognitiveAuthority, Vec<CognitiveProfileRejection>> {
+    let mut active = provisioned_authority(trusted_genesis)?;
+    let mut used_key_ids = BTreeSet::from([active.context.key_id.clone()]);
+    let mut used_keys = BTreeSet::from([active.context.verifying_key_hex.clone()]);
+    let mut used_contexts = BTreeSet::from([digest(&active.context)?]);
+    let mut previous: Option<&CognitiveProfile> = None;
+    for (index, retained) in history.iter().enumerate() {
+        if retained.revision != (index as u64) + 1 {
+            return Err(vec![CognitiveProfileRejection::InvalidRevisionLink]);
+        }
+        let retained_input = input_from_profile(retained);
+        active = verify_authority_proof(&retained_input, policy, &active, &retained.authority)?;
+        if retained.authority.rotation.is_some()
+            && (!used_key_ids.insert(active.context.key_id.clone())
+                || !used_keys.insert(active.context.verifying_key_hex.clone())
+                || !used_contexts.insert(digest(&active.context)?))
+        {
+            return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+        }
+        let rebuilt = build_cognitive_profile_payload(
+            birthday,
+            identity,
+            continuity,
+            capability,
+            &retained_input,
+            policy,
+            previous,
+            &retained.authority,
+        )?;
+        if rebuilt != *retained {
+            return Err(vec![CognitiveProfileRejection::NonCanonicalProfile]);
+        }
+        previous = Some(retained);
+    }
+    Ok(active)
+}
+
+fn verify_authority_proof(
+    input: &CognitiveProfileInput,
+    policy: &CognitiveProfilePolicy,
+    current: &ActiveCognitiveAuthority,
+    proof: &CognitiveAuthorityProof,
+) -> Result<ActiveCognitiveAuthority, Vec<CognitiveProfileRejection>> {
+    let active = if let Some(rotation) = &proof.rotation {
+        verify_rotation(rotation, input, current)?
+    } else {
+        current.clone()
+    };
+    if proof.context != active.context {
+        return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+    }
+    let mut canonical_input = input.clone();
+    canonicalize_input(&mut canonical_input);
+    let mut canonical_policy = policy.clone();
+    canonicalize_policy(&mut canonical_policy);
+    let policy_sha256 = digest(&canonical_policy)?;
+    let evidence_sha256 = digest(&canonical_input.evidence)?;
+    let canonical_input_sha256 = digest(&canonical_input)?;
+    let authority_context_sha256 = digest(&active.context)?;
+    let statement = &proof.statement;
+    if statement.schema != COGNITIVE_AUTHORITY_STATEMENT_SCHEMA
+        || statement.authority_context_sha256 != authority_context_sha256
+        || statement.profile_id != canonical_input.profile_id
+        || statement.revision != canonical_input.revision
+        || statement.previous_profile_sha256 != canonical_input.previous_profile_sha256
+        || statement.canonical_input_sha256 != canonical_input_sha256
+        || statement.policy_sha256 != policy_sha256
+        || statement.evidence_sha256 != evidence_sha256
+        || verify_statement_signature(statement, &active.verifying_key).is_err()
+    {
+        return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+    }
+    Ok(active)
+}
+
+fn verify_rotation(
+    rotation: &CognitiveAuthorityRotation,
+    input: &CognitiveProfileInput,
+    current: &ActiveCognitiveAuthority,
+) -> Result<ActiveCognitiveAuthority, Vec<CognitiveProfileRejection>> {
+    let current_digest = digest(&current.context)?;
+    if rotation.schema != COGNITIVE_AUTHORITY_ROTATION_SCHEMA
+        || rotation.from_authority_context_sha256 != current_digest
+        || rotation.profile_id != input.profile_id
+        || rotation.revision != input.revision
+        || rotation.to.authority_id != current.context.authority_id
+        || rotation.to.key_id == current.context.key_id
+        || rotation.to.verifying_key_hex == current.context.verifying_key_hex
+        || rotation.to.epoch != current.context.epoch.checked_add(1).unwrap_or(0)
+        || !valid_authority_context(&rotation.to)
+        || verify_rotation_signature(rotation, &current.verifying_key).is_err()
+    {
+        return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+    }
+    let key_bytes = hex::decode(&rotation.to.verifying_key_hex)
+        .ok()
+        .and_then(|bytes| <[u8; 32]>::try_from(bytes).ok())
+        .ok_or_else(|| vec![CognitiveProfileRejection::InvalidAuthority])?;
+    let verifying_key = VerifyingKey::from_bytes(&key_bytes)
+        .map_err(|_| vec![CognitiveProfileRejection::InvalidAuthority])?;
+    Ok(ActiveCognitiveAuthority {
+        context: rotation.to.clone(),
+        verifying_key,
+    })
+}
+
+fn valid_authority_context(context: &CognitiveAuthorityContext) -> bool {
+    valid_id(&context.authority_id)
+        && valid_id(&context.key_id)
+        && context.epoch > 0
+        && authority_context_payload_digest(context).ok().as_deref()
+            == Some(context.context_sha256.as_str())
+        && context.verifying_key_hex.len() == 64
+        && context
+            .verifying_key_hex
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+}
+
+pub fn authority_context_payload_digest(
+    context: &CognitiveAuthorityContext,
+) -> Result<String, Vec<CognitiveProfileRejection>> {
+    let mut unsigned = context.clone();
+    unsigned.context_sha256.clear();
+    digest(&unsigned)
+}
+
+fn sign_canonical<T: Serialize>(
+    value: &T,
+    key: &SigningKey,
+) -> Result<String, Vec<CognitiveProfileRejection>> {
+    let bytes =
+        serde_jcs::to_vec(value).map_err(|_| vec![CognitiveProfileRejection::EncodingFailure])?;
+    Ok(hex::encode(key.sign(&bytes).to_bytes()))
+}
+
+fn verify_statement_signature(
+    statement: &CognitiveAuthorityStatement,
+    key: &VerifyingKey,
+) -> Result<(), ()> {
+    let mut unsigned = statement.clone();
+    let signature = std::mem::take(&mut unsigned.signature);
+    verify_canonical_signature(&unsigned, &signature, key)
+}
+
+fn verify_rotation_signature(
+    rotation: &CognitiveAuthorityRotation,
+    key: &VerifyingKey,
+) -> Result<(), ()> {
+    let mut unsigned = rotation.clone();
+    let signature = std::mem::take(&mut unsigned.signature);
+    verify_canonical_signature(&unsigned, &signature, key)
+}
+
+fn verify_canonical_signature<T: Serialize>(
+    value: &T,
+    signature: &str,
+    key: &VerifyingKey,
+) -> Result<(), ()> {
+    if signature.len() != 128
+        || !signature
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+    {
+        return Err(());
+    }
+    let bytes = serde_jcs::to_vec(value).map_err(|_| ())?;
+    let signature_bytes = hex::decode(signature).map_err(|_| ())?;
+    let signature = Signature::from_slice(&signature_bytes).map_err(|_| ())?;
+    key.verify(&bytes, &signature).map_err(|_| ())
 }
 
 fn input_from_profile(profile: &CognitiveProfile) -> CognitiveProfileInput {
