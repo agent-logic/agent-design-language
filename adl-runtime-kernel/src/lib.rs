@@ -8,6 +8,7 @@ pub mod birthday_identity;
 pub mod capability_envelope;
 pub mod channel;
 pub mod cognition;
+pub mod cognitive_profile;
 pub mod component;
 pub mod config;
 pub mod continuity;
@@ -42,6 +43,7 @@ pub use birthday_identity::*;
 pub use capability_envelope::*;
 pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, SendError};
 pub use cognition::*;
+pub use cognitive_profile::*;
 pub use component::{
     Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
     FailurePolicy, PortSpec, RunningState,

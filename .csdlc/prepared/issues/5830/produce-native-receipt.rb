@@ -68,13 +68,37 @@ def source_manifest(root, paths)
   rows.sort_by { |row| row.fetch("path") }
 end
 
+def normalize_command_output(output, root)
+  prefixes = [root.to_s, ENV["GITHUB_WORKSPACE"]].compact.reject(&:empty?).flat_map do |prefix|
+    [prefix, prefix.tr("/", "\\")]
+  end.uniq.sort_by { |prefix| -prefix.length }
+  prefixes.reduce(output.dup) do |normalized, prefix|
+    standalone = Regexp.new("#{Regexp.escape(prefix)}(?=$|[\\s\"'])")
+    normalized.gsub("#{prefix}/", "./").gsub("#{prefix}\\", "./").gsub(standalone, ".")
+  end
+end
+
 options = {}
 OptionParser.new do |parser|
   parser.on("--platform PLATFORM") { |value| options[:platform] = value }
   parser.on("--receipt PATH") { |value| options[:receipt] = value }
   parser.on("--semantic-output PATH") { |value| options[:semantic_output] = value }
+  parser.on("--self-test") { options[:self_test] = true }
 end.parse!
 fail!("unexpected positional arguments") unless ARGV.empty?
+if options[:self_test]
+  synthetic_root = Pathname.new("/Users/runner/work/agent-design-language/agent-design-language")
+  test_name = "adl-runtime-kernel::cognitive_profile$synthetic_case"
+  synthetic = JSON.generate("type" => "test", "event" => "ok", "name" => test_name,
+                            "path" => synthetic_root.join("adl-runtime-kernel/src/lib.rs").to_s) + "\n"
+  normalized = normalize_command_output(synthetic, synthetic_root)
+  fail!("self-test retained checkout prefix") if normalized.include?(synthetic_root.to_s)
+  parsed = JSON.parse(normalized)
+  fail!("self-test altered structured event inventory") unless parsed["name"] == test_name
+  fail!("self-test did not use repository-relative marker") unless parsed["path"] == "./adl-runtime-kernel/src/lib.rs"
+  puts JSON.generate(status: "passed", check: "native-log-normalization")
+  exit 0
+end
 fail!("platform must be macos or linux") unless %w[macos linux].include?(options[:platform])
 fail!("native receipts must be produced by GitHub Actions") unless ENV["GITHUB_ACTIONS"] == "true"
 
@@ -104,18 +128,31 @@ manifest_path = receipt_path.dirname.join("#{options[:platform]}-source-manifest
 
 test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all"
+  "--test", test_target, "--no-tests=fail", "--status-level", "all",
+  "--message-format", "libtest-json-plus"
 ]
 stdout, stderr, status = Open3.capture3(
-  { "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s },
+  {
+    "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s,
+    "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
+  },
   *test_argv,
   chdir: root.to_s
 )
-command_output = stdout + stderr
+command_output = normalize_command_output(stdout + stderr, root)
 command_output_path.write(command_output)
 fail!("native nextest command failed") unless status.success?
-summary = command_output.match(/(?<count>\d+)\s+tests?\s+run:/)
-fail!("native nextest output lacks a positive test summary") unless summary && summary[:count].to_i.positive?
+suites = []
+passed_tests = []
+command_output.each_line do |line|
+  parsed = JSON.parse(line)
+  suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
+  passed_tests << parsed["name"] if parsed["type"] == "test" && parsed["event"] == "ok"
+rescue JSON::ParserError
+  next
+end
+suite = suites.last
+fail!("native nextest output lacks a passing structured suite summary") unless suite && suite["passed"].to_i.positive? && suite["failed"].to_i.zero?
 fail!("test did not produce the declared semantic output") unless semantic_path.file? && semantic_path.size.positive?
 
 manifest = source_manifest(root, source_paths(test_target, feature_path))
@@ -129,8 +166,12 @@ payload = {
   "producer_sha256" => Digest::SHA256.file(root.join(producer_rel)).hexdigest,
   "producer_argv" => ["ruby", producer_rel, "--platform", options[:platform], "--receipt", options[:receipt], "--semantic-output", options[:semantic_output]],
   "test_argv" => test_argv,
-  "test_environment" => { "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s },
-  "tests_run" => summary[:count].to_i,
+  "test_environment" => {
+    "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s,
+    "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
+  },
+  "tests_run" => suite["passed"].to_i,
+  "passed_tests" => passed_tests.sort,
   "command_output_path" => command_output_path.relative_path_from(root).to_s,
   "command_output_sha256" => Digest::SHA256.file(command_output_path).hexdigest,
   "semantic_output_path" => semantic_path.relative_path_from(root).to_s,
