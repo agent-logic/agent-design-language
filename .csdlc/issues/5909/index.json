@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "387afe04e311ffa378b933030f6b3bda3d446135c0f1c0c52b61f04a5c956645",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "cb2ac1227b9e3f1d95a07318840af7a5bde72d78c3fd5d819ef7b259f3c6101d",
+  "phase": "published",
+  "generation": 6,
+  "digest": "5f82535a6b743bcbcaf668284bec2e909296b22e6ae4981ab0bda20d02a145ed",
   "branch": "codex/5909-lease-authority-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5909-lease-defect",
   "review_assignment": null,
@@ -27,7 +27,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5909,
+    "pull_request": 120,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/120",
+    "base": "main",
+    "head": "codex/5909-lease-authority-defect",
+    "revision": "git-blake3:1ce9b2403bf03467e64d87b1f80e2bc23f9971b3:f8408393e965071c5c7738629ca4c5b1dc8664ea4d949ccfe875b720aae67bf0",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -41,34 +52,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3bc2bb7aa94abe3d706a82b0588b6285e25835185f8ac1252b56fe96e102c761",
+      "values_digest": "d15314be78a69c42456510a07039491ec322831cb6ede0ecd238fc8f49389d8f",
       "rendered_digest": "0839d3ff00dfc774bbbac553de6388120b4cbb3476c0380f132ce4a724316b0d",
       "ast_digest": "9c11c0b586d938abcb773cd8e58a013f5708e85bcea10be47c76e1b6560dfa8d"
     },
     "stp": {
-      "values_digest": "7291f20495af739e76b4e3c2b637430089fa62fd913776f472853103ff9bf24c",
+      "values_digest": "6b3a9afbdd81176979e35057f3fa8a88e6d5afc69d4bfb0eff61188437be6681",
       "rendered_digest": "2c30883b1af731bea35d8bae09ff21d04d0714c41731307d67c32d6bc1c7e03c",
       "ast_digest": "d087c8195d755525fb81be0330f611e947b9e75289dcb338f133e1b1775f0be2"
     },
     "spp": {
-      "values_digest": "de089576a88793df594f7d10c9ec585c2f0933449d4c74b2d784fb941b0a60d6",
+      "values_digest": "62ce62b42326ebd7178f6b9dc935a6913c6dbb17aaaf06bad3fe5678b3162cb1",
       "rendered_digest": "401d9a7771046e3cc9247bd85650cf9808ca9d522fc5464ef620f16d9ec628ec",
       "ast_digest": "a38fc0451dc6d606ba51a2c8ecc19832e0c8a30268b983e56815c8c554536062"
     },
     "vpp": {
-      "values_digest": "3bf8d6459a9c00e7a9b45036bf36fc86ec929824146aeaed20c888f4650bead8",
+      "values_digest": "f3e08476a1bd9e11d111da8849c429c7d1291043bc4eebfdd6e252f20ff50065",
       "rendered_digest": "aae25417f9caf72bba1541c8035682e80ff38ea03ab94d833ff3988029cf033d",
       "ast_digest": "4c72ef770066bded42fddc7e34580523214a8f9a7ee49c7ba911794f531ba519"
     },
     "srp": {
-      "values_digest": "db033de381ac5270e3070405677c08314b384d2c67f367e79313c72b58193271",
+      "values_digest": "5537e77d1a7330f2add57cab25d56c4531431f679468748a59d0daae731bd38a",
       "rendered_digest": "1aa472cf6335e65e4416c4f3f5f7ef0acdbc0301cf28caaadeb9d7c6976bc042",
       "ast_digest": "deb68974df3288ae3df20ee8a6afaaa726598e361b64984a0baf6d09a7bff17c"
     },
     "sor": {
-      "values_digest": "b1465a8a055c60539c0c026a3cd5f1505db439d047aa8856f3975e6a69e9da33",
-      "rendered_digest": "59abbd132f1fe413ec51f5fce69c3f892b807481902f768fbe0276c808f54ac7",
-      "ast_digest": "b42d7c8a902afcaba641ec61524b23b2bd1e4cc45638fe745e75d8de04c408e6"
+      "values_digest": "802e92ce2e1a028dd5120c0184b7c0e83d10d3a85a48a58a4f27c4b996c2561c",
+      "rendered_digest": "9b4105e1ebdb53a1e656222ede9608d3f6e00e766ec9bcfabe2bda6d42449cab",
+      "ast_digest": "09d73482252dc688381f6ecd0fc6c4d6a5b7bef3531ee63eae0caf857133c56a"
     }
   },
   "transitions": [
@@ -99,6 +110,13 @@
       "to": "reviewed",
       "actor": "codex:5909-lease-authority-defect",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -150,6 +168,13 @@
       "actor": "codex:5909-lease-authority-defect",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

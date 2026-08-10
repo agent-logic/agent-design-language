@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.07][defect] Harden lease mutation authority and bounded proof",
     "slug": "v0-92-wp-04-07-defect-harden-lease-authority",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
@@ -68,8 +68,8 @@
           "evidence_ref": ".csdlc/evidence/5909/operator-repair-v3/strict-focused-clippy.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
