@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 141,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "expected_generation": 14,
+  "expected_digest": "8538427fe8da72843b61b22e00df832d2c06cda526cd357249db3d81e682ede5",
+  "actor": "codex:141-pr120-review-repair",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/141-pr120-terminal-proof-repair",
+  "title": "[v0.92][WP-04.07][defect] Reconcile terminal truth and strict Clippy proof",
+  "body": "Closes #141\n\n## Summary\n\n- Reconciles merged PR #120 and issue #5909 into exact terminal index, card, and receipt truth.\n- Makes terminal materialization disposition-aware and completes every terminal plan step without inventing merged history.\n- Requires strict-Clippy proof to bind exact argv, success, timestamps, source revision, runner identity, and a non-empty digest-bound log.\n- Adds fail-closed negative coverage for stale, malformed, missing, unsafe, and digest-drift evidence.\n\n## Validation\n\n- Focused csdlc-clean compilation: passed.\n- Strict-Clippy proof positive and negative matrix: passed.\n- Issue #5909 terminal record/receipt parity: passed.\n- Issue #5909 proof receipt: passed.\n- Typed issue doctor and diff hygiene: passed.\n\n## Review\n\n- Fresh exact-revision review by Aquinas: PASS, no actionable findings.\n- Substantive revision: ec2208c32f76cf3965d4b1ca3a1b790c01769cd2.\n- Assignment and review metadata are committed descendants of that revision.\n\nNo merge authority is implied.",
+  "draft": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}
