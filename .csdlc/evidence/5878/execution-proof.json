@@ -1,0 +1,387 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5878,
+  "wp": "WP-04.16",
+  "source_revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/mod.rs",
+    "adl-runtime/src/lib.rs",
+    "adl-runtime/tests/distributed_guardian.rs",
+    "adl/tools/validate_v092_distributed_guardian.sh",
+    "adl/tools/validate_v092_distributed_native_receipts.rb",
+    ".github/workflows/wp04-native-distributed.yml"
+  ],
+  "source_artifacts": [
+    {
+      "path": "adl-runtime/src/distributed/mod.rs",
+      "sha256": "c39601121d184f0dfa86b2abe09b4d93bcc1e6f42a10c2a6b50556131546cd2f"
+    },
+    {
+      "path": "adl-runtime/src/lib.rs",
+      "sha256": "f373bcc2638ba3950bb4ef9d75a9d3d0102d5c572729b54372931f85f2795ad0"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_guardian.rs",
+      "sha256": "7ed4dc74b6c657fb4c2b32829ef4b1845be9f47160e2a0a559af18d726cf8026"
+    },
+    {
+      "path": "adl/tools/validate_v092_distributed_guardian.sh",
+      "sha256": "13487a44c6477393bbadfbf342e0e25123164a5d0e2b45dfa3f8c2a2e7e83a52"
+    },
+    {
+      "path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+      "sha256": "8f1f7b8f3c983163a18523c89d413c6c51881a8c5f0299898abf8949ff5ad6ca"
+    },
+    {
+      "path": ".github/workflows/wp04-native-distributed.yml",
+      "sha256": "464f082391a2a3f65dd60ff122bede71b62a8804263e387754a38df3dae08913"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_guardian",
+        "--no-tests=fail",
+        "--no-capture"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T15:15:36.938664Z",
+      "finished_at": "2026-08-10T15:15:37.768603Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5878-local-final-v2",
+        "os": "macos",
+        "arch": "arm64",
+        "identity_sha256": "d6873be76432921c90865e36862a82dbb92e644aeff03a50868d565a6b0329be"
+      },
+      "stdout_path": ".csdlc/evidence/5878/operator-v1/exact-child-tests.stdout.log",
+      "stdout_sha256": "08ede643873a474496ca028ee165b1ec6bb6d07fa9c761d62767dd064bd3a29b",
+      "stderr_path": ".csdlc/evidence/5878/operator-v1/exact-child-tests.stderr.log",
+      "stderr_sha256": "879a327abbbad0e8bc8e1d001aa0250ea21ea8c6605817d4a630919d3d59999d",
+      "selected_tests": 2
+    },
+    {
+      "argv": [
+        "bash",
+        "adl/tools/validate_v092_distributed_guardian.sh"
+      ],
+      "exit_code": 0,
+      "selected_tests": 2,
+      "started_at": "2026-08-10T15:08:19Z",
+      "finished_at": "2026-08-10T15:10:05Z",
+      "runner": {
+        "provider": "github_actions",
+        "run_id": "31401936181-1-linux",
+        "os": "linux",
+        "arch": "x86_64",
+        "repository": "agent-logic/agent-design-language",
+        "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp04-native-distributed.yml@refs/heads/codex/5878-final-distributed-integration",
+        "run_attempt": "1",
+        "github_run_id": "31401936181",
+        "commit": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+        "provenance_path": ".csdlc/evidence/5878/native/linux/runner-provenance.json",
+        "provenance_sha256": "01bced425a8dfb5ec8f0ecea7b7b33ebc26797ff6e655a3791cf9e6f0adae3bf",
+        "identity_sha256": "d7340f88ca06b195176a54389cbe7e8f6c7545f25f1e830e68e9e3ab13d7f4e3"
+      },
+      "stdout_path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stdout.log",
+      "stdout_sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203",
+      "stderr_path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log",
+      "stderr_sha256": "c43ece353cf3469be6ca493429b17b55d68104da4e1a3b2057a8c8952979a4bc"
+    },
+    {
+      "argv": [
+        "ruby",
+        "adl/tools/validate_v092_distributed_native_receipts.rb"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T15:15:37.769289Z",
+      "finished_at": "2026-08-10T15:15:41.469641Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5878-local-final-v2",
+        "os": "macos",
+        "arch": "arm64",
+        "identity_sha256": "d6873be76432921c90865e36862a82dbb92e644aeff03a50868d565a6b0329be"
+      },
+      "stdout_path": ".csdlc/evidence/5878/operator-v1/native-receipt-validator.stdout.log",
+      "stdout_sha256": "c174b7962edfcfd07cf5d3e8f2f4b369764da0da45e2aba0d0ff9c71871fc34f",
+      "stderr_path": ".csdlc/evidence/5878/operator-v1/native-receipt-validator.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "authority_replay",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5878/operator-v1/negative-cases.json",
+      "evidence_sha256": "a3c5dea35dd9743f4a53f1911a71d3763ac1a71dbf9b3572bd926569cc65acee"
+    },
+    {
+      "case": "oversized_protobuf_frame",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5878/operator-v1/negative-cases.json",
+      "evidence_sha256": "a3c5dea35dd9743f4a53f1911a71d3763ac1a71dbf9b3572bd926569cc65acee"
+    },
+    {
+      "case": "wrong_authority_domain",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5878/operator-v1/negative-cases.json",
+      "evidence_sha256": "a3c5dea35dd9743f4a53f1911a71d3763ac1a71dbf9b3572bd926569cc65acee"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5878/exact-child-tests.log",
+      "sha256": "b562b74cc3df577fbb04a7f3b0c996102cde6e335856a9e10e39456456a6cea3"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log",
+      "sha256": "c43ece353cf3469be6ca493429b17b55d68104da4e1a3b2057a8c8952979a4bc"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stdout.log",
+      "sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/linux/receipt.json",
+      "sha256": "829b6f349b5958344d19b03a950edd8e4ea590a80621fa8c933e77d3a92cdb3e"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/linux/runner-provenance.json",
+      "sha256": "01bced425a8dfb5ec8f0ecea7b7b33ebc26797ff6e655a3791cf9e6f0adae3bf"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stderr.log",
+      "sha256": "b11f1073012ec983982af8ada01ce8613c4f4aaf185e1850b6ed5f6095a79f2e"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stdout.log",
+      "sha256": "fa673bdd7b9d45fd78f24f1dcb4d68f6985e4699adee72ad71a1353581a7cf73"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/macos/receipt.json",
+      "sha256": "bcb0f86fbf2413ee2bcb64a9f7cb6ecfdfbf85d702a4427b7ba8c4da9c96cda9"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/macos/runner-provenance.json",
+      "sha256": "edb84d17699a853cb258f42466f545a2e56aeefff0a9dcea6a527f5de39f3d5b"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stderr.log",
+      "sha256": "4208ee4f4e1447d1d01615a7682be127d52777c1687c97dd361aa9455eb91242"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stdout.log",
+      "sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/windows/receipt.json",
+      "sha256": "65efc883b10b82df79e04d28c16718c0aaa8817e4f0a93771cd836e8493ee569"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/windows/runner-provenance.json",
+      "sha256": "8f2d58269ea2561d830f0ee1c430bdb5070737c3c14ef1ac15a6967978ccc078"
+    },
+    {
+      "path": ".csdlc/evidence/5878/operator-v1/exact-child-tests.stderr.log",
+      "sha256": "879a327abbbad0e8bc8e1d001aa0250ea21ea8c6605817d4a630919d3d59999d"
+    },
+    {
+      "path": ".csdlc/evidence/5878/operator-v1/exact-child-tests.stdout.log",
+      "sha256": "08ede643873a474496ca028ee165b1ec6bb6d07fa9c761d62767dd064bd3a29b"
+    },
+    {
+      "path": ".csdlc/evidence/5878/operator-v1/native-receipt-validator.stdout.log",
+      "sha256": "c174b7962edfcfd07cf5d3e8f2f4b369764da0da45e2aba0d0ff9c71871fc34f"
+    },
+    {
+      "path": ".csdlc/evidence/5878/operator-v1/negative-cases.json",
+      "sha256": "a3c5dea35dd9743f4a53f1911a71d3763ac1a71dbf9b3572bd926569cc65acee"
+    },
+    {
+      "path": ".csdlc/evidence/5878/produce-execution-proof.rb",
+      "sha256": "2597eda8d7c2f3f6ca79d75b9eceb589d575e4067bb8a4c1440ea65368e3209c"
+    },
+    {
+      "path": ".csdlc/evidence/5878/runner.txt",
+      "sha256": "d6873be76432921c90865e36862a82dbb92e644aeff03a50868d565a6b0329be"
+    }
+  ],
+  "native_receipts": [
+    {
+      "schema": "adl.distributed_guardian.native_receipt.v1",
+      "issue": 5878,
+      "platform": "macos",
+      "source_revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+      "command": {
+        "argv": [
+          "bash",
+          "adl/tools/validate_v092_distributed_guardian.sh"
+        ],
+        "exit_code": 0,
+        "selected_tests": 2,
+        "started_at": "2026-08-10T15:08:50Z",
+        "finished_at": "2026-08-10T15:11:12Z",
+        "runner": {
+          "provider": "github_actions",
+          "run_id": "31401936181-1-macos",
+          "os": "macos",
+          "arch": "arm64",
+          "repository": "agent-logic/agent-design-language",
+          "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp04-native-distributed.yml@refs/heads/codex/5878-final-distributed-integration",
+          "run_attempt": "1",
+          "github_run_id": "31401936181",
+          "commit": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+          "provenance_path": ".csdlc/evidence/5878/native/macos/runner-provenance.json",
+          "provenance_sha256": "edb84d17699a853cb258f42466f545a2e56aeefff0a9dcea6a527f5de39f3d5b",
+          "identity_sha256": "64e2fd758af8b40d15259fd3fa4470a8fe79e7e92f44661c54a3636c318d00e2"
+        },
+        "stdout_path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stdout.log",
+        "stdout_sha256": "fa673bdd7b9d45fd78f24f1dcb4d68f6985e4699adee72ad71a1353581a7cf73",
+        "stderr_path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stderr.log",
+        "stderr_sha256": "b11f1073012ec983982af8ada01ce8613c4f4aaf185e1850b6ed5f6095a79f2e"
+      },
+      "negative_cases": [
+        "authority_replay",
+        "oversized_protobuf_frame",
+        "wrong_authority_domain"
+      ],
+      "artifacts": [
+        {
+          "role": "integration_stdout",
+          "path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stdout.log",
+          "sha256": "fa673bdd7b9d45fd78f24f1dcb4d68f6985e4699adee72ad71a1353581a7cf73"
+        },
+        {
+          "role": "integration_stderr",
+          "path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stderr.log",
+          "sha256": "b11f1073012ec983982af8ada01ce8613c4f4aaf185e1850b6ed5f6095a79f2e"
+        },
+        {
+          "role": "runner_provenance",
+          "path": ".csdlc/evidence/5878/native/macos/runner-provenance.json",
+          "sha256": "edb84d17699a853cb258f42466f545a2e56aeefff0a9dcea6a527f5de39f3d5b"
+        }
+      ]
+    },
+    {
+      "schema": "adl.distributed_guardian.native_receipt.v1",
+      "issue": 5878,
+      "platform": "linux",
+      "source_revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+      "command": {
+        "argv": [
+          "bash",
+          "adl/tools/validate_v092_distributed_guardian.sh"
+        ],
+        "exit_code": 0,
+        "selected_tests": 2,
+        "started_at": "2026-08-10T15:08:19Z",
+        "finished_at": "2026-08-10T15:10:05Z",
+        "runner": {
+          "provider": "github_actions",
+          "run_id": "31401936181-1-linux",
+          "os": "linux",
+          "arch": "x86_64",
+          "repository": "agent-logic/agent-design-language",
+          "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp04-native-distributed.yml@refs/heads/codex/5878-final-distributed-integration",
+          "run_attempt": "1",
+          "github_run_id": "31401936181",
+          "commit": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+          "provenance_path": ".csdlc/evidence/5878/native/linux/runner-provenance.json",
+          "provenance_sha256": "01bced425a8dfb5ec8f0ecea7b7b33ebc26797ff6e655a3791cf9e6f0adae3bf",
+          "identity_sha256": "d7340f88ca06b195176a54389cbe7e8f6c7545f25f1e830e68e9e3ab13d7f4e3"
+        },
+        "stdout_path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stdout.log",
+        "stdout_sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203",
+        "stderr_path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log",
+        "stderr_sha256": "c43ece353cf3469be6ca493429b17b55d68104da4e1a3b2057a8c8952979a4bc"
+      },
+      "negative_cases": [
+        "authority_replay",
+        "oversized_protobuf_frame",
+        "wrong_authority_domain"
+      ],
+      "artifacts": [
+        {
+          "role": "integration_stdout",
+          "path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stdout.log",
+          "sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203"
+        },
+        {
+          "role": "integration_stderr",
+          "path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log",
+          "sha256": "c43ece353cf3469be6ca493429b17b55d68104da4e1a3b2057a8c8952979a4bc"
+        },
+        {
+          "role": "runner_provenance",
+          "path": ".csdlc/evidence/5878/native/linux/runner-provenance.json",
+          "sha256": "01bced425a8dfb5ec8f0ecea7b7b33ebc26797ff6e655a3791cf9e6f0adae3bf"
+        }
+      ]
+    },
+    {
+      "schema": "adl.distributed_guardian.native_receipt.v1",
+      "issue": 5878,
+      "platform": "windows",
+      "source_revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+      "command": {
+        "argv": [
+          "bash",
+          "adl/tools/validate_v092_distributed_guardian.sh"
+        ],
+        "exit_code": 0,
+        "selected_tests": 2,
+        "started_at": "2026-08-10T15:08:43Z",
+        "finished_at": "2026-08-10T15:13:05Z",
+        "runner": {
+          "provider": "github_actions",
+          "run_id": "31401936181-1-windows",
+          "os": "windows",
+          "arch": "x86_64",
+          "repository": "agent-logic/agent-design-language",
+          "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp04-native-distributed.yml@refs/heads/codex/5878-final-distributed-integration",
+          "run_attempt": "1",
+          "github_run_id": "31401936181",
+          "commit": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+          "provenance_path": ".csdlc/evidence/5878/native/windows/runner-provenance.json",
+          "provenance_sha256": "8f2d58269ea2561d830f0ee1c430bdb5070737c3c14ef1ac15a6967978ccc078",
+          "identity_sha256": "118fbd12ff5a956fe8e8c7d7e294d1d7f43f92be64fe3db887debbfbec59038b"
+        },
+        "stdout_path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stdout.log",
+        "stdout_sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203",
+        "stderr_path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stderr.log",
+        "stderr_sha256": "4208ee4f4e1447d1d01615a7682be127d52777c1687c97dd361aa9455eb91242"
+      },
+      "negative_cases": [
+        "authority_replay",
+        "oversized_protobuf_frame",
+        "wrong_authority_domain"
+      ],
+      "artifacts": [
+        {
+          "role": "integration_stdout",
+          "path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stdout.log",
+          "sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203"
+        },
+        {
+          "role": "integration_stderr",
+          "path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stderr.log",
+          "sha256": "4208ee4f4e1447d1d01615a7682be127d52777c1687c97dd361aa9455eb91242"
+        },
+        {
+          "role": "runner_provenance",
+          "path": ".csdlc/evidence/5878/native/windows/runner-provenance.json",
+          "sha256": "8f2d58269ea2561d830f0ee1c430bdb5070737c3c14ef1ac15a6967978ccc078"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "adl.distributed_guardian.native_receipt.v1",
+  "issue": 5878,
+  "platform": "linux",
+  "source_revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+  "command": {
+    "argv": [
+      "bash",
+      "adl/tools/validate_v092_distributed_guardian.sh"
+    ],
+    "exit_code": 0,
+    "selected_tests": 2,
+    "started_at": "2026-08-10T15:08:19Z",
+    "finished_at": "2026-08-10T15:10:05Z",
+    "runner": {
+      "provider": "github_actions",
+      "run_id": "31401936181-1-linux",
+      "os": "linux",
+      "arch": "x86_64",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp04-native-distributed.yml@refs/heads/codex/5878-final-distributed-integration",
+      "run_attempt": "1",
+      "github_run_id": "31401936181",
+      "commit": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+      "provenance_path": ".csdlc/evidence/5878/native/linux/runner-provenance.json",
+      "provenance_sha256": "01bced425a8dfb5ec8f0ecea7b7b33ebc26797ff6e655a3791cf9e6f0adae3bf",
+      "identity_sha256": "d7340f88ca06b195176a54389cbe7e8f6c7545f25f1e830e68e9e3ab13d7f4e3"
+    },
+    "stdout_path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stdout.log",
+    "stdout_sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203",
+    "stderr_path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log",
+    "stderr_sha256": "c43ece353cf3469be6ca493429b17b55d68104da4e1a3b2057a8c8952979a4bc"
+  },
+  "negative_cases": [
+    "authority_replay",
+    "oversized_protobuf_frame",
+    "wrong_authority_domain"
+  ],
+  "artifacts": [
+    {
+      "role": "integration_stdout",
+      "path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stdout.log",
+      "sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203"
+    },
+    {
+      "role": "integration_stderr",
+      "path": ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log",
+      "sha256": "c43ece353cf3469be6ca493429b17b55d68104da4e1a3b2057a8c8952979a4bc"
+    },
+    {
+      "role": "runner_provenance",
+      "path": ".csdlc/evidence/5878/native/linux/runner-provenance.json",
+      "sha256": "01bced425a8dfb5ec8f0ecea7b7b33ebc26797ff6e655a3791cf9e6f0adae3bf"
+    }
+  ]
+}
