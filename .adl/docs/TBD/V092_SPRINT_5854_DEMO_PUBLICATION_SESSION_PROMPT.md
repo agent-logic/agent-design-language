@@ -34,7 +34,8 @@ Exact child wave:
 - #5838, WP-18B: provider-neutral multi-agent proof
 - #5839, WP-19: birthday-to-governance handoff
 - #5840, WP-20: demo matrix, AEE proof, and proof coverage
-- #5844, WP-24: terminal; the canonical ten-article package is merged
+- #5844, WP-24: product and GitHub complete; the canonical ten-article package
+  is merged while typed closeout continues asynchronously
 
 WP-24A `#5845` is not part of this sprint's dependency graph. It is an
 independent out-of-band stream with no Sprint 5 dependencies and cannot block

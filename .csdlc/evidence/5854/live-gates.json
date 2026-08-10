@@ -1,34 +1,128 @@
 {
   "schema": "adl.v092.sprint_5854_live_gates.v1",
-  "observed_at": "2026-08-09T23:48:32Z",
+  "observed_at": "2026-08-10T00:14:03Z",
   "issue_repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
+  "provenance": {
+    "source_evidence": ".csdlc/evidence/5854/live-gates-source.json",
+    "source_evidence_sha256": "44143171814175d546624a86ca7f37fecb60459c29abb100de68abaa71bdb131",
+    "request_manifest_sha256": "53d4ccbcbe93e660a78c0eae3bc88d253deaab2aa2889d0443ae508a2d90db8e",
+    "collector_contract": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+    "collector_identity": "typed csdlc-github-issue and csdlc-github-pr installed owner binaries"
+  },
   "issues": [
-    {"repository": "danielbaustin/agent-design-language", "issue": 5819, "state": "closed"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5825, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5826, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5827, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5828, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5829, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5830, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5832, "state": "closed"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5833, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5834, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5835, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5836, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5837, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5838, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5839, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5840, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5843, "state": "open"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5844, "state": "closed"},
-    {"repository": "danielbaustin/agent-design-language", "issue": 5854, "state": "open"}
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5819,
+      "state": "closed"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5825,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5826,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5827,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5828,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5829,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5830,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5832,
+      "state": "closed"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5833,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5834,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5835,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5836,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5837,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5838,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5839,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5840,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5843,
+      "state": "open"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5844,
+      "state": "closed"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5854,
+      "state": "open"
+    }
   ],
   "pull_requests": [
-    {"repository": "agent-logic/agent-design-language", "pull_request": 14, "state": "merged", "merge_sha": "b4f23892fa5c7b23816c8c38903ed4c73395afde", "closes_issue": 10}
+    {
+      "repository": "agent-logic/agent-design-language",
+      "pull_request": 14,
+      "state": "merged",
+      "merge_sha": "b4f23892fa5c7b23816c8c38903ed4c73395afde",
+      "closes_issue": 10
+    }
   ],
   "out_of_band_observations": [
-    {"issue": 5845, "gates_sprint": false, "dependency_on_sprint": false, "note": "WP-24A is independently owned and cannot block Sprint 5."}
+    {
+      "issue": 5845,
+      "gates_sprint": false,
+      "dependency_on_sprint": false,
+      "note": "WP-24A is independently owned and cannot block Sprint 5."
+    }
   ],
   "publication_authorization": {
     "status": "not_authorized",

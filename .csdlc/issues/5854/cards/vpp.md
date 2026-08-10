@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5854/diagram.mmd
 [
   {
     "lane": "v092-sprint5-readiness",
-    "proof_role": "Prove current Sprint 5 membership, state classification, bind-safe child contracts, dependency gates, publication boundaries, and umbrella ownership.",
+    "proof_role": "Prove current Sprint 5 membership, five-child operative closeout scope, bind-safe child contracts, dependency gates, publication boundaries, umbrella ownership, and digest-bound live GitHub provenance.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,7 +33,7 @@ Diagram: .csdlc/prepared/issues/5854/diagram.mmd
       "AC-4",
       "AC-5"
     ],
-    "deterministic": true,
+    "deterministic": false,
     "resource_profile": "small",
     "budget_seconds": 300,
     "budget_tokens": 3000,
@@ -42,7 +42,7 @@ Diagram: .csdlc/prepared/issues/5854/diagram.mmd
       ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb"
     ],
     "parallel_group": "v092-docs",
-    "defer_reason": null
+    "defer_reason": "The contract checks are deterministic over retained inputs, but snapshot freshness depends on wall-clock time and observed GitHub state."
   }
 ]
 

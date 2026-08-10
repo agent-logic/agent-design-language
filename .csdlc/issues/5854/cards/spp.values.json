@@ -7,13 +7,13 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 14
+    "generation": 19
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 4,
+      "plan_revision": 5,
       "summary": "Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, #5839, and #5840 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated sprint review after the five operative children complete.",
       "steps": [
         {
@@ -54,6 +54,7 @@
         ".csdlc/prepared/issues/5854/sprint-execution-packet.yaml",
         ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb",
         ".csdlc/evidence/5854/live-gates.json",
+        ".csdlc/evidence/5854/live-gates-source.json",
         ".csdlc/evidence/5854/activity.jsonl",
         ".csdlc/evidence/5854/sprint-review.md"
       ],

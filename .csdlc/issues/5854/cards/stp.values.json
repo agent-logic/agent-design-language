@@ -7,7 +7,7 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 14
+    "generation": 19
   },
   "status": "ready",
   "content": {
@@ -19,14 +19,15 @@
         "Sprint Execution Packet with membership, lanes, gates, review path, and activity log",
         "Integrated sprint review and truthful umbrella closeout record",
         ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb",
-        ".csdlc/evidence/5854/live-gates.json"
+        ".csdlc/evidence/5854/live-gates.json",
+        ".csdlc/evidence/5854/live-gates-source.json"
       ],
       "acceptance_criteria": [
         "AC-1: The Sprint Execution Packet records exact child membership and dependency order.",
         "AC-2: Safe parallel lanes and serial gates are explicit and do not overlap child ownership.",
         "AC-3: The umbrella coordinates only; each child retains implementation, proof, review, publication, and closeout authority.",
-        "AC-4: Every child handoff requires issue-bound bind, readiness, and session-goal truth before implementation.",
-        "AC-5: Integrated sprint review and umbrella closeout occur only after every child reaches truthful terminal state."
+        "AC-4: Every operative child handoff requires issue-bound bind, readiness, and session-goal truth before implementation.",
+        "AC-5: Integrated sprint review and umbrella closeout occur only after the five operative children (#5835, #5836, #5838, #5839, and #5840) reach truthful terminal state; out-of-band WP-24A #5845 cannot gate readiness, execution, review, or closeout."
       ],
       "dependencies": [
         "#5835",

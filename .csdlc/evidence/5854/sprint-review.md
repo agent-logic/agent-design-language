@@ -15,6 +15,14 @@ The Sprint 5 coordination packet is ready for independent pre-PR review. This is
 
 The umbrella validator proves packet structure, state classification, safe child ownership, explicit bind-time deferral contracts, and publication boundaries. It does not execute any deferred child validator and does not treat a deferral as evidence.
 
+The live-gate projection is bound to `live-gates-source.json`, which retains the complete normalized results from the installed typed GitHub issue and PR readers, the exact request manifest, collector binary digests, collection time, and the approved default-resolver credential classification. The readiness lane is intentionally nondeterministic because freshness depends on wall-clock time and live GitHub state.
+
+## Review Finding Dispositions
+
+- Resolved: canonical STP and SRP now name only the five operative children (`#5835`, `#5836`, `#5838`, `#5839`, and `#5840`) as the terminal closeout set and explicitly exclude out-of-band WP-24A `#5845` from every Sprint 5 gate.
+- Resolved: the session prompt now describes WP-24 as product/GitHub complete with asynchronous typed closeout rather than falsely calling it typed-terminal.
+- Resolved: the live-gate snapshot now has digest-bound typed collector, request, response, freshness, and ancestry provenance, and VPP classifies its wall-clock dependency truthfully.
+
 ## Tooling Note
 
 Typed bind is still affected by open tooling issue `agent-logic/agent-design-language#74` when unrelated historical records are visible. The umbrella was bound from a standalone sparse FastWork checkout containing only Sprint 5 issue records. No unrelated worktree or lifecycle record was changed or removed. Issue `#74` remains owned by its separate repair session.

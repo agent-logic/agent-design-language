@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "digest"
 require "pathname"
 require "time"
 require "yaml"
@@ -30,6 +31,16 @@ human = (ROOT / ".csdlc/prepared/issues/5854/sprint-execution-packet.md").read
 end
 raise "WP-24A non-gating boundary missing" unless human.include?("cannot gate Sprint 5")
 raise "deferred proof is overstated" unless human.include?("never validation evidence")
+
+stp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/stp.values.json").read).dig("content", "values")
+operative_closeout = "the five operative children (#5835, #5836, #5838, #5839, and #5840)"
+raise "STP does not name the exact operative closeout boundary" unless stp_values.fetch("acceptance_criteria").any? { |criterion| criterion.include?(operative_closeout) && criterion.include?("WP-24A #5845 cannot gate") }
+srp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/srp.values.json").read).dig("content", "values")
+raise "SRP does not review the exact operative closeout boundary" unless srp_values.fetch("review_prompts").any? { |prompt| prompt.include?(operative_closeout) && prompt.include?("WP-24A #5845 excluded") }
+
+session_prompt = (ROOT / ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md").read
+raise "session prompt falsely calls WP-24 typed-terminal" if session_prompt.include?("#5844, WP-24: terminal")
+raise "session prompt omits asynchronous WP-24 typed closeout" unless session_prompt.include?("typed closeout continues asynchronously")
 
 UNBOUND.each do |issue|
   issue_root = ROOT / ".csdlc/issues/#{issue}"
@@ -70,12 +81,44 @@ UNBOUND.each do |issue|
 end
 
 gates = JSON.parse((ROOT / ".csdlc/evidence/5854/live-gates.json").read)
+provenance = gates.fetch("provenance")
+source_ref = provenance.fetch("source_evidence")
+raise "unexpected live-gate source evidence path" unless source_ref == ".csdlc/evidence/5854/live-gates-source.json"
+source_path = ROOT / source_ref
+raise "live-gate source evidence missing" unless source_path.file?
+source_digest = Digest::SHA256.file(source_path).hexdigest
+raise "live-gate source evidence digest mismatch" unless source_digest == provenance.fetch("source_evidence_sha256")
+source = JSON.parse(source_path.read)
+raise "live-gate source schema mismatch" unless source.fetch("schema") == "adl.v092.sprint_5854_live_gate_source.v1"
+raise "live-gate observation timestamp is not source-bound" unless source.fetch("collected_at") == gates.fetch("observed_at")
+request_manifest = {
+  "issue_requests" => source.fetch("issue_results").map { |entry| entry.fetch("request") },
+  "pull_request_requests" => source.fetch("pull_request_results").map { |entry| entry.fetch("request") }
+}
+recomputed_request_digest = Digest::SHA256.hexdigest(JSON.generate(request_manifest))
+raise "retained request manifest digest is invalid" unless recomputed_request_digest == source.fetch("request_manifest_sha256")
+raise "request manifest digest mismatch" unless source.fetch("request_manifest_sha256") == provenance.fetch("request_manifest_sha256")
+collector = source.fetch("collector")
+raise "typed issue collector identity missing" unless collector.fetch("issue_binary") == "csdlc-github-issue"
+raise "typed PR collector identity missing" unless collector.fetch("pull_request_binary") == "csdlc-github-pr"
+%w[issue_binary_sha256 pull_request_binary_sha256].each do |field|
+  raise "invalid collector binary digest #{field}" unless collector.fetch(field).match?(/\A[0-9a-f]{64}\z/)
+end
+raise "collector contract mismatch" unless collector.fetch("contract") == provenance.fetch("collector_contract")
+raise "collector identity missing" if provenance.fetch("collector_identity").strip.empty?
+raise "collector source operations missing" unless source.fetch("source_operations").length == 2
+
 observed_at = Time.iso8601(gates.fetch("observed_at"))
 age_seconds = Time.now.utc - observed_at
 raise "live-gate snapshot is from the future" if age_seconds < -300
 raise "live-gate snapshot is older than 24 hours" if age_seconds > 86_400
 
 states = gates.fetch("issues").to_h { |row| [[row.fetch("repository"), row.fetch("issue")], row.fetch("state")] }
+source_states = source.fetch("issue_results").to_h do |entry|
+  issue = entry.fetch("response").fetch("issue")
+  [[issue.fetch("repository"), issue.fetch("number")], issue.fetch("state")]
+end
+raise "live-gate issue projection differs from retained source" unless states == source_states
 expected_states = {
   5819 => "closed",
   5825 => "open",
@@ -106,11 +149,13 @@ raise "WP-17 dependency set is incomplete" unless human.include?("`#5826`, `#582
 raise "WP-18 dependency set is incomplete" unless human.include?("`#5825`-`#5830` and `#5832`-`#5834`")
 
 pr14 = gates.fetch("pull_requests").find { |row| row.fetch("pull_request") == 14 }
+source_pr14 = source.fetch("pull_request_results").first.fetch("response")
 expected_wp24_sha = "b4f23892fa5c7b23816c8c38903ed4c73395afde"
 raise "canonical WP-24 PR repository mismatch" unless pr14&.fetch("repository") == "agent-logic/agent-design-language"
 raise "canonical WP-24 PR is not merged" unless pr14&.fetch("state") == "merged"
 raise "canonical WP-24 merge SHA mismatch" unless pr14&.fetch("merge_sha") == expected_wp24_sha
 raise "canonical WP-24 closing relation mismatch" unless pr14&.fetch("closes_issue") == 10
+raise "canonical WP-24 PR projection differs from retained source" unless source_pr14.fetch("repository") == pr14.fetch("repository") && source_pr14.fetch("pull_request") == pr14.fetch("pull_request") && source_pr14.fetch("merged") && source_pr14.fetch("merge_commit_sha") == pr14.fetch("merge_sha") && source_pr14.fetch("linked_issue") == pr14.fetch("closes_issue")
 raise "canonical WP-24 merge is not ancestral to readiness HEAD" unless system("git", "merge-base", "--is-ancestor", expected_wp24_sha, "HEAD", out: File::NULL, err: File::NULL)
 
 wp24a_observation = gates.fetch("out_of_band_observations").find { |row| row.fetch("issue") == 5845 }
@@ -122,5 +167,11 @@ raise "publication was implicitly authorized" unless gates.dig("publication_auth
 umbrella = JSON.parse((ROOT / ".csdlc/issues/5854/index.json").read)
 raise "umbrella is outside its readiness lifecycle" unless %w[bound implemented].include?(umbrella.fetch("phase"))
 raise "umbrella code repository mismatch" unless umbrella.fetch("code_repository") == EXPECTED_CODE_REPOSITORY
+
+umbrella_vpp = JSON.parse((ROOT / ".csdlc/issues/5854/cards/vpp.values.json").read).dig("content", "values")
+readiness_lane = umbrella_vpp.fetch("lanes").find { |lane| lane.fetch("lane") == "v092-sprint5-readiness" }
+raise "readiness lane missing" unless readiness_lane
+raise "wall-clock-dependent readiness lane is falsely deterministic" unless readiness_lane.fetch("deterministic") == false
+raise "readiness lane omits wall-clock deferral truth" unless readiness_lane.fetch("defer_reason").include?("wall-clock")
 
 puts "sprint 5854 readiness: PASS"

@@ -16,9 +16,10 @@ Review the exact sprint issue record, design, diagram, Sprint Execution Packet, 
 
 ## Prompts
 
-- Does the packet preserve exact child ownership and dependency truth?
+- Does the packet preserve exact operative-child ownership and dependency truth?
 - Are parallel lanes actually independent and are serial gates explicit?
-- Can the umbrella close only after every child has truthful terminal state?
+- Can the umbrella close only after the five operative children (#5835, #5836, #5838, #5839, and #5840) have truthful terminal state, with out-of-band WP-24A #5845 excluded from every Sprint 5 gate?
+- Does the live-gate evidence retain sufficient source, request, response, freshness, and ancestry provenance for every claimed external fact?
 
 ## Findings
 
