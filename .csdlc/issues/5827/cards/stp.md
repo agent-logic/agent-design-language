@@ -17,11 +17,11 @@ Deliver only the WP-10 multi-cycle continuity chain, fixtures, validator, and re
 ## Deliverables
 
 - adl-runtime-kernel/src/birthday_continuity.rs
-- adl-runtime-kernel/tests/birthday_continuity.rs
+- adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
 - .csdlc/prepared/issues/5827/produce-native-receipt.rb
 - .csdlc/prepared/issues/5827/validate-native-receipts.rb
-- Versioned continuity-chain schema and canonical head derivation
-- Two-or-more-cycle valid fixtures, deterministic replay, discontinuity negatives, and retained macOS/Linux semantic proof
+- Versioned continuity-chain schema and canonical head derivation bound to WP-09 VerifiedBirthdayEvidence
+- Nine authority, token-chain, overflow, deterministic replay, discontinuity, and copied-state proofs plus retained macOS/Linux semantic evidence
 
 ## Acceptance
 

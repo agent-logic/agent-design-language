@@ -8,7 +8,7 @@ Implement the WP-10 continuity record defined by `docs/milestones/v0.92/features
 
 - `adl-runtime-kernel/src/birthday_continuity.rs`
 - `adl-runtime-kernel/src/lib.rs`
-- `adl-runtime-kernel/tests/birthday_continuity.rs`
+- `adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs`
 - `adl-runtime-kernel/tests/fixtures/birthday_continuity`
 - `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`
 - `.csdlc/prepared/issues/5827/validate-native-receipts.rb`
@@ -88,10 +88,14 @@ Implement the WP-10 continuity record defined by `docs/milestones/v0.92/features
 ## Contract
 
 The next continuity head is derived from the canonical predecessor head and at
-least two signed current-cycle checkpoints. A crate-private runtime policy pins
-the already accepted Birthday Identity record, trusted signer, runtime
-topology/configuration, service schema, and first generation before it can mint
-opaque verified-cycle evidence. Replays of identical inputs match; a
+least two signed current-cycle checkpoints. A crate-private runtime policy first
+validates the exact accepted Birthday Identity record against WP-09's opaque
+`VerifiedBirthdayEvidence`, then pins that record, the trusted continuity
+signer, runtime topology/configuration, service schema, and first generation
+before it can mint opaque verified-cycle evidence. Record construction rechecks
+the opaque token sequence, exact identity-record digest, predecessor chain,
+monotonic evidence, unique cycle integrity, and checked generation progression.
+Replays of identical inputs match; a
 caller-nominated signer, missing predecessor, root substitution, discontinuous
 cycle order, forged witness, duplicate cycle, copied state without lineage, or
 narrative-only continuity fails closed.
@@ -102,11 +106,11 @@ WP-09/#5826 must be terminal. Existing private-state lineage and wake evidence r
 
 ## Validation
 
-The exact `birthday_continuity` integration-test target must run a nonzero test count proving a two-or-more-cycle chain, deterministic head derivation, signer/generation policy, substitution/discontinuity/duplicate/reordered/missing-evidence failures, and copied-state rejection. The narrow issue-specific WP-10 workflow must run that target on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete structured nextest log, passed-test inventory, and canonical semantic-output artifact. The independent validator recomputes those files and producer digest, verifies exact workflow/run/attempt/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
+The crate-internal `birthday_continuity::authority_tests` lane must run a nonzero test count proving a real WP-09 signed identity-memory/private-state authority chain, two-or-more-cycle continuity, deterministic head derivation, signer/generation policy, post-verification token reorder/duplicate/relabel rejection, overflow rejection, substitution/discontinuity/missing-evidence failures, and copied-state rejection. The narrow issue-specific WP-10 workflow must run that lane on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete structured nextest log, passed-test inventory, and canonical semantic-output artifact. The independent validator recomputes those files and producer digest, verifies exact workflow/run/attempt/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
 
 ## Rollback
 
-Remove only the WP-10 continuity module, registration, integration test,
+Remove only the WP-10 continuity module, registration, internal authority test,
 fixtures, and owned feature-document edits. Retain predecessor identity and
 birth evidence plus every rejected chain and native receipt; rollback must not
 rewrite a continuity head or manufacture an uninterrupted history.

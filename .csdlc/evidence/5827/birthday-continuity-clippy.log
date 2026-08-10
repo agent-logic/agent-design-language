@@ -1,1 +1,2 @@
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.35s
+Command: cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings
+Result: passed with zero warnings.

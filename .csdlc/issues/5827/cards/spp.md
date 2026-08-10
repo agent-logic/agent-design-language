@@ -16,7 +16,7 @@ Implement and prove WP-10 canonical multi-cycle continuity with predecessor bind
 
 ## Plan
 
-Revision 23
+Revision 24
 
 ## Steps
 
@@ -89,7 +89,7 @@ Revision 23
 
 .csdlc/prepared/issues/5827/design.md
 
-Digest: ea7f971605b4da995be304d0290449bbfce39e9544610b05dcdf546cd154e74e
+Digest: 26807702a1552dbb27faea8ab64b97dc0e457cd09cc551f80296bf3f6aed637e
 
 ## Diagram
 

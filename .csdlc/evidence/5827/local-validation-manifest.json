@@ -1,31 +1,41 @@
 {
   "schema": "csdlc.local_validation_manifest.v1",
   "issue": 5827,
-  "validated_revision": "78239f17af27329bb277576f3ce55a68f3c7b6a1",
-  "validated_tree": "d65535e54b4f0893dbfcc1ebcf5c7376a04fcafd",
+  "validated_revision": "84f2faa8820b0d1758c2f55a466c0e4e0c0be959",
+  "validated_tree": "3469afa0053b797569333359aa40350e102b06f8",
   "results": [
     {
-      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "birthday_continuity", "--no-tests=fail", "--status-level", "all"],
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "-E", "test(/^birthday_continuity::authority_tests::/)", "--no-tests=fail", "--status-level", "all"],
       "outcome": "passed",
-      "tests_run": 7,
-      "tests_passed": 7,
+      "tests_run": 9,
+      "tests_passed": 9,
       "log": ".csdlc/evidence/5827/birthday-continuity-tests.log",
-      "log_sha256": "cb4146c61a9a7b339588553f3fa5ea1e1268f166428884780bbb01d592c6713d"
+      "log_sha256": "0c065450d2e88767600e051002fdccd577fb0480ebbfb2f6e3694b7716661092"
     },
     {
-      "argv": ["cargo", "clippy", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "birthday_continuity", "--", "-D", "warnings"],
+      "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--doc", "birthday_continuity"],
+      "outcome": "passed",
+      "tests_run": 1,
+      "tests_passed": 1,
+      "log": ".csdlc/evidence/5827/birthday-continuity-doc.log",
+      "log_sha256": "b4ad199100affc51640284e3bdbb755614300b8b94f7df5e66a15b0fe3c9a762"
+    },
+    {
+      "argv": ["cargo", "clippy", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "--", "-D", "warnings"],
       "outcome": "passed",
       "log": ".csdlc/evidence/5827/birthday-continuity-clippy.log",
-      "log_sha256": "b2c020f27a01faabb96e5d55c11fd219cf7c484c9cf34b3342bfc8444d934c89"
+      "log_sha256": "3e1bd1833fadb54b10a40d80ff74bdc01544c7bb744aa02f1389c3616d292893"
     }
   ],
   "source_sha256": {
-    "adl-runtime-kernel/src/birthday_continuity.rs": "a6faa68ab1b11f7e4eb01c2a1fa9275e05e049111f5296a8aae2208320747641",
-    "adl-runtime-kernel/tests/birthday_continuity.rs": "c9db5b0c31afc79729ec2bd1516d5ed68b965d2eeb8f8abb4ce70f22ea152b4d",
-    "adl-runtime-kernel/tests/fixtures/birthday_continuity/identity_record.json": "785e961af8ef7d5b862536b64f768538e81173d6d067b7027ae957487b9288f6",
-    ".github/workflows/wp10-native-birthday-continuity.yml": "a9ab7064d86dd95300f39bce0a30b648b519ea00626d0abb246461e018953be0",
-    ".csdlc/prepared/issues/5827/produce-native-receipt.rb": "afcb37fdd07d57afa350e29562b076edff11f49aae4791dca7ed2281423495c9",
-    ".csdlc/prepared/issues/5827/validate-native-receipts.rb": "96ba4a56925621906c638038b5720a54d218909443dc488cab556e3955a59441"
+    "adl-runtime-kernel/src/birthday_continuity.rs": "decd31e1fe65c37de3f3ce65508155dc3f9472daa53c006d63125a930b452fa6",
+    "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs": "bddf496e8669c4f8a07b536e04a2621d465ca5618b453daba3f743527e9e55a5",
+    "adl-runtime-kernel/src/birthday_identity.rs": "69c8b2b80a2acdde4b76fad7905d82da968b0ddb5a4461b4be86d95c48ee87cd",
+    "adl-runtime-kernel/src/identity_memory.rs": "37d59ad08f6b0cae8236e8ff3f689ea0f590b6b82b53dd937bb8c82c4cef04b5",
+    "adl-runtime-kernel/src/private_state.rs": "793c03ae098a566d4b117ef657bddab5810c73a869e6bf3e264ca4d6e45e2d64",
+    ".github/workflows/wp10-native-birthday-continuity.yml": "247ab45dde2a51813aab8303bbb4e508e37722021313e71208a48682731e4c76",
+    ".csdlc/prepared/issues/5827/produce-native-receipt.rb": "a94b3b2fb7e0cc1714cec9bc801f7eebae3099dddd90a031e4dc15eae4559e5b",
+    ".csdlc/prepared/issues/5827/validate-native-receipts.rb": "c211aa35367723401e5e98d88bd65d20f835228eecd242a32fd7f79ef9ecb1c7"
   },
   "native_proof": "deferred_until_publication_exact_head"
 }
