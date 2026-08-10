@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "387afe04e311ffa378b933030f6b3bda3d446135c0f1c0c52b61f04a5c956645",
   "phase": "implemented",
-  "generation": 1,
-  "digest": "51c2748fa18cb7e60c5a135bf98c99f81826a7828b4e4b099790ff3ba37f206e",
+  "generation": 2,
+  "digest": "b9308bc71bc1d8b563a434eeb9c59fe2062abf8badf1876444484505f33b0aef",
   "branch": "codex/5909-lease-authority-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5909-lease-defect",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "74a5cd5fa0d2093e3d2efd73517c0aa6a5d2bd798f50795a7ecd9119e285288d",
+      "values_digest": "da53a9c0ec10ff5b9619993b9c488a5e5594f80ffc32baec481e5c49185a8377",
       "rendered_digest": "0839d3ff00dfc774bbbac553de6388120b4cbb3476c0380f132ce4a724316b0d",
       "ast_digest": "9c11c0b586d938abcb773cd8e58a013f5708e85bcea10be47c76e1b6560dfa8d"
     },
     "stp": {
-      "values_digest": "ddf6d2e49e4775af8ea3b259c656ca366c0d44874d152c84c336070458168cac",
+      "values_digest": "746943902ca6b33910d87f53f46f2f71962a654a38df032d99f3e3b2ac3e3acb",
       "rendered_digest": "2c30883b1af731bea35d8bae09ff21d04d0714c41731307d67c32d6bc1c7e03c",
       "ast_digest": "d087c8195d755525fb81be0330f611e947b9e75289dcb338f133e1b1775f0be2"
     },
     "spp": {
-      "values_digest": "659398cde4369fca9a425011167b5296c67ae5a15974bbb6466c464ef9786cc4",
+      "values_digest": "3a8ce0aba582bd03df691b576a0ec33554e4314dd1c70f2d357c980673739edd",
       "rendered_digest": "401d9a7771046e3cc9247bd85650cf9808ca9d522fc5464ef620f16d9ec628ec",
       "ast_digest": "a38fc0451dc6d606ba51a2c8ecc19832e0c8a30268b983e56815c8c554536062"
     },
     "vpp": {
-      "values_digest": "bd9db2c6bab9de6e62e2ba10a53f4016a514ff890ef68197d92d53d4e229f19f",
+      "values_digest": "418d8d822ef67863046f6b7ec1a20816c839d830328886be019f2e09dcbf411a",
       "rendered_digest": "aae25417f9caf72bba1541c8035682e80ff38ea03ab94d833ff3988029cf033d",
       "ast_digest": "4c72ef770066bded42fddc7e34580523214a8f9a7ee49c7ba911794f531ba519"
     },
     "srp": {
-      "values_digest": "e563ad71bbb63b86fef022584ad2f961b5c10ed8b6d518b5ec0c1743cafd8aa5",
+      "values_digest": "a6ee1c38b5210f38443d131672c4b6ebd82efe6e7ac173aa1730b8af0a9b4078",
       "rendered_digest": "f81713f6d181a76d573937022b8445416f39286be3beb62f9a9bdcd18d8d9579",
       "ast_digest": "a51aa478df42c5f8690a380381e9973ee923a805f0f60e3c2d34eedf4d496392"
     },
     "sor": {
-      "values_digest": "a103028d0d35b3e9a92a88dcdeada54afbcfaab3d13abff0589f7da3dfd70bce",
-      "rendered_digest": "b53a5181be9a3100c2696b8feec138fd4857d319f3c73651674d4b4d4e1d3413",
-      "ast_digest": "188d62d4132a83d17514a288418d390ae9c4798f10ba9b9b2933ca03c4fdf7a8"
+      "values_digest": "f9ef2ee3727a6f94bede3f6564afd0ae8b75052e2262b26b0867c87b6e73a877",
+      "rendered_digest": "30759fb9b0e1b43ec85be9bda807d16527ac5ef093189a081d23ad54ea5b11ae",
+      "ast_digest": "afd442c19a3565d62a3f45c7bea9962f80116d3cb2fc4ff4f5bd5e8de4e2092c"
     }
   },
   "transitions": [
@@ -99,6 +99,13 @@
       "actor": "codex:5909-lease-authority-defect",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5909-lease-authority-defect",
+      "reason": "Replace stale receipt references with the independently reviewed deep-bound V2 evidence generation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected lease mutation authority, bounded lineage state atomically, separated grant and activation transitions, and rebuilt machine-derived proof with exact nine-case deep validation.\",\"changes\":[\"Require mutation authorization to match the ledger-owned applied log index.\",\"Reject lineage-count and prospective snapshot capacity overflow before state mutation.\",\"Enforce distinct initial LeaseGrant and successor Activate semantics.\",\"Derive and deeply validate nine exact negative cases against executed Rust marker output.\"],\"artifacts\":[\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/tests/distributed_lease.rs\",\".csdlc/evidence/5909/review-repair-v2/execution-proof.json\",\".csdlc/evidence/5909/operator-repair-v2/negative-cases.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-tests=fail\"],\"purpose\":\"Run the exact distributed lease target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v2/exact-child-tests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\"],\"purpose\":\"Deeply bind the exact nine machine-derived cases, producer and stream digests, source artifacts, and two-revision topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/review-repair-v2/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the exact distributed lease test surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/operator-repair-v2/strict-focused-clippy.log\"}]}"
     }
   ]
 }
