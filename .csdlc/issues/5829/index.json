@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
   "phase": "initialized",
-  "generation": 73,
-  "digest": "27dea807d4a52010b86f92a2936421efb8284caf02067e6ffb20d5c15b12bcc7",
+  "generation": 77,
+  "digest": "8b5c7486ed3bab53794f31da8edc8ba77ce7aecd5cda9339a2964d69bf72e6e5",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e4ae0b9cf23da0bf6fe7f32b5424eeea4c4c2b1fc5c5a2347170edc4bff4b520",
+      "values_digest": "5c4ad58122f8589899cbf409f59440a2b0c8e3f2c590c3e1bb1c03bdac6c8a9d",
       "rendered_digest": "f072c6b2526b3264fafda2ef258cf23cd0cc9fd52b92a53668e2bb409a970d55",
       "ast_digest": "40dcbfc18fc63c6a847abfbb52256a4fdbf34e6110c8710cb57eacc518678bdd"
     },
     "stp": {
-      "values_digest": "a61bb572ca5efdbd34099651bd702249f231622f979674fbe66afa0b8f6d2af6",
-      "rendered_digest": "8e2ead010a5d117e9dcc30cae9ef4b79a04fd83e4d25d52ae1ec9e1e788a383d",
-      "ast_digest": "b553161e1debbc0e2c9f9781b70ca94305e51ac7c2a901bc4858a96080788d25"
+      "values_digest": "322f17693d46bdfe32d818bf4b169c58d057dff6cab906887a5d9e994f60cd18",
+      "rendered_digest": "4530795f5583eac9367fb96c125d8912c3d78ef63c0f283390696c3d5bb88841",
+      "ast_digest": "d510e7df6320dafad5eeceb31a143e20d10b5e18c221c34c0cf97f10b3f670a6"
     },
     "spp": {
-      "values_digest": "dab232973878a365cad07a2fd8807908786918f9c0a50a5b485dd5ff21da9386",
-      "rendered_digest": "252642f13f2af5b4b33cfe7f402a0f6f376a042061fd74c7f24255e64abd025c",
-      "ast_digest": "9a6af831e1de9b8ae1ac55fcca3fb4b53252112289715cffba9ba21b5e2eaa04"
+      "values_digest": "e6c353efda7fda8fd29a94d78c6ea8bab3cea36efc77b95ac5c7f85056dea53b",
+      "rendered_digest": "8a33f2db0a509199b994b9d49a1fcf4867782ac694a8152ec0799fe7a30dcb67",
+      "ast_digest": "b1b8ae733f4dd17dba05cc7f8fa8251a2501b44737e05cf61985401214e16853"
     },
     "vpp": {
-      "values_digest": "c6c623f34a344e7423869566477d27bb63efcdcdf4a3755f877980cc664b1134",
-      "rendered_digest": "2343fbef315e8fed0b0ccbadfd8e711a64445e791eff3b3c34d76615905759ce",
-      "ast_digest": "cdf1e9eabb11a4f4b66bccdb33a901c80c6a1100ba349590dfe857b4e6664f52"
+      "values_digest": "f3bd6f81c7af75ecad879615cbdafaa7c12915d9e7f8383c346dba8556915a79",
+      "rendered_digest": "4093a7b040502a8d4bcc774c439687623095b1bb2c50c82c7a68d17a3563c1f2",
+      "ast_digest": "117a57a3bcd0cfc114604f22cd66cf0fc93a31c9a0d85d4608be54d69454f405"
     },
     "srp": {
-      "values_digest": "2bbeffb3c23698199fb3fde4dc60b949032282ebf34174acf90cbb0ed390241f",
+      "values_digest": "d68aa74ca91665b825fc4d6735bf982e74c270aa10f3e78a8c328cf95f1dd5b5",
       "rendered_digest": "e6e1a97391151d19fad085f398bbda73030215208cf8ac0674304a1ab40ae872",
       "ast_digest": "20dbe7c3c54c99f572aabb26933bd4d07cb4a1d3199b1d7bcb772ab3b1ca91ed"
     },
     "sor": {
-      "values_digest": "b57df3dd54d9c608b3c406e20b536a95817f9baf9669b157a7c843f5a7c16ada",
+      "values_digest": "a0012b6bdb6286537890c30f800a142fbdf156dab12d3da79a0a974365c98717",
       "rendered_digest": "da54e67fc459cdf7ec6dda0ac8e9ca53c1e23d70a238b1dbee9e9fcd5f6688db",
       "ast_digest": "c287e02c30ccc4bca25aaccc60ed0cd16f884134eae9223911ec39db96ceec3b"
     }
@@ -756,6 +756,34 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"#4761 must be explicitly superseded rather than consumed.\",\"Provider/profile identifiers require a versioned compatibility mapping.\",\"Review identifies an undeclared authority or resource dimension.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-memory-capability-witness-feature-doc-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5833],\\\"order\\\":[5829,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5829-grounding-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5843],\\\"order\\\":[5829,5843]}\"]}"
+    },
+    {
+      "sequence": 98,
+      "generation": 74,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record the exact issue-created capability_envelope target as deferred only until typed bind creates the execution context and implementation materializes it.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"capability_envelope-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5829-core\",\"defer_reason\":\"The exact capability_envelope source and test target are issue-created deliverables; typed bind establishes their execution identity before implementation materializes and runs them.\"},{\"lane\":\"capability_envelope-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5829/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5829/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=36043de435c6b349017c3a9889ec8391abfd9230538200553365fb68577d76ed]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/linux.json\"],\"parallel_group\":\"5829-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 99,
+      "generation": 75,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Normalize WP-12 deliverables to exact issue-owned implementation, proof, documentation, and narrow native workflow paths before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829\",\".github/workflows/wp12-native-capability-envelope.yml\",\"Complete canonical provider/model/tool/skill/grant/deny/limit fixture matrix and fail-closed stale provenance, escalation, omitted-limit, secret, private-path, and host-path proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 100,
+      "generation": 76,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Align the operative plan ownership surface with exact WP-12 deliverables, including only the issue-specific native workflow required by AC-9.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829\",\".github/workflows/wp12-native-capability-envelope.yml\"]}"
+    },
+    {
+      "sequence": 101,
+      "generation": 77,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Normalize WP-12 deliverables to exact issue-owned implementation, proof, documentation, and narrow native workflow paths before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829\",\".github/workflows/wp12-native-capability-envelope.yml\",\"Complete canonical provider/model/tool/skill/grant/deny/limit fixture matrix and fail-closed stale provenance, escalation, omitted-limit, secret, private-path, and host-path proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }

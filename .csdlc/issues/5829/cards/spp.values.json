@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-12] Capability envelope",
     "slug": "v0-92-wp-12-capability-envelope",
     "version": "v0.92",
-    "generation": 73
+    "generation": 77
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 29,
+      "plan_revision": 30,
       "summary": "Implement and prove WP-12 canonical capability envelopes with explicit providers, tools, skills, grants, denials, limits, provenance, and secret-safe failure handling.",
       "steps": [
         {
@@ -66,9 +66,10 @@
         "adl-runtime-kernel/tests/capability_envelope.rs",
         "adl-runtime-kernel/tests/fixtures/capability_envelope",
         "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
-        ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
-        ".csdlc/evidence/5829"
+        ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+        ".csdlc/evidence/5829",
+        ".github/workflows/wp12-native-capability-envelope.yml"
       ],
       "invariants": [
         "Capability description never grants authority or proves invocation.",

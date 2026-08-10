@@ -54,7 +54,7 @@ Diagram: .csdlc/prepared/issues/5829/diagram.mmd
       "all"
     ],
     "parallel_group": "5829-core",
-    "defer_reason": null
+    "defer_reason": "The exact capability_envelope source and test target are issue-created deliverables; typed bind establishes their execution identity before implementation materializes and runs them."
   },
   {
     "lane": "capability_envelope-macos-native-ci-producer",
