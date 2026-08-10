@@ -76,8 +76,9 @@ let retainedPollTimer = null;
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
+const RUNTIME_V3_TRUSTED_HOST = "runtime.dev.agent-logic.ai";
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
-  api_base: "https://localhost:20997",
+  api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
   observatory_endpoint: "/v1/observatory",
   readiness_endpoint: "/v1/ready",
   observatory_websocket_endpoint: "/v1/observatory/ws",
@@ -629,15 +630,14 @@ function normalizeTrustedRuntimeV3ApiBase(value) {
   const parsed = new URL(base);
   if (
     parsed.protocol !== "https:" ||
-    parsed.hostname !== "localhost" ||
+    parsed.hostname !== RUNTIME_V3_TRUSTED_HOST ||
     parsed.username ||
     parsed.password ||
     parsed.pathname !== "/" ||
     parsed.search ||
-    parsed.hash ||
-    parsed.port !== "20997"
+    parsed.hash
   ) {
-    throw new Error("Runtime v3 selection requires the trusted HTTPS localhost:20997 API base.");
+    throw new Error(`Runtime v3 selection requires HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
   }
   return parsed.origin;
 }
@@ -654,7 +654,7 @@ async function checkEventsEndpoint(apiBase) {
   }
   if (requestedRuntimeSelection() === "v3") {
     if (!isRuntimeV3ApiBase(base)) {
-      throw new Error("Runtime v3 event checks require the trusted HTTPS localhost:20997 API base.");
+      throw new Error(`Runtime v3 event checks require HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
     }
     const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
     return {

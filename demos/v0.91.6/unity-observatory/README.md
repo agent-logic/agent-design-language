@@ -2,6 +2,19 @@
 
 ## Status
 
+### Runtime v3 TLS gate
+
+Unity live Runtime v3 consumption is gated. It is not complete until the
+Runtime WSS endpoint uses a real DNS name and an externally issued certificate
+that Unity validates through its ordinary platform trust path. The Unity client
+must not install a trust anchor, accept a self-signed leaf, or bypass certificate
+or hostname verification. The current retained proof is parser, classifier,
+request-construction, and UI-projection evidence only; it does not prove a live
+HTTPS or WSS exchange.
+
+Runtime HTTP/WSS remains Axum/Rustls. Guardian peer transport remains Quinn
+QUIC/Rustls with its separate private mTLS trust domain.
+
 Launchable-baseline scaffold for WP-09 issue `#4031`.
 
 Publication update for `#4745`: the canonical repository payload remains the

@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5909,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5909-lease-authority-defect",
+  "title": "[v0.92][WP-04.07][defect] Harden lease mutation authority and bounded proof",
+  "body": "Closes danielbaustin/agent-design-language#5909\n\n## Summary\n\n- Requires lease mutation authorization to match the ledger-owned applied authority-log index.\n- Enforces deterministic lineage and prospective snapshot capacity before any state mutation.\n- Separates initial LeaseGrant from successor Activate semantics.\n- Replaces self-attested negatives with nine machine-derived, digest-bound cases and stream-accurate proof.\n\n## Validation\n\n- Focused distributed lease nextest: 19 passed, 0 skipped.\n- Strict focused Clippy with warnings denied: passed.\n- Deep exact-revision receipt: passed at source 5edab930a45e191b507247c4d9903e2d1bf45d81 and evidence f1fa22caa4092a9312807257c28118aaaa77c61b.\n- Single invented-case tamper: rejected fail-closed.\n- Typed doctor and diff check: passed.\n\n## Review\n\n- Independent exact-head review: APPROVE with no actionable findings.\n- Reviewed substantive head: 121e281c9f844666ea291a082484c92990e003e0.\n- Current metadata-only review guard: ready.\n\nNo merge authority is implied.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:1ce9b2403bf03467e64d87b1f80e2bc23f9971b3:f8408393e965071c5c7738629ca4c5b1dc8664ea4d949ccfe875b720aae67bf0",
+  "commit_sha": "1ce9b2403bf03467e64d87b1f80e2bc23f9971b3"
+}

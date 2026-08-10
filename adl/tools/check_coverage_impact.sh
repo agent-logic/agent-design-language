@@ -281,6 +281,9 @@ candidate_filter_for_path() {
     adl-runtime/src/bin/adl-runtime-guardian.rs)
       printf 'runtime_v3_guardian'
       ;;
+    adl-runtime/src/distributed/transport.rs)
+      printf 'runtime_v3_distributed_transport'
+      ;;
     adl-runtime/src/runtime_api_auth.rs)
       printf 'runtime_v3_auth'
       ;;
@@ -439,6 +442,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_guardian)
       printf 'test(/^guardian::tests::/) or (binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/))'
+      ;;
+    runtime_v3_distributed_transport)
+      printf 'binary_id(adl-runtime::distributed_transport)'
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'

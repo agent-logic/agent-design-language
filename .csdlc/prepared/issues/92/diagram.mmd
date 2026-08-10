@@ -1,0 +1,10 @@
+flowchart LR
+  ACM["External CA or ACM"] --> PEM["Atomic PEM identity"]
+  PEM --> POLICY["Shared Rustls policy and loader"]
+  ROOTS["Public roots or explicit private CA"] --> POLICY
+  POLICY --> AXUM["Axum HTTPS and WSS"]
+  POLICY --> QUINN["Quinn Guardian QUIC"]
+  AXUM --> PUBLIC["Browser, Unity, control clients"]
+  QUINN --> MTLS["Rustls TLS 1.3 mutual authentication"]
+  MTLS --> ADMISSION["Guardian enrollment and authority admission"]
+  AUTH["Application authority credentials"] --> ADMISSION

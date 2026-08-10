@@ -1,0 +1,386 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 121,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
+  "phase": "published",
+  "generation": 16,
+  "digest": "2673c01da19abfe1f68703069d28d4efd1caa654bc7eb7e7e2d3565039776a2d",
+  "branch": "codex/121-quorum-fence-restart-safe-epochs",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
+  "review_assignment": {
+    "reviewer": "subagent:issue-121-proof-repair-review",
+    "assigned_by": "codex:121-epoch-overflow-remediation",
+    "revision": "git-blake3:f729263b04820f730841059680a3902b1b99b1e3:df6d256432fa1dd77bd1f86e175a1d8467ae25bc1d8f38624f149c4ec5ded494",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121",
+      ".csdlc/publication/121.intent.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue-121-proof-repair-review",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121",
+      ".csdlc/publication/121.intent.json"
+    ],
+    "reviewed_revision": "git-blake3:f729263b04820f730841059680a3902b1b99b1e3:df6d256432fa1dd77bd1f86e175a1d8467ae25bc1d8f38624f149c4ec5ded494",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 121,
+    "pull_request": 123,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/123",
+    "base": "main",
+    "head": "codex/121-quorum-fence-restart-safe-epochs",
+    "revision": "git-blake3:a6b3867d65958d1e23dcd5a3708a3cf979c02e6b:63cfb6d0525d5331ff288e277ccf6e0426a9c0cf8ea0988b955881c3a6af8dd4",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/121/design.md",
+  "diagram_path": ".csdlc/prepared/issues/121/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-confirmed exact-head security audit",
+      "revision": "478101411c25e58ae2d5cb3e4ab058cbc4cc777a39d4be6745ac2b4a973811dd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a0c8bcbd91d977114c4fd9d4d9cf2ba5efeb9eeb3c9f9f6acd4b7ce11b7c99c3",
+      "rendered_digest": "b8fb383ef2efb210c1835ca5caa89f1a1b57945dcebe86833449c7d703300088",
+      "ast_digest": "28d9d9764b5edc0763207de94cd4120e324f83e10e24c0304a04532ae39f8c24"
+    },
+    "stp": {
+      "values_digest": "2c6779fcf9b5d92152cae876eef696edbad60338b2d733316c98e24e26d179fc",
+      "rendered_digest": "f59864e9168036e26931bd53b0fa4976f089bdb8c611728396088f87cc245bbd",
+      "ast_digest": "1c4fa5956407020683ec31dbeeae560ac39e71c279fc303cd8d51f75cebbe11e"
+    },
+    "spp": {
+      "values_digest": "a9f72445d8edcf3f5f1ff4f4308c42e6a1641a435d50030861c8d24eee16c62f",
+      "rendered_digest": "25c70ab7a3a48bc4a99573138db5e45486c0e6e5026dee29efc0bf6f980ddfdb",
+      "ast_digest": "d83f34dc5520914cea7b2f269e56d31196579bab949d0ef825532862fef2e068"
+    },
+    "vpp": {
+      "values_digest": "0d5fb15c15d17de439a4782f35fa072eff9c27dc5723c1932ff4ad524b9aac7e",
+      "rendered_digest": "475d39da1386ca2c4ec1f149b6ef6bfcfb336559e45dbe29734d3ac5b8e76b09",
+      "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
+    },
+    "srp": {
+      "values_digest": "90d7a420a24db640bae1a81cbcf288213b4f17e7fd18366bfed18eadbd796ba7",
+      "rendered_digest": "012a2c4f7db82c7615d748564be60fa68f461450ed469201567fe306df85a23e",
+      "ast_digest": "73d2d2883a3471d6cb31421a9e80df672b696fd6128765b21533100884d4161b"
+    },
+    "sor": {
+      "values_digest": "734fc336f19a9e7485e3bf978922300d500e44b765d60d14af1a9f8b07dfd20f",
+      "rendered_digest": "82505fb1b0f1658e4802ab7723144ca63ebf2517dc883f0ab61779b74c8846e5",
+      "ast_digest": "e7ad5407968b614e39f9da49cf0f1425261f64092c937cf0df2a56103a15535c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-121-exact-head-security-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "Recover the prior review after normalizing retained proof-log hygiene and producing the final digest-bound V3 receipt."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-121-exact-head-security-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "Recover the exact review so final typed lifecycle metadata can be recorded without prepared-request drift."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-121-exact-head-security-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:121-stack-refresh",
+      "reason": "Recover stale review and publication truth before merging exact advanced parent head 309d170dc569ca43fa74ce6d73d68857ce82c994 into the child stack."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-121-stack-refresh-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:121-stack-refresh",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "Recover stale review and publication truth before rebasing the merged parent stack onto main and repairing fail-closed successor overflow semantics."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-121-proof-repair-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "Recover the stale exact-head assignment after fixing the review finding in the issue-owned proof receipt and producer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "subagent:issue-121-exact-head-security-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "Recover the prior review after normalizing retained proof-log hygiene and producing the final digest-bound V3 receipt.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "subagent:issue-121-exact-head-security-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "Recover the exact review so final typed lifecycle metadata can be recorded without prepared-request drift.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "subagent:issue-121-exact-head-security-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:121-stack-refresh",
+      "reason": "Recover stale review and publication truth before merging exact advanced parent head 309d170dc569ca43fa74ce6d73d68857ce82c994 into the child stack.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:121-stack-refresh",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "subagent:issue-121-stack-refresh-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:121-stack-refresh",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "Recover stale review and publication truth before rebasing the merged parent stack onto main and repairing fail-closed successor overflow semantics.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "Recover the assigned review after correcting the retained nextest stdout/stderr mapping with the issue-local exact-child summary wrapper.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 13,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 14,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "Recover the provisional assignment before selecting the truthful overflow-v2 receipt and reconciling publication intent to merged-parent main.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 14,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 15,
+      "actor": "subagent:issue-121-proof-repair-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 16,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
