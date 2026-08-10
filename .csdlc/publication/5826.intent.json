@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5826,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5826-birthday-identity",
+  "title": "[v0.92][WP-09] Stable name and identity architecture",
+  "body": "Closes danielbaustin/agent-design-language#5826\n\n## Summary\n- add deterministic stable-name and identity-root derivation with canonical retained records\n- bind origin provenance and continuity references while rejecting collisions, substitutions, private state, unsafe paths, and unknown fields\n- add the narrow WP-09 exact-head native macOS/Linux receipt workflow and independent exact-run validator\n\n## Validation\n- exact `birthday_identity` nextest target: 7/7 passed\n- strict Clippy and formatting: passed\n- Ruby producer/validator syntax and fail-closed non-GitHub probe: passed\n- typed C-SDLC validation and independent exact-head review: passed\n- native macOS/Linux receipt execution: required from this PR's issue-specific workflow before readiness\n\n## Review\nIndependent exact-head review approved the bounded product, workflow, proof, and lifecycle scope with no actionable findings. This PR does not claim downstream continuity or Birthday completion.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:69d0383088f3771b79427e1c4b1259a23e741afe:565643014ef845744007e830a7273da73f06dd58a40e8e38cc87cd6c9667f81e",
+  "commit_sha": "69d0383088f3771b79427e1c4b1259a23e741afe"
+}
