@@ -443,8 +443,13 @@ pub struct RedactedPlacementRow {
     guardian_ref: String,
     capability_sequence: u64,
     weather_sequence: u64,
-    freshness_captured_at_unix_secs: u64,
+    freshness: PlacementFreshness,
     capacity: PlacementCapacityBand,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum PlacementFreshness {
+    VerifiedAtDecision,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -475,8 +480,8 @@ impl RedactedPlacementRow {
         self.weather_sequence
     }
 
-    pub fn freshness_captured_at_unix_secs(&self) -> u64 {
-        self.freshness_captured_at_unix_secs
+    pub fn freshness(&self) -> PlacementFreshness {
+        self.freshness
     }
 
     pub fn capacity(&self) -> PlacementCapacityBand {
@@ -606,7 +611,7 @@ impl<C: PlacementClock> PlacementService<C> {
                 guardian_ref: projection_ref(b"guardian", stored.decision.guardian_id.as_bytes()),
                 capability_sequence: stored.decision.capability_sequence,
                 weather_sequence: stored.decision.weather_sequence,
-                freshness_captured_at_unix_secs: stored.captured_at_unix_secs,
+                freshness: PlacementFreshness::VerifiedAtDecision,
                 capacity: if stored.decision.remaining_slots == 0 {
                     PlacementCapacityBand::Unavailable
                 } else if stored.decision.pressure_permille >= 800 {
