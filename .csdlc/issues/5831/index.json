@@ -5,30 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 75,
-  "digest": "66bfd80c738d827dc2ecea40e12a5a552c75de7ec6dacda7897260fdc25294bb",
+  "generation": 76,
+  "digest": "d553903f207c82e579b540be45a3b706be9e76b4a26b1b78b4b0e25752d850c8",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
-    "assigned_by": "codex:5831-adaptive-learning",
-    "revision": "git-blake3:a441615e614cb427baef418f6554d77a5dcd0e5e:a6010ef3126ed4a5dddc996b69db787ab8062456c2773ea0fe919a04df4ccde9",
-    "scope": [
-      "adl-runtime-kernel/src/adaptive_learning.rs",
-      "adl-runtime-kernel/src/durable_state.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/adaptive_learning.rs",
-      "adl-runtime-kernel/tests/durable_state.rs",
-      "adl-runtime-kernel/tests/fixtures/adaptive_learning",
-      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
-      ".github/workflows/wp13a-native-adaptive-learning.yml",
-      ".csdlc/evidence/5831",
-      ".csdlc/issues/5831",
-      "Review the full #5831 delta at exact clean evidence HEAD a441615e614cb427baef418f6554d77a5dcd0e5e, product compatibility head cab02a10f5adb088ededda7ba1ba75048e9e188c, rebased on merged blocking authority fix #144 merge 9e16c621e02224927ac9f19ebebdf66b85abfffc. Focus especially on the single prior P1: global pending reservation, atomic multi-domain compare-and-commit, live mutation ordering, crash/concurrency behavior, deterministic pending reconciliation, no authoritative head before live commit, collision/race isolation, and restart rollback from full sequence records. Reconfirm all earlier mutation authority, policy binding, proposal preview, lineage, recurrence, privacy/bounds, native inventory, lifecycle/SOR truth, and exact 16/16 retained proof."
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d493eb3ee1b7c84700159e8feae2ce8ef2fb7f60a7b039d6494fce7c9c5cfb6d",
+      "values_digest": "27d4450e2a2f826c81ec93233cd2655e9d47ea410767f2ee929840bf8f78d59d",
       "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
       "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
     },
     "stp": {
-      "values_digest": "a8331890c51b2e8f37ef154568f1025a025323d884f4f77ceb83083b1ca0a1b0",
+      "values_digest": "5251cbc653da37269a38a77acde955f1c676893456c43ca3216ddd12d5afb280",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "3c0f22ef68f113e053ca46a614a09e3f5ca9ce73933576889b690a7d835d84c4",
+      "values_digest": "f23efd5a7764a9e9967968beea3f86d2b2d29d6239c2d586eb0d519065ff2cc6",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "a24bdb665a12f61669def6aefb4b0c4d3946e845b152faef37511eb42ce1d710",
+      "values_digest": "4e892cb2210d4974da7691007c87006fdeea702784908ba4484706509998207e",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "193fb691170433faca1fa57b3805ec0fa940615eec6880a6dd42e9821a8e118f",
-      "rendered_digest": "d5d7404b7477b811d48c3ff511f61419efa513d800581ab00b226f3efe6ad531",
-      "ast_digest": "89d28b9eaf0c0a50caf18998dd50130ab204754ce81a53fc1390e94d70d6ab7f"
+      "values_digest": "3ac5b3adb001b06f484b4cc81cc5614b6f39a0b3552fbab24462af14d414cc03",
+      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
+      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "2b73aa8366f67833db8c272c4f4f8bd891a6f3b8d0275b3b964d8e2fe3345d71",
+      "values_digest": "f8b95ed6a2ba33d0907e7bdfda096801cab66f6e3aaa5904ad5b492bc6300d70",
       "rendered_digest": "a9bf21d0ae38b754ff6f4e82b983cbc03b9a66b71e95be67632e573beb33d962",
       "ast_digest": "768acff41a4d090a9ee2a29af7a7f8fa4b04159df4d4fb6267ced9e1fbb46a8b"
     }
@@ -832,6 +813,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 103,
+      "generation": 76,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Fresh assigned review found that pending reconciliation was undiscoverable and under-validated, and that post-live or durable completion failure could leave split live/durable state. Recover the stale assignment for the bounded MutationGate transaction boundary, fully validated startup reconciliation, and interruption/tamper/concurrency proof.",
+      "operation": "recover_review"
     }
   ]
 }
