@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5876,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5464fedd5520e7a04a5a10eb8441602bc8beca37d478f97dc8d1d314987f37a4",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 18,
-  "digest": "e15507aff27d21f4b667605bf81d3800ea3a6f0b1b97e6e5a57964ca03fb40bf",
-  "branch": null,
-  "worktree": null,
+  "digest": "abe3d72c56c4eea8e7a37d1f55e7229a8c2940f8d62826b3495c14e9b5f37eb6",
+  "branch": "codex/5876-recovery-state-machine",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5876-recovery",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -315,6 +330,13 @@
       "actor": "codex:5876-recovery-readiness-preparation",
       "reason": "Declare each deferred Rust source and test target as an exact deliverable required by typed bind-safe harness admission.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"Integration issue #5878 owns production module registration\",\"Deterministic focused recovery tests covering every migration stage, restart, source and target loss, quorum loss, divergent durable histories, stale or malicious authority claims, and bounded-resource denial\",\"Exact-revision execution proof with machine-derived negative-case evidence and immutable source/evidence bindings\",\"Independent exact-head security and correctness review before publication with a bounded rollback path\",\"Fail-closed ambiguous recovery: neither the highest local epoch nor the last durable local owner may confer authority without majority or quorum committed proof\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 18,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }

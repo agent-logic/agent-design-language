@@ -1,0 +1,1438 @@
+// PVF: lane=exact-child-tests; proof=durable quorum-bound recovery state machine;
+// deterministic=true; resource_profile=medium; release_gate=true; nonzero selection required.
+#[allow(dead_code)]
+#[path = "../src/distributed/capability_advertisement.rs"]
+mod capability_advertisement;
+#[allow(dead_code)]
+#[path = "../src/distributed/certificates.rs"]
+mod certificates;
+#[allow(dead_code)]
+#[path = "../src/distributed/fencing.rs"]
+mod fencing;
+#[allow(dead_code)]
+#[path = "../src/distributed/lease.rs"]
+mod lease;
+#[allow(dead_code)]
+#[path = "../src/distributed/membership.rs"]
+mod membership;
+#[allow(dead_code)]
+#[path = "../src/distributed/migration.rs"]
+mod migration;
+#[allow(dead_code)]
+#[path = "../src/distributed/placement.rs"]
+mod placement;
+#[allow(dead_code)]
+#[path = "../src/distributed/recovery.rs"]
+mod recovery;
+#[allow(dead_code)]
+#[path = "../src/distributed/resource_weather.rs"]
+mod resource_weather;
+#[allow(dead_code)]
+#[path = "../src/distributed/snapshot_catalog.rs"]
+mod snapshot_catalog;
+
+use std::{
+    collections::BTreeSet,
+    fs,
+    path::PathBuf,
+    sync::{Arc, Mutex},
+};
+
+use capability_advertisement::{CapabilityEvidence, VerifiedCapabilityAdvertisement};
+use certificates::{
+    AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
+    CertificateValidity, DistributedCertificateStore,
+};
+use ed25519_dalek::SigningKey;
+use fencing::{
+    ActiveLeaseCheck, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
+    FencingStore,
+};
+use lease::{
+    activation_signature, encode_certificate, endorse, AuthorityApplication,
+    AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, AuthorityMembership,
+    ControlCertificatePurpose, LeasePolicy, LeaseState, OperationClass, VoterAuthority,
+    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
+};
+use membership::{
+    CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
+    MembershipState,
+};
+use migration::{
+    IsolatedRestoreAuthority, IsolatedRestoreRequest, MigrationCheckpoint,
+    MigrationCheckpointAuthority, MigrationClock, MigrationError, MigrationPhase, MigrationPolicy,
+    MigrationRequest, MigrationResult, MigrationStore, QuiescenceRequest,
+    SourceQuiescenceAuthority,
+};
+use placement::{
+    CapabilityRequirement, PlacementCapabilitySnapshot, PlacementClock, PlacementError,
+    PlacementFencingSnapshot, PlacementInputs, PlacementPolicy, PlacementRequest, PlacementService,
+    PlacementWeatherSnapshot,
+};
+use recovery::{
+    LocalHistory, RecoveryCheckpoint, RecoveryCheckpointAuthority, RecoveryClock, RecoveryError,
+    RecoveryPhase, RecoveryPolicy, RecoveryRequest, RecoveryResult, RecoveryStore,
+    RecoveryTargetAuthority, RecoveryTime, TargetCleanupRequest,
+};
+use resource_weather::{PlacementWeather, WeatherAvailability};
+use sha2::{Digest, Sha256};
+use snapshot_catalog::{
+    SignedSnapshotCatalogEntry, SignedTransferManifest, SnapshotCatalogEntryBody,
+    SnapshotCatalogPolicy, SnapshotCatalogVerifier, SnapshotDescriptor, TransferManifestBody,
+};
+
+const DOMAIN: &str = "polis.example";
+const LINEAGE: &[u8] = b"lineage-a";
+const SOURCE_NODE: &[u8] = b"node-0";
+const SOURCE_GUARDIAN: &[u8] = b"guardian-0";
+const TARGET_NODE: &[u8] = b"node-1";
+const TARGET_GUARDIAN: &[u8] = b"guardian-1";
+const NOW: u64 = 20_000;
+
+fn marker(case: &str, result: &str) {
+    println!(
+        "ADL_ISSUE_5876_NEGATIVE_CASE_V1 {}",
+        serde_json::json!({"case": case, "result": result})
+    );
+}
+
+fn key(seed: u8) -> SigningKey {
+    SigningKey::from_bytes(&[seed; 32])
+}
+
+#[derive(Debug, Default)]
+struct FenceCheckpointAuthority(Mutex<Option<FencingCheckpoint>>);
+
+impl FencingCheckpointAuthority for FenceCheckpointAuthority {
+    fn current(&self) -> Result<Option<FencingCheckpoint>, FencingError> {
+        Ok(*self.0.lock().unwrap())
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<FencingCheckpoint>,
+        next: FencingCheckpoint,
+    ) -> Result<(), FencingError> {
+        let mut current = self.0.lock().unwrap();
+        if *current != expected {
+            return Err(FencingError::Rollback);
+        }
+        *current = Some(next);
+        Ok(())
+    }
+}
+
+#[derive(Debug, Default)]
+struct MigrationAuthority(Mutex<Option<MigrationCheckpoint>>);
+
+impl MigrationCheckpointAuthority for MigrationAuthority {
+    fn current(&self) -> MigrationResult<Option<MigrationCheckpoint>> {
+        Ok(*self.0.lock().unwrap())
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<MigrationCheckpoint>,
+        next: MigrationCheckpoint,
+    ) -> MigrationResult<()> {
+        let mut current = self.0.lock().unwrap();
+        if *current != expected
+            || current.is_some_and(|checkpoint| next.generation <= checkpoint.generation)
+        {
+            return Err(MigrationError::Rollback);
+        }
+        *current = Some(next);
+        Ok(())
+    }
+}
+
+#[derive(Debug)]
+struct TestClock(Mutex<u64>);
+
+impl MigrationClock for TestClock {
+    fn now_millis(&self) -> MigrationResult<u64> {
+        Ok(*self.0.lock().unwrap())
+    }
+}
+
+#[derive(Debug, Default)]
+struct QuiescenceAuthority;
+
+impl SourceQuiescenceAuthority for QuiescenceAuthority {
+    fn quiesce(&self, request: QuiescenceRequest<'_>) -> MigrationResult<Vec<u8>> {
+        Ok([
+            b"quiesced:".as_slice(),
+            request.migration_id,
+            request.lineage_id,
+            &request.source_epoch.to_be_bytes(),
+            &request.source_log_index.to_be_bytes(),
+        ]
+        .concat())
+    }
+
+    fn resume(&self, _request: QuiescenceRequest<'_>) -> MigrationResult<()> {
+        Ok(())
+    }
+}
+
+#[derive(Debug, Default)]
+struct RestoreAuthority;
+
+impl IsolatedRestoreAuthority for RestoreAuthority {
+    fn validate(&self, request: IsolatedRestoreRequest<'_>) -> MigrationResult<Vec<u8>> {
+        if request.target_node_id != TARGET_NODE
+            || request.target_guardian_id != TARGET_GUARDIAN
+            || request.chunk_count != 2
+            || request.byte_length == 0
+        {
+            return Err(MigrationError::RestoreRejected);
+        }
+        Ok([
+            b"restored:".as_slice(),
+            request.migration_id,
+            request.transfer_id,
+            &request.content_sha256,
+            request.snapshot_schema.as_bytes(),
+        ]
+        .concat())
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+struct FixedClock(u64);
+
+impl PlacementClock for FixedClock {
+    fn now_unix_secs(&self) -> Result<u64, PlacementError> {
+        Ok(self.0)
+    }
+}
+
+struct AuthorityFixture {
+    ids: Vec<Vec<u8>>,
+    keys: Vec<SigningKey>,
+    source_activation: SigningKey,
+    target_activation: SigningKey,
+}
+
+impl AuthorityFixture {
+    fn new() -> Self {
+        Self {
+            ids: (0..3)
+                .map(|index| format!("voter-{index}").into_bytes())
+                .collect(),
+            keys: (1..=3).map(key).collect(),
+            source_activation: key(90),
+            target_activation: key(91),
+        }
+    }
+
+    fn membership(&self, index: u64) -> AuthorityMembership {
+        let voters = self
+            .ids
+            .iter()
+            .zip(&self.keys)
+            .map(|(id, key)| VoterAuthority {
+                guardian_id: id.clone(),
+                trust_domain_id: DOMAIN.as_bytes().to_vec(),
+                certificate_generation: 7,
+                purpose: ControlCertificatePurpose::AuthorityEndorsement,
+                not_before_unix_seconds: NOW as i64 - 100,
+                not_after_unix_seconds: NOW as i64 + 100,
+                revoked: false,
+                control_public_key: key.verifying_key().to_bytes(),
+            })
+            .collect::<Vec<_>>();
+        AuthorityMembership::new(
+            DOMAIN.as_bytes().to_vec(),
+            7,
+            index,
+            vec![self.ids.iter().cloned().collect::<BTreeSet<_>>()],
+            voters,
+        )
+        .unwrap()
+    }
+
+    fn certificate(&self, body: AuthorityCertificateBodyV1) -> Vec<u8> {
+        let mut endorsements = [0, 1]
+            .into_iter()
+            .map(|position| endorse(&body, self.ids[position].clone(), 7, &self.keys[position]))
+            .collect::<Vec<_>>();
+        endorsements.sort_by(|left, right| left.signer_guardian_id.cmp(&right.signer_guardian_id));
+        encode_certificate(&AuthorityCertificateV1 {
+            body: Some(body),
+            endorsements,
+        })
+        .unwrap()
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn body(
+        &self,
+        index: u64,
+        epoch: u64,
+        operation: OperationClass,
+        node: &[u8],
+        guardian: &[u8],
+        activation: &SigningKey,
+        issued: u64,
+    ) -> AuthorityCertificateBodyV1 {
+        AuthorityCertificateBodyV1 {
+            schema_version: AUTHORITY_CERTIFICATE_SCHEMA_VERSION,
+            trust_domain_id: DOMAIN.as_bytes().to_vec(),
+            lineage_id: LINEAGE.to_vec(),
+            voter_set_generation: 7,
+            raft_term: 3,
+            committed_log_index: index,
+            epoch,
+            holder_node_id: node.to_vec(),
+            holder_guardian_id: guardian.to_vec(),
+            activation_key_sha256: Sha256::digest(activation.verifying_key().to_bytes()).to_vec(),
+            operation_class: operation as u32,
+            issued_unix_seconds: issued as i64,
+            issued_nanos: 0,
+            lease_duration_millis: 2_000,
+            policy_sha256: lease_policy().sha256().unwrap().to_vec(),
+            signing_algorithm: SIGNING_ALGORITHM_ED25519,
+        }
+    }
+}
+
+fn lease_policy() -> LeasePolicy {
+    LeasePolicy {
+        max_lease_duration_millis: 2_000,
+        max_clock_uncertainty_millis: 10,
+        message_delay_margin_millis: 5,
+        max_lineages: 64,
+        max_snapshot_bytes: 1024 * 1024,
+    }
+}
+
+fn fencing_policy() -> FencingPolicy {
+    FencingPolicy {
+        max_lineages: 64,
+        max_receipts: 64,
+        max_state_bytes: 1024 * 1024,
+        max_clock_uncertainty_millis: 10,
+        message_delay_margin_millis: 5,
+    }
+}
+
+fn snapshot_policy() -> SnapshotCatalogPolicy {
+    SnapshotCatalogPolicy::new(DOMAIN)
+        .unwrap()
+        .with_bounds(8, 4096, 120, 2, 16 * 1024, 8)
+        .unwrap()
+}
+
+fn placement_membership() -> MembershipState {
+    let mut state = MembershipState::new(MembershipPolicy::new(DOMAIN, 32, 64).unwrap());
+    let mut log_index = 5_u64;
+    for index in 0..3_u8 {
+        state
+            .apply(&CommittedMembershipEvent::new(
+                DOMAIN,
+                [index.saturating_add(1); 32],
+                u64::from(index) + 1,
+                log_index,
+                MembershipOperation::Join {
+                    member: Member {
+                        node_id: format!("node-{index}"),
+                        guardian_id: format!("guardian-{index}"),
+                        identity_generation: 3,
+                        guardian_control_public_key: [index.saturating_add(1); 32],
+                        role: MemberRole::NonVoting,
+                    },
+                },
+            ))
+            .unwrap();
+        log_index += 1;
+    }
+    for index in 0..3_u8 {
+        state
+            .apply(&CommittedMembershipEvent::new(
+                DOMAIN,
+                [index.saturating_add(10); 32],
+                u64::from(index) + 4,
+                9 + u64::from(index),
+                MembershipOperation::Promote {
+                    node_id: format!("node-{index}"),
+                },
+            ))
+            .unwrap();
+    }
+    assert_eq!(state.committed_log_index(), 11);
+    state
+}
+
+struct Fixture {
+    directory: tempfile::TempDir,
+    migration_root: PathBuf,
+    migration_authority: Arc<MigrationAuthority>,
+    migration_clock: Arc<TestClock>,
+    fencing: FencingStore,
+    authority: AuthorityFixture,
+    ledger: AuthorityLedger,
+    source_proof: Vec<u8>,
+    snapshot_verifier: SnapshotCatalogVerifier,
+    snapshot_policy: SnapshotCatalogPolicy,
+    snapshot_signer: SigningKey,
+    snapshot_certificate: AuthorityCertificate,
+    chunks: Vec<Vec<u8>>,
+    placement_membership: MembershipState,
+    placement_capabilities: PlacementCapabilitySnapshot,
+    placement_weather: PlacementWeatherSnapshot,
+    placement_fencing: PlacementFencingSnapshot,
+}
+
+impl Fixture {
+    fn new() -> Self {
+        let directory = tempfile::tempdir().unwrap();
+        let root = directory.path().canonicalize().unwrap();
+        let migration_root = root.join("migration");
+        let fencing_root = root.join("fencing");
+        fs::create_dir(&migration_root).unwrap();
+        fs::create_dir(&fencing_root).unwrap();
+        let migration_authority = Arc::new(MigrationAuthority::default());
+        let migration_clock = Arc::new(TestClock(Mutex::new(NOW * 1_000)));
+        let fencing = FencingStore::create(
+            &fencing_root,
+            fencing_policy(),
+            Arc::new(FenceCheckpointAuthority::default()),
+        )
+        .unwrap();
+
+        let authority = AuthorityFixture::new();
+        let membership = authority.membership(11);
+        let grant_body = authority.body(
+            11,
+            1,
+            OperationClass::LeaseGrant,
+            SOURCE_NODE,
+            SOURCE_GUARDIAN,
+            &authority.source_activation,
+            NOW,
+        );
+        let source_signature = activation_signature(&grant_body, &authority.source_activation);
+        let grant = authority.certificate(grant_body);
+        let mut ledger = AuthorityLedger::new(lease_policy()).unwrap();
+        ledger
+            .apply(
+                &grant,
+                &membership,
+                AuthorityApplication {
+                    now_unix_seconds: NOW as i64,
+                    now_unix_nanos: 0,
+                    now_elapsed_millis: 10,
+                    clock_uncertainty_millis: 5,
+                    activation_public_key: authority.source_activation.verifying_key().to_bytes(),
+                    activation_proof: &source_signature,
+                },
+            )
+            .unwrap();
+
+        let issuer = key(40);
+        let snapshot_signer = key(41);
+        let certificate_store = Arc::new(
+            DistributedCertificateStore::open(
+                root.join("certificates.redb"),
+                CertificatePolicy::new(DOMAIN, [issuer.verifying_key()])
+                    .unwrap()
+                    .with_bounds(3600, 60, 60, 64, 64)
+                    .unwrap(),
+            )
+            .unwrap(),
+        );
+        let snapshot_certificate = AuthorityCertificate::issue(
+            CertificateBody::new(
+                DOMAIN,
+                String::from_utf8(SOURCE_NODE.to_vec()).unwrap(),
+                CertificatePurpose::SnapshotSigning,
+                1,
+                CertificateValidity {
+                    issued_at_unix_secs: NOW - 100,
+                    expires_at_unix_secs: NOW + 600,
+                },
+                snapshot_signer.verifying_key(),
+                &issuer.verifying_key(),
+            ),
+            &issuer,
+        )
+        .unwrap();
+        certificate_store
+            .activate(&snapshot_certificate, NOW - 10)
+            .unwrap();
+        let snapshot_policy = snapshot_policy();
+        let snapshot_verifier = SnapshotCatalogVerifier::open(
+            certificate_store,
+            snapshot_policy.clone(),
+            root.join("snapshot-replay.redb"),
+        )
+        .unwrap();
+
+        let placement_membership = placement_membership();
+        let capability = VerifiedCapabilityAdvertisement {
+            trust_domain: DOMAIN.to_owned(),
+            issuer_id: String::from_utf8(TARGET_GUARDIAN.to_vec()).unwrap(),
+            certificate_id: "certificate-target".to_owned(),
+            certificate_generation: 3,
+            sequence: 7,
+            measured_at_unix_secs: NOW - 2,
+            expires_at_unix_secs: NOW + 60,
+            verification_deadline_unix_secs: NOW + 60,
+            capabilities: vec![CapabilityEvidence::new("cpu", 16)],
+        };
+        let placement_capabilities =
+            PlacementCapabilitySnapshot::from_rows_for_test(NOW, &[capability]);
+        let weather = PlacementWeather {
+            holder_id: String::from_utf8(TARGET_GUARDIAN.to_vec()).unwrap(),
+            certificate_generation: 3,
+            sequence: 8,
+            sampled_at_unix_secs: NOW - 1,
+            expires_at_unix_secs: NOW + 60,
+            availability: WeatherAvailability::Available,
+            pressure_permille: Some(100),
+            available_slots: Some(8),
+            advisory_only: true,
+        };
+        let placement_weather = PlacementWeatherSnapshot::from_rows_for_test(
+            NOW,
+            &[(weather, "certificate-target".to_owned())],
+        );
+        let placement_policy = PlacementPolicy::new(DOMAIN).unwrap();
+        let placement_fencing = PlacementFencingSnapshot::from_receipts_for_test(
+            &placement_policy,
+            &placement_membership,
+            &[],
+        )
+        .unwrap();
+        Self {
+            directory,
+            migration_root,
+            migration_authority,
+            migration_clock,
+            fencing,
+            authority,
+            ledger,
+            source_proof: source_signature.to_vec(),
+            snapshot_verifier,
+            snapshot_policy,
+            snapshot_signer,
+            snapshot_certificate,
+            chunks: vec![b"private-state-a".to_vec(), b"private-state-b".to_vec()],
+            placement_membership,
+            placement_capabilities,
+            placement_weather,
+            placement_fencing,
+        }
+    }
+
+    fn migration_store(&self) -> MigrationStore {
+        MigrationStore::create(
+            &self.migration_root,
+            MigrationPolicy::new(DOMAIN).unwrap(),
+            self.migration_authority.clone(),
+            self.migration_clock.clone(),
+        )
+        .unwrap()
+    }
+
+    fn source_lease(&self) -> &LeaseState {
+        self.ledger.lease(LINEAGE).unwrap()
+    }
+
+    fn snapshot(&self) -> SnapshotDescriptor {
+        let mut whole = Sha256::new();
+        let mut byte_length = 0_u64;
+        let chunk_sha256 = self
+            .chunks
+            .iter()
+            .map(|chunk| {
+                whole.update(chunk);
+                byte_length += chunk.len() as u64;
+                Sha256::digest(chunk).into()
+            })
+            .collect();
+        SnapshotDescriptor {
+            trust_domain: DOMAIN.to_owned(),
+            lineage_id: LINEAGE.to_vec(),
+            source_owner_id: SOURCE_NODE.to_vec(),
+            source_guardian_id: SOURCE_GUARDIAN.to_vec(),
+            source_epoch: 1,
+            authority_log_index: 11,
+            snapshot_schema: "adl.private_state.v1".to_owned(),
+            content_sha256: whole.finalize().into(),
+            byte_length,
+            chunk_sha256,
+            created_at_unix_secs: NOW - 1,
+            expires_at_unix_secs: NOW + 60,
+            encryption_context_id: "context-7".to_owned(),
+        }
+    }
+
+    fn catalog(&self) -> SignedSnapshotCatalogEntry {
+        SignedSnapshotCatalogEntry::issue(
+            SnapshotCatalogEntryBody::new(
+                String::from_utf8(SOURCE_NODE.to_vec()).unwrap(),
+                1,
+                1,
+                self.snapshot(),
+                &self.snapshot_policy,
+            )
+            .unwrap(),
+            self.snapshot_certificate.clone(),
+            &self.snapshot_signer,
+            &self.snapshot_policy,
+        )
+        .unwrap()
+    }
+
+    fn manifest(&self, catalog: &SignedSnapshotCatalogEntry) -> SignedTransferManifest {
+        SignedTransferManifest::issue(
+            TransferManifestBody::new(b"transfer-1", TARGET_NODE, catalog, &self.snapshot_policy)
+                .unwrap(),
+            self.snapshot_certificate.clone(),
+            &self.snapshot_signer,
+            &self.snapshot_policy,
+        )
+        .unwrap()
+    }
+
+    fn prepare(&self, store: &mut MigrationStore) {
+        let policy = PlacementPolicy::new(DOMAIN).unwrap();
+        let service = PlacementService::new(policy, FixedClock(NOW));
+        let request = PlacementRequest {
+            lineage_id: String::from_utf8(LINEAGE.to_vec()).unwrap(),
+            minimum_membership_epoch: self.placement_membership.epoch(),
+            minimum_committed_log_index: self.placement_membership.committed_log_index(),
+            required_slots: 1,
+            requirements: vec![CapabilityRequirement::new("cpu", 1)],
+        };
+        let membership = self.authority.membership(11);
+        let source_check = ActiveLeaseCheck {
+            membership: Some(&membership),
+            lease: self.source_lease(),
+            applied_log_index: 11,
+            now_unix_seconds: NOW as i64,
+            now_unix_millis: NOW * 1_000,
+            now_elapsed_millis: 20,
+            activation_proof: &self.source_proof,
+        };
+        store
+            .prepare(
+                MigrationRequest {
+                    migration_id: b"migration-1".to_vec(),
+                    trust_domain: DOMAIN.to_owned(),
+                    lineage_id: LINEAGE.to_vec(),
+                    source_node_id: SOURCE_NODE.to_vec(),
+                    source_guardian_id: SOURCE_GUARDIAN.to_vec(),
+                    timeout_millis: 60_000,
+                },
+                &service,
+                &request,
+                PlacementInputs {
+                    membership: &self.placement_membership,
+                    capabilities: &self.placement_capabilities,
+                    weather: &self.placement_weather,
+                    fencing: &self.placement_fencing,
+                },
+                &self.fencing,
+                source_check,
+            )
+            .unwrap();
+    }
+}
+
+fn run_to_validated(fixture: &mut Fixture, store: &mut MigrationStore) {
+    fixture.prepare(store);
+    let membership = fixture.authority.membership(11);
+    let source_check = ActiveLeaseCheck {
+        membership: Some(&membership),
+        lease: fixture.source_lease(),
+        applied_log_index: 11,
+        now_unix_seconds: NOW as i64,
+        now_unix_millis: NOW * 1_000,
+        now_elapsed_millis: 20,
+        activation_proof: &fixture.source_proof,
+    };
+    store
+        .quiesce(
+            b"migration-1",
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            source_check,
+        )
+        .unwrap();
+    let generation = store.checkpoint().generation;
+    let membership = fixture.authority.membership(11);
+    store
+        .quiesce(
+            b"migration-1",
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    assert_eq!(store.checkpoint().generation, generation);
+    let catalog = fixture.catalog();
+    let catalog_bytes = catalog.encode(&fixture.snapshot_policy).unwrap();
+    let membership = fixture.authority.membership(11);
+    store
+        .checkpoint_snapshot(
+            b"migration-1",
+            &catalog_bytes,
+            &fixture.snapshot_verifier,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    let generation = store.checkpoint().generation;
+    let membership = fixture.authority.membership(11);
+    store
+        .checkpoint_snapshot(
+            b"migration-1",
+            &catalog_bytes,
+            &fixture.snapshot_verifier,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    assert_eq!(store.checkpoint().generation, generation);
+    let manifest = fixture.manifest(&catalog);
+    let manifest_bytes = manifest.encode(&fixture.snapshot_policy).unwrap();
+    let membership = fixture.authority.membership(11);
+    store
+        .transfer(
+            b"migration-1",
+            &manifest_bytes,
+            &catalog_bytes,
+            &fixture.chunks,
+            &fixture.snapshot_verifier,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    let generation = store.checkpoint().generation;
+    let membership = fixture.authority.membership(11);
+    store
+        .transfer(
+            b"migration-1",
+            &manifest_bytes,
+            &catalog_bytes,
+            &fixture.chunks,
+            &fixture.snapshot_verifier,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    assert_eq!(store.checkpoint().generation, generation);
+    let membership = fixture.authority.membership(11);
+    store
+        .validate_restore(
+            b"migration-1",
+            &RestoreAuthority,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    let generation = store.checkpoint().generation;
+    let membership = fixture.authority.membership(11);
+    store
+        .validate_restore(
+            b"migration-1",
+            &RestoreAuthority,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        )
+        .unwrap();
+    assert_eq!(store.checkpoint().generation, generation);
+}
+
+#[derive(Debug, Default)]
+struct RecoveryAuthority(Mutex<Option<RecoveryCheckpoint>>);
+
+impl RecoveryCheckpointAuthority for RecoveryAuthority {
+    fn current(&self) -> RecoveryResult<Option<RecoveryCheckpoint>> {
+        Ok(*self.0.lock().unwrap())
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<RecoveryCheckpoint>,
+        next: RecoveryCheckpoint,
+    ) -> RecoveryResult<()> {
+        let mut current = self.0.lock().unwrap();
+        if *current != expected
+            || current.is_some_and(|checkpoint| next.generation <= checkpoint.generation)
+        {
+            return Err(RecoveryError::Rollback);
+        }
+        *current = Some(next);
+        Ok(())
+    }
+}
+
+#[derive(Debug)]
+struct RecoveryTestClock(Mutex<RecoveryTime>);
+
+impl RecoveryTestClock {
+    fn set(&self, unix_seconds: i64, elapsed_millis: u64) {
+        *self.0.lock().unwrap() = RecoveryTime {
+            unix_seconds,
+            unix_nanos: 0,
+            elapsed_millis,
+            clock_uncertainty_millis: 5,
+        };
+    }
+
+    fn time(&self) -> RecoveryTime {
+        *self.0.lock().unwrap()
+    }
+}
+
+impl RecoveryClock for RecoveryTestClock {
+    fn now(&self) -> RecoveryResult<RecoveryTime> {
+        Ok(self.time())
+    }
+}
+
+struct RecoveryHarness {
+    root: PathBuf,
+    authority: Arc<RecoveryAuthority>,
+    clock: Arc<RecoveryTestClock>,
+    policy: RecoveryPolicy,
+}
+
+#[derive(Debug, Default)]
+struct TargetAuthority(Mutex<Vec<Vec<u8>>>);
+
+impl RecoveryTargetAuthority for TargetAuthority {
+    fn discard_incomplete(&self, request: TargetCleanupRequest<'_>) -> RecoveryResult<Vec<u8>> {
+        if request.recovery_id.is_empty()
+            || request.migration_id != b"migration-1"
+            || request.target_node_id != TARGET_NODE
+            || request.target_guardian_id != TARGET_GUARDIAN
+            || request.remaining_timeout_millis == 0
+        {
+            return Err(RecoveryError::AuthorityRejected);
+        }
+        self.0.lock().unwrap().push(request.recovery_id.to_vec());
+        Ok([
+            b"discarded:".as_slice(),
+            request.recovery_id,
+            request.migration_id,
+            request.transfer_id.unwrap_or_default(),
+            request
+                .content_sha256
+                .as_ref()
+                .map_or(&[][..], |digest| digest.as_slice()),
+        ]
+        .concat())
+    }
+}
+
+impl RecoveryHarness {
+    fn new(fixture: &Fixture) -> Self {
+        let root = fixture.directory.path().join("recovery");
+        fs::create_dir(&root).unwrap();
+        Self {
+            root,
+            authority: Arc::new(RecoveryAuthority::default()),
+            clock: Arc::new(RecoveryTestClock(Mutex::new(RecoveryTime {
+                unix_seconds: NOW as i64,
+                unix_nanos: 0,
+                elapsed_millis: 25,
+                clock_uncertainty_millis: 5,
+            }))),
+            policy: RecoveryPolicy::new(DOMAIN).unwrap(),
+        }
+    }
+
+    fn with_policy(fixture: &Fixture, policy: RecoveryPolicy) -> Self {
+        let mut harness = Self::new(fixture);
+        harness.policy = policy;
+        harness
+    }
+
+    fn create(&self) -> RecoveryStore {
+        RecoveryStore::create(
+            &self.root,
+            self.policy.clone(),
+            self.authority.clone(),
+            self.clock.clone(),
+        )
+        .unwrap()
+    }
+
+    fn open(&self) -> RecoveryStore {
+        RecoveryStore::open(
+            &self.root,
+            self.policy.clone(),
+            self.authority.clone(),
+            self.clock.clone(),
+        )
+        .unwrap()
+    }
+}
+
+fn histories() -> Vec<LocalHistory> {
+    vec![
+        LocalHistory {
+            node_id: SOURCE_NODE.to_vec(),
+            guardian_id: SOURCE_GUARDIAN.to_vec(),
+            claimed_epoch: 90,
+            claimed_log_index: 9_000,
+            claimed_owner: true,
+        },
+        LocalHistory {
+            node_id: TARGET_NODE.to_vec(),
+            guardian_id: TARGET_GUARDIAN.to_vec(),
+            claimed_epoch: 91,
+            claimed_log_index: 9_001,
+            claimed_owner: true,
+        },
+    ]
+}
+
+fn begin_request(id: &[u8], timeout_millis: u64) -> RecoveryRequest {
+    RecoveryRequest {
+        recovery_id: id.to_vec(),
+        migration_id: b"migration-1".to_vec(),
+        trust_domain: DOMAIN.to_owned(),
+        timeout_millis,
+    }
+}
+
+fn begin_and_plan(
+    store: &mut RecoveryStore,
+    migration: &MigrationStore,
+    fixture: &Fixture,
+    recovery_id: &[u8],
+) {
+    let assessing = store
+        .begin(begin_request(recovery_id, 60_000), migration, &histories())
+        .unwrap();
+    assert_eq!(assessing.phase, RecoveryPhase::Assessing);
+    assert_eq!(assessing.owner_epoch, None);
+    assert_eq!(assessing.owner_node_id, None);
+    assert_eq!(assessing.committed_log_index, None);
+
+    let snapshot = fixture.ledger.snapshot().unwrap();
+    let planned = store
+        .select_committed_prefix(
+            recovery_id,
+            &[snapshot],
+            &lease_policy(),
+            &fixture.authority.membership(11),
+        )
+        .unwrap();
+    assert_eq!(planned.phase, RecoveryPhase::Planned);
+    assert_eq!(planned.committed_prefix_epoch, Some(1));
+    assert_eq!(planned.committed_prefix_log_index, Some(11));
+    assert_eq!(planned.owner_epoch, None);
+    assert_eq!(planned.owner_node_id, None);
+}
+
+fn application<'a>(
+    time: RecoveryTime,
+    activation: &'a SigningKey,
+    proof: &'a [u8],
+) -> AuthorityApplication<'a> {
+    AuthorityApplication {
+        now_unix_seconds: time.unix_seconds,
+        now_unix_nanos: time.unix_nanos,
+        now_elapsed_millis: time.elapsed_millis,
+        clock_uncertainty_millis: time.clock_uncertainty_millis,
+        activation_public_key: activation.verifying_key().to_bytes(),
+        activation_proof: proof,
+    }
+}
+
+fn active_check<'a>(
+    fixture: &'a Fixture,
+    membership: &'a AuthorityMembership,
+    time: RecoveryTime,
+) -> ActiveLeaseCheck<'a> {
+    ActiveLeaseCheck {
+        membership: Some(membership),
+        lease: fixture.ledger.lease(LINEAGE).unwrap(),
+        applied_log_index: fixture.ledger.applied_log_index(),
+        now_unix_seconds: time.unix_seconds,
+        now_unix_millis: u64::try_from(time.unix_seconds).unwrap() * 1_000,
+        now_elapsed_millis: time.elapsed_millis,
+        activation_proof: &fixture.source_proof,
+    }
+}
+
+#[test]
+fn recovery_begin_and_committed_prefix_survive_restart_without_trusting_local_owner_claims() {
+    let mut fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    run_to_validated(&mut fixture, &mut migration);
+    let harness = RecoveryHarness::new(&fixture);
+    let mut store = harness.create();
+
+    begin_and_plan(&mut store, &migration, &fixture, b"recovery-durable");
+    let checkpoint = store.checkpoint();
+    drop(store);
+
+    let reopened = harness.open();
+    assert_eq!(reopened.checkpoint(), checkpoint);
+    let record = reopened.record(b"recovery-durable").unwrap();
+    assert_eq!(record.phase, RecoveryPhase::Planned);
+    assert_eq!(record.committed_prefix_epoch, Some(1));
+    assert_eq!(record.owner_epoch, None);
+    assert_eq!(record.owner_node_id, None);
+    marker("local_claimed_owner_not_authority", "rejected");
+}
+
+#[test]
+fn recovery_pre_fence_rollback_requires_live_source_authority() {
+    let fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let harness = RecoveryHarness::new(&fixture);
+    let mut store = harness.create();
+    begin_and_plan(&mut store, &migration, &fixture, b"recovery-rollback");
+    let membership = fixture.authority.membership(11);
+    let time = harness.clock.time();
+
+    let wrong_membership = fixture.authority.membership(12);
+    assert_eq!(
+        store.rollback_pre_fence(
+            b"recovery-rollback",
+            &mut migration,
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            active_check(&fixture, &wrong_membership, time),
+        ),
+        Err(RecoveryError::AuthorityRejected)
+    );
+    marker("rollback_without_live_source_authority", "rejected");
+
+    let restored = store
+        .rollback_pre_fence(
+            b"recovery-rollback",
+            &mut migration,
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            active_check(&fixture, &membership, time),
+        )
+        .unwrap();
+    assert_eq!(restored.phase, RecoveryPhase::Restored);
+    assert_eq!(restored.owner_node_id.as_deref(), Some(SOURCE_NODE));
+    assert_eq!(restored.owner_epoch, Some(1));
+    assert_eq!(
+        migration.record(b"migration-1").unwrap().phase,
+        MigrationPhase::Aborted
+    );
+}
+
+#[test]
+fn recovery_quorum_fence_safety_window_activation_commit_and_restart() {
+    let mut fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let harness = RecoveryHarness::new(&fixture);
+    let mut store = harness.create();
+    begin_and_plan(&mut store, &migration, &fixture, b"recovery-owner");
+
+    let membership12 = fixture.authority.membership(12);
+    let fence_body = fixture.authority.body(
+        12,
+        2,
+        OperationClass::Fence,
+        SOURCE_NODE,
+        SOURCE_GUARDIAN,
+        &fixture.authority.source_activation,
+        NOW,
+    );
+    let mut fence_message = AuthorityCertificateV1 {
+        body: Some(fence_body.clone()),
+        endorsements: vec![endorse(
+            &fence_body,
+            fixture.authority.ids[0].clone(),
+            7,
+            &fixture.authority.keys[0],
+        )],
+    };
+    let minority = encode_certificate(&fence_message).unwrap();
+    let time = harness.clock.time();
+    assert_eq!(
+        store.fence_ambiguous(
+            b"recovery-owner",
+            b"fence-minority",
+            &minority,
+            &membership12,
+            &mut fixture.ledger,
+            &mut fixture.fencing,
+            application(time, &fixture.authority.source_activation, &[]),
+        ),
+        Err(RecoveryError::QuorumRequired)
+    );
+    marker("minority_fence", "rejected");
+
+    let mut wrong_domain_body = fence_body.clone();
+    wrong_domain_body.trust_domain_id = b"other.example".to_vec();
+    fence_message.body = Some(wrong_domain_body.clone());
+    fence_message.endorsements = [0, 1]
+        .into_iter()
+        .map(|position| {
+            endorse(
+                &wrong_domain_body,
+                fixture.authority.ids[position].clone(),
+                7,
+                &fixture.authority.keys[position],
+            )
+        })
+        .collect();
+    fence_message
+        .endorsements
+        .sort_by(|left, right| left.signer_guardian_id.cmp(&right.signer_guardian_id));
+    assert_eq!(
+        store.fence_ambiguous(
+            b"recovery-owner",
+            b"fence-wrong-domain",
+            &encode_certificate(&fence_message).unwrap(),
+            &membership12,
+            &mut fixture.ledger,
+            &mut fixture.fencing,
+            application(time, &fixture.authority.source_activation, &[]),
+        ),
+        Err(RecoveryError::QuorumRequired)
+    );
+    marker("wrong_trust_domain_fence", "rejected");
+
+    let fence_certificate = fixture.authority.certificate(fence_body);
+    let fenced = store
+        .fence_ambiguous(
+            b"recovery-owner",
+            b"fence-recovery-owner",
+            &fence_certificate,
+            &membership12,
+            &mut fixture.ledger,
+            &mut fixture.fencing,
+            application(time, &fixture.authority.source_activation, &[]),
+        )
+        .unwrap();
+    assert_eq!(fenced.phase, RecoveryPhase::Fenced);
+
+    let membership13 = fixture.authority.membership(13);
+    let early_body = fixture.authority.body(
+        13,
+        2,
+        OperationClass::Activate,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW,
+    );
+    let early_proof = activation_signature(&early_body, &fixture.authority.target_activation);
+    let early_certificate = fixture.authority.certificate(early_body);
+    assert_eq!(
+        store.restore_quorum_owner(
+            b"recovery-owner",
+            &early_certificate,
+            &membership13,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &early_proof),
+        ),
+        Err(RecoveryError::SafetyWindow)
+    );
+    marker("activation_inside_safety_window", "rejected");
+
+    harness.clock.set(NOW as i64 + 3, 3_020);
+    let time = harness.clock.time();
+    let activate_body = fixture.authority.body(
+        13,
+        2,
+        OperationClass::Activate,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let activate_proof = activation_signature(&activate_body, &fixture.authority.target_activation);
+    let activate_certificate = fixture.authority.certificate(activate_body);
+    let restored = store
+        .restore_quorum_owner(
+            b"recovery-owner",
+            &activate_certificate,
+            &membership13,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &activate_proof),
+        )
+        .unwrap();
+    assert_eq!(restored.phase, RecoveryPhase::Restored);
+    assert_eq!(restored.owner_node_id.as_deref(), Some(TARGET_NODE));
+
+    let membership14 = fixture.authority.membership(14);
+    let stale_membership = fixture.authority.membership(13);
+    let commit_body = fixture.authority.body(
+        14,
+        2,
+        OperationClass::OwnerCommit,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let commit_proof = activation_signature(&commit_body, &fixture.authority.target_activation);
+    let commit_certificate = fixture.authority.certificate(commit_body);
+    assert_eq!(
+        store.commit_owner(
+            b"recovery-owner",
+            &commit_certificate,
+            &stale_membership,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &commit_proof),
+        ),
+        Err(RecoveryError::QuorumRequired)
+    );
+    marker("stale_membership_generation", "rejected");
+
+    let committed = store
+        .commit_owner(
+            b"recovery-owner",
+            &commit_certificate,
+            &membership14,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &commit_proof),
+        )
+        .unwrap();
+    assert_eq!(committed.phase, RecoveryPhase::Committed);
+    assert_eq!(committed.committed_log_index, Some(14));
+    let checkpoint = store.checkpoint();
+    drop(store);
+    let reopened = harness.open();
+    assert_eq!(reopened.checkpoint(), checkpoint);
+    assert_eq!(
+        reopened.record(b"recovery-owner").unwrap().phase,
+        RecoveryPhase::Committed
+    );
+}
+
+#[test]
+fn recovery_is_bounded_and_times_out_fail_closed() {
+    let fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let policy = RecoveryPolicy::with_bounds(DOMAIN, 1, 6, 2, 128, 1024 * 1024, 100).unwrap();
+    let harness = RecoveryHarness::with_policy(&fixture, policy);
+    let mut store = harness.create();
+    store
+        .begin(begin_request(b"bounded-a", 100), &migration, &histories())
+        .unwrap();
+    assert_eq!(
+        store.begin(begin_request(b"bounded-b", 100), &migration, &histories()),
+        Err(RecoveryError::ResourceExhausted)
+    );
+    marker("record_capacity", "rejected");
+
+    harness.clock.set(NOW as i64, 125);
+    assert_eq!(
+        store.require_operator(b"bounded-a", b"late decision"),
+        Err(RecoveryError::TimedOut)
+    );
+    marker("recovery_timeout", "rejected");
+
+    let other_fixture = Fixture::new();
+    let mut other_migration = other_fixture.migration_store();
+    other_fixture.prepare(&mut other_migration);
+    let other_harness = RecoveryHarness::new(&other_fixture);
+    let mut other_store = other_harness.create();
+    let mut wrong_domain = begin_request(b"wrong-domain", 100);
+    wrong_domain.trust_domain = "other.example".to_owned();
+    assert_eq!(
+        other_store.begin(wrong_domain, &other_migration, &histories()),
+        Err(RecoveryError::WrongTrustDomain)
+    );
+    marker("wrong_trust_domain_begin", "rejected");
+}
+
+#[test]
+fn recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_rollback() {
+    let fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let harness = RecoveryHarness::new(&fixture);
+    let mut store = harness.create();
+
+    store
+        .begin(
+            begin_request(b"zero-prefix", 60_000),
+            &migration,
+            &histories(),
+        )
+        .unwrap();
+    let zero = store
+        .select_committed_prefix(
+            b"zero-prefix",
+            &[b"not-an-authority-snapshot".to_vec()],
+            &lease_policy(),
+            &fixture.authority.membership(11),
+        )
+        .unwrap();
+    assert_eq!(zero.phase, RecoveryPhase::OperatorRequired);
+    marker("zero_valid_committed_prefix", "fail_closed");
+
+    store
+        .begin(
+            begin_request(b"divergent-prefix", 60_000),
+            &migration,
+            &histories(),
+        )
+        .unwrap();
+    let source_snapshot = fixture.ledger.snapshot().unwrap();
+    let membership11 = fixture.authority.membership(11);
+    let mut target_ledger = AuthorityLedger::new(lease_policy()).unwrap();
+    let target_grant_body = fixture.authority.body(
+        11,
+        1,
+        OperationClass::LeaseGrant,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW,
+    );
+    let target_proof =
+        activation_signature(&target_grant_body, &fixture.authority.target_activation);
+    target_ledger
+        .apply(
+            &fixture.authority.certificate(target_grant_body),
+            &membership11,
+            AuthorityApplication {
+                now_unix_seconds: NOW as i64,
+                now_unix_nanos: 0,
+                now_elapsed_millis: 10,
+                clock_uncertainty_millis: 5,
+                activation_public_key: fixture
+                    .authority
+                    .target_activation
+                    .verifying_key()
+                    .to_bytes(),
+                activation_proof: &target_proof,
+            },
+        )
+        .unwrap();
+    let divergent = store
+        .select_committed_prefix(
+            b"divergent-prefix",
+            &[source_snapshot, target_ledger.snapshot().unwrap()],
+            &lease_policy(),
+            &membership11,
+        )
+        .unwrap();
+    assert_eq!(divergent.phase, RecoveryPhase::OperatorRequired);
+    marker("divergent_committed_prefix", "fail_closed");
+
+    let membership11 = fixture.authority.membership(11);
+    let time = harness.clock.time();
+    migration
+        .quiesce(
+            b"migration-1",
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            active_check(&fixture, &membership11, time),
+        )
+        .unwrap();
+    begin_and_plan(&mut store, &migration, &fixture, b"cleanup-before-rollback");
+    assert!(
+        store
+            .record(b"cleanup-before-rollback")
+            .unwrap()
+            .target_cleanup_required
+    );
+    assert_eq!(
+        store.rollback_pre_fence(
+            b"cleanup-before-rollback",
+            &mut migration,
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            active_check(&fixture, &membership11, time),
+        ),
+        Err(RecoveryError::InvalidTransition)
+    );
+    marker("rollback_before_target_cleanup", "rejected");
+
+    let target = TargetAuthority::default();
+    let discarded = store
+        .discard_incomplete_target(b"cleanup-before-rollback", &target)
+        .unwrap();
+    assert_eq!(discarded.phase, RecoveryPhase::TargetDiscarded);
+    assert!(discarded.target_cleanup_receipt_sha256.is_some());
+    assert_eq!(
+        target.0.lock().unwrap().as_slice(),
+        &[b"cleanup-before-rollback".to_vec()]
+    );
+    let restored = store
+        .rollback_pre_fence(
+            b"cleanup-before-rollback",
+            &mut migration,
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            active_check(&fixture, &membership11, time),
+        )
+        .unwrap();
+    assert_eq!(restored.phase, RecoveryPhase::Restored);
+    assert_eq!(restored.owner_node_id.as_deref(), Some(SOURCE_NODE));
+}
