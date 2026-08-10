@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
-  "phase": "reviewed",
-  "generation": 82,
-  "digest": "89dfec1bb354eb45a9e864d5ea8ebe6a749008781b81e9df3f810603d37efa3a",
+  "phase": "published",
+  "generation": 83,
+  "digest": "04ed7540a63fcf17f36f1102337f7ae2c141e6f87545516913ebce4e63e17460",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": {
@@ -56,7 +56,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5831,
+    "pull_request": 195,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/195",
+    "base": "main",
+    "head": "codex/5831-adaptive-learning",
+    "revision": "git-blake3:fa6cfc252da367860c915c4668c26a05545138b0:d10581109a793330b71f6f2240a997b84f07ba491ce3f7d466fb6e381f5f5eed",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -70,34 +81,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "71a04045b93c30fd20236eebfefcc3878d1629df9fa6df993f2edf48db4633ee",
+      "values_digest": "7d52dea83bf7c9c3e4cc71c0387324bad7b161959baf9fca31e83b5c81a3ad5d",
       "rendered_digest": "0db5a50b8b18fb55476374e044eb1b0c5f912734fcd350f59ed9e486d94a770c",
       "ast_digest": "435e246381810627c72031a04e455f28daf269e67a3f2f493be5a78546d6cadd"
     },
     "stp": {
-      "values_digest": "ba39d93a250eacda648cf8cd5da6b584a66bd13fabe3d44bb64d7d366fd18a15",
+      "values_digest": "f5489d1e716025bfb13006c4050617c925bbe3f05a50e43ef0e059cb944ab907",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "28b3413612fd85627174215dbd5e112922bd74a93334be3f7678e5d61387662a",
+      "values_digest": "d370807979c7e57a48e1ceaa189f70beef9da62a019e02d820150086862c7907",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "adf349a0b7d2c01ce03e02cbcc47a93555c8bd4a3537d4284c89042c7da9bcf3",
+      "values_digest": "e512cb91170db8f0891b7fd0fdecfb2c9667927dffbd257ee1102a2913b6a55f",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "461551e37d58270ef338c814abcb14c2bc823f210243f3a07ced1751a3d3e06a",
+      "values_digest": "473c2b0210e578b5fc97ed3734a66eee472329b1aeb613e9d7bf90de1a21322a",
       "rendered_digest": "a18c60c3165ee157db25d86f08deb5addd56a4d785a99dde805b8fb9118a4d7d",
       "ast_digest": "054ba5fce108601c6d47fe715c07042c41a0ddb7c8fa0241a589b60be5392f93"
     },
     "sor": {
-      "values_digest": "9cd9e133a1198ba2a83cfd2a99e5fe2991a83b3e1e2ce9f30c44abc6ca6f446c",
-      "rendered_digest": "d8d138c29f28d6b5f5b7dd3bff6a579c728ae75e820270a707cab61dbbea738a",
-      "ast_digest": "db391c5a0de88bc2aa1ca508f20f28a2f52e988d672187fc291823b858ec9ead"
+      "values_digest": "1c915986cf6b01a923bb85f018dea753b10d30d0fd5ab897d9b7ecd7a6e98d76",
+      "rendered_digest": "5b7648910c6c19da8574ed9811d1421137b899e1a895bc7d2686e16b59517a28",
+      "ast_digest": "29bdf86aa85318cd06a4e5dd4db07f79cba17126f23507d183d53d3618cdb9ac"
     }
   },
   "transitions": [
@@ -149,6 +160,13 @@
       "to": "reviewed",
       "actor": "codex:5831-adaptive-learning",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -928,6 +946,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 112,
+      "generation": 83,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
