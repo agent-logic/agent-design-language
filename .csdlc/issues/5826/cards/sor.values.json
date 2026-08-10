@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 87
+    "generation": 88
   },
   "status": "pre_phase",
   "content": {
@@ -89,8 +89,8 @@
           "evidence_ref": "https://github.com/agent-logic/agent-design-language/actions/runs/31365422176"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
