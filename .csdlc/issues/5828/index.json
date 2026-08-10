@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
-  "phase": "implemented",
-  "generation": 64,
-  "digest": "b692bd4b4d77bd594dbd01bc6841691cfb65e110c651bca165a39874cb83f341",
+  "phase": "reviewed",
+  "generation": 65,
+  "digest": "1bfbdd90d1a7e51aea4fb9bfd24c528e0a930147122d2f7288a0d9ccf802c366",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
   "review_assignment": {
@@ -28,7 +28,30 @@
       "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:bfa4c1371b3172f835281a8fb67dfe5296aa9c23:a0a563da156d7ecdc3d787825b5bf140047c406754a94f07807f27a6cd689725",
+    "findings": [],
+    "residual_risks": [
+      "Exact-head native macOS and Linux proof remains mandatory after publication before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5d838286040553b4cafa8c807c2289f00833454e71a8345151cdf5c31675d384",
+      "values_digest": "d8191cca54048c991d04d9493e26e7627a776a050e99433a87dd89a02e0baa19",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "bc97e02669df8ac4be8c16be9ffb831103fe3021fff86dba6612234394f1d639",
+      "values_digest": "d3935432381b7b98bf2703f838107ad26f9f9bd53323a01a151823908e1be3d1",
       "rendered_digest": "4ba4d82b147eabdf904eb7995b5458c1be0049ceca63b65b8454d66fd9358453",
       "ast_digest": "1ad097bdb44240b3d12005f3e9d222849b7b35fa19b1865020a630a1b040357f"
     },
     "spp": {
-      "values_digest": "fc707bc0618d12c4a04ad06fb3e6162b593420c108523577b5feddd206d6255a",
+      "values_digest": "092dfa7005ca52d6745afc8e0171f2acdf704e30c6478b72cf06c5bf93948480",
       "rendered_digest": "cf0eba6c9800078a7e6bd05218c25f9dd6e00f646627710975e0f7ed4d4990ac",
       "ast_digest": "66da938636bb1ddbc2431c34cef2eb54bb8b772c4c4450270c7df6916fb177ab"
     },
     "vpp": {
-      "values_digest": "7d825a75e87b1566205a75e587fa462dc0527a43281c3778d213f5c68be2e773",
+      "values_digest": "8684eec232c919a3c1f520e212ecd1b6bd659452135dc49a8899645229ab9fd7",
       "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "a269ba4bf16bf63d922591ad6dde250ea98ec6fed9cc3156bb44b62121e99ab0",
-      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
-      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
+      "values_digest": "fe352c2870d56cb5ee991b1c84d13b6608bad673f462639eff910605555a1ad3",
+      "rendered_digest": "178907bb847ef4551f80704087f29ab3007113b37ccbc2ee37f369fa8489fe08",
+      "ast_digest": "18a3cbe11227aa3f03a66a8e6dbc20b1843c7a6da2c5d5d9ff8b2df33786397a"
     },
     "sor": {
-      "values_digest": "d0aacdf9b46ec5b1e8f7756f78807c2410e38b1d727036e139d7699ca0a2dbfa",
+      "values_digest": "43a7e1da3027b7dd7844d81423975bc49fc9f879653735f2b459ac3341ff0879",
       "rendered_digest": "b7a9eff5bdf642c4b17882069036aea9bcb51b442344ff0dae54559623e02e54",
       "ast_digest": "88fd2b8e1061792129d99cd3bd3f3cdcb91467002f9fab3e16d1eba23e913e94"
     }
@@ -129,6 +152,13 @@
       "to": "implemented",
       "actor": "codex:5828-memory-palace",
       "reason": "Recover review after removing only agent-created tracked lifecycle request files; product, proof, and reviewed lifecycle truth remain unchanged."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5828-memory-palace",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -768,6 +798,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 92,
+      "generation": 65,
+      "actor": "codex:5828-memory-palace",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
