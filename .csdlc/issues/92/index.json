@@ -4,35 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "published",
-  "generation": 28,
-  "digest": "3cf2f4bb7ac289809526b98e80ee7a27aa526ce97a38833d5e2e217f3b232ee8",
+  "phase": "implemented",
+  "generation": 29,
+  "digest": "cbc376d064c0779be4dec470e9ceab0177579f08710a67d0529ac0abda991805",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
-  "review": {
-    "reviewer": "Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:28cabb229894f1b3df276c1c3f57cc92f8850bae:fb8e47ac479d5534f0851d86cbb1f247744cb48069d4f6c2767cffbe5eef488f",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 92,
-    "pull_request": 98,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/98",
-    "base": "main",
-    "head": "codex/92-runtime-tls-standardization",
-    "revision": "git-blake3:3c370448e59d4ffea64ee0d1e119729fb5b0cd90:68606b5b4cd6c3248a88971ac9cc683f9342618266c6dde35fc62943b0501279",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -46,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0b3dfbfabd0bef1f40be7644ab4af35a608df02b1c87d5cefdc9de9e25f44688",
+      "values_digest": "c6360791642de000bfbcbdfdd4f236a2e06aad9ba86c50307d27061983d38d66",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "335deccb6c0a04b3eb81a9e6c2a5b7753863e16abafe8ea449cf2f9e72d00efb",
+      "values_digest": "78091d35eafc929f0d3361fdcc782269015d877e9e56a44f2c9007390607dd8c",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "f09411692713464643be24a6f19f77ed4bbed53bbd5f3ea35e1b8f4a28e770b4",
+      "values_digest": "3832a663707a7988c79b306be6b2960b4e280dc4b6cda3da137648b3807cf8cf",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "f1bef6bfa44d909924b7b5b2e3c86664a06a3a9e283df8f5cbf084ec3dd786a5",
+      "values_digest": "3ba4ab1839be6090fc73ed52184266dcc3e9804091c98b3dea8249e518d6844e",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "14ff7ad3330a66d3ae500db95c01b9a5ce5d610b60f02440959162cb373f6105",
-      "rendered_digest": "14416ed66a49a91e724ef9bf1eb4448b32fa7cff50041e6431adc7e0f8543bd6",
-      "ast_digest": "1fddac1ce8b76d5c6665d4d1ed51647ff5d8a1313fac49325eaf65bbac211b7b"
+      "values_digest": "06a73e336daba4b37a69e11e0e0b3b5573feed341c7b201654d3ad0ba2733965",
+      "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
+      "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
     },
     "sor": {
-      "values_digest": "09c28e6f9a75af95e709450379a41e1c937f4032380b9118073b94043d641890",
-      "rendered_digest": "a7e7e04e3d8dc0f477b7b79a4a51d1b5515f3925f2dce54c5ac9b6f3c3a780b1",
-      "ast_digest": "7fd70e885f9db5d7a6ef14d74f9c254c5e0a95f902c94eea155230d3581988c7"
+      "values_digest": "94f040422c60fdb3c089cbf765561b995615c08a814d8504d76f82007ff3284e",
+      "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
+      "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
     }
   },
   "transitions": [
@@ -174,6 +153,13 @@
       "to": "published",
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover review and publication truth after integrating current main, which added the required native Birthday workflow and test target after this branch was created."
     }
   ],
   "audit": [
@@ -386,6 +372,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 29,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover review and publication truth after integrating current main, which added the required native Birthday workflow and test target after this branch was created.",
+      "operation": "recover_review"
     }
   ]
 }
