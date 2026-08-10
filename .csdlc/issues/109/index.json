@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "16630202a2c4d07cb30b8992cc6b4d5540fa7394361b83994e8a01fdc50b224a",
+  "generation": 22,
+  "digest": "da7776b7da54f75d7815022c3dc783d1934ef43b723f3c24ba634f4aa2709c71",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "699227339d277023e7a94527e99231137a8ed93c1063a1ffe8f3363d575c9735",
+      "values_digest": "e07811a516d4ee0ba2c3ab5207cc512b424ae5d01cf8106368415eef15ce00ec",
       "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
       "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
     },
     "stp": {
-      "values_digest": "dc7879bcf16e99ea868fe92ac7c0f90e407aaa13784988458e12e0763eb139bc",
+      "values_digest": "c87720147220f705cb610cf9c23204147a572ff538476395a3648f7391188ee0",
       "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
       "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
     },
     "spp": {
-      "values_digest": "c3b930d0d3faf9df7f5d8cd0b1cb2d4d49f9a04c9c42ea3eabeb0f3896e809c3",
+      "values_digest": "376e273d9dbc5dbefcb2fa5c57ce0044c02f63cdb72045fb1bd03dda6072a804",
       "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
       "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
     },
     "vpp": {
-      "values_digest": "33bc14c2b1e5e9171a442a854a3ac1b1a445f14d21bd791f005cb3bd1a002d50",
+      "values_digest": "ba9adc6d4a884b1bedea0a0cd1bcbb3a56f34410efd5b72af587003811ecdbc8",
       "rendered_digest": "bea8837fa774ecd20e74d3c72fab78cbb27e3849f7c09362df341e9182d5671a",
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "4019338fc676a9cec54f12baa48afff1af20e883ffd0ec1d9a252b8c07bf05ca",
+      "values_digest": "a3d8493d65e92bc1ee2e77f065a5977f4b1518529a981bc2ad34867ec849b0ac",
       "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
       "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
     },
     "sor": {
-      "values_digest": "ce77a0ba955937a0dda182713dabca2cf48a15d4032375e8140bf4544147830b",
+      "values_digest": "62f75ee8372738a2ea7a9e76b85f0f5ced2f00baeae816a58f8c74c9e99bd4f4",
       "rendered_digest": "54304d46c7d82f6566fe481a04db5c4ea5abcf105b8fbe90cd524a708d6bdb0a",
       "ast_digest": "4d2df717ca82be386d9723dcc027b7ebd6e179bc3cb388060183b69bf4c6e4b7"
     }
@@ -272,6 +272,20 @@
       "generation": 21,
       "actor": "codex",
       "reason": "substantive validator remediation required by assigned fresh-session review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "narrow post-review metadata proof required by assigned fresh-session review",
       "operation": "recover_review"
     }
   ]

@@ -82,6 +82,36 @@ _stdout, _stderr, unchanged = Open3.capture3(
 )
 abort("substantive reviewed scope changed after review") unless unchanged.success?
 
+allowed_review_metadata = %w[
+  .csdlc/issues/109/audit.jsonl
+  .csdlc/issues/109/cards/sip.values.json
+  .csdlc/issues/109/cards/sor.values.json
+  .csdlc/issues/109/cards/spp.values.json
+  .csdlc/issues/109/cards/srp.md
+  .csdlc/issues/109/cards/srp.values.json
+  .csdlc/issues/109/cards/stp.values.json
+  .csdlc/issues/109/cards/vpp.values.json
+  .csdlc/issues/109/index.json
+].sort
+metadata_stdout, metadata_stderr, metadata_status = Open3.capture3(
+  "git", "diff", "--name-only", reviewed_commit, expected_head, "--", ".csdlc"
+)
+abort("unable to inspect review metadata: #{metadata_stderr}") unless metadata_status.success?
+changed_review_metadata = metadata_stdout.lines(chomp: true).reject(&:empty?).sort
+abort("unexpected post-review metadata paths: #{(changed_review_metadata - allowed_review_metadata).join(',')}") unless
+  changed_review_metadata == allowed_review_metadata
+
+%w[sip sor spp stp vpp].each do |card|
+  path = ".csdlc/issues/109/cards/#{card}.values.json"
+  before_stdout, before_stderr, before_status = Open3.capture3("git", "show", "#{reviewed_commit}:#{path}")
+  abort("unable to read reviewed #{card}: #{before_stderr}") unless before_status.success?
+  before = JSON.parse(before_stdout)
+  after = JSON.parse(File.read(path))
+  before.fetch("identity").delete("generation")
+  after.fetch("identity").delete("generation")
+  abort("#{card.upcase} changed beyond lifecycle generation metadata") unless before == after
+end
+
 findings = Array(review["findings"])
 open_findings = findings.select do |finding|
   finding["actionable"] && finding.fetch("in_scope", true) &&
