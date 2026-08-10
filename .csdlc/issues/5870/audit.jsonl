@@ -42,3 +42,5 @@
 {"sequence":42,"generation":24,"actor":"codex:5870-fencing-single-owner","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":43,"generation":25,"actor":"codex:5870-fencing-single-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":44,"generation":26,"actor":"codex:5870-fencing-single-owner","reason":"Recover stale publication review after portable Linux test-root repair and exact remediation-v5 proof.","operation":"recover_review"}
+{"sequence":45,"generation":26,"actor":"codex:5870-fencing-single-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":46,"generation":27,"actor":"codex:5870-fencing-single-owner","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
