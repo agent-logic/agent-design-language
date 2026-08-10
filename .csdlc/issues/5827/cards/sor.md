@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound to one exact authority context after verification, generation overflow fails closed, and signed witness filenames cannot disguise private, raw, or sealed state.
+Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound to one exact authority context after verification, generation overflow fails closed, and signed witnesses are accepted only at the exact generation-bound governed continuity path.
 
 ## Artifacts
 
@@ -31,7 +31,7 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
 - Bind every opaque verified cycle, continuity record, and continuity head to a canonical digest of the trusted Ed25519 key material, selected signer, identity record, generation floor, topology, configuration, service schema, and versioned authority-context schema; reject cross-policy token splicing even when key IDs match.
 - Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.
 - Use checked generation advancement and reject terminal overflow.
-- Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed witness path segments containing private, raw, or sealed filename tokens across extension, underscore, hyphen, camelCase, and acronym transitions.
+- Accept only the exact signed live-kernel witness path evidence/continuity/live-kernel/cycle-{generation}.bin after safe_path checks; reject every arbitrary relabel, including separator, camelCase, acronym, lowercase concatenation, wrong-generation, and superficially safe variants.
 - Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.
 - Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.
 
@@ -52,7 +52,7 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
       "--status-level",
       "all"
     ],
-    "purpose": "Prove real WP-09 authority grounding and nine deterministic token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, copied-state, path, separator and camelCase filename-variant, and tamper cases at product revision 85e43125d6eaa30ede7dd2b8b3be7f21daaf1dba.",
+    "purpose": "Prove real WP-09 authority grounding and nine deterministic token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, copied-state, exact canonical witness-path allowlist, and tamper cases at product revision a3b519a646f477a5f4a9ea250f4f29baab215e4b.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
   },

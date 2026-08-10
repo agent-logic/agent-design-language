@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a13e7b2cafb69b7f88ae5bf1b68f54d9860fcc0d88fdba8c0376532d63b714ad",
   "phase": "implemented",
-  "generation": 92,
-  "digest": "aad1ad179f33e1bef76828eb3eb492c08dbb6cc7da9b7ada4f5586956d3c9165",
+  "generation": 93,
+  "digest": "f534f887a29afef86e05d8cea41a939982417f5dfbf689f226ca361f9fc5a673",
   "branch": "codex/5827-bounded-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5827-bounded-continuity",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "103ff76505445bfe810a177c504c4cd3ba2a6dd48db906af90ae8f1c63ca9550",
+      "values_digest": "482080c03acb9a4e60d6f76d1b03c332b8b943595b61fe4812cc948e1c9aa323",
       "rendered_digest": "8cc21cfa1978be581da7b8ac3409cb3d0a092e756cede56714ab2b99017c3ea0",
       "ast_digest": "14ab891cf46d4bcc6ca5cfa79be1ea94a620f12f636d4d068597fd5259f5ca61"
     },
     "stp": {
-      "values_digest": "e6ec9afdce3fbe67999c342857349fb3ccff36f57a61b1b2dac7977697319e9a",
+      "values_digest": "47d5463012bd8d1bbb863d4bf6156dd3ad78662544ccf70fd2d13e678daedba3",
       "rendered_digest": "58de4172f24a8c93abb7dc2a87638f44f18e4111edd5e0c4c228df94cdfef610",
       "ast_digest": "39a6ddaa6f48fefdff485d58cfb3031703244121d9729bacfb5cd2905b8a3e4e"
     },
     "spp": {
-      "values_digest": "3dde526b67b0d690be1de9f076407b9dfdd4c0eb204234be84aed0f4d4affae1",
+      "values_digest": "57c14d49f6532610034d71d3a9d04e9568681da40eda433893b8ce04e43f61b5",
       "rendered_digest": "ff31081fcf804de7ee7f8d38749200389b886425541ba9773a7028b13227482e",
       "ast_digest": "aa412a214a2e0290595daf3769416cd75e004fd8be8002924c223845065867c7"
     },
     "vpp": {
-      "values_digest": "f4b5faae1cffad21627ffa7b87c73c2a1111331bda94a5034798b8f81b5bd652",
+      "values_digest": "b293019ffb93c2a71ec96e7a319200de004331279ac3a987ce213d7f5347c484",
       "rendered_digest": "c9dcb7f27d4b56e46f98f4d276c58432538f2599f7f25463ab69b60f4575ef22",
       "ast_digest": "35e0a2c80a9dad8b659addedafcb6f07b472f9e3c4e844ec2423e9340b249ad5"
     },
     "srp": {
-      "values_digest": "b654a8430ed15bb54d76072ff330d836f1d3465f9ff7b3e0b6b313cebbcddab4",
+      "values_digest": "65a0bf24111661f2f010147bd7e8d144b3bbb0f1aea1d8958d9994d979d94225",
       "rendered_digest": "cd90f9db3b82a62f142767b18dc2db8c6f79523c9250219b2352afc78b11d388",
       "ast_digest": "dd2c1c672f27c68a88d331797aca5fde21d60dacf8e351e4fc46cb5b1bee0426"
     },
     "sor": {
-      "values_digest": "994bea44e3eae3b5ab76f4ca7b88a973df0ed370c2606586f71b8b7410ba5001",
-      "rendered_digest": "818c60efc61ff679635273aa2549adcf7cfd33b782efd3bf6a7985bab16f928d",
-      "ast_digest": "85c38367c14d2b75cb9198214cda9bfbfc879c8e165c224f5d8baf9b465d313f"
+      "values_digest": "f4c61e06277b3514de05ee8b5d52088ad7ac2fc1af755f47a8ed8aaff592b78e",
+      "rendered_digest": "2da168f23ae2901c0d29081b176b322a3ff158f3e700c83aec1cd3e464c67744",
+      "ast_digest": "d42ee3594921835fdf54ffb4d885338a07ab5c4378e13bc38dc747100193ccae"
     }
   },
   "transitions": [
@@ -953,6 +953,13 @@
       "actor": "codex:5827-filename-repair",
       "reason": "Normalize current WP-10 output truth after the reviewer-required private/raw/sealed filename repair and exact-head local proof; prior native proof remains historical and must be rerun for the repaired head.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound to one exact authority context after verification, generation overflow fails closed, and signed witness filenames cannot disguise private, raw, or sealed state.\",\"changes\":[\"Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.\",\"Bind every opaque verified cycle, continuity record, and continuity head to a canonical digest of the trusted Ed25519 key material, selected signer, identity record, generation floor, topology, configuration, service schema, and versioned authority-context schema; reject cross-policy token splicing even when key IDs match.\",\"Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.\",\"Use checked generation advancement and reject terminal overflow.\",\"Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed witness path segments containing private, raw, or sealed filename tokens across extension, underscore, hyphen, camelCase, and acronym transitions.\",\"Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.\",\"Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\".csdlc/evidence/5827/local-validation-manifest.json\",\".csdlc/prepared/issues/5827/produce-native-receipt.rb\",\".csdlc/prepared/issues/5827/validate-native-receipts.rb\",\".github/workflows/wp10-native-birthday-continuity.yml\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birthday_continuity::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove real WP-09 authority grounding and nine deterministic token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, copied-state, path, separator and camelCase filename-variant, and tamper cases at product revision 85e43125d6eaa30ede7dd2b8b3be7f21daaf1dba.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birthday_continuity\"],\"purpose\":\"Prove external callers cannot establish a continuity authority policy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the repaired runtime library authority surface is warning-free under strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"}]}"
+    },
+    {
+      "sequence": 120,
+      "generation": 93,
+      "actor": "codex:5827-filename-repair",
+      "reason": "Normalize current WP-10 output truth after the reviewer-required positive canonical witness-path repair and exact-head local proof; prior native proof remains historical and must be rerun for the repaired head.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound to one exact authority context after verification, generation overflow fails closed, and signed witnesses are accepted only at the exact generation-bound governed continuity path.\",\"changes\":[\"Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.\",\"Bind every opaque verified cycle, continuity record, and continuity head to a canonical digest of the trusted Ed25519 key material, selected signer, identity record, generation floor, topology, configuration, service schema, and versioned authority-context schema; reject cross-policy token splicing even when key IDs match.\",\"Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.\",\"Use checked generation advancement and reject terminal overflow.\",\"Accept only the exact signed live-kernel witness path evidence/continuity/live-kernel/cycle-{generation}.bin after safe_path checks; reject every arbitrary relabel, including separator, camelCase, acronym, lowercase concatenation, wrong-generation, and superficially safe variants.\",\"Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.\",\"Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\".csdlc/evidence/5827/local-validation-manifest.json\",\".csdlc/prepared/issues/5827/produce-native-receipt.rb\",\".csdlc/prepared/issues/5827/validate-native-receipts.rb\",\".github/workflows/wp10-native-birthday-continuity.yml\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birthday_continuity::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove real WP-09 authority grounding and nine deterministic token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, copied-state, exact canonical witness-path allowlist, and tamper cases at product revision a3b519a646f477a5f4a9ea250f4f29baab215e4b.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birthday_continuity\"],\"purpose\":\"Prove external callers cannot establish a continuity authority policy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the repaired runtime library authority surface is warning-free under strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"}]}"
     }
   ]
 }
