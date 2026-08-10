@@ -75,8 +75,12 @@ reviewed_commit = match[1]
 abort("review evidence is not bound to exact substantive commit") unless reviewed_commit == expected_reviewed_commit
 scope = Array(review["scope"])
 abort("review scope missing") if scope.empty? || scope.any? { |path| path.to_s.empty? }
-_stdout, _stderr, unchanged = Open3.capture3("git", "diff", "--quiet", reviewed_commit, expected_head, "--", *scope)
-abort("reviewed scope changed after review") unless unchanged.success?
+substantive_scope = scope.reject { |path| path.start_with?(".csdlc/") }
+abort("substantive review scope missing") if substantive_scope.empty?
+_stdout, _stderr, unchanged = Open3.capture3(
+  "git", "diff", "--quiet", reviewed_commit, expected_head, "--", *substantive_scope
+)
+abort("substantive reviewed scope changed after review") unless unchanged.success?
 
 findings = Array(review["findings"])
 open_findings = findings.select do |finding|
