@@ -1,0 +1,5 @@
+provider=local-codex
+run_id=1fe46a45-e619-4ed1-8caf-92a2908fa877
+os=macos
+arch=arm64
+source_revision=a8fc4091d92f14fb6699e6f8cfc982fb1ec4301b
