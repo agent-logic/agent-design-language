@@ -16,9 +16,10 @@ Implement and prove the first live Layer 8 operator-to-agent chat vertical slice
 
 ## Deliverables
 
-- Live Runtime v3 HTTPS/WSS browser integration
-- Live agent roster with visible status and selected-agent chat
-- Signed Layer 8 message delivery with a correlated public-safe agent response or policy refusal
+- Live local Runtime v3 HTTPS/WSS browser integration
+- Production-admitted Shepherd in the live roster with truthful running status
+- Selected-Shepherd Layer 8 chat
+- Signed Layer 8 message delivery with a correlated public-safe response or policy refusal
 - Authorized controls with visible accepted and denied outcomes
 - Explicit trust, stale, unavailable, backpressure, and version-mismatch states
 - Browser reconnect with bounded replay and no duplicate application
@@ -27,21 +28,20 @@ Implement and prove the first live Layer 8 operator-to-agent chat vertical slice
 
 ## Acceptance
 
-1. The browser renders the current Runtime v3 agent roster, status snapshots, and WSS events with fresh correlation evidence
-2. The operator can select any visible eligible agent and send an ordinary signed Layer 8 message through canonical ingress, receiving a correlated public-safe agent response or policy refusal
+1. The local browser renders the current Runtime v3 roster with Shepherd present as an installed running agent backed by successful production-adapter admission
+2. The operator can select Shepherd and send an ordinary signed Layer 8 message through canonical ingress, receiving a correlated public-safe response or policy refusal
 3. Writes require authenticated authority and refusal cases remain denied before and after reconnect
 4. TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success
 5. Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay
-6. Live browser proof exercises roster selection, ordinary chat, redaction, refusal, disconnect, and reconnect without fixture substitution
-7. No files outside the design-approved HTML, focused Runtime, API schema, test, and validator paths change during implementation
+6. Live local browser proof exercises the real Shepherd roster, ordinary chat, redaction, refusal, disconnect, and reconnect without fixture substitution; no public exposure, ACM setup, or legacy birthday issue is required
+7. No files outside the design-approved HTML, focused Runtime, API schema, test, validator, and issue lifecycle paths change during implementation
 
 ## Dependencies
 
 - #5800 trusted browser HTTPS is terminal
 - #5820 stable Runtime launch and API behavior is terminal
 - #5832 versioned ACIP/A2A and WSS contract is terminal
-- #92 canonical external DNS and platform-trusted TLS standardization is terminal
-- #83 supplies the live browser interaction and evidence required by #5836
+- #92 supplies the Runtime TLS implementation baseline for local trusted development proof
 - #5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane
 
 ## Inputs

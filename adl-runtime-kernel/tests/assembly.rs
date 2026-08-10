@@ -10,7 +10,7 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly,
+    admit_resident_shepherd, bootstrap_reasoning_services, build_live_assembly,
     build_production_operation_executors_with_recorder, AdapterKind, AdapterPolicy, AuthorityMode,
     ClockAuthority, ComponentRegistry, DomainWork, ExecutorError, FailureClass,
     InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor, OperationRequest,
@@ -307,6 +307,23 @@ async fn local_production_adapters_execute_real_bounded_behavior() {
         assert_eq!(error.class, FailureClass::Fatal);
         assert!(error.message.contains("external transport"));
     }
+}
+
+#[tokio::test]
+async fn resident_shepherd_is_admitted_through_the_production_adapter() {
+    let root = TempDir::new().unwrap();
+    let executors = build_production_operation_executors_with_recorder(
+        root.path().join("resident-shepherd"),
+        authoritative_recorder(),
+    )
+    .unwrap();
+
+    admit_resident_shepherd(&executors, "runtime-shepherd-test")
+        .await
+        .unwrap();
+    admit_resident_shepherd(&executors, "runtime-shepherd-test")
+        .await
+        .unwrap();
 }
 
 #[tokio::test]

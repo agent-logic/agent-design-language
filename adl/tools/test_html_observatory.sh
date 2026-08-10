@@ -124,6 +124,14 @@ api.applyRuntimeV3Config(config);
 
 assert.equal(api.requestedRuntimeSelection(), "v3");
 assert.equal(api.getQueryApiBase(), "https://runtime.dev.agent-logic.ai:20997");
+assert.equal(
+  api.normalizeTrustedRuntimeV3ApiBase("https://localhost:21983"),
+  "https://localhost:21983"
+);
+assert.equal(
+  api.normalizeTrustedRuntimeV3ApiBase("https://127.0.0.1:21983"),
+  "https://127.0.0.1:21983"
+);
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
 
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
@@ -171,7 +179,11 @@ assert(calls.some((call) => call.url === "https://runtime.dev.agent-logic.ai:209
 
 assert.throws(
   () => api.normalizeTrustedRuntimeV3ApiBase("https://operator:token@runtime.dev.agent-logic.ai:20997"),
-  /HTTPS for runtime.dev.agent-logic.ai/
+  /trusted HTTPS for runtime.dev.agent-logic.ai or a loopback host/
+);
+assert.throws(
+  () => api.normalizeTrustedRuntimeV3ApiBase("http://localhost:21983"),
+  /trusted HTTPS/
 );
 
 await assert.rejects(

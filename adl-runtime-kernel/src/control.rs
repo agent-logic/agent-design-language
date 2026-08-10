@@ -1086,6 +1086,20 @@ impl AgentPopulationFeed {
             }],
         }
     }
+
+    pub fn resident_shepherd() -> Self {
+        Self {
+            total_count: 1,
+            rendered_sample_count: 1,
+            sample: vec![AgentSample {
+                id: "shepherd".to_owned(),
+                label: "Shepherd".to_owned(),
+                role: "resident shepherd".to_owned(),
+                state: "running".to_owned(),
+                detail: "admitted through the production Shepherd adapter".to_owned(),
+            }],
+        }
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

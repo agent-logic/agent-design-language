@@ -67,183 +67,88 @@ a live loopback CSM `/events` endpoint when an operator supplies a Runtime v2
 API base. Live SNS/SQS mutation remains runtime/tool-owned and is not performed
 by the browser surface.
 
-## Run
+## Run Locally
 
-Runtime v3 and the Observatory use real DNS names and externally issued
-certificate material. The canonical example endpoints are:
+Issue #83 is a private local Runtime v3 product proof. Public DNS, ACM, S3,
+CloudFront, and public Runtime ingress are deferred to #122 after the distributed
+Runtime is complete.
 
-```text
-https://runtime.dev.agent-logic.ai:20997
-https://observatory.dev.agent-logic.ai
-```
+Use two loopback-only HTTPS listeners with an operator-trusted development
+certificate whose SAN includes `localhost`. Keep the certificate and all private
+keys outside the repository. Configure the Runtime init with:
 
-The Runtime process does not generate certificates, install trust anchors, or
-modify host trust stores. Configure the Axum/Rustls listener with an external
-CA-issued full chain and matching private key through `[api.tls]`. AWS may use
-an ACM exportable public certificate for direct Axum termination, or terminate
-an ordinary ACM certificate at an AWS-managed ingress. Other environments may
-use an equivalent externally managed public certificate.
+- `api.address` bound to `127.0.0.1`;
+- `api.public_base_url` and `api.tls.server_name` set to the same trusted local
+  identity;
+- certificate, private-key, and trust-root paths under the operator-local state
+  root;
+- the exact Observatory HTTPS origin in `observatory.allowed_origins`;
+- distinct control, operation, and continuity keys.
 
-The certificate SAN must contain the exact endpoint DNS name. Browser, curl,
-Node, and Unity clients must validate it through their ordinary platform trust
-path. There is no HTTP fallback, leaf-as-root trust, certificate-warning bypass,
-or repository-managed trust installation. Split DNS or a test-host mapping may
-route the real DNS name to loopback without changing that trust contract.
-
-### Runtime and Observatory
-
-Configure Runtime `[api.tls]` with the externally provisioned full-chain,
-private-key, and trust-root paths plus the exact certificate DNS name in
-`server_name`. Keep `[observatory].allowed_origins` set to the exact HTTPS
-Observatory origin. Start the
-Runtime v3 kernel with its operator-local init file and token:
-
-```sh
-ADL_RUNTIME_OBSERVATORY_TOKEN="<operator-local-token>" \
-  adl-runtime-kernel serve --init <absolute-operator-runtime-init>
-```
-
-Serve the Observatory through an HTTPS endpoint with its own valid external
-certificate, then open:
+Start the Runtime through its required Guardian lease and explicit init file,
+then serve this repository root from the second loopback HTTPS listener. Open:
 
 ```text
-https://observatory.dev.agent-logic.ai/demos/html-observatory/
+https://localhost:<observatory-port>/demos/html-observatory/?runtime=v3&runtimeApiBase=https%3A%2F%2Flocalhost%3A<runtime-port>&live=1
 ```
 
-The default init file binds the Runtime v3 listener locally while advertising
-`runtime.dev.agent-logic.ai`. Runtime v3 browser/API access is HTTPS-only.
-Before launch, provision the externally issued full chain and private key at
-the `[api.tls]` paths in the init file; the repository does not retain private
-keys. Set a 32-to-256-character
-operator-local write token for the runtime process in
-`ADL_RUNTIME_OBSERVATORY_TOKEN`. Runtime v3 health, readiness, metrics,
-Observatory snapshots, and the Observatory WSS feed are public read surfaces
-and require no token.
+The production binary admits the resident Shepherd through the production
+Shepherd adapter before publishing the live roster. Startup fails closed if
+that admission fails. The browser should show `Shepherd - running`, not a
+fixture or retained owner-agent projection.
 
-Runtime v3 uses versioned operator probes:
+Runtime v3 uses only versioned routes:
 
 ```text
-GET https://runtime.dev.agent-logic.ai:20997/v1/health
-GET https://runtime.dev.agent-logic.ai:20997/v1/ready
-GET https://runtime.dev.agent-logic.ai:20997/v1/metrics
-GET https://runtime.dev.agent-logic.ai:20997/v1/observatory
+GET /v1/health
+GET /v1/ready
+GET /v1/metrics
+GET /v1/observatory
+GET /v1/observatory/ws
+POST /v1/control
 ```
 
-The HTML Observatory reads its Runtime v3 browser API base and endpoints from
-`demos/html-observatory/runtime-v3.config.json`. Keep that file on the same
-static host as `index.html`; if it cannot be loaded, the browser falls back to
-the versioned defaults listed above.
-
-Do not use unversioned `/health` or `/ready` paths for Runtime v3 overnight
-monitoring. `/v1/ready` is the watcher-ready signal: it returns `200` with
-`ready: true` only when the runtime is observability-ready and weather
-freshness is not stale; it returns `503` with `degraded_reasons` such as
-`weather_stale` when the runtime is reachable but should not be reported as
-fully ready.
-
-Operator login is required only before the browser sends WSS-authenticated ACIP
-work. Signed Runtime v3 control envelopes can be submitted through `/v1/control`
-without putting a bearer token in the browser URL; Runtime v3 still verifies the
-signature, principal, capability, runtime identity, and command policy before
-execution. To enable WSS writes for the current browser tab, set the same token
-without putting it in the URL or repository, then reconnect:
-
-```js
-sessionStorage.setItem("adl.runtimeV3.observatoryToken", "<operator-local-token>");
-```
-
-The token elevates only that WSS connection for writes; `/v1/control` remains a
-signed-command endpoint and signature verification plus canonical ingress
-policy still apply. Transport security is ordinary server TLS, not
-listener-side mTLS. The kernel terminates its Axum/Rustls connection directly
-unless an operator intentionally uses an AWS-managed TLS ingress.
-
-The default init file also configures a high-cardinality Runtime v3 agent
-population with `count = 10000` and a bounded sample. The Observatory shows the
-true total while rendering only the sample, so live polis-scale demos do not
-create 10,000 DOM nodes.
-
-For an externally reachable polis, copy that init file to an operator-local
-path and configure the runtime host interface, public route, certificate paths,
-and allowed origins there. The checked-in browser client restricts Runtime v3
-to the configured `runtime.dev.agent-logic.ai` HTTPS API base. Native clients may still
-read the runtime-owned Observatory feed without an Origin header when the
-operator's deployment policy allows it.
-
-The Runtime v3 browser path consumes the public runtime-owned read feed at
-`/v1/observatory`, the watcher readiness surface at `/v1/ready`, and the public
-read stream at `/v1/observatory/ws`. The Operator Channel can submit a complete
-pre-signed `adl.runtime.control_command.v1` envelope to `/v1/control`, and can
-log in for WSS writes when authenticated socket control is available. The
-browser never creates or stores the signing key; Runtime v3 verifies the
-signature, principal, capability, runtime identity, and command policy before
-execution. Logging out reconnects the public read stream without write
-authority.
-
-The browser-served dashboard only receives CORS permission when its origin is
-listed in `[observatory].allowed_origins`. If the Runtime v3 API is reachable by
-curl but the browser refuses the cross-origin fetch, the dashboard stays on the
-retained mirror and reports the live fetch failure instead of claiming a live
-Runtime v3 path.
-
-Opening `index.html` directly may show the fallback shell in browsers that block
-local `fetch()` for files. The retained proof is the local-server path plus the
-validator below.
+Public reads do not grant write authority. Layer 8 chat loads an operator
+Ed25519 seed into memory for the current page only and submits a complete signed
+control command. Runtime verifies the principal, capability, runtime identity,
+recipient, correlation, content bounds, and command policy. The browser renders
+only the bounded public response or refusal.
 
 ## Validate
 
-The repository-native browser validator requires Playwright `1.60.0` exactly,
-a real Chrome channel, an externally issued full-chain/private-key pair for the
-exact Runtime and Observatory DNS names, and an explicit isolated Runtime
-candidate command. Install the pinned package and browser under
-operator-approved storage outside the repository, then expose the module
-entrypoint through `ADL_PLAYWRIGHT_MODULE`.
-
-Use alternate ports when `8765` or `20997` already have running services. The
-validator refuses occupied listeners and only terminates the child Runtime it
-started itself:
+Install Playwright `1.60.0` and its Chromium build under operator-approved
+storage outside the repository. Start the exact Runtime and Observatory
+candidate first, then run:
 
 ```sh
-ADL_PLAYWRIGHT_MODULE=<absolute-playwright-1.60.0-entrypoint> \
-ADL_V092_TLS_CERT=<absolute-external-full-chain> \
-ADL_V092_TLS_KEY=<absolute-current-private-key> \
-ADL_V092_RUNTIME_COMMAND_JSON='["<guardian-binary>","--init","<isolated-runtime-init>"]' \
-node adl/tools/validate_v092_browser_trusted_observatory.mjs \
-  --browser chrome \
-  --require-trusted-tls \
-  --runtime-url https://runtime.dev.agent-logic.ai:<alternate-runtime-port> \
-  --observatory-url https://observatory.dev.agent-logic.ai:<alternate-observatory-port> \
-  --evidence <absolute-redacted-evidence-path>
+NODE_PATH=<playwright-node-modules> \
+PLAYWRIGHT_BROWSERS_PATH=<playwright-browser-storage> \
+ADL_OBSERVATORY_URL=https://localhost:<observatory-port>/demos/html-observatory/ \
+ADL_RUNTIME_API_BASE=https://localhost:<runtime-port> \
+ADL_OPERATOR_KEY_FILE=<operator-ed25519-seed-file> \
+ADL_OBSERVATORY_EVIDENCE_DIR=<absolute-fastwork-evidence-directory> \
+node adl/tools/validate_v092_html_observatory_live.mjs
 ```
 
-The validator uses ordinary platform trust only. It does not pass a custom CA
-to curl, Node, or Chrome and does not install trust. It rejects localhost and IP
-endpoint identities, browser interstitials, and console/network TLS failures.
-This document does not claim a live browser proof until that command completes
-against the deployed real-DNS endpoints.
+The browser context keeps certificate verification enabled. The validator
+requires the real Shepherd roster, signed selected-agent delivery, a real
+`400 invalid_request` refusal, stopped-state authority removal, reconnect
+deduplication, secret absence, and a clean console/network result.
 
-Print the required native-platform dispositions without launching services:
+Focused deterministic validation is:
 
 ```sh
-node adl/tools/validate_v092_browser_trusted_observatory.mjs \
-  --require-native-platform-evidence macos,linux,windows
+bash adl/tools/test_html_observatory.sh
+cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly
+cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test control
+cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract
 ```
 
 ## Claim Boundary
 
-The retained validation proves static rendering and contract behavior. It does
-not currently prove an ordinary platform-trusted browser or WSS exchange against
-the real-DNS Runtime endpoint. That live proof remains gated on the browser
-client update described above. The retained evidence proves that the HTML
-Observatory can render an auto-refreshing CSM
-panopticon over retained publishable runtime API responses, and can upgrade to a
-live loopback CSM panopticon when the running CSM API base is supplied. It can
-also consume the public Runtime v3 `/v1/observatory` read feed under its bounded
-historical local contract. It renders the retained
-bounded runtime capture through a polished investor-facing operator UI, while exposing
-CSM API, CSM service, CloudWatch heartbeat, ACIP-SNS projection proof, Runtime
-v3 status, and WP-08 linkage status. Its Operator Channel can submit
-pre-signed commands to `/v1/control`, while Runtime v3 retains signature and
-policy authority. It does not claim browser-owned AWS publish authority, Unity
-completion, Runtime v2 decommission, full AWS signal
-bridge completion, S3 ObsMem archive completion, or v0.92 runtime completion.
+The local proof establishes a real loopback-only Runtime v3, production-admitted
+Shepherd roster, governed one-to-one Layer 8 message, bounded response/refusal,
+and reconnect behavior in a real browser. It does not establish durable
+conversation history, rooms, Unity integration, distributed Runtime completion,
+AWS deployment, public exposure, or a birthday event. Those remain separate
+downstream issues.

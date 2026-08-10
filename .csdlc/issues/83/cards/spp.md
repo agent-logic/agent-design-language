@@ -16,7 +16,7 @@ Extend the existing Observatory into the first truthful Layer 8 chat vertical sl
 
 ## Plan
 
-Revision 9
+Revision 11
 
 ## Steps
 
@@ -29,7 +29,7 @@ Revision 9
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -38,7 +38,7 @@ Revision 9
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -48,7 +48,7 @@ Revision 9
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -62,7 +62,7 @@ Revision 9
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "in_progress"
   },
   {
     "id": "S5",
@@ -102,7 +102,7 @@ Revision 9
 
 .csdlc/prepared/issues/83/design.md
 
-Digest: d99a0b952467f70b327adfe5b408f6b48314e6fd6842e4435f0389aac6fbd7b7
+Digest: 4cc32245a7c8f499aa4df653ecd32ec29af5202ea548a4ad84cd206a8e1f01bc
 
 ## Diagram
 

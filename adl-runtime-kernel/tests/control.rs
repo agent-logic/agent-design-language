@@ -306,7 +306,7 @@ async fn layer8_operator_message_reaches_only_a_visible_agent() {
                     "layer8-work-1",
                     "agent-0001",
                     &accepted_correlation,
-                    "Happy birthday!",
+                    "Hello Shepherd!",
                 ),
             },
         ))
@@ -1430,6 +1430,20 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
     assert_eq!(feed.agents.rendered_sample_count, 2);
     assert_eq!(feed.agents.sample.len(), 2);
     assert_eq!(feed.agents.sample[1].id, "agent-00002");
+}
+
+#[test]
+fn resident_shepherd_population_is_truthfully_addressable() {
+    let population = adl_runtime_kernel::AgentPopulationFeed::resident_shepherd();
+    assert_eq!(population.total_count, 1);
+    assert_eq!(population.rendered_sample_count, 1);
+    assert_eq!(population.sample[0].id, "shepherd");
+    assert_eq!(population.sample[0].label, "Shepherd");
+    assert_eq!(population.sample[0].role, "resident shepherd");
+    assert_eq!(population.sample[0].state, "running");
+    assert!(population.sample[0]
+        .detail
+        .contains("production Shepherd adapter"));
 }
 
 #[tokio::test]

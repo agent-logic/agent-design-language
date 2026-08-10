@@ -7,10 +7,11 @@ versioned Runtime v3 HTTPS and WSS surfaces. It renders live snapshots and
 events, binds approved controls to authorized Runtime commands, reconnects
 without duplicate application, and makes trust, stale, unavailable, denied,
 and version-mismatch states visible. Its primary operator interaction is a
-normal Layer 8 chat surface: the human operator selects any visible Runtime
-agent, sends a bounded message through signed canonical ingress, and sees the
-correlated agent delivery response or policy refusal. A first-birthday greeting
-is an ordinary chat message, not a special control type.
+normal Layer 8 chat surface: the human operator selects the production-admitted
+Shepherd from the live Runtime roster, sends a bounded message through signed
+canonical ingress, and sees the correlated agent delivery response or policy
+refusal. The interaction is ordinary agent communication, not a special-purpose
+demo control.
 
 This issue changes only the narrow Runtime API behavior required for the first
 truthful one-to-one Layer 8 message and public-safe delivery response. It does
@@ -58,9 +59,12 @@ ignored according to the shared Runtime contract.
 
 - `demos/html-observatory/app.js`
 - `demos/html-observatory/index.html`
+- `demos/html-observatory/README.md`
 - `demos/html-observatory/styles.css`
+- `adl/tools/test_html_observatory.sh`
 - `adl/tools/validate_v092_html_observatory_live.mjs`
 - `adl-runtime-kernel/src/assembly.rs`
+- `adl-runtime-kernel/src/bin/adl-runtime-kernel.rs`
 - `adl-runtime-kernel/src/control.rs`
 - `adl-runtime-kernel/src/ingress.rs`
 - `adl-runtime-kernel/tests/control.rs`
@@ -69,8 +73,8 @@ ignored according to the shared Runtime contract.
 
 ## Read-Only Inputs
 
-- Runtime v3 HTTP/WSS implementation, schemas, authentication, externally
-  provisioned certificate material, canonical DNS identities, and launch behavior.
+- Runtime v3 HTTP/WSS implementation, schemas, authentication, operator-trusted
+  local certificate material, and launch behavior.
 - `demos/html-observatory/runtime-v3.config.json` and existing HTML structure.
 - Issue #5837 restart coordinator and issue #84 Unity outputs.
 - All sibling and dependency records.
@@ -93,20 +97,21 @@ ignored according to the shared Runtime contract.
 ## Dependencies And Execution Gate
 
 Issues #5800, #5820, #5832, and #92 must remain terminal and provide trusted
-browser HTTPS, canonical external DNS identities, stable Runtime launch/API
-behavior, and the versioned ACIP/WSS contract.
-Issue #83 is an input to the first-birthday demo in #5836: this lane must finish
-its live browser behavior and evidence before #5836 claims the integrated demo.
+browser HTTPS, stable Runtime launch/API behavior, and the versioned ACIP/WSS
+contract. Local validation uses an operator-trusted development certificate and
+loopback-only listeners; it does not require public DNS, ACM, or public ingress.
 Issue #5837 may consume the completed browser hooks for shared restart
 coordination, but it does not gate this independent HTML lane.
+Public exposure is downstream work in #122 after the distributed Runtime is
+complete and does not gate this issue.
 
 ## Validation Boundary
 
 `adl/tools/validate_v092_html_observatory_live.mjs` drives the real browser
-against the canonical Runtime and Observatory DNS identities over ordinarily
-trusted HTTPS/WSS. A loopback host-resolver rule may route those names for an
-isolated local process, but certificate validation remains mandatory. It proves fresh live rendering, menu and control
-behavior, agent selection, authenticated Layer 8 chat, refusal and redaction, stale/unavailable
+against loopback-only Runtime and Observatory listeners over browser-trusted
+HTTPS/WSS. Certificate validation remains mandatory. It proves fresh live
+rendering, menu and control behavior, production-admitted Shepherd selection,
+authenticated Layer 8 chat, refusal and redaction, stale/unavailable
 states, bounded reconnect, no duplicate application, and fresh post-reconnect
 correlation. It retains screenshots and machine-readable assertions from the
 same run. Static DOM checks and Runtime-only tests are useful supporting proof
@@ -124,8 +129,9 @@ live Runtime data with a fixture or change Runtime itself.
 ## Non-Goals
 
 - Unity implementation or proof.
-- Runtime API, WSS, TLS, launch, or authentication changes.
+- General Runtime API, WSS, TLS, launch, or authentication redesign.
 - Cross-client restart orchestration.
 - Observatory redesign or unapproved visual changes.
 - Serving Observatory assets from Runtime.
+- Public DNS, ACM, S3, CloudFront, or public Runtime ingress.
 - Provider or AWS work.

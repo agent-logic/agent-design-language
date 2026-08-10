@@ -11,7 +11,7 @@ use std::{
 mod observability;
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly,
+    admit_resident_shepherd, bootstrap_reasoning_services, build_live_assembly,
     build_production_operation_executors_with_recorder, generate_runtime_instance_id,
     load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
     validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
@@ -157,6 +157,10 @@ async fn main() -> ExitCode {
             };
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
+                return ExitCode::from(78);
+            }
+            if let Err(error) = admit_resident_shepherd(&operation_executors, &instance_id).await {
+                eprintln!("runtime resident Shepherd unavailable: {error}");
                 return ExitCode::from(78);
             }
             let operation_key_text = match read_trimmed_config_file(
@@ -325,7 +329,7 @@ async fn main() -> ExitCode {
                     authority,
                     init.kernel.control_history_capacity,
                     init.observatory_allowed_origins(),
-                    AgentPopulationFeed::single(),
+                    AgentPopulationFeed::resident_shepherd(),
                 )
                 .with_canonical_ingress(assembly.canonical_ingress.clone()),
             );

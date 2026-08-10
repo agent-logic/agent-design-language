@@ -77,6 +77,7 @@ const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
 const RUNTIME_V3_TRUSTED_HOST = "runtime.dev.agent-logic.ai";
+const RUNTIME_V3_LOCAL_HOSTS = new Set(["localhost", "127.0.0.1"]);
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
   api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
   observatory_endpoint: "/v1/observatory",
@@ -95,6 +96,24 @@ const runtimeV3ChatState = {
   agents: [],
   live: false
 };
+
+function renderRuntimeV3AgentInspector(agent, runtimeInstanceId, fetchedAt = "") {
+  if (!agent || typeof document === "undefined") return;
+  setText("packet-heading", `${agent.label || agent.id} (${agent.id})`);
+  setText("inspector-agent-name", agent.label || agent.id);
+  setText("inspector-agent-role", formatLabel(agent.role || "runtime agent"));
+  setText("inspector-agent-source", "Live Runtime v3 roster");
+  setText("agent-heartbeat", fetchedAt ? new Date(fetchedAt).toLocaleTimeString() : "live");
+  setText("agent-state", formatLabel(agent.state || "unknown"));
+  const runtimeLabel = runtimeInstanceId
+    ? `${runtimeInstanceId.slice(0, 12)}${runtimeInstanceId.length > 12 ? "..." : ""}`
+    : "Runtime v3";
+  setText("manifold-id", runtimeLabel);
+  const manifold = document.getElementById("manifold-id");
+  if (manifold) manifold.title = runtimeInstanceId || "Runtime v3";
+  setText("manifold-state", formatLabel(agent.state || "unknown"));
+  setText("packet-id", "Live Observatory feed");
+}
 
 function updateRuntimeV3ChatSnapshot(snapshot, agents, live = false) {
   const fetchedAt = Date.parse(snapshot?.fetchedAt || "");
@@ -778,16 +797,21 @@ function isRuntimeV3ApiBase(value) {
 function normalizeTrustedRuntimeV3ApiBase(value) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
+  const allowedHost =
+    parsed.hostname === RUNTIME_V3_TRUSTED_HOST ||
+    RUNTIME_V3_LOCAL_HOSTS.has(parsed.hostname);
   if (
     parsed.protocol !== "https:" ||
-    parsed.hostname !== RUNTIME_V3_TRUSTED_HOST ||
+    !allowedHost ||
     parsed.username ||
     parsed.password ||
     parsed.pathname !== "/" ||
     parsed.search ||
     parsed.hash
   ) {
-    throw new Error(`Runtime v3 selection requires HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
+    throw new Error(
+      `Runtime v3 selection requires trusted HTTPS for ${RUNTIME_V3_TRUSTED_HOST} or a loopback host.`
+    );
   }
   return parsed.origin;
 }
@@ -804,7 +828,9 @@ async function checkEventsEndpoint(apiBase) {
   }
   if (requestedRuntimeSelection() === "v3") {
     if (!isRuntimeV3ApiBase(base)) {
-      throw new Error(`Runtime v3 event checks require HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
+      throw new Error(
+        `Runtime v3 event checks require trusted HTTPS for ${RUNTIME_V3_TRUSTED_HOST} or a loopback host.`
+      );
     }
     const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
     return {
@@ -1400,13 +1426,19 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
     metrics: normalizeMetricRows(metrics),
     events,
     statusRows,
-    readyState: ready.status || ready.state || ready.ready || "unknown"
+    readyState: ready.status || ready.state || ready.ready || "unknown",
+    runtimeInstanceId: status.runtime_id || status.runtime_instance_id || ""
   };
 }
 
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET, { chatLive = false } = {}) {
   const vm = buildPanopticonViewModel(snapshot, packet);
   updateRuntimeV3ChatSnapshot(snapshot, vm.agents, chatLive);
+  if (vm.mode === "live" && vm.agents.length) {
+    const selectedId = document.getElementById("agent-chat-target")?.value;
+    const inspectedAgent = vm.agents.find((agent) => agent.id === selectedId) || vm.agents[0];
+    renderRuntimeV3AgentInspector(inspectedAgent, vm.runtimeInstanceId, vm.fetchedAt);
+  }
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
   setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
@@ -1544,6 +1576,9 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   setText("evidence-level", formatLabel(source.evidence_level));
   document.getElementById("evidence-level")?.setAttribute("data-tone", state === "ok" ? "ok" : "warn");
   setText("packet-heading", "Owner Agent (owner-v2)");
+  setText("inspector-agent-name", "Owner Agent");
+  setText("inspector-agent-role", "Runtime Owner");
+  setText("inspector-agent-source", "Retained mirror");
   setText("manifold-id", displayManifoldId(manifold.manifold_id));
   setText("manifold-state", formatLabel(manifold.state));
   setText("manifold-tick", String(manifold.current_tick ?? 0));
@@ -2232,7 +2267,15 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   });
 
-  agentChatTarget?.addEventListener("change", updateAgentChatAccess);
+  agentChatTarget?.addEventListener("change", () => {
+    const agent = runtimeV3ChatState.agents.find(
+      (candidate) => candidate.id === agentChatTarget.value
+    );
+    if (runtimeV3ChatState.live && agent) {
+      renderRuntimeV3AgentInspector(agent, runtimeV3ChatState.runtimeInstanceId);
+    }
+    updateAgentChatAccess();
+  });
   agentChatMessage?.addEventListener("input", updateAgentChatAccess);
   agentChatKeyFile?.addEventListener("change", async () => {
     operatorSigningKeyText = "";

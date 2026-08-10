@@ -270,10 +270,10 @@
           <div class="inspector-stack" aria-label="CSM API and operator controls">
             <article class="agent-detail-card">
               <span class="row-kicker">Agent Details</span>
-              <strong>Owner Agent</strong>
+              <strong id="inspector-agent-name">Owner Agent</strong>
               <dl class="detail-list">
-                <div><dt>Role</dt><dd>Runtime Owner</dd></div>
-                <div><dt>Version</dt><dd>2.1.0</dd></div>
+                <div><dt>Role</dt><dd id="inspector-agent-role">Runtime Owner</dd></div>
+                <div><dt>Source</dt><dd id="inspector-agent-source">Retained mirror</dd></div>
                 <div><dt>Heartbeat</dt><dd id="agent-heartbeat">pending</dd></div>
                 <div><dt>State</dt><dd id="agent-state">pending</dd></div>
               </dl>
@@ -290,7 +290,7 @@
             <article>
               <span class="row-kicker">CSM API</span>
               <strong id="hero-csm-api-status">pending</strong>
-              <p class="row-detail">A configured API base can select Runtime v3 on port 20997 without changing the default mirror.</p>
+              <p class="row-detail">A trusted local API base can select Runtime v3 without requiring public exposure.</p>
               <div class="api-mini-list" id="hero-api-list" aria-label="CSM API endpoint status"></div>
             </article>
             <article class="runtime-test-card">

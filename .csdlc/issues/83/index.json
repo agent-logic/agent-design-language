@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
   "phase": "bound",
-  "generation": 36,
-  "digest": "1089882f657fe287a000fd5a4e66000428fd9b43331be26c9c1bdf27974e33dc",
+  "generation": 47,
+  "digest": "4d858bd723b518d0e8ed233e9c2da36c640e8f86392e699da3394550ff61d9ca",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/83/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:83-layer8-chat-design",
-      "revision": "d99a0b952467f70b327adfe5b408f6b48314e6fd6842e4435f0389aac6fbd7b7"
+      "reviewer": "codex:83-local-shepherd-design-boundary",
+      "revision": "4cc32245a7c8f499aa4df653ecd32ec29af5202ea548a4ad84cd206a8e1f01bc"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "485464ba5ac1449b9b3adcfd055354e6a580b63a7d9d048353608add224065ac",
+      "values_digest": "148ae6258c473605a26f29d5678c81720ab764f25d88e354814a1987efb15523",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "d5ce38257657034b95e4b2e0d1e5fd1ae5f6eaf9e24db330ef010ddcc876bda1",
-      "rendered_digest": "4e957626a812681131246c6f3791faa20d2d9e096a206690cfdbb72d026c15c4",
-      "ast_digest": "b64606a70d1ab99323ce089836fde3c9c489f5973fdf677b736c7da11b61e372"
+      "values_digest": "22a30dfb090b2878a1852a1e3725543ed77e38a0bca7b06deb15e5ec36a4f17c",
+      "rendered_digest": "42120fd7d65d69dfbd457025d49050551eb47205c2e60f07cac3bc26f41588be",
+      "ast_digest": "8891d1ddfa62ae38e2b75fe6da010b8a9f3c462aaadaa3a9c3dc40259c79e52a"
     },
     "spp": {
-      "values_digest": "531ddaa5c4bf1cfbe80d32b7f273b7de69186754d2d3177592a9a1b79ce2bea3",
-      "rendered_digest": "91e76f2f10b2b1c8f0e299f6a53b38fd1e5fd6b003578a157ee33478b9dfc5d6",
-      "ast_digest": "558b1633473f290585a35e131e894b0956d05db242eb5d6d360edb57dc0d1fe8"
+      "values_digest": "9631a0ec9e97adc6a178b98cdab511ba9658fac1bc2d54b60fb3191dd6efd2c2",
+      "rendered_digest": "33409465e9b25d2d4b9a2286e1fd6461e9762bcb5ce0b54c90291cfb59422f38",
+      "ast_digest": "403edbf84a6f6e7d7004d64d0628c660e90fd65e55682e736158bad0d1cc65a7"
     },
     "vpp": {
-      "values_digest": "cd5808b9de33e5dbc966e810b63fd69a07e002b613fac059577a202d95698060",
+      "values_digest": "37fbb65e508ec561d41d25d0e356c2f77919911a6f39c0dc1bf37f7e06f8e0a0",
       "rendered_digest": "9968487528967db52cde09d6356aee5d54569d0848806961d446b1b4de719481",
       "ast_digest": "b899e81e77d4c05623d80f0e4c5aa4b6a2b4e7fd392777e4baf884bd78f72edd"
     },
     "srp": {
-      "values_digest": "d2eadb4799e0214b9875da7b3a2f197018daa2ed46151d3ea679051e9d293162",
+      "values_digest": "0cd7c50530a93aa581b41fa0f9868384160316c7889d5e754691968c82309454",
       "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
       "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
     },
     "sor": {
-      "values_digest": "b58befee0ef2731a2d552c5d9098ac2ed177e8ada09516ad9740d172f24123ee",
+      "values_digest": "80e8b47b763c022e1a7c28011484f6e6007c9ed7f0ae03ab4fc905254d0399fe",
       "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
       "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
     }
@@ -336,6 +336,83 @@
       "actor": "codex:83-html-observatory-dependency-correction",
       "reason": "Correct the stale reverse dependency: issue 83 supplies the browser interaction and proof required by the first-birthday demo in legacy issue 5836.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5800 trusted browser HTTPS is terminal\",\"#5820 stable Runtime launch and API behavior is terminal\",\"#5832 versioned ACIP/A2A and WSS contract is terminal\",\"#92 canonical external DNS and platform-trusted TLS standardization is terminal\",\"#83 supplies the live browser interaction and evidence required by #5836\",\"#5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane\"]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 37,
+      "actor": "codex:83-independent-local-shepherd",
+      "reason": "Remove public exposure and legacy birthday work from the issue 83 dependency graph.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5800 trusted browser HTTPS is terminal\",\"#5820 stable Runtime launch and API behavior is terminal\",\"#5832 versioned ACIP/A2A and WSS contract is terminal\",\"#92 supplies the Runtime TLS implementation baseline for local trusted development proof\",\"#5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 38,
+      "actor": "codex:83-independent-local-shepherd",
+      "reason": "Make production-admitted Shepherd visibility and local live proof explicit deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Live local Runtime v3 HTTPS/WSS browser integration\",\"Production-admitted Shepherd in the live roster with truthful running status\",\"Selected-Shepherd Layer 8 chat\",\"Signed Layer 8 message delivery with a correlated public-safe response or policy refusal\",\"Authorized controls with visible accepted and denied outcomes\",\"Explicit trust, stale, unavailable, backpressure, and version-mismatch states\",\"Browser reconnect with bounded replay and no duplicate application\",\"Live Playwright validation entrypoint and retained browser evidence\",\"adl/tools/validate_v092_html_observatory_live.mjs\"]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 39,
+      "actor": "codex:83-independent-local-shepherd",
+      "reason": "Require exact local browser proof of production-admitted Shepherd without birthday or public deployment gates.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"The local browser renders the current Runtime v3 roster with Shepherd present as an installed running agent backed by successful production-adapter admission\",\"The operator can select Shepherd and send an ordinary signed Layer 8 message through canonical ingress, receiving a correlated public-safe response or policy refusal\",\"Writes require authenticated authority and refusal cases remain denied before and after reconnect\",\"TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success\",\"Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay\",\"Live local browser proof exercises the real Shepherd roster, ordinary chat, redaction, refusal, disconnect, and reconnect without fixture substitution; no public exposure, ACM setup, or legacy birthday issue is required\",\"No files outside the design-approved HTML, focused Runtime, API schema, test, validator, and issue lifecycle paths change during implementation\"]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 40,
+      "actor": "codex:83-independent-local-shepherd-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 43,
+      "generation": 41,
+      "actor": "codex:83-independent-local-shepherd",
+      "reason": "Include the production binary startup gate and local trusted Runtime v3 browser paths in the operative plan.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl/tools/test_html_observatory.sh\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 42,
+      "actor": "codex:83-local-shepherd-design-boundary",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 45,
+      "generation": 43,
+      "actor": "codex:83-local-shepherd-plan-boundary",
+      "reason": "Include the local operator README in the final design-approved implementation and proof boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/README.md\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl/tools/test_html_observatory.sh\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 44,
+      "actor": "codex:83-local-shepherd-execution",
+      "reason": "The live Runtime roster, freshness states, and bounded reconnect client are implemented and focused checks pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 45,
+      "actor": "codex:83-local-shepherd-execution",
+      "reason": "Selected-Shepherd signed Layer 8 delivery through canonical ingress and bounded response projection are implemented and tested.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 48,
+      "generation": 46,
+      "actor": "codex:83-local-shepherd-execution",
+      "reason": "The Observatory chat surface, selected-agent inspector, local key handling, and explicit failure states are implemented and visually verified.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 49,
+      "generation": 47,
+      "actor": "codex:83-local-shepherd-execution",
+      "reason": "Focused Runtime, schema, shell, syntax, lifecycle, and diff proof pass; exact browser proof is running but remains fail-closed on local CA trust.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }

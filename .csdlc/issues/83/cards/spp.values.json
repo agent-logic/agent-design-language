@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
     "slug": "v0-92-html-observatory-runtime-v3-client",
     "version": "v0.92",
-    "generation": 36
+    "generation": 47
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 9,
+      "plan_revision": 11,
       "summary": "Extend the existing Observatory into the first truthful Layer 8 chat vertical slice: live roster and status, selected-agent signed messaging through canonical Runtime ingress, bounded public-safe response or refusal, reconnect continuity, and retained live-browser proof.",
       "steps": [
         {
@@ -24,7 +24,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -57,7 +57,7 @@
             "AC-6",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "in_progress"
         },
         {
           "id": "S5",
@@ -72,10 +72,12 @@
       "affected_areas": [
         "demos/html-observatory/app.js",
         "demos/html-observatory/index.html",
+        "demos/html-observatory/README.md",
         "demos/html-observatory/styles.css",
         "adl/tools/validate_v092_html_observatory_live.mjs",
         "adl/tools/test_html_observatory.sh",
         "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
         "adl-runtime-kernel/src/control.rs",
         "adl-runtime-kernel/src/ingress.rs",
         "adl-runtime-kernel/tests/control.rs",
@@ -107,7 +109,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/83/design.md",
-      "design_digest": "d99a0b952467f70b327adfe5b408f6b48314e6fd6842e4435f0389aac6fbd7b7",
+      "design_digest": "4cc32245a7c8f499aa4df653ecd32ec29af5202ea548a4ad84cd206a8e1f01bc",
       "diagram_ref": ".csdlc/prepared/issues/83/diagram.mmd",
       "diagram_digest": "73c36947a5904687d840ee521edfe34e2e888c91649ef3a9f38fe73b83e6117d"
     }

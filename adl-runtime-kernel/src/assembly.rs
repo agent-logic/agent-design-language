@@ -81,6 +81,41 @@ pub enum AssemblyError {
     Topology(#[from] TopologyError),
     #[error("live topology could not be encoded: {0}")]
     Encoding(String),
+    #[error("resident Shepherd admission failed: {0}")]
+    ShepherdAdmission(String),
+}
+
+pub async fn admit_resident_shepherd(
+    executors: &BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
+    runtime_instance_id: &str,
+) -> Result<(), AssemblyError> {
+    let executor = executors
+        .get(&AdapterKind::Shepherd)
+        .ok_or_else(|| AssemblyError::ShepherdAdmission("adapter unavailable".to_owned()))?;
+    let request = OperationRequest {
+        schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+        request_id: format!("{runtime_instance_id}:resident-shepherd-admission"),
+        idempotency_key: format!("{runtime_instance_id}:resident-shepherd"),
+        principal: "runtime-bootstrap".to_owned(),
+        payload: serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.local_shepherd_admission.v1",
+            "admit": true
+        }))
+        .expect("resident Shepherd admission payload is encodable"),
+        permit: None,
+    };
+    let payload = executor
+        .execute(&request)
+        .await
+        .map_err(|error| AssemblyError::ShepherdAdmission(error.message))?;
+    let response: serde_json::Value = serde_json::from_slice(&payload)
+        .map_err(|error| AssemblyError::ShepherdAdmission(error.to_string()))?;
+    match response.get("status").and_then(serde_json::Value::as_str) {
+        Some("admitted" | "duplicate") => Ok(()),
+        status => Err(AssemblyError::ShepherdAdmission(format!(
+            "unexpected adapter status {status:?}"
+        ))),
+    }
 }
 
 /// Reject placeholder executors before a production listener can report ready.
