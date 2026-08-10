@@ -80,12 +80,6 @@ binding.
 |---|---|---|---|
 | first downstream pair | `#5835`, `#5836` | Migration planning and birthday demo use disjoint child worktrees. | every dependency in both child STPs terminal and no path overlap |
 
-## Candidate Parallel Lanes
-
-| Lane | Classification | Issues | Dependency gate | Collision posture |
-|---|---|---|---|---|
-| candidate 1 | safe after complete gates | `#5835`, `#5836` | every dependency in both child STPs is terminal | collapse to serial on real overlap |
-
 ## Serial Gates
 
 | Gate | Blocks | Exit condition |

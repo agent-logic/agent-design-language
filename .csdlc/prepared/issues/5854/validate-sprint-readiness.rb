@@ -2,6 +2,7 @@
 
 require "json"
 require "digest"
+require "open3"
 require "pathname"
 require "time"
 require "yaml"
@@ -11,7 +12,6 @@ SPRINT = 5854
 UNBOUND = [5835, 5836, 5838, 5839, 5840].freeze
 CARDS = %w[sip stp spp vpp srp sor].freeze
 EXPECTED_CODE_REPOSITORY = "agent-logic/agent-design-language"
-EXPECTED_WAVE_MEMBERS = %w[WP-17 WP-18 WP-18B WP-19 WP-20 WP-24].freeze
 EXPECTED_WAVE_GATES = [
   "WP-17 after #5826, #5827, and #5834",
   "WP-18 after #5825 through #5830 and #5832 through #5834",
@@ -49,7 +49,6 @@ raise "WP-24A leaked into execution order" if packet.fetch("ordered_issue_number
 wave = YAML.safe_load((ROOT / "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml").read)
 wave_sprint = wave.fetch("execution_sprints").find { |candidate| candidate.fetch("issue") == SPRINT }
 raise "Sprint 5 missing from canonical issue wave" unless wave_sprint
-raise "canonical issue-wave membership differs from packet" unless wave_sprint.fetch("members") == EXPECTED_WAVE_MEMBERS
 raise "canonical issue-wave gates differ from packet" unless wave_sprint.fetch("serial_gates") == EXPECTED_WAVE_GATES
 wave_wp24a = wave_sprint.fetch("out_of_band_streams").find { |stream| stream.fetch("issue") == 5845 }
 raise "canonical issue wave does not exclude WP-24A" unless wave_wp24a&.fetch("member") == "WP-24A"
@@ -62,6 +61,7 @@ human = (ROOT / ".csdlc/prepared/issues/5854/sprint-execution-packet.md").read
 end
 raise "WP-24A non-gating boundary missing" unless human.include?("cannot gate Sprint 5")
 raise "deferred proof is overstated" unless human.include?("never validation evidence")
+raise "human packet retains an ungoverned candidate parallel lane" if human.include?("## Candidate Parallel Lanes")
 
 stp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/stp.values.json").read).dig("content", "values")
 operative_closeout = "the five operative children (#5835, #5836, #5838, #5839, and #5840)"
@@ -85,6 +85,23 @@ raise "split-authority code repository mismatch" unless bind_manifest.fetch("cod
 raise "ordinary pre-bind doctor behavior is not explicit" unless bind_manifest.fetch("ordinary_doctor_before_bind") == "expected_repository_identity_drift"
 bind_entries = bind_manifest.fetch("requests")
 raise "split-authority manifest child set mismatch" unless bind_entries.map { |entry| entry.dig("request", "issue") } == UNBOUND
+manifest_work_packages = bind_entries.map { |entry| entry.fetch("work_package") }
+raise "machine packet work-package order differs from bind manifest" unless packet.fetch("ordered_work_packages") == manifest_work_packages
+raise "canonical issue-wave membership differs from machine packet" unless wave_sprint.fetch("members") == packet.fetch("ordered_work_packages")
+raise "completed WP-24 leaked into operative membership" if wave_sprint.fetch("members").include?("WP-24")
+raise "machine packet completed work-package mismatch" unless packet.fetch("completed_work_packages") == ["WP-24"]
+completed_wp24 = wave_sprint.fetch("completed_streams").find { |stream| stream.fetch("member") == "WP-24" }
+raise "canonical issue wave does not classify completed WP-24" unless completed_wp24&.fetch("legacy_issue") == 5844 && completed_wp24.fetch("canonical_issue") == 10
+
+packet_parallel_issues = packet.fetch("safe_parallel_lanes").map { |lane| lane.fetch("issues") }
+wave_parallel_issues = wave_sprint.fetch("parallel_lanes").map { |lane| lane.fetch("issues") }
+raise "canonical parallel lanes differ from machine packet" unless wave_parallel_issues == packet_parallel_issues
+wave_sprint.fetch("parallel_lanes").each do |lane|
+  expected_members = lane.fetch("issues").map do |issue|
+    bind_entries.find { |entry| entry.dig("request", "issue") == issue }.fetch("work_package")
+  end
+  raise "canonical parallel lane work packages differ from issue owners" unless lane.fetch("members") == expected_members
+end
 
 bind_source = (ROOT / "csdlc-v2/src/lifecycle.rs").read
 diagnosis_offset = bind_source.index("crate::doctor::diagnose_with_code_repository(")
@@ -258,6 +275,10 @@ raise "publication was implicitly authorized" unless gates.dig("publication_auth
 umbrella = JSON.parse((ROOT / ".csdlc/issues/5854/index.json").read)
 raise "umbrella is outside its readiness lifecycle" unless %w[bound implemented reviewed published].include?(umbrella.fetch("phase"))
 raise "umbrella code repository mismatch" unless umbrella.fetch("code_repository") == EXPECTED_CODE_REPOSITORY
+raise "validator is outside the recorded lifecycle-authority worktree" unless Pathname.new(umbrella.fetch("worktree")).realpath == ROOT.realpath
+sparse_value, sparse_error, sparse_status = Open3.capture3("git", "config", "--bool", "core.sparseCheckout", chdir: ROOT.to_s)
+raise "unable to inspect sparse-checkout state: #{sparse_error}" unless sparse_status.success? || sparse_value.strip.empty?
+raise "recorded lifecycle-authority worktree still uses sparse checkout" if sparse_value.strip == "true"
 
 umbrella_vpp = JSON.parse((ROOT / ".csdlc/issues/5854/cards/vpp.values.json").read).dig("content", "values")
 readiness_lane = umbrella_vpp.fetch("lanes").find { |lane| lane.fetch("lane") == "v092-sprint5-readiness" }

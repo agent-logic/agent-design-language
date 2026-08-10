@@ -6,3 +6,6 @@ child 5838: expected repository_identity_drift is the only ordinary pre-bind blo
 child 5839: expected repository_identity_drift is the only ordinary pre-bind blocker
 child 5840: expected repository_identity_drift is the only ordinary pre-bind blocker
 csdlc-v2 gate2 split-authority bind regression: PASS (1 passed, 0 failed)
+lifecycle authority: PASS (recorded /Volumes/FastWork/adl-standalone-5854 worktree, full checkout, no sparse-checkout workaround)
+membership authority: PASS (issue wave, machine packet, and live umbrella contract name exactly five operative children; completed WP-24 is non-gating)
+parallel ownership authority: PASS (canonical issue wave and machine packet share one collision-checked #5835/#5836 lane; ungoverned human candidate lanes absent)

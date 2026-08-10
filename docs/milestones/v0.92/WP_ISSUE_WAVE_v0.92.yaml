@@ -228,7 +228,13 @@ execution_sprints:
     session_prompt_path: .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
     execution_mode: hybrid
     goal: Produce real demonstrations, consumer proofs, governance handoff, and complete launch media.
-    members: [WP-17, WP-18, WP-18B, WP-19, WP-20, WP-24]
+    members: [WP-17, WP-18, WP-18B, WP-19, WP-20]
+    completed_streams:
+      - member: WP-24
+        legacy_issue: 5844
+        canonical_issue: 10
+        status: product_and_github_complete
+        typed_closeout: asynchronous
     serial_gates:
       - "WP-17 after #5826, #5827, and #5834"
       - "WP-18 after #5825 through #5830 and #5832 through #5834"
@@ -237,8 +243,10 @@ execution_sprints:
       - WP-20 after WP-18, WP-18A, WP-18B, and WP-19
       - WP-24 final claims after WP-23
     parallel_lanes:
-      - WP-17 and WP-18 preparation as their dependencies become stable
-      - WP-24 product and GitHub delivery is complete while typed closeout continues asynchronously
+      - members: [WP-17, WP-18]
+        issues: [5835, 5836]
+        gate: every prerequisite declared by both child STPs is terminal
+        boundary: migration planning and birthday demonstration use disjoint ownership surfaces
     out_of_band_streams:
       - member: WP-24A
         issue: 5845

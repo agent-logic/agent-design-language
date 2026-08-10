@@ -4,8 +4,10 @@ slug: demonstration-handoff-publication
 status: ready_for_execution
 execution_mode: hybrid
 ordered_issue_numbers: [5835, 5836, 5838, 5839, 5840]
+ordered_work_packages: [WP-17, WP-18, WP-18B, WP-19, WP-20]
 completed_legacy_issue_numbers: [5844]
 completed_canonical_issue_numbers: [10]
+completed_work_packages: [WP-24]
 out_of_band_streams:
   - issue: 5845
     role: WP-24A
