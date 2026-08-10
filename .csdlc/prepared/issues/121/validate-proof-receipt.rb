@@ -20,7 +20,7 @@ EXPECTED_NEGATIVE_CASES = {
   "atomic_fence_failure" => "fail_closed"
 }.freeze
 ISSUE_EVIDENCE_PREFIX = ".csdlc/evidence/121/"
-MACHINE_MARKER = "ADL_NEGATIVE_CASE_V1 "
+MACHINE_MARKER = "ADL_ISSUE_121_NEGATIVE_CASE_V1 "
 
 def fail_receipt(message)
   abort "issue 121 receipt: #{message}"
