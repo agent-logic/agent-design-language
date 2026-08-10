@@ -1,0 +1,26 @@
+[
+  {
+    "path": "adl-runtime-kernel/Cargo.toml",
+    "sha256": "92466f21e0dfd70d6ba8b6fe7d9674b2a5a75eb624e422c46de3e7d79f2117a7"
+  },
+  {
+    "path": "adl-runtime-kernel/src/capability_envelope.rs",
+    "sha256": "355508a0e69765fb90075470562c9dfc76e0b70c23415a97444182e826c4651a"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "e7eb551f4496a152fae2376b68e5ced686c86d8ad2c7d2676088229a6961f6df"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/capability_envelope.rs",
+    "sha256": "b84e05df7a14e3241751d253c66eddcb00cff42ddb8f0f02715dc52004eab3cc"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/capability_envelope/matrix.json",
+    "sha256": "aa77d97523ede3e2dfc23f046e97b265b34eeabd9c4b386bc49f7679becfca61"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+    "sha256": "624fd2c1cde01e72c23f655d81dbcd70e9ae99ad064ed492c593612c02906e69"
+  }
+]

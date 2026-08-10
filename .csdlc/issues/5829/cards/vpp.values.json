@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-12] Capability envelope",
     "slug": "v0-92-wp-12-capability-envelope",
     "version": "v0.92",
-    "generation": 86
+    "generation": 90
   },
   "status": "ready",
   "content": {
@@ -70,7 +70,7 @@
             ".csdlc/evidence/5829/native-platform/macos-semantic.json"
           ],
           "parallel_group": "5829-native-produce",
-          "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "capability_envelope-linux-native-ci-producer",
@@ -94,7 +94,7 @@
             ".csdlc/evidence/5829/native-platform/linux-semantic.json"
           ],
           "parallel_group": "5829-native-produce",
-          "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "capability_envelope-native-ci-receipt-verification",

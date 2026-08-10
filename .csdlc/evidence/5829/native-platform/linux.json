@@ -1,0 +1,72 @@
+{
+  "schema": "adl.native_ci_receipt.v1",
+  "payload": {
+    "issue": 5829,
+    "platform": "linux",
+    "source_sha": "b2dcfd3075371d98b384b62d1443353ea73c48fc",
+    "producer_path": ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+    "producer_sha256": "3916241f8465cb77916fe461cdbdf4667f75ff883e25c79291b812ec3e581724",
+    "producer_argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+      "--platform",
+      "linux",
+      "--receipt",
+      ".csdlc/evidence/5829/native-platform/linux.json",
+      "--semantic-output",
+      ".csdlc/evidence/5829/native-platform/linux-semantic.json"
+    ],
+    "test_argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "capability_envelope",
+      "--no-tests=fail",
+      "--status-level",
+      "all",
+      "--message-format",
+      "libtest-json-plus"
+    ],
+    "test_environment": {
+      "ADL_NATIVE_SEMANTIC_OUTPUT": ".csdlc/evidence/5829/native-platform/linux-semantic.json",
+      "NEXTEST_EXPERIMENTAL_LIBTEST_JSON": "1"
+    },
+    "tests_run": 13,
+    "passed_tests": [
+      "adl-runtime-kernel::capability_envelope$authority_escalation_conflict_and_missing_denials_fail_closed",
+      "adl-runtime-kernel::capability_envelope$canonical_digest_round_trip_is_stable",
+      "adl-runtime-kernel::capability_envelope$canonical_envelope_is_deterministic_and_emits_native_semantics",
+      "adl-runtime-kernel::capability_envelope$exported_validator_rejects_rehashed_field_and_policy_forgery",
+      "adl-runtime-kernel::capability_envelope$identifier_collisions_fail_closed_while_exact_duplicates_canonicalize",
+      "adl-runtime-kernel::capability_envelope$invalid_birthday_identity_and_cross_binding_fail_closed",
+      "adl-runtime-kernel::capability_envelope$omitted_zero_and_escalated_resource_limits_fail_closed",
+      "adl-runtime-kernel::capability_envelope$policy_itself_fails_closed_on_missing_roots_and_collisions",
+      "adl-runtime-kernel::capability_envelope$secrets_private_paths_and_host_paths_fail_closed",
+      "adl-runtime-kernel::capability_envelope$stale_unknown_missing_and_duplicate_evidence_fail_closed",
+      "adl-runtime-kernel::capability_envelope$unknown_fields_fail_during_deserialization_at_every_layer",
+      "adl-runtime-kernel::capability_envelope$unsupported_claim_omission_and_missing_provenance_fail_closed",
+      "adl-runtime-kernel::capability_envelope$unsupported_provider_model_tool_and_skill_fail_closed"
+    ],
+    "command_output_path": ".csdlc/evidence/5829/native-platform/linux-nextest.log",
+    "command_output_sha256": "0822f77fc8a16126d3c990d6a8857280eae14052e58d6502aad548430d0b92fa",
+    "semantic_output_path": ".csdlc/evidence/5829/native-platform/linux-semantic.json",
+    "semantic_output_sha256": "acc29fdad59c65423f052d2d453dccbf9850bd06552c288aa6bf9e87ca95ec4e",
+    "source_manifest_path": ".csdlc/evidence/5829/native-platform/linux-source-manifest.json",
+    "source_manifest_sha256": "775c4767cf80d618845119c8d42c4efed1b70a3818527b862ad92aa5c32028af",
+    "runner": {
+      "provider": "github_actions",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp12-native-capability-envelope.yml@refs/pull/135/merge",
+      "run_id": "31391052361",
+      "run_attempt": "1",
+      "job": "produce-native-receipt",
+      "os": "Linux",
+      "architecture": "x86_64"
+    },
+    "status": "passed"
+  },
+  "payload_sha256": "c1e2cd6c31a14442587af635017487fae8627c95545819bfd9f7b8f095938c15"
+}

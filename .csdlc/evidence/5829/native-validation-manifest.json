@@ -1,0 +1,48 @@
+{
+  "schema": "adl.native_validation_manifest.v1",
+  "issue": 5829,
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 135,
+  "validated_revision": "b2dcfd3075371d98b384b62d1443353ea73c48fc",
+  "workflow": ".github/workflows/wp12-native-capability-envelope.yml",
+  "workflow_run_id": "31391052361",
+  "workflow_run_attempt": "1",
+  "jobs": {
+    "linux": {
+      "job_id": "93462627805",
+      "status": "success",
+      "os": "Linux",
+      "architecture": "x86_64",
+      "tests_passed": 13,
+      "receipt_sha256": "34871b4a0003ac5cafbac8494de6510a4ec82467e123750e2d41571d50ed4050",
+      "command_output_sha256": "0822f77fc8a16126d3c990d6a8857280eae14052e58d6502aad548430d0b92fa"
+    },
+    "macos": {
+      "job_id": "93462627831",
+      "status": "success",
+      "os": "Darwin",
+      "architecture": "arm64",
+      "tests_passed": 13,
+      "receipt_sha256": "e0a92253302b529b5d2bf3f63e682ea3cb6a5624ce43337b12269ac28d800ab9",
+      "command_output_sha256": "7fb4d42f207e7134b5a878484cf84124d58f275d703c36a673dcb11c353773d3"
+    },
+    "aggregate": {
+      "job_id": "93464133461",
+      "status": "success"
+    }
+  },
+  "artifact": {
+    "id": "9063848120",
+    "name": "wp12-native-capability-envelope-validated-31391052361-1",
+    "archive_sha256": "6cb2c9e80c0a2f503313a31fb11f9157d558d382a3ca7df2e2e48a7ff8650eb1"
+  },
+  "source_manifest_sha256": "775c4767cf80d618845119c8d42c4efed1b70a3818527b862ad92aa5c32028af",
+  "semantic_output_sha256": "acc29fdad59c65423f052d2d453dccbf9850bd06552c288aa6bf9e87ca95ec4e",
+  "independent_validation": {
+    "status": "passed",
+    "detached_exact_head": "b2dcfd3075371d98b384b62d1443353ea73c48fc",
+    "command": ["ruby", ".csdlc/prepared/issues/5829/validate-native-receipts.rb", ".csdlc/evidence/5829/native-platform/linux.json", ".csdlc/evidence/5829/native-platform/macos.json"],
+    "output_ref": ".csdlc/evidence/5829/native-platform/independent-validator.log",
+    "output_sha256": "dc27e1b857f41e1b9e3ecb1f8002d8af92aa0ff04ea6a663fffaabf6c9e6ccdd"
+  }
+}
