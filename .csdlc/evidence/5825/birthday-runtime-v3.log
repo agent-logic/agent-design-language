@@ -1,0 +1,13 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-5825-birthday-contract/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.01s
+────────────
+ Nextest run ID ef7b62ff-911e-4973-b0a9-d92143ebf4b4 with nextest profile: default
+    Starting 6 tests across 1 binary
+        PASS [   0.009s] (1/6) adl-runtime-kernel::birthday rejects_unknown_top_level_and_nested_fields_during_parse
+        PASS [   0.010s] (2/6) adl-runtime-kernel::birthday accepts_complete_candidate_and_emits_canonical_semantics
+        PASS [   0.010s] (3/6) adl-runtime-kernel::birthday decisions_are_stable_across_evidence_order_and_round_trip
+        PASS [   0.014s] (4/6) adl-runtime-kernel::birthday rejects_each_missing_evidence_surface
+        PASS [   0.016s] (5/6) adl-runtime-kernel::birthday rejects_every_declared_lifecycle_lookalike
+        PASS [   0.021s] (6/6) adl-runtime-kernel::birthday rejects_integrity_privacy_path_and_claim_boundary_failures
+────────────
+     Summary [   0.022s] 6 tests run: 6 passed, 0 skipped
