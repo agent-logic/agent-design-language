@@ -1,0 +1,191 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 137,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ef35b5ed2a3b43bfceb363ad9a226ca55483fa764afa32a2dea51654c84ea8b6",
+  "phase": "published",
+  "generation": 6,
+  "digest": "434e9060f3774ae58a185fb36ad59e70be752e3280476d75a700465a5f9035a4",
+  "branch": "codex/137-wp04-native-distributed-workflow",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-137-wp04-native-workflow",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "/root/prepare_5875_release",
+    "scope": [
+      ".github/workflows/wp04-native-distributed.yml",
+      ".csdlc/issues/137",
+      ".csdlc/prepared/issues/137",
+      ".csdlc/evidence/137"
+    ],
+    "reviewed_revision": "git-blake3:4f6e3aa24a409808a1a5ad0178b5930d1984bab1:a1e3552b85e5c0bd4ffe9cc99748ab28c338ec871b5809d2af4ddbfeab85f43a",
+    "findings": [
+      {
+        "id": "P1-dispatch-source-head-binding",
+        "severity": "p1",
+        "summary": "Fixed: both producer and aggregation jobs reject source_sha unless it equals the workflow-dispatch github.sha before checkout, and the issue-owned validator proves both gates and their ordering before checkout and token exposure.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4f6e3aa24a409808a1a5ad0178b5930d1984bab1:a1e3552b85e5c0bd4ffe9cc99748ab28c338ec871b5809d2af4ddbfeab85f43a",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The workflow intentionally remains dispatch-only and cannot execute until the selected exact revision also contains the existing #5878 producer and aggregate validator.",
+      "Hosted Linux, macOS, and Windows proof remains a post-merge workflow-dispatch responsibility of #5878; this issue proves registration and orchestration contracts only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 137,
+    "pull_request": 138,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/138",
+    "base": "main",
+    "head": "codex/137-wp04-native-distributed-workflow",
+    "revision": "git-blake3:f6a715ac3814b07990edb99b527b0de9b0c28882:191232b87ea430b04d21a490fb25e671c8ad9af00144056c715aef253c81bf82",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/137/design.md",
+  "diagram_path": ".csdlc/prepared/issues/137/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:authorized-issue-137",
+      "revision": "9b186b59424e873be1c371c9c336dcfaf6c94b7c3ab8272a004eee3ec6b1c65f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "dd71290ef2fcfa7a3b249108b39d3e062b4bc115b9b40c406d6639ed7d58dfcb",
+      "rendered_digest": "fdf6fb7c6194070e959f6f8178a7b24b3b4651a2d51479e3284dfdc834505bac",
+      "ast_digest": "95a85a24f9cfa33009ae5b9a075acb102dd11c02bbe9e146668f40255a38dab5"
+    },
+    "stp": {
+      "values_digest": "349cbf403b98b92b017deb4fcb4ab5bba1c5e4c3d4bb602d581f021cc02bad9e",
+      "rendered_digest": "782f38c4d1a66ad621410d0df18fb45d9800e9c8f0a4fccac31a19c42d145c8e",
+      "ast_digest": "afc3cbf1a8e836520d346d60dd16aa22fcc22510e138004d8f9d45284c98f13e"
+    },
+    "spp": {
+      "values_digest": "af13d66977e229b1bd7da8664f4637ba3cb753aa5ba33010b989a210cc2b88d6",
+      "rendered_digest": "0dae0bcdc72ad56272f14aec47f9b6f919ae2e9bed836191cb60162c82d17d8f",
+      "ast_digest": "e027ea35a27dbb808bf553c96a1080bd134161fce73517409e39f75080e1a472"
+    },
+    "vpp": {
+      "values_digest": "0b71b5d78e1b07f8a48847829613b41970e66ac413a655f91e186c35372826ce",
+      "rendered_digest": "ad7d584d779d235d127c3c00f6a55e205a32fee1057e588b0545dcfdd3425dc1",
+      "ast_digest": "5e854751a6414f27fb10eeab3e954588e09872c0bbef6e9cfef421aa724aa0f2"
+    },
+    "srp": {
+      "values_digest": "9e340159272a7fad0a6a8978eb14c15581b9a371d6a895967e07f143e2959785",
+      "rendered_digest": "f9afa1eba8e2b3cb077ccbccbd9331aa6b627b5f9ee7f96d05741ca774c984ed",
+      "ast_digest": "f12c143451062b860404347449f5432457a50ddb5dc849d3fbf6f80bf0360c4e"
+    },
+    "sor": {
+      "values_digest": "d425a4270f1a42858e0e88a5b2f1773434d7b80715fb3d2a3348ea27fd0d0ff0",
+      "rendered_digest": "eedfaeedbc6789f4ddb249d08406bbcd6d6cd179629b1f39f7605997fc20ea7e",
+      "ast_digest": "668aec376e52f2d4503b0a11fd479c4f9c72383e86b4d7a4f500dd86fa62af01"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:authorized-issue-137",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "Name the deferred issue-owned workflow validator exactly so typed readiness can authorize its creation after binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/wp04-native-distributed.yml\",\".csdlc/prepared/issues/137/validate-workflow.rb\",\".csdlc/issues/137\",\".csdlc/prepared/issues/137\",\".csdlc/evidence/137\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "Route the repository path-policy suite through the issue-owned focused validator so readiness has one governed issue-specific proving denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp04-native-workflow-contract\",\"proof_role\":\"Prove exact checkout, three-platform production, distinct artifacts, live hosted attestation, aggregate validation, pinned actions, bounded timeouts, fail-closed behavior, and repository path-policy compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":500,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/137/validate-workflow.rb\"],\"parallel_group\":\"workflow\",\"defer_reason\":\"The issue-owned workflow and focused validator are created only after typed binding.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and unintended tracked churn.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"workflow\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
