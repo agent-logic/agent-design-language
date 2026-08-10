@@ -12,22 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/evidence/5827
-.csdlc/issues/5827
-.csdlc/prepared/issues/5827/design.md
-.csdlc/prepared/issues/5827/diagram.mmd
-.csdlc/prepared/issues/5827/produce-native-receipt.rb
-.csdlc/prepared/issues/5827/validate-native-receipts.rb
-.github/workflows/wp10-native-birthday-continuity.yml
-adl-runtime-kernel/src/birthday_continuity.rs
-adl-runtime-kernel/src/birthday_identity.rs
-adl-runtime-kernel/src/continuity.rs
-adl-runtime-kernel/src/identity_memory.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/src/live_continuity.rs
-adl-runtime-kernel/src/private_state.rs
-adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
-docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
+
 
 ## Prompts
 

@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.local_validation_manifest.v1",
   "issue": 5827,
-  "validated_revision": "84f2faa8820b0d1758c2f55a466c0e4e0c0be959",
-  "validated_tree": "3469afa0053b797569333359aa40350e102b06f8",
+  "validated_revision": "c9007730bdf7f47dac02aaf1e2be4d3a41d5d25f",
+  "validated_tree": "b5cfab0551b441c40a38de744afadfbfde2d5ab5",
   "results": [
     {
       "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "-E", "test(/^birthday_continuity::authority_tests::/)", "--no-tests=fail", "--status-level", "all"],
@@ -28,14 +28,14 @@
     }
   ],
   "source_sha256": {
-    "adl-runtime-kernel/src/birthday_continuity.rs": "decd31e1fe65c37de3f3ce65508155dc3f9472daa53c006d63125a930b452fa6",
-    "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs": "bddf496e8669c4f8a07b536e04a2621d465ca5618b453daba3f743527e9e55a5",
+    "adl-runtime-kernel/src/birthday_continuity.rs": "d66b01d119513c2135ef485e483a6f1d34b84a46c153d1679ef7ad04a5edf7e6",
+    "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs": "7d78eef0ffb918c5b3d4f9011ae9fac695d77440ae5adab9fc9c7585a304bf03",
     "adl-runtime-kernel/src/birthday_identity.rs": "69c8b2b80a2acdde4b76fad7905d82da968b0ddb5a4461b4be86d95c48ee87cd",
     "adl-runtime-kernel/src/identity_memory.rs": "37d59ad08f6b0cae8236e8ff3f689ea0f590b6b82b53dd937bb8c82c4cef04b5",
     "adl-runtime-kernel/src/private_state.rs": "793c03ae098a566d4b117ef657bddab5810c73a869e6bf3e264ca4d6e45e2d64",
     ".github/workflows/wp10-native-birthday-continuity.yml": "247ab45dde2a51813aab8303bbb4e508e37722021313e71208a48682731e4c76",
-    ".csdlc/prepared/issues/5827/produce-native-receipt.rb": "a94b3b2fb7e0cc1714cec9bc801f7eebae3099dddd90a031e4dc15eae4559e5b",
-    ".csdlc/prepared/issues/5827/validate-native-receipts.rb": "c211aa35367723401e5e98d88bd65d20f835228eecd242a32fd7f79ef9ecb1c7"
+    ".csdlc/prepared/issues/5827/produce-native-receipt.rb": "18cee726b8c3f11c2042d428f844948ae1afcc30a9a2e4116a2dc7fa6ea97d4a",
+    ".csdlc/prepared/issues/5827/validate-native-receipts.rb": "cd107bd53eef487983dee90cac554a789a9d5482b27d7b6c1406ef1173b7bf31"
   },
   "native_proof": "deferred_until_publication_exact_head"
 }

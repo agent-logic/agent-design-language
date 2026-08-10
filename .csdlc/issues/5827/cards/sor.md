@@ -30,8 +30,9 @@ Repaired WP-10 so crate-private continuity policy establishment requires WP-09 V
 - Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.
 - Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.
 - Use checked generation advancement and reject terminal overflow.
+- Derive cycle witness identifiers and paths inside the governed continuity namespace and reject signed snapshots that name private or raw repository-relative paths.
 - Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.
-- Update the native producer and validator to bind the internal nine-test authority lane and complete WP-09/WP-10 source manifest.
+- Update the native producer and validator to require the exact unique nine-test authority inventory and manifest the workflow, producer, validator, and complete WP-09/WP-10 source surface.
 
 ## Validation
 

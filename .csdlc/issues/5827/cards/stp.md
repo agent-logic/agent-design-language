@@ -27,12 +27,12 @@ Deliver only the WP-10 multi-cycle continuity chain, fixtures, validator, and re
 
 1. The WP-10 record links at least two bounded cycles to the same identity root and deterministically derives a continuity head or stable rejection reason.
 2. WP-09/#5826 terminal proof and current lineage/wake evidence are verified before implementation begins.
-3. Implementation is confined to adl-runtime-kernel/src/birthday_continuity.rs, lib.rs module registration, tests/birthday_continuity.rs, tests/fixtures/birthday_continuity/, the identity feature contract, and .csdlc/evidence/5827/.
+3. Implementation is confined to birthday_continuity.rs, lib.rs registration, the crate-internal birthday_continuity authority test, its fixtures, the identity feature contract, issue-local receipt contracts/evidence, and the narrow WP-10 native workflow.
 4. Identical predecessor and cycle evidence replay to byte-equivalent semantic continuity output retained at exact revision.
-5. Missing predecessor, root substitution, discontinuous or reordered cycles, duplicate cycles, forged witness, copied state, private paths, and host paths fail closed.
+5. Missing predecessor, root substitution, discontinuous or reordered cycles, duplicate cycles, forged witness, copied state, caller-controlled relabeling, repository-relative private paths, host paths, and generation overflow fail closed.
 6. One bounded exact-head SRP review records no unresolved actionable findings.
 7. The implementation PR targets the intended base and includes Closes #5827 without claiming completion of downstream Birthday work.
-8. The exact birthday_continuity nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.
+8. The exact crate-internal nine-test birthday_continuity authority lane runs on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain the complete workflow/producer/validator/source manifest, complete structured logs, exact unique passed-test inventory, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.
 
 ## Dependencies
 
