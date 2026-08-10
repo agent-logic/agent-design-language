@@ -85,7 +85,11 @@ This feature should establish:
 
 `adl-runtime-kernel::memory_palace` consumes the durable WP-09 identity record,
 the WP-10 continuity record, one exact Runtime v3 trace reference, a redaction
-policy digest, a fixed observation time, and normalized ObsMem-shaped records.
+policy digest, a fixed observation time, and the canonical serialized
+`MemoryRecord` shape from the authoritative ObsMem contract. The Runtime v3
+adapter normalizes tags, citations, trace-event references, and residual risks,
+derives trace identity from the normalized trace-event references, and requires
+the exact cited trace artifact before a record can enter the palace.
 It recomputes both predecessor record digests and rejects identity-root,
 continuity-head, trace, citation, temporal, or redaction substitutions before
 materializing context.
@@ -97,6 +101,13 @@ records become digest-bearing overflow entries and are never silently loaded.
 Only public summaries and the exact literal `[REDACTED]` may enter the working
 set; raw/private memory, host paths, parent traversal, secret-like payloads,
 and unbound trace citations fail closed.
+
+The exported packet validator replays the packet's privacy and integrity
+boundary: it validates authority/reference digests, exact room membership,
+unique digest-suffixed room identities, item hashes, citations, temporal
+anchors, visibility/redaction rules, and host-path/secret screening. Recomputing
+the outer packet checksum cannot make a private or structurally forged packet
+valid.
 
 ### Core Concepts
 

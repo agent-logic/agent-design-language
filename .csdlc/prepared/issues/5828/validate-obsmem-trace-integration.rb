@@ -32,6 +32,17 @@ def fail!(message)
   exit 1
 end
 
+def canonical_json(value)
+  case value
+  when Hash
+    "{" + value.keys.sort.map { |key| "#{JSON.generate(key)}:#{canonical_json(value.fetch(key))}" }.join(",") + "}"
+  when Array
+    "[" + value.map { |entry| canonical_json(entry) }.join(",") + "]"
+  else
+    JSON.generate(value)
+  end
+end
+
 def repo_file(root, value, label)
   fail!("#{label} must be a nonempty repository-relative path") unless value.is_a?(String) && !value.empty?
   path = Pathname.new(value)
@@ -94,5 +105,20 @@ fail!("fixture digest mismatch") unless receipt["fixture_digest"] == actual_fixt
 output = repo_file(root, receipt["output_path"], "output_path")
 actual_output_digest = Digest::SHA256.file(output).hexdigest
 fail!("output digest mismatch") unless receipt["output_digest"] == actual_output_digest
+packet = JSON.parse(output.read)
+fail!("semantic output must be a Memory Palace packet") unless packet["schema"] == "adl.memory_palace.context_packet.v1"
+unsigned = packet.merge("packet_sha256" => "")
+fail!("semantic packet checksum mismatch") unless packet["packet_sha256"] == Digest::SHA256.hexdigest(canonical_json(unsigned))
+trace_reference = packet["trace_reference"]
+fail!("semantic trace reference is missing") unless trace_reference.is_a?(Hash)
+fail!("receipt trace_id does not bind semantic packet") unless receipt["trace_id"] == packet["trace_id"] && packet["trace_id"] == trace_reference["id"]
+packet_citations = Array(packet["working_set"]).flat_map { |item| Array(item["citations"]).map { |citation| citation["id"] } }.uniq.sort
+fail!("receipt citation_ids do not bind semantic packet") unless citations.sort == packet_citations
+fail!("semantic packet lacks the exact trace citation") unless Array(packet["working_set"]).all? do |item|
+  Array(item["citations"]).include?(trace_reference)
+end
+fail!("semantic packet contains private visibility") if Array(packet["working_set"]).any? do |item|
+  %w[private raw_private].include?(item["visibility"])
+end
 
 puts JSON.generate(status: "passed", reviewed_head: head, source_sha: receipt["source_sha"], fixture_digest: actual_fixture_digest, output_digest: actual_output_digest, trace_id: receipt["trace_id"], citation_count: citations.length)

@@ -1,5 +1,6 @@
 use adl_runtime_kernel::*;
 use serde_json::json;
+use sha2::{Digest, Sha256};
 use std::{
     fs,
     path::{Component, Path},
@@ -34,27 +35,48 @@ fn continuity(identity: &BirthdayIdentityRecord) -> BirthdayContinuityRecord {
 }
 
 fn record(id: &str, workflow: &str, effective: u64) -> ObsMemContextRecord {
-    ObsMemContextRecord {
+    let trace = trace_reference();
+    let source = NormalizedObsMemRecord {
         id: id.into(),
         run_id: format!("run-{id}"),
         workflow_id: workflow.into(),
+        tags: vec!["memory-palace".into(), "memory-palace".into()],
         payload: format!("bounded summary {id}"),
-        visibility: MemoryVisibility::Public,
-        identity_root: H.into(),
-        continuity_head: H.into(),
-        trace_id: "runtime-trace-5828".into(),
-        citations: vec![MemoryReference {
-            id: "runtime-trace-5828".into(),
-            path: ".adl/runtime-v3/observability/trace-5828.json".into(),
-            sha256: H.into(),
+        score: "1.0".into(),
+        citations: vec![NormalizedObsMemCitation {
+            path: trace.path.clone(),
+            hash: trace.sha256.clone(),
         }],
-        temporal_anchor: MemoryTemporalAnchor {
-            created_epoch_ms: effective - 10,
-            observed_epoch_ms: effective,
-            effective_epoch_ms: effective,
-            continuity_head: H.into(),
-            event_sequence: 1,
-        },
+        trace_event_refs: trace_event_refs(),
+        temporal_anchor: Some(NormalizedObsMemTemporalAnchor {
+            t_created_epoch_ms: u128::from(effective - 10),
+            t_observed_epoch_ms: Some(u128::from(effective)),
+            t_effective_epoch_ms: Some(u128::from(effective)),
+            continuity_id: Some(H.into()),
+            event_sequence: Some(1),
+        }),
+        review_findings: Vec::new(),
+        residual_risks: Vec::new(),
+        follow_on_refs: Vec::new(),
+    };
+    adapt_normalized_obsmem_record(source, MemoryVisibility::Public, H, H, &trace).unwrap()
+}
+
+fn trace_event_refs() -> Vec<NormalizedObsMemTraceRef> {
+    vec![NormalizedObsMemTraceRef {
+        event_sequence: 1,
+        event_kind: "runtime_event".into(),
+        step_id: Some("step-5828".into()),
+        delegation_id: None,
+    }]
+}
+
+fn trace_reference() -> MemoryReference {
+    let bytes = serde_jcs::to_vec(&trace_event_refs()).unwrap();
+    MemoryReference {
+        id: format!("trace:{:x}", Sha256::digest(bytes)),
+        path: ".adl/runtime-v3/observability/trace-5828.json".into(),
+        sha256: H.into(),
     }
 }
 
@@ -72,11 +94,7 @@ fn input(
         schema: MEMORY_PALACE_INPUT_SCHEMA.into(),
         identity_record_sha256: identity.record_sha256.clone(),
         continuity_record_sha256: continuity.record_sha256.clone(),
-        trace_reference: MemoryReference {
-            id: "runtime-trace-5828".into(),
-            path: ".adl/runtime-v3/observability/trace-5828.json".into(),
-            sha256: H.into(),
-        },
+        trace_reference: trace_reference(),
         redaction_policy_sha256: H.into(),
         observed_epoch_ms: 2_000,
         stale_after_ms: 1_000,
@@ -218,4 +236,101 @@ fn duplicate_records_and_citations_are_rejected() {
     a.citations.push(a.citations[0].clone());
     let (identity, continuity, bad) = input(vec![a.clone(), a], 8);
     assert!(build_memory_palace(&identity, &continuity, &bad).is_err());
+}
+
+#[test]
+fn packet_validation_rejects_self_rehashed_privacy_and_topology_forgery() {
+    let (identity, continuity, input) = input(vec![record("a", "alpha", 1500)], 1);
+    let packet = build_memory_palace(&identity, &continuity, &input).unwrap();
+    for mutate in 0..4 {
+        let mut forged = packet.clone();
+        match mutate {
+            0 => forged.working_set[0].visibility = MemoryVisibility::RawPrivate,
+            1 => forged.working_set[0].payload = "/home/operator/private".into(),
+            2 => forged.working_set[0].room_id = "room:invented".into(),
+            _ => forged.working_set[0].citations.clear(),
+        }
+        forged.packet_sha256.clear();
+        forged.packet_sha256 = format!("{:x}", Sha256::digest(serde_jcs::to_vec(&forged).unwrap()));
+        assert!(validate_memory_palace_packet(&forged).is_err());
+    }
+}
+
+#[test]
+fn identifiers_secrets_and_normalized_room_collisions_fail_closed() {
+    let (identity, continuity, base) = input(vec![record("a", "alpha", 1500)], 8);
+    for unsafe_value in [
+        "/Users/operator/private",
+        "/home/operator/private",
+        "gho_secret",
+        "sk-secret",
+    ] {
+        for field in 0..3 {
+            let mut bad = base.clone();
+            match field {
+                0 => bad.records[0].id = unsafe_value.into(),
+                1 => bad.records[0].run_id = unsafe_value.into(),
+                _ => bad.records[0].workflow_id = unsafe_value.into(),
+            }
+            assert!(build_memory_palace(&identity, &continuity, &bad).is_err());
+        }
+        let mut bad = base.clone();
+        bad.records[0].payload = unsafe_value.into();
+        assert!(build_memory_palace(&identity, &continuity, &bad).is_err());
+    }
+    let (_, _, collision_input) = input(
+        vec![record("a", "Alpha", 1500), record("b", "alpha", 1500)],
+        8,
+    );
+    let packet = build_memory_palace(&identity, &continuity, &collision_input).unwrap();
+    assert_ne!(packet.rooms[0].room_id, packet.rooms[1].room_id);
+    validate_memory_palace_packet(&packet).unwrap();
+}
+
+#[test]
+fn normalized_obsmem_adapter_binds_trace_events_and_citation() {
+    let trace = trace_reference();
+    let source = NormalizedObsMemRecord {
+        id: "record-a".into(),
+        run_id: "run-a".into(),
+        workflow_id: "flow-a".into(),
+        tags: vec!["z".into(), "a".into(), "a".into()],
+        payload: "bounded".into(),
+        score: "1.0".into(),
+        citations: vec![NormalizedObsMemCitation {
+            path: trace.path.clone(),
+            hash: trace.sha256.clone(),
+        }],
+        trace_event_refs: trace_event_refs(),
+        temporal_anchor: Some(NormalizedObsMemTemporalAnchor {
+            t_created_epoch_ms: 1,
+            t_observed_epoch_ms: Some(2),
+            t_effective_epoch_ms: Some(2),
+            continuity_id: Some(H.into()),
+            event_sequence: Some(1),
+        }),
+        review_findings: vec![],
+        residual_risks: vec![],
+        follow_on_refs: vec![],
+    };
+    assert!(
+        adapt_normalized_obsmem_record(source.clone(), MemoryVisibility::Public, H, H, &trace)
+            .is_ok()
+    );
+    let mut wrong_trace = trace.clone();
+    wrong_trace.id = "trace:invented".into();
+    assert!(adapt_normalized_obsmem_record(
+        source.clone(),
+        MemoryVisibility::Public,
+        H,
+        H,
+        &wrong_trace
+    )
+    .is_err());
+    let mut wrong_citation = source;
+    wrong_citation.citations[0].hash = "b".repeat(64);
+    assert!(
+        adapt_normalized_obsmem_record(wrong_citation, MemoryVisibility::Public, H, H, &trace)
+            .is_err()
+    );
 }

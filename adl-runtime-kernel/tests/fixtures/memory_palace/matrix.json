@@ -8,6 +8,11 @@
     "absolute_citation_path", "parent_traversal_citation_path", "malformed_citation_digest",
     "trace_citation_digest_mismatch", "private_visibility", "raw_private_visibility",
     "unredacted_redacted_payload", "secret_like_payload", "private_host_path_payload",
-    "unknown_input_field", "duplicate_record", "duplicate_citation"
+    "unknown_input_field", "duplicate_record", "duplicate_citation",
+    "self_rehashed_private_packet", "self_rehashed_topology_packet",
+    "unsafe_record_identifier", "unsafe_run_identifier", "unsafe_workflow_identifier",
+    "home_path_payload", "github_token_payload", "provider_key_payload",
+    "normalized_room_slug_collision", "obsmem_trace_event_substitution",
+    "obsmem_trace_citation_substitution"
   ]
 }

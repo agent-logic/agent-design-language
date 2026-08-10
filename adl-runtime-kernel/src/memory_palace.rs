@@ -57,6 +57,172 @@ pub struct ObsMemContextRecord {
     pub temporal_anchor: MemoryTemporalAnchor,
 }
 
+/// Wire-compatible subset of the authoritative `adl::obsmem_contract::MemoryRecord`.
+/// The adapter consumes this normalized shape so callers cannot invent a parallel
+/// context-record identity at the Memory Palace boundary.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NormalizedObsMemRecord {
+    pub id: String,
+    pub run_id: String,
+    pub workflow_id: String,
+    pub tags: Vec<String>,
+    pub payload: String,
+    pub score: String,
+    pub citations: Vec<NormalizedObsMemCitation>,
+    pub trace_event_refs: Vec<NormalizedObsMemTraceRef>,
+    pub temporal_anchor: Option<NormalizedObsMemTemporalAnchor>,
+    pub review_findings: Vec<serde_json::Value>,
+    pub residual_risks: Vec<String>,
+    pub follow_on_refs: Vec<serde_json::Value>,
+}
+
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NormalizedObsMemCitation {
+    pub path: String,
+    pub hash: String,
+}
+
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NormalizedObsMemTraceRef {
+    pub event_sequence: usize,
+    pub event_kind: String,
+    pub step_id: Option<String>,
+    pub delegation_id: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NormalizedObsMemTemporalAnchor {
+    pub t_created_epoch_ms: u128,
+    pub t_observed_epoch_ms: Option<u128>,
+    pub t_effective_epoch_ms: Option<u128>,
+    pub continuity_id: Option<String>,
+    pub event_sequence: Option<usize>,
+}
+
+pub fn adapt_normalized_obsmem_record(
+    mut source: NormalizedObsMemRecord,
+    visibility: MemoryVisibility,
+    identity_root: &str,
+    continuity_head: &str,
+    trace_reference: &MemoryReference,
+) -> Result<ObsMemContextRecord, MemoryPalaceRejection> {
+    source.tags.sort();
+    source.tags.dedup();
+    source.citations.sort();
+    source.citations.dedup();
+    source.trace_event_refs.sort();
+    source.trace_event_refs.dedup();
+    source.residual_risks.sort();
+    source.residual_risks.dedup();
+    if !valid_identifier(&source.id)
+        || !valid_identifier(&source.run_id)
+        || !valid_identifier(&source.workflow_id)
+        || source.payload.trim().is_empty()
+        || source.citations.is_empty()
+        || source.trace_event_refs.is_empty()
+        || source
+            .citations
+            .iter()
+            .any(|citation| !safe_repo_path(&citation.path) || !is_sha256(&citation.hash))
+        || source.trace_event_refs.iter().any(|event| {
+            event.event_sequence == 0
+                || !valid_identifier(&event.event_kind)
+                || event
+                    .step_id
+                    .as_deref()
+                    .is_some_and(|v| !valid_identifier(v))
+                || event
+                    .delegation_id
+                    .as_deref()
+                    .is_some_and(|v| !valid_identifier(v))
+        })
+        || unsafe_content(&serde_jcs::to_string(&source).unwrap_or_default())
+    {
+        return Err(MemoryPalaceRejection::InvalidRecord { id: source.id });
+    }
+    let trace_digest =
+        digest(&source.trace_event_refs).map_err(|_| MemoryPalaceRejection::EncodingFailure)?;
+    if trace_reference.id != format!("trace:{trace_digest}")
+        || !source.citations.iter().any(|citation| {
+            citation.path == trace_reference.path && citation.hash == trace_reference.sha256
+        })
+    {
+        return Err(MemoryPalaceRejection::TraceMismatch { id: source.id });
+    }
+    let anchor = source.temporal_anchor.as_ref().ok_or_else(|| {
+        MemoryPalaceRejection::InvalidTemporalAnchor {
+            id: source.id.clone(),
+        }
+    })?;
+    let created_epoch_ms = u64::try_from(anchor.t_created_epoch_ms).map_err(|_| {
+        MemoryPalaceRejection::InvalidTemporalAnchor {
+            id: source.id.clone(),
+        }
+    })?;
+    let observed_epoch_ms = u64::try_from(
+        anchor
+            .t_observed_epoch_ms
+            .unwrap_or(anchor.t_created_epoch_ms),
+    )
+    .map_err(|_| MemoryPalaceRejection::InvalidTemporalAnchor {
+        id: source.id.clone(),
+    })?;
+    let effective_epoch_ms = u64::try_from(
+        anchor.t_effective_epoch_ms.unwrap_or(
+            anchor
+                .t_observed_epoch_ms
+                .unwrap_or(anchor.t_created_epoch_ms),
+        ),
+    )
+    .map_err(|_| MemoryPalaceRejection::InvalidTemporalAnchor {
+        id: source.id.clone(),
+    })?;
+    let event_sequence = u64::try_from(anchor.event_sequence.unwrap_or(0)).map_err(|_| {
+        MemoryPalaceRejection::InvalidTemporalAnchor {
+            id: source.id.clone(),
+        }
+    })?;
+    let citations = source
+        .citations
+        .into_iter()
+        .map(|citation| MemoryReference {
+            id: if citation.path == trace_reference.path && citation.hash == trace_reference.sha256
+            {
+                trace_reference.id.clone()
+            } else {
+                format!(
+                    "citation:{}",
+                    digest(&(citation.path.as_str(), citation.hash.as_str())).unwrap()
+                )
+            },
+            path: citation.path,
+            sha256: citation.hash,
+        })
+        .collect();
+    Ok(ObsMemContextRecord {
+        id: source.id,
+        run_id: source.run_id,
+        workflow_id: source.workflow_id,
+        payload: source.payload,
+        visibility,
+        identity_root: identity_root.to_owned(),
+        continuity_head: continuity_head.to_owned(),
+        trace_id: trace_reference.id.clone(),
+        citations,
+        temporal_anchor: MemoryTemporalAnchor {
+            created_epoch_ms,
+            observed_epoch_ms,
+            effective_epoch_ms,
+            continuity_head: continuity_head.to_owned(),
+            event_sequence,
+        },
+    })
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct MemoryPalaceInput {
@@ -130,6 +296,7 @@ pub enum MemoryPalaceRejection {
     EmptyRecords,
     InvalidRecord { id: String },
     DuplicateRecord { id: String },
+    DuplicateRoom { id: String },
     AuthorityMismatch { id: String },
     TraceMismatch { id: String },
     InvalidCitation { id: String },
@@ -203,9 +370,9 @@ pub fn build_memory_palace(
     let mut seen_records = BTreeSet::new();
     for record in &mut records {
         record.citations.sort();
-        if record.id.trim().is_empty()
-            || record.run_id.trim().is_empty()
-            || record.workflow_id.trim().is_empty()
+        if !valid_identifier(&record.id)
+            || !valid_identifier(&record.run_id)
+            || !valid_identifier(&record.workflow_id)
             || record.payload.trim().is_empty()
         {
             errors.insert(MemoryPalaceRejection::InvalidRecord {
@@ -389,7 +556,107 @@ pub fn validate_memory_palace_packet(
     unsigned.packet_sha256.clear();
     if packet.schema != MEMORY_PALACE_PACKET_SCHEMA
         || digest(&unsigned).ok().as_deref() != Some(&packet.packet_sha256)
+        || !is_sha256(&packet.identity_root)
+        || !is_sha256(&packet.identity_record_sha256)
+        || !is_sha256(&packet.continuity_head)
+        || !is_sha256(&packet.continuity_record_sha256)
+        || !is_sha256(&packet.redaction_policy_sha256)
+        || !is_sha256(&packet.authority_sha256)
+        || !is_sha256(&packet.canonical_input_sha256)
+        || !valid_reference(&packet.trace_reference)
+        || packet.trace_id != packet.trace_reference.id
+        || !packet
+            .trace_reference
+            .path
+            .starts_with(".adl/runtime-v3/observability/")
     {
+        return Err(MemoryPalaceRejection::EncodingFailure);
+    }
+    let mut room_ids = BTreeSet::new();
+    let mut room_records = BTreeMap::<&str, BTreeSet<&str>>::new();
+    for room in &packet.rooms {
+        if !valid_identifier(&room.workflow_id)
+            || room.room_id != format!("room:{}", stable_id(&room.workflow_id))
+            || !room_ids.insert(room.room_id.as_str())
+            || room.record_ids.is_empty()
+        {
+            return Err(MemoryPalaceRejection::DuplicateRoom {
+                id: room.room_id.clone(),
+            });
+        }
+        let records: BTreeSet<_> = room.record_ids.iter().map(String::as_str).collect();
+        if records.len() != room.record_ids.len()
+            || room_records
+                .insert(room.room_id.as_str(), records)
+                .is_some()
+        {
+            return Err(MemoryPalaceRejection::DuplicateRoom {
+                id: room.room_id.clone(),
+            });
+        }
+    }
+    let mut seen_records = BTreeSet::new();
+    for item in &packet.working_set {
+        if !valid_identifier(&item.record_id)
+            || !seen_records.insert(item.record_id.as_str())
+            || !room_records
+                .get(item.room_id.as_str())
+                .is_some_and(|records| records.contains(item.record_id.as_str()))
+            || matches!(
+                item.visibility,
+                MemoryVisibility::Private | MemoryVisibility::RawPrivate
+            )
+            || unsafe_content(&item.payload)
+            || (item.visibility == MemoryVisibility::Redacted && item.payload != "[REDACTED]")
+            || item.citations.is_empty()
+            || item
+                .citations
+                .iter()
+                .any(|citation| !valid_reference(citation))
+            || !item
+                .citations
+                .iter()
+                .any(|citation| citation == &packet.trace_reference)
+            || item.temporal_anchor.continuity_head != packet.continuity_head
+            || item.temporal_anchor.created_epoch_ms > item.temporal_anchor.observed_epoch_ms
+            || item.temporal_anchor.effective_epoch_ms < item.temporal_anchor.created_epoch_ms
+            || item.temporal_anchor.effective_epoch_ms > item.temporal_anchor.observed_epoch_ms
+            || item.temporal_anchor.event_sequence == 0
+        {
+            return Err(MemoryPalaceRejection::InvalidRecord {
+                id: item.record_id.clone(),
+            });
+        }
+        let expected = digest(&(
+            &item.record_id,
+            &item.room_id,
+            &item.payload,
+            item.visibility,
+            &item.citations,
+            &item.temporal_anchor,
+            &packet.authority_sha256,
+        ))
+        .map_err(|_| MemoryPalaceRejection::EncodingFailure)?;
+        if item.item_sha256 != expected {
+            return Err(MemoryPalaceRejection::EncodingFailure);
+        }
+    }
+    for overflow in &packet.overflow {
+        if !valid_identifier(&overflow.record_id)
+            || !seen_records.insert(overflow.record_id.as_str())
+            || !is_sha256(&overflow.record_sha256)
+            || !overflow.reason.starts_with("bounded_after_")
+        {
+            return Err(MemoryPalaceRejection::InvalidRecord {
+                id: overflow.record_id.clone(),
+            });
+        }
+    }
+    let declared: BTreeSet<_> = room_records
+        .values()
+        .flat_map(|records| records.iter().copied())
+        .collect();
+    if declared != seen_records {
         return Err(MemoryPalaceRejection::EncodingFailure);
     }
     Ok(())
@@ -416,18 +683,30 @@ fn unsafe_content(value: &str) -> bool {
     let lower = value.to_ascii_lowercase();
     [
         "/users/",
+        "/home/",
         "/private/",
         "private_state",
         "raw-state",
         "raw_state",
         "sealed_payload",
         "bearer ",
+        "gho_",
+        "sk-",
         "api_key",
         "private key",
         "raw_chat_transcript",
     ]
     .iter()
     .any(|needle| lower.contains(needle))
+}
+
+fn valid_identifier(value: &str) -> bool {
+    !value.trim().is_empty()
+        && value.len() <= 256
+        && !unsafe_content(value)
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b':'))
 }
 
 fn is_sha256(value: &str) -> bool {
@@ -438,7 +717,7 @@ fn is_sha256(value: &str) -> bool {
 }
 
 fn stable_id(value: &str) -> String {
-    value
+    let slug: String = value
         .chars()
         .map(|ch| {
             if ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_') {
@@ -447,7 +726,9 @@ fn stable_id(value: &str) -> String {
                 '-'
             }
         })
-        .collect()
+        .collect();
+    let suffix = format!("{:x}", Sha256::digest(value.as_bytes()));
+    format!("{slug}-{}", &suffix[..16])
 }
 
 fn digest<T: Serialize>(value: &T) -> Result<String, Vec<MemoryPalaceRejection>> {
