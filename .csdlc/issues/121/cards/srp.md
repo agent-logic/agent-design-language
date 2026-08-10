@@ -41,8 +41,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f729263b04820f730841059680a3902b1b99b1e3:df6d256432fa1dd77bd1f86e175a1d8467ae25bc1d8f38624f149c4ec5ded494")
 
-Reviewer: None
+Reviewer: Some("subagent:issue-121-proof-repair-review")
 
-Result: pre_review
+Result: pass

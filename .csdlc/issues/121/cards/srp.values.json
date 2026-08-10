@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
     "slug": "v0-92-wp-04-07-defect-quorum-fence-restart-safe-epochs",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime/src/distributed/lease.rs\nadl-runtime/tests/distributed_lease.rs\n.csdlc/issues/121\n.csdlc/evidence/121\n.csdlc/prepared/issues/121\n.csdlc/publication/121.intent.json",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:f729263b04820f730841059680a3902b1b99b1e3:df6d256432fa1dd77bd1f86e175a1d8467ae25bc1d8f38624f149c4ec5ded494",
+      "reviewer": "subagent:issue-121-proof-repair-review",
       "review_prompts": [
         "Can quorum fence and revoke an unavailable holder without its private activation key?",
         "Are next-epoch and applied-index transitions exact and atomic?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

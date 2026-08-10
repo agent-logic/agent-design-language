@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
     "slug": "v0-92-wp-04-07-defect-quorum-fence-restart-safe-epochs",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "ready",
   "content": {

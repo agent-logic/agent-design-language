@@ -3,9 +3,9 @@
   "issue": 121,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "ac89d1fa1942dfa0dcf8507e8b001b177ec36b8280f34ec9273c1531a8f7eba4",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "c140830dca70f6d046cab443f79af4f6aef79078a27901e2f6776466a9deaace",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
   "review_assignment": {
@@ -21,7 +21,22 @@
       ".csdlc/publication/121.intent.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:issue-121-proof-repair-review",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121",
+      ".csdlc/publication/121.intent.json"
+    ],
+    "reviewed_revision": "git-blake3:f729263b04820f730841059680a3902b1b99b1e3:df6d256432fa1dd77bd1f86e175a1d8467ae25bc1d8f38624f149c4ec5ded494",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a3956df50746d6e2ced08d6a21e8c370fb37da57884ad6c5a10576c085a90a3d",
+      "values_digest": "3823021eaea662c8e334f60ff2b16bad411390186ed0204291959ff456822f08",
       "rendered_digest": "b8fb383ef2efb210c1835ca5caa89f1a1b57945dcebe86833449c7d703300088",
       "ast_digest": "28d9d9764b5edc0763207de94cd4120e324f83e10e24c0304a04532ae39f8c24"
     },
     "stp": {
-      "values_digest": "5f61aa9b6cfb11417f1901aa57d5e44b21db665da0ab716aec1daa8e2ebd0093",
+      "values_digest": "721680cba7f206d3dc05fdc5b0f922d3aca10e7448c7dd6bec7b5fcf45efa6ea",
       "rendered_digest": "f59864e9168036e26931bd53b0fa4976f089bdb8c611728396088f87cc245bbd",
       "ast_digest": "1c4fa5956407020683ec31dbeeae560ac39e71c279fc303cd8d51f75cebbe11e"
     },
     "spp": {
-      "values_digest": "da45944f69cbb68f6ee576e47b7a26a96da9b96f706ce945f0969bf00906cafe",
+      "values_digest": "1d97a4460a880479c713969d758cf7836e1b738ebbc5734ae901135c463018f0",
       "rendered_digest": "25c70ab7a3a48bc4a99573138db5e45486c0e6e5026dee29efc0bf6f980ddfdb",
       "ast_digest": "d83f34dc5520914cea7b2f269e56d31196579bab949d0ef825532862fef2e068"
     },
     "vpp": {
-      "values_digest": "9f706c7418cd6fda75b900c5b28f273a4b845ea9f1de9d75d4cbeaa743b21966",
+      "values_digest": "a58b4397dde28d878f4923a7ed94509e24ce69350327da1906dd508c6b67a82a",
       "rendered_digest": "475d39da1386ca2c4ec1f149b6ef6bfcfb336559e45dbe29734d3ac5b8e76b09",
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "1fdd7bf2434f11631938d50f2ad46f3a9537396e5550350796533e5e84b1a611",
-      "rendered_digest": "ba86cba3025dd8ce439529e6cffb373c96b3751fe4bf15e8684d8622cca1b36a",
-      "ast_digest": "dc4eade69f54b2a62912cc040e31a58c8bb7dd18ae8e4d983a140f4958a6f06a"
+      "values_digest": "b14f9ac4b070ac47615153374a737b264b2e6ee5dc5dddeb8e52c6944c80da45",
+      "rendered_digest": "012a2c4f7db82c7615d748564be60fa68f461450ed469201567fe306df85a23e",
+      "ast_digest": "73d2d2883a3471d6cb31421a9e80df672b696fd6128765b21533100884d4161b"
     },
     "sor": {
-      "values_digest": "9aa886e6b2bb13e76749eb7ba32527fe3b4954ec62b8488b1c0cee6c397b480b",
+      "values_digest": "35f8071bc51aaad3885b03c63676b3bc6ff8d233efd256a9ce9fd662aa095c11",
       "rendered_digest": "18279efdcd52712ff24202a13ed748cca211a0fb932c56e5cc512a99c6b45aff",
       "ast_digest": "695ab9273bc2bad6cecba25ab0caa43e8729a092961efd85df3ece51a120f767"
     }
@@ -157,6 +172,13 @@
       "to": "implemented",
       "actor": "codex:121-epoch-overflow-remediation",
       "reason": "Recover stale review and publication truth before rebasing the merged parent stack onto main and repairing fail-closed successor overflow semantics."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-121-proof-repair-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -327,6 +349,13 @@
       "actor": "codex:121-epoch-overflow-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 15,
+      "actor": "subagent:issue-121-proof-repair-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
