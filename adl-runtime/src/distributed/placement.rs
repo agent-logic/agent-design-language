@@ -759,7 +759,7 @@ fn build_fencing_snapshot(
             }
             if value.epoch == lineage.epoch
                 && value.committed_log_index < lineage.committed_log_index
-                && matches!(lineage.operation_class, 4 | 5)
+                && matches!(lineage.operation_class, 2 | 4 | 5)
             {
                 continue;
             }

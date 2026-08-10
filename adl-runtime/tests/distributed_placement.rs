@@ -267,8 +267,12 @@ fn fence(identity: &str, log_index: u64) -> FenceReceipt {
     }
 }
 
-fn same_epoch_activation(receipt: &FenceReceipt) -> LeaseState {
-    let committed_log_index = receipt.committed_log_index + 1;
+fn same_epoch_successor(
+    receipt: &FenceReceipt,
+    operation: OperationClass,
+    log_offset: u64,
+) -> LeaseState {
+    let committed_log_index = receipt.committed_log_index + log_offset;
     let body = AuthorityCertificateBodyV1 {
         schema_version: 1,
         trust_domain_id: TRUST.as_bytes().to_vec(),
@@ -280,7 +284,7 @@ fn same_epoch_activation(receipt: &FenceReceipt) -> LeaseState {
         holder_node_id: b"node-1".to_vec(),
         holder_guardian_id: b"guardian-1".to_vec(),
         activation_key_sha256: vec![3; 32],
-        operation_class: OperationClass::Activate as u32,
+        operation_class: operation as u32,
         issued_unix_seconds: NOW as i64,
         issued_nanos: 0,
         lease_duration_millis: 2_000,
@@ -552,7 +556,7 @@ fn fenced_candidate_is_excluded_from_selection() {
     let historical = PlacementFencingSnapshot::active_successor_for_test(
         &policy,
         &state,
-        same_epoch_activation(&floor),
+        same_epoch_successor(&floor, OperationClass::Activate, 1),
         floor,
     )
     .unwrap();
@@ -566,6 +570,24 @@ fn fenced_candidate_is_excluded_from_selection() {
     )
     .unwrap();
     assert_eq!(successor.node_id, "node-1");
+    let renewal_floor = fence("lineage-1", state.committed_log_index());
+    let renewed = PlacementFencingSnapshot::active_successor_for_test(
+        &PlacementPolicy::new(TRUST).unwrap(),
+        &state,
+        same_epoch_successor(&renewal_floor, OperationClass::LeaseRenewal, 2),
+        renewal_floor,
+    )
+    .unwrap();
+    let renewed_successor = decide_request(
+        PlacementPolicy::new(TRUST).unwrap(),
+        &state,
+        &request(&state),
+        &[capability("guardian-1", 3, 51, NOW + 60)],
+        &[weather("guardian-1", 3, 61, 100, 8, NOW + 60)],
+        &renewed,
+    )
+    .unwrap();
+    assert_eq!(renewed_successor.node_id, "node-1");
     marker("fenced_node_excluded", "fenced");
 }
 
