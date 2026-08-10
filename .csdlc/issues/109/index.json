@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "61b2921f17d981036ef867ff1e3bc0930da1926a99c93aed8ce7e8626fc309e4",
+  "generation": 20,
+  "digest": "2e608e9d200943690e7ab7856cbb94a5201d6b8bfb92bd008f0fda5c4027f67b",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "641778c89848e7982839f8ea95c1c2d5d1f8cfc75716f28a431ca23d790b2735",
+      "values_digest": "c98f18be4bdddf5e8e28aa6981d43eada9a38ec383955ff40edeef190887ff15",
       "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
       "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
     },
     "stp": {
-      "values_digest": "3f35db8de1d6feb0a5238d5a0e9c095d23304355b52457df1705bc5b37b31bf2",
+      "values_digest": "536b96a69f60382165bfe5ca278dbd6c6861a5494518da64cd3c12aeb40d52a7",
       "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
       "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
     },
     "spp": {
-      "values_digest": "fab25b5b1b9c8c40b1ca5000792a9a789c233b5e14da9e45dc09642bf9152317",
+      "values_digest": "5a4f49449eb96623ddf50a6b5802a7540470b4b9340b4097fd9dafe2be38aae2",
       "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
       "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
     },
     "vpp": {
-      "values_digest": "c2e06f7431910994d90f6f9e031876f8ff58c6020e7f93c7644a4027bbda5729",
-      "rendered_digest": "42a9bfffd80a6b4f35769cf86ed9c6ae65d75632bfe5bded6ef25f543b436405",
-      "ast_digest": "17a0cb6f2245be3029a712020395439f86fd6023c8032db328eb80b05d03a240"
+      "values_digest": "6e8a289337ecbeb0ddae1f1d7d0d0a206c262e1d9681dd3b5dbcbb0626c8f3ab",
+      "rendered_digest": "bea8837fa774ecd20e74d3c72fab78cbb27e3849f7c09362df341e9182d5671a",
+      "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "75a64250c73f38dd7ea67d1b1cc07e0afd450dca46ef5e01fa4509c520309a3e",
-      "rendered_digest": "5624685d75ccdb2ecdda06498f88d1b33ef83a276bbd5e00167041e6b0855c4c",
-      "ast_digest": "f9f9a267dcb42a949c988f31361eb2a48ddda6ea75796907f74d1d9326c85cab"
+      "values_digest": "eec5cfdfb52c34b8c393cfffa393f46f339dcca45304e798a0f195e3c4fb784c",
+      "rendered_digest": "dca112283be83ac1c545b8ab4063db4b2edcd0c85bc52412f7e4353e745afbe7",
+      "ast_digest": "4fc971d3483da809e2dd85a4f012444effb1a223c4289ba197eccfc5f60af736"
     },
     "sor": {
-      "values_digest": "c4a7cbb5fc27d8ca55fcf03414b21b08be3f8a8d7eee9ab6c7db55dcd2d1ec0c",
+      "values_digest": "28f70bc0426f34b51ba5e3a2ea6edc3d76a0c0e8a214728b9301e548e760078d",
       "rendered_digest": "54304d46c7d82f6566fe481a04db5c4ea5abcf105b8fbe90cd524a708d6bdb0a",
       "ast_digest": "4d2df717ca82be386d9723dcc027b7ebd6e179bc3cb388060183b69bf4c6e4b7"
     }
@@ -231,6 +231,34 @@
       "actor": "codex",
       "reason": "retain independent PR review finding",
       "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-REUSABLE-SCOPE\",\"severity\":\"p1\",\"summary\":\"Reusable review skill omitted the mandatory runbook, authority-first classification, code/security/evidence coverage, acceptance review, explicit limitations, and P0-P3 ordering.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "retain fresh-session review assignment-order finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-ASSIGNMENT-ORDER\",\"severity\":\"p1\",\"summary\":\"The documented route did not require typed reviewer assignment before review activity began, permitting backfilled independence evidence.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "retain fresh-session exact-revision finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-SUBSTANTIVE-BINDING\",\"severity\":\"p1\",\"summary\":\"The validator accepted an ancestor revision and did not verify the BLAKE3 portion of the exact substantive review revision.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "retain structured SRP parity finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-SRP-PARITY\",\"severity\":\"p1\",\"summary\":\"The validator did not compare structured SRP reviewer, revision, scope, findings, dispositions, and residual risks with retained review evidence.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "bind focused validation to final head and exact reviewed substantive revision",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-srp-contract\",\"proof_role\":\"prove fresh-session standard SRP instructions and retained exact-revision review truth\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":100,\"argv\":[\"bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"<immutable-base-sha>\",\"<exact-final-head-sha>\",\"<exact-reviewed-substantive-sha>\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
     }
   ]
 }

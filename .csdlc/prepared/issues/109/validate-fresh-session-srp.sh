@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 2 ]]; then
-  echo "usage: $0 <immutable-base-sha> <exact-reviewed-head-sha>" >&2
+if [[ $# -ne 3 ]]; then
+  echo "usage: $0 <immutable-base-sha> <exact-final-head-sha> <exact-reviewed-substantive-sha>" >&2
   exit 2
 fi
 
 base="$(git rev-parse --verify "$1^{commit}")"
 expected_head="$(git rev-parse --verify "$2^{commit}")"
+expected_reviewed_commit="$(git rev-parse --verify "$3^{commit}")"
 actual_head="$(git rev-parse HEAD)"
 [[ "$actual_head" == "$expected_head" ]]
 git merge-base --is-ancestor "$base" "$expected_head"
@@ -15,30 +16,34 @@ git merge-base --is-ancestor "$base" "$expected_head"
 skill="csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md"
 runbook="docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md"
 srp=".csdlc/issues/109/cards/srp.md"
+srp_values=".csdlc/issues/109/cards/srp.values.json"
 index=".csdlc/issues/109/index.json"
 
-for path in "$skill" "$runbook" "$srp" "$index"; do
+for path in "$skill" "$runbook" "$srp" "$srp_values" "$index"; do
   test -s "$path"
 done
 
 # Policy assertions must examine the exact committed blobs, never mutable
 # working-tree content presented under an unchanged HEAD.
-git diff --quiet "$expected_head" -- "$skill" "$runbook" "$srp" "$index" \
+git diff --quiet "$expected_head" -- "$skill" "$runbook" "$srp" "$srp_values" "$index" \
   .csdlc/issues/109/cards/stp.md
-git diff --cached --quiet "$expected_head" -- "$skill" "$runbook" "$srp" "$index" \
+git diff --cached --quiet "$expected_head" -- "$skill" "$runbook" "$srp" "$srp_values" "$index" \
   .csdlc/issues/109/cards/stp.md
 
-ruby - "$skill" "$runbook" "$srp" "$index" "$expected_head" <<'RUBY'
+ruby - "$skill" "$runbook" "$srp_values" "$index" "$expected_head" "$expected_reviewed_commit" <<'RUBY'
 require "json"
 require "open3"
 
-skill_path, runbook_path, srp_path, index_path, expected_head = ARGV
-skill, runbook, srp = [skill_path, runbook_path, srp_path].map { |path| File.read(path) }
+skill_path, runbook_path, srp_values_path, index_path, expected_head, expected_reviewed_commit = ARGV
+skill, runbook = [skill_path, runbook_path].map { |path| File.read(path) }
+srp = JSON.parse(File.read(srp_values_path)).fetch("content").fetch("values")
 index = JSON.parse(File.read(index_path))
 
 requirements = {
-  "AC-1 standard SRP authority" => skill.include?("standard SRP, which remains\nthe sole review-result authority"),
-  "AC-2 fresh exact-head handoff" => skill.include?("exact commit SHA to a fresh\nexternal review session that does not inherit the implementation conversation"),
+  "AC-1 standard SRP authority" => skill.include?("standard SRP") &&
+    skill.include?("sole review-result authority"),
+  "AC-2 fresh exact-head handoff" => skill.include?("typed `csdlc-review assign` record for the fresh reviewer before sending any\nreview material") &&
+    runbook.include?("`csdlc-review assign` before review activity begins"),
   "AC-3 read-only findings-first evidence" => skill.include?("report findings first, ordered P0 through P3, with repository-relative file and\nline evidence") &&
     skill.include?("must state explicit limitations and operate\nread-only"),
   "AC-4 resolution and mandatory re-review" => runbook.include?("Resolve every actionable finding in the implementation session.") &&
@@ -67,8 +72,7 @@ revision = review["reviewed_revision"].to_s
 match = revision.match(/\Agit-blake3:([0-9a-f]{40}):[0-9a-f]{64}\z/)
 abort("reviewed revision is malformed") unless match
 reviewed_commit = match[1]
-_stdout, _stderr, ancestor = Open3.capture3("git", "merge-base", "--is-ancestor", reviewed_commit, expected_head)
-abort("reviewed commit is not an ancestor of exact head") unless ancestor.success?
+abort("review evidence is not bound to exact substantive commit") unless reviewed_commit == expected_reviewed_commit
 scope = Array(review["scope"])
 abort("review scope missing") if scope.empty? || scope.any? { |path| path.to_s.empty? }
 _stdout, _stderr, unchanged = Open3.capture3("git", "diff", "--quiet", reviewed_commit, expected_head, "--", *scope)
@@ -85,7 +89,22 @@ findings.each do |finding|
   abort("fixed finding does not name reviewed revision") unless finding["fix_revision"] == revision
 end
 abort("typed lifecycle does not record reviewed truth") unless %w[reviewed published].include?(index["phase"])
-abort("standard SRP does not record PASS") unless srp.include?("Result: pass") && srp.include?(reviewer)
+abort("standard SRP is not a passing review") unless srp["review_result"] == "pass"
+abort("standard SRP reviewer mismatch") unless srp["reviewer"] == reviewer
+abort("standard SRP revision mismatch") unless srp["review_revision"] == revision
+abort("standard SRP scope mismatch") unless srp["review_scope"].to_s.lines(chomp: true) == scope
+abort("standard SRP findings mismatch") unless Array(srp["findings"]) == findings
+abort("standard SRP residual-risk mismatch") unless Array(srp["residual_risk"]) == Array(review["residual_risks"])
+
+guard_bin = ENV.fetch("CSDLC_REVIEW_BIN", "csdlc-review")
+guard_request = JSON.generate({"evidence" => review, "scope" => scope})
+guard_stdout, guard_stderr, guard_status = Open3.capture3(
+  guard_bin, "--root", ".", "guard", "--request", "/dev/stdin", stdin_data: guard_request
+)
+abort("typed review guard failed: #{guard_stderr}") unless guard_status.success?
+guard = JSON.parse(guard_stdout)
+abort("typed review guard rejected review digest: #{guard.fetch('blocker_codes', []).join(',')}") unless guard["ready"] == true
+abort("typed review guard accepted unexpected revision") unless guard["reviewed_revision"] == revision
 puts "assertion=PASS completed fresh-session review evidence"
 RUBY
 

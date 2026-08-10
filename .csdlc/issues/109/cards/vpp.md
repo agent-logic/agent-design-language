@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/109/diagram.mmd
 [
   {
     "lane": "focused-srp-contract",
-    "proof_role": "prove fresh-session standard SRP instructions",
+    "proof_role": "prove fresh-session standard SRP instructions and retained exact-revision review truth",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -43,7 +43,8 @@ Diagram: .csdlc/prepared/issues/109/diagram.mmd
       "bash",
       ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
       "<immutable-base-sha>",
-      "<exact-reviewed-head-sha>"
+      "<exact-final-head-sha>",
+      "<exact-reviewed-substantive-sha>"
     ],
     "parallel_group": "local",
     "defer_reason": null
@@ -62,7 +63,7 @@ Tokens: 10000
 
 ## Commands
 
-- `bash .csdlc/prepared/issues/109/validate-fresh-session-srp.sh <immutable-base-sha> <exact-reviewed-head-sha>`
+- `bash .csdlc/prepared/issues/109/validate-fresh-session-srp.sh <immutable-base-sha> <exact-final-head-sha> <exact-reviewed-substantive-sha>`
 
 ## Failure Semantics
 

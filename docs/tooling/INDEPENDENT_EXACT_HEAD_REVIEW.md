@@ -9,9 +9,11 @@ session.
 1. Finish the bounded implementation and focused validation.
 2. Commit the complete substantive change.
 3. Generate or refresh the standard SRP for that exact commit.
-4. Start a fresh review session that does not inherit the implementation
-   conversation.
-5. Give it the SRP, repository/worktree path, and exact commit SHA.
+4. Select a fresh review session that does not inherit the implementation
+   conversation, and record its identity, exact scope, and exact revision with
+   `csdlc-review assign` before review activity begins.
+5. Only after assignment, give that same session the SRP,
+   repository/worktree path, and exact commit SHA.
 6. Require findings first, with severity and repository-relative file/line
    evidence. The reviewer must not edit the worktree or GitHub state.
 7. Record the review result and findings through `csdlc-review record`, which
@@ -20,6 +22,9 @@ session.
 9. If the fix changes the substantive commit, generate a current SRP and send
    it to a new review session at the new exact SHA.
 10. Publish only after the standard SRP records a passing exact-head review.
+
+An assignment created after review activity begins is backfilled metadata, not
+proof of an independent handoff, and must not be accepted.
 
 ## Scope
 

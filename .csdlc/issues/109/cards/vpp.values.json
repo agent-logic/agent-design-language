@@ -7,7 +7,7 @@
     "title": "Use fresh sessions for standard SRP review",
     "slug": "fresh-session-standard-srp-review",
     "version": "v0.92",
-    "generation": 16
+    "generation": 20
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "focused-srp-contract",
-          "proof_role": "prove fresh-session standard SRP instructions",
+          "proof_role": "prove fresh-session standard SRP instructions and retained exact-revision review truth",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -35,7 +35,8 @@
             "bash",
             ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
             "<immutable-base-sha>",
-            "<exact-reviewed-head-sha>"
+            "<exact-final-head-sha>",
+            "<exact-reviewed-substantive-sha>"
           ],
           "parallel_group": "local",
           "defer_reason": null

@@ -46,6 +46,36 @@ Status: draft
     "disposition": "open",
     "fix_revision": null,
     "route": null
+  },
+  {
+    "id": "R109-P1-ASSIGNMENT-ORDER",
+    "severity": "p1",
+    "summary": "The documented route did not require typed reviewer assignment before review activity began, permitting backfilled independence evidence.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R109-P1-SUBSTANTIVE-BINDING",
+    "severity": "p1",
+    "summary": "The validator accepted an ancestor revision and did not verify the BLAKE3 portion of the exact substantive review revision.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R109-P1-SRP-PARITY",
+    "severity": "p1",
+    "summary": "The validator did not compare structured SRP reviewer, revision, scope, findings, dispositions, and residual risks with retained review evidence.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
   }
 ]
 
