@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/prepared/issues/144/validate-native-receipts.rb\n.github/workflows/wp13-authority-repair.yml\n.csdlc/prepared/issues/144/produce-native-receipt.rb\n.csdlc/evidence/144\n.csdlc/issues/144\nReview the exact libtest-json-plus authority inventory repair against failed native run 31421144797. Confirm the validator expects the exact observed 15 structured names without weakening count, receipt digests, source-head, producer, workflow/run/job, artifact, semantic-equivalence, manifest, or path-hygiene checks. Confirm product/source remains unchanged from the approved opaque-authority revision.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

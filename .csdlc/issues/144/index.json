@@ -6,10 +6,22 @@
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
   "phase": "implemented",
   "generation": 10,
-  "digest": "20da3162f0122e0b3cbc40863eadaca304024eee195c52cf50003deb5c921257",
+  "digest": "b74f358d7dee217b527608fbb1b4b743293177347a57ed572a0d8c842264a2f3",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_144_exact_head",
+    "assigned_by": "codex:144-cognitive-authority-repair",
+    "revision": "git-blake3:6f8d4e0f373b217509d9960d3da881a12bb8cd27:b57d0a21cfb61a46511baf3889607dd2584a8ee1b10aba53c4561a966e42e932",
+    "scope": [
+      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
+      ".github/workflows/wp13-authority-repair.yml",
+      ".csdlc/prepared/issues/144/produce-native-receipt.rb",
+      ".csdlc/evidence/144",
+      ".csdlc/issues/144",
+      "Review the exact libtest-json-plus authority inventory repair against failed native run 31421144797. Confirm the validator expects the exact observed 15 structured names without weakening count, receipt digests, source-head, producer, workflow/run/job, artifact, semantic-equivalence, manifest, or path-hygiene checks. Confirm product/source remains unchanged from the approved opaque-authority revision."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "6ef35fc6ae340252c5cbd7c9e9bc25096f2fe5619dd0f603d0cf054dff21d23c",
-      "rendered_digest": "67504f7e4c84c6af80b9fb9000a91c7750b05f193afffbf24a6797a375de09ff",
-      "ast_digest": "9c1916056920759c01939cf9c2341b1635d10e3c9a6b6f3c4a5fb2e32daa3f0e"
+      "values_digest": "fe4c974ef4aa28ad01d9ba5b71038c3c5c6795d59227bef1452af9a53caf11f4",
+      "rendered_digest": "46e8a69757497a9d01ec868d7f049ab86efc9da52a74790067f89462a914e561",
+      "ast_digest": "e790fc8866834814f41b37340da163668b953a82a4b02e55c0d279e963d73c16"
     },
     "sor": {
       "values_digest": "e9207c34c5fe4233e271abad8d995ecf109bc123ef3e20f48f9406905632e028",
@@ -197,6 +209,13 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "Published native run 31421144797 proved both platforms passed 15 tests but aggregate validation rejected the correct libtest-json-plus names because the issue-local validator retained a stale integration-test name prefix. Recover review/publication truth for the bounded exact inventory-name repair and replacement native proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

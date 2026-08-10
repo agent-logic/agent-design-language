@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/144/validate-native-receipts.rb
+.github/workflows/wp13-authority-repair.yml
+.csdlc/prepared/issues/144/produce-native-receipt.rb
+.csdlc/evidence/144
+.csdlc/issues/144
+Review the exact libtest-json-plus authority inventory repair against failed native run 31421144797. Confirm the validator expects the exact observed 15 structured names without weakening count, receipt digests, source-head, producer, workflow/run/job, artifact, semantic-equivalence, manifest, or path-hygiene checks. Confirm product/source remains unchanged from the approved opaque-authority revision.
 
 ## Prompts
 
