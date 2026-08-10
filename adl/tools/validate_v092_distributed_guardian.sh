@@ -25,16 +25,42 @@ if [[ -z "$python_bin" ]]; then
   exit 69
 fi
 evidence_root=${ADL_DISTRIBUTED_EVIDENCE_ROOT:-"$repo_root/.csdlc/evidence/5878/native/$platform"}
+evidence_root=$("$python_bin" - "$repo_root" "$evidence_root" <<'PY'
+import os
+import pathlib
+import sys
 
-case "$evidence_root" in
-  "$repo_root"/.csdlc/evidence/5878/*) ;;
-  *) echo "evidence root must remain issue-local" >&2; exit 64 ;;
-esac
-if [[ -L "$evidence_root" ]]; then
-  echo "evidence root must not be a symlink" >&2
+root = pathlib.Path(sys.argv[1])
+candidate = pathlib.Path(sys.argv[2])
+if not root.is_absolute() or not candidate.is_absolute():
+    raise SystemExit("repository and evidence roots must be absolute")
+if root.is_symlink():
+    raise SystemExit("repository root must not be a symlink")
+root_real = pathlib.Path(os.path.realpath(root))
+candidate_absolute = pathlib.Path(os.path.abspath(candidate))
+required = root_real / ".csdlc" / "evidence" / "5878"
+try:
+    relative = candidate_absolute.relative_to(required)
+except ValueError as error:
+    raise SystemExit("evidence root must remain issue-local") from error
+if not relative.parts:
+    raise SystemExit("evidence root must be below the issue root")
+
+current = root_real
+for part in candidate_absolute.relative_to(root_real).parts:
+    current = current / part
+    if current.is_symlink():
+        raise SystemExit("evidence root traverses a symlink")
+    if current.exists() and not current.is_dir():
+        raise SystemExit("evidence root traverses a non-directory")
+print(candidate_absolute)
+PY
+) || exit 64
+mkdir -p "$evidence_root"
+if [[ "$(cd "$evidence_root" && pwd -P)" != "$evidence_root" ]]; then
+  echo "evidence root canonicalization changed after creation" >&2
   exit 64
 fi
-mkdir -p "$evidence_root"
 
 protected=(
   adl-runtime/src/distributed/mod.rs
