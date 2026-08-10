@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 133,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/133-revisioned-redacted-authority-snapshots",
+  "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+  "body": "Closes #133\n\n## Summary\n- expose complete bounded opaque snapshots for certificate, failure, lease, fencing, placement, migration, and recovery authorities\n- bind content revisions, authoritative membership cuts, stable cross-source references, coarse redacted health/freshness/capacity, and fail-closed drift\n- return placement AuthorityUnavailable after restart until authoritative reconstruction; preserve checkpointed authority restart parity\n\n## Validation\n- focused authority snapshot suite: 8 passed\n- strict focused Clippy with -D warnings: passed\n- git diff --check: passed\n- independent exact-head review at edbe72499835fba8cd67b0793555ac5dbb709fee: approved with no findings\n",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:3e763a06d71e783aaf120bd2367f244484a42445:e53c836d17ca147804cf2d0ae0a3b00c4228d88f4fc8de07d3a46f13d409620c",
+  "commit_sha": "3e763a06d71e783aaf120bd2367f244484a42445"
+}
