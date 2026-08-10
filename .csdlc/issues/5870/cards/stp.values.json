@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.08] Fencing and single-owner enforcement",
     "slug": "v0-92-wp-04-08-fencing-single-owner",
     "version": "v0.92",
-    "generation": 16
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -17,10 +17,12 @@
       "deliverables": [
         "adl-runtime/src/distributed/fencing.rs",
         "adl-runtime/tests/distributed_fencing.rs",
-        "Focused positive and negative tests",
-        "Digest-bound execution proof",
-        "Reviewed rollback evidence",
-        "Authority safety: Keep uncertain owners fenced and restore only a quorum-committed owner or newer majority-committed epoch after the prior lease safety window."
+        "Quorum-authorized fence and revoke operations that do not require old-holder activation possession, while every holder-authorized activation or mutation still requires current holder proof",
+        "Strict committed next-epoch transitions with a portable durable safety floor that survives restart, restore, and rollback",
+        "Fresh current AuthorityMembership verification and an exact operation allowlist at every authority-sensitive entry point",
+        "Atomic immediately durable replay and fence receipts with fail-closed recovery from torn, corrupt, missing, or capacity-exhausted state",
+        "Deterministic focused tests for path and symlink safety, restart, rollback, replay, capacity, and absent current membership",
+        "Exact-revision proof with an issue-specific machine-derived negative-marker denominator and independent exact-head review"
       ],
       "acceptance_criteria": [
         "Implement only the declared exclusive paths",
@@ -31,10 +33,13 @@
         "Complete independent review and child-owned typed closeout"
       ],
       "dependencies": [
-        "WP-04.06 issue #5868",
-        "WP-04.07 issue #5869",
-        "WP-04-IMP issue 5862",
-        "Architecture/security gate issue 5821 terminal"
+        "#5868 failure detection must be closed by a merged commit ancestral to the exact execution base",
+        "#5869 lease baseline must be closed by a merged commit ancestral to the exact execution base",
+        "Corrective PR #120 for #5909 must be merged and ancestral",
+        "Same-repository issue #121 and stacked PR #123 must be merged and ancestral after their declared base",
+        "Both corrective merges #120 and #123 must be present before #5870 may bind or implement",
+        "#5862 is the coordination umbrella and is not a substitute for dependency terminality",
+        "#5821 is the terminal architecture gate"
       ],
       "repo_inputs": [
         "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",

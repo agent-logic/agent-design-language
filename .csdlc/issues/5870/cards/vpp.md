@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5870/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_fencing proves mutation-sink enforcement, majority-certificate validation, voter-generation and applied-index checks, activation possession, stale epoch, cloned state, malicious-leader/minority denial, split-brain, wrong owner, expiry/revocation, post-partition, and recovery fencing.",
+    "proof_role": "Exact nextest target distributed_fencing proves quorum fence and revoke without old-holder activation possession, strict committed next-epoch transitions, portable nondecreasing recovery floors, fresh current AuthorityMembership, exact operation allowlisting, atomic immediately durable fence and replay receipts, path and symlink denial, restart and rollback safety, hard capacity behavior, and absent-current-membership denial.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,11 +47,11 @@ Diagram: .csdlc/prepared/issues/5870/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/fencing.rs\"] harness in adl-runtime/tests/distributed_fencing.rs will route adl-runtime/src/distributed/fencing.rs until integration issue #5878 registers the production module; after bind, either missing target remains a hard failure."
+    "defer_reason": "The issue-owned temporary harness in adl-runtime/tests/distributed_fencing.rs will import read-only adl-runtime/src/distributed/lease.rs with #[path = \"../src/distributed/lease.rs\"] and owned adl-runtime/src/distributed/fencing.rs with #[path = \"../src/distributed/fencing.rs\"] until #5878 registers the production module; after implementation any missing target remains a hard failure."
   },
   {
     "lane": "exact-revision-proof-receipt",
-    "proof_role": "Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=2154d93db7160bdb060f1edc436d0aff1ea29062f60e99aafa6ef560cb866352]",
+    "proof_role": "Recompute exact source, command, nonzero test, artifact, runner, and receipt bindings and require exact name/result parity for sixteen future ADL_ISSUE_5870_NEGATIVE_CASE_V1 machine markers derived from executed output; no marker or case result is claimed during preparation. [preexec_rejection exit=1 diagnostic_sha256=9ef02b09994a1fae1e9ebdbb42a437d856c45baf388783c7171b422dc9a00978]",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
