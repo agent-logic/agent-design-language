@@ -41,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact-head native Linux and macOS receipts, aggregate validation, standard CI, and a fresh post-native exact-head review remain mandatory before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5a15670df088fa0e2d2e94cd5e8dc49c5d3859c6:94923296d6733ffe4148833302d00e5460cb32b22b2f59cfbf1b969e4f596a05")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5833_exact_head")
 
-Result: pre_review
+Result: pass

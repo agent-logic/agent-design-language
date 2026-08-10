@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-15] Birth witnesses and receipts",
     "slug": "v0-92-wp-15-birth-witnesses-and-receipts",
     "version": "v0.92",
-    "generation": 67
+    "generation": 68
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/5833\n.csdlc/prepared/issues/5833/design.md\n.csdlc/prepared/issues/5833/produce-native-receipt.rb\n.csdlc/prepared/issues/5833/validate-native-receipts.rb\n.csdlc/evidence/5833\n.github/workflows/wp15-native-birth-witness.yml\nadl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/birth_witness.rs\nadl-runtime-kernel/tests/fixtures/birth_witness\ndocs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:5a15670df088fa0e2d2e94cd5e8dc49c5d3859c6:94923296d6733ffe4148833302d00e5460cb32b22b2f59cfbf1b969e4f596a05",
+      "reviewer": "/root/sprint4_5857/review_5833_exact_head",
       "review_prompts": [
         "Do all required witnesses bind one exact candidate/evidence digest with distinct authorized identities and stable anchors?",
         "Can duplicate, stale, forged, equivocal, unauthorized, or mismatched witnesses produce consensus or a receipt?",
@@ -23,8 +23,10 @@
         "Are #5826 through #5830, #4762, and every WP-15 acceptance claim current at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Exact-head native Linux and macOS receipts, aggregate validation, standard CI, and a fresh post-native exact-head review remain mandatory before merge."
+      ],
+      "review_result": "pass"
     }
   }
 }

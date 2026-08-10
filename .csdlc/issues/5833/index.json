@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
-  "phase": "implemented",
-  "generation": 67,
-  "digest": "b59f6f9d9e0e646242ed9fcb8ec8b68e2869db6ccbcc5908902219fa8d1f01b4",
+  "phase": "reviewed",
+  "generation": 68,
+  "digest": "491b3022bc26e41b90ce04a8f443a6077686dc5dbfd568e174154ae16dd45342",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
   "review_assignment": {
@@ -27,7 +27,29 @@
       "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5833_exact_head",
+    "scope": [
+      ".csdlc/issues/5833",
+      ".csdlc/prepared/issues/5833/design.md",
+      ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
+      ".csdlc/evidence/5833",
+      ".github/workflows/wp15-native-birth-witness.yml",
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/fixtures/birth_witness",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:5a15670df088fa0e2d2e94cd5e8dc49c5d3859c6:94923296d6733ffe4148833302d00e5460cb32b22b2f59cfbf1b969e4f596a05",
+    "findings": [],
+    "residual_risks": [
+      "Exact-head native Linux and macOS receipts, aggregate validation, standard CI, and a fresh post-native exact-head review remain mandatory before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a6f77e03898d9431a336f3d431e050517830d1577823f5b1ccfbb8e3c420bc4c",
+      "values_digest": "12e95e99b8913167adef68fc3f4519958276b8875ba83ff5a451ebb3181e26dd",
       "rendered_digest": "477aa501f9e874202ec0e5f251ef5eecf0e66c2ddffa5f13a553e7a0ada1cc65",
       "ast_digest": "405c48deb4505cebfb6dc08d2018c6d971c11105e0d9fe9db08649cc0821e1af"
     },
     "stp": {
-      "values_digest": "914940370679384051b6dc1ba22481981e47b29607db2e1217ddd600f65569c0",
+      "values_digest": "43542f06250a4a38c0f597ca32dcbc7f730a9b34d92ea73feb971d34d8082756",
       "rendered_digest": "d2df01151976c29fe3fb8d512ce6624343cee597726be70de93117b8573c080f",
       "ast_digest": "7741a87889a28e451995cc70fd975b31ed4cc0cf56fee554e0c28f988ea22cc3"
     },
     "spp": {
-      "values_digest": "c6c407128bc33cbb7626eb85118137b8e43258c7cd94d830e291d72863f31462",
+      "values_digest": "6557525db5dc788e59305c6f1d55e2ab1f2fc396686757d87a992ca976c4ec0a",
       "rendered_digest": "5376d6b31a5d47b82c529a9ddabcc5ddec6c8c5a3f3af9cccba88d89eef9a926",
       "ast_digest": "c0783e54f48cc692ef09ca2049da3c224246ad90b080bb0718c0a31408d0dd5b"
     },
     "vpp": {
-      "values_digest": "963aa30435ee8113bac2dff0e188834e22017ef8bdc947f147ecc13a6d5afb47",
+      "values_digest": "ec5e131b5d2457a95f77da7ab05ae569d9c85488939122060a1ad5112dee4512",
       "rendered_digest": "4b26f41af663fbdca0364b7329fc7e13287433d097bedf1505005c446013f35a",
       "ast_digest": "75c30a9fff7c69af0c919442af28b369b8f7a09dbae786c8175bbd8c38dba4db"
     },
     "srp": {
-      "values_digest": "a204e6fec6c8f0aeb0fee54fdc30510c321de7b8d428a3aa9e104ab05ea42875",
-      "rendered_digest": "fb3641c95fa06384c6dc2c057f544604b24284d2e4f42b727dd7d1dc9221e716",
-      "ast_digest": "010da6fa1ce1edfbff27b57f65768a7936aa6dbe40374edd4d9bbb14de1827e6"
+      "values_digest": "02ca0d9dc728c4e4c247a9124afe558da0ea58caa52ca39edfb20fea1c248fbe",
+      "rendered_digest": "c649d589bba1b19300fef37b5d0da9b7fe9839b53867046a97db528b12179748",
+      "ast_digest": "772f94260cc45833e3572ba7e876141f106172d80bec061dfa4c8b7d8d3c8e02"
     },
     "sor": {
-      "values_digest": "11ccd4f8811a8db1126f3ff14b83c22d8f36da53a391503502a1066aec818a4c",
+      "values_digest": "a7fb497c3fc517af268c78af549b7c2ca4a309347aff8474ccb05b3251173d1a",
       "rendered_digest": "2322ebf7a3aa5baea9f1e39a99d6b782aa566ee9bc9d8d4f3fa1803afee47b35",
       "ast_digest": "983b79524623f0c457d5fca2dd1573b6da0d8eca675fabd0b3fb930d7505769b"
     }
@@ -114,6 +136,13 @@
       "to": "implemented",
       "actor": "codex:5833-birth-witness",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5833-birth-witness",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -767,6 +796,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 68,
+      "actor": "codex:5833-birth-witness",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
