@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f09a35e236f4f77ec4793207c044d5bc698a2e14b0883b7ff2efb2b7f8938d1c",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "dffa02840ea5577c99ce5a38a39728694e528846ea360e7ff238a6fd8966517c",
+  "generation": 8,
+  "digest": "63e7d75573092e468848d9f7488177e2043550ce7583c7f0a4da6cea6a3e436c",
   "branch": "codex/101-github-route-guardrail",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-101-github-route-guardrail",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "61afcc4dbc2ccb89a98985c7f25ca1b89d17f3a340b6c004f079285468d9d045",
+      "values_digest": "5d1c183ea4385c36a3738ad465e0810f5442f85206786e78fb991608f7f827ba",
       "rendered_digest": "63100f5fcb1d48b1f753ba14c9c41a94e7bd0e2e222c9e997eec6b3c860545aa",
       "ast_digest": "99ea2fb6afaff543d4649d369a5f537baf85119fd7fe20c96c7b8b2c034b9c09"
     },
     "stp": {
-      "values_digest": "312efe3c048d6db0c37462861b8fece1ee5cfdf05dd4e320f9386f5f473afb18",
+      "values_digest": "fd92124008b047bc71f3c2b7a9354ce19fff08b30acd711e1df17c4f490d6705",
       "rendered_digest": "54c9e464390fd891ae2de164632237532d34a324e712d9032803b63309dc23b6",
       "ast_digest": "b69a05627ab869a03f1617a861b4e041bbd5a4d1a1eaa8d11f46ebb89aa36f14"
     },
     "spp": {
-      "values_digest": "857e0122fad6c14dcd7ef66a14436c26e77110f733ea879eb3a68811478e0829",
+      "values_digest": "d4521168d7085c75038df7968094e65534b5c05c2f11cedd482bd235158464ec",
       "rendered_digest": "fa8469d76f449cfd1c33a4cdf395417312168660676687a0528195718d01725b",
       "ast_digest": "808fe00a235c7ea955fbe3d39aadbd305bb70f47e5ec8d56a08dab35c8012aab"
     },
     "vpp": {
-      "values_digest": "09e9c8821b38c513cf13f14fbe4f25adff97c8333fb2aa9e145f98b304b63f55",
-      "rendered_digest": "da13880ef8054e7866c40f911e0b47a999a05d9330cc8d0d8cd249be95d871d2",
-      "ast_digest": "d8b5dfdfc4a469babc48810ed83f64067ea92526aa91817f05871e646da68c67"
+      "values_digest": "d0e5265e8f288ed352b0bff9eff2f3f1fe969796b4756fd0f7ed886657b8cd20",
+      "rendered_digest": "9dfd1de9dc06a51d2d8d2afd5df0a061ef8e197a718ee14133c9217ca81eb439",
+      "ast_digest": "7d5dc3fc5e0157fe6ce66a595bc0e583d71bf17b8cc8dd87aca2c666dfea8d12"
     },
     "srp": {
-      "values_digest": "beeee360899532323006913eaabfa7ddc0230b864a516a0614337b678d5258b2",
+      "values_digest": "29f2e79398ca9ab3aee79cfa9bd1c5409b0286340f28e4b16300c777372a78e0",
       "rendered_digest": "f18ce420d05550a904b72b9e424dbee0e1b46789651728798b93a57793fdcdde",
       "ast_digest": "8eb83894386247c0bb5323fc84a9f2ad43ec61afcc98b74f45747d8f04b60992"
     },
     "sor": {
-      "values_digest": "c6ee861e72df3883c36c7a0eb51d148884ebf1790e6124086e79161bdd47f190",
-      "rendered_digest": "e233ea63f3f2f1ee77bcd51b19d6439c82c14a35da55f27306f2d0c1a76d5b0e",
-      "ast_digest": "62e8dd17e69b2cca6cd971af44b309e4a59969abebe274805dba4249875763c2"
+      "values_digest": "30009bba980fb11642e96d78abd58535fd44624c746404e354eb29fe735f8cd5",
+      "rendered_digest": "b57988f9849fd3cf1743afaaa4b71cc0cbf98d280ee383f100c68956f9c1bcca",
+      "ast_digest": "a814fe62182565a835de46b2204c17cd46f510eb3e26b877d19b211b86c1532c"
     }
   },
   "transitions": [
@@ -126,6 +126,27 @@
       "actor": "codex:101-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Anchor diff hygiene to the issue base and corrected implementation head so clean-checkout execution cannot pass vacuously.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"github-route-policy\",\"proof_role\":\"Prove policy parity, connector-403 classification, installer ownership, and shared token precedence and redaction without network or real credentials.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes across the exact issue base and corrected implementation head.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"parallel_group\":\"focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Replace validation truth with the corrected focused test and an exact base-to-implementation-head diff-hygiene proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and independently reviewed a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, and focused resolver regression proof.\",\"changes\":[\"Named csdlc-github-issue, csdlc-github-pr, csdlc-publish, and csdlc-finish as the sole covered GitHub lifecycle owners in root and boundary policy.\",\"Prohibited connector and raw-gh lifecycle writes and made missing owner binaries a fail-closed condition without fallback authority.\",\"Added a focused policy drift test, connector-403 classification fixture, verified-installation publication-owner assertion, and direct shared-token precedence and redaction regression test without changing resolver implementation.\"],\"artifacts\":[\"AGENTS.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/tests/fixtures/github_connector_403.json\",\".csdlc/evidence/101\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"purpose\":\"Check the exact issue base through corrected implementation head for whitespace and patch errors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/diff-hygiene-exact.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-policy-review-fix.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:101-review-finding-repair",
+      "reason": "Keep implementation truth distinct from the pending exact-head independent rereview.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, and focused resolver regression proof.\",\"changes\":[\"Named csdlc-github-issue, csdlc-github-pr, csdlc-publish, and csdlc-finish as the sole covered GitHub lifecycle owners in root and boundary policy.\",\"Prohibited connector and raw-gh lifecycle writes and made missing owner binaries a fail-closed condition without fallback authority.\",\"Added a focused policy drift test, connector-403 classification fixture, verified-installation publication-owner assertion, and direct shared-token precedence and redaction regression test without changing resolver implementation.\"],\"artifacts\":[\"AGENTS.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/tests/fixtures/github_connector_403.json\",\".csdlc/evidence/101\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\",\"0608764d902b02eb2965002168ae210059866e8e\",\"33fad0d3bc70c8701a811670d8254bdef374289b\"],\"purpose\":\"Check the exact issue base through corrected implementation head for whitespace and patch errors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/diff-hygiene-exact.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-policy-review-fix.log\"}]}"
     }
   ]
 }

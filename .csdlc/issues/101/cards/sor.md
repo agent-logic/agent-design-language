@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, and focused resolver regression proof.
+Implemented a fail-closed GitHub lifecycle route guardrail with synchronized root and boundary policy, a credential-free connector-403 fixture, installer-owner coverage, and focused resolver regression proof.
 
 ## Artifacts
 
@@ -26,7 +26,7 @@ Implemented a fail-closed GitHub lifecycle route guardrail with synchronized roo
 
 - Named csdlc-github-issue, csdlc-github-pr, csdlc-publish, and csdlc-finish as the sole covered GitHub lifecycle owners in root and boundary policy.
 - Prohibited connector and raw-gh lifecycle writes and made missing owner binaries a fail-closed condition without fallback authority.
-- Added a focused policy drift test, connector-403 classification fixture, and direct shared-token precedence and redaction regression test without changing resolver implementation.
+- Added a focused policy drift test, connector-403 classification fixture, verified-installation publication-owner assertion, and direct shared-token precedence and redaction regression test without changing resolver implementation.
 
 ## Validation
 
@@ -35,11 +35,13 @@ Implemented a fail-closed GitHub lifecycle route guardrail with synchronized roo
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "0608764d902b02eb2965002168ae210059866e8e",
+      "33fad0d3bc70c8701a811670d8254bdef374289b"
     ],
-    "purpose": "Check the exact issue diff for whitespace and patch errors.",
+    "purpose": "Check the exact issue base through corrected implementation head for whitespace and patch errors.",
     "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
+    "evidence_ref": ".csdlc/evidence/101/diff-hygiene-exact.log"
   },
   {
     "command": [
@@ -50,9 +52,9 @@ Implemented a fail-closed GitHub lifecycle route guardrail with synchronized roo
       "--test",
       "gate_github_route_policy"
     ],
-    "purpose": "Run the dedicated issue #101 Rust integration target.",
+    "purpose": "Run the corrected dedicated issue #101 Rust integration target with installer-owner coverage.",
     "outcome": "passed",
-    "evidence_ref": "github-route-policy.log"
+    "evidence_ref": ".csdlc/evidence/101/github-route-policy-review-fix.log"
   }
 ]
 

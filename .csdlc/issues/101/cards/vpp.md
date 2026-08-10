@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/101/diagram.mmd
 [
   {
     "lane": "github-route-policy",
-    "proof_role": "Prove policy parity, connector-403 classification, and shared token precedence and redaction without network or real credentials.",
+    "proof_role": "Prove policy parity, connector-403 classification, installer ownership, and shared token precedence and redaction without network or real credentials.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -52,7 +52,7 @@ Diagram: .csdlc/prepared/issues/101/diagram.mmd
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Reject malformed tracked changes.",
+    "proof_role": "Reject malformed tracked changes across the exact issue base and corrected implementation head.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -69,7 +69,9 @@ Diagram: .csdlc/prepared/issues/101/diagram.mmd
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "0608764d902b02eb2965002168ae210059866e8e",
+      "33fad0d3bc70c8701a811670d8254bdef374289b"
     ],
     "parallel_group": "focused",
     "defer_reason": null
@@ -89,7 +91,7 @@ Tokens: 10000
 ## Commands
 
 - `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy`
-- `git diff --check`
+- `git diff --check 0608764d902b02eb2965002168ae210059866e8e 33fad0d3bc70c8701a811670d8254bdef374289b`
 
 ## Failure Semantics
 
