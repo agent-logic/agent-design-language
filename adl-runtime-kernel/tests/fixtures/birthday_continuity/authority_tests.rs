@@ -410,6 +410,35 @@ fn copied_state_and_host_paths_fail_closed() {
     assert!(errors
         .iter()
         .any(|error| matches!(error, ContinuityRejection::UnsafeWitnessPath { .. })));
+
+    for path in [
+        "evidence/continuity/private_state.bin",
+        "evidence/continuity/raw-state.bin",
+        "evidence/continuity/sealed_payload.json",
+    ] {
+        let mut unsafe_manifest =
+            signed_manifest(&authority, &identity, 1, &identity.continuity.head_sha256);
+        unsafe_manifest.snapshots[0].file = path.to_owned();
+        authority.sign_manifest(&mut unsafe_manifest).unwrap();
+        let next = signed_manifest(&authority, &identity, 2, &unsafe_manifest.integrity);
+        let errors = verify_birthday_cycles(
+            &policy,
+            &identity,
+            &[
+                BirthdayCycleEvidence {
+                    manifest: &unsafe_manifest,
+                },
+                BirthdayCycleEvidence { manifest: &next },
+            ],
+        )
+        .unwrap_err();
+        assert!(
+            errors
+                .iter()
+                .any(|error| matches!(error, ContinuityRejection::UnsafeWitnessPath { .. })),
+            "unsafe filename variant was accepted: {path}"
+        );
+    }
 }
 
 #[test]

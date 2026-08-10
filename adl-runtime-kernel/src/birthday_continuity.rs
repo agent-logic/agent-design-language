@@ -479,9 +479,9 @@ fn safe_path(value: &str) -> bool {
 fn governed_continuity_path(value: &str) -> bool {
     safe_path(value)
         && value.split('/').all(|segment| {
-            !matches!(
-                segment.to_ascii_lowercase().as_str(),
-                "private" | "private_state" | "raw" | "raw_state" | "sealed" | "sealed_payload"
-            )
+            !segment
+                .to_ascii_lowercase()
+                .split(|character: char| !character.is_ascii_alphanumeric())
+                .any(|token| matches!(token, "private" | "raw" | "sealed"))
         })
 }
