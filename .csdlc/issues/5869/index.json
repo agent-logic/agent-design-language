@@ -6,10 +6,18 @@
   "initialization_digest": "7267ce23765f7123ab0ffbb966ebbd8848190136f77b904b3649ddf6830c9e75",
   "phase": "implemented",
   "generation": 34,
-  "digest": "e9349c1816097a7a0c1e11e6088badd16923944b6e7359582fde806cf6366ab3",
+  "digest": "c58a58459007b1e283e4db869b365644a7105cdb03bb2d6f765aaf8d2b72c141",
   "branch": "codex/5869-epoch-lease-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5869-lease",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Codex independent exact-head code/security/lifecycle reviewer",
+    "assigned_by": "codex:5869-epoch-lease-authority",
+    "revision": "git-blake3:f3ddd8292c00afcfa7c577ab7bdd3e72f4f02502:054f3b961948f0c01b314380478181c1008434c57ebdac790e39990b3bcf3ec5",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +53,9 @@
       "ast_digest": "4a7e115ee9911f503d3bb4804804986f48e318c7665effc1038c5f3a64b6906f"
     },
     "srp": {
-      "values_digest": "c8519f69ba1f974bae0c4ca7d751f31f5ea1fbae851f0041376443007140ab6b",
-      "rendered_digest": "027da3cdb5f1b780031f84fd41dc54354275b0483923ff4175506e92b231ee17",
-      "ast_digest": "4b054b5ead22ac0d9e91daeee381de242d3184a73d613e692d5e65d2da0879a6"
+      "values_digest": "03e68f80f39931668be4f5e755b54979ee43e89e3a651838e5504bd0651815be",
+      "rendered_digest": "b712e760f6756a67cbb49819ab497f34e01efc91376eac90e19dc4df956c0067",
+      "ast_digest": "1ef1edcebd074547b9333f67616d07d3a0fa0cc3199075a4820ef1f4e1333eb6"
     },
     "sor": {
       "values_digest": "25bb5b1bb5c28852c75f6fa7084924865d490739816d5d834efab544e97614b4",
@@ -456,6 +464,13 @@
       "actor": "codex:5869-epoch-lease-authority",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 52,
+      "generation": 34,
+      "actor": "codex:5869-epoch-lease-authority",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.07 exclusive implementation, tests, proof receipts, and rollback evidence.",
+      "review_scope": "adl-runtime/src/distributed/lease.rs\nadl-runtime/tests/distributed_lease.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

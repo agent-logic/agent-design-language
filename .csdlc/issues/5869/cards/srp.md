@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.07 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/lease.rs
+adl-runtime/tests/distributed_lease.rs
 
 ## Prompts
 
