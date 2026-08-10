@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "3cdf44fc70d46d245202530f5914609d487115e15ff31c3411bbdf2bb657d73d",
+  "phase": "published",
+  "generation": 9,
+  "digest": "be3eb09c27b540fc26c34fc7f575a919ca4a5d0be3b24ff5c841d14d729a65fe",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
   "review_assignment": {
@@ -48,7 +48,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 144,
+    "pull_request": 147,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/147",
+    "base": "main",
+    "head": "codex/144-cognitive-authority-repair",
+    "revision": "git-blake3:8ddeff07093939eb3930e83261cfd3e1289cfb61:a83326b38407781e84ded5891a432950d23be9284814cd416f43dc63ba932c33",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b563cc5e13581f902b1374ec50449c7fcd0469a63b702c8f50e22e7757545364",
+      "values_digest": "b0286f2343c198f6511842d6abf21682aa771d7a075c3d5eb8286c1e1de2fd12",
       "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
       "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
     },
     "stp": {
-      "values_digest": "dad5f1196936f61e97e540eb77fd6350a804312a7c28dfcde77e54a3bfa5f473",
+      "values_digest": "8e681a170063e2c4a9edaa0b3a1bfa5dc1885b640472ffaad71ef80ee5d2fad9",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "d583b4e216029a8494063502abc300b906456abd79f71ffad6d39c5d2d794e21",
+      "values_digest": "da880e017e7e1b961235b058505564095e8ff02ea455021734bc2f1b320d2678",
       "rendered_digest": "c1c6e474855fe4e807320379343f9f82bddc60a5eb838aa926d3c08e7e610c07",
       "ast_digest": "a3f7373f20029e5b2ad38224de40c19bb60a23798c009c87d17d2e40768e8abb"
     },
     "vpp": {
-      "values_digest": "3132d2ed6862ff6d0e93710b1058fc2560c0cc8f7b9f6f62414e9658db46480b",
+      "values_digest": "d561f9ae905f56ab78b4a637571c0e4cc8c2bd8df3de85df0cd254c602c7c531",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "667abd9f17b60993889c2be5b74f553c089a09ff1196e2a30831c1c7b370e442",
+      "values_digest": "a956398c310a8c31e2bfb717d1588bfab8b523ad86764c51a114ae5eef33255d",
       "rendered_digest": "7ad08b18618e57e949945f7a8a3e321f2093db50d1dc603bfe28208e2b331ecf",
       "ast_digest": "3b1d47a26aacc37c2d22a2af7469a2f14a52099c8d3446135105cf9eeeacfbbe"
     },
     "sor": {
-      "values_digest": "d122d85fd442a6188d3ac053011572a74e30466c210db5c7eca7eaf56a2a54fc",
-      "rendered_digest": "bcc1f0874c3cefd9b4644d9d3c37ec5a27ce5e283f20d5220e0c0bec79da35ea",
-      "ast_digest": "d08473ac3a5b6a91d3150f2cd9dd0fd7619a3f1e47644be57d0500825bea44da"
+      "values_digest": "a306648dcce04946500ffd524cd688927cc8790c265a7869aea227bd2372dda7",
+      "rendered_digest": "ee92a1abbfb8df08e3ad6f43f95bba6a675dee157decec2c8614e6786cdf0a6c",
+      "ast_digest": "f32436c55e226e2955c5e54b6470b1b7275fe96399f1966ccd62d57a56166532"
     }
   },
   "transitions": [
@@ -120,6 +131,13 @@
       "to": "reviewed",
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -206,6 +224,13 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

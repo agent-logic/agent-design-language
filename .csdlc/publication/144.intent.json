@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 144,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/144-cognitive-authority-repair",
+  "title": "[v0.92][WP-13][defect] Anchor cognitive-profile authority and verify full revision lineage",
+  "body": "Closes agent-logic/agent-design-language#144\n\n## Outcome\n\nReplaces caller-selected cognitive-profile authority with an opaque runtime-owned Ed25519 authority policy, pins canonical policy and evidence digests, verifies the complete revision chain from genesis, and governs exact-epoch authority rotation with the previous trusted key.\n\n## Proof\n\n- Exact crate-internal authority lane: 15/15 passed\n- Public serialization/fail-closed boundary: 1/1 passed\n- External authority establishment compile-fail: 1/1 passed\n- Strict library Clippy, formatting, producer/validator self-tests, YAML, evidence hashes, and path hygiene passed\n- Fresh independent exact-head security review: APPROVED, no findings\n\nNative Linux and macOS receipt generation and cross-platform validation are required on this PR before merge.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:8ddeff07093939eb3930e83261cfd3e1289cfb61:a83326b38407781e84ded5891a432950d23be9284814cd416f43dc63ba932c33",
+  "commit_sha": "8ddeff07093939eb3930e83261cfd3e1289cfb61"
+}
