@@ -11,3 +11,4 @@
 {"sequence":11,"generation":6,"actor":"codex:121-quorum-fence-repair","reason":"Recover the exact review so final typed lifecycle metadata can be recorded without prepared-request drift.","operation":"recover_review"}
 {"sequence":12,"generation":6,"actor":"codex:121-quorum-fence-repair","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":7,"actor":"subagent:issue-121-exact-head-security-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":14,"generation":8,"actor":"codex:121-quorum-fence-repair","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
