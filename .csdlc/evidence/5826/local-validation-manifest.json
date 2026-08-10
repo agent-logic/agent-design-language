@@ -1,10 +1,10 @@
 {
   "schema": "adl.validation.local_exact_revision.v1",
   "issue": 5826,
-  "validated_revision": "aea5f18efb076bad7ec90cba334d9eaa9774ba7b",
-  "validated_tree": "619ade51e115abad3435654990028e0c2f8fc401",
-  "product_revision": "aea5f18efb076bad7ec90cba334d9eaa9774ba7b",
-  "product_tree": "619ade51e115abad3435654990028e0c2f8fc401",
+  "validated_revision": "80fb8836ad06b811ae76977c66150acc9d062c14",
+  "validated_tree": "1583a36fc4e67eb25c40f4f31441909b9d257900",
+  "product_revision": "80fb8836ad06b811ae76977c66150acc9d062c14",
+  "product_tree": "1583a36fc4e67eb25c40f4f31441909b9d257900",
   "command": [
     "cargo",
     "nextest",
@@ -22,7 +22,10 @@
   "tests_passed": 7,
   "tests_failed": 0,
   "log_ref": ".csdlc/evidence/5826/birthday_identity-runtime-v3.log",
-  "log_sha256": "cc6a6edaedad6e452c16c1cb2e5d93893c864b38c2f064a918be6e5392e602cf",
+  "log_sha256": "177c47a65a945f56738bdcfda94a3818a3b579523ce173242c4219c971db3533",
+  "strict_clippy": "passed",
+  "format_check": "passed",
+  "authority_proof": "real signed IdentityBinding, MemoryCheckpoint, accepted PrivateStateRecord lineage, established BirthdayAuthorityPolicy, and governed projection",
   "path_hygiene": "repository_relative",
-  "native_portability": "deferred_to_ci"
+  "native_portability": "required exact-head macOS/Linux producer receipts plus independent aggregate validation before review"
 }
