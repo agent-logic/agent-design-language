@@ -53,6 +53,7 @@ pub enum MigrationError {
     CommitRejected,
     PostFenceAbort,
     TimedOut,
+    RevisionDrift,
 }
 
 impl MigrationError {
@@ -80,6 +81,7 @@ impl MigrationError {
             Self::CommitRejected => "commit_rejected",
             Self::PostFenceAbort => "post_fence_abort",
             Self::TimedOut => "timed_out",
+            Self::RevisionDrift => "revision_drift",
         }
     }
 }
@@ -252,6 +254,94 @@ pub struct MigrationCheckpoint {
     pub state_sha256: [u8; 32],
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct MigrationAuthorityRevision {
+    checkpoint_generation: u64,
+    state_sha256: [u8; 32],
+}
+
+impl MigrationAuthorityRevision {
+    pub fn checkpoint_generation(&self) -> u64 {
+        self.checkpoint_generation
+    }
+
+    pub fn state_sha256(&self) -> [u8; 32] {
+        self.state_sha256
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedMigrationRow {
+    migration_ref: String,
+    lineage_ref: String,
+    source_node_ref: String,
+    source_guardian_ref: String,
+    target_node_ref: String,
+    target_guardian_ref: String,
+    phase: MigrationPhase,
+    source_authoritative: bool,
+    target_authoritative: bool,
+}
+
+impl RedactedMigrationRow {
+    pub fn migration_ref(&self) -> &str {
+        &self.migration_ref
+    }
+
+    pub fn lineage_ref(&self) -> &str {
+        &self.lineage_ref
+    }
+
+    pub fn source_node_ref(&self) -> &str {
+        &self.source_node_ref
+    }
+
+    pub fn source_guardian_ref(&self) -> &str {
+        &self.source_guardian_ref
+    }
+
+    pub fn target_node_ref(&self) -> &str {
+        &self.target_node_ref
+    }
+
+    pub fn target_guardian_ref(&self) -> &str {
+        &self.target_guardian_ref
+    }
+
+    pub fn phase(&self) -> MigrationPhase {
+        self.phase
+    }
+
+    pub fn source_authoritative(&self) -> bool {
+        self.source_authoritative
+    }
+
+    pub fn target_authoritative(&self) -> bool {
+        self.target_authoritative
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedMigrationSnapshot {
+    trust_domain: String,
+    revision: MigrationAuthorityRevision,
+    rows: Vec<RedactedMigrationRow>,
+}
+
+impl RedactedMigrationSnapshot {
+    pub fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub fn revision(&self) -> MigrationAuthorityRevision {
+        self.revision
+    }
+
+    pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedMigrationRow> {
+        self.rows.iter()
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct CommitJournal {
@@ -419,6 +509,62 @@ impl MigrationStore {
             generation: self.generation,
             state_sha256: self.state_sha256,
         }
+    }
+
+    pub fn authority_revision(&self) -> MigrationResult<MigrationAuthorityRevision> {
+        self.verify_current_state()?;
+        Ok(MigrationAuthorityRevision {
+            checkpoint_generation: self.generation,
+            state_sha256: self.state_sha256,
+        })
+    }
+
+    pub fn redacted_snapshot_at(
+        &self,
+        expected_revision: MigrationAuthorityRevision,
+    ) -> MigrationResult<RedactedMigrationSnapshot> {
+        self.verify_current_state()?;
+        let revision = MigrationAuthorityRevision {
+            checkpoint_generation: self.generation,
+            state_sha256: self.state_sha256,
+        };
+        if revision != expected_revision {
+            return Err(MigrationError::RevisionDrift);
+        }
+        if self.records.len() > self.policy.max_records {
+            return Err(MigrationError::ResourceExhausted);
+        }
+        let rows = self
+            .records
+            .values()
+            .map(|record| RedactedMigrationRow {
+                migration_ref: projection_ref(b"migration", &record.migration_id),
+                lineage_ref: projection_ref(b"lineage", &record.lineage_id),
+                source_node_ref: projection_ref(b"node", &record.source_node_id),
+                source_guardian_ref: projection_ref(b"guardian", &record.source_guardian_id),
+                target_node_ref: projection_ref(b"node", &record.target_node_id),
+                target_guardian_ref: projection_ref(b"guardian", &record.target_guardian_id),
+                phase: record.phase,
+                source_authoritative: record.source_authoritative,
+                target_authoritative: record.target_authoritative,
+            })
+            .collect();
+        Ok(RedactedMigrationSnapshot {
+            trust_domain: self.policy.trust_domain.clone(),
+            revision,
+            rows,
+        })
+    }
+
+    #[cfg(test)]
+    pub(crate) fn seed_record_for_snapshot_test(
+        &mut self,
+        record: MigrationRecord,
+    ) -> MigrationResult<()> {
+        validate_record(&self.policy, &record)?;
+        let mut prospective = self.records.clone();
+        prospective.insert(record.migration_id.clone(), record);
+        self.commit_records(prospective)
     }
 
     pub fn record(&self, migration_id: &[u8]) -> Option<&MigrationRecord> {
@@ -1285,6 +1431,16 @@ impl MigrationStore {
         sync_directory(&self.root)?;
         Ok(lock)
     }
+}
+
+fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 fn copy_active_check<'a>(check: &ActiveLeaseCheck<'a>) -> ActiveLeaseCheck<'a> {

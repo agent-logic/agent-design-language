@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 133,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+    "slug": "revisioned-redacted-authority-snapshots",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Add small authority-owned redacted snapshot views and monotonic revision guards to each owning module, prove the complete cross-module contract in one focused integration test, obtain exact-head review, and merge the closing PR.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Define bounded authority-owned row and snapshot APIs with redaction and revision guards.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Preserve current placement decisions and complete migration/recovery state across mutation and restore.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused cross-module negative and restart tests and run strict validation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain independent exact-head review, publish with closing linkage, shepherd CI, and merge.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/distributed/certificates.rs",
+        "adl-runtime/src/distributed/failure_detection.rs",
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/src/distributed/fencing.rs",
+        "adl-runtime/src/distributed/placement.rs",
+        "adl-runtime/src/distributed/migration.rs",
+        "adl-runtime/src/distributed/recovery.rs",
+        "adl-runtime/tests/distributed_authority_snapshots.rs",
+        ".csdlc/issues/133",
+        ".csdlc/prepared/issues/133",
+        ".csdlc/evidence/133"
+      ],
+      "invariants": [
+        "Rows are constructed from live authority state and cannot be self-attested",
+        "Enumeration order and capacity behavior are deterministic",
+        "Every authoritative state transition advances or restores the exact snapshot revision",
+        "N/N+1 drift never returns mixed-revision data",
+        "Redacted surfaces contain no private or raw evidence",
+        "Issue #5877 owned files remain unchanged"
+      ],
+      "risks": [
+        "An accessor could expose only active entries and silently omit unavailable authority rows",
+        "Revision changes could miss removal or restore transitions",
+        "Snapshot restoration could reproduce rows but not the revision guard",
+        "Public row constructors could reintroduce self-attestation"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "The design requires modifying issue #5877 owned files",
+        "A complete bounded snapshot cannot be produced without weakening an existing authority invariant",
+        "A public constructor or raw evidence exposure becomes necessary",
+        "Tracked edits appear on primary main",
+        "Exact-head review or CI reports an actionable failure"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/133/design.md",
+      "design_digest": "eda9d46051222fd1b7afccace057fb9d23d595f646e49bbb19ef30bdf06b4199",
+      "diagram_ref": ".csdlc/prepared/issues/133/diagram.mmd",
+      "diagram_digest": "a21ea98622e9301d38922f6c7777b53f20e90cf391ba96d2ec251dce27c2ee9d"
+    }
+  }
+}

@@ -120,6 +120,90 @@ pub enum CertificateStatus {
     Superseded,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct CertificateAuthorityRevision {
+    state_sha256: [u8; 32],
+}
+
+impl CertificateAuthorityRevision {
+    pub fn state_sha256(&self) -> [u8; 32] {
+        self.state_sha256
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RedactedCertificateHealth {
+    Active,
+    RotationOverlap,
+    Superseded,
+    NotYetValid,
+    Expired,
+    Revoked,
+    Fenced,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedCertificateRow {
+    certificate_ref: String,
+    node_ref: Option<String>,
+    guardian_ref: Option<String>,
+    purpose: CertificatePurpose,
+    generation: u64,
+    health: RedactedCertificateHealth,
+}
+
+impl RedactedCertificateRow {
+    pub fn certificate_ref(&self) -> &str {
+        &self.certificate_ref
+    }
+
+    pub fn node_ref(&self) -> Option<&str> {
+        self.node_ref.as_deref()
+    }
+
+    pub fn guardian_ref(&self) -> Option<&str> {
+        self.guardian_ref.as_deref()
+    }
+
+    pub fn purpose(&self) -> CertificatePurpose {
+        self.purpose
+    }
+
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub fn health(&self) -> RedactedCertificateHealth {
+        self.health
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedCertificateSnapshot {
+    trust_domain: String,
+    captured_at_unix_secs: u64,
+    revision: CertificateAuthorityRevision,
+    rows: Vec<RedactedCertificateRow>,
+}
+
+impl RedactedCertificateSnapshot {
+    pub fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub fn captured_at_unix_secs(&self) -> u64 {
+        self.captured_at_unix_secs
+    }
+
+    pub fn revision(&self) -> CertificateAuthorityRevision {
+        self.revision
+    }
+
+    pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedCertificateRow> {
+        self.rows.iter()
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct CertificateRecord {
     pub certificate: AuthorityCertificate,
@@ -191,6 +275,7 @@ pub enum CertificateError {
     CertificateNotFound,
     ResourceExhausted,
     DurableStateCorrupt,
+    RevisionDrift,
     Storage(String),
     Encoding(String),
 }
@@ -222,6 +307,7 @@ impl CertificateError {
             Self::CertificateNotFound => "certificate_not_found",
             Self::ResourceExhausted => "resource_exhausted",
             Self::DurableStateCorrupt => "durable_state_corrupt",
+            Self::RevisionDrift => "revision_drift",
             Self::Storage(_) => "storage_error",
             Self::Encoding(_) => "encoding_error",
         }
@@ -588,6 +674,95 @@ impl DistributedCertificateStore {
         Ok(voters.len())
     }
 
+    pub fn authority_revision(&self) -> CertificateResult<CertificateAuthorityRevision> {
+        let read = self.database.begin_read().map_err(storage_error)?;
+        Ok(CertificateAuthorityRevision {
+            state_sha256: certificate_state_sha256(&read)?,
+        })
+    }
+
+    pub fn redacted_snapshot_at(
+        &self,
+        expected_revision: CertificateAuthorityRevision,
+        now_unix_secs: u64,
+    ) -> CertificateResult<RedactedCertificateSnapshot> {
+        let read = self.database.begin_read().map_err(storage_error)?;
+        let revision = CertificateAuthorityRevision {
+            state_sha256: certificate_state_sha256(&read)?,
+        };
+        if revision != expected_revision {
+            return Err(CertificateError::RevisionDrift);
+        }
+        let certificates = read.open_table(CERTIFICATES).map_err(storage_error)?;
+        if certificates.len().map_err(storage_error)? > self.policy.max_certificates {
+            return Err(CertificateError::ResourceExhausted);
+        }
+        let revocations = read.open_table(REVOCATIONS).map_err(storage_error)?;
+        let fences = read.open_table(FENCES).map_err(storage_error)?;
+        let mut rows = Vec::with_capacity(
+            usize::try_from(certificates.len().map_err(storage_error)?)
+                .map_err(|_| CertificateError::ResourceExhausted)?,
+        );
+        for entry in certificates.iter().map_err(storage_error)? {
+            let (_, value) = entry.map_err(storage_error)?;
+            let record: CertificateRecord = decode(value.value())?;
+            let body = &record.certificate.body;
+            let certificate_id = record.certificate.certificate_id()?;
+            let revoked = revocations
+                .get(certificate_id.as_str())
+                .map_err(storage_error)?
+                .is_some();
+            let fenced = fences
+                .get(body.holder_id.as_str())
+                .map_err(storage_error)?
+                .is_some();
+            let health = if fenced {
+                RedactedCertificateHealth::Fenced
+            } else if revoked {
+                RedactedCertificateHealth::Revoked
+            } else if now_unix_secs < body.issued_at_unix_secs {
+                RedactedCertificateHealth::NotYetValid
+            } else if now_unix_secs >= body.expires_at_unix_secs {
+                RedactedCertificateHealth::Expired
+            } else if record.status == CertificateStatus::Active {
+                RedactedCertificateHealth::Active
+            } else if record
+                .overlap_until_unix_secs
+                .is_some_and(|deadline| now_unix_secs < deadline)
+            {
+                RedactedCertificateHealth::RotationOverlap
+            } else {
+                RedactedCertificateHealth::Superseded
+            };
+            let holder_ref = match body.purpose {
+                CertificatePurpose::NodeIdentity | CertificatePurpose::Transport => (
+                    Some(projection_ref(b"node", body.holder_id.as_bytes())),
+                    None,
+                ),
+                CertificatePurpose::GuardianControl
+                | CertificatePurpose::AdvertisementSigning
+                | CertificatePurpose::SnapshotSigning => (
+                    None,
+                    Some(projection_ref(b"guardian", body.holder_id.as_bytes())),
+                ),
+            };
+            rows.push(RedactedCertificateRow {
+                certificate_ref: projection_ref(b"certificate", certificate_id.as_bytes()),
+                node_ref: holder_ref.0,
+                guardian_ref: holder_ref.1,
+                purpose: body.purpose,
+                generation: body.generation,
+                health,
+            });
+        }
+        Ok(RedactedCertificateSnapshot {
+            trust_domain: self.policy.trust_domain.clone(),
+            captured_at_unix_secs: now_unix_secs,
+            revision,
+            rows,
+        })
+    }
+
     fn initialize_tables(&self) -> CertificateResult<()> {
         let write = self.database.begin_write().map_err(storage_error)?;
         write.open_table(CERTIFICATES).map_err(storage_error)?;
@@ -809,6 +984,38 @@ impl DistributedCertificateStore {
             .map_err(storage_error)?;
         write.commit().map_err(storage_error)
     }
+}
+
+fn certificate_state_sha256(read: &redb::ReadTransaction) -> CertificateResult<[u8; 32]> {
+    let mut digest = Sha256::new();
+    digest.update(b"ADL-CERTIFICATE-AUTHORITY-REVISION-V1\0");
+    for (domain, definition) in [
+        (b"certificates".as_slice(), CERTIFICATES),
+        (b"revocations".as_slice(), REVOCATIONS),
+        (b"fences".as_slice(), FENCES),
+    ] {
+        digest.update((domain.len() as u64).to_be_bytes());
+        digest.update(domain);
+        let table = read.open_table(definition).map_err(storage_error)?;
+        for row in table.iter().map_err(storage_error)? {
+            let (key, value) = row.map_err(storage_error)?;
+            digest.update((key.value().len() as u64).to_be_bytes());
+            digest.update(key.value().as_bytes());
+            digest.update((value.value().len() as u64).to_be_bytes());
+            digest.update(value.value());
+        }
+    }
+    Ok(digest.finalize().into())
+}
+
+fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 fn same_holder_purpose(left: &CertificateBody, right: &CertificateBody) -> bool {

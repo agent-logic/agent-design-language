@@ -44,6 +44,7 @@ pub enum FencingError {
     ActivationPossession,
     LeaseExpired,
     DurabilityFailure,
+    RevisionDrift,
 }
 
 impl FencingError {
@@ -69,6 +70,7 @@ impl FencingError {
             Self::ActivationPossession => "activation_possession_failed",
             Self::LeaseExpired => "lease_expired",
             Self::DurabilityFailure => "durability_failure",
+            Self::RevisionDrift => "revision_drift",
         }
     }
 }
@@ -146,6 +148,74 @@ pub struct ActiveLeaseCheck<'a> {
 pub struct FencingCheckpoint {
     pub generation: u64,
     pub state_sha256: [u8; 32],
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct FencingAuthorityRevision {
+    checkpoint_generation: u64,
+    state_sha256: [u8; 32],
+}
+
+impl FencingAuthorityRevision {
+    pub fn checkpoint_generation(&self) -> u64 {
+        self.checkpoint_generation
+    }
+
+    pub fn state_sha256(&self) -> [u8; 32] {
+        self.state_sha256
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedFencingRow {
+    lineage_ref: String,
+    epoch: u64,
+    committed_log_index: u64,
+    voter_set_generation: u64,
+    operation_class: u32,
+}
+
+impl RedactedFencingRow {
+    pub fn lineage_ref(&self) -> &str {
+        &self.lineage_ref
+    }
+
+    pub fn epoch(&self) -> u64 {
+        self.epoch
+    }
+
+    pub fn committed_log_index(&self) -> u64 {
+        self.committed_log_index
+    }
+
+    pub fn voter_set_generation(&self) -> u64 {
+        self.voter_set_generation
+    }
+
+    pub fn operation_class(&self) -> u32 {
+        self.operation_class
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedFencingSnapshot {
+    trust_domain: String,
+    revision: FencingAuthorityRevision,
+    rows: Vec<RedactedFencingRow>,
+}
+
+impl RedactedFencingSnapshot {
+    pub fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub fn revision(&self) -> FencingAuthorityRevision {
+        self.revision
+    }
+
+    pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFencingRow> {
+        self.rows.iter()
+    }
 }
 
 pub trait FencingCheckpointAuthority: fmt::Debug + Send + Sync {
@@ -290,6 +360,83 @@ impl FencingStore {
 
     pub fn floor(&self, lineage_id: &[u8]) -> Option<&FenceReceipt> {
         self.floors.get(lineage_id)
+    }
+
+    pub fn authority_revision(&self) -> FencingResult<FencingAuthorityRevision> {
+        self.verify_current_state()?;
+        Ok(FencingAuthorityRevision {
+            checkpoint_generation: self.generation,
+            state_sha256: self.state_sha256,
+        })
+    }
+
+    pub fn redacted_snapshot_at(
+        &self,
+        expected_revision: FencingAuthorityRevision,
+        membership: &AuthorityMembership,
+    ) -> FencingResult<RedactedFencingSnapshot> {
+        self.verify_current_state()?;
+        let revision = FencingAuthorityRevision {
+            checkpoint_generation: self.generation,
+            state_sha256: self.state_sha256,
+        };
+        if revision != expected_revision {
+            return Err(FencingError::RevisionDrift);
+        }
+        if self.floors.len() > self.policy.max_lineages {
+            return Err(FencingError::ResourceExhausted);
+        }
+        let trust_domain = std::str::from_utf8(&membership.trust_domain_id)
+            .map_err(|_| FencingError::StaleMembership)?
+            .to_owned();
+        let rows = self
+            .floors
+            .values()
+            .map(|floor| {
+                if floor.trust_domain_id != membership.trust_domain_id
+                    || floor.voter_set_generation > membership.voter_set_generation
+                    || floor.committed_log_index > membership.committed_log_index
+                {
+                    return Err(FencingError::StaleMembership);
+                }
+                Ok(RedactedFencingRow {
+                    lineage_ref: projection_ref(b"lineage", &floor.lineage_id),
+                    epoch: floor.epoch,
+                    committed_log_index: floor.committed_log_index,
+                    voter_set_generation: floor.voter_set_generation,
+                    operation_class: floor.operation_class,
+                })
+            })
+            .collect::<FencingResult<Vec<_>>>()?;
+        if self.authority_revision()? != revision {
+            return Err(FencingError::RevisionDrift);
+        }
+        Ok(RedactedFencingSnapshot {
+            trust_domain,
+            revision,
+            rows,
+        })
+    }
+
+    #[cfg(test)]
+    pub(crate) fn seed_floor_for_snapshot_test(
+        &mut self,
+        floor: FenceReceipt,
+    ) -> FencingResult<()> {
+        if self.floors.len() >= self.policy.max_lineages || floor.lineage_id.is_empty() {
+            return Err(FencingError::ResourceExhausted);
+        }
+        let generation = self
+            .generation
+            .checked_add(1)
+            .ok_or(FencingError::ResourceExhausted)?;
+        let mut floors = self.floors.clone();
+        floors.insert(floor.lineage_id.clone(), floor);
+        let outcome = self.persist_next(generation, &floors, &self.receipts)?;
+        self.floors = floors;
+        self.generation = outcome.checkpoint.generation;
+        self.state_sha256 = outcome.checkpoint.state_sha256;
+        outcome.post_commit_error.map_or(Ok(()), Err)
     }
 
     pub fn commit(&mut self, request: FenceCommit<'_>) -> FencingResult<FenceReceipt> {
@@ -587,6 +734,16 @@ impl FencingStore {
         write_atomic(&self.root, &bytes)?;
         Ok(Sha256::digest(bytes).into())
     }
+}
+
+fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 fn collect_records(

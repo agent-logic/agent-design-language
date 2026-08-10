@@ -4,9 +4,10 @@
 //! committed membership and the verified/admitted projections owned by the preceding distributed
 //! modules; it does not verify wire messages, grant leases, activate owners, or mutate authority.
 
-use std::{cmp::Ordering, collections::BTreeMap, fmt, time::SystemTime};
+use std::{cmp::Ordering, collections::BTreeMap, fmt, sync::Mutex, time::SystemTime};
 
 use serde::Deserialize;
+use sha2::{Digest, Sha256};
 
 use super::{
     capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
@@ -38,6 +39,7 @@ pub enum PlacementError {
     InconsistentEvidence,
     FencingAheadOfMembership,
     NoEligibleTarget,
+    RevisionDrift,
 }
 
 impl PlacementError {
@@ -52,6 +54,7 @@ impl PlacementError {
             Self::InconsistentEvidence => "inconsistent_evidence",
             Self::FencingAheadOfMembership => "fencing_ahead_of_membership",
             Self::NoEligibleTarget => "no_eligible_target",
+            Self::RevisionDrift => "revision_drift",
         }
     }
 }
@@ -414,11 +417,125 @@ impl PlacementClock for SystemPlacementClock {
 pub struct PlacementService<C> {
     policy: PlacementPolicy,
     clock: C,
+    authority: Mutex<PlacementAuthorityState>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct PlacementAuthorityRevision {
+    sequence: u64,
+    content_sha256: [u8; 32],
+}
+
+impl PlacementAuthorityRevision {
+    pub fn sequence(&self) -> u64 {
+        self.sequence
+    }
+
+    pub fn content_sha256(&self) -> [u8; 32] {
+        self.content_sha256
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedPlacementRow {
+    lineage_ref: String,
+    node_ref: String,
+    guardian_ref: String,
+    capability_sequence: u64,
+    weather_sequence: u64,
+    freshness_captured_at_unix_secs: u64,
+    capacity: PlacementCapacityBand,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum PlacementCapacityBand {
+    Available,
+    Constrained,
+    Unavailable,
+}
+
+impl RedactedPlacementRow {
+    pub fn lineage_ref(&self) -> &str {
+        &self.lineage_ref
+    }
+
+    pub fn node_ref(&self) -> &str {
+        &self.node_ref
+    }
+
+    pub fn guardian_ref(&self) -> &str {
+        &self.guardian_ref
+    }
+
+    pub fn capability_sequence(&self) -> u64 {
+        self.capability_sequence
+    }
+
+    pub fn weather_sequence(&self) -> u64 {
+        self.weather_sequence
+    }
+
+    pub fn freshness_captured_at_unix_secs(&self) -> u64 {
+        self.freshness_captured_at_unix_secs
+    }
+
+    pub fn capacity(&self) -> PlacementCapacityBand {
+        self.capacity
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedPlacementSnapshot {
+    trust_domain: String,
+    membership_epoch: u64,
+    committed_log_index: u64,
+    revision: PlacementAuthorityRevision,
+    rows: Vec<RedactedPlacementRow>,
+}
+
+impl RedactedPlacementSnapshot {
+    pub fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub fn membership_epoch(&self) -> u64 {
+        self.membership_epoch
+    }
+
+    pub fn committed_log_index(&self) -> u64 {
+        self.committed_log_index
+    }
+
+    pub fn revision(&self) -> PlacementAuthorityRevision {
+        self.revision
+    }
+
+    pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedPlacementRow> {
+        self.rows.iter()
+    }
+}
+
+#[derive(Clone, Debug)]
+struct StoredPlacementDecision {
+    decision: PlacementDecision,
+    captured_at_unix_secs: u64,
+}
+
+#[derive(Debug, Default)]
+struct PlacementAuthorityState {
+    sequence: u64,
+    membership_epoch: u64,
+    committed_log_index: u64,
+    decisions: BTreeMap<String, StoredPlacementDecision>,
 }
 
 impl<C: PlacementClock> PlacementService<C> {
     pub fn new(policy: PlacementPolicy, clock: C) -> Self {
-        Self { policy, clock }
+        Self {
+            policy,
+            clock,
+            authority: Mutex::new(PlacementAuthorityState::default()),
+        }
     }
 
     pub fn decide(
@@ -432,7 +549,128 @@ impl<C: PlacementClock> PlacementService<C> {
         {
             return Err(PlacementError::InconsistentEvidence);
         }
-        decide(&self.policy, now_unix_secs, request, inputs)
+        let decision = decide(&self.policy, now_unix_secs, request, inputs)?;
+        self.retain_decision(decision.clone(), now_unix_secs)?;
+        Ok(decision)
+    }
+
+    pub fn remove_decision(&self, lineage_id: &str) -> PlacementResult<bool> {
+        if !valid_text(lineage_id) {
+            return Err(PlacementError::InvalidRequest);
+        }
+        let mut authority = self
+            .authority
+            .lock()
+            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        if !authority.decisions.contains_key(lineage_id) {
+            return Ok(false);
+        }
+        let next = authority
+            .sequence
+            .checked_add(1)
+            .ok_or(PlacementError::ResourceExhausted)?;
+        authority.decisions.remove(lineage_id);
+        authority.sequence = next;
+        Ok(true)
+    }
+
+    pub fn authority_revision(&self) -> PlacementResult<PlacementAuthorityRevision> {
+        let authority = self
+            .authority
+            .lock()
+            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        Ok(placement_revision(&authority))
+    }
+
+    pub fn redacted_snapshot_at(
+        &self,
+        expected_revision: PlacementAuthorityRevision,
+    ) -> PlacementResult<RedactedPlacementSnapshot> {
+        let authority = self
+            .authority
+            .lock()
+            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        let revision = placement_revision(&authority);
+        if revision != expected_revision {
+            return Err(PlacementError::RevisionDrift);
+        }
+        if authority.decisions.len() > self.policy.max_inputs {
+            return Err(PlacementError::ResourceExhausted);
+        }
+        let rows = authority
+            .decisions
+            .values()
+            .map(|stored| RedactedPlacementRow {
+                lineage_ref: projection_ref(b"lineage", stored.decision.lineage_id.as_bytes()),
+                node_ref: projection_ref(b"node", stored.decision.node_id.as_bytes()),
+                guardian_ref: projection_ref(b"guardian", stored.decision.guardian_id.as_bytes()),
+                capability_sequence: stored.decision.capability_sequence,
+                weather_sequence: stored.decision.weather_sequence,
+                freshness_captured_at_unix_secs: stored.captured_at_unix_secs,
+                capacity: if stored.decision.remaining_slots == 0 {
+                    PlacementCapacityBand::Unavailable
+                } else if stored.decision.pressure_permille >= 800 {
+                    PlacementCapacityBand::Constrained
+                } else {
+                    PlacementCapacityBand::Available
+                },
+            })
+            .collect();
+        Ok(RedactedPlacementSnapshot {
+            trust_domain: self.policy.trust_domain.clone(),
+            membership_epoch: authority.membership_epoch,
+            committed_log_index: authority.committed_log_index,
+            revision,
+            rows,
+        })
+    }
+
+    #[cfg(test)]
+    pub(crate) fn seed_decision_for_snapshot_test(
+        &self,
+        decision: PlacementDecision,
+        captured_at_unix_secs: u64,
+    ) -> PlacementResult<()> {
+        self.retain_decision(decision, captured_at_unix_secs)
+    }
+
+    fn retain_decision(
+        &self,
+        decision: PlacementDecision,
+        captured_at_unix_secs: u64,
+    ) -> PlacementResult<()> {
+        let mut authority = self
+            .authority
+            .lock()
+            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        let incoming_cut = (decision.membership_epoch, decision.committed_log_index);
+        let current_cut = (authority.membership_epoch, authority.committed_log_index);
+        if current_cut != (0, 0) && incoming_cut < current_cut {
+            return Err(PlacementError::StaleMembership);
+        }
+        let replaces_cut = current_cut != (0, 0) && incoming_cut > current_cut;
+        let is_new = !authority.decisions.contains_key(&decision.lineage_id);
+        if !replaces_cut && is_new && authority.decisions.len() >= self.policy.max_inputs {
+            return Err(PlacementError::ResourceExhausted);
+        }
+        let next = authority
+            .sequence
+            .checked_add(1)
+            .ok_or(PlacementError::ResourceExhausted)?;
+        if replaces_cut {
+            authority.decisions.clear();
+        }
+        authority.membership_epoch = decision.membership_epoch;
+        authority.committed_log_index = decision.committed_log_index;
+        authority.decisions.insert(
+            decision.lineage_id.clone(),
+            StoredPlacementDecision {
+                decision,
+                captured_at_unix_secs,
+            },
+        );
+        authority.sequence = next;
+        Ok(())
     }
 }
 
@@ -453,6 +691,43 @@ pub struct PlacementDecision {
 struct Rank {
     pressure_permille: u16,
     remaining_slots: u16,
+}
+
+fn placement_revision(authority: &PlacementAuthorityState) -> PlacementAuthorityRevision {
+    let mut digest = Sha256::new();
+    digest.update(b"ADL-PLACEMENT-AUTHORITY-REVISION-V1\0");
+    digest.update(authority.membership_epoch.to_be_bytes());
+    digest.update(authority.committed_log_index.to_be_bytes());
+    for stored in authority.decisions.values() {
+        let decision = &stored.decision;
+        for value in [
+            decision.lineage_id.as_bytes(),
+            decision.node_id.as_bytes(),
+            decision.guardian_id.as_bytes(),
+        ] {
+            digest.update((value.len() as u64).to_be_bytes());
+            digest.update(value);
+        }
+        digest.update(decision.capability_sequence.to_be_bytes());
+        digest.update(decision.weather_sequence.to_be_bytes());
+        digest.update(stored.captured_at_unix_secs.to_be_bytes());
+        digest.update(decision.pressure_permille.to_be_bytes());
+        digest.update(decision.remaining_slots.to_be_bytes());
+    }
+    PlacementAuthorityRevision {
+        sequence: authority.sequence,
+        content_sha256: digest.finalize().into(),
+    }
+}
+
+fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 impl Rank {

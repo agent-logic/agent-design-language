@@ -40,6 +40,7 @@ pub enum FailureError {
     ResourceExhausted,
     UnknownSubject,
     Encoding,
+    RevisionDrift,
 }
 
 impl FailureError {
@@ -61,6 +62,7 @@ impl FailureError {
             Self::ResourceExhausted => "resource_exhausted",
             Self::UnknownSubject => "unknown_subject",
             Self::Encoding => "encoding_error",
+            Self::RevisionDrift => "revision_drift",
         }
     }
 }
@@ -207,6 +209,14 @@ pub trait ProbeAuthority {
     fn is_member(&self, node_id: &str, membership_epoch: u64) -> bool;
 }
 
+pub trait FailureMembershipAuthority {
+    fn membership_epoch(&self) -> u64;
+
+    fn committed_log_index(&self) -> u64;
+
+    fn complete_members(&self) -> FailureResult<Vec<(String, String)>>;
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum FailureClass {
@@ -236,6 +246,119 @@ pub struct FailureEvent {
     pub event_id: String,
     pub sequence: u64,
     pub projection: FailureProjection,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct FailureAuthorityRevision {
+    sequence: u64,
+    content_sha256: [u8; 32],
+}
+
+impl FailureAuthorityRevision {
+    pub fn sequence(&self) -> u64 {
+        self.sequence
+    }
+
+    pub fn content_sha256(&self) -> [u8; 32] {
+        self.content_sha256
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FailureSnapshotReason {
+    NoEvidence,
+    HealthyEvidence,
+    SuspectedFailure,
+    QuorumUnavailable,
+    NetworkPartition,
+    RecoveryEvidence,
+    FlappingEvidence,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FailureEvidenceBand {
+    None,
+    Observed,
+    Corroborated,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FailureFreshness {
+    Unavailable,
+    Fresh,
+    Stale,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedFailureRow {
+    node_ref: String,
+    guardian_ref: String,
+    class: Option<FailureClass>,
+    reason: FailureSnapshotReason,
+    evidence: FailureEvidenceBand,
+    freshness: FailureFreshness,
+}
+
+impl RedactedFailureRow {
+    pub fn node_ref(&self) -> &str {
+        &self.node_ref
+    }
+
+    pub fn guardian_ref(&self) -> &str {
+        &self.guardian_ref
+    }
+
+    pub fn class(&self) -> Option<FailureClass> {
+        self.class
+    }
+
+    pub fn reason(&self) -> FailureSnapshotReason {
+        self.reason
+    }
+
+    pub fn evidence(&self) -> FailureEvidenceBand {
+        self.evidence
+    }
+
+    pub fn freshness(&self) -> FailureFreshness {
+        self.freshness
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedFailureSnapshot {
+    trust_domain: String,
+    membership_epoch: u64,
+    committed_log_index: u64,
+    captured_at_unix_secs: u64,
+    revision: FailureAuthorityRevision,
+    rows: Vec<RedactedFailureRow>,
+}
+
+impl RedactedFailureSnapshot {
+    pub fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub fn membership_epoch(&self) -> u64 {
+        self.membership_epoch
+    }
+
+    pub fn committed_log_index(&self) -> u64 {
+        self.committed_log_index
+    }
+
+    pub fn captured_at_unix_secs(&self) -> u64 {
+        self.captured_at_unix_secs
+    }
+
+    pub fn revision(&self) -> FailureAuthorityRevision {
+        self.revision
+    }
+
+    pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFailureRow> {
+        self.rows.iter()
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -277,6 +400,7 @@ pub struct FailureDetector {
     last_sequences: BTreeMap<(String, String), (u64, u64)>,
     events: VecDeque<FailureEvent>,
     next_event_sequence: u64,
+    revision_sequence: u64,
 }
 
 impl FailureDetector {
@@ -287,6 +411,7 @@ impl FailureDetector {
             last_sequences: BTreeMap::new(),
             events: VecDeque::new(),
             next_event_sequence: 1,
+            revision_sequence: 0,
         }
     }
 
@@ -297,6 +422,9 @@ impl FailureDetector {
         now_unix_secs: u64,
     ) -> FailureResult<Option<FailureEvent>> {
         self.verify(authority, probe, now_unix_secs)?;
+        self.revision_sequence
+            .checked_add(2)
+            .ok_or(FailureError::ResourceExhausted)?;
         let claims = &probe.claims;
         if !self.subjects.contains_key(&claims.subject_node_id)
             && self.subjects.len() >= self.policy.max_nodes
@@ -345,7 +473,11 @@ impl FailureDetector {
         );
         self.last_sequences
             .insert(key, (claims.observer_identity_generation, claims.sequence));
-        self.evaluate(&claims.subject_node_id, now_unix_secs)
+        let result = self.evaluate(&claims.subject_node_id, now_unix_secs);
+        if result.is_ok() {
+            self.advance_revision()?;
+        }
+        result
     }
 
     pub fn evaluate(
@@ -353,6 +485,9 @@ impl FailureDetector {
         subject_node_id: &str,
         now_unix_secs: u64,
     ) -> FailureResult<Option<FailureEvent>> {
+        self.revision_sequence
+            .checked_add(1)
+            .ok_or(FailureError::ResourceExhausted)?;
         let state = self
             .subjects
             .get_mut(subject_node_id)
@@ -374,6 +509,7 @@ impl FailureDetector {
             }
         }
         if next == state.last_class {
+            self.advance_revision()?;
             return Ok(None);
         }
         state.last_class = next;
@@ -403,6 +539,7 @@ impl FailureDetector {
             self.events.pop_front();
         }
         self.events.push_back(event.clone());
+        self.advance_revision()?;
         Ok(Some(event))
     }
 
@@ -435,6 +572,131 @@ impl FailureDetector {
 
     pub fn replay_record_count(&self) -> usize {
         self.last_sequences.len()
+    }
+
+    pub fn authority_revision<A: FailureMembershipAuthority>(
+        &self,
+        membership: &A,
+        now_unix_secs: u64,
+    ) -> FailureResult<FailureAuthorityRevision> {
+        let rows = self.redacted_rows(membership, now_unix_secs)?;
+        Ok(FailureAuthorityRevision {
+            sequence: self.revision_sequence,
+            content_sha256: failure_content_sha256(
+                &self.policy.trust_domain,
+                membership.membership_epoch(),
+                membership.committed_log_index(),
+                now_unix_secs,
+                &rows,
+            ),
+        })
+    }
+
+    pub fn redacted_snapshot_at<A: FailureMembershipAuthority>(
+        &self,
+        expected_revision: FailureAuthorityRevision,
+        membership: &A,
+        now_unix_secs: u64,
+    ) -> FailureResult<RedactedFailureSnapshot> {
+        let rows = self.redacted_rows(membership, now_unix_secs)?;
+        let revision = FailureAuthorityRevision {
+            sequence: self.revision_sequence,
+            content_sha256: failure_content_sha256(
+                &self.policy.trust_domain,
+                membership.membership_epoch(),
+                membership.committed_log_index(),
+                now_unix_secs,
+                &rows,
+            ),
+        };
+        if revision != expected_revision {
+            return Err(FailureError::RevisionDrift);
+        }
+        Ok(RedactedFailureSnapshot {
+            trust_domain: self.policy.trust_domain.clone(),
+            membership_epoch: membership.membership_epoch(),
+            committed_log_index: membership.committed_log_index(),
+            captured_at_unix_secs: now_unix_secs,
+            revision,
+            rows,
+        })
+    }
+
+    fn redacted_rows<A: FailureMembershipAuthority>(
+        &self,
+        membership: &A,
+        now_unix_secs: u64,
+    ) -> FailureResult<Vec<RedactedFailureRow>> {
+        let members = membership.complete_members()?;
+        if membership.membership_epoch() != self.policy.membership_epoch
+            || members.len() > self.policy.max_nodes
+        {
+            return Err(FailureError::WrongMembershipEpoch);
+        }
+        let mut previous = None;
+        members
+            .into_iter()
+            .map(|(node_id, guardian_id)| {
+                if !valid_identifier(&node_id)
+                    || !valid_identifier(&guardian_id)
+                    || previous
+                        .as_deref()
+                        .is_some_and(|value| value >= node_id.as_str())
+                {
+                    return Err(FailureError::InvalidProbe);
+                }
+                previous = Some(node_id.clone());
+                let Some(state) = self.subjects.get(&node_id) else {
+                    return Ok(RedactedFailureRow {
+                        node_ref: projection_ref(b"node", node_id.as_bytes()),
+                        guardian_ref: projection_ref(b"guardian", guardian_id.as_bytes()),
+                        class: None,
+                        reason: FailureSnapshotReason::NoEvidence,
+                        evidence: FailureEvidenceBand::None,
+                        freshness: FailureFreshness::Unavailable,
+                    });
+                };
+                let (class, support) = classify(&self.policy, state, now_unix_secs);
+                let reason = match class {
+                    FailureClass::Healthy => FailureSnapshotReason::HealthyEvidence,
+                    FailureClass::Suspect => FailureSnapshotReason::SuspectedFailure,
+                    FailureClass::Unavailable => FailureSnapshotReason::QuorumUnavailable,
+                    FailureClass::Partitioned => FailureSnapshotReason::NetworkPartition,
+                    FailureClass::Recovered => FailureSnapshotReason::RecoveryEvidence,
+                    FailureClass::Flapping => FailureSnapshotReason::FlappingEvidence,
+                };
+                Ok(RedactedFailureRow {
+                    node_ref: projection_ref(b"node", node_id.as_bytes()),
+                    guardian_ref: projection_ref(b"guardian", guardian_id.as_bytes()),
+                    class: Some(class),
+                    reason,
+                    evidence: if support > 1 {
+                        FailureEvidenceBand::Corroborated
+                    } else {
+                        FailureEvidenceBand::Observed
+                    },
+                    freshness: if state
+                        .observers
+                        .values()
+                        .map(|observation| observation.expires_at_unix_secs)
+                        .max()
+                        .is_some_and(|expires_at| expires_at >= now_unix_secs)
+                    {
+                        FailureFreshness::Fresh
+                    } else {
+                        FailureFreshness::Stale
+                    },
+                })
+            })
+            .collect()
+    }
+
+    fn advance_revision(&mut self) -> FailureResult<()> {
+        self.revision_sequence = self
+            .revision_sequence
+            .checked_add(1)
+            .ok_or(FailureError::ResourceExhausted)?;
+        Ok(())
     }
 
     fn verify<A: ProbeAuthority>(
@@ -478,6 +740,43 @@ impl FailureDetector {
         key.verify(&signing_bytes(claims)?, &signature)
             .map_err(|_| FailureError::InvalidSignature)
     }
+}
+
+fn failure_content_sha256(
+    trust_domain: &str,
+    membership_epoch: u64,
+    committed_log_index: u64,
+    captured_at_unix_secs: u64,
+    rows: &[RedactedFailureRow],
+) -> [u8; 32] {
+    let mut digest = Sha256::new();
+    digest.update(b"ADL-FAILURE-AUTHORITY-REVISION-V1\0");
+    digest.update((trust_domain.len() as u64).to_be_bytes());
+    digest.update(trust_domain.as_bytes());
+    digest.update(membership_epoch.to_be_bytes());
+    digest.update(committed_log_index.to_be_bytes());
+    digest.update(captured_at_unix_secs.to_be_bytes());
+    for row in rows {
+        for value in [&row.node_ref, &row.guardian_ref] {
+            digest.update((value.len() as u64).to_be_bytes());
+            digest.update(value.as_bytes());
+        }
+        digest.update([row.class.map_or(0, |value| value as u8 + 1)]);
+        digest.update([row.reason as u8]);
+        digest.update([row.evidence as u8]);
+        digest.update([row.freshness as u8]);
+    }
+    digest.finalize().into()
+}
+
+fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 fn classify(policy: &FailurePolicy, state: &SubjectState, now: u64) -> (FailureClass, usize) {

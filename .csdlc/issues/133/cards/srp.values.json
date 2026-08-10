@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 133,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+    "slug": "revisioned-redacted-authority-snapshots",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #132 five authority modules, focused integration tests, redaction boundary, revision/drift behavior, bounded enumeration, and restart parity.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller synthesize rows or snapshots without the owning authority?",
+        "Does every mutation, removal, replacement, and restore update or preserve revision truth correctly?",
+        "Are rows complete, deterministic, bounded, and explicit about unavailable state?",
+        "Can any private key, raw probe, signature, migration payload, or recovery payload escape through the snapshot APIs?",
+        "Do focused tests prove N/N+1 drift and restart parity across all five authorities?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 133,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b368cd6101321186d2018a224ad40047f9d4f77a88dc2ce5f9a5d6c36ef0b227",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "b49bdfdd3e6f089e0c323cef17d26cfa985e13519807bf2616794ba07c2e439d",
+  "branch": "codex/133-revisioned-redacted-authority-snapshots",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-133-authority-snapshots",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/133/design.md",
+  "diagram_path": ".csdlc/prepared/issues/133/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:authorized-issue-133",
+      "revision": "eda9d46051222fd1b7afccace057fb9d23d595f646e49bbb19ef30bdf06b4199"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7de470deb68a88eb78c070af2af6b84b959720871b1bb5985425164571bbb190",
+      "rendered_digest": "5a993f2b43e3715af44a7c328bd155c3bcefde90c25f1501e4fb1f49b1082524",
+      "ast_digest": "6226c23e15935c9faa1d291b0b95668094b727e85cf79e8c10e1f02828c53b31"
+    },
+    "stp": {
+      "values_digest": "c6f610dd75caf8a92d4aabe75ea505921a2ce271a2fdae7637df5aaaba89c4c9",
+      "rendered_digest": "bb2cc001cdef452c1939b8f669cd3242514af9d5182e79cba8b939fc9a80bfac",
+      "ast_digest": "b30819cccfb068ce3742a47eec51bbdebc80d956793559f467c3a9b0eff104bb"
+    },
+    "spp": {
+      "values_digest": "7f9e280dee33f1b0b7ef7cca658309e446d8af1091ed0efc0c2b5175f028aec0",
+      "rendered_digest": "ade7d992de7230c3525fd4d589903dca2b29ded5030e9b0dfa1b3f023045a881",
+      "ast_digest": "b12c145beb75363b4cd817e339203749d4b70f5cbdd3913d88796b42b2c72a07"
+    },
+    "vpp": {
+      "values_digest": "33983d2b65ec7d33f7b8d6466bd5e1d6498b5df146f703f3a3b22d012067faa8",
+      "rendered_digest": "4e7db58d026b8f2a2dc3aeb936eca7d9aa13fcc993daf471ee9dec0d8242e1af",
+      "ast_digest": "536ca8de1c55d5196003a22896f3012482ae79372346648e37ccc396d430d2d9"
+    },
+    "srp": {
+      "values_digest": "4021b6daa41df47cb3b7ed208dcd5bc0c0d72114f3bae013f02d007a8e28f053",
+      "rendered_digest": "0a57a76e2682dd4965525c650623597df523d24440a71a438c0ba55c21015db6",
+      "ast_digest": "fc32778fd779089e83381ac2c06ab9c81867f3f23de08378d0392834ae4dcac8"
+    },
+    "sor": {
+      "values_digest": "a82fe9128ddcecd426bac48cff3fb74a190911caac0950809e9749160e79ea7f",
+      "rendered_digest": "69500f737caf76829b3d933a1e488fec0adf40924f388c51de128516969f8b98",
+      "ast_digest": "a20f7d3d2f9bd5419ae31333ceef093b421c420ef2770d8382e01dc15c54c8c3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:133-authority-snapshots",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:133-authority-snapshot-accessors",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:authorized-issue-133",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:133-authority-snapshot-accessors",
+      "reason": "Name the issue-owned deferred integration test target exactly so the binder can authorize its post-bind creation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Revisioned redacted certificate authority snapshot\",\"Revisioned redacted failure-detection authority snapshot with missing members\",\"Revisioned redacted current placement-decision snapshot\",\"Revisioned redacted migration and recovery snapshots with restart parity\",\"adl-runtime/tests/distributed_authority_snapshots.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:133-authority-snapshot-accessors",
+      "reason": "Include the lease and fencing authorities required for complete non-caller-selected distributed authority enumeration consumed by issue #5877.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\".csdlc/issues/133\",\".csdlc/prepared/issues/133\",\".csdlc/evidence/133\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:133-authority-snapshot-accessors",
+      "reason": "Add complete lease and fencing authority snapshots to the implementation deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Revisioned redacted certificate authority snapshot\",\"Revisioned redacted failure-detection authority snapshot with missing members\",\"Revisioned redacted complete lease authority snapshot\",\"Revisioned redacted complete fencing-floor authority snapshot\",\"Revisioned redacted current placement-decision snapshot\",\"Revisioned redacted migration and recovery snapshots with restart parity\",\"adl-runtime/tests/distributed_authority_snapshots.rs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:133-authority-snapshot-accessors",
+      "reason": "Extend the focused proof denominator to complete lease and fencing enumeration, revision, bounds, redaction, and cross-authority reference parity.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authority-snapshot-tests\",\"proof_role\":\"Prove complete certificate, failure, lease, fencing, placement, migration, and recovery enumeration; revision mutation; N/N+1 drift rejection; redaction; bounds; restart parity; and cross-authority opaque-reference parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\"],\"parallel_group\":\"fastwork-runtime\",\"defer_reason\":null},{\"lane\":\"authority-snapshot-clippy\",\"proof_role\":\"Prove warning-free production and all focused authority snapshot test targets before exact-head review.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"fastwork-runtime\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:133-authority-snapshots",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:133-authority-snapshots",
+      "reason": "Align the declared strict Clippy boundary with the issue-owned focused target actually executed; the repository-wide all-targets lane includes unrelated pre-existing targets outside issue scope.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authority-snapshot-tests\",\"proof_role\":\"Prove complete certificate, failure, lease, fencing, placement, migration, and recovery enumeration; revision mutation; N/N+1 drift rejection; redaction; bounds; restart parity; and cross-authority opaque-reference parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\"],\"parallel_group\":\"fastwork-runtime\",\"defer_reason\":null},{\"lane\":\"authority-snapshot-clippy\",\"proof_role\":\"Prove the exact issue-owned authority snapshot integration target is warning-free before exact-head review.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--locked\",\"--test\",\"distributed_authority_snapshots\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"fastwork-runtime\",\"defer_reason\":null}]}"
+    }
+  ]
+}

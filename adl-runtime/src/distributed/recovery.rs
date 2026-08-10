@@ -50,6 +50,7 @@ pub enum RecoveryError {
     SafetyWindow,
     TimedOut,
     OperatorRequired,
+    RevisionDrift,
 }
 
 impl RecoveryError {
@@ -73,6 +74,7 @@ impl RecoveryError {
             Self::SafetyWindow => "safety_window",
             Self::TimedOut => "timed_out",
             Self::OperatorRequired => "operator_required",
+            Self::RevisionDrift => "revision_drift",
         }
     }
 }
@@ -255,6 +257,125 @@ pub struct RecoveryCheckpoint {
     pub state_sha256: [u8; 32],
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct RecoveryAuthorityRevision {
+    checkpoint_generation: u64,
+    state_sha256: [u8; 32],
+}
+
+impl RecoveryAuthorityRevision {
+    pub fn checkpoint_generation(&self) -> u64 {
+        self.checkpoint_generation
+    }
+
+    pub fn state_sha256(&self) -> [u8; 32] {
+        self.state_sha256
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RecoverySnapshotReason {
+    AssessingInterruptedMigration,
+    PlannedRecovery,
+    TargetCleanupRequired,
+    TargetDiscarded,
+    RollbackRequired,
+    FencingRequired,
+    Fenced,
+    OperatorRequired,
+    ActivationRequired,
+    Restored,
+    CommitRequired,
+    Committed,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedRecoveryRow {
+    recovery_ref: String,
+    migration_ref: String,
+    lineage_ref: String,
+    source_node_ref: String,
+    source_guardian_ref: String,
+    target_node_ref: String,
+    target_guardian_ref: String,
+    owner_node_ref: Option<String>,
+    owner_guardian_ref: Option<String>,
+    phase: RecoveryPhase,
+    reason: RecoverySnapshotReason,
+    operator_required: bool,
+}
+
+impl RedactedRecoveryRow {
+    pub fn recovery_ref(&self) -> &str {
+        &self.recovery_ref
+    }
+
+    pub fn migration_ref(&self) -> &str {
+        &self.migration_ref
+    }
+
+    pub fn lineage_ref(&self) -> &str {
+        &self.lineage_ref
+    }
+
+    pub fn source_node_ref(&self) -> &str {
+        &self.source_node_ref
+    }
+
+    pub fn source_guardian_ref(&self) -> &str {
+        &self.source_guardian_ref
+    }
+
+    pub fn target_node_ref(&self) -> &str {
+        &self.target_node_ref
+    }
+
+    pub fn target_guardian_ref(&self) -> &str {
+        &self.target_guardian_ref
+    }
+
+    pub fn owner_node_ref(&self) -> Option<&str> {
+        self.owner_node_ref.as_deref()
+    }
+
+    pub fn owner_guardian_ref(&self) -> Option<&str> {
+        self.owner_guardian_ref.as_deref()
+    }
+
+    pub fn phase(&self) -> RecoveryPhase {
+        self.phase
+    }
+
+    pub fn reason(&self) -> RecoverySnapshotReason {
+        self.reason
+    }
+
+    pub fn operator_required(&self) -> bool {
+        self.operator_required
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedRecoverySnapshot {
+    trust_domain: String,
+    revision: RecoveryAuthorityRevision,
+    rows: Vec<RedactedRecoveryRow>,
+}
+
+impl RedactedRecoverySnapshot {
+    pub fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub fn revision(&self) -> RecoveryAuthorityRevision {
+        self.revision
+    }
+
+    pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedRecoveryRow> {
+        self.rows.iter()
+    }
+}
+
 pub trait RecoveryCheckpointAuthority: fmt::Debug + Send + Sync {
     fn current(&self) -> RecoveryResult<Option<RecoveryCheckpoint>>;
     fn compare_and_swap(
@@ -417,6 +538,71 @@ impl RecoveryStore {
             generation: self.generation,
             state_sha256: self.state_sha256,
         }
+    }
+
+    pub fn authority_revision(&self) -> RecoveryResult<RecoveryAuthorityRevision> {
+        self.verify_current_state()?;
+        Ok(RecoveryAuthorityRevision {
+            checkpoint_generation: self.generation,
+            state_sha256: self.state_sha256,
+        })
+    }
+
+    pub fn redacted_snapshot_at(
+        &self,
+        expected_revision: RecoveryAuthorityRevision,
+    ) -> RecoveryResult<RedactedRecoverySnapshot> {
+        self.verify_current_state()?;
+        let revision = RecoveryAuthorityRevision {
+            checkpoint_generation: self.generation,
+            state_sha256: self.state_sha256,
+        };
+        if revision != expected_revision {
+            return Err(RecoveryError::RevisionDrift);
+        }
+        if self.records.len() > self.policy.max_records {
+            return Err(RecoveryError::ResourceExhausted);
+        }
+        let rows = self
+            .records
+            .values()
+            .map(|record| RedactedRecoveryRow {
+                recovery_ref: projection_ref(b"recovery", &record.recovery_id),
+                migration_ref: projection_ref(b"migration", &record.migration_id),
+                lineage_ref: projection_ref(b"lineage", &record.lineage_id),
+                source_node_ref: projection_ref(b"node", &record.source_node_id),
+                source_guardian_ref: projection_ref(b"guardian", &record.source_guardian_id),
+                target_node_ref: projection_ref(b"node", &record.target_node_id),
+                target_guardian_ref: projection_ref(b"guardian", &record.target_guardian_id),
+                owner_node_ref: record
+                    .owner_node_id
+                    .as_deref()
+                    .map(|value| projection_ref(b"node", value)),
+                owner_guardian_ref: record
+                    .owner_guardian_id
+                    .as_deref()
+                    .map(|value| projection_ref(b"guardian", value)),
+                phase: record.phase,
+                reason: recovery_snapshot_reason(record.phase),
+                operator_required: record.phase == RecoveryPhase::OperatorRequired,
+            })
+            .collect();
+        Ok(RedactedRecoverySnapshot {
+            trust_domain: self.policy.trust_domain.clone(),
+            revision,
+            rows,
+        })
+    }
+
+    #[cfg(test)]
+    pub(crate) fn seed_record_for_snapshot_test(
+        &mut self,
+        record: RecoveryRecord,
+    ) -> RecoveryResult<()> {
+        validate_record(&self.policy, &record)?;
+        let mut prospective = self.records.clone();
+        prospective.insert(record.recovery_id.clone(), record);
+        self.commit_records(prospective)
     }
 
     pub fn record(&self, recovery_id: &[u8]) -> Option<&RecoveryRecord> {
@@ -1418,6 +1604,33 @@ impl RecoveryStore {
         sync_directory(&self.root)?;
         Ok(lock)
     }
+}
+
+fn recovery_snapshot_reason(phase: RecoveryPhase) -> RecoverySnapshotReason {
+    match phase {
+        RecoveryPhase::Assessing => RecoverySnapshotReason::AssessingInterruptedMigration,
+        RecoveryPhase::Planned => RecoverySnapshotReason::PlannedRecovery,
+        RecoveryPhase::CleanupPending => RecoverySnapshotReason::TargetCleanupRequired,
+        RecoveryPhase::TargetDiscarded => RecoverySnapshotReason::TargetDiscarded,
+        RecoveryPhase::RollbackPending => RecoverySnapshotReason::RollbackRequired,
+        RecoveryPhase::FencePending => RecoverySnapshotReason::FencingRequired,
+        RecoveryPhase::Fenced => RecoverySnapshotReason::Fenced,
+        RecoveryPhase::OperatorRequired => RecoverySnapshotReason::OperatorRequired,
+        RecoveryPhase::ActivatePending => RecoverySnapshotReason::ActivationRequired,
+        RecoveryPhase::Restored => RecoverySnapshotReason::Restored,
+        RecoveryPhase::CommitPending => RecoverySnapshotReason::CommitRequired,
+        RecoveryPhase::Committed => RecoverySnapshotReason::Committed,
+    }
+}
+
+fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 fn map_authority_error(error: super::lease::AuthorityError) -> RecoveryError {

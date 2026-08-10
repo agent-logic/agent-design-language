@@ -371,6 +371,7 @@ pub enum AuthorityError {
     LeaseRevoked,
     Replay,
     SnapshotCorrupt,
+    RevisionDrift,
 }
 
 impl AuthorityError {
@@ -404,6 +405,7 @@ impl AuthorityError {
             Self::LeaseRevoked => "lease_revoked",
             Self::Replay => "replay",
             Self::SnapshotCorrupt => "snapshot_corrupt",
+            Self::RevisionDrift => "revision_drift",
         }
     }
 }
@@ -619,6 +621,95 @@ pub struct AuthorityLedger {
     recovery_fences_unix_millis: BTreeMap<Vec<u8>, u64>,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct LeaseAuthorityRevision {
+    applied_log_index: u64,
+    state_sha256: [u8; 32],
+}
+
+impl LeaseAuthorityRevision {
+    pub fn applied_log_index(&self) -> u64 {
+        self.applied_log_index
+    }
+
+    pub fn state_sha256(&self) -> [u8; 32] {
+        self.state_sha256
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RedactedLeaseHealth {
+    Active,
+    Expired,
+    Revoked,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedLeaseRow {
+    lineage_ref: String,
+    holder_node_ref: Option<String>,
+    holder_guardian_ref: Option<String>,
+    epoch: u64,
+    committed_log_index: u64,
+    certificate_generation: u64,
+    health: RedactedLeaseHealth,
+}
+
+impl RedactedLeaseRow {
+    pub fn lineage_ref(&self) -> &str {
+        &self.lineage_ref
+    }
+
+    pub fn holder_node_ref(&self) -> Option<&str> {
+        self.holder_node_ref.as_deref()
+    }
+
+    pub fn holder_guardian_ref(&self) -> Option<&str> {
+        self.holder_guardian_ref.as_deref()
+    }
+
+    pub fn epoch(&self) -> u64 {
+        self.epoch
+    }
+
+    pub fn committed_log_index(&self) -> u64 {
+        self.committed_log_index
+    }
+
+    pub fn certificate_generation(&self) -> u64 {
+        self.certificate_generation
+    }
+
+    pub fn health(&self) -> RedactedLeaseHealth {
+        self.health
+    }
+
+    pub fn revoked(&self) -> bool {
+        self.health == RedactedLeaseHealth::Revoked
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RedactedLeaseSnapshot {
+    trust_domain: String,
+    revision: LeaseAuthorityRevision,
+    rows: Vec<RedactedLeaseRow>,
+}
+
+impl RedactedLeaseSnapshot {
+    pub fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub fn revision(&self) -> LeaseAuthorityRevision {
+        self.revision
+    }
+
+    pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedLeaseRow> {
+        self.rows.iter()
+    }
+}
+
 impl AuthorityLedger {
     pub fn new(policy: LeasePolicy) -> AuthorityResult<Self> {
         policy.validate()?;
@@ -637,6 +728,79 @@ impl AuthorityLedger {
 
     pub fn lease(&self, lineage_id: &[u8]) -> Option<&LeaseState> {
         self.leases.get(lineage_id)
+    }
+
+    pub fn authority_revision(&self) -> AuthorityResult<LeaseAuthorityRevision> {
+        let snapshot = self.snapshot()?;
+        Ok(LeaseAuthorityRevision {
+            applied_log_index: self.applied_log_index,
+            state_sha256: Sha256::digest(snapshot).into(),
+        })
+    }
+
+    pub fn redacted_snapshot_at(
+        &self,
+        expected_revision: LeaseAuthorityRevision,
+        membership: &AuthorityMembership,
+        now_elapsed_millis: u64,
+    ) -> AuthorityResult<RedactedLeaseSnapshot> {
+        let revision = self.authority_revision()?;
+        if revision != expected_revision {
+            return Err(AuthorityError::RevisionDrift);
+        }
+        if self.leases.len() > self.policy.max_lineages
+            || membership.committed_log_index < self.applied_log_index
+        {
+            return Err(AuthorityError::ResourceExhausted);
+        }
+        let trust_domain = std::str::from_utf8(&membership.trust_domain_id)
+            .map_err(|_| AuthorityError::InvalidMembership)?
+            .to_owned();
+        let rows = self
+            .leases
+            .values()
+            .map(|lease| {
+                let health = if lease.revoked {
+                    RedactedLeaseHealth::Revoked
+                } else if now_elapsed_millis >= lease.deadline_elapsed_millis {
+                    RedactedLeaseHealth::Expired
+                } else {
+                    RedactedLeaseHealth::Active
+                };
+                Ok(RedactedLeaseRow {
+                    lineage_ref: projection_ref(b"lineage", &lease.lineage_id),
+                    holder_node_ref: (!lease.holder_node_id.is_empty())
+                        .then(|| projection_ref(b"node", &lease.holder_node_id)),
+                    holder_guardian_ref: (!lease.holder_guardian_id.is_empty())
+                        .then(|| projection_ref(b"guardian", &lease.holder_guardian_id)),
+                    epoch: lease.epoch,
+                    committed_log_index: lease.committed_log_index,
+                    certificate_generation: lease.certificate_generation,
+                    health,
+                })
+            })
+            .collect::<AuthorityResult<Vec<_>>>()?;
+        if self.authority_revision()? != revision {
+            return Err(AuthorityError::RevisionDrift);
+        }
+        Ok(RedactedLeaseSnapshot {
+            trust_domain,
+            revision,
+            rows,
+        })
+    }
+
+    #[cfg(test)]
+    pub(crate) fn seed_lease_for_snapshot_test(
+        &mut self,
+        lease: LeaseState,
+    ) -> AuthorityResult<()> {
+        if self.leases.len() >= self.policy.max_lineages || lease.lineage_id.is_empty() {
+            return Err(AuthorityError::ResourceExhausted);
+        }
+        self.applied_log_index = self.applied_log_index.max(lease.committed_log_index);
+        self.leases.insert(lease.lineage_id.clone(), lease);
+        Ok(())
     }
 
     #[cfg(test)]
@@ -1050,6 +1214,16 @@ impl AuthorityLedger {
             recovery_fences_unix_millis,
         })
     }
+}
+
+fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(b"adl-projection-ref-v1");
+    digest.update((kind.len() as u64).to_be_bytes());
+    digest.update(kind);
+    digest.update((value.len() as u64).to_be_bytes());
+    digest.update(value);
+    format!("id_{}", hex::encode(digest.finalize()))
 }
 
 fn encode_snapshot(
