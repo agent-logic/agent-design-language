@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "41d6447f5c36d583fb322c1af55152842b71f7049bd893cb36157236d4e9940b",
+  "generation": 6,
+  "digest": "7539ddad23cc914e91a9c2ecb077c52c3280716ed19657e0cdee0481368ddebc",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
   "review_assignment": null,
@@ -19,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/144/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-approved:144-blocking-cognitive-authority-repair",
-      "revision": "cad8b7bc8267891936a0e92a0abce6990ec644e4d786564886bb6d6e0ed8150b"
+      "reviewer": "operator-approved:144-opaque-runtime-authority-policy",
+      "revision": "27210e5a3cb32cb34a28e4eca1a81807fa98c51530ba1c7d44abe32fe9557538"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "bae7be8d6193a727b93857ba8c26d6292c300bd0c613533eb956c1fc058d4bc1",
+      "values_digest": "492f84ef196d45a681748a5f05fd011851200be3d17fc527538f8b8066c2e8a1",
       "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
       "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
     },
     "stp": {
-      "values_digest": "7d3840d168db0bc84ddb389d187a6b44db5e32fe496e0242775dfb81b23c7a8d",
+      "values_digest": "9b4bd0cb788d8b99d394af3a05b1e2135de95b00a328ae47f2b8b76213c6819b",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "c949f48bc7a767b2d9fe275bf89d9a7fb455127c9e5dfcf8a98b71de8ff54811",
-      "rendered_digest": "588cfe1efc4a7f4280af8fef9e86221b19bb321d93c2a54bb3deb16bd551d7a5",
-      "ast_digest": "2c96ed08afa71aab84ef48ef6a320c73bea6d72440bed8b432649bb4d3617c6f"
+      "values_digest": "8b3a54b98451af11c9a6b18e85f0489cc8e9320003e155bbaebb2e50259a9a0c",
+      "rendered_digest": "c1c6e474855fe4e807320379343f9f82bddc60a5eb838aa926d3c08e7e610c07",
+      "ast_digest": "a3f7373f20029e5b2ad38224de40c19bb60a23798c009c87d17d2e40768e8abb"
     },
     "vpp": {
-      "values_digest": "86c0216bf61e16fb23ef2d4e57f205a0c7c58907a17f6eaa0c3b2dad8ceb59e1",
+      "values_digest": "9ca5bd42d94b44ff96cedca82d7916d76e2532e5ba24ebfa4e77d00455b627cf",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "82fbfa10508fc35797dc1d799c3cc8fed0670f0b25afcfab914265b5515a43f0",
+      "values_digest": "6dfcec94f351b62c73e0fd63c3ec6c85a1271a6d6b5fc8f8206012eca4a3694a",
       "rendered_digest": "67504f7e4c84c6af80b9fb9000a91c7750b05f193afffbf24a6797a375de09ff",
       "ast_digest": "9c1916056920759c01939cf9c2341b1635d10e3c9a6b6f3c4a5fb2e32daa3f0e"
     },
     "sor": {
-      "values_digest": "dd2aedcd34b21875d04cff212d279d48660af3845f949fb3294858dfcb7cba8b",
+      "values_digest": "a10f9e49fc0a5965e248c004b8feff321edb7bc8a21bcba794b35685769b290b",
       "rendered_digest": "4f09a6c3745ea9a447da0070198ec73e81755de4d45365cc89fbc679c8bfe3c0",
       "ast_digest": "8731ed421b15fd4edf9a70294937f11b4762de1dce524d9c6ab8c4d209e2e077"
     }
@@ -134,6 +134,13 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "Fresh exact-head review found one P1: public caller-supplied genesis authority remains replaceable together with its proof and does not pin authorized canonical policy/evidence digests. Repair requires a runtime-owned unforgeable authority handle/registry plus adversarial both-root-and-proof replacement proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "operator-approved:144-opaque-runtime-authority-policy",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

@@ -25,7 +25,7 @@ Repair the merged WP-13 cognitive-profile contract so profile policy and evidenc
 
 ## Contract
 
-A provisioned cognitive authority pins a verifying key, authority identifier, monotonic authority epoch, canonical policy digest, and governed evidence digest. Profile creation and update require a signed authority statement over those exact values. The profile retains the verified authority context digest. Rotation requires a signed transition from the currently trusted authority context to the new context, monotonically advances the epoch, and cannot rewrite earlier history.
+A runtime-owned opaque cognitive authority policy pins a verifying key, authority identifier, monotonic authority epoch, canonical policy digest, and governed evidence digest. Its fields are private and establishment is crate-private, following the existing Birthday authority-policy pattern, so an external profile caller cannot nominate an attacker root. Profile creation and update accept only that established policy handle and require a signed authority statement over those exact values. The profile retains the verified authority context digest. Rotation requires a signed transition from the currently trusted authority context to the new context, monotonically advances the epoch, and cannot rewrite earlier history.
 
 Revision validation consumes the complete ordered predecessor chain. It recomputes every profile, canonical input, public projection, authority context, and predecessor link through genesis; truncated, substituted, rehashed, or syntactically valid forged ancestors fail closed. The current profile may reference only the verified terminal predecessor.
 
@@ -35,7 +35,7 @@ This corrective issue is a mandatory predecessor of legacy issue #5831 publicati
 
 ## Validation
 
-The exact `cognitive_profile` target must prove trusted creation, same-authority update, governed rotation, complete multi-revision replay, self-authorized policy/evidence rejection, deep-chain substitution/truncation/rehash rejection, stale/wrong-key/wrong-epoch rotation rejection, privacy, and unchanged nonclaims. Native Linux and macOS jobs must execute the exact nonzero target at candidate HEAD, retain sanitized digest-bound receipts, and pass independent cross-platform semantic-equivalence validation.
+The exact crate-internal `cognitive_profile::authority_tests` target must prove trusted creation, same-authority update, governed rotation, complete multi-revision replay, external policy-establishment compile failure, self-authorized policy/evidence rejection, deep-chain substitution/truncation/rehash rejection, stale/wrong-key/wrong-epoch rotation rejection, privacy, and unchanged nonclaims. Native Linux and macOS jobs must execute that exact nonzero filtered library target at candidate HEAD, retain sanitized digest-bound receipts, and pass independent cross-platform semantic-equivalence validation. The public integration target remains a separate compatibility/privacy boundary and cannot construct the opaque trust policy.
 
 ## Rollback
 

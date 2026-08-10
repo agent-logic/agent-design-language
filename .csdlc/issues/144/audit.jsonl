@@ -6,3 +6,4 @@
 {"sequence":6,"generation":4,"actor":"codex:144-cognitive-authority-repair","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":7,"generation":4,"actor":"codex:144-cognitive-authority-repair","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":5,"actor":"codex:144-cognitive-authority-repair","reason":"Fresh exact-head review found one P1: public caller-supplied genesis authority remains replaceable together with its proof and does not pin authorized canonical policy/evidence digests. Repair requires a runtime-owned unforgeable authority handle/registry plus adversarial both-root-and-proof replacement proof.","operation":"recover_review"}
+{"sequence":9,"generation":6,"actor":"operator-approved:144-opaque-runtime-authority-policy","reason":"reapprove changed issue design","operation":"approve_design"}
