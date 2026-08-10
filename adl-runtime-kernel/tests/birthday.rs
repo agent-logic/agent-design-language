@@ -2,7 +2,10 @@
 //! The positive case emits the sole native semantic artifact; all other cases are
 //! fail-closed table-driven negatives over repository fixtures.
 
-use std::{fs, path::Path};
+use std::{
+    fs,
+    path::{Component, Path},
+};
 
 use adl_runtime_kernel::{
     candidate_digest, decide_birthday, BirthdayCandidate, BirthdayRejection, EvidenceKind,
@@ -46,7 +49,18 @@ fn accepts_complete_candidate_and_emits_canonical_semantics() {
     assert!(decision.rejections.is_empty());
 
     if let Ok(output) = std::env::var("ADL_NATIVE_SEMANTIC_OUTPUT") {
-        let path = Path::new(&output);
+        let relative = Path::new(&output);
+        assert!(
+            !relative.is_absolute()
+                && !relative
+                    .components()
+                    .any(|component| matches!(component, Component::ParentDir)),
+            "native semantic output must be repository-relative"
+        );
+        let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .expect("runtime kernel manifest must be below repository root");
+        let path = repo_root.join(relative);
         if let Some(parent) = path.parent() {
             fs::create_dir_all(parent).expect("create semantic output directory");
         }
