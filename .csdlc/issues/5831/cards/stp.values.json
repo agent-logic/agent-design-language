@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
     "slug": "v0-92-wp-13a-runtime-implement-adaptive-learning-dag",
     "version": "v0.92",
-    "generation": 54
+    "generation": 57
   },
   "status": "ready",
   "content": {
@@ -15,10 +15,17 @@
     "values": {
       "task_boundary": "Deliver only the WP-13A Runtime v3 adaptive-learning graph path, focused integration, fixtures, negative replay proof, and retained evidence.",
       "deliverables": [
-        "Evaluation and adaptation-delta contracts",
-        "Graph proposal and accepted/rejected policy-decision path",
-        "Durable history, deterministic replay, and rollback/inverse record",
-        "Focused Runtime v3, negative replay, and bounded-resource evidence"
+        "adl-runtime-kernel/src/adaptive_learning.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/adaptive_learning.rs",
+        "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+        ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+        ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+        ".csdlc/evidence/5831",
+        "Complete canonical evaluation, adaptation-delta, proposal, accepted/rejected decision, replay, rollback, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/adaptive_learning/",
+        "Focused deterministic graph-history, rollback, bounded-resource, and negative tests",
+        "Digest-bound native macOS and Linux exact-revision proof",
+        "Independent exact-head review and rollback evidence"
       ],
       "acceptance_criteria": [
         "The WP-13A DAG durably links loop event, evaluation, evidence-backed state delta, graph proposal, policy decision, accepted or rejected mutation, replay, and rollback/inverse record.",
