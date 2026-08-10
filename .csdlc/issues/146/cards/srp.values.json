@@ -7,15 +7,15 @@
     "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
     "slug": "v0921-corporate-csdlc-v3-runtime-proof",
     "version": "v0.92.0",
-    "generation": 32
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/146\n.csdlc/prepared/issues/146\ndocs/milestones/v0.92.1\ncsdlc-v3/README.md",
+      "review_revision": "git-blake3:dd67013066c1dbcd50634fdb30b24e8125eea242:87fa32c75d3b51e84287b5a931b817150089a0493a4371853aa49f09d4c936e3",
+      "reviewer": "subagent:019fedce-d5f3-7132-beed-c0786c120156",
       "review_prompts": [
         "Does any planned acceptance claim legal completion without a counsel-reviewed instrument and corporate acceptance evidence?",
         "Are all V3-01 through V3-16 and deferred V3-R01 responsibilities preserved with their reviewed dependencies and cutover controls?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

@@ -4,13 +4,36 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3a49b58d5ed74ad42ce9c9f58a4d3174e5c90ecc75d9efb944e061612e120434",
-  "phase": "implemented",
-  "generation": 32,
-  "digest": "18fa2a76093ae21e81bb1a6ccbf85a14ef553c75ba29936c007349ec93ab846f",
+  "phase": "reviewed",
+  "generation": 33,
+  "digest": "cbe8532051b785f8a63c0490526f5d9f136cfc30674e6ac299e643eedbc197ba",
   "branch": "codex/146-v0921-milestone-planning",
   "worktree": "/Volumes/FastWork/adl-issue-146-v0921-milestone",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fedce-d5f3-7132-beed-c0786c120156",
+    "assigned_by": "codex:146-planning-only-reconciliation",
+    "revision": "git-blake3:dd67013066c1dbcd50634fdb30b24e8125eea242:87fa32c75d3b51e84287b5a931b817150089a0493a4371853aa49f09d4c936e3",
+    "scope": [
+      ".csdlc/issues/146",
+      ".csdlc/prepared/issues/146",
+      "docs/milestones/v0.92.1",
+      "csdlc-v3/README.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fedce-d5f3-7132-beed-c0786c120156",
+    "scope": [
+      ".csdlc/issues/146",
+      ".csdlc/prepared/issues/146",
+      "docs/milestones/v0.92.1",
+      "csdlc-v3/README.md"
+    ],
+    "reviewed_revision": "git-blake3:dd67013066c1dbcd50634fdb30b24e8125eea242:87fa32c75d3b51e84287b5a931b817150089a0493a4371853aa49f09d4c936e3",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e9fcd5b3bce41e9e66478dc6b374a79310bbc0c92d0fea51bb5c4391827023dc",
+      "values_digest": "b1a285c66e5ef4a2a0a294ff217a7ee41ff6457fc9e42813a7e463ed3dd89de8",
       "rendered_digest": "68927ffb54723f56ff825c5269ece58bed93af405d9e4bd314052a228df967ce",
       "ast_digest": "c1f7e80d671dd1f6b49c81d35f828b550fd775eadd6b6c6c18c152c0648622fe"
     },
     "stp": {
-      "values_digest": "73aa98808b2eca01798babe6b943c3da7b77aad5b38da80c5a53ab4edd2aaa09",
+      "values_digest": "80eb072d4913e32a27754268cf11590b091659f361e65d162355e353b67df5fc",
       "rendered_digest": "a13d3199e0b206fcac2f97d24a55c3c976be0b803a3a92f78be085684cbfc957",
       "ast_digest": "cb391b19a99e1d45219ae0d892cf4219811981e69f6c5ce19b658d72abdc6063"
     },
     "spp": {
-      "values_digest": "5361d3a7829c093c34ec93f30c53340fb5d36523869b5f5887068239d1fc9d1f",
+      "values_digest": "80ecce0b8e9225a9f9225be3eae23933a3939bbacb78c8be559014abe5e1c60d",
       "rendered_digest": "30173408ee5596abaaac57a303cf8c63b7dfa0be1b995160124f57ef5106635f",
       "ast_digest": "2ad2499eef9ee7ed13a2963c05cae87b72e2d011fcac07a38fa711ed11e4d054"
     },
     "vpp": {
-      "values_digest": "27cac26c342bb4a58808aeb2d32970c39f7b9e7142650421d0b8e821bbcc4aaf",
+      "values_digest": "b33ccf47de0512a788a3b5e8b383acba82b59add40b615c812af307302405b7a",
       "rendered_digest": "34728eb02d9143c195faf51b091c9265a65ccbc3b3459c328fe9aba13498a4f8",
       "ast_digest": "723cfddbbabcc61dd4bde9ba142e12d117417303557377d075e8eeacd66db595"
     },
     "srp": {
-      "values_digest": "6a32773dacd2c3554c74145726f6b4d1d06267ca8a4d483e0823a7d72f27ced7",
-      "rendered_digest": "548371c5165bd36119f65c87b2cf90f33cd08d94ccb040787976ca0eb3aad5e0",
-      "ast_digest": "2e8521295e699613d09bf07f2303536ce53cb47292ab95c2de2c9bad1d82ad35"
+      "values_digest": "57753a824d5cf68a1d3e09acc1711d19b9a8daf2c6b05087ff274040c7acc47e",
+      "rendered_digest": "bc41eca9ff17f0fe35875b845156a2f887df12d312663857f0bc2203e583618c",
+      "ast_digest": "bbd281782ff3ac803f18c14eb0f86f9036fff63d9c934ee2a80eeb890c45e324"
     },
     "sor": {
-      "values_digest": "2156eb5ff26fdf65d240dcfa9c34073773ab45d080c554ede9c74cd4cc1a749d",
+      "values_digest": "9026ce07430f62091484e8297da27611bba52403b9e6fec9bfe6f88063ae20bb",
       "rendered_digest": "1123a0d9a8c119d5ace07c15bcb39f46b131b9dbe2669f452889b778b570c39e",
       "ast_digest": "26d06bcc36ded89ffe0a7fa20637c3738544d1943584490f8b0fbdc6769eb0b1"
     }
@@ -118,6 +141,13 @@
       "to": "implemented",
       "actor": "codex:146-planning-only-reconciliation",
       "reason": "Recover the published review state after the operator corrected premature child issue creation and required a planning-only WP-01 opening gate plus the standard milestone closeout sequence."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fedce-d5f3-7132-beed-c0786c120156",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -372,6 +402,20 @@
       "actor": "codex:146-planning-only-reconciliation",
       "reason": "Replace stale execution-ready child-wave claims with the operator-required planning-only package truth while preserving all detailed work specifications for WP-01.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved; after the operator creates WP-01, WP-01 exclusively owns creation and validation of the downstream live issue wave.\",\"changes\":[\"Retired prematurely created issues #149-#190 without execution and recorded that disposition in a machine-readable retirement ledger.\",\"Moved the premature child lifecycle packets, designs, diagrams, validators, and distributed proof stubs into a non-authoritative planning archive; retained every detailed work-package objective, scope, deliverable, acceptance criterion, non-goal, owned path, PVF lane, stop condition, and review requirement.\",\"Added WP-01 as the sole milestone-opening and child-issue creation authority after the planning package merges.\",\"Removed live issue numbers and URLs from the planned issue wave and execution specifications.\",\"Expanded the integration tail to include integrated review, release qualification, next-milestone planning, independent handoff review, operator-authorized release ceremony, and terminal milestone closeout.\",\"Preserved all eleven mandatory C-SDLC v3 architecture decisions and the corporate, C-SDLC v3, and distributed Runtime qualification plans.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WBS_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml\",\"docs/milestones/v0.92.1/planned-issue-packets/README.md\",\"docs/milestones/v0.92.1/planned-issue-packets/manifest.json\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate planning-only posture, the preserved 42-work-package denominator, all 721 source-commit-anchored archive digests, operator bootstrap of WP-01, WP-01 downstream creation authority, retirement truth, complete lifecycle sequence, dependency graph, and exact ownership mapping for all eleven v3 decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 planning-only package and standard lifecycle WBS\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate milestone YAML, repository links, and placeholder hygiene after removing premature live issue authority.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the corrected planning package.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "subagent:019fedce-d5f3-7132-beed-c0786c120156",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
