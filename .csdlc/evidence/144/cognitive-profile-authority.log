@@ -1,0 +1,22 @@
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+────────────
+ Nextest run ID 2b0d163a-9779-4129-9e25-1c0e6aaf7bce with nextest profile: default
+    Starting 15 tests across 1 binary
+        PASS [   0.020s] ( 1/15) adl-runtime-kernel::cognitive_profile unknown_json_fields_fail_closed
+        PASS [   0.022s] ( 2/15) adl-runtime-kernel::cognitive_profile self_authorized_policy_statement_and_transplant_fail_closed
+        PASS [   0.028s] ( 3/15) adl-runtime-kernel::cognitive_profile exported_validator_rejects_rehashed_forgery
+        PASS [   0.037s] ( 4/15) adl-runtime-kernel::cognitive_profile canonical_creation_is_deterministic_and_public_projection_is_narrow
+        PASS [   0.038s] ( 5/15) adl-runtime-kernel::cognitive_profile identity_continuity_capability_and_birthday_substitution_fail_closed
+        PASS [   0.048s] ( 6/15) adl-runtime-kernel::cognitive_profile missing_nonclaims_and_public_everything_fail_closed
+        PASS [   0.050s] ( 7/15) adl-runtime-kernel::cognitive_profile revision_updates_link_and_explain_exact_delta
+        PASS [   0.055s] ( 8/15) adl-runtime-kernel::cognitive_profile exact_duplicates_canonicalize_and_case_collisions_fail
+        PASS [   0.060s] ( 9/15) adl-runtime-kernel::cognitive_profile privacy_secrets_paths_and_raw_state_fail_closed
+        PASS [   0.075s] (10/15) adl-runtime-kernel::cognitive_profile stale_missing_duplicate_and_forbidden_evidence_fail_closed
+        PASS [   0.075s] (11/15) adl-runtime-kernel::cognitive_profile old_key_governs_rotation_and_new_key_governs_followup
+        PASS [   0.059s] (12/15) adl-runtime-kernel::cognitive_profile unsupported_labels_diagnosis_and_status_inference_fail_closed
+        PASS [   0.100s] (13/15) adl-runtime-kernel::cognitive_profile broken_revision_link_and_unexplained_delta_fail_closed
+        PASS [   0.127s] (14/15) adl-runtime-kernel::cognitive_profile trusted_genesis_and_complete_four_revision_chain_replay
+        PASS [   0.216s] (15/15) adl-runtime-kernel::cognitive_profile deep_rehash_truncation_substitution_and_rotation_attacks_fail_closed
+────────────
+     Summary [   0.217s] 15 tests run: 15 passed, 0 skipped

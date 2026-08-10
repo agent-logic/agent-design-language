@@ -1,0 +1,14 @@
+{
+  "schema": "adl.local_validation_manifest.v1",
+  "issue": 144,
+  "validated_revision": "a8f5f5152b418fd9f90ee1b092c630c3f2fc3e8d",
+  "validated_tree": "bebb8f8c7ce44f854a4baa25708f046a4859e86f",
+  "command": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "cognitive_profile", "--no-tests=fail", "--status-level", "all"],
+  "tests_run": 15,
+  "tests_passed": 15,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "status": "passed",
+  "output_ref": ".csdlc/evidence/144/cognitive-profile-authority-v1.log",
+  "output_sha256": "4db810052ed8f21f8b254b1429bc43fff0b09f22ece5b6f05e8746c988093d69"
+}

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
-  "phase": "bound",
-  "generation": 1,
-  "digest": "61f355ab98917bf11f388f81376d7517b74c95cef9b1cb7655cce90d3d2ebbbd",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "8f8f6c734abd17d17dcb3f85a82a1705e0a4d4defdf9112c8e0f4a01be1927d6",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "21cfedd490266b47d52052ffc546e4ed7cf4bb47622f92cbd8d8ddd122bebc8d",
+      "values_digest": "603dadefa6a7dd490ebf5120ab7df4ff5a90df1751b50bcc953e04ad99130ffb",
       "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
       "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
     },
     "stp": {
-      "values_digest": "5f4633ccea4e5039c55a096584094c4a5a0bd76d8b2d3f570b9db5d4a403ed1f",
+      "values_digest": "65d9f51ca9889a11b2b72780124521e09f909d388aca190826cf419d1f07c693",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "cc4c4712d59125cf1ce8ecf5ec0411351608beca3846997a1c2533bc331e1df8",
-      "rendered_digest": "50adcd8f4fa63f23ba06b7ed35fb2f712ab9a327702b6524686c7fa0bf344b7a",
-      "ast_digest": "4076be55ce5a172b16d945e0b534f03e74862707a4e17c1b062545bbdab5b4eb"
+      "values_digest": "f4c6d213deedb982e4f588e1ab266d777d36112567ea5852061cc148695a767d",
+      "rendered_digest": "588cfe1efc4a7f4280af8fef9e86221b19bb321d93c2a54bb3deb16bd551d7a5",
+      "ast_digest": "2c96ed08afa71aab84ef48ef6a320c73bea6d72440bed8b432649bb4d3617c6f"
     },
     "vpp": {
-      "values_digest": "0e87921135ccb60b7d2d7feb21d641647e93a4915a9aaf88bd74e4a961f9a0d3",
+      "values_digest": "51e90df94b37c6593da2f91d694dcfd590741d9272f266bf002922e000971324",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "626c4370aa8bbc8c8230632daee8fe56bfd068114a199b0708509e6510949f4d",
+      "values_digest": "c1b9a06cd43d5c58286fa7de40026130dcb19c5a1cabe4d5fadf6c187a1645ba",
       "rendered_digest": "56c913ee1c7ec09c5d2bf94973e001ebc0b0012ff297b7d84fef740fa57538fd",
       "ast_digest": "cc129244b5761121740074ab9278cdf43b82c25894a066f65f9d6d9b12622134"
     },
     "sor": {
-      "values_digest": "5cf498ab8cb8019318b2dfa109bf9b79180eb4f348a519e2ab6f18cb8554924e",
-      "rendered_digest": "bcd455f696ff7ee456f8726de1f92394d947519a311457692212b0b0353a75e9",
-      "ast_digest": "ef2ed769aae91199db2b43548e28fffc84de859eb415430816cbcab197f6945c"
+      "values_digest": "250ee412694fab72be6f3b5ca0a9e45d2285e508ffa59fb95b75554c857798c8",
+      "rendered_digest": "616c4cf5d8f1687c2acc6b9f775cc535e9f52127ee94581c894ca104feaa7118",
+      "ast_digest": "c834fd742f0df0e823a92a3a9733f9053e89cc80a75e79039355be412c8925d9"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -92,6 +99,27 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "Inspected current cognitive_profile, governance signing, identity, continuity, merged #5830 proof, and issue #144 contract; froze provisioned authority, full-chain genesis verification, and monotonic signed rotation boundaries before product edits.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Implemented provisioned authority anchoring, signed canonical policy/evidence statements, complete genesis replay, and old-key-governed exact-epoch rotation in issue-owned cognitive-profile paths.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Exact cognitive_profile proof passes 15/15 with self-authorization, deep-lineage forgery, truncation, substitution, stale/wrong/self-signed/same-key rotation negatives; strict Clippy, format, scripts, inventory, YAML, fixture, and diff checks pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
