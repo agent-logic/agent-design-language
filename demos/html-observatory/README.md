@@ -163,11 +163,13 @@ GET /v1/observatory/ws
 POST /v1/control
 ```
 
-Public reads do not grant write authority. Layer 8 chat loads an operator
-Ed25519 seed into memory for the current page only and submits a complete signed
-control command. Runtime verifies the principal, capability, runtime identity,
-recipient, correlation, content bounds, and command policy. The browser renders
-only the bounded public response or refusal.
+Public reads do not grant write authority. After the operator authenticates the
+Observatory WebSocket session, Layer 8 chat submits only a bounded intent.
+Runtime constructs and signs the canonical identity message with its externally
+provisioned delegated Layer 8 identity, verifies recipient eligibility and
+policy, and returns the selected agent's signed acknowledgement. The browser
+holds no private signing material and displays a response only after verifying
+the acknowledgement against the selected agent's public roster identity.
 
 ## Validate
 
@@ -180,7 +182,7 @@ NODE_PATH=<playwright-node-modules> \
 PLAYWRIGHT_BROWSERS_PATH=<playwright-browser-storage> \
 ADL_OBSERVATORY_URL=https://<runtime-instance-hostname>:<observatory-port>/demos/html-observatory/ \
 ADL_RUNTIME_API_BASE=https://<runtime-instance-hostname>:<runtime-port> \
-ADL_OPERATOR_KEY_FILE=<operator-ed25519-seed-file> \
+ADL_OPERATOR_KEY_FILE=<restart-authority-ed25519-seed-file> \
 ADL_OBSERVATORY_EVIDENCE_DIR=<absolute-fastwork-evidence-directory> \
 ADL_TLS_PROOF_CONNECT_HOST=127.0.0.1 \
 ADL_PLAYWRIGHT_HOST_RESOLVER_RULES='MAP <runtime-instance-hostname> 127.0.0.1' \
@@ -205,7 +207,9 @@ certificate identities. It also requires the real Shepherd roster, signed select
 `400 invalid_request` refusal, stopped-state authority removal, reconnect
 deduplication, secret absence, and a clean console/network result.
 
-The restart proof submits a signed, capability-checked Runtime restart command.
+`ADL_OPERATOR_KEY_FILE` is read by the validator only to authorize the isolated
+Guardian restart proof; it is never loaded into the browser or used by normal
+chat. The restart proof submits a signed, capability-checked Runtime restart command.
 Runtime serializes its terminal checkpoint and exits with the Guardian restart
 classification; the Guardian remains the only process owner and launches the
 replacement child. The validator never signals a feed-supplied PID. It also

@@ -16,7 +16,7 @@ Complete the investor-visible Layer 8 chat slice with fresh live capture time an
 
 ## Plan
 
-Revision 16
+Revision 17
 
 ## Steps
 

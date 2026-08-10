@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
   "phase": "bound",
-  "generation": 58,
-  "digest": "346926f40ee5f49b0fbeda71b4946b63a61dfca5e7feb8e8d9603aedcd295c8f",
+  "generation": 59,
+  "digest": "3a05406ea158650448265579110999936344b0567ac5094f2d618f1ec8735d4e",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "249992e87641010a973f26a750de985d2516880c9be49b952363a8ad51a083bd",
+      "values_digest": "5290932a917aed43152e3e5bc158409d38839ad89659aac8a67ae19c01bd0908",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "ec990dcfc65a361f5cdd80ae9a06df97b51bd2cc60a5c8143bf4a8bca692e497",
+      "values_digest": "4feebfaa327c04f22c7c519fdfdebffb190d6cb04a7057bbbbd0aab69dc1bad4",
       "rendered_digest": "951b0f87e95b3eb451b87e830be166854b6dfb542d50625565d1909d6e61b553",
       "ast_digest": "3facab5e9cf31c18bb13c2832d865598f1272205a26a27c5467db88cfeb07d40"
     },
     "spp": {
-      "values_digest": "7bc3c6225c10f9f5f3b344cad67d8d0564e9538701ac815cb314dc061affad0d",
-      "rendered_digest": "a7d47db58f3829f0764fbcc6cdac9b8776059435aef1b26bbb63ccb2e40f84c4",
-      "ast_digest": "2ef551663f84690c88461717d731d52a9cbf8ef8dba5e147b4fd616f550fc514"
+      "values_digest": "cc3291cba29718b91d0b497327d15aab514bcc989f7aa1f4736413e74c28bcee",
+      "rendered_digest": "163b6d557bbea6e5852a15c8a654da45f2052ab05047783000417c154c3fb50d",
+      "ast_digest": "2efe3af9ee1a82b21068e49e855ec8f863362f7625ce902a3d9ebd623a8b6b98"
     },
     "vpp": {
-      "values_digest": "b7d85ea80cdc44d9223b613e088b1c7729554d2358a67a245783017ffb2fdb6c",
+      "values_digest": "e785628319ada6fa98e8cf141a1b92e621d81d9520ebc8bb887b4c50d3178d41",
       "rendered_digest": "3ceb7aa9cb5fd4a4f8e02de576362926a72cce77940561ad37351b244214bf05",
       "ast_digest": "28abb1f3fbbff54e3edfceaae389046dc627bd2e72cccdbd2bea24449c22ffb2"
     },
     "srp": {
-      "values_digest": "581cbfed3bedf5a912e4d60721c31438c61686364b03423e899c4fb6b99ccf1a",
+      "values_digest": "03f83dd73c1f100da240f489444fd8b08bb5aa2d29a0a344479b4ae8f5437408",
       "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
       "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
     },
     "sor": {
-      "values_digest": "9bb9a954c741c7ed919d6bb26963a1c5f2e33c6128e17dedd3107adb043bde80",
+      "values_digest": "7c960f38b8c0da52337543973c08b05bbaf2672427ac384433d2bb68121fdd66",
       "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
       "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
     }
@@ -490,6 +490,13 @@
       "actor": "codex:83-agent-identity-envelope",
       "reason": "Add explicit restart and replay proof for the recipient-signed acknowledgement sequence contract.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-signed-identity-projection\",\"proof_role\":\"Reject private-field leakage, wrong correlation or causation, invalid signatures, stale acknowledgements, future acknowledgements, and invalid validity windows before canonical completion or public projection.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"public_layer8_projection_rejects_extra_or_mismatched_executor_fields\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-restored-communication-replay\",\"proof_role\":\"Restore a persisted request-sender watermark and reject a valid signed replay before dispatch without changing canonical state.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"restored_ingress_rejects_signed_replay_before_dispatch\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-acknowledgement-sequence-continuity\",\"proof_role\":\"Restart the production assembly on the same durable state root, require the recipient acknowledgement sequence to advance, and retain a receiver watermark that rejects the pre-restart acknowledgement replay.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\",\"resident_shepherd_admission_replays_across_process_cycles\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-agent-to-agent-acip-wss\",\"proof_role\":\"Send a signed agent-originated binary ACIP message through the production WebSocket route, verify the recipient-signed acknowledgement, and reject carrier tampering and replay.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"production_binary_acip_wss_produces_observed_receipt\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-communication-identity-config\",\"proof_role\":\"Require externally provisioned, distinct communication identities while keeping Polis display-name migration separate from continuity identity and endpoint certificates.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-layer8-control\",\"proof_role\":\"Prove authenticated Layer 8 intent delegation, visible-recipient routing, unknown-recipient denial, and recipient-signed bounded response projection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"layer8\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-contract\",\"proof_role\":\"Prove the Observatory contract documents authenticated Layer 8 intent, signed control compatibility, public verification identities, and the binary ACIP authority boundary.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-shell\",\"proof_role\":\"Prove no browser signing-key surface, strict signed-response and acknowledgement-replay verification, fresh capture-time projection, cursor-gap rejection, reconnect authorization reset, and UTF-8 message bounds.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-live-browser\",\"proof_role\":\"Prove the exact Runtime candidate in a real browser over trusted HTTPS/WSS, including current capture time, Polis identity, roster, keyless authenticated chat, selected-agent signature verification, refusal, disconnect, and bounded reauthentication.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"parallel_group\":\"live-browser\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 59,
+      "actor": "codex:83-agent-identity-envelope",
+      "reason": "Include the Observatory operator documentation that must describe authenticated delegation rather than the removed browser private-key flow.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/Cargo.lock\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/parity_b_live_kernel.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"demos/html-observatory/README.md\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"docs/api/runtime-v3/v1/acip-identity-message-golden.json\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\"]}"
     }
   ]
 }
