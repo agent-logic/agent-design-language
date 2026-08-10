@@ -1,0 +1,75 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 121,
+  "wp": "WP-04.07",
+  "source_revision": "eeedb493dfa456e32c83130356db703487602a40",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/lease.rs",
+    "adl-runtime/tests/distributed_lease.rs"
+  ],
+  "source_artifacts": [
+    {
+      "path": "adl-runtime/src/distributed/lease.rs",
+      "sha256": "db629753823e18c48430e9564843797a25dfe70af1ebc1006eef4ef4f5af0f28"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_lease.rs",
+      "sha256": "c8d34ccb4c1c2d0433d96d7bff0dfc40b8c2b912d9ae20a6619c64afb0390da8"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_lease",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 20,
+      "started_at": "2026-08-10T05:08:11.102949Z",
+      "finished_at": "2026-08-10T05:08:12.000583Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "121-local-review-v3",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"
+      },
+      "stdout_path": ".csdlc/evidence/121/review-v3/operator-v3/exact-child-tests.stderr.log",
+      "stdout_sha256": "36f4d3134fb80aa9d969c7c518f5877dda9487ef7a58e6722521c18ac842da9a",
+      "stderr_path": ".csdlc/evidence/121/review-v3/operator-v3/exact-child-tests.stdout.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    {"case":"fence_without_holder_key","result":"fenced","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"revoke_without_holder_key","result":"fenced","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"fence_same_epoch","result":"denied","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"fence_epoch_gap","result":"denied","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"fence_stale_epoch","result":"denied","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"fenced_mutation","result":"denied","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"restore_current_index","result":"recovered","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"recovery_floor_retained","result":"fenced","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"premature_activation","result":"denied","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"holder_operation_possession","result":"denied","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"case":"atomic_fence_failure","result":"fail_closed","evidence_path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","evidence_sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"}
+  ],
+  "artifacts": [
+    {"path":".csdlc/evidence/121/review-v2/derive-negative-cases.rb","sha256":"517f81af2baa70d3bc6a21a66eff5eba2a2d245d2968ac1e8365034d9b6a3aea"},
+    {"path":".csdlc/evidence/121/runner.txt","sha256":"58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"},
+    {"path":".csdlc/evidence/121/review-v3/operator-v3/exact-child-tests.log","sha256":"36f4d3134fb80aa9d969c7c518f5877dda9487ef7a58e6722521c18ac842da9a"},
+    {"path":".csdlc/evidence/121/review-v3/operator-v3/exact-child-tests.stderr.log","sha256":"36f4d3134fb80aa9d969c7c518f5877dda9487ef7a58e6722521c18ac842da9a"},
+    {"path":".csdlc/evidence/121/review-v3/operator-v3/strict-focused-clippy.log","sha256":"2bc683fb4e4f4f21ee9ee39e2b8ecce2efe20d3b1be57bda5316aa519ab3d30a"},
+    {"path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.json","sha256":"e353b66ce25ddef61b07c65e3d0c96bbbe7ccfdf77a17f1dab5e4d6ad2fa6110"},
+    {"path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.stdout.log","sha256":"ad2f165753bc93cfa883f583bec4f8c1b3c07e04046a2960121477917d407b36"},
+    {"path":".csdlc/evidence/121/review-v3/operator-v3/negative-cases.stderr.log","sha256":"45b0cf5c6c421e09d65ca301b1bcbc3188b4b04ce4bba39346814f14ce4fbd51"},
+    {"path":".csdlc/evidence/121/review-v3/operator-v3/validation-manifest.json","sha256":"c4aff006eb0f80bfdc9c3087c6f3a1dca03b5d21e32318ea8735c8613874fc51"}
+  ],
+  "native_receipts": []
+}

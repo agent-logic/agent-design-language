@@ -16,11 +16,14 @@ Enforce one authoritative owner per lineage and reject stale, cloned, or partiti
 
 ## Deliverables
 
-- Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
-- Authority safety: Keep uncertain owners fenced and restore only a quorum-committed owner or newer majority-committed epoch after the prior lease safety window.
+- adl-runtime/src/distributed/fencing.rs
+- adl-runtime/tests/distributed_fencing.rs
+- Quorum-authorized fence and revoke operations that do not require old-holder activation possession, while every holder-authorized activation or mutation still requires current holder proof
+- Strict committed next-epoch transitions with a portable durable safety floor that survives restart, restore, and rollback
+- Fresh current AuthorityMembership verification and an exact operation allowlist at every authority-sensitive entry point
+- Atomic immediately durable replay and fence receipts with fail-closed recovery from torn, corrupt, missing, or capacity-exhausted state
+- Deterministic focused tests for path and symlink safety, restart, rollback, replay, capacity, and absent current membership
+- Exact-revision proof with an issue-specific machine-derived negative-marker denominator and independent exact-head review
 
 ## Acceptance
 
@@ -33,10 +36,13 @@ Enforce one authoritative owner per lineage and reject stale, cloned, or partiti
 
 ## Dependencies
 
-- WP-04.06 issue #5868
-- WP-04.07 issue #5869
-- WP-04-IMP issue 5862
-- Architecture/security gate issue 5821 terminal
+- #5868 failure detection must be closed by a merged commit ancestral to the exact execution base
+- #5869 lease baseline must be closed by a merged commit ancestral to the exact execution base
+- Corrective PR #120 for #5909 must be merged and ancestral
+- Same-repository issue #121 and stacked PR #123 must be merged and ancestral after their declared base
+- Both corrective merges #120 and #123 must be present before #5870 may bind or implement
+- #5862 is the coordination umbrella and is not a substitute for dependency terminality
+- #5821 is the terminal architecture gate
 
 ## Inputs
 
@@ -45,6 +51,10 @@ Enforce one authoritative owner per lineage and reject stale, cloned, or partiti
 - adl-runtime/src/guardian.rs
 - adl-runtime/src/networking.rs
 - adl-runtime/src/runtime_api.rs
+- adl-runtime/src/distributed/certificates.rs
+- adl-runtime/src/distributed/membership.rs
+- adl-runtime/src/distributed/failure_detection.rs
+- adl-runtime/src/distributed/lease.rs
 
 ## Non Goals
 

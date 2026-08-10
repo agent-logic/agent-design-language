@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 121,
+  "expected_generation": 3,
+  "expected_digest": "13020d4eb0f799255485f7f93c7a7896372678673532ced2cde529937fd303ef",
+  "actor": "codex:121-quorum-fence-repair",
+  "reason": "Recover the prior review after normalizing retained proof-log hygiene and producing the final digest-bound V3 receipt."
+}

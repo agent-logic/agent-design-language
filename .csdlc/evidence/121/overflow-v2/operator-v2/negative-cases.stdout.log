@@ -1,0 +1,16 @@
+
+running 1 test
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"fence_without_holder_key","result":"fenced"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"fenced_mutation","result":"denied"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"fence_same_epoch","result":"denied"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"fence_epoch_gap","result":"denied"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"fence_stale_epoch","result":"denied"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"atomic_fence_failure","result":"fail_closed"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"restore_current_index","result":"recovered"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"recovery_floor_retained","result":"fenced"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"premature_activation","result":"denied"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"holder_operation_possession","result":"denied"}
+ADL_ISSUE_121_NEGATIVE_CASE_V1 {"case":"revoke_without_holder_key","result":"fenced"}
+test quorum_fence_and_restart_safety_machine_evidence ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.02s

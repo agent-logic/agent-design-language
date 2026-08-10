@@ -1,0 +1,23 @@
+
+running 3 tests
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"unsafe_state_path","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"symlink_state_path","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"state_capacity","result":"denied"}
+test state_paths_and_capacity_fail_closed ... ok
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"fence_without_old_holder_activation_proof","result":"fenced"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"fence_same_epoch","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"fence_epoch_gap","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"fence_uncommitted_next_epoch","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"stale_authority_membership","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"no_current_authority_membership","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"fenced_mutation","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"rollback_below_floor","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"unauthorized_operation","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"restart_floor_retained","result":"fenced"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"replay_receipt_mismatch","result":"denied"}
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"revoke_without_old_holder_activation_proof","result":"fenced"}
+test quorum_fence_revoke_epoch_and_replay_contract ... ok
+ADL_ISSUE_5870_NEGATIVE_CASE_V1 {"case":"atomic_receipt_failure","result":"fail_closed"}
+test durable_floor_fences_restart_rollback_and_failed_commit ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
