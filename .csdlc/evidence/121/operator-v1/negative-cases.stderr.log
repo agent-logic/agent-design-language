@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/distributed_lease.rs (adl-runtime/target/debug/deps/distributed_lease-c2accf596e218a72)

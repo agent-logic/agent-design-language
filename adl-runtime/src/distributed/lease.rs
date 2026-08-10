@@ -639,6 +639,22 @@ impl AuthorityLedger {
         self.leases.get(lineage_id)
     }
 
+    #[cfg(test)]
+    pub(crate) fn set_counters_for_test(
+        &mut self,
+        lineage_id: &[u8],
+        epoch: u64,
+        last_mutation_sequence: u64,
+    ) -> AuthorityResult<()> {
+        let lease = self
+            .leases
+            .get_mut(lineage_id)
+            .ok_or(AuthorityError::AuthorityRequired)?;
+        lease.epoch = epoch;
+        lease.last_mutation_sequence = last_mutation_sequence;
+        Ok(())
+    }
+
     pub fn apply(
         &mut self,
         certificate_bytes: &[u8],
@@ -687,11 +703,19 @@ impl AuthorityLedger {
         if now_unix_millis >= certificate_deadline_unix_millis {
             return Err(AuthorityError::LeaseExpired);
         }
-        verify_activation(
-            body,
-            application.activation_public_key,
-            application.activation_proof,
-        )?;
+        if matches!(
+            operation,
+            OperationClass::LeaseGrant
+                | OperationClass::LeaseRenewal
+                | OperationClass::Activate
+                | OperationClass::OwnerCommit
+        ) {
+            verify_activation(
+                body,
+                application.activation_public_key,
+                application.activation_proof,
+            )?;
+        }
 
         let current = self.leases.get(&body.lineage_id).cloned();
         match operation {
@@ -709,7 +733,15 @@ impl AuthorityLedger {
             }
             OperationClass::Activate => {
                 let previous = current.as_ref().ok_or(AuthorityError::AuthorityRequired)?;
-                let expected = previous.epoch.saturating_add(1);
+                let previous_operation = lease_operation(previous)?;
+                let expected = if previous.revoked && previous_operation == OperationClass::Fence {
+                    previous.epoch
+                } else {
+                    previous
+                        .epoch
+                        .checked_add(1)
+                        .ok_or(AuthorityError::ResourceExhausted)?
+                };
                 if body.epoch < expected {
                     return Err(AuthorityError::StaleEpoch);
                 }
@@ -751,11 +783,36 @@ impl AuthorityLedger {
                     return Err(AuthorityError::LeaseExpired);
                 }
             }
-            OperationClass::Revoke | OperationClass::Fence => {
+            OperationClass::Revoke => {
                 let previous = current.as_ref().ok_or(AuthorityError::HolderMismatch)?;
                 if body.epoch != previous.epoch
                     || body.holder_node_id != previous.holder_node_id
                     || body.holder_guardian_id != previous.holder_guardian_id
+                    || body.activation_key_sha256
+                        != <[u8; 32]>::from(Sha256::digest(previous.activation_public_key))
+                            .as_slice()
+                    || certificate_deadline_unix_millis != previous.deadline_unix_millis
+                {
+                    return Err(AuthorityError::HolderMismatch);
+                }
+            }
+            OperationClass::Fence => {
+                let previous = current.as_ref().ok_or(AuthorityError::HolderMismatch)?;
+                let expected = previous
+                    .epoch
+                    .checked_add(1)
+                    .ok_or(AuthorityError::ResourceExhausted)?;
+                if body.epoch < expected {
+                    return Err(AuthorityError::StaleEpoch);
+                }
+                if body.epoch != expected {
+                    return Err(AuthorityError::EpochGap);
+                }
+                if body.holder_node_id != previous.holder_node_id
+                    || body.holder_guardian_id != previous.holder_guardian_id
+                    || body.activation_key_sha256
+                        != <[u8; 32]>::from(Sha256::digest(previous.activation_public_key))
+                            .as_slice()
                     || certificate_deadline_unix_millis != previous.deadline_unix_millis
                 {
                     return Err(AuthorityError::HolderMismatch);
@@ -786,13 +843,19 @@ impl AuthorityLedger {
                 state.revoked = true;
                 state.committed_log_index = body.committed_log_index;
                 state.raft_term = body.raft_term;
+                state.epoch = body.epoch;
+                state.certificate_generation = body.voter_set_generation;
                 state.certificate_bytes = certificate_bytes.to_vec();
+                if operation == OperationClass::Fence {
+                    state.last_mutation_sequence = 0;
+                }
                 state
             }
             OperationClass::OwnerCommit => {
                 let mut state = current.ok_or(AuthorityError::HolderMismatch)?;
                 state.committed_log_index = body.committed_log_index;
                 state.raft_term = body.raft_term;
+                state.certificate_generation = body.voter_set_generation;
                 state.certificate_bytes = certificate_bytes.to_vec();
                 state
             }
@@ -835,10 +898,26 @@ impl AuthorityLedger {
             &prospective_leases,
             self.policy.max_snapshot_bytes,
         )?;
+        let mut prospective_recovery_fences = self.recovery_fences_unix_millis.clone();
+        match operation {
+            OperationClass::Fence | OperationClass::Revoke => {
+                let safety_deadline = certificate_deadline_unix_millis
+                    .checked_add(self.policy.max_clock_uncertainty_millis)
+                    .and_then(|value| value.checked_add(self.policy.message_delay_margin_millis))
+                    .ok_or(AuthorityError::ResourceExhausted)?;
+                prospective_recovery_fences.insert(body.lineage_id.clone(), safety_deadline);
+            }
+            OperationClass::Activate => {
+                prospective_recovery_fences.remove(&body.lineage_id);
+            }
+            OperationClass::LeaseGrant
+            | OperationClass::LeaseRenewal
+            | OperationClass::OwnerCommit => {}
+        }
         self.applied_log_index = body.committed_log_index;
         self.last_raft_term = body.raft_term;
         self.leases = prospective_leases;
-        self.recovery_fences_unix_millis.remove(&body.lineage_id);
+        self.recovery_fences_unix_millis = prospective_recovery_fences;
         self.leases
             .get(&body.lineage_id)
             .ok_or(AuthorityError::SnapshotCorrupt)
@@ -868,7 +947,11 @@ impl AuthorityLedger {
         if authorization.now_elapsed_millis >= lease.deadline_elapsed_millis {
             return Err(AuthorityError::LeaseExpired);
         }
-        if authorization.sequence != lease.last_mutation_sequence.saturating_add(1) {
+        let expected_sequence = lease
+            .last_mutation_sequence
+            .checked_add(1)
+            .ok_or(AuthorityError::ResourceExhausted)?;
+        if authorization.sequence != expected_sequence {
             return Err(AuthorityError::Replay);
         }
         let key = VerifyingKey::from_bytes(&lease.activation_public_key)
@@ -1035,6 +1118,12 @@ fn restart_safety_deadline_unix_millis(policy: &LeasePolicy, lease: &LeaseState)
         .deadline_unix_millis
         .checked_add(policy.max_clock_uncertainty_millis)?
         .checked_add(policy.message_delay_margin_millis)
+}
+
+fn lease_operation(lease: &LeaseState) -> AuthorityResult<OperationClass> {
+    let certificate = decode_certificate(&lease.certificate_bytes)?;
+    let body = certificate.body.ok_or(AuthorityError::InvalidCertificate)?;
+    OperationClass::parse(body.operation_class)
 }
 
 fn certificate_deadline_unix_millis(body: &AuthorityCertificateBodyV1) -> Option<u64> {
