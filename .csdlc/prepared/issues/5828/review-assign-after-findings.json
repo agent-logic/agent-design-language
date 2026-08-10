@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 5828,
+  "expected_generation": 61,
+  "expected_digest": "b860215c321e725c6f31c8213d1d6d373d8a19d954769b452983773cf27ef721",
+  "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+  "assigned_by": "codex:5828-memory-palace",
+  "scope": [
+    ".csdlc/issues/5828",
+    ".csdlc/prepared/issues/5828/design.md",
+    ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+    ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+    ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+    ".csdlc/evidence/5828",
+    ".github/workflows/wp11-native-memory-palace.yml",
+    "adl-runtime-kernel/src/memory_palace.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/tests/memory_palace.rs",
+    "adl-runtime-kernel/tests/fixtures/memory_palace",
+    "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+  ]
+}

@@ -6,10 +6,28 @@
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
   "generation": 61,
-  "digest": "b860215c321e725c6f31c8213d1d6d373d8a19d954769b452983773cf27ef721",
+  "digest": "36d456af4453125c0aa6b0f490b256be6e18afae0cdc90f3a8e32313d79b0bd2",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "assigned_by": "codex:5828-memory-palace",
+    "revision": "git-blake3:009777b9c4fa7eefd11534422b1d03e2a1e14da3:0f8dc5c846c907a4e7ac65bae05ab826530bc0ef18f719d7eac0a5006a9d5093",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "8444786ca247798786fd96f7b08b0f536618626bc90f3d7877804e36c100f7b4",
-      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
-      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
+      "values_digest": "801959ca049f536989826d255a59a76fd3993837539a1813c3a4334b4f263742",
+      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
+      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
     },
     "sor": {
       "values_digest": "5ad62f4fea7736f91066b27041ba0438d4bc116a501e33e468cdee9094e9b92e",
@@ -694,6 +712,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "Recover the stale exact-head assignment after resolving all four independent review findings and retaining the strengthened 11-test ObsMem, privacy, topology, and packet-validation proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 61,
+      "actor": "codex:5828-memory-palace",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
