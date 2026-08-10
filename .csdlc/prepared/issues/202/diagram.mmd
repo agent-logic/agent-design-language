@@ -13,5 +13,8 @@ flowchart LR
   P --> E["#201 new eligibility and ordinary sessions deny target"]
   P --> G["Remaining voters may authorize new-identity recovery token"]
   G --> A
-  ROT["Successor token for rotated certificate generation"] --> A
+  ROT["Successor token for rotated certificate generation"] --> RS["Private staged successor in same admission lineage"]
+  RS --> RF["Atomic successor-generation published flip"]
+  RF --> A
+  RF --> RC["Close and reject retained old-generation sessions"]
   J -. "crash rollback conflict deadline or ambiguity" .-> Z["No visible change; reconcile exact operation or fail closed"]

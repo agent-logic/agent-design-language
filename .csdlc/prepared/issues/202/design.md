@@ -45,13 +45,19 @@ authorizing the token.
   stable Raft id, certificate generation, boot generation, address, old voter
   cut digest, and bounded expiration/operation index, and whose exact result is
   durably published.
-- Each admission binds exactly one transport certificate generation. A
-  certificate rotation requires a distinct successor #201 token whose payload
-  binds the successor generation, the previous admission namespace, the
-  authority-approved overlap end, and the successor operation digest. During
-  overlap the certificate authority may verify both certificates, but neither
-  token authorizes the other generation. The old admission is denied at its
-  token deadline or overlap end, whichever is earlier.
+- Each logical learner-admission lineage has exactly one published current
+  transport certificate generation. Rotation requires a distinct successor
+  #201 token whose payload binds the successor generation, the previous
+  admission namespace, the authority-approved overlap end, and the successor
+  operation digest. The successor is journaled and staged privately while the
+  old admission remains the sole published current admission. One atomic
+  successor-generation view flip makes the new token namespace the sole current
+  admission and closes every retained old-generation session before another
+  request. The old generation is denied at the earliest of its token deadline,
+  the authority overlap end, or that published successor flip. During overlap
+  the certificate authority may verify both certificates, but neither token
+  authorizes the other generation and the topology never exposes two current
+  admissions.
 - `VerifiedPolisLearnerTopology` contains the unchanged voter cut plus zero or
   one admission. A learner is never inserted into `AuthorityMembership` voter
   configurations or counted toward quorum.
@@ -140,7 +146,9 @@ rollback, and corruption.
 ## Bounds and lifecycle
 
 There is at most one learner admission and one active membership transition per
-polis. Admission has a bounded log/snapshot catch-up boundary, wall/elapsed
+polis. A privately staged successor belongs to the same admission lineage and
+is never returned by the published topology before its atomic generation flip.
+Admission has a bounded log/snapshot catch-up boundary, wall/elapsed
 deadline policy, RPC size, concurrent stream count, queue, replay cache, and
 retry window. The opaque admission binds an authority-provided absolute deadline
 plus a monotonic elapsed budget and uncertainty bound. The trusted clock sample
@@ -166,6 +174,12 @@ does not choose when the learner is caught up or promoted; #199 does.
   change, old and successor generation namespaces, cross-generation mismatch,
   lost response/cache-first exact retry before and after exclusion, stale
   admission, and exclusion during an active connection.
+- The canonical `certificate_overlap_authorized` proof case must exercise the
+  old session during overlap, private successor staging, crash before and after
+  the successor view flip, new-generation success, retained-old-session
+  revalidation/closure at the flip, cross-generation token mismatch, and old
+  denial at each earliest-boundary variant without ever observing two current
+  admissions.
 - Crash tests inject before and after state write, checkpoint CAS, result-cache
   write, local marker, published-view flip, route installation, and route
   removal for both admission and exclusion.
