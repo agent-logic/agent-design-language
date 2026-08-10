@@ -1,0 +1,7 @@
+{
+  "issue": 142,
+  "base_branch": "codex/142-distributed-runtime-planning",
+  "branch": "codex/142-distributed-runtime-operational",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-142-distributed-runtime",
+  "code_repository": "agent-logic/agent-design-language"
+}
