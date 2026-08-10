@@ -1,12 +1,9 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
-────────────
- Nextest run ID eb5f4578-7591-45dd-ac31-9fb1af40cbb1 with nextest profile: default
-    Starting 6 tests across 1 binary
-        PASS [   0.009s] (1/6) adl-runtime-kernel::adaptive_learning unknown_fields_and_fixture_matrix_are_enforced
-        PASS [   0.009s] (2/6) adl-runtime-kernel::adaptive_learning rollback_requires_exact_accepted_heads
-        PASS [   0.009s] (3/6) adl-runtime-kernel::adaptive_learning missing_forged_and_private_evidence_fail_closed
-        PASS [   0.009s] (4/6) adl-runtime-kernel::adaptive_learning invalid_graph_bounds_authority_and_rejected_mutation_fail_closed
-        PASS [   0.010s] (5/6) adl-runtime-kernel::adaptive_learning replay_prefix_and_substitution_fail_closed
-        PASS [   0.011s] (6/6) adl-runtime-kernel::adaptive_learning accepted_and_rejected_paths_are_deterministic
-────────────
-     Summary [   0.011s] 6 tests run: 6 passed, 0 skipped
+command=cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test adaptive_learning --no-tests=fail --status-level all
+validated_revision=2c05f5838ce2c7f2ae951c13b8dddfc9191144f4
+validated_tree=377ebd0405d1438542fa88361d8e8c85a42b37f5
+tests_run=8
+tests_passed=8
+tests_failed=0
+tests_skipped=0
+result=passed
+tests=fixture_matrix_tracks_the_governed_negative_surface,forged_grant_and_authority_fail_before_history_acceptance,governed_acceptance_mutates_and_persists_exact_history,predecessor_splice_and_sequence_overflow_fail_closed,recurrence_roundtrip_and_capacity_bounds_fail_closed,rejected_and_cancelled_paths_are_durable_and_nonmutating,tampered_history_and_rollback_never_return_attacker_hashes,unsafe_ids_rationale_paths_and_unknown_fields_fail_closed

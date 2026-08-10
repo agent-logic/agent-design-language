@@ -1,14 +1,14 @@
 {
   "schema": "adl.local_validation_manifest.v1",
   "issue": 5831,
-  "validated_revision": "5436d9a45f22bacb93a8be405c69ae1c6bbdde76",
-  "validated_tree": "ef7d010d8bd690827d0eef0a1b5de64304ee525d",
+  "validated_revision": "2c05f5838ce2c7f2ae951c13b8dddfc9191144f4",
+  "validated_tree": "377ebd0405d1438542fa88361d8e8c85a42b37f5",
   "command": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "adaptive_learning", "--no-tests=fail", "--status-level", "all"],
-  "tests_run": 6,
-  "tests_passed": 6,
+  "tests_run": 8,
+  "tests_passed": 8,
   "tests_failed": 0,
   "tests_skipped": 0,
   "status": "passed",
   "output_ref": ".csdlc/evidence/5831/adaptive-learning-runtime-v3.log",
-  "output_sha256": "b524a6eeff02ef3b8bd89cd7000baf02b93f2859c6079b332c669497a10f9ec9"
+  "output_sha256": "7b0dc6f40c3b3bd076be79b38b15c312b5d923d94dd6785729a90f1cffd6a85a"
 }
