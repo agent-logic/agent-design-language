@@ -132,3 +132,4 @@
 {"sequence":132,"generation":103,"actor":"codex:5827-native-artifact-repair","reason":"Recover publication after replacement run 31379007504 proved each matrix producer uploaded the entire retained native directory, allowing the other platform's stale receipt to overwrite the current fragment during aggregation; narrow each upload to its own four platform files and obtain fresh exact-head review and proof.","operation":"recover_review"}
 {"sequence":133,"generation":103,"actor":"codex:5827-native-artifact-repair","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":134,"generation":104,"actor":"codex:5827-native-artifact-repair","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":135,"generation":105,"actor":"codex:5827-native-artifact-repair","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
