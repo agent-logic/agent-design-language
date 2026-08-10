@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.
+
 
 ## Prompts
 
@@ -36,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:e6b7407ee0be9993482025345e251c04cb6ea3c5:85c982b4d99c3505ae24382bc0c128087da76949c1ac35afdf8da7fefcd4ff54")
+Revision: None
 
-Reviewer: Some("Kierkegaard independent subagent")
+Reviewer: None
 
-Result: pass
+Result: pre_review

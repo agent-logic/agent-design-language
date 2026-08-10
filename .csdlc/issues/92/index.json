@@ -4,35 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "published",
-  "generation": 17,
-  "digest": "6d4da153562a7809773e5993995af90454c62169c16e2f8b10fd0d3a70a7afb5",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "9aadcb11fc651831548184a5ee0475c99165fafe5ce67839891c93d5fc5fa9a3",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
-  "review": {
-    "reviewer": "Kierkegaard independent subagent",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:e6b7407ee0be9993482025345e251c04cb6ea3c5:85c982b4d99c3505ae24382bc0c128087da76949c1ac35afdf8da7fefcd4ff54",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 92,
-    "pull_request": 98,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/98",
-    "base": "main",
-    "head": "codex/92-runtime-tls-standardization",
-    "revision": "git-blake3:db3470334cc89f6d0398941e867fe93782a061c6:d3a9aca5a70d5b6409d302fbe3bef17203736b21d8e9d2b5dee8c64420acdbb9",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -46,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "617e6b131b30b970530ed6554a212214536b484fe876ce7aa3747370102af470",
+      "values_digest": "45059eb05982c0d7b17aae31fb22444ab1bc237472ac7e14a2088118d0677e15",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "d6adde377affd8a433666271cebd03413761b51a1f99114b0c4e6db792d8a981",
+      "values_digest": "13c1ea7572f9782b878c0d6e889023ddd6724ecce3cab63fc6d503f201e93395",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "3d222d4ee0aefb14120132d1f3d47da69136cb1b3c6179f19ed5ba252da0aca5",
+      "values_digest": "67f24c0b3e91eaf31771ff86c3c548fb65a594d1208d98e96896acd94a086974",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "5363c91ce792c1fc780405cefaf8d99b05ce271548dd0f5f810a891a28a6186f",
-      "rendered_digest": "e33757e17f7f639c2e677c63253353877b277a36cfec9bec09c4ad838fb8ca2d",
-      "ast_digest": "84cfa766243a888ae471583a4ad7c3d99ffb6662888aebc837188ae073d88baa"
+      "values_digest": "cf56efc3afcbff9ae6236aa2c1a78ffa42fff5aedfe95ce2551dd01cec047fc8",
+      "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
+      "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "a6fe32ea9f4192426b0989459444d8ef68d9d4e18646131c67de06b02d783010",
-      "rendered_digest": "c76ad5568ff4d32e167faee180f2b503c6ccf9460952727b3e80928f7490c03c",
-      "ast_digest": "2306ad2c1bbfe050fb70e5901850f85436afba38cc557b2e3fd8fe08d07a9feb"
+      "values_digest": "4a658d4d9fa897da3bd5f17a25c2f200f235028213f0e126c1f8bdc7072872d0",
+      "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
+      "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
     },
     "sor": {
-      "values_digest": "5b8bad51b3e4accfa36c9fb4f822968fd260822ce4e350798eb4cb2f1a6ff36d",
-      "rendered_digest": "7202adbcccf0451485e7c87af25e35875997f2c8852676b261a08dd35515b651",
-      "ast_digest": "8c2618af4947bbffb883e1e9ff53e97af98553b47113dd73c8b1e3aaecbb27af"
+      "values_digest": "b3da3e97ce3a754b4fce186b36099e93e312216e1a61c87498b947cf4882f95b",
+      "rendered_digest": "28fee35e04fab0bbee8a5485e9e166ddb120c9b3eb0e7d63e4ba7f8ec83564d3",
+      "ast_digest": "70ef3c67b43204f5a719887746f3acfa955f20227a53735060886934fa7d8c32"
     }
   },
   "transitions": [
@@ -111,6 +90,13 @@
       "to": "published",
       "actor": "codex",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover stale review and publication truth after exact-head review identified an OpenAPI schema mismatch and stale proof surfaces requiring remediation."
     }
   ],
   "audit": [
@@ -246,6 +232,20 @@
       "actor": "codex",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover stale review and publication truth after exact-head review identified an OpenAPI schema mismatch and stale proof surfaces requiring remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Replace the deleted facade proof with the canonical kernel Observatory and exact production-binary ACIP proof lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"axum-runtime-tls\",\"proof_role\":\"Prove shared Axum server TLS startup, DNS and chain validation, HTTPS control behavior, and bounded shutdown.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"webpki-certificate-policy\",\"proof_role\":\"Prove deterministic WebPKI acceptance of a CA-issued server leaf and rejection of expired, not-yet-valid, and clientAuth-only identities.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"tls::tests\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"observatory-wss\",\"proof_role\":\"Prove the canonical Axum Observatory WSS read/write authority, authentication rotation, revocation, binary-frame refusal, and ACIP separation.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"production-acip-wss\",\"proof_role\":\"Launch the exact production Runtime kernel binary with real TLS/WSS and prove distinct ACIP write authority, binary dispatch, replay and text refusal, and signed shutdown from producer-derived assertions.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"guardian-quinn-mtls\",\"proof_role\":\"Prove Quinn remains the Guardian transport and shares the Rustls identity and trust policy without weakening mTLS.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\"],\"parallel_group\":\"guardian-tls\",\"defer_reason\":null},{\"lane\":\"protocol-mtls\",\"proof_role\":\"Prove provider and cloud protocol adapters require authenticated Rustls transport and reject unknown server and client authorities.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"protocol_adapters\"],\"parallel_group\":\"guardian-tls\",\"defer_reason\":null},{\"lane\":\"external-certificate-fixture\",\"proof_role\":\"Prove lifecycle setup consumes externally provisioned certificate, key, and trust roots without Runtime issuance or host trust mutation.\",\"acceptance_ids\":[\"AC-3\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"init_fixture_uses_externally_provisioned_tls\"],\"parallel_group\":\"contracts\",\"defer_reason\":null},{\"lane\":\"runtime-openapi-contract\",\"proof_role\":\"Prove the served production Axum route inventory, authenticated-frame schema, and binary ACIP WebSocket contract match the kernel implementation.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"contracts\",\"defer_reason\":null},{\"lane\":\"tls-contract-hygiene\",\"proof_role\":\"Prove the focused diff has no whitespace or conflict-marker defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"contracts\",\"defer_reason\":null}]}"
     }
   ]
 }

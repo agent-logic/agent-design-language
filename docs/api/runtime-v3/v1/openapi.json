@@ -604,7 +604,7 @@
         ],
         "properties": {
           "schema": {
-            "const": "adl.csm.runtime_api.wss_session.v1"
+            "const": "adl.csm.acip_carrier.websocket_frame.v1"
           },
           "event": {
             "const": "authenticated"

@@ -51,7 +51,7 @@ Diagram: .csdlc/prepared/issues/92/diagram.mmd
   },
   {
     "lane": "webpki-certificate-policy",
-    "proof_role": "Prove deterministic WebPKI acceptance of a directly root-signed server leaf and rejection of expired, not-yet-valid, and clientAuth-only identities.",
+    "proof_role": "Prove deterministic WebPKI acceptance of a CA-issued server leaf and rejection of expired, not-yet-valid, and clientAuth-only identities.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -68,14 +68,14 @@ Diagram: .csdlc/prepared/issues/92/diagram.mmd
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--lib",
-      "tls::tests::server_identity_validation_rejects_time_and_usage_failures"
+      "tls::tests"
     ],
     "parallel_group": "runtime-tls",
     "defer_reason": null
   },
   {
     "lane": "observatory-wss",
-    "proof_role": "Prove Axum WSS behavior, ordinary server TLS, authentication, rotation, revocation, and ACIP contract parity.",
+    "proof_role": "Prove the canonical Axum Observatory WSS read/write authority, authentication rotation, revocation, binary-frame refusal, and ACIP separation.",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -92,9 +92,35 @@ Diagram: .csdlc/prepared/issues/92/diagram.mmd
       "test",
       "--locked",
       "--manifest-path",
-      "adl-runtime/Cargo.toml",
+      "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "runtime_api_wss"
+      "observatory"
+    ],
+    "parallel_group": "runtime-tls",
+    "defer_reason": null
+  },
+  {
+    "lane": "production-acip-wss",
+    "proof_role": "Launch the exact production Runtime kernel binary with real TLS/WSS and prove distinct ACIP write authority, binary dispatch, replay and text refusal, and signed shutdown from producer-derived assertions.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "production_acip_wss"
     ],
     "parallel_group": "runtime-tls",
     "defer_reason": null
@@ -175,7 +201,7 @@ Diagram: .csdlc/prepared/issues/92/diagram.mmd
   },
   {
     "lane": "runtime-openapi-contract",
-    "proof_role": "Prove the production Axum route inventory and binary ACIP WebSocket contract match the kernel implementation.",
+    "proof_role": "Prove the served production Axum route inventory, authenticated-frame schema, and binary ACIP WebSocket contract match the kernel implementation.",
     "acceptance_ids": [
       "AC-1",
       "AC-7",
@@ -231,8 +257,9 @@ Tokens: 50000
 ## Commands
 
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control`
-- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib tls::tests::server_identity_validation_rejects_time_and_usage_failures`
-- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib tls::tests`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test observatory`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_transport`
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test protocol_adapters`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-lifecycle-soak init_fixture_uses_externally_provisioned_tls`

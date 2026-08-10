@@ -161,11 +161,11 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

@@ -133,6 +133,11 @@ fn runtime_core_wss_documents_real_bidirectional_acip_boundary() {
         ws["serverFirstFrame"]["$ref"],
         "#/components/schemas/AcipAuthenticatedFrame"
     );
+    assert_eq!(
+        runtime["components"]["schemas"]["AcipAuthenticatedFrame"]["properties"]
+            ["schema"]["const"],
+        "adl.csm.acip_carrier.websocket_frame.v1"
+    );
     assert_eq!(ws["bidirectional"], true);
     assert!(ws["clientFrames"]
         .as_array()
