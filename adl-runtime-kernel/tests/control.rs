@@ -208,10 +208,20 @@ fn layer8_work(
     correlation_id: &str,
     content: &str,
 ) -> DomainWork {
+    layer8_work_for_kind("agent", work_id, recipient_id, correlation_id, content)
+}
+
+fn layer8_work_for_kind(
+    kind: &str,
+    work_id: &str,
+    recipient_id: &str,
+    correlation_id: &str,
+    content: &str,
+) -> DomainWork {
     DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
         work_id: work_id.to_owned(),
-        kind: "agent".to_owned(),
+        kind: kind.to_owned(),
         payload: serde_json::to_vec(&serde_json::json!({
             "schema": LOCAL_AGENT_WORK_SCHEMA,
             "tasks": [{
@@ -224,6 +234,119 @@ fn layer8_work(
         }))
         .unwrap(),
     }
+}
+
+#[tokio::test]
+async fn shepherd_layer8_message_requires_matching_correlation_and_running_roster_state() {
+    let key = SigningKey::from_bytes(&[40; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    recorder.set_component_state(
+        ComponentId::new("shepherd"),
+        adl_runtime_kernel::RunningState::Running,
+    );
+    let adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            AdapterPolicy {
+                capacity: 2,
+                max_in_flight: 2,
+                shutdown_grace_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            Arc::new(Layer8Executor),
+        )
+        .unwrap(),
+    );
+    let factory = OperationalFactory::new(adapter, vec![]);
+    let ingress = CanonicalIngress::new(
+        2,
+        recorder.clone(),
+        BTreeMap::from([("shepherd".to_owned(), factory.clone())]),
+    );
+    let mut registry = ComponentRegistry::new();
+    registry.register(factory);
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new_with_observatory_config_and_agents(
+            "instance-1",
+            recorder.clone(),
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+            std::iter::empty(),
+            adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+        )
+        .with_canonical_ingress(ingress),
+    );
+
+    let accepted_id = "shepherd-submit-1";
+    let accepted_correlation = blake3::hash(accepted_id.as_bytes()).to_hex()[..32].to_owned();
+    service
+        .execute(signed(
+            &key,
+            accepted_id,
+            ControlAction::Submit {
+                work: layer8_work_for_kind(
+                    "shepherd",
+                    "shepherd-work-1",
+                    "shepherd",
+                    &accepted_correlation,
+                    "Hello",
+                ),
+            },
+        ))
+        .await
+        .unwrap();
+
+    let mismatch = service
+        .execute(signed(
+            &key,
+            "shepherd-submit-2",
+            ControlAction::Submit {
+                work: layer8_work_for_kind(
+                    "shepherd",
+                    "shepherd-work-2",
+                    "shepherd",
+                    "different-correlation",
+                    "Hello",
+                ),
+            },
+        ))
+        .await;
+    assert_eq!(mismatch.unwrap_err(), ControlError::InvalidBounds);
+
+    recorder.set_component_state(
+        ComponentId::new("shepherd"),
+        adl_runtime_kernel::RunningState::Degraded,
+    );
+    let degraded_id = "shepherd-submit-3";
+    let degraded_correlation = blake3::hash(degraded_id.as_bytes()).to_hex()[..32].to_owned();
+    let degraded = service
+        .execute(signed(
+            &key,
+            degraded_id,
+            ControlAction::Submit {
+                work: layer8_work_for_kind(
+                    "shepherd",
+                    "shepherd-work-3",
+                    "shepherd",
+                    &degraded_correlation,
+                    "Hello",
+                ),
+            },
+        ))
+        .await;
+    assert_eq!(degraded.unwrap_err(), ControlError::Unauthorized);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
 }
 
 #[async_trait]
@@ -850,6 +973,76 @@ async fn pressure_admission_gate_refuses_new_commands_until_reopened() {
 }
 
 #[tokio::test]
+async fn saturated_canonical_ingress_is_reported_as_backpressure() {
+    let key = SigningKey::from_bytes(&[33; 32]);
+    let recorder = RuntimeRecorder::new(8);
+    let (ingress, _factory) = test_ingress(1, recorder.clone());
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder.clone(),
+            FakeLifecycle {
+                calls: Arc::new(AtomicUsize::new(0)),
+            },
+            authority(&key, [ControlCapability::Execute]),
+            4,
+        )
+        .with_canonical_ingress(ingress),
+    );
+    let first = {
+        let service = service.clone();
+        let key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &key,
+                    "backpressure-first",
+                    ControlAction::Submit {
+                        work: DomainWork {
+                            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                            work_id: "backpressure-first".to_owned(),
+                            kind: "parity-a".to_owned(),
+                            payload: b"first".to_vec(),
+                        },
+                    },
+                ))
+                .await
+        })
+    };
+    for _ in 0..100 {
+        let depth = recorder
+            .snapshot()
+            .queues
+            .get("canonical_ingress")
+            .map(|queue| queue.depth)
+            .unwrap_or_default();
+        if depth == 1 {
+            break;
+        }
+        tokio::task::yield_now().await;
+    }
+    assert_eq!(
+        service
+            .execute(signed(
+                &key,
+                "backpressure-second",
+                ControlAction::Submit {
+                    work: DomainWork {
+                        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                        work_id: "backpressure-second".to_owned(),
+                        kind: "parity-a".to_owned(),
+                        payload: b"second".to_vec(),
+                    },
+                },
+            ))
+            .await
+            .unwrap_err(),
+        ControlError::Backpressure
+    );
+    first.abort();
+}
+
+#[tokio::test]
 async fn pressure_cannot_reopen_after_signed_shutdown_is_enqueued() {
     let key = SigningKey::from_bytes(&[32; 32]);
     let (lifecycle, mut requests) = CheckpointingControl::channel(1);
@@ -924,7 +1117,7 @@ async fn duplicate_shutdown_executes_once_and_conflicting_reuse_fails() {
 #[tokio::test]
 async fn readiness_fails_closed_before_first_weather_sample() {
     let key = SigningKey::from_bytes(&[31; 32]);
-    let service = ControlService::new(
+    let service = Arc::new(ControlService::new(
         "instance-weather-missing",
         RuntimeRecorder::new(4),
         FakeLifecycle {
@@ -932,7 +1125,7 @@ async fn readiness_fails_closed_before_first_weather_sample() {
         },
         authority(&key, [ControlCapability::Read]),
         4,
-    );
+    ));
 
     let report = service.readiness_report();
 
@@ -1434,16 +1627,61 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
 
 #[test]
 fn resident_shepherd_population_is_truthfully_addressable() {
-    let population = adl_runtime_kernel::AgentPopulationFeed::resident_shepherd();
+    let key = SigningKey::from_bytes(&[14; 32]);
+    let recorder = RuntimeRecorder::new(4);
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "instance-1",
+        recorder.clone(),
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+    );
+    assert!(service.observatory_feed().agents.sample.is_empty());
+
+    recorder.set_component_state(
+        ComponentId::new("shepherd"),
+        adl_runtime_kernel::RunningState::Running,
+    );
+    let population = service.observatory_feed().agents;
     assert_eq!(population.total_count, 1);
     assert_eq!(population.rendered_sample_count, 1);
     assert_eq!(population.sample[0].id, "shepherd");
     assert_eq!(population.sample[0].label, "Shepherd");
     assert_eq!(population.sample[0].role, "resident shepherd");
     assert_eq!(population.sample[0].state, "running");
-    assert!(population.sample[0]
-        .detail
-        .contains("production Shepherd adapter"));
+    assert_eq!(
+        population.sample[0].detail,
+        "Runtime component state: running"
+    );
+}
+
+#[test]
+fn resident_shepherd_population_tracks_runtime_component_health() {
+    let key = SigningKey::from_bytes(&[15; 32]);
+    let recorder = RuntimeRecorder::new(4);
+    recorder.set_component_state(
+        ComponentId::new("shepherd"),
+        adl_runtime_kernel::RunningState::Degraded,
+    );
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "instance-1",
+        recorder,
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+    );
+    let shepherd = &service.observatory_feed().agents.sample[0];
+    assert_eq!(shepherd.id, "shepherd");
+    assert_eq!(shepherd.state, "degraded");
+    assert_eq!(shepherd.detail, "Runtime component state: degraded");
 }
 
 #[tokio::test]

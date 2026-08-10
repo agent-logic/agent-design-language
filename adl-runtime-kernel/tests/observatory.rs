@@ -44,6 +44,11 @@ struct FailOnceExecutor {
     attempts: AtomicUsize,
 }
 
+struct DelayedExecutor {
+    started: Arc<tokio::sync::Notify>,
+    release: Arc<tokio::sync::Notify>,
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -67,6 +72,15 @@ impl OperationExecutor for FailOnceExecutor {
                 message: "injected dispatch failure".to_owned(),
             });
         }
+        Ok(request.payload.clone())
+    }
+}
+
+#[async_trait]
+impl OperationExecutor for DelayedExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.started.notify_one();
+        self.release.notified().await;
         Ok(request.payload.clone())
     }
 }
@@ -419,6 +433,56 @@ async fn observatory_websocket_allows_public_reads_and_requires_login_for_writes
 }
 
 #[tokio::test]
+async fn observatory_websocket_remains_responsive_during_slow_authenticated_dispatch() {
+    let token = "test-observatory-websocket-token-0009";
+    let started = Arc::new(tokio::sync::Notify::new());
+    let release = Arc::new(tokio::sync::Notify::new());
+    let test_service = service_with_executor(
+        token,
+        Arc::new(DelayedExecutor {
+            started: started.clone(),
+            release: release.clone(),
+        }),
+    );
+    let (address, connector, server) = websocket_server(test_service).await;
+    let mut socket = connect_authenticated(address, connector, token).await;
+    let frame = encode_acip_envelope(
+        "observatory-slow-dispatch-1",
+        "operator-source",
+        "runtime-target",
+        "acip",
+        &serde_json::json!({"message": "slow dispatch"}),
+        1,
+    )
+    .unwrap();
+    socket.send(Message::Binary(frame.into())).await.unwrap();
+    tokio::time::timeout(Duration::from_secs(1), started.notified())
+        .await
+        .expect("slow dispatch did not start");
+
+    socket
+        .send(Message::Ping(vec![7, 8, 9].into()))
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while let Some(message) = socket.next().await {
+            if matches!(message, Ok(Message::Pong(payload)) if payload.as_ref() == [7, 8, 9]) {
+                return;
+            }
+        }
+        panic!("Observatory session ended before pong");
+    })
+    .await
+    .expect("slow dispatch blocked Observatory websocket responsiveness");
+
+    release.notify_one();
+    let accepted = next_json_with_schema(&mut socket, ACIP_WEBSOCKET_SCHEMA).await;
+    assert_eq!(accepted["status"], "completed");
+    assert_eq!(accepted["message_id"], "observatory-slow-dispatch-1");
+    server.abort();
+}
+
+#[tokio::test]
 async fn canonical_acip_websocket_rejects_replay_after_reconnect() {
     let token = "test-observatory-websocket-token-0007";
     let (address, connector, server) = websocket_server(service(token)).await;
@@ -581,15 +645,14 @@ async fn observatory_websocket_rejects_bad_auth_and_client_data() {
         .send(Message::Binary(vec![1, 2, 3].into()))
         .await
         .unwrap();
-    let closed = tokio::time::timeout(Duration::from_secs(2), socket.next())
-        .await
-        .unwrap()
-        .unwrap()
-        .unwrap();
-    let Message::Close(Some(frame)) = closed else {
-        panic!("Observatory binary input must close the session");
-    };
-    assert_eq!(frame.reason, "observatory_binary_frames_unsupported");
+    let rejected = next_json_with_schema(&mut socket, ACIP_WEBSOCKET_SCHEMA).await;
+    assert_eq!(rejected["status"], "rejected");
+    assert_eq!(rejected["sequence_reserved"], false);
+    assert!(rejected["reason"]
+        .as_str()
+        .is_some_and(|reason| !reason.is_empty()));
+    let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
+    assert_eq!(feed["runtime_instance_id"], "instance-ws");
     server.abort();
 }
 

@@ -606,7 +606,12 @@ async fn pressure_closes_ingress_serializes_live_work_and_stops_cleanly() {
         &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
-    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 2);
+    assert!(checkpoint["ingress"]["completed"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .any(|work_id| work_id.ends_with(":resident-shepherd-admission")));
     assert!(checkpoint["ingress"]["completed"]["pressure-work"]["result_hash"].is_string());
 }
 
@@ -832,7 +837,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     let submit: serde_json::Value =
         serde_json::from_str(submit_response.split("\r\n\r\n").nth(1).unwrap()).unwrap();
     assert_eq!(submit["outcome"]["result"], "submitted");
-    assert_eq!(submit["outcome"]["work_result"]["accepted_sequence"], 1);
+    assert_eq!(submit["outcome"]["work_result"]["accepted_sequence"], 2);
 
     let stream = tokio::net::TcpStream::connect(address).await.unwrap();
     let mut stream = connector
@@ -846,7 +851,15 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     assert!(observatory_response.starts_with("HTTP/1.1 200 OK"));
     let observatory: serde_json::Value =
         serde_json::from_str(observatory_response.split("\r\n\r\n").nth(1).unwrap()).unwrap();
-    assert_eq!(observatory["ingress"]["accepted_through"], 1);
+    assert_eq!(observatory["ingress"]["accepted_through"], 2);
+    let shepherd_admission_id = format!("{instance_id}:resident-shepherd-admission");
+    assert_eq!(
+        observatory["ingress"]["completed"][&shepherd_admission_id]["work_id"],
+        shepherd_admission_id
+    );
+    assert_eq!(observatory["agents"]["total_count"], 1);
+    assert_eq!(observatory["agents"]["sample"][0]["id"], "shepherd");
+    assert_eq!(observatory["agents"]["sample"][0]["state"], "running");
     assert_eq!(
         observatory["ingress"]["completed"]["guardian-work-1"]["result_hash"],
         submit["outcome"]["work_result"]["result_hash"]
@@ -1049,7 +1062,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     })
     .await
     .expect("WSS telemetry did not continue after bidirectional control");
-    assert_eq!(feed_after_control["ingress"]["accepted_through"], 2);
+    assert_eq!(feed_after_control["ingress"]["accepted_through"], 3);
     assert_eq!(
         feed_after_control["ingress"]["completed"]["acip-wss-1"]["work_id"],
         "acip-wss-1"
@@ -1119,7 +1132,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
-    assert_eq!(checkpoint["ingress"]["accepted_through"], 2);
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 3);
     assert_eq!(
         checkpoint["ingress"]["completed"]["guardian-work-1"]["result_hash"],
         submit["outcome"]["work_result"]["result_hash"]

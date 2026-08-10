@@ -313,7 +313,7 @@ fn public_agent_output(
     work: &DomainWork,
     operation: &crate::OperationResult,
 ) -> Option<serde_json::Value> {
-    if work.kind != "agent" {
+    if work.kind != "agent" && work.kind != "shepherd" {
         return None;
     }
     let execution: serde_json::Value = serde_json::from_slice(&operation.payload).ok()?;

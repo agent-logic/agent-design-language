@@ -159,10 +159,6 @@ async fn main() -> ExitCode {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
             }
-            if let Err(error) = admit_resident_shepherd(&operation_executors, &instance_id).await {
-                eprintln!("runtime resident Shepherd unavailable: {error}");
-                return ExitCode::from(78);
-            }
             let operation_key_text = match read_trimmed_config_file(
                 &init.credentials.operation_public_key_path,
                 "runtime operation permit key",
@@ -446,6 +442,14 @@ async fn main() -> ExitCode {
                     return ExitCode::from(70);
                 }
             };
+            if let Err(error) =
+                admit_resident_shepherd(&assembly.canonical_ingress, &instance_id).await
+            {
+                eprintln!("runtime resident Shepherd unavailable: {error}");
+                let _ = handle.shutdown(kernel_shutdown_grace).await;
+                let _ = observability.shutdown().await;
+                return ExitCode::from(78);
+            }
             let (ready_sender, ready_receiver) = tokio::sync::oneshot::channel();
             let mut api = tokio::spawn(serve_control_listener_until_ready(
                 service.clone(),

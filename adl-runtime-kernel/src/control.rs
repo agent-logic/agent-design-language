@@ -28,10 +28,11 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
-    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult,
-    DomainWork, IngressError, KernelControl, KernelExit, LifecycleState, LiveContinuity,
-    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
+    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, ComponentId,
+    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
+    LiveContinuity, ObservabilityHealth, RunningState, RuntimeRecorder, RuntimeSnapshot,
+    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, LAYER8_MESSAGE_TASK_OP,
+    LOCAL_AGENT_WORK_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -680,6 +681,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn observatory_feed(&self) -> ObservatoryFeed {
         let snapshot = self.recorder.snapshot();
+        let agents = self
+            .agent_population
+            .clone()
+            .with_runtime_snapshot(&snapshot);
         let observability_ready = matches!(snapshot.observability, ObservabilityHealth::Ready);
         let continuity_head = snapshot.continuity_head.clone();
         let events = self.recorder.events();
@@ -740,7 +745,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .as_ref()
                 .map(CanonicalIngress::snapshot)
                 .unwrap_or_default(),
-            agents: self.agent_population.clone(),
+            agents,
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
                 runtime_v2_decommission_authorized: false,
@@ -862,9 +867,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     snapshot: Box::new(self.recorder.snapshot()),
                 }),
                 ControlAction::Submit { work } => {
+                    let addressable_agents = self
+                        .agent_population
+                        .clone()
+                        .with_runtime_snapshot(&self.recorder.snapshot());
                     if let Err(error) = validate_layer8_recipient(
                         &work,
-                        &self.agent_population,
+                        &addressable_agents,
                         &command.correlation_id,
                     ) {
                         tracing::warn!(
@@ -891,9 +900,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                     ControlError::InvalidBounds
                                 }
                                 IngressError::Conflict => ControlError::IdempotencyConflict,
-                                IngressError::Saturated | IngressError::Closed => {
-                                    ControlError::AdmissionClosed
-                                }
+                                IngressError::Saturated => ControlError::Backpressure,
+                                IngressError::Closed => ControlError::AdmissionClosed,
                                 IngressError::ExecutionFailed | IngressError::DrainTimeout => {
                                     ControlError::Internal
                                 }
@@ -980,7 +988,7 @@ fn validate_layer8_recipient(
     agents: &AgentPopulationFeed,
     command_correlation_id: &str,
 ) -> Result<(), ControlError> {
-    if work.kind != "agent" {
+    if !matches!(work.kind.as_str(), "agent" | "shepherd") {
         return Ok(());
     }
     let command: serde_json::Value =
@@ -1089,16 +1097,40 @@ impl AgentPopulationFeed {
 
     pub fn resident_shepherd() -> Self {
         Self {
-            total_count: 1,
-            rendered_sample_count: 1,
-            sample: vec![AgentSample {
-                id: "shepherd".to_owned(),
+            total_count: 0,
+            rendered_sample_count: 0,
+            sample: Vec::new(),
+        }
+    }
+
+    fn with_runtime_snapshot(mut self, snapshot: &RuntimeSnapshot) -> Self {
+        if !self.sample.is_empty() {
+            return self;
+        }
+        let shepherd_id = ComponentId::new(crate::RESIDENT_SHEPHERD_ID);
+        if let Some(state) = snapshot.components.get(&shepherd_id) {
+            self.sample.push(AgentSample {
+                id: crate::RESIDENT_SHEPHERD_ID.to_owned(),
                 label: "Shepherd".to_owned(),
                 role: "resident shepherd".to_owned(),
-                state: "running".to_owned(),
-                detail: "admitted through the production Shepherd adapter".to_owned(),
-            }],
+                state: runtime_agent_state(state).to_owned(),
+                detail: format!("Runtime component state: {}", runtime_agent_state(state)),
+            });
         }
+        self.total_count = self.sample.len() as u64;
+        self.rendered_sample_count = self.total_count;
+        self
+    }
+}
+
+fn runtime_agent_state(state: &RunningState) -> &'static str {
+    match state {
+        RunningState::Starting | RunningState::Ready => "starting",
+        RunningState::Running => "running",
+        RunningState::Restarting => "restarting",
+        RunningState::Degraded => "degraded",
+        RunningState::Stopping | RunningState::Stopped => "stopped",
+        RunningState::Failed => "failed",
     }
 }
 
@@ -1446,6 +1478,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 ) {
     let api_policy = service.api_policy();
     let mut bearer_token: Option<String> = None;
+    let (command_results_tx, mut command_results_rx) = tokio::sync::mpsc::channel::<String>(16);
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     refresh.tick().await;
     let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
@@ -1461,6 +1494,11 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 
     loop {
         tokio::select! {
+            Some(payload) = command_results_rx.recv() => {
+                if socket.send(Message::Text(payload.into())).await.is_err() {
+                    break;
+                }
+            }
             _ = refresh.tick() => {
                 if bearer_token.as_deref().is_some_and(|token| !service.observatory_token_authorized(token)) {
                     bearer_token = None;
@@ -1542,35 +1580,52 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             response: None,
                             error: Some("write_authentication_required"),
                         }
+                    } else if let Ok(permit) = command_results_tx.clone().try_reserve_owned() {
+                        let service = service.clone();
+                        tokio::spawn(async move {
+                            let result = match command {
+                                Ok(command) => match service.execute(command).await {
+                                    Ok(response) => ObservatoryWsControlResult {
+                                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                        status: "accepted",
+                                        command_id,
+                                        correlation_id,
+                                        response: Some(response),
+                                        error: None,
+                                    },
+                                    Err(error) => ObservatoryWsControlResult {
+                                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                        status: "rejected",
+                                        command_id,
+                                        correlation_id,
+                                        response: None,
+                                        error: Some(control_error_code(&error)),
+                                    },
+                                },
+                                Err(_) => ObservatoryWsControlResult {
+                                    schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                    status: "rejected",
+                                    command_id: None,
+                                    correlation_id: None,
+                                    response: None,
+                                    error: Some("invalid_request"),
+                                },
+                            };
+                            if let Ok(payload) = serde_json::to_string(&result) {
+                                permit.send(payload);
+                            }
+                        });
+                        continue;
                     } else {
-                        match command {
-                        Ok(command) => match service.execute(command).await {
-                            Ok(response) => ObservatoryWsControlResult {
-                                schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-                                status: "accepted",
-                                command_id,
-                                correlation_id,
-                                response: Some(response),
-                                error: None,
-                            },
-                            Err(error) => ObservatoryWsControlResult {
-                                schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-                                status: "rejected",
-                                command_id,
-                                correlation_id,
-                                response: None,
-                                error: Some(control_error_code(&error)),
-                            },
-                        },
-                        Err(_) => ObservatoryWsControlResult {
+                        ObservatoryWsControlResult {
                             schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
                             status: "rejected",
-                            command_id: None,
-                            correlation_id: None,
+                            command_id,
+                            correlation_id,
                             response: None,
-                            error: Some("invalid_request"),
-                        },
-                    }};
+                            error: Some("backpressure"),
+                        }
+                    };
                     let Ok(payload) = serde_json::to_string(&result) else {
                         break;
                     };
@@ -1578,12 +1633,41 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         break;
                     }
                 }
-                Some(Ok(Message::Binary(_))) => {
-                    let _ = socket.send(Message::Close(Some(CloseFrame {
-                        code: close_code::POLICY,
-                        reason: "observatory_binary_frames_unsupported".into(),
-                    }))).await;
-                    break;
+                Some(Ok(Message::Binary(payload))) => {
+                    if bearer_token.is_none() {
+                        let rejected = ObservatoryWsControlResult {
+                            schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                            status: "rejected",
+                            command_id: None,
+                            correlation_id: None,
+                            response: None,
+                            error: Some("write_authentication_required"),
+                        };
+                        let Ok(payload) = serde_json::to_string(&rejected) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        continue;
+                    }
+                    let Ok(permit) = command_results_tx.clone().try_reserve_owned() else {
+                        let backpressure = serde_json::json!({
+                            "schema": ACIP_WEBSOCKET_SCHEMA,
+                            "status": "rejected",
+                            "reason": "backpressure",
+                            "sequence_reserved": false
+                        });
+                        if socket.send(Message::Text(backpressure.to_string().into())).await.is_err() {
+                            break;
+                        }
+                        continue;
+                    };
+                    let service = service.clone();
+                    tokio::spawn(async move {
+                        let response = service.dispatch_acip_payload(&payload).await;
+                        permit.send(response.to_string());
+                    });
                 }
                 Some(Err(_)) => {
                     let _ = socket.send(Message::Close(Some(CloseFrame {
@@ -1694,6 +1778,7 @@ fn control_error_response(error: ControlError, allowed_origin: Option<HeaderValu
         | ControlError::InFlight
         | ControlError::LifecycleAlreadyRequested => StatusCode::CONFLICT,
         ControlError::AdmissionClosed
+        | ControlError::Backpressure
         | ControlError::IdempotencyCapacity
         | ControlError::Internal => StatusCode::SERVICE_UNAVAILABLE,
         ControlError::StaleRuntimeInstance => StatusCode::GONE,
@@ -1713,6 +1798,7 @@ fn control_error_code(error: &ControlError) -> &'static str {
         ControlError::IdempotencyConflict
         | ControlError::InFlight
         | ControlError::LifecycleAlreadyRequested => "idempotency_conflict",
+        ControlError::Backpressure => "backpressure",
         ControlError::AdmissionClosed
         | ControlError::IdempotencyCapacity
         | ControlError::Internal => "temporarily_unavailable",
@@ -1870,6 +1956,8 @@ pub enum ControlError {
     IdempotencyCapacity,
     #[error("control command admission is temporarily closed")]
     AdmissionClosed,
+    #[error("control command admission is under backpressure")]
+    Backpressure,
     #[error("a terminal lifecycle action has already been requested")]
     LifecycleAlreadyRequested,
     #[error("control execution failed internally")]

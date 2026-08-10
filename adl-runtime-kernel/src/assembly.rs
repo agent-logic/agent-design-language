@@ -27,16 +27,17 @@ use crate::{
     representative_dependencies, AdaptationState, AdaptationStore, AdapterKind, AdapterPolicy,
     AuthorityMode, CanonicalIngress, Capability, CapabilityRequirement, ClockAuthority, Component,
     ComponentConfig, ComponentContext, ComponentError, ComponentFactory, ComponentId,
-    ComponentSpec, DeterminismClass, ExecutorError, FactoryRegistration, FactoryRegistry,
-    FailureClass, FailurePolicy, KernelDurableState, LifecycleGuarantees, LoopDefinition,
-    MutationAuthority, MutationGate, OperationError, OperationExecutor, OperationRequest,
-    OperationalAdapter, OperationalFactory, QualifiedTimeFactory, ReasoningGraphDefinition,
-    ReasoningNode, ReasoningServices, RecordedObservation, RecorderTrustedTime, RuntimeConfig,
-    RuntimeRecorder, ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds,
-    TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph,
-    ValidatedTopology, WeatherConfig, WeatherObserver, LAYER8_AGENT_RESPONSE_SCHEMA,
-    LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA, OPERATION_REQUEST_SCHEMA,
-    REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    ComponentSpec, DeterminismClass, DomainWork, ExecutorError, FactoryRegistration,
+    FactoryRegistry, FailureClass, FailurePolicy, KernelDurableState, LifecycleGuarantees,
+    LoopDefinition, MutationAuthority, MutationGate, OperationError, OperationExecutor,
+    OperationRequest, OperationalAdapter, OperationalFactory, QualifiedTimeFactory,
+    ReasoningGraphDefinition, ReasoningNode, ReasoningServices, RecordedObservation,
+    RecorderTrustedTime, RuntimeConfig, RuntimeRecorder, ServiceContract, SysinfoWeatherObserver,
+    TimeQualificationBounds, TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts,
+    ValidatedReasoningGraph, ValidatedTopology, WeatherConfig, WeatherObserver, DOMAIN_WORK_SCHEMA,
+    LAYER8_AGENT_RESPONSE_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
+    OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA,
+    SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -52,6 +53,8 @@ pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
     AdapterKind::Lifelog,
 ];
 const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
+const LOCAL_SHEPHERD_ADMISSION_SCHEMA: &str = "adl.runtime.local_shepherd_admission.v1";
+pub const RESIDENT_SHEPHERD_ID: &str = "shepherd";
 
 pub struct LiveBindings {
     pub recorder: RuntimeRecorder,
@@ -86,36 +89,28 @@ pub enum AssemblyError {
 }
 
 pub async fn admit_resident_shepherd(
-    executors: &BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
+    ingress: &CanonicalIngress,
     runtime_instance_id: &str,
 ) -> Result<(), AssemblyError> {
-    let executor = executors
-        .get(&AdapterKind::Shepherd)
-        .ok_or_else(|| AssemblyError::ShepherdAdmission("adapter unavailable".to_owned()))?;
-    let request = OperationRequest {
-        schema: OPERATION_REQUEST_SCHEMA.to_owned(),
-        request_id: format!("{runtime_instance_id}:resident-shepherd-admission"),
-        idempotency_key: format!("{runtime_instance_id}:resident-shepherd"),
-        principal: "runtime-bootstrap".to_owned(),
-        payload: serde_json::to_vec(&serde_json::json!({
-            "schema": "adl.runtime.local_shepherd_admission.v1",
-            "admit": true
-        }))
-        .expect("resident Shepherd admission payload is encodable"),
-        permit: None,
-    };
-    let payload = executor
-        .execute(&request)
+    let work_id = format!("{runtime_instance_id}:resident-shepherd-admission");
+    ingress
+        .submit(
+            DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: work_id.clone(),
+                kind: RESIDENT_SHEPHERD_ID.to_owned(),
+                payload: serde_json::to_vec(&serde_json::json!({
+                    "schema": LOCAL_SHEPHERD_ADMISSION_SCHEMA,
+                    "agent_id": RESIDENT_SHEPHERD_ID,
+                    "admit": true
+                }))
+                .expect("resident Shepherd admission payload is encodable"),
+            },
+            work_id,
+        )
         .await
-        .map_err(|error| AssemblyError::ShepherdAdmission(error.message))?;
-    let response: serde_json::Value = serde_json::from_slice(&payload)
         .map_err(|error| AssemblyError::ShepherdAdmission(error.to_string()))?;
-    match response.get("status").and_then(serde_json::Value::as_str) {
-        Some("admitted" | "duplicate") => Ok(()),
-        status => Err(AssemblyError::ShepherdAdmission(format!(
-            "unexpected adapter status {status:?}"
-        ))),
-    }
+    Ok(())
 }
 
 /// Reject placeholder executors before a production listener can report ready.
@@ -910,44 +905,14 @@ impl InProcessOperationExecutor {
                     }
                 }
                 LAYER8_MESSAGE_TASK_OP => {
-                    let sender = task["sender"].as_str().ok_or_else(|| {
-                        adapter_error(FailureClass::Fatal, "layer8_sender_malformed")
-                    })?;
-                    let recipient_id = task["recipient_id"].as_str().ok_or_else(|| {
-                        adapter_error(FailureClass::Fatal, "layer8_recipient_malformed")
-                    })?;
-                    let correlation_id = task["correlation_id"].as_str().ok_or_else(|| {
-                        adapter_error(FailureClass::Fatal, "layer8_correlation_malformed")
-                    })?;
-                    let content = task["content"].as_str().ok_or_else(|| {
-                        adapter_error(FailureClass::Fatal, "layer8_content_malformed")
-                    })?;
-                    let safe_id = |value: &str| {
-                        !value.is_empty()
-                            && value.len() <= 128
-                            && value.bytes().all(|byte| {
-                                byte.is_ascii_alphanumeric()
-                                    || matches!(byte, b'.' | b':' | b'_' | b'-')
-                            })
-                    };
-                    if sender != "layer8-operator"
-                        || !safe_id(recipient_id)
-                        || !safe_id(correlation_id)
-                        || content.trim().is_empty()
-                        || content.len() > 4_000
-                        || content.chars().any(|character| {
-                            character.is_control() && !matches!(character, '\n' | '\t')
-                        })
-                    {
-                        return Err(adapter_error(FailureClass::Fatal, "layer8_message_bound"));
+                    let output = layer8_response(task, None)?;
+                    if output["recipient_id"] == RESIDENT_SHEPHERD_ID {
+                        return Err(adapter_error(
+                            FailureClass::Fatal,
+                            "resident Shepherd requires the Shepherd adapter",
+                        ));
                     }
-                    serde_json::json!({
-                        "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
-                        "recipient_id": recipient_id,
-                        "correlation_id": correlation_id,
-                        "status": "received",
-                        "message": format!("{recipient_id} received your message.")
-                    })
+                    output
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };
@@ -978,30 +943,64 @@ impl InProcessOperationExecutor {
         let command: serde_json::Value = serde_json::from_slice(&request.payload).map_err(|e| {
             adapter_error(
                 FailureClass::Fatal,
-                format!("shepherd_admission_invalid: {e}"),
+                format!("shepherd_operation_invalid: {e}"),
             )
         })?;
-        if command["schema"] != "adl.runtime.local_shepherd_admission.v1" {
-            return Err(adapter_error(
+        match command["schema"].as_str() {
+            Some(LOCAL_SHEPHERD_ADMISSION_SCHEMA) => {
+                if command["agent_id"] != RESIDENT_SHEPHERD_ID
+                    || !command["admit"].as_bool().unwrap_or(false)
+                {
+                    return Err(adapter_error(
+                        FailureClass::Fatal,
+                        "shepherd admission rejected",
+                    ));
+                }
+                let admitted = self
+                    .state
+                    .admitted
+                    .lock()
+                    .expect("local shepherd state poisoned")
+                    .insert(RESIDENT_SHEPHERD_ID.to_owned());
+                let mut value =
+                    self.result(request, if admitted { "admitted" } else { "duplicate" });
+                value["agent_id"] = RESIDENT_SHEPHERD_ID.into();
+                value["admitted"] = admitted.into();
+                Ok(value)
+            }
+            Some(LOCAL_AGENT_WORK_SCHEMA) => {
+                if !self
+                    .state
+                    .admitted
+                    .lock()
+                    .expect("local shepherd state poisoned")
+                    .contains(RESIDENT_SHEPHERD_ID)
+                {
+                    return Err(adapter_error(
+                        FailureClass::Fatal,
+                        "resident Shepherd is not admitted",
+                    ));
+                }
+                let tasks = command["tasks"]
+                    .as_array()
+                    .filter(|tasks| tasks.len() == 1)
+                    .ok_or_else(|| adapter_error(FailureClass::Fatal, "shepherd_work_bound"))?;
+                let output = layer8_response(&tasks[0], Some(RESIDENT_SHEPHERD_ID))?;
+                let mut value = self.result(request, "completed");
+                value["schema"] = "adl.runtime.local_agent_execution.v1".into();
+                value["work_units"] = 1.into();
+                value["result_hash"] = blake3::hash(output.to_string().as_bytes())
+                    .to_hex()
+                    .to_string()
+                    .into();
+                value["outputs"] = serde_json::json!([{"unit": 0, "output": output}]);
+                Ok(value)
+            }
+            _ => Err(adapter_error(
                 FailureClass::Fatal,
-                "shepherd_admission_schema",
-            ));
+                "shepherd_operation_schema",
+            )),
         }
-        if !command["admit"].as_bool().unwrap_or(false) {
-            return Err(adapter_error(
-                FailureClass::Fatal,
-                "shepherd admission rejected",
-            ));
-        }
-        let admitted = self
-            .state
-            .admitted
-            .lock()
-            .expect("local shepherd state poisoned")
-            .insert(request.idempotency_key.clone());
-        let mut value = self.result(request, if admitted { "admitted" } else { "duplicate" });
-        value["admitted"] = admitted.into();
-        Ok(value)
     }
 
     fn scheduler(&self, request: &OperationRequest) -> Result<serde_json::Value, ExecutorError> {
@@ -1151,6 +1150,61 @@ impl InProcessOperationExecutor {
             )
             .map_err(|error| local_io("lifelog_unavailable", error))
     }
+}
+
+fn layer8_response(
+    task: &serde_json::Value,
+    required_recipient: Option<&str>,
+) -> Result<serde_json::Value, ExecutorError> {
+    if task["op"] != LAYER8_MESSAGE_TASK_OP {
+        return Err(adapter_error(
+            FailureClass::Fatal,
+            "layer8_operation_required",
+        ));
+    }
+    let sender = task["sender"]
+        .as_str()
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_sender_malformed"))?;
+    let recipient_id = task["recipient_id"]
+        .as_str()
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_recipient_malformed"))?;
+    let correlation_id = task["correlation_id"]
+        .as_str()
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_correlation_malformed"))?;
+    let content = task["content"]
+        .as_str()
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "layer8_content_malformed"))?;
+    let safe_id = |value: &str| {
+        !value.is_empty()
+            && value.len() <= 128
+            && value.bytes().all(|byte| {
+                byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-')
+            })
+    };
+    if sender != "layer8-operator"
+        || !safe_id(recipient_id)
+        || !safe_id(correlation_id)
+        || required_recipient.is_some_and(|expected| recipient_id != expected)
+        || content.trim().is_empty()
+        || content.len() > 4_000
+        || content
+            .chars()
+            .any(|character| character.is_control() && !matches!(character, '\n' | '\t'))
+    {
+        return Err(adapter_error(FailureClass::Fatal, "layer8_message_bound"));
+    }
+    let message = if required_recipient == Some(RESIDENT_SHEPHERD_ID) {
+        format!("{recipient_id} received your message through the Shepherd adapter.")
+    } else {
+        format!("{recipient_id} received your message.")
+    };
+    Ok(serde_json::json!({
+        "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
+        "recipient_id": recipient_id,
+        "correlation_id": correlation_id,
+        "status": "received",
+        "message": message
+    }))
 }
 
 fn adapter_error(class: FailureClass, message: impl Into<String>) -> ExecutorError {

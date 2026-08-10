@@ -1890,7 +1890,7 @@ textarea,
   }
 
   .ops-sidecar .runtime-test-actions .button {
-    min-height: 1.68rem;
+    min-height: 2.75rem;
     padding: 0.24rem 0.3rem;
     font-size: 0.62rem;
   }
@@ -2005,7 +2005,7 @@ textarea,
   }
 
   .ops-status-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.35rem;
   }
 
@@ -2032,7 +2032,7 @@ textarea,
   }
 
   h1 {
-    font-size: clamp(2.35rem, 12vw, 3.6rem);
+    font-size: 2.35rem;
   }
 
   .ops-map-panel {

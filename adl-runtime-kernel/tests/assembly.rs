@@ -172,9 +172,13 @@ fn agent_sleep_request(millis: u64, request_id: &str) -> OperationRequest {
 }
 
 fn shepherd_admission(admit: bool) -> Vec<u8> {
-    serde_json::json!({"schema":"adl.runtime.local_shepherd_admission.v1","admit":admit})
-        .to_string()
-        .into_bytes()
+    serde_json::json!({
+        "schema":"adl.runtime.local_shepherd_admission.v1",
+        "agent_id":"shepherd",
+        "admit":admit
+    })
+    .to_string()
+    .into_bytes()
 }
 
 fn schedule_job(job_id: &str) -> Vec<u8> {
@@ -312,18 +316,25 @@ async fn local_production_adapters_execute_real_bounded_behavior() {
 #[tokio::test]
 async fn resident_shepherd_is_admitted_through_the_production_adapter() {
     let root = TempDir::new().unwrap();
-    let executors = build_production_operation_executors_with_recorder(
-        root.path().join("resident-shepherd"),
-        authoritative_recorder(),
-    )
-    .unwrap();
+    let recorder = authoritative_recorder();
+    let assembly = build_live_assembly(bindings(recorder.clone(), root.path())).unwrap();
+    let ingress = assembly.canonical_ingress.clone();
+    let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
+        .start()
+        .await
+        .unwrap();
 
-    admit_resident_shepherd(&executors, "runtime-shepherd-test")
+    admit_resident_shepherd(&ingress, "runtime-shepherd-test")
         .await
         .unwrap();
-    admit_resident_shepherd(&executors, "runtime-shepherd-test")
+    admit_resident_shepherd(&ingress, "runtime-shepherd-test")
         .await
         .unwrap();
+    assert_eq!(ingress.snapshot().accepted_through, 1);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        adl_runtime_kernel::KernelExit::Clean
+    );
 }
 
 #[tokio::test]
@@ -838,6 +849,9 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         .start()
         .await
         .unwrap();
+    admit_resident_shepherd(&ingress, "runtime-shepherd-ingress-test")
+        .await
+        .unwrap();
     let work = DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
         work_id: "dispatch-success".to_owned(),
@@ -848,7 +862,7 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         .submit(work.clone(), "0123456789abcdef0123456789abcdef".to_owned())
         .await
         .unwrap();
-    assert_eq!(accepted.accepted_sequence, 1);
+    assert_eq!(accepted.accepted_sequence, 2);
     let layer8 = DomainWork {
         schema: DOMAIN_WORK_SCHEMA.to_owned(),
         work_id: "dispatch-layer8-agent".to_owned(),
@@ -865,12 +879,55 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         .submit(layer8, "abcdef0123456789abcdef0123456789".to_owned())
         .await
         .unwrap();
-    assert_eq!(layer8_accepted.accepted_sequence, 2);
+    assert_eq!(layer8_accepted.accepted_sequence, 3);
     assert_eq!(
         layer8_accepted.public_output.unwrap()["schema"],
         "adl.runtime.layer8.agent_response.v1"
     );
-    assert_eq!(ingress.snapshot().accepted_through, 2);
+    let shepherd_through_generic_agent = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "dispatch-layer8-shepherd-through-agent".to_owned(),
+        kind: "agent".to_owned(),
+        payload: agent_work(serde_json::json!([{
+            "op": "layer8_message",
+            "sender": "layer8-operator",
+            "recipient_id": "shepherd",
+            "correlation_id": "11223344556677889900aabbccddeeff",
+            "content": "Wrong route"
+        }])),
+    };
+    assert_eq!(
+        ingress
+            .submit(
+                shepherd_through_generic_agent,
+                "11223344556677889900aabbccddeeff".to_owned(),
+            )
+            .await
+            .unwrap_err(),
+        adl_runtime_kernel::IngressError::ExecutionFailed
+    );
+    let shepherd = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "dispatch-layer8-shepherd".to_owned(),
+        kind: "shepherd".to_owned(),
+        payload: agent_work(serde_json::json!([{
+            "op": "layer8_message",
+            "sender": "layer8-operator",
+            "recipient_id": "shepherd",
+            "correlation_id": "fedcba9876543210fedcba9876543210",
+            "content": "Hello Shepherd"
+        }])),
+    };
+    let shepherd_accepted = ingress
+        .submit(shepherd, "fedcba9876543210fedcba9876543210".to_owned())
+        .await
+        .unwrap();
+    assert_eq!(shepherd_accepted.accepted_sequence, 4);
+    assert_eq!(
+        shepherd_accepted.public_output.unwrap()["recipient_id"],
+        "shepherd"
+    );
+    assert_eq!(ingress.snapshot().accepted_through, 4);
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         adl_runtime_kernel::KernelExit::Clean
@@ -916,7 +973,6 @@ async fn sntp_recovers_after_startup_without_restarting_the_kernel() {
         .start()
         .await
         .unwrap();
-
     tokio::time::timeout(Duration::from_secs(1), async {
         loop {
             if matches!(

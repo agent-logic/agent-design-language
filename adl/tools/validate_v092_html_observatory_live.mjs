@@ -67,6 +67,7 @@ const context = await browser.newContext({
 const page = await context.newPage();
 const consoleErrors = [];
 const badResponses = [];
+const controlRequests = [];
 let lastControlCommand = null;
 page.on("console", (message) => {
   if (message.type() === "error" && !message.text().startsWith("Failed to load resource:")) {
@@ -79,12 +80,13 @@ page.on("response", (response) => {
   const pathname = new URL(response.url()).pathname;
   const expected =
     (pathname === "/favicon.ico" && response.status() === 404) ||
-    (pathname === "/v1/control" && [400, 403].includes(response.status()));
+    (pathname === "/v1/control" && [400, 401, 403].includes(response.status()));
   if (!expected) badResponses.push({ pathname, status: response.status() });
 });
 page.on("request", (request) => {
   if (new URL(request.url()).pathname === "/v1/control") {
     lastControlCommand = request.postDataJSON();
+    controlRequests.push(lastControlCommand);
   }
 });
 
@@ -98,14 +100,43 @@ const report = {
 
 try {
   await page.goto(url.toString(), { waitUntil: "networkidle", timeout: 30_000 });
+  await page.locator("#statusbar-websocket").filter({ hasText: "connected" }).waitFor({ timeout: 20_000 });
+  await page.waitForFunction(() => {
+    const value = Number(document.querySelector(".observatory")?.dataset.streamLastSequence);
+    return Number.isSafeInteger(value) && value >= 0;
+  });
+  const initialStreamSequence = Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence"));
+  assert.equal(await page.locator("#environment-label").textContent(), "Local Runtime");
+  assert.equal(await page.locator("#operator-status-pill").textContent(), "Public read");
+  report.assertions.live_wss_frame = { passed: true, initial_sequence: initialStreamSequence };
+
+  const navigation = ["Runtime", "Agents", "Chat", "Events", "AWS", "Governance", "Evidence"];
+  for (const name of navigation) {
+    await page.getByRole("link", { name, exact: true }).click();
+    assert.equal(
+      await page.getByRole("link", { name, exact: true }).getAttribute("aria-current"),
+      "page",
+      `${name} navigation did not activate its dashboard view`
+    );
+  }
+  await page.locator("#compact-operator-message").fill("Prepare a bounded operator envelope.");
+  await page.locator("#compact-prepare-envelope").click();
+  await page.locator("#message-envelope").filter({ hasText: "Prepare a bounded operator envelope." }).waitFor();
+  report.assertions.visible_navigation_and_envelope_control = { passed: true, views: navigation };
+
   await page.getByRole("link", { name: "Chat", exact: true }).click();
   await page.locator("#agent-chat-target:not([disabled])").waitFor({ timeout: 20_000 });
   const agents = await page.locator("#agent-chat-target option").allTextContents();
-  assert(agents.some((agent) => agent.includes("Shepherd")), "live Runtime roster did not provide the admitted Shepherd");
+  assert.equal(agents.length, 1, `live Runtime roster must contain only the resident Shepherd: ${JSON.stringify(agents)}`);
+  assert(agents[0].includes("Shepherd"), "live Runtime roster did not provide the admitted Shepherd");
   assert.equal(await page.locator("#agent-chat-target").inputValue(), "shepherd", "Shepherd was not the selected live agent");
   report.assertions.live_agent_roster = { passed: true, agents };
 
   await page.locator("#agent-chat-key-file").setInputFiles(operatorKeyFile);
+  await page.locator("#agent-chat-key-file").evaluate((element) => {
+    if (element.value !== "") throw new Error("operator key file input was not cleared after import");
+  });
+  report.assertions.native_key_input_cleared = { passed: true };
   await page.locator("#operator-message").fill("Hello Shepherd. Please confirm that you are present.");
   await page.locator("#send-agent-message:not([disabled])").click();
   await page.locator('.chat-message[data-role="agent"], .chat-message[data-role="system"]').waitFor({ timeout: 20_000 });
@@ -124,6 +155,50 @@ try {
     status: deliveredStatus,
     transcript_messages: await page.locator(".chat-message").count()
   };
+  await page.waitForFunction((previous) => {
+    const value = Number(document.querySelector(".observatory")?.dataset.streamLastSequence);
+    return Number.isSafeInteger(value) && value > previous;
+  }, initialStreamSequence);
+  report.assertions.wss_observed_correlated_runtime_progress = {
+    passed: true,
+    sequence: Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence"))
+  };
+
+  const forbiddenOriginResponse = await context.request.post(`${runtimeUrl.origin}/v1/control`, {
+    headers: {
+      "Content-Type": "application/json",
+      Origin: "https://forbidden.example.test"
+    },
+    data: lastControlCommand
+  });
+  assert.equal(forbiddenOriginResponse.status(), 403, "forbidden browser origin was not refused");
+  report.assertions.forbidden_origin_refused = {
+    passed: true,
+    response_status: forbiddenOriginResponse.status()
+  };
+
+  const failureStates = await page.evaluate(() => {
+    const classify = globalThis.AdlHtmlObservatory.classifyRuntimeV3Failure;
+    return [
+      "unsupported runtime v3 observatory schema",
+      "backpressure",
+      "invalid_request",
+      "403 origin denied",
+      "temporarily_unavailable",
+      "certificate failure",
+      "connection reset"
+    ].map((message) => classify(new Error(message)).state);
+  });
+  assert.deepEqual(failureStates, [
+    "incompatible",
+    "backpressure",
+    "malformed",
+    "denied",
+    "unavailable",
+    "tls-or-origin",
+    "offline"
+  ]);
+  report.assertions.operator_failure_states = { passed: true, states: failureStates };
 
   const systemMessagesBefore = await page.locator('.chat-message[data-role="system"]').count();
   await page.locator("#operator-message").evaluate((element) => {
@@ -148,24 +223,152 @@ try {
     ui_status: refusalStatus
   };
 
+  const ingressBeforeDeniedAuthority = await page.evaluate(async (base) => {
+    const response = await fetch(`${base}/v1/observatory`);
+    return (await response.json()).ingress.accepted_through;
+  }, runtimeUrl.origin);
+  await page.locator("#agent-chat-key-file").setInputFiles({
+    name: "invalid-operator.key",
+    mimeType: "text/plain",
+    buffer: Buffer.from("11".repeat(32))
+  });
+  const deniedBeforeReconnect = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === "/v1/control" && response.status() === 401
+  );
+  await page.locator("#operator-message").fill("This identity must be denied.");
+  await page.locator("#send-agent-message:not([disabled])").click();
+  await deniedBeforeReconnect;
+  assert.equal(await page.locator("#agent-chat-status").textContent(), "origin or authority denied");
+  const ingressAfterDeniedAuthority = await page.evaluate(async (base) => {
+    const response = await fetch(`${base}/v1/observatory`);
+    return (await response.json()).ingress.accepted_through;
+  }, runtimeUrl.origin);
+  assert.equal(ingressAfterDeniedAuthority, ingressBeforeDeniedAuthority, "denied authority reached canonical ingress");
+
   const beforeReconnect = await page.locator(".chat-message").count();
   await page.getByRole("link", { name: "Runtime", exact: true }).click();
   await page.locator("#dashboard-stop-live").click();
   await page.getByRole("link", { name: "Chat", exact: true }).click();
   assert(await page.locator("#send-agent-message").isDisabled(), "stopped Runtime left chat writes enabled");
   assert(await page.locator("#agent-chat-target").isDisabled(), "stopped Runtime retained an addressable roster");
+
   await page.getByRole("link", { name: "Runtime", exact: true }).click();
+  await page.locator("#dashboard-live-api-base").fill("https://localhost:21984");
+  await page.locator("#dashboard-connect-live").click();
+  await page.waitForFunction(() => {
+    const root = document.querySelector(".observatory");
+    const status = document.getElementById("live-status")?.textContent || "";
+    return root?.dataset.liveConnection === "reconnecting" && !status.startsWith("live ");
+  }, null, { timeout: 20_000 });
+  await page.getByRole("link", { name: "Chat", exact: true }).click();
+  assert(await page.locator("#send-agent-message").isDisabled(), "unavailable Runtime left chat writes enabled");
+  assert(await page.locator("#agent-chat-target").isDisabled(), "unavailable Runtime retained an addressable roster");
+  report.assertions.runtime_unavailability_not_presented_as_live = {
+    passed: true,
+    live_status: await page.locator("#live-status").textContent(),
+    connection_state: await page.locator(".observatory").getAttribute("data-live-connection")
+  };
+
+  await page.getByRole("link", { name: "Runtime", exact: true }).click();
+  await page.locator("#dashboard-stop-live").click();
+  await page.locator("#dashboard-live-api-base").fill(runtimeUrl.origin);
   await page.locator("#dashboard-connect-live").click();
   await page.getByRole("link", { name: "Chat", exact: true }).click();
   await page.locator("#agent-chat-target:not([disabled])").waitFor({ timeout: 20_000 });
   const afterReconnect = await page.locator(".chat-message").count();
   assert.equal(afterReconnect, beforeReconnect, "reconnect duplicated the conversation transcript");
-  report.assertions.bounded_reconnect_without_chat_duplication = { passed: true };
+  const postsAfterReconnect = controlRequests.length;
+  await page.locator("#operator-message").fill("This identity must remain denied after reconnect.");
+  const deniedAfterReconnect = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === "/v1/control" && response.status() === 401
+  );
+  await page.locator("#send-agent-message:not([disabled])").click();
+  await deniedAfterReconnect;
+  assert.equal(controlRequests.length, postsAfterReconnect + 1, "reconnect replayed a control POST");
+  const ingressAfterReconnectDenial = await page.evaluate(async (base) => {
+    const response = await fetch(`${base}/v1/observatory`);
+    return (await response.json()).ingress.accepted_through;
+  }, runtimeUrl.origin);
+  assert.equal(ingressAfterReconnectDenial, ingressBeforeDeniedAuthority, "denied authority reached ingress after reconnect");
+  report.assertions.bounded_reconnect_without_chat_duplication = {
+    passed: true,
+    authority_denied_before_and_after: true,
+    command_replay_count: 0
+  };
 
   const pageText = await page.locator("body").innerText();
   assert(!pageText.includes(signingSeed), "operator signing seed appeared in visible DOM text");
   assert(!pageText.includes(path.basename(operatorKeyFile)), "operator key filename appeared in visible DOM text");
-  report.assertions.signing_material_not_rendered = { passed: true };
+  const browserStorage = await page.evaluate(() => ({
+    local: { ...localStorage },
+    session: { ...sessionStorage }
+  }));
+  const redactionSurface = JSON.stringify({ browserStorage, consoleErrors, controlRequests });
+  assert(!redactionSurface.includes(signingSeed), "operator signing seed appeared in browser state or network capture");
+  assert(!redactionSurface.includes(path.basename(operatorKeyFile)), "operator key filename appeared in browser state or network capture");
+  report.assertions.signing_material_not_rendered = {
+    passed: true,
+    browser_storage_scanned: true,
+    console_scanned: true,
+    control_requests_scanned: true
+  };
+
+  const hostileRoster = await page.evaluate(() => {
+    globalThis.__adlHostileRosterExecuted = false;
+    globalThis.AdlHtmlObservatory.renderPanopticon({
+      mode: "live",
+      fetchedAt: "2026-08-10T00:00:00Z",
+      status: {
+        runtime_instance_id: "hostile-payload-proof",
+        agent_population: {
+          total_count: 1,
+          sample: [{
+            id: '<img src=x onerror="globalThis.__adlHostileRosterExecuted=true">',
+            label: '<script>globalThis.__adlHostileRosterExecuted=true</script>',
+            role: "runtime agent",
+            state: "running",
+            detail: '<a href="javascript:globalThis.__adlHostileRosterExecuted=true">unsafe</a>'
+          }]
+        }
+      },
+      health: { status: "ok" },
+      ready: { status: "ready" },
+      metrics: {},
+      events: []
+    }, {}, { chatLive: false });
+    return {
+      executed: globalThis.__adlHostileRosterExecuted,
+      scriptCount: document.querySelectorAll("#panopticon-map script, #live-agent-list script").length,
+      handlerCount: document.querySelectorAll("#panopticon-map [onerror], #live-agent-list [onerror]").length,
+      javascriptLinkCount: [...document.querySelectorAll("#panopticon-map a, #live-agent-list a")]
+        .filter((element) => String(element.getAttribute("href") || "").toLowerCase().startsWith("javascript:"))
+        .length
+    };
+  });
+  await page.waitForTimeout(50);
+  hostileRoster.executed = await page.evaluate(() => globalThis.__adlHostileRosterExecuted);
+  assert.deepEqual(hostileRoster, {
+    executed: false,
+    scriptCount: 0,
+    handlerCount: 0,
+    javascriptLinkCount: 0
+  });
+  report.assertions.hostile_runtime_roster_rendered_inertly = { passed: true, ...hostileRoster };
+
+  await page.getByRole("link", { name: "Runtime", exact: true }).click();
+  await page.locator("#dashboard-connect-live").click();
+  await page.locator("#statusbar-websocket").filter({ hasText: "connected" }).waitFor({ timeout: 20_000 });
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole("link", { name: "Chat", exact: true }).click();
+  const mobileLayout = await page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    document: document.documentElement.scrollWidth,
+    sendHeight: document.getElementById("send-agent-message")?.getBoundingClientRect().height || 0
+  }));
+  assert(mobileLayout.document <= mobileLayout.viewport + 1, `mobile layout overflows: ${JSON.stringify(mobileLayout)}`);
+  assert(mobileLayout.sendHeight >= 44, `mobile primary action is too small: ${mobileLayout.sendHeight}`);
+  report.assertions.mobile_layout = { passed: true, ...mobileLayout };
 
   const screenshot = path.join(evidenceRoot, "observatory-layer8-chat.png");
   await page.screenshot({ path: screenshot, fullPage: true });
@@ -179,5 +382,8 @@ try {
 }
 
 const reportPath = path.join(evidenceRoot, "observatory-layer8-chat-report.json");
-await fs.writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, { mode: 0o600 });
+const serializedReport = `${JSON.stringify(report, null, 2)}\n`;
+assert(!serializedReport.includes(signingSeed), "operator signing seed appeared in retained report");
+assert(!serializedReport.includes(path.basename(operatorKeyFile)), "operator key filename appeared in retained report");
+await fs.writeFile(reportPath, serializedReport, { mode: 0o600 });
 console.log(JSON.stringify({ schema: report.schema, result: "pass", report: reportPath }));

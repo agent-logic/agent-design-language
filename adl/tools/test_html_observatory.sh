@@ -9,6 +9,7 @@ node - <<'NODE' "${APP_JS}" "${CONFIG_JSON}"
 const fs = require("fs");
 const vm = require("vm");
 const assert = require("assert");
+const { webcrypto } = require("crypto");
 
 const appPath = process.argv[2];
 const configPath = process.argv[3];
@@ -85,6 +86,7 @@ const calls = [];
 const context = {
   console,
   TextEncoder,
+  crypto: webcrypto,
   URL,
   URLSearchParams,
   location: { search: "" },
@@ -133,6 +135,11 @@ assert.equal(
   "https://127.0.0.1:21983"
 );
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
+assert.equal(api.classifyRuntimeV3Failure(new Error("backpressure")).state, "backpressure");
+assert.equal(api.classifyRuntimeV3Failure(new Error("unsupported Runtime v3 observatory schema")).state, "incompatible");
+assert.equal(api.classifyRuntimeV3Failure(new Error("403 origin denied")).state, "denied");
+assert.equal(api.classifyRuntimeV3Failure(new Error("temporarily_unavailable")).state, "unavailable");
+assert.equal(api.classifyRuntimeV3Failure(new Error("certificate failure")).state, "tls-or-origin");
 
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
@@ -150,6 +157,13 @@ cursorSnapshot = cursor.accept({
   events: { events: [{ sequence: 8, event: "late-old" }, { sequence: 11, event: "next" }] }
 });
 assert.deepEqual(cursorSnapshot.events.events.map((event) => event.sequence), [9, 10, 11]);
+assert.throws(
+  () => cursor.accept({
+    status: { runtime_id: "runtime-v3-test" },
+    events: { events: [{ sequence: 13, event: "gap" }] }
+  }),
+  /stream cursor gap after 11/
+);
 
 await assert.rejects(
   () => api.buildSignedLayer8MessageCommand({
@@ -159,6 +173,68 @@ await assert.rejects(
     signingKeyText: "00".repeat(32)
   }),
   /4000 UTF-8 bytes/
+);
+
+const shepherdCommand = await api.buildSignedLayer8MessageCommand({
+  runtimeInstanceId: "runtime-v3-test",
+  recipientId: "shepherd",
+  content: "Hello Shepherd",
+  signingKeyText: "00".repeat(32)
+});
+assert.equal(shepherdCommand.action.work.kind, "shepherd");
+const genericAgentCommand = await api.buildSignedLayer8MessageCommand({
+  runtimeInstanceId: "runtime-v3-test",
+  recipientId: "agent-0001",
+  content: "Hello agent",
+  signingKeyText: "00".repeat(32)
+});
+assert.equal(genericAgentCommand.action.work.kind, "agent");
+
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("unsupported runtime v3 observatory schema")), {
+  state: "incompatible", label: "incompatible version"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("backpressure")), {
+  state: "backpressure", label: "runtime backpressure"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("invalid_request")), {
+  state: "malformed", label: "malformed runtime data"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("403 origin denied")), {
+  state: "denied", label: "origin or authority denied"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("temporarily_unavailable")), {
+  state: "unavailable", label: "runtime unavailable"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("certificate failure")), {
+  state: "tls-or-origin", label: "TLS or origin failure"
+});
+assert.deepEqual(api.classifyRuntimeV3Failure(new Error("connection reset")), {
+  state: "offline", label: "runtime offline"
+});
+
+const staleSnapshot = api.runtimeV3SnapshotFromFeed({
+  ...observatoryFeed,
+  weather_freshness: {
+    observed_at_unix_millis: 1785778500000,
+    age_millis: 45000,
+    stale_after_millis: 30000,
+    stale: true
+  }
+}, {
+  ...readiness,
+  weather_freshness: {
+    observed_at_unix_millis: 1785778500000,
+    age_millis: 45000,
+    stale_after_millis: 30000,
+    stale: true
+  }
+});
+const staleView = api.buildPanopticonViewModel(staleSnapshot);
+assert.equal(staleView.readyState, "stale");
+assert.equal(staleView.signals.find((signal) => signal.label === "readiness").value, "stale");
+assert.match(
+  staleView.signals.find((signal) => signal.label === "readiness").detail,
+  /weather data stale/
 );
 
 const command = {

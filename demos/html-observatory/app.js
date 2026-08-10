@@ -73,6 +73,7 @@ function formatCurrentTimestampLabel() {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
+let runtimeV3WriteToken = "";
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
@@ -187,6 +188,9 @@ function classifyRuntimeV3Failure(error) {
   if (message.includes("403") || message.includes("origin") || message.includes("denied") || message.includes("unauthorized")) {
     return { state: "denied", label: "origin or authority denied" };
   }
+  if (message.includes("runtime_unavailable") || message.includes("temporarily_unavailable")) {
+    return { state: "unavailable", label: "runtime unavailable" };
+  }
   if (message.includes("tls") || message.includes("certificate") || message.includes("networkerror") || message.includes("failed to fetch")) {
     return { state: "tls-or-origin", label: "TLS or origin failure" };
   }
@@ -218,7 +222,15 @@ function createRuntimeV3StreamCursor() {
         lastCorrelationId = null;
       }
       runtimeInstanceId = nextRuntimeInstanceId || runtimeInstanceId;
-      for (const event of normalizeEventEntries(snapshot?.events)) {
+      const incomingEvents = normalizeEventEntries(snapshot?.events);
+      const unseenSequences = incomingEvents
+        .map((event) => Number(event?.sequence ?? event?.event_sequence))
+        .filter((sequence) => Number.isSafeInteger(sequence) && sequence > lastSequence)
+        .sort((left, right) => left - right);
+      if (lastSequence >= 0 && unseenSequences.length > 0 && unseenSequences[0] > lastSequence + 1) {
+        throw new Error(`Runtime v3 stream cursor gap after ${lastSequence}.`);
+      }
+      for (const event of incomingEvents) {
         const sequence = Number(event?.sequence ?? event?.event_sequence);
         if (Number.isSafeInteger(sequence) && sequence <= lastSequence) continue;
         const key = runtimeV3EventKey(event);
@@ -517,7 +529,27 @@ function setDataset(id, key, value) {
 function renderRows(targetId, rows) {
   const target = document.getElementById(targetId);
   if (target) {
-    target.innerHTML = rows.join("");
+    const template = document.createElement("template");
+    template.innerHTML = rows.join("");
+    template.content
+      .querySelectorAll("script, iframe, object, embed, link, meta, base, form, style")
+      .forEach((element) => element.remove());
+    template.content.querySelectorAll("*").forEach((element) => {
+      for (const attribute of [...element.attributes]) {
+        const name = attribute.name.toLowerCase();
+        const value = attribute.value.trim().toLowerCase();
+        if (
+          name.startsWith("on") ||
+          name === "srcdoc" ||
+          name === "style" ||
+          (["href", "src", "xlink:href"].includes(name) &&
+            (value.startsWith("javascript:") || value.startsWith("data:text/html")))
+        ) {
+          element.removeAttribute(attribute.name);
+        }
+      }
+    });
+    target.replaceChildren(template.content.cloneNode(true));
   }
 }
 
@@ -1005,7 +1037,7 @@ async function buildSignedLayer8MessageCommand({
       work: {
         schema: "adl.runtime.domain_work.v1",
         work_id: workId,
-        kind: "agent",
+        kind: recipientId === "shepherd" ? "shepherd" : "agent",
         payload: Array.from(payload)
       }
     },
@@ -1108,9 +1140,8 @@ function connectRuntimeV3ObservatoryWebSocket(
   endpoint.protocol = "wss:";
   const socket = new WebSocket(endpoint.toString());
   socket.addEventListener("open", () => {
-    const writeToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
-    if (writeToken) {
-      authenticateRuntimeV3ObservatorySocket(socket, writeToken);
+    if (runtimeV3WriteToken) {
+      authenticateRuntimeV3ObservatorySocket(socket, runtimeV3WriteToken);
     }
   });
   socket.addEventListener("message", (event) => {
@@ -1158,9 +1189,16 @@ async function fetchRetainedRuntimeSnapshot(refs = {}) {
     loadJson(refs.metricsRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "metrics load failed" })),
     loadJson(refs.eventsRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "events load failed" }))
   ]);
+  const retainedCaptureTime =
+    status?.agent_status?.updated_at ||
+    status?.updated_at ||
+    health?.observed_at ||
+    ready?.observed_at ||
+    events?.generated_at ||
+    "";
   return {
     mode: "published",
-    fetchedAt: new Date().toISOString(),
+    fetchedAt: retainedCaptureTime,
     status,
     health,
     ready,
@@ -1393,6 +1431,13 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   const statusRows = flattenStatusRows(status);
   const liveAgents = buildRuntimeAgentRows({ status, health, ready, metrics, events, packet });
   const agentTotal = Number(status.agent_population?.total_count ?? metrics.gauges?.agent_count ?? liveAgents.length);
+  const weatherFreshness = ready.weather_freshness || {};
+  const readinessState = weatherFreshness.stale === true
+    ? "stale"
+    : ready.status || ready.state || ready.ready || "unknown";
+  const readinessDetail = weatherFreshness.stale === true
+    ? `weather data stale at ${weatherFreshness.age_millis ?? "unknown"}ms (limit ${weatherFreshness.stale_after_millis ?? "unknown"}ms)`
+    : ready.reason || ready.summary || ready.message || "CSM /ready";
 
   const signalRows = [
     {
@@ -1402,8 +1447,8 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
     },
     {
       label: "readiness",
-      value: ready.status || ready.state || ready.ready || "unknown",
-      detail: ready.reason || ready.summary || ready.message || "CSM /ready"
+      value: readinessState,
+      detail: readinessDetail
     },
     {
       label: "events",
@@ -1426,29 +1471,30 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
     metrics: normalizeMetricRows(metrics),
     events,
     statusRows,
-    readyState: ready.status || ready.state || ready.ready || "unknown",
+    readyState: readinessState,
     runtimeInstanceId: status.runtime_id || status.runtime_instance_id || ""
   };
 }
 
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET, { chatLive = false } = {}) {
   const vm = buildPanopticonViewModel(snapshot, packet);
-  updateRuntimeV3ChatSnapshot(snapshot, vm.agents, chatLive);
+  const stale = vm.readyState === "stale";
+  updateRuntimeV3ChatSnapshot(snapshot, vm.agents, chatLive && !stale);
   if (vm.mode === "live" && vm.agents.length) {
     const selectedId = document.getElementById("agent-chat-target")?.value;
     const inspectedAgent = vm.agents.find((agent) => agent.id === selectedId) || vm.agents[0];
     renderRuntimeV3AgentInspector(inspectedAgent, vm.runtimeInstanceId, vm.fetchedAt);
   }
-  setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
-  setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
+  setText("live-status", vm.mode === "live" ? (stale ? "live data stale" : "live loopback") : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
+  setText("hero-live-mode", vm.mode === "live" ? (stale ? "Stale" : "Online") : vm.mode === "published" ? "Published" : "Retained");
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
   setText("hero-event-title", vm.mode === "live" ? "Event Stream (Live Loopback)" : "Event Stream");
-  setText("statusbar-mode", vm.mode === "live" ? "Live Loopback" : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
+  setText("statusbar-mode", vm.mode === "live" ? (stale ? "Live Stale" : "Live Loopback") : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
   const modeSelect = document.getElementById("top-mode-select");
   if (modeSelect) {
     modeSelect.value = vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
   }
-  setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
+  setText("statusbar-updated", vm.fetchedAt ? formatTimestampLabel(vm.fetchedAt) : "timestamp unavailable");
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("agent-count", `${vm.agentTotal.toLocaleString()} agents`);
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()} Agents`);
@@ -1583,8 +1629,11 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   setText("manifold-state", formatLabel(manifold.state));
   setText("manifold-tick", String(manifold.current_tick ?? 0));
   setText("packet-id", displayPacketId(vm.packet.packet_id));
-  setText("hero-uptime", formatCurrentTimestampLabel());
-  setText("rail-capture-time", formatCurrentTimestampLabel());
+  const captureTime = vm.packet.generated_at && vm.packet.generated_at !== "unloaded"
+    ? formatTimestampLabel(vm.packet.generated_at)
+    : "timestamp unavailable";
+  setText("hero-uptime", captureTime);
+  setText("rail-capture-time", captureTime);
   setText("rail-manifold-id", displayManifoldId(manifold.manifold_id));
   setText("rail-state", formatLabel(manifold.state));
   setText("rail-tick", String(manifold.current_tick ?? 0));
@@ -1737,6 +1786,7 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
   const prepare = document.getElementById("prepare-envelope");
   const checkEvents = document.getElementById("check-events");
   const compactClear = document.getElementById("compact-clear-envelope");
+  const compactPrepare = document.getElementById("compact-prepare-envelope");
   const packetId = displayPacketId(packet.packet_id || "");
   const setCommunicationStatus = (status) => {
     setText("communication-status", status);
@@ -1756,6 +1806,12 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
   };
 
   prepare?.addEventListener("click", updateEnvelope);
+  compactPrepare?.addEventListener("click", () => {
+    if (message && compactMessage) {
+      message.value = compactMessage.value;
+    }
+    updateEnvelope();
+  });
   compactMessage?.addEventListener("input", () => {
     if (message) {
       message.value = compactMessage.value;
@@ -1877,6 +1933,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (operatorControlResult && detail) {
       operatorControlResult.textContent = detail;
     }
+    setText("operator-status-pill", enabled ? "Operator verified" : "Public read");
   };
 
   const updateAgentChatAccess = () => {
@@ -1898,6 +1955,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (frame.error === "credential_revoked" ||
         frame.error === "authentication_failed" ||
         frame.error === "write_authentication_required") {
+      runtimeV3WriteToken = "";
       setWriteAccess(false, "public read", JSON.stringify(frame, null, 2));
       return;
     }
@@ -1915,7 +1973,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const renderMinimalFallback = (error) => {
     renderPanopticon({
       mode: "retained",
-      fetchedAt: new Date().toISOString(),
+      fetchedAt: packet.generated_at && packet.generated_at !== "unloaded" ? packet.generated_at : "",
       errors: {
         retained: error instanceof Error ? error.message : "unknown retained mirror error"
       }
@@ -2063,6 +2121,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     runtimeV3Readiness = null;
     runtimeBaseActive = false;
     updateRuntimeV3ChatSnapshot({}, [], false);
+    setText("environment-label", "Not connected");
     setText("live-status", "polling stopped");
     setText("statusbar-websocket", "stopped");
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
@@ -2074,11 +2133,16 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     const requestGeneration = nextLiveGeneration();
     setLiveConnectionState("connecting");
     if (requestedRuntimeSelection() === "v3") {
+      const base = readApiBase();
       runtimeBaseActive = true;
+      const connectedHost = new URL(base).hostname;
+      setText(
+        "environment-label",
+        RUNTIME_V3_LOCAL_HOSTS.has(connectedHost) ? "Local Runtime" : "Trusted Runtime"
+      );
       setText("live-status", "connecting secure stream");
       setText("statusbar-websocket", "connecting");
       try {
-        const base = readApiBase();
         const socketEndpoint = new URL(`${base}${getRuntimeV3Config().observatory_websocket_endpoint}`);
         socketEndpoint.protocol = "wss:";
         setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
@@ -2111,12 +2175,26 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const streamSnapshot = runtimeV3Readiness
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
-            renderPanopticon(runtimeV3StreamCursor.accept(streamSnapshot), packet, { chatLive: true });
+            const resumedSnapshot = runtimeV3StreamCursor.accept(streamSnapshot);
+            renderPanopticon(resumedSnapshot, packet, { chatLive: true });
+            const cursor = resumedSnapshot.stream_cursor;
+            const root = document.querySelector(".observatory");
+            if (root && cursor) {
+              root.dataset.streamRuntimeInstance = cursor.runtime_instance_id || "";
+              root.dataset.streamLastSequence = String(cursor.last_sequence);
+              root.dataset.streamAppliedEvents = String(cursor.applied_event_count);
+            }
             reconnectAttempt = 0;
-            setText("live-status", "live secure stream");
+            const streamStale = resumedSnapshot.ready?.weather_freshness?.stale === true;
+            setText("live-status", streamStale ? "live data stale" : "live secure stream");
             setText("statusbar-websocket", "connected");
-            setLiveConnectionState("connected");
-            setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
+            setLiveConnectionState(streamStale ? "stale" : "connected");
+            setRuntimeTestStatus(
+              streamStale ? "live data stale" : "live secure stream",
+              streamStale
+                ? "Runtime v3 stream is connected, but freshness exceeds the declared limit and chat remains disabled."
+                : "Runtime v3 public WebSocket feed is active; operator login is required only for writes."
+            );
           },
           (error) => {
             if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
@@ -2187,7 +2265,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
     renderPanopticon({
       mode: "retained",
-      fetchedAt: new Date().toISOString(),
+      fetchedAt: packet.generated_at && packet.generated_at !== "unloaded" ? packet.generated_at : "",
       status: {},
       health: {},
       ready: {},
@@ -2204,7 +2282,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       setWriteAccess(false, "login required", "Enter the operator write token.");
       return;
     }
-    globalThis.sessionStorage?.setItem("adl.runtimeV3.observatoryToken", token);
+    runtimeV3WriteToken = token;
+    if (operatorToken) operatorToken.value = "";
     if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
       setWriteAccess(false, "connecting", "Opening the public stream before operator login.");
       connectLive();
@@ -2214,7 +2293,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     authenticateRuntimeV3ObservatorySocket(liveSocket, token);
   });
   operatorLogout?.addEventListener("click", () => {
-    globalThis.sessionStorage?.removeItem("adl.runtimeV3.observatoryToken");
+    runtimeV3WriteToken = "";
     if (operatorToken) {
       operatorToken.value = "";
     }
@@ -2298,6 +2377,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         error instanceof Error ? error.message : "The signing key could not be loaded.",
         "denied"
       );
+    } finally {
+      agentChatKeyFile.value = "";
     }
     updateAgentChatAccess();
   });

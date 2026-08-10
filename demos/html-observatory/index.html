@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://runtime.dev.agent-logic.ai:* wss://runtime.dev.agent-logic.ai:* https://localhost:* wss://localhost:* https://127.0.0.1:* wss://127.0.0.1:*; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ADL HTML Observatory - Runtime Proof</title>
@@ -95,7 +96,7 @@
         <div class="topbar-controls" aria-label="Runtime controls">
           <div class="top-readout">
             <span>Environment</span>
-            <strong>prod-polis</strong>
+            <strong id="environment-label">Not connected</strong>
           </div>
           <label class="top-select">
             <span>Mode</span>
@@ -116,19 +117,19 @@
           <a class="button button-secondary" id="packet-link" href="#" target="_blank" rel="noopener noreferrer" data-proof-link><svg><use href="#icon-packet"></use></svg>Packet</a>
           <a class="button button-secondary" id="report-link" href="#" target="_blank" rel="noopener noreferrer" data-proof-link><svg><use href="#icon-evidence"></use></svg>Proof Report</a>
           <button class="button button-secondary" type="button" id="export-proof"><svg><use href="#icon-download"></use></svg>Export</button>
-          <span class="status-pill">Operator</span>
+          <span class="status-pill" id="operator-status-pill" role="status" aria-live="polite">Public read</span>
         </div>
       </header>
 
       <section class="hero ops-hero" id="runtime-proof" aria-labelledby="hero-title">
         <aside class="dashboard-rail" aria-label="Observatory navigation">
-          <a href="#runtime-proof" data-dashboard-link="runtime" aria-current="page"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
-          <a href="#panopticon" data-dashboard-link="agents"><svg><use href="#icon-agent"></use></svg>Agents</a>
-          <a href="#communication" data-dashboard-link="communication"><svg><use href="#icon-events"></use></svg>Chat</a>
-          <a href="#csm-api" data-dashboard-link="csm-api"><svg><use href="#icon-events"></use></svg>Events</a>
-          <a href="#cloudwatch" data-dashboard-link="cloudwatch"><svg><use href="#icon-cloud"></use></svg>AWS</a>
-          <a href="#governance" data-dashboard-link="governance"><svg><use href="#icon-shield"></use></svg>Governance</a>
-          <a href="#evidence" data-dashboard-link="evidence"><svg><use href="#icon-evidence"></use></svg>Evidence</a>
+          <a href="#runtime-proof" data-dashboard-link="runtime" aria-current="page" title="Runtime health and controls"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
+          <a href="#panopticon" data-dashboard-link="agents" title="Live agent roster"><svg><use href="#icon-agent"></use></svg>Agents</a>
+          <a href="#communication" data-dashboard-link="communication" title="Secure agent communication"><svg><use href="#icon-events"></use></svg>Chat</a>
+          <a href="#csm-api" data-dashboard-link="csm-api" title="Runtime event stream"><svg><use href="#icon-events"></use></svg>Events</a>
+          <a href="#cloudwatch" data-dashboard-link="cloudwatch" title="AWS integration status"><svg><use href="#icon-cloud"></use></svg>AWS</a>
+          <a href="#governance" data-dashboard-link="governance" title="Governance and authority"><svg><use href="#icon-shield"></use></svg>Governance</a>
+          <a href="#evidence" data-dashboard-link="evidence" title="Retained proof artifacts"><svg><use href="#icon-evidence"></use></svg>Evidence</a>
           <div class="rail-telemetry" aria-label="Runtime sidebar telemetry">
             <span>System Time</span>
             <strong id="rail-capture-time">pending</strong>
@@ -183,7 +184,7 @@
                 <span class="row-kicker">Layer 8 channel</span>
                 <h2 id="polis-chat-title">Talk with an agent</h2>
               </div>
-              <span class="mini-badge" id="agent-chat-status">waiting for runtime</span>
+              <span class="mini-badge" id="agent-chat-status" role="status" aria-live="polite">waiting for runtime</span>
             </div>
             <div class="polis-chat-identity">
               <label class="field">
@@ -593,8 +594,8 @@
       <footer class="dashboard-statusbar" aria-label="Observatory mirror status">
         <span><b id="statusbar-indicator"></b>Runtime Mirror</span>
         <span id="statusbar-source">retained packet</span>
-        <span>WSS <strong id="statusbar-websocket">idle</strong></span>
-        <span>Last Update <strong id="statusbar-updated">pending</strong></span>
+        <span>WSS <strong id="statusbar-websocket" role="status" aria-live="polite">idle</strong></span>
+        <span>Last Update <strong id="statusbar-updated" role="status" aria-live="polite">pending</strong></span>
         <span>Data Source <strong>Runtime v3 opt-in + CSM Runtime + AWS CloudWatch + ACIP/SNS</strong></span>
         <span>Mode <strong id="statusbar-mode">Retained Mirror</strong></span>
       </footer>
