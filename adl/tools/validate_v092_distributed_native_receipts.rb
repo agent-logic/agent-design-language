@@ -3,9 +3,11 @@
 
 require "digest"
 require "json"
+require "net/http"
 require "open3"
 require "pathname"
 require "time"
+require "uri"
 
 ISSUE = 5878
 PLATFORMS = %w[linux macos windows].freeze
@@ -69,6 +71,49 @@ def expected_host_fragment(platform)
   { "macos" => "apple-darwin", "linux" => "unknown-linux", "windows" => "pc-windows" }.fetch(platform)
 end
 
+def github_token
+  direct = ENV["GITHUB_TOKEN"].to_s.strip
+  return direct unless direct.empty?
+
+  path = ENV.fetch("ADL_GITHUB_TOKEN_FILE", File.expand_path("~/keys/github.token"))
+  abort_with("GitHub token is required for hosted-run attestation") unless File.file?(path)
+  value = File.read(path).strip
+  abort_with("GitHub token is empty") if value.empty?
+  value
+end
+
+def github_json(path)
+  uri = URI("https://api.github.com#{path}")
+  request = Net::HTTP::Get.new(uri)
+  request["Accept"] = "application/vnd.github+json"
+  request["Authorization"] = "Bearer #{github_token}"
+  request["User-Agent"] = "adl-distributed-native-receipt-validator"
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
+  abort_with("GitHub hosted-run attestation failed with HTTP #{response.code}") unless response.is_a?(Net::HTTPSuccess)
+  JSON.parse(response.body)
+end
+
+def validate_hosted_run(runner, platform, revision)
+  repository = runner["repository"].to_s
+  abort_with("wrong hosted repository") unless repository == "agent-logic/agent-design-language"
+  github_run_id = runner["github_run_id"].to_s
+  abort_with("missing hosted GitHub run id") unless github_run_id.match?(/\A[1-9][0-9]*\z/)
+  abort_with("hosted workflow ref mismatch") unless runner["workflow_ref"].to_s.include?("/.github/workflows/wp04-native-distributed.yml@")
+
+  run = github_json("/repos/#{repository}/actions/runs/#{github_run_id}")
+  abort_with("hosted run source revision mismatch") unless run["head_sha"] == revision
+  abort_with("hosted run repository mismatch") unless run.dig("repository", "full_name") == repository
+  abort_with("hosted run workflow mismatch") unless run["path"] == ".github/workflows/wp04-native-distributed.yml"
+  abort_with("hosted run event is not an authorized proof event") unless %w[workflow_dispatch pull_request].include?(run["event"])
+  abort_with("hosted run attempt mismatch") unless run["run_attempt"].to_s == runner["run_attempt"].to_s
+
+  jobs = github_json("/repos/#{repository}/actions/runs/#{github_run_id}/jobs?per_page=100")
+  expected_name = "distributed-guardian-native-#{platform}"
+  matches = Array(jobs["jobs"]).select { |job| job["name"] == expected_name }
+  abort_with("missing unique hosted #{platform} producer job") unless matches.length == 1
+  abort_with("hosted #{platform} producer job did not pass") unless matches.first["conclusion"] == "success"
+end
+
 def validate_receipt(path, platform, revision)
   receipt = JSON.parse(File.read(checked_path(path, "#{platform} receipt")))
   abort_with("wrong #{platform} receipt schema") unless receipt["schema"] == "adl.distributed_guardian.native_receipt.v1"
@@ -100,11 +145,12 @@ def validate_receipt(path, platform, revision)
   abort_with("#{platform} runner revision mismatch") unless runner["commit"] == revision
   abort_with("#{platform} runner identity mismatch") unless runner["identity_sha256"] == canonical_runner_digest(runner)
   if runner["provider"] == "github_actions"
-    %w[repository workflow_ref run_attempt].each do |field|
+    %w[repository workflow_ref run_attempt github_run_id].each do |field|
       abort_with("missing hosted #{platform} runner #{field}") if runner[field].to_s.empty?
     end
-  elsif runner["provider"] != "local_native"
-    abort_with("unsupported #{platform} runner provider")
+    validate_hosted_run(runner, platform, revision)
+  else
+    abort_with("full native matrix requires GitHub-hosted runner attestation")
   end
 
   provenance_path = checked_digest(

@@ -13,7 +13,10 @@ esac
 
 arch=$(uname -m | tr '[:upper:]' '[:lower:]')
 revision=$(git rev-parse HEAD)
-run_id=${GITHUB_RUN_ID:-"local-$(date -u +%Y%m%dT%H%M%SZ)-$$"}
+github_run_id=${GITHUB_RUN_ID:-}
+run_attempt=${GITHUB_RUN_ATTEMPT:-1}
+run_id=${github_run_id:+"${github_run_id}-${run_attempt}-${platform}"}
+run_id=${run_id:-"local-$(date -u +%Y%m%dT%H%M%SZ)-$$"}
 provider=${GITHUB_ACTIONS:+github_actions}
 provider=${provider:-local_native}
 python_bin=$(command -v python3 || command -v python || true)
@@ -39,6 +42,7 @@ protected=(
   adl-runtime/tests/distributed_guardian.rs
   adl/tools/validate_v092_distributed_guardian.sh
   adl/tools/validate_v092_distributed_native_receipts.rb
+  .github/workflows/wp04-native-distributed.yml
 )
 if [[ -n "$(git status --porcelain -- "${protected[@]}")" ]]; then
   echo "protected source must be committed before native proof" >&2
@@ -137,6 +141,7 @@ runner = {
     "repository": os.environ.get("GITHUB_REPOSITORY"),
     "workflow_ref": os.environ.get("GITHUB_WORKFLOW_REF"),
     "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+    "github_run_id": os.environ.get("GITHUB_RUN_ID"),
     "commit": revision,
     "provenance_path": relative(provenance_path),
     "provenance_sha256": digest(provenance_path),
