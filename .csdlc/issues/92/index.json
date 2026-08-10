@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "9aadcb11fc651831548184a5ee0475c99165fafe5ce67839891c93d5fc5fa9a3",
+  "generation": 20,
+  "digest": "2d4a23971d765a87574978ce00e6f47261bee2fed8b450f228bc37ede15158de",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "45059eb05982c0d7b17aae31fb22444ab1bc237472ac7e14a2088118d0677e15",
+      "values_digest": "84d35872654a2788a2a459b37c2b853a9cfabccb1dea161c861895652f7eeda3",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "13c1ea7572f9782b878c0d6e889023ddd6724ecce3cab63fc6d503f201e93395",
+      "values_digest": "2a40c4f706e955b17584187d775bbc640f1593b113f04b0f806515d83ec0e32a",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "67f24c0b3e91eaf31771ff86c3c548fb65a594d1208d98e96896acd94a086974",
+      "values_digest": "50a0a0d8eae7fd10ad484bd576c0c7ddc2a737070d3df4bfc696171c7224c736",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "cf56efc3afcbff9ae6236aa2c1a78ffa42fff5aedfe95ce2551dd01cec047fc8",
+      "values_digest": "403f004ba47ced0c06a22ff6ee566fad52728ec2e7c235d4f365eb105872533d",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "4a658d4d9fa897da3bd5f17a25c2f200f235028213f0e126c1f8bdc7072872d0",
+      "values_digest": "37e8303e7016913b0a8f5a230d782d424221b3d66dbcf5f49e3e7564da02acce",
       "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
       "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
     },
     "sor": {
-      "values_digest": "b3da3e97ce3a754b4fce186b36099e93e312216e1a61c87498b947cf4882f95b",
-      "rendered_digest": "28fee35e04fab0bbee8a5485e9e166ddb120c9b3eb0e7d63e4ba7f8ec83564d3",
-      "ast_digest": "70ef3c67b43204f5a719887746f3acfa955f20227a53735060886934fa7d8c32"
+      "values_digest": "ceeab7216380c86593ccaf6c93a931d1b3a824c55fe851f38c3493faab1e5208",
+      "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
+      "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
     }
   },
   "transitions": [
@@ -246,6 +246,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "Replace the deleted facade proof with the canonical kernel Observatory and exact production-binary ACIP proof lanes.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"axum-runtime-tls\",\"proof_role\":\"Prove shared Axum server TLS startup, DNS and chain validation, HTTPS control behavior, and bounded shutdown.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"webpki-certificate-policy\",\"proof_role\":\"Prove deterministic WebPKI acceptance of a CA-issued server leaf and rejection of expired, not-yet-valid, and clientAuth-only identities.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"tls::tests\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"observatory-wss\",\"proof_role\":\"Prove the canonical Axum Observatory WSS read/write authority, authentication rotation, revocation, binary-frame refusal, and ACIP separation.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"production-acip-wss\",\"proof_role\":\"Launch the exact production Runtime kernel binary with real TLS/WSS and prove distinct ACIP write authority, binary dispatch, replay and text refusal, and signed shutdown from producer-derived assertions.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\"],\"parallel_group\":\"runtime-tls\",\"defer_reason\":null},{\"lane\":\"guardian-quinn-mtls\",\"proof_role\":\"Prove Quinn remains the Guardian transport and shares the Rustls identity and trust policy without weakening mTLS.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\"],\"parallel_group\":\"guardian-tls\",\"defer_reason\":null},{\"lane\":\"protocol-mtls\",\"proof_role\":\"Prove provider and cloud protocol adapters require authenticated Rustls transport and reject unknown server and client authorities.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"protocol_adapters\"],\"parallel_group\":\"guardian-tls\",\"defer_reason\":null},{\"lane\":\"external-certificate-fixture\",\"proof_role\":\"Prove lifecycle setup consumes externally provisioned certificate, key, and trust roots without Runtime issuance or host trust mutation.\",\"acceptance_ids\":[\"AC-3\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"init_fixture_uses_externally_provisioned_tls\"],\"parallel_group\":\"contracts\",\"defer_reason\":null},{\"lane\":\"runtime-openapi-contract\",\"proof_role\":\"Prove the served production Axum route inventory, authenticated-frame schema, and binary ACIP WebSocket contract match the kernel implementation.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"contracts\",\"defer_reason\":null},{\"lane\":\"tls-contract-hygiene\",\"proof_role\":\"Prove the focused diff has no whitespace or conflict-marker defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"contracts\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Replace stale deleted-path proof with exact repaired implementation and focused validation truth at source revision 7c9f5bd5b.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Unified Runtime transport security around one TLS 1.3 Rustls/AWS-LC policy: Axum owns HTTP/HTTPS/WSS, Quinn alone owns Guardian QUIC, Runtime consumes externally provisioned CA-issued identities, and canonical ACIP admission is proved through the exact production kernel binary.\",\"changes\":[\"Deleted production self-signed issuance, local TLS bootstrap, reissue, and host trust-store mutation paths.\",\"Added one shared Rustls identity, CA-root, DNS, validity, usage, TLS-version, and AWS-LC provider policy used by Axum and Quinn.\",\"Kept Quinn solely for Guardian-to-Guardian QUIC and retained standard WebPKI mutual authentication before application authority checks.\",\"Made Runtime init declare externally provisioned Axum identity, trust roots, DNS identity, and a distinct ACIP write credential.\",\"Removed the duplicate facade ACIP listener and standalone ACIP OpenAPI document; the kernel Axum route and served OpenAPI contract are canonical.\",\"Added exact-production-binary ACIP/WSS proof with producer-derived assertions and issue-92 GitHub evidence paths.\",\"Reconciled operational, browser, Unity, API, and architecture documentation with external certificate ownership and no host trust mutation.\"],\"artifacts\":[\"adl-runtime-kernel/src/tls.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/support/tls-fixtures/\",\"infra/runtime-v3/runtime-init.toml\",\"docs/api/runtime-v3/v1/openapi.json\",\".github/workflows/wp14-native-acip.yml\",\".csdlc/prepared/issues/92/design.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"purpose\":\"Axum HTTPS startup, CA chain, DNS SAN, self-signed leaf, unknown CA, incomplete chain, key pairing, and bounded shutdown behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"23 passed at source revision 7c9f5bd5b\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"tls::tests\"],\"purpose\":\"Shared trust-root, leaf-as-root, certificate validity, usage, and CA key-signing policy.\",\"outcome\":\"passed\",\"evidence_ref\":\"3 passed at source revision 7c9f5bd5b\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"purpose\":\"Canonical Axum Observatory WSS authority, rotation, revocation, and ACIP separation.\",\"outcome\":\"passed\",\"evidence_ref\":\"7 passed at source revision 7c9f5bd5b\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\"],\"purpose\":\"Exact production kernel binary with real TLS/WSS, distinct write authority, binary dispatch, replay and text refusal, and signed shutdown.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 producer-derived proof passed at source revision 7c9f5bd5b\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\"],\"purpose\":\"Guardian Quinn mutual TLS, post-handshake identity binding, authorization, replay, revocation, and transport bounds.\",\"outcome\":\"passed\",\"evidence_ref\":\"14 passed at source revision 7c9f5bd5b\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"protocol_adapters\"],\"purpose\":\"Protocol-adapter standard mTLS and unknown-server/wrong-client authority rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"13 passed at source revision 7c9f5bd5b\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"init_fixture_uses_externally_provisioned_tls\"],\"purpose\":\"Runtime lifecycle consumes externally provisioned certificate, key, roots, and ACIP credential paths.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 passed at source revision 7c9f5bd5b\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"purpose\":\"Served Axum route inventory, authenticated ACIP frame schema, and binary WebSocket contract parity.\",\"outcome\":\"passed\",\"evidence_ref\":\"6 passed at source revision 7c9f5bd5b\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...7c9f5bd5b\"],\"purpose\":\"Exact committed source and lifecycle diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"clean at source revision 7c9f5bd5b\"}]}"
     }
   ]
 }

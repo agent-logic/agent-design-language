@@ -12,24 +12,29 @@ Status: pre_phase
 
 ## Summary
 
-Removed Runtime-owned local PKI and unified Runtime transport configuration around one Rustls policy, Axum HTTP/WSS, and Quinn Guardian QUIC, with externally provisioned certificate ownership and focused fail-closed proof.
+Unified Runtime transport security around one TLS 1.3 Rustls/AWS-LC policy: Axum owns HTTP/HTTPS/WSS, Quinn alone owns Guardian QUIC, Runtime consumes externally provisioned CA-issued identities, and canonical ACIP admission is proved through the exact production kernel binary.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/tls.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/production_acip_wss.rs
+- adl-runtime/tests/distributed_transport.rs
+- adl-runtime/tests/support/tls-fixtures/
 - infra/runtime-v3/runtime-init.toml
 - docs/api/runtime-v3/v1/openapi.json
-- docs/api/runtime-v3/v1/acip.openapi.json
-- adl-runtime/tests/support/tls-fixtures/
+- .github/workflows/wp14-native-acip.yml
 - .csdlc/prepared/issues/92/design.md
 
 ## Execution
 
-- Deleted production local self-signed issuance, bootstrap CLI, reissue, and trust-store mutation paths.
-- Routed Runtime HTTP/WSS through shared Axum/Rustls configuration with pre-bind WebPKI chain, validity, usage, and DNS verification.
-- Reused the shared Rustls policy for Quinn Guardian mTLS and protocol-adapter mTLS without changing Guardian authorization.
-- Aligned Runtime init, OpenAPI, proof scripts, HTML Observatory, Unity, and architecture documentation with externally provisioned certificate ownership.
-- Replaced duplicate hand-built Guardian proof launch logic with the existing production lifecycle runner.
+- Deleted production self-signed issuance, local TLS bootstrap, reissue, and host trust-store mutation paths.
+- Added one shared Rustls identity, CA-root, DNS, validity, usage, TLS-version, and AWS-LC provider policy used by Axum and Quinn.
+- Kept Quinn solely for Guardian-to-Guardian QUIC and retained standard WebPKI mutual authentication before application authority checks.
+- Made Runtime init declare externally provisioned Axum identity, trust roots, DNS identity, and a distinct ACIP write credential.
+- Removed the duplicate facade ACIP listener and standalone ACIP OpenAPI document; the kernel Axum route and served OpenAPI contract are canonical.
+- Added exact-production-binary ACIP/WSS proof with producer-derived assertions and issue-92 GitHub evidence paths.
+- Reconciled operational, browser, Unity, API, and architecture documentation with external certificate ownership and no host trust mutation.
 
 ## Validation
 
@@ -44,9 +49,23 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
       "--test",
       "control"
     ],
-    "purpose": "Axum HTTPS control, shared startup validation, and bounded shutdown",
+    "purpose": "Axum HTTPS startup, CA chain, DNS SAN, self-signed leaf, unknown CA, incomplete chain, key pairing, and bounded shutdown behavior.",
     "outcome": "passed",
-    "evidence_ref": "23 passed at substantive head c57892d0a"
+    "evidence_ref": "23 passed at source revision 7c9f5bd5b"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "tls::tests"
+    ],
+    "purpose": "Shared trust-root, leaf-as-root, certificate validity, usage, and CA key-signing policy.",
+    "outcome": "passed",
+    "evidence_ref": "3 passed at source revision 7c9f5bd5b"
   },
   {
     "command": [
@@ -58,9 +77,9 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
       "--test",
       "observatory"
     ],
-    "purpose": "Observatory WSS authentication and revocation",
+    "purpose": "Canonical Axum Observatory WSS authority, rotation, revocation, and ACIP separation.",
     "outcome": "passed",
-    "evidence_ref": "6 passed before review remediation; the Observatory TLS surface was unchanged by remediation"
+    "evidence_ref": "7 passed at source revision 7c9f5bd5b"
   },
   {
     "command": [
@@ -70,11 +89,11 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "protocol_adapters"
+      "production_acip_wss"
     ],
-    "purpose": "Protocol-adapter mutual TLS and authority rejection",
+    "purpose": "Exact production kernel binary with real TLS/WSS, distinct write authority, binary dispatch, replay and text refusal, and signed shutdown.",
     "outcome": "passed",
-    "evidence_ref": "13 passed at substantive head c57892d0a"
+    "evidence_ref": "1 producer-derived proof passed at source revision 7c9f5bd5b"
   },
   {
     "command": [
@@ -86,23 +105,9 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
       "--test",
       "distributed_transport"
     ],
-    "purpose": "Guardian Quinn mutual TLS and identity binding",
+    "purpose": "Guardian Quinn mutual TLS, post-handshake identity binding, authorization, replay, revocation, and transport bounds.",
     "outcome": "passed",
-    "evidence_ref": "14 passed at substantive head c57892d0a"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "runtime_api_wss"
-    ],
-    "purpose": "Runtime WSS, ACIP contract, and certificate rejection matrix",
-    "outcome": "passed",
-    "evidence_ref": "5 passed at substantive head c57892d0a"
+    "evidence_ref": "14 passed at source revision 7c9f5bd5b"
   },
   {
     "command": [
@@ -111,12 +116,12 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
       "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--lib",
-      "tls::tests::server_identity_validation_rejects_time_and_usage_failures"
+      "--test",
+      "protocol_adapters"
     ],
-    "purpose": "Expired, not-yet-valid, and unsuitable server-auth certificate rejection",
+    "purpose": "Protocol-adapter standard mTLS and unknown-server/wrong-client authority rejection.",
     "outcome": "passed",
-    "evidence_ref": "1 passed at substantive head c57892d0a with a fixed 2030 verification time"
+    "evidence_ref": "13 passed at source revision 7c9f5bd5b"
   },
   {
     "command": [
@@ -129,9 +134,9 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
       "adl-runtime-lifecycle-soak",
       "init_fixture_uses_externally_provisioned_tls"
     ],
-    "purpose": "External certificate lifecycle fixture",
+    "purpose": "Runtime lifecycle consumes externally provisioned certificate, key, roots, and ACIP credential paths.",
     "outcome": "passed",
-    "evidence_ref": "1 passed at substantive head c57892d0a"
+    "evidence_ref": "1 passed at source revision 7c9f5bd5b"
   },
   {
     "command": [
@@ -143,19 +148,20 @@ Removed Runtime-owned local PKI and unified Runtime transport configuration arou
       "--test",
       "openapi_contract"
     ],
-    "purpose": "Production Axum route and binary ACIP OpenAPI parity",
+    "purpose": "Served Axum route inventory, authenticated ACIP frame schema, and binary WebSocket contract parity.",
     "outcome": "passed",
-    "evidence_ref": "6 passed after review remediation"
+    "evidence_ref": "6 passed at source revision 7c9f5bd5b"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...7c9f5bd5b"
     ],
-    "purpose": "Focused diff hygiene",
+    "purpose": "Exact committed source and lifecycle diff hygiene.",
     "outcome": "passed",
-    "evidence_ref": "git diff --check passed after review remediation"
+    "evidence_ref": "clean at source revision 7c9f5bd5b"
   }
 ]
 
