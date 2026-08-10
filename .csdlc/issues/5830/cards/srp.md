@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/cognitive_profile.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/cognitive_profile.rs
+adl-runtime-kernel/tests/fixtures/cognitive_profile
+docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
+.csdlc/prepared/issues/5830/produce-native-receipt.rb
+.csdlc/prepared/issues/5830/validate-native-receipts.rb
+.github/workflows/wp13-native-cognitive-profile.yml
+.csdlc/evidence/5830
+.csdlc/issues/5830
 
 ## Prompts
 
