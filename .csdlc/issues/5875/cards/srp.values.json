@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.13] Migration state machine",
     "slug": "v0-92-wp-04-13-migration-state-machine",
     "version": "v0.92",
-    "generation": 19
+    "generation": 22
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/migration.rs\nadl-runtime/tests/distributed_migration.rs\n.csdlc/evidence/5875",
-      "review_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
+      "review_scope": "adl-runtime/src/distributed/migration.rs\nadl-runtime/tests/distributed_migration.rs\n.csdlc/evidence/5875\n.csdlc/issues/5875",
+      "review_revision": "git-blake3:85c4023c5fdd0776177b3dc87adbdd203cf8c375:778d772d22b56bc27032efc48c7271c61293f255489ea48e9d97b98237e63c46",
       "reviewer": "codex:independent-5875-exact-head-review",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
@@ -22,38 +22,7 @@
         "Are receipts exact-revision and digest bound?",
         "Does rollback restore one authoritative owner without weakening security?"
       ],
-      "findings": [
-        {
-          "id": "5875-review-crash-recovery",
-          "severity": "p1",
-          "summary": "Journaled state and checkpoint updates require crash-safe ordering and restart reconciliation.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
-          "route": null
-        },
-        {
-          "id": "5875-review-live-authority-retry",
-          "severity": "p1",
-          "summary": "Authority-phase exact retries must revalidate the current ledger and fencing floor.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
-          "route": null
-        },
-        {
-          "id": "5875-review-timeout-rollback",
-          "severity": "p2",
-          "summary": "Execution expiry must reject normal transitions while preserving bounded authenticated pre-fence rollback.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [
         "Production module registration remains intentionally owned by integration issue #5878."
       ],

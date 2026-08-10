@@ -8,13 +8,14 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
 adl-runtime/src/distributed/migration.rs
 adl-runtime/tests/distributed_migration.rs
 .csdlc/evidence/5875
+.csdlc/issues/5875
 
 ## Prompts
 
@@ -25,38 +26,7 @@ adl-runtime/tests/distributed_migration.rs
 
 ## Findings
 
-[
-  {
-    "id": "5875-review-crash-recovery",
-    "severity": "p1",
-    "summary": "Journaled state and checkpoint updates require crash-safe ordering and restart reconciliation.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
-    "route": null
-  },
-  {
-    "id": "5875-review-live-authority-retry",
-    "severity": "p1",
-    "summary": "Authority-phase exact retries must revalidate the current ledger and fencing floor.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
-    "route": null
-  },
-  {
-    "id": "5875-review-timeout-rollback",
-    "severity": "p2",
-    "summary": "Execution expiry must reject normal transitions while preserving bounded authenticated pre-fence rollback.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875",
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -68,7 +38,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:616b007b986cffeae92444e62382685b4a3c83c5:1ff8950debdf8c385d78f8567c3a82ad1f39dbdf8b19d8044852bd14f8d74875")
+Revision: Some("git-blake3:85c4023c5fdd0776177b3dc87adbdd203cf8c375:778d772d22b56bc27032efc48c7271c61293f255489ea48e9d97b98237e63c46")
 
 Reviewer: Some("codex:independent-5875-exact-head-review")
 

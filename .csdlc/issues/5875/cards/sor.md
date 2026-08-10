@@ -65,11 +65,11 @@ Implemented the bounded durable distributed migration state machine with authori
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
