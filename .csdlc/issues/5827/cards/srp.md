@@ -45,12 +45,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Republish the exact reviewed workflow repair and require a replacement exact-head Linux/macOS/aggregate run to pass before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9965dd19fc95ea561cc791915ceed5d937242b4f:6cd9cb64e4541d1e1545dc1da3d69d19349b55b74cc038a8bee13f3c9b89ee3c")
 
-Reviewer: None
+Reviewer: Some("/root/review_5827_native_final")
 
-Result: pre_review
+Result: pass
