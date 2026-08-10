@@ -41,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Typed publication re-observation and terminal green checks at the final metadata head remain mandatory before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c2c4c275d89501a9e8d81a8ee595ae76d5892c48:08c85d180df1d3b7fa2e903adf47685aa1fa0a8aeada7ae1465d28f8cd8ec754")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5833_exact_head")
 
-Result: pre_review
+Result: pass
