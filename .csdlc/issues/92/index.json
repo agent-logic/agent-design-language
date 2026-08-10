@@ -4,35 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "published",
-  "generation": 22,
-  "digest": "f0ba1b3143495e69684786e3f99555d37e81f0c379c0e876031fec8a01931f43",
+  "phase": "implemented",
+  "generation": 23,
+  "digest": "b4c9fad6b539017cce7b8ba70f1a815c71cca05eb296f62b0e9ed457973bf028",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
-  "review": {
-    "reviewer": "Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:e58b28ce8a3f937fcece1ef9db1c68d20b9e4a33:6e26f6f6ef89ad5d44eaa3c1d127b6fc282623c42ee1a9e9f10ecd9e27c5b0ff",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 92,
-    "pull_request": 98,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/98",
-    "base": "main",
-    "head": "codex/92-runtime-tls-standardization",
-    "revision": "git-blake3:072bb2998a102106ea8a3a5829ade934a16920ad:4300da6371d5430bee77a397aaff63445f06b2c1c59669c10d4422c8a903eee3",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -46,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aac03395dd367282dad7b209bddbf854ca5fed72967a43a4f270a08c39d112b1",
+      "values_digest": "2a7d7d54e7c7e2b6feb1ccc740f816ea1c804a317c5daf7240e51305f4857642",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "a22776df5bf9e4f01c88044d654aa1b7d713a6a02591750f2b68e063ad3eccd4",
+      "values_digest": "a7cf25ea61dbbf7fa0587dbf69de2fe17932cb61de6796fc181ee6deb1915637",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "f3d79dec4302b5cea76d1fa9f6c54bc5ad7734d54429d18d0bf1486223a0f776",
+      "values_digest": "2a2d90d8a06c650990d7986e240806c85e96b0dfd21303359b79397c2b8af7ab",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "b45d1c47a6d8929993aec8fd9d6a924b58c77b7a1c5773b8668270acef637474",
+      "values_digest": "59156ac943d48d6b4b02f917f177e860c76fcf57d8d5c75df59b3af77b1540c6",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "47c3f486802cd25ef0c96d8544203ed2e71686e3ea11bc47f6dd961380136b98",
-      "rendered_digest": "f183183d3d1f30841faac08b2490cdfcbd807a329a38ffc0dea0e4612cf87e37",
-      "ast_digest": "518174fc32e4b293dbcaa1228d11fd97188d0286f253f85f56fa461e64f0582f"
+      "values_digest": "7487dd8cd3bac580c8d6d2d8fbc6d7d1a25a18b3381ca14836dc3f57998fec6b",
+      "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
+      "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
     },
     "sor": {
-      "values_digest": "0ffce0cfd4a075580ace52f61896cb2bc9ecc2e0b78f4d518dbea79584e59e34",
-      "rendered_digest": "a7e7e04e3d8dc0f477b7b79a4a51d1b5515f3925f2dce54c5ac9b6f3c3a780b1",
-      "ast_digest": "7fd70e885f9db5d7a6ef14d74f9c254c5e0a95f902c94eea155230d3581988c7"
+      "values_digest": "54c5235c1c8c6ecf4623ee53b94dbe4c1af93605bb84e835192cd820bacdab2e",
+      "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
+      "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
     }
   },
   "transitions": [
@@ -132,6 +111,13 @@
       "to": "published",
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover review and publication truth after CI exposed one rustfmt-only change in the ACIP OpenAPI regression assertion."
     }
   ],
   "audit": [
@@ -302,6 +288,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "Recover review and publication truth after CI exposed one rustfmt-only change in the ACIP OpenAPI regression assertion.",
+      "operation": "recover_review"
     }
   ]
 }

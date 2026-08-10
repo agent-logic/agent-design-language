@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-.
+
 
 ## Prompts
 
@@ -36,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:e58b28ce8a3f937fcece1ef9db1c68d20b9e4a33:6e26f6f6ef89ad5d44eaa3c1d127b6fc282623c42ee1a9e9f10ecd9e27c5b0ff")
+Revision: None
 
-Reviewer: Some("Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3")
+Reviewer: None
 
-Result: pass
+Result: pre_review
