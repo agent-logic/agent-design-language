@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/cognitive_profile.rs
+adl-runtime-kernel/tests/cognitive_profile.rs
+adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs
+docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
+.csdlc/prepared/issues/144/produce-native-receipt.rb
+.csdlc/prepared/issues/144/validate-native-receipts.rb
+.github/workflows/wp13-authority-repair.yml
+.csdlc/evidence/144
+.csdlc/issues/144
+Review the opaque runtime-owned authority establishment boundary, canonical policy/evidence pins, full genesis lineage replay, old-key-governed rotation, public API non-construction boundary, exact filtered native inventory, retained evidence bindings, and truthful lifecycle claims. Explicitly attempt replacement of both attacker root and proof; verify no caller-controlled trust root is accepted.
 
 ## Prompts
 

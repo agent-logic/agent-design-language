@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/tests/cognitive_profile.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\ndocs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\n.csdlc/prepared/issues/144/produce-native-receipt.rb\n.csdlc/prepared/issues/144/validate-native-receipts.rb\n.github/workflows/wp13-authority-repair.yml\n.csdlc/evidence/144\n.csdlc/issues/144\nReview the opaque runtime-owned authority establishment boundary, canonical policy/evidence pins, full genesis lineage replay, old-key-governed rotation, public API non-construction boundary, exact filtered native inventory, retained evidence bindings, and truthful lifecycle claims. Explicitly attempt replacement of both attacker root and proof; verify no caller-controlled trust root is accepted.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
