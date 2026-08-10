@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5826,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
-  "phase": "initialized",
-  "generation": 57,
-  "digest": "43fc57d1f554ae195ae71a418e057e8bfa7d825875cfd8eb90a4d38869b3d24f",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 61,
+  "digest": "5d720f20923682c1475d6d9366f9ce7c66d65acf96b02c0f1bc7df127ed55c8a",
+  "branch": "codex/5826-birthday-identity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5826-birthday-identity",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -18,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/5826/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "808598da005814fe2c5ec62495819b60cdac1d328a0611562a1126a4902fe297"
+      "reviewer": "operator:sprint4-green-pr",
+      "revision": "57ed587dacdd292837d1a80a202d8ff7800a5aa3da079adc56291be3d1619a75"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "2ca8a102ba4ceb25ce29c716bae669b40b9f83893ca8ce3fa0dd12b88fa2d4cc",
-      "rendered_digest": "4d6883dc887631fca3e3cc56735a43aa8d4e52499d6a201bdb17b9872178282b",
-      "ast_digest": "9f49fdd6b50b3ed26db9a41e22370c5568a5d071bec8fef8b05e8c5251fd9c6d"
+      "values_digest": "51dfea3d97190a712015afa0c1375fbfc91f4246d9e712ce628e7b4aeecc4d70",
+      "rendered_digest": "c0780ba2d530639201fb2dea45daa3f40889f7adfda4e8269ee1c09b352125de",
+      "ast_digest": "36105e01ff58d5b651b7116e069042038bf69235460de95d1629fe1f3382cd01"
     },
     "stp": {
-      "values_digest": "c24f47351693dfd592061e8632fa5013b805a5ce13989b99d784e7c924a58e1d",
-      "rendered_digest": "64c5bccf8042915ff482cb4696168dea7e3aca05e2d6fdc54a7f5aaccf2c2614",
-      "ast_digest": "d326a66a848947163a180a7d1e8c0e08d6b572f1ba38aa3c7d77ae1211a18ae4"
+      "values_digest": "bfa052db846dabbeea357d2f1bd4f6718fa14a0f585f77f8b06083f220419080",
+      "rendered_digest": "178ef42ba8c66afb3f5884ffe4bea230a143259f0264081e88348aa83e76bc0e",
+      "ast_digest": "9660286fa50d76b5276159ba4187332929e1037257418f0e75fec7331c60086b"
     },
     "spp": {
-      "values_digest": "52dc31b794883b218692e353cb413481c8e2025e2cc135df43ed1bec175f7e0f",
-      "rendered_digest": "32a5e42a026eb12e19315c7359f82f9a3f098835acb29842446330810d1842fb",
-      "ast_digest": "0e4471a6864f68cc2762ff4492cbd2da9d25a6b24d1e7be3bd5bb6d0404e7449"
+      "values_digest": "12d031f3fc2c560cf79d86b72ca0ef5150e03297790d410b1f83365416d9f7a7",
+      "rendered_digest": "bf9786fd8d93f6ece4f9e9dd20553e89efa6e253b1c9ac281bd72b5073b898e3",
+      "ast_digest": "72766eba811a24013346ebfed761aa65238054381d2f3c441c65a123c215587e"
     },
     "vpp": {
-      "values_digest": "12b40a031db1d19f829309851cfe7dc6b028a473fd30d2e01806d91be05b576f",
+      "values_digest": "51f7c4bd2d0d625e32059666571b5b5513274abc1602288dadcc44bedfa42cb1",
       "rendered_digest": "0199d4a09d98bec05128feb31510eba1511caa76ef43e4fad8c3b474559e70b8",
       "ast_digest": "856ea05048e3eee472e2c5aeae2beeca31444c8c50323db393a38d7b31c800c9"
     },
     "srp": {
-      "values_digest": "30023d6d702ab1c230bcb290cc1a460f705ba23064d2a4da6effb86af54fe0dd",
+      "values_digest": "1c0fd7e6de5bd0d9d6251440247b861997e8d5d73a0f95d792315a3598255756",
       "rendered_digest": "f0e9b963f02bbd8867ff6ecc4de02958433c3ddfaaf01c327402594a46d267dc",
       "ast_digest": "65f6b23f51b9fa521a69b132fb0c73f834514dcf3ee2be2ebd378966acae6071"
     },
     "sor": {
-      "values_digest": "8b3f948d8b08017b8fde360facceb63fa4274524583c9ee505fc8dbf35450c1f",
+      "values_digest": "959f960243db3893f1dc300bf695687b229d4f9f64bd4d15802971f8d1afb5a2",
       "rendered_digest": "73285c147df2070352a736b49dc7cc813558574b83098912c14f34893ea55a9a",
       "ast_digest": "bfc21804e100d80c16cdcb8e3e07b883c104866725478b9e1cc69a392af6a002"
     }
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -630,6 +645,41 @@
       "actor": "codex:sprint4-readiness-repair",
       "reason": "Represent the future fixture directory for #5826 as bounded proof prose so only the missing exact Rust test target is bind-safely deferred.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"Focused deterministic root, canonicalization, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 80,
+      "generation": 57,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 81,
+      "generation": 58,
+      "actor": "operator:sprint4-green-pr",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 82,
+      "generation": 59,
+      "actor": "codex:5826-native-proof",
+      "reason": "Declare the smallest WP-09-specific workflow surface required to produce mandatory exact-head native macOS and Linux receipts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826/\",\".github/workflows/wp09-native-birthday-identity.yml\"]}"
+    },
+    {
+      "sequence": 83,
+      "generation": 60,
+      "actor": "codex:5826-native-proof",
+      "reason": "Add the narrowly issue-specific native workflow as the exact AC-8 deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\".github/workflows/wp09-native-birthday-identity.yml\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"Focused deterministic root, canonicalization, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 84,
+      "generation": 61,
+      "actor": "codex:5826-native-proof",
+      "reason": "Track the narrow WP-09 native receipt workflow in the operative issue-local plan.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\".github/workflows/wp09-native-birthday-identity.yml\"]}"
     }
   ]
 }

@@ -23,6 +23,7 @@ Deliver only the WP-09 stable-name and identity-root contract, validation fixtur
 - .csdlc/prepared/issues/5826/validate-native-receipts.rb
 - .csdlc/prepared/issues/5826/produce-native-receipt.rb
 - .csdlc/evidence/5826
+- .github/workflows/wp09-native-birthday-identity.yml
 - Complete canonical identity, alias, provenance, collision, substitution, disclosure, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_identity/
 - Focused deterministic root, canonicalization, privacy, and negative tests
 - Digest-bound native macOS and Linux exact-revision proof

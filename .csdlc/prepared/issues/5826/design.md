@@ -14,6 +14,7 @@ Define the WP-09 identity record from `docs/milestones/v0.92/features/IDENTITY_S
 - `.csdlc/prepared/issues/5826/validate-native-receipts.rb`
 - `.csdlc/prepared/issues/5826/produce-native-receipt.rb`
 - `.csdlc/evidence/5826`
+- `.github/workflows/wp09-native-birthday-identity.yml`
 
 ## Read-Only Inputs
 

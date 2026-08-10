@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 57
+    "generation": 61
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 20,
+      "plan_revision": 21,
       "summary": "Implement and prove WP-09 canonical identity records with stable labels, immutable root authority, provenance, and redaction-safe negative handling.",
       "steps": [
         {
@@ -67,7 +67,8 @@
         "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
         ".csdlc/prepared/issues/5826/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5826/produce-native-receipt.rb",
-        ".csdlc/evidence/5826"
+        ".csdlc/evidence/5826",
+        ".github/workflows/wp09-native-birthday-identity.yml"
       ],
       "invariants": [
         "Stable name never substitutes for identity root authority.",
@@ -98,7 +99,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5826-identity-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"],\"issues\":[5826,5843],\"order\":[5826,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5826/design.md",
-      "design_digest": "808598da005814fe2c5ec62495819b60cdac1d328a0611562a1126a4902fe297",
+      "design_digest": "57ed587dacdd292837d1a80a202d8ff7800a5aa3da079adc56291be3d1619a75",
       "diagram_ref": ".csdlc/prepared/issues/5826/diagram.mmd",
       "diagram_digest": "d5cc198edc4895057317ca54fe8aa3c676496c00d23ba4718aa88f17ac266f58"
     }
