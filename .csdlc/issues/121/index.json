@@ -3,50 +3,14 @@
   "issue": 121,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
-  "phase": "published",
-  "generation": 11,
-  "digest": "ceeddebc9e0eda0d44dc83fc88bf083da0d7ff6dc2c32f50e53009d685d28083",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "2dbbace613c451415205c73be3fa3e29f2c9207bdf182cf35fb00e4cb0234aef",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
-  "review_assignment": {
-    "reviewer": "subagent:issue-121-stack-refresh-review",
-    "assigned_by": "codex:121-stack-refresh",
-    "revision": "git-blake3:1e6d7169a197bfff79c8cd0514977ecd76a28bce:6edd6bd5b3c6b6a28479d15ee475b59f6d669f25021447897fdf1a7fe8cebb9c",
-    "scope": [
-      "adl-runtime/src/distributed/lease.rs",
-      "adl-runtime/tests/distributed_lease.rs",
-      ".csdlc/issues/121",
-      ".csdlc/evidence/121",
-      ".csdlc/prepared/issues/121"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue-121-stack-refresh-review",
-    "scope": [
-      "adl-runtime/src/distributed/lease.rs",
-      "adl-runtime/tests/distributed_lease.rs",
-      ".csdlc/issues/121",
-      ".csdlc/evidence/121",
-      ".csdlc/prepared/issues/121"
-    ],
-    "reviewed_revision": "git-blake3:1e6d7169a197bfff79c8cd0514977ecd76a28bce:6edd6bd5b3c6b6a28479d15ee475b59f6d669f25021447897fdf1a7fe8cebb9c",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 121,
-    "pull_request": 123,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/123",
-    "base": "codex/5909-lease-authority-defect",
-    "head": "codex/121-quorum-fence-restart-safe-epochs",
-    "revision": "git-blake3:654d75c7f912c89e653b584f1ac88d32fb441cf9:384853dfa333da7c0436bfb69502158cfbad27f2153a9bc5fa70924bec8ac6ad",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -60,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16639274216ac63479e4e9ad89247571bd0e840504c797f54fbacd05562bbac3",
+      "values_digest": "c0b2f7de91dafdc0b32fafd44d88b802922d413623e3ccfe2604539753ab8bfe",
       "rendered_digest": "b8fb383ef2efb210c1835ca5caa89f1a1b57945dcebe86833449c7d703300088",
       "ast_digest": "28d9d9764b5edc0763207de94cd4120e324f83e10e24c0304a04532ae39f8c24"
     },
     "stp": {
-      "values_digest": "c10e22e808575a00d0cd14618a20bf7997d4b74d25d915a083eff0f87f2ca06c",
+      "values_digest": "5de06bf7e97edc8888d5f5e7bccf3223caa6c8bcefa6777b16418769159ba325",
       "rendered_digest": "f59864e9168036e26931bd53b0fa4976f089bdb8c611728396088f87cc245bbd",
       "ast_digest": "1c4fa5956407020683ec31dbeeae560ac39e71c279fc303cd8d51f75cebbe11e"
     },
     "spp": {
-      "values_digest": "35f60d3080e5319c128c8f5416c0363b06e1432cb91fb11a10252a795374f162",
+      "values_digest": "0a66a654cb58de1bceeff7b1f6ca54589af673a670afa4412d2d75ad355ee19f",
       "rendered_digest": "25c70ab7a3a48bc4a99573138db5e45486c0e6e5026dee29efc0bf6f980ddfdb",
       "ast_digest": "d83f34dc5520914cea7b2f269e56d31196579bab949d0ef825532862fef2e068"
     },
     "vpp": {
-      "values_digest": "212ff3344cc0ed666121b6dfcda515dd474359639de4618e79629c1050d83cfc",
+      "values_digest": "48836c0016261f783c28a3c475cdc41d48dcc240108075fe860faa4f3a4a9c59",
       "rendered_digest": "475d39da1386ca2c4ec1f149b6ef6bfcfb336559e45dbe29734d3ac5b8e76b09",
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "6c8d8238b7c475d61cb0b213cd67015e1e2d4700abacd2b92d753147eca07032",
-      "rendered_digest": "d99b43316bb0ab17d53b172d4de54700c6cc4c57443e0600913ab1ef00e24a7a",
-      "ast_digest": "2840a87dca5aaa2ac26ca9a7abe3a0a681ad5c6046f703b83605b170766f99f7"
+      "values_digest": "9b4317433303138cd7e408f33ccdfde3df9ca03061a9d8c6976b3e5669c9cc48",
+      "rendered_digest": "1f8484cd4c7e065f65a5a544f7834ee0ac190e5734983b75e6bae136bc4980d8",
+      "ast_digest": "57f89ed9924e3742a3f26a1f510697c5bdcb8771810f4127645b62daabdcb36e"
     },
     "sor": {
-      "values_digest": "b5e7bac60c11622c8fe6e82bcdecabe7865fdc48268a99ef1bf77055647dcc55",
-      "rendered_digest": "82505fb1b0f1658e4802ab7723144ca63ebf2517dc883f0ab61779b74c8846e5",
-      "ast_digest": "e7ad5407968b614e39f9da49cf0f1425261f64092c937cf0df2a56103a15535c"
+      "values_digest": "799bf27a9358c4184756353a420fd06e2fe9c26a1f8425443570de816e8aaf44",
+      "rendered_digest": "18279efdcd52712ff24202a13ed748cca211a0fb932c56e5cc512a99c6b45aff",
+      "ast_digest": "695ab9273bc2bad6cecba25ab0caa43e8729a092961efd85df3ece51a120f767"
     }
   },
   "transitions": [
@@ -174,6 +138,13 @@
       "to": "published",
       "actor": "codex:121-stack-refresh",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "Recover stale review and publication truth before rebasing the merged parent stack onto main and repairing fail-closed successor overflow semantics."
     }
   ],
   "audit": [
@@ -302,6 +273,13 @@
       "actor": "codex:121-stack-refresh",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "Recover stale review and publication truth before rebasing the merged parent stack onto main and repairing fail-closed successor overflow semantics.",
+      "operation": "recover_review"
     }
   ]
 }

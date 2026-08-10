@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/lease.rs
-adl-runtime/tests/distributed_lease.rs
-.csdlc/issues/121
-.csdlc/evidence/121
-.csdlc/prepared/issues/121
+
 
 ## Prompts
 
@@ -40,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:1e6d7169a197bfff79c8cd0514977ecd76a28bce:6edd6bd5b3c6b6a28479d15ee475b59f6d669f25021447897fdf1a7fe8cebb9c")
+Revision: None
 
-Reviewer: Some("subagent:issue-121-stack-refresh-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

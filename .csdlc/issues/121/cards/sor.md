@@ -75,11 +75,11 @@ Implemented majority-authorized next-epoch fencing with operation-sensitive poss
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
