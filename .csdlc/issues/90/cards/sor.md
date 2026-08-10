@@ -77,6 +77,19 @@ Implemented a typed, audited recovery transaction that fills an absent code_repo
     "purpose": "Prove warning-free source and test integration after formatting verification.",
     "outcome": "passed",
     "evidence_ref": "local FastWork run: completed without warnings"
+  },
+  {
+    "command": [
+      "csdlc-install",
+      "install",
+      "--repo",
+      "<issue-worktree>",
+      "--destination",
+      "/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2"
+    ],
+    "purpose": "Prove the clean exact head installs into an isolated generation directory and the installed csdlc-issue exposes migrate-code-repository --request.",
+    "outcome": "passed",
+    "evidence_ref": "/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2/install-receipt.json; source_revision git:9041657e7ebcbc3e2bd2f1cdba3028d769e84dad"
   }
 ]
 

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f2456d9ca38b68c47da3bd9cd29d109b2467a93decc35f60f651495ac3094029",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "9f3090c16f2cf0cedab101a74665a7168f5e9fa0b52982bc2860e5ed6d84880b",
+  "generation": 11,
+  "digest": "5b5bcb7f6e75bc7812874b0ce17061e7a5aeffee8775f81649b36e827f942d4e",
   "branch": "codex/90-code-repository-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-90-code-repository-migration",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "54c5e62102558d24e799b88413636c102591ea1b6127a8ccf7aee5c98fad0aff",
+      "values_digest": "f53d272fcc27ab4fb9a124b6e3ce6a0f96479d863b2d7ac7f140f9c5218bbf42",
       "rendered_digest": "b058026d2c9dfb4c304588a9861589f15894e37f76f85599edf01695d3ead0bf",
       "ast_digest": "a02e6dfe1d8f56f6c21e87c0ccce41d0edec56946db65283099b60045269770c"
     },
     "stp": {
-      "values_digest": "df702a74dac844071477eb9fc4f34086146dbc2a4e8e5dac18f9b22efe859e83",
+      "values_digest": "a0e6ce529b75b04ce2c7d0a4101f02c82cb4357153561e2740536c4ec4f6637c",
       "rendered_digest": "254224ff59f2c74deca622d847d17ac011229cc042bdbaa6bd5e7dddb5595ffe",
       "ast_digest": "ff287f3162ea010d16b6cb6ffc414ce4951c32f911f9bbc12869fe7d4c903201"
     },
     "spp": {
-      "values_digest": "b0497957005b36f9671aaebbaff8f9e255ddbd84e27a0ac12190e59e5281531b",
+      "values_digest": "993e80284d38618013eaaa98f1a88b0e1b4c9318d0ea919af0b98b254ab91f1d",
       "rendered_digest": "1b514b59d9da119863c80d8b3803724745be9a0e4f111bb3a6383344a5283289",
       "ast_digest": "c1e8a3c7dfa1a599795617c28bc4bc9eee311c4293fb25d640f8f54a3e4f323e"
     },
     "vpp": {
-      "values_digest": "f9bd0b9f7a0b144b2930917c1e14730078b768fc34282b6838d343dc58dfe70c",
+      "values_digest": "721cea00e1575468ed0658926b443cb836fd753b7312752ab0edc906347c2bd2",
       "rendered_digest": "0d09e5d18302086d8a5840bcdf174ad7c4ab4e21037b8365f1e7256ccbe3dd0c",
       "ast_digest": "289a49dbabcedb8010031587193a0ed5080e2d190e1747fcb90056603f29af16"
     },
     "srp": {
-      "values_digest": "1dc218dd8f0d01f8a8d4d7e6ac714d60d9408198d642e2e12c5e62963b22e22f",
+      "values_digest": "48d0d9f8ec58f91983a1bc9c9fa3337be2daf1421a8604bdad023e36a27f0f09",
       "rendered_digest": "cd9a16c6bc7e780626cf3276c06aa8f72c612a8186c8557bbf3cb104e2d5ec75",
       "ast_digest": "90148e2d36e86fb3258734c9bf9a75dff5a81854a558eea033b4f723d70a7170"
     },
     "sor": {
-      "values_digest": "bfc8d9661b1e610fd3e937c27e049e21a5c9c506977a3b0349df1dc79ee73f17",
-      "rendered_digest": "612795da45ab50dcdd918edfd1e4e94180922db660551352b31459771b261f9c",
-      "ast_digest": "ecb7995f58bce6d7d9ea570afedbe5782080d659475c3be08b30d15bedbf86e9"
+      "values_digest": "c8d5f899b6297e66555ace598e8278c72e372a178f8305f13b2636cbcc458ca5",
+      "rendered_digest": "273e073ba4de3206fd4e3e4ae8403199715815d7c8ab82bb1924a3ee84354ff5",
+      "ast_digest": "e9c9a8d51dcf723fc9ac9ae8e0c261ea5b4893f73f840cb6f71bf1dd8d4f45d7"
     }
   },
   "transitions": [
@@ -161,6 +161,13 @@
       "actor": "codex:issue-90-code-repository-migration",
       "reason": "The bounded migration command, audit evidence, operator guidance, focused tests, split-authority regression, and strict quality proof are complete; enter implemented review state.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Record isolated repo-native installed-command smoke proof from clean implementation head 9041657e7.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-install\",\"install\",\"--repo\",\"<issue-worktree>\",\"--destination\",\"/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2\"],\"purpose\":\"Prove the clean exact head installs into an isolated generation directory and the installed csdlc-issue exposes migrate-code-repository --request.\",\"outcome\":\"passed\",\"evidence_ref\":\"/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2/install-receipt.json; source_revision git:9041657e7ebcbc3e2bd2f1cdba3028d769e84dad\"}}"
     }
   ]
 }
