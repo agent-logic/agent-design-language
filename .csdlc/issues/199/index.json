@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "a580029a34161e2682e14450ff26134b6c387efc6ddb14f8ad87b2f9225a5dc7",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "9b030c860602947b6c63a196634afab756d8e35eb93011b094748002807c047c",
+  "generation": 1,
+  "digest": "b51f54a743ce9677c2cf03556e204cde57730b930940acdd4fd5a4b217819c34",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "ac68d162bddbd866576cd8fdbaba6c5281b53362fe5b50c1bd1f2688e97dc6f2",
+      "values_digest": "e8b68f943e93a700e75465294a4a12ead8c1dda76afc827740f858517f8eb1a8",
       "rendered_digest": "cccc5eca036444e5b505c6658dcaf57f08a74e3cd0631fc1bf5ea3b7d47f4edd",
       "ast_digest": "f29c994454fc2547a27306701aefb221efe3b97d9a25882a6a026954acb54116"
     },
     "stp": {
-      "values_digest": "0711b48a2ceb0342bbd4b6312d34e932c28025f8cc802fba93564684d19e631b",
+      "values_digest": "e0b43d879be1a966c01812aa8c57918a7bf48571ed57280822eb40e8609ba68b",
       "rendered_digest": "9f0074c5a9ce4bd86e5b7603805d5e347cc86f1392e6dbf4d31c131ebc32803c",
       "ast_digest": "87156afbcbd220362d1295b874bfd3b25f3110c9e485113d072d45b7d1296240"
     },
     "spp": {
-      "values_digest": "9aca39400db03537898ec33dff558ea61e8d6c61416dc9d57e20d13b287e08b4",
+      "values_digest": "b76c73307a2e2c12d793530473cc4bf42a35a822931ea30df530360068a0df7d",
       "rendered_digest": "0bfc1fb4fe6baa10cd71201c83427b9fb401aacd19cc89cdd6c9e416fae56c87",
       "ast_digest": "6c552ca92d0cafe1a9ed08ceeb6954863a2aaa40550f098de740d235660c331d"
     },
     "vpp": {
-      "values_digest": "9d81bccb466cda1787c1575540ef251bbdaf386ce0f41d1bb8b2c2f204a1c9f2",
-      "rendered_digest": "3f75a071d63cd858d06a781e9248e2b58538c6b573dee942287388095d54e877",
-      "ast_digest": "61c4f796a55c3dc7b9ff754b323cd4509b4526ec5a46163034cd85e547b2575d"
+      "values_digest": "5fc53813b747a282467b33b8cd99285bfa10fa8bfea5ce0ad40c7cdaeba2667d",
+      "rendered_digest": "1121742999fae9d9cddd6c8cd828d6c24a87e66b012c7a1aa17fdd3da14b4f02",
+      "ast_digest": "e2bed2ffd8614e175a973ea256952b2cd6b360d3aefe1bbde11f50201b491863"
     },
     "srp": {
-      "values_digest": "8fd8ef0e0b9e8b4af5836374e0bb6e9397c33203e31975b95b98796cf774a860",
+      "values_digest": "5279905934dec7fdef48c5ccff614894edcf5256d4ec0bc7757273779c03fbd2",
       "rendered_digest": "5b82b84c1ccb069529d31d640e43ee2c452c2e6020c423b33952d3742f14c6fa",
       "ast_digest": "dffa146dc9add3a6696eac9ea702d79e47f8f5f802d66da169cbe1954533f178"
     },
     "sor": {
-      "values_digest": "d07eea9169fbfd53483d7a50164c577e11a2404c8a851c2bcb45708579778b57",
+      "values_digest": "4432117c15732d3912b6d8b8bc2c6dad9d1c315c2e204a2915ebc8f6dbc85852",
       "rendered_digest": "e8b0c9790cb9a970990738027940c5b519029854621289c6ac0d8ba34c9259fc",
       "ast_digest": "099f6a54dc0259dfb78f30d2e3b7d7cf15f8b1a8b1e65ff079c211d2e1bc6aaa"
     }
@@ -57,6 +57,13 @@
       "actor": "codex:199-governed-membership-preparation",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:199-design-review-repair",
+      "reason": "Bind the standalone non-voting enrollment journal, reconciliation, checkpoint, and publication windows into the exact existing thirty-six-case denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"governed-membership-transition\",\"proof_role\":\"Prove exact thirty-six-case denominator: add_learner_joint_final_publish, remove_voter_pending_exclusion, governed_rejoin_from_stale_state, exact_retry_cached_result, learner_snapshot_catchup, leader_change_resume, missing_201_token, wrong_operation_kind, old_cut_mismatch, route_cut_mismatch, wrong_domain, wrong_certificate_generation, wrong_control_key, expired_certificate, revoked_certificate, unauthorized_overlap, unstable_raft_id_mapping, learner_lag, learner_divergent_snapshot, missing_snapshot, joint_old_only, joint_new_only, joint_union_only, final_cut_mismatch, concurrent_transition, conflicting_retry, removed_voter_endorsement, removed_voter_route, stale_rejoin_self_promotion, crash_every_phase, coherent_rollback_rejected, corrupt_journal_rejected, checkpoint_object_collision, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected. The positive add case must use a real authenticated #202 fourth-node learner and prove same-batch joint history; leader_change_resume must start from a durably committed joint cut; unstable_raft_id_mapping must preserve every old id and reject collision; governed_rejoin_from_stale_state must prove separate NonVoting enrollment and promotion tokens and promotion consumption of the exact published enrollment generation; crash_every_phase must mechanically enumerate enrollment journal, private MembershipState staging, stable-map staging, #202 learner-admission staging, enrollment checkpoint and result-cache boundaries, enrollment published-view flip, every voter-transition concrete reconcile, voter checkpoint/result boundaries, and final voter-view flip.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_membership_transition\",\"--no-tests=fail\"],\"parallel_group\":\"199-runtime\",\"defer_reason\":\"Deferred until #191, #201, and #202 merge and this issue creates adl-runtime/tests/distributed_membership_transition.rs plus adl-runtime/src/distributed/membership_coordinator.rs; fail closed on missing targets, zero tests, or any result not mapping exactly once to all thirty-six canonical names and required enrollment/voter seam subassertions.\"},{\"lane\":\"governed-membership-transition-clippy\",\"proof_role\":\"Reject warnings and API misuse across the exact bounded membership coordinator target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_membership_transition\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"199-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"governed-membership-transition-producer\",\"proof_role\":\"Produce exact source, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker evidence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/199/produce-proof-receipt.rb\"],\"parallel_group\":\"199-proof\",\"defer_reason\":\"Deferred until this issue creates exact producer .csdlc/prepared/issues/199/produce-proof-receipt.rb; fail closed while absent and on dirty protected source, wrong case count, missing/extra/duplicate name, nonpassing result, or nonzero command status.\"},{\"lane\":\"governed-membership-transition-receipt\",\"proof_role\":\"Bind exact protected source, commands, thirty-six cases, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/199/validate-proof-receipt.rb\"],\"parallel_group\":\"199-proof\",\"defer_reason\":\"Deferred until this issue creates .csdlc/prepared/issues/199/validate-proof-receipt.rb and post-finalize immutable evidence; fail closed until both exist and bind exact reviewed source and all thirty-six cases.\"}]}"
     }
   ]
 }

@@ -64,6 +64,37 @@ followed by a separate `PromoteVoter` token. Retained local membership, logs,
 snapshots, ids, roles, tokens, or certificates cannot combine those operations
 or restore voting authority.
 
+## Non-voting enrollment state machine
+
+`EnrollNonVoting` has its own bounded durable protocol rather than borrowing the
+voter-transition phases:
+
+1. `EnrollmentAuthorized` journals the exact #201 token, old and target
+   non-voting published-view digests, old and target stable-id registry digests,
+   exact #202 learner-admission digest, expected checkpoint, result digest, and
+   three distinct indices: the #201 authority-protocol committed index, the
+   next Runtime membership-event index, and the unchanged current OpenRaft
+   membership log id. These indices are never inferred equal.
+2. `EnrollmentReconciled` idempotently stages private objects in a declared
+   order: apply the exact `MembershipState` Join-as-NonVoting event, add the
+   collision-checked stable-id registry entry, then construct the exact #202
+   learner admission. After each step, the journal records its canonical old
+   and new object digests before the next step. None is a public authority view.
+3. `EnrollmentCheckpointed` writes the canonical result and exact retry entry,
+   advances the external node-local checkpoint, and reconciles either side of
+   every local-write/CAS/result-marker crash window.
+4. `EnrollmentPublished` atomically flips one durable enrollment-view
+   generation containing the three reconciled digests. Only this view makes the
+   non-voting candidate and learner admission visible. `PromoteVoter` must bind
+   and consume that exact published enrollment generation.
+
+Restart compares the enrollment journal, each staged private object, result
+cache, checkpoint, and published generation. An absent step is retried only for
+the same token; an exact later step repairs a missing marker; any conflicting
+member, stable id, learner admission, index, digest, token, result, checkpoint,
+or generation fails closed. A crash after any one staging step therefore cannot
+create an ambiguous promotion prerequisite.
+
 ## Voter transition state machine
 
 Promotion and removal use one durable transition record and only these phases:
@@ -122,8 +153,9 @@ node, guardian, boot generation, protocol version, operation id, old/target cut
 digests, stable-map digest, Raft log id, coordinator phase, reconciled object
 digests, published-view generation, and result digest.
 
-Before learner, membership-change, exclusion, concrete reconcile, checkpoint,
-or view-flip side effects, the exact pending phase is durable. On restart the
+Before enrollment staging, learner, membership-change, exclusion, voter
+reconcile, checkpoint, result, or view-flip side effects, the exact pending
+phase is durable. On restart the
 coordinator compares its journal, checkpoint, bounded membership history,
 current OpenRaft membership/metrics, shared exclusion state, private reconciled
 objects, published view, and exact retry cache:
@@ -165,9 +197,11 @@ Raft ids.
   route, catch-up, joint/final commitment, and publication are all required.
 - Stable-id proof adds/removes lexically earlier identities without changing any
   old id and rejects duplicate, zero, missing, remapped, or colliding ids.
-- Crash proof injects before/after every enrollment, exclusion, learner call,
-  joint history write, final history write, each concrete reconcile, checkpoint,
-  result-cache write, and visible-view flip.
+- Crash proof injects before/after the enrollment journal, private
+  MembershipState stage, stable-map stage, #202 learner-admission stage,
+  enrollment checkpoint/result, enrollment view flip, exclusion, learner call,
+  joint history write, final history write, each voter reconcile, voter
+  checkpoint/result, and voter visible-view flip.
 - The exact typed 36-case denominator additionally covers stale cuts, wrong
   keys/certificates/domain, learner lag/divergence, missing snapshots, old-only
   and new-only joint progress, concurrency, retry conflict, rollback,

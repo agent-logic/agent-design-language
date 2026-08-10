@@ -1,5 +1,10 @@
 flowchart LR
-  T["Opaque #201 membership token with stable old and target Raft-id maps"] --> A["AuthorizedOld journal"]
+  T["First opaque #201 EnrollNonVoting token"] --> EA["EnrollmentAuthorized journal with separate authority Runtime and Raft indices"]
+  EA --> ER["Stage private NonVoting MembershipState stable-id registry and #202 learner admission"]
+  ER --> EC["Enrollment checkpoint plus exact result cache"]
+  EC --> EV["Atomic enrollment published-view generation"]
+  EV --> PT["Second opaque #201 PromoteVoter token binds exact enrollment generation"]
+  PT --> A["AuthorizedOld voter-transition journal"]
   C["Exact published MembershipState AuthorityMembership Raft history route and exclusion parity"] --> A
   A --> E["Shared #202 pending exclusion for removal"]
   A --> L["LearnerCaughtUp over authenticated replication-only route"]
@@ -10,6 +15,8 @@ flowchart LR
   R --> X["External checkpoint plus exact result cache"]
   X --> V["Atomic published-view generation flip"]
   V --> O["Pending-exclusion receipt for #200"]
+  O -. "later governed rejoin" .-> T
+  ER -. "partial enrollment conflict rollback or ambiguity" .-> Z
   E -. "ordinary voter authority denied; exact future recovery learner only" .-> D["Fail-closed exclusion"]
   J -. "committed joint crash" .-> Q["Resume exact standard OpenRaft change to uniform"]
   R -. "partial reconcile conflict rollback or ambiguity" .-> Z["No visible view; operator required"]
