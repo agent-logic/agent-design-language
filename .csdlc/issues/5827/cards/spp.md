@@ -16,7 +16,7 @@ Implement and prove WP-10 canonical multi-cycle continuity with predecessor bind
 
 ## Plan
 
-Revision 20
+Revision 24
 
 ## Steps
 
@@ -28,7 +28,7 @@ Revision 20
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -37,7 +37,7 @@ Revision 20
       "AC-1",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -46,7 +46,7 @@ Revision 20
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -61,7 +61,7 @@ Revision 20
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -89,7 +89,7 @@ Revision 20
 
 .csdlc/prepared/issues/5827/design.md
 
-Digest: 0bd21395dbab703e08bfa7129d326f01aa7b9e431efab8588627d575e2924f7d
+Digest: 26807702a1552dbb27faea8ab64b97dc0e457cd09cc551f80296bf3f6aed637e
 
 ## Diagram
 
@@ -99,9 +99,12 @@ Digest: b8e8902ce03c1fd254d2be626f03fb412db939612b74f42de3942fcfd6cdbbb4
 
 ## Stop Conditions
 
-- #5826 lacks terminal receipt-backed proof.
-- A protected Runtime path collides with another claim.
-- Deterministic replay requires altering predecessor evidence.
+- Stop before bind or product edits unless repaired #5826/PR #118 is freshly independently reviewed, fully green, merged, terminally reconciled, and its merge commit is ancestral to the chosen #5827 execution base.
+- Stop if the execution base lacks the authoritative Birthday Identity output or if its accepted identity-memory/private-state projection authority cannot be verified from current source and receipt-backed evidence.
+- Stop if future csdlc-bind cannot preserve legacy issue identity danielbaustin/agent-design-language#5827 while declaring code_repository agent-logic/agent-design-language.
+- Stop if any owned-path collision exists or implementation requires a path outside the exact canonical #5827 owned-path set.
+- Stop before validation if the issue-owned birthday_continuity source and exact integration target do not yet exist; once implementation creates them, replace preparation deferrals and run every mandatory lane rather than treating deferral as proof.
+- Stop if deterministic replay requires rewriting predecessor Birthday Identity, identity-memory, private-state projection, continuity, or wake evidence.
 
 ## Handoff
 

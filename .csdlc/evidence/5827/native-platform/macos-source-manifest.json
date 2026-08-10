@@ -1,0 +1,54 @@
+[
+  {
+    "path": ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
+    "sha256": "18cee726b8c3f11c2042d428f844948ae1afcc30a9a2e4116a2dc7fa6ea97d4a"
+  },
+  {
+    "path": ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+    "sha256": "cd107bd53eef487983dee90cac554a789a9d5482b27d7b6c1406ef1173b7bf31"
+  },
+  {
+    "path": ".github/workflows/wp10-native-birthday-continuity.yml",
+    "sha256": "247ab45dde2a51813aab8303bbb4e508e37722021313e71208a48682731e4c76"
+  },
+  {
+    "path": "adl-runtime-kernel/Cargo.toml",
+    "sha256": "92466f21e0dfd70d6ba8b6fe7d9674b2a5a75eb624e422c46de3e7d79f2117a7"
+  },
+  {
+    "path": "adl-runtime-kernel/src/birthday_continuity.rs",
+    "sha256": "7a5428512b31a94bdd84f57978b6c8d77be55d9c5d0132b98e16af051c0497d6"
+  },
+  {
+    "path": "adl-runtime-kernel/src/birthday_identity.rs",
+    "sha256": "69c8b2b80a2acdde4b76fad7905d82da968b0ddb5a4461b4be86d95c48ee87cd"
+  },
+  {
+    "path": "adl-runtime-kernel/src/continuity.rs",
+    "sha256": "0d9667ab7f9f8ea6a31952fb9130e413d80a697a469bc7fa70106448438a7e16"
+  },
+  {
+    "path": "adl-runtime-kernel/src/identity_memory.rs",
+    "sha256": "37d59ad08f6b0cae8236e8ff3f689ea0f590b6b82b53dd937bb8c82c4cef04b5"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "6645b84e640224c276cd9fc3e7a25bf133a04354d977c6653b3dfd4f6ca3bfb1"
+  },
+  {
+    "path": "adl-runtime-kernel/src/live_continuity.rs",
+    "sha256": "36c79c28bbd6cdfa4d75832878700a94d700b12530f83e8103fe50c33fe15af2"
+  },
+  {
+    "path": "adl-runtime-kernel/src/private_state.rs",
+    "sha256": "793c03ae098a566d4b117ef657bddab5810c73a869e6bf3e264ca4d6e45e2d64"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
+    "sha256": "033c43506042209a08726d59f0274f4b96b7e318926c099c5349e00da2b620cb"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
+    "sha256": "1e43aee484987006fa643e3be4c87f3e17fc7ba08d573b82f7efcf4905782641"
+  }
+]

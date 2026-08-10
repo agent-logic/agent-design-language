@@ -1,0 +1,41 @@
+{
+  "schema": "csdlc.local_validation_manifest.v1",
+  "issue": 5827,
+  "validated_revision": "220274828c8235b552a4d94f9d77d88b401c13e6",
+  "validated_tree": "58005e774720c19ffad3dc0de0b08671218117d4",
+  "results": [
+    {
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "-E", "test(/^birthday_continuity::authority_tests::/)", "--no-tests=fail", "--status-level", "all"],
+      "outcome": "passed",
+      "tests_run": 9,
+      "tests_passed": 9,
+      "log": ".csdlc/evidence/5827/birthday-continuity-tests.log",
+      "log_sha256": "8b666bf553e56ff039e2a78f956d0be767629c9a67640c34395ed913af5a56a8"
+    },
+    {
+      "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--doc", "birthday_continuity"],
+      "outcome": "passed",
+      "tests_run": 1,
+      "tests_passed": 1,
+      "log": ".csdlc/evidence/5827/birthday-continuity-doc.log",
+      "log_sha256": "b4ad199100affc51640284e3bdbb755614300b8b94f7df5e66a15b0fe3c9a762"
+    },
+    {
+      "argv": ["cargo", "clippy", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "--", "-D", "warnings"],
+      "outcome": "passed",
+      "log": ".csdlc/evidence/5827/birthday-continuity-clippy.log",
+      "log_sha256": "3e1bd1833fadb54b10a40d80ff74bdc01544c7bb744aa02f1389c3616d292893"
+    }
+  ],
+  "source_sha256": {
+    "adl-runtime-kernel/src/birthday_continuity.rs": "7a5428512b31a94bdd84f57978b6c8d77be55d9c5d0132b98e16af051c0497d6",
+    "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs": "033c43506042209a08726d59f0274f4b96b7e318926c099c5349e00da2b620cb",
+    "adl-runtime-kernel/src/birthday_identity.rs": "69c8b2b80a2acdde4b76fad7905d82da968b0ddb5a4461b4be86d95c48ee87cd",
+    "adl-runtime-kernel/src/identity_memory.rs": "37d59ad08f6b0cae8236e8ff3f689ea0f590b6b82b53dd937bb8c82c4cef04b5",
+    "adl-runtime-kernel/src/private_state.rs": "793c03ae098a566d4b117ef657bddab5810c73a869e6bf3e264ca4d6e45e2d64",
+    ".github/workflows/wp10-native-birthday-continuity.yml": "247ab45dde2a51813aab8303bbb4e508e37722021313e71208a48682731e4c76",
+    ".csdlc/prepared/issues/5827/produce-native-receipt.rb": "18cee726b8c3f11c2042d428f844948ae1afcc30a9a2e4116a2dc7fa6ea97d4a",
+    ".csdlc/prepared/issues/5827/validate-native-receipts.rb": "cd107bd53eef487983dee90cac554a789a9d5482b27d7b6c1406ef1173b7bf31"
+  },
+  "native_proof": "deferred_until_publication_exact_head"
+}
