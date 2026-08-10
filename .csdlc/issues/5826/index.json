@@ -4,13 +4,60 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
-  "phase": "implemented",
-  "generation": 86,
-  "digest": "12fbd4368e6b882d18ebe580b9e365fbcd6a5b9f98f3250c161c073d0a2d4a91",
+  "phase": "reviewed",
+  "generation": 87,
+  "digest": "2c9d8f241fb9b013103815e7bea9d762670fcdc38d3f6d4c37a1cc3408facd59",
   "branch": "codex/5826-birthday-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5826-birthday-identity",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/review_5826_sealed_authority",
+    "assigned_by": "codex:5826-security-privacy-repair",
+    "revision": "git-blake3:fac563679bfe26182490b7cd1f732c451111bf5c:e3b7ac45f1be97839519a70219e298d73af900bf852ed605ac94fee39d7eab19",
+    "scope": [
+      ".csdlc/evidence/5826/birthday_identity-runtime-v3.log",
+      ".csdlc/evidence/5826/local-validation-manifest.json",
+      ".csdlc/issues/5826",
+      ".csdlc/prepared/issues/5826/design.md",
+      ".csdlc/prepared/issues/5826/diagram.mmd",
+      ".csdlc/prepared/issues/5826/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5826/validate-native-receipts.rb",
+      ".github/workflows/wp09-native-birthday-identity.yml",
+      "adl-runtime-kernel/src/birthday_identity.rs",
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/private_state.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_identity/authority_recipe.json",
+      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_5826_sealed_authority",
+    "scope": [
+      ".csdlc/evidence/5826/birthday_identity-runtime-v3.log",
+      ".csdlc/evidence/5826/local-validation-manifest.json",
+      ".csdlc/issues/5826",
+      ".csdlc/prepared/issues/5826/design.md",
+      ".csdlc/prepared/issues/5826/diagram.mmd",
+      ".csdlc/prepared/issues/5826/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5826/validate-native-receipts.rb",
+      ".github/workflows/wp09-native-birthday-identity.yml",
+      "adl-runtime-kernel/src/birthday_identity.rs",
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/private_state.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_identity/authority_recipe.json",
+      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:fac563679bfe26182490b7cd1f732c451111bf5c:e3b7ac45f1be97839519a70219e298d73af900bf852ed605ac94fee39d7eab19",
+    "findings": [],
+    "residual_risks": [
+      "BirthdayAuthorityPolicy is a crate-internal bearer capability; future runtime provisioning must continue sourcing its trust roots exclusively from the trusted runtime context."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c34a8197299966bd4e6bbe95a7cd95ac0257d089dc4abafa503fbf4b8c1b9ec3",
+      "values_digest": "83a5d3b448531ebef2990a0feaaea2b1cd32d3da3e8052e22eb9f9a7db7370c1",
       "rendered_digest": "0d826412308c3591d68a9c533993e827f94266dca00d3b32d66b704f077b05b7",
       "ast_digest": "66752074307e6db7a344c007aa92aac2596d616c2c97a5769e016465561c779d"
     },
     "stp": {
-      "values_digest": "5c731c71762aca14f3d532fb3dda90a3e60c6b5ac9c8279495948d4389419036",
+      "values_digest": "26938a65cc045c26ec1a914989e4600d1dc35f9fda5b782c274644c53cfd0cdb",
       "rendered_digest": "475f64d98b229a1daf704a0c527294ae76f89b5f9f4ccec89b5c98f471a9fa87",
       "ast_digest": "37f1f71eb1c1c9a356c9e4074213322d0a1e8734b137c5d4eaa4c115251fbb8b"
     },
     "spp": {
-      "values_digest": "2f0ecd862995ca18f55f975e8c4f1ec765110510abf29824d217b9e4d18fd906",
+      "values_digest": "017b4c9cc7241bd4a538572de940264d8cb13e8ea6cfcd4fde9daf381c48044e",
       "rendered_digest": "a6ce103eace8a622967dcb7ac563cf6c33d77cf04809cad8387256de05f03573",
       "ast_digest": "18d5cceb7d2a371235113961d40fdb0b2382a441e165434b4530cac5dd0e1144"
     },
     "vpp": {
-      "values_digest": "1a749ce497999bf2f7707a7b1d7c1011289bd33322a7fa8ddd75f90298ab84d9",
+      "values_digest": "9b6de3ce932ceb7ad41a9d402617b8de8b488562f3a7198a2fb6b2a2081cf7f8",
       "rendered_digest": "e87744feb4d88f58830a809fcd541acf28fde56a59ad05701e434f08f8862287",
       "ast_digest": "b975a53797e7e2b00a48174fdec6edf6679c0186b4be445ec5e17cf19de35cb3"
     },
     "srp": {
-      "values_digest": "a2471f810a65e53080aa09ca837350a39f240819d1da3b49717a86761648867a",
-      "rendered_digest": "003914725e6dd8ad754414dd9dd3983cbf70dc07e31f361e50d76d8b13247d91",
-      "ast_digest": "7281c75fa192914a204d2b5f4e012f8637f52d1b4f7990244dbce1e31b728f9c"
+      "values_digest": "73109fc3a5ed5465fafa780232501c20e00def84bc028c4e48c4aa3af3c5c3f0",
+      "rendered_digest": "e5f2ab9e636e49bf71b8419f8491e530800e1a9164bc044a500631843c0f4b9f",
+      "ast_digest": "6e732078b5e084b78ba6abce1670ce215c9f5d49896bce0929c5ffd5bda001e6"
     },
     "sor": {
-      "values_digest": "5372224c3694f7f38a84da85eb5954656db1601cca115e0d6129fba9d2a420d7",
+      "values_digest": "f45514b5b023f1c7ab86ab1df509b1a8cc8052a46c18da02375b1f405154dad7",
       "rendered_digest": "04e451a02196522631f4e1fab40165ebdd6c8eb86a8790603be7a148ef45a011",
       "ast_digest": "a7c2da9baead92b8b5d0b738ce4cba7e67a7da808a5c65fec27d40567aec4965"
     }
@@ -118,6 +165,13 @@
       "to": "implemented",
       "actor": "codex:5826-security-privacy-repair",
       "reason": "Recover published review truth after operator changes-requested security/privacy findings: provenance and privacy authority are self-attested and native proof omits canonical identity-memory/private-state grounding."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -918,6 +972,20 @@
       "actor": "codex:5826-security-privacy-repair",
       "reason": "Align AC-3 with the internal authority-test source and explicitly require the nonforgeable runtime policy boundary.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"The WP-09 record deterministically binds stable name, identity root, aliases, origin evidence, continuity head, provenance, and redaction policy while rejecting ambiguous or substituted identity; external callers cannot establish BirthdayAuthorityPolicy or construct/deserialize VerifiedBirthdayEvidence, so self-consistent attacker roots fail at the crate boundary.\",\"WP-08/#5825 terminal proof and current lineage authority are verified before implementation begins.\",\"Implementation is confined to adl-runtime-kernel/src/birthday_identity.rs, lib.rs module registration, tests/fixtures/birthday_identity/ including the internal authority proof, the identity feature contract, issue-local native receipt tooling/workflow, and .csdlc/evidence/5826/.\",\"Canonical serialization, root derivation, and alias ordering replay identically and are retained at the exact reviewed revision.\",\"Empty roots, alias collision, provenance mismatch, substituted continuity, raw private state, and absolute or path-unsafe references fail closed.\",\"One fresh independent exact-head security/privacy SRP review records no unresolved actionable findings.\",\"The implementation PR targets the intended base and includes Closes #5826 without claiming completion of downstream Birthday work.\",\"The exact internal birthday_identity authority lane runs a positive test count on native GitHub Actions macOS and Linux at the exact candidate product head; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\"]}"
+    },
+    {
+      "sequence": 115,
+      "generation": 86,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 116,
+      "generation": 87,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

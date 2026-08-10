@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 86
+    "generation": 87
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/5826/birthday_identity-runtime-v3.log\n.csdlc/evidence/5826/local-validation-manifest.json\n.csdlc/issues/5826\n.csdlc/prepared/issues/5826/design.md\n.csdlc/prepared/issues/5826/diagram.mmd\n.csdlc/prepared/issues/5826/produce-native-receipt.rb\n.csdlc/prepared/issues/5826/validate-native-receipts.rb\n.github/workflows/wp09-native-birthday-identity.yml\nadl-runtime-kernel/src/birthday_identity.rs\nadl-runtime-kernel/src/identity_memory.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/private_state.rs\nadl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\nadl-runtime-kernel/tests/fixtures/birthday_identity/authority_recipe.json\ndocs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
+      "review_revision": "git-blake3:fac563679bfe26182490b7cd1f732c451111bf5c:e3b7ac45f1be97839519a70219e298d73af900bf852ed605ac94fee39d7eab19",
+      "reviewer": "/root/review_5826_sealed_authority",
       "review_prompts": [
         "Can any display name, wake, snapshot, copied state, or alias establish or replace identity root authority?",
         "Are root derivation, ordering, serialization, and provenance replay-deterministic?",
@@ -23,8 +23,10 @@
         "Is #5825 terminal evidence current and is every WP-09 acceptance claim proven at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "BirthdayAuthorityPolicy is a crate-internal bearer capability; future runtime provisioning must continue sourcing its trust roots exclusively from the trusted runtime context."
+      ],
+      "review_result": "pass"
     }
   }
 }
