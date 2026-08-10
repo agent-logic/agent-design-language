@@ -1,0 +1,26 @@
+[
+  {
+    "path": "adl-runtime-kernel/Cargo.toml",
+    "sha256": "92466f21e0dfd70d6ba8b6fe7d9674b2a5a75eb624e422c46de3e7d79f2117a7"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "c9e69ec8c260f0eebc412228bec791af6329c88f667a9329b3a064f4148bedce"
+  },
+  {
+    "path": "adl-runtime-kernel/src/memory_palace.rs",
+    "sha256": "b322dadb6a44ccb81f754de47c846e2147e2623967a84dc5376692a856c41663"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/memory_palace/matrix.json",
+    "sha256": "c49c264137808324574390f621b67370c5db0972912b396b246692765e9212d2"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/memory_palace.rs",
+    "sha256": "4c151e4bcfaa730a4eb8e08495eeae14cd3804bd69f96859082d3a4df46b4826"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+    "sha256": "3d0e850de6d6459872115925c0da31e1af8f35357b4677b7b4894cc6abe2130a"
+  }
+]

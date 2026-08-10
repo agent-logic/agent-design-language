@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
     "slug": "v0-92-wp-11-runtime-implement-first-memory-palace-context-topology-slice",
     "version": "v0.92",
-    "generation": 69
+    "generation": 73
   },
   "status": "ready",
   "content": {
@@ -90,7 +90,7 @@
             ".csdlc/evidence/5828/native-platform/macos-semantic.json"
           ],
           "parallel_group": "5828-native-produce",
-          "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "memory_palace-linux-native-ci-producer",
@@ -114,7 +114,7 @@
             ".csdlc/evidence/5828/native-platform/linux-semantic.json"
           ],
           "parallel_group": "5828-native-produce",
-          "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "memory_palace-native-ci-receipt-verification",

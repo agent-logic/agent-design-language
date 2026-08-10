@@ -46,7 +46,7 @@ Revision 19
       "AC-4",
       "AC-5"
     ],
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "id": "S4",

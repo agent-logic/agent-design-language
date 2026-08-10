@@ -7,18 +7,19 @@
     "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
     "slug": "v0-92-wp-11-runtime-implement-first-memory-palace-context-topology-slice",
     "version": "v0.92",
-    "generation": 69
+    "generation": 73
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented the deterministic WP-11 Memory Palace topology with bounded working-set materialization and fail-closed identity, continuity, trace, temporal, citation, and redaction boundaries.",
+      "summary": "Implemented and proved the deterministic WP-11 Memory Palace topology with bounded working-set materialization and fail-closed identity, continuity, trace, temporal, citation, and redaction boundaries on native Linux and macOS.",
       "actual_changes": [
-        "Added a canonical Runtime v3 Memory Palace packet bound to exact WP-09 identity, WP-10 continuity, trace, citation, temporal, and redaction authorities.",
-        "Added deterministic room and item ordering, a bounded 1-64 working set, and digest-bearing overflow that is never silently loaded.",
-        "Added focused positive replay and negative substitution, stale, citation, private-memory, secret-content, unknown-field, and duplicate proof.",
-        "Added a narrow issue-specific native macOS/Linux workflow with disjoint producer fragments and success-only exact aggregate retention."
+        "Added a canonical Runtime v3 Memory Palace packet bound to exact WP-09 identity, WP-10 continuity, normalized ObsMem trace, citation, temporal, and redaction authorities.",
+        "Added deterministic collision-resistant room and item ordering, a bounded 1-64 working set, canonical packet validation, and digest-bearing overflow that is never silently loaded.",
+        "Added focused positive replay and negative substitution, stale, citation, private-memory, secret-content, unknown-field, collision, ordering, and duplicate proof.",
+        "Added a narrow issue-specific native macOS/Linux workflow with disjoint producer fragments, exact structured 12-test inventories, and success-only exact aggregate retention.",
+        "Retained and independently validated exact-head Linux x86_64 and macOS arm64 receipts from run 31385543888 with identical semantic output."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/memory_palace.rs",
@@ -29,7 +30,17 @@
         ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
         ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
         ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
-        ".github/workflows/wp11-native-memory-palace.yml"
+        ".github/workflows/wp11-native-memory-palace.yml",
+        ".csdlc/evidence/5828/native-validation-manifest.json",
+        ".csdlc/evidence/5828/native-platform/linux.json",
+        ".csdlc/evidence/5828/native-platform/linux-nextest.log",
+        ".csdlc/evidence/5828/native-platform/linux-semantic.json",
+        ".csdlc/evidence/5828/native-platform/linux-source-manifest.json",
+        ".csdlc/evidence/5828/native-platform/macos.json",
+        ".csdlc/evidence/5828/native-platform/macos-nextest.log",
+        ".csdlc/evidence/5828/native-platform/macos-semantic.json",
+        ".csdlc/evidence/5828/native-platform/macos-source-manifest.json",
+        ".csdlc/evidence/5828/native-platform/independent-validator.log"
       ],
       "actual_validation": [
         {
@@ -45,13 +56,37 @@
             "--status-level",
             "all"
           ],
-          "purpose": "Prove deterministic topology, bounded overflow, authority binding, temporal safety, citation integrity, and redaction privacy.",
+          "purpose": "Prove the exact 12-test deterministic topology, bounded overflow, authority binding, temporal safety, citation integrity, and redaction privacy surface.",
           "outcome": "passed",
-          "evidence_ref": "memory_palace-runtime-v3.log"
+          "evidence_ref": ".csdlc/evidence/5828/local-validation-manifest.json"
+        },
+        {
+          "command": [
+            "github-actions",
+            "wp11-native-memory-palace",
+            "run",
+            "31385543888",
+            "attempt",
+            "1"
+          ],
+          "purpose": "Run the exact 12-test WP-11 inventory on native Linux x86_64 and macOS arm64 at PR head e20b9870dbc56ab59c68f123ed355af331ee5614 and require identical semantic output.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5828/native-validation-manifest.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+            ".csdlc/evidence/5828/native-platform/linux.json",
+            ".csdlc/evidence/5828/native-platform/macos.json"
+          ],
+          "purpose": "Independently revalidate the retained GitHub Actions receipts in a detached exact-head checkout, including current workflow and run provenance, source manifests, structured 12-test inventories, artifact digests, and semantic equivalence.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5828/native-platform/independent-validator.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

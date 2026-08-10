@@ -1,0 +1,71 @@
+{
+  "schema": "adl.native_ci_receipt.v1",
+  "payload": {
+    "issue": 5828,
+    "platform": "macos",
+    "source_sha": "e20b9870dbc56ab59c68f123ed355af331ee5614",
+    "producer_path": ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+    "producer_sha256": "3916241f8465cb77916fe461cdbdf4667f75ff883e25c79291b812ec3e581724",
+    "producer_argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      "--platform",
+      "macos",
+      "--receipt",
+      ".csdlc/evidence/5828/native-platform/macos.json",
+      "--semantic-output",
+      ".csdlc/evidence/5828/native-platform/macos-semantic.json"
+    ],
+    "test_argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "memory_palace",
+      "--no-tests=fail",
+      "--status-level",
+      "all",
+      "--message-format",
+      "libtest-json-plus"
+    ],
+    "test_environment": {
+      "ADL_NATIVE_SEMANTIC_OUTPUT": ".csdlc/evidence/5828/native-platform/macos-semantic.json",
+      "NEXTEST_EXPERIMENTAL_LIBTEST_JSON": "1"
+    },
+    "tests_run": 12,
+    "passed_tests": [
+      "adl-runtime-kernel::memory_palace$bounded_selection_records_overflow_without_loading_it",
+      "adl-runtime-kernel::memory_palace$canonical_topology_is_deterministic_and_native_semantic_output_is_contained",
+      "adl-runtime-kernel::memory_palace$citation_path_hash_and_presence_fail_closed",
+      "adl-runtime-kernel::memory_palace$duplicate_records_and_citations_are_rejected",
+      "adl-runtime-kernel::memory_palace$identifiers_secrets_and_normalized_room_collisions_fail_closed",
+      "adl-runtime-kernel::memory_palace$identity_continuity_and_trace_substitution_fail_closed",
+      "adl-runtime-kernel::memory_palace$normalized_obsmem_adapter_binds_trace_events_and_citation",
+      "adl-runtime-kernel::memory_palace$packet_validation_rejects_self_rehashed_privacy_and_topology_forgery",
+      "adl-runtime-kernel::memory_palace$private_raw_and_unredacted_memory_never_enters_working_set",
+      "adl-runtime-kernel::memory_palace$reference_identifier_privacy_and_canonical_packet_bounds_fail_closed",
+      "adl-runtime-kernel::memory_palace$secret_like_payloads_and_unknown_json_fields_fail_closed",
+      "adl-runtime-kernel::memory_palace$stale_future_and_invalid_temporal_anchors_fail_closed"
+    ],
+    "command_output_path": ".csdlc/evidence/5828/native-platform/macos-nextest.log",
+    "command_output_sha256": "cf6f995f270f90840f6b59b2a166a4b9d2f1fa42f65372d3ef49c6129a58e2b5",
+    "semantic_output_path": ".csdlc/evidence/5828/native-platform/macos-semantic.json",
+    "semantic_output_sha256": "b941f2a2d005d12b3a6b8c5b758817fe256196d2963fd0f749ed532e79a42fe2",
+    "source_manifest_path": ".csdlc/evidence/5828/native-platform/macos-source-manifest.json",
+    "source_manifest_sha256": "cdfe3823dfb9918df0387f39c2afa15acfda217583531127b8263f4c63de6167",
+    "runner": {
+      "provider": "github_actions",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp11-native-memory-palace.yml@refs/pull/131/merge",
+      "run_id": "31385543888",
+      "run_attempt": "1",
+      "job": "produce-native-receipt",
+      "os": "Darwin",
+      "architecture": "arm64"
+    },
+    "status": "passed"
+  },
+  "payload_sha256": "0f1f5cc0a772829c9020c0f4f8dacc0406b9da4f394de7fb1ca02bedb533970b"
+}
