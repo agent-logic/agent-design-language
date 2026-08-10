@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
     "slug": "secure-durable-three-voter-openraft",
     "version": "v0.92",
-    "generation": 12
+    "generation": 13
   },
   "status": "ready",
   "content": {
