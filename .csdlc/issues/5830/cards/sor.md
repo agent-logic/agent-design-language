@@ -98,11 +98,11 @@ Implemented and proved the deterministic WP-13 Runtime v3 cognitive-profile cont
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
