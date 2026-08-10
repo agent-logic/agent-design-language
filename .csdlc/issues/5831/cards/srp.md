@@ -8,20 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/adaptive_learning.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/adaptive_learning.rs
-adl-runtime-kernel/tests/fixtures/adaptive_learning
-docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md
-.csdlc/prepared/issues/5831/produce-native-receipt.rb
-.csdlc/prepared/issues/5831/validate-native-receipts.rb
-.github/workflows/wp13a-native-adaptive-learning.yml
-.csdlc/evidence/5831
-.csdlc/issues/5831
+
 
 ## Prompts
 

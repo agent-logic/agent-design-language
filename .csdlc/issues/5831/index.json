@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 68,
-  "digest": "5b9833abeac33a94b3f01195a0030963cf8453cbcfe969d159cfff8fdea5d2ca",
+  "generation": 69,
+  "digest": "d3ef0cfc13f7c36cd0dd4b715fec235110cb43df4b01a66cc02ede9815846b30",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
-    "assigned_by": "codex:5831-adaptive-learning",
-    "revision": "git-blake3:c4b063739f71626ead5d55b03985a093e35aee08:1a99c572023ef82e778427c3ff66e1164cb8301acd27ba2b7efded6006c35716",
-    "scope": [
-      "adl-runtime-kernel/src/adaptive_learning.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/adaptive_learning.rs",
-      "adl-runtime-kernel/tests/fixtures/adaptive_learning",
-      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
-      ".github/workflows/wp13a-native-adaptive-learning.yml",
-      ".csdlc/evidence/5831",
-      ".csdlc/issues/5831"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "642aa6d5c16d2aae44755259c70f36267321b25fa2da918148aac909b458d473",
+      "values_digest": "bdc3ae5281f313a0ecbdbf8d1895c1eacb4277c2eeea5b71882014dd13cb2f9f",
       "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
       "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
     },
     "stp": {
-      "values_digest": "6add8146bf5abe505a93c4ab251fdade1d98f4612e2857e00a3dddd548bcc8fd",
+      "values_digest": "17a184d9a3ea4bc34f156f37f8491cc19e8f151afe6b2b77cad962f25942a64d",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "f03f7088b5735ccd39ffe915c586587561fcfdc415faf84530e5f5258a7f74cf",
+      "values_digest": "427fdebd30fd5e48a5159887b4cb7dd5b343f11133ff54292c58f0f67d4a991e",
       "rendered_digest": "397ea9d161e0a68b697b2ad004b1b3205d7a269e1caf0b119fe3ffb015988f15",
       "ast_digest": "aa04a73f75abb39c7f219a37a26c1949e6fc247d2c7c8702239547f40ef3ab19"
     },
     "vpp": {
-      "values_digest": "c6e8724b30e122068cd85eb1b79c745707d61888899e72e1e64e63bc85d49fb0",
+      "values_digest": "275b8e859a7dbc70965d3ddaa829261c89b7cb3e06a8f1d21ee13e26af78c378",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "2e721b7c98edb18ebbc6f2b2e46e5c0b01f476078c2a3b0b0d415af8a09cfb6b",
-      "rendered_digest": "08d3c9adfcc648878f5b2f09d834c347e6a026f15b05cd45decad8ea2b30c57f",
-      "ast_digest": "a3be5857480c0ef9ece73806c65b89364b80e2510e37d3c2e137bc287b3c1789"
+      "values_digest": "55ea88210c5e9ef5acb9fe5389ddecc06425448dca02d97b5b7fa8d6296e2eca",
+      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
+      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "b931e02fbdbad0ba6bc53cff0cd82de92cd2959a326cf4aee7310637b930dc38",
-      "rendered_digest": "1bb5b5289d4973cf15d7fd7a68e0714e2d3de6fb16cdf1b1e0505b66f5155955",
-      "ast_digest": "8670b880306016c60729198bc8ae6499c95ea27981f66b39bdeb01c9f5817ea3"
+      "values_digest": "6a7eac0d03ab3f1497f1d30b3c1b5a049dac9908fff91398816b727683532723",
+      "rendered_digest": "a626b8b443f2b8b0689c8586b7e8175dd87edf9b63cc4f73fdec5c4148c4bb50",
+      "ast_digest": "d32479372642ed2f092e12fcd4134072de86baedbbc6247009d6c8f1132f5a5b"
     }
   },
   "transitions": [
@@ -759,6 +743,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 93,
+      "generation": 69,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "The assigned exact-head review found actionable native-inventory, Runtime v3 authority, predecessor-lineage, rollback-validation, recurrence, privacy, and capacity defects that require substantive owned-path repair before fresh review.",
+      "operation": "recover_review"
     }
   ]
 }

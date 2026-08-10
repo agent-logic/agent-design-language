@@ -59,7 +59,7 @@ Implemented and locally proved the governed WP-13A Runtime v3 adaptive-learning 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
