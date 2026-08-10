@@ -4,66 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
-  "phase": "published",
-  "generation": 66,
-  "digest": "4f64dd6aa554fe9593ae2f43cd7f8d2441fda8f02c0d53df912ba4ac09e253ef",
+  "phase": "implemented",
+  "generation": 67,
+  "digest": "740138f590c31f787a67046770e5a2dbe904290441a97f84c5fcf16987fc94a2",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
-    "assigned_by": "codex:5828-memory-palace",
-    "revision": "git-blake3:bfa4c1371b3172f835281a8fb67dfe5296aa9c23:a0a563da156d7ecdc3d787825b5bf140047c406754a94f07807f27a6cd689725",
-    "scope": [
-      ".csdlc/issues/5828",
-      ".csdlc/prepared/issues/5828/design.md",
-      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
-      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
-      ".csdlc/evidence/5828",
-      ".github/workflows/wp11-native-memory-palace.yml",
-      "adl-runtime-kernel/src/memory_palace.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/memory_palace.rs",
-      "adl-runtime-kernel/tests/fixtures/memory_palace",
-      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
-    "scope": [
-      ".csdlc/issues/5828",
-      ".csdlc/prepared/issues/5828/design.md",
-      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
-      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
-      ".csdlc/evidence/5828",
-      ".github/workflows/wp11-native-memory-palace.yml",
-      "adl-runtime-kernel/src/memory_palace.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/memory_palace.rs",
-      "adl-runtime-kernel/tests/fixtures/memory_palace",
-      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
-    ],
-    "reviewed_revision": "git-blake3:bfa4c1371b3172f835281a8fb67dfe5296aa9c23:a0a563da156d7ecdc3d787825b5bf140047c406754a94f07807f27a6cd689725",
-    "findings": [],
-    "residual_risks": [
-      "Exact-head native macOS and Linux proof remains mandatory after publication before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5828,
-    "pull_request": 131,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/131",
-    "base": "main",
-    "head": "codex/5828-memory-palace-context-topology",
-    "revision": "git-blake3:498e73e0438c0580241c2a718a2788810fb7488e:7c07f2725ca3d231514f5677c91b9672c6189b5f65affd9c69e3197a0e9099bc",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -77,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "547b601eafde3e1c431eb3ef73b4ca2cb426bb954f52a0c763037d6a42c979e1",
+      "values_digest": "b0989b075bc90907fb1145f095b990479ee4b4a7c442d9ad75edc3deff5e69c2",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "7240faaec6d58a68a8a74b50b100c3b8a71aaac6a6ef4b51c274282ba6d1b996",
+      "values_digest": "9ba3ccb5ee8352a1dca90f0573ef86d245655a44ee4d8d02d32aa16bcd070867",
       "rendered_digest": "4ba4d82b147eabdf904eb7995b5458c1be0049ceca63b65b8454d66fd9358453",
       "ast_digest": "1ad097bdb44240b3d12005f3e9d222849b7b35fa19b1865020a630a1b040357f"
     },
     "spp": {
-      "values_digest": "dccdeb6645bd811c246e6b67e760ca6abf3e872ecf7f074f31b8d61e898e29e5",
+      "values_digest": "89c16c1187e54347d9699a9b5b821d894f5fb6235af2f2e91a231ab523db6d2e",
       "rendered_digest": "cf0eba6c9800078a7e6bd05218c25f9dd6e00f646627710975e0f7ed4d4990ac",
       "ast_digest": "66da938636bb1ddbc2431c34cef2eb54bb8b772c4c4450270c7df6916fb177ab"
     },
     "vpp": {
-      "values_digest": "86adda130d3c66a6520f1ee2758f1e8736dff69f84c7834e89b023e01a1bd08c",
+      "values_digest": "d895adec57b6d6937405c88d00968c1a777f2ef974a4ada2a53fd96e5e0fd12d",
       "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "2a65fa07ba30f3e1605c528b8b4c2403b4cb394d018dd9f1bb369279b53b09ee",
-      "rendered_digest": "178907bb847ef4551f80704087f29ab3007113b37ccbc2ee37f369fa8489fe08",
-      "ast_digest": "18a3cbe11227aa3f03a66a8e6dbc20b1843c7a6da2c5d5d9ff8b2df33786397a"
+      "values_digest": "1ff04f29adc6ab0079c28b2f0e04c7ddbfb19c1a11da694166504d38b0205528",
+      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
+      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
     },
     "sor": {
-      "values_digest": "151c5e514807de8165d6f172d373c88495a47eab3633c6c30644d63ca1f08b4d",
-      "rendered_digest": "39a140ed3a77ff6bc830601aa08422616b650c615192b9cc103b575b3494a7e5",
-      "ast_digest": "1b2e87313e98f901c05ee715be138c7d7124d789bbb1af5eeb7972235cc955c9"
+      "values_digest": "85aaa1d14c33deda05116897c9126b273849bf8ff3d10aa03b0861c0685c8fb3",
+      "rendered_digest": "b7a9eff5bdf642c4b17882069036aea9bcb51b442344ff0dae54559623e02e54",
+      "ast_digest": "88fd2b8e1061792129d99cd3bd3f3cdcb91467002f9fab3e16d1eba23e913e94"
     }
   },
   "transitions": [
@@ -177,6 +125,13 @@
       "to": "published",
       "actor": "codex:5828-memory-palace",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5828-memory-palace",
+      "reason": "Recover published review after native run 31384744903 exposed and exact artifacts proved the issue-owned nextest structured-name separator fix."
     }
   ],
   "audit": [
@@ -830,6 +785,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 94,
+      "generation": 67,
+      "actor": "codex:5828-memory-palace",
+      "reason": "Recover published review after native run 31384744903 exposed and exact artifacts proved the issue-owned nextest structured-name separator fix.",
+      "operation": "recover_review"
     }
   ]
 }

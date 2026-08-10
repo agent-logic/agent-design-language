@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
     "slug": "v0-92-wp-11-runtime-implement-first-memory-palace-context-topology-slice",
     "version": "v0.92",
-    "generation": 66
+    "generation": 67
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5828\n.csdlc/prepared/issues/5828/design.md\n.csdlc/prepared/issues/5828/produce-native-receipt.rb\n.csdlc/prepared/issues/5828/validate-native-receipts.rb\n.csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\n.csdlc/evidence/5828\n.github/workflows/wp11-native-memory-palace.yml\nadl-runtime-kernel/src/memory_palace.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/memory_palace.rs\nadl-runtime-kernel/tests/fixtures/memory_palace\ndocs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
-      "review_revision": "git-blake3:bfa4c1371b3172f835281a8fb67dfe5296aa9c23:a0a563da156d7ecdc3d787825b5bf140047c406754a94f07807f27a6cd689725",
-      "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every loaded item bind valid identity, continuity, provenance, temporal anchor, hash, and redaction evidence?",
         "Are selection and overflow bounded and deterministic for fixed inputs and observation time?",
@@ -23,10 +23,8 @@
         "Are #5826, #5827, ObsMem/trace proof, schema compatibility, and every acceptance claim current at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Exact-head native macOS and Linux proof remains mandatory after publication before merge."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
