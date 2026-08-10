@@ -1,0 +1,23 @@
+{
+  "issue": 5878,
+  "card": "stp",
+  "expected_generation": 8,
+  "expected_digest": "29852df4184f63fc4c4f94d472f4727dc7932ba89971d260bb51efacc7b3449d",
+  "actor": "codex:5878-final-integration-readiness-preparation",
+  "reason": "Normalize the canonical five-path final-integration deliverables without widening ownership or claiming implementation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/distributed_guardian.rs",
+      "adl/tools/validate_v092_distributed_guardian.sh",
+      "adl/tools/validate_v092_distributed_native_receipts.rb",
+      "Register and integrate only the terminal #5863-#5877 distributed contracts while preserving authenticated Runtime API and WSS continuity",
+      "Prove deterministic bounded multi-node behavior, partitions, fencing, migration, recovery, rollback or disable behavior, redaction, and fail-closed errors",
+      "Retain exact nonzero integration proof and machine-verified macOS, Linux, and Windows native receipts bound to one protected source revision",
+      "Obtain independent exact-head security and correctness review before publication"
+    ]
+  }
+}

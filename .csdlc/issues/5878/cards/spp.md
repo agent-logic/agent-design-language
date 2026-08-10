@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 
@@ -61,11 +61,17 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
-- Evidence is exact-revision and digest bound
+- Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, and adl/tools/validate_v092_distributed_native_receipts.rb are mutable
+- Issue #5878 solely owns production distributed module and route registration; all #5863-#5877 product paths remain read-only terminal inputs
+- Registration exposes exactly the terminal reviewed sibling contracts and never substitutes, forks, or reimplements their authority logic
+- Guardian remains process 0 and every distributed API, WSS, transport, enrollment, lease, fencing, migration, recovery, and projection path remains authenticated and fail closed
+- Integrated topology, authority, failure, lease, placement, migration, recovery, and projection state is one deterministic coherent cut with stable ordering and exact OpenAPI behavior parity
+- Queues, frames, nodes, peers, candidates, histories, snapshots, retries, waits, timeouts, strings, logs, artifacts, and total evidence bytes have explicit hard bounds with checked arithmetic and finite cancellation
+- Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail are redacted from API, WSS, logs, artifacts, and receipts
+- The exact distributed_guardian target selects nonzero tests and proves production registration, authenticated API and WSS continuity, partitions, fencing, migration, recovery, shutdown, disable, and rollback behavior
+- Native receipts prove macOS, Linux, and Windows exactly once each from actual production commands, distinct run identifiers and runner identities, exact protected source revision, retained logs and artifacts, and recomputed digests; self-attestation is rejected
+- Rollback removes or disables distributed registration and launch integration, keeps remote ownership fenced, and preserves the unchanged durable single-node Guardian path
+- Execution evidence and independent review remain digest-bound to all five exact protected paths and the complete fifteen-child denominator
 
 ## Risks
 
@@ -96,11 +102,14 @@ Digest: 6c8b714c4987361c7d51ad9a3fffcdf0ff3f94a7dd8b7e6ac7d1e392a173caf0
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with #5909 preceding #5870 and all downstream serial gates satisfied
+- Stop if any sibling input path, terminal receipt, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent
+- Stop on any active path collision or any requested mutation outside the five canonical owned paths
+- Stop if production registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or diverging from the issue-owned OpenAPI contract
+- Stop if coherent integration, deterministic ordering, redaction, hard bounds, finite cancellation, rollback or disable safety, or fenced remote ownership cannot be proved
+- After all five owned paths are implemented, stop if distributed_guardian or either owned validator target is absent, the exact integration target selects zero tests, or any integration, native, receipt, or diff validation fails
+- Stop if any macOS, Linux, or Windows receipt is missing, duplicated, self-attested, shares a run identity, lacks production command logs or artifacts, or is not bound to the exact protected source revision
+- Stop if scope, registration, interface, platform, authority, proof, or rollback behavior must widen
 
 ## Handoff
 
