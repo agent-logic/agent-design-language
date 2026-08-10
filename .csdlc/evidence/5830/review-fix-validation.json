@@ -1,8 +1,8 @@
 {
   "schema": "adl.local_validation_manifest.v1",
   "issue": 5830,
-  "validated_revision": "4bb049b83d69937c041b9fd380320d20e425aa9c",
-  "validated_tree": "23a41fce5cd3c314aa9a345b0b7629e7bf4ac3ad",
+  "validated_revision": "0e2f1de8766c2495db8d5433bb8d5475cfe29712",
+  "validated_tree": "fce37c9b9f89e7b77cdbdd5ff97bc7d64825703e",
   "result": "passed",
   "tests": {
     "command": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "cognitive_profile", "--no-tests=fail", "--status-level", "all"],
@@ -17,8 +17,8 @@
   },
   "format": {"command": ["cargo", "fmt", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--check"], "result": "passed"},
   "files": {
-    "adl-runtime-kernel/src/cognitive_profile.rs": "5aaa07e04d604cf9922f3334e7c7a4c29f93f7e5f572ccf84d54686679d7277d",
-    "adl-runtime-kernel/tests/cognitive_profile.rs": "b4c1d6f8539c1bc149a7e1a2e35db8677d778e55fc544bce1799992adecce7ec",
+    "adl-runtime-kernel/src/cognitive_profile.rs": "3e2a75789b8a2ade2b34dc4c8a090fea6aec6550ca306cda082e00902d53695c",
+    "adl-runtime-kernel/tests/cognitive_profile.rs": "09214e6d2c24e471de42cd5ae05fdad1d1a7282ef9a0bdf165874738aa90322b",
     ".csdlc/prepared/issues/5830/produce-native-receipt.rb": "8c924bd1dc65fb148d58220df8f6d39ac2cdd6b461f02c967354fb5b40d4d7ce",
     ".csdlc/prepared/issues/5830/validate-native-receipts.rb": "25e4dc4cd7de616415b50d8d22015b40c1cb4674ea098b638a7177401aa95a30",
     ".github/workflows/wp13-native-cognitive-profile.yml": "fdfce012148bf3407d78e112879d877fd67e169ad234784375d16a1734eb4582"
@@ -26,6 +26,8 @@
   "review_findings_fixed": [
     "reject ungoverned extra nonclaims before public projection",
     "recompute and validate predecessor profile and projection integrity before revision delta",
-    "reject case-fold duplicate field keys before canonical delta calculation"
+    "reject case-fold duplicate field keys before canonical delta calculation",
+    "bind predecessor continuity authority and enforce canonical genesis or non-genesis predecessor shape",
+    "enforce a strictly narrower predecessor public projection and isolate the duplicate-key regression from policy drift"
   ]
 }
