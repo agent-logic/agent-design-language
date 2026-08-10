@@ -3,111 +3,13 @@
   "issue": 90,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f2456d9ca38b68c47da3bd9cd29d109b2467a93decc35f60f651495ac3094029",
-  "phase": "reviewed",
-  "generation": 19,
-  "digest": "3baedbc0a6e37302b1260aaf8a083c5b16a7cfb805fe0ba276521301e40e614a",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "1c4b59f0e2674c6e33d3efb3bdbe6f135148d43c9ebfbfcb2d10b62692b26ca3",
   "branch": "codex/90-code-repository-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-90-code-repository-migration",
-  "review_assignment": {
-    "reviewer": "Carver:019fe94e-cede-7900-90db-4e9b92164cef",
-    "assigned_by": "codex:issue-90-code-repository-migration",
-    "revision": "git-blake3:424915b3702215c6f02927fd629a62cfd24280bc:a0f0bf8740980cce71e08ef5704bb3b6d07f1790bfd4e455680180beaee1e33a",
-    "scope": [
-      ".csdlc/issues/90/audit.jsonl",
-      ".csdlc/issues/90/cards/sip.md",
-      ".csdlc/issues/90/cards/sip.values.json",
-      ".csdlc/issues/90/cards/sor.md",
-      ".csdlc/issues/90/cards/sor.values.json",
-      ".csdlc/issues/90/cards/spp.md",
-      ".csdlc/issues/90/cards/spp.values.json",
-      ".csdlc/issues/90/cards/srp.md",
-      ".csdlc/issues/90/cards/srp.values.json",
-      ".csdlc/issues/90/cards/stp.md",
-      ".csdlc/issues/90/cards/stp.values.json",
-      ".csdlc/issues/90/cards/vpp.md",
-      ".csdlc/issues/90/cards/vpp.values.json",
-      ".csdlc/issues/90/index.json",
-      ".csdlc/locks/90.lock",
-      ".csdlc/prepared/issues/90/design.md",
-      ".csdlc/prepared/issues/90/diagram.mmd",
-      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/git.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/code_repository_migration.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "Carver:019fe94e-cede-7900-90db-4e9b92164cef",
-    "scope": [
-      ".csdlc/issues/90/audit.jsonl",
-      ".csdlc/issues/90/cards/sip.md",
-      ".csdlc/issues/90/cards/sip.values.json",
-      ".csdlc/issues/90/cards/sor.md",
-      ".csdlc/issues/90/cards/sor.values.json",
-      ".csdlc/issues/90/cards/spp.md",
-      ".csdlc/issues/90/cards/spp.values.json",
-      ".csdlc/issues/90/cards/srp.md",
-      ".csdlc/issues/90/cards/srp.values.json",
-      ".csdlc/issues/90/cards/stp.md",
-      ".csdlc/issues/90/cards/stp.values.json",
-      ".csdlc/issues/90/cards/vpp.md",
-      ".csdlc/issues/90/cards/vpp.values.json",
-      ".csdlc/issues/90/index.json",
-      ".csdlc/locks/90.lock",
-      ".csdlc/prepared/issues/90/design.md",
-      ".csdlc/prepared/issues/90/diagram.mmd",
-      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/git.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/code_repository_migration.rs"
-    ],
-    "reviewed_revision": "git-blake3:424915b3702215c6f02927fd629a62cfd24280bc:a0f0bf8740980cce71e08ef5704bb3b6d07f1790bfd4e455680180beaee1e33a",
-    "findings": [
-      {
-        "id": "90-review-p2-overbroad-proof-contract",
-        "severity": "p2",
-        "summary": "The initial plan overpromised crash injection and an exhaustive migration matrix for a temporary one-sprint compatibility bridge; the design and SPP were narrowed and independently reapproved.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:424915b3702215c6f02927fd629a62cfd24280bc:a0f0bf8740980cce71e08ef5704bb3b6d07f1790bfd4e455680180beaee1e33a",
-        "route": null
-      },
-      {
-        "id": "90-review-p2-origin-cas-coverage",
-        "severity": "p2",
-        "summary": "Focused proof lacked stale-generation, missing/non-GitHub/divergent-fetch, and credential-redaction cases; the exact-head suite now passes all eight tests.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:424915b3702215c6f02927fd629a62cfd24280bc:a0f0bf8740980cce71e08ef5704bb3b6d07f1790bfd4e455680180beaee1e33a",
-        "route": null
-      },
-      {
-        "id": "90-review-p2-validation-denominator",
-        "severity": "p2",
-        "summary": "SOR retained the superseded six-test result; typed execution evidence now records the exact-head eight-test result.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:424915b3702215c6f02927fd629a62cfd24280bc:a0f0bf8740980cce71e08ef5704bb3b6d07f1790bfd4e455680180beaee1e33a",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "This command is intentionally a temporary compatibility bridge for the remaining legacy-repository sprint issues; publication still requires the unchanged exact-head and qualified-linkage checks."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -122,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2964a803b9d3a630238be715b29ca5872efe62ef00a86f1757b39f85359924f7",
+      "values_digest": "67ce3b8bf93616c179881f58cdb535cfa4cca36440bc5be67f2e70658e753dcf",
       "rendered_digest": "b058026d2c9dfb4c304588a9861589f15894e37f76f85599edf01695d3ead0bf",
       "ast_digest": "a02e6dfe1d8f56f6c21e87c0ccce41d0edec56946db65283099b60045269770c"
     },
     "stp": {
-      "values_digest": "7a75948af699c7e0f738d9057a0fe511ba2f2024e10d36090a0674d87a05eb34",
+      "values_digest": "2c029115f91ac1bcb993ddf23b906347213d0c3983e58fadc2f045dcb582f89e",
       "rendered_digest": "254224ff59f2c74deca622d847d17ac011229cc042bdbaa6bd5e7dddb5595ffe",
       "ast_digest": "ff287f3162ea010d16b6cb6ffc414ce4951c32f911f9bbc12869fe7d4c903201"
     },
     "spp": {
-      "values_digest": "069c5832a4eab79fef9299957806af9b0286ac60c630d589a038f8509a858c0b",
+      "values_digest": "3aac3586103e22309ea72db0697f9668c8f030b562e3a7ad7113bca804cfbc61",
       "rendered_digest": "3636802a041a6d1cbf29b71a352ad4e3a5c13963816c3c4d640e15667fd14398",
       "ast_digest": "137cc16ee5c0c05a685517836360068ba85f7b13dba5a2cac4afcaabaef82b8b"
     },
     "vpp": {
-      "values_digest": "e2673ad73f38fb00c4edf6ae15c109ba1913c096072c74eca448d0bd938d5328",
+      "values_digest": "ba849150ce1bb2f8c2a78e4870e7aa04078e656263a09c0b90c008ef83696080",
       "rendered_digest": "0d09e5d18302086d8a5840bcdf174ad7c4ab4e21037b8365f1e7256ccbe3dd0c",
       "ast_digest": "289a49dbabcedb8010031587193a0ed5080e2d190e1747fcb90056603f29af16"
     },
     "srp": {
-      "values_digest": "d2134140cde7aba53cbf9134fc3833755fa7e4df6ebe138b2ad764df707262eb",
-      "rendered_digest": "bf821451ecc1fbaf7306aeee6666691e0eed0234b78612ce95b4c7a98d7fb352",
-      "ast_digest": "fc786ca833a67ec5d7c398b73ffa7cbd251b2e1d0eaee5e50bc016d107d00e99"
+      "values_digest": "4c2096ebcb431593c15c67f82f812f7c8c530eeabe9d0960134d8765a6e5f3ab",
+      "rendered_digest": "3063b87f2aa3561604f0e70d826971dc5d560b5a97f27321180be2c41130a5df",
+      "ast_digest": "f61fd5fbf4d27329d5adabe6e60e658a2ba00c620f9f598e3fba38d499c0b984"
     },
     "sor": {
-      "values_digest": "e427df85f2cf3f93bbc9143e2fa6bdff19914fa3f1d6d7f9c9df70455f69bbc8",
-      "rendered_digest": "358cec69a33f3812cd7cfda0ef0288105da711e5a572b1d1a0c7adc4ffdb3f20",
-      "ast_digest": "36e278cb8b2d79095baf4e6e4052b9bfde2d653acf9c33ea358c06671812afe3"
+      "values_digest": "3893ff8613424e18d14b6f19391461e84538fdc354c6568c84c049e142ae34e7",
+      "rendered_digest": "a2ab4147ea1056ca79596322a1a54469d3b17fe64222e52b63ce497d1a04db1c",
+      "ast_digest": "f4c02c123d6974b09732010bad9f5d9cb10fe069d9c20e7c912b872caa8ebd30"
     }
   },
   "transitions": [
@@ -180,6 +82,20 @@
       "to": "reviewed",
       "actor": "codex:issue-90-code-repository-migration",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Recover exact-head review after CI found the new operator guidance contained a schema-version token rejected by the final v2-only guidance guard."
     }
   ],
   "audit": [
@@ -336,6 +252,27 @@
       "actor": "codex:issue-90-code-repository-migration",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Recover exact-head review after CI found the new operator guidance contained a schema-version token rejected by the final v2-only guidance guard.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Record the exact local proof for the CI-discovered final-authority guidance remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate10a\",\"current_operator_guidance_has_no_sunset_v1_route\"],\"purpose\":\"Prove the pre-code_repository recovery guidance remains compatible with the final v2-only operator-authority guard.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork remediation run: 1 passed, 0 failed\"}}"
     }
   ]
 }

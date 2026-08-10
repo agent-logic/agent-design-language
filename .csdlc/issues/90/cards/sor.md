@@ -90,12 +90,27 @@ Implemented a typed, audited recovery transaction that fills an absent code_repo
     "purpose": "Prove the clean implementation installs into an isolated generation directory and installed csdlc-issue exposes migrate-code-repository --request.",
     "outcome": "passed",
     "evidence_ref": "/Volumes/FastWork/adl-install-smoke/issue-90/csdlc-v2/install-receipt.json; source_revision git:9041657e7ebcbc3e2bd2f1cdba3028d769e84dad"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--locked",
+      "--test",
+      "gate10a",
+      "current_operator_guidance_has_no_sunset_v1_route"
+    ],
+    "purpose": "Prove the pre-code_repository recovery guidance remains compatible with the final v2-only operator-authority guard.",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork remediation run: 1 passed, 0 failed"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
