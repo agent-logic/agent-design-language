@@ -2,6 +2,7 @@
 use adl_runtime_kernel::*;
 use sha2::Digest;
 use std::collections::BTreeSet;
+use std::{fs, path::Path};
 
 const H: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const R: &str = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
@@ -143,6 +144,21 @@ fn accepted_and_rejected_paths_are_deterministic() {
         let b = build_adaptive_learning_history(&g, &p, &i, &pol, None).unwrap();
         assert_eq!(a, b);
         validate_adaptive_learning_history(&a, &g, &p, &pol, None).unwrap();
+        if d == LearningDisposition::Accepted {
+            if let Ok(relative) = std::env::var("ADL_NATIVE_SEMANTIC_OUTPUT") {
+                let path = Path::new(&relative);
+                assert!(
+                    !path.is_absolute()
+                        && path
+                            .components()
+                            .all(|part| matches!(part, std::path::Component::Normal(_)))
+                );
+                let root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
+                let output = root.join(path);
+                fs::create_dir_all(output.parent().unwrap()).unwrap();
+                fs::write(output, serde_jcs::to_vec(&a).unwrap()).unwrap();
+            }
+        }
         if d == LearningDisposition::Rejected {
             assert_eq!(a.resulting_graph_sha256, g.hash());
             assert_eq!(a.resulting_state_sha256, H)
