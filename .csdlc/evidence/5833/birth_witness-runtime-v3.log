@@ -1,0 +1,18 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+────────────
+ Nextest run ID bae1da5d-cb75-4475-b5db-e8895ba7ecb0 with nextest profile: default
+    Starting 12 tests across 1 binary
+        PASS [   0.017s] ( 1/12) adl-runtime-kernel::birth_witness forged_signature_and_wrong_signing_key_fail_closed
+        PASS [   0.017s] ( 2/12) adl-runtime-kernel::birth_witness policy_candidate_and_roster_bindings_fail_closed
+        PASS [   0.018s] ( 3/12) adl-runtime-kernel::birth_witness stale_candidate_and_evidence_substitutions_fail_closed
+        PASS [   0.018s] ( 4/12) adl-runtime-kernel::birth_witness unknown_fields_and_fixture_matrix_fail_closed
+        PASS [   0.018s] ( 5/12) adl-runtime-kernel::birth_witness missing_duplicate_and_substituted_witnesses_fail_closed
+        PASS [   0.018s] ( 6/12) adl-runtime-kernel::birth_witness valid_signed_rejection_yields_caveated_not_claimed_receipt
+        PASS [   0.018s] ( 7/12) adl-runtime-kernel::birth_witness rejected_or_digest_stale_birthday_candidate_is_not_witnessable
+        PASS [   0.018s] ( 8/12) adl-runtime-kernel::birth_witness unsafe_identifiers_and_policy_collisions_fail_closed_without_echoing_values
+        PASS [   0.020s] ( 9/12) adl-runtime-kernel::birth_witness private_or_machine_local_public_evidence_never_enters_receipt
+        PASS [   0.020s] (10/12) adl-runtime-kernel::birth_witness equivalent_witness_orders_are_byte_stable
+        PASS [   0.023s] (11/12) adl-runtime-kernel::birth_witness accepts_exact_policy_complete_witnesses_and_emits_canonical_semantics
+        PASS [   0.027s] (12/12) adl-runtime-kernel::birth_witness packet_validator_reconstructs_every_public_field
+────────────
+     Summary [   0.028s] 12 tests run: 12 passed, 0 skipped
