@@ -64,13 +64,13 @@ def digest(path)
 end
 
 def observed_cases(stdout)
-  lines = stdout.lines.filter_map do |line|
+  lines = stdout.lines.each_with_object([]) do |line, entries|
     next unless line.start_with?(MARKER)
 
     payload = JSON.parse(line.delete_suffix("\n").delete_prefix(MARKER))
     name = payload.fetch("case")
     result = payload.fetch("result")
-    { "case" => name, "result" => result, "observed_line_sha256" => Digest::SHA256.hexdigest(line.chomp) }
+    entries << { "case" => name, "result" => result, "observed_line_sha256" => Digest::SHA256.hexdigest(line.chomp) }
   rescue JSON::ParserError, KeyError
     abort_with("malformed machine negative-case record")
   end
