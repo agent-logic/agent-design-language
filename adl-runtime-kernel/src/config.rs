@@ -217,6 +217,7 @@ pub enum ConfigError {
 #[serde(deny_unknown_fields)]
 pub struct RuntimeInitConfig {
     pub schema: String,
+    pub polis_name: String,
     pub state_root: PathBuf,
     pub binaries: RuntimeBinariesInitConfig,
     pub paths: RuntimePathsInitConfig,
@@ -253,6 +254,13 @@ impl RuntimeInitConfig {
     pub fn validate(&self) -> Result<(), RuntimeInitError> {
         if self.schema != RUNTIME_INIT_SCHEMA {
             return Err(RuntimeInitError::UnsupportedSchema(self.schema.clone()));
+        }
+        validate_non_empty_trimmed("polis_name", &self.polis_name)?;
+        if self.polis_name.len() > 128 || self.polis_name.chars().any(char::is_control) {
+            return Err(RuntimeInitError::Policy(
+                "polis_name must be at most 128 characters and contain no control characters"
+                    .to_owned(),
+            ));
         }
         validate_absolute_path("state_root", &self.state_root)?;
         self.binaries.validate()?;
@@ -428,6 +436,9 @@ impl RuntimeInitConfig {
 
     pub fn continuity_identity_projection(&self) -> Result<serde_json::Value, serde_json::Error> {
         let mut value = serde_json::to_value(self)?;
+        if let Some(root) = value.as_object_mut() {
+            root.remove("polis_name");
+        }
         if let Some(credentials) = value
             .get_mut("credentials")
             .and_then(serde_json::Value::as_object_mut)

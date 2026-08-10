@@ -147,6 +147,7 @@ fn service_with_executor(token: &str, executor: Arc<dyn OperationExecutor>) -> T
     service
         .set_public_base_url("https://observatory.example.test:20997")
         .unwrap();
+    service.set_polis_name("Test Polis").unwrap();
     TestService {
         service,
         operation,
@@ -262,8 +263,22 @@ async fn connect_public(address: std::net::SocketAddr, connector: Connector) -> 
     .await
     .unwrap();
     let feed = next_json_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
+    assert_eq!(feed["polis_name"], "Test Polis");
     assert_eq!(feed["runtime_instance_id"], "instance-ws");
     socket
+}
+
+#[test]
+fn polis_rename_does_not_change_runtime_instance_identity() {
+    let test_service = service("test-observatory-websocket-token-rename");
+    let before = test_service.service.observatory_feed();
+    assert_eq!(before.polis_name, "Test Polis");
+    assert_eq!(before.runtime_instance_id, "instance-ws");
+
+    test_service.service.set_polis_name("Axioma").unwrap();
+    let after = test_service.service.observatory_feed();
+    assert_eq!(after.polis_name, "Axioma");
+    assert_eq!(after.runtime_instance_id, before.runtime_instance_id);
 }
 
 async fn connect_acip(address: std::net::SocketAddr, connector: Connector) -> TestSocket {

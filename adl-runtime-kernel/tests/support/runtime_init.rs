@@ -77,6 +77,7 @@ pub fn write_with_certificate_for_state(
         &init,
         format!(
             r#"schema = "adl.runtime_v3.init.v1"
+polis_name = "Test Polis"
 state_root = "{}"
 [binaries]
 kernel_path = "{}"

@@ -320,6 +320,7 @@ struct AcipSequenceReservation {
 
 pub struct ControlService<C> {
     instance_id: String,
+    polis_name: Mutex<String>,
     recorder: RuntimeRecorder,
     lifecycle: C,
     authority: ControlAuthority,
@@ -394,6 +395,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let observatory_allowed_origins = observatory_allowed_origins.into_iter().collect();
         Self {
             instance_id,
+            polis_name: Mutex::new("Unconfigured Polis".to_owned()),
             recorder,
             lifecycle,
             authority,
@@ -535,6 +537,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .public_base_url
             .lock()
             .expect("public base URL mutex poisoned") = public_base_url.to_owned();
+        Ok(())
+    }
+
+    pub fn set_polis_name(&self, polis_name: &str) -> Result<(), ControlError> {
+        if polis_name.trim().is_empty()
+            || polis_name != polis_name.trim()
+            || polis_name.len() > 128
+            || polis_name.chars().any(char::is_control)
+        {
+            return Err(ControlError::InvalidBounds);
+        }
+        *self.polis_name.lock().expect("Polis name mutex poisoned") = polis_name.to_owned();
         Ok(())
     }
 
@@ -706,6 +720,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         });
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
+            polis_name: self
+                .polis_name
+                .lock()
+                .expect("Polis name mutex poisoned")
+                .clone(),
             runtime_instance_id: self.instance_id.clone(),
             runtime_process_id: std::process::id(),
             default_runtime_changed: false,
@@ -1154,6 +1173,7 @@ pub struct ObservatoryProofFeed {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct ObservatoryFeed {
     pub schema: String,
+    pub polis_name: String,
     pub runtime_instance_id: String,
     pub runtime_process_id: u32,
     pub default_runtime_changed: bool,

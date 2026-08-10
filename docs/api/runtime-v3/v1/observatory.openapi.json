@@ -286,7 +286,9 @@
         "additionalProperties": false,
         "required": [
           "schema",
+          "polis_name",
           "runtime_instance_id",
+          "runtime_process_id",
           "default_runtime_changed",
           "runtime_selection",
           "control",
@@ -301,8 +303,17 @@
           "schema": {
             "const": "adl.runtime_v3.observatory_feed.v2"
           },
+          "polis_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
           "runtime_instance_id": {
             "type": "string"
+          },
+          "runtime_process_id": {
+            "type": "integer",
+            "minimum": 1
           },
           "default_runtime_changed": {
             "type": "boolean"

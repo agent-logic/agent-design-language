@@ -381,6 +381,10 @@ async fn main() -> ExitCode {
                 eprintln!("runtime public HTTPS base is invalid");
                 return ExitCode::from(78);
             }
+            if service.set_polis_name(&init.polis_name).is_err() {
+                eprintln!("runtime Polis name is invalid");
+                return ExitCode::from(78);
+            }
             service.set_weather_stale_after(std::time::Duration::from_millis(
                 init.kernel.weather_stale_after_millis,
             ));

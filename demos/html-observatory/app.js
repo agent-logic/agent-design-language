@@ -867,7 +867,7 @@ function normalizeTrustedRuntimeV3ApiBase(value) {
     parsed.hash
   ) {
     throw new Error(
-      `Runtime v3 selection requires the configured Polis HTTPS hostname.`
+      `Runtime v3 selection requires the configured Runtime instance HTTPS hostname.`
     );
   }
   return parsed.origin;
@@ -886,7 +886,7 @@ async function checkEventsEndpoint(apiBase) {
   if (requestedRuntimeSelection() === "v3") {
     if (!isRuntimeV3ApiBase(base)) {
       throw new Error(
-        `Runtime v3 event checks require the configured Polis HTTPS hostname.`
+        `Runtime v3 event checks require the configured Runtime instance HTTPS hostname.`
       );
     }
     const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
@@ -1111,6 +1111,7 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
     fetchedAt: new Date().toISOString(),
     status: {
       schema: feed.schema,
+      polis_name: feed.polis_name,
       runtime_owner: "runtime-v3",
       runtime_id: feed.runtime_instance_id,
       agent_instance_id: feed.runtime_instance_id,
@@ -1525,6 +1526,7 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
     events,
     statusRows,
     readyState: readinessState,
+    polisName: status.polis_name || "Unspecified Polis",
     runtimeInstanceId: status.runtime_id || status.runtime_instance_id || ""
   };
 }
@@ -1548,6 +1550,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET, { chatLive = 
     modeSelect.value = vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
   }
   setText("statusbar-updated", vm.fetchedAt ? formatTimestampLabel(vm.fetchedAt) : "timestamp unavailable");
+  setText("polis-name", vm.polisName);
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("agent-count", `${vm.agentTotal.toLocaleString()} agents`);
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()} Agents`);

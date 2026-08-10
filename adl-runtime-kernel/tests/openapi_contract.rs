@@ -25,6 +25,18 @@ fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
     assert_no_unavailable_operational_claims(&runtime);
     assert_no_unavailable_operational_claims(&observatory);
 
+    let observatory_feed = &observatory["components"]["schemas"]["ObservatoryFeed"];
+    let required: BTreeSet<&str> = observatory_feed["required"]
+        .as_array()
+        .expect("ObservatoryFeed required fields")
+        .iter()
+        .map(|value| value.as_str().expect("required field name"))
+        .collect();
+    assert!(required.contains("polis_name"));
+    assert!(required.contains("runtime_instance_id"));
+    assert!(required.contains("runtime_process_id"));
+    assert!(observatory_feed["properties"]["polis_name"].is_object());
+
     for shared_schema in ["ClockAuthority", "ObservabilityHealth"] {
         assert_eq!(
             runtime["components"]["schemas"][shared_schema],

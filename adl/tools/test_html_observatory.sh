@@ -19,6 +19,7 @@ const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 (async () => {
 const observatoryFeed = {
   schema: "adl.runtime_v3.observatory_feed.v2",
+  polis_name: "Konishi",
   runtime_instance_id: "runtime-v3-test",
   runtime_process_id: 12345,
   runtime_selection: "runtime_v3_explicit_opt_in",
@@ -154,11 +155,11 @@ assert.equal(api.requestedRuntimeSelection(), "v3");
 assert.equal(api.getQueryApiBase(), "https://wuji.agent-logic.ai:20997");
 assert.throws(
   () => api.normalizeTrustedRuntimeV3ApiBase("https://localhost:21983"),
-  /configured Polis HTTPS hostname/
+  /configured Runtime instance HTTPS hostname/
 );
 assert.throws(
   () => api.normalizeTrustedRuntimeV3ApiBase("https://127.0.0.1:21983"),
-  /configured Polis HTTPS hostname/
+  /configured Runtime instance HTTPS hostname/
 );
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
 assert.equal(api.classifyRuntimeV3Failure(new Error("backpressure")).state, "backpressure");
@@ -298,6 +299,8 @@ const staleSnapshot = api.runtimeV3SnapshotFromFeed({
   }
 });
 const staleView = api.buildPanopticonViewModel(staleSnapshot);
+assert.equal(staleSnapshot.status.polis_name, "Konishi");
+assert.equal(staleView.polisName, "Konishi");
 assert.equal(staleView.readyState, "stale");
 assert.equal(staleView.signals.find((signal) => signal.label === "readiness").value, "stale");
 assert.match(
@@ -337,11 +340,11 @@ assert.equal(
 
 assert.throws(
   () => api.normalizeTrustedRuntimeV3ApiBase("https://operator:token@wuji.agent-logic.ai:20997"),
-  /configured Polis HTTPS hostname/
+  /configured Runtime instance HTTPS hostname/
 );
 assert.throws(
   () => api.normalizeTrustedRuntimeV3ApiBase("http://localhost:21983"),
-  /configured Polis HTTPS hostname/
+  /configured Runtime instance HTTPS hostname/
 );
 
 await assert.rejects(

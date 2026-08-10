@@ -97,6 +97,10 @@
             <span>Environment</span>
             <strong id="environment-label">Not connected</strong>
           </div>
+          <div class="top-readout">
+            <span>Polis</span>
+            <strong id="polis-name">Not identified</strong>
+          </div>
           <label class="top-select">
             <span>Mode</span>
             <select id="top-mode-select" aria-label="Mode">
@@ -290,14 +294,14 @@
             <article>
               <span class="row-kicker">CSM API</span>
               <strong id="hero-csm-api-status">pending</strong>
-              <p class="row-detail">The configured Polis API hostname selects this Runtime v3 instance without weakening TLS identity checks.</p>
+              <p class="row-detail">The configured public endpoint hostname selects this Runtime v3 instance without changing the logical Polis identity.</p>
               <div class="api-mini-list" id="hero-api-list" aria-label="CSM API endpoint status"></div>
             </article>
             <article class="runtime-test-card">
               <span class="row-kicker">Real Runtime Test</span>
               <strong id="dashboard-live-test-status">retained mirror</strong>
               <label class="compact-field" for="dashboard-live-api-base">API base</label>
-              <input id="dashboard-live-api-base" type="url" inputmode="url" placeholder="https://polis.example.com:20997">
+              <input id="dashboard-live-api-base" type="url" inputmode="url" placeholder="https://runtime.example.com:20997">
               <div class="runtime-test-actions" aria-label="Runtime test controls">
                 <button class="button button-primary" type="button" id="dashboard-connect-live">Connect</button>
                 <button class="button button-secondary" type="button" id="dashboard-refresh-live">Refresh</button>

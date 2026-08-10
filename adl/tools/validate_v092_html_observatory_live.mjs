@@ -26,6 +26,7 @@ const tlsConnectHost = process.env.ADL_TLS_PROOF_CONNECT_HOST || null;
 const allowRuntimeRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
 const sourceRevision = process.env.ADL_SOURCE_REVISION;
 const expectedRuntimePid = Number(process.env.ADL_EXPECTED_RUNTIME_PID);
+const expectedPolisName = process.env.ADL_EXPECTED_POLIS_NAME;
 
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the served HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the exact Runtime candidate URL");
@@ -36,6 +37,10 @@ assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must na
 assert(
   Number.isSafeInteger(expectedRuntimePid) && expectedRuntimePid > 1,
   "ADL_EXPECTED_RUNTIME_PID must independently name the exact Runtime child approved for restart"
+);
+assert(
+  expectedPolisName?.trim() === expectedPolisName && expectedPolisName.length > 0,
+  "ADL_EXPECTED_POLIS_NAME must name the configured logical Polis"
 );
 const fastWorkRoot = await fs.realpath("/Volumes/FastWork");
 const requestedEvidenceRoot = path.resolve(evidenceRoot);
@@ -206,8 +211,14 @@ try {
   });
   const initialStreamSequence = Number(await page.locator(".observatory").getAttribute("data-stream-last-sequence"));
   assert.equal(await page.locator("#environment-label").textContent(), "Trusted Runtime");
+  await page.locator("#polis-name").filter({ hasText: expectedPolisName }).waitFor({ timeout: 20_000 });
+  assert.equal(await page.locator("#polis-name").textContent(), expectedPolisName);
   assert.equal(await page.locator("#operator-status-pill").textContent(), "Public read");
-  report.assertions.live_wss_frame = { passed: true, initial_sequence: initialStreamSequence };
+  report.assertions.live_wss_frame = {
+    passed: true,
+    polis_name: expectedPolisName,
+    initial_sequence: initialStreamSequence
+  };
 
   const navigation = ["Runtime", "Agents", "Chat", "Events", "AWS", "Governance", "Evidence"];
   for (const name of navigation) {

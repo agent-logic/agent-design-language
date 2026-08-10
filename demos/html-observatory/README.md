@@ -80,6 +80,8 @@ HTTPS listener on the instance, including its co-located Observatory and Runtime
 API. Keep the private key and all ACME state outside the repository. Configure
 the Runtime init with:
 
+- `polis_name` set to the mutable logical display name for this instance's
+  Polis;
 - `api.address` bound to `127.0.0.1`;
 - `api.public_base_url` and `api.tls.server_name` set to the certificate DNS
   identity;
@@ -89,6 +91,14 @@ the Runtime init with:
   root;
 - the exact Observatory HTTPS origin in `observatory.allowed_origins`;
 - distinct control, operation, and continuity keys.
+
+Each Runtime instance owns an independent init file, state root, listener set,
+and certificate paths, in the same operational style as separate Apache
+virtual-host configurations. `polis_name` is display metadata: it is not
+derived from the hostname and does not participate in durable state identity,
+continuity, signatures, or authorization. Renaming `Konishi` or `Axioma`
+therefore changes one instance config and restarts that instance; it does not
+move state, rotate keys, or rename the Wuji host.
 
 A distributed Polis may have several Runtime instances, for example a local
 instance and one or more regional instances. Each instance declares its own
@@ -102,7 +112,7 @@ Start the Runtime through its required Guardian lease and explicit init file,
 then serve this repository root from the second loopback HTTPS listener. Open:
 
 ```text
-https://<certificate-hostname>:<observatory-port>/demos/html-observatory/?runtime=v3&runtimeApiBase=https%3A%2F%2F<certificate-hostname>%3A<runtime-port>&live=1
+https://<runtime-instance-hostname>:<observatory-port>/demos/html-observatory/?runtime=v3&runtimeApiBase=https%3A%2F%2F<runtime-instance-hostname>%3A<runtime-port>&live=1
 ```
 
 For a machine-local proof, route the certificate hostname to `127.0.0.1` at
@@ -113,8 +123,9 @@ connection may remain loopback-only while normal hostname and public-chain
 verification stays enabled.
 
 The HTTPS serving layer must generate the Observatory CSP response header from
-that instance's configured public hostname. Limit `connect-src` to
-`https://<certificate-hostname>:*` and `wss://<certificate-hostname>:*`, and
+that instance's configured public endpoint hostname. Limit `connect-src` to
+`https://<runtime-instance-hostname>:*` and
+`wss://<runtime-instance-hostname>:*`, and
 retain `object-src 'none'`, `base-uri 'none'`, `form-action 'none'`, and
 response-header-only `frame-ancestors 'none'`. The checked-in page does not
 hard-code a deployment hostname, so each distributed Runtime instance can use
@@ -151,15 +162,16 @@ candidate first, then run:
 ```sh
 NODE_PATH=<playwright-node-modules> \
 PLAYWRIGHT_BROWSERS_PATH=<playwright-browser-storage> \
-ADL_OBSERVATORY_URL=https://<certificate-hostname>:<observatory-port>/demos/html-observatory/ \
-ADL_RUNTIME_API_BASE=https://<certificate-hostname>:<runtime-port> \
+ADL_OBSERVATORY_URL=https://<runtime-instance-hostname>:<observatory-port>/demos/html-observatory/ \
+ADL_RUNTIME_API_BASE=https://<runtime-instance-hostname>:<runtime-port> \
 ADL_OPERATOR_KEY_FILE=<operator-ed25519-seed-file> \
 ADL_OBSERVATORY_EVIDENCE_DIR=<absolute-fastwork-evidence-directory> \
 ADL_TLS_PROOF_CONNECT_HOST=127.0.0.1 \
-ADL_PLAYWRIGHT_HOST_RESOLVER_RULES='MAP <certificate-hostname> 127.0.0.1' \
+ADL_PLAYWRIGHT_HOST_RESOLVER_RULES='MAP <runtime-instance-hostname> 127.0.0.1' \
 ADL_ALLOW_RUNTIME_RESTART_PROOF=1 \
 ADL_SOURCE_REVISION="$(git rev-parse HEAD)" \
 ADL_EXPECTED_RUNTIME_PID=<independently-confirmed-runtime-child-pid> \
+ADL_EXPECTED_POLIS_NAME=<configured-logical-polis-name> \
 node adl/tools/validate_v092_html_observatory_live.mjs
 ```
 
