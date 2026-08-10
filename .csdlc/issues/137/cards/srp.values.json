@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
     "slug": "wp04-native-distributed-workflow",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #137 workflow, focused validator, lifecycle/proof records, exact-revision checkout, three-platform matrix, artifact aggregation, action pins, permissions, timeouts, and path ownership.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".github/workflows/wp04-native-distributed.yml\n.csdlc/issues/137\n.csdlc/prepared/issues/137\n.csdlc/evidence/137",
+      "review_revision": "git-blake3:4f6e3aa24a409808a1a5ad0178b5930d1984bab1:a1e3552b85e5c0bd4ffe9cc99748ab28c338ec871b5809d2af4ddbfeab85f43a",
+      "reviewer": "/root/prepare_5875_release",
       "review_prompts": [
         "Can manual dispatch check out a mutable or unintended revision?",
         "Can a missing Linux, macOS, or Windows receipt still allow aggregation to pass?",
@@ -23,9 +23,23 @@
         "Does the artifact layout match the existing producer and validator without overwriting platform fragments?",
         "Did the change touch any #5878-owned source, tool, manifest, or evidence path?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "P1-dispatch-source-head-binding",
+          "severity": "p1",
+          "summary": "Fixed: both producer and aggregation jobs reject source_sha unless it equals the workflow-dispatch github.sha before checkout, and the issue-owned validator proves both gates and their ordering before checkout and token exposure.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:4f6e3aa24a409808a1a5ad0178b5930d1984bab1:a1e3552b85e5c0bd4ffe9cc99748ab28c338ec871b5809d2af4ddbfeab85f43a",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "The workflow intentionally remains dispatch-only and cannot execute until the selected exact revision also contains the existing #5878 producer and aggregate validator.",
+        "Hosted Linux, macOS, and Windows proof remains a post-merge workflow-dispatch responsibility of #5878; this issue proves registration and orchestration contracts only."
+      ],
+      "review_result": "pass"
     }
   }
 }

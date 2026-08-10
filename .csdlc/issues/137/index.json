@@ -4,13 +4,40 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ef35b5ed2a3b43bfceb363ad9a226ca55483fa764afa32a2dea51654c84ea8b6",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "e5c3393c0facb308fa16b1ca81accafccfb98a1c79ac7ddddaf077d7529c9e42",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "b3eb39200941d2eefceb9192838e249f4a8e305b256726f29060a765ed2ef906",
   "branch": "codex/137-wp04-native-distributed-workflow",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-137-wp04-native-workflow",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "/root/prepare_5875_release",
+    "scope": [
+      ".github/workflows/wp04-native-distributed.yml",
+      ".csdlc/issues/137",
+      ".csdlc/prepared/issues/137",
+      ".csdlc/evidence/137"
+    ],
+    "reviewed_revision": "git-blake3:4f6e3aa24a409808a1a5ad0178b5930d1984bab1:a1e3552b85e5c0bd4ffe9cc99748ab28c338ec871b5809d2af4ddbfeab85f43a",
+    "findings": [
+      {
+        "id": "P1-dispatch-source-head-binding",
+        "severity": "p1",
+        "summary": "Fixed: both producer and aggregation jobs reject source_sha unless it equals the workflow-dispatch github.sha before checkout, and the issue-owned validator proves both gates and their ordering before checkout and token exposure.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4f6e3aa24a409808a1a5ad0178b5930d1984bab1:a1e3552b85e5c0bd4ffe9cc99748ab28c338ec871b5809d2af4ddbfeab85f43a",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The workflow intentionally remains dispatch-only and cannot execute until the selected exact revision also contains the existing #5878 producer and aggregate validator.",
+      "Hosted Linux, macOS, and Windows proof remains a post-merge workflow-dispatch responsibility of #5878; this issue proves registration and orchestration contracts only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7c3886abf8643a45570f87972b07df0da66c8b616db073af9eac77cb027306ea",
+      "values_digest": "b75c81dc1f807f3256c7f855e9c1e8ab30d5453910031a1d3f1ae3283d4cb35e",
       "rendered_digest": "fdf6fb7c6194070e959f6f8178a7b24b3b4651a2d51479e3284dfdc834505bac",
       "ast_digest": "95a85a24f9cfa33009ae5b9a075acb102dd11c02bbe9e146668f40255a38dab5"
     },
     "stp": {
-      "values_digest": "5187d2bcc67413fd0ac1ac32c9a7aebdef3776ea21f2ef8087450c34cbba1e6e",
+      "values_digest": "1a8fa31baaec6effc05af33de5d6d6327d3b3040fad1398252a219f7df87619e",
       "rendered_digest": "782f38c4d1a66ad621410d0df18fb45d9800e9c8f0a4fccac31a19c42d145c8e",
       "ast_digest": "afc3cbf1a8e836520d346d60dd16aa22fcc22510e138004d8f9d45284c98f13e"
     },
     "spp": {
-      "values_digest": "9946f96823df1dd771affded6fbd57da2fe711b06db62c13e96459f43fd5e580",
+      "values_digest": "f2416d70abed4b9e9062c330fe6b037b2377f8812fef3b071ad366fa51058c5e",
       "rendered_digest": "0dae0bcdc72ad56272f14aec47f9b6f919ae2e9bed836191cb60162c82d17d8f",
       "ast_digest": "e027ea35a27dbb808bf553c96a1080bd134161fce73517409e39f75080e1a472"
     },
     "vpp": {
-      "values_digest": "eff63f3480d7dfdf824408fcd1c07db8eec3790569eaef099c420b02ce115a64",
+      "values_digest": "9b38770cde6982acbf618650e42f22aebb4a48af75bf44fb67ad99778d08edec",
       "rendered_digest": "ad7d584d779d235d127c3c00f6a55e205a32fee1057e588b0545dcfdd3425dc1",
       "ast_digest": "5e854751a6414f27fb10eeab3e954588e09872c0bbef6e9cfef421aa724aa0f2"
     },
     "srp": {
-      "values_digest": "a1b75cbda66d0c2f2ad2e5d01e5d903dec10e86de11b3585496937603ff42571",
-      "rendered_digest": "ba2cd2c5e7ddf3d5b63c152e619f292a5ff83d12e9781704d7f90dcb79a57296",
-      "ast_digest": "6f695f2b84f04689b72e01c9db9fc3e08be1625af458dd6d5d481d6e44af7d85"
+      "values_digest": "76f9657c485eaee2a10ddc3b622ab3c159ce7b734d38003de8dfd7dfaa500495",
+      "rendered_digest": "f9afa1eba8e2b3cb077ccbccbd9331aa6b627b5f9ee7f96d05741ca774c984ed",
+      "ast_digest": "f12c143451062b860404347449f5432457a50ddb5dc849d3fbf6f80bf0360c4e"
     },
     "sor": {
-      "values_digest": "b1328c15e98a8dc8cb68f475c415b734f35f969c25630b8c4d7676b4f29b4f7b",
+      "values_digest": "ffdf73c4ee827b2d71a4db5b807e4490a5d22d281f36a3cf71ee081349e65cdf",
       "rendered_digest": "4d31f4367be9ceaa76c0f49f8d3a6840704680dd97af2839e7a9eded170c85f4",
       "ast_digest": "23e06b985a44c76d51fd5de726081da0164bfc5bc8f30d1750be4e5c69c4ff5a"
     }
@@ -76,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:137-wp04-native-workflow",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -120,6 +154,13 @@
       "actor": "codex:137-wp04-native-workflow",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:137-wp04-native-workflow",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
