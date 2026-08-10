@@ -6,10 +6,18 @@
   "initialization_digest": "421dcbb5f175ad60a76124fe09d92fb357634c3ce493305cc9f9722b6827c02e",
   "phase": "implemented",
   "generation": 19,
-  "digest": "4f1fb8f52c0f7fe55f13203d59f253db5f7b2458de8db8435565c663b0f5c60a",
+  "digest": "b8206a835f60975090b95b94ee99e1cc53926350259bf6ccaf19ea1dbb7f1447",
   "branch": "codex/5867-membership-topology-convergence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5867-membership",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Codex independent review subagent /root/review_5866_hardened",
+    "assigned_by": "codex:5867-membership",
+    "revision": "git-blake3:a01fec9223fd57dcb5228bf74d63147552bc6b3a:afcccf09884a15ea68a09a84d6d5241b6607bf4435c46b03db4881e191127102",
+    "scope": [
+      "adl-runtime/src/distributed/membership.rs",
+      "adl-runtime/tests/distributed_membership.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +53,9 @@
       "ast_digest": "d743fdd2a607bc67e5a278be7233667bcb18fb03afa3cb92a5a37106eca233b5"
     },
     "srp": {
-      "values_digest": "d0f3a5366222f672e5d4fb5b6806b5ee82d50257a53aa694310b008380715f52",
-      "rendered_digest": "793834bec0816c828606a7b0c9165399f0e60c720ee4d57341b2ba27cf0c9748",
-      "ast_digest": "aa97f93c9b7371026df7043492d94c1f3b157d3fc97869795f5363d328b0ab42"
+      "values_digest": "195ab32dd0619fbee6e49ae3b3adf402fd27cea702632bf494ba9770c0be539f",
+      "rendered_digest": "c9511dd928188ee11484a246e1e0db041eb882aeb59a8824617cb9eff99641a3",
+      "ast_digest": "c920402ec90ebb7ff930d59386a3a196e1d2ae578266999bd8cf6977b0355f58"
     },
     "sor": {
       "values_digest": "6846a79aee3c0b62e5ea99bed3528ae908aa06039b621060b5b7abc71d1f28f1",
@@ -372,6 +380,13 @@
       "actor": "codex:5867-membership",
       "reason": "Recover stale assignment after correcting the retained self-referential receipt transcript; product source and proof semantics remain unchanged.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 19,
+      "actor": "codex:5867-membership",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

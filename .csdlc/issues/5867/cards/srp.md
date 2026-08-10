@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/src/distributed/membership.rs
+adl-runtime/tests/distributed_membership.rs
 
 ## Prompts
 

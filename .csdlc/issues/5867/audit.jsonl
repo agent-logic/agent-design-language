@@ -37,3 +37,4 @@
 {"sequence":37,"generation":18,"actor":"codex:5867-membership","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":38,"generation":18,"actor":"codex:5867-membership","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":19,"actor":"codex:5867-membership","reason":"Recover stale assignment after correcting the retained self-referential receipt transcript; product source and proof semantics remain unchanged.","operation":"recover_review"}
+{"sequence":40,"generation":19,"actor":"codex:5867-membership","reason":"assign bounded exact-revision review","operation":"assign_review"}
