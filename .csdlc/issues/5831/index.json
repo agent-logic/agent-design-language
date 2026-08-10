@@ -6,10 +6,26 @@
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
   "generation": 70,
-  "digest": "30015f3af4ce806af8602457ee9809998c06c365e197d491627ed8453b7816b5",
+  "digest": "4ed588f2d685b129f6d758de1869e33b0116fa9fbf69411d60b4c0888b94192a",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
+    "assigned_by": "codex:5831-adaptive-learning",
+    "revision": "git-blake3:eb163fd085076ae6edce33525a9bcb6f5df92b9c:7ed60600e82630430fd978235c80ebafc561a5f001891f997066e724000017b0",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/fixtures/adaptive_learning",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      ".csdlc/evidence/5831",
+      ".csdlc/issues/5831"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "c0f3b6d6cb3314d99a1881e50e7bbbefaaf03d884d76a03a73abf37899c88ce7",
-      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
-      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
+      "values_digest": "129eae8b1c30af6cea26827593055c26ea2e60b010fb53387815726cf2458015",
+      "rendered_digest": "1abe9f3e3540b44d1149eccb7b8357339eeb7173e51907f1f7435355f5877e65",
+      "ast_digest": "2b51027e46a9fd6201e748fd6b10588265d6283660896c4b730add4ad99540a9"
     },
     "sor": {
       "values_digest": "3e2999d231301c9a5d63c25b07db5ff35ba38d6f2d2245af15b145e72827b0e9",
@@ -757,6 +773,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "Record the completed review repair: real Runtime v3 mutation authority, loop and cancellation binding, durable governed persistence, validated lineage and rollback, retained recurrence, bounded privacy, and exact eight-test proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the governed WP-13A Runtime v3 adaptive-learning DAG over real MutationGate, LoopOutcome, CancellationToken, AdaptationStore, and KernelDurableState authorities, with accepted/rejected mutation semantics, deterministic replay, validated predecessor lineage, retained recurrence, bounded privacy, and authority-bound rollback; mandatory native proof remains deferred to CI.\",\"changes\":[\"Added a governed adaptive-learning executor that preflights all untrusted inputs, invokes signed MutationGate authority only for accepted non-cancelled mutations, and retains verified MutationEvidence.\",\"Bound actual LoopOutcome replay/state and cancellation, persisted governed state and lifelog through KernelDurableState, and kept rejected/cancelled paths durable but non-mutating.\",\"Validated complete predecessor schema, digest, history/profile/capability/policy/authority lineage and before-state continuity; rejected cross-lineage splicing and sequence overflow.\",\"Made rollback require exact durable history plus verified authority/gate evidence, retained recurrence for validation round-trip, and bounded/redacted IDs, rationale, evidence, policies, and recurrence.\",\"Added an exact eight-test real-authority matrix, corrected native inventory, issue-local native producer/validator, and narrow WP-13A native workflow.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".csdlc/evidence/5831/adaptive-learning-runtime-v3.log\",\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\",\".csdlc/evidence/5831/adaptive-learning-native-scripts.log\",\".csdlc/evidence/5831/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove real governed acceptance and durable persistence, rejected/cancelled nonmutation, forged grant/authority rejection, predecessor splice and overflow rejection, recurrence/capacity bounds, privacy, and tampered-history rollback at exact revision 2c05f5838ce2c7f2ae951c13b8dddfc9191144f4.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the repaired governed executor and exact test target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\"}]}"
+    },
+    {
+      "sequence": 95,
+      "generation": 70,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
