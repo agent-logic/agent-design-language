@@ -128,8 +128,9 @@ producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
 expected_test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all",
-  "--message-format", "libtest-json-plus"
+  "--lib", "--no-tests=fail", "--status-level", "all",
+  "--message-format", "libtest-json-plus", "-E",
+  "test(/^cognitive_profile::authority_tests::/)"
 ]
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
@@ -215,7 +216,7 @@ receipts.each do |receipt|
   fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
   observed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
-  prefix = "adl-runtime-kernel::cognitive_profile$"
+  prefix = "adl-runtime-kernel::cognitive_profile::authority_tests$"
   expected_tests = required_tests.map { |name| "#{prefix}#{name}" }.sort
   fail!("#{platform}: exact cognitive-profile test inventory mismatch") unless observed_tests == expected_tests
   fail!("#{platform}: exact test count mismatch") unless receipt["tests_run"] == required_tests.length

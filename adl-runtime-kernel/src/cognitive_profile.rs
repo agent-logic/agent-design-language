@@ -22,13 +22,62 @@ pub const COGNITIVE_AUTHORITY_STATEMENT_SCHEMA: &str =
     "adl.cognitive_profile.authority_statement.v1";
 pub const COGNITIVE_AUTHORITY_ROTATION_SCHEMA: &str = "adl.cognitive_profile.authority_rotation.v1";
 
-#[derive(Clone, Debug)]
-pub struct ProvisionedCognitiveAuthority {
-    pub authority_id: String,
-    pub key_id: String,
-    pub epoch: u64,
-    pub context_sha256: String,
-    pub verifying_key: VerifyingKey,
+#[derive(Clone)]
+struct CognitiveAuthorityRegistry {
+    genesis: ActiveCognitiveAuthority,
+}
+
+/// Opaque runtime-established authority and input-policy capability.
+///
+/// Neither the trusted signing root nor the authorized policy/evidence digests
+/// can be nominated by an external caller:
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::CognitiveAuthorityPolicy;
+/// let _attacker_policy_factory = CognitiveAuthorityPolicy::establish;
+/// ```
+#[derive(Clone)]
+pub struct CognitiveAuthorityPolicy {
+    registry: CognitiveAuthorityRegistry,
+    policy_sha256: String,
+    evidence_sha256: String,
+}
+
+impl CognitiveAuthorityPolicy {
+    #[cfg_attr(not(test), allow(dead_code))]
+    pub(crate) fn establish(
+        authority_id: String,
+        key_id: String,
+        epoch: u64,
+        verifying_key: VerifyingKey,
+        policy_sha256: String,
+        evidence_sha256: String,
+    ) -> Result<Self, Vec<CognitiveProfileRejection>> {
+        let mut context = CognitiveAuthorityContext {
+            authority_id,
+            key_id,
+            epoch,
+            context_sha256: String::new(),
+            verifying_key_hex: hex::encode(verifying_key.as_bytes()),
+        };
+        context.context_sha256 = authority_context_payload_digest(&context)?;
+        if !valid_authority_context(&context) {
+            return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+        }
+        if !is_sha(&policy_sha256) || !is_sha(&evidence_sha256) {
+            return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+        }
+        Ok(Self {
+            registry: CognitiveAuthorityRegistry {
+                genesis: ActiveCognitiveAuthority {
+                    context,
+                    verifying_key,
+                },
+            },
+            policy_sha256,
+            evidence_sha256,
+        })
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -275,7 +324,7 @@ pub fn build_governed_cognitive_profile(
     input: &CognitiveProfileInput,
     policy: &CognitiveProfilePolicy,
     complete_history: &[CognitiveProfile],
-    trusted_genesis: &ProvisionedCognitiveAuthority,
+    authority_policy: &CognitiveAuthorityPolicy,
     proof: &CognitiveAuthorityProof,
 ) -> Result<CognitiveProfile, Vec<CognitiveProfileRejection>> {
     if complete_history.len() as u64 != input.revision.saturating_sub(1) || input.revision == 0 {
@@ -288,11 +337,12 @@ pub fn build_governed_cognitive_profile(
         continuity,
         capability,
         policy,
-        trusted_genesis,
+        authority_policy,
     )?;
+    validate_authority_policy(input, policy, authority_policy)?;
     if let Some(rotation) = &proof.rotation {
-        let genesis = provisioned_authority(trusted_genesis)?.context;
-        if std::iter::once(&genesis)
+        let genesis = &authority_policy.registry.genesis.context;
+        if std::iter::once(genesis)
             .chain(
                 complete_history
                     .iter()
@@ -453,7 +503,7 @@ pub fn validate_governed_cognitive_profile(
     capability: &CapabilityEnvelope,
     policy: &CognitiveProfilePolicy,
     complete_history: &[CognitiveProfile],
-    trusted_genesis: &ProvisionedCognitiveAuthority,
+    authority_policy: &CognitiveAuthorityPolicy,
 ) -> Result<(), Vec<CognitiveProfileRejection>> {
     let input = input_from_profile(profile);
     match build_governed_cognitive_profile(
@@ -464,7 +514,7 @@ pub fn validate_governed_cognitive_profile(
         &input,
         policy,
         complete_history,
-        trusted_genesis,
+        authority_policy,
         &profile.authority,
     ) {
         Ok(expected) if &expected == profile => Ok(()),
@@ -479,25 +529,6 @@ struct ActiveCognitiveAuthority {
     verifying_key: VerifyingKey,
 }
 
-fn provisioned_authority(
-    authority: &ProvisionedCognitiveAuthority,
-) -> Result<ActiveCognitiveAuthority, Vec<CognitiveProfileRejection>> {
-    let context = CognitiveAuthorityContext {
-        authority_id: authority.authority_id.clone(),
-        key_id: authority.key_id.clone(),
-        epoch: authority.epoch,
-        context_sha256: authority.context_sha256.clone(),
-        verifying_key_hex: hex::encode(authority.verifying_key.as_bytes()),
-    };
-    if !valid_authority_context(&context) || authority.epoch == 0 {
-        return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
-    }
-    Ok(ActiveCognitiveAuthority {
-        context,
-        verifying_key: authority.verifying_key,
-    })
-}
-
 #[allow(clippy::too_many_arguments)]
 fn validate_complete_authority_history(
     history: &[CognitiveProfile],
@@ -506,9 +537,9 @@ fn validate_complete_authority_history(
     continuity: &BirthdayContinuityRecord,
     capability: &CapabilityEnvelope,
     policy: &CognitiveProfilePolicy,
-    trusted_genesis: &ProvisionedCognitiveAuthority,
+    authority_policy: &CognitiveAuthorityPolicy,
 ) -> Result<ActiveCognitiveAuthority, Vec<CognitiveProfileRejection>> {
-    let mut active = provisioned_authority(trusted_genesis)?;
+    let mut active = authority_policy.registry.genesis.clone();
     let mut used_key_ids = BTreeSet::from([active.context.key_id.clone()]);
     let mut used_keys = BTreeSet::from([active.context.verifying_key_hex.clone()]);
     let mut used_contexts = BTreeSet::from([digest(&active.context)?]);
@@ -518,6 +549,7 @@ fn validate_complete_authority_history(
             return Err(vec![CognitiveProfileRejection::InvalidRevisionLink]);
         }
         let retained_input = input_from_profile(retained);
+        validate_authority_policy(&retained_input, policy, authority_policy)?;
         active = verify_authority_proof(&retained_input, policy, &active, &retained.authority)?;
         if retained.authority.rotation.is_some()
             && (!used_key_ids.insert(active.context.key_id.clone())
@@ -542,6 +574,23 @@ fn validate_complete_authority_history(
         previous = Some(retained);
     }
     Ok(active)
+}
+
+fn validate_authority_policy(
+    input: &CognitiveProfileInput,
+    policy: &CognitiveProfilePolicy,
+    authority_policy: &CognitiveAuthorityPolicy,
+) -> Result<(), Vec<CognitiveProfileRejection>> {
+    let mut canonical_policy = policy.clone();
+    canonicalize_policy(&mut canonical_policy);
+    let mut canonical_evidence = input.evidence.clone();
+    canonical_evidence.sort();
+    if digest(&canonical_policy)? != authority_policy.policy_sha256
+        || digest(&canonical_evidence)? != authority_policy.evidence_sha256
+    {
+        return Err(vec![CognitiveProfileRejection::InvalidAuthority]);
+    }
+    Ok(())
 }
 
 fn verify_authority_proof(
@@ -660,6 +709,10 @@ fn verify_rotation_signature(
     let signature = std::mem::take(&mut unsigned.signature);
     verify_canonical_signature(&unsigned, &signature, key)
 }
+
+#[cfg(test)]
+#[path = "../tests/fixtures/cognitive_profile/authority_tests.rs"]
+mod authority_tests;
 
 fn verify_canonical_signature<T: Serialize>(
     value: &T,

@@ -59,9 +59,11 @@ content digest, revision digest, and `public` or `internal_redacted` visibility.
 Policy and input identifiers are collision-checked case-insensitively. Public
 fields may cite only public evidence. The generated public projection omits all
 evidence links and update metadata and must be strictly narrower than the
-internal profile. A separate provisioned cognitive authority supplies the
-genesis Ed25519 verifying key; input, policy, and retained profile bytes never
-select their own trust root.
+internal profile. A runtime-established opaque `CognitiveAuthorityPolicy`
+supplies the genesis Ed25519 verifying key and pins the exact canonical policy
+and evidence digests. Its fields and establishment function are crate-private,
+so input, policy, retained profile bytes, and external callers cannot select or
+construct their own trust root.
 
 Every revision retains a signed authority statement binding the authority ID,
 key, monotonic epoch, recomputed context digest, profile/revision/predecessor,
@@ -107,13 +109,15 @@ echo attacker-controlled strings.
 
 ## Validation
 
-The focused `cognitive_profile` integration target contains 15 deterministic
-tests covering positive creation/update/round-trip behavior and the complete
+The focused crate-internal `cognitive_profile::authority_tests` lane contains
+15 deterministic tests covering positive creation/update/round-trip behavior and the complete
 negative matrix above, including four-revision replay, governed rotation,
 self-authorized policy/evidence, statement transplant, deep lineage forgery,
 truncation, substitution, stale/wrong/self-signed rotation, skipped epochs, and
 same-key identifier rename. Its fixture inventory is retained under
-`adl-runtime-kernel/tests/fixtures/cognitive_profile/`.
+`adl-runtime-kernel/tests/fixtures/cognitive_profile/`. A separate public
+integration test proves the deserialization boundary remains fail closed
+without gaining access to authority establishment.
 
 Issue-local native receipt tooling runs that exact target on macOS and Linux,
 records its exact structured test inventory and semantic digest, binds source
