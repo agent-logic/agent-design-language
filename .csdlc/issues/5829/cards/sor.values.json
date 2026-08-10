@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-12] Capability envelope",
     "slug": "v0-92-wp-12-capability-envelope",
     "version": "v0.92",
-    "generation": 83
+    "generation": 84
   },
   "status": "pre_phase",
   "content": {
@@ -51,7 +51,7 @@
           "evidence_ref": "capability_envelope-runtime-v3.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

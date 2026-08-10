@@ -58,7 +58,7 @@ Implemented the deterministic WP-12 Runtime v3 capability envelope with exact ev
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

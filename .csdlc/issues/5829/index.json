@@ -5,28 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
   "phase": "implemented",
-  "generation": 83,
-  "digest": "3839125a90ad6b7d8a287a62d13423211d7a4d5c37e4eba5b749f378c29fbb4c",
+  "generation": 84,
+  "digest": "2bc54a48b436f83b132b5c3050828779dc1db89ea7361ea8e0fdf949f166c9c0",
   "branch": "codex/5829-capability-envelope",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
-    "assigned_by": "codex:5829-capability-envelope",
-    "revision": "git-blake3:2f29d4af5c9ebf744abd8c54833b054b01815ded:bd60252d388db093b3ddfa13a9057ecec8cd9e01384638a591450fe42248299a",
-    "scope": [
-      ".csdlc/issues/5829",
-      ".csdlc/prepared/issues/5829/design.md",
-      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
-      ".csdlc/evidence/5829",
-      ".github/workflows/wp12-native-capability-envelope.yml",
-      "adl-runtime-kernel/src/capability_envelope.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/capability_envelope.rs",
-      "adl-runtime-kernel/tests/fixtures/capability_envelope",
-      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -42,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0af6214c4c29543426c22c8981fae7fd5120320b7b95b5020950a844b2885e6e",
+      "values_digest": "632ef5f1bd7b4396b10e15c3dbc7111bf1bcf27f9d9810b66022a246d1a6874d",
       "rendered_digest": "f072c6b2526b3264fafda2ef258cf23cd0cc9fd52b92a53668e2bb409a970d55",
       "ast_digest": "40dcbfc18fc63c6a847abfbb52256a4fdbf34e6110c8710cb57eacc518678bdd"
     },
     "stp": {
-      "values_digest": "ce3dac4075bbaa669569d434ae78d6c4d16699212021904eba3f02e3c07a3fbe",
+      "values_digest": "9991b4e9771d246e195150b82d38ac6cf976d375cc289b6b3277cdce8b8a4a03",
       "rendered_digest": "4530795f5583eac9367fb96c125d8912c3d78ef63c0f283390696c3d5bb88841",
       "ast_digest": "d510e7df6320dafad5eeceb31a143e20d10b5e18c221c34c0cf97f10b3f670a6"
     },
     "spp": {
-      "values_digest": "624f0a0a5ed23a88afdd8f57f982b8119020f662cd957e3b934ce1c87faa8122",
+      "values_digest": "0d037a87d0a7ec3b7605d98bc398db901ef58a48c5d572208f3b135a6d39f316",
       "rendered_digest": "d1068d7bc64ab6cc8cde2143fe5b3c6bd8b2d1bbe6a76b1227fee2a1db8b7583",
       "ast_digest": "1478fd73e33634ef182a23eb909aec3ce0d6a135682a7856b06639423dee1674"
     },
     "vpp": {
-      "values_digest": "245f4d536e95ebe8e0f2ed0f8417f998aa60d0bef44457b023f1b0f48094c360",
+      "values_digest": "8a05b9ccd0f99f6f237e33436530c7cd030afa88abfe295138513a214252af5e",
       "rendered_digest": "2343fbef315e8fed0b0ccbadfd8e711a64445e791eff3b3c34d76615905759ce",
       "ast_digest": "cdf1e9eabb11a4f4b66bccdb33a901c80c6a1100ba349590dfe857b4e6664f52"
     },
     "srp": {
-      "values_digest": "a4f3c9b01a4eda08ee6999d2de16a6d332ede8f6cd65c4266dc94b22796be265",
-      "rendered_digest": "4e9478ed6441c832979c0ac67329dd528eac20a4bc4a1e994be5b28092dab892",
-      "ast_digest": "221207e54c52e7c766888858c365a01e7a045ad243834dee3a0db71f14cace7c"
+      "values_digest": "dce0d5f2596ed8caddcf951d208427cfc322d3d793a78880d7c00c0f5b3a72b6",
+      "rendered_digest": "1fc30fc9afd8018ed97c352ef14a121fbf0043ddbe2dd190f77d3cb2f1f33fb0",
+      "ast_digest": "bb68d2c7bbca8e224c874a4e35dbde17e24391a6d9a602832696edbc77b36388"
     },
     "sor": {
-      "values_digest": "279fcacde965a0f40ce82ff23f7439e5665703f2c72dacc09e9de47da77c0b79",
-      "rendered_digest": "3fe99f581120a6faa52fb832f6408fa65e0d3eb71a0bfd1c75105836bdd2d0dc",
-      "ast_digest": "ce69f3a55d68b5397c1f930b8ab3e86221ee43051da5c24367ad17e061bf7332"
+      "values_digest": "2cf061667401b9d0daf8a981e287ee6f683ccd15dd42c944a5770d880799f2b7",
+      "rendered_digest": "3cc30dd486c47a729ede2f76d8bea2c6c13da5f3f571dc34a89a3a516d58657f",
+      "ast_digest": "e369449bca09dd979aaa839bf0889d6ec1177e3c04f771a31b352e3bad262f1e"
     }
   },
   "transitions": [
@@ -879,6 +862,13 @@
       "actor": "codex:5829-capability-envelope",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 110,
+      "generation": 84,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Recover the stale exact-head assignment after resolving all three privacy, portability, and canonical provider-identity review findings with retained focused proof.",
+      "operation": "recover_review"
     }
   ]
 }
