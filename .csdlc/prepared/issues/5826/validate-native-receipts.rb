@@ -69,6 +69,13 @@ end
 issue = File.basename(File.dirname(__FILE__)).to_i
 test_target, feature_path = ISSUE_CONFIG.fetch(issue) { fail!("unsupported issue-local validator path") }
 fail!("expected exactly two receipt paths") unless ARGV.length == 2
+fail!("native receipts must be validated by GitHub Actions") unless ENV["GITHUB_ACTIONS"] == "true"
+
+current_workflow_ref = ENV.fetch("GITHUB_WORKFLOW_REF")
+current_run_id = ENV.fetch("GITHUB_RUN_ID")
+current_run_attempt = ENV.fetch("GITHUB_RUN_ATTEMPT")
+expected_workflow_prefix = "agent-logic/agent-design-language/.github/workflows/wp09-native-birthday-identity.yml@"
+fail!("validator workflow identity mismatch") unless current_workflow_ref.start_with?(expected_workflow_prefix)
 
 root_text, root_status = Open3.capture2("git", "rev-parse", "--show-toplevel")
 fail!("cannot resolve repository root") unless root_status.success?
@@ -128,8 +135,9 @@ receipts.each do |receipt|
     fail!("#{platform}: runner #{field} is required") unless runner[field].is_a?(String) && !runner[field].strip.empty?
   end
   fail!("#{platform}: repository mismatch") unless runner["repository"] == "agent-logic/agent-design-language"
-  expected_workflow_prefix = "agent-logic/agent-design-language/.github/workflows/wp09-native-birthday-identity.yml@"
-  fail!("#{platform}: workflow identity mismatch") unless runner["workflow_ref"].start_with?(expected_workflow_prefix)
+  fail!("#{platform}: workflow identity mismatch") unless runner["workflow_ref"] == current_workflow_ref
+  fail!("#{platform}: workflow run mismatch") unless runner["run_id"] == current_run_id
+  fail!("#{platform}: workflow attempt mismatch") unless runner["run_attempt"] == current_run_attempt
   fail!("#{platform}: producer job mismatch") unless runner["job"] == "produce-native-receipt"
   fail!("#{platform}: native OS mismatch") unless runner["os"] == (platform == "macos" ? "Darwin" : "Linux")
 
