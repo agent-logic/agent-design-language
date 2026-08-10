@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted CI remains the final integration proof; no merge authority is implied.
+- Hosted CI and republication for exact repaired head 4af5e240b remain pending under S3; no merge authority is implied.
 
 ## Review Result
 
-Revision: Some("git-blake3:121e281c9f844666ea291a082484c92990e003e0:cddd61239e65e1fb4f8e303a6483cfb0f0d2f91ba60e979870a611109e579677")
+Revision: Some("git-blake3:4af5e240b9ce43aabb028e1aa8ce532890811b3b:e3c25832f09f4f22131315bb8723b01d0035fbbbd355a03f016902c27f8f3e43")
 
-Reviewer: Some("/root/issue_5909_repair/exact_head_review")
+Reviewer: Some("/root/review_5909_pr120_repair")
 
 Result: pass
