@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-Quinn/rustls handshake and identity binding, bounded RPC framing/replay, OpenRaft semantics, crash-safe persistence, restart/snapshot recovery, path safety, secret hygiene and exact proof.
+.csdlc/issues/191
+.csdlc/prepared/issues/191
+.csdlc/evidence/191
+adl-runtime/Cargo.toml
+adl-runtime/Cargo.lock
+adl-runtime/src/distributed/transport.rs
+adl-runtime/src/distributed/polis_runtime.rs
+adl-runtime/tests/distributed_runtime_transport.rs
 
 ## Prompts
 
@@ -30,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted repository checks and the operator's external PR review remain required before any merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f7311b24c76a1d83cf18e05df55f368bd92ecb04:375d7b9dccdc8b704f026a8e9b380f04ad8e4a929050508d6a02e3406051a993")
 
-Reviewer: None
+Reviewer: Some("subagent:prepare_5875_release")
 
-Result: pre_review
+Result: pass

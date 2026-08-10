@@ -3,3 +3,4 @@
 {"sequence":3,"generation":2,"actor":"subagent:prepare_5875_release","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":5,"generation":3,"actor":"codex:191-secure-durable-openraft","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":6,"generation":4,"actor":"codex:191-secure-durable-openraft","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

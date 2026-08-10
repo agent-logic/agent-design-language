@@ -4,13 +4,32 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "225760081e843f1337fc1dc9e9bd8f1652a4c8e2435d84bb1843054daca97117",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "08ae462e03fc20e0f63f945bc2d3b6a0538623cb478fa1ac83a11cbc8023ffdc",
   "branch": "codex/191-secure-durable-openraft",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-191-secure-raft",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:prepare_5875_release",
+    "scope": [
+      ".csdlc/issues/191",
+      ".csdlc/prepared/issues/191",
+      ".csdlc/evidence/191",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs"
+    ],
+    "reviewed_revision": "git-blake3:f7311b24c76a1d83cf18e05df55f368bd92ecb04:375d7b9dccdc8b704f026a8e9b380f04ad8e4a929050508d6a02e3406051a993",
+    "findings": [],
+    "residual_risks": [
+      "Hosted repository checks and the operator's external PR review remain required before any merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "de3fbbc8c1e24203e0c9fa5b062ed294b83a8646e37a8dd49ad855b2b1a6f703",
+      "values_digest": "29e3d3c4bd771ac66d30bd9059f773cb95be16c336e7c6e15779bf449ead5965",
       "rendered_digest": "f7e3f002e85eb0c155766d4587bb7b76a27bb0dc56cb15b4622bb6aea51ddda9",
       "ast_digest": "11427429647037945ad5e43fbf88664d0f1be67699ae4b14bcdd586f6faf7646"
     },
     "stp": {
-      "values_digest": "91aeb47a8432cf917699cc5eee54791848e2c8ff407f8dd95d860884245e4448",
+      "values_digest": "3c18c73b418946170d766d57fcb6001aad697d843b761e681a06b0421f1556be",
       "rendered_digest": "065fe8a7452f3075f3397caf696d8889f8a08481704c76108683b629dadf734c",
       "ast_digest": "fcc8267234a6809aa018659352b7fc18899b4f03c7c7b5d4b62cec03763acde3"
     },
     "spp": {
-      "values_digest": "8076a5624e0f1355362db6acfcf25f40ea117d4ba21bc90944df2fbea5ce0954",
+      "values_digest": "7fcb0fc4c2b39058f24ed199ea19b4415bb2de7af8973a0873cfddbca14cc123",
       "rendered_digest": "254ff1c060b9838df5f8b5474830d0224e0ff2d5231efbc0524f4dd684737ca0",
       "ast_digest": "c64eaaae59c6b143fb51a598178422355d28a00dd9146be7a7d662df2925ebe1"
     },
     "vpp": {
-      "values_digest": "052949dfddb407c7ba0298a6bb6aa228b144016f8c9d2d75d86cd31785d906ff",
+      "values_digest": "2448b1dcafb106b8f650fe8858c4005201e9f1e481c9a576484984a6725719e7",
       "rendered_digest": "b2b2651da34e6d519099a1279329f22db5adff209aaa751e29fb97fca49f1418",
       "ast_digest": "35bbc6648ad9002e93ca20ef5c353a0f09130acfc2ea4e7577c2b83608ccbf4f"
     },
     "srp": {
-      "values_digest": "600ce6cb60768e4a4995be26990f31c1208778609fd1d9dde7a70f227ef7a3b6",
-      "rendered_digest": "611315316d8ba28e8764c137288eabc3e4f60649b935e3764ab4b2c173dd793c",
-      "ast_digest": "02a5453f28ff27cf91eba3a8aa9f4bc4e56869bd98032399bac16fe8e1b59127"
+      "values_digest": "a7357c677495618bd01be46987ab9b9359dfe3602bcc11ecfa19acabcc3b871e",
+      "rendered_digest": "00977bf27832cfd2e8e1cbe045298fdb8ad80ad8fbdac017895e32e613759377",
+      "ast_digest": "ae6bde5cd12225dd984936925daf618e88beb97dc1ac96324f861bf4b5597481"
     },
     "sor": {
-      "values_digest": "249b8924812345a208c69d737c625c3ebc041aeabd1fcb9763aafb7df42a384b",
+      "values_digest": "20abc2c1af49cfbf2768851628372778c82ac8d2ab1af9272ab5b071f6f6b87a",
       "rendered_digest": "e719d07e069896da621a3a11bb909bcf12e72a738347e1b4a0946e4e08e38a33",
       "ast_digest": "60cfa64aaae9045304733dcf599cd5597a3171656696d6b83c20096446a6835b"
     }
@@ -76,6 +95,13 @@
       "to": "implemented",
       "actor": "codex:191-secure-durable-openraft",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -113,6 +139,13 @@
       "actor": "codex:191-secure-durable-openraft",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
