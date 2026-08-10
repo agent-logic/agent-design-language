@@ -1,0 +1,62 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 202,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "7c38faf496974e30766352413f2d7d47625a032ab706b2fc2c8ad1971551c084",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/202/design.md",
+  "diagram_path": ".csdlc/prepared/issues/202/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "47acde752a18e90242325ce630d75aff7695c4533933815cec2b0c5a29b1f56d",
+      "rendered_digest": "91bb3630513c9a9bfad6185b12fa5276eed36ea046eb76960e53bf4d0a050b30",
+      "ast_digest": "ea47ab671e957142ba6a9e32683a4eb5d45b5c8f563f087db7a981041f055010"
+    },
+    "stp": {
+      "values_digest": "4d4ac97440b31a2807de2361c19cdbd584600fabba2f828000a75b9db7b50a24",
+      "rendered_digest": "59c4587ca87e676d0ccbc1e464e63c96d231e42fc0a7aee5add38d46b5f1c04f",
+      "ast_digest": "be9f117f88cdacb054b3bbe4d8f05730d27a287da8a866a23f7d8124f58998db"
+    },
+    "spp": {
+      "values_digest": "7aa842db77e6287977b4860f1b0346caf687037d4074f0404d920cfd1791e2eb",
+      "rendered_digest": "7825e4bb365efd2bec1e995bbd44c3e6368f2da2667936bb5403a9a4c8db1d14",
+      "ast_digest": "4521ec7e8f05625319e6e76b96f91d99544cbb17ebed80a3a9b21e3b1285bb7c"
+    },
+    "vpp": {
+      "values_digest": "8c0c5d03a279a607b2b6e611abb0c117f772fd53d5c095ea1fab6f2b0623899a",
+      "rendered_digest": "001b4923e1a0ebd5c5a27116c3ba764f4a7dd9ffa5ac703df045ddbed2082cc8",
+      "ast_digest": "28cc56f504034a3a82e1905cb895293a84e504c43277f0db2a2ece08ebb3e91c"
+    },
+    "srp": {
+      "values_digest": "d5f97cba9d0adea59e7f0a085a7283701be52370aa3a44ca827a297c4c6e0738",
+      "rendered_digest": "8bf620f4cc247af7d8a3cd38e6efe3104d77eb9e87789e672405e01889144d8e",
+      "ast_digest": "299c5607827b7ed64e2095422e15ca7dc30b335ff2f96505f0420e093fc35603"
+    },
+    "sor": {
+      "values_digest": "3fafc7fbcd62de42e0208a5d47a8938031f51db0c08f2463c783c2538b482383",
+      "rendered_digest": "0bb71a8fd20d97cd498a69f9b60412cf0c9e7a4055843cc865151941c07887d7",
+      "ast_digest": "6e4b1d84fcc54c2d4a2682998e7102ef3cc3e229da4fb56f030b18043c6d703d"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:202-authorized-learner-transport-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}

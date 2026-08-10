@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 202,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
+    "slug": "authenticated-governed-learner-transport",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact learner/exclusion source and narrow existing transport/authority-protocol/PolisRuntime integration, real Quinn/OpenRaft test, issue proof/evidence, typed issue truth, and absence of #199/#200/operational side effects.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller, config, address, certificate, stale state, or public constructor add a learner or exclusion?",
+        "Does learner admission leave the exact voter cut and quorum unchanged while allowing only AppendEntries and InstallSnapshot?",
+        "Do #201 eligibility and ordinary sessions consult one durable exclusion authority, including retained connections and retries?",
+        "Can recovery grant replication only without clearing exclusion or restoring voting/authority surfaces?",
+        "Do crash, reconnect, rotation, expiry, bounds, replay, rollback, and path faults remain fail closed?",
+        "Does exact proof bind all thirty-six cases over real Quinn/OpenRaft plus merge-safe immutable evidence?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
