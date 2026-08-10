@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f2456d9ca38b68c47da3bd9cd29d109b2467a93decc35f60f651495ac3094029",
   "phase": "implemented",
-  "generation": 25,
-  "digest": "964348bdfb90a3682fa9646b6606f9fb4c2a63edbd395ad9802b77f9440d7fb3",
+  "generation": 27,
+  "digest": "1e5f0ebb3d3c9eb287c6013e6690d881958b0ca3032394077229492cbb7d7d75",
   "branch": "codex/90-code-repository-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-90-code-repository-migration",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5379252bae04b6925f3e4d1ac47d1f21b5af6bb103b8394c56c7ddf3c251bbd7",
+      "values_digest": "2b01383d1e0b6cb48db8bc2d8ffff5ed10cf4614412f276fd43c152ff7727848",
       "rendered_digest": "b058026d2c9dfb4c304588a9861589f15894e37f76f85599edf01695d3ead0bf",
       "ast_digest": "a02e6dfe1d8f56f6c21e87c0ccce41d0edec56946db65283099b60045269770c"
     },
     "stp": {
-      "values_digest": "4ba5df0bb0b4e91b5196d081c3b014e986a5615b829c233e4be0868661665955",
+      "values_digest": "c33e4b444d5d11fc68b5585ae9bae59c437c20dfa5988e50a29a88da98f99a11",
       "rendered_digest": "254224ff59f2c74deca622d847d17ac011229cc042bdbaa6bd5e7dddb5595ffe",
       "ast_digest": "ff287f3162ea010d16b6cb6ffc414ce4951c32f911f9bbc12869fe7d4c903201"
     },
     "spp": {
-      "values_digest": "5651b913400ad83afc7f8428ca1366a708efed9602e4faccff859803eb3c38c9",
+      "values_digest": "c824303fd09b22419ea7dca12ac28b9ae2a7c4f56c51480dc7a81c1598983646",
       "rendered_digest": "3636802a041a6d1cbf29b71a352ad4e3a5c13963816c3c4d640e15667fd14398",
       "ast_digest": "137cc16ee5c0c05a685517836360068ba85f7b13dba5a2cac4afcaabaef82b8b"
     },
     "vpp": {
-      "values_digest": "1f971db79ebee24fb80594a424c885f9d907aa28d9b9c7084d409b1ee87508fd",
+      "values_digest": "5f8f5c6343623d2ff1cf4c0aec274e014fd429f9862e4da1a7aa6a7b6106f44f",
       "rendered_digest": "0d09e5d18302086d8a5840bcdf174ad7c4ab4e21037b8365f1e7256ccbe3dd0c",
       "ast_digest": "289a49dbabcedb8010031587193a0ed5080e2d190e1747fcb90056603f29af16"
     },
     "srp": {
-      "values_digest": "881f7e32413e14ebc1739564bd5d20a6d7152f684b0f903e24a451f66244d47c",
+      "values_digest": "c802444d43926cda65c1fcf3cffce7633c4ca2b1d92b8fc3c3f07d19cd7d3bf1",
       "rendered_digest": "3063b87f2aa3561604f0e70d826971dc5d560b5a97f27321180be2c41130a5df",
       "ast_digest": "f61fd5fbf4d27329d5adabe6e60e658a2ba00c620f9f598e3fba38d499c0b984"
     },
     "sor": {
-      "values_digest": "d037735a1c6d884af2c3f93c9ba43edc1201ce391f2a37caf971e684b1ebf395",
-      "rendered_digest": "b1ead4d5861e50140022b0a6945a3f1fde6e437cb763dc457367fad778da702b",
-      "ast_digest": "6e0624006ea2b6e54918c438692fedd996005ac939c525cb9db19160c7baa94e"
+      "values_digest": "6e91cc0b9c76a7e0870335d39d5339afac3e98fe0e6d94cfbbe7e6b7ffcd277d",
+      "rendered_digest": "19c82a855b01f38cc4315a5c52b0767c2d82a2f517de651b2e8c25252a1a3840",
+      "ast_digest": "40510564de5ac8f0fabb95b48002342a4f476b519bb6d5218875cbe40701c88a"
     }
   },
   "transitions": [
@@ -301,6 +301,20 @@
       "actor": "codex:issue-90-code-repository-migration",
       "reason": "Recover review after the exact-head reviewer found that the documented schema command did not exist.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Retain executable proof for the reviewer-corrected typed schema owner.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-edit\",\"schema\"],\"purpose\":\"Prove the operator guidance points to an existing typed command that emits the public migration request schema bundle.\",\"outcome\":\"passed\",\"evidence_ref\":\"local installed v2 command at repaired head: exit 0 with public schema bundle\"}}"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:issue-90-code-repository-migration",
+      "reason": "Retain the clean-commit full Gate 10A proof after correcting the typed schema owner.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate10a\"],\"purpose\":\"Prove the final operator guidance, installed-generation lifecycle, coexistence, and active-command authority contracts from clean owner sources.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork clean repaired-head run: 20 passed, 0 failed\"}}"
     }
   ]
 }

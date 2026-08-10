@@ -119,6 +119,29 @@ Implemented a typed, audited recovery transaction that fills an absent code_repo
     "purpose": "Prove all final v2-only authority, coexistence, installer, and active-command guidance contracts after the operator documentation correction.",
     "outcome": "passed",
     "evidence_ref": "local FastWork repaired-head run: 20 passed, 0 failed"
+  },
+  {
+    "command": [
+      "csdlc-edit",
+      "schema"
+    ],
+    "purpose": "Prove the operator guidance points to an existing typed command that emits the public migration request schema bundle.",
+    "outcome": "passed",
+    "evidence_ref": "local installed v2 command at repaired head: exit 0 with public schema bundle"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--locked",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Prove the final operator guidance, installed-generation lifecycle, coexistence, and active-command authority contracts from clean owner sources.",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork clean repaired-head run: 20 passed, 0 failed"
   }
 ]
 
