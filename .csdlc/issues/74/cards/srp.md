@@ -12,9 +12,11 @@ Status: draft
 
 ## Scope
 
+csdlc-v2/src/lifecycle.rs
 csdlc-v2/tests/gate2.rs
 .csdlc/issues/74
-.csdlc/prepared/issues/74
+.csdlc/prepared/issues/74/record-exact-head-gate2-validation.json
+.csdlc/prepared/issues/74/record-exact-head-clippy-validation.json
 
 ## Prompts
 
@@ -32,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence.
+- The historical PR #80 publication intent is non-authoritative after typed recovery and must be atomically replaced by csdlc-publish for this repair.
 
 ## Review Result
 
-Revision: Some("git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be")
+Revision: Some("git-blake3:2d064702c290fc18356f9673c701393f5473bbe9:9193c0a5e6ac7706f91924d13144f9d5d7c01d036a56b178567911fbbf44e808")
 
-Reviewer: Some("subagent:74-exact-head-rereview")
+Reviewer: Some("subagent:Ampere")
 
 Result: pass

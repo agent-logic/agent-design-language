@@ -1,0 +1,10 @@
+{
+  "issue": 74,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "8338e1a16abb489c4f7b2ef8dca66d92b83d2d89b21d7dbe0457e4de08513b53",
+  "actor": "codex:74-regression-repair",
+  "reason": "The exact same-issue pre-topology claim projection is reproduced in the real-binary Gate 2 fixture.",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"},
+  "fail_after_backup": false
+}
