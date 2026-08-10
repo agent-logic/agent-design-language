@@ -6,10 +6,32 @@
   "initialization_digest": "a13e7b2cafb69b7f88ae5bf1b68f54d9860fcc0d88fdba8c0376532d63b714ad",
   "phase": "implemented",
   "generation": 88,
-  "digest": "ec9548356c390185b915d80bf037c0d635d0587678ee5ad63029296d801528e4",
+  "digest": "fe1cc6ad600af7e47a01f7cab3d2333c381334bc2479f6a22a80acf3ef016d76",
   "branch": "codex/5827-bounded-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5827-bounded-continuity",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/review_5827_exact_head",
+    "assigned_by": "codex:5827-bounded-continuity",
+    "revision": "git-blake3:d5a899889672070734ff4099c72a07361bb133d8:a64add38584f9b541837712858cb4962eae2b5657510eaca74d764e03d3c2590",
+    "scope": [
+      ".csdlc/evidence/5827",
+      ".csdlc/issues/5827",
+      ".csdlc/prepared/issues/5827/design.md",
+      ".csdlc/prepared/issues/5827/diagram.mmd",
+      ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+      ".github/workflows/wp10-native-birthday-continuity.yml",
+      "adl-runtime-kernel/src/birthday_continuity.rs",
+      "adl-runtime-kernel/src/birthday_identity.rs",
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/private_state.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
+      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +67,9 @@
       "ast_digest": "35e0a2c80a9dad8b659addedafcb6f07b472f9e3c4e844ec2423e9340b249ad5"
     },
     "srp": {
-      "values_digest": "43d901bfe0c54bdc27b467420fe36c7f7353ce8b175a7015a73f6c3b0ca1b628",
-      "rendered_digest": "cd90f9db3b82a62f142767b18dc2db8c6f79523c9250219b2352afc78b11d388",
-      "ast_digest": "dd2c1c672f27c68a88d331797aca5fde21d60dacf8e351e4fc46cb5b1bee0426"
+      "values_digest": "1cfe3218154c85ab3cdc75ca5083a7446399f350bb14f406320cf325dcf01433",
+      "rendered_digest": "2bdffb4984795af36b34fded21532696e57627cb718d8a70910936c5b3417b71",
+      "ast_digest": "a30ea7a5b4888de6ba9d67201c86f20ce92d32f0b6cb436f76dbec507c058790"
     },
     "sor": {
       "values_digest": "c73644c288bfe7ee183508ff3be8e8986a596e20cbb5e654d0a078a7d6809fdd",
@@ -918,6 +940,13 @@
       "actor": "codex:5827-bounded-continuity",
       "reason": "Record completed bounded review, canonical PR publication, and exact-head native proof; final fresh review and merge remain controlled by SRP and publication authority.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 115,
+      "generation": 88,
+      "actor": "codex:5827-bounded-continuity",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
