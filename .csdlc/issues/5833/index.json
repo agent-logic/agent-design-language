@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
-  "phase": "reviewed",
-  "generation": 75,
-  "digest": "b8794e1e2d3c0dc7237cbbdc80cfad7ee1293ec2fbac3ab172085320be3e575a",
+  "phase": "published",
+  "generation": 76,
+  "digest": "2778368af819882ce275eab2348b08b5c8870b555ffc0d76aed19077974bcda8",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
   "review_assignment": {
@@ -50,7 +50,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5833,
+    "pull_request": 198,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/198",
+    "base": "main",
+    "head": "codex/5833-birth-witness",
+    "revision": "git-blake3:e9da5ca5c4eecf6ee7acb094cb5decf6f600470d:88a072fe7d72fa9b05501fc96cdd4d6d18e80fa4891c5ae4d29953c99c98a456",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f9ff7e128b21eb864a608b9c647813e0341de9e50e61a22da5ddc328724acc0",
+      "values_digest": "c533708b87833bc88af84d66704ea7a040c87c2525d37171a4a364d31f469159",
       "rendered_digest": "477aa501f9e874202ec0e5f251ef5eecf0e66c2ddffa5f13a553e7a0ada1cc65",
       "ast_digest": "405c48deb4505cebfb6dc08d2018c6d971c11105e0d9fe9db08649cc0821e1af"
     },
     "stp": {
-      "values_digest": "3bb7d6d1b258782fe73ee3c80811258ca6adb25140886d6441400a861e31c800",
+      "values_digest": "80d4feef0e0b4d4de265b8c73e1fefc633e6e346479b95b83544bef20c8e536d",
       "rendered_digest": "d2df01151976c29fe3fb8d512ce6624343cee597726be70de93117b8573c080f",
       "ast_digest": "7741a87889a28e451995cc70fd975b31ed4cc0cf56fee554e0c28f988ea22cc3"
     },
     "spp": {
-      "values_digest": "6d491d18e843514dfa89e4d541ea0aef9573b45758adbd7151f9d4d7c08c3868",
+      "values_digest": "9c7346838a649731bc15bc9caab9e680f645c6e83d13e96f6b73fb92660f7a07",
       "rendered_digest": "5376d6b31a5d47b82c529a9ddabcc5ddec6c8c5a3f3af9cccba88d89eef9a926",
       "ast_digest": "c0783e54f48cc692ef09ca2049da3c224246ad90b080bb0718c0a31408d0dd5b"
     },
     "vpp": {
-      "values_digest": "2b04618125ad74ddd8936e56aa5a46650dac583ae434357f659c483873423219",
+      "values_digest": "911556516d2bae0344f388686d1706f46771b81af4bd4d1b91622fb8002bcc90",
       "rendered_digest": "894ba2e92b4d1a0a9edb1041fcfa744cc7b6de92077b367af731c3357153e254",
       "ast_digest": "baac1ece07d129ac5f3ede85777c57f227ec790143b7ca8836ab834793ab59a0"
     },
     "srp": {
-      "values_digest": "f64aa25ee2dc412e8cafdf903829f327af71700becd5407492a2b3d61361539d",
+      "values_digest": "91d726c12303533199254b87022036079d2eae93466bf1ba8866e30d4e88ee66",
       "rendered_digest": "5209c792dacd0416d4c5215e5a6f7d72fccfc1287dc5eb0972280c17a5834506",
       "ast_digest": "f585b9168d21360a676e10747c76378ffadda2b89a98d798a0a5618d64c6e087"
     },
     "sor": {
-      "values_digest": "10f709aac852c3aeb2530086a3f30036f6af9b0b9e4c65b6e1a7a4ebba56d5c6",
-      "rendered_digest": "f19281bdd07a3a880d400cef4d532d566735a52686ad57bb37dc05c3d12072b3",
-      "ast_digest": "c42bdf97a99d9e0f22c0fa38975f51b5ee0e975bb2d8f55c5c7dcef27659f70e"
+      "values_digest": "2b4a3e9fe0cd5f30ed0c732d6a90d0016e1bbe85daf4871c03df7e2d1f16d610",
+      "rendered_digest": "591b439fc43b629039673bededdd38438ec89b03336f1ed2d2876eac1c077485",
+      "ast_digest": "66146f72964d066be63e896a4224888f4bb0d0efe642a67cd405c7e2ae22f54f"
     }
   },
   "transitions": [
@@ -164,6 +175,13 @@
       "to": "reviewed",
       "actor": "codex:5833-birth-witness",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5833-birth-witness",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -887,6 +905,13 @@
       "actor": "codex:5833-birth-witness",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 104,
+      "generation": 76,
+      "actor": "codex:5833-birth-witness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
