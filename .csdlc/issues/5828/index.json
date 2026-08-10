@@ -6,10 +6,28 @@
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "implemented",
   "generation": 73,
-  "digest": "3ebe540310939eafe6e7ffcc634cd5d53d3e12244a5a4701036456b0695f7c07",
+  "digest": "396e02ece1e9b8133edb9436c087a834d063e16786cecd9192e81adb11f89503",
   "branch": "codex/5828-memory-palace-context-topology",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5828-memory-palace",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5828_exact_head",
+    "assigned_by": "codex:5828-memory-palace",
+    "revision": "git-blake3:367d32a9c758d9bd3ce80e49e01c562d0f46d1aa:9eb4264f8ec99a629439a87d8b4cd3bf8457c76fa15d276d14d9a23800415a31",
+    "scope": [
+      ".csdlc/issues/5828",
+      ".csdlc/prepared/issues/5828/design.md",
+      ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+      ".csdlc/evidence/5828",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime-kernel/tests/fixtures/memory_palace",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "3735be4c238ca921871a019682c57be0498a10f223aa0bd21a47f62548c63b03"
     },
     "srp": {
-      "values_digest": "eb977ee81c1827d5864fbd085699b27971fbb59f51a5c91977adb96844ee9ddd",
-      "rendered_digest": "0be672890fd622f12e216098e6cd560b3de1802b7eda21f57da33070af47cdd1",
-      "ast_digest": "a9661d277d2d1274005722a155ff6b7e0186285d348b8de96a67edf21a6297d2"
+      "values_digest": "4d6d6c2e36c0e45990b0698dcd8b78fa2d7ee89b8615645c28852877880b5352",
+      "rendered_digest": "eca0e63ce3a9fb9f6e7c6cd3a97807ab16376d207e9bcbac073fa8c17b9d1353",
+      "ast_digest": "246181f49a2b943264b204aae19276b24c0d9caeb2caa127d1b410c6f860d9e6"
     },
     "sor": {
       "values_digest": "b87f705480a2f5f59c2691fa891b249cdfeac912528d03b4660c30f224b154eb",
@@ -862,6 +880,13 @@
       "actor": "codex:5828-memory-palace",
       "reason": "Record mandatory exact-head Linux and macOS native proof from GitHub Actions run 31385543888 and independent detached validation before final review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved the deterministic WP-11 Memory Palace topology with bounded working-set materialization and fail-closed identity, continuity, trace, temporal, citation, and redaction boundaries on native Linux and macOS.\",\"changes\":[\"Added a canonical Runtime v3 Memory Palace packet bound to exact WP-09 identity, WP-10 continuity, normalized ObsMem trace, citation, temporal, and redaction authorities.\",\"Added deterministic collision-resistant room and item ordering, a bounded 1-64 working set, canonical packet validation, and digest-bearing overflow that is never silently loaded.\",\"Added focused positive replay and negative substitution, stale, citation, private-memory, secret-content, unknown-field, collision, ordering, and duplicate proof.\",\"Added a narrow issue-specific native macOS/Linux workflow with disjoint producer fragments, exact structured 12-test inventories, and success-only exact aggregate retention.\",\"Retained and independently validated exact-head Linux x86_64 and macOS arm64 receipts from run 31385543888 with identical semantic output.\"],\"artifacts\":[\"adl-runtime-kernel/src/memory_palace.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/memory_palace.rs\",\"adl-runtime-kernel/tests/fixtures/memory_palace/matrix.json\",\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".github/workflows/wp11-native-memory-palace.yml\",\".csdlc/evidence/5828/native-validation-manifest.json\",\".csdlc/evidence/5828/native-platform/linux.json\",\".csdlc/evidence/5828/native-platform/linux-nextest.log\",\".csdlc/evidence/5828/native-platform/linux-semantic.json\",\".csdlc/evidence/5828/native-platform/linux-source-manifest.json\",\".csdlc/evidence/5828/native-platform/macos.json\",\".csdlc/evidence/5828/native-platform/macos-nextest.log\",\".csdlc/evidence/5828/native-platform/macos-semantic.json\",\".csdlc/evidence/5828/native-platform/macos-source-manifest.json\",\".csdlc/evidence/5828/native-platform/independent-validator.log\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"memory_palace\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 12-test deterministic topology, bounded overflow, authority binding, temporal safety, citation integrity, and redaction privacy surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5828/local-validation-manifest.json\"},{\"command\":[\"github-actions\",\"wp11-native-memory-palace\",\"run\",\"31385543888\",\"attempt\",\"1\"],\"purpose\":\"Run the exact 12-test WP-11 inventory on native Linux x86_64 and macOS arm64 at PR head e20b9870dbc56ab59c68f123ed355af331ee5614 and require identical semantic output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5828/native-validation-manifest.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/evidence/5828/native-platform/linux.json\",\".csdlc/evidence/5828/native-platform/macos.json\"],\"purpose\":\"Independently revalidate the retained GitHub Actions receipts in a detached exact-head checkout, including current workflow and run provenance, source manifests, structured 12-test inventories, artifact digests, and semantic equivalence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5828/native-platform/independent-validator.log\"}]}"
+    },
+    {
+      "sequence": 102,
+      "generation": 73,
+      "actor": "codex:5828-memory-palace",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
