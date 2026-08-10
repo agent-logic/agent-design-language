@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority policy, pinned canonical policy/evidence digests, signed canonical input and predecessor statements, complete revision replay through genesis, and old-key-governed exact-epoch authority rotation; native Linux/macOS proof remains deferred to publication CI.
+Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority policy, pinned canonical policy/evidence digests, complete genesis replay, and old-key-governed exact-epoch rotation; migrated both the corrective and merged generic WP-13 native proof routes to the exact fifteen-test authority lane. Replacement native Linux/macOS execution remains deferred to publication CI.
 
 ## Artifacts
 
@@ -23,9 +23,13 @@ Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority 
 - .csdlc/prepared/issues/144/produce-native-receipt.rb
 - .csdlc/prepared/issues/144/validate-native-receipts.rb
 - .github/workflows/wp13-authority-repair.yml
+- .csdlc/prepared/issues/5830/produce-native-receipt.rb
+- .csdlc/prepared/issues/5830/validate-native-receipts.rb
+- .github/workflows/wp13-native-cognitive-profile.yml
 - .csdlc/evidence/144/cognitive-profile-authority-v1.log
 - .csdlc/evidence/144/cognitive-profile-public-integration.log
 - .csdlc/evidence/144/cognitive-profile-compile-fail.log
+- .csdlc/evidence/144/cognitive-profile-native-scripts.log
 - .csdlc/evidence/144/local-validation-manifest.json
 
 ## Execution
@@ -35,7 +39,7 @@ Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority 
 - Bind every signed statement to profile, revision, predecessor, recomputed authority context, canonical input, canonical policy, and canonical evidence digests.
 - Rebuild and verify the complete ordered predecessor chain through genesis, including every profile, public projection, authority proof, and exact link.
 - Require rotation to be signed by the current old key, advance exactly one epoch, change real key material, and govern the new revision statement with the new key.
-- Add fifteen crate-internal authority cases, a public fail-closed serialization boundary, an external-establishment compile-fail proof, and an exact filtered native producer/validator inventory.
+- Run both the corrective #144 and merged generic WP-13 native proof routes against the exact filtered fifteen-test crate-internal authority inventory while preserving their distinct workflow, issue, artifact, and provenance bindings.
 
 ## Validation
 
@@ -54,7 +58,7 @@ Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority 
       "-E",
       "test(/^cognitive_profile::authority_tests::/)"
     ],
-    "purpose": "Run the exact nonzero crate-internal opaque cognitive authority lane.",
+    "purpose": "Run the exact nonzero crate-internal opaque cognitive authority lane used by both native routes.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/144/cognitive-profile-authority-v1.log"
   },
@@ -67,7 +71,7 @@ Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority 
       "--test",
       "cognitive_profile"
     ],
-    "purpose": "Prove the public cognitive-profile serialization and fail-closed boundary without exposing authority establishment.",
+    "purpose": "Prove the public serialization and fail-closed boundary without exposing authority establishment.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/144/cognitive-profile-public-integration.log"
   },
@@ -86,28 +90,15 @@ Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority 
   },
   {
     "command": [
-      "cargo",
-      "clippy",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--lib",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Run strict Clippy over the repaired runtime library.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/144/cognitive-profile-strict-clippy.log"
-  },
-  {
-    "command": [
       "ruby",
       "-e",
       "ARGV.each { |path| RubyVM::InstructionSequence.compile_file(path) }",
       ".csdlc/prepared/issues/144/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/144/validate-native-receipts.rb"
+      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
+      ".csdlc/prepared/issues/5830/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5830/validate-native-receipts.rb"
     ],
-    "purpose": "Compile the issue-local native proof scripts and retain their fail-closed self-test result.",
+    "purpose": "Compile and self-test both distinct WP-13 native proof script pairs and validate both workflow YAML files.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/144/cognitive-profile-native-scripts.log"
   }

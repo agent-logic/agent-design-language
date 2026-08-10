@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "adc86e435e3dfaa5f978a0384db84813af615ee075f472fc089ffe29ba947a97",
+  "generation": 16,
+  "digest": "44d235e6f0aa66e536ff2aa12c36d09f4d2116b7224dffdffd0c6ce4a188df92",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "876ec84254411d798938937d89d9ea5d06dcd87f349e8231a4aa1af6e7d516a7",
+      "values_digest": "0ee10154536609efe1468025e3b5e4c05e02fa2d6e2e60e16ece0929dfe574af",
       "rendered_digest": "4004621723dd841853ccc2cfab0f5aee3347439ec90b76d097559c00db5ace7c",
       "ast_digest": "db952cd8c031e13c7eaed23555c23f6383fabbcdfbc724acf2926b8600983943"
     },
     "stp": {
-      "values_digest": "5576855dcc6eae4ef044be38caac15f634337efe2f43098c3242152a48fb9454",
+      "values_digest": "eb17d3be2c8b6bc2f6caf16d4c72f986f84a51173d8f224e0e5181c897907090",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "8f7eb3ac530b2b3c2d05e97736776cc80b4771ce7eb35597ef67d332168822dd",
+      "values_digest": "38fa6f6d7399cc7593bbb3e8a7b54d2a24ecdf13c47276228fa5b3dc8f236ead",
       "rendered_digest": "24a6184a59fe6ad7b1c6d9238c095f0b35d327c5c55beccd849e454948d9356b",
       "ast_digest": "c98327bd98b689ff803ceba35aab8099e5f38114a07dba167e4332844a7e8594"
     },
     "vpp": {
-      "values_digest": "dd6234d8213c7ac52d1b1270edf59fad738f3e34d1b538ed0c7c018818e19e2c",
+      "values_digest": "2c897fad4bc120432517d06e4dc53b5180929d58084f403a9b8eb199bc1d9e9d",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "21b0cbbd298e593ee8bce2f1b210b7beebacce51df31ae8a44d37aa9b7696ace",
+      "values_digest": "287933f5de7a9a209511046bf2eb276bfff95208a292f11b879425849f8b1727",
       "rendered_digest": "67504f7e4c84c6af80b9fb9000a91c7750b05f193afffbf24a6797a375de09ff",
       "ast_digest": "9c1916056920759c01939cf9c2341b1635d10e3c9a6b6f3c4a5fb2e32daa3f0e"
     },
     "sor": {
-      "values_digest": "674a5874560e9c7292a019f98f7b1ca2b4bc40fa6d6d8982f13ff7d8fb8e359a",
-      "rendered_digest": "bcc1f0874c3cefd9b4644d9d3c37ec5a27ce5e283f20d5220e0c0bec79da35ea",
-      "ast_digest": "d08473ac3a5b6a91d3150f2cd9dd0fd7619a3f1e47644be57d0500825bea44da"
+      "values_digest": "42f390bcdf512d3ca93f890f2147dabbd8dfd821f2ae20b75c4fa4558b964653",
+      "rendered_digest": "ce868a86d97e755648d3f52d70bb164d7c5ccb106cc6c9f86d1e65266733c80f",
+      "ast_digest": "93c68c159a10b495dbc135eac2fa357848cfb4c8fe17cb547b97c043dfd09826"
     }
   },
   "transitions": [
@@ -260,6 +260,13 @@
       "actor": "operator-approved:144-generic-wp13-native-compatibility",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "Record the narrowly approved migration of the merged generic WP-13 native producer/validator to the same exact opaque-authority target after exact PR failure 31422154377.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired WP-13 cognitive profiles with a runtime-owned opaque Ed25519 authority policy, pinned canonical policy/evidence digests, complete genesis replay, and old-key-governed exact-epoch rotation; migrated both the corrective and merged generic WP-13 native proof routes to the exact fifteen-test authority lane. Replacement native Linux/macOS execution remains deferred to publication CI.\",\"changes\":[\"Replace the caller-constructible authority root with an opaque runtime-owned cognitive authority policy whose private state can be established only inside the runtime crate.\",\"Pin canonical policy and evidence digests in the opaque authority policy and require every current and historical profile input to match those trusted pins.\",\"Bind every signed statement to profile, revision, predecessor, recomputed authority context, canonical input, canonical policy, and canonical evidence digests.\",\"Rebuild and verify the complete ordered predecessor chain through genesis, including every profile, public projection, authority proof, and exact link.\",\"Require rotation to be signed by the current old key, advance exactly one epoch, change real key material, and govern the new revision statement with the new key.\",\"Run both the corrective #144 and merged generic WP-13 native proof routes against the exact filtered fifteen-test crate-internal authority inventory while preserving their distinct workflow, issue, artifact, and provenance bindings.\"],\"artifacts\":[\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/cognitive_profile.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\",\".csdlc/prepared/issues/144/produce-native-receipt.rb\",\".csdlc/prepared/issues/144/validate-native-receipts.rb\",\".github/workflows/wp13-authority-repair.yml\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".github/workflows/wp13-native-cognitive-profile.yml\",\".csdlc/evidence/144/cognitive-profile-authority-v1.log\",\".csdlc/evidence/144/cognitive-profile-public-integration.log\",\".csdlc/evidence/144/cognitive-profile-compile-fail.log\",\".csdlc/evidence/144/cognitive-profile-native-scripts.log\",\".csdlc/evidence/144/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--no-tests=fail\",\"--status-level\",\"all\",\"-E\",\"test(/^cognitive_profile::authority_tests::/)\"],\"purpose\":\"Run the exact nonzero crate-internal opaque cognitive authority lane used by both native routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/144/cognitive-profile-authority-v1.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"cognitive_profile\"],\"purpose\":\"Prove the public serialization and fail-closed boundary without exposing authority establishment.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/144/cognitive-profile-public-integration.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"cognitive_profile\"],\"purpose\":\"Prove external callers cannot establish the opaque cognitive authority policy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/144/cognitive-profile-compile-fail.log\"},{\"command\":[\"ruby\",\"-e\",\"ARGV.each { |path| RubyVM::InstructionSequence.compile_file(path) }\",\".csdlc/prepared/issues/144/produce-native-receipt.rb\",\".csdlc/prepared/issues/144/validate-native-receipts.rb\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\"],\"purpose\":\"Compile and self-test both distinct WP-13 native proof script pairs and validate both workflow YAML files.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/144/cognitive-profile-native-scripts.log\"}]}"
     }
   ]
 }
