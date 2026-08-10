@@ -76,8 +76,8 @@ work_packages:
   - Can an independent reviewer reproduce the claimed result at the exact revision?
   github_issue: null
   github_url: null
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
+  creation_owner: post-merge operator bootstrap
+  status: planned_for_post_merge_creation
 - objective: Freeze the complete critical asset, account, owner, custodian, recovery, exclusion, and dependency inventory before any transfer begins.
   scope: Repositories, domains, brands, source and model IP, cloud and SaaS accounts, billing, credentials, recovery paths, data stores, deployment identities, contracts, and explicit exclusions.
   deliverables:

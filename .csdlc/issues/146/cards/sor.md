@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved, while future WP-01 now exclusively owns creation and validation of a fresh live issue wave.
+Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved; after the operator creates WP-01, WP-01 exclusively owns creation and validation of the downstream live issue wave.
 
 ## Artifacts
 
@@ -46,7 +46,7 @@ Corrected the v0.92.1 milestone package to planning-only posture. The complete 4
       "ruby",
       ".csdlc/prepared/issues/146/validate-v0921-package.rb"
     ],
-    "purpose": "Validate planning-only posture, the preserved 42-work-package denominator, all 721 archived file digests, WP-01 creation authority, retirement truth, complete lifecycle sequence, dependency graph, and exact ownership mapping for all eleven v3 decisions.",
+    "purpose": "Validate planning-only posture, the preserved 42-work-package denominator, all 721 source-commit-anchored archive digests, operator bootstrap of WP-01, WP-01 downstream creation authority, retirement truth, complete lifecycle sequence, dependency graph, and exact ownership mapping for all eleven v3 decisions.",
     "outcome": "passed",
     "evidence_ref": "PASS: v0.92.1 planning-only package and standard lifecycle WBS"
   },

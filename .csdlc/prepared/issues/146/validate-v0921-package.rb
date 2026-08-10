@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 require "yaml"
 
 root = File.expand_path("../../../..", __dir__)
@@ -79,8 +80,9 @@ required_arrays = %w[deliverables acceptance_criteria non_goals owned_paths pvf_
 specs.each do |spec|
   id = spec.fetch("id")
   abort("#{id} must not have a live GitHub issue") unless spec["github_issue"].nil? && spec["github_url"].nil?
-  abort("#{id} must be created by WP-01") unless spec["creation_owner"] == "WP-01"
-  expected_status = id == "V3-R01" ? "deferred" : "planned_for_wp01_creation"
+  expected_owner = id == "WP-01" ? "post-merge operator bootstrap" : "WP-01"
+  abort("#{id} creation owner mismatch") unless spec["creation_owner"] == expected_owner
+  expected_status = id == "V3-R01" ? "deferred" : id == "WP-01" ? "planned_for_post_merge_creation" : "planned_for_wp01_creation"
   abort("#{id} specification status mismatch") unless spec["status"] == expected_status
   %w[title objective scope validation_proof proof_summary].each do |field|
     abort("#{id} missing #{field}") if spec.fetch(field).to_s.strip.empty?
@@ -117,6 +119,8 @@ abort("preserved proof-stub archive missing") unless Dir.exist?(File.join(archiv
 archive_manifest = JSON.parse(File.read(File.join(archive, "manifest.json")))
 abort("archive manifest schema mismatch") unless archive_manifest["schema"] == "adl.milestone.planning_archive_manifest.v1"
 abort("archive manifest authority mismatch") unless archive_manifest["authority"] == "non_authoritative_planning_input"
+source_commit = archive_manifest["source_parent_commit"]
+abort("archive source commit mismatch") unless source_commit == "6eeaca025c426ebdf28e09b9372ae4cce2db69e6"
 archive_entries = archive_manifest.fetch("files")
 abort("archive manifest denominator mismatch") unless archive_manifest["file_count"] == 721 && archive_entries.size == 721
 manifest_paths = archive_entries.map { |entry| entry.fetch("archive_path") }
@@ -138,6 +142,10 @@ archive_entries.each do |entry|
   path = File.join(archive, relative)
   abort("archive byte count mismatch for #{relative}") unless File.size(path) == entry.fetch("bytes")
   abort("archive digest mismatch for #{relative}") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
+  source_bytes, source_error, source_status = Open3.capture3("git", "-C", root, "show", "#{source_commit}:#{source}")
+  abort("archive source blob missing for #{source}: #{source_error.strip}") unless source_status.success?
+  abort("archive source byte count mismatch for #{relative}") unless source_bytes.bytesize == entry.fetch("bytes")
+  abort("archive source digest mismatch for #{relative}") unless Digest::SHA256.hexdigest(source_bytes) == entry.fetch("sha256")
 end
 
 retired_issues = retired.fetch("issues")
