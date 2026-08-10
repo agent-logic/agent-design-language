@@ -116,7 +116,7 @@ fn body(
         holder_guardian_id: HOLDER.to_vec(),
         activation_key_sha256: Sha256::digest(activation.verifying_key().to_bytes()).to_vec(),
         operation_class: operation as u32,
-        issued_unix_seconds: 1_787_000_000,
+        issued_unix_seconds: NOW_UNIX_SECONDS,
         issued_nanos: 1,
         lease_duration_millis: 100,
         policy_sha256: policy().sha256().unwrap().to_vec(),
@@ -131,6 +131,12 @@ fn policy() -> LeasePolicy {
         message_delay_margin_millis: 5,
         max_snapshot_bytes: 1024 * 1024,
     }
+}
+
+fn policy_with_max_lease(max_lease_duration_millis: u64) -> LeasePolicy {
+    let mut value = policy();
+    value.max_lease_duration_millis = max_lease_duration_millis;
+    value
 }
 
 fn verify_certificate(
@@ -777,6 +783,18 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
         AuthorityError::SnapshotCorrupt
     );
     fixture.membership.committed_log_index = 100;
+    let mut mismatched_policy = policy();
+    mismatched_policy.max_clock_uncertainty_millis = 9;
+    assert_eq!(
+        AuthorityLedger::restore(
+            mismatched_policy,
+            &snapshot,
+            &fixture.membership,
+            NOW_UNIX_SECONDS,
+        )
+        .unwrap_err(),
+        AuthorityError::SnapshotCorrupt
+    );
     let mut restored =
         AuthorityLedger::restore(policy(), &snapshot, &fixture.membership, NOW_UNIX_SECONDS)
             .unwrap();
@@ -787,14 +805,21 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
         Err(AuthorityError::LeaseRevoked)
     );
     let replacement = activation(14);
-    let replacement_body = body(OperationClass::Activate, 101, 2, &replacement);
+    let mut replacement_body = body(OperationClass::Activate, 101, 2, &replacement);
+    replacement_body.issued_unix_seconds = NOW_UNIX_SECONDS + 1;
     let replacement_proof = activation_signature(&replacement_body, &replacement);
     fixture.membership.committed_log_index = 101;
     restored
         .apply(
             &fixture.certificate(replacement_body, &[0, 1]),
             &fixture.membership,
-            application(&replacement, &replacement_proof, 215, 5),
+            application_at(
+                &replacement,
+                &replacement_proof,
+                NOW_UNIX_SECONDS + 1,
+                215,
+                5,
+            ),
         )
         .unwrap();
     let mutation = Sha256::digest(b"post-recovery-mutation").into();
@@ -832,11 +857,13 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
 fn restart_uses_portable_wall_safety_anchor_not_foreign_elapsed_clock() {
     let mut fixture = Fixture::stable();
     let initial = activation(16);
+    let portable_policy = policy_with_max_lease(2_000);
     let mut grant = body(OperationClass::LeaseGrant, 110, 1, &initial);
     grant.issued_unix_seconds = NOW_UNIX_SECONDS;
+    grant.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
     let proof = activation_signature(&grant, &initial);
     let certificate = fixture.certificate(grant, &[0, 1]);
-    let mut ledger = AuthorityLedger::new(policy()).unwrap();
+    let mut ledger = AuthorityLedger::new(portable_policy.clone()).unwrap();
     ledger
         .apply(
             &certificate,
@@ -846,11 +873,17 @@ fn restart_uses_portable_wall_safety_anchor_not_foreign_elapsed_clock() {
         .unwrap();
     let snapshot = ledger.snapshot().unwrap();
     fixture.membership.committed_log_index = 110;
-    let mut restored =
-        AuthorityLedger::restore(policy(), &snapshot, &fixture.membership, NOW_UNIX_SECONDS)
-            .unwrap();
+    let mut restored = AuthorityLedger::restore(
+        portable_policy.clone(),
+        &snapshot,
+        &fixture.membership,
+        NOW_UNIX_SECONDS,
+    )
+    .unwrap();
     let replacement = activation(17);
-    let replacement_body = body(OperationClass::Activate, 111, 2, &replacement);
+    let mut replacement_body = body(OperationClass::Activate, 111, 2, &replacement);
+    replacement_body.lease_duration_millis = 2_000;
+    replacement_body.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
     let replacement_proof = activation_signature(&replacement_body, &replacement);
     let replacement_certificate = fixture.certificate(replacement_body, &[0, 1]);
     fixture.membership.committed_log_index = 111;
@@ -873,6 +906,69 @@ fn restart_uses_portable_wall_safety_anchor_not_foreign_elapsed_clock() {
             &replacement_certificate,
             &fixture.membership,
             application_at(&replacement, &replacement_proof, NOW_UNIX_SECONDS + 1, 1, 5),
+        )
+        .unwrap();
+}
+
+#[test]
+fn delayed_apply_never_extends_the_signed_portable_lease_deadline() {
+    let mut fixture = Fixture::stable();
+    let initial = activation(18);
+    let delayed_policy = policy_with_max_lease(10_000);
+    let mut grant = body(OperationClass::LeaseGrant, 120, 1, &initial);
+    grant.lease_duration_millis = 5_000;
+    grant.policy_sha256 = delayed_policy.sha256().unwrap().to_vec();
+    let proof = activation_signature(&grant, &initial);
+    let certificate = fixture.certificate(grant, &[0, 1]);
+    let mut ledger = AuthorityLedger::new(delayed_policy.clone()).unwrap();
+    ledger
+        .apply(
+            &certificate,
+            &fixture.membership,
+            application_at(&initial, &proof, NOW_UNIX_SECONDS + 3, 1_000, 5),
+        )
+        .unwrap();
+    assert_eq!(
+        ledger.lease(LINEAGE).unwrap().deadline_elapsed_millis,
+        3_000
+    );
+
+    let snapshot = ledger.snapshot().unwrap();
+    fixture.membership.committed_log_index = 120;
+    let mut restored = AuthorityLedger::restore(
+        delayed_policy.clone(),
+        &snapshot,
+        &fixture.membership,
+        NOW_UNIX_SECONDS + 3,
+    )
+    .unwrap();
+    let replacement = activation(19);
+    let mut replacement_body = body(OperationClass::Activate, 121, 2, &replacement);
+    replacement_body.issued_unix_seconds = NOW_UNIX_SECONDS + 4;
+    replacement_body.lease_duration_millis = 5_000;
+    replacement_body.policy_sha256 = delayed_policy.sha256().unwrap().to_vec();
+    let replacement_proof = activation_signature(&replacement_body, &replacement);
+    let replacement_certificate = fixture.certificate(replacement_body, &[0, 1]);
+    fixture.membership.committed_log_index = 121;
+    assert_eq!(
+        restored.apply(
+            &replacement_certificate,
+            &fixture.membership,
+            application_at(
+                &replacement,
+                &replacement_proof,
+                NOW_UNIX_SECONDS + 4,
+                10_000_000,
+                5,
+            ),
+        ),
+        Err(AuthorityError::LeaseExpired)
+    );
+    restored
+        .apply(
+            &replacement_certificate,
+            &fixture.membership,
+            application_at(&replacement, &replacement_proof, NOW_UNIX_SECONDS + 6, 1, 5),
         )
         .unwrap();
 }

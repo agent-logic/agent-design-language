@@ -302,6 +302,7 @@ pub struct LeaseState {
     pub certificate_generation: u64,
     pub activated_elapsed_millis: u64,
     pub deadline_elapsed_millis: u64,
+    pub deadline_unix_millis: u64,
     pub certificate_bytes: Vec<u8>,
     pub revoked: bool,
     pub last_mutation_sequence: u64,
@@ -657,6 +658,15 @@ impl AuthorityLedger {
         if body.issued_unix_seconds > application.now_unix_seconds {
             return Err(AuthorityError::InvalidCertificate);
         }
+        let certificate_deadline_unix_millis =
+            certificate_deadline_unix_millis(body).ok_or(AuthorityError::ResourceExhausted)?;
+        let now_unix_millis = u64::try_from(application.now_unix_seconds)
+            .ok()
+            .and_then(|seconds| seconds.checked_mul(1_000))
+            .ok_or(AuthorityError::ClockUncertain)?;
+        if now_unix_millis >= certificate_deadline_unix_millis {
+            return Err(AuthorityError::LeaseExpired);
+        }
         verify_activation(
             body,
             application.activation_public_key,
@@ -681,10 +691,6 @@ impl AuthorityLedger {
                         .get(&body.lineage_id)
                         .copied()
                     {
-                        let now_unix_millis = u64::try_from(application.now_unix_seconds)
-                            .ok()
-                            .and_then(|seconds| seconds.checked_mul(1_000))
-                            .ok_or(AuthorityError::ClockUncertain)?;
                         if now_unix_millis < safety_deadline {
                             return Err(AuthorityError::LeaseExpired);
                         }
@@ -724,6 +730,7 @@ impl AuthorityLedger {
                 if body.epoch != previous.epoch
                     || body.holder_node_id != previous.holder_node_id
                     || body.holder_guardian_id != previous.holder_guardian_id
+                    || certificate_deadline_unix_millis != previous.deadline_unix_millis
                 {
                     return Err(AuthorityError::HolderMismatch);
                 }
@@ -742,6 +749,7 @@ impl AuthorityLedger {
                     || previous.holder_node_id != body.holder_node_id
                     || previous.holder_guardian_id != body.holder_guardian_id
                     || previous.activation_public_key != application.activation_public_key
+                    || certificate_deadline_unix_millis != previous.deadline_unix_millis
                 {
                     return Err(AuthorityError::HolderMismatch);
                 }
@@ -760,9 +768,12 @@ impl AuthorityLedger {
                 return Ok(previous);
             }
         }
+        let remaining_millis = certificate_deadline_unix_millis
+            .checked_sub(now_unix_millis)
+            .ok_or(AuthorityError::LeaseExpired)?;
         let deadline = application
             .now_elapsed_millis
-            .checked_add(body.lease_duration_millis)
+            .checked_add(remaining_millis)
             .ok_or(AuthorityError::ResourceExhausted)?;
         let state = LeaseState {
             lineage_id: body.lineage_id.clone(),
@@ -775,6 +786,7 @@ impl AuthorityLedger {
             certificate_generation: body.voter_set_generation,
             activated_elapsed_millis: application.now_elapsed_millis,
             deadline_elapsed_millis: deadline,
+            deadline_unix_millis: certificate_deadline_unix_millis,
             certificate_bytes: certificate_bytes.to_vec(),
             revoked: false,
             last_mutation_sequence: current
@@ -871,16 +883,17 @@ impl AuthorityLedger {
         let mut leases = BTreeMap::new();
         let mut recovery_fences_unix_millis = BTreeMap::new();
         let leases_valid = envelope.body.leases.iter().all(|lease| {
-            let Some(body) = validate_snapshot_lease(
+            let Some(_body) = validate_snapshot_lease(
                 lease,
                 envelope.body.applied_log_index,
                 envelope.body.last_raft_term,
                 membership,
                 now_unix_seconds,
+                &policy,
             ) else {
                 return false;
             };
-            let Some(fence) = restart_safety_deadline_unix_millis(&policy, &body) else {
+            let Some(fence) = restart_safety_deadline_unix_millis(&policy, lease) else {
                 return false;
             };
             recovery_fences_unix_millis.insert(lease.lineage_id.clone(), fence);
@@ -928,6 +941,7 @@ fn validate_snapshot_lease(
     last_raft_term: u64,
     membership: &AuthorityMembership,
     now_unix_seconds: i64,
+    policy: &LeasePolicy,
 ) -> Option<AuthorityCertificateBodyV1> {
     let verified =
         verify_certificate(&lease.certificate_bytes, membership, now_unix_seconds).ok()?;
@@ -944,6 +958,8 @@ fn validate_snapshot_lease(
         && lease.epoch > 0
         && lease.certificate_generation > 0
         && lease.deadline_elapsed_millis >= lease.activated_elapsed_millis
+        && lease.deadline_unix_millis == certificate_deadline_unix_millis(&body)?
+        && body.policy_sha256 == policy.sha256().ok()?.as_slice()
         && body.lineage_id == lease.lineage_id
         && body.holder_node_id == lease.holder_node_id
         && body.holder_guardian_id == lease.holder_guardian_id
@@ -956,18 +972,19 @@ fn validate_snapshot_lease(
     valid.then_some(body)
 }
 
-fn restart_safety_deadline_unix_millis(
-    policy: &LeasePolicy,
-    body: &AuthorityCertificateBodyV1,
-) -> Option<u64> {
-    let issued_seconds = u64::try_from(body.issued_unix_seconds).ok()?;
-    let issued_millis = issued_seconds
-        .checked_mul(1_000)?
-        .checked_add(u64::from(body.issued_nanos) / 1_000_000)?;
-    issued_millis
-        .checked_add(body.lease_duration_millis)?
+fn restart_safety_deadline_unix_millis(policy: &LeasePolicy, lease: &LeaseState) -> Option<u64> {
+    lease
+        .deadline_unix_millis
         .checked_add(policy.max_clock_uncertainty_millis)?
         .checked_add(policy.message_delay_margin_millis)
+}
+
+fn certificate_deadline_unix_millis(body: &AuthorityCertificateBodyV1) -> Option<u64> {
+    let issued_seconds = u64::try_from(body.issued_unix_seconds).ok()?;
+    issued_seconds
+        .checked_mul(1_000)?
+        .checked_add(u64::from(body.issued_nanos) / 1_000_000)?
+        .checked_add(body.lease_duration_millis)
 }
 
 fn validate_body(body: &AuthorityCertificateBodyV1) -> AuthorityResult<()> {
