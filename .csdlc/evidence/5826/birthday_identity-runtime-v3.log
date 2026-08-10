@@ -1,0 +1,13 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+────────────
+ Nextest run ID ab7efdca-08bb-42a5-b250-10a4380bae7a with nextest profile: default
+    Starting 7 tests across 1 binary
+        PASS [   0.011s] (1/7) adl-runtime-kernel::birthday_identity semantic_output_rejects_host_paths_and_traversal
+        PASS [   0.011s] (2/7) adl-runtime-kernel::birthday_identity rejects_unknown_top_level_and_nested_fields_during_parse
+        PASS [   0.011s] (3/7) adl-runtime-kernel::birthday_identity rejects_display_wake_snapshot_admission_and_copied_state_as_root_authority
+        PASS [   0.012s] (4/7) adl-runtime-kernel::birthday_identity replay_and_input_order_produce_identical_records
+        PASS [   0.012s] (5/7) adl-runtime-kernel::birthday_identity builds_canonical_identity_and_emits_semantic_output
+        PASS [   0.012s] (6/7) adl-runtime-kernel::birthday_identity record_validator_rejects_digest_tampering_and_noncanonical_order
+        PASS [   0.013s] (7/7) adl-runtime-kernel::birthday_identity rejects_collision_provenance_substitution_privacy_and_path_matrix
+────────────
+     Summary [   0.013s] 7 tests run: 7 passed, 0 skipped

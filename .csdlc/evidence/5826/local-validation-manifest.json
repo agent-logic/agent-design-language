@@ -1,0 +1,28 @@
+{
+  "schema": "adl.validation.local_exact_revision.v1",
+  "issue": 5826,
+  "validated_revision": "aea5f18efb076bad7ec90cba334d9eaa9774ba7b",
+  "validated_tree": "619ade51e115abad3435654990028e0c2f8fc401",
+  "product_revision": "aea5f18efb076bad7ec90cba334d9eaa9774ba7b",
+  "product_tree": "619ade51e115abad3435654990028e0c2f8fc401",
+  "command": [
+    "cargo",
+    "nextest",
+    "run",
+    "--manifest-path",
+    "adl-runtime-kernel/Cargo.toml",
+    "--test",
+    "birthday_identity",
+    "--no-tests=fail",
+    "--status-level",
+    "all"
+  ],
+  "status": "passed",
+  "tests_run": 7,
+  "tests_passed": 7,
+  "tests_failed": 0,
+  "log_ref": ".csdlc/evidence/5826/birthday_identity-runtime-v3.log",
+  "log_sha256": "cc6a6edaedad6e452c16c1cb2e5d93893c864b38c2f064a918be6e5392e602cf",
+  "path_hygiene": "repository_relative",
+  "native_portability": "deferred_to_ci"
+}

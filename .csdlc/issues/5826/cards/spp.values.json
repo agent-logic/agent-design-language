@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 61
+    "generation": 65
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
