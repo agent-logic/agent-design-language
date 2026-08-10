@@ -98,6 +98,9 @@ if ARGV == ["--self-test"]
   end
   expected = source_paths("birth_witness", "docs/birth-witness.md")
   fail!("self-test omitted birth-witness source") unless expected.include?("adl-runtime-kernel/src/birth_witness.rs")
+  repository_root = Pathname.new(__FILE__).realpath.dirname.join("../../../..").cleanpath
+  workflow = repository_root.join(".github/workflows/wp15-native-birth-witness.yml").read
+  fail!("self-test requires hidden-file opt-in on both exact uploads") unless workflow.scan("include-hidden-files: true").length == 2
   puts JSON.generate(status: "passed", check: "native-log-path-rejection")
   exit 0
 end
@@ -124,7 +127,8 @@ producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
 expected_test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all",
+  "--lib", "-E", "test(/^birth_witness::authority_tests::/)",
+  "--no-tests=fail", "--status-level", "all",
   "--message-format", "libtest-json-plus"
 ]
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
@@ -132,7 +136,9 @@ evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/
 required_tests = %w[
   accepts_exact_policy_complete_witnesses_and_emits_canonical_semantics
+  canonical_witness_identity_rejects_case_variant_equivocation
   equivalent_witness_orders_are_byte_stable
+  fixture_matrix_executes_every_declared_negative
   forged_signature_and_wrong_signing_key_fail_closed
   missing_duplicate_and_substituted_witnesses_fail_closed
   packet_validator_reconstructs_every_public_field
@@ -140,7 +146,6 @@ required_tests = %w[
   private_or_machine_local_public_evidence_never_enters_receipt
   rejected_or_digest_stale_birthday_candidate_is_not_witnessable
   stale_candidate_and_evidence_substitutions_fail_closed
-  unknown_fields_and_fixture_matrix_fail_closed
   unsafe_identifiers_and_policy_collisions_fail_closed_without_echoing_values
   valid_signed_rejection_yields_caveated_not_claimed_receipt
 ]
@@ -208,7 +213,7 @@ receipts.each do |receipt|
   fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
   observed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
-  expected_tests = required_tests.map { |name| "adl-runtime-kernel::birth_witness$#{name}" }.sort
+  expected_tests = required_tests.map { |name| "adl-runtime-kernel::adl_runtime_kernel$birth_witness::authority_tests::#{name}" }.sort
   fail!("#{platform}: exact birth-witness test inventory mismatch") unless observed_tests == expected_tests
   fail!("#{platform}: exact test count mismatch") unless receipt["tests_run"] == required_tests.length
 

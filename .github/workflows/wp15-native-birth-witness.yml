@@ -60,6 +60,7 @@ jobs:
             .csdlc/evidence/5833/native-platform/${{ matrix.platform }}-semantic.json
             .csdlc/evidence/5833/native-platform/${{ matrix.platform }}-source-manifest.json
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
 
   validate-native-receipts:
@@ -96,4 +97,5 @@ jobs:
             .csdlc/evidence/5833/native-platform/macos-semantic.json
             .csdlc/evidence/5833/native-platform/macos-source-manifest.json
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14

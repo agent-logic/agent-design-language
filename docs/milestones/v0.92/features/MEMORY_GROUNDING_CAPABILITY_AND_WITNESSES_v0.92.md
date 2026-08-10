@@ -125,16 +125,19 @@ make a forged packet acceptable merely by recomputing its digest.
 Issue `#5833` adds the versioned runtime contract at
 `adl-runtime-kernel/src/birth_witness.rs`. It consumes an accepted, canonical
 WP-08 `BirthdayCandidate` and its exact `BirthdayDecision`, then checks four
-distinct signed witness roles against a separately provisioned Ed25519 roster:
+distinct signed witness roles against an opaque, runtime-established Ed25519 roster:
 identity continuity, memory and capability, negative-case guard, and handoff
 consumer. Every signature binds the exact candidate digest, reviewed evidence
 set digest, current generation, role, witness identity, signing-key identity,
-and accept-or-reject decision. The candidate's reviewer-visible WitnessSet
-reference must itself pin the provisioned roster digest.
+and accept-or-reject decision. External callers cannot construct or serialize
+the authority policy or nominate its root keys. The candidate's
+reviewer-visible WitnessSet reference must itself pin the established roster
+digest.
 
 The resulting witness set and citizen-facing receipt are canonical and
-byte-stable under equivalent witness ordering. The receipt exposes only
-reviewer-visible, repository-relative evidence and fixed caveats. Its birth
+byte-stable under equivalent witness ordering. The receipt replaces source
+paths with deterministic kind-and-digest evidence tokens, exposes no original
+path text, and carries fixed caveats. Its birth
 event status is always `not_claimed`: an all-accept witness set is review
 evidence, not autonomous birth authority, legal personhood, citizenship,
 governance approval, or public-launch authorization. A valid signed rejection

@@ -58,15 +58,25 @@ pub enum ReceiptDisposition {
 }
 
 #[derive(Clone, Debug)]
-pub struct TrustedBirthWitness {
+pub(crate) struct TrustedBirthWitness {
     pub witness_id: String,
     pub role: BirthWitnessRole,
     pub signing_key_id: String,
     pub verifying_key: VerifyingKey,
 }
 
-/// Separately provisioned authority and freshness policy. It is intentionally
-/// not serializable and is never copied into the public receipt.
+/// Opaque runtime-established witness authority and freshness policy.
+///
+/// Neither the trusted witness roster nor its verifying keys can be nominated
+/// by an external caller:
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::BirthWitnessPolicy;
+/// let _attacker_policy_factory = BirthWitnessPolicy::establish;
+/// ```
+///
+/// The policy is intentionally not serializable and is never copied into the
+/// public receipt.
 #[derive(Clone, Debug)]
 pub struct BirthWitnessPolicy {
     candidate_sha256: String,
@@ -77,7 +87,8 @@ pub struct BirthWitnessPolicy {
 }
 
 impl BirthWitnessPolicy {
-    pub fn provision(
+    #[cfg_attr(not(test), allow(dead_code))]
+    pub(crate) fn establish(
         authority_context: impl Into<String>,
         candidate_sha256: impl Into<String>,
         current_generation: u64,
@@ -137,7 +148,8 @@ impl BirthWitnessPolicy {
     }
 }
 
-pub fn birth_witness_roster_digest(
+#[cfg_attr(not(test), allow(dead_code))]
+pub(crate) fn birth_witness_roster_digest(
     trusted: &[TrustedBirthWitness],
 ) -> Result<String, BirthWitnessError> {
     let mut by_id = BTreeMap::new();
@@ -340,7 +352,9 @@ pub fn build_birth_witness_packet(
             .trusted
             .get(&attestation.witness_id.to_ascii_lowercase())
             .ok_or(BirthWitnessError::UnauthorizedWitness)?;
-        if trusted.role != attestation.role || trusted.signing_key_id != attestation.signing_key_id
+        if trusted.witness_id != attestation.witness_id
+            || trusted.role != attestation.role
+            || trusted.signing_key_id != attestation.signing_key_id
         {
             return Err(BirthWitnessError::UnauthorizedWitness);
         }
@@ -397,7 +411,12 @@ pub fn build_birth_witness_packet(
     } else {
         ReceiptDisposition::WitnessesRejected
     };
-    let mut public_evidence = candidate.evidence.clone();
+    validate_public_evidence(&candidate.evidence)?;
+    let mut public_evidence = candidate
+        .evidence
+        .iter()
+        .map(redacted_public_evidence)
+        .collect::<Vec<_>>();
     public_evidence.sort_by(|left, right| {
         left.kind
             .cmp(&right.kind)
@@ -480,6 +499,34 @@ fn validate_public_evidence(evidence: &[EvidenceReference]) -> Result<(), BirthW
         return Err(BirthWitnessError::UnsafePublicEvidence);
     }
     Ok(())
+}
+
+fn redacted_public_evidence(entry: &EvidenceReference) -> EvidenceReference {
+    EvidenceReference {
+        kind: entry.kind,
+        path: format!(
+            "evidence-ref/{}-{}.json",
+            evidence_kind_label(entry.kind),
+            entry.sha256
+        ),
+        sha256: entry.sha256.clone(),
+        visibility: EvidenceVisibility::ReviewerVisible,
+    }
+}
+
+fn evidence_kind_label(kind: EvidenceKind) -> &'static str {
+    match kind {
+        EvidenceKind::StableName => "stable-name",
+        EvidenceKind::IdentityRoot => "identity-root",
+        EvidenceKind::ContinuityHead => "continuity-head",
+        EvidenceKind::MemoryGrounding => "memory-grounding",
+        EvidenceKind::CapabilityEnvelope => "capability-envelope",
+        EvidenceKind::CognitiveProfile => "cognitive-profile",
+        EvidenceKind::InheritedMoralContext => "inherited-moral-context",
+        EvidenceKind::WitnessSet => "witness-set",
+        EvidenceKind::Receipt => "receipt",
+        EvidenceKind::ReviewerValidation => "reviewer-validation",
+    }
 }
 
 fn canonical_caveats() -> Vec<String> {
@@ -624,6 +671,9 @@ fn safe_repository_path(value: &str) -> bool {
         && !value.contains('\\')
         && value.as_bytes().get(1).copied() != Some(b':')
         && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'/' | b'.' | b'_' | b'-'))
+        && value
             .split('/')
             .all(|segment| !segment.is_empty() && segment != "." && segment != "..")
 }
@@ -643,6 +693,12 @@ fn unsafe_text(value: &str) -> bool {
         "private_state",
         "raw_state",
         "sealed_payload",
+        "password",
+        "passwd",
+        "secret",
+        "token",
+        "credential",
+        "access_key",
     ]
     .iter()
     .any(|marker| lower.contains(marker))
@@ -650,6 +706,10 @@ fn unsafe_text(value: &str) -> bool {
         || lower.starts_with("home/")
         || lower.starts_with("private/")
 }
+
+#[cfg(test)]
+#[path = "../tests/fixtures/birth_witness/authority_tests.rs"]
+mod authority_tests;
 
 fn is_sha256(value: &str) -> bool {
     value.len() == 64

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-15] Birth witnesses and receipts",
     "slug": "v0-92-wp-15-birth-witnesses-and-receipts",
     "version": "v0.92",
-    "generation": 61
+    "generation": 64
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "birth_witness-runtime-v3",
-          "proof_role": "Run the exact Runtime v3 integration target and fail when the selected target contains no tests.",
+          "lane": "birth-witness-authority-runtime-v3",
+          "proof_role": "Run the exact crate-internal opaque-authority and executable negative-matrix lane.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -31,8 +31,36 @@
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 600,
-          "budget_tokens": 4000,
+          "budget_seconds": 480,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "-E",
+            "test(/^birth_witness::authority_tests::/)",
+            "--no-tests=fail",
+            "--status-level",
+            "all"
+          ],
+          "parallel_group": "5833-core",
+          "defer_reason": null
+        },
+        {
+          "lane": "birth-witness-public-boundary",
+          "proof_role": "Prove the public serialized packet rejects unknown/private fields without exposing an authority constructor.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
           "argv": [
             "cargo",
             "nextest",
@@ -49,16 +77,38 @@
           "defer_reason": null
         },
         {
+          "lane": "birth-witness-external-authority-compile-fail",
+          "proof_role": "Prove an external crate cannot establish or nominate the opaque witness authority root.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--doc",
+            "birth_witness"
+          ],
+          "parallel_group": "5833-core",
+          "defer_reason": null
+        },
+        {
           "lane": "birth_witness-macos-native-ci-producer",
-          "proof_role": "Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+          "proof_role": "Run the exact 13-test opaque-authority lane on native GitHub Actions macOS and retain the complete normalized structured log, source manifest, and canonical semantic output.",
           "acceptance_ids": [
             "AC-4",
             "AC-9"
           ],
           "deterministic": false,
           "resource_profile": "medium",
-          "budget_seconds": 240,
-          "budget_tokens": 2000,
+          "budget_seconds": 180,
+          "budget_tokens": 1500,
           "argv": [
             "ruby",
             ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
@@ -70,19 +120,19 @@
             ".csdlc/evidence/5833/native-platform/macos-semantic.json"
           ],
           "parallel_group": "5833-native-produce",
-          "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": "Required on a native GitHub Actions macOS runner; missing CI proof blocks portability and review readiness."
         },
         {
           "lane": "birth_witness-linux-native-ci-producer",
-          "proof_role": "Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+          "proof_role": "Run the exact 13-test opaque-authority lane on native GitHub Actions Linux and retain the complete normalized structured log, source manifest, and canonical semantic output.",
           "acceptance_ids": [
             "AC-4",
             "AC-9"
           ],
           "deterministic": false,
           "resource_profile": "medium",
-          "budget_seconds": 240,
-          "budget_tokens": 2000,
+          "budget_seconds": 180,
+          "budget_tokens": 1500,
           "argv": [
             "ruby",
             ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
@@ -94,11 +144,11 @@
             ".csdlc/evidence/5833/native-platform/linux-semantic.json"
           ],
           "parallel_group": "5833-native-produce",
-          "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": "Required on a native GitHub Actions Linux runner; missing CI proof blocks portability and review readiness."
         },
         {
           "lane": "birth_witness-native-ci-receipt-verification",
-          "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse the exact test inventory; verify GitHub Actions provenance and path hygiene; and require macOS/Linux semantic equivalence at exact candidate HEAD.",
+          "proof_role": "Recompute exact source, producer, structured 13-test inventory, provenance, path hygiene, and semantic equivalence for both native fragments.",
           "acceptance_ids": [
             "AC-4",
             "AC-9"
@@ -106,7 +156,7 @@
           "deterministic": true,
           "resource_profile": "small",
           "budget_seconds": 60,
-          "budget_tokens": 1500,
+          "budget_tokens": 1000,
           "argv": [
             "ruby",
             ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
@@ -121,7 +171,7 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5833/design.md",
-      "design_digest": "6a5dc4d38599413dadd357fc88b2c29a6e07212a719660cf9fcb8ccb7c1bff70",
+      "design_digest": "919537c4162eec5bf5a3570f09a66b3607c58a9a9b603b9efa5f6b241c13a22b",
       "diagram_ref": ".csdlc/prepared/issues/5833/diagram.mmd",
       "diagram_digest": "0255242ebe93f2857c2a9dc5f2d0c1a083fa373b340935cbfe34749941f0d599"
     }

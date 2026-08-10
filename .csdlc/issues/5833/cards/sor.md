@@ -86,7 +86,7 @@ Implemented and locally proved WP-15 exact-candidate signed witness sets and det
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
