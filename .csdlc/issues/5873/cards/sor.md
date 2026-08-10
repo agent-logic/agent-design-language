@@ -58,11 +58,11 @@ Implemented deterministic bounded placement from committed membership, verified 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

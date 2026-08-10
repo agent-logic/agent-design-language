@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5873,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5873-bounded-placement",
+  "title": "[v0.92][WP-04.11] Bounded placement decisions",
+  "body": "Closes danielbaustin/agent-design-language#5873\n\n## Summary\n- add deterministic bounded placement over committed membership and opaque verified capability/weather projections\n- bind placement to service-owned time, current advertisement-signing certificates, and canonical membership trust-domain authority\n- derive fencing eligibility from authoritative lease lineage transitions and complete fencing-store floors\n- preserve valid same-epoch Fence to Activate to LeaseRenewal successors while rejecting stale, missing, or mismatched authority\n\n## Validation\n- focused distributed placement nextest: 16 passed, 0 skipped, 0 leaky\n- strict focused Clippy with warnings denied: PASS\n- canonical exact-revision receipt validator: PASS\n- machine-derived negative cases: 13/13\n- git diff hygiene: PASS\n\n## Review\n- independent exact-head review at 289badf00: PASS, no findings\n- review covered the two owned product paths, canonical deep receipt, and final retained remediation proof\n\n## Boundary\n- distributed module registration remains owned by integration issue #5878",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:dd7cc73bd6a69f24fff486826c3364d88067d45c:1a22a54fe3901e172538f2f402fb7fc44f0b5fb10aada08d90a49c9ef5d9086a",
+  "commit_sha": "dd7cc73bd6a69f24fff486826c3364d88067d45c"
+}
