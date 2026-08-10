@@ -12,12 +12,13 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and locally proved the governed WP-13A adaptive-learning DAG over real mutation, loop, cancellation, and durable-state authorities. A global pending reservation plus atomic multi-domain compare-and-commit prevents concurrent or crash-interrupted accepted histories from becoming authoritative before live mutation; deterministic reconciliation completes or aborts pending intent. The exact repair is rebased on merged cognitive-authority fix #144 at 9e16c621 and passes sixteen focused adaptive/durable tests; mandatory native proof remains deferred to CI.
+Implemented and locally proved governed WP-13A adaptive learning over real mutation, loop, cancellation, cognitive-profile, and durable-state authorities. Global pending startup discovery fully validates canonical intent, snapshot, policy, lineage, privacy, and signed MutationAuthority evidence. A bounded MutationGate transaction holds gate and adaptation locks, commits durable truth through its callback, and publishes live state only after success; reserved, committed, and aborted recovery is deterministic. Exact proof is rebased on merged #144 and passes twenty adaptive/durable tests; native proof remains deferred to CI.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/adaptive_learning.rs
 - adl-runtime-kernel/src/durable_state.rs
+- adl-runtime-kernel/src/reasoning.rs
 - adl-runtime-kernel/src/lib.rs
 - adl-runtime-kernel/tests/adaptive_learning.rs
 - adl-runtime-kernel/tests/durable_state.rs
@@ -34,13 +35,13 @@ Implemented and locally proved the governed WP-13A adaptive-learning DAG over re
 ## Execution
 
 - Execute accepted adaptive learning only through signed MutationGate authority, verified LoopOutcome replay/state, cancellation, AdaptationStore, and KernelDurableState.
-- Bind canonical AdaptiveLearningPolicy digest to the gate snapshot, signed grant, mutation evidence, retained history, cognitive profile, capability envelope, and complete predecessor lineage.
-- Preview-apply signed patches on an isolated restored gate and require the result to equal the governed proposal before reserving mutation authority.
-- Reserve a non-authoritative global pending intent with atomic governed-state compare-and-set, apply the live mutation, then atomically publish the sequence record, head, full history, and committed pending state.
-- Reconcile reserved intent deterministically after restart by completing only an exactly matching live mutation or marking it aborted; rejected, cancelled, collision, stale, and mismatched paths remain non-authoritative.
-- Persist sequence-addressed complete histories and validate every retained record for authoritative restart and rollback; retain recurrence and bound/redact identifiers, rationale, evidence, and policy collections.
-- Rebase the adaptive proof on merged issue #144 cognitive-authority schema, adding a signed CognitiveAuthorityProof fixture and retaining strict Clippy through a named governed-state compare-and-set tuple type.
-- Maintain the exact eleven-test adaptive native inventory plus five focused durable-state atomicity/restart tests locally; native macOS/Linux receipts remain publication-stage proof.
+- Bind canonical AdaptiveLearningPolicy to gate snapshot, grant, evidence, cognitive profile, capability envelope, and complete predecessor history.
+- Preview signed patch effects, then reserve one canonical bounded global pending intent containing the exact before-gate snapshot.
+- Discover pending intent at startup without caller-supplied history identity and fully validate canonical encoding, self-digest, complete history/policy/profile/privacy invariants, snapshot, and MutationAuthority evidence before reconciliation.
+- Add a bounded MutationGate transaction callback that holds gate and adaptation locks, builds the candidate, requires durable callback success, and publishes live state only afterward; CAS, postcheck, and callback failure leave live state unchanged.
+- Reconcile reserved, committed, and aborted intents deterministically; restore the exact before snapshot for aborted state and allow one authoritative winner under concurrent adaptive execution.
+- Persist sequence-addressed complete histories for restart and rollback, retain recurrence, and bound/redact durable identifiers, rationale, evidence, policy, snapshots, and pending payloads.
+- Maintain exact fifteen-test adaptive native inventory and add five focused durable-state atomicity/restart cases to local proof.
 
 ## Validation
 
@@ -60,7 +61,7 @@ Implemented and locally proved the governed WP-13A adaptive-learning DAG over re
       "--status-level",
       "all"
     ],
-    "purpose": "Prove eleven governed adaptive-learning cases plus five atomic CAS, restart, and durable-state cases at exact revision cab02a10f5adb088ededda7ba1ba75048e9e188c with merged #144 authority ancestry.",
+    "purpose": "Prove fifteen adaptive authority/reconciliation/interruption/tamper/concurrency cases plus five durable atomic CAS/restart cases at exact revision 920709c29534fb0e8fe24f45fd4dd986e8c924c4.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5831/local-validation-manifest.json"
   },
@@ -78,7 +79,7 @@ Implemented and locally proved the governed WP-13A adaptive-learning DAG over re
       "-D",
       "warnings"
     ],
-    "purpose": "Prove strict lint cleanliness for the governed executor, durable transaction primitive, and focused tests.",
+    "purpose": "Prove strict lint cleanliness for the governed executor, MutationGate transaction boundary, durable CAS, and focused tests.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5831/adaptive-learning-strict-clippy.log"
   }

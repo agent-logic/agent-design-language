@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 76,
-  "digest": "d553903f207c82e579b540be45a3b706be9e76b4a26b1b78b4b0e25752d850c8",
+  "generation": 79,
+  "digest": "ee874ccb04d89e5a549b653049de39b7b7b5aeff85e8fd60074ffdcdbadec687",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": null,
@@ -19,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/5831/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-approved:5831-atomic-durable-cas-scope",
+      "reviewer": "operator-approved:5831-exclusive-mutation-transaction-scope",
       "revision": "5155978013a9bc8e77519604207c1662822266331c7cb58b94d3bcc07c7f3520"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "27d4450e2a2f826c81ec93233cd2655e9d47ea410767f2ee929840bf8f78d59d",
-      "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
-      "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
+      "values_digest": "e0fae923510509ab69da3998139156d7c70763b17bbbfc2fb39f0bacb4f660fd",
+      "rendered_digest": "0db5a50b8b18fb55476374e044eb1b0c5f912734fcd350f59ed9e486d94a770c",
+      "ast_digest": "435e246381810627c72031a04e455f28daf269e67a3f2f493be5a78546d6cadd"
     },
     "stp": {
-      "values_digest": "5251cbc653da37269a38a77acde955f1c676893456c43ca3216ddd12d5afb280",
+      "values_digest": "fe0e26d96bc9980fbbf11ffd43029ba60b92917a433d9687a51091296c20442c",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "f23efd5a7764a9e9967968beea3f86d2b2d29d6239c2d586eb0d519065ff2cc6",
+      "values_digest": "0f7cd87d19acd3b980589d2d703df4c7ea65f77b39339f68e936d4b7a5b7a674",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "4e892cb2210d4974da7691007c87006fdeea702784908ba4484706509998207e",
+      "values_digest": "cd8bd7e3a932ac66cf24887752b1b1287d1b32f6f5124630c094191d911971cf",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "3ac5b3adb001b06f484b4cc81cc5614b6f39a0b3552fbab24462af14d414cc03",
+      "values_digest": "4fe0c8cf6b4c91fbba03a66e8dd00376ea5f2702ba2bf78f87bda9ae98347bd2",
       "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
       "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "f8b95ed6a2ba33d0907e7bdfda096801cab66f6e3aaa5904ad5b492bc6300d70",
-      "rendered_digest": "a9bf21d0ae38b754ff6f4e82b983cbc03b9a66b71e95be67632e573beb33d962",
-      "ast_digest": "768acff41a4d090a9ee2a29af7a7f8fa4b04159df4d4fb6267ced9e1fbb46a8b"
+      "values_digest": "46f14210ab3b68ef984105a940c944160197267f3de5d3fdfdef8a3189c6f67a",
+      "rendered_digest": "667e1624df0ba224d9df4ae02047f54dc89671a68cd812dc107bd62f8c43c447",
+      "ast_digest": "f2d85f851c39d676112fba2b285a748091aecfcc24d42a2ef42384fb4cd88562"
     }
   },
   "transitions": [
@@ -820,6 +820,27 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "Fresh assigned review found that pending reconciliation was undiscoverable and under-validated, and that post-live or durable completion failure could leave split live/durable state. Recover the stale assignment for the bounded MutationGate transaction boundary, fully validated startup reconciliation, and interruption/tamper/concurrency proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 104,
+      "generation": 77,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Formally record the operator-authorized smallest MutationGate transaction boundary required to close the exact review's live/durable concurrency finding; preserve every unrelated reasoning surface and global CI out of scope.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/reasoning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/evidence/5831/\",\".github/workflows/wp13a-native-adaptive-learning.yml\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/evidence/5831/\"]}"
+    },
+    {
+      "sequence": 105,
+      "generation": 78,
+      "actor": "operator-approved:5831-exclusive-mutation-transaction-scope",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 106,
+      "generation": 79,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Record the completed discoverable reconciliation and exclusive transactional mutation repair with exact twenty-test proof after the latest review findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved governed WP-13A adaptive learning over real mutation, loop, cancellation, cognitive-profile, and durable-state authorities. Global pending startup discovery fully validates canonical intent, snapshot, policy, lineage, privacy, and signed MutationAuthority evidence. A bounded MutationGate transaction holds gate and adaptation locks, commits durable truth through its callback, and publishes live state only after success; reserved, committed, and aborted recovery is deterministic. Exact proof is rebased on merged #144 and passes twenty adaptive/durable tests; native proof remains deferred to CI.\",\"changes\":[\"Execute accepted adaptive learning only through signed MutationGate authority, verified LoopOutcome replay/state, cancellation, AdaptationStore, and KernelDurableState.\",\"Bind canonical AdaptiveLearningPolicy to gate snapshot, grant, evidence, cognitive profile, capability envelope, and complete predecessor history.\",\"Preview signed patch effects, then reserve one canonical bounded global pending intent containing the exact before-gate snapshot.\",\"Discover pending intent at startup without caller-supplied history identity and fully validate canonical encoding, self-digest, complete history/policy/profile/privacy invariants, snapshot, and MutationAuthority evidence before reconciliation.\",\"Add a bounded MutationGate transaction callback that holds gate and adaptation locks, builds the candidate, requires durable callback success, and publishes live state only afterward; CAS, postcheck, and callback failure leave live state unchanged.\",\"Reconcile reserved, committed, and aborted intents deterministically; restore the exact before snapshot for aborted state and allow one authoritative winner under concurrent adaptive execution.\",\"Persist sequence-addressed complete histories for restart and rollback, retain recurrence, and bound/redact durable identifiers, rationale, evidence, policy, snapshots, and pending payloads.\",\"Maintain exact fifteen-test adaptive native inventory and add five focused durable-state atomicity/restart cases to local proof.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/reasoning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".csdlc/evidence/5831/adaptive-learning-runtime-v3.log\",\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\",\".csdlc/evidence/5831/adaptive-learning-native-scripts.log\",\".csdlc/evidence/5831/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove fifteen adaptive authority/reconciliation/interruption/tamper/concurrency cases plus five durable atomic CAS/restart cases at exact revision 920709c29534fb0e8fe24f45fd4dd986e8c924c4.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the governed executor, MutationGate transaction boundary, durable CAS, and focused tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\"}]}"
     }
   ]
 }
