@@ -4,8 +4,15 @@ use std::{env, fs};
 
 const ROUTE_OWNER_CONTRACT: &str = "Covered C-SDLC GitHub route owners: issue actions = `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication = `csdlc-publish`; terminal delivery = `csdlc-finish`.";
 const ROUTE_PROHIBITION_CONTRACT: &str = "Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for covered lifecycle writes; missing or unavailable owner binaries fail closed and never authorize fallback.";
+const CONNECTOR_403_CONTRACT: &str = "A connector `403 Resource not accessible by integration` is an integration authorization failure. It is not evidence that the shared token resolver or operator-approved token failed, and it does not authorize connector retry or raw-`gh` fallback.";
 const DEDICATED_PROOF_HOOK: &str =
     "cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy";
+const ROUTE_OWNER_BINARIES: [&str; 4] = [
+    "csdlc-github-issue",
+    "csdlc-github-pr",
+    "csdlc-publish",
+    "csdlc-finish",
+];
 
 fn normalized_policy(document: &str) -> String {
     document.split_whitespace().collect::<Vec<_>>().join(" ")
@@ -41,10 +48,12 @@ fn github_route_policy_is_consistent_and_fail_closed() {
     let required = coexistence["required_v2_binaries"]
         .as_array()
         .expect("required_v2_binaries array");
-    assert!(
-        required.iter().any(|binary| binary == "csdlc-publish"),
-        "the verified installation must include the publication owner"
-    );
+    for owner in ROUTE_OWNER_BINARIES {
+        assert!(
+            required.iter().any(|binary| binary == owner),
+            "the verified installation must include route owner {owner}"
+        );
+    }
     assert!(
         boundary.contains(DEDICATED_PROOF_HOOK),
         "the authoritative boundary must retain its dedicated proof hook"
@@ -55,7 +64,17 @@ fn github_route_policy_is_consistent_and_fail_closed() {
 fn connector_403_is_not_token_failure_or_fallback_authority() {
     let fixture: Value = serde_json::from_str(include_str!("fixtures/github_connector_403.json"))
         .expect("parse connector 403 fixture");
+    let repository = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repository root");
+    let boundary =
+        fs::read_to_string(repository.join("docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"))
+            .expect("read GitHub client boundary");
 
+    assert_eq!(fixture["source"], "chatgpt_github_connector");
+    assert_eq!(fixture["operation"], "covered_lifecycle_write");
+    assert_eq!(fixture["status"], 403);
+    assert_eq!(fixture["message"], "Resource not accessible by integration");
     assert_eq!(
         fixture["classification"],
         "integration_authorization_failure"
@@ -63,6 +82,10 @@ fn connector_403_is_not_token_failure_or_fallback_authority() {
     assert_eq!(fixture["token_failure"], false);
     assert_eq!(fixture["fallback_authorized"], false);
     assert_eq!(fixture["required_route"], "repo_native_rust_owner");
+    assert!(
+        normalized_policy(&boundary).contains(CONNECTOR_403_CONTRACT),
+        "the authoritative boundary must retain the connector 403 classification"
+    );
 
     let encoded = fixture.to_string();
     for forbidden in ["Bearer ", "github_pat_", "ghp_"] {
@@ -97,6 +120,9 @@ fn shared_token_precedence_and_error_redaction_are_preserved() {
         env::remove_var(key);
     }
     env::set_var("HOME", &home);
+    env::remove_var("ADL_GITHUB_TOKEN_FILE");
+    assert_eq!(github_token::resolve(None).unwrap(), "home-default");
+
     env::set_var("ADL_GITHUB_TOKEN_FILE", &configured);
     assert_eq!(github_token::resolve(None).unwrap(), "configured-file");
 
