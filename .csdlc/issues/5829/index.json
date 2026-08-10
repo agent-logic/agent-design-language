@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
-  "phase": "bound",
-  "generation": 78,
-  "digest": "ac45fffbd35401f42a7e549957ff49668d13e6c8980cb2c9a8cc431ce98a41ec",
+  "phase": "implemented",
+  "generation": 83,
+  "digest": "1bc6489a9a95a54ce7527e4d9746811a61b79c10cb40093f064cbd81407edeba",
   "branch": "codex/5829-capability-envelope",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "45358709379cde9151f31227828b106359fb61944d7c33c5abf633a27ac8ae16",
+      "values_digest": "0af6214c4c29543426c22c8981fae7fd5120320b7b95b5020950a844b2885e6e",
       "rendered_digest": "f072c6b2526b3264fafda2ef258cf23cd0cc9fd52b92a53668e2bb409a970d55",
       "ast_digest": "40dcbfc18fc63c6a847abfbb52256a4fdbf34e6110c8710cb57eacc518678bdd"
     },
     "stp": {
-      "values_digest": "4cfd84cdf6666d79d7a2c9b3fba8236f3b513483f4f20ca4a00ef7bae483cadd",
+      "values_digest": "ce3dac4075bbaa669569d434ae78d6c4d16699212021904eba3f02e3c07a3fbe",
       "rendered_digest": "4530795f5583eac9367fb96c125d8912c3d78ef63c0f283390696c3d5bb88841",
       "ast_digest": "d510e7df6320dafad5eeceb31a143e20d10b5e18c221c34c0cf97f10b3f670a6"
     },
     "spp": {
-      "values_digest": "93daa01ceac4a113822d817d0db6db8149e4de66621e9afe1b8a4a2d5598cde3",
-      "rendered_digest": "7b734a8a386a85280d55bf4586adfd5c432f21f3a7090fe2acf04366ac8b578f",
-      "ast_digest": "ab3b2a5b4c44030bc42144fcceaef81f1a1d4a1501788ebb079221525cce7bba"
+      "values_digest": "624f0a0a5ed23a88afdd8f57f982b8119020f662cd957e3b934ce1c87faa8122",
+      "rendered_digest": "d1068d7bc64ab6cc8cde2143fe5b3c6bd8b2d1bbe6a76b1227fee2a1db8b7583",
+      "ast_digest": "1478fd73e33634ef182a23eb909aec3ce0d6a135682a7856b06639423dee1674"
     },
     "vpp": {
-      "values_digest": "4ec7db07a5638019f1423b157cd5c6891d1aeb36595e5793d0c1f0e036b2218c",
-      "rendered_digest": "4093a7b040502a8d4bcc774c439687623095b1bb2c50c82c7a68d17a3563c1f2",
-      "ast_digest": "117a57a3bcd0cfc114604f22cd66cf0fc93a31c9a0d85d4608be54d69454f405"
+      "values_digest": "245f4d536e95ebe8e0f2ed0f8417f998aa60d0bef44457b023f1b0f48094c360",
+      "rendered_digest": "2343fbef315e8fed0b0ccbadfd8e711a64445e791eff3b3c34d76615905759ce",
+      "ast_digest": "cdf1e9eabb11a4f4b66bccdb33a901c80c6a1100ba349590dfe857b4e6664f52"
     },
     "srp": {
-      "values_digest": "735ae963e5f32a8120a628c3b55c3c030dde402573ed4c961689d4a7cca5dfb8",
+      "values_digest": "015aa600c2ea8f409aa6b97d41fa87147bb44dafada19609c24646d6d9d177b7",
       "rendered_digest": "e6e1a97391151d19fad085f398bbda73030215208cf8ac0674304a1ab40ae872",
       "ast_digest": "20dbe7c3c54c99f572aabb26933bd4d07cb4a1d3199b1d7bcb772ab3b1ca91ed"
     },
     "sor": {
-      "values_digest": "37e9afb3699d26994cf692c5753326678b89958c2645c96b46c0d881bad279b1",
-      "rendered_digest": "da54e67fc459cdf7ec6dda0ac8e9ca53c1e23d70a238b1dbee9e9fcd5f6688db",
-      "ast_digest": "c287e02c30ccc4bca25aaccc60ed0cd16f884134eae9223911ec39db96ceec3b"
+      "values_digest": "279fcacde965a0f40ce82ff23f7439e5665703f2c72dacc09e9de47da77c0b79",
+      "rendered_digest": "3fe99f581120a6faa52fb832f6408fa65e0d3eb71a0bfd1c75105836bdd2d0dc",
+      "ast_digest": "ce69f3a55d68b5397c1f930b8ab3e86221ee43051da5c24367ad17e061bf7332"
     }
   },
   "transitions": [
@@ -90,6 +90,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -813,6 +820,41 @@
       "actor": "operator-approved:wp12-native-capability-envelope-scope",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 104,
+      "generation": 79,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 105,
+      "generation": 80,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record verified terminal WP-08/WP-09 dependencies and exact-revision-valid retained #4761 capability-envelope evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 106,
+      "generation": 81,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record completed canonical Runtime v3 capability-envelope implementation in exact declared files.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 107,
+      "generation": 82,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record completed local deterministic and fail-closed proof while mandatory native macOS/Linux portability remains publication-stage work.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 108,
+      "generation": 83,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Clear only the completed local capability-envelope target defer while retaining mandatory native macOS/Linux producer deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"capability_envelope-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5829-core\",\"defer_reason\":null},{\"lane\":\"capability_envelope-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5829/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5829/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=36043de435c6b349017c3a9889ec8391abfd9230538200553365fb68577d76ed]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/linux.json\"],\"parallel_group\":\"5829-native-verify\",\"defer_reason\":null}]}"
     }
   ]
 }
