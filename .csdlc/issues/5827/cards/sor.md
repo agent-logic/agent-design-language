@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator output and governed first-predecessor policy: true genesis requires no predecessor, non-genesis slices pin the exact prior integrity into authority context, and accepted opaque cycles remain separately bound to verified WP-09 identity while provenance, path, lineage, authority, stale identity, and tamper mismatches fail closed.
+Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator output and governed first-predecessor policy, then proved the exact PR head on native Linux x86_64 and macOS arm64 with matching semantic output and independent receipt validation.
 
 ## Artifacts
 
@@ -21,6 +21,16 @@ Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator outpu
 - adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
 - adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs
 - .csdlc/evidence/5827/local-validation-manifest.json
+- .csdlc/evidence/5827/native-validation-manifest.json
+- .csdlc/evidence/5827/native-platform/linux.json
+- .csdlc/evidence/5827/native-platform/linux-nextest.log
+- .csdlc/evidence/5827/native-platform/linux-semantic.json
+- .csdlc/evidence/5827/native-platform/linux-source-manifest.json
+- .csdlc/evidence/5827/native-platform/macos.json
+- .csdlc/evidence/5827/native-platform/macos-nextest.log
+- .csdlc/evidence/5827/native-platform/macos-semantic.json
+- .csdlc/evidence/5827/native-platform/macos-source-manifest.json
+- .csdlc/evidence/5827/native-platform/independent-validator.log
 - .csdlc/prepared/issues/5827/produce-native-receipt.rb
 - .csdlc/prepared/issues/5827/validate-native-receipts.rb
 - .github/workflows/wp10-native-birthday-continuity.yml
@@ -35,7 +45,7 @@ Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator outpu
 - Adapt exact signed Runtime v3 manifests by requiring provenance runtime-v3-live-shutdown, the CheckpointCoordinator live_kernel service/schema and exact 0000-live_kernel.bin filename, policy-pinned first predecessor plus subsequent signed runtime lineage, topology/config identity, and trusted Ed25519 authority; bind the first accepted cycle to the verified WP-09 identity head only inside the opaque authority-context token.
 - Prove a non-genesis positive with real consecutive LiveContinuity checkpoints 2 and 3 and checkpoint 1 integrity pinned by policy; reject invalid genesis/non-genesis policy shapes, validly signed missing/wrong predecessor and provenance/path substitutions, plus unsigned manifest tamper without changing continuity.rs or live_continuity.rs.
 - Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.
-- Keep the native producer and validator bound to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface.
+- Bind the native producer and validator to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface, and retain equivalent Linux and macOS receipts from exact-head run 31377617876.
 
 ## Validation
 
@@ -85,16 +95,40 @@ Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator outpu
     "purpose": "Prove the repaired runtime library authority surface is warning-free under strict Clippy.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
+  },
+  {
+    "command": [
+      "github-actions",
+      "wp10-native-birthday-continuity",
+      "run",
+      "31377617876",
+      "attempt",
+      "1"
+    ],
+    "purpose": "Run the exact nine-test WP-10 authority inventory on native Linux x86_64 and macOS arm64 at PR head 7f0f195cfb1b6066b499cf27c65fde0bf741a88b, aggregate both receipts, and require identical semantic output.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5827/native-validation-manifest.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+      ".csdlc/evidence/5827/native-platform/macos.json",
+      ".csdlc/evidence/5827/native-platform/linux.json"
+    ],
+    "purpose": "Independently revalidate the retained GitHub Actions receipts in a detached checkout of exact head 7f0f195cfb1b6066b499cf27c65fde0bf741a88b, including workflow/run provenance, source manifests, structured nine-test inventories, artifact digests, and semantic equivalence.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5827/native-platform/independent-validator.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

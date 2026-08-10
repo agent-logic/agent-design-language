@@ -4,62 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a13e7b2cafb69b7f88ae5bf1b68f54d9860fcc0d88fdba8c0376532d63b714ad",
-  "phase": "published",
-  "generation": 98,
-  "digest": "781a02d1a05a02fad2dc704e7b2836950f2c42a30f289158984cfd76ae691762",
+  "phase": "implemented",
+  "generation": 100,
+  "digest": "c12b826fafd5ffb06fd1a4c1de54244c919089c1a912b57d2fd60fab39e94f87",
   "branch": "codex/5827-bounded-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5827-bounded-continuity",
-  "review_assignment": {
-    "reviewer": "codex:review_5827_predecessor_final",
-    "assigned_by": "codex:5827-bounded-continuity",
-    "revision": "git-blake3:84ece3b6f7565d9cf7361a277f67e0a3618fcc06:3783225b1d78a72caea22cad93fa14ef314565da7f9ecda9d927586ce9b7359c",
-    "scope": [
-      ".csdlc/issues/5827",
-      ".csdlc/prepared/issues/5827/design.md",
-      ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
-      ".csdlc/evidence/5827",
-      ".github/workflows/wp10-native-birthday-continuity.yml",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity",
-      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:review_5827_predecessor_final",
-    "scope": [
-      ".csdlc/issues/5827",
-      ".csdlc/prepared/issues/5827/design.md",
-      ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
-      ".csdlc/evidence/5827",
-      ".github/workflows/wp10-native-birthday-continuity.yml",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity",
-      "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
-    ],
-    "reviewed_revision": "git-blake3:84ece3b6f7565d9cf7361a277f67e0a3618fcc06:3783225b1d78a72caea22cad93fa14ef314565da7f9ecda9d927586ce9b7359c",
-    "findings": [],
-    "residual_risks": [
-      "Replacement exact-head native macOS and Linux receipts remain mandatory after publication before final post-native review and merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5827,
-    "pull_request": 127,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/127",
-    "base": "main",
-    "head": "codex/5827-bounded-continuity",
-    "revision": "git-blake3:b81e3da3e58b1dd2a6025fae6476d65879aa62fa:04f07481678d5c1ff1a04e39c2a5a94af630a313276a4690897b1e0816541dff",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b99fb2b1e74144e4486e72af16edd84235fee0c9dd260aa88aa8275e0018c653",
+      "values_digest": "d9e5831208e776c1ba988c4ac69bcf20cf33176b031c13716942a2ab1327c903",
       "rendered_digest": "8cc21cfa1978be581da7b8ac3409cb3d0a092e756cede56714ab2b99017c3ea0",
       "ast_digest": "14ab891cf46d4bcc6ca5cfa79be1ea94a620f12f636d4d068597fd5259f5ca61"
     },
     "stp": {
-      "values_digest": "f7dfd2da67ccadae2ba8a8b2ab4d76edee4ba43c9f4264b55682b797551c7a63",
+      "values_digest": "b7a7dd9021dfdac28443a0cb7663c1afdc156c7af0573bee71abf31a0ccea71c",
       "rendered_digest": "58de4172f24a8c93abb7dc2a87638f44f18e4111edd5e0c4c228df94cdfef610",
       "ast_digest": "39a6ddaa6f48fefdff485d58cfb3031703244121d9729bacfb5cd2905b8a3e4e"
     },
     "spp": {
-      "values_digest": "44f536b8f5b70360b34a961c12f8496b7c88e60dcf8746a0d63afed442ad59fb",
+      "values_digest": "ab1cb17ee31538ca47bd8402c4e4c27b0c0c282b970d8434bbe31ee7a1b37c3e",
       "rendered_digest": "ff31081fcf804de7ee7f8d38749200389b886425541ba9773a7028b13227482e",
       "ast_digest": "aa412a214a2e0290595daf3769416cd75e004fd8be8002924c223845065867c7"
     },
     "vpp": {
-      "values_digest": "93d9128110164019a6e52b7fc0a50414322c94fe8c3df46233ac6ce116e66f7c",
+      "values_digest": "c99e2b2da74880e261e9b2ac2abe6ef08ee75ad1e0d2646dc75643bb19dbac9d",
       "rendered_digest": "c9dcb7f27d4b56e46f98f4d276c58432538f2599f7f25463ab69b60f4575ef22",
       "ast_digest": "35e0a2c80a9dad8b659addedafcb6f07b472f9e3c4e844ec2423e9340b249ad5"
     },
     "srp": {
-      "values_digest": "97bb13d8cdf63b48569261ab469484b13023165f4fe551abe0ab7cc5da3d42d0",
-      "rendered_digest": "fc5e467811cc4c0d9070792176f955de10a883d50723fa50aad22df45583b9af",
-      "ast_digest": "5cd8de65ae1eab7c76c79e4b18548721cd60665daadd10a4d47a77dc5febef58"
+      "values_digest": "254b5a6f097d4ca7ac264982ab1a33a23ecbb50deb5b689a733a09a9413599e5",
+      "rendered_digest": "cd90f9db3b82a62f142767b18dc2db8c6f79523c9250219b2352afc78b11d388",
+      "ast_digest": "dd2c1c672f27c68a88d331797aca5fde21d60dacf8e351e4fc46cb5b1bee0426"
     },
     "sor": {
-      "values_digest": "970387e54ed9c9a45f989bf49dbb2786182683f35081af913f2a9bcc69b00398",
-      "rendered_digest": "9dfd051c478c830e0569eaf2ae4dcddab388f77cee50d98c9474d5638c7fe842",
-      "ast_digest": "0bbe2fc606ca44c49f8094791826740f98b5dc5d0a52995f620ae6a34d142705"
+      "values_digest": "4f5ed1780a44ab409f4ab041de23c4093c6a39d23086c7794500e22023cf108e",
+      "rendered_digest": "40a545c7661418443f88e48e6c90c9d9c34e98bdd30f4fad5fb091312ae21572",
+      "ast_digest": "6f212b4c414d283adc1e759e8d60b8cab9b4a24ef0d8e9d143b19a599d40fb91"
     }
   },
   "transitions": [
@@ -180,6 +132,13 @@
       "to": "published",
       "actor": "codex:5827-bounded-continuity",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5827-post-native-proof",
+      "reason": "Recover publication to implemented after mandatory exact-head Linux and macOS native proof run 31377617876 so the retained receipts, validation truth, and fresh post-native review can be recorded without reusing the superseded pre-native review."
     }
   ],
   "audit": [
@@ -1064,6 +1023,20 @@
       "actor": "codex:5827-bounded-continuity",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 127,
+      "generation": 99,
+      "actor": "codex:5827-post-native-proof",
+      "reason": "Recover publication to implemented after mandatory exact-head Linux and macOS native proof run 31377617876 so the retained receipts, validation truth, and fresh post-native review can be recorded without reusing the superseded pre-native review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 128,
+      "generation": 100,
+      "actor": "codex:5827-post-native-proof",
+      "reason": "Record mandatory exact-head Linux and macOS native proof from GitHub Actions run 31377617876, its validated retained artifact, and independent detached exact-head validation before fresh post-native review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Integrated WP-10 with real Runtime v3 LiveContinuity/CheckpointCoordinator output and governed first-predecessor policy, then proved the exact PR head on native Linux x86_64 and macOS arm64 with matching semantic output and independent receipt validation.\",\"changes\":[\"Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.\",\"Recompute the complete caller-visible BirthdayIdentityRecord digest before continuity construction and reject stale stable-name, alias, provenance, witness, or other record mutations; record validation inherits the same fail-closed boundary.\",\"Bind every opaque verified cycle, continuity record, and continuity head to a canonical digest of the trusted Ed25519 key material, selected signer, identity record, generation floor, exact first runtime predecessor, topology, configuration, service schema, and versioned authority-context schema; reject cross-policy token splicing even when key IDs match.\",\"Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.\",\"Use checked generation advancement and reject terminal overflow.\",\"Adapt exact signed Runtime v3 manifests by requiring provenance runtime-v3-live-shutdown, the CheckpointCoordinator live_kernel service/schema and exact 0000-live_kernel.bin filename, policy-pinned first predecessor plus subsequent signed runtime lineage, topology/config identity, and trusted Ed25519 authority; bind the first accepted cycle to the verified WP-09 identity head only inside the opaque authority-context token.\",\"Prove a non-genesis positive with real consecutive LiveContinuity checkpoints 2 and 3 and checkpoint 1 integrity pinned by policy; reject invalid genesis/non-genesis policy shapes, validly signed missing/wrong predecessor and provenance/path substitutions, plus unsigned manifest tamper without changing continuity.rs or live_continuity.rs.\",\"Replace the copied-source integration harness and placeholder identity fixture with a crate-internal authority lane that constructs real signed identity-memory and governed private-state evidence.\",\"Bind the native producer and validator to the exact unique nine-test authority inventory and complete WP-09/WP-10 source surface, and retain equivalent Linux and macOS receipts from exact-head run 31377617876.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\".csdlc/evidence/5827/local-validation-manifest.json\",\".csdlc/evidence/5827/native-validation-manifest.json\",\".csdlc/evidence/5827/native-platform/linux.json\",\".csdlc/evidence/5827/native-platform/linux-nextest.log\",\".csdlc/evidence/5827/native-platform/linux-semantic.json\",\".csdlc/evidence/5827/native-platform/linux-source-manifest.json\",\".csdlc/evidence/5827/native-platform/macos.json\",\".csdlc/evidence/5827/native-platform/macos-nextest.log\",\".csdlc/evidence/5827/native-platform/macos-semantic.json\",\".csdlc/evidence/5827/native-platform/macos-source-manifest.json\",\".csdlc/evidence/5827/native-platform/independent-validator.log\",\".csdlc/prepared/issues/5827/produce-native-receipt.rb\",\".csdlc/prepared/issues/5827/validate-native-receipts.rb\",\".github/workflows/wp10-native-birthday-continuity.yml\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birthday_continuity::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove real non-genesis LiveContinuity checkpoints 2 and 3 integrate with checkpoint 1 pinned as their governed first predecessor and verified WP-09 identity, alongside nine deterministic missing/wrong predecessor, provenance/path/tamper, stale identity-record, token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, and copied-state cases at product revision 220274828c8235b552a4d94f9d77d88b401c13e6.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birthday_continuity\"],\"purpose\":\"Prove external callers cannot establish a continuity authority policy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the repaired runtime library authority surface is warning-free under strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/local-validation-manifest.json\"},{\"command\":[\"github-actions\",\"wp10-native-birthday-continuity\",\"run\",\"31377617876\",\"attempt\",\"1\"],\"purpose\":\"Run the exact nine-test WP-10 authority inventory on native Linux x86_64 and macOS arm64 at PR head 7f0f195cfb1b6066b499cf27c65fde0bf741a88b, aggregate both receipts, and require identical semantic output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/native-validation-manifest.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5827/validate-native-receipts.rb\",\".csdlc/evidence/5827/native-platform/macos.json\",\".csdlc/evidence/5827/native-platform/linux.json\"],\"purpose\":\"Independently revalidate the retained GitHub Actions receipts in a detached checkout of exact head 7f0f195cfb1b6066b499cf27c65fde0bf741a88b, including workflow/run provenance, source manifests, structured nine-test inventories, artifact digests, and semantic equivalence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5827/native-platform/independent-validator.log\"}]}"
     }
   ]
 }
