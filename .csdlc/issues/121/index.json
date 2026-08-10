@@ -3,38 +3,13 @@
   "issue": 121,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "847b01d4b34a1b1b4b9269f756dcb58c641c941e315e8124c2bbe8cdc775ab34",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "da9e8652fcfb3454cbe22f1b079f8edf9c29fdc45d7dc75ef4738152cf142192",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
-  "review_assignment": {
-    "reviewer": "subagent:issue-121-exact-head-security-review",
-    "assigned_by": "codex:121-quorum-fence-repair",
-    "revision": "git-blake3:aaf7e32f743c783b3d70dc028402723093b02ed8:c5c309cc204e15d962832801fbe9f429b32dc363f9814e7db67fcac69129a440",
-    "scope": [
-      "adl-runtime/src/distributed/lease.rs",
-      "adl-runtime/tests/distributed_lease.rs",
-      ".csdlc/issues/121",
-      ".csdlc/evidence/121",
-      ".csdlc/prepared/issues/121"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue-121-exact-head-security-review",
-    "scope": [
-      "adl-runtime/src/distributed/lease.rs",
-      "adl-runtime/tests/distributed_lease.rs",
-      ".csdlc/issues/121",
-      ".csdlc/evidence/121",
-      ".csdlc/prepared/issues/121"
-    ],
-    "reviewed_revision": "git-blake3:aaf7e32f743c783b3d70dc028402723093b02ed8:c5c309cc204e15d962832801fbe9f429b32dc363f9814e7db67fcac69129a440",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "797bd7cb852c5fd462364e86162326ddc80961e09dd9fdb11ef3d7f8efaf1610",
+      "values_digest": "ed2bfc5b2e4a22225c326ed79c29246050ebc06dd26c00724af0ffaea4b9b2c6",
       "rendered_digest": "b8fb383ef2efb210c1835ca5caa89f1a1b57945dcebe86833449c7d703300088",
       "ast_digest": "28d9d9764b5edc0763207de94cd4120e324f83e10e24c0304a04532ae39f8c24"
     },
     "stp": {
-      "values_digest": "5adad63c76e4be1ba5a0c8d4619cc72e483c7468296815ece7c7c5954e184567",
+      "values_digest": "f5992b9bcffee92deeb81fa5215cac19964a4a6103e6bad32cfa3e61e7e7dcb7",
       "rendered_digest": "f59864e9168036e26931bd53b0fa4976f089bdb8c611728396088f87cc245bbd",
       "ast_digest": "1c4fa5956407020683ec31dbeeae560ac39e71c279fc303cd8d51f75cebbe11e"
     },
     "spp": {
-      "values_digest": "6fc891266be16dd4e27fd0f195bd5040aec65268474ecc028d7f152b9f272d13",
+      "values_digest": "ead71aa0998ca374035c97d7de8cc8cfb05e327ff5ec81b27ada4165c350196a",
       "rendered_digest": "25c70ab7a3a48bc4a99573138db5e45486c0e6e5026dee29efc0bf6f980ddfdb",
       "ast_digest": "d83f34dc5520914cea7b2f269e56d31196579bab949d0ef825532862fef2e068"
     },
     "vpp": {
-      "values_digest": "51b5328c38d7b22db1ba300ebc39a04a809d9161161aed3624314932f09bf7a5",
+      "values_digest": "168561f593c1178f42a7e81160bcbf4d76af1ce5c560c689e5bc6fb61aa58c58",
       "rendered_digest": "475d39da1386ca2c4ec1f149b6ef6bfcfb336559e45dbe29734d3ac5b8e76b09",
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "4f4aca5c92bd471daae0a725c9d104953faad4bab1cd7468ebb8d507ad63c84b",
-      "rendered_digest": "0a958ed1e5d9384edbf10ed4341ed39840da1190850117e249fc3e3b4336acb5",
-      "ast_digest": "aeb7fc8ea82f431952fd9b8b280d6a8ee6c6c8e98b254078b8737b724f2c1ddf"
+      "values_digest": "863389db1d9ed98d28e23dbb40e5b5d7fa3f6d46bd71e0387b3e0bb8b19c265a",
+      "rendered_digest": "1f8484cd4c7e065f65a5a544f7834ee0ac190e5734983b75e6bae136bc4980d8",
+      "ast_digest": "57f89ed9924e3742a3f26a1f510697c5bdcb8771810f4127645b62daabdcb36e"
     },
     "sor": {
-      "values_digest": "7b795410a7dbbbd3060877d35c99ceb8358086544bdeddfc640b1c58b7b626fc",
+      "values_digest": "c2dd194099cf679dc39fe2fa48d7e0d507ccc4a916c9d9d473f48350fc95d872",
       "rendered_digest": "18279efdcd52712ff24202a13ed748cca211a0fb932c56e5cc512a99c6b45aff",
       "ast_digest": "695ab9273bc2bad6cecba25ab0caa43e8729a092961efd85df3ece51a120f767"
     }
@@ -121,6 +96,13 @@
       "to": "reviewed",
       "actor": "subagent:issue-121-exact-head-security-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "Recover the exact review so final typed lifecycle metadata can be recorded without prepared-request drift."
     }
   ],
   "audit": [
@@ -193,6 +175,13 @@
       "actor": "subagent:issue-121-exact-head-security-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:121-quorum-fence-repair",
+      "reason": "Recover the exact review so final typed lifecycle metadata can be recorded without prepared-request drift.",
+      "operation": "recover_review"
     }
   ]
 }
