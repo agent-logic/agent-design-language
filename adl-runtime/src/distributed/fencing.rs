@@ -6,15 +6,18 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
+use ed25519_dalek::{Signature, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::lease::{
-    decode_certificate, verify_certificate, AuthorityMembership, LeaseState, OperationClass,
+    certificate_body_sha256, verify_certificate, AuthorityMembership, LeaseState, OperationClass,
+    ACTIVATION_DOMAIN,
 };
 
 pub const FENCING_STATE_SCHEMA: &str = "adl.distributed.fencing_state.v1";
 const STATE_FILE: &str = "fencing-state.json";
+const STATE_LOCK_FILE: &str = ".fencing-state.lock";
 const MAX_IDENTITY_BYTES: usize = 128;
 const MAX_REQUEST_ID_BYTES: usize = 128;
 
@@ -36,6 +39,9 @@ pub enum FencingError {
     ReplayMismatch,
     Fenced,
     SafetyWindow,
+    Rollback,
+    ActivationPossession,
+    LeaseExpired,
     DurabilityFailure,
 }
 
@@ -58,6 +64,9 @@ impl FencingError {
             Self::ReplayMismatch => "replay_mismatch",
             Self::Fenced => "fenced",
             Self::SafetyWindow => "safety_window",
+            Self::Rollback => "rollback",
+            Self::ActivationPossession => "activation_possession_failed",
+            Self::LeaseExpired => "lease_expired",
             Self::DurabilityFailure => "durability_failure",
         }
     }
@@ -128,12 +137,21 @@ pub struct ActiveLeaseCheck<'a> {
     pub applied_log_index: u64,
     pub now_unix_seconds: i64,
     pub now_unix_millis: u64,
+    pub now_elapsed_millis: u64,
+    pub activation_proof: &'a [u8],
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct FencingCheckpoint {
+    pub generation: u64,
+    pub state_sha256: [u8; 32],
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct StateBody {
     schema: String,
+    generation: u64,
     floors: Vec<FenceReceipt>,
     receipts: Vec<FenceReceipt>,
 }
@@ -151,6 +169,8 @@ pub struct FencingStore {
     policy: FencingPolicy,
     floors: BTreeMap<Vec<u8>, FenceReceipt>,
     receipts: BTreeMap<Vec<u8>, FenceReceipt>,
+    generation: u64,
+    state_sha256: [u8; 32],
 }
 
 impl FencingStore {
@@ -161,17 +181,23 @@ impl FencingStore {
         if path.exists() {
             return Err(FencingError::StateCorrupt);
         }
-        let store = Self {
+        let mut store = Self {
             root,
             policy,
             floors: BTreeMap::new(),
             receipts: BTreeMap::new(),
+            generation: 0,
+            state_sha256: [0; 32],
         };
-        store.persist(&store.floors, &store.receipts)?;
+        store.state_sha256 = store.persist(0, &store.floors, &store.receipts)?;
         Ok(store)
     }
 
-    pub fn open(root: impl AsRef<Path>, policy: FencingPolicy) -> FencingResult<Self> {
+    pub fn open(
+        root: impl AsRef<Path>,
+        policy: FencingPolicy,
+        checkpoint: FencingCheckpoint,
+    ) -> FencingResult<Self> {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
         let path = root.join(STATE_FILE);
@@ -201,6 +227,13 @@ impl FencingStore {
         {
             return Err(FencingError::StateCorrupt);
         }
+        let state_sha256 = <[u8; 32]>::from(Sha256::digest(&bytes));
+        if envelope.body.generation != checkpoint.generation
+            || state_sha256 != checkpoint.state_sha256
+        {
+            return Err(FencingError::Rollback);
+        }
+        let generation = envelope.body.generation;
         let floors = collect_records(envelope.body.floors, true)?;
         let receipts = collect_records(envelope.body.receipts, false)?;
         Ok(Self {
@@ -208,7 +241,16 @@ impl FencingStore {
             policy,
             floors,
             receipts,
+            generation,
+            state_sha256,
         })
+    }
+
+    pub fn checkpoint(&self) -> FencingCheckpoint {
+        FencingCheckpoint {
+            generation: self.generation,
+            state_sha256: self.state_sha256,
+        }
     }
 
     pub fn floor(&self, lineage_id: &[u8]) -> Option<&FenceReceipt> {
@@ -240,7 +282,13 @@ impl FencingStore {
         if body.committed_log_index != membership.committed_log_index {
             return Err(FencingError::StaleAppliedIndex);
         }
-        validate_lease_binding(&body, request.current_lease)?;
+        let verified_lease = verify_certificate(
+            &request.current_lease.certificate_bytes,
+            membership,
+            request.now_unix_seconds,
+        )
+        .map_err(|_| FencingError::InvalidCertificate)?;
+        validate_lease_binding(&body, request.current_lease, &verified_lease.body)?;
         let expected_epoch = if operation == OperationClass::Fence as u32 {
             request
                 .current_lease
@@ -312,9 +360,15 @@ impl FencingStore {
         let mut receipts = self.receipts.clone();
         floors.insert(receipt.lineage_id.clone(), receipt.clone());
         receipts.insert(receipt.request_id.clone(), receipt.clone());
-        self.persist(&floors, &receipts)?;
+        let generation = self
+            .generation
+            .checked_add(1)
+            .ok_or(FencingError::ResourceExhausted)?;
+        let state_sha256 = self.persist_next(generation, &floors, &receipts)?;
         self.floors = floors;
         self.receipts = receipts;
+        self.generation = generation;
+        self.state_sha256 = state_sha256;
         Ok(receipt)
     }
 
@@ -341,7 +395,7 @@ impl FencingStore {
         {
             return Err(FencingError::StaleAppliedIndex);
         }
-        validate_lease_binding(&body, check.lease)?;
+        validate_lease_binding(&body, check.lease, &body)?;
         if !matches!(
             body.operation_class,
             value if value == OperationClass::LeaseGrant as u32
@@ -366,16 +420,58 @@ impl FencingStore {
                 }
             }
         }
+        if check.now_unix_millis >= check.lease.deadline_unix_millis
+            || check.now_elapsed_millis >= check.lease.deadline_elapsed_millis
+        {
+            return Err(FencingError::LeaseExpired);
+        }
+        verify_activation_possession(&body, check.lease, check.activation_proof)?;
         Ok(())
+    }
+
+    fn persist_next(
+        &self,
+        generation: u64,
+        floors: &BTreeMap<Vec<u8>, FenceReceipt>,
+        receipts: &BTreeMap<Vec<u8>, FenceReceipt>,
+    ) -> FencingResult<[u8; 32]> {
+        let lock_path = self.root.join(STATE_LOCK_FILE);
+        let lock = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&lock_path)
+            .map_err(|_| FencingError::DurabilityFailure)?;
+        lock.sync_all()
+            .map_err(|_| FencingError::DurabilityFailure)?;
+        let result = (|| {
+            let current = fs::read(self.root.join(STATE_FILE))
+                .map_err(|_| FencingError::DurabilityFailure)?;
+            if <[u8; 32]>::from(Sha256::digest(&current)) != self.state_sha256 {
+                return Err(FencingError::Rollback);
+            }
+            let envelope: StateEnvelope =
+                serde_json::from_slice(&current).map_err(|_| FencingError::StateCorrupt)?;
+            if envelope.body.generation != self.generation {
+                return Err(FencingError::Rollback);
+            }
+            self.persist(generation, floors, receipts)
+        })();
+        let release = fs::remove_file(lock_path).and_then(|_| File::open(&self.root)?.sync_all());
+        if release.is_err() {
+            return Err(FencingError::DurabilityFailure);
+        }
+        result
     }
 
     fn persist(
         &self,
+        generation: u64,
         floors: &BTreeMap<Vec<u8>, FenceReceipt>,
         receipts: &BTreeMap<Vec<u8>, FenceReceipt>,
-    ) -> FencingResult<()> {
+    ) -> FencingResult<[u8; 32]> {
         let body = StateBody {
             schema: FENCING_STATE_SCHEMA.to_owned(),
+            generation,
             floors: floors.values().cloned().collect(),
             receipts: receipts.values().cloned().collect(),
         };
@@ -388,7 +484,8 @@ impl FencingStore {
         if bytes.len() > self.policy.max_state_bytes {
             return Err(FencingError::ResourceExhausted);
         }
-        write_atomic(&self.root, &bytes)
+        write_atomic(&self.root, &bytes)?;
+        Ok(Sha256::digest(bytes).into())
     }
 }
 
@@ -425,10 +522,8 @@ fn collect_records(
 fn validate_lease_binding(
     body: &super::lease::AuthorityCertificateBodyV1,
     lease: &LeaseState,
+    lease_body: &super::lease::AuthorityCertificateBodyV1,
 ) -> FencingResult<()> {
-    let certificate = decode_certificate(&lease.certificate_bytes)
-        .map_err(|_| FencingError::InvalidCertificate)?;
-    let lease_body = certificate.body.ok_or(FencingError::InvalidCertificate)?;
     if lease.lineage_id != body.lineage_id
         || lease.holder_node_id != body.holder_node_id
         || lease.holder_guardian_id != body.holder_guardian_id
@@ -452,6 +547,21 @@ fn validate_lease_binding(
         return Err(FencingError::HolderMismatch);
     }
     Ok(())
+}
+
+fn verify_activation_possession(
+    body: &super::lease::AuthorityCertificateBodyV1,
+    lease: &LeaseState,
+    proof: &[u8],
+) -> FencingResult<()> {
+    let key = VerifyingKey::from_bytes(&lease.activation_public_key)
+        .map_err(|_| FencingError::ActivationPossession)?;
+    let signature = Signature::from_slice(proof).map_err(|_| FencingError::ActivationPossession)?;
+    let mut digest = Sha256::new();
+    digest.update(ACTIVATION_DOMAIN);
+    digest.update(certificate_body_sha256(body));
+    key.verify_strict(&digest.finalize(), &signature)
+        .map_err(|_| FencingError::ActivationPossession)
 }
 
 fn request_digest(

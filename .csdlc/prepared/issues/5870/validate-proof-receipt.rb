@@ -30,6 +30,7 @@ EXPECTED_NEGATIVE_CASES = {
 ISSUE_EVIDENCE_PREFIX = ".csdlc/evidence/5870/"
 MACHINE_MARKER = "ADL_ISSUE_5870_NEGATIVE_CASE_V1 "
 PRODUCER_PATH = ".csdlc/evidence/5870/derive-negative-cases.rb"
+CLIPPY = ["cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_fencing", "--", "-D", "warnings"].freeze
 REPO_ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 
 def fail_receipt(message)
@@ -132,5 +133,6 @@ Wp04ProofReceiptContract.validate(
   wp: "WP-04.08",
   paths: ["adl-runtime/src/distributed/fencing.rs", "adl-runtime/tests/distributed_fencing.rs"],
   test: "distributed_fencing",
-  platforms: []
+  platforms: [],
+  required_commands: [CLIPPY]
 )

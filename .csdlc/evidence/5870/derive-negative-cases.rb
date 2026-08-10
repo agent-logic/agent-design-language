@@ -45,6 +45,13 @@ end
 def relative(path)
   Pathname.new(path).expand_path.relative_path_from(ROOT).to_s
 end
+
+def normalized(text)
+  lines = text.lines.map(&:rstrip)
+  lines.pop while lines.last == ""
+  lines.empty? ? "" : lines.join("\n") + "\n"
+end
+
 def run(command)
   started = Time.now.utc.iso8601(6)
   stdout, stderr, status = Open3.capture3({"CARGO_TERM_COLOR" => "never"}, *command, chdir: ROOT.to_s)
@@ -68,20 +75,22 @@ fail!("output already exists") if output.exist?
 FileUtils.mkdir_p(output)
 
 nextest_out, nextest_err, nextest_status, nextest_start, nextest_finish = run(EXACT)
-File.binwrite(output.join("exact-child-tests.stdout.log"), nextest_out)
-File.binwrite(output.join("exact-child-tests.stderr.log"), nextest_err)
-File.binwrite(output.join("exact-child-tests.log"), nextest_out + nextest_err)
+File.binwrite(output.join("exact-child-tests.stdout.log"), normalized(nextest_out))
+File.binwrite(output.join("exact-child-tests.stderr.log"), normalized(nextest_err))
+File.binwrite(output.join("exact-child-tests.log"), normalized(nextest_out + nextest_err))
 fail!("exact nextest failed") unless nextest_status.success?
 summary = (nextest_out + nextest_err).match(/Summary .*?(\d+) tests run: (\d+) passed, 0 skipped/)
 fail!("exact nextest denominator mismatch") unless summary && summary[1].to_i.positive? && summary[1] == summary[2]
 
 clippy_out, clippy_err, clippy_status, clippy_start, clippy_finish = run(CLIPPY)
-File.binwrite(output.join("strict-focused-clippy.log"), clippy_out + clippy_err)
+File.binwrite(output.join("strict-focused-clippy.stdout.log"), normalized(clippy_out))
+File.binwrite(output.join("strict-focused-clippy.stderr.log"), normalized(clippy_err))
+File.binwrite(output.join("strict-focused-clippy.log"), normalized(clippy_out + clippy_err))
 fail!("strict focused Clippy failed") unless clippy_status.success?
 
 negative_out, negative_err, negative_status, negative_start, negative_finish = run(NEGATIVE)
-File.binwrite(output.join("negative-cases.stdout.log"), negative_out)
-File.binwrite(output.join("negative-cases.stderr.log"), negative_err)
+File.binwrite(output.join("negative-cases.stdout.log"), normalized(negative_out))
+File.binwrite(output.join("negative-cases.stderr.log"), normalized(negative_err))
 fail!("negative producer command failed") unless negative_status.success?
 observed = negative_out.lines.each_with_object([]) do |line, entries|
   next unless line.start_with?(MARKER)
@@ -117,7 +126,8 @@ runner_sha = sha(runner_path)
 runner = {"provider" => "local-codex", "run_id" => "5870-local-operator-v1", "os" => "macos", "arch" => "aarch64", "identity_sha256" => runner_sha}
 artifacts = [Pathname.new(__FILE__), EVIDENCE.join("run-exact-child-tests.rb"), runner_path,
   output.join("exact-child-tests.log"), output.join("exact-child-tests.stdout.log"), output.join("exact-child-tests.stderr.log"),
-  output.join("strict-focused-clippy.log"), machine_path, output.join("negative-cases.stdout.log"), output.join("negative-cases.stderr.log"), manifest_path]
+  output.join("strict-focused-clippy.log"), output.join("strict-focused-clippy.stdout.log"), output.join("strict-focused-clippy.stderr.log"),
+  machine_path, output.join("negative-cases.stdout.log"), output.join("negative-cases.stderr.log"), manifest_path]
 proof = {
   "schema" => "adl.wp04.execution_proof.v3", "issue" => ISSUE, "wp" => "WP-04.08", "source_revision" => source,
   "evidence_revision_strategy" => "derive_from_receipt_introduction",
@@ -125,9 +135,12 @@ proof = {
   "source_artifacts" => ["adl-runtime/src/distributed/fencing.rs", "adl-runtime/tests/distributed_fencing.rs"].map { |path| {"path" => path, "sha256" => Digest::SHA256.hexdigest(`git -C #{ROOT} show #{source}:#{path}`)} },
   "commands" => [{"argv" => EXACT, "exit_code" => 0, "selected_tests" => summary[1].to_i, "started_at" => nextest_start, "finished_at" => nextest_finish, "runner" => runner,
     "stdout_path" => relative(output.join("exact-child-tests.stdout.log")), "stdout_sha256" => sha(output.join("exact-child-tests.stdout.log")),
-    "stderr_path" => relative(output.join("exact-child-tests.stderr.log")), "stderr_sha256" => sha(output.join("exact-child-tests.stderr.log"))}],
+    "stderr_path" => relative(output.join("exact-child-tests.stderr.log")), "stderr_sha256" => sha(output.join("exact-child-tests.stderr.log"))},
+    {"argv" => CLIPPY, "exit_code" => 0, "started_at" => clippy_start, "finished_at" => clippy_finish, "runner" => runner,
+    "stdout_path" => relative(output.join("strict-focused-clippy.stdout.log")), "stdout_sha256" => sha(output.join("strict-focused-clippy.stdout.log")),
+    "stderr_path" => relative(output.join("strict-focused-clippy.stderr.log")), "stderr_sha256" => sha(output.join("strict-focused-clippy.stderr.log"))}],
   "negative_cases" => EXPECTED.map { |name, result| {"case" => name, "result" => result, "evidence_path" => relative(machine_path), "evidence_sha256" => sha(machine_path)} },
   "artifacts" => artifacts.map { |path| {"path" => relative(path), "sha256" => sha(path)} }, "native_receipts" => []
 }
-File.write(EVIDENCE.join("execution-proof.json"), JSON.pretty_generate(proof) + "\n")
+File.write(output.parent.join("execution-proof.json"), JSON.pretty_generate(proof) + "\n")
 puts JSON.generate({"schema" => "adl.wp04.negative_cases.producer_result.v1", "issue" => ISSUE, "source_revision" => source, "selected_tests" => summary[1].to_i, "selected_cases" => cases.length})
