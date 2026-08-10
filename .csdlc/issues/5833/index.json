@@ -6,10 +6,27 @@
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "implemented",
   "generation": 61,
-  "digest": "8f4fd3ab1bcb9c3be0889f995efa5e85075aee6e75543accdf2296daf6f5e920",
+  "digest": "5db944ecb74ee0975521cd51137398152ac12a1b311d00bf934d1fbd75448c33",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5833_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:9bf3cd968eee31c4e641e07cf56e97abab0b514f:c9f1a9dadcd323119156227cdcbc13fb0c150f2fc03a3944fd40e4b2640a7c98",
+    "scope": [
+      ".csdlc/issues/5833",
+      ".csdlc/prepared/issues/5833/design.md",
+      ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
+      ".csdlc/evidence/5833",
+      ".github/workflows/wp15-native-birth-witness.yml",
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/fixtures/birth_witness",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "ca50d4aaa225dcd5889996b57b64c29ee33f94956c11247700ef8d3f08ed16fe"
     },
     "srp": {
-      "values_digest": "764c3f7938bf1ff65e4bed4294469b9a9f71023be8b48ee8f7df70bb5ae64fe8",
-      "rendered_digest": "56ec22df18e5ffdda568c7610c4251591f6e155519434631b3105bced42eb7e1",
-      "ast_digest": "e8ad26ffda18e702a9a1dd14d163e259f5edcd2334f3de62fb9aee08b81b99b8"
+      "values_digest": "95aaf7bff6e93006f790c70d21f5005c9c27f4797bb72e8d5fc2d056ac85e3bc",
+      "rendered_digest": "cb7027ae0543845b7ae78a00e88529c32fee7950aa2b524b314fa92f97d07e77",
+      "ast_digest": "dc880a3c971bbe266132bbd317bef11c84e55e5041ad5728fbe0bae37a984b24"
     },
     "sor": {
       "values_digest": "a5ac805098ab4b470f7f0e41196da9529e7b53989e05767a4616aa148d6f0369",
@@ -687,6 +704,13 @@
       "actor": "codex:5833-birth-witness",
       "reason": "Normalize retained local product, strict, and native-script proof references after typed finalization while preserving native CI deferrals.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved WP-15 exact-candidate signed witness sets and deterministic redacted citizen receipts without manufacturing birth authority.\",\"changes\":[\"Added a canonical Runtime v3 birth-witness packet bound to an accepted BirthdayCandidate, reviewed evidence digest, provisioned four-role roster, current generation, and Ed25519 attestations.\",\"Added deterministic accepted/rejected witness dispositions and a citizen-facing receipt whose birth status remains not_claimed with fixed non-authority caveats.\",\"Added 12 focused positive and fail-closed tests for ordering, missing, duplicate, substitution, stale, forged, roster, packet, privacy, path, identifier, unknown-field, and premature-claim boundaries.\",\"Added a narrow issue-specific native macOS/Linux workflow with normalized structured logs, exact inventory validation, disjoint producer fragments, and success-only exact aggregate retention.\"],\"artifacts\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness/matrix.json\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".github/workflows/wp15-native-birth-witness.yml\",\".csdlc/evidence/5833/local-validation-manifest.json\",\".csdlc/evidence/5833/birth_witness-runtime-v3.log\",\".csdlc/evidence/5833/birth-witness-strict-clippy.log\",\".csdlc/evidence/5833/birth-witness-native-scripts.log\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 12-test canonical witness, receipt, authority, privacy, freshness, substitution, and no-premature-claim surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth_witness-runtime-v3.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Require the issue-owned Rust product and test target to compile without warnings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-strict-clippy.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--self-test\"],\"purpose\":\"Prove structured-log normalization, exact inventory scaffolding, validator path hygiene, Ruby syntax, and workflow YAML shape before native CI.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-native-scripts.log\"}]}"
+    },
+    {
+      "sequence": 85,
+      "generation": 61,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
