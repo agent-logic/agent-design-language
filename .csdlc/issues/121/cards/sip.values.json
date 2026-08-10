@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 121,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
+    "slug": "v0-92-wp-04-07-defect-quorum-fence-restart-safe-epochs",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Permit majority authority to fence unavailable owners and preserve one-owner lease safety across restart.",
+      "required_outcome": "Make activation possession operation-sensitive, commit a durable next-epoch quorum fence, preserve the portable recovery floor through snapshot and restore, and permit replacement activation only after the safe deadline.",
+      "declared_scope": [
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/tests/distributed_lease.rs",
+        ".csdlc/evidence/121"
+      ],
+      "authority_boundary": [
+        "Issue 121 exclusively owns the two declared product paths and issue-local lifecycle/evidence",
+        "Issue 5870 retains fencing.rs ownership and must not be edited",
+        "Issue 5878 retains module registration and integration ownership",
+        "No merge authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Issue and PR exist only in agent-logic/agent-design-language",
+        "Stack on PR 120 exact reviewed head until its parent merges",
+        "Create an issue-bound goal before product edits",
+        "Obtain fresh independent exact-head review before publication",
+        "Do not merge"
+      ]
+    }
+  }
+}

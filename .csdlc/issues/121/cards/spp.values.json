@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 121,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
+    "slug": "v0-92-wp-04-07-defect-quorum-fence-restart-safe-epochs",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bind the two-path repair on the exact PR 120 parent, implement operation-sensitive quorum fencing and durable restart floors, run focused proof, resolve exact-head review, and publish a green stacked PR without merging.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind exact PR 120 ancestry and implement only the two-path lease authority repair.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Run exact tests, strict Clippy, and machine-derived receipt validation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Resolve fresh independent exact-head review and publish a green stacked PR without merging.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/tests/distributed_lease.rs"
+      ],
+      "invariants": [
+        "Only committed majority authority advances fence epochs",
+        "Unavailable old-holder keys cannot prevent a quorum fence",
+        "Restart never trusts foreign elapsed time or erases an unresolved portable floor",
+        "All failure paths are atomic and fail closed",
+        "Product scope remains exactly two files"
+      ],
+      "risks": [
+        "Operation-sensitive proof changes could weaken holder-authorized transitions",
+        "Fence epoch semantics could conflict with activation sequencing",
+        "Recovery-floor cleanup could happen too early",
+        "Snapshot truth could drift from current membership applied index"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The exact base is not PR 120 reviewed head or an approved descendant",
+        "Any product path outside the two declared files is required",
+        "Fence/revoke safety cannot be proved without weakening majority or activation authority",
+        "Exact tests select zero cases, strict Clippy fails, or machine evidence is self-attested",
+        "Independent review has unresolved actionable findings"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/121/design.md",
+      "design_digest": "478101411c25e58ae2d5cb3e4ab058cbc4cc777a39d4be6745ac2b4a973811dd",
+      "diagram_ref": ".csdlc/prepared/issues/121/diagram.mmd",
+      "diagram_digest": "63fb7758b7d4c2447ef019eb70e50012e7b06ff2eab7a953be3bf7b9b886a1ac"
+    }
+  }
+}

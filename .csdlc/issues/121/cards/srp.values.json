@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 121,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
+    "slug": "v0-92-wp-04-07-defect-quorum-fence-restart-safe-epochs",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact two-file lease authority diff, machine-derived proof, restart safety, and operation-class security boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can quorum fence and revoke an unavailable holder without its private activation key?",
+        "Are next-epoch and applied-index transitions exact and atomic?",
+        "Does every restart preserve the portable fence floor until safe activation?",
+        "Do holder-authorized operations still prove the correct activation key?",
+        "Are negative cases derived from executed output and exact-head bound?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

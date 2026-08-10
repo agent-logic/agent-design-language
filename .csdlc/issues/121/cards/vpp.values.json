@@ -1,0 +1,96 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 121,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
+    "slug": "v0-92-wp-04-07-defect-quorum-fence-restart-safe-epochs",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "exact-child-tests",
+          "proof_role": "Prove quorum fence/revoke, next-epoch, restart-floor, mutation denial, delayed activation, and atomic negatives.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_lease",
+            "--no-tests=fail"
+          ],
+          "parallel_group": "child",
+          "defer_reason": null
+        },
+        {
+          "lane": "strict-focused-clippy",
+          "proof_role": "Prove warning-free bounded lease source and exact integration test target.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_lease",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "child",
+          "defer_reason": null
+        },
+        {
+          "lane": "exact-machine-receipt",
+          "proof_role": "Require exact source, nonzero test count, output digests, and machine-derived negative denominator parity.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/121/validate-proof-receipt.rb"
+          ],
+          "parallel_group": "receipt",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on base drift, path widening, weakened possession/quorum rules, unresolved recovery floors, self-attested evidence, zero tests, or unresolved review.",
+      "design_ref": ".csdlc/prepared/issues/121/design.md",
+      "design_digest": "478101411c25e58ae2d5cb3e4ab058cbc4cc777a39d4be6745ac2b4a973811dd",
+      "diagram_ref": ".csdlc/prepared/issues/121/diagram.mmd",
+      "diagram_digest": "63fb7758b7d4c2447ef019eb70e50012e7b06ff2eab7a953be3bf7b9b886a1ac"
+    }
+  }
+}
