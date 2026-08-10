@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
-  "phase": "reviewed",
-  "generation": 68,
-  "digest": "74e90536d6c658919e94796edb652264e651f35fd2c27aa9cc139b1002144eb6",
+  "phase": "published",
+  "generation": 69,
+  "digest": "56055edaace2568469983ebbff72357630e9264871d10155a942093104923e8b",
   "branch": "codex/5826-birthday-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5826-birthday-identity",
   "review_assignment": {
@@ -50,7 +50,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5826,
+    "pull_request": 118,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/118",
+    "base": "main",
+    "head": "codex/5826-birthday-identity",
+    "revision": "git-blake3:69d0383088f3771b79427e1c4b1259a23e741afe:565643014ef845744007e830a7273da73f06dd58a40e8e38cc87cd6c9667f81e",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a0b23219aa49e95cd893e069428763de1957d664a06f8dda2729f52831c0e8e",
+      "values_digest": "4b2395f491f658a1c64c9c4cb5ba604bf5cc832aa3c4bf4961aa98eca966d53c",
       "rendered_digest": "c0780ba2d530639201fb2dea45daa3f40889f7adfda4e8269ee1c09b352125de",
       "ast_digest": "36105e01ff58d5b651b7116e069042038bf69235460de95d1629fe1f3382cd01"
     },
     "stp": {
-      "values_digest": "fd300991c2f2f99fc3ed4fb13c820d90ee610c1a562b513837c9c2c134151bc5",
+      "values_digest": "25be470ab27aff4be64fc83de402c8341a2ef3f601c8fc8d7ef199e152c5512a",
       "rendered_digest": "178ef42ba8c66afb3f5884ffe4bea230a143259f0264081e88348aa83e76bc0e",
       "ast_digest": "9660286fa50d76b5276159ba4187332929e1037257418f0e75fec7331c60086b"
     },
     "spp": {
-      "values_digest": "82b2bed13e28634de43565bee6ee44e5d3b71e4438d81eed1999f09328c1cf47",
+      "values_digest": "d1dc4928562a7f9bc1731ec7b44e614bbc2b50854b07b1bb6765ec7e9f79beb0",
       "rendered_digest": "755d4fab5074b3e72dc5adf89fe6fb5adfcfd6a39f76125788f6d91f5280ddba",
       "ast_digest": "692b57621ea2a1beaf170f3d676b4c8c4a2049894d6c2825a81ae7da1105fecb"
     },
     "vpp": {
-      "values_digest": "55e6442e7e953047d5b48368a61fceba389c9334d1a76e72cbff00703f27699a",
+      "values_digest": "0d013d6222beeafcebdd27aa0e93b7fe7823f063e2e3902717d5c52cf84290ae",
       "rendered_digest": "4f8bcb0978d981caec7c2dbc395f5c7bb0cbd34633909619f540afa034159428",
       "ast_digest": "cc86f97600515eaca70aa6f44b4d7e2cf9e7727cbefd9fc42991f24a5dd540ca"
     },
     "srp": {
-      "values_digest": "d53cfe22630aea68cb18567becd4e09a313ba18640735fb9305327796725f5ff",
+      "values_digest": "1fe93bf4b7c17c7741f024d4a967f6cbcb321ae5bdae88be75372aaa51f89d6f",
       "rendered_digest": "7a988ed867071909b1ad98517067b4af3bdf8e3bcb0cf9c07c0dff07b001d06c",
       "ast_digest": "2decf9c8c741768e986f7c1824ae325b2407aa52cba17db2fa8bba40dd021dbe"
     },
     "sor": {
-      "values_digest": "b9238b67192c857b5f6d56512fa1f9a2a1eab837f2bc9bf22a1ad96fde63fecc",
-      "rendered_digest": "d00bda94f84727a50836f1b2f889613cdaa60e2ac2376820ac1c9113b6a07762",
-      "ast_digest": "74ed2e541bfb30e799208f87456acf2724f02cc324a6c2fa9b801ce2d31617ec"
+      "values_digest": "2fbd5990d7fd64f16b5b52966b27dff44fd6e5fe7422ff8814a593670e7862ce",
+      "rendered_digest": "39b258a6adbb1355d73c1289ceb5309f8030ba9d5633cc1ad4724a8eb8d39192",
+      "ast_digest": "b7843f15729235902ede958756ed71a7f83f903bbf3b34ee3c705095feebabd5"
     }
   },
   "transitions": [
@@ -143,6 +154,13 @@
       "to": "reviewed",
       "actor": "codex:5826-birthday-identity",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5826-birthday-publication",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -796,6 +814,13 @@
       "actor": "codex:5826-birthday-identity",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 69,
+      "actor": "codex:5826-birthday-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

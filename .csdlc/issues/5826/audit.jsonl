@@ -91,3 +91,4 @@
 {"sequence":91,"generation":67,"actor":"codex:5826-birthday-identity","reason":"Recover the superseded assignment after the reviewer-required typed VPP core-deferral correction; product and workflow are unchanged.","operation":"recover_review"}
 {"sequence":92,"generation":67,"actor":"codex:5826-birthday-identity","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":93,"generation":68,"actor":"codex:5826-birthday-identity","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":94,"generation":69,"actor":"codex:5826-birthday-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
