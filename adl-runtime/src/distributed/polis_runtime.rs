@@ -23,12 +23,13 @@ use adl_runtime_kernel::{
 };
 use axum::{
     extract::{DefaultBodyLimit, State},
-    http::StatusCode,
+    http::{header, HeaderMap, StatusCode},
     routing::{get, post},
     Json, Router,
 };
 use base64::{engine::general_purpose::STANDARD as BASE64, Engine as _};
 use ed25519_dalek::{Signer, SigningKey, Verifier, VerifyingKey};
+use hmac::{Hmac, Mac};
 use openraft::{
     error::{InstallSnapshotError, NetworkError, RPCError, RaftError, RemoteError, Unreachable},
     network::{RPCOption, RaftNetwork, RaftNetworkFactory},
@@ -48,6 +49,8 @@ use tokio_util::sync::CancellationToken;
 
 pub const POLIS_WIRE_SCHEMA: &str = "adl.distributed.polis_rpc.v1";
 pub const POLIS_OBSERVATORY_SCHEMA: &str = "adl.distributed.polis_observatory.v1";
+pub const POLIS_LOCAL_MUTATION_SCHEMA: &str = "adl.distributed.local_governed_mutation.v1";
+pub const POLIS_LOCAL_SNAPSHOT_SCHEMA: &str = "adl.distributed.local_snapshot_boundary.v1";
 const MAX_RPC_BYTES: usize = 16 * 1024 * 1024;
 const MAX_TEXT_BYTES: usize = 256;
 static TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);
@@ -103,6 +106,21 @@ pub struct PolisResponse {
     pub accepted: bool,
     pub reason_code: String,
     pub state_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LocalGovernedMutation {
+    schema: String,
+    mutation_id: String,
+    payload_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LocalSnapshotBoundary {
+    schema: String,
+    snapshot_sha256: String,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -206,40 +224,19 @@ impl PolisApplicationState {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 struct PersistedStateMachine {
     last_applied_log: Option<LogId<NodeId>>,
     last_membership: StoredMembership<NodeId, BasicNode>,
     application: PolisApplicationState,
 }
 
-impl Default for PersistedStateMachine {
-    fn default() -> Self {
-        Self {
-            last_applied_log: None,
-            last_membership: StoredMembership::default(),
-            application: PolisApplicationState::default(),
-        }
-    }
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 struct PersistedLog {
     last_purged_log_id: Option<LogId<NodeId>>,
     log: BTreeMap<u64, Entry<PolisTypeConfig>>,
     committed: Option<LogId<NodeId>>,
     vote: Option<Vote<NodeId>>,
-}
-
-impl Default for PersistedLog {
-    fn default() -> Self {
-        Self {
-            last_purged_log_id: None,
-            log: BTreeMap::new(),
-            committed: None,
-            vote: None,
-        }
-    }
 }
 
 #[derive(Clone, Debug)]
@@ -263,6 +260,7 @@ impl PolisLogStore {
         })
     }
 
+    #[allow(clippy::result_large_err)]
     fn persist(&self, state: &PersistedLog) -> Result<(), StorageError<NodeId>> {
         atomic_json_write(&self.path, state).map_err(|error| {
             StorageError::from_io_error(ErrorSubject::Store, ErrorVerb::Write, error)
@@ -299,7 +297,7 @@ impl RaftLogStorage<PolisTypeConfig> for PolisLogStore {
             .log
             .iter()
             .next_back()
-            .map(|(_, entry)| entry.get_log_id().clone())
+            .map(|(_, entry)| *entry.get_log_id())
             .or(state.last_purged_log_id);
         Ok(LogState {
             last_purged_log_id: state.last_purged_log_id,
@@ -407,6 +405,7 @@ impl PolisStateMachineStore {
         self.state.read().await.application.clone()
     }
 
+    #[allow(clippy::result_large_err)]
     fn persist(&self, state: &PersistedStateMachine) -> Result<(), StorageError<NodeId>> {
         atomic_json_write(&self.path, state).map_err(|error| {
             StorageError::from_io_error(ErrorSubject::StateMachine, ErrorVerb::Write, error)
@@ -591,6 +590,7 @@ struct SignedRpc {
 }
 
 impl SignedRpc {
+    #[allow(clippy::too_many_arguments)]
     fn sign<T: Serialize>(
         polis_id: &str,
         trust_domain: &str,
@@ -699,16 +699,21 @@ struct PolisNetworkFactory {
     signing_key: Arc<SigningKey>,
     peer_keys: Arc<BTreeMap<NodeId, VerifyingKey>>,
     sequence: Arc<AtomicU64>,
+    local_routes: Arc<BTreeMap<NodeId, BasicNode>>,
 }
 
 impl RaftNetworkFactory<PolisTypeConfig> for PolisNetworkFactory {
     type Network = PolisNetworkConnection;
 
-    async fn new_client(&mut self, target: NodeId, node: &BasicNode) -> Self::Network {
+    async fn new_client(&mut self, target: NodeId, _node: &BasicNode) -> Self::Network {
         PolisNetworkConnection {
             factory: self.clone(),
             target,
-            target_node: node.clone(),
+            target_node: self
+                .local_routes
+                .get(&target)
+                .cloned()
+                .unwrap_or_else(|| BasicNode::new("127.0.0.1:0")),
         }
     }
 }
@@ -819,6 +824,7 @@ struct RpcServerState {
     peer_keys: Arc<BTreeMap<NodeId, VerifyingKey>>,
     replay_path: PathBuf,
     replay_ledger: Arc<tokio::sync::Mutex<BTreeMap<NodeId, (u64, u64)>>>,
+    local_kernel_token_mac: [u8; 32],
 }
 
 impl RpcServerState {
@@ -907,6 +913,67 @@ async fn health_handler() -> StatusCode {
     StatusCode::NO_CONTENT
 }
 
+async fn local_governed_mutation_handler(
+    State(state): State<RpcServerState>,
+    headers: HeaderMap,
+    Json(request): Json<LocalGovernedMutation>,
+) -> Result<Json<PolisResponse>, StatusCode> {
+    authorize_local_kernel(&headers, &state.local_kernel_token_mac)?;
+    if request.schema != POLIS_LOCAL_MUTATION_SCHEMA
+        || validate_text(&request.mutation_id).is_err()
+        || validate_sha256(&request.payload_sha256).is_err()
+    {
+        return Err(StatusCode::BAD_REQUEST);
+    }
+    let response = state
+        .raft
+        .client_write(PolisCommand::GovernedMutation {
+            mutation_id: request.mutation_id,
+            payload_sha256: request.payload_sha256,
+        })
+        .await
+        .map_err(|_| StatusCode::SERVICE_UNAVAILABLE)?;
+    Ok(Json(response.data))
+}
+
+async fn local_snapshot_boundary_handler(
+    State(state): State<RpcServerState>,
+    headers: HeaderMap,
+    Json(request): Json<LocalSnapshotBoundary>,
+) -> Result<Json<PolisResponse>, StatusCode> {
+    authorize_local_kernel(&headers, &state.local_kernel_token_mac)?;
+    if request.schema != POLIS_LOCAL_SNAPSHOT_SCHEMA
+        || validate_sha256(&request.snapshot_sha256).is_err()
+    {
+        return Err(StatusCode::BAD_REQUEST);
+    }
+    let response = state
+        .raft
+        .client_write(PolisCommand::SnapshotBoundary {
+            snapshot_sha256: request.snapshot_sha256,
+        })
+        .await
+        .map_err(|_| StatusCode::SERVICE_UNAVAILABLE)?;
+    state
+        .raft
+        .trigger()
+        .snapshot()
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    Ok(Json(response.data))
+}
+
+fn authorize_local_kernel(headers: &HeaderMap, expected: &[u8; 32]) -> Result<(), StatusCode> {
+    let token = headers
+        .get(header::AUTHORIZATION)
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.strip_prefix("Bearer "))
+        .ok_or(StatusCode::UNAUTHORIZED)?;
+    verify_local_kernel_token(token.as_bytes(), expected)
+        .then_some(())
+        .ok_or(StatusCode::UNAUTHORIZED)
+}
+
 pub struct PolisRuntime {
     pub raft: PolisRaft,
     pub state_machine: PolisStateMachineStore,
@@ -914,6 +981,7 @@ pub struct PolisRuntime {
     server: JoinHandle<()>,
     cancellation: CancellationToken,
     authority_task: Option<JoinHandle<()>>,
+    local_kernel_token: String,
 }
 
 #[derive(Clone)]
@@ -937,6 +1005,7 @@ pub struct PolisRuntimeConfig {
     pub state_root: PathBuf,
     pub signing_key: SigningKey,
     pub peer_keys: BTreeMap<NodeId, VerifyingKey>,
+    pub local_kernel_token: String,
 }
 
 impl PolisRuntimeConfig {
@@ -977,6 +1046,8 @@ impl PolisRuntimeConfig {
             }
         }
         let signing_key = read_signing_key(&state_root.join(&distributed.voter_signing_key_path))?;
+        let local_kernel_token =
+            read_secret_text(&state_root.join(&distributed.local_kernel_token_path))?;
         Ok(Self {
             polis_id: distributed.polis_id.clone(),
             trust_domain: distributed.trust_domain.clone(),
@@ -990,6 +1061,7 @@ impl PolisRuntimeConfig {
             state_root: state_root.join(&distributed.consensus_state_dir),
             signing_key,
             peer_keys,
+            local_kernel_token,
         })
     }
 }
@@ -1031,6 +1103,7 @@ impl PolisRuntime {
             signing_key: signing_key.clone(),
             peer_keys: peer_keys.clone(),
             sequence: Arc::new(AtomicU64::new(0)),
+            local_routes: Arc::new(config.nodes.clone()),
         };
         let raft_config = Arc::new(
             openraft::Config {
@@ -1064,6 +1137,7 @@ impl PolisRuntime {
             peer_keys,
             replay_path,
             replay_ledger: Arc::new(tokio::sync::Mutex::new(replay_ledger)),
+            local_kernel_token_mac: local_kernel_token_mac(config.local_kernel_token.as_bytes()),
         };
         let listener = tokio::net::TcpListener::bind(config.listen_address)
             .await
@@ -1074,6 +1148,14 @@ impl PolisRuntime {
             .route("/internal/raft/append", post(append_handler))
             .route("/internal/raft/vote", post(vote_handler))
             .route("/internal/raft/snapshot", post(snapshot_handler))
+            .route(
+                "/internal/client/governed-mutation",
+                post(local_governed_mutation_handler),
+            )
+            .route(
+                "/internal/client/snapshot-boundary",
+                post(local_snapshot_boundary_handler),
+            )
             .route("/internal/health", get(health_handler))
             .layer(DefaultBodyLimit::max(MAX_RPC_BYTES * 2))
             .with_state(server_state);
@@ -1094,6 +1176,7 @@ impl PolisRuntime {
             server,
             cancellation,
             authority_task: None,
+            local_kernel_token: config.local_kernel_token,
         })
     }
 
@@ -1124,6 +1207,7 @@ impl PolisRuntime {
         let state_machine = self.state_machine.clone();
         let cancellation = self.cancellation.clone();
         let local_id = self.local_id;
+        let projection_token = self.local_kernel_token.clone();
         self.authority_task = Some(tokio::spawn(async move {
             let mut tick = tokio::time::interval(std::time::Duration::from_millis(200));
             loop {
@@ -1142,7 +1226,7 @@ impl PolisRuntime {
                     .observatory_owner
                     .clone()
                     .unwrap_or_else(|| "unavailable".to_owned());
-                let projection = DistributedObservatoryProjection {
+                let mut projection = DistributedObservatoryProjection {
                     schema: DISTRIBUTED_OBSERVATORY_PROJECTION_SCHEMA.to_owned(),
                     polis_id: config.polis_id.clone(),
                     trust_domain: config.trust_domain.clone(),
@@ -1158,7 +1242,11 @@ impl PolisRuntime {
                     active_shepherd_identity_ref: application.active_shepherd.clone(),
                     snapshot_sha256: application.snapshot_sha256.clone(),
                     state_sha256: application.digest().unwrap_or_else(|_| "0".repeat(64)),
+                    authorization_hmac_sha256: String::new(),
                 };
+                projection.authorization_hmac_sha256 =
+                    projection_authorization_hmac(&projection, &projection_token)
+                        .unwrap_or_else(|_| "0".repeat(64));
                 let _ = atomic_json_write(&config.projection_path, &projection);
 
                 if metrics.current_leader != Some(local_id) {
@@ -1334,6 +1422,7 @@ fn validate_sha256(value: &str) -> Result<(), PolisRuntimeError> {
 }
 
 fn read_key_hex(path: &Path) -> Result<[u8; 32], PolisRuntimeError> {
+    validate_path_components(path, false).map_err(|_| PolisRuntimeError::InvalidConfiguration)?;
     let metadata =
         std::fs::symlink_metadata(path).map_err(|_| PolisRuntimeError::InvalidConfiguration)?;
     if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.len() > 128 {
@@ -1345,6 +1434,49 @@ fn read_key_hex(path: &Path) -> Result<[u8; 32], PolisRuntimeError> {
     bytes
         .try_into()
         .map_err(|_| PolisRuntimeError::InvalidConfiguration)
+}
+
+fn read_secret_text(path: &Path) -> Result<String, PolisRuntimeError> {
+    validate_path_components(path, false).map_err(|_| PolisRuntimeError::InvalidConfiguration)?;
+    let metadata =
+        std::fs::symlink_metadata(path).map_err(|_| PolisRuntimeError::InvalidConfiguration)?;
+    if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.len() > 512 {
+        return Err(PolisRuntimeError::InvalidConfiguration);
+    }
+    let token =
+        std::fs::read_to_string(path).map_err(|_| PolisRuntimeError::InvalidConfiguration)?;
+    let token = token.trim();
+    if !(32..=256).contains(&token.len()) || !token.bytes().all(|byte| byte.is_ascii_graphic()) {
+        return Err(PolisRuntimeError::InvalidConfiguration);
+    }
+    Ok(token.to_owned())
+}
+
+fn local_kernel_token_mac(token: &[u8]) -> [u8; 32] {
+    let mut mac = Hmac::<Sha256>::new_from_slice(b"adl-runtime-local-kernel-token-v1")
+        .expect("fixed HMAC key is valid");
+    mac.update(token);
+    mac.finalize().into_bytes().into()
+}
+
+fn verify_local_kernel_token(token: &[u8], expected: &[u8; 32]) -> bool {
+    let mut mac = Hmac::<Sha256>::new_from_slice(b"adl-runtime-local-kernel-token-v1")
+        .expect("fixed HMAC key is valid");
+    mac.update(token);
+    mac.verify_slice(expected).is_ok()
+}
+
+fn projection_authorization_hmac(
+    projection: &DistributedObservatoryProjection,
+    token: &str,
+) -> Result<String, PolisRuntimeError> {
+    let mut unsigned = projection.clone();
+    unsigned.authorization_hmac_sha256.clear();
+    let bytes = serde_jcs::to_vec(&unsigned).map_err(|_| PolisRuntimeError::Serialization)?;
+    let mut mac = Hmac::<Sha256>::new_from_slice(token.as_bytes())
+        .map_err(|_| PolisRuntimeError::Authentication)?;
+    mac.update(&bytes);
+    Ok(hex::encode(mac.finalize().into_bytes()))
 }
 
 fn read_signing_key(path: &Path) -> Result<SigningKey, PolisRuntimeError> {
@@ -1383,7 +1515,9 @@ fn ensure_store_root(root: &Path) -> Result<(), PolisRuntimeError> {
     if !root.is_absolute() {
         return Err(PolisRuntimeError::InvalidConfiguration);
     }
+    validate_path_components(root, true).map_err(|_| PolisRuntimeError::InvalidConfiguration)?;
     std::fs::create_dir_all(root).map_err(|_| PolisRuntimeError::Storage)?;
+    validate_path_components(root, false).map_err(|_| PolisRuntimeError::InvalidConfiguration)?;
     let metadata = std::fs::symlink_metadata(root).map_err(|_| PolisRuntimeError::Storage)?;
     if !metadata.is_dir() || metadata.file_type().is_symlink() {
         return Err(PolisRuntimeError::InvalidConfiguration);
@@ -1392,6 +1526,7 @@ fn ensure_store_root(root: &Path) -> Result<(), PolisRuntimeError> {
 }
 
 fn read_bounded_json<T: DeserializeOwned>(path: &Path) -> Result<T, PolisRuntimeError> {
+    validate_path_components(path, false).map_err(|_| PolisRuntimeError::Storage)?;
     let metadata = std::fs::symlink_metadata(path).map_err(|_| PolisRuntimeError::Storage)?;
     if !metadata.is_file()
         || metadata.file_type().is_symlink()
@@ -1419,6 +1554,18 @@ fn atomic_bytes_write(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
     let parent = path.parent().ok_or_else(|| {
         std::io::Error::new(std::io::ErrorKind::InvalidInput, "state path has no parent")
     })?;
+    validate_path_components(parent, false)?;
+    match std::fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "state path is not an ordinary file",
+            ));
+        }
+        Ok(_) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error),
+    }
     let sequence = TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed) + 1;
     let temp = parent.join(format!(".polis-{}-{sequence}.tmp", std::process::id()));
     let mut options = OpenOptions::new();
@@ -1433,5 +1580,42 @@ fn atomic_bytes_write(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
     file.sync_all()?;
     std::fs::rename(&temp, path)?;
     File::open(parent)?.sync_all()?;
+    Ok(())
+}
+
+fn validate_path_components(path: &Path, allow_missing: bool) -> std::io::Result<()> {
+    if !path.is_absolute() {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "path must be absolute",
+        ));
+    }
+    let mut current = PathBuf::new();
+    for component in path.components() {
+        current.push(component.as_os_str());
+        if current.parent().is_none() {
+            continue;
+        }
+        match std::fs::symlink_metadata(&current) {
+            Ok(metadata) => {
+                if metadata.file_type().is_symlink() {
+                    return Err(std::io::Error::new(
+                        std::io::ErrorKind::InvalidInput,
+                        "path contains a symbolic link",
+                    ));
+                }
+                if current != path && !metadata.is_dir() {
+                    return Err(std::io::Error::new(
+                        std::io::ErrorKind::InvalidInput,
+                        "path ancestor is not a directory",
+                    ));
+                }
+            }
+            Err(error) if allow_missing && error.kind() == std::io::ErrorKind::NotFound => {
+                return Ok(());
+            }
+            Err(error) => return Err(error),
+        }
+    }
     Ok(())
 }

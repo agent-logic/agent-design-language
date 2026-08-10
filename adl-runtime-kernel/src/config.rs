@@ -782,6 +782,7 @@ pub struct RuntimeDistributedInitConfig {
     pub consensus_state_dir: PathBuf,
     pub voter_signing_key_path: PathBuf,
     pub voter_public_key_paths: BTreeMap<String, PathBuf>,
+    pub local_kernel_token_path: PathBuf,
     pub observatory_projection_path: PathBuf,
     pub shepherd_agent_ref: String,
     pub shepherd_identity_ref: String,
@@ -911,6 +912,10 @@ impl RuntimeDistributedInitConfig {
         for path in self.voter_public_key_paths.values() {
             validate_relative_runtime_path("distributed.voter_public_key_paths", path)?;
         }
+        validate_relative_runtime_path(
+            "distributed.local_kernel_token_path",
+            &self.local_kernel_token_path,
+        )?;
         if self.model_profiles.is_empty() || self.model_profiles.len() > 8 {
             return Err(RuntimeInitError::Policy(
                 "distributed.model_profiles must contain between one and eight profiles".to_owned(),

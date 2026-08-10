@@ -68,6 +68,7 @@ fn distributed_config() -> RuntimeDistributedInitConfig {
                 PathBuf::from("credentials/aws-b.pub"),
             ),
         ]),
+        local_kernel_token_path: PathBuf::from("distributed/keys/local-kernel-token.txt"),
         observatory_projection_path: PathBuf::from("distributed/observatory.json"),
         shepherd_agent_ref: "resident-agent:shepherd".to_owned(),
         shepherd_identity_ref: "identity:shepherd-wuji".to_owned(),

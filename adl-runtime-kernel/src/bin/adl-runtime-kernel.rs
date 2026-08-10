@@ -13,20 +13,120 @@ mod observability;
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly,
     build_production_operation_executors_with_recorder, generate_runtime_instance_id,
-    load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
-    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
-    AgentPopulationFeed, CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy,
-    ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
-    LiveContinuity, LiveKernelSnapshot, LocalShepherdExecutor, OperationExecutor,
+    load_control_tls, monitor_until_stop, read_distributed_observatory_projection,
+    serve_control_listener_until_ready, validate_production_operation_executors,
+    verifying_key_from_hex, AdapterKind, AgentPopulationFeed, CheckpointShutdownRequest,
+    CheckpointingControl, ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
+    ExecutorError, FailureClass, Kernel, KernelExit, LiveBindings, LiveContinuity,
+    LiveKernelSnapshot, LocalShepherdExecutor, OperationExecutor, OperationRequest,
     RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
     TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
 };
+use async_trait::async_trait;
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
+use sha2::{Digest, Sha256};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
 const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
+
+struct LeaseGatedShepherdExecutor {
+    inner: LocalShepherdExecutor,
+    projection_path: PathBuf,
+    guardian_id: String,
+    authorization_token: String,
+    local_consensus_url: String,
+}
+
+impl LeaseGatedShepherdExecutor {
+    async fn commit_result(
+        &self,
+        request: &OperationRequest,
+        payload: &[u8],
+    ) -> Result<(), ExecutorError> {
+        let mutation_id = format!(
+            "shepherd-{}",
+            hex::encode(Sha256::digest(request.idempotency_key.as_bytes()))
+        );
+        let payload_sha256 = hex::encode(Sha256::digest(payload));
+        let client = reqwest::Client::builder()
+            .connect_timeout(std::time::Duration::from_secs(1))
+            .timeout(std::time::Duration::from_secs(4))
+            .build()
+            .map_err(|_| degraded_shepherd_error("polis client configuration invalid"))?;
+        let response = client
+            .post(&self.local_consensus_url)
+            .bearer_auth(&self.authorization_token)
+            .json(&serde_json::json!({
+                "schema": "adl.distributed.local_governed_mutation.v1",
+                "mutation_id": mutation_id,
+                "payload_sha256": payload_sha256,
+            }))
+            .send()
+            .await
+            .map_err(|_| degraded_shepherd_error("polis commit transport unavailable"))?;
+        if !response.status().is_success() {
+            return Err(degraded_shepherd_error(
+                "polis quorum did not authorize shepherd result",
+            ));
+        }
+        let value: serde_json::Value = response
+            .json()
+            .await
+            .map_err(|_| degraded_shepherd_error("polis commit response invalid"))?;
+        if value["accepted"] != true
+            || value["committed_index"].as_u64().is_none()
+            || value["state_sha256"]
+                .as_str()
+                .is_none_or(|digest| digest.len() != 64)
+        {
+            return Err(degraded_shepherd_error("polis commit was not accepted"));
+        }
+        Ok(())
+    }
+}
+
+fn degraded_shepherd_error(message: &str) -> ExecutorError {
+    ExecutorError {
+        class: FailureClass::Degraded,
+        message: message.to_owned(),
+    }
+}
+
+#[async_trait]
+impl OperationExecutor for LeaseGatedShepherdExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        if read_distributed_observatory_projection(
+            &self.projection_path,
+            &self.guardian_id,
+            &self.authorization_token,
+        )
+        .is_none()
+        {
+            return Err(ExecutorError {
+                class: FailureClass::Degraded,
+                message: "non-voting shepherd is unavailable without the current polis lease"
+                    .to_owned(),
+            });
+        }
+        let response = self.inner.execute(request).await?;
+        self.commit_result(request, &response).await?;
+        Ok(response)
+    }
+
+    fn replay_payload(&self, payload: &[u8]) -> Result<Vec<u8>, ExecutorError> {
+        self.inner.replay_payload(payload)
+    }
+
+    fn replay_error_message(&self, message: &str) -> Result<String, ExecutorError> {
+        self.inner.replay_error_message(message)
+    }
+
+    async fn shutdown(&self) -> Result<(), ExecutorError> {
+        self.inner.shutdown().await
+    }
+}
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -156,6 +256,22 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let distributed_kernel_token = if let Some(distributed) = init.distributed.as_ref() {
+                match read_trimmed_config_file(
+                    &init.state_root.join(&distributed.local_kernel_token_path),
+                    "distributed local kernel token",
+                )
+                .await
+                {
+                    Ok(token) => Some(token),
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                }
+            } else {
+                None
+            };
             if let Some(distributed) = init.distributed.as_ref() {
                 let shepherd =
                     match LocalShepherdExecutor::configured(distributed.local_shepherd_config()) {
@@ -167,7 +283,20 @@ async fn main() -> ExitCode {
                     };
                 operation_executors.insert(
                     AdapterKind::Shepherd,
-                    Arc::new(shepherd) as Arc<dyn OperationExecutor>,
+                    Arc::new(LeaseGatedShepherdExecutor {
+                        inner: shepherd,
+                        projection_path: init
+                            .state_root
+                            .join(&distributed.observatory_projection_path),
+                        guardian_id: distributed.guardian_id.clone(),
+                        authorization_token: distributed_kernel_token
+                            .clone()
+                            .expect("distributed token loaded"),
+                        local_consensus_url: format!(
+                            "http://{}/internal/client/governed-mutation",
+                            distributed.listen_address
+                        ),
+                    }) as Arc<dyn OperationExecutor>,
                 );
             }
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
@@ -376,6 +505,9 @@ async fn main() -> ExitCode {
                         init.state_root
                             .join(&distributed.observatory_projection_path),
                         distributed.guardian_id.clone(),
+                        distributed_kernel_token
+                            .clone()
+                            .expect("distributed token loaded"),
                     )
                     .is_err()
                 {

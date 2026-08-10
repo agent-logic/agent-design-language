@@ -337,12 +337,14 @@ pub struct DistributedObservatoryProjection {
     pub active_shepherd_identity_ref: Option<String>,
     pub snapshot_sha256: Option<String>,
     pub state_sha256: String,
+    pub authorization_hmac_sha256: String,
 }
 
 #[derive(Clone)]
 struct DistributedObservatoryConfig {
     projection_path: PathBuf,
     local_guardian_id: String,
+    authorization_token: String,
 }
 
 pub struct ControlService<C> {
@@ -514,8 +516,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         projection_path: PathBuf,
         local_guardian_id: String,
+        authorization_token: String,
     ) -> Result<(), ControlError> {
-        if !projection_path.is_absolute() || !is_safe_identifier(&local_guardian_id) {
+        if !projection_path.is_absolute()
+            || !is_safe_identifier(&local_guardian_id)
+            || !(32..=256).contains(&authorization_token.len())
+            || authorization_token
+                .bytes()
+                .any(|byte| !byte.is_ascii_graphic())
+        {
             return Err(ControlError::InvalidIdentifier);
         }
         *self
@@ -525,6 +534,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Some(DistributedObservatoryConfig {
                 projection_path,
                 local_guardian_id,
+                authorization_token,
             });
         Ok(())
     }
@@ -535,33 +545,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("distributed Observatory mutex poisoned")
             .clone();
-        let Some(config) = config else {
-            return None;
-        };
-        let metadata = std::fs::symlink_metadata(&config.projection_path).ok()?;
-        if !metadata.is_file()
-            || metadata.file_type().is_symlink()
-            || metadata.len() > MAX_DISTRIBUTED_OBSERVATORY_BYTES
-        {
-            return None;
-        }
-        let bytes = std::fs::read(&config.projection_path).ok()?;
-        let projection: DistributedObservatoryProjection = serde_json::from_slice(&bytes).ok()?;
-        if projection.schema != DISTRIBUTED_OBSERVATORY_PROJECTION_SCHEMA
-            || projection.owner_guardian_id != config.local_guardian_id
-            || projection.expires_unix_millis <= now_unix_millis()
-            || projection.voter_ids.len() != 3
-            || projection.quorum_size != 2
-            || projection.committed_index == 0
-            || projection.state_sha256.len() != 64
-            || !projection
-                .state_sha256
-                .bytes()
-                .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f'))
-        {
-            return None;
-        }
-        Some(projection)
+        let config = config?;
+        read_distributed_observatory_projection(
+            &config.projection_path,
+            &config.local_guardian_id,
+            &config.authorization_token,
+        )
     }
 
     fn distributed_observatory_available(&self) -> bool {
@@ -1013,6 +1002,62 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .response = Some(response.clone());
         Ok(response)
     }
+}
+
+pub fn read_distributed_observatory_projection(
+    path: &std::path::Path,
+    local_guardian_id: &str,
+    authorization_token: &str,
+) -> Option<DistributedObservatoryProjection> {
+    let metadata = std::fs::symlink_metadata(path).ok()?;
+    if !metadata.is_file()
+        || metadata.file_type().is_symlink()
+        || metadata.len() > MAX_DISTRIBUTED_OBSERVATORY_BYTES
+    {
+        return None;
+    }
+    let bytes = std::fs::read(path).ok()?;
+    let projection: DistributedObservatoryProjection = serde_json::from_slice(&bytes).ok()?;
+    if !projection_has_valid_authorization(&projection, authorization_token) {
+        return None;
+    }
+    if projection.schema != DISTRIBUTED_OBSERVATORY_PROJECTION_SCHEMA
+        || projection.owner_guardian_id != local_guardian_id
+        || projection.expires_unix_millis <= now_unix_millis()
+        || projection.voter_ids.len() != 3
+        || projection.quorum_size != 2
+        || projection.committed_index == 0
+        || projection.state_sha256.len() != 64
+        || !projection
+            .state_sha256
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f'))
+    {
+        return None;
+    }
+    Some(projection)
+}
+
+fn projection_has_valid_authorization(
+    projection: &DistributedObservatoryProjection,
+    authorization_token: &str,
+) -> bool {
+    use hmac::{Hmac, Mac};
+    use sha2::Sha256;
+
+    let Ok(expected) = hex::decode(&projection.authorization_hmac_sha256) else {
+        return false;
+    };
+    let mut unsigned = projection.clone();
+    unsigned.authorization_hmac_sha256.clear();
+    let Ok(bytes) = serde_jcs::to_vec(&unsigned) else {
+        return false;
+    };
+    let Ok(mut mac) = Hmac::<Sha256>::new_from_slice(authorization_token.as_bytes()) else {
+        return false;
+    };
+    mac.update(&bytes);
+    mac.verify_slice(&expected).is_ok()
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

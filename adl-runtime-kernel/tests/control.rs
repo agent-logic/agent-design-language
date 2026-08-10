@@ -869,7 +869,7 @@ async fn control_route_rejects_oversized_request_body_before_command_parse() {
 }
 
 #[tokio::test]
-async fn observatory_https_reads_are_public_and_report_weather_freshness() {
+async fn observatory_https_reads_require_authentication_and_report_weather_freshness() {
     let key = SigningKey::from_bytes(&[12; 32]);
     let recorder = RuntimeRecorder::new(8);
     recorder.set_topology_generation(11);

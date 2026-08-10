@@ -17,6 +17,7 @@ peer_addresses = { "REPLACE_PEER_A_ID" = "REPLACE_PEER_A_PRIVATE_ADDRESS", "REPL
 consensus_state_dir = "distributed/consensus"
 voter_signing_key_path = "distributed/keys/local-voter-signing-key.hex"
 voter_public_key_paths = { "REPLACE_PEER_A_ID" = "distributed/keys/peer-a-public-key.hex", "REPLACE_PEER_B_ID" = "distributed/keys/peer-b-public-key.hex" }
+local_kernel_token_path = "distributed/keys/local-kernel-token.txt"
 observatory_projection_path = "distributed/observatory-projection.json"
 shepherd_agent_ref = "resident-agent:shepherd"
 shepherd_identity_ref = "identity:shepherd-non-voter"

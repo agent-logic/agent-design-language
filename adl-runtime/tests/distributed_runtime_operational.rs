@@ -6,9 +6,11 @@ use std::{
 };
 
 use adl_runtime::distributed::polis_runtime::{
-    NodeId, PolisAuthorityConfig, PolisCommand, PolisRuntime, PolisRuntimeConfig,
+    NodeId, PolisAuthorityConfig, PolisCommand, PolisLogStore, PolisRuntime, PolisRuntimeConfig,
 };
-use adl_runtime_kernel::DistributedObservatoryProjection;
+use adl_runtime_kernel::{
+    read_distributed_observatory_projection, DistributedObservatoryProjection,
+};
 use ed25519_dalek::SigningKey;
 use openraft::BasicNode;
 use tempfile::TempDir;
@@ -21,6 +23,8 @@ fn reserve_address() -> SocketAddr {
 fn signing_key(node_id: NodeId) -> SigningKey {
     SigningKey::from_bytes(&[node_id as u8; 32])
 }
+
+const LOCAL_KERNEL_TOKEN: &str = "test-local-kernel-token-000000000001";
 
 fn node_map(addresses: &BTreeMap<NodeId, SocketAddr>) -> BTreeMap<NodeId, BasicNode> {
     addresses
@@ -49,6 +53,7 @@ fn runtime_config(
         state_root: state_root.join(format!("node-{node_id}")),
         signing_key: signing_key(node_id),
         peer_keys,
+        local_kernel_token: LOCAL_KERNEL_TOKEN.to_owned(),
     }
 }
 
@@ -181,6 +186,42 @@ async fn three_voters_commit_halt_without_quorum_and_recover_durable_state() {
         .expect("quorum commits governed mutation");
     assert!(first.data.accepted);
 
+    let client = reqwest::Client::new();
+    let endpoint = format!(
+        "http://{}/internal/client/governed-mutation",
+        addresses[&leader]
+    );
+    let request = serde_json::json!({
+        "schema": "adl.distributed.local_governed_mutation.v1",
+        "mutation_id": "kernel-authorized-result",
+        "payload_sha256": "55".repeat(32),
+    });
+    assert_eq!(
+        client
+            .post(&endpoint)
+            .json(&request)
+            .send()
+            .await
+            .expect("unauthenticated local request completes")
+            .status(),
+        reqwest::StatusCode::UNAUTHORIZED
+    );
+    let authorized = client
+        .post(&endpoint)
+        .bearer_auth(LOCAL_KERNEL_TOKEN)
+        .json(&request)
+        .send()
+        .await
+        .expect("local kernel reaches consensus endpoint");
+    assert!(authorized.status().is_success());
+    assert_eq!(
+        authorized
+            .json::<serde_json::Value>()
+            .await
+            .expect("commit response")["accepted"],
+        true
+    );
+
     let followers = [1, 2, 3]
         .into_iter()
         .filter(|node_id| *node_id != leader)
@@ -298,6 +339,32 @@ async fn observatory_lease_moves_only_after_the_previous_owner_expires() {
         .expect("guardian prefix")
         .parse()
         .expect("numeric guardian");
+    let projection_path = root
+        .path()
+        .join(format!("observatory-{first_owner_node}.json"));
+    assert!(read_distributed_observatory_projection(
+        &projection_path,
+        &first_owner,
+        LOCAL_KERNEL_TOKEN,
+    )
+    .is_some());
+    let mut forged: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&projection_path).expect("read signed projection"))
+            .expect("projection JSON");
+    forged["committed_index"] = serde_json::json!(u64::MAX);
+    std::fs::write(
+        &projection_path,
+        serde_json::to_vec(&forged).expect("forged projection JSON"),
+    )
+    .expect("write forged projection");
+    assert!(read_distributed_observatory_projection(
+        &projection_path,
+        &first_owner,
+        LOCAL_KERNEL_TOKEN,
+    )
+    .is_none());
+    let first_owner = wait_for_single_observatory_owner(root.path(), None).await;
+    assert_eq!(first_owner, format!("guardian-{first_owner_node}"));
     stop_node(&mut nodes, first_owner_node).await;
     let second_owner =
         wait_for_single_observatory_owner(root.path(), Some(first_owner.as_str())).await;
@@ -308,4 +375,22 @@ async fn observatory_lease_moves_only_after_the_previous_owner_expires() {
             stop_node(&mut nodes, node_id).await;
         }
     }
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn distributed_store_rejects_a_symlinked_path_component() {
+    use std::os::unix::fs::symlink;
+
+    let cwd = std::env::current_dir().expect("current directory");
+    let root = TempDir::new_in(cwd).expect("ordinary test root");
+    let real = root.path().join("real");
+    std::fs::create_dir(&real).expect("real state parent");
+    let linked = root.path().join("linked");
+    symlink(&real, &linked).expect("test symlink");
+    let result = PolisLogStore::open(&linked.join("node-1"));
+    assert!(
+        result.is_err(),
+        "a symlinked state ancestor must fail closed"
+    );
 }
