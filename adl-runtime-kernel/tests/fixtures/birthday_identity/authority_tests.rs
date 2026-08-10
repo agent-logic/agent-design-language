@@ -7,7 +7,7 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
-use adl_runtime_kernel::{
+use crate::{
     build_birthday_identity, derive_identity_root, record_digest,
     validate_birthday_identity_record, verify_birthday_evidence, AliasBinding,
     BirthdayAuthorityPolicy, BirthdayEvidenceError, BirthdayEvidenceRequirements,
@@ -180,12 +180,12 @@ fn authoritative_candidate(evidence: &VerifiedBirthdayEvidence) -> BirthdayIdent
                 provenance_id: "alias-one".to_owned(),
             },
         ],
-        origin: adl_runtime_kernel::OriginBinding {
+        origin: crate::OriginBinding {
             event_id: "origin-event-001".to_owned(),
             provenance_id: "origin-prov".to_owned(),
             reference: reference("origin-binding", evidence.binding_sha256()),
         },
-        continuity: adl_runtime_kernel::ContinuityBinding {
+        continuity: crate::ContinuityBinding {
             identity_root: "0".repeat(64),
             head_sha256: evidence.checkpoint_head().to_owned(),
             reference: reference("continuity-checkpoint", evidence.checkpoint_sha256()),

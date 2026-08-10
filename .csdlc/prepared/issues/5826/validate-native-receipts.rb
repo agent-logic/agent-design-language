@@ -48,10 +48,10 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
-    "adl-runtime-kernel/tests/#{test_target}.rs",
+    test_target == "birthday_identity" ? nil : "adl-runtime-kernel/tests/#{test_target}.rs",
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
-  ]
+  ].compact
   if test_target == "birthday_identity"
     paths += [
       "adl-runtime-kernel/src/identity_memory.rs",
@@ -93,11 +93,19 @@ head = head_text.strip
 
 producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
-expected_test_argv = [
-  "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all",
-  "--message-format", "libtest-json-plus"
-]
+expected_test_argv = if test_target == "birthday_identity"
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--lib", "-E", "test(/^birthday_identity::authority_tests::/)",
+    "--no-tests=fail", "--status-level", "all", "--message-format", "libtest-json-plus"
+  ]
+else
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--test", test_target, "--no-tests=fail", "--status-level", "all",
+    "--message-format", "libtest-json-plus"
+  ]
+end
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/

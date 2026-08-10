@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
   "phase": "implemented",
-  "generation": 74,
-  "digest": "de757d3ee89ef136ebedd21fc25471ee0948f98332849c67439d9c8e6e5302c8",
+  "generation": 79,
+  "digest": "acd8196bd9302e2e0885d2a9b721400a5812dfac606ea8aa5296e218deff6a4e",
   "branch": "codex/5826-birthday-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5826-birthday-identity",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "407f00e3ae1518d3b95508e228f666b01641f57e4b7d3f91de84f419337edb95",
-      "rendered_digest": "c0780ba2d530639201fb2dea45daa3f40889f7adfda4e8269ee1c09b352125de",
-      "ast_digest": "36105e01ff58d5b651b7116e069042038bf69235460de95d1629fe1f3382cd01"
+      "values_digest": "b3bbd6589d6fda7ec5b824ef174cf1b8cadc8cdc0b238ef64781a963c4ad4120",
+      "rendered_digest": "0d826412308c3591d68a9c533993e827f94266dca00d3b32d66b704f077b05b7",
+      "ast_digest": "66752074307e6db7a344c007aa92aac2596d616c2c97a5769e016465561c779d"
     },
     "stp": {
-      "values_digest": "a4774e26c680e27828df5664faab55023a3535b45f67c2b72a72f9103f511e1f",
-      "rendered_digest": "178ef42ba8c66afb3f5884ffe4bea230a143259f0264081e88348aa83e76bc0e",
-      "ast_digest": "9660286fa50d76b5276159ba4187332929e1037257418f0e75fec7331c60086b"
+      "values_digest": "5b039b64abd93fab9bee671febfde66861e6a4df60e7826b523b888e8b9bbd39",
+      "rendered_digest": "df8eb6638d1ae3350c2c436d7e92305e01e12f9bc7907d58a9726745ce258b58",
+      "ast_digest": "c4976f70872d18bb73a4f9f564d36b253ef689f9716ace7e240e55a237a56d2e"
     },
     "spp": {
-      "values_digest": "3c83f95f1eab5d3138904acf5e92c97b4ba2538a66cc6c866fa7e5c1eca08575",
+      "values_digest": "b6412a6b0d6268f6580084c2893ddd44410f73c552f6efeb7c3f8ac093494173",
       "rendered_digest": "16c9073aae3b6676ea55ea9ac068a21f692c4dd8cccefabc9979d319b5d5e6fa",
       "ast_digest": "c42af2dc75f00377f7084b824e49be0be28575aa2a1fa459eaf2928a89e15531"
     },
     "vpp": {
-      "values_digest": "3be79bbbf78d36a72f4212aa9db2c724b60c3abce281439faf6cad2826ef8361",
-      "rendered_digest": "32e86ee18665ec2c8823446d677cfa20e3c222375aacc9a90bfb6c06ea9ab2f4",
-      "ast_digest": "8424444a9407a9447c4ae55bc05b7cec1269670997a7c09165b4790c2895768c"
+      "values_digest": "4564dcc8416703786f524f7751deadb6e3da0655cff026bb9f089ea59e9488b3",
+      "rendered_digest": "95742c7226565f4b909e2f65aa8de7ece47146496be743d5b844571f8546cfc2",
+      "ast_digest": "a26a420a94f238b0612ea26f57d8fcbc1ff3fb5d6ae390b8e0670cc4ba81440e"
     },
     "srp": {
-      "values_digest": "ad3b9d546b6022c477375e2d31de212a3b450b7c8a87b508ec3ad927482f1807",
+      "values_digest": "ddaba2743687301ab190019fb2e434e22c2ffb63d14d0f4f1ec1420c33e0f86d",
       "rendered_digest": "003914725e6dd8ad754414dd9dd3983cbf70dc07e31f361e50d76d8b13247d91",
       "ast_digest": "7281c75fa192914a204d2b5f4e012f8637f52d1b4f7990244dbce1e31b728f9c"
     },
     "sor": {
-      "values_digest": "4c30c8b05ed20ae96a04d7e38d4c45d90b7313d9e632243103a9836572cfaf07",
+      "values_digest": "65fe6025fef81eccc3dd0d01e9e1b7dd7a4bc26284e02fa22899597f299a0567",
       "rendered_digest": "2b9576eb1906af31ac503dd41c9daa0356a1e1cdc08e359a4e6b260ec75d22e0",
       "ast_digest": "f25885bc98e006d9bd0246fad85294499bca2a80ea091605def8cabb00747518"
     }
@@ -820,6 +820,48 @@
       "actor": "codex:5826-security-privacy-repair",
       "reason": "Replace stale self-attested execution truth with the canonical authority-policy repair, refreshed exact-head local proof, and required native receipt validation contract.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired WP-09 so Birthday Identity construction requires an opaque verified-evidence capability minted only under an established runtime authority policy and canonical signed identity-memory/private-state evidence.\",\"changes\":[\"Bound identity origin and continuity to a signed IdentityBinding and signed MemoryCheckpoint verified through the established runtime trust policy.\",\"Bound privacy claims to an accepted signed PrivateStateRecord lineage and governed projection; removed caller-controlled visibility and redaction booleans.\",\"Added fail-closed authority, signer/generation, projection-tamper, raw-private, invented-provenance, and wrong-continuity proof.\",\"Expanded native receipts to bind identity_memory.rs, private_state.rs, the complete passed-test inventory, and byte-identical semantic output.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_recipe.json\",\".csdlc/evidence/5826/birthday_identity-runtime-v3.log\",\".csdlc/evidence/5826/local-validation-manifest.json\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".github/workflows/wp09-native-birthday-identity.yml\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday_identity\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove real signed authority construction and the complete fail-closed security/privacy matrix with a nonzero test count.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5826/birthday_identity-runtime-v3.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the repaired Runtime v3 authority surface is warning-free under strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5826/local-validation-manifest.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/evidence/5826/native-platform/macos.json\",\".csdlc/evidence/5826/native-platform/linux.json\"],\"purpose\":\"Require exact-head native macOS/Linux authority manifests, machine-derived passed-test inventory, matching semantic output, and GitHub Actions provenance before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"https://github.com/agent-logic/agent-design-language/actions/workflows/wp09-native-birthday-identity.yml\"}]}"
+    },
+    {
+      "sequence": 101,
+      "generation": 74,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 102,
+      "generation": 75,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "Recover changes-required review because trusted-policy establishment remains publicly callable; restrict authority policy creation and evidence minting to the canonical runtime crate context and prove the external boundary before reassignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 103,
+      "generation": 76,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "Replace the externally callable integration-test lane with the crate-internal authority-context lane and require fresh exact-head native receipts after the trust-bootstrap boundary repair.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday_identity-runtime-v3\",\"proof_role\":\"Run the crate-internal authority-context proof; external callers must be unable to establish self-consistent attacker trust roots, while canonical signed lineage and governed projection cases remain proven.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birthday_identity::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5826-core\",\"defer_reason\":null},{\"lane\":\"birthday_identity-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on native macOS at the repaired exact candidate HEAD and retain the full log, authority source manifest, passed-test inventory, and semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5826/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5826/native-platform/macos-semantic.json\"],\"parallel_group\":\"5826-native-produce\",\"defer_reason\":\"Fresh exact-head native GitHub Actions proof is required after the trust-bootstrap boundary repair.\"},{\"lane\":\"birthday_identity-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on native Linux at the repaired exact candidate HEAD and retain the full log, authority source manifest, passed-test inventory, and semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5826/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5826/native-platform/linux-semantic.json\"],\"parallel_group\":\"5826-native-produce\",\"defer_reason\":\"Fresh exact-head native GitHub Actions proof is required after the trust-bootstrap boundary repair.\"},{\"lane\":\"birthday_identity-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute exact HEAD, producer, source-manifest, complete internal-test log, machine-derived passed tests, and semantic-output digests; verify GitHub workflow/run identity and require macOS/Linux equivalence.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/evidence/5826/native-platform/macos.json\",\".csdlc/evidence/5826/native-platform/linux.json\"],\"parallel_group\":\"5826-native-verify\",\"defer_reason\":\"Blocked until both repaired exact-head producer receipts exist.\"}]}"
+    },
+    {
+      "sequence": 104,
+      "generation": 77,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "Point the exact proof deliverable at the crate-internal authority test after closing the public trust-policy establishment boundary.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/support/birthday_identity_authority.rs\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\".github/workflows/wp09-native-birthday-identity.yml\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, attacker-root compile-fail, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/support/birthday_identity_authority.rs and adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"Focused deterministic root, canonicalization, privacy, authority-boundary, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head security/privacy review and rollback evidence\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\".github/workflows/wp09-native-birthday-identity.yml\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"Focused deterministic root, canonicalization, privacy, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 105,
+      "generation": 78,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "Point the exact proof deliverable at the crate-internal authority test after closing the public trust-policy establishment boundary.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\".github/workflows/wp09-native-birthday-identity.yml\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, attacker-root compile-fail, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"Focused deterministic root, canonicalization, privacy, authority-boundary, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head security/privacy review and rollback evidence\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/support/birthday_identity_authority.rs\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826\",\".github/workflows/wp09-native-birthday-identity.yml\",\"Complete canonical identity, alias, provenance, collision, substitution, disclosure, attacker-root compile-fail, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/support/birthday_identity_authority.rs and adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"Focused deterministic root, canonicalization, privacy, authority-boundary, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head security/privacy review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 106,
+      "generation": 79,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "Replace the removed externally compiled test target with its crate-internal authority-test source inside the already-owned fixture directory.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826/\",\".github/workflows/wp09-native-birthday-identity.yml\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"adl-runtime-kernel/src/birthday_identity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_identity.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_identity/\",\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\",\".csdlc/prepared/issues/5826/validate-native-receipts.rb\",\".csdlc/prepared/issues/5826/produce-native-receipt.rb\",\".csdlc/evidence/5826/\",\".github/workflows/wp09-native-birthday-identity.yml\"]}"
     }
   ]
 }

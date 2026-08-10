@@ -90,6 +90,15 @@ pub struct VerifiedProjectionReceipt {
 /// Opaque proof that the canonical identity-memory and private-state authorities
 /// accepted the exact lineage and governed projection used for construction.
 /// Callers cannot deserialize or construct this token.
+///
+/// Runtime trust-policy establishment is deliberately crate-private. External
+/// callers can present evidence to an already provisioned policy capability,
+/// but cannot nominate self-consistent attacker roots and mint a new policy:
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::BirthdayAuthorityPolicy;
+/// let _attacker_policy_factory = BirthdayAuthorityPolicy::establish;
+/// ```
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct VerifiedBirthdayEvidence {
     citizen_id: String,
@@ -150,7 +159,8 @@ pub struct BirthdayAuthorityPolicy {
 }
 
 impl BirthdayAuthorityPolicy {
-    pub fn establish(
+    #[cfg_attr(not(test), allow(dead_code))]
+    pub(crate) fn establish(
         identity_keys: BTreeMap<String, VerifyingKey>,
         private_keys: BTreeMap<String, VerifyingKey>,
         requirements: BirthdayEvidenceRequirements,
@@ -357,6 +367,10 @@ pub fn verify_birthday_evidence(
         },
     })
 }
+
+#[cfg(test)]
+#[path = "../tests/fixtures/birthday_identity/authority_tests.rs"]
+mod authority_tests;
 
 pub fn derive_identity_root(
     candidate: &BirthdayIdentityCandidate,
