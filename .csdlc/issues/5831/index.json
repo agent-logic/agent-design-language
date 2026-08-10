@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
-  "generation": 73,
-  "digest": "eb08af6a575beeb1666a6198d0ed651f7b7a7481ef1a2405ca27ada0cdae956a",
+  "generation": 74,
+  "digest": "5e814e01bd80762619a2895b7a9a6e37697b45823242b4dce3b2c341bb3effaa",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": null,
@@ -19,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/5831/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-approved:wp13a-native-adaptive-learning-scope",
-      "revision": "91f8ac6dc1021239177fb488afde787bf38e715cc2ec533d8e20aa425f85fd0e"
+      "reviewer": "operator-approved:5831-atomic-durable-cas-scope",
+      "revision": "5155978013a9bc8e77519604207c1662822266331c7cb58b94d3bcc07c7f3520"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "b01734edf2c0d1a560064e5eabc4f39e2b139cf6d4befa728a3940063e525959",
+      "values_digest": "d71187e0cac0c80e836c6daa271137ae47f04f978721f88a45fa81d60c01aee9",
       "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
       "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
     },
     "stp": {
-      "values_digest": "3b0f1683bdb4e32b77c466b4a4be8f780603df3e769323d4bce523593a157561",
+      "values_digest": "4ca264dae6f1f09f75dfe5875a17f9aaecfeb1feb857dcd9ca33f0dd7b03e251",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "d394170604e2d0ed5e85e99f1779f0b0c0165a1f0383a59c8099756df9a37815",
-      "rendered_digest": "397ea9d161e0a68b697b2ad004b1b3205d7a269e1caf0b119fe3ffb015988f15",
-      "ast_digest": "aa04a73f75abb39c7f219a37a26c1949e6fc247d2c7c8702239547f40ef3ab19"
+      "values_digest": "7222c75a29989d41b4905356e82509e2e73f9f548aa73c25478000851ea95e98",
+      "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
+      "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "c7cf00c6e8777128ce8d742af6ed1d36d1181bdaae0ff2288fc744e3d6345c3e",
+      "values_digest": "12247b3b7e6ea226a0a460095cc06da5fa917c872d05f2ca19019f86017a468c",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "237c67ef68cd5379f26bee3d9775a12669f57d6f278a337775b77434aecb9b30",
+      "values_digest": "fc7acda7581672b7832d36e4d6a768746922d51f2227e25262ce96b2a8b18680",
       "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
       "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
     },
     "sor": {
-      "values_digest": "077eaa6c8b102fb245bac8cd3e5f6c6b960a980b4b56cecd83d6c7c1fc74ddd0",
+      "values_digest": "4b9ec13293e7364b5c8628d1dbc123e382d4f1477d72ba2d19b75a6d1f1c17d2",
       "rendered_digest": "80525f18c4217b9cffb8783aa9d210e58e01e0666ee41842216e5ba92c1df451",
       "ast_digest": "404c51e1eafd44d84a38450d269bf9e27465a79cdd4daa102a3e22d50c6553f1"
     }
@@ -792,6 +792,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "The fresh assigned review found one remaining crash/concurrency atomicity defect: durable accepted head and history become authoritative before live gate mutation, and sequence reservation is check-then-write. Repair requires non-authoritative pending intent, atomic reservation/completion, and deterministic restart reconciliation before fresh review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 100,
+      "generation": 74,
+      "actor": "operator-approved:5831-atomic-durable-cas-scope",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

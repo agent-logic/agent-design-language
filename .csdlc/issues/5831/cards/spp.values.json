@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
     "slug": "v0-92-wp-13a-runtime-implement-adaptive-learning-dag",
     "version": "v0.92",
-    "generation": 73
+    "generation": 74
   },
   "status": "ready",
   "content": {
@@ -99,7 +99,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5831-adaptive-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\"],\"issues\":[5831,5843],\"order\":[5831,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5831/design.md",
-      "design_digest": "91f8ac6dc1021239177fb488afde787bf38e715cc2ec533d8e20aa425f85fd0e",
+      "design_digest": "5155978013a9bc8e77519604207c1662822266331c7cb58b94d3bcc07c7f3520",
       "diagram_ref": ".csdlc/prepared/issues/5831/diagram.mmd",
       "diagram_digest": "859dbad5aa913e1a5f65375bd3b1ea19e42c33ed9c4c5d264053d6763a54d057"
     }
