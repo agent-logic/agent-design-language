@@ -97,11 +97,11 @@ Implemented and locally proved governed WP-13A adaptive learning with fully vali
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

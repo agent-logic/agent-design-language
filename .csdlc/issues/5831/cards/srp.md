@@ -12,20 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/adaptive_learning.rs
-adl-runtime-kernel/src/durable_state.rs
-adl-runtime-kernel/src/reasoning.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/adaptive_learning.rs
-adl-runtime-kernel/tests/durable_state.rs
-adl-runtime-kernel/tests/fixtures/adaptive_learning
-docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md
-.csdlc/prepared/issues/5831/produce-native-receipt.rb
-.csdlc/prepared/issues/5831/validate-native-receipts.rb
-.github/workflows/wp13a-native-adaptive-learning.yml
-.csdlc/evidence/5831
-.csdlc/issues/5831
-Review final #5831 at exact clean evidence HEAD ab20beeae7ba1a3016008d004ecf99c76d118e9a and substantive/native source head 6c548cc36df074ab77f23d4e2f1aea9a459a8b89. Verify sole latest P1 is closed: producer source manifest hashes reasoning.rs, durable_state.rs, tests/durable_state.rs in addition to adaptive surfaces, self-test locks those paths, and WP13A PR triggers include all three. Reconfirm transaction/reconciliation semantics, all prior findings, exact 20/20 proof, inventory, scope/design/SOR truth, #144 ancestry, and no unrelated drift.
+
 
 ## Prompts
 
@@ -44,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Native Linux and macOS receipts plus the issue-specific aggregate validator must pass at the exact published PR head before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:ab20beeae7ba1a3016008d004ecf99c76d118e9a:7806d8aa086ac35d3227f53f53656a268f52600944957f3414027d1d1e42fb38")
+Revision: None
 
-Reviewer: Some("/root/sprint4_5857/review_5831_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review
