@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "e9dcb2940ed6704074b6b6d6a5e5e4d2e325230edecaaa7a03d505f74fdf600b",
   "phase": "initialized",
-  "generation": 7,
-  "digest": "a908fe743d128286a2b16e1daa3bc1d6e1b3c24984357f807a061935827d4da3",
+  "generation": 12,
+  "digest": "f59da5b6f2b0f3b7b00d8a5e1ab5c5d5f3700ffa55e3a17395b2aab818baeee7",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9f8a14284c24f27727da1c3f19e6823d8db3c30f69f109a99599a9d72ba672d",
+      "values_digest": "f2ac0acd2237c4ca39ff93c56cdb8a4f04b9bdad81f4e8cea9d75fa46cd2fee0",
       "rendered_digest": "9449e50953a2a7620f4e6ebc084ed400e6ce495ed7ac1ba41fc9a2eea12a45ed",
       "ast_digest": "03ef516faefabe2c128716810624ec5ca64ee8e292fb8e5c0991dcee1b587405"
     },
     "stp": {
-      "values_digest": "b84835f50b94693dffc6c5ed54827382faedde4c28ad7cdabc2b06d3f25b089f",
-      "rendered_digest": "54c71e3c4a5831e3026ed2fd795f31d7c978ea18ca65d52d2b5d412a7a2016d8",
-      "ast_digest": "f6028fd70edb84244d4c9a280dbfd6d962f233b80321542df74dd77fefc91fa2"
+      "values_digest": "f904c7c517f2974b4e6e7e58bdc3a327a58f9685473728fa82d15fee78949486",
+      "rendered_digest": "da2229ed99f13c712b0d62cfb58cbf38351d4a8e3d321ee55948eefee98b3a97",
+      "ast_digest": "202a9a2cac40a7c26f1eaec7d72d19183a2ed028edfb40e50a16d896ea02b138"
     },
     "spp": {
-      "values_digest": "e5b2fa65934ab6b7af48a252ccbb152891caa7f33374bf0597fe0bb036dd2441",
-      "rendered_digest": "dc12a1c8d05584ed67d6943657e2422eb34a302913e91e449ebee8137a24a0ba",
-      "ast_digest": "5cdae7b8c47e06575757ce18176f1a7cd2b03380c6e5932e8f15f85a3b92cc35"
+      "values_digest": "1d09b29c36e0fa18fea5ef3fb32c4ac6f4a6b1d75a357ecb79bda06ef1db03b3",
+      "rendered_digest": "bdbdcaa9da6a0fe4e592c4401a441b7b923d37dee62c6e8684002fa3583de3e6",
+      "ast_digest": "960c47c446b557e777f83328dbcbe4b2e4ca5743a28920fa55a3cafdea498efb"
     },
     "vpp": {
-      "values_digest": "6cbcd9211caa8d162c090f30701ed82cec6ca1cb7bea55703e6dfd51fec1fc98",
-      "rendered_digest": "b12778dd807b54ae1fe5c1f1e8443a327d3ab3cddf972861362177275d55f67a",
-      "ast_digest": "00abac69baf999c9b3f11b56435c07f7a6ed676eccd28da7c2f57fdb4b1182bf"
+      "values_digest": "ca819af5842fafec2aa622b082ab4e872259c191482991b5ec855ef137e528f3",
+      "rendered_digest": "a513b17a57d35fb0c5e1fe84174b118bf7b08a1af970df1145f1aedc7a8bad1c",
+      "ast_digest": "301c176ba4d56915df42a9e65376c1d1e36a38020b377029c780ab37fb0ed695"
     },
     "srp": {
-      "values_digest": "fb937f1d3f0204235b0cbf163019670c965ac4fb0d31094fd883b8dd00af5c85",
+      "values_digest": "d6177de544ce2695bb8e049055f50cd15a992a1bc3f6fcfd05a2ab457a2ab450",
       "rendered_digest": "23a60302e6c6e2b97b7689e154d9da0d9334b29a3df33316f214bf8de0c25025",
       "ast_digest": "2432b715834b693ffe08bc32f8218c1b506313089b4933bc9b36b96734b723c6"
     },
     "sor": {
-      "values_digest": "595ff78dc894389730163b3aa889fa0e477e90b53833e24e881ea887ae179667",
+      "values_digest": "5b2ea89f4c00f37ea6bfbab3754121547eb65eeea4f89930c212072933c29d2c",
       "rendered_digest": "cb920130b68fe0ff5a80bac67852ec4124081322ffb8c828293e89b802e1047d",
       "ast_digest": "44c63f85019a46e2fa9d4bf54f51e8edc93e962a4c5c955324b5bd043dfd721b"
     }
@@ -238,6 +238,41 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:5874-readiness-preparation",
+      "reason": "Declare the exact two exclusive product paths and bounded proof deliverables before execution binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"Focused authenticated positive and fail-closed negative tests\",\"Digest-bound exact-revision execution proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 9,
+      "actor": "codex:5874-readiness-preparation",
+      "reason": "Record the merged certificate dependency and preserve the corrective lease then fencing serial merge gates before snapshot execution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-04.02 certificate issue #5864 closed through merged PR #62 and merge revision ancestral\",\"Corrective lease issue #5909 PR #120 merged and its exact merge revision ancestral before fencing or snapshot execution\",\"WP-04.08 fencing issue #5870 closed through a merged PR whose exact merge revision is ancestral before snapshot execution\",\"WP-04-IMP umbrella issue #5862 as coordination parent, not a terminal child gate\",\"Architecture/security gate issue #5821 terminal\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 10,
+      "actor": "codex:5874-readiness-preparation",
+      "reason": "Replace generic runtime inputs with the exact merged certificate contract and gated future fencing contract, both read-only to the snapshot child.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\",\".csdlc/prepared/issues/5821/design.md\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/fencing.rs\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 11,
+      "actor": "codex:5874-readiness-preparation",
+      "reason": "Replace generic and pre-creation stops with exact serial dependency, contract, collision, and post-implementation proof gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Corrective issue #5909 PR #120 is not merged or its exact merge revision is not ancestral to the selected execution base\",\"Issue #5870 is not closed through a merged PR or its exact merge revision is not ancestral to the selected execution base\",\"The merged certificate or fencing contract cannot support authenticated digest-bound redacted snapshot catalogs and transfer manifests without widening the two owned paths\",\"Either exact owned path is already present in or collides with another live issue worktree\",\"After implementation the distributed_snapshot_catalog target is absent, selects zero tests, or any required positive, negative, receipt, or review proof fails\",\"Module registration, product scope, dependency ownership, transfer authority, or rollback authority must widen beyond issue #5874\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 12,
+      "actor": "codex:5874-readiness-preparation",
+      "reason": "Declare the issue-owned bind-safe temporary path harness enabled by merged issue #79 while preserving exact nonzero and receipt proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero nextest target proves authenticated digest-bound redacted snapshot catalogs and transfer manifests, including certificate authorization, schema versioning, replay, incomplete transfer, corruption, oversize, and fenced-authority fail-closed cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_snapshot_catalog\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/snapshot_catalog.rs\\\"] harness in adl-runtime/tests/distributed_snapshot_catalog.rs will route adl-runtime/src/distributed/snapshot_catalog.rs after both owned paths are implemented and until integration issue #5878 registers the production module; their pre-implementation absence is not a validation pass.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, machine-derived negative-case, runner, and receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=946415ba5922dcd2b1aa02885207ed7d5ebdf557ea1299b5acdd805c6866d3f6]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5874/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }
