@@ -4,6 +4,8 @@ use std::{env, fs};
 
 const ROUTE_OWNER_CONTRACT: &str = "Covered C-SDLC GitHub route owners: issue actions = `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication = `csdlc-publish`; terminal delivery = `csdlc-finish`.";
 const ROUTE_PROHIBITION_CONTRACT: &str = "Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for covered lifecycle writes; missing or unavailable owner binaries fail closed and never authorize fallback.";
+const DEDICATED_PROOF_HOOK: &str =
+    "cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy";
 
 fn normalized_policy(document: &str) -> String {
     document.split_whitespace().collect::<Vec<_>>().join(" ")
@@ -19,7 +21,10 @@ fn github_route_policy_is_consistent_and_fail_closed() {
         fs::read_to_string(repository.join("docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"))
             .expect("read GitHub client boundary");
 
-    for (name, document) in [("AGENTS.md", agents), ("client boundary", boundary)] {
+    for (name, document) in [
+        ("AGENTS.md", agents.as_str()),
+        ("client boundary", boundary.as_str()),
+    ] {
         let document = normalized_policy(&document);
         assert!(
             document.contains(ROUTE_OWNER_CONTRACT),
@@ -39,6 +44,10 @@ fn github_route_policy_is_consistent_and_fail_closed() {
     assert!(
         required.iter().any(|binary| binary == "csdlc-publish"),
         "the verified installation must include the publication owner"
+    );
+    assert!(
+        boundary.contains(DEDICATED_PROOF_HOOK),
+        "the authoritative boundary must retain its dedicated proof hook"
     );
 }
 

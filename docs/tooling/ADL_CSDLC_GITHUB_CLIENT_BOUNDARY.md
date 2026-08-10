@@ -138,6 +138,7 @@ or built from stale provenance.
 
 Focused proof for this boundary lives in:
 
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy`
 - `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions`
 - `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate10a`
 - `csdlc-install install --repo <repo> --destination <repo>/.adl/bin/csdlc-v2`

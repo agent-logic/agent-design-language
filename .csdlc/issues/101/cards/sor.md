@@ -66,12 +66,25 @@ Implemented a fail-closed GitHub lifecycle route guardrail with synchronized roo
     "purpose": "Read back issue #101 and reconcile its typed creation operation marker through the approved default token resolver without retaining token contents.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/101/typed-default-token-issue-read.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_route_policy"
+    ],
+    "purpose": "Prove the authoritative boundary lists the dedicated route-policy target and the target enforces that hook alongside all issue guardrails.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/101/github-route-proof-hook-review-fix.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

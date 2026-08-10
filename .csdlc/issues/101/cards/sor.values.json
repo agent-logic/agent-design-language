@@ -7,7 +7,7 @@
     "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
     "slug": "github-route-guardrail",
     "version": "v0.92",
-    "generation": 11
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
@@ -62,9 +62,22 @@
           "purpose": "Read back issue #101 and reconcile its typed creation operation marker through the approved default token resolver without retaining token contents.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/101/typed-default-token-issue-read.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_github_route_policy"
+          ],
+          "purpose": "Prove the authoritative boundary lists the dedicated route-policy target and the target enforces that hook alongside all issue guardrails.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/101/github-route-proof-hook-review-fix.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

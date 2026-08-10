@@ -3,29 +3,13 @@
   "issue": 101,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f09a35e236f4f77ec4793207c044d5bc698a2e14b0883b7ff2efb2b7f8938d1c",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "4a04c4d9bc52e22fd4c6c18df82db986bc25189bf4ebd463414ec87a0b40c446",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "04907fb1101a41cd0e44e022f5799f6465a760a327c7b47eaf026de788617d66",
   "branch": "codex/101-github-route-guardrail",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-101-github-route-guardrail",
   "review_assignment": null,
-  "review": {
-    "reviewer": "openai-codex:independent-issue-101-final-review",
-    "scope": [
-      "AGENTS.md",
-      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
-      "csdlc-v2/tests/gate_github_route_policy.rs",
-      "csdlc-v2/tests/fixtures/github_connector_403.json",
-      ".csdlc/issues/101",
-      ".csdlc/prepared/issues/101",
-      ".csdlc/evidence/101"
-    ],
-    "reviewed_revision": "git-blake3:a5f698b581105b58129a4a406bc10f62747babb1:8e84d77b3ec8df8ed477cf46bb49f539a4dc1a75e68a1fce2018c3c3fd6413df",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8315dc479ff36cabf1e46347a2c8298f282ae5c7519456a80fad40b6b2d8556f",
+      "values_digest": "9753eb54db0dc71831c797a898e01864a29e8234ecaed594e6b0c87d3cba0060",
       "rendered_digest": "63100f5fcb1d48b1f753ba14c9c41a94e7bd0e2e222c9e997eec6b3c860545aa",
       "ast_digest": "99ea2fb6afaff543d4649d369a5f537baf85119fd7fe20c96c7b8b2c034b9c09"
     },
     "stp": {
-      "values_digest": "c1d4359fc6a74eb02fb09ae51f599c2ddb09d0123de6f64cc98ad4292b5c0616",
+      "values_digest": "8e50ff128c01f465591cd4d42340c739c257c114141c13892b37010f5010104d",
       "rendered_digest": "54c9e464390fd891ae2de164632237532d34a324e712d9032803b63309dc23b6",
       "ast_digest": "b69a05627ab869a03f1617a861b4e041bbd5a4d1a1eaa8d11f46ebb89aa36f14"
     },
     "spp": {
-      "values_digest": "63f42abcb42b59b296bbadf6ad4f267c8d4dd07861029f9387f71c6cea6991a6",
+      "values_digest": "d0a7a378c35273242b14e724f295480d1345324daed20e22366039df89dd260a",
       "rendered_digest": "fa8469d76f449cfd1c33a4cdf395417312168660676687a0528195718d01725b",
       "ast_digest": "808fe00a235c7ea955fbe3d39aadbd305bb70f47e5ec8d56a08dab35c8012aab"
     },
     "vpp": {
-      "values_digest": "a9123908cdff37a7cf75adce62f47dc38c047e02c1b20734834f41d1049d4566",
+      "values_digest": "c8e8ecdee7217d5e2c71dcdf6ace9cb5a2a59d80c8c5e82ff3598bafacf8746f",
       "rendered_digest": "776d35205f4b693d749bf21c6ec7a33935e5a6ee163f6fb30f7915a67e028044",
       "ast_digest": "f3c8dd764dcac133bc81d375b2d8dd6c628afc138068e1ed97d8e24c30b33cda"
     },
     "srp": {
-      "values_digest": "bf37ca7d07ea5d711e28ab0a9b1f55238fd9651d599d1e9f4a43d4f3ad37a91c",
-      "rendered_digest": "cc97fa604c2e38f03e689166436109d4840e60245bf72ff509ba4f5fb5884f81",
-      "ast_digest": "bd424f58f4fa20c0ebbde31d448eaca53afd185db18f48620fadfc7dd783e95e"
+      "values_digest": "44ba066f3d08b9c0bbc3113c16be46d9ddec7df71eb04d97dd635838486f8255",
+      "rendered_digest": "2968571035cbefa130277dedacff9cae27670904e3bb41985f07385980772657",
+      "ast_digest": "c40225151e000e77ced4187a3f67a157fd4ff2eb5dba1ed7842a1b2610328290"
     },
     "sor": {
-      "values_digest": "7ab31b240009bbf7e326e2f6ccdd704afdd99c32d20f90e9e16972dd93271096",
-      "rendered_digest": "d8c96274e2c59b4f9dd142a78d68fc62f35ee0de47fcc7a84de384b135c20b91",
-      "ast_digest": "c828282bd9d82c24a49365afe83f5ed75ed36c6f636626f4c0ce9103c2c45fe0"
+      "values_digest": "864eca8185112c11e19e926aee7c768fb0eb6dcf1041c4e4a9d75dc514901db8",
+      "rendered_digest": "3d85eb8c073a4fe63fcf855516a84a9c583a5e8db4bf595a4aaeac33495b9983",
+      "ast_digest": "3d45b3eef3a5717ec7af782faab8c3f5f8c95921e27237bce82e19b80c4716d1"
     }
   },
   "transitions": [
@@ -98,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:101-review-recorder",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:101-proof-hook-repair",
+      "reason": "Recover review before adding the operator-requested dedicated proof hook to the authoritative boundary document."
     }
   ],
   "audit": [
@@ -191,6 +182,20 @@
       "actor": "codex:101-review-recorder",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:101-proof-hook-repair",
+      "reason": "Recover review before adding the operator-requested dedicated proof hook to the authoritative boundary document.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:101-proof-hook-repair",
+      "reason": "Record the focused test rerun after adding and self-enforcing the dedicated boundary proof hook.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"purpose\":\"Prove the authoritative boundary lists the dedicated route-policy target and the target enforces that hook alongside all issue guardrails.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/101/github-route-proof-hook-review-fix.log\"}}"
     }
   ]
 }
