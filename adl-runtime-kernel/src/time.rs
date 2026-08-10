@@ -1,7 +1,7 @@
 use std::{
     fmt,
     sync::{Arc, Mutex},
-    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
+    time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
 use async_trait::async_trait;
@@ -307,7 +307,6 @@ pub struct RecorderTrustedTime {
 }
 
 struct TrustedTimeState {
-    anchor: Option<(u64, u64, Instant)>,
     high_water: u64,
 }
 
@@ -315,42 +314,20 @@ impl RecorderTrustedTime {
     pub fn new(recorder: RuntimeRecorder) -> Self {
         Self {
             recorder,
-            state: Arc::new(Mutex::new(TrustedTimeState {
-                anchor: None,
-                high_water: 0,
-            })),
+            state: Arc::new(Mutex::new(TrustedTimeState { high_water: 0 })),
         }
     }
 }
 
 impl crate::TrustedTime for RecorderTrustedTime {
     fn now_unix_millis(&self) -> u64 {
-        match self.recorder.snapshot().clock {
-            ClockAuthority::Authoritative { unix_millis, .. } => {
+        match self.recorder.qualified_time_now_unix_millis() {
+            Some(candidate) => {
                 let mut state = self.state.lock().expect("trusted time mutex poisoned");
-                let reset = !matches!(state.anchor, Some((source, _, _)) if source == unix_millis);
-                if reset {
-                    let base = state.high_water.max(unix_millis);
-                    state.anchor = Some((unix_millis, base, Instant::now()));
-                }
-                let (_, base, observed) = state.anchor.expect("authoritative anchor exists");
-                let candidate = base.saturating_add(
-                    observed
-                        .elapsed()
-                        .as_millis()
-                        .try_into()
-                        .unwrap_or(u64::MAX),
-                );
                 state.high_water = state.high_water.max(candidate);
                 state.high_water
             }
-            ClockAuthority::Degraded { .. } => {
-                self.state
-                    .lock()
-                    .expect("trusted time mutex poisoned")
-                    .anchor = None;
-                0
-            }
+            None => 0,
         }
     }
 }

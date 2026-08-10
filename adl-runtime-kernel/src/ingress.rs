@@ -349,9 +349,17 @@ impl CanonicalIngress {
                 permit: None,
             })
             .await
-            .map_err(|error| match error {
-                OperationError::InvalidRequest => IngressError::Conflict,
-                _ => IngressError::ExecutionFailed,
+            .map_err(|error| {
+                tracing::warn!(
+                    work_id = %work.work_id,
+                    work_kind = %work.kind,
+                    error = %error,
+                    "canonical ingress operation dispatch failed"
+                );
+                match error {
+                    OperationError::InvalidRequest => IngressError::Conflict,
+                    _ => IngressError::ExecutionFailed,
+                }
             })?;
         apply(&self.state, work, &operation, &self.communication_keys)
     }

@@ -109,6 +109,19 @@ async fn trusted_time_refuses_degraded_state_and_advances_monotonically() {
 }
 
 #[tokio::test]
+async fn trusted_time_advances_from_authority_observation_before_first_read() {
+    let recorder = RuntimeRecorder::new(8);
+    recorder.set_clock_authority(ClockAuthority::Authoritative {
+        source: "test-sntp".to_owned(),
+        unix_millis: 10_000,
+    });
+    tokio::time::sleep(Duration::from_millis(20)).await;
+
+    let trusted = RecorderTrustedTime::new(recorder);
+    assert!(trusted.now_unix_millis() >= 10_020);
+}
+
+#[tokio::test]
 async fn bounded_success_is_authoritative() {
     let authority = qualify_time(
         &TestSource::Sample(sample(-100, 50)),

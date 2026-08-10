@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
   "phase": "bound",
-  "generation": 60,
-  "digest": "7fee4c38cd412ee3b4d82604b9f8ce91d8a6a781a22bf39963caa7a7e06f3a0f",
+  "generation": 61,
+  "digest": "4c6f8aaec7fb75baba9dfae2066c8c5fa22f6f4e372a1732a7dd252b05ce727f",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b6f23c256eef7655b4cc8ba398fbfbdb3cc7a84f8a45b76f837dfce3c1ac99c3",
+      "values_digest": "14bdd8c0b6765384756e1a065c0cc0018dae43b125d74a4919251a473d61f8ae",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "394ce80965eede08682cf3ab7c7cc80bf6a4e69f5519631f391e0620a9ca5450",
+      "values_digest": "cc368706676f84cc08235fb4498da7a2cc9822c129afd3bc1db9c6eebae39860",
       "rendered_digest": "951b0f87e95b3eb451b87e830be166854b6dfb542d50625565d1909d6e61b553",
       "ast_digest": "3facab5e9cf31c18bb13c2832d865598f1272205a26a27c5467db88cfeb07d40"
     },
     "spp": {
-      "values_digest": "fce556a884d51ae87b936ccb203394d15e568014bb41fff73d9ed1a20b815f72",
-      "rendered_digest": "274b249d8b36f8899bb053f30d1f4a5f79cbc4b4574d9167f8ee9f9d03147f77",
-      "ast_digest": "59002e58119197e3176354fd7b996bb7346cc0b90d02f964c539f13da23baf1c"
+      "values_digest": "4ed9b6c8d9eea201cf8a8510b7b4e127e73021f3d73fe5da272ab0e95190d526",
+      "rendered_digest": "7c98e1cd42e370f985a2ded6c9cd62b67964b1c8ee7ec20a721ec5606682276a",
+      "ast_digest": "c896a600175d4396753752b19c4ddaad2f51ef7130791f9892019a911b21ed89"
     },
     "vpp": {
-      "values_digest": "f9018916bacb41e8c0dd94901af486f2ebe05a485b808dd3fa3790ac5b0b8b03",
+      "values_digest": "2ac0428be8de7aaab7434896bb8794d9e59de716af0e8e44ae9ee7580c952f93",
       "rendered_digest": "3ceb7aa9cb5fd4a4f8e02de576362926a72cce77940561ad37351b244214bf05",
       "ast_digest": "28abb1f3fbbff54e3edfceaae389046dc627bd2e72cccdbd2bea24449c22ffb2"
     },
     "srp": {
-      "values_digest": "1c06c1dc395d409e8d4375e6a2924d8df51280aada7ef60dc7ba35fc578b7aed",
+      "values_digest": "5148a8636f32fbba99ec1e3e43cd46cc71be106c3d07242fe5d400a9d5a02776",
       "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
       "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
     },
     "sor": {
-      "values_digest": "55fe7f7aae861fb2885cca4f326c209cccffbbbbc96c7a841fb0298c03ea1946",
+      "values_digest": "63299d74af2aae1e92b4b8503fee96c6f0a34f2038bc19ba7f077b390bb25064",
       "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
       "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
     }
@@ -504,6 +504,13 @@
       "actor": "codex:83-visible-auth-controls",
       "reason": "Include the responsive styling required to place authenticated write controls in the visible Chat surface.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/Cargo.lock\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/parity_b_live_kernel.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"demos/html-observatory/README.md\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"docs/api/runtime-v3/v1/acip-identity-message-golden.json\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\"]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 61,
+      "actor": "codex:83-qualified-time-authority",
+      "reason": "Include the qualified clock observation authority and regression proof required to keep signed Layer 8 and agent messages fresh after delayed first use.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/Cargo.lock\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/src/time.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/parity_b_live_kernel.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime-kernel/tests/time.rs\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"demos/html-observatory/README.md\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"docs/api/runtime-v3/v1/acip-identity-message-golden.json\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\"]}"
     }
   ]
 }
