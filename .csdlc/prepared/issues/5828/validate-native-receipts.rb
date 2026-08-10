@@ -170,7 +170,7 @@ receipts.each do |receipt|
   fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
   observed_tests = receipt["passed_tests"]
   fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
-  prefix = "adl-runtime-kernel::memory_palace "
+  prefix = "adl-runtime-kernel::memory_palace$"
   expected_tests = required_tests.map { |name| "#{prefix}#{name}" }.sort
   fail!("#{platform}: exact Memory Palace test inventory mismatch") unless observed_tests == expected_tests
   fail!("#{platform}: exact test count mismatch") unless receipt["tests_run"] == required_tests.length
