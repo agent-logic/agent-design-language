@@ -78,7 +78,7 @@ Reconciled PR #120 terminal lifecycle truth atomically and made strict-Clippy pr
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

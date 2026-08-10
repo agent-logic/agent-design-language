@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 141,
-  "expected_generation": 10,
-  "expected_digest": "d6cf84e50a044425857df47901ac4f47ab96c5845e39d3f9fe58ad22674b11fe",
+  "expected_generation": 11,
+  "expected_digest": "08f7baf305c8cdedce71b516860ab1eff1256a27f830fdd5ff86f808b36a4539",
   "reviewer": "subagent:Aquinas",
   "assigned_by": "codex:141-pr120-review-repair",
   "scope": [

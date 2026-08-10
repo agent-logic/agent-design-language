@@ -5,24 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3ea9b62d90eb407d9cb5f7c4a476a2e498edf2b6745691575087074cdb69ea73",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "8eb390af219be088f9c89f4faf500eea19c855689de62f536d69d8bd1c4989dd",
+  "generation": 13,
+  "digest": "d66d17a3fed355c713bfc722092dd94d5b07354a0b5f40c59b030012a2f20e3e",
   "branch": "codex/141-pr120-terminal-proof-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-141-pr120-terminal-proof-repair",
-  "review_assignment": {
-    "reviewer": "subagent:Aquinas",
-    "assigned_by": "codex:141-pr120-review-repair",
-    "revision": "git-blake3:ec5c70303a9fc3293f362a7994be2805c1a038a4:ad4a9aa4dd92c42948a071ced88f29c0b64f99005331298005daf77925499f0b",
-    "scope": [
-      "csdlc-v2/src/store.rs",
-      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
-      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
-      ".csdlc/prepared/issues/141",
-      ".csdlc/evidence/141",
-      ".csdlc/issues/141",
-      ".csdlc/issues/5909"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "10dbc0fad28f4759c09d7931fa5bbb244c02dcedcc23eb9abd12e44c6e9a0b05",
+      "values_digest": "b5fbd55e021f5776051b72dd15802067d4f8ea6c87113308c16b7dd7f2195c05",
       "rendered_digest": "f90a0783c6b5ee3a5175dd5b5ac10cb7ca5fd4f2a29a0e8d515957f54aa3fa00",
       "ast_digest": "d1005afcfd3ca69fa355e3d72de9eed7af836cc89ee7c8b7dc2a533c57e4dede"
     },
     "stp": {
-      "values_digest": "36d759a07fc278d1a16c427de16fe53ee1db57cce9bcdd3c3599110305c6e171",
+      "values_digest": "6a732b2212e09275b4789864468f824bab59e6fd3c5238411df0e896871948d4",
       "rendered_digest": "610c850c552bc5b1055f72ca8a8297af6ee0e9c14e564e8a2b9ad5156cb5b06b",
       "ast_digest": "926920f67e072b4b67a471166fb5aad23caa642f07d2d32fdfac41f093bb1351"
     },
     "spp": {
-      "values_digest": "fe7635666fd2e5219c567f573d28e0b1fcba7347c803ba250ef1a6abb4a04c85",
+      "values_digest": "cce9161f83e2f2d11f1181e8c37b8e0d77b70c627370166454c113ece079df9c",
       "rendered_digest": "a649fd7e17c7c437508b697a42b9bcf221de729c47be18592d1ba5627fd7e7d5",
       "ast_digest": "c787aefe7c1785885b7c18a9945de952dc4daf3087a29b8a080928c96830d326"
     },
     "vpp": {
-      "values_digest": "7d6926a4880adec5e162ee481c35d981ae2b846790105a62a86764297b790ae1",
+      "values_digest": "4aca138294880670aadb11554ccf576f85f3807ed056e9cc4bba7d0530a8f0d2",
       "rendered_digest": "3d24d3ed9bbc849689df3c971619a520d84c04d549193d20b1bc8ca46e72cdde",
       "ast_digest": "cbc97bd714eb8e7747c229cfce5692a4706cdf54cc7711244c4c8cf232f65e8f"
     },
     "srp": {
-      "values_digest": "03e3c8c511c6a7f32773724098b70d23bd7fefe168868cfc69d2e3db07d19c3d",
-      "rendered_digest": "8d31c168dc57497c9c66143da23a363024ea1cf88af77f340ea150b78fb818f7",
-      "ast_digest": "b4517e400b832696e299fc02a6efd03a52037beb0d7fe1bc2c75a117eab8c424"
+      "values_digest": "8bb5c6af5db37c2753cd98d9b53bb69bae52a700c3936ca273c42cb8002bd0fe",
+      "rendered_digest": "9539440eca5f65771a20e2e5465190110fa767d6fa99d834b273a188bea73fbb",
+      "ast_digest": "47a27eac22762800bc243769d0ae01eb491388762e7c3ddc1df5022efcbb168c"
     },
     "sor": {
-      "values_digest": "0e4ca9116461666956f16e1ae75cf6584aa7b3449567f76327068f14342a5873",
-      "rendered_digest": "c51a4a8c6626ecc86c6f0ebc5e9805c7230ee5a9410c858b7bf2fc7836b288bb",
-      "ast_digest": "e1366cd10e051a2153ce159790b31071f0c5a50225a22324d0373bf165230ae5"
+      "values_digest": "1a8cb80f3971db001346ced428aad18d2c1ca3ef1e85a0c502e487b7f0b522af",
+      "rendered_digest": "bd9a19e7429c8d701c5fc2715ef1ce09d59ccd0fe8b1e901f6a6abdcc0699254",
+      "ast_digest": "79d690095c890bb4c1598ac8d616dc1befb17b5457d627915fc9f66c7942bb50"
     }
   },
   "transitions": [
@@ -182,6 +169,34 @@
       "actor": "codex:141-pr120-review-repair",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Refresh the exact review assignment after adding the final empty-log rejection proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "subagent:Aquinas",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Recover after resolving all three Aquinas findings with disposition-aware terminal state and committed review provenance.",
+      "operation": "recover_review"
     }
   ]
 }

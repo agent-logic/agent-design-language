@@ -1,0 +1,55 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 141,
+  "expected_generation": 11,
+  "expected_digest": "17d1d05e47e89f043288428d2eec02103f67aec59b5793394f892796478a5f8a",
+  "actor": "subagent:Aquinas",
+  "evidence": {
+    "reviewer": "subagent:Aquinas",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/evidence/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ],
+    "reviewed_revision": "git-blake3:4ff6cdd6af0e70a1362eed5fa31392fdc0c66d07:5543bedf86a3ffb571c3e716bdbda304b00c9466e30842221d3a958b081d445f",
+    "findings": [
+      {
+        "id": "P1-terminal-pending-step",
+        "severity": "p1",
+        "summary": "Terminal materialization and validation did not reject a pending SPP step.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "P1-unmerged-terminal-history",
+        "severity": "p1",
+        "summary": "Closed-unmerged and closed-no-PR dispositions could require contradictory publication evidence and record merged lifecycle history.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "P1-review-assignment-uncommitted",
+        "severity": "p1",
+        "summary": "The committed review head did not yet contain the refreshed typed assignment metadata.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

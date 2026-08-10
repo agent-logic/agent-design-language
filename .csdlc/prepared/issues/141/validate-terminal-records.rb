@@ -25,7 +25,8 @@ abort "terminal receipt record mismatch" unless receipt_record == index
 
 spp = JSON.parse(File.read(".csdlc/issues/5909/cards/spp.values.json"))
 steps = spp.dig("content", "values", "steps") || []
-abort "SPP still has an in-progress terminal step" if steps.any? { |step| step["status"] == "in_progress" }
+abort "SPP has no terminal steps" if steps.empty?
+abort "SPP has an incomplete terminal step" unless steps.all? { |step| step["status"] == "completed" }
 
 sor = JSON.parse(File.read(".csdlc/issues/5909/cards/sor.values.json"))
 abort "SOR card status is not complete" unless sor["status"] == "complete"

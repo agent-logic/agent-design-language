@@ -450,42 +450,10 @@ impl Store {
         let mut cards = self.load_cards(issue)?;
         verify_cards(self, &record, &cards)?;
         verify_canonical_projection_bytes(self, &record, &cards)?;
-        let terminal_cards_complete =
-            cards
-                .get(&CardKind::Spp)
-                .is_some_and(|card| match &card.content {
-                    CardContent::Spp(values) => values
-                        .steps
-                        .iter()
-                        .all(|step| step.status == StepStatus::Completed),
-                    _ => false,
-                })
-                && cards.get(&CardKind::Sor).is_some_and(|card| {
-                    if card.status != CardStatus::Complete {
-                        return false;
-                    }
-                    match (&card.content, envelope.disposition) {
-                        (CardContent::Sor(values), crate::finish::FinishDisposition::Merged) => {
-                            values.integration_state == crate::cards::IntegrationState::Merged
-                                && values.publication_state
-                                    == crate::cards::PublicationState::Closed
-                                && values.merge_state == crate::cards::MergeState::Merged
-                                && values.closeout_state == crate::cards::CloseoutState::Complete
-                        }
-                        (
-                            CardContent::Sor(values),
-                            crate::finish::FinishDisposition::ClosedUnmerged
-                            | crate::finish::FinishDisposition::ClosedNoPr,
-                        ) => {
-                            values.integration_state == crate::cards::IntegrationState::ClosedNoPr
-                                && values.publication_state
-                                    == crate::cards::PublicationState::Closed
-                                && values.merge_state == crate::cards::MergeState::ClosedUnmerged
-                                && values.closeout_state == crate::cards::CloseoutState::Complete
-                        }
-                        _ => false,
-                    }
-                });
+        let terminal_cards_complete = terminal_cards_match_disposition(
+            &cards,
+            terminal_disposition_from_finish(envelope.disposition),
+        );
         if already_materialized_match && terminal_cards_complete {
             if self
                 .load_terminal_receipt(issue)?
@@ -506,17 +474,30 @@ impl Store {
 
         let branch = record.branch.clone();
         let worktree = record.worktree.clone();
-        let publication = record.publication.as_mut().ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "terminal materialization requires publication evidence",
-            )
-        })?;
-        if publication.pull_request != envelope.pull_request.unwrap_or_default() {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "terminal materialization PR does not match publication evidence",
-            ));
+        match envelope.disposition {
+            crate::finish::FinishDisposition::Merged
+            | crate::finish::FinishDisposition::ClosedUnmerged => {
+                let publication = record.publication.as_ref().ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "PR terminal materialization requires publication evidence",
+                    )
+                })?;
+                if Some(publication.pull_request) != envelope.pull_request {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "terminal materialization PR does not match publication evidence",
+                    ));
+                }
+            }
+            crate::finish::FinishDisposition::ClosedNoPr => {
+                if record.publication.is_some() || envelope.pull_request.is_some() {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "closed-no-PR materialization cannot contain publication evidence",
+                    ));
+                }
+            }
         }
         let design_bytes = fs::read(self.root.join(&record.design_path))?;
         let diagram_bytes = fs::read(self.root.join(&record.diagram_path))?;
@@ -532,9 +513,7 @@ impl Store {
                 values.diagram_ref = record.diagram_path.clone();
                 values.diagram_digest = diagram_digest.clone();
                 for step in &mut values.steps {
-                    if step.status == StepStatus::InProgress {
-                        step.status = StepStatus::Completed;
-                    }
+                    step.status = StepStatus::Completed;
                 }
             }
             _ => unreachable!("SPP"),
@@ -570,7 +549,9 @@ impl Store {
                     crate::cards::MergeState::ClosedUnmerged,
                 ),
             };
-        publication.observed_state = observed_state.into();
+        if let Some(publication) = record.publication.as_mut() {
+            publication.observed_state = observed_state.into();
+        }
 
         let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
             CardContent::Sor(values) => values,
@@ -595,37 +576,56 @@ impl Store {
             branch,
             worktree,
         });
-        match record.phase {
-            LifecyclePhase::Published => {
-                push_legacy_terminal_transition(
-                    &mut record,
-                    LifecyclePhase::MergeReady,
-                    actor,
-                    "observed required checks, review, and conflict readiness",
-                );
-                push_legacy_terminal_transition(
+        match envelope.disposition {
+            crate::finish::FinishDisposition::Merged => match record.phase {
+                LifecyclePhase::Published => {
+                    push_legacy_terminal_transition(
+                        &mut record,
+                        LifecyclePhase::MergeReady,
+                        actor,
+                        "observed required checks, review, and conflict readiness",
+                    );
+                    push_legacy_terminal_transition(
+                        &mut record,
+                        LifecyclePhase::Merged,
+                        actor,
+                        "observed exact PR merged",
+                    );
+                }
+                LifecyclePhase::MergeReady => push_legacy_terminal_transition(
                     &mut record,
                     LifecyclePhase::Merged,
                     actor,
                     "observed exact PR merged",
-                );
-            }
-            LifecyclePhase::MergeReady => {
-                push_legacy_terminal_transition(
-                    &mut record,
-                    LifecyclePhase::Merged,
-                    actor,
-                    "observed exact PR merged",
-                );
-            }
-            LifecyclePhase::Merged => {}
-            LifecyclePhase::ClosedOut => {}
-            _ => {
-                return Err(V2Error::new(
-                    ErrorCode::InvalidTransition,
-                    "terminal materialization requires published, merge_ready, or merged phase",
-                ));
-            }
+                ),
+                LifecyclePhase::Merged | LifecyclePhase::ClosedOut => {}
+                _ => {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidTransition,
+                        "merged materialization requires published, merge_ready, or merged phase",
+                    ));
+                }
+            },
+            crate::finish::FinishDisposition::ClosedUnmerged
+            | crate::finish::FinishDisposition::ClosedNoPr => match record.phase {
+                LifecyclePhase::Implemented
+                | LifecyclePhase::Reviewed
+                | LifecyclePhase::Published
+                | LifecyclePhase::MergeReady
+                | LifecyclePhase::ClosedOut => {}
+                LifecyclePhase::Merged => {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "an already-merged issue cannot materialize an unmerged disposition",
+                    ));
+                }
+                _ => {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidTransition,
+                        "unmerged materialization requires implemented, reviewed, published, or merge_ready phase",
+                    ));
+                }
+            },
         }
         if record.phase != LifecyclePhase::ClosedOut {
             push_legacy_terminal_transition(&mut record, LifecyclePhase::ClosedOut, actor, reason);
@@ -2370,6 +2370,18 @@ fn validate_terminal_receipt(receipt: &TerminalReceipt) -> Result<()> {
             ));
         }
     }
+    let terminal_disposition = receipt
+        .record
+        .terminal
+        .as_ref()
+        .expect("terminal presence checked")
+        .disposition;
+    if !terminal_cards_match_disposition(&receipt.cards, terminal_disposition) {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal receipt cards do not match the terminal disposition",
+        ));
+    }
     validate_cross_card(
         &receipt.cards,
         &receipt.record.design_path,
@@ -2404,6 +2416,60 @@ fn push_legacy_terminal_transition(
         actor: actor.into(),
         reason: reason.into(),
     });
+}
+
+fn terminal_disposition_from_finish(
+    disposition: crate::finish::FinishDisposition,
+) -> crate::readiness::TerminalDisposition {
+    match disposition {
+        crate::finish::FinishDisposition::Merged => crate::readiness::TerminalDisposition::Merged,
+        crate::finish::FinishDisposition::ClosedUnmerged => {
+            crate::readiness::TerminalDisposition::ClosedUnmerged
+        }
+        crate::finish::FinishDisposition::ClosedNoPr => {
+            crate::readiness::TerminalDisposition::ClosedNoPr
+        }
+    }
+}
+
+fn terminal_cards_match_disposition(
+    cards: &BTreeMap<CardKind, CardValues>,
+    disposition: crate::readiness::TerminalDisposition,
+) -> bool {
+    let spp_complete = cards
+        .get(&CardKind::Spp)
+        .is_some_and(|card| match &card.content {
+            CardContent::Spp(values) => values
+                .steps
+                .iter()
+                .all(|step| step.status == StepStatus::Completed),
+            _ => false,
+        });
+    let sor_complete = cards.get(&CardKind::Sor).is_some_and(|card| {
+        if card.status != CardStatus::Complete {
+            return false;
+        }
+        match (&card.content, disposition) {
+            (CardContent::Sor(values), crate::readiness::TerminalDisposition::Merged) => {
+                values.integration_state == crate::cards::IntegrationState::Merged
+                    && values.publication_state == crate::cards::PublicationState::Closed
+                    && values.merge_state == crate::cards::MergeState::Merged
+                    && values.closeout_state == crate::cards::CloseoutState::Complete
+            }
+            (
+                CardContent::Sor(values),
+                crate::readiness::TerminalDisposition::ClosedUnmerged
+                | crate::readiness::TerminalDisposition::ClosedNoPr,
+            ) => {
+                values.integration_state == crate::cards::IntegrationState::ClosedNoPr
+                    && values.publication_state == crate::cards::PublicationState::Closed
+                    && values.merge_state == crate::cards::MergeState::ClosedUnmerged
+                    && values.closeout_state == crate::cards::CloseoutState::Complete
+            }
+            _ => false,
+        }
+    });
+    spp_complete && sor_complete
 }
 
 fn terminal_matches_derived(
