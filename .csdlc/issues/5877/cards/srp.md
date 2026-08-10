@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.15 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/projection.rs
+adl-runtime/tests/distributed_projection.rs
+docs/api/runtime-v3/v1/distributed.openapi.json
 
 ## Prompts
 
@@ -35,8 +37,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bedde511d6523d1e7e4f8c5189f7dd8198ab50b5:45d7ce54be48bd7712b0aeda4bb5fe7feec048eebd1fa2856e42f05e32ff7c2f")
 
-Reviewer: None
+Reviewer: Some("subagent:Raman")
 
-Result: pre_review
+Result: pass

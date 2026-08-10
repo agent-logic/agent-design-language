@@ -4,13 +4,34 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e3cc9bd0b8e840dd5b7aa7945a30607d3662a9a3db479b8f65a39c6ae889074",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "293265c8bee434bec19e9a0fd4a14e96c4422a013514d2547d0b2e57f6fc2f71",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "da4a856cdff9580f692c6006084cb05f285e8ec3324f75a392371a4240677104",
   "branch": "codex/5877-projection-api",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5877-projection-api",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:Raman",
+    "assigned_by": "codex-sprint-5862",
+    "revision": "git-blake3:bedde511d6523d1e7e4f8c5189f7dd8198ab50b5:45d7ce54be48bd7712b0aeda4bb5fe7feec048eebd1fa2856e42f05e32ff7c2f",
+    "scope": [
+      "adl-runtime/src/distributed/projection.rs",
+      "adl-runtime/tests/distributed_projection.rs",
+      "docs/api/runtime-v3/v1/distributed.openapi.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Raman",
+    "scope": [
+      "adl-runtime/src/distributed/projection.rs",
+      "adl-runtime/tests/distributed_projection.rs",
+      "docs/api/runtime-v3/v1/distributed.openapi.json"
+    ],
+    "reviewed_revision": "git-blake3:bedde511d6523d1e7e4f8c5189f7dd8198ab50b5:45d7ce54be48bd7712b0aeda4bb5fe7feec048eebd1fa2856e42f05e32ff7c2f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +46,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cdba992d050ac85000c5079dbcd2c72d16967ecc14df50be043812030a3e3706",
+      "values_digest": "3e2506babf0dd14da11bfe3aef930fe92d5d913a655bbb29e19d1216bcfd41f9",
       "rendered_digest": "ec1f0aab53f16ba14abf50610d72d25dbec3741567bebbbba7a7e1cff55a0ae8",
       "ast_digest": "a6879ceced4f9ea4a3fd4040391ee578667a1631cb9652735610bf00e291f304"
     },
     "stp": {
-      "values_digest": "00d84ecd6ccff9375329deb3db5b05a099bef239879bcf522e60f664c103d5a7",
+      "values_digest": "ee423fd1a7a6623616975a5940229077905e5cfcdb8109c69bfce603547b74cd",
       "rendered_digest": "85442712fb351d42f135b2b96c15e1b193b4d732357c500fb328c5f414b92f06",
       "ast_digest": "58c2d6ecd8b6d1ae1aba2e4e3326be1161eb8df33e5104d6fd5d390c25cdaff7"
     },
     "spp": {
-      "values_digest": "ec3240db502a5d2d747a8040bcdfc5d0699edc5d2c927975f283a11dec5ef568",
+      "values_digest": "02a4e097ff36dc907bd8d31fbc2830547a167155be96b1da1a82559e7a2767a8",
       "rendered_digest": "e66c72368e980bb0a74626d73bff84adcb6a3d3aad061396fd85eb0ddbb9e78e",
       "ast_digest": "a4f1a022eb14aead960cdb54db766cddce7a1af63235ff529349e2ba419f9390"
     },
     "vpp": {
-      "values_digest": "e98fc68eef5b212b34468312cda21cf6384dc7d5a26de4d41df4847dccc1a661",
+      "values_digest": "2895fd9efe72bf4060364ef4e820a4011a2134eb4ba823f1d4a451b00a9d42e7",
       "rendered_digest": "134bcda3c2d5f930bd5d323943652ce5bd6c60059a8dfaec9b087a114d099baf",
       "ast_digest": "e29178fef4230d72b50f9709b8f5a3c550301480d99ee87d5012dd1709330350"
     },
     "srp": {
-      "values_digest": "de92cf775a67f04f9a12115e312d00cb090ac14ecb9f58e0a94e0f5f2709692f",
-      "rendered_digest": "632e016ed324020f10355190de8f161fe83401167ebeb0d79008ad80b4497003",
-      "ast_digest": "d8c42e29ae69078215aeef632fdfd944c63dbe13f0cd48788c7d5ca756a31d7c"
+      "values_digest": "e74777a433990e30cb372df83ae562551a639cb9df5a8aa0a8613f84bedaf0c9",
+      "rendered_digest": "03cf59486d8212bdfb43368a86a115c141d6ae94abec50d2d2793b25294d366f",
+      "ast_digest": "6f01d8a62042819f07380cf35feb472e54552b4884f5d771ddd7ea6a7e0d9ab9"
     },
     "sor": {
-      "values_digest": "be91f1e4b12d9786483fdc973648d9c73152aca14269a0dc4e7f9bbfdf144a9f",
+      "values_digest": "14c87f3f9aaab0ed4b46831274f54f28f0a4d1be5172342a944c7c9c95c1fc4c",
       "rendered_digest": "2574afdcaceb17fbabdb7d050f5271ad9594c35c333eb9077ff89973340ec252",
       "ast_digest": "fead577e961762936a236d01527c2719b2e6e153e3fb2a64d48e3bac6282bf1e"
     }
@@ -97,6 +118,13 @@
       "to": "implemented",
       "actor": "codex-sprint-5862",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-sprint-5862",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -316,6 +344,20 @@
       "actor": "codex-sprint-5862",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 32,
+      "generation": 14,
+      "actor": "codex-sprint-5862",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 15,
+      "actor": "codex-sprint-5862",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
