@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5870,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5870-fencing-single-owner",
+  "title": "[v0.92][WP-04.08] Fencing and single-owner enforcement",
+  "body": "## Summary\n\n- enforce quorum-authorized durable Fence and Revoke floors at mutation admission\n- verify current lease authority, expiry, activation possession, epoch semantics, and monotonic checkpoint state\n- reject rollback, stale handles, unsafe persistence cleanup, replay, and capacity failures with exact retained proof\n\n## Validation\n\n- focused nextest: 3 passed, 0 skipped\n- strict focused Clippy: passed\n- 16 machine-derived negative cases: passed\n- exact-head independent review: passed\n- range diff hygiene: passed\n\nCloses danielbaustin/agent-design-language#5870",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:d28a92fd0cc2e065494a69ff463cb916b2de4c19:0f9cfeeaa50c92d59e5f06980bac8e9bc2b28be9e4cf90d4cbc13b2d88aab253",
+  "commit_sha": "d28a92fd0cc2e065494a69ff463cb916b2de4c19"
+}
