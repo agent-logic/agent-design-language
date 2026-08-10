@@ -3,13 +3,83 @@
   "issue": 101,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f09a35e236f4f77ec4793207c044d5bc698a2e14b0883b7ff2efb2b7f8938d1c",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "e955422a7f0f1946478830658d58d94fb411eb6a55dbe1c504a00285d6c654f2",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "a80d5a011b0dac5743b51685f111726f7dd78d28a6a2112cf32fd8b6cc6b092e",
   "branch": "codex/101-github-route-guardrail",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-101-github-route-guardrail",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+    "assigned_by": "codex:101-github-route-guardrail",
+    "revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      "csdlc-v2/tests/fixtures/github_connector_403.json",
+      ".csdlc/issues/101",
+      ".csdlc/prepared/issues/101",
+      ".csdlc/evidence/101"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      "csdlc-v2/tests/fixtures/github_connector_403.json",
+      ".csdlc/issues/101",
+      ".csdlc/prepared/issues/101",
+      ".csdlc/evidence/101"
+    ],
+    "reviewed_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+    "findings": [
+      {
+        "id": "F-101-1",
+        "severity": "p2",
+        "summary": "Connector-403 regression was self-asserting instead of coupled to the incident fields and authoritative policy.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      },
+      {
+        "id": "F-101-2",
+        "severity": "p2",
+        "summary": "The default HOME token-file fallback was created but never exercised by the regression test.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      },
+      {
+        "id": "F-101-3",
+        "severity": "p3",
+        "summary": "The focused installation gate checked only one of the four declared lifecycle route owners.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      },
+      {
+        "id": "F-101-4",
+        "severity": "p2",
+        "summary": "Strict Clippy rejected a needless borrow in the focused route-policy test.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3a6913d5774edd645c2ed0872154afc409953478:cf57e0e2cd38aa8882c4927553b26cd9c07cf76f430437f365bb0af8433d522a",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +94,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c07958a2d43ae58e35708a93b423ac8676bfb7aa6511d9d8cadb9ec97bf7ffe7",
+      "values_digest": "57086178af97f1b41dcb835365bdf819f5cd44c7da72dda3762ebe8b38c1889c",
       "rendered_digest": "63100f5fcb1d48b1f753ba14c9c41a94e7bd0e2e222c9e997eec6b3c860545aa",
       "ast_digest": "99ea2fb6afaff543d4649d369a5f537baf85119fd7fe20c96c7b8b2c034b9c09"
     },
     "stp": {
-      "values_digest": "121cd9efb876a709a6d644e6195f1f2e264c697807383a0d4a63a95e0f7557da",
+      "values_digest": "6030489be3b0a99df9db8b7ad6f3e2e84a26a83b811d99bb18408ea879aadedc",
       "rendered_digest": "54c9e464390fd891ae2de164632237532d34a324e712d9032803b63309dc23b6",
       "ast_digest": "b69a05627ab869a03f1617a861b4e041bbd5a4d1a1eaa8d11f46ebb89aa36f14"
     },
     "spp": {
-      "values_digest": "e706afdfd4bbeb1369697b69c2a3667b9c7134cfc6a276c32f9bda70d4ee96d2",
+      "values_digest": "fb584c1e23be3ca8c64d84094a3aa120c7e9f8bf887116a06824636ae1aeb3f4",
       "rendered_digest": "fa8469d76f449cfd1c33a4cdf395417312168660676687a0528195718d01725b",
       "ast_digest": "808fe00a235c7ea955fbe3d39aadbd305bb70f47e5ec8d56a08dab35c8012aab"
     },
     "vpp": {
-      "values_digest": "d966bf8a9fe19469e0392a5567eda7ce5c92d9edcc485367212e4815e705fe4b",
+      "values_digest": "048dcc55789e1a77f043eb8d1a35322cd653d4824bed05a3a40f6da708a5c7a7",
       "rendered_digest": "776d35205f4b693d749bf21c6ec7a33935e5a6ee163f6fb30f7915a67e028044",
       "ast_digest": "f3c8dd764dcac133bc81d375b2d8dd6c628afc138068e1ed97d8e24c30b33cda"
     },
     "srp": {
-      "values_digest": "4cd880d2acfb121e2245a0b7c92b91d7c48c9a5206866c9ffc44d9104a4a20b7",
-      "rendered_digest": "2968571035cbefa130277dedacff9cae27670904e3bb41985f07385980772657",
-      "ast_digest": "c40225151e000e77ced4187a3f67a157fd4ff2eb5dba1ed7842a1b2610328290"
+      "values_digest": "8851c80a9f0aa0a9cec0d7adc532647610fabf2e9207968eef367f06a4fa9993",
+      "rendered_digest": "82b3fcb7adf879ac079b204aaa764ce1248d506323c6a2704507b02da7988547",
+      "ast_digest": "65aae86f778919293a6dc33d45b951bbcbdc6a72faf1d79fb114c0f4955e3b8e"
     },
     "sor": {
-      "values_digest": "604648ffdfae7a455dc17cff7ec472f4193d6f0b5dcd583826407cd873ecf61c",
+      "values_digest": "9c9464e6d1cb3c3ca1f8deed5e42768600cd76a293d43f641ddb3b1c29b18163",
       "rendered_digest": "3d85eb8c073a4fe63fcf855516a84a9c583a5e8db4bf595a4aaeac33495b9983",
       "ast_digest": "3d45b3eef3a5717ec7af782faab8c3f5f8c95921e27237bce82e19b80c4716d1"
     }
@@ -110,6 +180,13 @@
       "to": "implemented",
       "actor": "codex:101-ci-clippy-repair",
       "reason": "Recover review and publication truth after exact-head CI found one strict-Clippy needless-borrow warning in the focused route-policy test."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -245,6 +322,20 @@
       "actor": "codex:101-ci-clippy-repair",
       "reason": "Recover review and publication truth after exact-head CI found one strict-Clippy needless-borrow warning in the focused route-policy test.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:101-github-route-guardrail",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex-subagent:019fe91f-8fd7-75b3-9eb1-c398807c839d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
