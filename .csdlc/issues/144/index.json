@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "18aef9f5ddeec26f0e0463b7128daf789ebb5146581cfa7e70aebac9725f384b",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "114b0c7c3e0f3aff12cfb73a1d725a521fbe8c86260531105d84199428bd3136",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "3cdf44fc70d46d245202530f5914609d487115e15ff31c3411bbdf2bb657d73d",
   "branch": "codex/144-cognitive-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-144-cognitive-authority-repair",
   "review_assignment": {
@@ -26,7 +26,28 @@
       "Review the opaque runtime-owned authority establishment boundary, canonical policy/evidence pins, full genesis lineage replay, old-key-governed rotation, public API non-construction boundary, exact filtered native inventory, retained evidence bindings, and truthful lifecycle claims. Explicitly attempt replacement of both attacker root and proof; verify no caller-controlled trust root is accepted."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_144_exact_head",
+    "scope": [
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+      "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+      ".csdlc/prepared/issues/144/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/144/validate-native-receipts.rb",
+      ".github/workflows/wp13-authority-repair.yml",
+      ".csdlc/evidence/144",
+      ".csdlc/issues/144",
+      "Review the opaque runtime-owned authority establishment boundary, canonical policy/evidence pins, full genesis lineage replay, old-key-governed rotation, public API non-construction boundary, exact filtered native inventory, retained evidence bindings, and truthful lifecycle claims. Explicitly attempt replacement of both attacker root and proof; verify no caller-controlled trust root is accepted."
+    ],
+    "reviewed_revision": "git-blake3:b3306d2ebab8dcb7e314fb74b253c32a9285fb41:5db45f14081e6d306337f38074f5543a576add99d35ec2e6576daccf9a00e27d",
+    "findings": [],
+    "residual_risks": [
+      "Mandatory native Linux and macOS execution remains deferred to the issue-specific publication workflow and must pass at the exact published head before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "387112dd33ca7b5bbfeb16e79ef9054d1b7760563f11b5fd8846731e9a4204b3",
+      "values_digest": "b563cc5e13581f902b1374ec50449c7fcd0469a63b702c8f50e22e7757545364",
       "rendered_digest": "053d9b74b23af85dc905f9203792566deae54db8e3c2d7655e4d3c97a497c8ae",
       "ast_digest": "da60b416cf0ba42d3a77d9d4ac81c601fc2f84468715fbcee40168d4f19f9479"
     },
     "stp": {
-      "values_digest": "e4ea899d3e3a29383ba57b701c326c7205a0cf175834a0e68aa82beae6d726dd",
+      "values_digest": "dad5f1196936f61e97e540eb77fd6350a804312a7c28dfcde77e54a3bfa5f473",
       "rendered_digest": "a833206edaf6be6bf1a8a8b6747177d47587faf28daee24e4fcc4f7a249d2ac7",
       "ast_digest": "7573b3c1a7efd906b6586f104254a02b1cbd3d3aa5f18ff00b8caa31002ac98d"
     },
     "spp": {
-      "values_digest": "4575ba39dfdc6d244cc688b9611f35244892b99a588fe99fd8c2941d0b229928",
+      "values_digest": "d583b4e216029a8494063502abc300b906456abd79f71ffad6d39c5d2d794e21",
       "rendered_digest": "c1c6e474855fe4e807320379343f9f82bddc60a5eb838aa926d3c08e7e610c07",
       "ast_digest": "a3f7373f20029e5b2ad38224de40c19bb60a23798c009c87d17d2e40768e8abb"
     },
     "vpp": {
-      "values_digest": "c584b29f8ea1671bf20e286c3f5f4c86ec05be7892f25e12798013219720de78",
+      "values_digest": "3132d2ed6862ff6d0e93710b1058fc2560c0cc8f7b9f6f62414e9658db46480b",
       "rendered_digest": "97419d2a36040e8d452bbe98338d2dc272a8a65b32aa33ee634c1246f7ac0a9a",
       "ast_digest": "dd9153f9b30b4b77f0c5ce721bd2a2e48382855e78046de75e2f2846eaa560ea"
     },
     "srp": {
-      "values_digest": "1de3837ea0b33ed391d54f19f20fd6265af9fe7b3865536e6132839a87a35326",
-      "rendered_digest": "bea5a1664ab5e05d0e537430186079c4998673997c39fc4d2e7463c884d22ba5",
-      "ast_digest": "fb14ed6384b23384c7fd9b1f8e434edc839bdb24cf89b8d27043580625e3e786"
+      "values_digest": "667abd9f17b60993889c2be5b74f553c089a09ff1196e2a30831c1c7b370e442",
+      "rendered_digest": "7ad08b18618e57e949945f7a8a3e321f2093db50d1dc603bfe28208e2b331ecf",
+      "ast_digest": "3b1d47a26aacc37c2d22a2af7469a2f14a52099c8d3446135105cf9eeeacfbbe"
     },
     "sor": {
-      "values_digest": "78b71eb12aeeab4cc1dd89cb2c5666a900ca3691f126b8cc60dd6f6a7fffe80a",
+      "values_digest": "d122d85fd442a6188d3ac053011572a74e30466c210db5c7eca7eaf56a2a54fc",
       "rendered_digest": "bcc1f0874c3cefd9b4644d9d3c37ec5a27ce5e283f20d5220e0c0bec79da35ea",
       "ast_digest": "d08473ac3a5b6a91d3150f2cd9dd0fd7619a3f1e47644be57d0500825bea44da"
     }
@@ -92,6 +113,13 @@
       "to": "implemented",
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -171,6 +199,13 @@
       "actor": "codex:144-cognitive-authority-repair",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:144-cognitive-authority-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

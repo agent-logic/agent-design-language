@@ -41,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Mandatory native Linux and macOS execution remains deferred to the issue-specific publication workflow and must pass at the exact published head before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b3306d2ebab8dcb7e314fb74b253c32a9285fb41:5db45f14081e6d306337f38074f5543a576add99d35ec2e6576daccf9a00e27d")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_144_exact_head")
 
-Result: pre_review
+Result: pass
