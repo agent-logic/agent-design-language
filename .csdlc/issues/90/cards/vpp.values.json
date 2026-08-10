@@ -7,7 +7,7 @@
     "title": "C-SDLC v2: support split-repository publication for pre-code_repository bound records",
     "slug": "split-repository-pre-code-repository-migration",
     "version": "unversioned",
-    "generation": 11
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -95,7 +95,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on wrong repository identity, incomplete or ambiguous topology, dirty worktree, unsupported phase, stale CAS, conflicting prior identity, audit duplication, review drift, or publication-check weakening.",
       "design_ref": ".csdlc/prepared/issues/90/design.md",
-      "design_digest": "a57c38f6590ae4963fc4546ee3f254c5c1fdf2b99744b3bdd53cc96f377efc8e",
+      "design_digest": "16f3086bd56a2f30902f51219f796dd59047815c3b81be7c1bb23bbdd6b8749b",
       "diagram_ref": ".csdlc/prepared/issues/90/diagram.mmd",
       "diagram_digest": "a0ea4577be8c7f5c85d0ca3bef41db206fd8446235c4a4a2d431de9c02f70a62"
     }

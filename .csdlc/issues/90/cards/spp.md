@@ -16,14 +16,14 @@ Initialize and approve the narrow migration contract, bind issue #90, add the ty
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Define the versioned request/report and authorization rules for absent code_repository migration.",
+    "action": "Define the versioned request/report and authorization rules for absent code_repository recovery.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -31,7 +31,7 @@ Revision 1
       "AC-4",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -42,11 +42,11 @@ Revision 1
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Add focused positive, negative, idempotency, crash-safety, and reviewed-publication regression coverage.",
+    "action": "Add focused positive, negative, deterministic-retry, and reviewed-publication regression coverage for the temporary compatibility bridge.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -56,7 +56,7 @@ Revision 1
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -65,7 +65,7 @@ Revision 1
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
@@ -97,7 +97,7 @@ Revision 1
 
 .csdlc/prepared/issues/90/design.md
 
-Digest: a57c38f6590ae4963fc4546ee3f254c5c1fdf2b99744b3bdd53cc96f377efc8e
+Digest: 16f3086bd56a2f30902f51219f796dd59047815c3b81be7c1bb23bbdd6b8749b
 
 ## Diagram
 

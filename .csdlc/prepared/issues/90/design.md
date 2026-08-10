@@ -7,6 +7,11 @@ records that were bound before `code_repository` became part of the canonical
 record. The operation may fill an absent field; it may not retarget an existing
 identity or weaken publication checks.
 
+This is a temporary one-sprint compatibility bridge for finishing issues that
+remain in the legacy issue repository while code and pull requests live in the
+canonical repository. It does not copy issues, create legacy issues, synchronize
+trackers, or establish a general repository-migration framework.
+
 The migration is a recovery transaction, not a general record editor. It is
 authorized only from the issue's registered branch and canonical worktree, and
 only when every effective `origin` fetch and push URL resolves to the requested
@@ -92,13 +97,13 @@ repository-identity helpers rather than introduce a weaker parallel parser.
 
 ## Validation
 
-Focused tests cover:
+Focused tests prove the compatibility bridge at its practical risk boundary:
 
 - successful migration in `bound`, `implemented`, and `reviewed` phases;
 - exact preservation of review and lifecycle truth;
 - publication preflight after reviewed migration;
-- wrong, non-GitHub, missing, and divergent fetch/push origin identities;
-- wrong worktree or branch, incomplete topology, and dirty state;
+- representative wrong, missing, non-GitHub, and divergent origin identities;
+- registered branch/worktree, valid-record topology, and dirty-state guards;
 - unsupported phases, stale generation/digest, and an existing identity;
 - deterministic retry behavior with one audit event;
 - CLI request parsing, schema exposure, installed-command smoke, formatting,
@@ -121,3 +126,5 @@ rewrite cards, retarget remotes, or bypass publication identity checks.
 - migrating initialized, published, merge-ready, merged, or closed-out records
 - refreshing review or granting publication authority
 - providing a general administrative state mutation command
+- copying or synchronizing issues between repositories
+- creating any new issue in the legacy repository

@@ -271,6 +271,14 @@ fn bound_record_adopts_exact_origin_and_retry_is_stale_digest() {
     let before = store.load_record(ISSUE).unwrap();
     let cards_before = store.load_cards(ISSUE).unwrap();
     let initial_request = request(&store);
+    let mut stale_generation = initial_request.clone();
+    stale_generation.expected_generation += 1;
+    assert_eq!(
+        migrate_code_repository(&store, stale_generation)
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleGeneration
+    );
     let report = migrate_code_repository(&store, initial_request.clone()).unwrap();
     let after = store.load_record(ISSUE).unwrap();
     assert!(report.changed);
@@ -300,6 +308,68 @@ fn bound_record_adopts_exact_origin_and_retry_is_stale_digest() {
         migrate_code_repository(&store, current).unwrap_err().code,
         ErrorCode::InvalidTransition
     );
+}
+
+#[test]
+fn missing_non_github_and_divergent_fetch_origins_fail_closed() {
+    for case in ["missing", "non-github", "divergent-fetch"] {
+        let (temp, store) = fixture();
+        match case {
+            "missing" => git(temp.path(), &["remote", "remove", "origin"]),
+            "non-github" => git(
+                temp.path(),
+                &[
+                    "remote",
+                    "set-url",
+                    "origin",
+                    "https://example.com/agent-logic/agent-design-language.git",
+                ],
+            ),
+            "divergent-fetch" => git(
+                temp.path(),
+                &[
+                    "remote",
+                    "set-url",
+                    "--add",
+                    "origin",
+                    "https://github.com/other/repo.git",
+                ],
+            ),
+            _ => unreachable!(),
+        }
+        let before = fs::read(store.issue_dir(ISSUE).join("index.json")).unwrap();
+        assert_eq!(
+            migrate_code_repository(&store, request(&store))
+                .unwrap_err()
+                .code,
+            ErrorCode::ReconciliationRequired,
+            "case {case}"
+        );
+        assert_eq!(
+            fs::read(store.issue_dir(ISSUE).join("index.json")).unwrap(),
+            before
+        );
+    }
+}
+
+#[test]
+fn credential_bearing_origin_is_normalized_before_audit() {
+    let (temp, store) = fixture();
+    git(
+        temp.path(),
+        &[
+            "remote",
+            "set-url",
+            "origin",
+            "https://secret-token@github.com/agent-logic/agent-design-language.git",
+        ],
+    );
+    let report = migrate_code_repository(&store, request(&store)).unwrap();
+    assert_eq!(report.evidence.fetch_repositories, vec![CODE_REPOSITORY]);
+    let record = store.load_record(ISSUE).unwrap();
+    let operation = &record.audit.last().unwrap().operation;
+    assert!(!operation.contains("secret-token"));
+    assert!(!operation.contains("https://"));
 }
 
 #[test]
