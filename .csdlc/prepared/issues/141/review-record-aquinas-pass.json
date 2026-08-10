@@ -1,0 +1,26 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 141,
+  "expected_generation": 13,
+  "expected_digest": "c23c70bb846104775eeedb44a668a51fd61dd2dcc9b3c1f1d9accc82c1ec0788",
+  "actor": "subagent:Aquinas",
+  "evidence": {
+    "reviewer": "subagent:Aquinas",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/evidence/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ],
+    "reviewed_revision": "git-blake3:ec2208c32f76cf3965d4b1ca3a1b790c01769cd2:c0ba0e494357a51f70fe42b9ea1d73cc25e147e541fae48b06abe9364619c787",
+    "findings": [],
+    "residual_risks": [
+      "Dedicated end-to-end Rust fixtures do not yet exercise all three terminal dispositions; the merged fixture, receipt validation, source inspection, and focused compilation pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
