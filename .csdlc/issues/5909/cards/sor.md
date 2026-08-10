@@ -75,11 +75,11 @@ Corrected lease mutation authority, bounded lineage state atomically, separated 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
