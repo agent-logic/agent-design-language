@@ -10,11 +10,12 @@ use std::{
 use adl_runtime_kernel::{
     build_birthday_identity, derive_identity_root, record_digest,
     validate_birthday_identity_record, verify_birthday_evidence, AliasBinding,
-    BirthdayEvidenceError, BirthdayEvidenceRequirements, BirthdayIdentityCandidate,
-    IdentityAuthority, IdentityBasis, IdentityBinding, IdentityReference, IdentityRejection,
-    MemoryCheckpoint, MemoryClass, MemoryLedger, PrivateStateAuthority, PrivateStateLineage,
-    PrivateStateRecord, PrivateStateSealRequest, ProjectionRequest, SanctuaryPolicy,
-    VerifiedBirthdayEvidence, BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA,
+    BirthdayAuthorityPolicy, BirthdayEvidenceError, BirthdayEvidenceRequirements,
+    BirthdayIdentityCandidate, IdentityAuthority, IdentityBasis, IdentityBinding,
+    IdentityReference, IdentityRejection, MemoryCheckpoint, MemoryClass, MemoryLedger,
+    PrivateStateAuthority, PrivateStateLineage, PrivateStateRecord, PrivateStateSealRequest,
+    ProjectionRequest, SanctuaryPolicy, VerifiedBirthdayEvidence,
+    BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA,
 };
 use ed25519_dalek::VerifyingKey;
 
@@ -31,22 +32,30 @@ struct AuthorityMaterial {
     policy: SanctuaryPolicy,
     request: ProjectionRequest,
     requirements: BirthdayEvidenceRequirements,
+    authority_policy: BirthdayAuthorityPolicy,
 }
 
 impl AuthorityMaterial {
     fn verify(&self) -> Result<VerifiedBirthdayEvidence, BirthdayEvidenceError> {
         verify_birthday_evidence(
+            &self.authority_policy,
             &self.binding,
             &self.checkpoint,
-            &self.identity_keys,
             &self.private_record,
             &mut PrivateStateLineage::default(),
-            &self.private_keys,
             &self.projection,
-            &self.policy,
-            &self.request,
-            &self.requirements,
         )
+    }
+
+    fn reestablish_policy(&mut self) {
+        self.authority_policy = BirthdayAuthorityPolicy::establish(
+            self.identity_keys.clone(),
+            self.private_keys.clone(),
+            self.requirements.clone(),
+            self.policy.clone(),
+            self.request.clone(),
+        )
+        .expect("trusted runtime authority policy");
     }
 }
 
@@ -116,6 +125,31 @@ fn authoritative_material() -> AuthorityMaterial {
             sanctuary_level: 1,
         })
         .expect("signed private-state record");
+    let policy = SanctuaryPolicy {
+        allowed_principals: BTreeSet::from(["birthday-reviewer".to_owned()]),
+        max_sanctuary_level: 1,
+        allow_raw_export: false,
+    };
+    let request = ProjectionRequest {
+        principal: "birthday-reviewer".to_owned(),
+        requested_fields: BTreeSet::from(["identity_summary".to_owned()]),
+        raw_export: false,
+    };
+    let requirements = BirthdayEvidenceRequirements {
+        identity_signing_key_id: "identity-birthday-key".to_owned(),
+        private_state_signing_key_id: "private-birthday-key".to_owned(),
+        identity_generation: 7,
+        continuity_generation: 1,
+        projection_generation: 1,
+    };
+    let authority_policy = BirthdayAuthorityPolicy::establish(
+        identity_keys.clone(),
+        private_keys.clone(),
+        requirements.clone(),
+        policy.clone(),
+        request.clone(),
+    )
+    .expect("trusted runtime authority policy");
     AuthorityMaterial {
         binding,
         checkpoint,
@@ -123,26 +157,10 @@ fn authoritative_material() -> AuthorityMaterial {
         private_record,
         private_keys,
         projection,
-        policy: SanctuaryPolicy {
-            allowed_principals: BTreeSet::from(["birthday-reviewer".to_owned()]),
-            max_sanctuary_level: 1,
-            allow_raw_export: false,
-        },
-        request: ProjectionRequest {
-            principal: "birthday-reviewer".to_owned(),
-            requested_fields: BTreeSet::from([
-                "identity_summary".to_owned(),
-                "sealed_payload".to_owned(),
-            ]),
-            raw_export: false,
-        },
-        requirements: BirthdayEvidenceRequirements {
-            identity_signing_key_id: "identity-birthday-key".to_owned(),
-            private_state_signing_key_id: "private-birthday-key".to_owned(),
-            identity_generation: 7,
-            continuity_generation: 1,
-            projection_generation: 1,
-        },
+        policy,
+        request,
+        requirements,
+        authority_policy,
     }
 }
 
@@ -236,10 +254,7 @@ fn builds_from_signed_lineage_and_governed_projection() {
     assert_eq!(record.record_sha256, record_digest(&record).unwrap());
     assert_eq!(record.aliases[0].name, "Aster One");
     assert_eq!(record.projection_receipt.visible_fields.len(), 1);
-    assert_eq!(
-        record.projection_receipt.redacted_fields,
-        vec!["sealed_payload"]
-    );
+    assert!(record.projection_receipt.redacted_fields.is_empty());
     assert!(!serde_json::to_string(&record)
         .unwrap()
         .contains("raw private birthday state"));
@@ -290,26 +305,47 @@ fn rejects_forged_mismatched_and_stale_authorities() {
             sanctuary_level: 1,
         })
         .unwrap();
+    mismatched_subject.reestablish_policy();
     assert_eq!(
         mismatched_subject.verify(),
         Err(BirthdayEvidenceError::AuthoritySubjectMismatch)
     );
 
+    let mut missing_identity_root = material.clone();
+    missing_identity_root.requirements.identity_signing_key_id = "stale-identity-key".to_owned();
+    assert!(matches!(
+        BirthdayAuthorityPolicy::establish(
+            missing_identity_root.identity_keys,
+            missing_identity_root.private_keys,
+            missing_identity_root.requirements,
+            missing_identity_root.policy,
+            missing_identity_root.request,
+        ),
+        Err(BirthdayEvidenceError::PolicyAuthorityMissing)
+    ));
+
+    let mut missing_private_root = material.clone();
+    missing_private_root
+        .requirements
+        .private_state_signing_key_id = "stale-private-key".to_owned();
+    assert!(matches!(
+        BirthdayAuthorityPolicy::establish(
+            missing_private_root.identity_keys,
+            missing_private_root.private_keys,
+            missing_private_root.requirements,
+            missing_private_root.policy,
+            missing_private_root.request,
+        ),
+        Err(BirthdayEvidenceError::PolicyAuthorityMissing)
+    ));
+
     for expected in [
-        BirthdayEvidenceError::IdentitySignerMismatch,
-        BirthdayEvidenceError::PrivateSignerMismatch,
         BirthdayEvidenceError::IdentityGenerationMismatch,
         BirthdayEvidenceError::ContinuityGenerationMismatch,
         BirthdayEvidenceError::ProjectionGenerationMismatch,
     ] {
         let mut stale = material.clone();
         match expected {
-            BirthdayEvidenceError::IdentitySignerMismatch => {
-                stale.requirements.identity_signing_key_id = "stale-identity-key".to_owned()
-            }
-            BirthdayEvidenceError::PrivateSignerMismatch => {
-                stale.requirements.private_state_signing_key_id = "stale-private-key".to_owned()
-            }
             BirthdayEvidenceError::IdentityGenerationMismatch => {
                 stale.requirements.identity_generation += 1
             }
@@ -321,6 +357,7 @@ fn rejects_forged_mismatched_and_stale_authorities() {
             }
             _ => unreachable!(),
         }
+        stale.reestablish_policy();
         assert_eq!(stale.verify(), Err(expected));
     }
 }
@@ -352,10 +389,16 @@ fn rejects_projection_tamper_and_raw_private_mislabelling() {
         })
         .unwrap();
     raw.request.requested_fields = BTreeSet::from(["raw_private_state".to_owned()]);
-    assert_eq!(
-        raw.verify(),
-        Err(BirthdayEvidenceError::RawPrivateProjection)
-    );
+    assert!(matches!(
+        BirthdayAuthorityPolicy::establish(
+            raw.identity_keys,
+            raw.private_keys,
+            raw.requirements,
+            raw.policy,
+            raw.request,
+        ),
+        Err(BirthdayEvidenceError::PolicyProjectionUnsafe)
+    ));
 }
 
 #[test]

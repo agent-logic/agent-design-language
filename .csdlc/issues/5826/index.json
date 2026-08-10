@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bed306513e72500abe5d143e2ec479191780e44a02561af7742f761bc958f89",
   "phase": "implemented",
-  "generation": 71,
-  "digest": "ae6a466635ee98ac7168f2a44fe8e9d9a79627a885c51cb265ac74705f433fef",
+  "generation": 72,
+  "digest": "3ad55bd5466a1d139fed6368ea0971df611e4f933d51163948d4ce6b3dc586d9",
   "branch": "codex/5826-birthday-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5826-birthday-identity",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5f4e6d6017cd2739a5c570256b66c639afd21886fa559f85816a5cdfb99cb5bb",
+      "values_digest": "499282de5d68b6466a6690406b8f238c44da28fa7fbc77f55459f37248291816",
       "rendered_digest": "c0780ba2d530639201fb2dea45daa3f40889f7adfda4e8269ee1c09b352125de",
       "ast_digest": "36105e01ff58d5b651b7116e069042038bf69235460de95d1629fe1f3382cd01"
     },
     "stp": {
-      "values_digest": "883385ad64ff83682d74ebfddb6926bef1c6c7e7c554a7ee3195bb5d199fc6d7",
+      "values_digest": "1a1160512378197d346210c0fa80c4e67a463ea92815862cff2eaecf7936ea31",
       "rendered_digest": "178ef42ba8c66afb3f5884ffe4bea230a143259f0264081e88348aa83e76bc0e",
       "ast_digest": "9660286fa50d76b5276159ba4187332929e1037257418f0e75fec7331c60086b"
     },
     "spp": {
-      "values_digest": "74d7fcde5b5ddcb77d2eae45e4f69566e4ba246828b886415bd658f2458c04cc",
+      "values_digest": "7f4ccff6b9293c45687c966297163fa8f0d09fdd1f67c5fcfc954efaaaa79487",
       "rendered_digest": "16c9073aae3b6676ea55ea9ac068a21f692c4dd8cccefabc9979d319b5d5e6fa",
       "ast_digest": "c42af2dc75f00377f7084b824e49be0be28575aa2a1fa459eaf2928a89e15531"
     },
     "vpp": {
-      "values_digest": "70c7a44c4de5512d7c12adbc1541766021210984a4e69f3ad9945c9bf89bf830",
+      "values_digest": "5e88d9d5cc8eef06a542ea9d1fef43c177637f011e9b6021515d2ab8bed8f25c",
       "rendered_digest": "4f8bcb0978d981caec7c2dbc395f5c7bb0cbd34633909619f540afa034159428",
       "ast_digest": "cc86f97600515eaca70aa6f44b4d7e2cf9e7727cbefd9fc42991f24a5dd540ca"
     },
     "srp": {
-      "values_digest": "a75bfe6efe6514fcde4c09fa9ec38e63097695d21e101f1498312b4fac07a7a6",
+      "values_digest": "0e6c8e218b7b312c24624707038be4126f8935ee94692c98db6bbe6006272bff",
       "rendered_digest": "003914725e6dd8ad754414dd9dd3983cbf70dc07e31f361e50d76d8b13247d91",
       "ast_digest": "7281c75fa192914a204d2b5f4e012f8637f52d1b4f7990244dbce1e31b728f9c"
     },
     "sor": {
-      "values_digest": "483a2230bf78714dbf028ec4c3ca33edc36d8e3ae6394ec8d092114043eef0be",
+      "values_digest": "5a0a0feb6e0ce04e58f4215d964f1a7c6623e4867239a1ed1703626deb8399dc",
       "rendered_digest": "d00bda94f84727a50836f1b2f889613cdaa60e2ac2376820ac1c9113b6a07762",
       "ast_digest": "74ed2e541bfb30e799208f87456acf2724f02cc324a6c2fa9b801ce2d31617ec"
     }
@@ -792,6 +792,20 @@
       "actor": "operator:pr118-security-privacy-findings",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 97,
+      "generation": 71,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 98,
+      "generation": 72,
+      "actor": "codex:5826-security-privacy-repair",
+      "reason": "Recover changes-required review after the fresh reviewer found caller-nominated trust roots and stale exact-head validation truth; bind verification to an established runtime authority policy and refresh proof before reassignment.",
+      "operation": "recover_review"
     }
   ]
 }

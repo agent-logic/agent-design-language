@@ -134,8 +134,66 @@ pub struct BirthdayEvidenceRequirements {
     pub projection_generation: u64,
 }
 
+/// Runtime-bootstrap trust policy for Birthday evidence verification.
+///
+/// The key registries, expected signers/generations, sanctuary policy, and
+/// projection request are fixed when the trusted runtime establishes this
+/// value. Per-candidate callers cannot substitute any of them at the evidence
+/// verification boundary.
+#[derive(Clone)]
+pub struct BirthdayAuthorityPolicy {
+    identity_keys: BTreeMap<String, VerifyingKey>,
+    private_keys: BTreeMap<String, VerifyingKey>,
+    requirements: BirthdayEvidenceRequirements,
+    sanctuary_policy: SanctuaryPolicy,
+    projection_request: ProjectionRequest,
+}
+
+impl BirthdayAuthorityPolicy {
+    pub fn establish(
+        identity_keys: BTreeMap<String, VerifyingKey>,
+        private_keys: BTreeMap<String, VerifyingKey>,
+        requirements: BirthdayEvidenceRequirements,
+        sanctuary_policy: SanctuaryPolicy,
+        projection_request: ProjectionRequest,
+    ) -> Result<Self, BirthdayEvidenceError> {
+        if !identity_keys.contains_key(&requirements.identity_signing_key_id)
+            || !private_keys.contains_key(&requirements.private_state_signing_key_id)
+        {
+            return Err(BirthdayEvidenceError::PolicyAuthorityMissing);
+        }
+        if requirements.identity_generation == 0
+            || requirements.continuity_generation == 0
+            || requirements.projection_generation == 0
+        {
+            return Err(BirthdayEvidenceError::PolicyGenerationInvalid);
+        }
+        if projection_request.raw_export
+            || !sanctuary_policy
+                .allowed_principals
+                .contains(&projection_request.principal)
+            || projection_request
+                .requested_fields
+                .iter()
+                .any(|field| is_raw_private_field(field))
+        {
+            return Err(BirthdayEvidenceError::PolicyProjectionUnsafe);
+        }
+        Ok(Self {
+            identity_keys,
+            private_keys,
+            requirements,
+            sanctuary_policy,
+            projection_request,
+        })
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum BirthdayEvidenceError {
+    PolicyAuthorityMissing,
+    PolicyGenerationInvalid,
+    PolicyProjectionUnsafe,
     IdentitySignature,
     IdentityUnauthorized,
     IdentityContinuity,
@@ -215,36 +273,33 @@ struct RootMaterial<'a> {
 
 #[allow(clippy::too_many_arguments)]
 pub fn verify_birthday_evidence(
+    authority_policy: &BirthdayAuthorityPolicy,
     binding: &IdentityBinding,
     checkpoint: &MemoryCheckpoint,
-    identity_keys: &BTreeMap<String, VerifyingKey>,
     private_record: &PrivateStateRecord,
     private_lineage: &mut PrivateStateLineage,
-    private_keys: &BTreeMap<String, VerifyingKey>,
     available_projection: &BTreeMap<String, String>,
-    sanctuary_policy: &SanctuaryPolicy,
-    projection_request: &ProjectionRequest,
-    requirements: &BirthdayEvidenceRequirements,
 ) -> Result<VerifiedBirthdayEvidence, BirthdayEvidenceError> {
-    verify_binding(binding, identity_keys).map_err(map_identity_error)?;
-    MemoryLedger::restore(checkpoint, binding, identity_keys).map_err(map_identity_error)?;
-    if binding.signing_key_id != requirements.identity_signing_key_id
-        || checkpoint.signing_key_id != requirements.identity_signing_key_id
+    verify_binding(binding, &authority_policy.identity_keys).map_err(map_identity_error)?;
+    MemoryLedger::restore(checkpoint, binding, &authority_policy.identity_keys)
+        .map_err(map_identity_error)?;
+    if binding.signing_key_id != authority_policy.requirements.identity_signing_key_id
+        || checkpoint.signing_key_id != authority_policy.requirements.identity_signing_key_id
     {
         return Err(BirthdayEvidenceError::IdentitySignerMismatch);
     }
-    if binding.issued_at_tick != requirements.identity_generation {
+    if binding.issued_at_tick != authority_policy.requirements.identity_generation {
         return Err(BirthdayEvidenceError::IdentityGenerationMismatch);
     }
-    if checkpoint.accepted_through != requirements.continuity_generation {
+    if checkpoint.accepted_through != authority_policy.requirements.continuity_generation {
         return Err(BirthdayEvidenceError::ContinuityGenerationMismatch);
     }
 
-    verify_record(private_record, private_keys).map_err(map_private_error)?;
-    if private_record.signing_key_id != requirements.private_state_signing_key_id {
+    verify_record(private_record, &authority_policy.private_keys).map_err(map_private_error)?;
+    if private_record.signing_key_id != authority_policy.requirements.private_state_signing_key_id {
         return Err(BirthdayEvidenceError::PrivateSignerMismatch);
     }
-    if private_record.sequence != requirements.projection_generation {
+    if private_record.sequence != authority_policy.requirements.projection_generation {
         return Err(BirthdayEvidenceError::ProjectionGenerationMismatch);
     }
     if private_record.subject_id != binding.citizen_id
@@ -253,20 +308,20 @@ pub fn verify_birthday_evidence(
         return Err(BirthdayEvidenceError::AuthoritySubjectMismatch);
     }
     let accepted_record_hash = private_lineage
-        .append(private_record, private_keys)
+        .append(private_record, &authority_policy.private_keys)
         .map_err(map_private_error)?;
     let projection = project_private_state(
         private_lineage,
-        private_keys,
+        &authority_policy.private_keys,
         private_record,
         available_projection,
-        sanctuary_policy,
-        projection_request,
+        &authority_policy.sanctuary_policy,
+        &authority_policy.projection_request,
     )
     .map_err(map_private_error)?;
     if projection.subject_id != binding.citizen_id
         || projection.lineage_id != binding.continuity_id
-        || projection.sequence != requirements.projection_generation
+        || projection.sequence != authority_policy.requirements.projection_generation
         || projection.record_hash != accepted_record_hash
     {
         return Err(BirthdayEvidenceError::AuthoritySubjectMismatch);
