@@ -42,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The final publication projection must retain green standard and issue-specific native GitHub checks before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c370a3096afe9e6486444cf1e76ab527cf3f212d:e28cdafe669d5292380a7aba7c05a05cc0ea7b3a2b2a5bd7e7f7fcdc07aa31da")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5828_exact_head")
 
-Result: pre_review
+Result: pass
