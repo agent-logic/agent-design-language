@@ -1,0 +1,10 @@
+flowchart LR
+  Q["Committed quorum certificate"] --> O{"Operation class"}
+  O -->|"Grant / renew / activate / commit"| K["Require activation-key possession"]
+  O -->|"Fence / revoke"| M["Require majority authority; no old holder key"]
+  M --> E["Commit next fencing epoch and newer applied index"]
+  E --> D["Persist revoked lease and portable safety floor"]
+  D --> R["Restore at current committed index; remain fenced"]
+  R --> A{"Safe deadline crossed and new key proven?"}
+  A -->|"No"| F["Deny mutation and activation"]
+  A -->|"Yes"| N["Activate exact fenced epoch owner"]

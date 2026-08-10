@@ -45,14 +45,21 @@ def repo_path(root, relative, label)
 end
 
 def source_paths(test_target, feature_path)
-  [
+  paths = [
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
-    "adl-runtime-kernel/tests/#{test_target}.rs",
+    test_target == "birthday_identity" ? nil : "adl-runtime-kernel/tests/#{test_target}.rs",
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
-  ]
+  ].compact
+  if test_target == "birthday_identity"
+    paths += [
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/private_state.rs"
+    ]
+  end
+  paths
 end
 
 def source_manifest(root, paths)
@@ -102,20 +109,41 @@ FileUtils.mkdir_p(semantic_path.dirname)
 command_output_path = receipt_path.dirname.join("#{options[:platform]}-nextest.log")
 manifest_path = receipt_path.dirname.join("#{options[:platform]}-source-manifest.json")
 
-test_argv = [
-  "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all"
-]
+test_argv = if test_target == "birthday_identity"
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--lib", "-E", "test(/^birthday_identity::authority_tests::/)",
+    "--no-tests=fail", "--status-level", "all", "--message-format", "libtest-json-plus"
+  ]
+else
+  [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--test", test_target, "--no-tests=fail", "--status-level", "all",
+    "--message-format", "libtest-json-plus"
+  ]
+end
 stdout, stderr, status = Open3.capture3(
-  { "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s },
+  {
+    "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s,
+    "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
+  },
   *test_argv,
   chdir: root.to_s
 )
 command_output = stdout + stderr
 command_output_path.write(command_output)
 fail!("native nextest command failed") unless status.success?
-summary = command_output.match(/(?<count>\d+)\s+tests?\s+run:/)
-fail!("native nextest output lacks a positive test summary") unless summary && summary[:count].to_i.positive?
+suites = []
+passed_tests = []
+command_output.each_line do |line|
+  parsed = JSON.parse(line)
+  suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
+  passed_tests << parsed["name"] if parsed["type"] == "test" && parsed["event"] == "ok"
+rescue JSON::ParserError
+  next
+end
+suite = suites.last
+fail!("native nextest output lacks a passing structured suite summary") unless suite && suite["passed"].to_i.positive? && suite["failed"].to_i.zero?
 fail!("test did not produce the declared semantic output") unless semantic_path.file? && semantic_path.size.positive?
 
 manifest = source_manifest(root, source_paths(test_target, feature_path))
@@ -129,8 +157,12 @@ payload = {
   "producer_sha256" => Digest::SHA256.file(root.join(producer_rel)).hexdigest,
   "producer_argv" => ["ruby", producer_rel, "--platform", options[:platform], "--receipt", options[:receipt], "--semantic-output", options[:semantic_output]],
   "test_argv" => test_argv,
-  "test_environment" => { "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s },
-  "tests_run" => summary[:count].to_i,
+  "test_environment" => {
+    "ADL_NATIVE_SEMANTIC_OUTPUT" => semantic_path.relative_path_from(root).to_s,
+    "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
+  },
+  "tests_run" => suite["passed"].to_i,
+  "passed_tests" => passed_tests.sort,
   "command_output_path" => command_output_path.relative_path_from(root).to_s,
   "command_output_sha256" => Digest::SHA256.file(command_output_path).hexdigest,
   "semantic_output_path" => semantic_path.relative_path_from(root).to_s,

@@ -1,0 +1,20 @@
+{
+  "issue": 121,
+  "expected_generation": 4,
+  "expected_digest": "59fe4a32f28762377669848d5112e1fdbf82c9f6241af9693e8597bec4dbc6c8",
+  "actor": "subagent:issue-121-exact-head-security-review",
+  "evidence": {
+    "completed": true,
+    "reviewed_revision": "git-blake3:aaf7e32f743c783b3d70dc028402723093b02ed8:c5c309cc204e15d962832801fbe9f429b32dc363f9814e7db67fcac69129a440",
+    "reviewer": "subagent:issue-121-exact-head-security-review",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121"
+    ],
+    "findings": [],
+    "residual_risks": []
+  }
+}

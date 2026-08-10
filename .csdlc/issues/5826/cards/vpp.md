@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
 [
   {
     "lane": "birthday_identity-runtime-v3",
-    "proof_role": "Run the exact Runtime v3 integration target and fail when the selected target contains no tests.",
+    "proof_role": "Run the crate-internal authority-context proof; external callers must be unable to establish self-consistent attacker trust roots, while canonical signed lineage and governed projection cases remain proven.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -46,8 +46,9 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
       "run",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "birthday_identity",
+      "--lib",
+      "-E",
+      "test(/^birthday_identity::authority_tests::/)",
       "--no-tests=fail",
       "--status-level",
       "all"
@@ -57,7 +58,7 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
   },
   {
     "lane": "birthday_identity-macos-native-ci-producer",
-    "proof_role": "Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+    "proof_role": "Run the issue-local receipt producer on native macOS at the repaired exact candidate HEAD and retain the full log, authority source manifest, passed-test inventory, and semantic output.",
     "acceptance_ids": [
       "AC-4",
       "AC-8"
@@ -77,11 +78,11 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
       ".csdlc/evidence/5826/native-platform/macos-semantic.json"
     ],
     "parallel_group": "5826-native-produce",
-    "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "birthday_identity-linux-native-ci-producer",
-    "proof_role": "Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+    "proof_role": "Run the issue-local receipt producer on native Linux at the repaired exact candidate HEAD and retain the full log, authority source manifest, passed-test inventory, and semantic output.",
     "acceptance_ids": [
       "AC-4",
       "AC-8"
@@ -101,11 +102,11 @@ Diagram: .csdlc/prepared/issues/5826/diagram.mmd
       ".csdlc/evidence/5826/native-platform/linux-semantic.json"
     ],
     "parallel_group": "5826-native-produce",
-    "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "birthday_identity-native-ci-receipt-verification",
-    "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=c8b24d2558afe0de9854c441b4a8c953221c2ec951c699811e323fada9a5c917]",
+    "proof_role": "Independently recompute exact HEAD, producer, source-manifest, complete internal-test log, machine-derived passed tests, and semantic-output digests; verify GitHub workflow/run identity and require macOS/Linux equivalence.",
     "acceptance_ids": [
       "AC-4",
       "AC-8"
@@ -137,7 +138,7 @@ Tokens: 10000
 
 ## Commands
 
-- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test birthday_identity --no-tests=fail --status-level all`
+- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --lib -E test(/^birthday_identity::authority_tests::/) --no-tests=fail --status-level all`
 - `ruby .csdlc/prepared/issues/5826/produce-native-receipt.rb --platform macos --receipt .csdlc/evidence/5826/native-platform/macos.json --semantic-output .csdlc/evidence/5826/native-platform/macos-semantic.json`
 - `ruby .csdlc/prepared/issues/5826/produce-native-receipt.rb --platform linux --receipt .csdlc/evidence/5826/native-platform/linux.json --semantic-output .csdlc/evidence/5826/native-platform/linux-semantic.json`
 - `ruby .csdlc/prepared/issues/5826/validate-native-receipts.rb .csdlc/evidence/5826/native-platform/macos.json .csdlc/evidence/5826/native-platform/linux.json`
