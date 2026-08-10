@@ -274,10 +274,14 @@ pub fn build_birthday_continuity(
     identity: &BirthdayIdentityRecord,
     cycles: &[VerifiedBirthdayCycle],
 ) -> Result<BirthdayContinuityRecord, Vec<ContinuityRejection>> {
-    if cycles.len() < 2 {
-        return Err(vec![ContinuityRejection::InsufficientCycles]);
-    }
     let mut rejections = BTreeSet::new();
+    if identity_record_digest(identity).ok().as_deref() != Some(&identity.record_sha256) {
+        rejections.insert(ContinuityRejection::IdentityRecordMismatch);
+    }
+    if cycles.len() < 2 {
+        rejections.insert(ContinuityRejection::InsufficientCycles);
+        return Err(rejections.into_iter().collect());
+    }
     let authority_context_sha256 = cycles[0].authority_context_sha256.clone();
     if !is_sha256(&authority_context_sha256) {
         rejections.insert(ContinuityRejection::AuthorityContextMismatch {

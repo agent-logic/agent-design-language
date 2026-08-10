@@ -320,6 +320,18 @@ fn verified_tokens_cannot_be_reordered_duplicated_or_relabelled() {
         .iter()
         .any(|error| matches!(error, ContinuityRejection::DuplicateCycle { .. })));
 
+    let valid_record = build_birthday_continuity(&identity, &verified).unwrap();
+    let mut stale_identity = identity.clone();
+    stale_identity.stable_name.push_str(" Forged");
+    assert!(build_birthday_continuity(&stale_identity, &verified)
+        .unwrap_err()
+        .contains(&ContinuityRejection::IdentityRecordMismatch));
+    assert!(
+        validate_birthday_continuity_record(&valid_record, &stale_identity, &verified)
+            .unwrap_err()
+            .contains(&ContinuityRejection::IdentityRecordMismatch)
+    );
+
     let mut relabelled_identity = identity.clone();
     relabelled_identity.stable_name.push_str(" Copy");
     relabelled_identity.record_sha256 =
@@ -366,7 +378,6 @@ fn verified_tokens_cannot_be_reordered_duplicated_or_relabelled() {
     let spliced = vec![verified[0].clone(), replacement_verified[1].clone()];
     let errors = build_birthday_continuity(&identity, &spliced).unwrap_err();
     assert!(errors.contains(&ContinuityRejection::AuthorityContextMismatch { generation: 2 }));
-    let valid_record = build_birthday_continuity(&identity, &verified).unwrap();
     assert!(
         validate_birthday_continuity_record(&valid_record, &identity, &spliced)
             .unwrap_err()
