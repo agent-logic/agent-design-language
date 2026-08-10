@@ -51,3 +51,4 @@
 {"sequence":51,"generation":34,"actor":"codex:5869-epoch-lease-authority","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":52,"generation":34,"actor":"codex:5869-epoch-lease-authority","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":53,"generation":35,"actor":"codex:5869-epoch-lease-authority","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":54,"generation":36,"actor":"codex:5869-epoch-lease-authority","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

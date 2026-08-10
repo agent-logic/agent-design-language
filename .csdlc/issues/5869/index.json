@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7267ce23765f7123ab0ffbb966ebbd8848190136f77b904b3649ddf6830c9e75",
-  "phase": "reviewed",
-  "generation": 35,
-  "digest": "47b9ceaea9b7c92d61120fb97d54da50feb1108c80146863f100e76716cb3d80",
+  "phase": "published",
+  "generation": 36,
+  "digest": "6ec096452b7c35a329e8fe1a938846680057f53609c863309cb6239ab39a83d3",
   "branch": "codex/5869-epoch-lease-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5869-lease",
   "review_assignment": {
@@ -32,7 +32,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5869,
+    "pull_request": 107,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/107",
+    "base": "main",
+    "head": "codex/5869-epoch-lease-authority",
+    "revision": "git-blake3:3a71ff27c485e84baf90ff2225206cdf146a1361:77d82be686ba87b6858c440654321779b8534539cf914b93b70cba5402e04027",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -46,34 +57,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f87d928fac121b6eaa44eb12312bdc4320b0d2a2b938f2e18e6673e42f92a263",
+      "values_digest": "94884d5b30f8b12b54eb26cbaff0318a1f3c709e4e717cc40df7ccac666e15f6",
       "rendered_digest": "876d9101a6666c6ad62e03e5f07b16d742e7e71f9009f8e314769c8e5ceb192f",
       "ast_digest": "65341c5ceb5278de2c0b114ed0aaa4d7f7dc8f6b67d65b23b8bf11976b552626"
     },
     "stp": {
-      "values_digest": "7ac7e5bbee8a14051a62ae9bc60200e70e8109045880b9d4f11f8422fe1d222c",
+      "values_digest": "68def8921c8e70187aeeab193bc1ec961ab5946261ad40080bddb80c813cb28e",
       "rendered_digest": "be6d8077ebd38cc92bc43ad3d76c96179627ab8a788f3f8eb2c5e624fe03657f",
       "ast_digest": "01f512bd941c9c986198da01647a026b2e13699447c227837fc7ef6ff1a5b35c"
     },
     "spp": {
-      "values_digest": "3c250430cdd6ae0847ce77fa2b1dcf7ed54553f4bb85f2fb4b498e979ae39804",
+      "values_digest": "bbface43c5b054024e0942d897bcc0e5c768b73f67cea053e3b1f97dc581c301",
       "rendered_digest": "88f46d39ce8e005ea289d5439954b2cd2212be14a4e23ba0c6ad5137abd3eab7",
       "ast_digest": "2fb4d33f6fe69cd8ac4ae38182d146ba5800be3b67ec9878964b1ac295242d46"
     },
     "vpp": {
-      "values_digest": "814828f3002b366c088f361ad59b6c980eab0e00b3e57653cf9fb2cd4591552d",
+      "values_digest": "9675f0115486c55a1d113da2bd1f7a25178d0e9fb3cb9fca06960c94910c4f3b",
       "rendered_digest": "4316631ee8738106f1195c316bb46146e0c19ad186242162ee1172de1a86a91b",
       "ast_digest": "4a7e115ee9911f503d3bb4804804986f48e318c7665effc1038c5f3a64b6906f"
     },
     "srp": {
-      "values_digest": "1bded70b1bb7790397e8063c1f9ee461b7d6a6c43781bedfab94669db482e497",
+      "values_digest": "8e51146f7acba47b5e4a2577c08abe8d2223e9b757663969a8b70b6afdfe2522",
       "rendered_digest": "6db880e4d34097ae78f98b932b334f4c44ec8ff36cd29fc59dc3dff48e0dfa31",
       "ast_digest": "9b84d8667cf66620e14fb2f913f013ab0a30db1c1472d7bcbafb5ebf5a78f654"
     },
     "sor": {
-      "values_digest": "bffdf88dc8c11f6b8b5212e176e01eea246939ed0b7ce1373be364e337cc3153",
-      "rendered_digest": "2fb7e74c709b5ce2bf57f523a63a37ed243f2f780af1c69d90eb6c81ee6fd484",
-      "ast_digest": "b02a7f2522b879ebcdf454744b66ca5b09af289eed9ffedeed2f477ab4805729"
+      "values_digest": "6457af7daff5d27ea94db81cce42bc40feaf063dcb08b8d4b2f4a0bfc162fb1b",
+      "rendered_digest": "02961411c68593a4322eac76aa0fa4070aa267bd28fd747fea52cafb328d25e0",
+      "ast_digest": "f904c6d288fb0435e1ff9c384dd73ce6afe626d19a6f7ca4185346495465338f"
     }
   },
   "transitions": [
@@ -125,6 +136,13 @@
       "to": "reviewed",
       "actor": "codex:5869-epoch-lease-authority",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5869-epoch-lease-authority",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -498,6 +516,13 @@
       "actor": "codex:5869-epoch-lease-authority",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 36,
+      "actor": "codex:5869-epoch-lease-authority",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

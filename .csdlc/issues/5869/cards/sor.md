@@ -85,11 +85,11 @@ Implemented bounded majority-committed epoch and lease authority with exact stab
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
