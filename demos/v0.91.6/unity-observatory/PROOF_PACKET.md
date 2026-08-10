@@ -1,5 +1,13 @@
 # Unity Observatory Bounded Proof Packet
 
+## Runtime v3 TLS proof boundary
+
+No retained evidence in this packet proves a live Unity exchange with Runtime
+v3 over HTTPS or WSS. That proof remains gated until Runtime is served on a real
+DNS name with an externally issued certificate accepted by Unity's ordinary
+platform trust path. Self-signed leaves, trust-store installation, and
+certificate-verification bypasses are not acceptable proof substitutes.
+
 ## v0.91.8 Flagship Presentation Proof (`#5662`)
 
 Issue `#5662` advances the operator-provisioned flagship Observatory from the
