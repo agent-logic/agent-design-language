@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.07 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/lease.rs
+adl-runtime/tests/distributed_lease.rs
 
 ## Prompts
 
@@ -31,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The issue-owned source remains intentionally unregistered until integration issue #5878 owns distributed module registration.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f3ddd8292c00afcfa7c577ab7bdd3e72f4f02502:054f3b961948f0c01b314380478181c1008434c57ebdac790e39990b3bcf3ec5")
 
-Reviewer: None
+Reviewer: Some("Codex independent exact-head code/security/lifecycle reviewer")
 
-Result: pre_review
+Result: pass
