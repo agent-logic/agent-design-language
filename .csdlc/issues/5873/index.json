@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "286a9c566e2442475f6ad3fe62f70783c96867644518b62a8f642694982dbb97",
   "phase": "initialized",
-  "generation": 7,
-  "digest": "4cdb08fc3b248edac2aa6195a875f6677e875f23010bb26f4083929839fb1734",
+  "generation": 12,
+  "digest": "8b18fb146c687e5a0cac93941ef6b77d3f480abf4dc2d054195641ac1d209c8a",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "db97ad9d6ff14adb632878b4fb0f967d5a53d3c1f74d5e3f7828b653c7596b0d",
+      "values_digest": "a66a5a69cc95abe2e3597d1972c02c3d71f973eb142ddfb29d1459ace57e0ae0",
       "rendered_digest": "8555bfd455730a0b9388a6039d5312db347324641a498b3046900db7178c6142",
       "ast_digest": "829578bb77c35e5f157d72fe52cca91d8b5202fe06301a3e51054cd3f1436364"
     },
     "stp": {
-      "values_digest": "d91de1e4a80bd4a386b203c09ab1ba0afab171b80902a90fd2d72496c68fe5a6",
-      "rendered_digest": "20286476b0ba9dcab452f5d8fbb6a9683ec36bc5bf54c2923c53b5cc5dc23e84",
-      "ast_digest": "e5ae36f91205002d859a89e1074a12c38039cd96b6bf8439b91dd0adbc38864e"
+      "values_digest": "ab8684fbc490e7bb56e6ef1b6a5c8367c87c5d56d2f38340711c411852ed5d8b",
+      "rendered_digest": "65bb11e677677bea949b1457d3279094459de005a737b16eee858a69215a9248",
+      "ast_digest": "12b3bd122744bf2eaf4f4c67daba9e6e0171ad2d0f6a9f303917f097832a5970"
     },
     "spp": {
-      "values_digest": "2af82fc32cd5b77d28e6cf4180b4b0b1046fcf41e9d9c194d8a3fa7ce45b83e5",
-      "rendered_digest": "51e35c6bd510f95081fce83306cd4318faf5df2038f9e27d34f790207e56e709",
-      "ast_digest": "f5f84faa132a003b814f0c9e26b9ae41411064a280313048004586c654960272"
+      "values_digest": "876dd942fb3a038589dfb04e6b72b58dfc15b78d673897d84d8c8f652d0c0041",
+      "rendered_digest": "d7d1743bab5b280d628d778054520035725ba554022e6a259230bda4e68365b3",
+      "ast_digest": "7bbe89a3902d48e08feaa53df909c4d64e70062bb6f355954a8f8a5145d53cd4"
     },
     "vpp": {
-      "values_digest": "9fc0561bd78caa3b1d621d6f39cb63fb43dcb859eb243871f7ede4f855c87b61",
-      "rendered_digest": "0adee2bb61eb01ca6c031e75ed88f9119ac2036126bf5b876151baf7915db703",
-      "ast_digest": "3cf07c1985f15373ec02e9649ae6247a35e69bb263315c29ee906473aadbd610"
+      "values_digest": "f33665a6f71e093111eaa8d8dd9e2be9bd2bcf19d2bcb80a355753562224ffde",
+      "rendered_digest": "f7a3e7411911aa6b6d14e9ce64cc67cf664ecaffc57e9cffdb21607abbde4520",
+      "ast_digest": "6bf9f3bc7db7d796dab39b27e34af050e02a17a5f7946fb9475f6c9a53c2e8da"
     },
     "srp": {
-      "values_digest": "42aa185e21ecdd043a9b607901c337d881619fcd9e7a74d4c13f7aa63a173557",
+      "values_digest": "8683104c48f4f7bf7a4516cbf6946dd2d87177135256f3f9d9d16f7316009b97",
       "rendered_digest": "17693df6673dc02a14d6729ec5209ab97ed6edfa71617430919a94d733d3f5da",
       "ast_digest": "7a2825dc8d7acf985c4553144444203dc04bd58ab73a35f2374ffdacd8155a7d"
     },
     "sor": {
-      "values_digest": "fb93d38abe3ebe9d91faab3f42645159643ff530d160f70688e189eac221ddbc",
+      "values_digest": "9864ac1f459f93103650965b01a665867411c41f91226225e054cc611388dce3",
       "rendered_digest": "b39592d68a09993f3f397d748c0983090e1fa1f1dc5a6c653c5ab658fe2cc905",
       "ast_digest": "d4303b41968cd95eae636b398bc80e48e78f2ae1977ff811c861ea06033c4ea7"
     }
@@ -238,6 +238,41 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:5873-readiness-preparation",
+      "reason": "Declare the exact two exclusive product paths and bounded proof deliverables before execution binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"Focused deterministic positive and fail-closed negative tests\",\"Digest-bound exact-revision execution proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 9,
+      "actor": "codex:5873-readiness-preparation",
+      "reason": "Record the exact merged input dependencies and preserve the corrective lease and fencing merge gates before placement execution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-04.05 membership issue #5867 closed through merged PR #102 and merge revision ancestral\",\"WP-04.06 failure-detection issue #5868 closed through merged PR #106 and merge revision ancestral\",\"WP-04.07 lease issue #5869 closed through merged PR #107, with corrective issue #5909 PR #120 merged and its exact merge revision ancestral before execution\",\"WP-04.08 fencing issue #5870 closed through a merged PR whose exact merge revision is ancestral before execution\",\"WP-04.09 capability issue #5871 closed through merged PR #89 and merge revision ancestral\",\"WP-04.10 resource-weather issue #5872 closed through merged PR #93 and merge revision ancestral\",\"WP-04-IMP umbrella issue #5862 as coordination parent, not a terminal child gate\",\"Architecture/security gate issue #5821 terminal\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 10,
+      "actor": "codex:5873-readiness-preparation",
+      "reason": "Replace generic runtime inputs with the exact merged distributed contracts and the gated future fencing contract, all read-only to placement.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\",\".csdlc/prepared/issues/5821/design.md\",\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/fencing.rs\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 11,
+      "actor": "codex:5873-readiness-preparation",
+      "reason": "Replace generic and pre-creation stops with exact serial dependency, contract, collision, and post-implementation proof gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Corrective issue #5909 PR #120 is not merged or its exact merge revision is not ancestral to the selected execution base\",\"Issue #5870 is not closed through a merged PR or its exact merge revision is not ancestral to the selected execution base\",\"The merged membership, failure-detection, lease, capability, resource-weather, or fencing contracts cannot support bounded deterministic placement without widening the two owned paths\",\"Either exact owned path is already present in or collides with another live issue worktree\",\"After implementation the distributed_placement target is absent, selects zero tests, or any required positive, negative, receipt, or review proof fails\",\"Module registration, product scope, dependency ownership, or rollback authority must widen beyond issue #5873\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 12,
+      "actor": "codex:5873-readiness-preparation",
+      "reason": "Declare the issue-owned bind-safe temporary path harness enabled by merged issue #79 while preserving exact nonzero and receipt proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero nextest target proves deterministic bounded placement from authenticated membership, failure, lease, fencing, capability, and resource-weather inputs, including stale, fenced, over-capacity, no-eligible-target, ordering, and policy-bound fail-closed cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_placement\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/placement.rs\\\"] harness in adl-runtime/tests/distributed_placement.rs will route adl-runtime/src/distributed/placement.rs after both owned paths are implemented and until integration issue #5878 registers the production module; their pre-implementation absence is not a validation pass.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, machine-derived negative-case, runner, and receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=e4f942cb06eb5978c9eaa2d637af4b9677a8243f40c2a23f516d58b2d1466e7d]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5873/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }
