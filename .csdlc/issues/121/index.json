@@ -5,10 +5,22 @@
   "initialization_digest": "b1c50d0aa6d57ad8c546fc3a6feeafead6f1f7ac94447f8122e5f9a7c84575b8",
   "phase": "implemented",
   "generation": 14,
-  "digest": "6214e7b3ffd012a603c38b80120be370bae00b38b54bf804cd9feed81a93c33e",
+  "digest": "ac89d1fa1942dfa0dcf8507e8b001b177ec36b8280f34ec9273c1531a8f7eba4",
   "branch": "codex/121-quorum-fence-restart-safe-epochs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-121-quorum-fence",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue-121-proof-repair-review",
+    "assigned_by": "codex:121-epoch-overflow-remediation",
+    "revision": "git-blake3:f729263b04820f730841059680a3902b1b99b1e3:df6d256432fa1dd77bd1f86e175a1d8467ae25bc1d8f38624f149c4ec5ded494",
+    "scope": [
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_lease.rs",
+      ".csdlc/issues/121",
+      ".csdlc/evidence/121",
+      ".csdlc/prepared/issues/121",
+      ".csdlc/publication/121.intent.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "acd457e48884ff2d58fa637324ca1aaf5481a2b9e77265080dd1dcf5d9ecb720"
     },
     "srp": {
-      "values_digest": "0d3b95261810d226873083d41fe73ccc849442fd561e5c3a9e67173f33547700",
-      "rendered_digest": "1f8484cd4c7e065f65a5a544f7834ee0ac190e5734983b75e6bae136bc4980d8",
-      "ast_digest": "57f89ed9924e3742a3f26a1f510697c5bdcb8771810f4127645b62daabdcb36e"
+      "values_digest": "1fdd7bf2434f11631938d50f2ad46f3a9537396e5550350796533e5e84b1a611",
+      "rendered_digest": "ba86cba3025dd8ce439529e6cffb373c96b3751fe4bf15e8684d8622cca1b36a",
+      "ast_digest": "dc4eade69f54b2a62912cc040e31a58c8bb7dd18ae8e4d983a140f4958a6f06a"
     },
     "sor": {
       "values_digest": "9aa886e6b2bb13e76749eb7ba32527fe3b4954ec62b8488b1c0cee6c397b480b",
@@ -308,6 +320,13 @@
       "actor": "codex:121-epoch-overflow-remediation",
       "reason": "Recover the provisional assignment before selecting the truthful overflow-v2 receipt and reconciling publication intent to merged-parent main.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 14,
+      "actor": "codex:121-epoch-overflow-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
