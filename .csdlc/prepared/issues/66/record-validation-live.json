@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "0f72b230dda9d449d418ed1ffc5f3b38aa752784c746330c9919721392ff7f2c",
+  "actor": "codex:66-validation",
+  "reason": "Record the bounded live Pluto synthesis to Nova-3 transcription round trip.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","test","-q","--manifest-path","adl/Cargo.toml","--test","provider_tests","deepgram_pluto_nova3_round_trip","--","--ignored"],"purpose":"Prove a live Aura-2 Pluto synthesis and Nova-3 prerecorded transcription round trip with normalized expected-phrase match and a metadata-only redacted receipt; 1 passed, 0 failed.","outcome":"passed","evidence_ref":".csdlc/evidence/66/deepgram-live-receipt.json"}}
+}

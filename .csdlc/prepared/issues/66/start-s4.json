@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "spp",
+  "expected_generation": 11,
+  "expected_digest": "7b6a118a8fbcb7bde53ab75cdb22b856efc473be1e17a877ebdbecd0012abc39",
+  "actor": "codex:66-review",
+  "reason": "Focused implementation and live proof are complete; independent exact-diff review and publication remain active.",
+  "operation": {"operation":"update_plan_step","step_id":"S4","status":"in_progress"}
+}

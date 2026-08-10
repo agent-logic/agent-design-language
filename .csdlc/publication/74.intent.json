@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 74,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/74-stale-claim-topology-regression",
+  "title": "[v0.92][C-SDLC v2] Fix same-issue stale topology bind regression",
+  "body": "Closes #74\n\n## Summary\n- skips stale same-issue projections that declare neither branch nor worktree topology before current-schema decoding\n- preserves strict failure for malformed, partial, and genuine ownership topology\n- adds real-binary coverage for the reported same-issue legacy claim projection without mutating stale records\n\n## Validation\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate2` (5 passed)\n- `cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`\n- `cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check`\n- typed issue validation and diff hygiene\n\n## Review\nIndependent exact-head review passed with no actionable findings.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:c85d474afeacecbab3aac0afd24c82854437a158:624de982f0239949e48fea7f239c809f8e317eb1f30bad9ffed70516b2fb7cc8",
+  "commit_sha": "c85d474afeacecbab3aac0afd24c82854437a158"
+}

@@ -1,0 +1,7 @@
+{
+  "issue": 66,
+  "expected_generation": 26,
+  "expected_digest": "68891f38886e66ce3cfeaec60cb47e67950607d49afaa051ea884d8742baff19",
+  "actor": "codex:66-coverage-remediation",
+  "reason": "The final hosted coverage gate measured deepgram.rs below the required per-file threshold. Recover to implemented so deterministic fail-closed tests, focused coverage proof above 80 percent, and the unchanged provider implementation receive current exact review and publication truth."
+}

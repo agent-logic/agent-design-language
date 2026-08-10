@@ -1,0 +1,23 @@
+{
+  "schema": "adl.wp04.negative_cases.v1",
+  "issue": 5866,
+  "source_revision": "753745082a87bda94f54d6a810203f89b10b0b47",
+  "test_output": ".csdlc/evidence/5866/generation-protobuf-durable/distributed-discovery.stdout.log",
+  "source_artifacts": {
+    "adl-runtime/src/distributed/discovery.rs": "ed8cc7055e9757dd6c3f0212beaba6f420cda63d3b666f78dafc3af59deec82d",
+    "adl-runtime/tests/distributed_discovery.rs": "5ea6296c512fcd7854c203c6b4fc1a8e0c4d23a02a1f5b4ea8aa24fe9015f0f6"
+  },
+  "cases": [
+    {"case": "candidate_transport_generation_rotated_during_exchange", "test": "expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed", "result": "rejected"},
+    {"case": "seed_identity_and_transport_generations_rotated_during_exchange", "test": "expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed", "result": "rejected"},
+    {"case": "noncanonical_or_unknown_protobuf_fields", "test": "malformed_payload_and_transport_generation_mismatch_fail_closed", "result": "rejected"},
+    {"case": "durable_replay_after_restart_within_validity", "test": "replay_window_survives_restart_within_the_signed_validity_horizon", "result": "rejected"},
+    {"case": "cross_seed_same_request_replay", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "live_replay_window_capacity", "test": "replay_window_denies_live_entries_and_recovers_capacity_after_expiry", "result": "denied"},
+    {"case": "expired_replay_window_capacity_recovery", "test": "replay_window_denies_live_entries_and_recovers_capacity_after_expiry", "result": "recovered"},
+    {"case": "duplicate_configured_seed", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "stale_seed_transport_generation", "test": "public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds", "result": "rejected"},
+    {"case": "malformed_unauthorized_or_resource_exhausted", "test": "seed_and_message_resource_bounds_reject_before_work", "result": "fail_closed"},
+    {"case": "timeout_cancellation_revocation_rotation_expiry", "test": "expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed", "result": "denied"}
+  ]
+}

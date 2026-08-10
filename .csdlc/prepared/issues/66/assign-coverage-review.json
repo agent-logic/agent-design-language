@@ -1,0 +1,20 @@
+{
+  "issue": 66,
+  "expected_generation": 28,
+  "expected_digest": "5afea874bc5aeb331f4401f7f0c7d3302898a5b638a47474c560f836aad71b66",
+  "reviewer": "subagent:66-coverage-review",
+  "assigned_by": "codex:66-coverage-remediation",
+  "scope": [
+    "adl/src/provider/deepgram.rs",
+    "adl/src/provider/mod.rs",
+    "adl/src/provider/profiles.rs",
+    "adl/src/provider_substrate.rs",
+    "adl/src/provider/http_family/tests.rs",
+    "adl/tests/provider_tests.rs",
+    "adl/tests/provider_tests/deepgram.rs",
+    "docs/tooling/PROVIDER_SETUP.md",
+    "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+    "docs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json",
+    ".csdlc/evidence/66"
+  ]
+}

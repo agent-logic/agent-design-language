@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.09 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/capability_advertisement.rs
+adl-runtime/tests/distributed_capability_advertisement.rs
 
 ## Prompts
 
@@ -35,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:183bb3ae2451d2092a1075f9611113c03237de91:b1532647057e02aed736142b3f497fb954ba5b734298d749a83e04d897c32c6a")
 
-Reviewer: None
+Reviewer: Some("Codex independent security/correctness reviewer")
 
-Result: pre_review
+Result: pass

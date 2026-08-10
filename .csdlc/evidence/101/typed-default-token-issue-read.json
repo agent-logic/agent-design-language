@@ -1,0 +1,23 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "## Incident\n\nA Codex session attempted to create an ADL issue through the ChatGPT GitHub connector. The connector returned `403 Resource not accessible by integration`. The session then used raw `gh` with the approved token file. The mutation succeeded, proving the shared token remains valid, but both routes violated the existing C-SDLC v2 ownership contract.\n\nThis is not a regression in legacy token work #3963, #4087, #4454, or #5655. It is a route-selection and guardrail regression: the repository's root operating instructions did not stop the session before it selected a forbidden write path.\n\n## Required outcome\n\nMake the repo-native Rust GitHub owner path unmistakable and mechanically guarded for every covered ADL issue/PR mutation. Unsupported connector writes must never be attempted, and connector failure must never authorize raw `gh` fallback.\n\n## Acceptance criteria\n\n- [ ] Root `AGENTS.md` explicitly prohibits the ChatGPT GitHub connector and raw `gh` for covered lifecycle writes.\n- [ ] Root guidance names `csdlc-github-issue`, `csdlc-github-pr`, `csdlc-publish`, and `csdlc-finish` as the only current owners for their respective surfaces.\n- [ ] Missing or unavailable installed owner binaries fail closed; they do not authorize fallback.\n- [ ] Add a focused repository guard or fitness test that detects drift between root policy and `docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md`.\n- [ ] Add an incident regression fixture proving a connector 403 cannot be reclassified as a token failure or fallback authorization.\n- [ ] Verify issue creation through `csdlc-github-issue` using the approved default token resolver without printing or persisting token contents.\n- [ ] Preserve existing shared token precedence and redaction behavior.\n\n## Historical evidence\n\n- Legacy #3963 fixed shared token discovery/redaction.\n- Legacy #4087 fixed configured-token propagation.\n- Legacy #4454 restored operator-default token discovery.\n- Legacy #5655 added the repo-native Rust GitHub mutation surface with no connector dependency.\n- The same connector 403 was observed in legacy #5384 and PR #5682.\n\n## Non-goals\n\n- Do not reopen or rewrite the completed token resolver implementations.\n- Do not authorize connector writes.\n- Do not add raw `gh` fallback.\n- Do not expose token contents.\n- Do not touch publication recovery issue #100 beyond linking this incident.\n<!-- csdlc-github-operation:emergency-github-route-regression-20260809 -->\n",
+    "closed_at": null,
+    "created_at": "2026-08-10T00:09:23Z",
+    "labels": [],
+    "marker_present": true,
+    "milestone": null,
+    "number": 101,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[Emergency][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes"
+  },
+  "operation_key": "emergency-github-route-regression-20260809",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

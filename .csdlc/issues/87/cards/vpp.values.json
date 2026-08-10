@@ -1,0 +1,77 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 87,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
+    "slug": "acip-minor-version-strict-clippy",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "acip-version-negotiation",
+          "proof_role": "The issue-owned integration target proves exact, wider-compatible, future-only, and malformed inclusive minor ranges.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "acip_version_negotiation"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "acip-strict-clippy",
+          "proof_role": "Warning-denied library compilation proves the shared ACIP predicate; exact child consumer commands were also run on their live heads with this patch.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on changed major matching, accepted malformed/future-only ranges, missing focused coverage, strict Clippy warnings, or child-owned path changes.",
+      "design_ref": ".csdlc/prepared/issues/87/design.md",
+      "design_digest": "9b43fca9e625ea50ae7022dc0f8fcf2569ca96b3373db88e3395c234e0a33046",
+      "diagram_ref": ".csdlc/prepared/issues/87/diagram.mmd",
+      "diagram_digest": "8e0b88384b80a19910c7b4414ebe6b151888c2f231230e1694061ba639b9c51b"
+    }
+  }
+}

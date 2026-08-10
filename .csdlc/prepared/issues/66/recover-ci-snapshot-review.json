@@ -1,0 +1,7 @@
+{
+  "issue": 66,
+  "expected_generation": 23,
+  "expected_digest": "dc55d9046dca8a7f10d25b86bb8130a927a4fdc133703de95e53cd5f9e9a2c6f",
+  "actor": "codex:66-ci-remediation",
+  "reason": "CI exposed a deterministic tracked provider-comparison snapshot mismatch after speech capability fields were added. Recover to implemented so the exact corrected snapshot and unchanged provider implementation can receive current review and publication truth."
+}

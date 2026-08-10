@@ -1,0 +1,15 @@
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+────────────
+ Nextest run ID d3453e78-0fe8-467d-8f37-120765fbd57c with nextest profile: default
+    Starting 8 tests across 1 binary
+        PASS [   0.009s] (1/8) adl-runtime::distributed_membership policy_rejects_a_valid_state_that_cannot_fit_the_snapshot_budget
+        PASS [   0.009s] (2/8) adl-runtime::distributed_membership bounds_wrong_domain_and_invalid_shape_fail_before_mutation
+        PASS [   0.009s] (3/8) adl-runtime::distributed_membership duplicate_effective_voter_control_key_is_rejected
+        PASS [   0.010s] (4/8) adl-runtime::distributed_membership duplicate_is_idempotent_while_conflict_stale_and_gap_fail_closed
+        PASS [   0.010s] (5/8) adl-runtime::distributed_membership removed_voter_key_can_be_reused_only_after_committed_removal
+        PASS [   0.010s] (6/8) adl-runtime::distributed_membership tampered_or_policy_mismatched_snapshot_is_rejected
+        PASS [   0.010s] (7/8) adl-runtime::distributed_membership verified_restart_preserves_membership_voter_uniqueness_and_replay
+        PASS [   0.010s] (8/8) adl-runtime::distributed_membership ordered_committed_events_converge_deterministically
+────────────
+     Summary [   0.011s] 8 tests run: 8 passed, 0 skipped

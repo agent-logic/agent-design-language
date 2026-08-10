@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.05] Membership state and topology convergence",
     "slug": "v0-92-wp-04-05-membership-topology",
     "version": "v0.92",
-    "generation": 13
+    "generation": 21
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.05 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/membership.rs\nadl-runtime/tests/distributed_membership.rs",
+      "review_revision": "git-blake3:a01fec9223fd57dcb5228bf74d63147552bc6b3a:afcccf09884a15ea68a09a84d6d5241b6607bf4435c46b03db4881e191127102",
+      "reviewer": "Codex independent review subagent /root/review_5866_hardened",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Production module registration and integrated distributed runtime wiring remain intentionally owned by issue #5878."
+      ],
+      "review_result": "pass"
     }
   }
 }

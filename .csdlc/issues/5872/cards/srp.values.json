@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.10] Signed resource-weather advertisements",
     "slug": "v0-92-wp-04-10-resource-weather-advertisements",
     "version": "v0.92",
-    "generation": 7
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.10 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/resource_weather.rs\nadl-runtime/tests/distributed_resource_weather.rs\n.csdlc/evidence/5872/execution-proof.json\n.csdlc/evidence/5872/negative-cases.json\n.csdlc/evidence/5872/exact-child-tests.log\n.csdlc/evidence/5872/exact-revision-proof-receipt.log",
+      "review_revision": "git-blake3:204d1d734050b12845a1d03dc7f7816129185c04:bd38127e039a56b2c1e519a5d2d9552b95b872f86ded0e9032c992feeb73b6af",
+      "reviewer": "/root/issue_79/child_fixture_analysis",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Stable-state path checks reject relative and symlinked components but do not claim race-free filesystem confinement; production registration and cross-child integration remain deferred to #5878."
+      ],
+      "review_result": "pass"
     }
   }
 }

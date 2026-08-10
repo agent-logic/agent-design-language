@@ -16,45 +16,35 @@ Run the exact current-main canary first, retain a focused regression, and touch 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Construct an unrelated legacy projection with a retired claim field and run real csdlc-bind.",
+    "action": "Reproduce real csdlc-bind with a stale same-issue projection whose retired claim field is present but whose branch and worktree ownership fields are absent.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Add negative cases making the malformed record relevant and creating real ownership collisions.",
-    "acceptance_ids": [
-      "AC-3",
-      "AC-4",
-      "AC-5"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S3",
-    "action": "If current behavior fails, apply the smallest relevance-first correction; otherwise record a regression-only outcome.",
+    "action": "Skip strict decoding only for projections with no branch or worktree topology authority while preserving strict verification for live same-issue, branch, and worktree collisions.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
-    "id": "S4",
-    "action": "Run focused validation and exact-head review.",
+    "id": "S3",
+    "action": "Run the focused Gate 2 real-binary regression and strict clippy validation from the issue worktree.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -62,7 +52,19 @@ Revision 1
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
+  },
+  {
+    "id": "S4",
+    "action": "Obtain bounded exact-head review, publish the repair PR, and shepherd required checks without merging.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "in_progress"
   }
 ]
 

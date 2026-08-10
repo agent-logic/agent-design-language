@@ -1,0 +1,44 @@
+{
+  "issue": 5866,
+  "card": "sor",
+  "expected_generation": 19,
+  "expected_digest": "ae9bf4873ba0112c190e03fbb9322fc5a6fdccbbc79371da990e86f4e3ea4b21",
+  "actor": "codex:5866-distributed-discovery",
+  "reason": "Replace superseded replay remediation truth with the final cross-seed and expiry-bounded replay-window proof.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented bounded authenticated seed discovery with atomic request-plus-proposal replay admission and expiry-bounded caller-retained replay state.",
+    "changes": [
+      "Treat configured seeds only as bounded addresses and expected peer identities, never as enrollment or membership authority.",
+      "Atomically retain accepted request and proposal identifiers so the same request cannot bypass replay denial through a different valid seed.",
+      "Retain live replay entries through their signed validity horizon, deny capacity overflow while all entries are live, and recover capacity only after trusted time passes expiry.",
+      "Fail closed on duplicate seeds, stale certificate generations, cross-call replay, timeout, cancellation, malformed input, wrong domain, revocation, rotation, expiry, and resource exhaustion."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/discovery.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      ".csdlc/evidence/5866/replay-window/execution-proof.json",
+      ".csdlc/evidence/5866/replay-window/negative-cases.json"
+    ],
+    "validation": [
+      {
+        "command": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_discovery", "--no-tests=fail"],
+        "purpose": "Run the exact issue-owned positive and fail-closed discovery target including cross-seed replay and bounded-window recovery.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/5866/replay-window/distributed-discovery.stdout.log"
+      },
+      {
+        "command": ["cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_discovery", "--", "-D", "warnings", "-A", "clippy::absurd_extreme_comparisons"],
+        "purpose": "Run strict focused Clippy for the final discovery surface while allowing only the qualified pre-existing ACIP lint.",
+        "outcome": "passed",
+        "evidence_ref": "local:strict-focused-clippy"
+      },
+      {
+        "command": ["ruby", ".csdlc/prepared/issues/5866/validate-proof-receipt.rb", ".csdlc/evidence/5866/replay-window/execution-proof.json"],
+        "purpose": "Validate the final two-revision replay-window receipt.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/5866/replay-window/execution-proof.json"
+      }
+    ]
+  }
+}

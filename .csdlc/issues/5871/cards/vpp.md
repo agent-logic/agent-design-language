@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5871/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_capability_advertisement proves signatures, expiry, replay, wrong signer, oversize, redaction, and deterministic projection.",
+    "proof_role": "Exact nextest target distributed_capability_advertisement uses a bounded #[path] harness for the unregistered issue-owned source and proves canonical signatures, exact live certificate authorization, expiry, freshness, replay, capacity, revocation, wrong signer, purpose, domain, certificate, oversize denial, and deterministic evidence-only projection.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,7 +47,7 @@ Diagram: .csdlc/prepared/issues/5871/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "child",
-    "defer_reason": null
+    "defer_reason": "Deferred only until this issue creates owned target adl-runtime/tests/distributed_capability_advertisement.rs, which must compile the unregistered source through #[path = \"../src/distributed/capability_advertisement.rs\"] for adl-runtime/src/distributed/capability_advertisement.rs; fail closed until both exact owned deliverables exist and the target selects nonzero tests."
   },
   {
     "lane": "exact-revision-proof-receipt",

@@ -59,6 +59,14 @@
           "semantic_tool_fallback": {
             "supported": false,
             "mode": "none"
+          },
+          "speech_synthesis": {
+            "supported": false,
+            "mode": "none"
+          },
+          "speech_transcription": {
+            "supported": false,
+            "mode": "none"
           }
         }
       },
@@ -121,6 +129,14 @@
             "mode": "native"
           },
           "semantic_tool_fallback": {
+            "supported": false,
+            "mode": "none"
+          },
+          "speech_synthesis": {
+            "supported": false,
+            "mode": "none"
+          },
+          "speech_transcription": {
             "supported": false,
             "mode": "none"
           }
@@ -187,6 +203,14 @@
           "semantic_tool_fallback": {
             "supported": false,
             "mode": "none"
+          },
+          "speech_synthesis": {
+            "supported": false,
+            "mode": "none"
+          },
+          "speech_transcription": {
+            "supported": false,
+            "mode": "none"
           }
         }
       },
@@ -251,6 +275,14 @@
           "semantic_tool_fallback": {
             "supported": false,
             "mode": "none"
+          },
+          "speech_synthesis": {
+            "supported": false,
+            "mode": "none"
+          },
+          "speech_transcription": {
+            "supported": false,
+            "mode": "none"
           }
         }
       },
@@ -312,6 +344,14 @@
           "semantic_tool_fallback": {
             "supported": true,
             "mode": "semantic_fallback"
+          },
+          "speech_synthesis": {
+            "supported": false,
+            "mode": "none"
+          },
+          "speech_transcription": {
+            "supported": false,
+            "mode": "none"
           }
         }
       },
@@ -373,6 +413,14 @@
           "semantic_tool_fallback": {
             "supported": true,
             "mode": "semantic_fallback"
+          },
+          "speech_synthesis": {
+            "supported": false,
+            "mode": "none"
+          },
+          "speech_transcription": {
+            "supported": false,
+            "mode": "none"
           }
         }
       },
