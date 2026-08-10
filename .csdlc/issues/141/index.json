@@ -1,0 +1,187 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 141,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3ea9b62d90eb407d9cb5f7c4a476a2e498edf2b6745691575087074cdb69ea73",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "8eb390af219be088f9c89f4faf500eea19c855689de62f536d69d8bd1c4989dd",
+  "branch": "codex/141-pr120-terminal-proof-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-141-pr120-terminal-proof-repair",
+  "review_assignment": {
+    "reviewer": "subagent:Aquinas",
+    "assigned_by": "codex:141-pr120-review-repair",
+    "revision": "git-blake3:ec5c70303a9fc3293f362a7994be2805c1a038a4:ad4a9aa4dd92c42948a071ced88f29c0b64f99005331298005daf77925499f0b",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/evidence/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ]
+  },
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/141/design.md",
+  "diagram_path": ".csdlc/prepared/issues/141/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:141-final-design-hygiene",
+      "revision": "b7605425cc7ba607d04228ff87b30dc51caa82d9bc71db7ce0d850b0ec30ce29"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "10dbc0fad28f4759c09d7931fa5bbb244c02dcedcc23eb9abd12e44c6e9a0b05",
+      "rendered_digest": "f90a0783c6b5ee3a5175dd5b5ac10cb7ca5fd4f2a29a0e8d515957f54aa3fa00",
+      "ast_digest": "d1005afcfd3ca69fa355e3d72de9eed7af836cc89ee7c8b7dc2a533c57e4dede"
+    },
+    "stp": {
+      "values_digest": "36d759a07fc278d1a16c427de16fe53ee1db57cce9bcdd3c3599110305c6e171",
+      "rendered_digest": "610c850c552bc5b1055f72ca8a8297af6ee0e9c14e564e8a2b9ad5156cb5b06b",
+      "ast_digest": "926920f67e072b4b67a471166fb5aad23caa642f07d2d32fdfac41f093bb1351"
+    },
+    "spp": {
+      "values_digest": "fe7635666fd2e5219c567f573d28e0b1fcba7347c803ba250ef1a6abb4a04c85",
+      "rendered_digest": "a649fd7e17c7c437508b697a42b9bcf221de729c47be18592d1ba5627fd7e7d5",
+      "ast_digest": "c787aefe7c1785885b7c18a9945de952dc4daf3087a29b8a080928c96830d326"
+    },
+    "vpp": {
+      "values_digest": "7d6926a4880adec5e162ee481c35d981ae2b846790105a62a86764297b790ae1",
+      "rendered_digest": "3d24d3ed9bbc849689df3c971619a520d84c04d549193d20b1bc8ca46e72cdde",
+      "ast_digest": "cbc97bd714eb8e7747c229cfce5692a4706cdf54cc7711244c4c8cf232f65e8f"
+    },
+    "srp": {
+      "values_digest": "03e3c8c511c6a7f32773724098b70d23bd7fefe168868cfc69d2e3db07d19c3d",
+      "rendered_digest": "8d31c168dc57497c9c66143da23a363024ea1cf88af77f340ea150b78fb818f7",
+      "ast_digest": "b4517e400b832696e299fc02a6efd03a52037beb0d7fe1bc2c75a117eab8c424"
+    },
+    "sor": {
+      "values_digest": "0e4ca9116461666956f16e1ae75cf6584aa7b3449567f76327068f14342a5873",
+      "rendered_digest": "c51a4a8c6626ecc86c6f0ebc5e9805c7230ee5a9410c858b7bf2fc7836b288bb",
+      "ast_digest": "e1366cd10e051a2153ce159790b31071f0c5a50225a22324d0373bf165230ae5"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:141-design-review-current",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Project the exact repository-owned implementation and lifecycle surfaces into SPP readiness truth.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\",\".csdlc/prepared/issues/141\",\".csdlc/issues/141\",\".csdlc/issues/5909\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Name the exact issue-owned validator targets required by readiness validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\",\".csdlc/prepared/issues/141/test-strict-clippy-proof.rb\",\".csdlc/prepared/issues/141/validate-terminal-records.rb\",\".csdlc/issues/141\",\".csdlc/issues/5909\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:141-design-review-remediation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Include the terminal owner repair and fresh strict-Clippy evidence found necessary during independent review.",
+      "operation": "{\"new_values\":[\"csdlc-v2/src/store.rs\",\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\",\".csdlc/prepared/issues/141\",\".csdlc/evidence/141\",\".csdlc/issues/141\",\".csdlc/issues/5909\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/141\",\".csdlc/issues/141\",\".csdlc/issues/5909\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Align the operative plan with the exact terminal owner, proof, evidence, and lifecycle repair surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/store.rs\",\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\",\".csdlc/prepared/issues/141\",\".csdlc/evidence/141\",\".csdlc/issues/141\",\".csdlc/issues/5909\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Record the complete post-review terminal owner repair and strict-Clippy evidence truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #120 terminal lifecycle truth atomically and made strict-Clippy proof fail closed on exact command, runner, revision, timestamp, and log evidence.\",\"changes\":[\"Completed in-progress SPP steps and the SOR card during terminal materialization, including idempotent repair of previously incomplete terminal cards.\",\"Materialized live merged PR #120 and closed issue #5909 into one canonical closed_out projection and Git-common terminal receipt.\",\"Required the exact successful strict-Clippy command, ordered timestamps, source revision, runner identity, and combined-log digest.\",\"Added focused negative regressions for missing or failed commands, malformed timing, stale revision, unsafe paths, digest drift, and missing or invalid runner identity.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\",\".csdlc/prepared/issues/141/test-strict-clippy-proof.rb\",\".csdlc/prepared/issues/141/validate-terminal-records.rb\",\".csdlc/evidence/141/strict-clippy/validation-manifest.json\",\".csdlc/issues/5909\"],\"validation\":[{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-clean\"],\"purpose\":\"Compile the corrected terminal materialization owner.\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/141/test-strict-clippy-proof.rb\"],\"purpose\":\"Prove exact strict-Clippy receipt acceptance and fail-closed negative cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/141/strict-clippy/validation-manifest.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/141/validate-terminal-records.rb\"],\"purpose\":\"Validate exact terminal record, card, and Git-common receipt parity.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/closeout/5909.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\"],\"purpose\":\"Validate the original execution proof plus fresh strict-Clippy evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5909/review-repair-v3/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "Name exact issue-owned validation targets so readiness proves a nonzero issue-specific denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/store.rs\",\".csdlc/prepared/issues/5862/proof-receipt-contract.rb\",\".csdlc/prepared/issues/5909/validate-proof-receipt.rb\",\".csdlc/prepared/issues/141/test-strict-clippy-proof.rb\",\".csdlc/prepared/issues/141/validate-terminal-records.rb\",\".csdlc/evidence/141/strict-clippy/validation-manifest.json\",\".csdlc/evidence/141/strict-clippy/runner.txt\",\".csdlc/evidence/141/strict-clippy/clippy.log\",\".csdlc/issues/141\",\".csdlc/issues/5909\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:141-final-design-hygiene",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:141-pr120-review-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    }
+  ]
+}

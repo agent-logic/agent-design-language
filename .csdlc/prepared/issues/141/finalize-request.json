@@ -1,0 +1,56 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 141,
+  "expected_generation": 3,
+  "expected_digest": "091c0627504b636c1430656b6ab03b194388339c23c5c48f9abb8680553c6453",
+  "actor": "codex:141-pr120-review-repair",
+  "summary": "Reconciled PR #120 terminal lifecycle truth and made strict-Clippy proof fail closed on exact structured command evidence.",
+  "changes": [
+    "Materialized live merged PR #120 and closed issue #5909 into canonical closed_out records.",
+    "Required the exact successful strict-Clippy command, timestamps, source revision, and bound combined-log digest from the validation manifest.",
+    "Added focused positive, missing-command, and failed-command regression proof."
+  ],
+  "artifacts": [
+    ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+    ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+    ".csdlc/prepared/issues/141/test-strict-clippy-proof.rb",
+    ".csdlc/prepared/issues/141/validate-terminal-records.rb",
+    ".csdlc/issues/5909"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "strict-clippy-contract",
+          "proof_role": "Prove exact structured strict-Clippy command acceptance and fail-closed rejection.",
+          "purpose": "Run the issue-owned positive and negative receipt-contract regression.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 800},
+          "credentials": [], "network": "denied", "dependencies": [],
+          "parallel_group": "focused", "release_gate": "required", "execution": "local",
+          "timeout_seconds": 120, "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/141/test-strict-clippy-proof.rb"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "terminal-record-contract",
+          "proof_role": "Prove issue 5909 terminal records match merged PR 120.",
+          "purpose": "Validate the materialized terminal projection and SOR.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 400},
+          "credentials": [], "network": "denied", "dependencies": [],
+          "parallel_group": "focused", "release_gate": "required", "execution": "local",
+          "timeout_seconds": 60, "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/141/validate-terminal-records.rb"],
+          "evidence": {"max_log_bytes": 8192, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {"requested_lanes": ["strict-clippy-contract", "terminal-record-contract"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 2, "cpu_units": 2, "memory_mib": 384, "tokens": 1200},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-141-pr120-terminal-proof-repair",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-141-pr120-terminal-proof-repair/.csdlc/evidence/141",
+    "cancellation_file": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 141,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Reconcile PR #120 terminal truth and strict Clippy proof",
+    "slug": "pr120-terminal-strict-clippy-proof-repair",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only the two unresolved PR #120 findings; retain the already-fixed epoch overflow as verified current-main truth.",
+      "deliverables": [
+        "Strict structured Clippy receipt contract",
+        "Focused negative and positive regression",
+        "Terminal #5909 lifecycle records",
+        "Reviewed corrective PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: #5909 committed index, SPP, and SOR reflect merged PR #120 and closed issue truth",
+        "AC-2: strict Clippy requires the exact structured argv and validated successful command provenance",
+        "AC-3: digest-only Clippy artifacts fail the focused regression",
+        "AC-4: exact structured successful Clippy proof passes",
+        "AC-5: focused validation and diff hygiene pass",
+        "AC-6: independent exact-head review has no unresolved findings"
+      ],
+      "dependencies": [
+        "Merged PR #120",
+        "Closed legacy issue #5909",
+        "Current shared WP-04 proof receipt contract"
+      ],
+      "repo_inputs": [
+        ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+        ".csdlc/issues/5909",
+        "PR #120 live state"
+      ],
+      "non_goals": [
+        "Runtime behavior changes",
+        "Broad lifecycle tooling redesign",
+        "Unrelated WP-04 record cleanup"
+      ]
+    }
+  }
+}

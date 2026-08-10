@@ -1,0 +1,21 @@
+{
+  "issue": 141,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "7d4332bb3c90f5d6366237a8fabd8bd61d3bd4e209d0f7bf5f489e0a3189b757",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Align the operative plan with the exact terminal owner, proof, evidence, and lifecycle repair surfaces.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/evidence/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ]
+  }
+}

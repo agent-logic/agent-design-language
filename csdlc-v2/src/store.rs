@@ -9,8 +9,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::cards::{
     apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
-    validate_result, CardContent, CardKind, CardValues, InitialCardInput, SemanticOperation,
-    ValidationResult,
+    validate_result, CardContent, CardKind, CardStatus, CardValues, InitialCardInput,
+    SemanticOperation, StepStatus, ValidationResult,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
@@ -450,7 +450,43 @@ impl Store {
         let mut cards = self.load_cards(issue)?;
         verify_cards(self, &record, &cards)?;
         verify_canonical_projection_bytes(self, &record, &cards)?;
-        if already_materialized_match {
+        let terminal_cards_complete =
+            cards
+                .get(&CardKind::Spp)
+                .is_some_and(|card| match &card.content {
+                    CardContent::Spp(values) => values
+                        .steps
+                        .iter()
+                        .all(|step| step.status == StepStatus::Completed),
+                    _ => false,
+                })
+                && cards.get(&CardKind::Sor).is_some_and(|card| {
+                    if card.status != CardStatus::Complete {
+                        return false;
+                    }
+                    match (&card.content, envelope.disposition) {
+                        (CardContent::Sor(values), crate::finish::FinishDisposition::Merged) => {
+                            values.integration_state == crate::cards::IntegrationState::Merged
+                                && values.publication_state
+                                    == crate::cards::PublicationState::Closed
+                                && values.merge_state == crate::cards::MergeState::Merged
+                                && values.closeout_state == crate::cards::CloseoutState::Complete
+                        }
+                        (
+                            CardContent::Sor(values),
+                            crate::finish::FinishDisposition::ClosedUnmerged
+                            | crate::finish::FinishDisposition::ClosedNoPr,
+                        ) => {
+                            values.integration_state == crate::cards::IntegrationState::ClosedNoPr
+                                && values.publication_state
+                                    == crate::cards::PublicationState::Closed
+                                && values.merge_state == crate::cards::MergeState::ClosedUnmerged
+                                && values.closeout_state == crate::cards::CloseoutState::Complete
+                        }
+                        _ => false,
+                    }
+                });
+        if already_materialized_match && terminal_cards_complete {
             if self
                 .load_terminal_receipt(issue)?
                 .as_ref()
@@ -495,6 +531,11 @@ impl Store {
                 values.design_digest = design_digest.clone();
                 values.diagram_ref = record.diagram_path.clone();
                 values.diagram_digest = diagram_digest.clone();
+                for step in &mut values.steps {
+                    if step.status == StepStatus::InProgress {
+                        step.status = StepStatus::Completed;
+                    }
+                }
             }
             _ => unreachable!("SPP"),
         }
@@ -539,6 +580,7 @@ impl Store {
         sor.publication_state = crate::cards::PublicationState::Closed;
         sor.merge_state = merge_state;
         sor.closeout_state = crate::cards::CloseoutState::Complete;
+        cards.get_mut(&CardKind::Sor).expect("SOR").status = CardStatus::Complete;
 
         record.generation += 1;
         for values in cards.values_mut() {
