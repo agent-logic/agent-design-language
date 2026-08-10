@@ -32,8 +32,9 @@ COMMAND = [
   "--exact", "--nocapture"
 ].freeze
 EXACT_NEXTEST = [
-  "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test",
-  "distributed_lease", "--no-tests=fail"
+  "ruby", ".csdlc/evidence/121/run-exact-child-tests.rb",
+  "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml",
+  "--test", "distributed_lease", "--no-tests=fail"
 ].freeze
 STRICT_CLIPPY = [
   "cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test",
@@ -120,6 +121,14 @@ def observed_cases(stdout)
   EXPECTED.keys.map { |name| lines.find { |entry| entry.fetch("case") == name } }
 end
 
+def valid_time_range?(command)
+  started_at = Time.iso8601(command.fetch("started_at"))
+  finished_at = Time.iso8601(command.fetch("finished_at"))
+  finished_at >= started_at
+rescue ArgumentError, KeyError, TypeError
+  false
+end
+
 def verify!(evidence_path, expected_source)
   relative_evidence = relative_repo_path(evidence_path)
   evidence_file = ordinary_file!(relative_evidence, "negative-case evidence")
@@ -150,6 +159,8 @@ def verify!(evidence_path, expected_source)
   clippy = commands.fetch(1)
   abort_with("validation manifest nextest mismatch") unless nextest["argv"] == EXACT_NEXTEST && nextest["exit_code"] == 0 && nextest["selected_tests"].to_i.positive?
   abort_with("validation manifest Clippy mismatch") unless clippy["argv"] == STRICT_CLIPPY && clippy["exit_code"] == 0
+  abort_with("validation manifest nextest timestamps invalid") unless valid_time_range?(nextest)
+  abort_with("validation manifest Clippy timestamps invalid") unless valid_time_range?(clippy)
   [nextest, clippy].each do |command|
     log = ordinary_file!(command.fetch("combined_log_path"), "validation log")
     abort_with("validation log digest mismatch") unless command["combined_log_sha256"] == digest(log)
@@ -311,6 +322,13 @@ when "test-contract"
       end,
       "Clippy exit" => lambda do |_machine, manifest|
         manifest.fetch("commands").fetch(1)["exit_code"] = 1
+      end,
+      "nextest timestamp" => lambda do |_machine, manifest|
+        manifest.fetch("commands").fetch(0).delete("started_at")
+      end,
+      "Clippy timestamp order" => lambda do |_machine, manifest|
+        command = manifest.fetch("commands").fetch(1)
+        command["started_at"], command["finished_at"] = command.fetch("finished_at"), command.fetch("started_at")
       end,
       "validation digest" => lambda do |_machine, manifest|
         manifest.fetch("commands").fetch(0)["combined_log_sha256"] = "0" * 64
