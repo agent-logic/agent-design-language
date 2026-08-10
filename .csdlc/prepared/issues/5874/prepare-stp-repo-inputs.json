@@ -1,0 +1,18 @@
+{
+  "issue": 5874,
+  "card": "stp",
+  "expected_generation": 9,
+  "expected_digest": "c80792710d0dbb5b9370088b4e679404430698c7cdb7ae2a56df76d0a56b2e26",
+  "actor": "codex:5874-readiness-preparation",
+  "reason": "Replace generic runtime inputs with the exact merged certificate contract and gated future fencing contract, both read-only to the snapshot child.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      ".csdlc/prepared/issues/5821/design.md",
+      "adl-runtime/src/distributed/certificates.rs",
+      "adl-runtime/src/distributed/fencing.rs"
+    ]
+  }
+}

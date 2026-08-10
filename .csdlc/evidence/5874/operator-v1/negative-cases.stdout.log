@@ -1,0 +1,33 @@
+
+running 13 tests
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"oversized_snapshot","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"relative_replay_path","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"wrong_certificate_purpose","result":"rejected"}
+test oversized_and_unsafe_replay_state_paths_fail_closed ... ok
+test certificate_purpose_is_snapshot_specific ... ok
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"noncanonical_catalog","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"wrong_schema","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"stale_source_epoch","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"stale_applied_authority","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"wrong_target","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"catalog_substitution","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"content_length_mismatch","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"incomplete_transfer","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"expired_catalog","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"tampered_signature","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"corrupt_chunk","result":"rejected"}
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"replay_mismatch","result":"rejected"}
+test decode_requires_canonical_exact_schema_payloads ... ok
+test stale_or_mismatched_authority_is_rejected ... ok
+ADL_ISSUE_5874_NEGATIVE_CASE_V1 {"case":"replay_after_restart","result":"rejected"}
+test whole_content_length_and_digest_are_enforced ... ok
+test target_and_catalog_substitution_are_rejected ... ok
+test expired_catalog_is_rejected ... ok
+test reused_transfer_id_with_different_manifest_is_rejected ... ok
+test signature_tampering_is_rejected ... ok
+test redacted_projection_contains_no_private_or_topology_material ... ok
+test authenticated_catalog_and_manifest_accept_complete_content ... ok
+test incomplete_and_corrupt_chunks_fail_before_acceptance ... ok
+test accepted_transfer_replay_survives_restart ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.69s

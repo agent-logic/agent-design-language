@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.12] Snapshot catalog and transfer manifest",
     "slug": "v0-92-wp-04-12-snapshot-catalog-transfer",
     "version": "v0.92",
-    "generation": 7
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-04.12 exclusive implementation, tests, proof receipts, and rollback evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/snapshot_catalog.rs\nadl-runtime/tests/distributed_snapshot_catalog.rs\n.csdlc/issues/5874\n.csdlc/evidence/5874\n.csdlc/prepared/issues/5874",
+      "review_revision": "git-blake3:ad19b1987274ea0b8cb52a158ac5fc489d887a95:03a46af606a9e938d55f3c0e92959254f4258ef0b551a6e5ec84c7997909fe7c",
+      "reviewer": "subagent:5874-exact-head-security-review",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
