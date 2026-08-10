@@ -4,7 +4,7 @@
 
 - Feature Name: Adaptive Learning DAG
 - Milestone Target: `v0.92`
-- Status: issue opened; Runtime v3 loop prerequisite requalified by WP-01
+- Status: WP-13A contract implemented locally; native proof pending CI
 - Owner: ADL maintainers
 - Doc Role: primary
 - Feature Types: architecture, runtime, validation
@@ -130,9 +130,29 @@ WP-01 validated the prerequisite by checking:
 - WP-13A owns the opened adaptive-learning implementation issue;
 - no v0.92 birthday claim depends on unproved graph mutation.
 
-Later implementation WPs should add focused tests for evaluation bindings,
-state deltas, graph mutation policy, replay determinism, and fail-closed
-negative cases.
+The issue-owned `adaptive_learning` integration target contains fifteen focused
+tests using real Runtime v3 loop outcomes, cancellation tokens, signed mutation
+grants, `MutationGate`, `AdaptationStore`, and `KernelDurableState`. Accepted
+history requires the canonical adaptive-learning policy digest to match the
+signed grant, mutation evidence, and gate policy. The executor previews the
+signed patch set against an isolated gate snapshot and requires its result to
+equal the declared proposal. A global pending pointer retains that exact
+before-gate snapshot and makes interrupted work discoverable at startup without
+caller-supplied lineage coordinates. The mutation gate holds its exclusive
+graph/adaptation boundary while the durable sequence, head, and pending status
+commit atomically; only a successful durable callback publishes the candidate
+to the live gate. Durable rejection therefore leaves the live graph and
+adaptation unchanged, while restart reconciliation fully revalidates the
+pending history, policy, lineage, privacy, signed mutation evidence, and prior
+chain before completing, aborting, or restoring it. Caller-supplied accepted dispositions have no authority.
+Rejected and cancelled paths retain governed history without invoking mutation.
+The versioned history binds recurrence, loop replay, state delta, graph proposal,
+policy, capability, mutation evidence, exact predecessor, and rollback authority.
+Every sequence remains reloadable after restart; rollback requires the exact
+sequence-addressed durable history plus matching gate and signature evidence and
+cannot return caller-selected hashes.
+Native macOS/Linux receipts remain CI integration proof and are not claimed by
+the local implementation result.
 
 ## Acceptance Criteria
 

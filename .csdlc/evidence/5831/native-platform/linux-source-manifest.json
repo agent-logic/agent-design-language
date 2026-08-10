@@ -1,0 +1,38 @@
+[
+  {
+    "path": "adl-runtime-kernel/Cargo.toml",
+    "sha256": "92466f21e0dfd70d6ba8b6fe7d9674b2a5a75eb624e422c46de3e7d79f2117a7"
+  },
+  {
+    "path": "adl-runtime-kernel/src/adaptive_learning.rs",
+    "sha256": "05f55657eb41f2fbdddfc121f722c4a6639a922fc8d9e742904080d52cfac8d6"
+  },
+  {
+    "path": "adl-runtime-kernel/src/durable_state.rs",
+    "sha256": "688b660e8753915d10392333ef29022bbe05bc5b79252762bab14aff873ad848"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "ea1442afc818c6e2e1f404b600441f0458b9b3dc5aef5781a4951b1070bec470"
+  },
+  {
+    "path": "adl-runtime-kernel/src/reasoning.rs",
+    "sha256": "22a8fbf722e3c9200ed94269a8f603cf885d46318dfa0bcd226fe367f7f4a044"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/adaptive_learning.rs",
+    "sha256": "8a77119d372600532c58046914a0a62fddc55cf7e69a6770bbd017949d8da7c7"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/durable_state.rs",
+    "sha256": "715bdb0c2f15fc71e090ab2a9270a299b9fc176a808aebb0bdaefaa9ae7f1416"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json",
+    "sha256": "4372545f15e24541480e82c0dae2dc8e373b634493d4ec3fddf3cd432ba4835f"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+    "sha256": "aa3f9a369a6ced98917ffd78d701fdecb021615bbc03a8622dba2ad5951cb035"
+  }
+]
