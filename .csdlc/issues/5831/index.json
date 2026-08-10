@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
-  "phase": "implemented",
-  "generation": 85,
-  "digest": "9d8a15d068df8d288851f4b3aef609c0a18c99673c37c5b35e27a515944182f2",
+  "phase": "reviewed",
+  "generation": 86,
+  "digest": "fc713ce12155c10ca1fd46d4619f4a903cf992cc1d3034064ecae6dab60e21ad",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": {
@@ -27,7 +27,29 @@
       "Review exact clean evidence HEAD c948f847317aaf670c9b6cdcc5444732fd13cf4b and validator parity repair 1f6977214eacf71c61eeb2f868fc27d5a97a9f80 after failed run 31429043531. Confirm producer and validator compute identical exact source manifests including reasoning.rs, durable_state.rs, tests/durable_state.rs; both self-tests lock these paths; workflow triggers include them; failed receipts would pass the corrected source equality absent other defects. Reconfirm no product drift, exact 20/20, prior transaction/reconciliation approval, lifecycle truth, and replacement native proof requirement."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
+    "scope": [
+      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      ".csdlc/evidence/5831",
+      ".csdlc/issues/5831",
+      "Review exact clean evidence HEAD c948f847317aaf670c9b6cdcc5444732fd13cf4b and validator parity repair 1f6977214eacf71c61eeb2f868fc27d5a97a9f80 after failed run 31429043531. Confirm producer and validator compute identical exact source manifests including reasoning.rs, durable_state.rs, tests/durable_state.rs; both self-tests lock these paths; workflow triggers include them; failed receipts would pass the corrected source equality absent other defects. Reconfirm no product drift, exact 20/20, prior transaction/reconciliation approval, lifecycle truth, and replacement native proof requirement."
+    ],
+    "reviewed_revision": "git-blake3:c948f847317aaf670c9b6cdcc5444732fd13cf4b:49897bb540eaf947a78f9ade6d0646a42dd331f6e44d56efa5f0fde44154a658",
+    "findings": [],
+    "residual_risks": [
+      "Replacement native Linux and macOS receipts and aggregate validation must pass at the exact republished head before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a0efc6c4b699a81ec0e1349826e19d91fd4157bcf613ba583a3e85a0c529a9f0",
+      "values_digest": "747b54896e636a1d66d5e786921b6044e6bf3d7f7183664a474818b7f8c3c23f",
       "rendered_digest": "0db5a50b8b18fb55476374e044eb1b0c5f912734fcd350f59ed9e486d94a770c",
       "ast_digest": "435e246381810627c72031a04e455f28daf269e67a3f2f493be5a78546d6cadd"
     },
     "stp": {
-      "values_digest": "77866bef141b203eba56006a5f0053645b17aa00c79c6f1681cd11afd2209923",
+      "values_digest": "11fae6e3970438e2ab9b9c46967f56998e91d060d0b2d337e4658f4a9144048e",
       "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
       "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "50e008e6a5032bb3f7a2e9e424f7951c6a0d11f9a0e792070963609093ef2047",
+      "values_digest": "f8ee5602bd8fa8397dfa1e89c9881e7b182a46371e8c2c9819591198f6e0b59c",
       "rendered_digest": "f51b76502c57ca014f807bc8505690f371b3f730a62f0fb4a6452731e9e7f648",
       "ast_digest": "7c6826f6597cd746cb7ca58c452a67f4884eb8a32448297436f2418a31148aec"
     },
     "vpp": {
-      "values_digest": "bcd7a314560b8cd5e38092690e3f019946d12f19d5db13ee34b93a16677ce405",
+      "values_digest": "74c212284dcd95a89aa380be4e233dd2ed94c7d1a113b5c03ae6fbcfbdda182b",
       "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "13a81315f9d36a4bde622ba0949148459171ebeb4a2e00f42112b7b9db7318b1",
-      "rendered_digest": "16171a0749a29efa5313c03e82d85daa68f39d707397cde35ffaab7159fb503c",
-      "ast_digest": "9dccc88dc9d615849a07e41c70e8d6f8e6cd1af97bd20fb64f9d82118d48e6f6"
+      "values_digest": "8798808e6f4b9c62da39672326578577c70c6b6efd15bb2703b302c180be6be9",
+      "rendered_digest": "327760c407e59386f45d685c1e2de5227bb496fdc1232a06c83c4b2575a7902a",
+      "ast_digest": "11b0947831803e3b16c3e6e952ae7f99c7842ca736bef3c3853bb06bb9178e42"
     },
     "sor": {
-      "values_digest": "34ffdedbafcf7969dc86500ddf416f27137ec35ead493a2e28ff959a8ad48d53",
+      "values_digest": "08a30beef0a676ae831a17cecaec09465aa1e092c535839b9f34fdb7e92f6227",
       "rendered_digest": "188c2656cb55367f916ddc948407d0e71728857b1f1de1277c55c146fac5c07b",
       "ast_digest": "86669007e4c5009804ac5c3ab30b9937c6cbedbefb4a3c82fa56470282baf9f5"
     }
@@ -135,6 +157,13 @@
       "to": "implemented",
       "actor": "codex:5831-adaptive-learning",
       "reason": "Exact PR run 31429043531 produced passing Linux and macOS receipts but aggregate validation failed because validator source_paths retained the old six-file manifest while the producer correctly added reasoning.rs, durable_state.rs, and tests/durable_state.rs. Recover review/publication for exact producer-validator source parity and replacement native proof."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -942,6 +971,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 116,
+      "generation": 86,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

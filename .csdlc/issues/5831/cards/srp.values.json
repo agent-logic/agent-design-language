@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
     "slug": "v0-92-wp-13a-runtime-implement-adaptive-learning-dag",
     "version": "v0.92",
-    "generation": 85
+    "generation": 86
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/prepared/issues/5831/produce-native-receipt.rb\n.csdlc/prepared/issues/5831/validate-native-receipts.rb\n.github/workflows/wp13a-native-adaptive-learning.yml\nadl-runtime-kernel/src/adaptive_learning.rs\nadl-runtime-kernel/src/reasoning.rs\nadl-runtime-kernel/src/durable_state.rs\nadl-runtime-kernel/tests/adaptive_learning.rs\nadl-runtime-kernel/tests/durable_state.rs\n.csdlc/evidence/5831\n.csdlc/issues/5831\nReview exact clean evidence HEAD c948f847317aaf670c9b6cdcc5444732fd13cf4b and validator parity repair 1f6977214eacf71c61eeb2f868fc27d5a97a9f80 after failed run 31429043531. Confirm producer and validator compute identical exact source manifests including reasoning.rs, durable_state.rs, tests/durable_state.rs; both self-tests lock these paths; workflow triggers include them; failed receipts would pass the corrected source equality absent other defects. Reconfirm no product drift, exact 20/20, prior transaction/reconciliation approval, lifecycle truth, and replacement native proof requirement.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:c948f847317aaf670c9b6cdcc5444732fd13cf4b:49897bb540eaf947a78f9ade6d0646a42dd331f6e44d56efa5f0fde44154a658",
+      "reviewer": "/root/sprint4_5857/review_5831_exact_head",
       "review_prompts": [
         "Can state or graph mutate before an explicit accepted policy decision, or after a rejected decision?",
         "Does durable history bind loop, evaluation, evidence, state delta, proposal, decision, graph delta, replay, and rollback hashes?",
@@ -23,8 +23,10 @@
         "Are #5818, #5830, #5104, Runtime v3 qualification, and every acceptance claim current at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Replacement native Linux and macOS receipts and aggregate validation must pass at the exact republished head before merge."
+      ],
+      "review_result": "pass"
     }
   }
 }
