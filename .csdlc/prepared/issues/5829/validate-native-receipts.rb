@@ -66,6 +66,45 @@ def source_manifest(root, paths)
   end.sort_by { |row| row.fetch("path") }
 end
 
+def machine_local_command_log?(text, root)
+  checkout_prefixes = [root.to_s, ENV["GITHUB_WORKSPACE"]].compact.reject(&:empty?).flat_map do |prefix|
+    [prefix, prefix.tr("/", "\\")]
+  end.uniq
+  return true if checkout_prefixes.any? { |prefix| text.include?(prefix) }
+
+  [
+    %r{/(?:users?|home|private)(?:/|\\)}i,
+    %r{(?:^|[^[:alnum:]_])[a-z]:[\\/]}i,
+    %r{\\\\[^\\/\s]+[\\/]},
+    %r{\\(?:users?|home|private|runner|worktrees?)[\\/]}i,
+    %r{(?:^|[\\/])(?:\.codex[\\/])?(?:adl-)?worktrees?[\\/]}i,
+    %r{/volumes/(?:fastwork|home)(?:/|\\)}i,
+    %r{/var/folders/}i
+  ].any? { |pattern| text.match?(pattern) }
+end
+
+if ARGV == ["--self-test"]
+  synthetic_root = Pathname.new("/repo")
+  accepted = '{"type":"test","event":"ok","path":"./adl-runtime-kernel/src/lib.rs"}'
+  fail!("self-test rejected normalized repository-relative log") if machine_local_command_log?(accepted, synthetic_root)
+  rejected = [
+    "/Users/runner/work/repo/repo/file.rs",
+    "/home/runner/work/repo/file.rs",
+    "/private/var/folders/file.rs",
+    "C:/runner/work/repo/file.rs",
+    'C:\\runner\\work\\repo\\file.rs',
+    '\\\\server\\share\\repo\\file.rs',
+    "/Volumes/FastWork/adl-worktrees/issue/file.rs",
+    ".codex/worktrees/issue/file.rs",
+    "/repo/adl-runtime-kernel/src/lib.rs"
+  ]
+  rejected.each do |value|
+    fail!("self-test accepted machine-local command log") unless machine_local_command_log?(value, synthetic_root)
+  end
+  puts JSON.generate(status: "passed", check: "native-log-path-rejection")
+  exit 0
+end
+
 issue = File.basename(File.dirname(__FILE__)).to_i
 test_target, feature_path = ISSUE_CONFIG.fetch(issue) { fail!("unsupported issue-local validator path") }
 fail!("expected exactly two receipt paths") unless ARGV.length == 2
@@ -157,9 +196,11 @@ receipts.each do |receipt|
 
   command_output = repo_file(root, receipt["command_output_path"], "#{platform} command output", required_prefix: evidence_prefix)
   fail!("#{platform}: command output digest mismatch") unless required_hex.match?(receipt["command_output_sha256"].to_s) && receipt["command_output_sha256"] == Digest::SHA256.file(command_output).hexdigest
+  command_output_text = command_output.read
+  fail!("#{platform}: command output retains machine-local path") if machine_local_command_log?(command_output_text, root)
   suites = []
   passed_tests = []
-  command_output.each_line do |line|
+  command_output_text.each_line do |line|
     parsed = JSON.parse(line)
     suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
     passed_tests << parsed["name"] if parsed["type"] == "test" && parsed["event"] == "ok"

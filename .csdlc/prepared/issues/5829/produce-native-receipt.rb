@@ -68,13 +68,37 @@ def source_manifest(root, paths)
   rows.sort_by { |row| row.fetch("path") }
 end
 
+def normalize_command_output(output, root)
+  prefixes = [root.to_s, ENV["GITHUB_WORKSPACE"]].compact.reject(&:empty?).flat_map do |prefix|
+    [prefix, prefix.tr("/", "\\")]
+  end.uniq.sort_by { |prefix| -prefix.length }
+  prefixes.reduce(output.dup) do |normalized, prefix|
+    standalone = Regexp.new("#{Regexp.escape(prefix)}(?=$|[\\s\"'])")
+    normalized.gsub("#{prefix}/", "./").gsub("#{prefix}\\", "./").gsub(standalone, ".")
+  end
+end
+
 options = {}
 OptionParser.new do |parser|
   parser.on("--platform PLATFORM") { |value| options[:platform] = value }
   parser.on("--receipt PATH") { |value| options[:receipt] = value }
   parser.on("--semantic-output PATH") { |value| options[:semantic_output] = value }
+  parser.on("--self-test") { options[:self_test] = true }
 end.parse!
 fail!("unexpected positional arguments") unless ARGV.empty?
+if options[:self_test]
+  synthetic_root = Pathname.new("/Users/runner/work/agent-design-language/agent-design-language")
+  test_name = "adl-runtime-kernel::capability_envelope$synthetic_case"
+  synthetic = JSON.generate("type" => "test", "event" => "ok", "name" => test_name,
+                            "path" => synthetic_root.join("adl-runtime-kernel/src/lib.rs").to_s) + "\n"
+  normalized = normalize_command_output(synthetic, synthetic_root)
+  fail!("self-test retained checkout prefix") if normalized.include?(synthetic_root.to_s)
+  parsed = JSON.parse(normalized)
+  fail!("self-test altered structured event inventory") unless parsed["name"] == test_name
+  fail!("self-test did not use repository-relative marker") unless parsed["path"] == "./adl-runtime-kernel/src/lib.rs"
+  puts JSON.generate(status: "passed", check: "native-log-normalization")
+  exit 0
+end
 fail!("platform must be macos or linux") unless %w[macos linux].include?(options[:platform])
 fail!("native receipts must be produced by GitHub Actions") unless ENV["GITHUB_ACTIONS"] == "true"
 
@@ -115,7 +139,7 @@ stdout, stderr, status = Open3.capture3(
   *test_argv,
   chdir: root.to_s
 )
-command_output = stdout + stderr
+command_output = normalize_command_output(stdout + stderr, root)
 command_output_path.write(command_output)
 fail!("native nextest command failed") unless status.success?
 suites = []
