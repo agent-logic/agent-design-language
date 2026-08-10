@@ -1,0 +1,7 @@
+{
+  "issue": 5878,
+  "base_branch": "codex/5878-final-integration-preparation",
+  "branch": "codex/5878-final-distributed-integration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5878-final-integration",
+  "code_repository": "agent-logic/agent-design-language"
+}

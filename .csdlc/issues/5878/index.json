@@ -2,15 +2,62 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5878,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d43c21728d16c57a20f210c83ca4f4354df7fff6ada44b649ab4cb346e7aadc1",
-  "phase": "initialized",
-  "generation": 8,
-  "digest": "29852df4184f63fc4c4f94d472f4727dc7932ba89971d260bb51efacc7b3449d",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 26,
+  "digest": "7f6e719984cdc10a9245c1bc681421b42940ff47e068191f48823d20f16d43e2",
+  "branch": "codex/5878-final-distributed-integration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5878-final-integration",
+  "review_assignment": {
+    "reviewer": "codex-subagent:review_5877_exact",
+    "assigned_by": "codex:issue-5878-final-integration",
+    "revision": "git-blake3:f75e11a85404ab0c6339e8cd49c78b29b07e771a:4ed51d96e71484e9d21b78775e9a46192a5054ab0d34d1bf6a6a7411a4b58d68",
+    "scope": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/distributed_guardian.rs",
+      "adl/tools/validate_v092_distributed_guardian.sh",
+      "adl/tools/validate_v092_distributed_native_receipts.rb",
+      ".github/workflows/wp04-native-distributed.yml",
+      ".csdlc/evidence/5878",
+      ".csdlc/issues/5878",
+      ".csdlc/prepared/issues/5878"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:review_5877_exact",
+    "scope": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/distributed_guardian.rs",
+      "adl/tools/validate_v092_distributed_guardian.sh",
+      "adl/tools/validate_v092_distributed_native_receipts.rb",
+      ".github/workflows/wp04-native-distributed.yml",
+      ".csdlc/evidence/5878",
+      ".csdlc/issues/5878",
+      ".csdlc/prepared/issues/5878"
+    ],
+    "reviewed_revision": "git-blake3:f75e11a85404ab0c6339e8cd49c78b29b07e771a:4ed51d96e71484e9d21b78775e9a46192a5054ab0d34d1bf6a6a7411a4b58d68",
+    "findings": [],
+    "residual_risks": [
+      "This issue registers and proves the production distributed library surface only; unowned Guardian, API, and WSS route entrypoints remain unchanged and are not claimed by this delivery."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5878,
+    "pull_request": 140,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/140",
+    "base": "main",
+    "head": "codex/5878-final-distributed-integration",
+    "revision": "git-blake3:89b5f2c36a3ffe96d4464b9c80f71bfa25fe99b7:e073a4a0533e3b8549592cf6de1a86032824d7374c295cc80dd28aa9c97e937c",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +71,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e48c7cc1a28b167af12d7fd579f8f6edeb5142a6f46b39d2f95a2a0ce144924e",
+      "values_digest": "8087a889deb7651a647a95509effb430817cc332215dd4469cbe0dde83d7b0c4",
       "rendered_digest": "ba0aab2c7829d8b728e1dfb7e6814f02ee3117f421e95d265b29e780b557795e",
       "ast_digest": "31bed531d2aeb7275d2c73f73cf08d3125b29af53b2384f43af26be7cbbbec3c"
     },
     "stp": {
-      "values_digest": "97b0363973804ade4536db6f9223dfe710c5579f6b8ee448168bb9591bbdadd2",
-      "rendered_digest": "b35baf88ded301f83c78ebab7ad883811f4c408987332dd554845763056a9253",
-      "ast_digest": "e63d95e237cdb0a790ff446c1e61b45b96fe88551d9caf8b91a828fbbe8f7aac"
+      "values_digest": "40635fcb50393eeff77364e62e0c169d00f27dabd1f338eb1988fe1e6c68fa56",
+      "rendered_digest": "c2a0e8e7c0c74ba846ce6fad4529565a28b24ae1992f0cb2451c6df7e686e9a8",
+      "ast_digest": "16162d8d5eab986839155b76a2d31a27b93cdc94d20a66619fa83dc8f975dd3c"
     },
     "spp": {
-      "values_digest": "54c32de20683d664d2bebf2506b618062fc8554a75b82dd83719dbaadff95def",
-      "rendered_digest": "132c2ecedc6acfdeeb8de06e09294906f6bd050fc59385fc0217bcab4cfe42c2",
-      "ast_digest": "440e80d3f2946fdff4c0ff7978bad6c13feec25e38e2b90ea8a583aac2d33bec"
+      "values_digest": "6e29e9a5a5eedea5b87f134d9ef8a028aa26c6800ab8b327d67499eebad0b0e6",
+      "rendered_digest": "5640fe25072e0d89cf58314fe43a32cc41436c692223859e6ebab4f1d647bcd9",
+      "ast_digest": "14903b6e0acc09c4f1237f64bd100156a8a55e9eb05aac58bfe84a7d5f45f696"
     },
     "vpp": {
-      "values_digest": "1345622263cc008f5d145b2251f19c7f742fc49a91b631810dd3b2142f370122",
-      "rendered_digest": "d906d7fe651efea17102b489770e775feb60c2520df0a3937b33151af8c4cbf0",
-      "ast_digest": "71a7ec4b3bccb7d2f9b5d77e400d34dc96d4618740ad709be90d5528b02f38af"
+      "values_digest": "79e39fd14543235d027baadb7153acb2d111322cf8ca359e344a783793d335c8",
+      "rendered_digest": "7a4a91d75a99ae2f364e828ab9452c00cf910ea5c29eb226db20b33c7695169a",
+      "ast_digest": "32ffb31f2824372bd8c71e834a85cc966f55e96ffedac8e4be6a2e4b13988f40"
     },
     "srp": {
-      "values_digest": "4b6716dc0ff4342431e606115895df7acd7f1661822e55a9a8ca1155bf75eb11",
-      "rendered_digest": "a9dc47ba999d962817af6689a2dff4890d58aad7542d57c3da32292d37849948",
-      "ast_digest": "007d933c48d9bb12e4d473b806d43c38b3f862804981023b6bd964c37554f87d"
+      "values_digest": "6cda40da74886b84629c436a9cf7ad20821fbea5f1825591f5234b6fe5a77183",
+      "rendered_digest": "3d8b718d878c432176c4ea4438a37e37dd67a49fca94194ff206dbd1997f34dd",
+      "ast_digest": "0d7b7555ed473dd93c903c87bb45b0ebe5b1c9a3cfa18298d2b459bd8ca14b74"
     },
     "sor": {
-      "values_digest": "4f366a791130bfb58bf6e62783b726603eb32140f5a9a2d5ed55edae56d63b8d",
-      "rendered_digest": "c1ca4a84ccc52e1de62c65aea99c5a8fd6fc34dd00f344176b9f27f5263cdb77",
-      "ast_digest": "782acc2be0ea44768703168226b6366d1d7d00756f1a6dce16ed2d7c264e60b9"
+      "values_digest": "e26cbae928676335e3f80487312de7eff4b5b5d1ac9ae2d3d1a9220e4123dcf2",
+      "rendered_digest": "c68758165330962de5372f54905780e5c24bf0f2fea2d2654dcfc70de7bfe1af",
+      "ast_digest": "ae7047d8d16ae50835ac961309c48c929689802c50e9e5f7024969332517d03e"
     }
   },
   "transitions": [
@@ -75,6 +122,55 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "Expand the exact review scope to include typed issue and request metadata so the publication guard can prove automatic metadata-only advancement from the independently approved evidence head."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -259,6 +355,153 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 27,
+      "generation": 9,
+      "actor": "codex:5878-final-integration-readiness-preparation",
+      "reason": "Normalize the canonical five-path final-integration deliverables without widening ownership or claiming implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl/tools/validate_v092_distributed_guardian.sh\",\"adl/tools/validate_v092_distributed_native_receipts.rb\",\"Register and integrate only the terminal #5863-#5877 distributed contracts while preserving authenticated Runtime API and WSS continuity\",\"Prove deterministic bounded multi-node behavior, partitions, fencing, migration, recovery, rollback or disable behavior, redaction, and fail-closed errors\",\"Retain exact nonzero integration proof and machine-verified macOS, Linux, and Windows native receipts bound to one protected source revision\",\"Obtain independent exact-head security and correctness review before publication\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:5878-final-integration-readiness-preparation",
+      "reason": "Freeze the complete fifteen-child denominator and corrective serial frontier without treating open work as terminal.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5909 PR #120 must merge and be ancestral before #5870 may execute\",\"#5863, #5864, #5865, #5866, #5867, #5868, #5869, #5871, and #5872 must each be merged, closed, and ancestral\",\"#5870 must be merged, closed, and ancestral after the #5909 corrective merge\",\"#5873 and #5874 must both be merged, closed, and ancestral after their declared #5870 and sibling gates\",\"#5875 must be merged, closed, and ancestral after #5873 and #5874\",\"#5876 must be merged, closed, and ancestral after #5875\",\"#5877 must be merged, closed, and ancestral after #5876\",\"Exactly all fifteen implementation children #5863 through #5877 plus corrective #5909 must be terminal and ancestral before #5878 may bind or implement\",\"#5862 is the coordination umbrella and is not a substitute for child terminality\",\"#5821 is the terminal architecture gate\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 11,
+      "actor": "codex:5878-final-integration-readiness-preparation",
+      "reason": "Declare exact future read-only integration inputs without inventing API names or widening ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\",\".csdlc/prepared/issues/5821/design.md\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/src/networking.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/src/distributed/identity.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/discovery.rs\",\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/src/distributed/projection.rs\",\"docs/api/runtime-v3/v1/distributed.openapi.json\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 12,
+      "actor": "codex:5878-final-integration-readiness-preparation",
+      "reason": "Make the stable final-integration, native proof, rollback, bounds, and redaction obligations explicit.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, and adl/tools/validate_v092_distributed_native_receipts.rb are mutable\",\"Issue #5878 solely owns production distributed module and route registration; all #5863-#5877 product paths remain read-only terminal inputs\",\"Registration exposes exactly the terminal reviewed sibling contracts and never substitutes, forks, or reimplements their authority logic\",\"Guardian remains process 0 and every distributed API, WSS, transport, enrollment, lease, fencing, migration, recovery, and projection path remains authenticated and fail closed\",\"Integrated topology, authority, failure, lease, placement, migration, recovery, and projection state is one deterministic coherent cut with stable ordering and exact OpenAPI behavior parity\",\"Queues, frames, nodes, peers, candidates, histories, snapshots, retries, waits, timeouts, strings, logs, artifacts, and total evidence bytes have explicit hard bounds with checked arithmetic and finite cancellation\",\"Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail are redacted from API, WSS, logs, artifacts, and receipts\",\"The exact distributed_guardian target selects nonzero tests and proves production registration, authenticated API and WSS continuity, partitions, fencing, migration, recovery, shutdown, disable, and rollback behavior\",\"Native receipts prove macOS, Linux, and Windows exactly once each from actual production commands, distinct run identifiers and runner identities, exact protected source revision, retained logs and artifacts, and recomputed digests; self-attestation is rejected\",\"Rollback removes or disables distributed registration and launch integration, keeps remote ownership fenced, and preserves the unchanged durable single-node Guardian path\",\"Execution evidence and independent review remain digest-bound to all five exact protected paths and the complete fifteen-child denominator\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 13,
+      "actor": "codex:5878-final-integration-readiness-preparation",
+      "reason": "Separate terminal dependency and denominator stops from post-implementation integration and native-proof stops.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with #5909 preceding #5870 and all downstream serial gates satisfied\",\"Stop if any sibling input path, terminal receipt, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent\",\"Stop on any active path collision or any requested mutation outside the five canonical owned paths\",\"Stop if production registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or diverging from the issue-owned OpenAPI contract\",\"Stop if coherent integration, deterministic ordering, redaction, hard bounds, finite cancellation, rollback or disable safety, or fenced remote ownership cannot be proved\",\"After all five owned paths are implemented, stop if distributed_guardian or either owned validator target is absent, the exact integration target selects zero tests, or any integration, native, receipt, or diff validation fails\",\"Stop if any macOS, Linux, or Windows receipt is missing, duplicated, self-attested, shares a run identity, lacks production command logs or artifacts, or is not bound to the exact protected source revision\",\"Stop if scope, registration, interface, platform, authority, proof, or rollback behavior must widen\"]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 14,
+      "actor": "codex:5878-final-integration-readiness-preparation",
+      "reason": "Declare exact nonzero integration and native proof lanes with validator-supported pre-implementation deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Run exact nextest target distributed_guardian with nonzero enforcement to prove complete production registration, deterministic coherent integration, authenticated API and WSS continuity, OpenAPI parity, hard bounds, redaction, partitions, fencing, migration, recovery, shutdown, disable, and rollback behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_guardian\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned integration target adl-runtime/tests/distributed_guardian.rs is created only after the two owned registration paths are implemented and all fifteen child contracts are terminal; pre-implementation absence is not a validation pass.\"},{\"lane\":\"production-distributed-guardian\",\"proof_role\":\"Launch production Guardians and kernels from the exact protected source revision and retain bounded redacted logs and artifacts proving authenticated API and WSS, partition, fencing, migration, recovery, rollback or disable, clean shutdown, and no insecure fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_distributed_guardian.sh\"],\"parallel_group\":\"integration\",\"defer_reason\":\"The issue-owned production validator adl/tools/validate_v092_distributed_guardian.sh is created during implementation after registration and the integration target exist; pre-implementation absence is not proof or a pass.\"},{\"lane\":\"native-distributed-receipts\",\"proof_role\":\"Recompute macOS, Linux, and Windows receipts exactly once each from actual production command logs and artifacts, distinct run identifiers and runner identities, exact protected source revision, nonzero successful production execution, bounded redacted outputs, and digest-verified evidence; reject missing, duplicate, synthetic, or self-attested receipts.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_distributed_native_receipts.rb\"],\"parallel_group\":\"native\",\"defer_reason\":\"The issue-owned native receipt validator adl/tools/validate_v092_distributed_native_receipts.rb is created during implementation and can verify receipts only after actual platform runs; pre-implementation absence is not proof or a pass.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Reject self-attestation by recomputing exact source and command bindings, nonzero integration results, machine-derived negative cases, bounded logs and artifacts, and exact macOS, Linux, and Windows receipt digests and runner identities. [preexec_rejection exit=1 diagnostic_sha256=34eb48e9c92d52048105794654f1350509c44ade82aa5b504df449b7efa23cc6]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5878/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 15,
+      "actor": "codex:5878-final-integration-readiness-preparation",
+      "reason": "Declare exact nonzero integration and native proof lanes with validator-supported pre-implementation deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Run exact nextest target distributed_guardian with nonzero enforcement to prove complete production registration, deterministic coherent integration, authenticated API and WSS continuity, OpenAPI parity, hard bounds, redaction, partitions, fencing, migration, recovery, shutdown, disable, and rollback behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_guardian\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned integration target adl-runtime/tests/distributed_guardian.rs is created only after the two owned registration paths are implemented and all fifteen child contracts are terminal; pre-implementation absence is not a validation pass.\"},{\"lane\":\"production-distributed-guardian\",\"proof_role\":\"Launch production Guardians and kernels from the exact protected source revision and retain bounded redacted logs and artifacts proving authenticated API and WSS, partition, fencing, migration, recovery, rollback or disable, clean shutdown, and no insecure fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_distributed_guardian.sh\"],\"parallel_group\":\"integration\",\"defer_reason\":\"The issue-owned production validator adl/tools/validate_v092_distributed_guardian.sh is created during implementation after registration and the integration target exists; pre-implementation absence is not proof or a pass.\"},{\"lane\":\"native-distributed-receipts\",\"proof_role\":\"Recompute macOS, Linux, and Windows receipts exactly once each from actual production command logs and artifacts, distinct run identifiers and runner identities, exact protected source revision, nonzero successful production execution, bounded redacted outputs, and digest-verified evidence; reject missing, duplicate, synthetic, or self-attested receipts.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_distributed_native_receipts.rb\"],\"parallel_group\":\"native\",\"defer_reason\":\"The issue-owned native receipt validator adl/tools/validate_v092_distributed_native_receipts.rb is created during implementation and can verify receipts only after actual platform runs; pre-implementation absence is not proof or a pass.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Reject self-attestation by recomputing exact source and command bindings, nonzero integration results, machine-derived negative cases, bounded logs and artifacts, and exact macOS, Linux, and Windows receipt digests and runner identities. [preexec_rejection exit=1 diagnostic_sha256=34eb48e9c92d52048105794654f1350509c44ade82aa5b504df449b7efa23cc6]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5878/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 15,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 35,
+      "generation": 16,
+      "actor": "codex-sprint-5862",
+      "reason": "Add the one operator-authorized proof-only workflow path required to execute the already-declared native macOS, Linux, and Windows receipt matrix.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl/tools/validate_v092_distributed_guardian.sh\",\"adl/tools/validate_v092_distributed_native_receipts.rb\",\".github/workflows/wp04-native-distributed.yml\",\"Register and integrate only the terminal #5863-#5877 distributed contracts as a callable production library surface without claiming an unowned Guardian or API route\",\"Prove deterministic bounded transport and authority behavior, redaction, replay rejection, wrong-domain rejection, and fail-closed errors\",\"Run exact native macOS, Linux, and Windows hosted jobs and retain distinct digest-bound receipt fragments for one protected source revision\",\"Obtain independent exact-head security and correctness review before publication\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 17,
+      "actor": "codex-sprint-5862",
+      "reason": "Record the one operator-authorized proof-only workflow path without widening production runtime ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl/tools/validate_v092_distributed_guardian.sh\",\"adl/tools/validate_v092_distributed_native_receipts.rb\",\".github/workflows/wp04-native-distributed.yml\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 18,
+      "actor": "codex-sprint-5862",
+      "reason": "Bind the native proof plan to the operator-authorized three-platform hosted workflow and remove unowned runtime-route claims.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Run the exact nonzero distributed_guardian target through the production library registration and prove bounded Prost transport plus quorum authority replay and wrong-domain rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_guardian\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"production-distributed-guardian\",\"proof_role\":\"Execute the exact integration target on one native runner and produce bounded digest-bound logs, native host provenance, and machine-derived negative cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/validate_v092_distributed_guardian.sh\"],\"parallel_group\":\"integration\",\"defer_reason\":null},{\"lane\":\"native-hosted-matrix\",\"proof_role\":\"Dispatch the exact branch head to standard macOS, Linux, and Windows GitHub runners, run the production producer once per platform, retain distinct receipt fragments, and aggregate them without substituting platform labels.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"gh\",\"workflow\",\"run\",\"wp04-native-distributed.yml\",\"--ref\",\"codex/5878-final-distributed-integration\"],\"parallel_group\":\"native\",\"defer_reason\":null},{\"lane\":\"native-distributed-receipts\",\"proof_role\":\"Recompute all artifact and runner-provenance digests and require exactly one distinct native macOS, Linux, and Windows receipt at the same exact source revision.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_distributed_native_receipts.rb\"],\"parallel_group\":\"native-verify\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute exact protected source artifacts, nonzero command logs, machine-derived negative cases, and the three distinct native receipt bindings.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5878/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 19,
+      "actor": "codex-sprint-5862",
+      "reason": "Align invariants with the six-path proof scope and the explicitly library-only integration boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, adl/tools/validate_v092_distributed_native_receipts.rb, and .github/workflows/wp04-native-distributed.yml are mutable\",\"Issue #5878 owns production distributed library registration and its proof workflow; unowned Guardian, API, and WSS route files remain unchanged and unclaimed\",\"Registration exposes exactly the terminal reviewed sibling contracts and never substitutes, forks, or reimplements their authority logic\",\"The integration target imports the production crate surface and proves bounded canonical Prost transport plus quorum-backed authority with replay and wrong-domain rejection\",\"Queues, frames, tests, logs, artifacts, runner identities, and total evidence bytes have explicit hard bounds and finite execution\",\"Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail remain absent or redacted from logs, artifacts, and receipts\",\"The exact distributed_guardian target selects nonzero tests and emits machine-derived negative cases\",\"Native receipts prove macOS, Linux, and Windows exactly once each from actual hosted production commands, distinct run identifiers and runner identities, one exact protected source revision, retained logs and artifacts, native rustc host identity, and recomputed digests\",\"Missing, duplicate, synthetic, relabeled, stale, tampered, zero-test, or self-attested native evidence fails closed\",\"Rollback removes distributed library registration and leaves every sibling authority implementation and the unchanged single-node Guardian path intact\",\"Execution evidence and independent review remain digest-bound to all six exact protected paths and the complete fifteen-child denominator\"]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 20,
+      "actor": "codex-sprint-5862",
+      "reason": "Align the authoritative task boundary with the six owned paths and remove claims that require unowned Guardian/API/WSS entrypoint edits.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Register all fifteen reviewed distributed modules as one callable production library surface, prove bounded canonical transport and quorum authority failures through the exact integration target, and produce live-attested macOS, Linux, and Windows receipts through the issue-owned workflow without modifying or claiming unowned Guardian, API, or WSS routes.\",\"operation\":\"replan\",\"previous_value\":\"Register and integrate the distributed module, then prove real multi-node Guardian behavior, API/WSS continuity, adversarial failures, and native macOS/Linux/Windows receipts.\"}"
+    },
+    {
+      "sequence": 40,
+      "generation": 21,
+      "actor": "codex-sprint-5862",
+      "reason": "Align fail-closed stops with the six-path library-registration and native-proof boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with all downstream serial gates satisfied\",\"Stop if any sibling input path, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent\",\"Stop on any active collision or requested mutation outside the six canonical owned paths\",\"Stop if library registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or modifying an unowned Guardian, API, or WSS route\",\"Stop if bounded canonical transport, quorum authority, replay rejection, wrong-domain rejection, redaction, deterministic output, or rollback safety cannot be proved\",\"After all six owned paths are implemented, stop if the exact integration target selects zero tests or any integration, workflow, native, receipt, strict-Clippy, diff, or review validation fails\",\"Stop if any macOS, Linux, or Windows receipt is missing, duplicated, synthetic, relabeled, self-attested, shares a run identity, lacks live GitHub job attestation, lacks native rustc host proof, or is not bound to the exact protected source revision\",\"Stop if production runtime-route behavior must be claimed without explicit ownership\"]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 22,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 42,
+      "generation": 22,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 23,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 24,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "Expand the exact review scope to include typed issue and request metadata so the publication guard can prove automatic metadata-only advancement from the independently approved evidence head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 24,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 25,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 26,
+      "actor": "codex:issue-5878-final-integration",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -1,0 +1,10 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+────────────
+ Nextest run ID b89edea1-b347-49e4-918c-13d6aabae985 with nextest profile: default
+    Starting 2 tests across 1 binary
+       START [         ] (1/2) adl-runtime::distributed_guardian all_fifteen_distributed_contracts_are_registered_and_protobuf_is_bounded
+        PASS [   0.008s] (1/2) adl-runtime::distributed_guardian all_fifteen_distributed_contracts_are_registered_and_protobuf_is_bounded
+       START [         ] (2/2) adl-runtime::distributed_guardian signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain
+        PASS [   0.011s] (2/2) adl-runtime::distributed_guardian signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain
+────────────
+     Summary [   0.019s] 2 tests run: 2 passed, 0 skipped

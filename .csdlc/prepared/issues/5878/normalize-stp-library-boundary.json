@@ -1,0 +1,13 @@
+{
+  "issue": 5878,
+  "card": "stp",
+  "expected_generation": 19,
+  "expected_digest": "3272559ce54b5b87918189ffb3e706777d8cdb5a9403537cc493ef4f908f4bc7",
+  "actor": "codex-sprint-5862",
+  "reason": "Align the authoritative task boundary with the six owned paths and remove claims that require unowned Guardian/API/WSS entrypoint edits.",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Register all fifteen reviewed distributed modules as one callable production library surface, prove bounded canonical transport and quorum authority failures through the exact integration target, and produce live-attested macOS, Linux, and Windows receipts through the issue-owned workflow without modifying or claiming unowned Guardian, API, or WSS routes."
+  }
+}

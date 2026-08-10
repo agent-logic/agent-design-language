@@ -1,0 +1,79 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 5878,
+  "expected_generation": 21,
+  "expected_digest": "37fa41e269b7e900fec99d8771afcdb711859e1f9af9422219152458a0b450f5",
+  "actor": "codex:issue-5878-final-integration",
+  "summary": "Registered all fifteen distributed runtime modules and retained exact native macOS, Linux, and Windows integration proof with live GitHub runner attestation.",
+  "changes": [
+    "Registered the complete distributed module surface through the production adl-runtime library boundary.",
+    "Added bounded Prost transport and quorum authority integration coverage with exact replay, wrong-domain, and oversized-frame negatives.",
+    "Added an exact-source three-platform native proof producer, live-attested aggregate validator, and dispatch-only GitHub workflow.",
+    "Retained one immutable v3 receipt introduction binding the reviewed source commit to distinct macOS, Linux, and Windows runner evidence."
+  ],
+  "artifacts": [
+    "adl-runtime/src/distributed/mod.rs",
+    "adl-runtime/src/lib.rs",
+    "adl-runtime/tests/distributed_guardian.rs",
+    "adl/tools/validate_v092_distributed_guardian.sh",
+    "adl/tools/validate_v092_distributed_native_receipts.rb",
+    ".github/workflows/wp04-native-distributed.yml",
+    ".csdlc/evidence/5878/execution-proof.json"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "exact-child-tests",
+          "proof_role": "Run the exact nonzero distributed Guardian integration target before sealing the finalized source revision for native proof.",
+          "purpose": "Prove production library registration, bounded Prost transport, and quorum replay and wrong-domain rejection.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "receipt",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "cargo",
+          "argv": [
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_guardian",
+            "--no-tests=fail"
+          ],
+          "evidence": {
+            "max_log_bytes": 200000,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "exact-child-tests"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 512,
+      "tokens": 1000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-5878-final-integration",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-5878-final-integration/.csdlc/evidence/5878",
+    "cancellation_file": null
+  }
+}
