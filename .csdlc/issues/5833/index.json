@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "implemented",
-  "generation": 64,
-  "digest": "1c55411a5f36cdf73bd3aea2bc630a5fedd1d8335dfbe5195bdad9c66a5374af",
+  "generation": 65,
+  "digest": "cf7c70a431021dfe5f8cc8320f1c00c3fb10a68222824d03371e2d06db21181b",
   "branch": "codex/5833-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a006f8e3288a1025fa9e80dbdea0c24cb3122bd5e957aa609a9f9458affb6e9c",
+      "values_digest": "9c3d90825f5e1c48d708527d77d88ad547c7e3fb0eb0d26b8b0dc8faddc6d0ab",
       "rendered_digest": "477aa501f9e874202ec0e5f251ef5eecf0e66c2ddffa5f13a553e7a0ada1cc65",
       "ast_digest": "405c48deb4505cebfb6dc08d2018c6d971c11105e0d9fe9db08649cc0821e1af"
     },
     "stp": {
-      "values_digest": "459edc4bdb83499c5297c5869710af20cefd52c11bf2c2a343358c65294d4b4d",
+      "values_digest": "b70361aa3a228c32b1f202f8a2c084107669f1e67ed8661e02b9dedfa5236881",
       "rendered_digest": "d2df01151976c29fe3fb8d512ce6624343cee597726be70de93117b8573c080f",
       "ast_digest": "7741a87889a28e451995cc70fd975b31ed4cc0cf56fee554e0c28f988ea22cc3"
     },
     "spp": {
-      "values_digest": "5a60263ac034ed7b2d578e1f3dc6ef0056c2da5d8cb1edcd75cf48ea1ac3e3db",
+      "values_digest": "85b98262e4a99ae5561f6e84780be6e099b90b298a97d645a6000bc70cdcb90b",
       "rendered_digest": "61cbf2d31b96c513eeea797a82a8e587b231e5e7c8daf9b1b167cb450371fe93",
       "ast_digest": "339c33490f091fdbf617c5ef725ef40a02cc7f926d5f0bd60f35091815b2a113"
     },
     "vpp": {
-      "values_digest": "137d6d5631f3fccd3cc2f42d6dd14e542fbfef9a52db92e834e67508d74820a1",
+      "values_digest": "c89571a2f3f074d3911cc1a9d00b32b22d75e6b20fe9a17cc20eedf039e7db32",
       "rendered_digest": "4b26f41af663fbdca0364b7329fc7e13287433d097bedf1505005c446013f35a",
       "ast_digest": "75c30a9fff7c69af0c919442af28b369b8f7a09dbae786c8175bbd8c38dba4db"
     },
     "srp": {
-      "values_digest": "254b595dc26744682457b1ca92bc6f72ea8411e323aa860277a683da87b7add6",
+      "values_digest": "34c8111eeb50c09e3bc4866f963390f71464d50f7b4bcc236944b0ca4d509259",
       "rendered_digest": "4b6b2d69d7863380474666cdea35225e1e88e7e783e3c357c211ceae05eacfcf",
       "ast_digest": "25540fb62a38a3c9058d80a9295f40cb1745178df3de4a8535f50cc38f25a030"
     },
     "sor": {
-      "values_digest": "412d90d3807b8ef4e64360b165503314b3d486683a3c0233bbddd6637f7188fb",
-      "rendered_digest": "f936dfd89283bc36b093ffe08eef20e84b73545cc71ccee063fedb737f673b9e",
-      "ast_digest": "4e32d3c894e6fb0491a789301ba6340aada0b872fced8768f60232b7da50a486"
+      "values_digest": "fd2302daec5429544fa46edbf441353de0463bf1eb5afd9f99cfecc7dc46ed37",
+      "rendered_digest": "2322ebf7a3aa5baea9f1e39a99d6b782aa566ee9bc9d8d4f3fa1803afee47b35",
+      "ast_digest": "983b79524623f0c457d5fca2dd1573b6da0d8eca675fabd0b3fb930d7505769b"
     }
   },
   "transitions": [
@@ -715,6 +715,13 @@
       "actor": "codex:5833-birth-witness",
       "reason": "Align proof truth with the reviewer-required opaque authority boundary: exact internal authority lane, public serialization target, and compile-fail external establishment proof.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birth-witness-authority-runtime-v3\",\"proof_role\":\"Run the exact crate-internal opaque-authority and executable negative-matrix lane.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":480,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birth_witness::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5833-core\",\"defer_reason\":null},{\"lane\":\"birth-witness-public-boundary\",\"proof_role\":\"Prove the public serialized packet rejects unknown/private fields without exposing an authority constructor.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5833-core\",\"defer_reason\":null},{\"lane\":\"birth-witness-external-authority-compile-fail\",\"proof_role\":\"Prove an external crate cannot establish or nominate the opaque witness authority root.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birth_witness\"],\"parallel_group\":\"5833-core\",\"defer_reason\":null},{\"lane\":\"birth_witness-macos-native-ci-producer\",\"proof_role\":\"Run the exact 13-test opaque-authority lane on native GitHub Actions macOS and retain the complete normalized structured log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5833/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/macos-semantic.json\"],\"parallel_group\":\"5833-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macOS runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birth_witness-linux-native-ci-producer\",\"proof_role\":\"Run the exact 13-test opaque-authority lane on native GitHub Actions Linux and retain the complete normalized structured log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5833/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5833/native-platform/linux-semantic.json\"],\"parallel_group\":\"5833-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions Linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birth_witness-native-ci-receipt-verification\",\"proof_role\":\"Recompute exact source, producer, structured 13-test inventory, provenance, path hygiene, and semantic equivalence for both native fragments.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".csdlc/evidence/5833/native-platform/macos.json\",\".csdlc/evidence/5833/native-platform/linux.json\"],\"parallel_group\":\"5833-native-verify\",\"defer_reason\":\"Requires both exact-head native producer fragments from one GitHub Actions run; missing receipt proof blocks portability and review readiness.\"}]}"
+    },
+    {
+      "sequence": 89,
+      "generation": 65,
+      "actor": "codex:5833-birth-witness",
+      "reason": "Record the exact reviewer-required opaque-authority, canonical-ID, redacted-token, hidden-artifact, and executable-matrix repairs with refreshed proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved WP-15 opaque-authority exact-candidate witnesses and deterministic path-redacted citizen receipts without manufacturing birth authority.\",\"changes\":[\"Replaced caller-provisionable roots with a non-serializable opaque runtime-established policy; external authority establishment now fails to compile.\",\"Required exact canonical witness identity equality and executable all-case negative fixtures, closing case-variant equivocation and inert-matrix gaps.\",\"Replaced original evidence paths in the receipt with deterministic kind-and-digest tokens and rejected secret-bearing path syntax before projection.\",\"Added hidden-file opt-in to both exact native uploads while preserving four-file producer isolation and success-only exact eight-file aggregate retention.\",\"Updated native proof to the exact 13-test crate-internal authority lane with a separate one-test public serialization boundary.\"],\"artifacts\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness/matrix.json\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5833/design.md\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".github/workflows/wp15-native-birth-witness.yml\",\".csdlc/evidence/5833/local-validation-manifest.json\",\".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log\",\".csdlc/evidence/5833/birth-witness-public-boundary.log\",\".csdlc/evidence/5833/birth-witness-compile-fail.log\",\".csdlc/evidence/5833/birth-witness-strict-clippy.log\",\".csdlc/evidence/5833/birth-witness-native-scripts.log\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"-E\",\"test(/^birth_witness::authority_tests::/)\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 13-test opaque authority, canonical identity, executable negative matrix, receipt redaction, signature, freshness, substitution, and no-premature-claim surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the public packet serialization boundary rejects undeclared private fields without exposing authority establishment.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-public-boundary.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--doc\",\"birth_witness\"],\"purpose\":\"Prove external callers cannot establish or nominate the opaque trusted witness root.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-compile-fail.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Require the authority-bearing library and public integration target to compile without warnings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-strict-clippy.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\"--self-test\"],\"purpose\":\"Prove log path hygiene, exact 13-test inventory scaffolding, both hidden-upload opt-ins, Ruby syntax, and workflow YAML before native CI.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5833/birth-witness-native-scripts.log\"}]}"
     }
   ]
 }
