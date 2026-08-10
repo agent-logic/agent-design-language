@@ -84,11 +84,11 @@ Implemented a fail-closed GitHub lifecycle route guardrail with synchronized roo
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

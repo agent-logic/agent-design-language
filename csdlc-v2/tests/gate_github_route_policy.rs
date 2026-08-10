@@ -32,7 +32,7 @@ fn github_route_policy_is_consistent_and_fail_closed() {
         ("AGENTS.md", agents.as_str()),
         ("client boundary", boundary.as_str()),
     ] {
-        let document = normalized_policy(&document);
+        let document = normalized_policy(document);
         assert!(
             document.contains(ROUTE_OWNER_CONTRACT),
             "{name} must retain the exact GitHub route-owner contract"
