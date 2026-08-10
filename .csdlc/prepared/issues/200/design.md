@@ -38,10 +38,15 @@ store.
   kind/version, and reconciliation slot. A candidate binds the finalized token,
   ordered plan, step-receipt set, result, retry-cache, and published-view
   digests.
-- A private `AuthorityReconciliationPermit` is returned only from the current
-  published generation. #203/#204 must require it at their authority-restoring
-  read/mutation boundaries; #200 does not claim those integrations already
-  exist.
+- Private `AuthorityReconciliationPermit` values bind the exact lineage,
+  adapter kind/version, published generation, action class (`Read` or one exact
+  mutation operation), and operation digest. Possession is not self-authorizing:
+  every downstream use must call back into the barrier to verify that the
+  permit still matches the current published view and that no newer Pending or
+  Reconciling generation exists. Beginning Pending atomically invalidates all
+  prior permits. A read permit cannot reach a mutation boundary. #203/#204 must
+  require this validation at every authority-restoring read/mutation boundary;
+  #200 does not claim those integrations already exist.
 
 Legacy direct `PolisCommand` authority variants, caller-produced tokens,
 locally inferred success, raw signing keys, replica-local history, and local
@@ -51,11 +56,14 @@ clock values cannot create a plan, receipt, result, or permit.
 
 The barrier transports the exact canonical quorum-authorization time evidence
 from #201 unchanged. It never samples a local clock to choose a replicated
-result. A later adapter may use a local clock only for a pre-execution safety
-gate; its durable step input and result must remain a deterministic function of
-the committed token. Token time digest, uncertainty policy, and inclusive
-deadline are part of the plan/checkpoint identity. Drift requires a new #201
-operation rather than reinterpretation.
+result. A later adapter may use a local clock only for a pre-step safety gate.
+`NotReady` or `Unsafe` from that gate is transient: it performs no external
+effect and writes no step receipt, result, canonical failure, or phase advance.
+Clock rollback or ambiguity leaves the same step pending so an exact later retry
+may continue it. Every durable step input and result remains a deterministic
+function of committed token time. Token time digest, uncertainty policy, and
+inclusive deadline are part of the plan/checkpoint identity. Drift requires a
+new #201 operation rather than reinterpretation.
 
 ## State machine
 
@@ -79,9 +87,14 @@ Every operation has one bounded canonical record and the following phases:
    digests. Only this view can mint a permit. The journal is retained or
    compacted only after the published view is independently readable.
 
-An exact retry first checks the durable result cache and returns the byte-exact
-result without revalidating live eligibility or re-executing steps. A different
-token or payload using the same operation id is a conflict.
+An exact retry first checks the durable result cache so it never reauthorizes or
+re-executes adapter steps, but a cache hit is not itself success. The barrier
+must verify the bound journal and complete receipt set, reconcile the external
+checkpoint, complete a missing local marker or published view, and return only
+from exact `Published`. Cached result plus old checkpoint retries the same CAS;
+cached result plus exact new checkpoint completes marker/view publication;
+missing, corrupt, regressed, or conflicting view/checkpoint state fails closed.
+A different token or payload using the same operation id is a conflict.
 
 ## Restart and rollback
 
@@ -108,10 +121,12 @@ metadata-check-then-unbounded-read is forbidden.
 The barrier does not claim atomicity across downstream stores. It provides one
 authoritative visibility boundary: while any operation for a lineage is
 Pending, Reconciling, or Checkpointed, `read_permit` and `mutation_permit` return
-`ReconciliationRequired`. Later adapters may expose only fail-safe facts during
-that interval, never renewal, activation, serving eligibility, or a later
-mutation. Raw partially updated store objects are not a published authority
-view.
+`ReconciliationRequired`. Starting a newer Pending generation invalidates every
+retained older permit, and every permit use revalidates lineage, adapter,
+generation, action, and operation against the live view. Later adapters may
+expose only fail-safe facts during that interval, never renewal, activation,
+serving eligibility, or a later mutation. Raw partially updated store objects
+are not a published authority view.
 
 ## Bounds
 
@@ -125,14 +140,22 @@ artifact is permitted.
 
 ## Proof
 
-The focused test uses the test-only registered deterministic adapter to prove a
-one-step and multi-step success, exact retry, denial of read/mutation permits
-until publication, and current permit after publication. Fault injection covers
+The proof has two layers. Module/unit tests inside the owned
+`authority_reconciliation.rs` compile with the only `cfg(test)` sealed
+deterministic adapter and prove the complete state/adapter behavior. The
+integration target builds the library normally and proves only the externally
+reachable opaque API and production denial surfaces; it cannot construct or
+register the test adapter. Together they prove one-step and multi-step success,
+publication-aware exact retry, denial of read/mutation permits until
+publication, current action-scoped permit success, retained-old permit denial,
+wrong-lineage/action denial, and read-to-mutation escalation denial. Fault
+injection covers
 journal introduction, every step before/after effect and receipt fsync,
 result-cache write, checkpoint CAS before/after outcomes, marker, view flip, and
 restart. Negative cases cover every authority binding, legacy/public forgery,
 step ordering/receipt forgery, rollback, checkpoint collision, canonical/bounded
-file handling, capacity, and unsafe paths.
+file handling, transient clock gating with no durable advance, capacity, and
+unsafe paths.
 
 The exact machine denominator is the following thirty-six unique cases:
 

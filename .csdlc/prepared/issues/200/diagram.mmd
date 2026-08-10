@@ -6,7 +6,14 @@ flowchart LR
   S --> C["Checkpointed: result cache plus external node-local CAS"]
   C --> M["Local checkpoint marker"]
   M --> V["Atomic published reconciliation generation"]
-  V --> Q["Private current read and mutation permit"]
+  V --> Q["Private lineage generation and action-scoped permit"]
+  Q --> RV["Revalidate live view and no newer Pending on every use"]
+  CR["Cached exact result"] --> RR["Resume checkpoint marker and view reconciliation"]
+  RR --> C
+  RR --> M
+  RR --> V
+  V --> RET["Only Published returns retained result"]
+  CLK["Local pre-step NotReady or Unsafe"] -. "no effect receipt result or phase advance" .-> X
   P -. "pending" .-> D["Authority-restoring reads and mutations denied"]
   X -. "partial" .-> D
   C -. "not yet published" .-> D

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "57a481c7f7f6685490698c3fb47066f39299aa14ce8995c82456932d0227797d",
+  "generation": 1,
+  "digest": "c8574b9d830e3b741cc3d23fcdfb2ab5bd56078a82b03acfef2b4c5301e98d47",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "c5fdcc7e10f5e72e998f37b7e00bf657213e8dcef4ecd7b40ce2c879795b8d0e",
+      "values_digest": "f1ced0b1cc62733dae382423f085a1ba78d0b2e4f327889e1fdbd96dfce52619",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "9772bd3df5421b0d4f03aa41a7cd6ba8bb156880c92381500cff726befc5d292",
+      "values_digest": "41d93a15cb0a23c3c64db8b5ad090c21e71f2b48094b427fd73daa0678c479f4",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "993c634ee1dcb1c5a7ef32a966fbedd0aeed76d9e4ef4bdc8f43f15da97e3f04",
+      "values_digest": "82b60e970d2d48d7925ab64030c67ca94fbc563345a2c8ba7a828c5b2d11d458",
       "rendered_digest": "b554a7fd9297f5bad8ce99f7c1559e7fac33947a84b7e5cf39057d9c57eaaa97",
       "ast_digest": "4dc78e02fb1d0d2103af1ce09ed8a8330e190b59be1c0d77d90bd5ab4f38fa59"
     },
     "vpp": {
-      "values_digest": "ad2970e3a0c027ee41457f977eac3310ce164330bda70d81cb0843efbaca049e",
-      "rendered_digest": "d9b4140e2ea85c6d2b6103e93bd69e32024b597823af39a34388209c1d442e49",
-      "ast_digest": "eec3991abb058e77c02502432604da676272b296c23521f9625bd5ee86e17ec2"
+      "values_digest": "318a11510b3c67ca37722c7d94000dbd0959d11ab1193ec652d0789cb04affb5",
+      "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
+      "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "43b54b359137812edf30fdbffd324e81c902849cc0fd9af329f4e9e7c43c1758",
+      "values_digest": "87f24e76766573157a4a9cc3b74533ec39dd1c492b4dedbe9a1fd008afbe00c9",
       "rendered_digest": "4d7083bad3aa26de013aca07967f97d2db2738cd1771028d035a7e8316a2f3bc",
       "ast_digest": "cd1b7f39fc02e2a9acb63111ce8f25eefa9c354685111feeec13080532aa9bd1"
     },
     "sor": {
-      "values_digest": "9806e5463175c7c3250b3c6f1bb57ebd08c7bd719af2245c9ec0cb00dc1eef1b",
+      "values_digest": "886525287a7c11ef189fe86936dbcfbeaea7be8a23ee5ad731726ea347455198",
       "rendered_digest": "f30f60df6721af0736e5a2e444c83f79ef29191bd8d607ba8af55dd8af8b4a83",
       "ast_digest": "e4517ecca803ffa7e9bbca085fe73d80d878315c9a8fa57b69eef3269503673a"
     }
@@ -57,6 +57,13 @@
       "actor": "codex:200-authority-reconciliation-preparation",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:200-design-review-repair",
+      "reason": "Bind publication-aware cached retry, generation/action-scoped permit revalidation, deterministic transient clock gating, and the truthful unit-plus-integration proof architecture into the exact denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authority-reconciliation-barrier\",\"proof_role\":\"Prove exact thirty-six-case denominator: happy_single_step, happy_multi_step, exact_retry_cached_result, pending_blocks_read, pending_blocks_mutation, published_permit_current, missing_201_token, public_token_forgery_denied, legacy_command_denied, wrong_domain, wrong_polis, wrong_node, wrong_guardian, wrong_boot, wrong_protocol_instance, wrong_membership, wrong_operation_kind, wrong_adapter_version, wrong_time_digest, conflicting_retry, reordered_step, duplicate_step, missing_step, forged_step_receipt, crash_after_journal, crash_each_step, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, coherent_rollback, capacity_n_plus_one_no_partial, state_or_lock_symlink_rejected, corrupt_journal_rejected, noncanonical_state_rejected, opened_handle_growth_rejected, checkpoint_object_collision. The module/unit suite inside authority_reconciliation.rs uses the only cfg(test)-sealed deterministic adapter and proves every state/adapter fault; the integration target proves the externally reachable opaque API and production denial surfaces without constructing that adapter. exact_retry_cached_result must prove cached result with old checkpoint resumes the same CAS, new checkpoint plus missing marker/view completes publication, corrupt or conflicting view fails closed, and only exact Published returns. published_permit_current plus pending_blocks_read/pending_blocks_mutation must prove lineage, adapter, action class, exact operation, and published generation binding; retained generation-N read/mutation permits reject after N+1 Pending; read-to-mutation escalation and wrong lineage/action reject; every use revalidates current view. wrong_time_digest must prove local-clock NotReady/Unsafe writes no effect, receipt, result, or phase advance and later exact retry resumes from the same step using only committed token time. crash_each_step and checkpoint cases must enumerate every before/after effect, receipt fsync, cached result, CAS, marker, view flip, and restart outcome; capacity and opened-handle cases prove no partial mutation or unbounded allocation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"parallel_group\":\"200-runtime\",\"defer_reason\":\"Deferred until #191 and #201 merge and this issue creates the authority_reconciliation.rs unit suite plus distributed_authority_reconciliation.rs external API target; fail closed on missing targets, zero tests, absent unit or integration layer, or any result not mapping exactly once to all thirty-six names and required subassertions.\"},{\"lane\":\"authority-reconciliation-clippy\",\"proof_role\":\"Reject warnings and API misuse across both the library barrier and external opaque API target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"200-runtime\",\"defer_reason\":\"Deferred until both owned proof layers exist; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"authority-reconciliation-producer\",\"proof_role\":\"Produce exact source, both proof layers, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker/subassertion evidence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\"],\"parallel_group\":\"200-proof\",\"defer_reason\":\"Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing proof layer, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status.\"},{\"lane\":\"authority-reconciliation-receipt\",\"proof_role\":\"Bind exact protected source, unit and integration commands, thirty-six cases and subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"parallel_group\":\"200-proof\",\"defer_reason\":\"Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, both proof layers, and all cases/subassertions are bound.\"}]}"
     }
   ]
 }

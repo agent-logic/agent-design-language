@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/200/diagram.mmd
 [
   {
     "lane": "authority-reconciliation-barrier",
-    "proof_role": "Prove exact thirty-six-case denominator: happy_single_step, happy_multi_step, exact_retry_cached_result, pending_blocks_read, pending_blocks_mutation, published_permit_current, missing_201_token, public_token_forgery_denied, legacy_command_denied, wrong_domain, wrong_polis, wrong_node, wrong_guardian, wrong_boot, wrong_protocol_instance, wrong_membership, wrong_operation_kind, wrong_adapter_version, wrong_time_digest, conflicting_retry, reordered_step, duplicate_step, missing_step, forged_step_receipt, crash_after_journal, crash_each_step, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, coherent_rollback, capacity_n_plus_one_no_partial, state_or_lock_symlink_rejected, corrupt_journal_rejected, noncanonical_state_rejected, opened_handle_growth_rejected, checkpoint_object_collision. crash_each_step and checkpoint cases must mechanically enumerate every before/after effect, receipt fsync, result, CAS, marker, view flip, and restart outcome; capacity and opened-handle cases prove no partial mutation or unbounded allocation.",
+    "proof_role": "Prove exact thirty-six-case denominator: happy_single_step, happy_multi_step, exact_retry_cached_result, pending_blocks_read, pending_blocks_mutation, published_permit_current, missing_201_token, public_token_forgery_denied, legacy_command_denied, wrong_domain, wrong_polis, wrong_node, wrong_guardian, wrong_boot, wrong_protocol_instance, wrong_membership, wrong_operation_kind, wrong_adapter_version, wrong_time_digest, conflicting_retry, reordered_step, duplicate_step, missing_step, forged_step_receipt, crash_after_journal, crash_each_step, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, coherent_rollback, capacity_n_plus_one_no_partial, state_or_lock_symlink_rejected, corrupt_journal_rejected, noncanonical_state_rejected, opened_handle_growth_rejected, checkpoint_object_collision. The module/unit suite inside authority_reconciliation.rs uses the only cfg(test)-sealed deterministic adapter and proves every state/adapter fault; the integration target proves the externally reachable opaque API and production denial surfaces without constructing that adapter. exact_retry_cached_result must prove cached result with old checkpoint resumes the same CAS, new checkpoint plus missing marker/view completes publication, corrupt or conflicting view fails closed, and only exact Published returns. published_permit_current plus pending_blocks_read/pending_blocks_mutation must prove lineage, adapter, action class, exact operation, and published generation binding; retained generation-N read/mutation permits reject after N+1 Pending; read-to-mutation escalation and wrong lineage/action reject; every use revalidates current view. wrong_time_digest must prove local-clock NotReady/Unsafe writes no effect, receipt, result, or phase advance and later exact retry resumes from the same step using only committed token time. crash_each_step and checkpoint cases must enumerate every before/after effect, receipt fsync, cached result, CAS, marker, view flip, and restart outcome; capacity and opened-handle cases prove no partial mutation or unbounded allocation.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -46,16 +46,19 @@ Diagram: .csdlc/prepared/issues/200/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
+      "--lib",
       "--test",
       "distributed_authority_reconciliation",
-      "--no-tests=fail"
+      "--no-tests=fail",
+      "-E",
+      "test(/authority_reconciliation/)"
     ],
     "parallel_group": "200-runtime",
-    "defer_reason": "Deferred until #191 and #201 merge and this issue creates adl-runtime/tests/distributed_authority_reconciliation.rs plus adl-runtime/src/distributed/authority_reconciliation.rs; fail closed on missing targets, zero tests, or any result not mapping exactly once to all thirty-six names and required subassertions."
+    "defer_reason": "Deferred until #191 and #201 merge and this issue creates the authority_reconciliation.rs unit suite plus distributed_authority_reconciliation.rs external API target; fail closed on missing targets, zero tests, absent unit or integration layer, or any result not mapping exactly once to all thirty-six names and required subassertions."
   },
   {
     "lane": "authority-reconciliation-clippy",
-    "proof_role": "Reject warnings and API misuse across the exact barrier target.",
+    "proof_role": "Reject warnings and API misuse across both the library barrier and external opaque API target.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -69,6 +72,7 @@ Diagram: .csdlc/prepared/issues/200/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
+      "--lib",
       "--test",
       "distributed_authority_reconciliation",
       "--",
@@ -76,11 +80,11 @@ Diagram: .csdlc/prepared/issues/200/diagram.mmd
       "warnings"
     ],
     "parallel_group": "200-runtime",
-    "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source."
+    "defer_reason": "Deferred until both owned proof layers exist; fail closed on warnings, missing target, or missing source."
   },
   {
     "lane": "authority-reconciliation-producer",
-    "proof_role": "Produce exact source, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker evidence.",
+    "proof_role": "Produce exact source, both proof layers, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker/subassertion evidence.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -93,11 +97,11 @@ Diagram: .csdlc/prepared/issues/200/diagram.mmd
       ".csdlc/prepared/issues/200/produce-proof-receipt.rb"
     ],
     "parallel_group": "200-proof",
-    "defer_reason": "Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status."
+    "defer_reason": "Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing proof layer, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status."
   },
   {
     "lane": "authority-reconciliation-receipt",
-    "proof_role": "Bind exact protected source, commands, thirty-six cases and subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
+    "proof_role": "Bind exact protected source, unit and integration commands, thirty-six cases and subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -110,7 +114,7 @@ Diagram: .csdlc/prepared/issues/200/diagram.mmd
       ".csdlc/prepared/issues/200/validate-proof-receipt.rb"
     ],
     "parallel_group": "200-proof",
-    "defer_reason": "Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source and all cases/subassertions are bound."
+    "defer_reason": "Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, both proof layers, and all cases/subassertions are bound."
   }
 ]
 
@@ -126,8 +130,8 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_reconciliation --no-tests=fail`
-- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_reconciliation -- -D warnings`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib --test distributed_authority_reconciliation --no-tests=fail -E test(/authority_reconciliation/)`
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib --test distributed_authority_reconciliation -- -D warnings`
 - `ruby .csdlc/prepared/issues/200/produce-proof-receipt.rb`
 - `ruby .csdlc/prepared/issues/200/validate-proof-receipt.rb`
 
