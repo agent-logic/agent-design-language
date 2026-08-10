@@ -1,0 +1,55 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5868,
+  "wp": "WP-04.06",
+  "source_revision": "bf659cb71f69654603b62fe862cfa7c8627f87e7",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/failure_detection.rs",
+    "adl-runtime/tests/distributed_failure_detection.rs"
+  ],
+  "source_artifacts": [
+    { "path": "adl-runtime/src/distributed/failure_detection.rs", "sha256": "9dbe61169341ebb1d25975cb1c3340a26d6b5f2adc105dedac127b38bd0663a4" },
+    { "path": "adl-runtime/tests/distributed_failure_detection.rs", "sha256": "8420fb61f3d5d7241300861ecfdf06b2139ed7895b04edc63762ec4149def758" }
+  ],
+  "commands": [
+    {
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_failure_detection", "--no-tests=fail"],
+      "exit_code": 0,
+      "selected_tests": 14,
+      "started_at": "2026-08-10T00:46:20Z",
+      "finished_at": "2026-08-10T00:46:21Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5b86ad84-9f7c-43f4-a5ee-1895b9d49396",
+        "os": "macos",
+        "arch": "arm64",
+        "identity_sha256": "e6a94cd0dc5b9cb6586bb96317522de09e65c9154f878cb7a55d3af68ea333e6"
+      },
+      "stdout_path": ".csdlc/evidence/5868/distributed-failure-detection.log",
+      "stdout_sha256": "5d342c75453c232a97591b7614c77031140556c823ab0de73c3f4a49768896b5",
+      "stderr_path": ".csdlc/evidence/5868/distributed-failure-detection.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    { "case": "forged_signature", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "unenrolled_or_nonmember_observer", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "replay_within_identity_generation", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "lower_generation_after_rotation", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "unbounded_generation_replay_state", "result": "denied", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "wrong_domain_or_epoch", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "cross_domain_event_collision", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "stale_probe", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "node_or_observer_capacity", "result": "denied", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "premature_recovery", "result": "denied", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "case": "authority_escalation", "result": "denied", "evidence_path": ".csdlc/evidence/5868/negative-cases.json", "evidence_sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" }
+  ],
+  "artifacts": [
+    { "path": ".csdlc/evidence/5868/distributed-failure-detection.log", "sha256": "5d342c75453c232a97591b7614c77031140556c823ab0de73c3f4a49768896b5" },
+    { "path": ".csdlc/evidence/5868/negative-cases.json", "sha256": "9f3595b81a70cff918bfe8ab72812dfac79b8ed06b2f60858b19b1b69a1ee0f2" },
+    { "path": ".csdlc/evidence/5868/runner.txt", "sha256": "e6a94cd0dc5b9cb6586bb96317522de09e65c9154f878cb7a55d3af68ea333e6" },
+    { "path": ".csdlc/evidence/5868/strict-focused-clippy.log", "sha256": "625dda7f516d9b69be336528731b56ad8e9d0e649efd2516f9be2aadbe35fd98" }
+  ],
+  "native_receipts": []
+}

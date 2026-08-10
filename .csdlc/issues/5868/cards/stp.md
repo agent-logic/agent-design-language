@@ -16,10 +16,12 @@ Implement bounded failure detection that distinguishes suspect, unavailable, par
 
 ## Deliverables
 
-- Implement bounded failure detection that distinguishes suspect, unavailable, partitioned, and recovered nodes without granting authority.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
+- adl-runtime/src/distributed/failure_detection.rs
+- adl-runtime/tests/distributed_failure_detection.rs
+- Bounded suspicion, unavailable, partitioned, recovered, and flapping classification without authority grant
+- Focused positive and fail-closed negative tests
+- Digest-bound exact-revision execution proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

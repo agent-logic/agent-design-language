@@ -1,0 +1,65 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5868,
+  "source_revision": "b98da2f21283961284039c921c8457e8d45d3430",
+  "producer_path": ".csdlc/prepared/issues/5868/derive-negative-cases.rb",
+  "producer_sha256": "6b0c4eda80bfb90eb9a483ecc715780bf8cdc5d41163f47533aad1b1051d81bb",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_failure_detection",
+      "machine_derived_negative_case_evidence",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T01:56:49.056804Z",
+    "finished_at": "2026-08-10T01:56:49.251045Z"
+  },
+  "stdout_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.stdout.log",
+  "stdout_sha256": "079d221e668c908b10f48412a2d43f00f9b1972cc1ec545b188a2de46c4db08d",
+  "stderr_path": ".csdlc/evidence/5868/operator-repair-v3/negative-cases.stderr.log",
+  "stderr_sha256": "a676d219b4fbf7282aaeabf68d19e33f108c4847ca3d08c3004a0d818b046c0a",
+  "cases": [
+    {
+      "case": "forged_signature",
+      "result": "rejected",
+      "observed_line_sha256": "bca463a4bc138a5021277b172bbbe5f71dd0a888ee824d359f0325a2863f5bcd"
+    },
+    {
+      "case": "historical_identity_generation",
+      "result": "rejected",
+      "observed_line_sha256": "2d729c41d11c13418df2b829fc091b8ebf7861888f9e95f06208f43dcb719a34"
+    },
+    {
+      "case": "current_generation_replay",
+      "result": "rejected",
+      "observed_line_sha256": "be0ee2a7b3c49adde3793efab656ff4bb5888679d32fd20c5a4879c46d94b7af"
+    },
+    {
+      "case": "wrong_trust_domain",
+      "result": "rejected",
+      "observed_line_sha256": "4f9e4e5bb0e66568974e76d40cbd18286669ca8e723ac669856e985371cd66f5"
+    },
+    {
+      "case": "stale_probe",
+      "result": "rejected",
+      "observed_line_sha256": "259a2677ee2f06ea070f138e3b5c19e5398f219b287961e6b0666a6f7499c793"
+    },
+    {
+      "case": "node_capacity",
+      "result": "denied",
+      "observed_line_sha256": "b1899ab2d4cc2153634087c7e122e33be4659369097390fb11ab500306e997f1"
+    },
+    {
+      "case": "authority_escalation",
+      "result": "denied",
+      "observed_line_sha256": "a47b5ce15a790bc2b44d5735a0f563f8c071c98010bdbc36b07b2edb8653ef78"
+    }
+  ]
+}

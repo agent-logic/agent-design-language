@@ -1,0 +1,53 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5868,
+  "wp": "WP-04.06",
+  "source_revision": "dd181c09fc2291c9475d19c9c0284287bf62444f",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/failure_detection.rs",
+    "adl-runtime/tests/distributed_failure_detection.rs"
+  ],
+  "source_artifacts": [
+    { "path": "adl-runtime/src/distributed/failure_detection.rs", "sha256": "02751a9cb9529d71a9b466119e629724239010dce55aaccd46a15712654c49ef" },
+    { "path": "adl-runtime/tests/distributed_failure_detection.rs", "sha256": "6328d42dce3cdd35c46fe7365ab4b0f9ea141e3cc09f2d80233891e7f36aa4d5" }
+  ],
+  "commands": [
+    {
+      "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_failure_detection", "--no-tests=fail"],
+      "exit_code": 0,
+      "selected_tests": 16,
+      "started_at": "2026-08-10T02:09:22.549788Z",
+      "finished_at": "2026-08-10T02:09:23.218105Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "33e55d28-ea4c-44ee-ae28-38cade107fbf",
+        "os": "macos",
+        "arch": "arm64",
+        "identity_sha256": "386f8636fa11b145a1f864fe7334d9f06348ba1e93360b1fe30f33496edd8b15"
+      },
+      "stdout_path": ".csdlc/evidence/5868/operator-repair-v4/exact-child-tests.log",
+      "stdout_sha256": "8d7f1979486766474f7dfb9d7190f9fcd8fd7d705f98b44e4f8a918a3922bdf7",
+      "stderr_path": ".csdlc/evidence/5868/operator-repair-v4/exact-child-tests.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "negative_cases": [
+    { "case": "forged_signature", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "evidence_sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" },
+    { "case": "historical_identity_generation", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "evidence_sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" },
+    { "case": "current_generation_replay", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "evidence_sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" },
+    { "case": "wrong_trust_domain", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "evidence_sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" },
+    { "case": "stale_probe", "result": "rejected", "evidence_path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "evidence_sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" },
+    { "case": "node_capacity", "result": "denied", "evidence_path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "evidence_sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" },
+    { "case": "authority_escalation", "result": "denied", "evidence_path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "evidence_sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" }
+  ],
+  "artifacts": [
+    { "path": ".csdlc/evidence/5868/operator-repair-v4/exact-child-tests.log", "sha256": "8d7f1979486766474f7dfb9d7190f9fcd8fd7d705f98b44e4f8a918a3922bdf7" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v4/strict-focused-clippy.log", "sha256": "d7dae192715495fa89ccbe279af3efb9792c1dae1768228e369035e68a1df673" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v4/negative-cases.json", "sha256": "12f9d4498ad243c2b9fe3dc37fb05158bf2f692ee5a08cb90e55b05847222a02" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v4/validation-manifest.json", "sha256": "9f7a0579d66d3b32d4eb1fadf1ed21c1aa08bb335276f7c4903d00436cd06cf6" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v4/runner.txt", "sha256": "386f8636fa11b145a1f864fe7334d9f06348ba1e93360b1fe30f33496edd8b15" },
+    { "path": ".csdlc/evidence/5868/operator-repair-v3/execution-proof.json", "sha256": "27567ad571e59de1706aa5c0e1e0624d4a6477a12b5ffbf83dc978183da84cda" }
+  ],
+  "native_receipts": []
+}
