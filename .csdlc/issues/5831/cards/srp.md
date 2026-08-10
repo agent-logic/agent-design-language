@@ -12,17 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/5831/produce-native-receipt.rb
-.csdlc/prepared/issues/5831/validate-native-receipts.rb
-.github/workflows/wp13a-native-adaptive-learning.yml
-adl-runtime-kernel/src/adaptive_learning.rs
-adl-runtime-kernel/src/reasoning.rs
-adl-runtime-kernel/src/durable_state.rs
-adl-runtime-kernel/tests/adaptive_learning.rs
-adl-runtime-kernel/tests/durable_state.rs
-.csdlc/evidence/5831
-.csdlc/issues/5831
-Review exact clean evidence HEAD c948f847317aaf670c9b6cdcc5444732fd13cf4b and validator parity repair 1f6977214eacf71c61eeb2f868fc27d5a97a9f80 after failed run 31429043531. Confirm producer and validator compute identical exact source manifests including reasoning.rs, durable_state.rs, tests/durable_state.rs; both self-tests lock these paths; workflow triggers include them; failed receipts would pass the corrected source equality absent other defects. Reconfirm no product drift, exact 20/20, prior transaction/reconciliation approval, lifecycle truth, and replacement native proof requirement.
+
 
 ## Prompts
 
@@ -41,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Replacement native Linux and macOS receipts and aggregate validation must pass at the exact republished head before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:c948f847317aaf670c9b6cdcc5444732fd13cf4b:49897bb540eaf947a78f9ade6d0646a42dd331f6e44d56efa5f0fde44154a658")
+Revision: None
 
-Reviewer: Some("/root/sprint4_5857/review_5831_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review

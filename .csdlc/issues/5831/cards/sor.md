@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and locally proved governed WP-13A adaptive learning with discoverable fully validated reconciliation and durable-before-live MutationGate transaction semantics. After PR run 31429043531 proved both native producers passed but aggregate validation rejected the widened source manifest, the validator now mirrors the producer's reasoning.rs, durable_state.rs, and tests/durable_state.rs authority paths and locks them in its self-test. Replacement native execution remains required before merge.
+Implemented and proved governed WP-13A adaptive learning with complete startup reconciliation and durable-before-live MutationGate transaction semantics. Exact replacement run 31430072319 passed Linux, macOS, and aggregate validation at published head 4cff1680fa6ad97b3002dee070521b7ab24bd08c; the downloaded eight-file packet passed detached exact-head validation, and native producer deferrals are cleared. Final exact-head review and merge remain pending.
 
 ## Artifacts
 
@@ -31,6 +31,16 @@ Implemented and locally proved governed WP-13A adaptive learning with discoverab
 - .csdlc/evidence/5831/adaptive-learning-strict-clippy.log
 - .csdlc/evidence/5831/adaptive-learning-native-scripts.log
 - .csdlc/evidence/5831/local-validation-manifest.json
+- .csdlc/evidence/5831/native-platform/linux.json
+- .csdlc/evidence/5831/native-platform/linux-nextest.log
+- .csdlc/evidence/5831/native-platform/linux-semantic.json
+- .csdlc/evidence/5831/native-platform/linux-source-manifest.json
+- .csdlc/evidence/5831/native-platform/macos.json
+- .csdlc/evidence/5831/native-platform/macos-nextest.log
+- .csdlc/evidence/5831/native-platform/macos-semantic.json
+- .csdlc/evidence/5831/native-platform/macos-source-manifest.json
+- .csdlc/evidence/5831/native-platform/independent-validator.log
+- .csdlc/evidence/5831/native-validation-manifest.json
 
 ## Execution
 
@@ -93,16 +103,27 @@ Implemented and locally proved governed WP-13A adaptive learning with discoverab
     "purpose": "Prove native log normalization and exact inclusion of all adaptive transaction and durable authority source paths.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5831/adaptive-learning-native-scripts.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".csdlc/evidence/5831/native-platform/linux.json",
+      ".csdlc/evidence/5831/native-platform/macos.json"
+    ],
+    "purpose": "Independently validate exact replacement run 31430072319 in a detached checkout at 4cff1680fa6ad97b3002dee070521b7ab24bd08c, including exact 15-test inventories, all source and output hashes, workflow provenance, path hygiene, and Linux/macOS semantic equivalence.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5831/native-validation-manifest.json"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

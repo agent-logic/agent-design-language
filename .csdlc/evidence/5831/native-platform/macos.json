@@ -1,0 +1,74 @@
+{
+  "schema": "adl.native_ci_receipt.v1",
+  "payload": {
+    "issue": 5831,
+    "platform": "macos",
+    "source_sha": "4cff1680fa6ad97b3002dee070521b7ab24bd08c",
+    "producer_path": ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+    "producer_sha256": "d36324b919715ebeec505f08ba2b8a09b268786e645bd868c701cad31e94776e",
+    "producer_argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+      "--platform",
+      "macos",
+      "--receipt",
+      ".csdlc/evidence/5831/native-platform/macos.json",
+      "--semantic-output",
+      ".csdlc/evidence/5831/native-platform/macos-semantic.json"
+    ],
+    "test_argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "adaptive_learning",
+      "--no-tests=fail",
+      "--status-level",
+      "all",
+      "--message-format",
+      "libtest-json-plus"
+    ],
+    "test_environment": {
+      "ADL_NATIVE_SEMANTIC_OUTPUT": ".csdlc/evidence/5831/native-platform/macos-semantic.json",
+      "NEXTEST_EXPERIMENTAL_LIBTEST_JSON": "1"
+    },
+    "tests_run": 15,
+    "passed_tests": [
+      "adl-runtime-kernel::adaptive_learning$concurrent_adaptive_executions_have_one_authoritative_winner",
+      "adl-runtime-kernel::adaptive_learning$fixture_matrix_tracks_the_governed_negative_surface",
+      "adl-runtime-kernel::adaptive_learning$forged_grant_and_authority_fail_before_history_acceptance",
+      "adl-runtime-kernel::adaptive_learning$governed_acceptance_mutates_and_persists_exact_history",
+      "adl-runtime-kernel::adaptive_learning$policy_digest_mismatch_fails_before_mutation_or_persistence",
+      "adl-runtime-kernel::adaptive_learning$predecessor_splice_and_sequence_overflow_fail_closed",
+      "adl-runtime-kernel::adaptive_learning$proposal_patch_mismatch_and_durable_collision_are_nonmutating",
+      "adl-runtime-kernel::adaptive_learning$recurrence_roundtrip_and_capacity_bounds_fail_closed",
+      "adl-runtime-kernel::adaptive_learning$rejected_and_cancelled_paths_are_durable_and_nonmutating",
+      "adl-runtime-kernel::adaptive_learning$startup_completes_committed_intent_and_restores_aborted_live_gate",
+      "adl-runtime-kernel::adaptive_learning$startup_discovers_reserved_intent_and_rejects_tampering",
+      "adl-runtime-kernel::adaptive_learning$tampered_history_and_rollback_never_return_attacker_hashes",
+      "adl-runtime-kernel::adaptive_learning$transactional_completion_and_postcheck_failure_leave_gate_unchanged",
+      "adl-runtime-kernel::adaptive_learning$two_sequence_history_survives_restart_and_supports_authoritative_rollback",
+      "adl-runtime-kernel::adaptive_learning$unsafe_ids_rationale_paths_and_unknown_fields_fail_closed"
+    ],
+    "command_output_path": ".csdlc/evidence/5831/native-platform/macos-nextest.log",
+    "command_output_sha256": "f14ca53966a4ecfae596552c2554618ed26923e2e26f0521d8f66c35550d34af",
+    "semantic_output_path": ".csdlc/evidence/5831/native-platform/macos-semantic.json",
+    "semantic_output_sha256": "79b4011682bd3419975b5f8ee6ae566ab1b45aeba9b598e37758050a983bcb40",
+    "source_manifest_path": ".csdlc/evidence/5831/native-platform/macos-source-manifest.json",
+    "source_manifest_sha256": "799d58a30873937633f6449cac0af16946ab0dea77ba695c7bf977417e461a40",
+    "runner": {
+      "provider": "github_actions",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp13a-native-adaptive-learning.yml@refs/pull/195/merge",
+      "run_id": "31430072319",
+      "run_attempt": "1",
+      "job": "produce-native-receipt",
+      "os": "Darwin",
+      "architecture": "arm64"
+    },
+    "status": "passed"
+  },
+  "payload_sha256": "31852a70074f3b746a74e43936dd4bc8589f17d9a7b5d41aa0e0fbf6e14069fb"
+}
