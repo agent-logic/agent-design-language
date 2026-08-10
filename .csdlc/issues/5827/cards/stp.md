@@ -16,10 +16,12 @@ Deliver only the WP-10 multi-cycle continuity chain, fixtures, validator, and re
 
 ## Deliverables
 
+- adl-runtime-kernel/src/birthday_continuity.rs
+- adl-runtime-kernel/tests/birthday_continuity.rs
+- .csdlc/prepared/issues/5827/produce-native-receipt.rb
+- .csdlc/prepared/issues/5827/validate-native-receipts.rb
 - Versioned continuity-chain schema and canonical head derivation
-- Two-or-more-cycle valid fixtures and deterministic replay proof
-- Negative fixtures for substitution, discontinuity, duplicates, reorder, and copied state
-- Retained focused, negative, and portability report
+- Two-or-more-cycle valid fixtures, deterministic replay, discontinuity negatives, and retained macOS/Linux semantic proof
 
 ## Acceptance
 
@@ -34,16 +36,24 @@ Deliver only the WP-10 multi-cycle continuity chain, fixtures, validator, and re
 
 ## Dependencies
 
-- WP-09 / issue #5826 terminal proof
-- Current Runtime v3 continuity.rs and live_continuity.rs authority
+- Serial predecessor gate: issue #5826 / PR #118 must contain the repaired authoritative Birthday Identity implementation, have a fresh different independent exact-head security/privacy review, have every required check green, be merged and terminally reconciled, and its merge commit must be an ancestor of the #5827 execution base.
+- Authoritative Birthday Identity output from adl-runtime-kernel/src/birthday_identity.rs, backed by the accepted identity-memory and governed private-state projection authorities it consumes.
+- Current Runtime v3 continuity.rs and live_continuity.rs authority as read-only predecessor inputs.
 
 ## Inputs
 
 - docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
 - docs/milestones/v0.92/IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md
+- adl-runtime-kernel/src/birthday_identity.rs
+- adl-runtime-kernel/src/identity_memory.rs
+- adl-runtime-kernel/src/private_state.rs
 - adl-runtime-kernel/src/continuity.rs
 - adl-runtime-kernel/src/live_continuity.rs
+- adl-runtime-kernel/tests/birthday_identity.rs
 - adl-runtime-kernel/tests/live_continuity.rs
+- .csdlc/issues/5826/index.json
+- .csdlc/evidence/5826/native-platform/macos.json
+- .csdlc/evidence/5826/native-platform/linux.json
 
 ## Non Goals
 

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
 [
   {
     "lane": "birthday_continuity-runtime-v3",
-    "proof_role": "Run the exact Runtime v3 integration target and fail when the selected target contains no tests.",
+    "proof_role": "Run the exact Runtime v3 integration target after implementation and fail when the selected issue-owned target contains no tests.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -53,7 +53,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       "all"
     ],
     "parallel_group": "5827-core",
-    "defer_reason": null
+    "defer_reason": "Initialized-only bind-safe deferral: the issue-owned temporary #[path = \"../src/birthday_continuity.rs\"] harness in adl-runtime-kernel/tests/birthday_continuity.rs will route adl-runtime-kernel/src/birthday_continuity.rs until implementation creates the owned module and exact test target. Remove this deferral after implementation; the lane is then mandatory and zero tests fail closed."
   },
   {
     "lane": "birthday_continuity-macos-native-ci-producer",
@@ -77,7 +77,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       ".csdlc/evidence/5827/native-platform/macos-semantic.json"
     ],
     "parallel_group": "5827-native-produce",
-    "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": "Mandatory post-implementation native proof: run only after repaired #5826 is merged and ancestral and the exact #5827 source/test target exists. Missing macOS receipt blocks review and publication readiness."
   },
   {
     "lane": "birthday_continuity-linux-native-ci-producer",
@@ -101,11 +101,11 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       ".csdlc/evidence/5827/native-platform/linux-semantic.json"
     ],
     "parallel_group": "5827-native-produce",
-    "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": "Mandatory post-implementation native proof: run only after repaired #5826 is merged and ancestral and the exact #5827 source/test target exists. Missing Linux receipt blocks review and publication readiness."
   },
   {
     "lane": "birthday_continuity-native-ci-receipt-verification",
-    "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=b59d9878dca7d0b4f8ff584b4548b273936271b0fd367d81a454262555ecacc9]",
+    "proof_role": "After implementation and both native producers, independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.",
     "acceptance_ids": [
       "AC-4",
       "AC-8"
@@ -121,7 +121,7 @@ Diagram: .csdlc/prepared/issues/5827/diagram.mmd
       ".csdlc/evidence/5827/native-platform/linux.json"
     ],
     "parallel_group": "5827-native-verify",
-    "defer_reason": null
+    "defer_reason": "Mandatory post-implementation verification: run only after exact-head macOS and Linux receipts exist. Missing, stale, mismatched, or non-equivalent receipts block review and publication readiness."
   }
 ]
 

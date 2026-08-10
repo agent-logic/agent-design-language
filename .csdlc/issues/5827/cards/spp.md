@@ -16,7 +16,7 @@ Implement and prove WP-10 canonical multi-cycle continuity with predecessor bind
 
 ## Plan
 
-Revision 20
+Revision 22
 
 ## Steps
 
@@ -99,9 +99,12 @@ Digest: b8e8902ce03c1fd254d2be626f03fb412db939612b74f42de3942fcfd6cdbbb4
 
 ## Stop Conditions
 
-- #5826 lacks terminal receipt-backed proof.
-- A protected Runtime path collides with another claim.
-- Deterministic replay requires altering predecessor evidence.
+- Stop before bind or product edits unless repaired #5826/PR #118 is freshly independently reviewed, fully green, merged, terminally reconciled, and its merge commit is ancestral to the chosen #5827 execution base.
+- Stop if the execution base lacks the authoritative Birthday Identity output or if its accepted identity-memory/private-state projection authority cannot be verified from current source and receipt-backed evidence.
+- Stop if future csdlc-bind cannot preserve legacy issue identity danielbaustin/agent-design-language#5827 while declaring code_repository agent-logic/agent-design-language.
+- Stop if any owned-path collision exists or implementation requires a path outside the exact canonical #5827 owned-path set.
+- Stop before validation if the issue-owned birthday_continuity source and exact integration target do not yet exist; once implementation creates them, replace preparation deferrals and run every mandatory lane rather than treating deferral as proof.
+- Stop if deterministic replay requires rewriting predecessor Birthday Identity, identity-memory, private-state projection, continuity, or wake evidence.
 
 ## Handoff
 
