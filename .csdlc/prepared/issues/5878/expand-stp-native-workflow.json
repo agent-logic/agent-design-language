@@ -1,0 +1,24 @@
+{
+  "issue": 5878,
+  "card": "stp",
+  "expected_generation": 15,
+  "expected_digest": "2d01e9e2742b32d3f62581fd2bcf169fb6c408a2704750641d52bdc137ac0025",
+  "actor": "codex-sprint-5862",
+  "reason": "Add the one operator-authorized proof-only workflow path required to execute the already-declared native macOS, Linux, and Windows receipt matrix.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/distributed_guardian.rs",
+      "adl/tools/validate_v092_distributed_guardian.sh",
+      "adl/tools/validate_v092_distributed_native_receipts.rb",
+      ".github/workflows/wp04-native-distributed.yml",
+      "Register and integrate only the terminal #5863-#5877 distributed contracts as a callable production library surface without claiming an unowned Guardian or API route",
+      "Prove deterministic bounded transport and authority behavior, redaction, replay rejection, wrong-domain rejection, and fail-closed errors",
+      "Run exact native macOS, Linux, and Windows hosted jobs and retain distinct digest-bound receipt fragments for one protected source revision",
+      "Obtain independent exact-head security and correctness review before publication"
+    ]
+  }
+}

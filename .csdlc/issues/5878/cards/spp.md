@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 7
 
 ## Steps
 
@@ -61,11 +61,17 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
-- Evidence is exact-revision and digest bound
+- Only adl-runtime/src/distributed/mod.rs, adl-runtime/src/lib.rs, adl-runtime/tests/distributed_guardian.rs, adl/tools/validate_v092_distributed_guardian.sh, adl/tools/validate_v092_distributed_native_receipts.rb, and .github/workflows/wp04-native-distributed.yml are mutable
+- Issue #5878 owns production distributed library registration and its proof workflow; unowned Guardian, API, and WSS route files remain unchanged and unclaimed
+- Registration exposes exactly the terminal reviewed sibling contracts and never substitutes, forks, or reimplements their authority logic
+- The integration target imports the production crate surface and proves bounded canonical Prost transport plus quorum-backed authority with replay and wrong-domain rejection
+- Queues, frames, tests, logs, artifacts, runner identities, and total evidence bytes have explicit hard bounds and finite execution
+- Secrets, signatures, private keys, bearer material, credentials, internal paths, and unauthorized diagnostic detail remain absent or redacted from logs, artifacts, and receipts
+- The exact distributed_guardian target selects nonzero tests and emits machine-derived negative cases
+- Native receipts prove macOS, Linux, and Windows exactly once each from actual hosted production commands, distinct run identifiers and runner identities, one exact protected source revision, retained logs and artifacts, native rustc host identity, and recomputed digests
+- Missing, duplicate, synthetic, relabeled, stale, tampered, zero-test, or self-attested native evidence fails closed
+- Rollback removes distributed library registration and leaves every sibling authority implementation and the unchanged single-node Guardian path intact
+- Execution evidence and independent review remain digest-bound to all six exact protected paths and the complete fifteen-child denominator
 
 ## Risks
 
@@ -96,11 +102,14 @@ Digest: 6c8b714c4987361c7d51ad9a3fffcdf0ff3f94a7dd8b7e6ac7d1e392a173caf0
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with all downstream serial gates satisfied
+- Stop if any sibling input path, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent
+- Stop on any active collision or requested mutation outside the six canonical owned paths
+- Stop if library registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or modifying an unowned Guardian, API, or WSS route
+- Stop if bounded canonical transport, quorum authority, replay rejection, wrong-domain rejection, redaction, deterministic output, or rollback safety cannot be proved
+- After all six owned paths are implemented, stop if the exact integration target selects zero tests or any integration, workflow, native, receipt, strict-Clippy, diff, or review validation fails
+- Stop if any macOS, Linux, or Windows receipt is missing, duplicated, synthetic, relabeled, self-attested, shares a run identity, lacks live GitHub job attestation, lacks native rustc host proof, or is not bound to the exact protected source revision
+- Stop if production runtime-route behavior must be claimed without explicit ownership
 
 ## Handoff
 

@@ -1,4 +1,4 @@
-# ADL Runtime and the Cognitive Spacetime Manifold
+# The ADL Runtime and the Cognitive Spacetime Model
 
 A chat session has a beginning, a transcript, and an end. A long-lived agent needs something more demanding: a world.
 

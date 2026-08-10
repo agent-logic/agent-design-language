@@ -1,0 +1,25 @@
+{
+  "issue": 5878,
+  "expected_generation": 22,
+  "expected_digest": "f0fe3f2fbe8118e83f8ad17a3c76ab3def49b04c2adecf254127a5d4513aad8a",
+  "actor": "codex:issue-5878-final-integration",
+  "evidence": {
+    "reviewer": "codex-subagent:review_5877_exact",
+    "scope": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/distributed_guardian.rs",
+      "adl/tools/validate_v092_distributed_guardian.sh",
+      "adl/tools/validate_v092_distributed_native_receipts.rb",
+      ".github/workflows/wp04-native-distributed.yml",
+      ".csdlc/evidence/5878"
+    ],
+    "reviewed_revision": "git-blake3:9038e6dfc3884935dda3839603ae0b4dc7a710fc:5c7f0d1100718f8094047ecc0add54a2014bd57b30c6aac431832fbd977b461b",
+    "findings": [],
+    "residual_risks": [
+      "This issue registers and proves the production distributed library surface only; unowned Guardian, API, and WSS route entrypoints remain unchanged and are not claimed by this delivery."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

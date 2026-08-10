@@ -252,6 +252,10 @@ impl MembershipState {
         self.epoch
     }
 
+    pub fn trust_domain(&self) -> &str {
+        self.policy.trust_domain()
+    }
+
     pub fn committed_log_index(&self) -> u64 {
         self.committed_log_index
     }

@@ -1,4 +1,4 @@
-# Editorial Review: ADL Runtime and the Cognitive Spacetime Manifold
+# Editorial Review: The ADL Runtime and the Cognitive Spacetime Model
 
 ## Verdict
 

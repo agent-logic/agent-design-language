@@ -1,0 +1,53 @@
+{
+  "schema": "adl.native_validation_manifest.v1",
+  "issue": 5828,
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 131,
+  "validated_revision": "e20b9870dbc56ab59c68f123ed355af331ee5614",
+  "workflow": ".github/workflows/wp11-native-memory-palace.yml",
+  "workflow_run_id": "31385543888",
+  "workflow_run_attempt": "1",
+  "jobs": {
+    "linux": {
+      "job_id": "93445018437",
+      "status": "success",
+      "os": "Linux",
+      "architecture": "x86_64",
+      "tests_passed": 12,
+      "receipt_sha256": "fbf1e055ce5c9939b076ab6605f6a18d57b1a7c1d4a35ed774a7d8fed50c7675",
+      "command_output_sha256": "ada1d864b36f49675834a1ad55175a455e9679877eba3e9694152cf976da081f"
+    },
+    "macos": {
+      "job_id": "93445018359",
+      "status": "success",
+      "os": "Darwin",
+      "architecture": "arm64",
+      "tests_passed": 12,
+      "receipt_sha256": "6000554830478cc21c78a5c502bdb3ff8728212575666d8518c0fe807ca0a0f2",
+      "command_output_sha256": "cf6f995f270f90840f6b59b2a166a4b9d2f1fa42f65372d3ef49c6129a58e2b5"
+    },
+    "aggregate": {
+      "job_id": "93446004343",
+      "status": "success"
+    }
+  },
+  "artifact": {
+    "id": "9061668815",
+    "name": "wp11-native-memory-palace-validated-31385543888-1",
+    "archive_sha256": "c982464bd6bc59b94cbcd733589d9b970f0313c3e4ecfbe90613cfaf218fae98"
+  },
+  "source_manifest_sha256": "cdfe3823dfb9918df0387f39c2afa15acfda217583531127b8263f4c63de6167",
+  "semantic_output_sha256": "b941f2a2d005d12b3a6b8c5b758817fe256196d2963fd0f749ed532e79a42fe2",
+  "independent_validation": {
+    "status": "passed",
+    "detached_exact_head": "e20b9870dbc56ab59c68f123ed355af331ee5614",
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+      ".csdlc/evidence/5828/native-platform/linux.json",
+      ".csdlc/evidence/5828/native-platform/macos.json"
+    ],
+    "output_ref": ".csdlc/evidence/5828/native-platform/independent-validator.log",
+    "output_sha256": "3d101ff946034c6ccffdacd9a7fc2b5a60f6e8417a2a53186da5dbe3bff47c79"
+  }
+}

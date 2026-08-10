@@ -2,15 +2,52 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5875,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "47daa1b1c1331ac0c6cfb73a9842ea87ad66c449448eacf19b2779aac2a01958",
-  "phase": "initialized",
-  "generation": 11,
-  "digest": "ea9d662c087022af907edb92108e9fb898d2beb3471dce2ed359a4b921b87fe8",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 23,
+  "digest": "2e43e9cdd72122927c02fc06caa47242d703f146a62175a27bb761f989d7e173",
+  "branch": "codex/5875-migration-state-machine",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5875-migration",
+  "review_assignment": {
+    "reviewer": "codex:independent-5875-exact-head-review",
+    "assigned_by": "codex:5875-migration",
+    "revision": "git-blake3:85c4023c5fdd0776177b3dc87adbdd203cf8c375:778d772d22b56bc27032efc48c7271c61293f255489ea48e9d97b98237e63c46",
+    "scope": [
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/tests/distributed_migration.rs",
+      ".csdlc/evidence/5875",
+      ".csdlc/issues/5875"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:independent-5875-exact-head-review",
+    "scope": [
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/tests/distributed_migration.rs",
+      ".csdlc/evidence/5875",
+      ".csdlc/issues/5875"
+    ],
+    "reviewed_revision": "git-blake3:85c4023c5fdd0776177b3dc87adbdd203cf8c375:778d772d22b56bc27032efc48c7271c61293f255489ea48e9d97b98237e63c46",
+    "findings": [],
+    "residual_risks": [
+      "Production module registration remains intentionally owned by integration issue #5878."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5875,
+    "pull_request": 129,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/129",
+    "base": "main",
+    "head": "codex/5875-migration-state-machine",
+    "revision": "git-blake3:e2d49865acb28d1db7c287c1eff8c6a07b1beadf:e1b12b1e6cc3129ec34d16755f496f036030c8431930ba7a707d7c957cf8a46f",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cda3f385bd8e0273a85535cf86408a4838c35947de95a627021bc7bdf7be0c7e",
+      "values_digest": "9982e4408e1399761324f61b407aec4d6a9866ad7ec4fbd2d13263a0c8355c45",
       "rendered_digest": "a88ff1b06d48cc62ae8236a04f8bc6dcb14ec29c3558ba8d386573462cc81673",
       "ast_digest": "ec886b1ec0a4d106821619c6b238df3032f3cbdbdc3f1483622c689674bd7c0e"
     },
     "stp": {
-      "values_digest": "f0ed5e77921e2e99af8b50ef331a35dd3989be33dd0e0171971790ca016b731d",
-      "rendered_digest": "2a43ed1151d894250a0875a735f5e08f06f04c651078e32902ed18dd93012042",
-      "ast_digest": "790416362577cfb6b3520b662ed377f7a2a59d1ecfb892b6a0c33f419271af61"
+      "values_digest": "2552c50099b807cbd514cd6e738a208da430865e833ace2caeef74e784a5b6db",
+      "rendered_digest": "06ec332a5a6c127ec7eedaf8fa337618a87bb024646150faa467dd90c5d547b1",
+      "ast_digest": "462e7b294022c9352ece0b58369878c4051948297b7c14f8752973c24c8ee760"
     },
     "spp": {
-      "values_digest": "4ee1bdcb192c7be6026dd5818b731bb57977aab34b7798ed23ca6c88f9a1b1ad",
-      "rendered_digest": "749a7a0110ed5622b9b78caec3b819c32b3567bfe4a02964bfa4e75a9579a8d6",
-      "ast_digest": "482a2221fcb4a12029834116a347d418a873c610a6ed9d03381df25ac847ab2b"
+      "values_digest": "cd876808ac3c00b98ed06c7f2d6aa610ae338744c734b877871ae05c5f06afa1",
+      "rendered_digest": "a2ddc41a3c616fd649b7c6bad5da9ebd21b6a0a46a7271564939e0a4d2589e64",
+      "ast_digest": "b8ca9fdfc07c3d0bca9c3d40ac367290e2deff9c629a41d04eb04e5d085c1e5f"
     },
     "vpp": {
-      "values_digest": "d17c53cd91da9edcffd822d0ad85a63cd38215fd5f59ea7091b1665b4fc04e65",
-      "rendered_digest": "62a3936a33106e96049f4d64cf7a7aeb7eeaf3981e4006d92725ae763c0f1244",
-      "ast_digest": "b499424c2cd80caaab161a598ddd5c4f6aead489bf3c5d0b0077e2165fc7e315"
+      "values_digest": "cff79d02c233977d4832110c68540dcc8d9dc1382076a35f77bc1333242db7e6",
+      "rendered_digest": "d7d12a6a7c447dd982a22dc1a72a1b4be16f9002195d2f5503cf4696fcc46176",
+      "ast_digest": "b7dd5c3a57d5ba3e5eee9dbc532c1c9547677d94fc0cb202673e52767bae70f3"
     },
     "srp": {
-      "values_digest": "abb1ef647f6bb01838734da57b64e31547509a846c956065a82882284504c7ec",
-      "rendered_digest": "9a58da10f6b59d19c1a3f2895c6defd716b9267d77ef9fb4f36d19d2a5a45433",
-      "ast_digest": "9c4cd1436962df07781cb223d3268f61037291b5b04b4f01bb4c6b36a716b678"
+      "values_digest": "513e465c203d2d92cfcae70d8d03fa0abdc6f691b9dbc3c2df7d92125d14b635",
+      "rendered_digest": "780d193bd64cd0c51d0451b51d24c676f2d68747fcfb2bc79ba3789841822f4d",
+      "ast_digest": "8fe6333fb1c88e1ad7f0650ac98000aa4c35ba5f2dd291b5afb77ee57eabccdd"
     },
     "sor": {
-      "values_digest": "abf20e650fb2e02648840e38a6d130d84b04f8f8bf6091e29656ae76907d44cd",
-      "rendered_digest": "c2b231b3fa85a74bd5e81cc67bd34bbcaf8ec0deca033da88a2a86c5ba25cac8",
-      "ast_digest": "8ba0a6bf83366814cf93a2fcca39a8b9a5b69ea9c3489cc748237dd075b46349"
+      "values_digest": "48f513631cfc999b5cee138061aba03b9e02d421f496e8ab67b1a72b089e7a82",
+      "rendered_digest": "e02f600fa66d4d892d53de2366c9dd79d6d90fa8c05783537e3bc2c6b2488110",
+      "ast_digest": "c0fcdde943e29e1955f9661b6a382ddacc5471402ffc93066e48ad42fa9ba75a"
     }
   },
   "transitions": [
@@ -75,6 +112,55 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5875-migration",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:independent-5875-exact-head-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5875-migration",
+      "reason": "Reassign exact review at the publication commit after typed review metadata was committed."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:independent-5875-exact-head-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5875-migration",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -266,6 +352,111 @@
       "actor": "codex:5821-wp04-child-authority-repair",
       "reason": "Align the proving lane with the reviewed distributed authority architecture.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_migration proves every transition, idempotence, source retention before fence, majority-committed fencing, source-permit revocation, activation-certificate and activation-key checks, interruption on both sides of the fence boundary, and split-brain denial.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_migration\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=0ed776eb98d3230838ba407a55b3ae0bc50d8f859ce54004b3819be92ea55d83]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5875/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 12,
+      "actor": "codex:5875-readiness-preparation",
+      "reason": "Declare the exact two exclusive product paths and bounded migration proof deliverables without approving unmerged predecessor interfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"Focused deterministic positive, interruption, and fail-closed negative tests\",\"Digest-bound exact-revision execution proof\",\"Independent exact-head review and rollback evidence\",\"Authority safety: before fence the source may resume; after fence both candidates remain non-authoritative until verified activation\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 13,
+      "actor": "codex:5875-readiness-preparation",
+      "reason": "Record the exact serial merge and ancestry gates without claiming the prepared predecessor interfaces are implemented.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Corrective lease issue #5909 PR #120 merged and its exact merge revision ancestral before fencing execution\",\"WP-04.08 fencing issue #5870 closed through a merged PR whose exact merge revision is ancestral before placement, snapshot, or migration execution\",\"WP-04.11 placement issue #5873 closed through a merged PR whose exact merge revision is ancestral before migration execution\",\"WP-04.12 snapshot-catalog issue #5874 closed through a merged PR whose exact merge revision is ancestral before migration execution\",\"WP-04-IMP umbrella issue #5862 as coordination parent, not a terminal child gate\",\"Architecture/security gate issue #5821 terminal\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 14,
+      "actor": "codex:5875-readiness-preparation",
+      "reason": "Replace generic runtime inputs with direct future distributed input-path obligations while leaving exact API names to post-merge inspection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\",\".csdlc/prepared/issues/5821/design.md\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 15,
+      "actor": "codex:5875-readiness-preparation",
+      "reason": "Make durability, atomicity, bounds, authority, and exact-proof obligations explicit without inventing predecessor API shapes.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Only adl-runtime/src/distributed/migration.rs and adl-runtime/tests/distributed_migration.rs are mutable; module registration remains owned by #5878\",\"Source authority remains valid through exact target validation; fencing consumes current merged authority input, and activation is limited to the exact validated target afterward\",\"Every accepted transition and its audit state are persisted atomically before phase advancement becomes observable\",\"Restart recovers the last committed transition and fails closed on durable corruption or ambiguous authority\",\"Active migrations, retained transition history, manifest and snapshot bytes, identifiers, timeouts, retries, and evidence payloads are hard bounded with checked arithmetic\",\"Only exact idempotent retries are accepted; out-of-order, stale, replayed, mismatched, wrong-domain, unauthorized, incomplete, corrupt, or resource-exhausted input is rejected\",\"Exact source, command, nonzero test, artifact, machine-derived negative-case, runner, receipt, and independent-review evidence remains digest bound\"]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 16,
+      "actor": "codex:5875-readiness-preparation",
+      "reason": "Replace generic and pre-creation stops with exact serial dependency, interface, collision, durability, and post-implementation proof gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Corrective issue #5909 PR #120 is not merged or its exact merge revision is not ancestral to the selected execution base\",\"Issue #5870 is not closed through a merged PR or its exact merge revision is not ancestral to the selected execution base\",\"Issue #5873 or #5874 is not closed through a merged PR or either exact merge revision is not ancestral to the selected execution base\",\"The merged lease, fencing, placement, or snapshot-catalog source does not expose sufficient verified and bounded input behavior without inventing interfaces or widening the two owned paths\",\"Either exact owned path is already present in or collides with another live issue worktree\",\"Atomic durable transition recovery, bounded state, source retention before fence, or non-authoritative ambiguity after fence cannot be proved within issue scope\",\"After implementation the distributed_migration target is absent, selects zero tests, or any required positive, interruption, negative, receipt, or review proof fails\",\"Module registration, product scope, dependency ownership, interface authority, or rollback authority must widen beyond issue #5875\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 17,
+      "actor": "codex:5875-readiness-preparation",
+      "reason": "Declare the issue-owned bind-safe temporary path harness while preserving exact nonzero, interruption, durability, negative-case, and receipt proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nonzero nextest target proves ordered and idempotent prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit; source retention before fence; non-authoritative ambiguity after fence; atomic durable restart recovery; hard bounds; and stale, replayed, mismatched, corrupt, incomplete, unauthorized, wrong-domain, and split-brain denial.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_migration\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/migration.rs\\\"] harness in adl-runtime/tests/distributed_migration.rs will route adl-runtime/src/distributed/migration.rs after both owned paths are implemented and until integration issue #5878 registers the production module; their pre-implementation absence is not a validation pass.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, machine-derived transition and negative-case, runner, and receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=0ed776eb98d3230838ba407a55b3ae0bc50d8f859ce54004b3819be92ea55d83]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5875/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 17,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 35,
+      "generation": 18,
+      "actor": "codex:5875-migration",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 36,
+      "generation": 18,
+      "actor": "codex:5875-migration",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 19,
+      "actor": "codex:independent-5875-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 20,
+      "actor": "codex:5875-migration",
+      "reason": "Reassign exact review at the publication commit after typed review metadata was committed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 20,
+      "actor": "codex:5875-migration",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 21,
+      "actor": "codex:independent-5875-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 22,
+      "actor": "codex:5875-migration",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 23,
+      "actor": "codex:5875-migration",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

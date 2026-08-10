@@ -1,4 +1,4 @@
-# Editorial Review: What's Next for ADL
+# Editorial Review: What's Next for ADL?
 
 ## Verdict
 

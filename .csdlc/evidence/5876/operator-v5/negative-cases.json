@@ -1,0 +1,133 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5876,
+  "source_revision": "179f7a81ba0e8d03219c08888ad318b60dfe48d7",
+  "producer_path": ".csdlc/evidence/5876/derive-negative-cases.rb",
+  "producer_sha256": "332eb6c622f5d638c95bbf1426001a03e708873b7818de87f4f7a89ea012665d",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_recovery",
+      "--",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T11:13:38.701507Z",
+    "finished_at": "2026-08-10T11:13:40.873796Z"
+  },
+  "stdout_path": ".csdlc/evidence/5876/operator-v5/negative-cases.stdout.log",
+  "stdout_sha256": "5c9495a0156ae77f8c4777742be0b2dd744485e337cc7708eefa561ca8ae8fac",
+  "stderr_path": ".csdlc/evidence/5876/operator-v5/negative-cases.stderr.log",
+  "stderr_sha256": "80870ee25c27aeb3711aa501cab50e9c7bf826334d5c360daa15e6a34dabb5f0",
+  "cases": [
+    {
+      "case": "local_claimed_owner_not_authority",
+      "result": "rejected",
+      "observed_line_sha256": "c40f5431e7fec921f720a13700da1507b868770def04820d837ad396a3b96e82"
+    },
+    {
+      "case": "rollback_without_live_source_authority",
+      "result": "rejected",
+      "observed_line_sha256": "b944a8f092381dec3736a4d09acf973272f973567270976f27f14a992d83f313"
+    },
+    {
+      "case": "minority_fence",
+      "result": "rejected",
+      "observed_line_sha256": "da2c2c396d06840850f6ea27484adb06c9f2646fe57715aa203dfcb0f5849a13"
+    },
+    {
+      "case": "wrong_trust_domain_fence",
+      "result": "rejected",
+      "observed_line_sha256": "7358d3446bd8d5f6b754ae457524c540b2600adb62fbf523e488363b20901a54"
+    },
+    {
+      "case": "activation_inside_safety_window",
+      "result": "rejected",
+      "observed_line_sha256": "93646f3027dae954f92255c6065940bd39993cd229246fb621e4204981ada337"
+    },
+    {
+      "case": "stale_membership_generation",
+      "result": "rejected",
+      "observed_line_sha256": "6e0ba8b97697f5195e07685f820a3c9d87f4a97b222507bf8362f789e1e92449"
+    },
+    {
+      "case": "record_capacity",
+      "result": "rejected",
+      "observed_line_sha256": "888ecddc30eab40cbe7b35728f8a7c0f9140f40ff2accd034c2ef5701d9d78c2"
+    },
+    {
+      "case": "recovery_timeout",
+      "result": "rejected",
+      "observed_line_sha256": "925d1f071b90b924079326a957d69d88f2c6db2ebc1714a6e51abcc073dba1df"
+    },
+    {
+      "case": "wrong_trust_domain_begin",
+      "result": "rejected",
+      "observed_line_sha256": "20ea5693f398244888d13dd9cab9dd4a096826e6bf0157afd00ae7bc982c4eeb"
+    },
+    {
+      "case": "zero_valid_committed_prefix",
+      "result": "fail_closed",
+      "observed_line_sha256": "e8c8f709d4c8f6523a8658d350806b6be2c71e40e99bb5dd3295319c74adae1a"
+    },
+    {
+      "case": "divergent_committed_prefix",
+      "result": "fail_closed",
+      "observed_line_sha256": "0ae30466e8c06a8ea7ac73f903b9a1824228cb5a156ec95bb51e817f36178624"
+    },
+    {
+      "case": "rollback_before_target_cleanup",
+      "result": "rejected",
+      "observed_line_sha256": "6960d70ab2e6f1b98fa9697d2359c6c930302a67c9a1a73102ec57a76b2a91ff"
+    },
+    {
+      "case": "operator_required_terminal",
+      "result": "fail_closed",
+      "observed_line_sha256": "69c7cbce0123b8c7860e7b0894109f5c3663d5ff085593eaf63268505796a936"
+    },
+    {
+      "case": "pending_fence_crash_reconciliation",
+      "result": "recovered",
+      "observed_line_sha256": "1ec5631cfecc2a0932bf9390f4b497d79a4310b30d077428f528644a0d302257"
+    },
+    {
+      "case": "initial_checkpoint_failure",
+      "result": "recovered",
+      "observed_line_sha256": "806bf13b70577b0ba061f99539b66e4969e041eec52ee2066bc61121cf1a621d"
+    },
+    {
+      "case": "side_effect_crossed_recovery_deadline",
+      "result": "fail_closed",
+      "observed_line_sha256": "a25da75d1cd05f1210d1105a7dde254fb5e6c318d6bdca02611ce93b3a8fecbd"
+    },
+    {
+      "case": "symlinked_recovery_state",
+      "result": "rejected",
+      "observed_line_sha256": "f9cf103163128acd56b8ccf619f4575ad050bf252d4c2e3bc0d4850d56b92049"
+    },
+    {
+      "case": "symlinked_recovery_journal",
+      "result": "rejected",
+      "observed_line_sha256": "aac111932694950d945b52a86b72a1d8b5755e3442fc6bfe85f357672944b2dd"
+    },
+    {
+      "case": "oversized_recovery_state",
+      "result": "rejected",
+      "observed_line_sha256": "7a3ff50451a2fd463b7938ce2f20398e5960aa5558d257a40d87e49343df002f"
+    },
+    {
+      "case": "oversized_recovery_journal",
+      "result": "rejected",
+      "observed_line_sha256": "60011bc3a0f9c1ccf497c577211be8668a9b2334199018924a72aa03df23184d"
+    },
+    {
+      "case": "post_activation_ambiguity_refence",
+      "result": "recovered",
+      "observed_line_sha256": "ea0caa01725ca59ef21031ccb10da50747825fe9fb1ea1c278ee89d4c91474c1"
+    }
+  ]
+}

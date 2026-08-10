@@ -1,0 +1,53 @@
+{
+  "schema": "adl.native_validation_manifest.v1",
+  "issue": 5827,
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 127,
+  "validated_revision": "7f0f195cfb1b6066b499cf27c65fde0bf741a88b",
+  "workflow": ".github/workflows/wp10-native-birthday-continuity.yml",
+  "workflow_run_id": "31377617876",
+  "workflow_run_attempt": "1",
+  "jobs": {
+    "linux": {
+      "job_id": "93420336393",
+      "status": "success",
+      "os": "Linux",
+      "architecture": "x86_64",
+      "tests_passed": 9,
+      "receipt_sha256": "2aea6761d88db3b9389fc75fca722ebcfb4064a705cb3cfd0383a6e01bfb8c09",
+      "command_output_sha256": "e0e7fb7a72c40faa5979d599fa3309e98b88ce4cdf402ca8a5cad2998c564c10"
+    },
+    "macos": {
+      "job_id": "93420336405",
+      "status": "success",
+      "os": "Darwin",
+      "architecture": "arm64",
+      "tests_passed": 9,
+      "receipt_sha256": "e57e5fcc2cb3b280a1ade6cc9950a1c3c2dd25c5b122873eaba223d6f0aef93d",
+      "command_output_sha256": "0f316ab1c39692afe8f1d3f9beaeda9040a7d1359f8529b629525e282258db42"
+    },
+    "aggregate": {
+      "job_id": "93420896384",
+      "status": "success"
+    }
+  },
+  "artifact": {
+    "id": "9058619220",
+    "name": "wp10-native-birthday-continuity-validated-31377617876-1",
+    "archive_sha256": "e7fb76f0c44a40ec073ec02d0c7d489b80d012e22b89ce85c03ea3fa9ac9aea3"
+  },
+  "source_manifest_sha256": "1d0532621c8a68963e4d0fea437152271b266d0ba28859c30fb627143ed99e77",
+  "semantic_output_sha256": "d05c7f2bf65d0725080b83207c54a71bb08006bd10782e5ba52a9ed925396062",
+  "independent_validation": {
+    "status": "passed",
+    "detached_exact_head": "7f0f195cfb1b6066b499cf27c65fde0bf741a88b",
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+      ".csdlc/evidence/5827/native-platform/macos.json",
+      ".csdlc/evidence/5827/native-platform/linux.json"
+    ],
+    "output_ref": ".csdlc/evidence/5827/native-platform/independent-validator.log",
+    "output_sha256": "e6bd9271d91f63577bb10eaf18b4e8e7ae4bac25b72297fdfa597a351ca2b21a"
+  }
+}

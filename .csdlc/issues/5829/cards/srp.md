@@ -8,11 +8,21 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact-head review of WP-12 capability description, canonical ordering, #4761 provenance, authority and limit semantics, secret handling, path portability, and dependency proof only.
+.csdlc/issues/5829
+.csdlc/prepared/issues/5829/design.md
+.csdlc/prepared/issues/5829/produce-native-receipt.rb
+.csdlc/prepared/issues/5829/validate-native-receipts.rb
+.csdlc/evidence/5829
+.github/workflows/wp12-native-capability-envelope.yml
+adl-runtime-kernel/src/capability_envelope.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/capability_envelope.rs
+adl-runtime-kernel/tests/fixtures/capability_envelope
+docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md
 
 ## Prompts
 
@@ -31,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Final publication projection and required standard/native checks must remain green at the exact remote head before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5829_exact_head")
 
-Result: pre_review
+Result: pass

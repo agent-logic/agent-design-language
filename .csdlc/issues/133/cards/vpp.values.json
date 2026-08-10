@@ -1,0 +1,80 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 133,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+    "slug": "revisioned-redacted-authority-snapshots",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "authority-snapshot-tests",
+          "proof_role": "Prove complete certificate, failure, lease, fencing, placement, migration, and recovery enumeration; revision mutation; N/N+1 drift rejection; redaction; bounds; restart parity; and cross-authority opaque-reference parity.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--locked",
+            "--test",
+            "distributed_authority_snapshots"
+          ],
+          "parallel_group": "fastwork-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "authority-snapshot-clippy",
+          "proof_role": "Prove the exact issue-owned authority snapshot integration target is warning-free before exact-head review.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--locked",
+            "--test",
+            "distributed_authority_snapshots",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "fastwork-runtime",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on incomplete enumeration, capacity overflow, stale revision, restore mismatch, private evidence exposure, self-attested construction, issue #5877 path overlap, failed validation, or review drift.",
+      "design_ref": ".csdlc/prepared/issues/133/design.md",
+      "design_digest": "eda9d46051222fd1b7afccace057fb9d23d595f646e49bbb19ef30bdf06b4199",
+      "diagram_ref": ".csdlc/prepared/issues/133/diagram.mmd",
+      "diagram_digest": "a21ea98622e9301d38922f6c7777b53f20e90cf391ba96d2ec251dce27c2ee9d"
+    }
+  }
+}

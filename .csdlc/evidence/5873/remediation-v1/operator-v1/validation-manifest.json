@@ -1,0 +1,45 @@
+{
+  "schema": "adl.wp04.issue_validation_manifest.v1",
+  "issue": 5873,
+  "source_revision": "97422fe2a3ea902011db5b46b1136f3739a1b3b4",
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/evidence/5873/run-exact-child-tests.rb",
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_placement",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 15,
+      "started_at": "2026-08-10T08:38:16.188412Z",
+      "finished_at": "2026-08-10T08:38:16.590452Z",
+      "combined_log_path": ".csdlc/evidence/5873/remediation-v1/operator-v1/exact-child-tests.log",
+      "combined_log_sha256": "222d2d2021e0243afa9fd0e90c2708a6a4fc6a7fd2141ff20ffd2a89ec9e22ed"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_placement",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T08:38:16.590922Z",
+      "finished_at": "2026-08-10T08:38:16.776862Z",
+      "combined_log_path": ".csdlc/evidence/5873/remediation-v1/operator-v1/strict-focused-clippy.log",
+      "combined_log_sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    }
+  ]
+}

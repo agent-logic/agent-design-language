@@ -1,0 +1,20 @@
+{
+  "issue": 5875,
+  "card": "stp",
+  "expected_generation": 12,
+  "expected_digest": "d0e4c1b278da23a47b6e0628a8b6303fc1f025ba54a0fe538af229462c087047",
+  "actor": "codex:5875-readiness-preparation",
+  "reason": "Record the exact serial merge and ancestry gates without claiming the prepared predecessor interfaces are implemented.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "Corrective lease issue #5909 PR #120 merged and its exact merge revision ancestral before fencing execution",
+      "WP-04.08 fencing issue #5870 closed through a merged PR whose exact merge revision is ancestral before placement, snapshot, or migration execution",
+      "WP-04.11 placement issue #5873 closed through a merged PR whose exact merge revision is ancestral before migration execution",
+      "WP-04.12 snapshot-catalog issue #5874 closed through a merged PR whose exact merge revision is ancestral before migration execution",
+      "WP-04-IMP umbrella issue #5862 as coordination parent, not a terminal child gate",
+      "Architecture/security gate issue #5821 terminal"
+    ]
+  }
+}

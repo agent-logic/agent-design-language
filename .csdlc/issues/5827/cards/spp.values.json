@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 53
+    "generation": 105
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 20,
+      "plan_revision": 24,
       "summary": "Implement and prove WP-10 canonical multi-cycle continuity with predecessor binding, deterministic head derivation, and complete discontinuity negatives.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -56,18 +56,18 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
         "adl-runtime-kernel/src/birthday_continuity.rs",
         "adl-runtime-kernel/src/lib.rs",
-        "adl-runtime-kernel/tests/birthday_continuity.rs",
-        "adl-runtime-kernel/tests/fixtures/birthday_continuity",
+        "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
         "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
         ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
-        ".csdlc/evidence/5827"
+        ".csdlc/evidence/5827",
+        ".github/workflows/wp10-native-birthday-continuity.yml"
       ],
       "invariants": [
         "Each continuity head binds its predecessor, current cycle evidence, and one identity root.",
@@ -85,20 +85,24 @@
         "validation_seconds": 3600
       },
       "stop_conditions": [
-        "#5826 lacks terminal receipt-backed proof.",
-        "A protected Runtime path collides with another claim.",
-        "Deterministic replay requires altering predecessor evidence."
+        "Stop before bind or product edits unless repaired #5826/PR #118 is freshly independently reviewed, fully green, merged, terminally reconciled, and its merge commit is ancestral to the chosen #5827 execution base.",
+        "Stop if the execution base lacks the authoritative Birthday Identity output or if its accepted identity-memory/private-state projection authority cannot be verified from current source and receipt-backed evidence.",
+        "Stop if future csdlc-bind cannot preserve legacy issue identity danielbaustin/agent-design-language#5827 while declaring code_repository agent-logic/agent-design-language.",
+        "Stop if any owned-path collision exists or implementation requires a path outside the exact canonical #5827 owned-path set.",
+        "Stop before validation if the issue-owned birthday_continuity source and exact integration target do not yet exist; once implementation creates them, replace preparation deferrals and run every mandatory lane rather than treating deferral as proof.",
+        "Stop if deterministic replay requires rewriting predecessor Birthday Identity, identity-memory, private-state projection, continuity, or wake evidence."
       ],
       "replan_triggers": [
-        "The identity-root or lineage schema changes.",
-        "The chain requires a versioned bridge to existing wake evidence.",
-        "Review identifies an uncovered discontinuity or replay ambiguity.",
+        "The repaired #5826 merge changes the accepted Birthday Identity output, identity-memory binding, governed private-state projection, continuity head, or native proof shape named by this plan.",
+        "The future code_repository route differs from agent-logic/agent-design-language or the legacy issue identity cannot remain unchanged.",
+        "The issue-owned birthday_continuity source or exact integration target requires a path outside the canonical owned set, or the temporary #[path] harness cannot be removed after implementation registration.",
+        "Review identifies an uncovered discontinuity, replay ambiguity, privacy leak, forged predecessor, or authority substitution.",
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-birthday-kernel-registration-v1\",\"paths\":[\"adl-runtime-kernel/src/lib.rs\"],\"issues\":[5825,5826,5827,5828,5829,5830,5831,5833],\"order\":[5825,5826,5827,5828,5829,5830,5831,5833]}",
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-identity-feature-doc-v1\",\"paths\":[\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"],\"issues\":[5826,5827],\"order\":[5826,5827]}",
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5827-continuity-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"],\"issues\":[5827,5843],\"order\":[5827,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5827/design.md",
-      "design_digest": "0bd21395dbab703e08bfa7129d326f01aa7b9e431efab8588627d575e2924f7d",
+      "design_digest": "26807702a1552dbb27faea8ab64b97dc0e457cd09cc551f80296bf3f6aed637e",
       "diagram_ref": ".csdlc/prepared/issues/5827/diagram.mmd",
       "diagram_digest": "b8e8902ce03c1fd254d2be626f03fb412db939612b74f42de3942fcfd6cdbbb4"
     }

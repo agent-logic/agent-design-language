@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.15] Versioned distributed topology and migration projection",
     "slug": "v0-92-wp-04-15-distributed-projection",
     "version": "v0.92",
-    "generation": 7
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -15,10 +15,14 @@
     "values": {
       "task_boundary": "Expose redacted versioned topology, certificate, failure, lease, placement, and migration state through the Runtime API contract.",
       "deliverables": [
-        "Expose redacted versioned topology, certificate, failure, lease, placement, and migration state through the Runtime API contract.",
-        "Focused positive and negative tests",
-        "Digest-bound execution proof",
-        "Reviewed rollback evidence"
+        "adl-runtime/src/distributed/projection.rs",
+        "adl-runtime/tests/distributed_projection.rs",
+        "docs/api/runtime-v3/v1/distributed.openapi.json",
+        "One authenticated least-privilege redacted v1 distributed-state view; current authentication has no scope model, so no additional detail tier or scope claim is permitted",
+        "Deterministic coherent-cut projection with hard response bounds and exact OpenAPI behavior parity",
+        "Exact-revision execution proof with machine-derived negative cases and immutable source/evidence bindings",
+        "Independent exact-head security and correctness review before publication",
+        "No route or module registration; integration issue #5878 owns registration"
       ],
       "acceptance_criteria": [
         "Implement only the declared exclusive paths",
@@ -29,19 +33,24 @@
         "Complete independent review and child-owned typed closeout"
       ],
       "dependencies": [
-        "WP-04.05 issue #5867",
-        "WP-04.08 issue #5870",
-        "WP-04.13 issue #5875",
-        "WP-04.14 issue #5876",
-        "WP-04-IMP issue 5862",
-        "Architecture/security gate issue 5821 terminal"
+        "#5909 PR #120 must merge and be ancestral before #5870 may execute",
+        "#5870 must merge and be ancestral before #5873 and #5874 may execute",
+        "#5873 and #5874 must both merge and be ancestral before #5875 may execute",
+        "#5875 must merge and be ancestral before #5876 may execute",
+        "#5876 must merge and be ancestral before #5877 may bind or implement",
+        "#5862 is the coordination umbrella and is not a substitute for child terminality",
+        "#5821 is the terminal architecture gate"
       ],
       "repo_inputs": [
         "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
         ".csdlc/prepared/issues/5821/design.md",
-        "adl-runtime/src/guardian.rs",
-        "adl-runtime/src/networking.rs",
-        "adl-runtime/src/runtime_api.rs"
+        "adl-runtime/src/distributed/membership.rs",
+        "adl-runtime/src/distributed/certificates.rs",
+        "adl-runtime/src/distributed/failure_detection.rs",
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/src/distributed/placement.rs",
+        "adl-runtime/src/distributed/migration.rs",
+        "adl-runtime/src/distributed/recovery.rs"
       ],
       "non_goals": [
         "Sibling WP-04 paths",

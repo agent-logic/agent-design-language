@@ -1,0 +1,56 @@
+{
+  "schema": "adl.distributed_guardian.native_receipt.v1",
+  "issue": 5878,
+  "platform": "macos",
+  "source_revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+  "command": {
+    "argv": [
+      "bash",
+      "adl/tools/validate_v092_distributed_guardian.sh"
+    ],
+    "exit_code": 0,
+    "selected_tests": 2,
+    "started_at": "2026-08-10T15:08:50Z",
+    "finished_at": "2026-08-10T15:11:12Z",
+    "runner": {
+      "provider": "github_actions",
+      "run_id": "31401936181-1-macos",
+      "os": "macos",
+      "arch": "arm64",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp04-native-distributed.yml@refs/heads/codex/5878-final-distributed-integration",
+      "run_attempt": "1",
+      "github_run_id": "31401936181",
+      "commit": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+      "provenance_path": ".csdlc/evidence/5878/native/macos/runner-provenance.json",
+      "provenance_sha256": "edb84d17699a853cb258f42466f545a2e56aeefff0a9dcea6a527f5de39f3d5b",
+      "identity_sha256": "64e2fd758af8b40d15259fd3fa4470a8fe79e7e92f44661c54a3636c318d00e2"
+    },
+    "stdout_path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stdout.log",
+    "stdout_sha256": "fa673bdd7b9d45fd78f24f1dcb4d68f6985e4699adee72ad71a1353581a7cf73",
+    "stderr_path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stderr.log",
+    "stderr_sha256": "b11f1073012ec983982af8ada01ce8613c4f4aaf185e1850b6ed5f6095a79f2e"
+  },
+  "negative_cases": [
+    "authority_replay",
+    "oversized_protobuf_frame",
+    "wrong_authority_domain"
+  ],
+  "artifacts": [
+    {
+      "role": "integration_stdout",
+      "path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stdout.log",
+      "sha256": "fa673bdd7b9d45fd78f24f1dcb4d68f6985e4699adee72ad71a1353581a7cf73"
+    },
+    {
+      "role": "integration_stderr",
+      "path": ".csdlc/evidence/5878/native/macos/distributed-guardian.stderr.log",
+      "sha256": "b11f1073012ec983982af8ada01ce8613c4f4aaf185e1850b6ed5f6095a79f2e"
+    },
+    {
+      "role": "runner_provenance",
+      "path": ".csdlc/evidence/5878/native/macos/runner-provenance.json",
+      "sha256": "edb84d17699a853cb258f42466f545a2e56aeefff0a9dcea6a527f5de39f3d5b"
+    }
+  ]
+}

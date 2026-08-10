@@ -1,0 +1,19 @@
+{
+  "issue": 5874,
+  "card": "stp",
+  "expected_generation": 7,
+  "expected_digest": "a908fe743d128286a2b16e1daa3bc1d6e1b3c24984357f807a061935827d4da3",
+  "actor": "codex:5874-readiness-preparation",
+  "reason": "Declare the exact two exclusive product paths and bounded proof deliverables before execution binding.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/distributed/snapshot_catalog.rs",
+      "adl-runtime/tests/distributed_snapshot_catalog.rs",
+      "Focused authenticated positive and fail-closed negative tests",
+      "Digest-bound exact-revision execution proof",
+      "Independent exact-head review and rollback evidence"
+    ]
+  }
+}

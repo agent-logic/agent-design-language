@@ -1,0 +1,24 @@
+{
+  "issue": 5878,
+  "card": "stp",
+  "expected_generation": 9,
+  "expected_digest": "968f76f7d21f9bac042431d32ff5c2c3e553664ecaf07fa706b7bc6e312038fc",
+  "actor": "codex:5878-final-integration-readiness-preparation",
+  "reason": "Freeze the complete fifteen-child denominator and corrective serial frontier without treating open work as terminal.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "#5909 PR #120 must merge and be ancestral before #5870 may execute",
+      "#5863, #5864, #5865, #5866, #5867, #5868, #5869, #5871, and #5872 must each be merged, closed, and ancestral",
+      "#5870 must be merged, closed, and ancestral after the #5909 corrective merge",
+      "#5873 and #5874 must both be merged, closed, and ancestral after their declared #5870 and sibling gates",
+      "#5875 must be merged, closed, and ancestral after #5873 and #5874",
+      "#5876 must be merged, closed, and ancestral after #5875",
+      "#5877 must be merged, closed, and ancestral after #5876",
+      "Exactly all fifteen implementation children #5863 through #5877 plus corrective #5909 must be terminal and ancestral before #5878 may bind or implement",
+      "#5862 is the coordination umbrella and is not a substitute for child terminality",
+      "#5821 is the terminal architecture gate"
+    ]
+  }
+}

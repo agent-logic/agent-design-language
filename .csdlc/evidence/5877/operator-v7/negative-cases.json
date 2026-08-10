@@ -1,0 +1,131 @@
+{
+  "schema": "adl.wp04.negative_cases.machine.v1",
+  "issue": 5877,
+  "source_revision": "5e489df977192040ac2d46afe4185414cd3d6e62",
+  "command": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_projection",
+      "--",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-08-10T13:38:00.376010Z",
+    "finished_at": "2026-08-10T13:38:00.776311Z"
+  },
+  "stdout_path": ".csdlc/evidence/5877/operator-v7/negative-cases.stdout.log",
+  "stdout_sha256": "06dd0658c998436f0160a3f92db811d01902e4a0fd4d7b8d56abb8ae98783d79",
+  "stderr_path": ".csdlc/evidence/5877/operator-v7/negative-cases.stderr.log",
+  "stderr_sha256": "66d1fd4838d4d392d5a934168f5006f739e635b5b13b34f1d892f09a639a3a12",
+  "cases": [
+    {
+      "case": "nested_openapi_parity",
+      "result": "recovered",
+      "observed_line_sha256": "f8cd01f80b1ab8375323307c61620f4df3bae0795ae531fac3411a2b4d827a61"
+    },
+    {
+      "case": "deterministic_jcs",
+      "result": "recovered",
+      "observed_line_sha256": "6476b20fb54ed95cbc51c719c8803a26b34d661bda41523bea16f20cd0eddb37"
+    },
+    {
+      "case": "raw_evidence_redaction",
+      "result": "rejected",
+      "observed_line_sha256": "2d199aa58374b74dda1656795f53c2bba2788a6bf5e9fc1dfcf67a7b6615b4fc"
+    },
+    {
+      "case": "openapi_parity",
+      "result": "recovered",
+      "observed_line_sha256": "dc30719e4749bcc046a902e95d4bd34f3631aca517fa0fa49db48c6e56812a2f"
+    },
+    {
+      "case": "response_byte_bound",
+      "result": "rejected",
+      "observed_line_sha256": "cab00475f512f7f801c5c66a79076489413dde8935b106345e6f91ef73d131c3"
+    },
+    {
+      "case": "unauthorized_request",
+      "result": "denied",
+      "observed_line_sha256": "89c07b3c68ccb1b27fb59d7d7e70a1c2138a49b402867fc04b3e3ff7d89d49fd"
+    },
+    {
+      "case": "authorization_before_read",
+      "result": "denied",
+      "observed_line_sha256": "a6758fcaa6acda44fec1a4edc7ea914aaec417e463f959e54646e51d48b58e9b"
+    },
+    {
+      "case": "unsupported_version",
+      "result": "rejected",
+      "observed_line_sha256": "bf4dbe8b2ef7f826a04dcab7ead6fbabb826f2d8a88a92273c01927bf88a6a28"
+    },
+    {
+      "case": "wrong_authority_domain",
+      "result": "rejected",
+      "observed_line_sha256": "65854a689ead3cca1d11131103d95ed6ea15774c31b1e19728fa587f7ef44961"
+    },
+    {
+      "case": "authority_voter_membership_mismatch",
+      "result": "rejected",
+      "observed_line_sha256": "231de41b57b9af49a17679b45c74174271f1a501dc4f2b462da1bf463e594a30"
+    },
+    {
+      "case": "authority_index_behind_membership",
+      "result": "rejected",
+      "observed_line_sha256": "d900cb55b1ea7ee21734e72f0d40b30f74c535cf6ef431d555a9169a02ba3932"
+    },
+    {
+      "case": "authority_index_ahead_of_membership",
+      "result": "rejected",
+      "observed_line_sha256": "0cac689f4b5430f4b9d4ed224a4df968427fabe876c88014db8bae5368dc1b58"
+    },
+    {
+      "case": "unknown_member_reference",
+      "result": "rejected",
+      "observed_line_sha256": "e5c6cddfc8256903a85fb6e86737f81adddfe49963caa97fb069422a07f214d9"
+    },
+    {
+      "case": "zero_reference_key",
+      "result": "rejected",
+      "observed_line_sha256": "4f4205751ae620aac90946b20f7e0114326ac23259514b2a1237082634033e5d"
+    },
+    {
+      "case": "placement_authority_unavailable",
+      "result": "fail_closed",
+      "observed_line_sha256": "54b18a585c04a609f0b41b9aa8e42762947e6762a913ab39b31eeec0898bce15"
+    },
+    {
+      "case": "identity_without_transport",
+      "result": "rejected",
+      "observed_line_sha256": "a0d498003e0e46cb86539ad18a8d2ddbf8018a112fe83c3e66529469244acfe8"
+    },
+    {
+      "case": "exact_identity_and_transport",
+      "result": "recovered",
+      "observed_line_sha256": "6c9e16a6e628fd021a587980851926adc60df3d64c9510c00141af5bb97a0c44"
+    },
+    {
+      "case": "certificate_count_n_plus_one",
+      "result": "rejected",
+      "observed_line_sha256": "47a309b427393d13c8e27fc21be7ea520b0244c4e951ae679af610fb999908ff"
+    },
+    {
+      "case": "identity_rotation_overlap",
+      "result": "rejected",
+      "observed_line_sha256": "d02a4cb7cca25a7eeaecc09a0e0367701179d03bc308495fed216d9b1c23bb1d"
+    },
+    {
+      "case": "keyed_opaque_references",
+      "result": "recovered",
+      "observed_line_sha256": "2c61d049120700490d6b75707ad317a095095fec42151e90aaba9e995f9425ca"
+    },
+    {
+      "case": "stale_authority_cut",
+      "result": "rejected",
+      "observed_line_sha256": "0a29fa0528317a5a2fb491100d6084da747f0114c992bdf91bf04e1a07fda572"
+    }
+  ]
+}

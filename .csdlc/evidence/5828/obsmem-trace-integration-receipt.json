@@ -1,0 +1,22 @@
+{
+  "schema": "adl.memory_palace.obsmem_trace_receipt.v1",
+  "status": "passed",
+  "source_sha": "41755b0e3b1fb927b19770243572aa028eb6444e",
+  "tests_run": 12,
+  "argv": [
+    "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
+    "--test", "memory_palace", "--no-tests=fail", "--status-level", "all"
+  ],
+  "runner_identity": "local-macos-exact-head",
+  "trace_id": "trace:7c811ecb11cd6041fd470c37e2250f10ae396d51910b6dc565a1472c3952b455",
+  "citation_ids": ["trace:7c811ecb11cd6041fd470c37e2250f10ae396d51910b6dc565a1472c3952b455"],
+  "authority_digests": {
+    "adl/src/obsmem_contract/models.rs": "be329d1ceafa8ae4688b016af50447b0d12a319e61d6a30bae325a0c21fbf36b",
+    "adl-runtime-kernel/src/observability.rs": "92952b23c936bf4b633dd168748c02c9c886871d642a520df40f692f75e59829",
+    "adl-runtime-kernel/src/proof.rs": "35a91583979b55c182a40bbd73255d540de6c06ae1644e09abc289ca09fb4d65"
+  },
+  "fixture_path": "adl-runtime-kernel/tests/fixtures/memory_palace",
+  "fixture_digest": "7432fbbb359e339237defd79905194bbf979577f88863ab80a6c985023473d37",
+  "output_path": ".csdlc/evidence/5828/native-platform/local-semantic.json",
+  "output_digest": "b941f2a2d005d12b3a6b8c5b758817fe256196d2963fd0f749ed532e79a42fe2"
+}

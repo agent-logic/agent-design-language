@@ -1,0 +1,19 @@
+{
+  "issue": 5876,
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "55e83b24abd00a6eda33dcb78f9fa1e298f156730012d8359bc3b84386e09af7",
+  "actor": "codex:5876-recovery-readiness-preparation",
+  "reason": "Normalize the stable recovery deliverables without claiming future interface approval or implementation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Implement only adl-runtime/src/distributed/recovery.rs and adl-runtime/tests/distributed_recovery.rs; integration issue #5878 owns production module registration",
+      "Provide deterministic focused recovery tests covering every migration stage, restart, source and target loss, quorum loss, divergent durable histories, stale or malicious authority claims, and bounded-resource denial",
+      "Provide exact-revision execution proof with machine-derived negative-case evidence and immutable source/evidence bindings",
+      "Obtain independent exact-head security and correctness review before publication and retain a bounded rollback path",
+      "Fail closed whenever recovery authority is ambiguous: neither the highest local epoch nor the last durable local owner may confer authority without majority or quorum committed proof"
+    ]
+  }
+}

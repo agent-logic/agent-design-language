@@ -16,10 +16,17 @@ Deliver only the WP-12 capability envelope contract, validation fixtures, and ex
 
 ## Deliverables
 
-- Versioned capability-envelope schema and deterministic canonicalization
-- Complete provider/model/tool/skill/grant/deny/limit fixture
-- Negative fixtures for stale provenance, escalation, omitted limits, secrets, and host paths
-- Retained focused, security, and portability report
+- adl-runtime-kernel/src/capability_envelope.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/capability_envelope.rs
+- docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md
+- .csdlc/prepared/issues/5829/produce-native-receipt.rb
+- .csdlc/prepared/issues/5829/validate-native-receipts.rb
+- .csdlc/evidence/5829
+- .github/workflows/wp12-native-capability-envelope.yml
+- Complete canonical provider/model/tool/skill/grant/deny/limit fixture matrix and fail-closed stale provenance, escalation, omitted-limit, secret, private-path, and host-path proof
+- Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

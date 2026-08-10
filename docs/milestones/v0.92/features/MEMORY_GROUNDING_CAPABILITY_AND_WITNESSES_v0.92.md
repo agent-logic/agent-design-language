@@ -4,18 +4,22 @@
 
 - Feature Name: Memory Grounding, Capability Envelope, and Witnesses
 - Milestone Target: `v0.92`
-- Status: planned
-- Related issues: `#3377`, `#3434`
+- Status: implementation in progress; WP-12 capability-envelope slice implemented by `#5829`
+- Related issues: `#3377`, `#3434`, `#5825`, `#5826`, `#5829`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Template Rules
 
-This is a planning feature doc. It defines proof surfaces for memory,
-capability, witnesses, and receipts without claiming implementation has landed.
+This feature doc remains the bounded contract for memory, capability,
+witnesses, and receipts. The WP-12 capability-envelope slice is implemented by
+`#5829`; witness and receipt slices remain separate downstream work and are not
+claimed here.
 
 ## Status
 
-Forward-planning feature contract for `v0.92`.
+Mixed implementation feature contract for `v0.92`: the capability-envelope
+runtime contract and fixtures are implemented, while later witness and receipt
+work remains planned.
 
 Related readiness issue: `#3377`.
 
@@ -79,11 +83,50 @@ birthday execution, Memory Palace completion, credentialed remote-provider
 deployment, production citizenship, governance completion, or raw private-state
 authority.
 
+## WP-12 Runtime Capability Envelope
+
+Issue `#5829` adds the versioned runtime contract at
+`adl-runtime-kernel/src/capability_envelope.rs`. The contract consumes two
+separately checked Birthday authorities:
+
+- an accepted WP-08 `BirthdayCandidate` whose canonical digest is current; and
+- a WP-09 `BirthdayIdentityRecord` whose schema and canonical record digest are
+  current and whose stable name, identity root, and continuity head agree with
+  the Birthday candidate.
+
+The untrusted envelope input is evaluated against a separately provisioned
+policy. The policy pins exact evidence path, content digest, source revision,
+and issue provenance; allowed provider/model pairs, tools, skills, and grants;
+required denials and unsupported claims; and explicit resource ceilings for
+prompt/output tokens, tool calls, skill invocations, timeout, and recurrence.
+The envelope describes capability context only. It neither grants authority nor
+proves provider, model, tool, or skill invocation.
+
+Canonical sorting and exact deduplication make equivalent inputs byte-stable.
+Case-folded identifier collisions, unknown evidence, stale revisions,
+undeclared provider/model/tool/skill selections, authority escalation,
+grant/denial conflicts, omitted or zero limits, limit escalation, missing
+provenance, and omitted non-claims fail closed. Every serialized contract uses
+`deny_unknown_fields`. Paths must remain normalized and repository-relative;
+secret-like material and private, home, host, or traversal paths are rejected.
+Rejected untrusted identifiers are represented only by stable SHA-256
+fingerprints in serializable and debug diagnostics; raw evidence, provider,
+model, tool, skill, grant, denial, and unsupported-claim values are never
+echoed. Path checks are lexical and platform-independent, including Windows
+drive/UNC forms and leading private, home, users, or user namespaces.
+
+`validate_capability_envelope` is the exported consumption boundary. It checks
+the packet digest and reconstructs the complete expected envelope from the
+original Birthday authorities plus the provisioned policy, so a caller cannot
+make a forged packet acceptable merely by recomputing its digest.
+
 ## Validation
 
-Validation should include required memory-reference fields, redaction checks,
+Validation includes required memory-reference fields, redaction checks,
 capability-envelope checks, witness/receipt fixtures, and private-state denial
-cases.
+cases. The focused `capability_envelope` integration target covers deterministic
+positive construction and comprehensive negative evidence, authorization,
+limit, provenance, parsing, privacy, portability, and packet-forgery cases.
 
 ## Source Inputs
 
@@ -110,8 +153,8 @@ This feature should establish:
 ## Acceptance Criteria
 
 - Memory-grounding references are reviewable and redaction-safe.
-- Capability envelope records provider, model, tool, skill, authority, and
-  limit context.
+- Capability envelope records provider, model, tool, skill, authority, denial,
+  limit, provenance, and unsupported-claim context.
 - Witness and receipt surfaces exist.
 - Birthday packet can cite these surfaces without exposing raw private state.
 

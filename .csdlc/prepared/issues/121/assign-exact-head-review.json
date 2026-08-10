@@ -1,0 +1,14 @@
+{
+  "issue": 121,
+  "expected_generation": 4,
+  "expected_digest": "c89c9ffcb68c1286e6d7b770f42f0bb192ea82bad640d4a11099c2418bdf4504",
+  "assigned_by": "codex:121-quorum-fence-repair",
+  "reviewer": "subagent:issue-121-exact-head-security-review",
+  "scope": [
+    "adl-runtime/src/distributed/lease.rs",
+    "adl-runtime/tests/distributed_lease.rs",
+    ".csdlc/issues/121",
+    ".csdlc/evidence/121",
+    ".csdlc/prepared/issues/121"
+  ]
+}

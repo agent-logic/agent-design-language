@@ -1,0 +1,21 @@
+{
+  "issue": 5874,
+  "card": "spp",
+  "expected_generation": 10,
+  "expected_digest": "c69433b9c147e828d141faec778a01be1f335f2bcdcf73abe2092d5199db44f7",
+  "actor": "codex:5874-readiness-preparation",
+  "reason": "Replace generic and pre-creation stops with exact serial dependency, contract, collision, and post-implementation proof gates.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Corrective issue #5909 PR #120 is not merged or its exact merge revision is not ancestral to the selected execution base",
+      "Issue #5870 is not closed through a merged PR or its exact merge revision is not ancestral to the selected execution base",
+      "The merged certificate or fencing contract cannot support authenticated digest-bound redacted snapshot catalogs and transfer manifests without widening the two owned paths",
+      "Either exact owned path is already present in or collides with another live issue worktree",
+      "After implementation the distributed_snapshot_catalog target is absent, selects zero tests, or any required positive, negative, receipt, or review proof fails",
+      "Module registration, product scope, dependency ownership, transfer authority, or rollback authority must widen beyond issue #5874"
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,22 @@
+{
+  "issue": 5873,
+  "card": "stp",
+  "expected_generation": 8,
+  "expected_digest": "677d766010c8ffd1bfb31896e879d11b7da3c9dd57021578af38a27423f0def7",
+  "actor": "codex:5873-readiness-preparation",
+  "reason": "Record the exact merged input dependencies and preserve the corrective lease and fencing merge gates before placement execution.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "WP-04.05 membership issue #5867 closed through merged PR #102 and merge revision ancestral",
+      "WP-04.06 failure-detection issue #5868 closed through merged PR #106 and merge revision ancestral",
+      "WP-04.07 lease issue #5869 closed through merged PR #107, with corrective issue #5909 PR #120 merged and its exact merge revision ancestral before execution",
+      "WP-04.08 fencing issue #5870 closed through a merged PR whose exact merge revision is ancestral before execution",
+      "WP-04.09 capability issue #5871 closed through merged PR #89 and merge revision ancestral",
+      "WP-04.10 resource-weather issue #5872 closed through merged PR #93 and merge revision ancestral",
+      "WP-04-IMP umbrella issue #5862 as coordination parent, not a terminal child gate",
+      "Architecture/security gate issue #5821 terminal"
+    ]
+  }
+}

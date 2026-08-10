@@ -15,6 +15,7 @@ Implement the Runtime v3 Memory Palace boundary in `adl-runtime-kernel`, using t
 - `.csdlc/prepared/issues/5828/validate-native-receipts.rb`
 - `.csdlc/prepared/issues/5828/produce-native-receipt.rb`
 - `.csdlc/evidence/5828`
+- `.github/workflows/wp11-native-memory-palace.yml`
 
 ## Read-Only Inputs
 
@@ -81,6 +82,12 @@ WP-09/#5826 and WP-10/#5827 must be terminal. Before editing, record exact sourc
 ## Validation
 
 The exact `memory_palace` Runtime v3 integration-test target must run a nonzero count and prove normalized ObsMem ingestion, trace/receipt binding, deterministic replay, bounded overflow, and stale/hash/continuity/redaction failures. `validate-obsmem-trace-integration.rb` recomputes source, authority, fixture-tree, and output digests and binds exact HEAD, argv, runner, trace, and citation identity rather than trusting declared fields. The issue-local native producer must run the same target on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete nextest log, and canonical semantic-output artifact. The independent native validator recomputes those files and producer digest, parses the positive test count, verifies workflow/run/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
+
+The narrow WP-11 workflow is issue-specific, read-only, and exact-head. Its
+Linux and macOS jobs upload disjoint four-file receipt fragments. The aggregate
+job validates both fragments and uploads exactly the eight current files only
+after successful validation; it does not alter global CI policy or retain stale
+tracked receipt directories.
 
 ## Rollback
 

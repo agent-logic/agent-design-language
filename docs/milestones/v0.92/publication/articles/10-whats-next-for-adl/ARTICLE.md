@@ -1,4 +1,4 @@
-# What's Next for ADL
+# What's Next for ADL?
 
 This series has described an architecture built from separations.
 

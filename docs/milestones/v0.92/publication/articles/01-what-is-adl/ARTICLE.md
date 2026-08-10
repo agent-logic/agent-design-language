@@ -1,4 +1,4 @@
-# What Is ADL?
+# What is ADL?
 
 An AI model can write a convincing plan, call a tool, and produce code. None of those abilities answers the question that matters most when the result changes the world: **what made the action legitimate?**
 

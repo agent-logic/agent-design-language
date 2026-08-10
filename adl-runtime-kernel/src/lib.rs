@@ -3,8 +3,12 @@
 pub mod acip;
 pub mod assembly;
 pub mod birthday;
+pub mod birthday_continuity;
+pub mod birthday_identity;
+pub mod capability_envelope;
 pub mod channel;
 pub mod cognition;
+pub mod cognitive_profile;
 pub mod component;
 pub mod config;
 pub mod continuity;
@@ -15,6 +19,7 @@ pub mod governance;
 pub mod identity_memory;
 pub mod ingress;
 pub mod live_continuity;
+pub mod memory_palace;
 pub mod operations;
 pub mod parity;
 pub mod parity_b;
@@ -33,8 +38,12 @@ pub mod weather;
 pub use acip::*;
 pub use assembly::*;
 pub use birthday::*;
+pub use birthday_continuity::*;
+pub use birthday_identity::*;
+pub use capability_envelope::*;
 pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, SendError};
 pub use cognition::*;
+pub use cognitive_profile::*;
 pub use component::{
     Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
     FailurePolicy, PortSpec, RunningState,
@@ -48,6 +57,7 @@ pub use governance::*;
 pub use identity_memory::*;
 pub use ingress::*;
 pub use live_continuity::*;
+pub use memory_palace::*;
 pub use operations::*;
 pub use parity::*;
 pub use parity_b::*;

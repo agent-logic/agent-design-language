@@ -1,0 +1,20 @@
+{
+  "issue": 5876,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "a6fadbb9405d36771d9a3ee04aa73a590e735bab2e9a9aec69d2226913745919",
+  "actor": "codex:5876-recovery-readiness-preparation",
+  "reason": "Separate pre-bind dependency stops from the post-implementation missing-target proof stop.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Stop before binding unless #5909 PR #120, then #5870, then both #5873 and #5874, then #5875 are merged and ancestral in that order",
+      "Stop if merged future input paths do not expose enough stable behavior to implement recovery without inventing interfaces or widening owned paths",
+      "Stop on any active product-path collision or ownership ambiguity",
+      "Stop if atomic durability, rollback to the last committed record, hard resource bounds, or fail-closed recovery authority cannot be proved",
+      "After both issue-owned paths are implemented, stop if distributed_recovery is absent, selects zero tests, or any focused or receipt validation fails",
+      "Stop if scope, interface, registration, or authority changes exceed the two owned paths or require unapproved architecture changes"
+    ]
+  }
+}

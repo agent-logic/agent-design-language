@@ -16,10 +16,19 @@ Extend only the existing Memory Palace and long-lived-agent slice, fixtures, tes
 
 ## Deliverables
 
-- Identity/continuity-bound context-topology integration
-- Bounded deterministic working-set and overflow behavior
-- Stale, hash, continuity, redaction, and unauthorized-access fixtures
-- Retained replay and platform-portability report
+- adl-runtime-kernel/src/memory_palace.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/memory_palace.rs
+- docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md
+- .csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb
+- .csdlc/prepared/issues/5828/validate-native-receipts.rb
+- .csdlc/prepared/issues/5828/produce-native-receipt.rb
+- .csdlc/evidence/5828
+- .github/workflows/wp11-native-memory-palace.yml
+- Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/memory_palace/
+- Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests
+- Digest-bound native macOS and Linux exact-revision proof
+- Independent exact-head review and rollback evidence
 
 ## Acceptance
 

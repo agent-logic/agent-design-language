@@ -4,8 +4,8 @@
 
 - Feature Name: ACP / Cognitive Profiles
 - Milestone Target: `v0.92`
-- Status: planned
-- Related issues: `#3377`, `#3434`
+- Status: implemented locally; native dual-platform proof pending CI
+- Related issues: `#3377`, `#3434`, `#5830`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Template Rules
@@ -15,9 +15,8 @@ not implementation closeout.
 
 ## Status
 
-Forward-planning feature contract for `v0.92`.
-
-Related readiness issue: `#3377`.
+The bounded WP-13 contract is implemented by `adl-runtime-kernel` for `#5830`.
+Publication and dual-platform native receipts remain separate integration proof.
 
 ## Purpose
 
@@ -28,9 +27,11 @@ standing.
 
 ## Context
 
-ACP profiles consume v0.91.1 memory, capability, ToM, intelligence, and
-governed-learning evidence. They support birthday review without replacing
-identity, moral standing, or citizenship.
+ACP profiles bind the accepted WP-08 birthday candidate, WP-09 identity record,
+WP-10 continuity record, and WP-12 capability envelope. Memory, capability,
+Theory-of-Mind, intelligence, and governed-learning entries remain explicit
+evidence categories rather than inferred labels. Profiles support birthday
+review without replacing identity, reputation, moral standing, or citizenship.
 
 ## Coverage / Ownership
 
@@ -46,21 +47,40 @@ private, and which claims remain unsupported.
 
 ## Design
 
-The design should include a profile identifier, schema version, source evidence
-links, update reason, update actor, privacy/redaction policy, and explicit
-non-claims.
+The versioned `adl.cognitive_profile.v1` record contains a stable profile ID,
+monotonic revision, predecessor digest, update actor and rationale, exact
+authority digests, an evidence map, bounded fields, redaction-policy digest,
+explicit nonclaims, and canonical input/policy/profile digests.
+
+Every evidence reference carries a closed category, repository-relative path,
+content digest, revision digest, and `public` or `internal_redacted` visibility.
+Policy and input identifiers are collision-checked case-insensitively. Public
+fields may cite only public evidence. The generated public projection omits all
+evidence links and update metadata and must be strictly narrower than the
+internal profile.
+
+Updates bind the previous profile ID, identity root, policy digest, previous
+profile digest, and exact field additions/removals. The exported validator
+reconstructs the complete record from its authorities and rejects any mismatch.
 
 ## Execution Flow
 
-1. Gather allowed evidence references.
-2. Produce a bounded profile record.
-3. Validate non-claims and privacy policy.
-4. Include the profile in the birthday review packet.
+1. Revalidate the accepted birthday, identity, continuity, and capability
+   authorities through their exported validators and digests.
+2. Match every input evidence reference and field against the canonical policy.
+3. Validate nonclaims, privacy, revision linkage, and exact update delta.
+4. Canonicalize and hash the input, policy, internal record, and public
+   projection.
+5. Reconstruct the complete exported record during validation.
 
 ## Determinism and Constraints
 
-Profiles must be deterministic over the cited evidence and must not infer
-standing, personhood, reputation, or rights from unsupported labels.
+Profiles are deterministic over cited evidence. Unknown JSON fields, stale or
+missing evidence, policy collisions, authority substitution, unexplained
+updates, unsafe paths, secrets, raw/private state, diagnosis, standing,
+personhood, reputation, consciousness, citizenship, and rights inference fail
+closed. Rejection payloads contain only closed error codes/categories and never
+echo attacker-controlled strings.
 
 ## Integration Points
 
@@ -70,9 +90,16 @@ standing, personhood, reputation, or rights from unsupported labels.
 
 ## Validation
 
-Validation should prove required fields, source-evidence references,
-redaction policy, update rationale, and rejection of unsupported profile
-claims.
+The focused `cognitive_profile` integration target contains 11 deterministic
+tests covering positive creation/update/round-trip behavior and the complete
+negative matrix above. Its fixture inventory is retained under
+`adl-runtime-kernel/tests/fixtures/cognitive_profile/`.
+
+Issue-local native receipt tooling runs that exact target on macOS and Linux,
+records its exact structured test inventory and semantic digest, binds source
+and producer digests to the candidate head, normalizes checkout paths, and
+rejects retained machine-local paths. Native receipts are integration evidence;
+they are not claimed until the GitHub workflow produces and validates them.
 
 ## Source Inputs
 

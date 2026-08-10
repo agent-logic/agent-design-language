@@ -16,11 +16,13 @@ Implement deterministic rollback and recovery for failed, interrupted, or ambigu
 
 ## Deliverables
 
-- Implement deterministic rollback and recovery for failed, interrupted, or ambiguous relocation.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
-- Authority safety: Never select the numerically highest local epoch or last durable local owner without quorum proof; ambiguity requires operator trust-domain recovery.
+- adl-runtime/src/distributed/recovery.rs
+- adl-runtime/tests/distributed_recovery.rs
+- Integration issue #5878 owns production module registration
+- Deterministic focused recovery tests covering every migration stage, restart, source and target loss, quorum loss, divergent durable histories, stale or malicious authority claims, and bounded-resource denial
+- Exact-revision execution proof with machine-derived negative-case evidence and immutable source/evidence bindings
+- Independent exact-head security and correctness review before publication with a bounded rollback path
+- Fail-closed ambiguous recovery: neither the highest local epoch nor the last durable local owner may confer authority without majority or quorum committed proof
 
 ## Acceptance
 
@@ -33,17 +35,21 @@ Implement deterministic rollback and recovery for failed, interrupted, or ambigu
 
 ## Dependencies
 
-- WP-04.13 issue #5875
-- WP-04-IMP issue 5862
-- Architecture/security gate issue 5821 terminal
+- #5909 PR #120 must merge and be ancestral before #5870 may execute
+- #5870 must merge and be ancestral before #5873 and #5874 may execute
+- #5873 and #5874 must both merge and be ancestral before #5875 may execute
+- #5875 must merge and be ancestral before #5876 may bind or implement
+- #5862 is the coordination umbrella and is not a substitute for child terminality
+- #5821 is the terminal architecture gate
 
 ## Inputs
 
 - docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md
 - .csdlc/prepared/issues/5821/design.md
-- adl-runtime/src/guardian.rs
-- adl-runtime/src/networking.rs
-- adl-runtime/src/runtime_api.rs
+- adl-runtime/src/distributed/lease.rs
+- adl-runtime/src/distributed/fencing.rs
+- adl-runtime/src/distributed/snapshot_catalog.rs
+- adl-runtime/src/distributed/migration.rs
 
 ## Non Goals
 

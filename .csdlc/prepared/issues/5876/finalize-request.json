@@ -1,0 +1,65 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 5876,
+  "expected_generation": 18,
+  "expected_digest": "abe3d72c56c4eea8e7a37d1f55e7229a8c2940f8d62826b3495c14e9b5f37eb6",
+  "actor": "codex:5876-recovery",
+  "summary": "Implemented bounded durable quorum recovery for interrupted relocation with authoritative committed-prefix selection, pre-fence rollback, ambiguity fencing, safe activation, owner commit, and fail-closed restart reconciliation.",
+  "changes": [
+    "Added a canonical bounded recovery store with journaled checkpoint CAS, rollback detection, and bounded durable reads.",
+    "Implemented authority-verified recovery routing for pre-fence rollback, incomplete-target cleanup, ambiguity fencing, activation, and owner commit.",
+    "Persisted pending intent before external side effects and reconciled exact retries within a bounded recovery window.",
+    "Added focused divergence, restart, crash, timeout, capacity, symlink, oversized-input, post-activation fencing, and authority regressions."
+  ],
+  "artifacts": [
+    "adl-runtime/src/distributed/recovery.rs",
+    "adl-runtime/tests/distributed_recovery.rs",
+    ".csdlc/evidence/5876/execution-proof.json"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "exact-child-tests",
+          "proof_role": "Exact nonzero recovery state-machine behavior proof",
+          "purpose": "Prove authoritative recovery routing, restart reconciliation, fencing, activation, bounds, and fail-closed negative paths",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 2048, "tokens": 8000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "child",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1800,
+          "executable": "cargo",
+          "argv": ["nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_recovery", "--no-tests=fail"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "strict-focused-clippy",
+          "proof_role": "Strict focused lint proof for recovery",
+          "purpose": "Reject warnings in the exact recovery test and implementation surface",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 3000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["exact-child-tests"],
+          "parallel_group": "lint",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "cargo",
+          "argv": ["clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_recovery", "--", "-D", "warnings"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {"requested_lanes": ["exact-child-tests", "strict-focused-clippy"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 2, "cpu_units": 3, "memory_mib": 2304, "tokens": 11000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-5876-recovery",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-5876-recovery/.csdlc/evidence/5876",
+    "cancellation_file": null
+  }
+}

@@ -2,15 +2,66 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5829,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
-  "phase": "initialized",
-  "generation": 73,
-  "digest": "27dea807d4a52010b86f92a2936421efb8284caf02067e6ffb20d5c15b12bcc7",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 97,
+  "digest": "ec6d9d38256accdeda93c3f58b646390e169f040fe491e8d4c39b0d080dcade9",
+  "branch": "codex/5829-capability-envelope",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "assigned_by": "codex:5829-capability-envelope",
+    "revision": "git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62",
+    "scope": [
+      ".csdlc/issues/5829",
+      ".csdlc/prepared/issues/5829/design.md",
+      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+      ".csdlc/evidence/5829",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "scope": [
+      ".csdlc/issues/5829",
+      ".csdlc/prepared/issues/5829/design.md",
+      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+      ".csdlc/evidence/5829",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62",
+    "findings": [],
+    "residual_risks": [
+      "Final publication projection and required standard/native checks must remain green at the exact remote head before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5829,
+    "pull_request": 135,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/135",
+    "base": "main",
+    "head": "codex/5829-capability-envelope",
+    "revision": "git-blake3:04e952e9f20ed84ae382fc9878366ef1703f9482:7356c5a5ad322426a523ef38366f9e13fd0abe812fbdd5e656cb99b8519b1a7b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -18,40 +69,40 @@
   "diagram_path": ".csdlc/prepared/issues/5829/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "400f77c40eaf597d65642059156fbd5c24f778d6be041e9509012c6282d24fc3"
+      "reviewer": "operator-approved:wp12-native-capability-envelope-scope",
+      "revision": "9df2c70f7704c2ca3dc1e9e9b477970cb4549a7be0bcd9d6def42220aa8ea112"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e4ae0b9cf23da0bf6fe7f32b5424eeea4c4c2b1fc5c5a2347170edc4bff4b520",
+      "values_digest": "6654317f6ee5ecc714ac8c01800c3ac28b2ffa6766ada7f1df88f88fa25d2067",
       "rendered_digest": "f072c6b2526b3264fafda2ef258cf23cd0cc9fd52b92a53668e2bb409a970d55",
       "ast_digest": "40dcbfc18fc63c6a847abfbb52256a4fdbf34e6110c8710cb57eacc518678bdd"
     },
     "stp": {
-      "values_digest": "a61bb572ca5efdbd34099651bd702249f231622f979674fbe66afa0b8f6d2af6",
-      "rendered_digest": "8e2ead010a5d117e9dcc30cae9ef4b79a04fd83e4d25d52ae1ec9e1e788a383d",
-      "ast_digest": "b553161e1debbc0e2c9f9781b70ca94305e51ac7c2a901bc4858a96080788d25"
+      "values_digest": "e5dee9c37544dc57e4059e65553c80294ec1a8c1dff25cd2de58af15fc130d28",
+      "rendered_digest": "4530795f5583eac9367fb96c125d8912c3d78ef63c0f283390696c3d5bb88841",
+      "ast_digest": "d510e7df6320dafad5eeceb31a143e20d10b5e18c221c34c0cf97f10b3f670a6"
     },
     "spp": {
-      "values_digest": "dab232973878a365cad07a2fd8807908786918f9c0a50a5b485dd5ff21da9386",
-      "rendered_digest": "252642f13f2af5b4b33cfe7f402a0f6f376a042061fd74c7f24255e64abd025c",
-      "ast_digest": "9a6af831e1de9b8ae1ac55fcca3fb4b53252112289715cffba9ba21b5e2eaa04"
+      "values_digest": "cddc7ab7a79a3475208edd6bd9f2f37f800c554b4f7d0e8f8225eeccca282ab9",
+      "rendered_digest": "ccc77b0259cefee0229b731048b2d35d1405648b2ea89d67cc8a70fed4932099",
+      "ast_digest": "d94af3855aba1bba80a13b4b8d6d619efc82f2945b58a4a6654a330795e963a8"
     },
     "vpp": {
-      "values_digest": "c6c623f34a344e7423869566477d27bb63efcdcdf4a3755f877980cc664b1134",
-      "rendered_digest": "2343fbef315e8fed0b0ccbadfd8e711a64445e791eff3b3c34d76615905759ce",
-      "ast_digest": "cdf1e9eabb11a4f4b66bccdb33a901c80c6a1100ba349590dfe857b4e6664f52"
+      "values_digest": "362c3613cb21c738884b67b929cf10acd5b087f74578ce363ed8777bfad502f2",
+      "rendered_digest": "ba48d6cb738496c39cbf0098e8f7e3c367340316366f5cff6ba2182d00e152ba",
+      "ast_digest": "00131636b58f66756135f6808798290a89c728834a45da6c9ce8ba2056c78164"
     },
     "srp": {
-      "values_digest": "2bbeffb3c23698199fb3fde4dc60b949032282ebf34174acf90cbb0ed390241f",
-      "rendered_digest": "e6e1a97391151d19fad085f398bbda73030215208cf8ac0674304a1ab40ae872",
-      "ast_digest": "20dbe7c3c54c99f572aabb26933bd4d07cb4a1d3199b1d7bcb772ab3b1ca91ed"
+      "values_digest": "4bc59e73b8ff4b530a34e87becc9123d95be5d9a691f766bee9c4d72f1cd2ed6",
+      "rendered_digest": "aa7e1d6a083104133fede8b3be2738049370c2ca36ad5db482d35520606ee3ca",
+      "ast_digest": "398d934c4210c0ef9998bf8afe04996fc26f12767ff193d1a85c4075b8a82a0f"
     },
     "sor": {
-      "values_digest": "b57df3dd54d9c608b3c406e20b536a95817f9baf9669b157a7c843f5a7c16ada",
-      "rendered_digest": "da54e67fc459cdf7ec6dda0ac8e9ca53c1e23d70a238b1dbee9e9fcd5f6688db",
-      "ast_digest": "c287e02c30ccc4bca25aaccc60ed0cd16f884134eae9223911ec39db96ceec3b"
+      "values_digest": "e70b916a3365883d9332870613010d66daf7ee2ed800ab116594a2b4f9ed50b4",
+      "rendered_digest": "672c704f00df2ca7b03b4555517c970aba8e7aa095a5e1b7a8eeded9bb35cb51",
+      "ast_digest": "30dffa4c4523b202da138939331cefb0a28906ea35a5d4d5d2ee60841ce89cc0"
     }
   },
   "transitions": [
@@ -75,6 +126,83 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Recover publication after exact-head native run 31391052361 produced Linux and macOS receipts that independently validate at b2dcfd3075371d98b384b62d1443353ea73c48fc."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Recover publication after replacement native run 31392866245 produced sanitized exact-head Linux and macOS receipts that independently validate at 5b078101282d0e3334629bc5f2ab54e4900be6a4."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -756,6 +884,216 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"#4761 must be explicitly superseded rather than consumed.\",\"Provider/profile identifiers require a versioned compatibility mapping.\",\"Review identifies an undeclared authority or resource dimension.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-memory-capability-witness-feature-doc-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5833],\\\"order\\\":[5829,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5829-grounding-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5843],\\\"order\\\":[5829,5843]}\"]}"
+    },
+    {
+      "sequence": 98,
+      "generation": 74,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record the exact issue-created capability_envelope target as deferred only until typed bind creates the execution context and implementation materializes it.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"capability_envelope-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5829-core\",\"defer_reason\":\"The exact capability_envelope source and test target are issue-created deliverables; typed bind establishes their execution identity before implementation materializes and runs them.\"},{\"lane\":\"capability_envelope-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5829/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5829/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=36043de435c6b349017c3a9889ec8391abfd9230538200553365fb68577d76ed]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/linux.json\"],\"parallel_group\":\"5829-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 99,
+      "generation": 75,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Normalize WP-12 deliverables to exact issue-owned implementation, proof, documentation, and narrow native workflow paths before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829\",\".github/workflows/wp12-native-capability-envelope.yml\",\"Complete canonical provider/model/tool/skill/grant/deny/limit fixture matrix and fail-closed stale provenance, escalation, omitted-limit, secret, private-path, and host-path proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 100,
+      "generation": 76,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Align the operative plan ownership surface with exact WP-12 deliverables, including only the issue-specific native workflow required by AC-9.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829\",\".github/workflows/wp12-native-capability-envelope.yml\"]}"
+    },
+    {
+      "sequence": 101,
+      "generation": 77,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Normalize WP-12 deliverables to exact issue-owned implementation, proof, documentation, and narrow native workflow paths before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829\",\".github/workflows/wp12-native-capability-envelope.yml\",\"Complete canonical provider/model/tool/skill/grant/deny/limit fixture matrix and fail-closed stale provenance, escalation, omitted-limit, secret, private-path, and host-path proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 102,
+      "generation": 77,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 103,
+      "generation": 78,
+      "actor": "operator-approved:wp12-native-capability-envelope-scope",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 104,
+      "generation": 79,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 105,
+      "generation": 80,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record verified terminal WP-08/WP-09 dependencies and exact-revision-valid retained #4761 capability-envelope evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 106,
+      "generation": 81,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record completed canonical Runtime v3 capability-envelope implementation in exact declared files.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 107,
+      "generation": 82,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record completed local deterministic and fail-closed proof while mandatory native macOS/Linux portability remains publication-stage work.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 108,
+      "generation": 83,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Clear only the completed local capability-envelope target defer while retaining mandatory native macOS/Linux producer deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"capability_envelope-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5829-core\",\"defer_reason\":null},{\"lane\":\"capability_envelope-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5829/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5829/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"capability_envelope-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=36043de435c6b349017c3a9889ec8391abfd9230538200553365fb68577d76ed]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/linux.json\"],\"parallel_group\":\"5829-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 109,
+      "generation": 83,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 110,
+      "generation": 84,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Recover the stale exact-head assignment after resolving all three privacy, portability, and canonical provider-identity review findings with retained focused proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 111,
+      "generation": 84,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 112,
+      "generation": 85,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 113,
+      "generation": 86,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 114,
+      "generation": 87,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Recover publication after exact-head native run 31391052361 produced Linux and macOS receipts that independently validate at b2dcfd3075371d98b384b62d1443353ea73c48fc.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 115,
+      "generation": 88,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record completed local and exact-head native Linux/macOS deterministic, fail-closed, and semantic-equivalence proof from run 31391052361.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 116,
+      "generation": 89,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Clear completed native Linux and macOS producer deferrals after exact-head run 31391052361 and independent receipt validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"capability_envelope-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5829-core\",\"defer_reason\":null},{\"lane\":\"capability_envelope-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5829/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":null},{\"lane\":\"capability_envelope-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5829/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\"],\"parallel_group\":\"5829-native-produce\",\"defer_reason\":null},{\"lane\":\"capability_envelope-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=36043de435c6b349017c3a9889ec8391abfd9230538200553365fb68577d76ed]\",\"acceptance_ids\":[\"AC-4\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/linux.json\"],\"parallel_group\":\"5829-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 117,
+      "generation": 90,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record mandatory exact-head Linux and macOS native proof from GitHub Actions run 31391052361 and independent detached validation before final review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved the deterministic WP-12 Runtime v3 capability envelope with exact evidence binding, provisioned policy separation, explicit grants and denials, bounded limits, canonical identity, and fail-closed privacy and provenance validation on native Linux and macOS.\",\"changes\":[\"Added a versioned canonical capability envelope bound to accepted WP-08 birthday evidence and digest-valid WP-09 identity evidence.\",\"Separated untrusted input from provisioned provider/model/tool/skill policy and rejected unknown, stale, colliding, escalating, or undeclared capabilities.\",\"Required explicit grants, denials, recurrence and resource ceilings, provenance, unsupported claims, and canonical deterministic ordering.\",\"Prevented rejected secret-like attacker values from appearing in serialized or debug diagnostics by retaining only stable SHA-256 fingerprints.\",\"Enforced lexical cross-platform repository paths and independent provider plus provider-scoped model case-fold collision boundaries.\",\"Added a focused 13-test target with a 33-case negative matrix and retained equivalent exact-head Linux x86_64 and macOS arm64 receipts from run 31391052361.\"],\"artifacts\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/matrix.json\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".github/workflows/wp12-native-capability-envelope.yml\",\".csdlc/evidence/5829/dependency-verification.json\",\".csdlc/evidence/5829/capability_envelope-runtime-v3.log\",\".csdlc/evidence/5829/native-validation-manifest.json\",\".csdlc/evidence/5829/native-platform/linux.json\",\".csdlc/evidence/5829/native-platform/linux-nextest.log\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\",\".csdlc/evidence/5829/native-platform/linux-source-manifest.json\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/macos-nextest.log\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\",\".csdlc/evidence/5829/native-platform/macos-source-manifest.json\",\".csdlc/evidence/5829/native-platform/independent-validator.log\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 13-test canonicalization, evidence/provenance, policy separation, grants/denials/limits, privacy, path, collision, and reconstruction boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/capability_envelope-runtime-v3.log\"},{\"command\":[\"github-actions\",\"wp12-native-capability-envelope\",\"run\",\"31391052361\",\"attempt\",\"1\"],\"purpose\":\"Run the exact 13-test WP-12 inventory on native Linux x86_64 and macOS arm64 at PR head b2dcfd3075371d98b384b62d1443353ea73c48fc and require identical semantic output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/native-validation-manifest.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/linux.json\",\".csdlc/evidence/5829/native-platform/macos.json\"],\"purpose\":\"Independently revalidate retained GitHub Actions receipts in a detached exact-head checkout, including workflow/run provenance, source manifests, exact 13-test inventories, file digests, and semantic equivalence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/native-platform/independent-validator.log\"}]}"
+    },
+    {
+      "sequence": 118,
+      "generation": 90,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 119,
+      "generation": 91,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Recover the stale post-native review after fixing issue-owned native log normalization and validator path-hygiene enforcement without editing retained receipts.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 120,
+      "generation": 91,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 121,
+      "generation": 92,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 122,
+      "generation": 93,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 123,
+      "generation": 94,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Recover publication after replacement native run 31392866245 produced sanitized exact-head Linux and macOS receipts that independently validate at 5b078101282d0e3334629bc5f2ab54e4900be6a4.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 124,
+      "generation": 95,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "Record replacement exact-head Linux and macOS native proof from GitHub Actions run 31392866245 with sanitized retained logs and independent detached validation before final review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved the deterministic WP-12 Runtime v3 capability envelope with exact evidence binding, provisioned policy separation, explicit grants and denials, bounded limits, canonical identity, and fail-closed privacy and provenance validation on native Linux and macOS.\",\"changes\":[\"Added a versioned canonical capability envelope bound to accepted WP-08 birthday evidence and digest-valid WP-09 identity evidence.\",\"Separated untrusted input from provisioned provider/model/tool/skill policy and rejected unknown, stale, colliding, escalating, or undeclared capabilities.\",\"Required explicit grants, denials, recurrence and resource ceilings, provenance, unsupported claims, and canonical deterministic ordering.\",\"Prevented rejected secret-like attacker values from appearing in serialized or debug diagnostics by retaining only stable SHA-256 fingerprints.\",\"Enforced lexical cross-platform repository paths and independent provider plus provider-scoped model case-fold collision boundaries.\",\"Added a focused 13-test target with a 33-case negative matrix and retained equivalent exact-head Linux x86_64 and macOS arm64 receipts with sanitized logs from run 31392866245.\"],\"artifacts\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/matrix.json\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".github/workflows/wp12-native-capability-envelope.yml\",\".csdlc/evidence/5829/dependency-verification.json\",\".csdlc/evidence/5829/capability_envelope-runtime-v3.log\",\".csdlc/evidence/5829/native-validation-manifest.json\",\".csdlc/evidence/5829/native-platform/linux.json\",\".csdlc/evidence/5829/native-platform/linux-nextest.log\",\".csdlc/evidence/5829/native-platform/linux-semantic.json\",\".csdlc/evidence/5829/native-platform/linux-source-manifest.json\",\".csdlc/evidence/5829/native-platform/macos.json\",\".csdlc/evidence/5829/native-platform/macos-nextest.log\",\".csdlc/evidence/5829/native-platform/macos-semantic.json\",\".csdlc/evidence/5829/native-platform/macos-source-manifest.json\",\".csdlc/evidence/5829/native-platform/independent-validator.log\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"capability_envelope\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the exact 13-test canonicalization, evidence/provenance, policy separation, grants/denials/limits, privacy, path, collision, and reconstruction boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/capability_envelope-runtime-v3.log\"},{\"command\":[\"github-actions\",\"wp12-native-capability-envelope\",\"run\",\"31392866245\",\"attempt\",\"1\"],\"purpose\":\"Run the exact 13-test WP-12 inventory on native Linux x86_64 and macOS arm64 at PR head 5b078101282d0e3334629bc5f2ab54e4900be6a4, sanitize retained runner paths, and require identical semantic output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/native-validation-manifest.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/evidence/5829/native-platform/linux.json\",\".csdlc/evidence/5829/native-platform/macos.json\"],\"purpose\":\"Independently revalidate retained GitHub Actions receipts in a detached exact-head checkout, including workflow/run provenance, source manifests, exact 13-test inventories, file digests, and semantic equivalence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5829/native-platform/independent-validator.log\"}]}"
+    },
+    {
+      "sequence": 125,
+      "generation": 95,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 126,
+      "generation": 96,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 127,
+      "generation": 97,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

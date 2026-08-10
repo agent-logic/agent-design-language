@@ -2,15 +2,48 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5877,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e3cc9bd0b8e840dd5b7aa7945a30607d3662a9a3db479b8f65a39c6ae889074",
-  "phase": "initialized",
-  "generation": 7,
-  "digest": "3de3ac435b651c208f671ee4e17ba850baee7b76f7567e641375e4c886da5467",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 16,
+  "digest": "00c699da98250c2b617e9378afa47bf57da749ff775c06380c707ba8d582ff23",
+  "branch": "codex/5877-projection-api",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5877-projection-api",
+  "review_assignment": {
+    "reviewer": "subagent:Raman",
+    "assigned_by": "codex-sprint-5862",
+    "revision": "git-blake3:bedde511d6523d1e7e4f8c5189f7dd8198ab50b5:45d7ce54be48bd7712b0aeda4bb5fe7feec048eebd1fa2856e42f05e32ff7c2f",
+    "scope": [
+      "adl-runtime/src/distributed/projection.rs",
+      "adl-runtime/tests/distributed_projection.rs",
+      "docs/api/runtime-v3/v1/distributed.openapi.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Raman",
+    "scope": [
+      "adl-runtime/src/distributed/projection.rs",
+      "adl-runtime/tests/distributed_projection.rs",
+      "docs/api/runtime-v3/v1/distributed.openapi.json"
+    ],
+    "reviewed_revision": "git-blake3:bedde511d6523d1e7e4f8c5189f7dd8198ab50b5:45d7ce54be48bd7712b0aeda4bb5fe7feec048eebd1fa2856e42f05e32ff7c2f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5877,
+    "pull_request": 136,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/136",
+    "base": "main",
+    "head": "codex/5877-projection-api",
+    "revision": "git-blake3:1c417ece0d2cfb19e28bb903a054f0616905cc9f:66e6fe53856864a15f961dc9dda177681a983d03caec321fffd68537f1604afe",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +57,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bf5250ecd3c29f79c8eb211fa7e0d5c1549f50f297e320183c0d05cb47326455",
+      "values_digest": "dbd780d71244ec006571d5b04d8426ea1c0b1a87c9e6236ae60cd935f76cd69f",
       "rendered_digest": "ec1f0aab53f16ba14abf50610d72d25dbec3741567bebbbba7a7e1cff55a0ae8",
       "ast_digest": "a6879ceced4f9ea4a3fd4040391ee578667a1631cb9652735610bf00e291f304"
     },
     "stp": {
-      "values_digest": "ce477e58c16bf01a4d639418205ae189fe4d50f016caafd662945f1227f8c07f",
-      "rendered_digest": "d34940b65422e81c5028c1522446d90f063142e2ba483852e3f97d4537e554b5",
-      "ast_digest": "30aa7345e21ef36c1b88b9a5ca950e826ed2238e691ef877989bcfcb96d4c7a1"
+      "values_digest": "85646d8d8dbc4e71439d43551951f9a79d054e1c783150e98fad637ab742b10a",
+      "rendered_digest": "85442712fb351d42f135b2b96c15e1b193b4d732357c500fb328c5f414b92f06",
+      "ast_digest": "58c2d6ecd8b6d1ae1aba2e4e3326be1161eb8df33e5104d6fd5d390c25cdaff7"
     },
     "spp": {
-      "values_digest": "19d2b3575e05e9f10223d939a0a2f45e6ad25e56a4c6e4c5e2aaa267ae5710d8",
-      "rendered_digest": "fc16826ee969302f6280ced30a73a6f6705c546fdb99455b97d7380d36d95dba",
-      "ast_digest": "f7cddb3ff219570975125f8202b05fa6b8f447f455446d9a5991ebdcc073241a"
+      "values_digest": "5c493af3d7b6304d26f0cd39dcebc1b17a95aa20ae25696f96ac52891e58cafa",
+      "rendered_digest": "e66c72368e980bb0a74626d73bff84adcb6a3d3aad061396fd85eb0ddbb9e78e",
+      "ast_digest": "a4f1a022eb14aead960cdb54db766cddce7a1af63235ff529349e2ba419f9390"
     },
     "vpp": {
-      "values_digest": "693c0221a1fffa18f78813f01d0576c007bed54e30c8868d7355386b2f8638e1",
-      "rendered_digest": "699a92fba2df8906e98c91cd64efb81cf0de5429bb2a2c416810e4b78ab42f88",
-      "ast_digest": "c0e2008b61d96d3d1c28500aa06e5bf358a6e91a7afb8a1501ddd25c5d17809c"
+      "values_digest": "40480fddc4248b00b63ae8639c6d105905c5b70d959ac1017e0596d8f2c21e91",
+      "rendered_digest": "134bcda3c2d5f930bd5d323943652ce5bd6c60059a8dfaec9b087a114d099baf",
+      "ast_digest": "e29178fef4230d72b50f9709b8f5a3c550301480d99ee87d5012dd1709330350"
     },
     "srp": {
-      "values_digest": "3936154a95b5b3ae4d76430cfdfb350701c3ba42ab7ffa48e29173e2033bf315",
-      "rendered_digest": "632e016ed324020f10355190de8f161fe83401167ebeb0d79008ad80b4497003",
-      "ast_digest": "d8c42e29ae69078215aeef632fdfd944c63dbe13f0cd48788c7d5ca756a31d7c"
+      "values_digest": "74eca411fb198d0c2abd12f4a306294add85383bd3057cd2f9f66348694cb1e8",
+      "rendered_digest": "03cf59486d8212bdfb43368a86a115c141d6ae94abec50d2d2793b25294d366f",
+      "ast_digest": "6f01d8a62042819f07380cf35feb472e54552b4884f5d771ddd7ea6a7e0d9ab9"
     },
     "sor": {
-      "values_digest": "dbefb6b9eb19e77925b5b757f63c2dcea0dc4596e53cca97d078d57778e04009",
-      "rendered_digest": "d748235461271f4a4a963e7d0e3f7a446c3285543e147810aeb9768c608a0c40",
-      "ast_digest": "74d70ec65af0a3d74dc8423c3c1cf0bf799a14983468ce8e1178405990c629e9"
+      "values_digest": "8a8bbdf287af7b8a3ec13c35c82f9a56ab7252fcf89e4212194e00250b323ef0",
+      "rendered_digest": "7f15753de14fc5cceb19e219928d40c62fc7f3fa5195895b044cc576f4ccffac",
+      "ast_digest": "a67d1419fa62b58848caecadba6402971ae004efa6f566e62fb5c4576228d6cd"
     }
   },
   "transitions": [
@@ -75,6 +108,41 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-sprint-5862",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-sprint-5862",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-sprint-5862",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -238,6 +306,83 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:5877-projection-api-readiness-preparation",
+      "reason": "Normalize the stable projection deliverables without claiming route registration or future interface approval.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"docs/api/runtime-v3/v1/distributed.openapi.json\",\"One authenticated least-privilege redacted v1 distributed-state view; current authentication has no scope model, so no additional detail tier or scope claim is permitted\",\"Deterministic coherent-cut projection with hard response bounds and exact OpenAPI behavior parity\",\"Exact-revision execution proof with machine-derived negative cases and immutable source/evidence bindings\",\"Independent exact-head security and correctness review before publication\",\"No route or module registration; integration issue #5878 owns registration\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 9,
+      "actor": "codex:5877-projection-api-readiness-preparation",
+      "reason": "Record the exact serial dependency frontier without treating open work as terminal.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5909 PR #120 must merge and be ancestral before #5870 may execute\",\"#5870 must merge and be ancestral before #5873 and #5874 may execute\",\"#5873 and #5874 must both merge and be ancestral before #5875 may execute\",\"#5875 must merge and be ancestral before #5876 may execute\",\"#5876 must merge and be ancestral before #5877 may bind or implement\",\"#5862 is the coordination umbrella and is not a substitute for child terminality\",\"#5821 is the terminal architecture gate\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 10,
+      "actor": "codex:5877-projection-api-readiness-preparation",
+      "reason": "Declare only direct future input paths and avoid inventing interfaces before dependency merges.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md\",\".csdlc/prepared/issues/5821/design.md\",\"adl-runtime/src/distributed/membership.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/failure_detection.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 11,
+      "actor": "codex:5877-projection-api-readiness-preparation",
+      "reason": "Make the stable projection coherence, authentication, redaction, bounds, and OpenAPI obligations explicit.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Only adl-runtime/src/distributed/projection.rs, adl-runtime/tests/distributed_projection.rs, and docs/api/runtime-v3/v1/distributed.openapi.json are mutable\",\"Integration issue #5878 alone owns route and production module registration\",\"Expose exactly one authenticated least-privilege redacted v1 view; current authentication has no scope model, so no privileged detail tier or scope-based authorization is claimed\",\"The projection is read-only and never grants, transfers, reconstructs, or mutates distributed authority\",\"Every response is one coherent cut whose topology, certificate, failure, lease, placement, migration, and recovery fields derive from the same declared version or revision boundary\",\"Canonical ordering, stable identifiers, version selection, serialization, and error results are deterministic for identical coherent input state\",\"Secrets, signatures, private keys, raw credentials, bearer material, internal paths, unbounded diagnostics, and unauthorized detail are always omitted or redacted\",\"Nodes, edges, certificates, failures, leases, placements, migrations, recoveries, strings, identifiers, response bytes, nesting, and serialization work have explicit hard bounds with checked arithmetic\",\"The OpenAPI document exactly matches implemented authentication, version, schema, required fields, bounds, redaction, status, and error behavior\",\"Missing, stale, malformed, incoherent, unauthorized, wrong-domain, oversized, or unsupported-version state fails closed without partial or mixed-cut output\",\"Execution evidence and independent review remain digest-bound to all three exact protected paths\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 12,
+      "actor": "codex:5877-projection-api-readiness-preparation",
+      "reason": "Separate pre-bind dependency and interface stops from post-implementation proof stops.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Stop before binding unless #5909 PR #120, then #5870, then both #5873 and #5874, then #5875, then #5876 are merged and ancestral in that order\",\"Stop if merged future input paths do not expose enough stable behavior to project one coherent cut without inventing interfaces\",\"Stop if the design would require authorization scopes, a privileged detail tier, route registration, module registration, or mutation outside the three owned paths\",\"Stop on any active product-path collision or ownership ambiguity\",\"Stop if coherent-cut determinism, least-privilege redaction, hard resource bounds, fail-closed errors, or exact OpenAPI parity cannot be proved\",\"After the three issue-owned paths are implemented, stop if distributed_projection is absent, selects zero tests, or any focused, OpenAPI-parity, or receipt validation fails\",\"Stop if scope, interface, versioning, registration, authentication, or rollback authority must widen\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 13,
+      "actor": "codex:5877-projection-api-readiness-preparation",
+      "reason": "Make the unregistered child test bind-safe while retaining exact projection, OpenAPI, nonzero, and receipt proof obligations.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_projection validates the issue-owned OpenAPI document and proves one authenticated least-privilege redacted v1 view, coherent-cut consistency, deterministic ordering and identifiers, hard response bounds, denied detail, unsupported-version and malformed-state failure, and exact schema/status/error parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_projection\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/distributed/projection.rs\\\"] harness in adl-runtime/tests/distributed_projection.rs will route adl-runtime/src/distributed/projection.rs after both Rust paths are implemented and until integration issue #5878 registers the route and production module; pre-implementation absence is not a validation pass.\"},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute exact source, OpenAPI, and command bindings, nonzero selected tests, machine-derived negative-case identifiers and results, artifact digests, runner identity, timestamps, and immutable evidence. [preexec_rejection exit=1 diagnostic_sha256=c910bc39219b1f7b467597837b572aecdc324cddfaab06aca75f4887effb13aa]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5877/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 13,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 31,
+      "generation": 14,
+      "actor": "codex-sprint-5862",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 32,
+      "generation": 14,
+      "actor": "codex-sprint-5862",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 15,
+      "actor": "codex-sprint-5862",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 16,
+      "actor": "codex-sprint-5862",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -1,4 +1,4 @@
-# UTS and ACC: Making Agents With Tools Safer
+# UTS and ACC - Making Agents With Tools Safe
 
 A tool definition usually tells a model three things: the tool's name, what it does, and the arguments it accepts.
 

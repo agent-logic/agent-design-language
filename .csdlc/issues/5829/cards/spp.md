@@ -16,7 +16,7 @@ Implement and prove WP-12 canonical capability envelopes with explicit providers
 
 ## Plan
 
-Revision 29
+Revision 30
 
 ## Steps
 
@@ -28,7 +28,7 @@ Revision 29
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -37,7 +37,7 @@ Revision 29
       "AC-1",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -46,7 +46,7 @@ Revision 29
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -90,7 +90,7 @@ Revision 29
 
 .csdlc/prepared/issues/5829/design.md
 
-Digest: 400f77c40eaf597d65642059156fbd5c24f778d6be041e9509012c6282d24fc3
+Digest: 9df2c70f7704c2ca3dc1e9e9b477970cb4549a7be0bcd9d6def42220aa8ea112
 
 ## Diagram
 
