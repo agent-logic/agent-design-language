@@ -72,7 +72,15 @@ const publicAssets = new Set([
   "/demos/html-observatory/index.html",
   "/demos/html-observatory/app.js",
   "/demos/html-observatory/styles.css",
-  "/demos/html-observatory/runtime-v3.config.json"
+  "/demos/html-observatory/runtime-v3.config.json",
+  "/docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json",
+  "/docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md",
+  "/docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json",
+  "/docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md",
+  "/docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json",
+  "/docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json",
+  "/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json",
+  "/docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json"
 ]);
 
 const server = createServer({ cert, key }, async (request, response) => {
