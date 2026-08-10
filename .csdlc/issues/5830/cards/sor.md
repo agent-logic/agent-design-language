@@ -77,11 +77,11 @@ Implemented and locally proved the deterministic WP-13 Runtime v3 cognitive-prof
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

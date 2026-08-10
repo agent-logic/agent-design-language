@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
-  "phase": "reviewed",
-  "generation": 66,
-  "digest": "b8e2a90126260741a31af3a4735a848c46dd40cc40aca38e8b6def9c4d7858fd",
+  "phase": "published",
+  "generation": 67,
+  "digest": "d3e801796f221788ca7002a4910b7bfbb4e1a2c54ba49505a8c5b6f0cf117d79",
   "branch": "codex/5830-cognitive-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5830-cognitive-profile",
   "review_assignment": {
@@ -48,7 +48,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5830,
+    "pull_request": 139,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/139",
+    "base": "main",
+    "head": "codex/5830-cognitive-profile",
+    "revision": "git-blake3:09e6c8123d4dc6168e7500626e4a5449558be7f4:5758b939cdf45195961f223c8b1508f05c50359859972db4558b9918f1e8a3fe",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "227f9bdf58ee6ce61ffa988883eb786a61f89ed793b99bcc9a306c3b22193ed2",
+      "values_digest": "f50c68bd9064983e7f06d8e0f31255a8bc26a19f046f5a69e33e1d741a2616cf",
       "rendered_digest": "f693dd3d3ed034e3ffbaff3348331e986f4f5cc9ae5fce166acecd4f23918b30",
       "ast_digest": "3fd878ebfe7fe0596cb55885b39a06ca0f8b84f87406ef8b718c3f501ba84fa1"
     },
     "stp": {
-      "values_digest": "571adb882f23f33930e90b6a3353d5d7a80ce5e8b8733d88adc59bd38ab988f3",
+      "values_digest": "de0f4688f87e60c3d6dd10471d664ce3a9819eae45d0a9948c5d6b554446265a",
       "rendered_digest": "1df53b8620d6186ab4e2530b690ebb3a8ce38acf08e9d190d31d106be4961954",
       "ast_digest": "26506815840b2c74b6f70a43469e76cfde25a47d07a10b3a03f8154ada085cca"
     },
     "spp": {
-      "values_digest": "430161cbb365f55b2b8c900ec2d7f24a6c1e2457d19113643df05030a9f386da",
+      "values_digest": "fea547ed1eb577d4a8164ec13d94c28017ccf071090bd52e2030e28d5db0edba",
       "rendered_digest": "5bbd53c6a215939a4937497b080b9c646899130418cec7b7282b256e27749b71",
       "ast_digest": "0e2ffb11caab962358ccb56c06c6802a83520137f00390a8dee1f3099e882b31"
     },
     "vpp": {
-      "values_digest": "fd933076701657d3a96fdd162618cb521301f7d35d11d6311dbf03b29e82c8a0",
+      "values_digest": "a07b08064ad7bb225f401cd9c9348c248476eeac2af9228e3237a3148d455923",
       "rendered_digest": "f2b7aa172dc011f3fcb386b2e080ba95808c637689a34456e44b11a2f9f94bcd",
       "ast_digest": "c2739d91f782cbe4088e1dc4a498bf6ca3ef11244caf5dcb0bc956251d42991c"
     },
     "srp": {
-      "values_digest": "6d5a7a1349457af5d6b933cbc8296d68ceb9ac8037af6541c6380990d4901499",
+      "values_digest": "be3302462381eb56fd824d521ba7ef44a89081f7d83dcdcfd6db6a764a434bb7",
       "rendered_digest": "2331db6e95cd3a126f56298c7ef0e179217213abcbca7c1b520c7299ef34cf1a",
       "ast_digest": "8512365a1b15744ca88785651d7b2a709e395d573780c2130f6fb56d8f52d5dc"
     },
     "sor": {
-      "values_digest": "bc682d50e437668fa5106491d500cb26fc16b39367ff9ce88883db1a6731ecf6",
-      "rendered_digest": "3405c0c1d2e8153e3a5ec537549c03f4d2dab6b73fe43afee701aca795051ebb",
-      "ast_digest": "1f946cbc1038262fc880bd8cb852a49e1046adb249117b38bbb0ba1a50e98df2"
+      "values_digest": "bc2aa1937bcfe655774a275c4a8d171b82836bf0fe3a751f72f77341685bee88",
+      "rendered_digest": "3dd7c8b05510ac5701172e153ad88d0cf7f35680799dff0c05fcbbe02e37fd81",
+      "ast_digest": "10ddee61ccb82986e348ee758cc9acc28a46b3c7f2fb3e6bc293dcf79c4296d3"
     }
   },
   "transitions": [
@@ -141,6 +152,13 @@
       "to": "reviewed",
       "actor": "codex:5830-cognitive-profile",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -794,6 +812,13 @@
       "actor": "codex:5830-cognitive-profile",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 67,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
