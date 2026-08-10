@@ -38,8 +38,17 @@ fn signer(seed: u8) -> SigningKey {
 }
 
 fn policy(max_nodes: usize, max_observers: usize, flap_limit: usize) -> FailurePolicy {
+    policy_for_domain("polis.test", max_nodes, max_observers, flap_limit)
+}
+
+fn policy_for_domain(
+    trust_domain: &str,
+    max_nodes: usize,
+    max_observers: usize,
+    flap_limit: usize,
+) -> FailurePolicy {
     FailurePolicy::new(
-        "polis.test",
+        trust_domain,
         "node_local",
         7,
         FailureThresholds {
@@ -573,6 +582,71 @@ fn deterministic_event_projection_is_stable_and_redacted() {
     let encoded = serde_json::to_string(&left_event).unwrap();
     assert!(!encoded.contains("signature"));
     assert!(!encoded.contains("public_key"));
+}
+
+#[test]
+fn replay_is_scoped_to_enrolled_identity_generation() {
+    let (mut authority, keys) = authority();
+    let rotated = signer(8);
+    authority.enroll("node_local", 2, &rotated, 7);
+    let mut detector = FailureDetector::new(policy(8, 4, 8));
+    let generation_one = probe(
+        &keys["node_local"],
+        "node_local",
+        "node_a",
+        1,
+        100,
+        ProbeResult::Reachable,
+    );
+    detector.observe(&authority, &generation_one, 100).unwrap();
+    assert_eq!(
+        detector.observe(&authority, &generation_one, 100),
+        Err(FailureError::Replay)
+    );
+
+    let generation_two = SignedFailureProbe::sign(
+        FailureProbeClaims {
+            observer_identity_generation: 2,
+            ..generation_one.claims.clone()
+        },
+        &rotated,
+    )
+    .unwrap();
+    detector.observe(&authority, &generation_two, 100).unwrap();
+    assert_eq!(
+        detector.observe(&authority, &generation_two, 100),
+        Err(FailureError::Replay)
+    );
+}
+
+#[test]
+fn event_identity_is_separated_across_trust_domains() {
+    let (authority, keys) = authority();
+    let mut polis = FailureDetector::new(policy_for_domain("polis.test", 8, 4, 8));
+    let mut other = FailureDetector::new(policy_for_domain("other.test", 8, 4, 8));
+    let polis_probe = probe(
+        &keys["node_local"],
+        "node_local",
+        "node_a",
+        1,
+        100,
+        ProbeResult::Reachable,
+    );
+    let other_probe = SignedFailureProbe::sign(
+        FailureProbeClaims {
+            trust_domain: "other.test".into(),
+            ..polis_probe.claims.clone()
+        },
+        &keys["node_local"],
+    )
+    .unwrap();
+    polis.observe(&authority, &polis_probe, 100).unwrap();
+    other.observe(&authority, &other_probe, 100).unwrap();
+    let polis_event = polis.evaluate("node_a", 106).unwrap().unwrap();
+    let other_event = other.evaluate("node_a", 106).unwrap().unwrap();
+    assert_eq!(polis_event.projection.trust_domain, "polis.test");
+    assert_eq!(other_event.projection.trust_domain, "other.test");
+    assert_ne!(polis_event.event_id, other_event.event_id);
 }
 
 #[test]

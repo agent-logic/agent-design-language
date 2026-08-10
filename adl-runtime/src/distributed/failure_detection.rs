@@ -222,6 +222,7 @@ pub enum FailureClass {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct FailureProjection {
+    pub trust_domain: String,
     pub subject_node_id: String,
     pub membership_epoch: u64,
     pub class: FailureClass,
@@ -275,7 +276,7 @@ impl SubjectState {
 pub struct FailureDetector {
     policy: FailurePolicy,
     subjects: BTreeMap<String, SubjectState>,
-    last_sequences: BTreeMap<(String, String), u64>,
+    last_sequences: BTreeMap<(String, u64, String), u64>,
     events: VecDeque<FailureEvent>,
     next_event_sequence: u64,
 }
@@ -306,6 +307,7 @@ impl FailureDetector {
         }
         let key = (
             claims.observer_node_id.clone(),
+            claims.observer_identity_generation,
             claims.subject_node_id.clone(),
         );
         if self
@@ -377,6 +379,7 @@ impl FailureDetector {
         }
         state.last_class = next;
         let projection = FailureProjection {
+            trust_domain: self.policy.trust_domain.clone(),
             subject_node_id: subject_node_id.to_owned(),
             membership_epoch: self.policy.membership_epoch,
             class: next,
@@ -415,6 +418,7 @@ impl FailureDetector {
             .ok_or(FailureError::UnknownSubject)?;
         let (class, support) = classify(&self.policy, state, now_unix_secs);
         Ok(FailureProjection {
+            trust_domain: self.policy.trust_domain.clone(),
             subject_node_id: subject_node_id.to_owned(),
             membership_epoch: self.policy.membership_epoch,
             class,
