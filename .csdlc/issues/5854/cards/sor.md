@@ -101,11 +101,11 @@ Resolved all five actionable findings from the independent review of PR #103 wit
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
