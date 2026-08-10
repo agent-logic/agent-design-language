@@ -298,7 +298,18 @@ pub fn validate_cognitive_profile(
     policy: &CognitiveProfilePolicy,
     previous: Option<&CognitiveProfile>,
 ) -> Result<(), Vec<CognitiveProfileRejection>> {
-    let input = CognitiveProfileInput {
+    let input = input_from_profile(profile);
+    match build_cognitive_profile(
+        birthday, identity, continuity, capability, &input, policy, previous,
+    ) {
+        Ok(expected) if &expected == profile => Ok(()),
+        Ok(_) => Err(vec![CognitiveProfileRejection::NonCanonicalProfile]),
+        Err(errors) => Err(errors),
+    }
+}
+
+fn input_from_profile(profile: &CognitiveProfile) -> CognitiveProfileInput {
+    CognitiveProfileInput {
         schema: COGNITIVE_PROFILE_INPUT_SCHEMA.into(),
         profile_id: profile.profile_id.clone(),
         revision: profile.revision,
@@ -315,13 +326,6 @@ pub fn validate_cognitive_profile(
         fields: profile.fields.clone(),
         nonclaims: profile.nonclaims.clone(),
         redaction_policy_sha256: profile.redaction_policy_sha256.clone(),
-    };
-    match build_cognitive_profile(
-        birthday, identity, continuity, capability, &input, policy, previous,
-    ) {
-        Ok(expected) if &expected == profile => Ok(()),
-        Ok(_) => Err(vec![CognitiveProfileRejection::NonCanonicalProfile]),
-        Err(errors) => Err(errors),
     }
 }
 
@@ -466,7 +470,11 @@ fn validate_policy_and_input(
         .iter()
         .map(|f| (f.key.as_str(), f))
         .collect();
+    let mut input_field_keys = BTreeSet::new();
     for field in &input.fields {
+        if !input_field_keys.insert(field.key.to_ascii_lowercase()) {
+            errors.insert(CognitiveProfileRejection::UnsupportedField);
+        }
         if unsafe_text(&field.key)
             || unsafe_text(&field.value)
             || !rules
@@ -503,9 +511,15 @@ fn validate_policy_and_input(
     {
         errors.insert(CognitiveProfileRejection::InvalidUpdate);
     }
-    for required in &policy.required_nonclaims {
-        if !input.nonclaims.contains(required) {
+    if input.nonclaims != policy.required_nonclaims {
+        if policy
+            .required_nonclaims
+            .iter()
+            .any(|required| !input.nonclaims.contains(required))
+        {
             errors.insert(CognitiveProfileRejection::MissingNonclaim);
+        } else {
+            errors.insert(CognitiveProfileRejection::ForbiddenInference);
         }
     }
     if input.nonclaims.iter().any(|v| !syntactic_id(v)) {
@@ -525,6 +539,9 @@ fn validate_policy_and_input(
             }
         }
         Some(prev) => {
+            if !valid_prior_profile(prev, input, policy, identity_root, expected_policy_sha256) {
+                errors.insert(CognitiveProfileRejection::NonCanonicalProfile);
+            }
             if input.revision != prev.revision + 1
                 || input.previous_profile_sha256.as_deref() != Some(&prev.profile_sha256)
                 || prev.profile_id != input.profile_id
@@ -545,6 +562,74 @@ fn validate_policy_and_input(
             }
         }
     }
+}
+
+fn valid_prior_profile(
+    previous: &CognitiveProfile,
+    current: &CognitiveProfileInput,
+    policy: &CognitiveProfilePolicy,
+    identity_root: &str,
+    expected_policy_sha256: Option<&str>,
+) -> bool {
+    let prior_input = input_from_profile(previous);
+    let mut canonical_prior_input = prior_input.clone();
+    canonicalize_input(&mut canonical_prior_input);
+    let mut payload_errors = BTreeSet::new();
+    validate_policy_and_input(
+        &canonical_prior_input,
+        policy,
+        None,
+        identity_root,
+        expected_policy_sha256,
+        &mut payload_errors,
+    );
+    payload_errors.remove(&CognitiveProfileRejection::InvalidRevisionLink);
+    payload_errors.remove(&CognitiveProfileRejection::UnexplainedMutation);
+
+    let rules: BTreeMap<_, _> = policy
+        .allowed_fields
+        .iter()
+        .map(|field| (field.key.as_str(), field))
+        .collect();
+    let public_fields = previous
+        .fields
+        .iter()
+        .filter(|field| {
+            rules
+                .get(field.key.as_str())
+                .is_some_and(|rule| rule.public)
+        })
+        .map(|field| PublicCognitiveField {
+            key: field.key.clone(),
+            value: field.value.clone(),
+        })
+        .collect::<Vec<_>>();
+    let mut expected_projection = PublicCognitiveProfile {
+        schema: COGNITIVE_PROFILE_PUBLIC_SCHEMA.into(),
+        profile_id: previous.profile_id.clone(),
+        revision: previous.revision,
+        identity_root: previous.identity_root.clone(),
+        fields: public_fields,
+        nonclaims: previous.nonclaims.clone(),
+        source_profile_sha256: previous.profile_sha256.clone(),
+        projection_sha256: String::new(),
+    };
+    let projection_digest = public_projection_digest(&expected_projection).ok();
+    expected_projection.projection_sha256 = projection_digest.unwrap_or_default();
+
+    payload_errors.is_empty()
+        && previous.schema == COGNITIVE_PROFILE_SCHEMA
+        && prior_input == canonical_prior_input
+        && digest(&canonical_prior_input).ok().as_deref()
+            == Some(previous.canonical_input_sha256.as_str())
+        && profile_digest(previous).ok().as_deref() == Some(previous.profile_sha256.as_str())
+        && expected_policy_sha256 == Some(previous.policy_sha256.as_str())
+        && previous.identity_root == identity_root
+        && previous.birthday_candidate_sha256 == current.birthday_candidate_sha256
+        && previous.identity_record_sha256 == current.identity_record_sha256
+        && previous.continuity_record_sha256 == current.continuity_record_sha256
+        && previous.capability_envelope_sha256 == current.capability_envelope_sha256
+        && previous.public_projection == expected_projection
 }
 
 fn canonicalize_input(input: &mut CognitiveProfileInput) {

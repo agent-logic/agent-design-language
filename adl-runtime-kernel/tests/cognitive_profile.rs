@@ -394,6 +394,20 @@ fn broken_revision_link_and_unexplained_delta_fail_closed() {
         x.added_fields.clear();
         assert!(build_cognitive_profile(&b, &i, &c, &cap, &x, &p, Some(&previous)).is_err());
     }
+    for case in 0..4 {
+        let mut previous = first.clone();
+        match case {
+            0 => previous.fields[0].value = "forged".into(),
+            1 => previous.public_projection.fields.clear(),
+            2 => previous.public_projection.source_profile_sha256 = H.into(),
+            _ => previous.public_projection.projection_sha256 = H.into(),
+        }
+        let mut x = input(&b, &i, &c, &cap, &p);
+        x.revision = 2;
+        x.previous_profile_sha256 = Some(previous.profile_sha256.clone());
+        x.added_fields.clear();
+        assert!(build_cognitive_profile(&b, &i, &c, &cap, &x, &p, Some(&previous)).is_err());
+    }
 }
 #[test]
 fn privacy_secrets_paths_and_raw_state_fail_closed() {
@@ -426,6 +440,13 @@ fn missing_nonclaims_and_public_everything_fail_closed() {
     let mut x = input(&b, &i, &c, &cap, &p);
     x.nonclaims.pop();
     assert!(build_cognitive_profile(&b, &i, &c, &cap, &x, &p, None).is_err());
+    for attacker_value in ["gho_secret", "private_state"] {
+        let mut x = input(&b, &i, &c, &cap, &p);
+        x.nonclaims.push(attacker_value.into());
+        let errors = build_cognitive_profile(&b, &i, &c, &cap, &x, &p, None).unwrap_err();
+        let rejection = format!("{errors:?} {}", serde_json::to_string(&errors).unwrap());
+        assert!(!rejection.contains(attacker_value));
+    }
     p.allowed_fields.iter_mut().for_each(|f| f.public = true);
     let x = input(&b, &i, &c, &cap, &p);
     assert!(build_cognitive_profile(&b, &i, &c, &cap, &x, &p, None).is_err());
@@ -476,6 +497,29 @@ fn exact_duplicates_canonicalize_and_case_collisions_fail() {
         evidence_ids: vec!["tom".into()],
     });
     assert!(build_cognitive_profile(&b, &i, &c, &cap, &bad, &p, None).is_err());
+
+    let first =
+        build_cognitive_profile(&b, &i, &c, &cap, &input(&b, &i, &c, &cap, &p), &p, None).unwrap();
+    let mut update_policy = p.clone();
+    update_policy
+        .allowed_fields
+        .iter_mut()
+        .find(|field| field.key == "reasoning_mode")
+        .unwrap()
+        .allowed_values
+        .push("bounded".into());
+    let mut update = input(&b, &i, &c, &cap, &update_policy);
+    update.revision = 2;
+    update.previous_profile_sha256 = Some(first.profile_sha256.clone());
+    update.added_fields.clear();
+    update.fields.push(CognitiveProfileField {
+        key: "reasoning_mode".into(),
+        value: "bounded".into(),
+        evidence_ids: vec!["tom".into()],
+    });
+    assert!(
+        build_cognitive_profile(&b, &i, &c, &cap, &update, &update_policy, Some(&first)).is_err()
+    );
 
     let mut bad_policy = p.clone();
     let mut duplicate_evidence = bad_policy.evidence[0].clone();
