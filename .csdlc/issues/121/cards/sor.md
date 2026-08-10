@@ -75,7 +75,7 @@ Implemented majority-authorized next-epoch fencing with operation-sensitive poss
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

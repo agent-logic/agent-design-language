@@ -8,15 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/lease.rs
-adl-runtime/tests/distributed_lease.rs
-.csdlc/issues/121
-.csdlc/evidence/121
-.csdlc/prepared/issues/121
+
 
 ## Prompts
 

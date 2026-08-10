@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 121,
+  "expected_generation": 1,
+  "expected_digest": "588d1deec16afe53706c7157a076551d6a9b1945717eadcc6057767ac01039e1",
+  "actor": "codex:121-quorum-fence-repair",
+  "reason": "Recover the stale exact-head assignment after fixing the review finding in the issue-owned proof receipt and producer."
+}
