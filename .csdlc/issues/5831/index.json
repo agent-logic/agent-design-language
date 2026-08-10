@@ -6,10 +6,30 @@
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
   "generation": 79,
-  "digest": "ee874ccb04d89e5a549b653049de39b7b7b5aeff85e8fd60074ffdcdbadec687",
+  "digest": "1a9cf7392c1a9592e215df1b54d47ff6fa5236ddfb53b25a7f499ed3ea75e030",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
+    "assigned_by": "codex:5831-adaptive-learning",
+    "revision": "git-blake3:5534288d955b71395be07312ee62f8818e924f4b:1c2dc08a5bbc19703de8929953eb18c6d619241cbf6838e53f20afd9cb23d70a",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      "adl-runtime-kernel/tests/fixtures/adaptive_learning",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      ".csdlc/evidence/5831",
+      ".csdlc/issues/5831",
+      "Review the full final #5831 delta at exact clean evidence HEAD 5534288d955b71395be07312ee62f8818e924f4b and substantive reconciliation head 920709c29534fb0e8fe24f45fd4dd986e8c924c4, rebased on #144 merge 9e16c621. Close the latest findings only with evidence: discoverable startup pending reconciliation, canonical bounded snapshot/intent validation, full history/policy/profile/privacy and MutationAuthority evidence validation, exclusive MutationGate transaction covering candidate plus durable callback, no live publication before durable success, deterministic reserved/committed/aborted recovery, real CAS/postcheck failure nonmutation, rehashed tamper rejection, and one-winner concurrent adaptive execution. Reconfirm all earlier authority/lineage/rollback/privacy/native/lifecycle truth and exact 20/20 proof."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +65,9 @@
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "4fe0c8cf6b4c91fbba03a66e8dd00376ea5f2702ba2bf78f87bda9ae98347bd2",
-      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
-      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
+      "values_digest": "4743facb5f146217a916537b467ae7797476cf0dc70d8088899772f47d3dd238",
+      "rendered_digest": "d71052dada0b6c724dbf524f9893bcc0ad4cb268d75ec58b9f282295b7054d3c",
+      "ast_digest": "868243aae360f1d6d87e576b0af828d2230c09ffe6e11d3d25199e0ad5aad11f"
     },
     "sor": {
       "values_digest": "46f14210ab3b68ef984105a940c944160197267f3de5d3fdfdef8a3189c6f67a",
@@ -841,6 +861,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "Record the completed discoverable reconciliation and exclusive transactional mutation repair with exact twenty-test proof after the latest review findings.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved governed WP-13A adaptive learning over real mutation, loop, cancellation, cognitive-profile, and durable-state authorities. Global pending startup discovery fully validates canonical intent, snapshot, policy, lineage, privacy, and signed MutationAuthority evidence. A bounded MutationGate transaction holds gate and adaptation locks, commits durable truth through its callback, and publishes live state only after success; reserved, committed, and aborted recovery is deterministic. Exact proof is rebased on merged #144 and passes twenty adaptive/durable tests; native proof remains deferred to CI.\",\"changes\":[\"Execute accepted adaptive learning only through signed MutationGate authority, verified LoopOutcome replay/state, cancellation, AdaptationStore, and KernelDurableState.\",\"Bind canonical AdaptiveLearningPolicy to gate snapshot, grant, evidence, cognitive profile, capability envelope, and complete predecessor history.\",\"Preview signed patch effects, then reserve one canonical bounded global pending intent containing the exact before-gate snapshot.\",\"Discover pending intent at startup without caller-supplied history identity and fully validate canonical encoding, self-digest, complete history/policy/profile/privacy invariants, snapshot, and MutationAuthority evidence before reconciliation.\",\"Add a bounded MutationGate transaction callback that holds gate and adaptation locks, builds the candidate, requires durable callback success, and publishes live state only afterward; CAS, postcheck, and callback failure leave live state unchanged.\",\"Reconcile reserved, committed, and aborted intents deterministically; restore the exact before snapshot for aborted state and allow one authoritative winner under concurrent adaptive execution.\",\"Persist sequence-addressed complete histories for restart and rollback, retain recurrence, and bound/redact durable identifiers, rationale, evidence, policy, snapshots, and pending payloads.\",\"Maintain exact fifteen-test adaptive native inventory and add five focused durable-state atomicity/restart cases to local proof.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/reasoning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".csdlc/evidence/5831/adaptive-learning-runtime-v3.log\",\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\",\".csdlc/evidence/5831/adaptive-learning-native-scripts.log\",\".csdlc/evidence/5831/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove fifteen adaptive authority/reconciliation/interruption/tamper/concurrency cases plus five durable atomic CAS/restart cases at exact revision 920709c29534fb0e8fe24f45fd4dd986e8c924c4.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/local-validation-manifest.json\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--test\",\"durable_state\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the governed executor, MutationGate transaction boundary, durable CAS, and focused tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/adaptive-learning-strict-clippy.log\"}]}"
+    },
+    {
+      "sequence": 107,
+      "generation": 79,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
