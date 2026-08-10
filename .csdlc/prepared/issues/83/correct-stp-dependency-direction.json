@@ -1,0 +1,19 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "5d80f18581cdc57487fb708c26fe04bf6a1e4401cce53d97c8f447f1a8ff6265",
+  "actor": "codex:83-html-observatory-dependency-correction",
+  "reason": "Correct the stale reverse dependency: issue 83 supplies the browser interaction and proof required by the first-birthday demo in legacy issue 5836.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "#5800 trusted local browser HTTPS is terminal",
+      "#5820 stable Runtime launch and API behavior is terminal",
+      "#5832 versioned ACIP/A2A and WSS contract is terminal",
+      "#83 supplies the live browser interaction and evidence required by #5836",
+      "#5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane"
+    ]
+  }
+}

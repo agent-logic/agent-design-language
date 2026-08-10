@@ -24,8 +24,115 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
 
 [
   {
+    "lane": "runtime-layer8-public-projection",
+    "proof_role": "Prove executor output with extra private fields or mismatched correlation cannot enter the bounded public Layer 8 response.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "public_layer8_projection_rejects_extra_or_mismatched_executor_fields"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-live-assembly",
+    "proof_role": "Prove the production live assembly registers the canonical agent ingress alias and dispatches an ordinary Layer 8 message through the real agent executor.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "assembly"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-layer8-control",
+    "proof_role": "Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "control"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "observatory-openapi-contract",
+    "proof_role": "Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "html-observatory-shell",
+    "proof_role": "Prove the Observatory module, signed-command contract, out-of-order cursor rejection, and UTF-8 message bound before live browser execution.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "bash",
+      "adl/tools/test_html_observatory.sh"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
     "lane": "html-observatory-live-browser",
-    "proof_role": "Prove the real browser against Runtime v3 HTTPS/WSS, including controls, redaction, refusal, disconnect, and reconnect.",
+    "proof_role": "Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -43,7 +150,7 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
       "adl/tools/validate_v092_html_observatory_live.mjs"
     ],
     "parallel_group": "live-browser",
-    "defer_reason": "This validator is an issue #83 implementation deliverable and requires the exact live Runtime candidate; it becomes mandatory after the target is created."
+    "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
@@ -77,6 +184,11 @@ Tokens: 25000
 
 ## Commands
 
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib public_layer8_projection_rejects_extra_or_mismatched_executor_fields`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test control`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract`
+- `bash adl/tools/test_html_observatory.sh`
 - `node adl/tools/validate_v092_html_observatory_live.mjs`
 - `git diff --check`
 

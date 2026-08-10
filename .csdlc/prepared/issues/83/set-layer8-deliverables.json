@@ -1,0 +1,22 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 10,
+  "expected_digest": "58d546c3da52b0e6830d310394bbf4a28b7d9d867b392297954fd71d1ed415d9",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Replace the birthday-specific control with a general live roster and selected-agent Layer 8 chat vertical slice.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Live Runtime v3 HTTPS/WSS browser integration",
+      "Live agent roster with visible status and selected-agent chat",
+      "Signed Layer 8 message delivery with a correlated public-safe agent response or policy refusal",
+      "Authorized controls with visible accepted and denied outcomes",
+      "Explicit trust, stale, unavailable, backpressure, and version-mismatch states",
+      "Browser reconnect with bounded replay and no duplicate application",
+      "Live Playwright validation entrypoint and retained browser evidence",
+      "adl/tools/validate_v092_html_observatory_live.mjs"
+    ]
+  }
+}

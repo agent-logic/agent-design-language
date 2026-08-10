@@ -1348,6 +1348,150 @@ textarea,
   gap: 0.75rem;
 }
 
+.polis-chat {
+  display: grid;
+  grid-template-rows: auto auto minmax(8rem, 1fr) auto auto;
+  gap: 0.8rem;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(7, 14, 20, 0.72);
+}
+
+.dashboard-chat {
+  display: none;
+  order: 3;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ops-command[data-dashboard-view="communication"] .dashboard-chat {
+  display: grid;
+}
+
+.ops-command[data-dashboard-view="communication"] .dashboard-core {
+  display: none;
+}
+
+.ops-command[data-dashboard-view="communication"] .ops-status-grid {
+  display: none;
+}
+
+.polis-chat-head,
+.polis-chat-identity {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.polis-chat-head h2 {
+  margin: 0.15rem 0 0;
+  font-size: 1rem;
+}
+
+.polis-chat-identity {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.polis-chat-identity small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.polis-chat-transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-height: 8rem;
+  height: 100%;
+  max-height: 28rem;
+  overflow-y: auto;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #071018;
+}
+
+.polis-chat .communication-actions {
+  align-items: flex-start;
+}
+
+.polis-chat .button {
+  align-self: flex-start;
+  min-height: 2.6rem;
+}
+
+.polis-chat .button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.chat-empty {
+  margin: auto;
+  color: var(--muted);
+  text-align: center;
+}
+
+.chat-message {
+  width: min(38rem, 88%);
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #111d27;
+}
+
+.chat-message[data-role="operator"] {
+  align-self: flex-end;
+  border-color: rgba(72, 211, 255, 0.42);
+  background: #102431;
+}
+
+.chat-message[data-role="agent"] {
+  align-self: flex-start;
+  border-color: rgba(84, 238, 139, 0.38);
+}
+
+.chat-message[data-role="system"] {
+  align-self: center;
+  width: min(42rem, 96%);
+  color: var(--muted);
+  background: #171b20;
+}
+
+.chat-message strong,
+.chat-message span {
+  display: block;
+}
+
+.chat-message strong {
+  margin-bottom: 0.25rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.chat-message span {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.advanced-command {
+  border-top: 1px solid var(--line);
+  padding-top: 0.75rem;
+}
+
+.advanced-command summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.advanced-command[open] {
+  display: grid;
+  gap: 0.75rem;
+}
+
 .communication-proof-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1776,6 +1920,15 @@ textarea,
 
   .communication-grid {
     grid-template-columns: 1fr;
+  }
+
+  .polis-chat-head,
+  .polis-chat-identity {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-message {
+    width: 94%;
   }
 
   .hero {

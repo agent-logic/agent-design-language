@@ -34,7 +34,8 @@ use crate::{
     ReasoningNode, ReasoningServices, RecordedObservation, RecorderTrustedTime, RuntimeConfig,
     RuntimeRecorder, ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds,
     TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph,
-    ValidatedTopology, WeatherConfig, WeatherObserver, OPERATION_REQUEST_SCHEMA,
+    ValidatedTopology, WeatherConfig, WeatherObserver, LAYER8_AGENT_RESPONSE_SCHEMA,
+    LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA, OPERATION_REQUEST_SCHEMA,
     REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 
@@ -148,6 +149,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         if domain_work_allowed {
             ingress_dispatchers.insert(kind.service_name().to_owned(), factory.clone());
             if kind == AdapterKind::Agent {
+                ingress_dispatchers.insert("agent".to_owned(), factory.clone());
                 ingress_dispatchers.insert("parity-a".to_owned(), factory.clone());
             }
         }
@@ -836,10 +838,7 @@ impl InProcessOperationExecutor {
         let tasks = command["tasks"]
             .as_array()
             .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_work_missing"))?;
-        if command["schema"] != "adl.runtime.local_agent_work.v1"
-            || tasks.is_empty()
-            || tasks.len() > 8
-        {
+        if command["schema"] != LOCAL_AGENT_WORK_SCHEMA || tasks.is_empty() || tasks.len() > 8 {
             return Err(adapter_error(FailureClass::Fatal, "agent_work_bound"));
         }
         let mut outputs = Vec::with_capacity(tasks.len());
@@ -851,16 +850,18 @@ impl InProcessOperationExecutor {
                 .as_str()
                 .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_work_malformed"))?;
             let output = match op {
-                "blake3" => blake3::hash(
-                    task["input"]
-                        .as_str()
-                        .ok_or_else(|| {
-                            adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
-                        })?
-                        .as_bytes(),
-                )
-                .to_hex()
-                .to_string(),
+                "blake3" => serde_json::Value::String(
+                    blake3::hash(
+                        task["input"]
+                            .as_str()
+                            .ok_or_else(|| {
+                                adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
+                            })?
+                            .as_bytes(),
+                    )
+                    .to_hex()
+                    .to_string(),
+                ),
                 "sleep_millis" => {
                     let millis = task["millis"].as_u64().ok_or_else(|| {
                         adapter_error(FailureClass::Fatal, "agent_sleep_malformed")
@@ -870,8 +871,48 @@ impl InProcessOperationExecutor {
                     }
                     tokio::select! {
                         _ = cancellation.cancelled() => return Err(adapter_error(FailureClass::Fatal, "operation cancelled")),
-                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => "slept".to_owned(),
+                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => serde_json::Value::String("slept".to_owned()),
                     }
+                }
+                LAYER8_MESSAGE_TASK_OP => {
+                    let sender = task["sender"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "layer8_sender_malformed")
+                    })?;
+                    let recipient_id = task["recipient_id"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "layer8_recipient_malformed")
+                    })?;
+                    let correlation_id = task["correlation_id"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "layer8_correlation_malformed")
+                    })?;
+                    let content = task["content"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "layer8_content_malformed")
+                    })?;
+                    let safe_id = |value: &str| {
+                        !value.is_empty()
+                            && value.len() <= 128
+                            && value.bytes().all(|byte| {
+                                byte.is_ascii_alphanumeric()
+                                    || matches!(byte, b'.' | b':' | b'_' | b'-')
+                            })
+                    };
+                    if sender != "layer8-operator"
+                        || !safe_id(recipient_id)
+                        || !safe_id(correlation_id)
+                        || content.trim().is_empty()
+                        || content.len() > 4_000
+                        || content.chars().any(|character| {
+                            character.is_control() && !matches!(character, '\n' | '\t')
+                        })
+                    {
+                        return Err(adapter_error(FailureClass::Fatal, "layer8_message_bound"));
+                    }
+                    serde_json::json!({
+                        "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
+                        "recipient_id": recipient_id,
+                        "correlation_id": correlation_id,
+                        "status": "received",
+                        "message": format!("{recipient_id} received your message.")
+                    })
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };

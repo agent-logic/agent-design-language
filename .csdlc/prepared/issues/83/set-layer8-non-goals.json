@@ -1,0 +1,20 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 17,
+  "expected_digest": "b66373611e01c5d246e8b691f8b01bbe888b4055fcfede3be73645642998fa0c",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Keep the first chat slice narrow while removing the obsolete blanket Runtime non-goal.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "non_goals",
+    "values": [
+      "Unity client implementation or proof",
+      "Runtime launch, TLS, WSS transport, or general authentication redesign",
+      "Durable conversation sessions, history, search, rooms, notifications, or cross-Polis messaging owned by #110 children",
+      "Cross-client restart coordination",
+      "Serving UI assets from Runtime",
+      "AWS or provider work"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "082422c9352bcdb5f858a7f1e3cb2a0013c006d505140ae1360826df33334d67",
+  "actor": "codex:83-html-observatory-dependency-correction",
+  "reason": "Remove the stale reverse birthday-demo stop and retain only genuine implementation stop conditions.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "The implementation requires changing Runtime or Unity-owned paths",
+      "The live endpoint does not match the approved Runtime v3 contract",
+      "Required secrets would enter URLs, logs, screenshots, or repository files"
+    ]
+  }
+}

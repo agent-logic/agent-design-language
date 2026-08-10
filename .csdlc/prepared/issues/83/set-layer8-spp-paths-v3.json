@@ -1,0 +1,25 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 33,
+  "expected_digest": "c75bf19f188acd3effbf742a6bdbe3fc9b715c378c9304713f5dc84593792d4d",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Include the live-assembly regression test for the canonical agent ingress alias exposed by exact browser proof.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_html_observatory_live.mjs",
+      "adl/tools/test_html_observatory.sh",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json"
+    ]
+  }
+}

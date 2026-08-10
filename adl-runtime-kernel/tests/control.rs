@@ -13,12 +13,13 @@ use adl_runtime_kernel::{
     AdapterPolicy, AuthorityMode, CanonicalIngress, CheckpointingControl, ClockAuthority,
     ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlApiPolicy,
     ControlAuthority, ControlCapability, ControlError, ControlExit, ControlObservabilityEvent,
-    ControlOutcome, ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit,
-    LifecycleControl, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
-    ObservabilityHealth, Observation, OperationExecutor, OperationRequest, OperationalAdapter,
-    OperationalFactory, ResourceState, RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig,
-    ShutdownDecision, SignedControlCommand, TrustedControlKey, WeatherConfig, WeatherHealthReport,
-    WeatherSample, DOMAIN_WORK_SCHEMA,
+    ControlOutcome, ControlService, DiskWeather, DomainWork, ExecutorError,
+    InProcessOperationExecutor, Kernel, KernelExit, LifecycleControl, LiveContinuity,
+    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, ResourceState,
+    RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
+    TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample, DOMAIN_WORK_SCHEMA,
+    LAYER8_AGENT_RESPONSE_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -97,6 +98,8 @@ struct BlockingLifecycle {
 
 struct EchoExecutor;
 
+struct Layer8Executor;
+
 struct DelayedExecutor {
     started: Arc<Notify>,
     release: Arc<Notify>,
@@ -106,6 +109,31 @@ struct DelayedExecutor {
 impl OperationExecutor for EchoExecutor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
         Ok(request.payload.clone())
+    }
+}
+
+#[async_trait]
+impl OperationExecutor for Layer8Executor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        let command: serde_json::Value = serde_json::from_slice(&request.payload).unwrap();
+        let task = &command["tasks"][0];
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.local_agent_execution.v1",
+            "outputs": [{
+                "unit": 0,
+                "output": {
+                    "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
+                    "recipient_id": task["recipient_id"],
+                    "correlation_id": task["correlation_id"],
+                    "status": "received",
+                    "message": "agent-0001 received your message."
+                }
+            }]
+        }))
+        .map_err(|error| ExecutorError {
+            class: adl_runtime_kernel::FailureClass::Fatal,
+            message: error.to_string(),
+        })
     }
 }
 
@@ -154,6 +182,55 @@ fn test_ingress_with(
     (ingress, factory)
 }
 
+fn layer8_ingress(recorder: RuntimeRecorder) -> (CanonicalIngress, OperationalFactory) {
+    let adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            AdapterPolicy {
+                capacity: 2,
+                max_in_flight: 2,
+                shutdown_grace_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            Arc::new(Layer8Executor),
+        )
+        .unwrap(),
+    );
+    let factory = OperationalFactory::new(adapter, vec![]);
+    let ingress = CanonicalIngress::new(
+        2,
+        recorder,
+        BTreeMap::from([("agent".to_owned(), factory.clone())]),
+    );
+    (ingress, factory)
+}
+
+fn layer8_work(
+    work_id: &str,
+    recipient_id: &str,
+    correlation_id: &str,
+    content: &str,
+) -> DomainWork {
+    DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: work_id.to_owned(),
+        kind: "agent".to_owned(),
+        payload: serde_json::to_vec(&serde_json::json!({
+            "schema": LOCAL_AGENT_WORK_SCHEMA,
+            "tasks": [{
+                "op": LAYER8_MESSAGE_TASK_OP,
+                "sender": "layer8-operator",
+                "recipient_id": recipient_id,
+                "correlation_id": correlation_id,
+                "content": content
+            }]
+        }))
+        .unwrap(),
+    }
+}
+
 #[async_trait]
 impl LifecycleControl for BlockingLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -198,6 +275,183 @@ fn signed(key: &SigningKey, id: &str, action: ControlAction) -> SignedControlCom
         key,
     )
     .unwrap()
+}
+
+#[tokio::test]
+async fn layer8_operator_message_reaches_only_a_visible_agent() {
+    let key = SigningKey::from_bytes(&[39; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    let (ingress, operation) = layer8_ingress(recorder.clone());
+    let mut registry = ComponentRegistry::new();
+    registry.register(operation);
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder,
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
+
+    let accepted_id = "layer8-submit-1";
+    let accepted_correlation = blake3::hash(accepted_id.as_bytes()).to_hex()[..32].to_owned();
+    let response = service
+        .execute(signed(
+            &key,
+            accepted_id,
+            ControlAction::Submit {
+                work: layer8_work(
+                    "layer8-work-1",
+                    "agent-0001",
+                    &accepted_correlation,
+                    "Happy birthday!",
+                ),
+            },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted { work_result } = response.outcome else {
+        panic!("submit outcome")
+    };
+    let output = work_result.public_output.expect("public Layer 8 response");
+    assert_eq!(output["schema"], LAYER8_AGENT_RESPONSE_SCHEMA);
+    assert_eq!(output["recipient_id"], "agent-0001");
+    assert_eq!(output["status"], "received");
+
+    let hidden_id = "layer8-submit-2";
+    let hidden_correlation = blake3::hash(hidden_id.as_bytes()).to_hex()[..32].to_owned();
+    let denied = service
+        .execute(signed(
+            &key,
+            hidden_id,
+            ControlAction::Submit {
+                work: layer8_work(
+                    "layer8-work-2",
+                    "agent-hidden",
+                    &hidden_correlation,
+                    "Hello",
+                ),
+            },
+        ))
+        .await;
+    assert_eq!(denied.unwrap_err(), ControlError::Unauthorized);
+
+    let mismatch = service
+        .execute(signed(
+            &key,
+            "layer8-submit-3",
+            ControlAction::Submit {
+                work: layer8_work(
+                    "layer8-work-3",
+                    "agent-0001",
+                    "different-correlation",
+                    "Hello",
+                ),
+            },
+        ))
+        .await;
+    assert_eq!(mismatch.unwrap_err(), ControlError::InvalidBounds);
+
+    let malformed_id = "layer8-submit-4";
+    let malformed_correlation = blake3::hash(malformed_id.as_bytes()).to_hex()[..32].to_owned();
+    let malformed = service
+        .execute(signed(
+            &key,
+            malformed_id,
+            ControlAction::Submit {
+                work: layer8_work(
+                    "layer8-work-4",
+                    "agent-0001",
+                    &malformed_correlation,
+                    "forbidden\u{1}",
+                ),
+            },
+        ))
+        .await;
+    assert_eq!(malformed.unwrap_err(), ControlError::InvalidBounds);
+
+    let stopped_id = "layer8-submit-5";
+    let stopped_correlation = blake3::hash(stopped_id.as_bytes()).to_hex()[..32].to_owned();
+    let stopped_service = Arc::new(
+        ControlService::new_with_observatory_config_and_agents(
+            "instance-1",
+            RuntimeRecorder::new(8),
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+            std::iter::empty(),
+            adl_runtime_kernel::AgentPopulationFeed {
+                total_count: 1,
+                rendered_sample_count: 1,
+                sample: vec![adl_runtime_kernel::AgentSample {
+                    id: "agent-0001".to_owned(),
+                    label: "Runtime agent 1".to_owned(),
+                    role: "runtime agent".to_owned(),
+                    state: "stopped".to_owned(),
+                    detail: "not addressable".to_owned(),
+                }],
+            },
+        )
+        .with_canonical_ingress(ingress),
+    );
+    let stopped = stopped_service
+        .execute(signed(
+            &key,
+            stopped_id,
+            ControlAction::Submit {
+                work: layer8_work("layer8-work-5", "agent-0001", &stopped_correlation, "Hello"),
+            },
+        ))
+        .await;
+    assert_eq!(stopped.unwrap_err(), ControlError::Unauthorized);
+
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn production_agent_executor_returns_only_the_bounded_layer8_receipt() {
+    let state = tempfile::tempdir().unwrap();
+    let executor = InProcessOperationExecutor::with_state_dir(AdapterKind::Agent, state.path());
+    let payload = serde_json::to_vec(&serde_json::json!({
+        "schema": LOCAL_AGENT_WORK_SCHEMA,
+        "tasks": [{
+            "op": LAYER8_MESSAGE_TASK_OP,
+            "sender": "layer8-operator",
+            "recipient_id": "agent-0001",
+            "correlation_id": "layer8-correlation-2",
+            "content": "Hello"
+        }]
+    }))
+    .unwrap();
+    let response = executor
+        .execute(&OperationRequest {
+            schema: adl_runtime_kernel::OPERATION_REQUEST_SCHEMA.to_owned(),
+            request_id: "layer8-production-1".to_owned(),
+            idempotency_key: "layer8-production-key-1".to_owned(),
+            principal: "operator".to_owned(),
+            payload,
+            permit: None,
+        })
+        .await
+        .unwrap();
+    let response: serde_json::Value = serde_json::from_slice(&response).unwrap();
+    let output = &response["outputs"][0]["output"];
+    assert_eq!(output["schema"], LAYER8_AGENT_RESPONSE_SCHEMA);
+    assert_eq!(output["recipient_id"], "agent-0001");
+    assert_eq!(output["correlation_id"], "layer8-correlation-2");
+    assert_eq!(output["status"], "received");
+    assert_eq!(output["message"], "agent-0001 received your message.");
+    assert!(response.get("content").is_none());
 }
 
 #[tokio::test]

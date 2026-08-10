@@ -1,0 +1,17 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 16,
+  "expected_digest": "5895d95d3e0cf8aab1c9cb1fa21a90e892a311256d874788de302b903c035ff6",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Remove the obsolete Runtime-change stop while retaining the narrow approved path and security boundaries.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "The implementation requires Runtime, Unity, storage, room, notification, or policy work outside the design-approved paths",
+      "The live endpoint cannot support the approved signed Layer 8 message through canonical Runtime ingress",
+      "Required secrets would enter URLs, logs, screenshots, browser persistence, or repository files"
+    ]
+  }
+}

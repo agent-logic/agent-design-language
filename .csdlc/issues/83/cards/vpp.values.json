@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
     "slug": "v0-92-html-observatory-runtime-v3-client",
     "version": "v0.92",
-    "generation": 3
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,115 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
+          "lane": "runtime-layer8-public-projection",
+          "proof_role": "Prove executor output with extra private fields or mismatched correlation cannot enter the bounded public Layer 8 response.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "public_layer8_projection_rejects_extra_or_mismatched_executor_fields"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-live-assembly",
+          "proof_role": "Prove the production live assembly registers the canonical agent ingress alias and dispatches an ordinary Layer 8 message through the real agent executor.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "assembly"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-layer8-control",
+          "proof_role": "Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "control"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "observatory-openapi-contract",
+          "proof_role": "Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "openapi_contract"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "html-observatory-shell",
+          "proof_role": "Prove the Observatory module, signed-command contract, out-of-order cursor rejection, and UTF-8 message bound before live browser execution.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            "adl/tools/test_html_observatory.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
           "lane": "html-observatory-live-browser",
-          "proof_role": "Prove the real browser against Runtime v3 HTTPS/WSS, including controls, redaction, refusal, disconnect, and reconnect.",
+          "proof_role": "Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -35,7 +142,7 @@
             "adl/tools/validate_v092_html_observatory_live.mjs"
           ],
           "parallel_group": "live-browser",
-          "defer_reason": "This validator is an issue #83 implementation deliverable and requires the exact live Runtime candidate; it becomes mandatory after the target is created."
+          "defer_reason": null
         },
         {
           "lane": "diff-hygiene",
@@ -60,7 +167,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed into an explicit read-only, stale, denied, version-mismatch, or unavailable state; never synthesize live success.",
       "design_ref": ".csdlc/prepared/issues/83/design.md",
-      "design_digest": "592360cc30b2792f88a30e837f2e84cbd2a9392b061f5239314cb505da66d946",
+      "design_digest": "6ad7e0e3ca9f2e39afc78b7abb82f98928b68f0064c418088059666ae6844add",
       "diagram_ref": ".csdlc/prepared/issues/83/diagram.mmd",
       "diagram_digest": "73c36947a5904687d840ee521edfe34e2e888c91649ef3a9f38fe73b83e6117d"
     }

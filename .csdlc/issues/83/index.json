@@ -3,11 +3,11 @@
   "issue": 83,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
-  "phase": "initialized",
-  "generation": 3,
-  "digest": "6c6cbcf4a4dc39363309d6b9f780b945ff4272449f78c09ea4a6ad22e82eba33",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 34,
+  "digest": "42f463f2f1d0f7ff44c0639415fdab78d3c1c3647b068c409fdbd5717a20d8c0",
+  "branch": "codex/83-html-observatory-readiness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -18,43 +18,58 @@
   "diagram_path": ".csdlc/prepared/issues/83/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:83-html-observatory-readiness-design-review",
-      "revision": "592360cc30b2792f88a30e837f2e84cbd2a9392b061f5239314cb505da66d946"
+      "reviewer": "codex:83-layer8-chat-design",
+      "revision": "6ad7e0e3ca9f2e39afc78b7abb82f98928b68f0064c418088059666ae6844add"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "de69adab1f3f0316521d7b95b3f992af9efbed969b92a9bf15ccdc8cf373a529",
-      "rendered_digest": "b89b8c2297efeb7bfe1e4ccf808e7dca36458d5438eb3c722a7825ad1be3cfe6",
-      "ast_digest": "4214b88bbda6d6e7e30a4db3f5e96b372b4b09bee93f31588a5da1a81b01e733"
+      "values_digest": "bce878006ebef8705ea13e44cbbc3035780d42251ac6c72d17432b7e7c2ac144",
+      "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
+      "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "8340ae1a0ca57bb7cec939a5100b4f9241ddf4fd75d4854f98641736f8c110aa",
-      "rendered_digest": "5a11f09af222194e2140e51656aa0ff7559e9bae944ad601de009b5ea0955510",
-      "ast_digest": "7703c5279a9454d100b372d9527b7f9b8fcab3504f52ac399cfc9e4eb952e8b8"
+      "values_digest": "edf0addeef1fcf09b9fdec48243304f719e6d1101ca6759db95a7f65b9a8cc50",
+      "rendered_digest": "aa7eb243a1e81117e82e86d760d9cd90c9031f0005d8f7cd7c0bc12240ede1aa",
+      "ast_digest": "6ba8cda2d2f860b3780a6d94482706e0748a8226ab266d7e0a23c6343f0aa5d8"
     },
     "spp": {
-      "values_digest": "a58e0b3c49e3dc1e7ec4374d7eedf08fbc91f71a7d72fe6f1a4d26ad519a3c81",
-      "rendered_digest": "9b301d446a116334feaed34a991d66606193921659f9fc8668c48c0231de01eb",
-      "ast_digest": "f9b91e20af43b39d192c669997b17a0492cbf9220f9133f3342a6f2c903f4e67"
+      "values_digest": "32e922b699185399368408a51a30a35f5a57d76f5415ba7b3ed3cc3f4d29e58d",
+      "rendered_digest": "da7aa19eb6b9327a72ff16a578bdab521bffa33e87fb3659004f2d4751597f84",
+      "ast_digest": "2c0bf551e8b39166c58f5318f01133be7078c632659f9a45d131feb7c75c53e8"
     },
     "vpp": {
-      "values_digest": "98279ce78bb84a4db02bed3217d4a257bae7c90d171af658645767ff8905e898",
-      "rendered_digest": "b5d6cd2cbdfc82fac3eb1d23a32ca4ac18012680a806e939ce6c0eb1516ffc69",
-      "ast_digest": "2b2a2c9f0c47affd7c5ade880f48b6aa956ea9654259987ab4e37958082fe91e"
+      "values_digest": "801f1ab2cde28009e290c3caa6fd019d6fad15f2232c260de55439ac579dd20b",
+      "rendered_digest": "9968487528967db52cde09d6356aee5d54569d0848806961d446b1b4de719481",
+      "ast_digest": "b899e81e77d4c05623d80f0e4c5aa4b6a2b4e7fd392777e4baf884bd78f72edd"
     },
     "srp": {
-      "values_digest": "f438bee8cb62d352c84ac7c645a72a760ab26debb075670df457a637654e09a0",
+      "values_digest": "63a001bd8d1f7894005deec0581d6a4b732cb50e3f3541683d0f44c12890f13d",
       "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
       "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
     },
     "sor": {
-      "values_digest": "654a47051758d9f070021df26086f4e4b4eb11033e2d041b4ecc2ad5f0bb213e",
+      "values_digest": "4b308688a55c24d89af30c5e91ec3934e1f28530fc56983acae1b2b1ea9a33d4",
       "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
       "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -83,6 +98,230 @@
       "actor": "codex:83-html-observatory-readiness-design-review",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:83-html-observatory-dependency-correction",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:83-html-observatory-dependency-correction",
+      "reason": "Correct the stale reverse dependency: issue 83 supplies the browser interaction and proof required by the first-birthday demo in legacy issue 5836.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5800 trusted local browser HTTPS is terminal\",\"#5820 stable Runtime launch and API behavior is terminal\",\"#5832 versioned ACIP/A2A and WSS contract is terminal\",\"#83 supplies the live browser interaction and evidence required by #5836\",\"#5837 may consume the completed browser hooks for shared restart coordination but does not gate this lane\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:83-html-observatory-dependency-correction",
+      "reason": "Remove the stale reverse birthday-demo stop and retain only genuine implementation stop conditions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"The implementation requires changing Runtime or Unity-owned paths\",\"The live endpoint does not match the approved Runtime v3 contract\",\"Required secrets would enter URLs, logs, screenshots, or repository files\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:83-birthday-interaction-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:83-birthday-interaction-design",
+      "reason": "Make the required first-agent birthday wish an explicit HTML Observatory deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Live Runtime v3 HTTPS/WSS browser integration\",\"Authorized first-agent happy-birthday action with correlated Runtime outcome\",\"Authorized controls with visible accepted and denied outcomes\",\"Explicit trust, stale, unavailable, backpressure, and version-mismatch states\",\"Browser reconnect with bounded replay and no duplicate application\",\"Live Playwright validation entrypoint and retained browser evidence\",\"adl/tools/validate_v092_html_observatory_live.mjs\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:83-birthday-interaction-design",
+      "reason": "Require the live browser proof to wish the first visible agent happy birthday through signed Runtime authority without claiming that the wish is the birth event.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"The browser renders current Runtime v3 snapshots and WSS events with fresh correlation evidence\",\"Every exposed menu, control, proof link, and packet link performs real behavior or shows an explicit unavailable state, including a locally signed happy-birthday action for the first visible agent with its correlated Runtime outcome\",\"Writes require authenticated authority and refusal cases remain denied before and after reconnect\",\"TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success\",\"Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay\",\"Live browser proof exercises reads, the birthday wish, redaction, refusal, disconnect, and reconnect without fixture substitution\",\"No files outside the three declared owned paths change during implementation\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:83-layer8-chat-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Replace the birthday-specific control with a general live roster and selected-agent Layer 8 chat vertical slice.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Live Runtime v3 HTTPS/WSS browser integration\",\"Live agent roster with visible status and selected-agent chat\",\"Signed Layer 8 message delivery with a correlated public-safe agent response or policy refusal\",\"Authorized controls with visible accepted and denied outcomes\",\"Explicit trust, stale, unavailable, backpressure, and version-mismatch states\",\"Browser reconnect with bounded replay and no duplicate application\",\"Live Playwright validation entrypoint and retained browser evidence\",\"adl/tools/validate_v092_html_observatory_live.mjs\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Require a normal selected-agent chat path and preserve seven exact acceptance identifiers.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"The browser renders the current Runtime v3 agent roster, status snapshots, and WSS events with fresh correlation evidence\",\"The operator can select any visible eligible agent and send an ordinary signed Layer 8 message through canonical ingress, receiving a correlated public-safe agent response or policy refusal\",\"Writes require authenticated authority and refusal cases remain denied before and after reconnect\",\"TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success\",\"Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay\",\"Live browser proof exercises roster selection, ordinary chat, redaction, refusal, disconnect, and reconnect without fixture substitution\",\"No files outside the design-approved HTML, focused Runtime, API schema, test, and validator paths change during implementation\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Align the issue goal with the authorized first live human-agent communication slice.",
+      "operation": "{\"field\":\"goal\",\"new_value\":\"Make the existing HTML Observatory a truthful live Runtime v3 interface where a Layer 8 operator sees current agents and status and can communicate with any policy-eligible agent through canonical signed ingress.\",\"operation\":\"replan\",\"previous_value\":\"Make the existing HTML Observatory a truthful live consumer of Runtime v3 HTTPS and WSS without changing Runtime or Unity.\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Define the complete first live roster-and-chat outcome.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"The real browser renders fresh Runtime agent status, lets the operator select any visible eligible agent, sends an ordinary signed Layer 8 message through canonical ingress, displays a correlated public-safe response or policy refusal, and reconnects without duplicate events or authority escalation.\",\"operation\":\"replan\",\"previous_value\":\"The real browser renders fresh Runtime state, executes only authorized controls, exposes failures explicitly, and reconnects without duplicate events or authority escalation.\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Declare the narrow HTML and Runtime surfaces needed for truthful operator-to-agent communication.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"HTML Observatory live agent roster, selection, chat transcript, composer, delivery, and failure behavior\",\"Browser styling for familiar chat, live, stale, denied, and unavailable states\",\"Minimal Runtime local-agent Layer 8 message task, visible-recipient validation, and public-safe response projection\",\"Runtime v3 Observatory API schema parity and focused kernel tests\",\"Focused live browser validation entrypoint and retained evidence\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Align the executable plan with the design-approved minimal Runtime chat paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Remove the obsolete Runtime-change stop while retaining the narrow approved path and security boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"The implementation requires Runtime, Unity, storage, room, notification, or policy work outside the design-approved paths\",\"The live endpoint cannot support the approved signed Layer 8 message through canonical Runtime ingress\",\"Required secrets would enter URLs, logs, screenshots, browser persistence, or repository files\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Keep the first chat slice narrow while removing the obsolete blanket Runtime non-goal.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Unity client implementation or proof\",\"Runtime launch, TLS, WSS transport, or general authentication redesign\",\"Durable conversation sessions, history, search, rooms, notifications, or cross-Polis messaging owned by #110 children\",\"Cross-client restart coordination\",\"Serving UI assets from Runtime\",\"AWS or provider work\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:83-layer8-chat-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Authorize only the minimal Runtime message and public-response surface required by the first Layer 8 chat slice.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue #83 may change only the design-approved local-agent message task, visible-recipient validation, public-safe response projection, focused tests, and Observatory API schema\",\"Runtime launch, TLS, WSS transport, general authentication, durable conversation state, rooms, notifications, and policy redesign remain outside issue #83\",\"Unity files and proof belong to issue #84\",\"Shared Guardian restart coordination and final cross-client reconciliation belong to issue #5837\",\"The complete living Polis interface is coordinated by #110 and its bounded child issues\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Align the task boundary with the design-approved HTML client and minimal Runtime message vertical slice.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Implement and prove the first live Layer 8 operator-to-agent chat vertical slice in the HTML Observatory, including only the minimal design-approved Runtime message, recipient-validation, public-response, schema, and focused test paths.\",\"operation\":\"replan\",\"previous_value\":\"Implement and prove only the HTML Observatory consumer paths owned by issue #83.\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Include the visible HTML shell in the exact design-approved implementation boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "State the actual executable vertical slice rather than the earlier read-only browser plan.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Extend the existing Observatory into the first truthful Layer 8 chat vertical slice: live roster and status, selected-agent signed messaging through canonical Runtime ingress, bounded public-safe response or refusal, reconnect continuity, and retained live-browser proof.\",\"operation\":\"replan\",\"previous_value\":\"Preserve the existing UI, centralize truthful browser connection state, bind controls to real Runtime authority, add bounded reconnect behavior, and prove the live browser path.\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Make the issue-local plan execute and prove the selected-agent Layer 8 chat path explicitly.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Implement the live Runtime roster and WSS client state machine with fresh, stale, unavailable, and bounded reconnect behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement selected-agent Layer 8 messaging through canonical signed Runtime ingress with visible-recipient validation and bounded public-safe response or refusal.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement the familiar Observatory chat surface without persisting or exposing signing material and retain truthful failure states.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused Runtime, OpenAPI, browser-shell, live-browser, reconnect, redaction, refusal, and diff-hygiene proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Review exact-head behavior and preserve the strict design-approved path boundary for publication.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Prove the complete narrow Runtime, schema, browser shell, live chat, reconnect, redaction, and path-boundary surface.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-layer8-control\",\"proof_role\":\"Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"layer8_operator_message_reaches_only_a_visible_agent\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-contract\",\"proof_role\":\"Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-shell\",\"proof_role\":\"Prove the static Observatory shell, DOM contracts, and JavaScript module remain structurally valid.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-live-browser\",\"proof_role\":\"Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"parallel_group\":\"live-browser\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Record every source and proof input required by the design-approved Layer 8 chat vertical slice.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"AGENTS.md\",\"docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_live.mjs\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Prove the complete narrow Runtime, schema, browser shell, live chat, reconnect, redaction, and path-boundary surface.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-layer8-control\",\"proof_role\":\"Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-contract\",\"proof_role\":\"Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-shell\",\"proof_role\":\"Prove the static Observatory shell, DOM contracts, and JavaScript module remain structurally valid.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-live-browser\",\"proof_role\":\"Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"parallel_group\":\"live-browser\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 28,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Prove the complete narrow Runtime, schema, browser shell, live chat, reconnect, redaction, and path-boundary surface.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-layer8-control\",\"proof_role\":\"Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-contract\",\"proof_role\":\"Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-module\",\"proof_role\":\"Prove the owned Observatory JavaScript module remains syntactically valid before live browser execution.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"node\",\"--check\",\"demos/html-observatory/app.js\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-live-browser\",\"proof_role\":\"Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"parallel_group\":\"live-browser\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 29,
+      "actor": "codex:83-layer8-chat-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Include the live-assembly regression test for the canonical agent ingress alias exposed by exact browser proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Record every source and proof input required by the design-approved Layer 8 chat vertical slice.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"AGENTS.md\",\"docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_live.mjs\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Prove the complete narrow Runtime, schema, browser shell, live chat, reconnect, redaction, and path-boundary surface.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-live-assembly\",\"proof_role\":\"Prove the production live assembly registers the canonical agent ingress alias and dispatches an ordinary Layer 8 message through the real agent executor.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-layer8-control\",\"proof_role\":\"Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-contract\",\"proof_role\":\"Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-module\",\"proof_role\":\"Prove the owned Observatory JavaScript module remains syntactically valid before live browser execution.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"node\",\"--check\",\"demos/html-observatory/app.js\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-live-browser\",\"proof_role\":\"Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"parallel_group\":\"live-browser\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 33,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Prove the complete narrow Runtime, schema, browser shell, live chat, reconnect, redaction, and path-boundary surface.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-layer8-public-projection\",\"proof_role\":\"Prove executor output with extra private fields or mismatched correlation cannot enter the bounded public Layer 8 response.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"public_layer8_projection_rejects_extra_or_mismatched_executor_fields\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-live-assembly\",\"proof_role\":\"Prove the production live assembly registers the canonical agent ingress alias and dispatches an ordinary Layer 8 message through the real agent executor.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-layer8-control\",\"proof_role\":\"Prove visible-agent routing, denial of unknown recipients, signed control ingress, and bounded public response projection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-contract\",\"proof_role\":\"Prove the Observatory API contract remains valid while exposing only the typed public Layer 8 response.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-shell\",\"proof_role\":\"Prove the Observatory module, signed-command contract, out-of-order cursor rejection, and UTF-8 message bound before live browser execution.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-live-browser\",\"proof_role\":\"Prove the real browser and exact Runtime candidate over trusted HTTPS/WSS, including roster, signed chat, redaction, refusal, disconnect, and bounded reconnect.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"parallel_group\":\"live-browser\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed changes and path-boundary drift.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 34,
+      "actor": "codex:83-layer8-chat-plan",
+      "reason": "Include the live-assembly regression test for the canonical agent ingress alias exposed by exact browser proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"adl/tools/test_html_observatory.sh\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
     }
   ]
 }

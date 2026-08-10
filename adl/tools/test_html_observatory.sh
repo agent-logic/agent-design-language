@@ -84,6 +84,7 @@ const readiness = {
 const calls = [];
 const context = {
   console,
+  TextEncoder,
   URL,
   URLSearchParams,
   location: { search: "" },
@@ -129,6 +130,28 @@ const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
 assert.equal(eventCheck.events[0].event, "agent_ready");
 assert.equal(api.normalizeEventEntries(eventCheck).length, 1);
+
+const cursor = api.createRuntimeV3StreamCursor();
+let cursorSnapshot = cursor.accept({
+  status: { runtime_id: "runtime-v3-test" },
+  events: { events: [{ sequence: 9, event: "older" }, { sequence: 10, event: "current" }] }
+});
+assert.deepEqual(cursorSnapshot.events.events.map((event) => event.sequence), [9, 10]);
+cursorSnapshot = cursor.accept({
+  status: { runtime_id: "runtime-v3-test" },
+  events: { events: [{ sequence: 8, event: "late-old" }, { sequence: 11, event: "next" }] }
+});
+assert.deepEqual(cursorSnapshot.events.events.map((event) => event.sequence), [9, 10, 11]);
+
+await assert.rejects(
+  () => api.buildSignedLayer8MessageCommand({
+    runtimeInstanceId: "runtime-v3-test",
+    recipientId: "agent-0001",
+    content: "😀".repeat(1001),
+    signingKeyText: "00".repeat(32)
+  }),
+  /4000 UTF-8 bytes/
+);
 
 const command = {
   schema: "adl.runtime.control_command.v1",

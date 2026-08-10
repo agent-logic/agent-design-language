@@ -124,6 +124,7 @@
         <aside class="dashboard-rail" aria-label="Observatory navigation">
           <a href="#runtime-proof" data-dashboard-link="runtime" aria-current="page"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
           <a href="#panopticon" data-dashboard-link="agents"><svg><use href="#icon-agent"></use></svg>Agents</a>
+          <a href="#communication" data-dashboard-link="communication"><svg><use href="#icon-events"></use></svg>Chat</a>
           <a href="#csm-api" data-dashboard-link="csm-api"><svg><use href="#icon-events"></use></svg>Events</a>
           <a href="#cloudwatch" data-dashboard-link="cloudwatch"><svg><use href="#icon-cloud"></use></svg>AWS</a>
           <a href="#governance" data-dashboard-link="governance"><svg><use href="#icon-shield"></use></svg>Governance</a>
@@ -176,6 +177,38 @@
               <p class="row-detail" id="hero-cloudwatch-detail">CloudWatch heartbeat proof pending load.</p>
             </article>
           </div>
+          <section class="polis-chat dashboard-chat" aria-labelledby="polis-chat-title">
+            <div class="polis-chat-head">
+              <div>
+                <span class="row-kicker">Layer 8 channel</span>
+                <h2 id="polis-chat-title">Talk with an agent</h2>
+              </div>
+              <span class="mini-badge" id="agent-chat-status">waiting for runtime</span>
+            </div>
+            <div class="polis-chat-identity">
+              <label class="field">
+                <span class="row-kicker">Agent</span>
+                <select id="agent-chat-target" aria-label="Agent to message" disabled>
+                  <option value="">No live agents</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="row-kicker">Operator signing key</span>
+                <input id="agent-chat-key-file" type="file" accept=".key,.txt" aria-describedby="agent-chat-key-note">
+                <small id="agent-chat-key-note">Loaded into memory for this page only.</small>
+              </label>
+            </div>
+            <div class="polis-chat-transcript" id="agent-chat-transcript" role="log" aria-live="polite" aria-label="Conversation transcript">
+              <p class="chat-empty">Connect to Runtime v3 and select an agent to begin.</p>
+            </div>
+            <label class="field field-wide">
+              <span class="row-kicker">Message</span>
+              <textarea id="operator-message" rows="3" maxlength="4000" placeholder="Message the selected agent"></textarea>
+            </label>
+            <div class="communication-actions">
+              <button class="button button-primary" type="button" id="send-agent-message" disabled>Send message</button>
+            </div>
+          </section>
           <div class="dashboard-core">
             <section class="ops-map-panel" aria-labelledby="hero-map-title">
               <div class="panel-head">
@@ -460,6 +493,8 @@
               <button class="button button-secondary" type="button" id="operator-logout">Log out</button>
               <span class="mini-badge" id="operator-auth-status">public read</span>
             </div>
+            <details class="advanced-command field-wide">
+              <summary>Advanced signed command</summary>
             <label class="field field-wide">
               <span class="row-kicker">Signed Runtime v3 command</span>
               <textarea id="signed-control-command" rows="8" spellcheck="false" placeholder='Paste an adl.runtime.control_command.v1 JSON envelope signed by a trusted operator key. Signed commands are submitted to /v1/control.'></textarea>
@@ -468,10 +503,7 @@
               <button class="button button-primary" type="button" id="send-signed-command" disabled>Send signed command</button>
             </div>
             <pre class="message-envelope" id="operator-control-result" aria-live="polite">Public monitoring is active. Paste a signed command to submit through Runtime v3 /v1/control, or log in for WSS writes.</pre>
-            <label class="field field-wide">
-              <span class="row-kicker">Message</span>
-              <textarea id="operator-message" rows="4">Request current CSM event tail and runtime readiness.</textarea>
-            </label>
+            </details>
             <div class="communication-actions">
               <button class="button button-secondary" type="button" id="check-events">Check events</button>
               <button class="button button-primary" type="button" id="prepare-envelope">Prepare envelope</button>

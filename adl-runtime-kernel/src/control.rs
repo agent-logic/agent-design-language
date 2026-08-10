@@ -31,7 +31,7 @@ use crate::{
     decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult,
     DomainWork, IngressError, KernelControl, KernelExit, LifecycleState, LiveContinuity,
     ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, LAYER8_MESSAGE_TASK_OP, LOCAL_AGENT_WORK_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -835,22 +835,41 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     snapshot: Box::new(self.recorder.snapshot()),
                 }),
                 ControlAction::Submit { work } => {
+                    if let Err(error) = validate_layer8_recipient(
+                        &work,
+                        &self.agent_population,
+                        &command.correlation_id,
+                    ) {
+                        tracing::warn!(
+                            error = %error,
+                            stage = "layer8_recipient_validation",
+                            "runtime control submission rejected"
+                        );
+                        return Err(error);
+                    }
                     let result = self
                         .canonical_ingress
                         .as_ref()
                         .ok_or(ControlError::AdmissionClosed)?
                         .submit(work, command.correlation_id.clone())
                         .await
-                        .map_err(|error| match error {
-                            IngressError::Invalid | IngressError::UnsupportedKind => {
-                                ControlError::InvalidBounds
-                            }
-                            IngressError::Conflict => ControlError::IdempotencyConflict,
-                            IngressError::Saturated | IngressError::Closed => {
-                                ControlError::AdmissionClosed
-                            }
-                            IngressError::ExecutionFailed | IngressError::DrainTimeout => {
-                                ControlError::Internal
+                        .map_err(|error| {
+                            tracing::warn!(
+                                error = %error,
+                                stage = "canonical_ingress",
+                                "runtime control submission rejected"
+                            );
+                            match error {
+                                IngressError::Invalid | IngressError::UnsupportedKind => {
+                                    ControlError::InvalidBounds
+                                }
+                                IngressError::Conflict => ControlError::IdempotencyConflict,
+                                IngressError::Saturated | IngressError::Closed => {
+                                    ControlError::AdmissionClosed
+                                }
+                                IngressError::ExecutionFailed | IngressError::DrainTimeout => {
+                                    ControlError::Internal
+                                }
                             }
                         })?;
                     Ok(ControlOutcome::Submitted {
@@ -927,6 +946,77 @@ struct ObservedWeather {
 pub struct ObservatoryHealthFeed {
     pub snapshot: RuntimeSnapshot,
     pub observability_ready: bool,
+}
+
+fn validate_layer8_recipient(
+    work: &DomainWork,
+    agents: &AgentPopulationFeed,
+    command_correlation_id: &str,
+) -> Result<(), ControlError> {
+    if work.kind != "agent" {
+        return Ok(());
+    }
+    let command: serde_json::Value =
+        serde_json::from_slice(&work.payload).map_err(|_| ControlError::InvalidBounds)?;
+    if command.get("schema").and_then(serde_json::Value::as_str) != Some(LOCAL_AGENT_WORK_SCHEMA) {
+        return Ok(());
+    }
+    let Some(tasks) = command.get("tasks").and_then(serde_json::Value::as_array) else {
+        return Err(ControlError::InvalidBounds);
+    };
+    let layer8_tasks = tasks
+        .iter()
+        .filter(|task| {
+            task.get("op").and_then(serde_json::Value::as_str) == Some(LAYER8_MESSAGE_TASK_OP)
+        })
+        .collect::<Vec<_>>();
+    if layer8_tasks.is_empty() {
+        return Ok(());
+    }
+    if tasks.len() != 1 || layer8_tasks.len() != 1 {
+        return Err(ControlError::InvalidBounds);
+    }
+    let recipient = layer8_tasks[0]
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .ok_or(ControlError::InvalidBounds)?;
+    let sender = layer8_tasks[0]
+        .get("sender")
+        .and_then(serde_json::Value::as_str)
+        .ok_or(ControlError::InvalidBounds)?;
+    let correlation_id = layer8_tasks[0]
+        .get("correlation_id")
+        .and_then(serde_json::Value::as_str)
+        .ok_or(ControlError::InvalidBounds)?;
+    let content = layer8_tasks[0]
+        .get("content")
+        .and_then(serde_json::Value::as_str)
+        .ok_or(ControlError::InvalidBounds)?;
+    let safe_id = |value: &str| {
+        !value.is_empty()
+            && value.len() <= 128
+            && value.bytes().all(|byte| {
+                byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-')
+            })
+    };
+    if sender != "layer8-operator"
+        || !safe_id(recipient)
+        || !safe_id(correlation_id)
+        || correlation_id != command_correlation_id
+        || content.trim().is_empty()
+        || content.len() > 4_000
+        || content
+            .chars()
+            .any(|character| character.is_control() && !matches!(character, '\n' | '\t'))
+    {
+        return Err(ControlError::InvalidBounds);
+    }
+    agents
+        .sample
+        .iter()
+        .any(|agent| agent.id == recipient && agent.state == "running")
+        .then_some(())
+        .ok_or(ControlError::Unauthorized)
 }
 
 pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
@@ -1570,6 +1660,11 @@ async fn control_handler<C: LifecycleControl + 'static>(
 }
 
 fn control_error_response(error: ControlError, allowed_origin: Option<HeaderValue>) -> Response {
+    tracing::warn!(
+        error = %error,
+        code = control_error_code(&error),
+        "runtime control request rejected"
+    );
     let status = match &error {
         ControlError::Authentication => StatusCode::UNAUTHORIZED,
         ControlError::Unauthorized => StatusCode::FORBIDDEN,

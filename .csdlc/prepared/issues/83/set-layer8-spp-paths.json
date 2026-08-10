@@ -1,0 +1,22 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "f2993ec4d5377eb32f6663952e784b5899d2ed5d1f7ae0ed93b3674457146ee3",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Align the executable plan with the design-approved minimal Runtime chat paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_html_observatory_live.mjs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json"
+    ]
+  }
+}

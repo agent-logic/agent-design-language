@@ -1,0 +1,13 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 20,
+  "expected_digest": "a4da1b1c2a1445ca8dbf6ffa1c16650a07baac5898e56a88719bdb62604ca116",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Align the task boundary with the design-approved HTML client and minimal Runtime message vertical slice.",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Implement and prove the first live Layer 8 operator-to-agent chat vertical slice in the HTML Observatory, including only the minimal design-approved Runtime message, recipient-validation, public-response, schema, and focused test paths."
+  }
+}

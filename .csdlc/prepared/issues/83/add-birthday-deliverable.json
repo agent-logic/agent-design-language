@@ -1,0 +1,21 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 7,
+  "expected_digest": "ea422b06732b6d05e7ece627cf61c7120f5d462efa768a3d1ab4583da84b6f67",
+  "actor": "codex:83-birthday-interaction-design",
+  "reason": "Make the required first-agent birthday wish an explicit HTML Observatory deliverable.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Live Runtime v3 HTTPS/WSS browser integration",
+      "Authorized first-agent happy-birthday action with correlated Runtime outcome",
+      "Authorized controls with visible accepted and denied outcomes",
+      "Explicit trust, stale, unavailable, backpressure, and version-mismatch states",
+      "Browser reconnect with bounded replay and no duplicate application",
+      "Live Playwright validation entrypoint and retained browser evidence",
+      "adl/tools/validate_v092_html_observatory_live.mjs"
+    ]
+  }
+}

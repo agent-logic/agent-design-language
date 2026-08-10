@@ -86,7 +86,153 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 });
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
+const RUNTIME_V3_RECONNECT_DELAYS_MILLIS = Object.freeze([250, 500, 1000, 2000, 4000]);
+const RUNTIME_V3_EVENT_LIMIT = 4096;
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
+const runtimeV3ChatState = {
+  runtimeInstanceId: null,
+  agents: [],
+  live: false
+};
+
+function updateRuntimeV3ChatSnapshot(snapshot, agents, live = false) {
+  const fetchedAt = Date.parse(snapshot?.fetchedAt || "");
+  const fresh = Number.isFinite(fetchedAt) && Date.now() - fetchedAt <= 30_000;
+  runtimeV3ChatState.live = Boolean(
+    live &&
+    fresh &&
+    snapshot?.mode === "live" &&
+    snapshot?.runtimeSelection === "runtime_v3_explicit_opt_in"
+  );
+  runtimeV3ChatState.runtimeInstanceId = runtimeV3ChatState.live
+    ? snapshot?.status?.runtime_id || null
+    : null;
+  runtimeV3ChatState.agents = runtimeV3ChatState.live
+    ? asArray(agents).filter((agent) => agent?.id && agent.state === "running")
+    : [];
+  if (typeof document === "undefined") return;
+  const target = document.getElementById("agent-chat-target");
+  const status = document.getElementById("agent-chat-status");
+  if (!target) return;
+  const selected = target.value;
+  target.replaceChildren();
+  if (!runtimeV3ChatState.runtimeInstanceId || runtimeV3ChatState.agents.length === 0) {
+    target.append(new Option("No live agents", ""));
+    target.disabled = true;
+    if (status) status.textContent = "waiting for runtime";
+    target.dispatchEvent(new Event("change"));
+    return;
+  }
+  for (const agent of runtimeV3ChatState.agents) {
+    const label = `${agent.label || agent.id} - ${agent.state || "unknown"}`;
+    target.append(new Option(label, agent.id));
+  }
+  if (runtimeV3ChatState.agents.some((agent) => agent.id === selected)) {
+    target.value = selected;
+  }
+  target.disabled = false;
+  if (status) status.textContent = "ready";
+  target.dispatchEvent(new Event("change"));
+}
+
+function appendRuntimeV3ChatMessage(role, author, content, state = "delivered") {
+  if (typeof document === "undefined") return;
+  const transcript = document.getElementById("agent-chat-transcript");
+  if (!transcript) return;
+  transcript.querySelector(".chat-empty")?.remove();
+  const article = document.createElement("article");
+  article.className = "chat-message";
+  article.dataset.role = role;
+  article.dataset.state = state;
+  const heading = document.createElement("strong");
+  heading.textContent = author;
+  const body = document.createElement("span");
+  body.textContent = content;
+  article.append(heading, body);
+  transcript.append(article);
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+function classifyRuntimeV3Failure(error) {
+  const message = String(error?.message || error || "runtime unavailable").toLowerCase();
+  if (message.includes("unsupported runtime v3 observatory schema") || message.includes("version")) {
+    return { state: "incompatible", label: "incompatible version" };
+  }
+  if (message.includes("backpressure") || message.includes("saturated") || message.includes("1009")) {
+    return { state: "backpressure", label: "runtime backpressure" };
+  }
+  if (message.includes("malformed") || message.includes("invalid") || message.includes("1008")) {
+    return { state: "malformed", label: "malformed runtime data" };
+  }
+  if (message.includes("403") || message.includes("origin") || message.includes("denied") || message.includes("unauthorized")) {
+    return { state: "denied", label: "origin or authority denied" };
+  }
+  if (message.includes("tls") || message.includes("certificate") || message.includes("networkerror") || message.includes("failed to fetch")) {
+    return { state: "tls-or-origin", label: "TLS or origin failure" };
+  }
+  return { state: "offline", label: "runtime offline" };
+}
+
+function runtimeV3EventKey(event) {
+  const sequence = Number(event?.sequence ?? event?.event_sequence);
+  if (Number.isSafeInteger(sequence) && sequence >= 0) {
+    return `sequence:${sequence}`;
+  }
+  return `correlation:${String(event?.correlation_id || "none")}:${String(event?.event || event?.event_type || "event")}`;
+}
+
+function createRuntimeV3StreamCursor() {
+  let runtimeInstanceId = null;
+  let lastSequence = -1;
+  let lastCorrelationId = null;
+  let events = [];
+  const seen = new Set();
+
+  return {
+    accept(snapshot) {
+      const nextRuntimeInstanceId = snapshot?.status?.runtime_id || null;
+      if (runtimeInstanceId && nextRuntimeInstanceId && runtimeInstanceId !== nextRuntimeInstanceId) {
+        events = [];
+        seen.clear();
+        lastSequence = -1;
+        lastCorrelationId = null;
+      }
+      runtimeInstanceId = nextRuntimeInstanceId || runtimeInstanceId;
+      for (const event of normalizeEventEntries(snapshot?.events)) {
+        const sequence = Number(event?.sequence ?? event?.event_sequence);
+        if (Number.isSafeInteger(sequence) && sequence <= lastSequence) continue;
+        const key = runtimeV3EventKey(event);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        events.push(event);
+        if (Number.isSafeInteger(sequence)) lastSequence = Math.max(lastSequence, sequence);
+        if (event?.correlation_id) lastCorrelationId = String(event.correlation_id);
+      }
+      if (events.length > RUNTIME_V3_EVENT_LIMIT) {
+        events = events.slice(-RUNTIME_V3_EVENT_LIMIT);
+        seen.clear();
+        events.forEach((event) => seen.add(runtimeV3EventKey(event)));
+      }
+      return {
+        ...snapshot,
+        events: { events: [...events] },
+        stream_cursor: {
+          runtime_instance_id: runtimeInstanceId,
+          last_sequence: lastSequence,
+          last_correlation_id: lastCorrelationId
+        }
+      };
+    },
+    snapshot() {
+      return {
+        runtime_instance_id: runtimeInstanceId,
+        last_sequence: lastSequence,
+        last_correlation_id: lastCorrelationId,
+        applied_event_count: events.length
+      };
+    }
+  };
+}
 
 function normalizeRuntimeV3Endpoint(value, fallback) {
   const endpoint = String(value || "").trim();
@@ -449,12 +595,12 @@ const DASHBOARD_FOCUS = {
   },
   communication: {
     kicker: "Operator communication",
-    title: "ACIP/SNS envelope",
-    status: "prepared",
+    title: "Polis agent chat",
+    status: "runtime governed",
     target: "#communication",
-    focusTarget: ".compact-composer",
-    detail: "Comms prepare ACIP messages and mirror retained SNS proof; live AWS mutation remains runtime-owned.",
-    facts: ["ACIP message draft", "SNS projection proof", "Redaction hygiene passed"]
+    focusTarget: "#polis-chat-title",
+    detail: "Select a visible Runtime agent and communicate through the signed Layer 8 channel; policy and Runtime remain authoritative.",
+    facts: ["Live agent selection", "Signed operator messages", "Correlated response or refusal"]
   },
   governance: {
     kicker: "Governance",
@@ -478,6 +624,7 @@ const DASHBOARD_FOCUS = {
 
 function updateDashboardFocus(key = "runtime", extraDetail = "") {
   const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
+  document.querySelector(".ops-command")?.setAttribute("data-dashboard-view", key);
   setText("dashboard-focus-kicker", selected.kicker);
   setText("dashboard-focus-title", selected.title);
   setText("dashboard-focus-status", selected.status);
@@ -510,7 +657,10 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
       panel?.setAttribute("tabindex", "-1");
       panel?.focus({ preventScroll: true });
       if (key === "communication") {
-        document.getElementById("prepare-envelope")?.click();
+        const chat = document.getElementById("communication");
+        chat?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById("polis-chat-title")?.setAttribute("tabindex", "-1");
+        document.getElementById("polis-chat-title")?.focus({ preventScroll: true });
       }
     });
   });
@@ -635,7 +785,9 @@ function normalizeTrustedRuntimeV3ApiBase(value) {
     parsed.pathname !== "/" ||
     parsed.search ||
     parsed.hash ||
-    parsed.port !== "20997"
+    !parsed.port ||
+    Number(parsed.port) < 1 ||
+    Number(parsed.port) > 65535
   ) {
     throw new Error("Runtime v3 selection requires the trusted HTTPS localhost:20997 API base.");
   }
@@ -758,6 +910,98 @@ async function submitRuntimeV3SignedControlCommand(apiBase, command) {
     throw new Error(`/v1/control rejected the signed command: ${code}`);
   }
   return payload;
+}
+
+function decodeOperatorSigningSeed(value) {
+  const normalized = String(value || "").trim().replace(/^0x/, "");
+  if (!/^[0-9a-fA-F]{64}$/.test(normalized)) {
+    throw new Error("The operator signing key must contain one 32-byte Ed25519 seed encoded as hex.");
+  }
+  return Uint8Array.from(normalized.match(/../g), (byte) => Number.parseInt(byte, 16));
+}
+
+async function importOperatorSigningKey(seed) {
+  if (!globalThis.crypto?.subtle) {
+    throw new Error("This browser cannot use the required local Ed25519 signing API.");
+  }
+  const pkcs8Prefix = Uint8Array.from([
+    0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06,
+    0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20
+  ]);
+  const pkcs8 = new Uint8Array(pkcs8Prefix.length + seed.length);
+  pkcs8.set(pkcs8Prefix);
+  pkcs8.set(seed, pkcs8Prefix.length);
+  return globalThis.crypto.subtle.importKey(
+    "pkcs8",
+    pkcs8,
+    { name: "Ed25519" },
+    false,
+    ["sign"]
+  );
+}
+
+function bytesToHex(value) {
+  return Array.from(new Uint8Array(value), (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function buildSignedLayer8MessageCommand({
+  runtimeInstanceId,
+  recipientId,
+  content,
+  signingKeyText,
+  keyId = "operator-key",
+  principal = "operator"
+}) {
+  const message = String(content || "").trim();
+  if (!recipientId || !message || new TextEncoder().encode(message).length > 4000) {
+    throw new Error("Select a live agent and enter a message of at most 4000 UTF-8 bytes.");
+  }
+  const now = Date.now();
+  const nonce = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${now}`;
+  const correlationId = nonce.padStart(32, "0").slice(-32);
+  const workId = `layer8-${nonce}`;
+  const payload = new TextEncoder().encode(JSON.stringify({
+    schema: "adl.runtime.local_agent_work.v1",
+    tasks: [{
+      op: "layer8_message",
+      sender: "layer8-operator",
+      recipient_id: recipientId,
+      correlation_id: correlationId,
+      content: message
+    }]
+  }));
+  const command = {
+    schema: "adl.runtime.control_command.v1",
+    runtime_instance_id: runtimeInstanceId,
+    command_id: workId,
+    correlation_id: correlationId,
+    principal,
+    action: {
+      action: "submit",
+      work: {
+        schema: "adl.runtime.domain_work.v1",
+        work_id: workId,
+        kind: "agent",
+        payload: Array.from(payload)
+      }
+    },
+    signing_algorithm: "ed25519",
+    signing_key_id: keyId,
+    signature: ""
+  };
+  const seed = decodeOperatorSigningSeed(signingKeyText);
+  try {
+    const signingKey = await importOperatorSigningKey(seed);
+    const signature = await globalThis.crypto.subtle.sign(
+      { name: "Ed25519" },
+      signingKey,
+      new TextEncoder().encode(JSON.stringify(command))
+    );
+    command.signature = bytesToHex(signature);
+    return command;
+  } finally {
+    seed.fill(0);
+  }
 }
 
 function runtimeV3SnapshotFromFeed(feed, readiness = null) {
@@ -1162,8 +1406,9 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   };
 }
 
-function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
+function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET, { chatLive = false } = {}) {
   const vm = buildPanopticonViewModel(snapshot, packet);
+  updateRuntimeV3ChatSnapshot(snapshot, vm.agents, chatLive);
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
   setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
@@ -1543,12 +1788,21 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const signedControlCommand = document.getElementById("signed-control-command");
   const sendSignedCommand = document.getElementById("send-signed-command");
   const operatorControlResult = document.getElementById("operator-control-result");
+  const agentChatTarget = document.getElementById("agent-chat-target");
+  const agentChatKeyFile = document.getElementById("agent-chat-key-file");
+  const agentChatMessage = document.getElementById("operator-message");
+  const sendAgentMessage = document.getElementById("send-agent-message");
+  const agentChatStatus = document.getElementById("agent-chat-status");
+  let operatorSigningKeyText = "";
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
   let liveStoppedByOperator = false;
   let liveRequestGeneration = 0;
   let runtimeV3Readiness = null;
+  const runtimeV3StreamCursor = createRuntimeV3StreamCursor();
+  let reconnectAttempt = 0;
+  let reconnectTimer = null;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
     return liveRequestGeneration;
@@ -1590,6 +1844,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (operatorControlResult && detail) {
       operatorControlResult.textContent = detail;
     }
+  };
+
+  const updateAgentChatAccess = () => {
+    const enabled = Boolean(
+      runtimeV3ChatState.live &&
+      runtimeV3ChatState.runtimeInstanceId &&
+      agentChatTarget?.value &&
+      operatorSigningKeyText &&
+      agentChatMessage?.value.trim()
+    );
+    if (sendAgentMessage) sendAgentMessage.disabled = !enabled;
   };
 
   const renderControlFrame = (frame) => {
@@ -1721,7 +1986,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         throw new Error("No CSM runtime API endpoints responded from the browser context.");
       }
       lastLiveError = null;
-      renderPanopticon(snapshot, packet);
+      renderPanopticon(
+        snapshot.runtimeSelection === "runtime_v3_explicit_opt_in"
+          ? runtimeV3StreamCursor.accept(snapshot)
+          : snapshot,
+        packet,
+        { chatLive: snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" }
+      );
       const status = Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback";
       setText("live-status", status);
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
@@ -1743,6 +2014,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       liveSocket.close(1000, "operator_stop");
       liveSocket = null;
     }
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
     if (livePollTimer) {
       clearInterval(livePollTimer);
       livePollTimer = null;
@@ -1754,6 +2029,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     lastLiveError = null;
     runtimeV3Readiness = null;
     runtimeBaseActive = false;
+    updateRuntimeV3ChatSnapshot({}, [], false);
     setText("live-status", "polling stopped");
     setText("statusbar-websocket", "stopped");
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
@@ -1802,7 +2078,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const streamSnapshot = runtimeV3Readiness
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
-            renderPanopticon(streamSnapshot, packet);
+            renderPanopticon(runtimeV3StreamCursor.accept(streamSnapshot), packet, { chatLive: true });
+            reconnectAttempt = 0;
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");
             setLiveConnectionState("connected");
@@ -1824,6 +2101,18 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
               renderLiveError(error, requestGeneration);
+              const delay = RUNTIME_V3_RECONNECT_DELAYS_MILLIS[
+                Math.min(reconnectAttempt, RUNTIME_V3_RECONNECT_DELAYS_MILLIS.length - 1)
+              ];
+              reconnectAttempt += 1;
+              setLiveConnectionState("reconnecting");
+              setText("statusbar-websocket", `reconnecting in ${delay}ms`);
+              reconnectTimer = setTimeout(() => {
+                reconnectTimer = null;
+                if (!liveStoppedByOperator && isCurrentLiveGeneration(requestGeneration)) {
+                  connectLive();
+                }
+              }, delay);
             }
           },
           (frame) => {
@@ -1896,6 +2185,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (operatorToken) {
       operatorToken.value = "";
     }
+    operatorSigningKeyText = "";
+    if (agentChatKeyFile) agentChatKeyFile.value = "";
+    updateAgentChatAccess();
     liveSocket?.close(1000, "operator_logout");
     liveSocket = null;
     setWriteAccess(false, "public read", "Write access cleared. Public monitoring remains available.");
@@ -1917,13 +2209,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             if (operatorControlResult) {
               operatorControlResult.textContent = JSON.stringify(response, null, 2);
             }
-            setCommunicationStatus("signed command sent");
+            setText("communication-status", "signed command sent");
           })
           .catch((error) => {
             if (operatorControlResult) {
               operatorControlResult.textContent = error instanceof Error ? error.message : "Signed command failed.";
             }
-            setCommunicationStatus("signed command rejected");
+            setText("communication-status", "signed command rejected");
           });
         return;
       }
@@ -1939,6 +2231,90 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       if (operatorControlResult) {
         operatorControlResult.textContent = error instanceof Error ? error.message : "Invalid signed command.";
       }
+    }
+  });
+
+  agentChatTarget?.addEventListener("change", updateAgentChatAccess);
+  agentChatMessage?.addEventListener("input", updateAgentChatAccess);
+  agentChatKeyFile?.addEventListener("change", async () => {
+    operatorSigningKeyText = "";
+    const file = agentChatKeyFile.files?.[0];
+    if (!file) {
+      if (agentChatStatus) agentChatStatus.textContent = "signing key required";
+      updateAgentChatAccess();
+      return;
+    }
+    try {
+      const text = (await file.text()).trim();
+      decodeOperatorSigningSeed(text);
+      operatorSigningKeyText = text;
+      if (agentChatStatus) agentChatStatus.textContent = "ready";
+    } catch (error) {
+      if (agentChatStatus) agentChatStatus.textContent = "invalid signing key";
+      appendRuntimeV3ChatMessage(
+        "system",
+        "Runtime",
+        error instanceof Error ? error.message : "The signing key could not be loaded.",
+        "denied"
+      );
+    }
+    updateAgentChatAccess();
+  });
+  sendAgentMessage?.addEventListener("click", async () => {
+    const recipientId = agentChatTarget?.value || "";
+    const agent = runtimeV3ChatState.agents.find((candidate) => candidate.id === recipientId);
+    const content = agentChatMessage?.value.trim() || "";
+    if (
+      !runtimeV3ChatState.live ||
+      !agent ||
+      !content ||
+      !operatorSigningKeyText ||
+      !runtimeV3ChatState.runtimeInstanceId
+    ) {
+      updateAgentChatAccess();
+      return;
+    }
+    sendAgentMessage.disabled = true;
+    if (agentChatStatus) agentChatStatus.textContent = "sending";
+    appendRuntimeV3ChatMessage("operator", "You", content, "sending");
+    try {
+      const command = await buildSignedLayer8MessageCommand({
+        runtimeInstanceId: runtimeV3ChatState.runtimeInstanceId,
+        recipientId,
+        content,
+        signingKeyText: operatorSigningKeyText
+      });
+      const response = await submitRuntimeV3SignedControlCommand(
+        readApiBase() || getRuntimeV3Config().api_base,
+        command
+      );
+      const output = response?.outcome?.work_result?.public_output;
+      if (
+        output?.schema !== "adl.runtime.layer8.agent_response.v1" ||
+        output.recipient_id !== recipientId ||
+        output.correlation_id !== command.correlation_id
+      ) {
+        throw new Error("Runtime accepted the command without a valid correlated agent response.");
+      }
+      appendRuntimeV3ChatMessage(
+        "agent",
+        agent.label || recipientId,
+        output.message,
+        output.status
+      );
+      if (agentChatMessage) agentChatMessage.value = "";
+      if (agentChatStatus) agentChatStatus.textContent = "delivered";
+    } catch (error) {
+      const failure = classifyRuntimeV3Failure(error);
+      appendRuntimeV3ChatMessage(
+        "system",
+        "Runtime",
+        error instanceof Error ? error.message : "The message was refused.",
+        failure.state
+      );
+      if (agentChatStatus) agentChatStatus.textContent = failure.label;
+    } finally {
+      updateAgentChatAccess();
     }
   });
 
@@ -2042,6 +2418,9 @@ globalThis.AdlHtmlObservatory = {
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
   submitRuntimeV3SignedControlCommand,
+  buildSignedLayer8MessageCommand,
+  classifyRuntimeV3Failure,
+  createRuntimeV3StreamCursor,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,

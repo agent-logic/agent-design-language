@@ -1,0 +1,20 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "7a7f884e8810c69cf6ba63a9b44843a0931890f0aea84301a60d93728168e8f7",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Require a normal selected-agent chat path and preserve seven exact acceptance identifiers.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "The browser renders the current Runtime v3 agent roster, status snapshots, and WSS events with fresh correlation evidence",
+      "The operator can select any visible eligible agent and send an ordinary signed Layer 8 message through canonical ingress, receiving a correlated public-safe agent response or policy refusal",
+      "Writes require authenticated authority and refusal cases remain denied before and after reconnect",
+      "TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success",
+      "Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay",
+      "Live browser proof exercises roster selection, ordinary chat, redaction, refusal, disconnect, and reconnect without fixture substitution",
+      "No files outside the design-approved HTML, focused Runtime, API schema, test, and validator paths change during implementation"
+    ]
+  }
+}

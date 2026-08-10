@@ -796,7 +796,25 @@
           "schema": { "const": "adl.runtime.domain_result.v1" },
           "work_id": { "type": "string" },
           "accepted_sequence": { "type": "integer", "minimum": 0 },
-          "result_hash": { "type": "string" }
+          "result_hash": { "type": "string" },
+          "public_output": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/Layer8AgentResponse" },
+              { "type": "null" }
+            ]
+          }
+        }
+      },
+      "Layer8AgentResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "recipient_id", "correlation_id", "status", "message"],
+        "properties": {
+          "schema": { "const": "adl.runtime.layer8.agent_response.v1" },
+          "recipient_id": { "type": "string", "maxLength": 128 },
+          "correlation_id": { "type": "string", "maxLength": 128 },
+          "status": { "const": "received" },
+          "message": { "type": "string", "maxLength": 512 }
         }
       },
       "IngressSnapshot": {

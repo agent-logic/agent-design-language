@@ -1,0 +1,19 @@
+{
+  "issue": 83,
+  "card": "sip",
+  "expected_generation": 19,
+  "expected_digest": "0393a42a4a804543dbcb870b4a6bc31e56f7ee331820d45e4f422f95dfb104d0",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Authorize only the minimal Runtime message and public-response surface required by the first Layer 8 chat slice.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "Issue #83 may change only the design-approved local-agent message task, visible-recipient validation, public-safe response projection, focused tests, and Observatory API schema",
+      "Runtime launch, TLS, WSS transport, general authentication, durable conversation state, rooms, notifications, and policy redesign remain outside issue #83",
+      "Unity files and proof belong to issue #84",
+      "Shared Guardian restart coordination and final cross-client reconciliation belong to issue #5837",
+      "The complete living Polis interface is coordinated by #110 and its bounded child issues"
+    ]
+  }
+}

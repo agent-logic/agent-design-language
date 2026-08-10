@@ -832,7 +832,28 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         .await
         .unwrap();
     assert_eq!(accepted.accepted_sequence, 1);
-    assert_eq!(ingress.snapshot().accepted_through, 1);
+    let layer8 = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "dispatch-layer8-agent".to_owned(),
+        kind: "agent".to_owned(),
+        payload: agent_work(serde_json::json!([{
+            "op": "layer8_message",
+            "sender": "layer8-operator",
+            "recipient_id": "agent-0001",
+            "correlation_id": "abcdef0123456789abcdef0123456789",
+            "content": "Hello"
+        }])),
+    };
+    let layer8_accepted = ingress
+        .submit(layer8, "abcdef0123456789abcdef0123456789".to_owned())
+        .await
+        .unwrap();
+    assert_eq!(layer8_accepted.accepted_sequence, 2);
+    assert_eq!(
+        layer8_accepted.public_output.unwrap()["schema"],
+        "adl.runtime.layer8.agent_response.v1"
+    );
+    assert_eq!(ingress.snapshot().accepted_through, 2);
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         adl_runtime_kernel::KernelExit::Clean

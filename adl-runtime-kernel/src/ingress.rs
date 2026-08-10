@@ -18,6 +18,9 @@ use crate::{
 
 pub const DOMAIN_WORK_SCHEMA: &str = "adl.runtime.domain_work.v1";
 pub const DOMAIN_RESULT_SCHEMA: &str = "adl.runtime.domain_result.v1";
+pub const LOCAL_AGENT_WORK_SCHEMA: &str = "adl.runtime.local_agent_work.v1";
+pub const LAYER8_MESSAGE_TASK_OP: &str = "layer8_message";
+pub const LAYER8_AGENT_RESPONSE_SCHEMA: &str = "adl.runtime.layer8.agent_response.v1";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -34,6 +37,8 @@ pub struct DomainResult {
     pub work_id: String,
     pub accepted_sequence: u64,
     pub result_hash: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub public_output: Option<serde_json::Value>,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -298,14 +303,135 @@ fn apply(
         work_id: work.work_id.clone(),
         accepted_sequence: state.accepted_through,
         result_hash,
+        public_output: public_agent_output(work, operation),
     };
     state.completed.insert(work.work_id.clone(), result.clone());
     Ok(result)
 }
 
+fn public_agent_output(
+    work: &DomainWork,
+    operation: &crate::OperationResult,
+) -> Option<serde_json::Value> {
+    if work.kind != "agent" {
+        return None;
+    }
+    let execution: serde_json::Value = serde_json::from_slice(&operation.payload).ok()?;
+    if execution.get("schema")?.as_str()? != "adl.runtime.local_agent_execution.v1" {
+        return None;
+    }
+    let outputs = execution.get("outputs")?.as_array()?;
+    if outputs.len() != 1 {
+        return None;
+    }
+    let tasks: serde_json::Value = serde_json::from_slice(&work.payload).ok()?;
+    let tasks = tasks.get("tasks")?.as_array()?;
+    if tasks.len() != 1 || tasks[0].get("op")?.as_str()? != LAYER8_MESSAGE_TASK_OP {
+        return None;
+    }
+    let expected_recipient = tasks[0].get("recipient_id")?.as_str()?;
+    let expected_correlation = tasks[0].get("correlation_id")?.as_str()?;
+    let output: Layer8PublicResponse =
+        serde_json::from_value(outputs.first()?.get("output")?.clone()).ok()?;
+    if output.schema != LAYER8_AGENT_RESPONSE_SCHEMA
+        || output.recipient_id != expected_recipient
+        || output.correlation_id != expected_correlation
+        || output.status != "received"
+        || output.message.is_empty()
+        || output.message.len() > 512
+        || output
+            .message
+            .chars()
+            .any(|character| character.is_control() && !matches!(character, '\n' | '\t'))
+    {
+        return None;
+    }
+    Some(serde_json::json!({
+        "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
+        "recipient_id": output.recipient_id,
+        "correlation_id": output.correlation_id,
+        "status": "received",
+        "message": output.message
+    }))
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Layer8PublicResponse {
+    schema: String,
+    recipient_id: String,
+    correlation_id: String,
+    status: String,
+    message: String,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn layer8_work() -> DomainWork {
+        DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "layer8-projection".to_owned(),
+            kind: "agent".to_owned(),
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": LOCAL_AGENT_WORK_SCHEMA,
+                "tasks": [{
+                    "op": LAYER8_MESSAGE_TASK_OP,
+                    "sender": "layer8-operator",
+                    "recipient_id": "agent-0001",
+                    "correlation_id": "projection-correlation",
+                    "content": "Hello"
+                }]
+            }))
+            .unwrap(),
+        }
+    }
+
+    fn operation_with_output(output: serde_json::Value) -> crate::OperationResult {
+        crate::OperationResult {
+            schema: crate::OPERATION_RESULT_SCHEMA.to_owned(),
+            request_id: "layer8-projection".to_owned(),
+            adapter: crate::AdapterKind::Agent,
+            attempts: 1,
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.runtime.local_agent_execution.v1",
+                "outputs": [{"unit": 0, "output": output}]
+            }))
+            .unwrap(),
+        }
+    }
+
+    #[test]
+    fn public_layer8_projection_rejects_extra_or_mismatched_executor_fields() {
+        let valid = serde_json::json!({
+            "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
+            "recipient_id": "agent-0001",
+            "correlation_id": "projection-correlation",
+            "status": "received",
+            "message": "agent-0001 received your message."
+        });
+        assert!(public_agent_output(&layer8_work(), &operation_with_output(valid)).is_some());
+
+        let leaked = serde_json::json!({
+            "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
+            "recipient_id": "agent-0001",
+            "correlation_id": "projection-correlation",
+            "status": "received",
+            "message": "agent-0001 received your message.",
+            "private_provider_trace": "must not escape"
+        });
+        assert!(public_agent_output(&layer8_work(), &operation_with_output(leaked)).is_none());
+
+        let mismatched = serde_json::json!({
+            "schema": LAYER8_AGENT_RESPONSE_SCHEMA,
+            "recipient_id": "agent-0001",
+            "correlation_id": "different-correlation",
+            "status": "received",
+            "message": "agent-0001 received your message."
+        });
+        assert!(public_agent_output(&layer8_work(), &operation_with_output(mismatched)).is_none());
+    }
 
     #[test]
     fn pause_and_submit_admission_are_one_atomic_transition() {

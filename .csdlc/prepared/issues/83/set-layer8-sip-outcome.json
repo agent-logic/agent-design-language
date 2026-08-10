@@ -1,0 +1,13 @@
+{
+  "issue": 83,
+  "card": "sip",
+  "expected_generation": 13,
+  "expected_digest": "331f470c5a2d25847e9e930b45dc01d27cc61fc7ed1dc51b31ddbf6de312336e",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Define the complete first live roster-and-chat outcome.",
+  "operation": {
+    "operation": "replan",
+    "field": "required_outcome",
+    "value": "The real browser renders fresh Runtime agent status, lets the operator select any visible eligible agent, sends an ordinary signed Layer 8 message through canonical ingress, displays a correlated public-safe response or policy refusal, and reconnects without duplicate events or authority escalation."
+  }
+}

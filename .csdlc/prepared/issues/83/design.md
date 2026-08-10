@@ -6,10 +6,17 @@ Issue 83 makes the existing HTML Observatory a real browser consumer of the
 versioned Runtime v3 HTTPS and WSS surfaces. It renders live snapshots and
 events, binds approved controls to authorized Runtime commands, reconnects
 without duplicate application, and makes trust, stale, unavailable, denied,
-and version-mismatch states visible.
+and version-mismatch states visible. Its primary operator interaction is a
+normal Layer 8 chat surface: the human operator selects any visible Runtime
+agent, sends a bounded message through signed canonical ingress, and sees the
+correlated agent delivery response or policy refusal. A first-birthday greeting
+is an ordinary chat message, not a special control type.
 
-This issue does not change Runtime API/WSS behavior, Unity, or the shared
-Guardian restart coordinator. Those remain upstream or parent-owned surfaces.
+This issue changes only the narrow Runtime API behavior required for the first
+truthful one-to-one Layer 8 message and public-safe delivery response. It does
+not implement durable sessions, history, rooms, notifications, Unity, or the
+shared Guardian restart coordinator. Those remain owned by #110 children,
+upstream contracts, or the legacy integration parent.
 
 ## Source Baseline
 
@@ -35,11 +42,13 @@ their correlation and reconnect metadata.
 
 Read-only projection access does not imply write authority. Commands use the
 existing authenticated control route and expose accepted, denied, expired,
-and unavailable outcomes in the interface. Tokens and signing material never
+and unavailable outcomes in the interface. Chat signs a bounded Layer 8 agent
+message from an operator-selected local Ed25519 key held only in
+browser memory; the key is never persisted or rendered. Tokens and signing material never
 appear in URLs, browser storage intended for durable presentation evidence,
 screenshots, logs, or repository files.
 
-Reconnect uses bounded exponential backoff with jitter and the last accepted
+Reconnect uses bounded backoff and the last accepted
 cursor. The client does not display retained data as live while disconnected;
 it marks stale age explicitly and returns to live only after a fresh Runtime
 correlation is observed. Duplicate or out-of-order events are rejected or
@@ -48,8 +57,15 @@ ignored according to the shared Runtime contract.
 ## Owned Paths
 
 - `demos/html-observatory/app.js`
+- `demos/html-observatory/index.html`
 - `demos/html-observatory/styles.css`
 - `adl/tools/validate_v092_html_observatory_live.mjs`
+- `adl-runtime-kernel/src/assembly.rs`
+- `adl-runtime-kernel/src/control.rs`
+- `adl-runtime-kernel/src/ingress.rs`
+- `adl-runtime-kernel/tests/control.rs`
+- `adl-runtime-kernel/tests/assembly.rs`
+- `docs/api/runtime-v3/v1/observatory.openapi.json`
 
 ## Read-Only Inputs
 
@@ -63,6 +79,10 @@ ignored according to the shared Runtime contract.
 
 - No fixture, static packet, or cached snapshot is labeled live.
 - Public reads never widen command authority.
+- Layer 8 chat reaches only a selected visible agent as an authorized, signed,
+  correlated Runtime work item and returns only a bounded public-safe response.
+- Human messages remain advisory input governed by the selected agent's policy;
+  the Layer 8 operator does not acquire direct actuation or policy-bypass power.
 - TLS trust failure, CORS/origin refusal, API/WSS version mismatch, stale data,
   backpressure, authorization refusal, and Runtime unavailability are visible.
 - Reconnect cannot duplicate events, replay commands, or escalate authority.
@@ -74,15 +94,16 @@ ignored according to the shared Runtime contract.
 
 Issues #5800, #5820, and #5832 must remain terminal and provide trusted local
 HTTPS, stable Runtime launch/API behavior, and the versioned ACIP/WSS contract.
-Issue #5836 must be terminal before final implementation credit or live
-acceptance is claimed. Preparation may complete while that final product gate
-is open; execution must report it truthfully.
+Issue #83 is an input to the first-birthday demo in #5836: this lane must finish
+its live browser behavior and evidence before #5836 claims the integrated demo.
+Issue #5837 may consume the completed browser hooks for shared restart
+coordination, but it does not gate this independent HTML lane.
 
 ## Validation Boundary
 
 `adl/tools/validate_v092_html_observatory_live.mjs` drives the real browser
 against Runtime HTTPS/WSS. It proves fresh live rendering, menu and control
-behavior, authenticated writes, refusal and redaction, stale/unavailable
+behavior, agent selection, authenticated Layer 8 chat, refusal and redaction, stale/unavailable
 states, bounded reconnect, no duplicate application, and fresh post-reconnect
 correlation. It retains screenshots and machine-readable assertions from the
 same run. Static DOM checks and Runtime-only tests are useful supporting proof

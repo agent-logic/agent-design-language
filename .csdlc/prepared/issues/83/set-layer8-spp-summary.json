@@ -1,0 +1,13 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 22,
+  "expected_digest": "0271640f46622143ac8382942b87e4b01dfee14e650b64e055ac746ec8eb6b93",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "State the actual executable vertical slice rather than the earlier read-only browser plan.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Extend the existing Observatory into the first truthful Layer 8 chat vertical slice: live roster and status, selected-agent signed messaging through canonical Runtime ingress, bounded public-safe response or refusal, reconnect continuity, and retained live-browser proof."
+  }
+}

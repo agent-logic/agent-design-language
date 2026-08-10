@@ -1,0 +1,19 @@
+{
+  "issue": 83,
+  "card": "sip",
+  "expected_generation": 14,
+  "expected_digest": "493b2b03e5264e01ce26185f56ed473dacd2104edad760094f07d07af69ca26a",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Declare the narrow HTML and Runtime surfaces needed for truthful operator-to-agent communication.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "HTML Observatory live agent roster, selection, chat transcript, composer, delivery, and failure behavior",
+      "Browser styling for familiar chat, live, stale, denied, and unavailable states",
+      "Minimal Runtime local-agent Layer 8 message task, visible-recipient validation, and public-safe response projection",
+      "Runtime v3 Observatory API schema parity and focused kernel tests",
+      "Focused live browser validation entrypoint and retained evidence"
+    ]
+  }
+}

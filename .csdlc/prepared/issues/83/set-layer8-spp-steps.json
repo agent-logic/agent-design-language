@@ -1,0 +1,43 @@
+{
+  "issue": 83,
+  "card": "spp",
+  "expected_generation": 23,
+  "expected_digest": "6f977a68acfa54f13e96b69f8a1c57abae502e7388015e1aaffbea245aed6ed4",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Make the issue-local plan execute and prove the selected-agent Layer 8 chat path explicitly.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Implement the live Runtime roster and WSS client state machine with fresh, stale, unavailable, and bounded reconnect behavior.",
+        "acceptance_ids": ["AC-1", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement selected-agent Layer 8 messaging through canonical signed Runtime ingress with visible-recipient validation and bounded public-safe response or refusal.",
+        "acceptance_ids": ["AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement the familiar Observatory chat surface without persisting or exposing signing material and retain truthful failure states.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused Runtime, OpenAPI, browser-shell, live-browser, reconnect, redaction, refusal, and diff-hygiene proof.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Review exact-head behavior and preserve the strict design-approved path boundary for publication.",
+        "acceptance_ids": ["AC-6", "AC-7"],
+        "status": "pending"
+      }
+    ]
+  }
+}

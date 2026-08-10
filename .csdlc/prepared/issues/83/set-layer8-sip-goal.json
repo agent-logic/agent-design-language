@@ -1,0 +1,13 @@
+{
+  "issue": 83,
+  "card": "sip",
+  "expected_generation": 12,
+  "expected_digest": "fd6c2ed4c596af8e6b9694e6f8b877ade6c665a19fa6ea1715a2369cc3828d45",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Align the issue goal with the authorized first live human-agent communication slice.",
+  "operation": {
+    "operation": "replan",
+    "field": "goal",
+    "value": "Make the existing HTML Observatory a truthful live Runtime v3 interface where a Layer 8 operator sees current agents and status and can communicate with any policy-eligible agent through canonical signed ingress."
+  }
+}

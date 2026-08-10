@@ -1,0 +1,29 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 30,
+  "expected_digest": "cad6155ddc3b3be547ee017cdd6cb32994cddcba52f394b0db9104481ff2ad07",
+  "actor": "codex:83-layer8-chat-plan",
+  "reason": "Record every source and proof input required by the design-approved Layer 8 chat vertical slice.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "AGENTS.md",
+      "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_live.mjs"
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "issue": 83,
+  "expected_generation": 3,
+  "expected_digest": "9a86431a59d56ef3192075bb87949c8e27557808d265d2b94cf978a1aea0bedc",
+  "reviewer": "codex:83-html-observatory-dependency-correction"
+}

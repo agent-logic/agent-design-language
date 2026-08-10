@@ -1,0 +1,20 @@
+{
+  "issue": 83,
+  "card": "stp",
+  "expected_generation": 8,
+  "expected_digest": "bfb347c7d0416a479ebae4136352fd04ccd6529b1709ed774ec779176deec698",
+  "actor": "codex:83-birthday-interaction-design",
+  "reason": "Require the live browser proof to wish the first visible agent happy birthday through signed Runtime authority without claiming that the wish is the birth event.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "The browser renders current Runtime v3 snapshots and WSS events with fresh correlation evidence",
+      "Every exposed menu, control, proof link, and packet link performs real behavior or shows an explicit unavailable state, including a locally signed happy-birthday action for the first visible agent with its correlated Runtime outcome",
+      "Writes require authenticated authority and refusal cases remain denied before and after reconnect",
+      "TLS trust, origin refusal, version mismatch, stale data, backpressure, and Runtime unavailability are visible and never presented as live success",
+      "Reconnect uses bounded backoff and cursor continuity without duplicate event application or command replay",
+      "Live browser proof exercises reads, the birthday wish, redaction, refusal, disconnect, and reconnect without fixture substitution",
+      "No files outside the three declared owned paths change during implementation"
+    ]
+  }
+}

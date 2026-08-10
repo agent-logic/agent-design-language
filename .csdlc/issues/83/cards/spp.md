@@ -12,18 +12,18 @@ Status: ready
 
 ## Summary
 
-Preserve the existing UI, centralize truthful browser connection state, bind controls to real Runtime authority, add bounded reconnect behavior, and prove the live browser path.
+Extend the existing Observatory into the first truthful Layer 8 chat vertical slice: live roster and status, selected-agent signed messaging through canonical Runtime ingress, bounded public-safe response or refusal, reconnect continuity, and retained live-browser proof.
 
 ## Plan
 
-Revision 1
+Revision 9
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Implement the versioned HTTPS/WSS browser client state machine and fresh/stale projection handling.",
+    "action": "Implement the live Runtime roster and WSS client state machine with fresh, stale, unavailable, and bounded reconnect behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -33,7 +33,16 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Bind menus, controls, proof links, and packet links to real authorized behavior with explicit refusal states.",
+    "action": "Implement selected-agent Layer 8 messaging through canonical signed Runtime ingress with visible-recipient validation and bounded public-safe response or refusal.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement the familiar Observatory chat surface without persisting or exposing signing material and retain truthful failure states.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -42,20 +51,22 @@ Revision 1
     "status": "pending"
   },
   {
-    "id": "S3",
-    "action": "Add and run the focused live browser proof against Runtime HTTPS/WSS, including disconnect and reconnect.",
+    "id": "S4",
+    "action": "Run focused Runtime, OpenAPI, browser-shell, live-browser, reconnect, redaction, refusal, and diff-hygiene proof.",
     "acceptance_ids": [
       "AC-1",
+      "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6"
+      "AC-6",
+      "AC-7"
     ],
     "status": "pending"
   },
   {
-    "id": "S4",
-    "action": "Review exact-head behavior and preserve the strict issue path boundary for publication.",
+    "id": "S5",
+    "action": "Review exact-head behavior and preserve the strict design-approved path boundary for publication.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -91,7 +102,7 @@ Revision 1
 
 .csdlc/prepared/issues/83/design.md
 
-Digest: 592360cc30b2792f88a30e837f2e84cbd2a9392b061f5239314cb505da66d946
+Digest: 6ad7e0e3ca9f2e39afc78b7abb82f98928b68f0064c418088059666ae6844add
 
 ## Diagram
 
@@ -101,10 +112,9 @@ Digest: 73c36947a5904687d840ee521edfe34e2e888c91649ef3a9f38fe73b83e6117d
 
 ## Stop Conditions
 
-- The implementation requires changing Runtime or Unity-owned paths
-- The live endpoint does not match the approved Runtime v3 contract
-- Required secrets would enter URLs, logs, screenshots, or repository files
-- Issue #5836 remains open when final implementation credit is requested
+- The implementation requires Runtime, Unity, storage, room, notification, or policy work outside the design-approved paths
+- The live endpoint cannot support the approved signed Layer 8 message through canonical Runtime ingress
+- Required secrets would enter URLs, logs, screenshots, browser persistence, or repository files
 
 ## Handoff
 
