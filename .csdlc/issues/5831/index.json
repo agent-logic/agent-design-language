@@ -6,10 +6,27 @@
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
   "phase": "implemented",
   "generation": 85,
-  "digest": "524897789ac71e4493fbb8b833b27bba991a9993e8300064c74c9d05a1243be5",
+  "digest": "9d8a15d068df8d288851f4b3aef609c0a18c99673c37c5b35e27a515944182f2",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5831_exact_head",
+    "assigned_by": "codex:5831-adaptive-learning",
+    "revision": "git-blake3:c948f847317aaf670c9b6cdcc5444732fd13cf4b:49897bb540eaf947a78f9ade6d0646a42dd331f6e44d56efa5f0fde44154a658",
+    "scope": [
+      ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      ".csdlc/evidence/5831",
+      ".csdlc/issues/5831",
+      "Review exact clean evidence HEAD c948f847317aaf670c9b6cdcc5444732fd13cf4b and validator parity repair 1f6977214eacf71c61eeb2f868fc27d5a97a9f80 after failed run 31429043531. Confirm producer and validator compute identical exact source manifests including reasoning.rs, durable_state.rs, tests/durable_state.rs; both self-tests lock these paths; workflow triggers include them; failed receipts would pass the corrected source equality absent other defects. Reconfirm no product drift, exact 20/20, prior transaction/reconciliation approval, lifecycle truth, and replacement native proof requirement."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "0a42277b0dc7b4ddf552f10adad71bd3babc07ef7ed27a97d2e9cf2476e9652c",
-      "rendered_digest": "dc52bedb804b2a9554201b4e5b4c825dd2e38bf12e31e3fd5527208c7d68f156",
-      "ast_digest": "184894d3d757b39ee921460527022a0f80696673c9981024e64642896bb97169"
+      "values_digest": "13a81315f9d36a4bde622ba0949148459171ebeb4a2e00f42112b7b9db7318b1",
+      "rendered_digest": "16171a0749a29efa5313c03e82d85daa68f39d707397cde35ffaab7159fb503c",
+      "ast_digest": "9dccc88dc9d615849a07e41c70e8d6f8e6cd1af97bd20fb64f9d82118d48e6f6"
     },
     "sor": {
       "values_digest": "34ffdedbafcf7969dc86500ddf416f27137ec35ead493a2e28ff959a8ad48d53",
@@ -918,6 +935,13 @@
       "actor": "codex:5831-adaptive-learning",
       "reason": "Record the exact aggregate failure diagnosis and validator source-manifest parity repair after native run 31429043531.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented and locally proved governed WP-13A adaptive learning with discoverable fully validated reconciliation and durable-before-live MutationGate transaction semantics. After PR run 31429043531 proved both native producers passed but aggregate validation rejected the widened source manifest, the validator now mirrors the producer's reasoning.rs, durable_state.rs, and tests/durable_state.rs authority paths and locks them in its self-test. Replacement native execution remains required before merge.\",\"changes\":[\"Align the independent native validator source manifest exactly with the producer's authority-bearing reasoning.rs, durable_state.rs, and tests/durable_state.rs paths, and retain a self-test that fails if any is omitted.\"],\"artifacts\":[]}"
+    },
+    {
+      "sequence": 115,
+      "generation": 85,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
