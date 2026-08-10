@@ -639,6 +639,22 @@ impl AuthorityLedger {
         self.leases.get(lineage_id)
     }
 
+    #[cfg(test)]
+    pub(crate) fn set_counters_for_test(
+        &mut self,
+        lineage_id: &[u8],
+        epoch: u64,
+        last_mutation_sequence: u64,
+    ) -> AuthorityResult<()> {
+        let lease = self
+            .leases
+            .get_mut(lineage_id)
+            .ok_or(AuthorityError::AuthorityRequired)?;
+        lease.epoch = epoch;
+        lease.last_mutation_sequence = last_mutation_sequence;
+        Ok(())
+    }
+
     pub fn apply(
         &mut self,
         certificate_bytes: &[u8],
@@ -931,7 +947,11 @@ impl AuthorityLedger {
         if authorization.now_elapsed_millis >= lease.deadline_elapsed_millis {
             return Err(AuthorityError::LeaseExpired);
         }
-        if authorization.sequence != lease.last_mutation_sequence.saturating_add(1) {
+        let expected_sequence = lease
+            .last_mutation_sequence
+            .checked_add(1)
+            .ok_or(AuthorityError::ResourceExhausted)?;
+        if authorization.sequence != expected_sequence {
             return Err(AuthorityError::Replay);
         }
         let key = VerifyingKey::from_bytes(&lease.activation_public_key)

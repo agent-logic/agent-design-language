@@ -672,6 +672,60 @@ fn activation_possession_epoch_safety_and_clock_bounds_fail_closed() {
 }
 
 #[test]
+fn terminal_epoch_and_mutation_sequence_fail_closed_without_reuse() {
+    let mut fixture = Fixture::stable();
+    let owner = activation(39);
+    let replacement = activation(40);
+    let mut ledger = AuthorityLedger::new(policy()).unwrap();
+    apply(
+        &mut ledger,
+        &fixture,
+        body(OperationClass::LeaseGrant, 100, 1, &owner),
+        &owner,
+        100,
+    )
+    .unwrap();
+
+    ledger.set_counters_for_test(LINEAGE, u64::MAX, 0).unwrap();
+    let reused_epoch = body(OperationClass::Activate, 101, u64::MAX, &replacement);
+    let reused_epoch_proof = activation_signature(&reused_epoch, &replacement);
+    fixture.membership.committed_log_index = 101;
+    assert_eq!(
+        ledger.apply(
+            &fixture.certificate(reused_epoch, &[0, 1]),
+            &fixture.membership,
+            application(&replacement, &reused_epoch_proof, 215, 5),
+        ),
+        Err(AuthorityError::ResourceExhausted)
+    );
+
+    let mut sequence_ledger = AuthorityLedger::new(policy()).unwrap();
+    apply(
+        &mut sequence_ledger,
+        &fixture,
+        body(OperationClass::LeaseGrant, 101, 1, &owner),
+        &owner,
+        100,
+    )
+    .unwrap();
+    sequence_ledger
+        .set_counters_for_test(LINEAGE, 1, u64::MAX)
+        .unwrap();
+    assert_eq!(
+        sequence_ledger.authorize_mutation(authorization(
+            HOLDER,
+            1,
+            101,
+            101,
+            u64::MAX,
+            [9; 32],
+            &[],
+        )),
+        Err(AuthorityError::ResourceExhausted)
+    );
+}
+
+#[test]
 fn policy_digest_and_future_issuance_are_rejected_before_state_mutation() {
     let fixture = Fixture::stable();
     let activation = activation(13);
