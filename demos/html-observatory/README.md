@@ -69,120 +69,33 @@ by the browser surface.
 
 ## Run
 
-The supported local identity is one Runtime-generated certificate containing
-exactly these SANs:
+Runtime v3 and the Observatory use real DNS names and externally issued
+certificate material. The canonical example endpoints are:
 
 ```text
-DNS:localhost
-IP:127.0.0.1
-IP:::1
+https://runtime.dev.agent-logic.ai:20997
+https://observatory.dev.agent-logic.ai
 ```
 
-Both separate listeners use the current certificate and key paths returned by
-`adl-runtime-local-tls-bootstrap`. The Runtime remains on
-`https://localhost:20997`; the Observatory remains on
-`https://localhost:8765`. There is no HTTP fallback and no certificate-warning
-bypass.
+The Runtime process does not generate certificates, install trust anchors, or
+modify host trust stores. Configure the Axum/Rustls listener with an external
+CA-issued full chain and matching private key through `[api.tls]`. AWS may use
+an ACM exportable public certificate for direct Axum termination, or terminate
+an ordinary ACM certificate at an AWS-managed ingress. Other environments may
+use an equivalent externally managed public certificate.
 
-Create an operator-local bootstrap config outside the repository. The state
-root must be absolute, while all paths beneath it remain relative:
-
-```toml
-schema = "adl.runtime_v3.local_tls_bootstrap.v1"
-mode = "local_self_signed"
-state_root = "<absolute-operator-state-root>"
-tls_dir = "runtime-tls"
-certificate_chain_path = "localhost-chain.pem"
-public_certificate_path = "localhost-public.pem"
-private_key_path = "localhost-key.pem"
-dns_names = ["localhost"]
-ip_addresses = ["127.0.0.1", "::1"]
-replace = false
-```
-
-Generate or validate the stable identity without changing host trust:
-
-```sh
-adl-runtime-local-tls-bootstrap \
-  --config <absolute-bootstrap-config> \
-  --operation bootstrap
-```
-
-### macOS trust lifecycle
-
-macOS is the supported host-trust implementation. Installation and removal
-require the explicit consent flag and an absolute user-keychain path. The tool
-first validates dates, SANs, the Rustls certificate/key pair, and key mode. It
-refuses to modify an existing certificate that lacks its own receipt.
-
-```sh
-adl-runtime-local-tls-bootstrap \
-  --config <absolute-bootstrap-config> \
-  --operation trust-install \
-  --consent-host-trust \
-  --trust-store <absolute-user-login-keychain>
-```
-
-Trust verification is a separate, non-mutating operation and exits non-zero
-when macOS does not trust the certificate for `localhost`:
-
-```sh
-adl-runtime-local-tls-bootstrap \
-  --config <absolute-bootstrap-config> \
-  --operation trust-verify \
-  --trust-store <absolute-user-login-keychain>
-```
-
-Reissue stages and validates a new generation, installs and verifies its trust,
-then swaps the current manifest. Any pre-swap failure removes candidate trust
-and preserves the prior generation and trust entry. The old trust entry is
-removed only after the new manifest commits, and only when an exact tool-owned
-receipt authorizes that removal.
-
-If old-trust cleanup fails after the new manifest commits, reissue returns a
-successful `trusted_cleanup_pending` outcome with the exact old certificate
-fingerprint. The new identity remains current; retry cleanup with
-`trust-remove --certificate-sha256 <fingerprint>` instead of rotating again.
-Cleanup is idempotent when the exact certificate is already absent but its
-tool-owned receipt still needs removal.
-
-```sh
-adl-runtime-local-tls-bootstrap \
-  --config <absolute-bootstrap-config> \
-  --operation reissue \
-  --consent-host-trust \
-  --trust-store <absolute-user-login-keychain>
-```
-
-Remove the current issue-created trust entry:
-
-```sh
-adl-runtime-local-tls-bootstrap \
-  --config <absolute-bootstrap-config> \
-  --operation trust-remove \
-  --consent-host-trust \
-  --trust-store <absolute-user-login-keychain>
-```
-
-Pass `--certificate-sha256 <digest>` only to retry cleanup of an older receipt
-reported by a reissue. Removal fails closed if the receipt is absent, malformed,
-for another keychain, or for another certificate.
-
-### Platform disposition
-
-- macOS: implemented with `security(1)` against an explicitly selected user
-  keychain; native live trust remains operator-consent work.
-- Linux: blocked. Chrome NSS trust and system curl trust are separate stores;
-  this issue does not claim a single reversible native transaction for both.
-- Native Windows: blocked. CurrentUser Root import and exact removal have not
-  received native execution proof.
-
-These blockers are not instructions to disable verification.
+The certificate SAN must contain the exact endpoint DNS name. Browser, curl,
+Node, and Unity clients must validate it through their ordinary platform trust
+path. There is no HTTP fallback, leaf-as-root trust, certificate-warning bypass,
+or repository-managed trust installation. Split DNS or a test-host mapping may
+route the real DNS name to loopback without changing that trust contract.
 
 ### Runtime and Observatory
 
-Configure Runtime `[api.tls]` with the returned current generation paths and
-keep `[observatory].allowed_origins` set to `https://localhost:8765`. Start the
+Configure Runtime `[api.tls]` with the externally provisioned full-chain,
+private-key, and trust-root paths plus the exact certificate DNS name in
+`server_name`. Keep `[observatory].allowed_origins` set to the exact HTTPS
+Observatory origin. Start the
 Runtime v3 kernel with its operator-local init file and token:
 
 ```sh
@@ -190,18 +103,18 @@ ADL_RUNTIME_OBSERVATORY_TOKEN="<operator-local-token>" \
   adl-runtime-kernel serve --init <absolute-operator-runtime-init>
 ```
 
-Serve the Observatory with the same current certificate and key using the
-issue validator below, or another HTTPS server that is explicitly configured
-with those exact files. Then open:
+Serve the Observatory through an HTTPS endpoint with its own valid external
+certificate, then open:
 
 ```text
-https://localhost:8765/demos/html-observatory/
+https://observatory.dev.agent-logic.ai/demos/html-observatory/
 ```
 
-The default init file keeps the Runtime v3 listener on `localhost:20997`.
-Runtime v3 browser/API access is HTTPS-only. Before launch, provision a
-localhost certificate and private key at the `[api.tls]` paths in the init file;
-the repository does not retain private keys. Set a 32-to-256-character
+The default init file binds the Runtime v3 listener locally while advertising
+`runtime.dev.agent-logic.ai`. Runtime v3 browser/API access is HTTPS-only.
+Before launch, provision the externally issued full chain and private key at
+the `[api.tls]` paths in the init file; the repository does not retain private
+keys. Set a 32-to-256-character
 operator-local write token for the runtime process in
 `ADL_RUNTIME_OBSERVATORY_TOKEN`. Runtime v3 health, readiness, metrics,
 Observatory snapshots, and the Observatory WSS feed are public read surfaces
@@ -210,10 +123,10 @@ and require no token.
 Runtime v3 uses versioned operator probes:
 
 ```text
-GET https://localhost:20997/v1/health
-GET https://localhost:20997/v1/ready
-GET https://localhost:20997/v1/metrics
-GET https://localhost:20997/v1/observatory
+GET https://runtime.dev.agent-logic.ai:20997/v1/health
+GET https://runtime.dev.agent-logic.ai:20997/v1/ready
+GET https://runtime.dev.agent-logic.ai:20997/v1/metrics
+GET https://runtime.dev.agent-logic.ai:20997/v1/observatory
 ```
 
 The HTML Observatory reads its Runtime v3 browser API base and endpoints from
@@ -241,10 +154,9 @@ sessionStorage.setItem("adl.runtimeV3.observatoryToken", "<operator-local-token>
 
 The token elevates only that WSS connection for writes; `/v1/control` remains a
 signed-command endpoint and signature verification plus canonical ingress
-policy still apply. The shared localhost certificate must be trusted by the
-browser for both `https://localhost:8765` and `https://localhost:20997`. The
-kernel terminates its own TLS connection; a local API Gateway or sidecar is not
-required.
+policy still apply. Transport security is ordinary server TLS, not
+listener-side mTLS. The kernel terminates its Axum/Rustls connection directly
+unless an operator intentionally uses an AWS-managed TLS ingress.
 
 The default init file also configures a high-cardinality Runtime v3 agent
 population with `count = 10000` and a bounded sample. The Observatory shows the
@@ -253,8 +165,8 @@ create 10,000 DOM nodes.
 
 For an externally reachable polis, copy that init file to an operator-local
 path and configure the runtime host interface, public route, certificate paths,
-and allowed origins there. This packaged browser dashboard only sends Runtime v3
-WSS/auth traffic to the trusted localhost API base. Native clients may still
+and allowed origins there. The checked-in browser client restricts Runtime v3
+to the configured `runtime.dev.agent-logic.ai` HTTPS API base. Native clients may still
 read the runtime-owned Observatory feed without an Origin header when the
 operator's deployment policy allows it.
 
@@ -280,17 +192,12 @@ validator below.
 
 ## Validate
 
-Deterministic TLS contract and negative coverage:
-
-```sh
-cargo test --locked --manifest-path adl-runtime/Cargo.toml --test local_tls
-```
-
 The repository-native browser validator requires Playwright `1.60.0` exactly,
-a real Chrome channel, the current public certificate/private key, and an
-explicit isolated Runtime candidate command. Install the pinned package and
-browser under operator-approved storage outside the repository, then expose the
-module entrypoint through `ADL_PLAYWRIGHT_MODULE`.
+a real Chrome channel, an externally issued full-chain/private-key pair for the
+exact Runtime and Observatory DNS names, and an explicit isolated Runtime
+candidate command. Install the pinned package and browser under
+operator-approved storage outside the repository, then expose the module
+entrypoint through `ADL_PLAYWRIGHT_MODULE`.
 
 Use alternate ports when `8765` or `20997` already have running services. The
 validator refuses occupied listeners and only terminates the child Runtime it
@@ -298,24 +205,22 @@ started itself:
 
 ```sh
 ADL_PLAYWRIGHT_MODULE=<absolute-playwright-1.60.0-entrypoint> \
-ADL_V092_TLS_CERT=<absolute-current-public-certificate> \
+ADL_V092_TLS_CERT=<absolute-external-full-chain> \
 ADL_V092_TLS_KEY=<absolute-current-private-key> \
-ADL_V092_RUNTIME_COMMAND_JSON='["<runtime-binary>","serve","--init","<isolated-runtime-init>"]' \
+ADL_V092_RUNTIME_COMMAND_JSON='["<guardian-binary>","--init","<isolated-runtime-init>"]' \
 node adl/tools/validate_v092_browser_trusted_observatory.mjs \
   --browser chrome \
   --require-trusted-tls \
-  --runtime-url https://localhost:<alternate-runtime-port> \
-  --observatory-url https://localhost:<alternate-observatory-port> \
+  --runtime-url https://runtime.dev.agent-logic.ai:<alternate-runtime-port> \
+  --observatory-url https://observatory.dev.agent-logic.ai:<alternate-observatory-port> \
   --evidence <absolute-redacted-evidence-path>
 ```
 
-The validator launches the real HTTPS static listener and supplied Runtime
-candidate, rejects browser interstitials plus console/network TLS failures,
-checks HTML and Runtime health/readiness/feed in Chrome, then independently
-runs `curl --cacert` over the same endpoints. It records only exact head,
-certificate digest, localhost listener URLs, statuses, and platform
-dispositions; private keys, tokens, trust exports, and command output are not
-retained.
+The validator uses ordinary platform trust only. It does not pass a custom CA
+to curl, Node, or Chrome and does not install trust. It rejects localhost and IP
+endpoint identities, browser interstitials, and console/network TLS failures.
+This document does not claim a live browser proof until that command completes
+against the deployed real-DNS endpoints.
 
 Print the required native-platform dispositions without launching services:
 
@@ -326,13 +231,15 @@ node adl/tools/validate_v092_browser_trusted_observatory.mjs \
 
 ## Claim Boundary
 
-The validation lane includes a real TLS client against a running Runtime v3
-endpoint and separately retains the JavaScript mock as static
-rendering-contract coverage. This proves that the HTML Observatory can render an auto-refreshing CSM
+The retained validation proves static rendering and contract behavior. It does
+not currently prove an ordinary platform-trusted browser or WSS exchange against
+the real-DNS Runtime endpoint. That live proof remains gated on the browser
+client update described above. The retained evidence proves that the HTML
+Observatory can render an auto-refreshing CSM
 panopticon over retained publishable runtime API responses, and can upgrade to a
 live loopback CSM panopticon when the running CSM API base is supplied. It can
-also consume the public Runtime v3 `/v1/observatory` read feed when
-Runtime v3 is available at its configured local API base. It renders the retained
+also consume the public Runtime v3 `/v1/observatory` read feed under its bounded
+historical local contract. It renders the retained
 bounded runtime capture through a polished investor-facing operator UI, while exposing
 CSM API, CSM service, CloudWatch heartbeat, ACIP-SNS projection proof, Runtime
 v3 status, and WP-08 linkage status. Its Operator Channel can submit

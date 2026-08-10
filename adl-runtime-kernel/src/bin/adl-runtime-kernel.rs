@@ -355,6 +355,25 @@ async fn main() -> ExitCode {
                 eprintln!("runtime Observatory read token is invalid");
                 return ExitCode::from(78);
             }
+            let acip_write_token = match read_trimmed_config_file(
+                &init.credentials.acip_write_token_path,
+                "runtime ACIP write token",
+            )
+            .await
+            {
+                Ok(token) => token,
+                Err(error) => {
+                    eprintln!("{error}");
+                    return ExitCode::from(78);
+                }
+            };
+            if service
+                .set_acip_write_bearer_token(&acip_write_token)
+                .is_err()
+            {
+                eprintln!("runtime ACIP write token is invalid");
+                return ExitCode::from(78);
+            }
             if service
                 .set_public_base_url(&init.api.public_base_url)
                 .is_err()

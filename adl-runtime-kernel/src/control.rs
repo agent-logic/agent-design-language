@@ -328,6 +328,7 @@ pub struct ControlService<C> {
     weather: Mutex<Option<ObservedWeather>>,
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
+    acip_write_bearer_digest: Mutex<Option<blake3::Hash>>,
     observatory_allowed_origins: BTreeSet<String>,
     agent_population: AgentPopulationFeed,
     control_addr: Mutex<SocketAddr>,
@@ -407,6 +408,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
             observatory_bearer_digest: Mutex::new(None),
+            acip_write_bearer_digest: Mutex::new(None),
             observatory_allowed_origins,
             agent_population,
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
@@ -478,11 +480,36 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Ok(())
     }
 
+    pub fn set_acip_write_bearer_token(&self, token: &str) -> Result<(), ControlError> {
+        if !(32..=256).contains(&token.len()) || token.chars().any(char::is_whitespace) {
+            return Err(ControlError::Authentication);
+        }
+        *self
+            .acip_write_bearer_digest
+            .lock()
+            .expect("ACIP write credential mutex poisoned") = Some(blake3::hash(token.as_bytes()));
+        Ok(())
+    }
+
     fn observatory_token_authorized(&self, token: &str) -> bool {
         let Some(expected) = *self
             .observatory_bearer_digest
             .lock()
             .expect("observatory credential mutex poisoned")
+        else {
+            return false;
+        };
+        constant_time_eq(
+            expected.as_bytes(),
+            blake3::hash(token.as_bytes()).as_bytes(),
+        )
+    }
+
+    fn acip_write_token_authorized(&self, token: &str) -> bool {
+        let Some(expected) = *self
+            .acip_write_bearer_digest
+            .lock()
+            .expect("ACIP write credential mutex poisoned")
         else {
             return false;
         };
@@ -1009,12 +1036,9 @@ pub struct ObservatoryFeed {
 pub async fn load_control_tls(
     config: &RuntimeTlsInitConfig,
 ) -> Result<axum_server::tls_rustls::RustlsConfig, ControlApiError> {
-    axum_server::tls_rustls::RustlsConfig::from_pem_file(
-        &config.certificate_chain_path,
-        &config.private_key_path,
-    )
-    .await
-    .map_err(|error| ControlApiError::Tls(error.to_string()))
+    crate::tls::load_axum_server_tls(&config.identity_paths(), &config.server_validation())
+        .await
+        .map_err(|error| ControlApiError::Tls(error.to_string()))
 }
 
 pub async fn serve_control_listener<C: LifecycleControl + 'static>(
@@ -1195,7 +1219,7 @@ async fn acip_ws_handler<C: LifecycleControl + 'static>(
         .get(header::AUTHORIZATION)
         .and_then(|value| value.to_str().ok())
         .and_then(|value| value.strip_prefix("Bearer "))
-        .filter(|token| service.observatory_token_authorized(token))
+        .filter(|token| service.acip_write_token_authorized(token))
         .map(str::to_owned)
     else {
         return StatusCode::UNAUTHORIZED.into_response();
@@ -1226,7 +1250,7 @@ async fn acip_ws_session<C: LifecycleControl + 'static>(
     }
 
     while let Some(message) = socket.recv().await {
-        if !service.observatory_token_authorized(&bearer_token) {
+        if !service.acip_write_token_authorized(&bearer_token) {
             let _ = socket
                 .send(Message::Close(Some(CloseFrame {
                     code: close_code::POLICY,
@@ -1450,28 +1474,12 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         break;
                     }
                 }
-                Some(Ok(Message::Binary(payload))) => {
-                    if bearer_token
-                        .as_deref()
-                        .is_some_and(|token| !service.observatory_token_authorized(token))
-                    {
-                        bearer_token = None;
-                    }
-                    let status = if bearer_token.is_some() {
-                        service.dispatch_acip_payload(&payload).await
-                    } else {
-                        serde_json::json!({
-                            "schema": OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-                            "status": "rejected",
-                            "error": "write_authentication_required"
-                        })
-                    };
-                    let Ok(payload) = serde_json::to_string(&status) else {
-                        break;
-                    };
-                    if socket.send(Message::Text(payload.into())).await.is_err() {
-                        break;
-                    }
+                Some(Ok(Message::Binary(_))) => {
+                    let _ = socket.send(Message::Close(Some(CloseFrame {
+                        code: close_code::POLICY,
+                        reason: "observatory_binary_frames_unsupported".into(),
+                    }))).await;
+                    break;
                 }
                 Some(Err(_)) => {
                     let _ = socket.send(Message::Close(Some(CloseFrame {
