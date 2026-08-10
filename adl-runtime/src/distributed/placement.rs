@@ -6,9 +6,11 @@
 
 use std::{cmp::Ordering, collections::BTreeMap, fmt};
 
+use serde::Deserialize;
+
 use super::{
     capability_advertisement::VerifiedCapabilityAdvertisement,
-    fencing::FenceReceipt,
+    fencing::{FenceReceipt, FencingStore},
     lease::OperationClass,
     membership::{Member, MemberRole, MembershipState},
     resource_weather::{PlacementWeather, WeatherAvailability},
@@ -149,7 +151,54 @@ pub struct PlacementInputs<'a> {
     pub membership: &'a MembershipState,
     pub capabilities: &'a [VerifiedCapabilityAdvertisement],
     pub weather: &'a [PlacementWeather],
-    pub fencing: &'a [FenceReceipt],
+    pub fencing: &'a PlacementFencingSnapshot,
+}
+
+/// A complete, opaque projection of fencing floors for one exact membership revision.
+///
+/// Production callers can construct this only by querying the authoritative `FencingStore` for
+/// every committed member identity. This prevents a caller from making a fenced node eligible by
+/// merely omitting its receipt from a caller-selected slice.
+#[derive(Clone, Debug)]
+pub struct PlacementFencingSnapshot {
+    membership_epoch: u64,
+    committed_log_index: u64,
+    fenced: BTreeMap<String, FenceReceipt>,
+}
+
+impl PlacementFencingSnapshot {
+    pub fn capture(
+        policy: &PlacementPolicy,
+        membership: &MembershipState,
+        store: &FencingStore,
+    ) -> PlacementResult<Self> {
+        let mut receipts = Vec::new();
+        for member in membership.members() {
+            for identity in [member.node_id.as_str(), member.guardian_id.as_str()] {
+                if let Some(receipt) = store.floor(identity.as_bytes()) {
+                    receipts.push((identity, receipt));
+                }
+            }
+        }
+        build_fencing_snapshot(policy, membership, receipts)
+    }
+
+    #[cfg(test)]
+    pub fn from_receipts_for_test(
+        policy: &PlacementPolicy,
+        membership: &MembershipState,
+        receipts: &[FenceReceipt],
+    ) -> PlacementResult<Self> {
+        let receipts = receipts
+            .iter()
+            .map(|receipt| {
+                let identity = std::str::from_utf8(&receipt.lineage_id)
+                    .map_err(|_| PlacementError::InconsistentEvidence)?;
+                Ok((identity, receipt))
+            })
+            .collect::<PlacementResult<Vec<_>>>()?;
+        build_fencing_snapshot(policy, membership, receipts)
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -185,6 +234,9 @@ pub fn decide(
     inputs: PlacementInputs<'_>,
 ) -> PlacementResult<PlacementDecision> {
     validate_request(policy, request)?;
+    if membership_trust_domain(inputs.membership)? != policy.trust_domain {
+        return Err(PlacementError::WrongTrustDomain);
+    }
     if inputs.membership.epoch() < request.minimum_membership_epoch
         || inputs.membership.committed_log_index() < request.minimum_committed_log_index
         || inputs.membership.epoch() == 0
@@ -195,15 +247,20 @@ pub fn decide(
     if inputs.membership.members().count() > policy.max_inputs
         || inputs.capabilities.len() > policy.max_inputs
         || inputs.weather.len() > policy.max_inputs
-        || inputs.fencing.len() > policy.max_inputs
     {
         return Err(PlacementError::ResourceExhausted);
+    }
+
+    if inputs.fencing.membership_epoch != inputs.membership.epoch()
+        || inputs.fencing.committed_log_index != inputs.membership.committed_log_index()
+    {
+        return Err(PlacementError::StaleMembership);
     }
 
     let members = index_members(inputs.membership)?;
     let capabilities = index_capabilities(policy, inputs.capabilities, &members)?;
     let weather = index_weather(inputs.weather, &members)?;
-    let fenced = index_fencing(policy, inputs.membership, inputs.fencing, &members)?;
+    let fenced = &inputs.fencing.fenced;
     let mut candidates = Vec::new();
 
     for member in inputs.membership.members() {
@@ -356,14 +413,17 @@ fn index_weather<'a>(
     Ok(result)
 }
 
-fn index_fencing<'a>(
+fn build_fencing_snapshot<'a>(
     policy: &PlacementPolicy,
     membership: &MembershipState,
-    values: &'a [FenceReceipt],
-    members: &BTreeMap<&str, &Member>,
-) -> PlacementResult<BTreeMap<&'a str, &'a FenceReceipt>> {
+    values: impl IntoIterator<Item = (&'a str, &'a FenceReceipt)>,
+) -> PlacementResult<PlacementFencingSnapshot> {
+    if membership_trust_domain(membership)? != policy.trust_domain {
+        return Err(PlacementError::WrongTrustDomain);
+    }
+    let members = index_members(membership)?;
     let mut result = BTreeMap::new();
-    for value in values {
+    for (identity, value) in values {
         let trust_domain = std::str::from_utf8(&value.trust_domain_id)
             .map_err(|_| PlacementError::WrongTrustDomain)?;
         if trust_domain != policy.trust_domain {
@@ -372,20 +432,26 @@ fn index_fencing<'a>(
         if value.committed_log_index > membership.committed_log_index() {
             return Err(PlacementError::FencingAheadOfMembership);
         }
-        let identity = std::str::from_utf8(&value.lineage_id)
-            .map_err(|_| PlacementError::InconsistentEvidence)?;
-        if !members.contains_key(identity)
+        if value.lineage_id != identity.as_bytes()
+            || !members.contains_key(identity)
             || value.epoch == 0
             || value.committed_log_index == 0
             || value.voter_set_generation == 0
             || (value.operation_class != OperationClass::Fence as u32
                 && value.operation_class != OperationClass::Revoke as u32)
-            || result.insert(identity, value).is_some()
+            || result.insert(identity.to_owned(), value.clone()).is_some()
         {
             return Err(PlacementError::InconsistentEvidence);
         }
     }
-    Ok(result)
+    if result.len() > policy.max_inputs {
+        return Err(PlacementError::ResourceExhausted);
+    }
+    Ok(PlacementFencingSnapshot {
+        membership_epoch: membership.epoch(),
+        committed_log_index: membership.committed_log_index(),
+        fenced: result,
+    })
 }
 
 fn lookup<'a, T>(values: &'a BTreeMap<&str, T>, member: &Member) -> Option<&'a T> {
@@ -434,4 +500,29 @@ fn valid_text(value: &str) -> bool {
         && value
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b':'))
+}
+
+#[derive(Deserialize)]
+struct MembershipSnapshotEnvelopeView {
+    body: MembershipSnapshotBodyView,
+}
+
+#[derive(Deserialize)]
+struct MembershipSnapshotBodyView {
+    schema: String,
+    trust_domain: String,
+}
+
+fn membership_trust_domain(membership: &MembershipState) -> PlacementResult<String> {
+    let bytes = membership
+        .snapshot()
+        .map_err(|_| PlacementError::InconsistentEvidence)?;
+    let snapshot: MembershipSnapshotEnvelopeView =
+        serde_json::from_slice(&bytes).map_err(|_| PlacementError::InconsistentEvidence)?;
+    if snapshot.body.schema != super::membership::MEMBERSHIP_SNAPSHOT_SCHEMA
+        || !valid_text(&snapshot.body.trust_domain)
+    {
+        return Err(PlacementError::InconsistentEvidence);
+    }
+    Ok(snapshot.body.trust_domain)
 }

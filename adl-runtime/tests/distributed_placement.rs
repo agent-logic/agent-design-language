@@ -20,20 +20,45 @@ mod placement;
 mod resource_weather;
 
 use capability_advertisement::{CapabilityEvidence, VerifiedCapabilityAdvertisement};
-use fencing::FenceReceipt;
+use fencing::{
+    FenceReceipt, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
+    FencingStore,
+};
 use lease::OperationClass;
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
     MembershipState,
 };
 use placement::{
-    decide, CapabilityRequirement, PlacementError, PlacementInputs, PlacementPolicy,
-    PlacementRequest,
+    decide, CapabilityRequirement, PlacementError, PlacementFencingSnapshot, PlacementInputs,
+    PlacementPolicy, PlacementRequest,
 };
 use resource_weather::{PlacementWeather, WeatherAvailability};
 
 const TRUST: &str = "polis.test";
 const NOW: u64 = 1_787_000_100;
+
+#[derive(Debug, Default)]
+struct CheckpointAuthority(std::sync::Mutex<Option<FencingCheckpoint>>);
+
+impl FencingCheckpointAuthority for CheckpointAuthority {
+    fn current(&self) -> Result<Option<FencingCheckpoint>, FencingError> {
+        Ok(*self.0.lock().unwrap())
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<FencingCheckpoint>,
+        next: FencingCheckpoint,
+    ) -> Result<(), FencingError> {
+        let mut current = self.0.lock().unwrap();
+        if *current != expected {
+            return Err(FencingError::Rollback);
+        }
+        *current = Some(next);
+        Ok(())
+    }
+}
 
 fn marker(case: &str, result: &str) {
     println!(
@@ -53,13 +78,17 @@ fn member(index: u8) -> Member {
 }
 
 fn membership(voters: &[u8], non_voters: &[u8]) -> MembershipState {
-    let mut state = MembershipState::new(MembershipPolicy::new(TRUST, 32, 64).unwrap());
+    membership_in_domain(TRUST, voters, non_voters)
+}
+
+fn membership_in_domain(domain: &str, voters: &[u8], non_voters: &[u8]) -> MembershipState {
+    let mut state = MembershipState::new(MembershipPolicy::new(domain, 32, 64).unwrap());
     let mut epoch = 0_u64;
     for index in voters.iter().chain(non_voters) {
         epoch += 1;
         state
             .apply(&CommittedMembershipEvent::new(
-                TRUST,
+                domain,
                 [*index; 32],
                 epoch,
                 epoch * 10,
@@ -73,7 +102,7 @@ fn membership(voters: &[u8], non_voters: &[u8]) -> MembershipState {
         epoch += 1;
         state
             .apply(&CommittedMembershipEvent::new(
-                TRUST,
+                domain,
                 [index.saturating_add(100); 32],
                 epoch,
                 epoch * 10,
@@ -164,14 +193,16 @@ fn decide_with(
     weather: &[PlacementWeather],
     fencing: &[FenceReceipt],
 ) -> Result<placement::PlacementDecision, PlacementError> {
+    let policy = PlacementPolicy::new(TRUST).unwrap();
+    let fencing = PlacementFencingSnapshot::from_receipts_for_test(&policy, state, fencing)?;
     decide(
-        &PlacementPolicy::new(TRUST).unwrap(),
+        &policy,
         &request(state),
         PlacementInputs {
             membership: state,
             capabilities,
             weather,
-            fencing,
+            fencing: &fencing,
         },
     )
 }
@@ -198,6 +229,39 @@ fn deterministic_ranking_is_independent_of_input_order() {
     assert_eq!(left, right);
     assert_eq!(left.node_id, "node-3");
     assert_eq!(left.remaining_slots, 7);
+}
+
+#[test]
+fn production_fencing_snapshot_is_captured_from_the_authoritative_store() {
+    let state = membership(&[1], &[]);
+    let directory = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let store = FencingStore::create(
+        directory.path(),
+        FencingPolicy {
+            max_lineages: 32,
+            max_receipts: 64,
+            max_state_bytes: 64 * 1024,
+            max_clock_uncertainty_millis: 100,
+            message_delay_margin_millis: 100,
+        },
+        std::sync::Arc::new(CheckpointAuthority::default()),
+    )
+    .unwrap();
+    let policy = PlacementPolicy::new(TRUST).unwrap();
+    let snapshot = PlacementFencingSnapshot::capture(&policy, &state, &store).unwrap();
+    let decision = decide(
+        &policy,
+        &request(&state),
+        PlacementInputs {
+            membership: &state,
+            capabilities: &[capability("guardian-1", 3, 11, NOW + 60)],
+            weather: &[weather("node-1", 3, 21, 200, 8, NOW + 60)],
+            fencing: &snapshot,
+        },
+    )
+    .unwrap();
+    assert_eq!(decision.node_id, "node-1");
+    marker("caller_selected_fencing_slice_unavailable", "denied");
 }
 
 #[test]
@@ -277,19 +341,62 @@ fn wrong_trust_domain_fails_the_entire_decision() {
 }
 
 #[test]
+fn membership_domain_is_bound_by_the_authoritative_snapshot() {
+    let state = membership_in_domain("other.test", &[1], &[]);
+    let policy = PlacementPolicy::new(TRUST).unwrap();
+    assert!(matches!(
+        PlacementFencingSnapshot::from_receipts_for_test(&policy, &state, &[]),
+        Err(PlacementError::WrongTrustDomain)
+    ));
+    marker("membership_domain_mismatch_denied", "denied");
+}
+
+#[test]
+fn fencing_snapshot_cannot_be_reused_after_membership_advances() {
+    let mut state = membership(&[1], &[]);
+    let policy = PlacementPolicy::new(TRUST).unwrap();
+    let fencing = PlacementFencingSnapshot::from_receipts_for_test(&policy, &state, &[]).unwrap();
+    state
+        .apply(&CommittedMembershipEvent::new(
+            TRUST,
+            [2; 32],
+            state.epoch() + 1,
+            state.committed_log_index() + 10,
+            MembershipOperation::Join { member: member(2) },
+        ))
+        .unwrap();
+    assert_eq!(
+        decide(
+            &policy,
+            &request(&state),
+            PlacementInputs {
+                membership: &state,
+                capabilities: &[],
+                weather: &[],
+                fencing: &fencing,
+            },
+        ),
+        Err(PlacementError::StaleMembership)
+    );
+    marker("incomplete_fencing_view_denied", "denied");
+}
+
+#[test]
 fn stale_membership_floor_fails_closed() {
     let state = membership(&[1], &[]);
+    let policy = PlacementPolicy::new(TRUST).unwrap();
+    let fencing = PlacementFencingSnapshot::from_receipts_for_test(&policy, &state, &[]).unwrap();
     let mut request = request(&state);
     request.minimum_committed_log_index += 1;
     assert_eq!(
         decide(
-            &PlacementPolicy::new(TRUST).unwrap(),
+            &policy,
             &request,
             PlacementInputs {
                 membership: &state,
                 capabilities: &[],
                 weather: &[],
-                fencing: &[],
+                fencing: &fencing,
             },
         ),
         Err(PlacementError::StaleMembership)
@@ -411,22 +518,27 @@ fn request_and_policy_bounds_are_enforced_before_ranking() {
         Err(PlacementError::InvalidPolicy)
     ));
     let state = membership(&[1], &[]);
+    let default_policy = PlacementPolicy::new(TRUST).unwrap();
+    let default_fencing =
+        PlacementFencingSnapshot::from_receipts_for_test(&default_policy, &state, &[]).unwrap();
     let mut noncanonical = request(&state);
     noncanonical.requirements.reverse();
     assert_eq!(
         decide(
-            &PlacementPolicy::new(TRUST).unwrap(),
+            &default_policy,
             &noncanonical,
             PlacementInputs {
                 membership: &state,
                 capabilities: &[],
                 weather: &[],
-                fencing: &[],
+                fencing: &default_fencing,
             }
         ),
         Err(PlacementError::NonCanonicalRequirements)
     );
     let bounded = PlacementPolicy::with_bounds(TRUST, 1, 4, 10, 20, 4, 1_000, 0).unwrap();
+    let bounded_fencing =
+        PlacementFencingSnapshot::from_receipts_for_test(&bounded, &state, &[]).unwrap();
     assert_eq!(
         decide(
             &bounded,
@@ -438,7 +550,7 @@ fn request_and_policy_bounds_are_enforced_before_ranking() {
                     capability("node-1", 3, 2, NOW + 60),
                 ],
                 weather: &[],
-                fencing: &[],
+                fencing: &bounded_fencing,
             }
         ),
         Err(PlacementError::ResourceExhausted)

@@ -20,7 +20,10 @@ EXPECTED = {
   "unavailable_weather_denied" => "denied",
   "unauthorized_candidate_denied" => "denied",
   "duplicate_evidence_denied" => "denied",
-  "policy_bounds_enforced" => "fail_closed"
+  "policy_bounds_enforced" => "fail_closed",
+  "membership_domain_mismatch_denied" => "denied",
+  "incomplete_fencing_view_denied" => "denied",
+  "caller_selected_fencing_slice_unavailable" => "denied"
 }.freeze
 EXACT = ["ruby", ".csdlc/evidence/5873/run-exact-child-tests.rb", "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_placement", "--no-tests=fail"].freeze
 CLIPPY = ["cargo", "clippy", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_placement", "--", "-D", "warnings"].freeze
@@ -118,7 +121,7 @@ manifest = {"schema" => "adl.wp04.issue_validation_manifest.v1", "issue" => ISSU
 File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
 
 runner_path = EVIDENCE.join("runner.txt")
-runner = {"provider" => "local-codex", "run_id" => "5873-local-operator-v3", "os" => "macos", "arch" => "aarch64", "identity_sha256" => sha(runner_path)}
+runner = {"provider" => "local-codex", "run_id" => "5873-local-remediation-v1", "os" => "macos", "arch" => "aarch64", "identity_sha256" => sha(runner_path)}
 artifacts = [Pathname.new(__FILE__), EVIDENCE.join("run-exact-child-tests.rb"), runner_path,
   output.join("exact-child-tests.log"), output.join("exact-child-tests.stdout.log"), output.join("exact-child-tests.stderr.log"),
   output.join("strict-focused-clippy.log"), output.join("strict-focused-clippy.stderr.log"),
