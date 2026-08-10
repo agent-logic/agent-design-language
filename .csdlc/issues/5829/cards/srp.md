@@ -41,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Final publication projection and required standard/native checks must remain green at the exact remote head before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5829_exact_head")
 
-Result: pre_review
+Result: pass

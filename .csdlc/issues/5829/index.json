@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
-  "phase": "implemented",
-  "generation": 95,
-  "digest": "ec3c00480607867d37de668f5b8fa05ba51605bdc3e68583b4309512d4f1d827",
+  "phase": "reviewed",
+  "generation": 96,
+  "digest": "f4f75b88462d965ffde5c6c9f0cbf6c4eaa704834095253c176ad64cf1a9dc78",
   "branch": "codex/5829-capability-envelope",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
   "review_assignment": {
@@ -27,7 +27,29 @@
       "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "scope": [
+      ".csdlc/issues/5829",
+      ".csdlc/prepared/issues/5829/design.md",
+      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+      ".csdlc/evidence/5829",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62",
+    "findings": [],
+    "residual_risks": [
+      "Final publication projection and required standard/native checks must remain green at the exact remote head before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a8d91985b1738e8def4d0bae458588e4586d13b84b22122d83e1795e2a3805a",
+      "values_digest": "101132307d7df30d1701bc5125a985d4f41653a83a57cd5b134544d6711a1c87",
       "rendered_digest": "f072c6b2526b3264fafda2ef258cf23cd0cc9fd52b92a53668e2bb409a970d55",
       "ast_digest": "40dcbfc18fc63c6a847abfbb52256a4fdbf34e6110c8710cb57eacc518678bdd"
     },
     "stp": {
-      "values_digest": "3665d0229eefe15fdb02199c8d3e9d56792e2fc2d03b1322f1eac0bcd29039f1",
+      "values_digest": "a5b706671eeb4cb89bf19788c010d6d33c85a48fda90d2479a738ef07f08afb6",
       "rendered_digest": "4530795f5583eac9367fb96c125d8912c3d78ef63c0f283390696c3d5bb88841",
       "ast_digest": "d510e7df6320dafad5eeceb31a143e20d10b5e18c221c34c0cf97f10b3f670a6"
     },
     "spp": {
-      "values_digest": "df31ddfae38e6175b5b47d37c3a2472aecd83ba3b90992ec53150b42b6696bab",
+      "values_digest": "face01ac6ff2d6a16706c151168e5d59261bd33dae07c3efe468265fd33f70ec",
       "rendered_digest": "ccc77b0259cefee0229b731048b2d35d1405648b2ea89d67cc8a70fed4932099",
       "ast_digest": "d94af3855aba1bba80a13b4b8d6d619efc82f2945b58a4a6654a330795e963a8"
     },
     "vpp": {
-      "values_digest": "c4940763587f7d0feedd177b23f78d73fa24cdfe183faac9c84b4a7eaf96569a",
+      "values_digest": "f7c7998fc5e261a4b8171cf56f654a907fd8613846e30b9747fabd5914465b51",
       "rendered_digest": "ba48d6cb738496c39cbf0098e8f7e3c367340316366f5cff6ba2182d00e152ba",
       "ast_digest": "00131636b58f66756135f6808798290a89c728834a45da6c9ce8ba2056c78164"
     },
     "srp": {
-      "values_digest": "89e6d728bf462c12f85ab7e95bfc49b84b760319896afd76d2c56dad9d0f0139",
-      "rendered_digest": "dfe079c12ca91c05808df9446e239e0c73a716778dd5b3a6dd76ed8063ada51e",
-      "ast_digest": "7f986d722309c6180c168882e890b9f95983f0b03415620d23c21907d3604e11"
+      "values_digest": "6f597d6889e70c4cd0c6aa25c05f675361e4346341f942145456b360d9736011",
+      "rendered_digest": "aa7e1d6a083104133fede8b3be2738049370c2ca36ad5db482d35520606ee3ca",
+      "ast_digest": "398d934c4210c0ef9998bf8afe04996fc26f12767ff193d1a85c4075b8a82a0f"
     },
     "sor": {
-      "values_digest": "db6af8b0c08601959b959476c480992fa55097cc80a5c57c5dd15161850a12e9",
+      "values_digest": "be91d11f6515dcd07c8f022ae277b2349c5ee2c7f7e5e40d7d731595819d0f4c",
       "rendered_digest": "867d8c44e5ee2a0f371ca8063d38d1c0b9732b758b2b16653b9f9f8576e8e0f8",
       "ast_digest": "88f61bd7cf56e30b5e57cfde70fed1a4aa298e38750469dbf84678ff1bc42b8f"
     }
@@ -156,6 +178,13 @@
       "to": "implemented",
       "actor": "codex:5829-capability-envelope",
       "reason": "Recover publication after replacement native run 31392866245 produced sanitized exact-head Linux and macOS receipts that independently validate at 5b078101282d0e3334629bc5f2ab54e4900be6a4."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5829-capability-envelope",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1033,6 +1062,13 @@
       "actor": "codex:5829-capability-envelope",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 126,
+      "generation": 96,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
