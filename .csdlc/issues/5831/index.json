@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e7ab200f39f0714ae0aebb76949289e6bd66f4a3b272895650972227f5ad3a79",
-  "phase": "bound",
-  "generation": 57,
-  "digest": "30e097c2c8e0ec60227e7389a131ac3ec334d270fd16e479034a964511d92e91",
+  "phase": "implemented",
+  "generation": 68,
+  "digest": "516d3f40325ea0170192eb7c9d21897e0f8f1cd67372cfa78f006c0d4eea44bf",
   "branch": "codex/5831-adaptive-learning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5831-adaptive-learning",
   "review_assignment": null,
@@ -19,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/5831/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
+      "reviewer": "operator-approved:wp13a-native-adaptive-learning-scope",
       "revision": "91f8ac6dc1021239177fb488afde787bf38e715cc2ec533d8e20aa425f85fd0e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "1f9b4a25f5dcf6919e0c5499852444149aa1bc1bb1e80d3a0f30f9a1f857bb50",
+      "values_digest": "642aa6d5c16d2aae44755259c70f36267321b25fa2da918148aac909b458d473",
       "rendered_digest": "ebf59b2657435fa4e629903ea15c1124838d020d1ae1513caad45f0d27305f71",
       "ast_digest": "47c02f5b5c4ce795d3c9fd3d14ccb9a57f1f44b7f18ac29b2051a969b70a3d53"
     },
     "stp": {
-      "values_digest": "3a5f2d4e6cea866cda1b494b911bdb7b95600496e2525a7737686320ac8689ba",
-      "rendered_digest": "8e58da02564b446cbc1f1f09c884b2094622a37c6f1e7068415463444a54402a",
-      "ast_digest": "3f399e2e17f75526ea6b9d13f63240d427fc0566a6c6b4669257d669ff6413cb"
+      "values_digest": "6add8146bf5abe505a93c4ab251fdade1d98f4612e2857e00a3dddd548bcc8fd",
+      "rendered_digest": "c03c32bde84c9a113d96b2cceb27d8c01aaa535d2309f68fce291bc9ba9505cf",
+      "ast_digest": "a69e7561ce84b7c184e128ee6fe85f8bcbfabaf5a53b64f57fb395a751636aa9"
     },
     "spp": {
-      "values_digest": "361dc6284dbf055c7d2134d1035d66bf4a20033da3106b3e9a7d34163fbfa2fe",
-      "rendered_digest": "4f492dd23f107572e951d5ebd5a488200cb04db8e10502bc71a4c35a82bdbd4e",
-      "ast_digest": "0255899e103025cbe10e3b123521dfb10c924ec349749278ff8cc12388afeba9"
+      "values_digest": "f03f7088b5735ccd39ffe915c586587561fcfdc415faf84530e5f5258a7f74cf",
+      "rendered_digest": "397ea9d161e0a68b697b2ad004b1b3205d7a269e1caf0b119fe3ffb015988f15",
+      "ast_digest": "aa04a73f75abb39c7f219a37a26c1949e6fc247d2c7c8702239547f40ef3ab19"
     },
     "vpp": {
-      "values_digest": "126669975e226ba44b2262a45d9c370cc42dee6bce8c18a55aff043e185af348",
-      "rendered_digest": "6bb3189aa2e8a52c48c8760d766a4de833c0fd2bf81cc1af62be450b4912e47e",
-      "ast_digest": "ddead448267b11c0fc5591368368fbcd802a9c03ca21e6204d857399e39fd4f7"
+      "values_digest": "c6e8724b30e122068cd85eb1b79c745707d61888899e72e1e64e63bc85d49fb0",
+      "rendered_digest": "10831b9b7e08366fbef580e6730b8a2840b33e8672a76b52e7b2b86033478533",
+      "ast_digest": "3567ff9381e42ef0ca7b0e30b9cbb247e1454f565d66d00cffe4cf47f6d1c759"
     },
     "srp": {
-      "values_digest": "ceaf2dfeb6c1a2741716ca83b65e665e1dbb1ddb760cdc4b270b9a97155401ab",
+      "values_digest": "a120f3c128e4c7879c068586c7e0dfa55e7ef38b2005b0db5d42f813c69cf3f9",
       "rendered_digest": "f4d1b50f223cce6785b4a476d683618378921ceb30e3306785901a4454c0388b",
       "ast_digest": "ad48467373a00ab4134a625bb5c40e297dafeb7fbf5288f5b2ee8ba6761586e6"
     },
     "sor": {
-      "values_digest": "bb32c7dfe92fa67710a86494b897b4b43541e4bf197259d1dc02a79a6c847285",
-      "rendered_digest": "08069e5c4ac156b5d0d9ee35747632ff67581e203f0aeeaa7d12f41a60e986e9",
-      "ast_digest": "1cef938010dcb5de447f8e1c7722d1462c72d177b4688fbe8c531ab97ef18a7c"
+      "values_digest": "b931e02fbdbad0ba6bc53cff0cd82de92cd2959a326cf4aee7310637b930dc38",
+      "rendered_digest": "1bb5b5289d4973cf15d7fd7a68e0714e2d3de6fb16cdf1b1e0505b66f5155955",
+      "ast_digest": "8670b880306016c60729198bc8ae6499c95ea27981f66b39bdeb01c9f5817ea3"
     }
   },
   "transitions": [
@@ -90,6 +90,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -652,6 +659,83 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 81,
+      "generation": 58,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Formally widen WP-13A only to its mandatory issue-specific native macOS/Linux proof workflow required by AC-8; global CI remains out of scope.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/evidence/5831\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\"Complete canonical evaluation, adaptation-delta, proposal, accepted/rejected decision, replay, rollback, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/adaptive_learning/\",\"Focused deterministic graph-history, rollback, bounded-resource, and negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 82,
+      "generation": 59,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Align the operative WP-13A ownership surface with the single issue-specific native proof workflow required by AC-8; do not widen global CI.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/evidence/5831\",\".github/workflows/wp13a-native-adaptive-learning.yml\"]}"
+    },
+    {
+      "sequence": 83,
+      "generation": 60,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Correct the authoritative WP-01 dependency from #5818 to #5817 and record truthful implementation progress after the exact focused target passed.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Verify #5817, #5830, #5104, and Runtime v3 requalification, then inspect adl-runtime-kernel reasoning, cognition, governance, and durable-state authorities.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement evaluation, adaptation delta, proposal, policy decision, accepted/rejected mutation, durable history, and rollback in adl-runtime-kernel/src/adaptive_learning.rs.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run accepted/rejected focused tests, deterministic/forged-history replay negatives, resource bounds, resume continuity, and branch-built Runtime v3 integration.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Resolve one bounded exact-head review and publish only with correct base and a qualified closing reference for legacy issue #5831.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 84,
+      "generation": 61,
+      "actor": "operator-approved:wp13a-native-adaptive-learning-scope",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 85,
+      "generation": 62,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Dependencies #5817, #5830, and #5104 are terminal and current Runtime v3 reasoning, cognition, governance, durable-state, and requalification authorities were inspected before implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 86,
+      "generation": 63,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "The governed evaluation, adaptation delta, proposal, policy disposition, accepted/rejected mutation, durable history, replay, bounds, and rollback contract is implemented in the owned Runtime v3 module.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 87,
+      "generation": 64,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "The exact six-test target passed accepted/rejected history, deterministic replay, forged/substituted history, bounds, authority, privacy, rollback, unknown-field, and fixture negatives with strict checks green.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 88,
+      "generation": 65,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Product and local proof are complete; exact-head review, publication, native proof, and terminal delivery are now the only active plan step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 89,
+      "generation": 66,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Record the materialized adaptive_learning core target and successful nonzero local proof while preserving mandatory native producer deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"adaptive_learning-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5831-core\",\"defer_reason\":null},{\"lane\":\"adaptive_learning-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5831/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5831/native-platform/macos-semantic.json\"],\"parallel_group\":\"5831-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"adaptive_learning-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5831/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5831/native-platform/linux-semantic.json\"],\"parallel_group\":\"5831-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"adaptive_learning-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=0a5aff005083397b6349dca44da4b6011d120bf22f1a940712e7373301d291d1]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".csdlc/evidence/5831/native-platform/macos.json\",\".csdlc/evidence/5831/native-platform/linux.json\"],\"parallel_group\":\"5831-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 90,
+      "generation": 67,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 91,
+      "generation": 68,
+      "actor": "codex:5831-adaptive-learning",
+      "reason": "Record the exact implemented WP-13A product and retained local six-test proof before independent review; native Linux/macOS execution remains deferred to publication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the governed WP-13A Runtime v3 adaptive-learning DAG, including authority-bound evaluation, canonical proposal and disposition history, accepted/rejected mutation semantics, deterministic replay, bounded recurrence, exact rollback, privacy, and fail-closed substitution boundaries; mandatory native proof remains deferred to CI.\",\"changes\":[\"Added a versioned adaptive-learning build, replay, validation, and rollback boundary over actual Runtime v3 reasoning and cognitive-profile authorities.\",\"Bound evidence, before/after state and graph hashes, proposal, policy disposition, accepted or rejected mutation, durable prefix history, recurrence bounds, and rollback inverse records.\",\"Rejected missing, forged, private, or substituted evidence; invalid graph authority; discontinuous replay; unbounded recurrence; unauthorized or rejected mutation; rollback mismatch; and unknown fields.\",\"Added an exact six-test fixture-backed target, canonical semantic output, issue-local native producer and independent validator, and the narrow WP-13A macOS/Linux workflow required by AC-8.\",\"Updated the adaptive-learning feature contract to implemented Runtime v3 truth without claiming unconstrained self-modification, retraining, hidden memory mutation, or downstream birthday completion.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/prepared/issues/5831/produce-native-receipt.rb\",\".csdlc/prepared/issues/5831/validate-native-receipts.rb\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".csdlc/evidence/5831/adaptive-learning-runtime-v3.log\",\".csdlc/evidence/5831/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove accepted and rejected mutation histories, deterministic replay, evidence and graph substitution rejection, bounds, authority, privacy, rollback, unknown-field, and fixture boundaries at exact revision 5436d9a45f22bacb93a8be405c69ae1c6bbdde76.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5831/local-validation-manifest.json\"}]}"
     }
   ]
 }

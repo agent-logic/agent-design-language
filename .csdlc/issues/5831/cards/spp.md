@@ -16,19 +16,19 @@ Implement and prove WP-13A's evaluation-to-policy-to-graph DAG, including accept
 
 ## Plan
 
-Revision 21
+Revision 23
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify #5818, #5830, #5104, and Runtime v3 requalification, then inspect adl-runtime-kernel reasoning, cognition, governance, and durable-state authorities.",
+    "action": "Verify #5817, #5830, #5104, and Runtime v3 requalification, then inspect adl-runtime-kernel reasoning, cognition, governance, and durable-state authorities.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -37,7 +37,7 @@ Revision 21
       "AC-1",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -46,11 +46,11 @@ Revision 21
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
-    "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5831 linkage.",
+    "action": "Resolve one bounded exact-head review and publish only with correct base and a qualified closing reference for legacy issue #5831.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -61,7 +61,7 @@ Revision 21
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 

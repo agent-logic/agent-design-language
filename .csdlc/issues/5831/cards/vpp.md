@@ -53,7 +53,7 @@ Diagram: .csdlc/prepared/issues/5831/diagram.mmd
       "all"
     ],
     "parallel_group": "5831-core",
-    "defer_reason": "Deferred only until this issue creates owned source adl-runtime-kernel/src/adaptive_learning.rs and exact owned target adl-runtime-kernel/tests/adaptive_learning.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests."
+    "defer_reason": null
   },
   {
     "lane": "adaptive_learning-macos-native-ci-producer",

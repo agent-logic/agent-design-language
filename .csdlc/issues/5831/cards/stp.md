@@ -23,6 +23,7 @@ Deliver only the WP-13A Runtime v3 adaptive-learning graph path, focused integra
 - .csdlc/prepared/issues/5831/validate-native-receipts.rb
 - .csdlc/prepared/issues/5831/produce-native-receipt.rb
 - .csdlc/evidence/5831
+- .github/workflows/wp13a-native-adaptive-learning.yml
 - Complete canonical evaluation, adaptation-delta, proposal, accepted/rejected decision, replay, rollback, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/adaptive_learning/
 - Focused deterministic graph-history, rollback, bounded-resource, and negative tests
 - Digest-bound native macOS and Linux exact-revision proof

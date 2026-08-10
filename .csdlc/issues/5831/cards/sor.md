@@ -12,19 +12,50 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented and locally proved the governed WP-13A Runtime v3 adaptive-learning DAG, including authority-bound evaluation, canonical proposal and disposition history, accepted/rejected mutation semantics, deterministic replay, bounded recurrence, exact rollback, privacy, and fail-closed substitution boundaries; mandatory native proof remains deferred to CI.
 
 ## Artifacts
 
-- none
+- adl-runtime-kernel/src/adaptive_learning.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/adaptive_learning.rs
+- adl-runtime-kernel/tests/fixtures/adaptive_learning/matrix.json
+- docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md
+- .csdlc/prepared/issues/5831/produce-native-receipt.rb
+- .csdlc/prepared/issues/5831/validate-native-receipts.rb
+- .github/workflows/wp13a-native-adaptive-learning.yml
+- .csdlc/evidence/5831/adaptive-learning-runtime-v3.log
+- .csdlc/evidence/5831/local-validation-manifest.json
 
 ## Execution
 
-- none
+- Added a versioned adaptive-learning build, replay, validation, and rollback boundary over actual Runtime v3 reasoning and cognitive-profile authorities.
+- Bound evidence, before/after state and graph hashes, proposal, policy disposition, accepted or rejected mutation, durable prefix history, recurrence bounds, and rollback inverse records.
+- Rejected missing, forged, private, or substituted evidence; invalid graph authority; discontinuous replay; unbounded recurrence; unauthorized or rejected mutation; rollback mismatch; and unknown fields.
+- Added an exact six-test fixture-backed target, canonical semantic output, issue-local native producer and independent validator, and the narrow WP-13A macOS/Linux workflow required by AC-8.
+- Updated the adaptive-learning feature contract to implemented Runtime v3 truth without claiming unconstrained self-modification, retraining, hidden memory mutation, or downstream birthday completion.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "adaptive_learning",
+      "--no-tests=fail",
+      "--status-level",
+      "all"
+    ],
+    "purpose": "Prove accepted and rejected mutation histories, deterministic replay, evidence and graph substitution rejection, bounds, authority, privacy, rollback, unknown-field, and fixture boundaries at exact revision 5436d9a45f22bacb93a8be405c69ae1c6bbdde76.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5831/local-validation-manifest.json"
+  }
+]
 
 ## Integration
 
