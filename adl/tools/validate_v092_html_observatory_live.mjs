@@ -25,6 +25,7 @@ const evidenceRoot = process.env.ADL_OBSERVATORY_EVIDENCE_DIR;
 const tlsConnectHost = process.env.ADL_TLS_PROOF_CONNECT_HOST || null;
 const allowRuntimeRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
 const sourceRevision = process.env.ADL_SOURCE_REVISION;
+const expectedRuntimePid = Number(process.env.ADL_EXPECTED_RUNTIME_PID);
 
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the served HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the exact Runtime candidate URL");
@@ -32,6 +33,10 @@ assert(operatorKeyFile, "ADL_OPERATOR_KEY_FILE must name the trusted operator Ed
 assert(evidenceRoot, "ADL_OBSERVATORY_EVIDENCE_DIR must name a retained FastWork evidence directory");
 assert(allowRuntimeRestartProof, "ADL_ALLOW_RUNTIME_RESTART_PROOF=1 is required for the isolated Guardian restart proof");
 assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact 40-character source commit");
+assert(
+  Number.isSafeInteger(expectedRuntimePid) && expectedRuntimePid > 1,
+  "ADL_EXPECTED_RUNTIME_PID must independently name the exact Runtime child approved for restart"
+);
 const fastWorkRoot = await fs.realpath("/Volumes/FastWork");
 const requestedEvidenceRoot = path.resolve(evidenceRoot);
 assert(
@@ -45,12 +50,12 @@ assert(
 
 const signingSeed = (await fs.readFile(operatorKeyFile, "utf8")).trim();
 assert(/^(?:0x)?[0-9a-fA-F]{64}$/.test(signingSeed), "operator key file must contain one hex Ed25519 seed");
-await fs.mkdir(requestedEvidenceRoot, { recursive: true });
 const retainedEvidenceRoot = await fs.realpath(requestedEvidenceRoot);
 assert(
   retainedEvidenceRoot.startsWith(`${fastWorkRoot}${path.sep}`),
   "ADL_OBSERVATORY_EVIDENCE_DIR must not escape FastWork through a symlink"
 );
+assert((await fs.stat(retainedEvidenceRoot)).isDirectory(), "ADL_OBSERVATORY_EVIDENCE_DIR must already be a directory");
 
 const url = new URL(observatoryUrl);
 const runtimeUrl = new URL(runtimeApiBase);
@@ -67,7 +72,8 @@ function inspectTrustedPeer(endpoint) {
       host: tlsConnectHost || endpoint.hostname,
       port: Number(endpoint.port || 443),
       ...(net.isIP(endpoint.hostname) ? {} : { servername: endpoint.hostname }),
-      rejectUnauthorized: true
+      rejectUnauthorized: true,
+      ca: tls.rootCertificates
     });
     socket.setTimeout(10_000);
     socket.once("secureConnect", () => {
@@ -98,6 +104,7 @@ function postTrustedJson(endpoint, pathname, headers, value) {
       method: "POST",
       servername: endpoint.hostname,
       rejectUnauthorized: true,
+      ca: tls.rootCertificates,
       headers: {
         Host: endpoint.host,
         "Content-Type": "application/json",
@@ -179,7 +186,7 @@ const report = {
   source_revision: sourceRevision,
   observatory_url: url.toString(),
   runtime_api_base: runtimeUrl.origin,
-  tls_trust: "platform_trust_store",
+  tls_trust: "browser_platform_and_node_public_roots",
   tls_connect_host: tlsConnectHost || "dns",
   shared_certificate: {
     observatory: observatoryPeer,
@@ -359,10 +366,15 @@ try {
     };
   }, runtimeUrl.origin);
   assert(Number.isSafeInteger(restartTarget.pid) && restartTarget.pid > 1, "Runtime feed did not expose an exact candidate PID");
+  assert.equal(
+    restartTarget.pid,
+    expectedRuntimePid,
+    "public Runtime feed PID did not match the independently approved restart target"
+  );
   assert.equal(restartTarget.runtime_instance_id, automaticReconnectBefore.runtime_instance, "restart target identity drifted before the proof");
   proofPhase = "guardian_restart";
   guardianRestartInProgress = true;
-  process.kill(restartTarget.pid, "SIGKILL");
+  process.kill(expectedRuntimePid, "SIGKILL");
   await page.waitForFunction(() => {
     const state = document.querySelector(".observatory")?.dataset.liveConnection;
     const status = document.getElementById("statusbar-websocket")?.textContent || "";

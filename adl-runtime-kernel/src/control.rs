@@ -413,7 +413,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             observatory_allowed_origins,
             agent_population,
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
-            public_base_url: Mutex::new("https://localhost".to_owned()),
+            public_base_url: Mutex::new("https://runtime.invalid".to_owned()),
             canonical_ingress: None,
             api_policy: Mutex::new(None),
         }

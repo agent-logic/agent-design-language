@@ -112,6 +112,14 @@ or add an insecure fallback. Address routing and TLS identity are separate: the
 connection may remain loopback-only while normal hostname and public-chain
 verification stays enabled.
 
+The HTTPS serving layer must generate the Observatory CSP response header from
+that instance's configured public hostname. Limit `connect-src` to
+`https://<certificate-hostname>:*` and `wss://<certificate-hostname>:*`, and
+retain `object-src 'none'`, `base-uri 'none'`, `form-action 'none'`, and
+response-header-only `frame-ancestors 'none'`. The checked-in page does not
+hard-code a deployment hostname, so each distributed Runtime instance can use
+its own certificate and DNS identity without weakening the policy.
+
 The production binary admits the resident Shepherd through the production
 Shepherd adapter before publishing the live roster. Startup fails closed if
 that admission fails. The browser should show `Shepherd - running`, not a
@@ -151,11 +159,19 @@ ADL_TLS_PROOF_CONNECT_HOST=127.0.0.1 \
 ADL_PLAYWRIGHT_HOST_RESOLVER_RULES='MAP <certificate-hostname> 127.0.0.1' \
 ADL_ALLOW_RUNTIME_RESTART_PROOF=1 \
 ADL_SOURCE_REVISION="$(git rev-parse HEAD)" \
+ADL_EXPECTED_RUNTIME_PID=<independently-confirmed-runtime-child-pid> \
 node adl/tools/validate_v092_html_observatory_live.mjs
 ```
 
-The browser context keeps certificate verification enabled. This co-located
-proof requires both listeners to present the same publicly trusted certificate,
+Create the retained evidence directory under `/Volumes/FastWork` before
+running the validator. It resolves and verifies that existing directory before
+the first evidence write and will not create a path through an untrusted
+symlink.
+
+The browser context keeps certificate verification enabled, while the native
+proof separately validates both listeners against Node's bundled public root
+set rather than user-installed trust additions. This co-located proof requires
+both listeners to present the same publicly trusted certificate,
 records their matching SHA-256 fingerprint, and rejects localhost or IP
 certificate identities. It also requires the real Shepherd roster, signed selected-agent delivery, a real
 `400 invalid_request` refusal, stopped-state authority removal, reconnect
