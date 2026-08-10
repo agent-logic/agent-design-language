@@ -1,0 +1,13 @@
+command=.csdlc/prepared/issues/109/validate-fresh-session-srp.sh 081988dfe4632e27062f3acc72b7c5d226cd0802 6ce1d075b2a45e4da0c87811eb36b563024b65d4
+assertion=PASS AC-1 standard SRP authority
+assertion=PASS AC-2 fresh exact-head handoff
+assertion=PASS AC-3 read-only findings-first evidence
+assertion=PASS AC-4 resolution and mandatory re-review
+assertion=PASS AC-5 authority-critical precedence
+assertion=PASS AC-6 no new orchestration
+assertion=PASS AC-7 no redundant broad validation
+result=PASS
+base=081988dfe4632e27062f3acc72b7c5d226cd0802
+head=6ce1d075b2a45e4da0c87811eb36b563024b65d4
+paths=20
+note=This retained pre-review receipt records the candidate validated before evidence retention; the independent reviewer reruns the same validator against the final exact head.

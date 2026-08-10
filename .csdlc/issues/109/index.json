@@ -1,0 +1,173 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 109,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "bfeb8b2ff23afcd8236f3327dc29b6d3f458c1e5983cbd2be97b4766c672c6d0",
+  "branch": "codex/109-fresh-session-standard-srp",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/109/design.md",
+  "diagram_path": ".csdlc/prepared/issues/109/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "57095ceeb0de2c8e74d473f78c657972794346d68ba427dc61e4503d0b828a2d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7e4a2830e99c3eab1fac53fde38c92c0af455c9a208946e12be594c121bcbcc1",
+      "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
+      "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
+    },
+    "stp": {
+      "values_digest": "7bf1e23bb16b82820972bbfb5708aa75170ce82da025d00f4c1a6c2591c9b392",
+      "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
+      "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
+    },
+    "spp": {
+      "values_digest": "063ec0a78a68ae32bc60b05d1deccecc455359fd385988487de246e2d8a342e7",
+      "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
+      "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
+    },
+    "vpp": {
+      "values_digest": "8bdcfb475dd55a0cc970f5b6858ca653d433ecbd134e679b1da844de6f3cc3d6",
+      "rendered_digest": "42a9bfffd80a6b4f35769cf86ed9c6ae65d75632bfe5bded6ef25f543b436405",
+      "ast_digest": "17a0cb6f2245be3029a712020395439f86fd6023c8032db328eb80b05d03a240"
+    },
+    "srp": {
+      "values_digest": "6ef71af61cdf6dafb214de141ff296c5f6651f12c86ac886f03e02c3dfbf3f38",
+      "rendered_digest": "edf9b4dcbbd357766766315b4a0858c55852e7312e21ddc6195dc2d72275b8c2",
+      "ast_digest": "18b91b8ed0f221c485516294dc54bbdf99d24ffe0f19932592c00d47aa8503f8"
+    },
+    "sor": {
+      "values_digest": "ee0dd2c70f683dcc89533fa128de305c603ca8c6cd85255bea9d9362379a757c",
+      "rendered_digest": "d57f3e1f7c4280aa2ef21f94aec55e05a5c6de82411faa4d741b78c03b396c70",
+      "ast_digest": "ed9af72a8c4f2400640a10ef9b2cdb079f9214c9e661e28fdb481ac82c96cd27"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "declare exact issue-owned review documentation and validator paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md\",\".csdlc/prepared/issues/109/design.md\",\".csdlc/prepared/issues/109/diagram.mmd\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\".csdlc/issues/109\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "resolve fresh-session review finding by making the standard SRP self-contained",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Review only the named immutable commit SHA in the named worktree; do not inherit or rely on the implementation conversation.\",\"Operate read-only: do not edit files, lifecycle state, PR state, or GitHub state.\",\"Report findings first, ordered P0 through P3, with repository-relative file and line evidence; include explicit limitations and state PASS only when no actionable findings remain.\",\"Check every acceptance criterion and identify any actionable finding that the implementation session must resolve.\",\"Apply authority-critical precedence: changes to authentication, authorization, security boundaries, lifecycle authority, or proof production require code, security, and evidence review even when the changed files are documentation.\",\"Verify the standard SRP remains the sole review-result authority and that any substantive fix requires a refreshed SRP and fresh-session review at the new exact head.\",\"Verify no daemon, scheduler, registry, claim, parallel review record, provider abstraction, lifecycle phase, or redundant broad validation was added.\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "retain fresh-session review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-SRP\",\"severity\":\"p1\",\"summary\":\"Standard SRP omitted self-contained read-only, findings-first, evidence, resolution, and scope-depth instructions (.csdlc/issues/109/cards/srp.md:17).\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "retain fresh-session review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P2-VALIDATOR\",\"severity\":\"p2\",\"summary\":\"Focused validator checked isolated substrings and did not prove AC-3 through AC-7 (.csdlc/prepared/issues/109/validate-fresh-session-srp.sh:8).\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "retain fresh-session review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P2-PRECEDENCE\",\"severity\":\"p2\",\"summary\":\"Review-depth rules did not define authority-critical precedence over documentation-only classification (docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md:26).\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "record the validator's required immutable base and exact-head arguments",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-srp-contract\",\"proof_role\":\"prove fresh-session standard SRP instructions\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":100,\"argv\":[\"bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"<immutable-base-sha>\",\"<exact-reviewed-head-sha>\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "record the exact focused validation invocation retained in evidence",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"documented standard SRP handoff to a fresh external review session\",\"changes\":[\"updated existing review skill\",\"added bounded operator runbook\",\"added focused contract validator\"],\"artifacts\":[\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md\"],\"validation\":[{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"081988dfe4632e27062f3acc72b7c5d226cd0802\",\"6ce1d075b2a45e4da0c87811eb36b563024b65d4\"],\"purpose\":\"issue 109 focused docs contract validation at the retained pre-review candidate\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/109/focused-srp-contract.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "record completion of the fresh-session SRP handoff documentation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "record completion of finding-resolution and exact-head repeat documentation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "record completion of bounded-scope and non-goal validation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    }
+  ]
+}
