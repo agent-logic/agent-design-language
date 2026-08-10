@@ -20,6 +20,7 @@ Reconcile and validate v0.92 demo/AEE proof metadata after #5836, #5837, #5838, 
 - Exact-revision AEE and artifact index
 - Corrected WP-20 versus WP-21/WP-21A ownership
 - Fail-closed coverage validator and focused tests
+- adl/tools/test_v092_demo_proof_coverage.sh
 
 ## Acceptance
 

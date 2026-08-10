@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,8 @@
         "Field-level continuity-transfer matrix",
         "Cross-polis continuity design note with WP-04 boundary",
         "Updated v0.93 handoff inputs",
-        "Copied-state, ambiguity, redaction, and forbidden-claim validation evidence"
+        "Copied-state, ambiguity, redaction, and forbidden-claim validation evidence",
+        ".csdlc/evidence/5835/validate-continuity-transfer.rb"
       ],
       "acceptance_criteria": [
         "AC-1: The transfer matrix covers every declared birthday artifact with portability, locality, governance, transport, lineage, and redaction dispositions.",

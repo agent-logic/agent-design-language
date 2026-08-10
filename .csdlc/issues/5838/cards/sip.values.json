@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof",
     "slug": "v0-92-wp-18b-provider-neutral-multi-agent-proof",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -27,7 +27,9 @@
         "WP-18B owns provider comparison and no-substitution proof",
         "#5832 owns ACIP protocol/transport",
         "#5836 owns the birthday scenario",
-        "Provider credentials and private payloads remain outside retained artifacts"
+        "Provider credentials and private payloads remain outside retained artifacts",
+        "Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.",
+        "Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution."
       ],
       "initial_assumptions": [
         "#5832 supplies the versioned ACIP contract",

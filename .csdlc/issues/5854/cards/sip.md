@@ -16,17 +16,22 @@ Coordinate real demonstrations, consumer proofs, governance handoff, proof cover
 
 ## Required Outcome
 
-A reviewable sprint coordination lane can route #5835, #5836, #5838, #5839, #5840, #5844, #5845 through their own typed lifecycles without scope collision or false completion.
+A reviewed Sprint 5 coordination packet routes prepared #5835, #5836, #5838, #5839, and #5840 without starting them, preserves WP-24 product and GitHub completion while typed closeout remains asynchronous, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, review, or closeout.
 
 ## Scope
 
+- .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
+- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
 - .csdlc/issues/5854
 - .csdlc/prepared/issues/5854
 - .csdlc/evidence/5854
 
 ## Authority
 
-- Sprint coordination records only; child issues own implementation and evidence.
+- Sprint coordination records only; child issues own implementation, evidence, review, publication, and closeout.
+- Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
+- Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
+- The operator retains external deployment and publication authority.
 
 ## Assumptions
 
@@ -36,7 +41,9 @@ A reviewable sprint coordination lane can route #5835, #5836, #5838, #5839, #584
 
 - Use typed C-SDLC v2 lifecycle only
 - Never write tracked changes on main
-- Never use /private/tmp
 - Use repo-native GitHub tools only
 - The umbrella coordinates child sessions and never implements child code
 - Every child session reads AGENTS.md, binds its own worktree, and creates its own goal before implementation
+- Use FastWork for child worktrees and substantial generated artifacts.
+- Do not execute child deliverables from the umbrella worktree.
+- Do not run optional proof jobs or publish private media without explicit authorization.

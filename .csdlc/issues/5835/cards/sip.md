@@ -30,6 +30,8 @@ A field-level movement-semantics design that rejects copied state, quarantines a
 - WP-17 owns documentation-only movement semantics and explicit non-goals
 - WP-04 retains Runtime, storage, networking, and distributed polis infrastructure
 - v0.93 retains citizenship, standing, rights, and governance decisions
+- Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
+- Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
 
 ## Assumptions
 

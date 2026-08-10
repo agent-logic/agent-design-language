@@ -33,6 +33,8 @@ A redacted exact-revision matrix of real provider runs, equivalent ACIP semantic
 - #5832 owns ACIP protocol/transport
 - #5836 owns the birthday scenario
 - Provider credentials and private payloads remain outside retained artifacts
+- Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
+- Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
 
 ## Assumptions
 

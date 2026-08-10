@@ -40,7 +40,7 @@ Diagram: .csdlc/prepared/issues/5839/diagram.mmd
       ".csdlc/evidence/5839/validate-governance-handoff.rb"
     ],
     "parallel_group": "docs",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp19-negative-governance",
@@ -60,7 +60,7 @@ Diagram: .csdlc/prepared/issues/5839/diagram.mmd
       "--negative"
     ],
     "parallel_group": "docs",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp19-diff-review",

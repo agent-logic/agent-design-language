@@ -42,7 +42,7 @@ Diagram: .csdlc/prepared/issues/5838/diagram.mmd
       "2"
     ],
     "parallel_group": "provider-live",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp18b-no-substitution",
@@ -61,7 +61,7 @@ Diagram: .csdlc/prepared/issues/5838/diagram.mmd
       "--negative"
     ],
     "parallel_group": "provider-negative",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp18b-redaction-platform",
@@ -81,7 +81,7 @@ Diagram: .csdlc/prepared/issues/5838/diagram.mmd
       "--platform-contract"
     ],
     "parallel_group": "platform",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   }
 ]
 

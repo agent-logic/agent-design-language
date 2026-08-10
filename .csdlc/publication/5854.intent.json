@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5854,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5854-sprint5-readiness-current",
+  "title": "[v0.92][readiness] Prepare Sprint 5 without starting child work",
+  "body": "Part of danielbaustin/agent-design-language#5854\n\nPrepares the v0.92 Sprint 5 coordination umbrella and five operative child readiness contracts without binding or executing any child deliverable.\n\nReview remediation:\n- proves the split-authority bind-before-doctor route for #5835, #5836, #5838, #5839, and #5840\n- reconciles the live umbrella, canonical issue wave, and execution packet to exactly five operative children\n- classifies completed WP-24 as non-gating and WP-24A as an independent out-of-band stream\n- restores the complete WP-19 serial gate\n- enforces full issues/gate/boundary parity across machine YAML, canonical issue-wave YAML, and every human Safe Parallel Lanes row\n- fails closed on malformed, extra, divergent, or path-overlapping parallel lanes\n- records tooling issue #74 as closed and uses the recorded full FastWork lifecycle worktree with no sparse-checkout workaround\n\nValidation:\n- `ruby .csdlc/prepared/issues/5854/validate-sprint-readiness.rb`: PASS\n- `ruby .csdlc/prepared/issues/5854/validate-sprint-readiness.rb --negative-overlap`: PASS\n- typed `csdlc-validate issue --issue 5854`: PASS\n- split-authority production bind regression: PASS\n- `git diff --check`: PASS\n\nIndependent exact-head review passed at `f9a06470bbf088af51f4e168f4feedee556feb4f` with no P0-P2 findings. This is a non-closing readiness publication. It does not start Sprint 5, execute children, close #5854, merge this PR, deploy demos, or publish articles or media.",
+  "linkage_mode": "part_of",
+  "draft": false,
+  "revision": "git-blake3:05d2944abbbeea354fb73fe8b56074843f18591c:f0fffbd433a53cb8cadb6372f4197c387f3a7d5ad5c87e96930e10eb7ac1223d",
+  "commit_sha": "05d2944abbbeea354fb73fe8b56074843f18591c"
+}

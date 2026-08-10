@@ -40,7 +40,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
       "--positive"
     ],
     "parallel_group": "birthday",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp18-negative-replay",
@@ -59,7 +59,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
       "--negative"
     ],
     "parallel_group": "birthday",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp18-native-macos",
@@ -79,7 +79,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
       "macos"
     ],
     "parallel_group": "platform",
-    "defer_reason": "Requires a native macOS runner; absence or a non-native substitute blocks readiness."
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp18-native-linux",
@@ -99,7 +99,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
       "linux"
     ],
     "parallel_group": "platform",
-    "defer_reason": "Requires a native Linux runner; absence or a non-native substitute blocks readiness."
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   },
   {
     "lane": "wp18-publication-gate",
@@ -119,7 +119,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
       "--check-only"
     ],
     "parallel_group": "publication",
-    "defer_reason": null
+    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
   }
 ]
 

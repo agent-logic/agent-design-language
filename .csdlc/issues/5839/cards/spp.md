@@ -16,7 +16,7 @@ Verify #5834, #5835, and the v0.93 allocation; inventory exact accepted artifact
 
 ## Plan
 
-Revision 12
+Revision 13
 
 ## Steps
 

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-19] Birthday-to-governance handoff",
     "slug": "v0-92-wp-19-birthday-to-governance-handoff",
     "version": "v0.92",
-    "generation": 30
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,8 @@
         "v0.92-to-v0.93 governance evidence map",
         "Allowed-use and forbidden-inference matrix",
         "Unresolved-decision and blocker register",
-        "Evidence-grounded ADR 0033 planning update"
+        "Evidence-grounded ADR 0033 planning update",
+        ".csdlc/evidence/5839/validate-governance-handoff.rb"
       ],
       "acceptance_criteria": [
         "AC-1: Every required identity/continuity artifact maps to exact evidence or an explicit blocker.",
