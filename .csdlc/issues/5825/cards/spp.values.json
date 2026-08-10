@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 71
+    "generation": 75
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
