@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-08] Birthday contract and negative cases",
     "slug": "v0-92-wp-08-birthday-contract-and-negative-cases",
     "version": "v0.92",
-    "generation": 75
+    "generation": 76
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact-head review of WP-08 birth-decision semantics, complete disqualifier coverage, deterministic evidence, path/privacy hygiene, and public non-claim boundaries only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5825\n.csdlc/evidence/5825\n.csdlc/prepared/issues/5825/validate-native-receipts.rb\nadl-runtime-kernel/src/birthday.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/birthday.rs\nadl-runtime-kernel/tests/fixtures/birthday\ndocs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "review_revision": "git-blake3:0cb12f10f87e39d8050aa1657d3d328fae1103b3:373ace0ed331ccd45506d18e7891ba8125fa531149e5f2dc64e6d8d9a1d9578b",
+      "reviewer": "codex:review_5825_exact_head",
       "review_prompts": [
         "Does any startup, task, wake, restore, snapshot, admission, copied-state, migration, or incomplete packet incorrectly satisfy the birth contract?",
         "Are canonicalization, rejection reasons, fixtures, and retained reports deterministic and bound to the reviewed revision?",
@@ -23,8 +23,10 @@
         "Are #5818 and #5819 terminal proof and all claimed acceptance criteria evidenced at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Native macOS and Linux exact-head portability receipts remain explicitly deferred to the issue-owned CI producer lanes and are not claimed by local proof."
+      ],
+      "review_result": "pass"
     }
   }
 }

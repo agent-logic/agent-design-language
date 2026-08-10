@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-Exact-head review of WP-08 birth-decision semantics, complete disqualifier coverage, deterministic evidence, path/privacy hygiene, and public non-claim boundaries only.
+.csdlc/issues/5825
+.csdlc/evidence/5825
+.csdlc/prepared/issues/5825/validate-native-receipts.rb
+adl-runtime-kernel/src/birthday.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/birthday.rs
+adl-runtime-kernel/tests/fixtures/birthday
+docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
 
 ## Prompts
 
@@ -31,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Native macOS and Linux exact-head portability receipts remain explicitly deferred to the issue-owned CI producer lanes and are not claimed by local proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0cb12f10f87e39d8050aa1657d3d328fae1103b3:373ace0ed331ccd45506d18e7891ba8125fa531149e5f2dc64e6d8d9a1d9578b")
 
-Reviewer: None
+Reviewer: Some("codex:review_5825_exact_head")
 
-Result: pre_review
+Result: pass

@@ -4,13 +4,32 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "904390dda83597a867777bbf16ebbe9907f65b6d6481c7be13b55d2ed2e2de2d",
-  "phase": "implemented",
-  "generation": 75,
-  "digest": "8baca735728b59e972ab5740f90fabfbb55ae1813c5661af8448574c71833a13",
+  "phase": "reviewed",
+  "generation": 76,
+  "digest": "46078d160a949c3fb42fcde34fcb5a1b7c88e1d9a667b36a48f11639e7dacaa4",
   "branch": "codex/5825-birthday-contract",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5825-birthday-contract",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:review_5825_exact_head",
+    "scope": [
+      ".csdlc/issues/5825",
+      ".csdlc/evidence/5825",
+      ".csdlc/prepared/issues/5825/validate-native-receipts.rb",
+      "adl-runtime-kernel/src/birthday.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birthday.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:0cb12f10f87e39d8050aa1657d3d328fae1103b3:373ace0ed331ccd45506d18e7891ba8125fa531149e5f2dc64e6d8d9a1d9578b",
+    "findings": [],
+    "residual_risks": [
+      "Native macOS and Linux exact-head portability receipts remain explicitly deferred to the issue-owned CI producer lanes and are not claimed by local proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ebf0a391ddf6f43fe36b43f33233d0db52d5688a0e9415d5a08dfb3cf988b53d",
+      "values_digest": "0e38b514f2ffda7c916ddfb47f893f48ae8f309642c1a101dd64b7b99b056012",
       "rendered_digest": "d6a522f9b96a13db366a0ee6b8ce2cdab3049852134faabe28fe9a42af07fe66",
       "ast_digest": "8d6bf8fbed7abdd44c892e87970e36f564d7ffc9fc248f3cae3aa1c0b8185d8a"
     },
     "stp": {
-      "values_digest": "e7b7c646208f258fd4d5ba541ac033b6d648eaca00b05154cd1070004be06fd8",
+      "values_digest": "4fb2a34cc8af00fc530ff3cc6e2acfbb242ba5e539d113df95f57d7567c770b7",
       "rendered_digest": "7f2ed62aa061ee33c6e06ddc3acfce0107c77caed88d88e2f317f3d1bc6f20a1",
       "ast_digest": "cb270301e62edfc3d61461b34ba1c12e046d6f9c153bc1d44a45b1e05ec76eed"
     },
     "spp": {
-      "values_digest": "04527c6ce8512c232241d842afefbe6732b447bc12db7e386de47d0ed80df3c5",
+      "values_digest": "8df1b1dffdf52e8a35d476b9b708cce2496c264b632abfb736b16eb72763903d",
       "rendered_digest": "5afcede0d064f0d7a2c481e49c8ff50ab27d35a136f930da24319bb6394d7dfa",
       "ast_digest": "7ce4cd2aeb855f10a329117709ba3ca48d295d52bf453db6a7ba802c425e7828"
     },
     "vpp": {
-      "values_digest": "8fea7c478361c3128ceed88474f1e0987f21f3e1fe8ad87cd9b5a88b1bbd4f1d",
+      "values_digest": "951860e92aaec4150813e1c187e0689186f5b9904038e333b87f80d486cc2d65",
       "rendered_digest": "99bfa9cb57e3bce8a94bfa4265fa7a503aa89e00d653fbe0317b74a0bd3c4754",
       "ast_digest": "800cdc9faf9d9e8150d11b8b7cc41d660c8619ab66d8fb3f17913ec956c5f6e9"
     },
     "srp": {
-      "values_digest": "af38009e089f3ec969e489fc83d35fa666d0bda80f076624959ff90a6f02a379",
-      "rendered_digest": "656f33b83ff10ead3fa1cb155ab9ef8be5b90d51a2e442224b85d9fbfe76b2b4",
-      "ast_digest": "ecc45c5df390f8f354a35abfe2e442480c22c6a4d71cbba8d76a340898994d13"
+      "values_digest": "62eaa8e0f6e6c357fde5e056b04c6cec7b6f5d112ac11dc6b437929c1b84767e",
+      "rendered_digest": "d812e6fa6d99df1b644c4b0d5cd2b8292498092e0fc91904120472fb5307fe30",
+      "ast_digest": "8756273ef895e84c3fb3370abae5510cc7646582a6af6a1929a1a85bdcf61850"
     },
     "sor": {
-      "values_digest": "dd003a0b18c99802904edf492549bd194f64f0624aea5dfcd5ec862ce03c4481",
+      "values_digest": "98b134651391d003c9899459333fce879a338599f07c77a29b2f9f843f1dc0e9",
       "rendered_digest": "a55fc2e01bfd5d2edf14049175de1b5d58278d3377419c418a470e516ed470ca",
       "ast_digest": "76a5853a16d81d61045d44ed85ea5e5618dfa2720cd312431357d96042057475"
     }
@@ -97,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:5825-birthday-contract",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5825-birthday-review-record",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -785,6 +811,13 @@
       "actor": "codex:5825-review-fix",
       "reason": "The owned birthday target now exists and typed finalize retained a positive exact-target run; clear only its obsolete pre-implementation defer reason.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5825-core\",\"defer_reason\":null},{\"lane\":\"birthday-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5825/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/macos-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5825/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/linux-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=0ca36480e629a794cd9bb5c2a43756fde84052f1eb88e3bac3077c3b7c669cc9]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/native-platform/macos.json\",\".csdlc/evidence/5825/native-platform/linux.json\"],\"parallel_group\":\"5825-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 99,
+      "generation": 76,
+      "actor": "codex:5825-birthday-review-record",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
