@@ -4,13 +4,23 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "502372966fdb16e41a3becd32ea161185452b06eb437bbc16b61c7cd0e73859e",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "b4c9fad6b539017cce7b8ba70f1a815c71cca05eb296f62b0e9ed457973bf028",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "821b8f5052c5a210a8c16576bb831913b3d431e5cd29210bbac5d9c941250182",
   "branch": "codex/92-runtime-tls-standardization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-92-runtime-tls-standardization",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Lorentz independent subagent 019fe945-9c9e-7153-8b4d-66680d6244e3",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:d986f3a8710e0f21a115ad13342814eac051d822:233103e5fd2591b60272ffb23a24b821e46d9d014c0ae78f54517f538bc3e672",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +35,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2a7d7d54e7c7e2b6feb1ccc740f816ea1c804a317c5daf7240e51305f4857642",
+      "values_digest": "25c22fd1ff7b155ccf64db3d34317640f82477e93a6d5f66c1b2a01f520d528d",
       "rendered_digest": "7ccf34814b68b012f828da17acdd10527e13b2372d83d3aab5511695bcf22c68",
       "ast_digest": "abf46c21d74fea235fe72137e920a91416da9457bb8d1c8129fce29bd56575c2"
     },
     "stp": {
-      "values_digest": "a7cf25ea61dbbf7fa0587dbf69de2fe17932cb61de6796fc181ee6deb1915637",
+      "values_digest": "613713fb62c484f6c2424bb8bb507db00176162dbdf59daef0c11255f1daaca2",
       "rendered_digest": "9ec27d9c485630570c1b9d20372dbfcafdf3a5a1924551482f212cb1ddbf8cc9",
       "ast_digest": "2b2cf670758a6accae192134022b23a8ad576d1b92f57e0cb5c8ff7440a9afd3"
     },
     "spp": {
-      "values_digest": "2a2d90d8a06c650990d7986e240806c85e96b0dfd21303359b79397c2b8af7ab",
+      "values_digest": "7bacd7c0394418f0a284be398d408f7d50a0fcde3763ce4d721b2408a875db9c",
       "rendered_digest": "9dfca307b4e3c498240de8f573b025ed96977b99081118c0d43e67d13556688f",
       "ast_digest": "571a9ed60e1138f5e6ebdd573fbc5b870aed8f0251e9551c920dd681f939f867"
     },
     "vpp": {
-      "values_digest": "59156ac943d48d6b4b02f917f177e860c76fcf57d8d5c75df59b3af77b1540c6",
+      "values_digest": "b323bebcf78e37f44d054941412549e8f053e929106a8d279ceb4357aff823e2",
       "rendered_digest": "ac9b21a4df4e6b843711cda853815a1240cc6dca71312066dbb6efe0cad00b0e",
       "ast_digest": "23e89e61647e38c979924188369af8029a4e58100060e2cd8bf21aee822da0e6"
     },
     "srp": {
-      "values_digest": "7487dd8cd3bac580c8d6d2d8fbc6d7d1a25a18b3381ca14836dc3f57998fec6b",
-      "rendered_digest": "f74d25fac27aecdcd097c9320599b02e2a1c08b5f4a64449cc7e23ac41b26e56",
-      "ast_digest": "30e4a0f8069013e28da1c4f5b6b2b64af75836e99214106766cbbcfd6c18ef1e"
+      "values_digest": "c2f61579db257b8760acfd829c67b0dcb797e3e5185b5f95a29f012915e5d4ba",
+      "rendered_digest": "75d736bfbf9c8cc3d362cec8d64d10fb35b05b1fdf9c83a9745ddb26e87f0d72",
+      "ast_digest": "cc207d7538337878646a652b95084d24a859621df1e15b7c3f175f098c3534aa"
     },
     "sor": {
-      "values_digest": "54c5235c1c8c6ecf4623ee53b94dbe4c1af93605bb84e835192cd820bacdab2e",
+      "values_digest": "3d62b2ece878877e55a4fc54f1938ccef45c5cf7a2301452dfa37ac772aa30b7",
       "rendered_digest": "f4629d29dd90683c5c4c221a3005f71faf76151e70dff464c17ad9834d489390",
       "ast_digest": "b902d1cdf97b301339c01d73b5ac06fef50332807a1c0c4c81f6c0a9e6bfa414"
     }
@@ -118,6 +128,13 @@
       "to": "implemented",
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "Recover review and publication truth after CI exposed one rustfmt-only change in the ACIP OpenAPI regression assertion."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -295,6 +312,13 @@
       "actor": "codex:issue-92-runtime-tls-standardization",
       "reason": "Recover review and publication truth after CI exposed one rustfmt-only change in the ACIP OpenAPI regression assertion.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:issue-92-runtime-tls-standardization",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
