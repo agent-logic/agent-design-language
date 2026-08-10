@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a secure three-voter OpenRaft substrate with authority-derived topology, mutually authenticated QUIC transport, durable replay and state stores, external rollback checkpoints, bounded recovery, and exact restart behavior.
+Implemented a secure three-voter OpenRaft substrate with authority-derived topology, mutually authenticated QUIC transport, durable replay and state stores, external rollback checkpoints, bounded recovery, exact restart behavior, and hosted-compatible standalone transport/discovery harnesses.
 
 ## Artifacts
 
@@ -21,6 +21,8 @@ Implemented a secure three-voter OpenRaft substrate with authority-derived topol
 - adl-runtime/src/distributed/transport.rs
 - adl-runtime/src/distributed/polis_runtime.rs
 - adl-runtime/tests/distributed_runtime_transport.rs
+- adl-runtime/tests/distributed_transport.rs
+- adl-runtime/tests/distributed_discovery.rs
 - .csdlc/prepared/issues/191/produce-proof-receipt.rb
 - .csdlc/prepared/issues/191/validate-proof-receipt.rb
 
@@ -30,6 +32,7 @@ Implemented a secure three-voter OpenRaft substrate with authority-derived topol
 - Added crash-reconciled durable OpenRaft vote, log, state-machine, snapshot, and response-cache storage bound to an external monotonic checkpoint authority.
 - Added focused three-voter quorum, isolation, restart, rotation, replay, rollback, canonical encoding, path-safety, bounded-I/O, and idle-timeout regressions.
 - Added an issue-owned merge-safe receipt producer and validator that bind protected Git source, exact commands, machine cases, and immutable evidence history.
+- Updated the existing standalone transport and discovery harnesses to declare the lease and membership siblings required by the reviewed transport authority surface; production transport bytes are unchanged by this CI repair.
 
 ## Validation
 
@@ -71,11 +74,11 @@ Implemented a secure three-voter OpenRaft substrate with authority-derived topol
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

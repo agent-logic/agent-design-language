@@ -21,6 +21,8 @@ Replace the unencrypted prototype OpenRaft RPC and mutate-before-persist stores 
 - adl-runtime/src/distributed/transport.rs
 - adl-runtime/src/distributed/polis_runtime.rs
 - adl-runtime/tests/distributed_runtime_transport.rs
+- adl-runtime/tests/distributed_transport.rs
+- adl-runtime/tests/distributed_discovery.rs
 - .csdlc/prepared/issues/191/validate-proof-receipt.rb
 
 ## Acceptance

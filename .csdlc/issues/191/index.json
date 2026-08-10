@@ -4,44 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
-  "phase": "published",
-  "generation": 5,
-  "digest": "972cecf8ec2abcf2d55923ec4b1316811deb53bde7ad8ca5d9667207ce25d904",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "1e05a01009ed6a1eb123729743edc1b5c85e39c6a1c68d6da4f83bc9c9d97464",
   "branch": "codex/191-secure-durable-openraft",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-191-secure-raft",
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:prepare_5875_release",
-    "scope": [
-      ".csdlc/issues/191",
-      ".csdlc/prepared/issues/191",
-      ".csdlc/evidence/191",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/Cargo.lock",
-      "adl-runtime/src/distributed/transport.rs",
-      "adl-runtime/src/distributed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_runtime_transport.rs"
-    ],
-    "reviewed_revision": "git-blake3:f7311b24c76a1d83cf18e05df55f368bd92ecb04:375d7b9dccdc8b704f026a8e9b380f04ad8e4a929050508d6a02e3406051a993",
-    "findings": [],
-    "residual_risks": [
-      "Hosted repository checks and the operator's external PR review remain required before any merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 191,
-    "pull_request": 197,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/197",
-    "base": "main",
-    "head": "codex/191-secure-durable-openraft",
-    "revision": "git-blake3:ca2c8f5efda46310b3a6c39090c49ac306384da1:31b088ac68353d149ce574145c02b3f2d4c162e9d1e3ba916aa059d435f2f5d7",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -55,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dce9caf59bd101a9b18b10a8e0b7ffa48f8712953aa5424dd0810acdb40ebbc7",
+      "values_digest": "80e5e763f2bf6c7582d25d4f3045ff39b61aed8ef6e7a502ec33d6e3db5fe482",
       "rendered_digest": "f7e3f002e85eb0c155766d4587bb7b76a27bb0dc56cb15b4622bb6aea51ddda9",
       "ast_digest": "11427429647037945ad5e43fbf88664d0f1be67699ae4b14bcdd586f6faf7646"
     },
     "stp": {
-      "values_digest": "4af650c9db3590b8c48628ba4b0ca24068ee46798d2c33915397118b24857c82",
-      "rendered_digest": "065fe8a7452f3075f3397caf696d8889f8a08481704c76108683b629dadf734c",
-      "ast_digest": "fcc8267234a6809aa018659352b7fc18899b4f03c7c7b5d4b62cec03763acde3"
+      "values_digest": "522731cfda3f6c0589802248242d54a0ccce683b0c4ac4355d155ac1aba0e2e0",
+      "rendered_digest": "f71b97706f3c4eae65036ae701a9e6c66538b940f1ded01934f8d765c4f61698",
+      "ast_digest": "7159078e019855720720e4630880ff9efd53c9de412df79cdff5ace38106341b"
     },
     "spp": {
-      "values_digest": "f021203516a4d38c0c3628e3f61b61f3210bb3f92c3951f36cc4e8e94c96a8c5",
-      "rendered_digest": "254ff1c060b9838df5f8b5474830d0224e0ff2d5231efbc0524f4dd684737ca0",
-      "ast_digest": "c64eaaae59c6b143fb51a598178422355d28a00dd9146be7a7d662df2925ebe1"
+      "values_digest": "a62624135dd41fa1d3cb6d348fec675a6a9917ae3c75b159e89e39ac6b4cbe1f",
+      "rendered_digest": "4eb12a39051a11ac4fbb55105f9581dcca47b443276a890eb2b389104e423113",
+      "ast_digest": "1c7e12ce5bb274aef2c03199f0c82ec89351379d7f0682505826fefa798584ed"
     },
     "vpp": {
-      "values_digest": "fc4a8adace64a2dbd399b33737ccd1e08d2cb86373de027e1fa4a0a90e494188",
+      "values_digest": "c506a0cca4067c0b97580ca90131d378d5a20e14d5d95746f92015997c3ac0ee",
       "rendered_digest": "b2b2651da34e6d519099a1279329f22db5adff209aaa751e29fb97fca49f1418",
       "ast_digest": "35bbc6648ad9002e93ca20ef5c353a0f09130acfc2ea4e7577c2b83608ccbf4f"
     },
     "srp": {
-      "values_digest": "2acc6a7048472e211566d752ac6145da47ac22786e4df2cac17d0d71f7f4d24f",
-      "rendered_digest": "00977bf27832cfd2e8e1cbe045298fdb8ad80ad8fbdac017895e32e613759377",
-      "ast_digest": "ae6bde5cd12225dd984936925daf618e88beb97dc1ac96324f861bf4b5597481"
+      "values_digest": "5dcfca9b1d050f12269eaa0aa859a5b6fdb62c8c11fa0d70f1c34c4a678caf0c",
+      "rendered_digest": "c3cf8cce7b636fa006db1dd51dd75588b4ad2cbf62bd9c4a543866b3d18028b9",
+      "ast_digest": "840d1f85cb7122357cfa41f5ebdd6e88b46f4696a32fa7bc162feead2d88f834"
     },
     "sor": {
-      "values_digest": "5e39b7fad6229d250efe0c811cba58a471ff87da8a7a5ad5bc912f4fa2278d2a",
-      "rendered_digest": "de55f9ce398e23a7c452a9b747c259f0a38627223c8082f52f6028199fd1d08d",
-      "ast_digest": "59004a2a8178ddee939cdccc5c9863c3e9f9959ba40f4880c5dda4cc83d5b4d3"
+      "values_digest": "c833952cce54d46f7c1829b5e6155a26c8e0dd1cc616ddede543c60ad0e164cf",
+      "rendered_digest": "aa1b7f93a1dd66a1831cefd9137cf68b88b00cd50ae62341b76fad48a056ca45",
+      "ast_digest": "bc478224ae71dfb84c4a3be9df9117b168f465edd426fafe2e16dc3e83811380"
     }
   },
   "transitions": [
@@ -120,6 +90,13 @@
       "to": "published",
       "actor": "codex:191-secure-durable-openraft",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:191-ci-repair",
+      "reason": "Hosted CI exposed that the existing distributed_transport integration harness does not declare the lease and membership sibling modules now required by the reviewed transport implementation. Recover stale review and publication truth before the bounded harness repair, fresh validation, and exact-head re-review."
     }
   ],
   "audit": [
@@ -171,6 +148,48 @@
       "actor": "codex:191-secure-durable-openraft",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:191-ci-repair",
+      "reason": "Hosted CI exposed that the existing distributed_transport integration harness does not declare the lease and membership sibling modules now required by the reviewed transport implementation. Recover stale review and publication truth before the bounded harness repair, fresh validation, and exact-head re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:191-ci-repair",
+      "reason": "Declare the existing standalone transport integration harness in the exact deliverable set before applying its bounded CI compatibility repair.",
+      "operation": "{\"new_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:191-ci-repair",
+      "reason": "Record the existing standalone transport harness as a bounded affected area for the CI repair exposed after publication.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:191-ci-repair",
+      "reason": "The full hosted-equivalent compile proved that the existing discovery harness embeds the same transport module and requires the same authority-sibling declarations; include that exact compatibility surface.",
+      "operation": "{\"new_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:191-ci-repair",
+      "reason": "Extend the bounded affected-area truth to the second existing transport-embedding harness identified by the full hosted-equivalent compile.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:191-ci-repair",
+      "reason": "Record the bounded post-publication compatibility repair in execution truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a secure three-voter OpenRaft substrate with authority-derived topology, mutually authenticated QUIC transport, durable replay and state stores, external rollback checkpoints, bounded recovery, exact restart behavior, and hosted-compatible standalone transport/discovery harnesses.\",\"changes\":[\"Added signed polis session establishment and authority-derived peer routing over the existing authenticated QUIC transport.\",\"Added crash-reconciled durable OpenRaft vote, log, state-machine, snapshot, and response-cache storage bound to an external monotonic checkpoint authority.\",\"Added focused three-voter quorum, isolation, restart, rotation, replay, rollback, canonical encoding, path-safety, bounded-I/O, and idle-timeout regressions.\",\"Added an issue-owned merge-safe receipt producer and validator that bind protected Git source, exact commands, machine cases, and immutable evidence history.\",\"Updated the existing standalone transport and discovery harnesses to declare the lease and membership siblings required by the reviewed transport authority surface; production transport bytes are unchanged by this CI repair.\"],\"artifacts\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/produce-proof-receipt.rb\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\"],\"purpose\":\"Run the exact focused runtime integration target with a nonzero fourteen-test denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused-secure-raft-runtime.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict static analysis over the same focused integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"strict-secure-raft-clippy.log\"}]}"
     }
   ]
 }

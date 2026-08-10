@@ -7,25 +7,23 @@
     "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
     "slug": "secure-durable-three-voter-openraft",
     "version": "v0.92",
-    "generation": 5
+    "generation": 11
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/191\n.csdlc/prepared/issues/191\n.csdlc/evidence/191\nadl-runtime/Cargo.toml\nadl-runtime/Cargo.lock\nadl-runtime/src/distributed/transport.rs\nadl-runtime/src/distributed/polis_runtime.rs\nadl-runtime/tests/distributed_runtime_transport.rs",
-      "review_revision": "git-blake3:f7311b24c76a1d83cf18e05df55f368bd92ecb04:375d7b9dccdc8b704f026a8e9b380f04ad8e4a929050508d6a02e3406051a993",
-      "reviewer": "subagent:prepare_5875_release",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any node send or accept OpenRaft traffic without an authenticated encrypted session bound to the exact polis/domain/node generation?",
         "Can any persistence or snapshot failure leave live or recovered state ahead of the last durable commit?",
         "Do the tests exercise real network encryption, three-to-two, one-of-three halt, restart, replay, corruption and path attacks?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted repository checks and the operator's external PR review remain required before any merge."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
