@@ -1,0 +1,71 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 143,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
+    "slug": "v092-adr-authoring",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Corrected the accepted ADR baseline through 0058 and authored the complete ADR 0059-0071 candidate packet with seven Proposed and six Deferred evidence-grounded dispositions.",
+      "actual_changes": [
+        "Corrected the stale v0.92 ADR plan and replaced obsolete 0029-0033 reservations with the final 0059-0071 catalog.",
+        "Authored thirteen candidate records with consistent sections, evidence references, supersession boundaries, non-claims, and approval gates.",
+        "Deferred witness receipts, ACP authority, adaptive learning, governance handoff, Observatory consumer integration, and provider-neutral proof where terminal evidence is missing.",
+        "Recorded cross-polis continuity as a planning-only Proposed boundary that rejects copying and defers operational migration.",
+        "Added an exact reviewer index and focused fail-closed packet validator while leaving docs/adr unchanged."
+      ],
+      "artifacts": [
+        "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+        "docs/architecture/adr/README.md",
+        "docs/architecture/adr/V092_ADR_INDEX_143.md",
+        "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
+        "docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md",
+        "docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md",
+        "docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md",
+        "docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md",
+        "docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md",
+        "docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md",
+        "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
+        "docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md",
+        "docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md",
+        "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+        "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
+        "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
+        ".csdlc/prepared/issues/143/validate-v092-adrs.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/143/validate-v092-adrs.rb"
+          ],
+          "purpose": "Validate exact numbering, required sections, Proposed/Deferred status, repository evidence, index parity, accepted-file non-mutation, and bounded non-claims.",
+          "outcome": "passed",
+          "evidence_ref": "PASS: v0.92 ADR 0059-0071 packet contract"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject malformed whitespace in the exact documentation and lifecycle delta.",
+          "outcome": "passed",
+          "evidence_ref": "git diff --check passed with no output"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

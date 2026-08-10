@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 143,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "72ac2dc87943a4f4f702b65abca70dde6dceec9065123c6b3c1ec16f243ece85",
+  "phase": "bound",
+  "generation": 5,
+  "digest": "10723501b06ba44c85734ef6d8621eb2405b8a460ecf14b0c61491f6d1cfbdd1",
+  "branch": "codex/143-v092-adr-authoring",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-143-v092-adrs",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/143/design.md",
+  "diagram_path": ".csdlc/prepared/issues/143/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4a-e735-7092-9937-c6fa51eb9e3a",
+      "revision": "0894b6fc8938c94fc13c44f9258cbfe7168995f5550907f83ebe274d4fb9c39e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b5d948303a81c45f0686ff681e90d8cf31aacd9b15c8f6d042e5318648ed3276",
+      "rendered_digest": "ad6dea616684bb5807185342fe293f0a53209243b3e62171aaaf611376e60a6b",
+      "ast_digest": "f34bfa35468a730acf038a4bc7f427d84d1303c4780747f5b30ef145d15dedde"
+    },
+    "stp": {
+      "values_digest": "62e5ca37de7a2bb45423b47e2ea49946536aa11e78d386d9ada7f065b09ebfcd",
+      "rendered_digest": "d47a29683c881de78b3f97b649e0d081e78d854b3ef38d8e5aa8a8ee3adb0ae9",
+      "ast_digest": "d59b440597105fdb6559ab1d8d25e5cab40995ff170f486561d15b6ea6f6a073"
+    },
+    "spp": {
+      "values_digest": "0abf1cbcdc49311d84801fb80b9c78e300cf64295330709b9c2656d88da13322",
+      "rendered_digest": "7f478ae2cec1df03e12c23d8e4bf54ed916dd5799d5789a3e44a7a4f1f27ca92",
+      "ast_digest": "816127baf677a461e7b02417c16d4c8ad07e6245d29f9b417995705f517073be"
+    },
+    "vpp": {
+      "values_digest": "319ed6946cf49a524feba687ee42dfde8f5fd8f24610bcbd15bbb3be1651f20f",
+      "rendered_digest": "fc958cd63cf398ef2441491522d1cd6df6372e188c3220c03933a4bea7d33fbc",
+      "ast_digest": "3a34b3334749fa242878102c81d538fdff7f6713af91b6d3be01739439778b49"
+    },
+    "srp": {
+      "values_digest": "03a75b08d583a2664d5a0debe1f80d9beda13fe61258d3d7af398b2aa334abeb",
+      "rendered_digest": "dae0573ca5a13522cc035d9ab3924f2888e6ddb9e9442d9532cc626c1c315a2f",
+      "ast_digest": "66b33c6dfa183c0b49b9e3f91104f34374d3b6564ea2567279a06149fde89427"
+    },
+    "sor": {
+      "values_digest": "ed29ab2f456596d29f0ded2a57a0a9982b6ec128ef799ae8304fefc71c764729",
+      "rendered_digest": "068d9a926c2287405cedf949d2e51b4ec7c391e5dc84f415aebd3080e29c393d",
+      "ast_digest": "282cbf7fc4f4484f24335fb6e6ec121475e2895175fe8dd79f1e9f44c0ae118c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019fed4a-e735-7092-9937-c6fa51eb9e3a",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "Make the reviewed issue-owned ADR packet validator an exact execution-readiness denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/143\",\".csdlc/prepared/issues/143\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\",\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/architecture/adr/README.md\",\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md\",\"docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md\",\"docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md\",\"docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md\",\"docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md\",\"docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md\",\"docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\",\"docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md\",\"docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md\",\"docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md\",\"docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\",\"docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md\",\"docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "Record the bounded v0.92 ADR candidate authoring outcome without claiming acceptance.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Corrected the accepted ADR baseline through 0058 and authored the complete ADR 0059-0071 candidate packet with seven Proposed and six Deferred evidence-grounded dispositions.\",\"changes\":[\"Corrected the stale v0.92 ADR plan and replaced obsolete 0029-0033 reservations with the final 0059-0071 catalog.\",\"Authored thirteen candidate records with consistent sections, evidence references, supersession boundaries, non-claims, and approval gates.\",\"Deferred witness receipts, ACP authority, adaptive learning, governance handoff, Observatory consumer integration, and provider-neutral proof where terminal evidence is missing.\",\"Recorded cross-polis continuity as a planning-only Proposed boundary that rejects copying and defers operational migration.\",\"Added an exact reviewer index and focused fail-closed packet validator while leaving docs/adr unchanged.\"],\"artifacts\":[\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/architecture/adr/README.md\",\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md\",\"docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md\",\"docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md\",\"docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md\",\"docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md\",\"docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md\",\"docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\",\"docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md\",\"docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md\",\"docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md\",\"docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\",\"docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md\",\"docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "Record focused ADR packet contract validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\"],\"purpose\":\"Validate exact numbering, required sections, Proposed/Deferred status, repository evidence, index parity, accepted-file non-mutation, and bounded non-claims.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92 ADR 0059-0071 packet contract\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "Record focused documentation diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace in the exact documentation and lifecycle delta.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check passed with no output\"}}"
+    }
+  ]
+}

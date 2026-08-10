@@ -1,0 +1,17 @@
+{
+  "issue": 143,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "6c9895408cb2b036938d440e228dc4c2f6a4a939b569ba4d0e423d91663ebc90",
+  "actor": "codex:143-v092-adr-authoring",
+  "reason": "Record focused ADR packet contract validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/143/validate-v092-adrs.rb"],
+      "purpose": "Validate exact numbering, required sections, Proposed/Deferred status, repository evidence, index parity, accepted-file non-mutation, and bounded non-claims.",
+      "outcome": "passed",
+      "evidence_ref": "PASS: v0.92 ADR 0059-0071 packet contract"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+flowchart LR
+  R["Accepted ADR registry through 0058"] --> C["Candidate catalog 0059-0071"]
+  E["Landed implementation and proof"] --> C
+  F["Canonical v0.92 feature contracts"] --> C
+  C --> P["Proposed candidates"]
+  C --> D["Deferred candidates"]
+  P --> V["Number, status, evidence, and non-claim validation"]
+  D --> V
+  V --> X["Fresh exact-head independent review"]
+  X --> Q["Documentation PR"]
+  Q -. "human approval required" .-> A["Future Accepted ADR promotion"]
+  F --> N["ADR 0070 Proposed planning-only boundary"]
+  N --> P

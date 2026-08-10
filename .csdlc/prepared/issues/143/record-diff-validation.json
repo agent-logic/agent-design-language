@@ -1,0 +1,17 @@
+{
+  "issue": 143,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "e9058d72f83ed67c3ec42cc1e35d47cc9b02d695e4d825a09ee20c00d2840d32",
+  "actor": "codex:143-v092-adr-authoring",
+  "reason": "Record focused documentation diff hygiene validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["git", "diff", "--check"],
+      "purpose": "Reject malformed whitespace in the exact documentation and lifecycle delta.",
+      "outcome": "passed",
+      "evidence_ref": "git diff --check passed with no output"
+    }
+  }
+}

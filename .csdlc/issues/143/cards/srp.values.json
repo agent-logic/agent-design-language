@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 143,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
+    "slug": "v092-adr-authoring",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Complete issue #143 lifecycle packet, v0.92 ADR plan correction, ADR 0059 through 0071 Proposed or Deferred candidate documents, reviewer evidence index, focused validator, architecture boundaries, security non-claims, and proof-source truth",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every candidate decision follow from cited landed repository evidence rather than forward-looking plans?",
+        "Do authority, TLS, replay, mutation, identity, and witness decisions retain fail-closed boundaries and precise non-claims?",
+        "Are ADR 0069 and ADR 0071 deferred unless their real WP-18A and WP-18B proof is landed?",
+        "Does ADR 0070 remain planning-only without implying production cross-polis transfer?",
+        "Are numbering, status, supersession, approval, and index relationships complete and collision-free?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
