@@ -6,10 +6,27 @@
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
   "phase": "implemented",
   "generation": 84,
-  "digest": "2bc54a48b436f83b132b5c3050828779dc1db89ea7361ea8e0fdf949f166c9c0",
+  "digest": "ff85680a8df7c7938716484de5cde126d0f33484700258fbd0a6ded707593455",
   "branch": "codex/5829-capability-envelope",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5829-capability-envelope",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5829_exact_head",
+    "assigned_by": "codex:5829-capability-envelope",
+    "revision": "git-blake3:a3d8022b9830279b5b6c32dfcecde9f183632f6a:eaafc0e803e7fee02356aed1b57a3a643d5a4e2c9de4bcdca2e7ed902ff51ed1",
+    "scope": [
+      ".csdlc/issues/5829",
+      ".csdlc/prepared/issues/5829/design.md",
+      ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+      ".csdlc/evidence/5829",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "cdf1e9eabb11a4f4b66bccdb33a901c80c6a1100ba349590dfe857b4e6664f52"
     },
     "srp": {
-      "values_digest": "dce0d5f2596ed8caddcf951d208427cfc322d3d793a78880d7c00c0f5b3a72b6",
-      "rendered_digest": "1fc30fc9afd8018ed97c352ef14a121fbf0043ddbe2dd190f77d3cb2f1f33fb0",
-      "ast_digest": "bb68d2c7bbca8e224c874a4e35dbde17e24391a6d9a602832696edbc77b36388"
+      "values_digest": "aedb64c81ae315b18043c18dbf09f0c8c8e90cb1c74fe105c9e436af045cd631",
+      "rendered_digest": "dfe079c12ca91c05808df9446e239e0c73a716778dd5b3a6dd76ed8063ada51e",
+      "ast_digest": "7f986d722309c6180c168882e890b9f95983f0b03415620d23c21907d3604e11"
     },
     "sor": {
       "values_digest": "2cf061667401b9d0daf8a981e287ee6f683ccd15dd42c944a5770d880799f2b7",
@@ -869,6 +886,13 @@
       "actor": "codex:5829-capability-envelope",
       "reason": "Recover the stale exact-head assignment after resolving all three privacy, portability, and canonical provider-identity review findings with retained focused proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 111,
+      "generation": 84,
+      "actor": "codex:5829-capability-envelope",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/5829\n.csdlc/prepared/issues/5829/design.md\n.csdlc/prepared/issues/5829/produce-native-receipt.rb\n.csdlc/prepared/issues/5829/validate-native-receipts.rb\n.csdlc/evidence/5829\n.github/workflows/wp12-native-capability-envelope.yml\nadl-runtime-kernel/src/capability_envelope.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/capability_envelope.rs\nadl-runtime-kernel/tests/fixtures/capability_envelope\ndocs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
