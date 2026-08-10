@@ -7,15 +7,15 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 23
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\n.csdlc/issues/5835\n.csdlc/issues/5836\n.csdlc/issues/5838\n.csdlc/issues/5839\n.csdlc/issues/5840\n.csdlc/issues/5854\n.csdlc/prepared/issues/5854\n.csdlc/evidence/5854\ndocs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\ndocs/milestones/v0.92/SPRINT_v0.92.md",
+      "review_revision": "git-blake3:5401ef042608cc6c0a45c746f857c4317f6b2179:1f5314066799476ab830d6f3306f83e84bff871f0b643107d2dead95efacad01",
+      "reviewer": "codex-subagent:019fe8e6-bd12-7962-95e3-24ec07c762d8",
       "review_prompts": [
         "Does the packet preserve exact operative-child ownership and dependency truth?",
         "Are parallel lanes actually independent and are serial gates explicit?",
@@ -23,8 +23,11 @@
         "Does the live-gate evidence retain sufficient source, request, response, freshness, and ancestry provenance for every claimed external fact?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The retained GitHub live-gate snapshot expires after 24 hours and must be refreshed before any later execution or publication decision relies on it.",
+        "This readiness change proves preparation only; every operative child remains initialized and requires its own typed bind, goal, implementation, proof, review, and closeout."
+      ],
+      "review_result": "pass"
     }
   }
 }
