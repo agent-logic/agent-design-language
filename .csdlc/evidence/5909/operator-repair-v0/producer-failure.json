@@ -1,0 +1,17 @@
+{
+  "schema": "adl.wp04.producer_failure.v1",
+  "issue": 5909,
+  "failures": [
+    {
+      "stage": "producer_source_extraction",
+      "exit_code": 1,
+      "message": "derive-negative-cases source was requested from a commit before that evidence file was introduced; Ruby rejected the resulting fatal diagnostic as invalid syntax"
+    },
+    {
+      "stage": "exact_source_guard",
+      "exit_code": 1,
+      "message": "producer rejected a manually transcribed non-HEAD revision; rerun used git rev-parse HEAD"
+    }
+  ],
+  "recovery": "No product or committed evidence mutation occurred. The producer was recreated from the retained working-tree evidence, syntax checked, and rerun at exact source revision 2739028892b2679114573982bf289dd6bffd8492."
+}

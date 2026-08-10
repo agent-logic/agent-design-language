@@ -22,11 +22,13 @@ A versioned identity record, validator, fixtures, and retained report binding st
 
 - adl-runtime-kernel/src/birthday_identity.rs
 - adl-runtime-kernel/src/lib.rs
-- adl-runtime-kernel/tests/birthday_identity.rs
+- adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs
 - adl-runtime-kernel/tests/fixtures/birthday_identity/
 - docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
 - .csdlc/prepared/issues/5826/validate-native-receipts.rb
+- .csdlc/prepared/issues/5826/produce-native-receipt.rb
 - .csdlc/evidence/5826/
+- .github/workflows/wp09-native-birthday-identity.yml
 
 ## Authority
 

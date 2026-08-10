@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 121,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
+    "slug": "v0-92-wp-04-07-defect-quorum-fence-restart-safe-epochs",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only quorum fence/revoke possession, next-epoch fencing, and portable restart-floor semantics in the existing lease authority implementation.",
+      "deliverables": [
+        "Operation-sensitive activation possession",
+        "Majority Fence/Revoke without old holder key",
+        "Committed next-epoch durable fence",
+        "Snapshot/restore preserving portable recovery floor",
+        "Focused positive and machine-derived negative tests",
+        "Green reviewed stacked PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Majority Fence and Revoke do not require the old holder activation key while holder-authorized operations still do.",
+        "AC-2: Fence commits exactly the next epoch and newer applied index; stale, same, and skipped epochs fail atomically.",
+        "AC-3: Fenced mutation is denied and snapshot/restore at current membership index preserves the fence and portable floor.",
+        "AC-4: Replacement activation before the portable safety deadline is denied after restart and succeeds only at the safe deadline with a valid new key.",
+        "AC-5: Exact nonzero tests, strict focused Clippy, machine-derived receipt validation, independent review, and CI pass."
+      ],
+      "dependencies": [
+        "agent-logic/agent-design-language PR #120 exact head 91c47ed3ab5ec060cf2ba790d107b1598aa6ba6f",
+        "Legacy WP-04.08 issue #5870 remains unbound until this defect merges"
+      ],
+      "repo_inputs": [
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/tests/distributed_lease.rs",
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md",
+        ".csdlc/prepared/issues/5870/design.md"
+      ],
+      "non_goals": [
+        "fencing.rs or distributed_fencing implementation",
+        "Module registration, lib.rs, mod.rs, Cargo, manifest, or lockfile changes",
+        "Sibling distributed child implementation",
+        "Merge authorization"
+      ]
+    }
+  }
+}

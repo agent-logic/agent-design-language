@@ -1,0 +1,7 @@
+{
+  "issue": 5870,
+  "base_branch": "codex/5870-fencing-preparation",
+  "branch": "codex/5870-fencing-single-owner",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5870-fencing-single-owner",
+  "code_repository": "agent-logic/agent-design-language"
+}

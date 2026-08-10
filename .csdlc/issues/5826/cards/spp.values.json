@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 54
+    "generation": 88
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 20,
+      "plan_revision": 22,
       "summary": "Implement and prove WP-09 canonical identity records with stable labels, immutable root authority, provenance, and redaction-safe negative handling.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -62,12 +62,13 @@
       "affected_areas": [
         "adl-runtime-kernel/src/birthday_identity.rs",
         "adl-runtime-kernel/src/lib.rs",
-        "adl-runtime-kernel/tests/birthday_identity.rs",
+        "adl-runtime-kernel/tests/fixtures/birthday_identity/authority_tests.rs",
         "adl-runtime-kernel/tests/fixtures/birthday_identity",
         "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
         ".csdlc/prepared/issues/5826/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5826/produce-native-receipt.rb",
-        ".csdlc/evidence/5826"
+        ".csdlc/evidence/5826",
+        ".github/workflows/wp09-native-birthday-identity.yml"
       ],
       "invariants": [
         "Stable name never substitutes for identity root authority.",
@@ -98,9 +99,9 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5826-identity-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"],\"issues\":[5826,5843],\"order\":[5826,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5826/design.md",
-      "design_digest": "808598da005814fe2c5ec62495819b60cdac1d328a0611562a1126a4902fe297",
+      "design_digest": "9c143b55f2e75010e7f934806c64fb50b3b46fc7456253871c91947bcbfb71d2",
       "diagram_ref": ".csdlc/prepared/issues/5826/diagram.mmd",
-      "diagram_digest": "d5cc198edc4895057317ca54fe8aa3c676496c00d23ba4718aa88f17ac266f58"
+      "diagram_digest": "0c8418cba179260289efc43a6ec61eb785f3973ba701053a09c7066f5e59adfd"
     }
   }
 }
