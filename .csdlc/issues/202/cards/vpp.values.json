@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
     "slug": "authenticated-governed-learner-transport",
     "version": "v0.92",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "authorized-learner-transport",
-          "proof_role": "Prove exact thirty-six-case denominator: real_four_node_learner_replication, current_voter_cut_unchanged, excluded_node_recovery_learner, learner_promotion_route_handoff, exact_retry_session, reconnect_boot_rotation, certificate_overlap_authorized, missing_201_token, public_caller_denied, wrong_operation_kind, wrong_domain, wrong_polis, wrong_learner, wrong_guardian, wrong_certificate_generation, expired_certificate, revoked_certificate, wrong_boot_generation, wrong_address, learner_vote_rpc_denied, learner_endorsement_denied, learner_finalize_denied, learner_mutation_denied, learner_renewal_denied, learner_shepherd_denied, learner_observatory_denied, exclusion_ordinary_session_denied, exclusion_wrong_recovery_token, stale_admission, replay_conflict, oversized_frame, truncated_frame, capacity_n_plus_one_no_partial, crash_before_exclusion_checkpoint, crash_after_exclusion_checkpoint, state_or_lock_symlink_rejected. real_four_node_learner_replication must prove the private typed AppendEntries/InstallSnapshot surface plus vote, generic-send, and unknown-kind rejection with zero bytes dispatched. current_voter_cut_unchanged must cover exact cut digest/index and stable-Raft-id mismatch. exact_retry_session must prove cache-first token/result retrieval before and after exclusion activation without reauthorization. certificate_overlap_authorized must prove old-during-overlap, exact successor generation/token, cross-generation mismatch, and old post-overlap denial. exclusion_ordinary_session_denied must cover retained open-session revalidation. excluded_node_recovery_learner must prove remaining nonexcluded voters authorize the new-identity recovery token before admission exists. capacity_n_plus_one_no_partial must cover serialized admission and exclusion bounds. The two crash cases must mechanically enumerate every admission and exclusion journal, state, result-cache, checkpoint CAS before/after, marker, published-view flip, route install/remove, expiry, and restart-reconciliation window, including opened-handle MAX+1 and replacement races.",
+          "proof_role": "Prove exact thirty-six-case denominator: real_four_node_learner_replication, current_voter_cut_unchanged, excluded_node_recovery_learner, learner_promotion_route_handoff, exact_retry_session, reconnect_boot_rotation, certificate_overlap_authorized, missing_201_token, public_caller_denied, wrong_operation_kind, wrong_domain, wrong_polis, wrong_learner, wrong_guardian, wrong_certificate_generation, expired_certificate, revoked_certificate, wrong_boot_generation, wrong_address, learner_vote_rpc_denied, learner_endorsement_denied, learner_finalize_denied, learner_mutation_denied, learner_renewal_denied, learner_shepherd_denied, learner_observatory_denied, exclusion_ordinary_session_denied, exclusion_wrong_recovery_token, stale_admission, replay_conflict, oversized_frame, truncated_frame, capacity_n_plus_one_no_partial, crash_before_exclusion_checkpoint, crash_after_exclusion_checkpoint, state_or_lock_symlink_rejected. real_four_node_learner_replication must prove the private typed AppendEntries/InstallSnapshot surface plus vote, generic-send, and unknown-kind rejection with zero bytes dispatched. current_voter_cut_unchanged must cover exact cut digest/index and stable-Raft-id mismatch. exact_retry_session must prove cache-first token/result retrieval before and after exclusion activation without reauthorization. certificate_overlap_authorized must prove old-during-overlap, private staging of an exact successor generation/token, crash recovery before and after the atomic successor-generation flip, observation of exactly one current generation, retained-old-session closure with zero later request dispatch, cross-generation mismatch, and old denial at the earliest of token deadline, authority overlap end, or successor flip. exclusion_ordinary_session_denied must cover retained open-session revalidation. excluded_node_recovery_learner must prove remaining nonexcluded voters authorize the new-identity recovery token before admission exists. capacity_n_plus_one_no_partial must cover serialized admission and exclusion bounds. The two crash cases must mechanically enumerate every admission and exclusion journal, state, result-cache, checkpoint CAS before/after, marker, published-view flip including the successor-generation flip, route install/remove, expiry, and restart-reconciliation window, including opened-handle MAX+1 and replacement races.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -109,9 +109,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing/invalid token, voter-cut drift, learner role escalation, wrong identity/cert/boot/address, exclusion bypass, stale connection, replay conflict, checkpoint ambiguity, rollback, corruption, capacity, unsafe paths, zero-test proof, source drift, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/202/design.md",
-      "design_digest": "486f58acc7f8c273941b2a16fa556b4e00f2212ccd3f3cb8fe45845fd26eca99",
+      "design_digest": "991190e1de38edbc733c1af6fba81152162d22008fd60dbdc60bfd23fdc17832",
       "diagram_ref": ".csdlc/prepared/issues/202/diagram.mmd",
-      "diagram_digest": "9bba51d65f2af47a834cd049ee314cc0896fdbe6b5544b8c454165ab2ebc2545"
+      "diagram_digest": "d8ba7967bc5778344da929c16608c0460e8f6be5d3555e72aa32c5dd69fdcf94"
     }
   }
 }
