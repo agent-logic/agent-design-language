@@ -1,0 +1,14 @@
+{
+  "schema": "adl.birthday.identity_authority_recipe.v1",
+  "identity_authority": "adl-runtime-kernel/src/identity_memory.rs",
+  "privacy_authority": "adl-runtime-kernel/src/private_state.rs",
+  "construction": "tests create real Ed25519-signed IdentityBinding, MemoryCheckpoint, and PrivateStateRecord values and obtain a governed projection before Birthday Identity construction",
+  "required_negative_proof": [
+    "forged_or_mismatched_binding",
+    "wrong_continuity_head",
+    "stale_or_wrong_signer_generation",
+    "projection_tamper",
+    "raw_private_artifact_mislabeled_visible",
+    "invented_provenance"
+  ]
+}

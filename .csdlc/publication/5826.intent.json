@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5826,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5826-birthday-identity",
+  "title": "[v0.92][WP-09] Stable name and identity architecture",
+  "body": "Closes danielbaustin/agent-design-language#5826\n\n## Summary\n- bind stable-name and identity-root construction to signed identity-memory continuity and governed private-state projection evidence\n- make runtime trust-policy establishment crate-private so external callers cannot nominate self-consistent attacker roots\n- retain deterministic canonical records plus fail-closed signer, generation, provenance, continuity, projection, privacy, tamper, and path checks\n\n## Validation\n- internal Birthday authority lane: 7/7 passed\n- external policy-establishment compile-fail proof: passed\n- strict Clippy, formatting, Ruby receipt contracts, typed validation, and diff hygiene: passed\n- native run 31365422176: macOS 7/7, Linux 7/7, identical eight-file manifests and semantic SHA-256 58a1781628b128f2c0ea811c5c1c8146b042523eee28db2a0a4d590a404bb71e; independent aggregator passed\n\n## Review\nFresh independent exact-head security/privacy review by /root/review_5826_sealed_authority approved the sealed authority boundary and corrected typed ownership/planning scope with no actionable findings. This PR does not claim downstream continuity or Birthday completion.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:a34a57014d02cc506e8026034654b05d89f84e9b:985413533a57f39b4976f4c31d5e71e27029ac29a9dfa90b210f5b8bbd7868f1",
+  "commit_sha": "a34a57014d02cc506e8026034654b05d89f84e9b"
+}
