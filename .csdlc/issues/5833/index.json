@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5833,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 56,
-  "digest": "28aacd5607f08915e93252a119da8d061ff37ebf14b950888dcb68cc9c23b9df",
-  "branch": null,
-  "worktree": null,
+  "digest": "aa16b2b4a137dc8a3a58af8515c16e1b903b4861f918d9e965515e9dbb6c9319",
+  "branch": "codex/5833-birth-witness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5833-birth-witness",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -623,6 +638,13 @@
       "actor": "codex:5833-birth-witness",
       "reason": "Declare the exact issue-owned focused target as a deliverable so initialized-phase readiness can defer it truthfully until bound implementation materializes it.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Versioned witness-set schema and validator\",\"Deterministic accepted/rejected citizen receipt contract\",\"Equivocation, duplicate, stale, forged, mismatch, authority, and redaction fixtures\",\"Retained focused, security, privacy, and premature-claim evidence\",\"adl-runtime-kernel/tests/birth_witness.rs\"]}"
+    },
+    {
+      "sequence": 79,
+      "generation": 56,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
