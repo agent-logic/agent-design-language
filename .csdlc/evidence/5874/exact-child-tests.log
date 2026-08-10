@@ -1,0 +1,19 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+────────────
+ Nextest run ID 1fa3258a-4a46-41e5-b3e8-bc11d7160fbb with nextest profile: default
+    Starting 13 tests across 1 binary
+        PASS [   0.367s] ( 1/13) adl-runtime::distributed_snapshot_catalog certificate_purpose_is_snapshot_specific
+        PASS [   0.425s] ( 2/13) adl-runtime::distributed_snapshot_catalog oversized_and_unsafe_replay_state_paths_fail_closed
+        PASS [   0.521s] ( 3/13) adl-runtime::distributed_snapshot_catalog decode_requires_canonical_exact_schema_payloads
+        PASS [   0.525s] ( 4/13) adl-runtime::distributed_snapshot_catalog expired_catalog_is_rejected
+        PASS [   0.554s] ( 5/13) adl-runtime::distributed_snapshot_catalog stale_or_mismatched_authority_is_rejected
+        PASS [   0.558s] ( 6/13) adl-runtime::distributed_snapshot_catalog signature_tampering_is_rejected
+        PASS [   0.571s] ( 7/13) adl-runtime::distributed_snapshot_catalog target_and_catalog_substitution_are_rejected
+        PASS [   0.589s] ( 8/13) adl-runtime::distributed_snapshot_catalog whole_content_length_and_digest_are_enforced
+        PASS [   0.609s] ( 9/13) adl-runtime::distributed_snapshot_catalog authenticated_catalog_and_manifest_accept_complete_content
+        PASS [   0.613s] (10/13) adl-runtime::distributed_snapshot_catalog redacted_projection_contains_no_private_or_topology_material
+        PASS [   0.632s] (11/13) adl-runtime::distributed_snapshot_catalog reused_transfer_id_with_different_manifest_is_rejected
+        PASS [   0.632s] (12/13) adl-runtime::distributed_snapshot_catalog incomplete_and_corrupt_chunks_fail_before_acceptance
+        PASS [   0.646s] (13/13) adl-runtime::distributed_snapshot_catalog accepted_transfer_replay_survives_restart
+────────────
+     Summary [   0.646s] 13 tests run: 13 passed, 0 skipped
