@@ -1,0 +1,67 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5909,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "387afe04e311ffa378b933030f6b3bda3d446135c0f1c0c52b61f04a5c956645",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "d530ecf60dbdfa150b2dc62a744df0573fbea9007df868a2b4a06d61a933ed2b",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5869/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5869/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized reuse of merged WP-04.07 design",
+      "revision": "132f5437e67cb71961df3c6cb1b88fed79e68d88ac39b44d8f421f630d468125"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0df027d44d0f1aeb24eb96e057f4c53558f4120a6e3721db6e0aa8d63e9e8082",
+      "rendered_digest": "0839d3ff00dfc774bbbac553de6388120b4cbb3476c0380f132ce4a724316b0d",
+      "ast_digest": "9c11c0b586d938abcb773cd8e58a013f5708e85bcea10be47c76e1b6560dfa8d"
+    },
+    "stp": {
+      "values_digest": "2aab1d55acc2ebf7f59c3e7619c9cb40ed2368f9a33e4570754533e8a6fd5cae",
+      "rendered_digest": "2c30883b1af731bea35d8bae09ff21d04d0714c41731307d67c32d6bc1c7e03c",
+      "ast_digest": "d087c8195d755525fb81be0330f611e947b9e75289dcb338f133e1b1775f0be2"
+    },
+    "spp": {
+      "values_digest": "8974ba094b90f243112d448614cc739ebf775889ba307180149e42db7aa43bdc",
+      "rendered_digest": "401d9a7771046e3cc9247bd85650cf9808ca9d522fc5464ef620f16d9ec628ec",
+      "ast_digest": "a38fc0451dc6d606ba51a2c8ecc19832e0c8a30268b983e56815c8c554536062"
+    },
+    "vpp": {
+      "values_digest": "384d2128837d9725266443c641bdb00844c22254fe8b021bf731835bf688a8f1",
+      "rendered_digest": "aae25417f9caf72bba1541c8035682e80ff38ea03ab94d833ff3988029cf033d",
+      "ast_digest": "4c72ef770066bded42fddc7e34580523214a8f9a7ee49c7ba911794f531ba519"
+    },
+    "srp": {
+      "values_digest": "c7c83758f2f17a66b2c4e05f3b36310e20f2a60cd657715f97d310f471f2306a",
+      "rendered_digest": "f81713f6d181a76d573937022b8445416f39286be3beb62f9a9bdcd18d8d9579",
+      "ast_digest": "a51aa478df42c5f8690a380381e9973ee923a805f0f60e3c2d34eedf4d496392"
+    },
+    "sor": {
+      "values_digest": "cc371c4d83a18031e5bc01e62ce5d7fe2b2770ba03a58bf9590c753bf06cddbb",
+      "rendered_digest": "c9c3cc7b80b4e1dad2b1631437a3c77d5a5cff0773538cc8670196114c1008e1",
+      "ast_digest": "60f3d0ff7dbf9177643aea5fe61b4469214d3952dee06eec068d742ddc7c0314"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5909-lease-defect",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}

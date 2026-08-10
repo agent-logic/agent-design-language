@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5909,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Harden lease mutation authority and bounded proof",
+    "slug": "v0-92-wp-04-07-defect-harden-lease-authority",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only the four merged WP-04.07 defects in the existing lease authority implementation and its issue-owned tests/proof.",
+      "deliverables": [
+        "Exact ledger-owned applied-index authorization",
+        "Hard-bounded atomic lineage and snapshot state",
+        "Machine-derived exact negative-case evidence",
+        "Distinct LeaseGrant and Activate state transitions",
+        "Fresh exact-head review and green ready corrective PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Future and stale caller indexes fail closed without replay-state mutation.",
+        "AC-2: Lineage-count and serialized-size capacity failures are deterministic and atomic.",
+        "AC-3: Executed Rust negative cases have exact denominator, name, result, and digest parity.",
+        "AC-4: LeaseGrant refuses existing authority and Activate requires prior authority.",
+        "AC-5: Focused nextest, strict Clippy, exact receipt validation, review, and CI pass."
+      ],
+      "dependencies": [
+        "Merged PR agent-logic/agent-design-language#107",
+        "Current origin/main at or after 081988dfe4632e27062f3acc72b7c5d226cd0802"
+      ],
+      "repo_inputs": [
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/tests/distributed_lease.rs",
+        ".csdlc/prepared/issues/5869/design.md",
+        "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md"
+      ],
+      "non_goals": [
+        "Distributed module registration",
+        "Manifest or lockfile changes",
+        "Umbrella receipt changes",
+        "Unrelated lease redesign or sibling work"
+      ]
+    }
+  }
+}
