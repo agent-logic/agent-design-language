@@ -2,7 +2,7 @@ Command: cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --lib -
 Starting 9 selected tests across 1 library binary.
 PASS birthday_continuity::authority_tests::continuity_record_replays_identically_across_two_signed_cycles
 PASS birthday_continuity::authority_tests::missing_or_reordered_cycle_fails_closed
-PASS birthday_continuity::authority_tests::verified_tokens_cannot_be_reordered_duplicated_or_relabelled (including same-key-ID/different-verifying-key authority-context token splicing)
+PASS birthday_continuity::authority_tests::verified_tokens_cannot_be_reordered_duplicated_or_relabelled (including stale caller-visible identity records and same-key-ID/different-verifying-key authority-context token splicing)
 PASS birthday_continuity::authority_tests::terminal_generation_overflow_fails_closed
 PASS birthday_continuity::authority_tests::forged_witness_and_identity_substitution_fail_closed
 PASS birthday_continuity::authority_tests::copied_state_and_host_paths_fail_closed (only exact evidence/continuity/live-kernel/cycle-{generation}.bin witnesses accepted; separator, camelCase, acronym, lowercase concatenation, wrong-generation, and superficially safe relabels rejected)

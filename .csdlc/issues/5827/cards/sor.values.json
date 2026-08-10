@@ -7,15 +7,16 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 93
+    "generation": 94
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Repaired WP-10 so crate-private continuity policy establishment requires WP-09 VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound to one exact authority context after verification, generation overflow fails closed, and signed witnesses are accepted only at the exact generation-bound governed continuity path.",
+      "summary": "Repaired WP-10 so continuity construction recomputes caller-visible WP-09 identity-record integrity before token comparisons, crate-private policy establishment requires VerifiedBirthdayEvidence, opaque verified cycles remain chain-bound to one exact authority context, generation overflow fails closed, and signed witnesses are accepted only at the exact generation-bound governed path.",
       "actual_changes": [
         "Require validate_birthday_identity_record against opaque WP-09 VerifiedBirthdayEvidence before the runtime continuity policy can accept an identity record.",
+        "Recompute the complete caller-visible BirthdayIdentityRecord digest before continuity construction and reject stale stable-name, alias, provenance, witness, or other record mutations; record validation inherits the same fail-closed boundary.",
         "Bind every opaque verified cycle, continuity record, and continuity head to a canonical digest of the trusted Ed25519 key material, selected signer, identity record, generation floor, topology, configuration, service schema, and versioned authority-context schema; reject cross-policy token splicing even when key IDs match.",
         "Recheck exact identity-record digest, generation order, predecessor linkage, monotonic accepted-through, and unique integrity when constructing a continuity record from opaque verified cycles.",
         "Use checked generation advancement and reject terminal overflow.",
@@ -48,7 +49,7 @@
             "--status-level",
             "all"
           ],
-          "purpose": "Prove real WP-09 authority grounding and nine deterministic token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, copied-state, exact canonical witness-path allowlist, and tamper cases at product revision a3b519a646f477a5f4a9ea250f4f29baab215e4b.",
+          "purpose": "Prove real WP-09 authority grounding and nine deterministic stale caller-visible identity-record, token-chain, same-key-ID/different-key authority-context splice, overflow, replay, discontinuity, substitution, copied-state, exact canonical witness-path allowlist, and tamper cases at product revision a554b5598eb4a66277bab43530a184c28f0dbed4.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"
         },
