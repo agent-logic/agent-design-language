@@ -2312,6 +2312,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
                 Math.min(reconnectAttempt, RUNTIME_V3_RECONNECT_DELAYS_MILLIS.length - 1)
               ];
               reconnectAttempt += 1;
+              const root = document.querySelector(".observatory");
+              if (root) {
+                root.dataset.lastReconnectDelayMillis = String(delay);
+                root.dataset.reconnectAttempt = String(reconnectAttempt);
+              }
               setLiveConnectionState("reconnecting");
               setText("statusbar-websocket", `reconnecting in ${delay}ms`);
               reconnectTimer = setTimeout(() => {

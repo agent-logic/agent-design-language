@@ -26,6 +26,8 @@ rg -F 'fs.open(pathname, "wx", 0o600)' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'assert.equal(sourceRevision, repositoryRevision' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'assert.equal(restartTarget.source_revision, sourceRevision' "${LIVE_VALIDATOR_JS}" >/dev/null
 rg -F 'bytes differ from exact source revision' "${LIVE_VALIDATOR_JS}" >/dev/null
+rg -F 'data-last-reconnect-delay-millis' "${LIVE_VALIDATOR_JS}" >/dev/null
+rg -F 'root.dataset.lastReconnectDelayMillis = String(delay)' "${APP_JS}" >/dev/null
 if rg -n 'std::env::var\("ADL_SOURCE_REVISION"\)|rerun-if-env-changed=ADL_SOURCE_REVISION' "${RUNTIME_BUILD_RS}" >/dev/null; then
   echo "Runtime source provenance must not accept a caller-supplied revision" >&2
   exit 1

@@ -507,11 +507,13 @@ try {
   );
   assert.equal(restartResponse.status, 200, "signed checkpointed restart request was not accepted");
   await page.waitForFunction(() => {
-    const state = document.querySelector(".observatory")?.dataset.liveConnection;
-    const status = document.getElementById("statusbar-websocket")?.textContent || "";
-    return state === "reconnecting" && /reconnecting in (250|500|1000|2000|4000)ms/.test(status);
+    return /^(250|500|1000|2000|4000)$/.test(
+      document.querySelector(".observatory")?.dataset.lastReconnectDelayMillis || ""
+    );
   }, null, { timeout: 20_000 });
-  const observedBackoff = await page.locator("#statusbar-websocket").textContent();
+  const observedBackoff = Number(
+    await page.locator(".observatory").getAttribute("data-last-reconnect-delay-millis")
+  );
   await page.waitForFunction(() => {
     return document.querySelector(".observatory")?.dataset.liveConnection === "connected";
   }, null, { timeout: 30_000 });
@@ -531,7 +533,7 @@ try {
   assert(automaticReconnectAfter.applied_events >= 0, "automatic reconnect did not restore event accounting");
   report.assertions.automatic_bounded_reconnect = {
     passed: true,
-    observed_backoff: observedBackoff,
+    observed_backoff_millis: observedBackoff,
     healthy_reset_millis: 10_000,
     guardian_restart: {
       previous_pid: restartTarget.pid,
