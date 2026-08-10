@@ -13,6 +13,7 @@ pub const ADAPTIVE_LEARNING_INPUT_SCHEMA: &str = "adl.adaptive_learning.input.v1
 pub const ADAPTIVE_LEARNING_POLICY_SCHEMA: &str = "adl.adaptive_learning.policy.v1";
 pub const ADAPTIVE_LEARNING_HISTORY_SCHEMA: &str = "adl.adaptive_learning.history.v1";
 pub const ADAPTIVE_LEARNING_DURABLE_DOMAIN: &str = "runtime-v3-adaptive-learning";
+const ADAPTIVE_LEARNING_HISTORY_DOMAIN_PREFIX: &str = "runtime-v3-adaptive-learning-history";
 const MAX_POLICY_EVIDENCE: usize = 256;
 const MAX_FEEDBACK_SOURCES: usize = 64;
 const MAX_RATIONALE_BYTES: usize = 512;
@@ -271,6 +272,8 @@ fn build_history_internal(
     match (&i.decision.disposition, &mutation_evidence) {
         (LearningDisposition::Accepted, Some(mutation))
             if mutation.validate().is_ok()
+                && mutation.policy_hash == psha
+                && mutation.grant.policy_hash == psha
                 && mutation.before_hash == graph.hash()
                 && proposed
                     .as_ref()
@@ -353,6 +356,17 @@ pub fn execute_governed_adaptive_learning(
     cancellation: &CancellationToken,
     mutation: Option<(&MutationGrant, &[GraphPatch])>,
 ) -> Result<AdaptiveLearningHistory, Vec<AdaptiveLearningRejection>> {
+    let mut canonical_policy_value = policy.clone();
+    canonical_policy(&mut canonical_policy_value);
+    let policy_sha256 = digest(&canonical_policy_value)?;
+    let gate_snapshot = gate
+        .snapshot_bytes()
+        .map_err(|_| vec![AdaptiveLearningRejection::InvalidAuthority])?;
+    let gate_snapshot_value: serde_json::Value = serde_json::from_slice(&gate_snapshot)
+        .map_err(|_| vec![AdaptiveLearningRejection::InvalidAuthority])?;
+    if gate_snapshot_value["policy_hash"].as_str() != Some(policy_sha256.as_str()) {
+        return Err(vec![AdaptiveLearningRejection::InvalidAuthority]);
+    }
     let before_graph = gate.graph();
     let before_state = gate.adaptation().state();
     let before_state_sha = before_state
@@ -426,31 +440,7 @@ pub fn execute_governed_adaptive_learning(
         loop_binding.clone(),
         None,
     )?;
-    match (
-        previous,
-        durable.load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN),
-    ) {
-        (None, Ok(None)) => {}
-        (Some(expected), Ok(Some(bytes)))
-            if serde_json::from_slice::<AdaptiveLearningHistory>(&bytes)
-                .ok()
-                .as_ref()
-                == Some(expected) => {}
-        _ => return Err(vec![AdaptiveLearningRejection::InvalidHistoryPrefix]),
-    }
-
-    let pending = json!({
-        "schema": GOVERNED_LIFELOG_SCHEMA,
-        "event": "adaptive_learning_preflight",
-        "history_id": canonical.history_id,
-        "sequence": canonical.sequence,
-        "disposition": if accepted { "accepted_pending_gate" } else if cancelled { "cancelled" } else { "rejected" },
-        "graph_sha256": before_graph.hash(),
-        "state_sha256": before_state_sha,
-    });
-    durable
-        .append_governed_lifelog(&pending)
-        .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
+    validate_durable_predecessor(durable, &canonical, previous)?;
 
     if accepted && cancellation.is_cancelled() {
         accepted = false;
@@ -459,18 +449,28 @@ pub fn execute_governed_adaptive_learning(
         canonical.adaptation.after_state_sha256 = before_state_sha.clone();
         loop_binding.cancellation_observed = true;
     }
+    // Apply the exact signed mutation to an isolated snapshot first. This both proves that
+    // the patches produce the declared proposal and lets all durable writes complete before
+    // the live gate is changed.
     let evidence = if let Some((grant, patches)) = mutation.filter(|_| accepted) {
-        let evidence = gate
+        if grant.policy_hash != policy_sha256 {
+            return Err(vec![AdaptiveLearningRejection::InvalidAuthority]);
+        }
+        let preview = gate
+            .restore_from_snapshot(&gate_snapshot)
+            .map_err(|_| vec![AdaptiveLearningRejection::MutationFailed])?;
+        let evidence = preview
             .apply_and_migrate(grant, patches)
             .map_err(|_| vec![AdaptiveLearningRejection::MutationFailed])?;
-        let after_graph = gate.graph();
+        let after_graph = preview.graph();
         if after_graph.definition() != &canonical.proposal.proposed_graph
             || after_graph.hash() != evidence.after_hash
+            || evidence.policy_hash != policy_sha256
         {
             return Err(vec![AdaptiveLearningRejection::InvalidGraph]);
         }
         canonical.decision.authority_sha256 = evidence.grant_hash.clone();
-        canonical.adaptation.after_state_sha256 = gate
+        canonical.adaptation.after_state_sha256 = preview
             .adaptation()
             .state()
             .hash()
@@ -490,20 +490,100 @@ pub fn execute_governed_adaptive_learning(
     )?;
     let encoded = serde_jcs::to_vec(&history)
         .map_err(|_| vec![AdaptiveLearningRejection::EncodingFailure])?;
+    let sequence_domain = adaptive_learning_history_domain(&history.history_id, history.sequence);
+    if durable
+        .load_governed_state(&sequence_domain)
+        .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?
+        .is_some()
+    {
+        return Err(vec![AdaptiveLearningRejection::DurableWriteFailed]);
+    }
+    // Sequence record, head, and authoritative lifelog are persisted before live mutation.
+    // A durable failure therefore cannot leave a partially mutated live gate.
+    durable
+        .store_governed_state(&sequence_domain, &encoded)
+        .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
     durable
         .store_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN, &encoded)
         .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
     durable
         .append_governed_lifelog(&json!({
             "schema": GOVERNED_LIFELOG_SCHEMA,
-            "event": "adaptive_learning_recorded",
+            "event": "adaptive_learning_commit_intent",
             "history_id": history.history_id,
             "sequence": history.sequence,
             "history_sha256": history.history_sha256,
             "disposition": history.decision.disposition,
+            "history": history,
         }))
         .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
+    if let Some((grant, patches)) = mutation.filter(|_| accepted) {
+        let live_evidence = gate
+            .apply_and_migrate(grant, patches)
+            .map_err(|_| vec![AdaptiveLearningRejection::MutationFailed])?;
+        if history.mutation_evidence.as_ref() != Some(&live_evidence)
+            || gate.graph().hash() != history.resulting_graph_sha256
+            || gate.adaptation().state().hash().ok().as_deref()
+                != Some(history.resulting_state_sha256.as_str())
+        {
+            return Err(vec![AdaptiveLearningRejection::MutationFailed]);
+        }
+    }
     Ok(history)
+}
+
+pub fn adaptive_learning_history_domain(history_id: &str, sequence: u64) -> String {
+    format!("{ADAPTIVE_LEARNING_HISTORY_DOMAIN_PREFIX}:{history_id}:{sequence:020}")
+}
+
+pub fn load_adaptive_learning_history(
+    durable: &KernelDurableState,
+    history_id: &str,
+    sequence: u64,
+) -> Result<Option<AdaptiveLearningHistory>, AdaptiveLearningRejection> {
+    if !safe_id(history_id) || sequence == 0 {
+        return Err(AdaptiveLearningRejection::InvalidHistoryPrefix);
+    }
+    durable
+        .load_governed_state(&adaptive_learning_history_domain(history_id, sequence))
+        .map_err(|_| AdaptiveLearningRejection::DurableWriteFailed)?
+        .map(|bytes| {
+            serde_json::from_slice(&bytes)
+                .map_err(|_| AdaptiveLearningRejection::NonCanonicalHistory)
+        })
+        .transpose()
+}
+
+fn validate_durable_predecessor(
+    durable: &KernelDurableState,
+    input: &AdaptiveLearningInput,
+    previous: Option<&AdaptiveLearningHistory>,
+) -> Result<(), Vec<AdaptiveLearningRejection>> {
+    let head = durable
+        .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+        .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
+    match (previous, head) {
+        (None, None) => Ok(()),
+        (Some(expected), Some(bytes))
+            if serde_json::from_slice::<AdaptiveLearningHistory>(&bytes)
+                .ok()
+                .as_ref()
+                == Some(expected)
+                && load_adaptive_learning_history(
+                    durable,
+                    &expected.history_id,
+                    expected.sequence,
+                )
+                .ok()
+                .flatten()
+                .as_ref()
+                    == Some(expected)
+                && input.history_id == expected.history_id =>
+        {
+            Ok(())
+        }
+        _ => Err(vec![AdaptiveLearningRejection::InvalidHistoryPrefix]),
+    }
 }
 pub fn validate_adaptive_learning_history(
     h: &AdaptiveLearningHistory,
@@ -544,6 +624,8 @@ pub fn validate_governed_adaptive_learning_history(
         (LearningDisposition::Accepted, Some(evidence))
             if authority.verify_evidence(evidence).is_ok()
                 && gate.evidence().contains(evidence)
+                && evidence.policy_hash == history.policy_sha256
+                && evidence.grant.policy_hash == history.policy_sha256
                 && evidence.before_hash == history.before_graph_sha256
                 && evidence.after_hash == history.resulting_graph_sha256 =>
         {
@@ -568,6 +650,8 @@ fn valid_governed_evidence(
         (LearningDisposition::Accepted, Some(evidence)) => {
             authority.verify_evidence(evidence).is_ok()
                 && gate.evidence().contains(evidence)
+                && evidence.policy_hash == history.policy_sha256
+                && evidence.grant.policy_hash == history.policy_sha256
                 && evidence.grant_hash == history.decision.authority_sha256
         }
         (LearningDisposition::Rejected, None) => {
@@ -615,6 +699,7 @@ pub fn rollback_governed_adaptive_learning(
         .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
         .map_err(|_| AdaptiveLearningRejection::DurableWriteFailed)?
         .and_then(|bytes| serde_json::from_slice::<AdaptiveLearningHistory>(&bytes).ok());
+    validate_durable_history_chain(durable, history, authority, gate, policy)?;
     if history.decision.disposition != LearningDisposition::Accepted
         || current_graph_sha256 != history.resulting_graph_sha256
         || current_state_sha256 != history.resulting_state_sha256
@@ -630,6 +715,41 @@ pub fn rollback_governed_adaptive_learning(
         history.adaptation.before_state_sha256.clone(),
     ))
 }
+
+fn validate_durable_history_chain(
+    durable: &KernelDurableState,
+    expected_head: &AdaptiveLearningHistory,
+    authority: &MutationAuthority,
+    gate: &MutationGate,
+    policy: &AdaptiveLearningPolicy,
+) -> Result<(), AdaptiveLearningRejection> {
+    let mut previous: Option<AdaptiveLearningHistory> = None;
+    for sequence in 1..=expected_head.sequence {
+        let current = load_adaptive_learning_history(durable, &expected_head.history_id, sequence)?
+            .ok_or(AdaptiveLearningRejection::RollbackMismatch)?;
+        if current.sequence != sequence
+            || current.history_id != expected_head.history_id
+            || !valid_retained_history(&current, policy)
+            || !valid_governed_evidence(&current, authority, gate, policy)
+            || match &previous {
+                None => current.previous_history_sha256.is_some(),
+                Some(prior) => {
+                    current.previous_history_sha256.as_deref()
+                        != Some(prior.history_sha256.as_str())
+                        || current.before_graph_sha256 != prior.resulting_graph_sha256
+                        || current.adaptation.before_state_sha256 != prior.resulting_state_sha256
+                }
+            }
+        {
+            return Err(AdaptiveLearningRejection::RollbackMismatch);
+        }
+        previous = Some(current);
+    }
+    if previous.as_ref() != Some(expected_head) {
+        return Err(AdaptiveLearningRejection::RollbackMismatch);
+    }
+    Ok(())
+}
 pub fn history_digest(
     v: &AdaptiveLearningHistory,
 ) -> Result<String, Vec<AdaptiveLearningRejection>> {
@@ -641,7 +761,9 @@ fn valid_retained_history(
     history: &AdaptiveLearningHistory,
     policy: &AdaptiveLearningPolicy,
 ) -> bool {
-    let policy_sha = digest(policy).ok();
+    let mut canonical_policy_value = policy.clone();
+    canonical_policy(&mut canonical_policy_value);
+    let policy_sha = digest(&canonical_policy_value).ok();
     let input = input_from_history(history);
     let mut canonicalized_input = input.clone();
     canonical_input(&mut canonicalized_input);
@@ -678,6 +800,8 @@ fn valid_retained_history(
         && match (&history.decision.disposition, &history.mutation_evidence) {
             (LearningDisposition::Accepted, Some(evidence)) => {
                 evidence.validate().is_ok()
+                    && evidence.policy_hash == history.policy_sha256
+                    && evidence.grant.policy_hash == history.policy_sha256
                     && evidence.before_hash == history.before_graph_sha256
                     && evidence.after_hash == history.resulting_graph_sha256
                     && evidence.grant_hash == history.decision.authority_sha256

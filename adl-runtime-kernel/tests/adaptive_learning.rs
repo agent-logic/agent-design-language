@@ -99,7 +99,10 @@ fn policy_sha(policy: &AdaptiveLearningPolicy) -> String {
         sha2::Sha256::digest(serde_jcs::to_vec(&value).unwrap())
     )
 }
-fn loop_outcome(graph: &ValidatedReasoningGraph) -> LoopOutcome {
+fn loop_outcome(graph: &ValidatedReasoningGraph, policy_sha256: &str) -> LoopOutcome {
+    loop_outcome_from(graph, AdaptationState::new(0, graph.hash(), policy_sha256))
+}
+fn loop_outcome_from(graph: &ValidatedReasoningGraph, state: AdaptationState) -> LoopOutcome {
     let runtime = tokio::runtime::Builder::new_current_thread()
         .enable_time()
         .build()
@@ -107,20 +110,26 @@ fn loop_outcome(graph: &ValidatedReasoningGraph) -> LoopOutcome {
     runtime
         .block_on(execute_loop(
             graph,
-            &LoopDefinition {
-                target_score: 100,
-                max_iterations: 1,
-                deadline_millis: 5_000,
-            },
-            &RecordedObservation {
-                observation_id: "observation".into(),
-                score: 0,
-                evidence_hash: H.into(),
-            },
-            AdaptationState::new(0, graph.hash(), H),
+            &loop_definition(),
+            &observation(),
+            state,
             CancellationToken::new(),
         ))
         .unwrap()
+}
+fn loop_definition() -> LoopDefinition {
+    LoopDefinition {
+        target_score: 100,
+        max_iterations: 1,
+        deadline_millis: 5_000,
+    }
+}
+fn observation() -> RecordedObservation {
+    RecordedObservation {
+        observation_id: "observation".into(),
+        score: 0,
+        evidence_hash: H.into(),
+    }
 }
 struct FixedTime;
 impl TrustedTime for FixedTime {
@@ -138,15 +147,19 @@ fn authority(key: &SigningKey) -> MutationAuthority {
     )]))
 }
 fn patches() -> Vec<GraphPatch> {
+    patches_with_score(2)
+}
+fn patches_with_score(score_delta: i64) -> Vec<GraphPatch> {
     vec![GraphPatch::SetScoreDelta {
         node: "a".into(),
-        score_delta: 2,
+        score_delta,
     }]
 }
 fn grant(
     graph: &ValidatedReasoningGraph,
     key: &SigningKey,
     patches: &[GraphPatch],
+    policy_sha256: &str,
 ) -> MutationGrant {
     MutationGrant {
         schema: MUTATION_GRANT_SCHEMA.into(),
@@ -154,7 +167,7 @@ fn grant(
         principal: "review-board".into(),
         signing_key_id: "review-key".into(),
         graph_hash: graph.hash().into(),
-        policy_hash: H.into(),
+        policy_hash: policy_sha256.into(),
         provenance: "review-5831".into(),
         patch_hash: graph_patch_hash(patches).unwrap(),
         allowed_operations: BTreeSet::from([PatchKind::SetScoreDelta]),
@@ -171,12 +184,13 @@ fn gate(
     graph: &ValidatedReasoningGraph,
     outcome: &LoopOutcome,
     authority: MutationAuthority,
+    policy_sha256: &str,
 ) -> MutationGate {
     MutationGate::new(
         graph.clone(),
         authority,
         Arc::new(FixedTime),
-        H,
+        policy_sha256,
         16,
         Arc::new(AdaptationStore::new(outcome.state.clone())),
     )
@@ -189,13 +203,13 @@ fn input(
     policy: &AdaptiveLearningPolicy,
 ) -> AdaptiveLearningInput {
     let mut proposed = graph.definition().clone();
-    proposed.version = 2;
+    proposed.version = proposed.version.checked_add(1).unwrap();
     proposed
         .nodes
         .iter_mut()
         .find(|node| node.id == "a")
         .unwrap()
-        .score_delta = 2;
+        .score_delta += 1;
     let state = outcome.state.hash().unwrap();
     AdaptiveLearningInput {
         schema: ADAPTIVE_LEARNING_INPUT_SCHEMA.into(),
@@ -246,10 +260,11 @@ fn harness() -> Harness {
     let graph = graph();
     let profile = profile();
     let policy = policy(&profile);
-    let outcome = loop_outcome(&graph);
+    let policy_sha256 = policy_sha(&policy);
+    let outcome = loop_outcome(&graph, &policy_sha256);
     let key = SigningKey::from_bytes(&[7; 32]);
     let authority = authority(&key);
-    let gate = gate(&graph, &outcome, authority.clone());
+    let gate = gate(&graph, &outcome, authority.clone(), &policy_sha256);
     let durable_dir = tempfile::tempdir().unwrap();
     let durable = KernelDurableState::open(durable_dir.path()).unwrap();
     Harness {
@@ -269,7 +284,7 @@ fn harness() -> Harness {
 fn governed_acceptance_mutates_and_persists_exact_history() {
     let h = harness();
     let patches = patches();
-    let grant = grant(&h.graph, &h.key, &patches);
+    let grant = grant(&h.graph, &h.key, &patches, &policy_sha(&h.policy));
     let initial_input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
     let history = execute_governed_adaptive_learning(
         &h.gate,
@@ -294,7 +309,7 @@ fn governed_acceptance_mutates_and_persists_exact_history() {
     )
     .unwrap();
     assert_eq!(retained, history);
-    assert_eq!(h.durable.governed_lifelog_len().unwrap(), 2);
+    assert_eq!(h.durable.governed_lifelog_len().unwrap(), 1);
     validate_governed_adaptive_learning_history(
         &history,
         &h.graph,
@@ -347,7 +362,7 @@ fn rejected_and_cancelled_paths_are_durable_and_nonmutating() {
     for cancelled in [false, true] {
         let h = harness();
         let patches = patches();
-        let grant = grant(&h.graph, &h.key, &patches);
+        let grant = grant(&h.graph, &h.key, &patches, &policy_sha(&h.policy));
         let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
         let token = CancellationToken::new();
         if cancelled {
@@ -361,7 +376,7 @@ fn rejected_and_cancelled_paths_are_durable_and_nonmutating() {
         assert_eq!(history.decision.disposition, LearningDisposition::Rejected);
         assert_eq!(history.resulting_graph_sha256, h.graph.hash());
         assert!(h.gate.evidence().is_empty());
-        assert_eq!(h.durable.governed_lifelog_len().unwrap(), 2);
+        assert_eq!(h.durable.governed_lifelog_len().unwrap(), 1);
     }
 }
 
@@ -369,7 +384,7 @@ fn rejected_and_cancelled_paths_are_durable_and_nonmutating() {
 fn forged_grant_and_authority_fail_before_history_acceptance() {
     let h = harness();
     let patches = patches();
-    let mut grant = grant(&h.graph, &h.key, &patches);
+    let mut grant = grant(&h.graph, &h.key, &patches, &policy_sha(&h.policy));
     grant.signature.replace_range(..2, "00");
     let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
     assert!(execute_governed_adaptive_learning(
@@ -440,7 +455,7 @@ fn predecessor_splice_and_sequence_overflow_fail_closed() {
 fn tampered_history_and_rollback_never_return_attacker_hashes() {
     let h = harness();
     let patches = patches();
-    let grant = grant(&h.graph, &h.key, &patches);
+    let grant = grant(&h.graph, &h.key, &patches, &policy_sha(&h.policy));
     let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
     let mut history = execute_governed_adaptive_learning(
         &h.gate,
@@ -558,6 +573,193 @@ fn unsafe_ids_rationale_paths_and_unknown_fields_fail_closed() {
         .unwrap()
         .insert("private_state".into(), true.into());
     assert!(serde_json::from_value::<AdaptiveLearningInput>(value).is_err());
+}
+
+#[test]
+fn policy_digest_mismatch_fails_before_mutation_or_persistence() {
+    let h = harness();
+    let patches = patches();
+    let mismatched_grant = grant(&h.graph, &h.key, &patches, H);
+    let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
+    let before_state = h.gate.adaptation().state();
+    let error = execute_governed_adaptive_learning(
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &input,
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&mismatched_grant, &patches)),
+    )
+    .unwrap_err();
+    assert!(error.contains(&AdaptiveLearningRejection::InvalidAuthority));
+    assert_eq!(h.gate.graph().hash(), h.graph.hash());
+    assert_eq!(h.gate.adaptation().state(), before_state);
+    assert!(h.gate.evidence().is_empty());
+    assert!(h
+        .durable
+        .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+        .unwrap()
+        .is_none());
+}
+
+#[test]
+fn proposal_patch_mismatch_and_durable_collision_are_nonmutating() {
+    for durable_collision in [false, true] {
+        let h = harness();
+        let patches = if durable_collision {
+            patches()
+        } else {
+            patches_with_score(3)
+        };
+        let grant = grant(&h.graph, &h.key, &patches, &policy_sha(&h.policy));
+        let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
+        if durable_collision {
+            h.durable
+                .store_governed_state(
+                    &adaptive_learning_history_domain("history", 1),
+                    b"collision",
+                )
+                .unwrap();
+        }
+        let before_graph = h.gate.graph();
+        let before_state = h.gate.adaptation().state();
+        let error = execute_governed_adaptive_learning(
+            &h.gate,
+            &h.durable,
+            &h.profile,
+            &input,
+            &h.policy,
+            None,
+            &h.outcome,
+            &CancellationToken::new(),
+            Some((&grant, &patches)),
+        )
+        .unwrap_err();
+        assert_eq!(h.gate.graph().hash(), before_graph.hash());
+        assert_eq!(h.gate.adaptation().state(), before_state);
+        assert!(h.gate.evidence().is_empty());
+        assert!(h
+            .durable
+            .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+            .unwrap()
+            .is_none());
+        if durable_collision {
+            assert!(error.contains(&AdaptiveLearningRejection::DurableWriteFailed));
+            assert!(load_adaptive_learning_history(&h.durable, "history", 1).is_err());
+        } else {
+            assert!(error.contains(&AdaptiveLearningRejection::InvalidGraph));
+            assert!(load_adaptive_learning_history(&h.durable, "history", 1)
+                .unwrap()
+                .is_none());
+        }
+    }
+}
+
+#[test]
+fn two_sequence_history_survives_restart_and_supports_authoritative_rollback() {
+    let Harness {
+        graph,
+        profile,
+        policy,
+        outcome,
+        authority,
+        gate,
+        key,
+        _durable_dir: durable_dir,
+        durable,
+    } = harness();
+    let first_patches = patches();
+    let first_grant = grant(&graph, &key, &first_patches, &policy_sha(&policy));
+    let first_input = input(&graph, &outcome, &profile, &policy);
+    let first = execute_governed_adaptive_learning(
+        &gate,
+        &durable,
+        &profile,
+        &first_input,
+        &policy,
+        None,
+        &outcome,
+        &CancellationToken::new(),
+        Some((&first_grant, &first_patches)),
+    )
+    .unwrap();
+    let snapshot = gate.snapshot_bytes().unwrap();
+    drop(gate);
+    drop(durable);
+
+    let durable = KernelDurableState::open(durable_dir.path()).unwrap();
+    let gate =
+        MutationGate::restore(&snapshot, authority.clone(), Arc::new(FixedTime), 16).unwrap();
+    assert_eq!(
+        load_adaptive_learning_history(&durable, "history", 1)
+            .unwrap()
+            .as_ref(),
+        Some(&first)
+    );
+    let second_before_graph = gate.graph();
+    let mut second_outcome = outcome.clone();
+    second_outcome.state = gate.adaptation().state();
+    let second_patches = patches_with_score(3);
+    let mut second_grant = grant(
+        &second_before_graph,
+        &key,
+        &second_patches,
+        &policy_sha(&policy),
+    );
+    second_grant.grant_id = "grant-2".into();
+    second_grant = second_grant.sign(&key).unwrap();
+    let mut second_input = input(&second_before_graph, &second_outcome, &profile, &policy);
+    second_input.sequence = 2;
+    second_input.previous_history_sha256 = Some(first.history_sha256.clone());
+    let second = execute_governed_adaptive_learning(
+        &gate,
+        &durable,
+        &profile,
+        &second_input,
+        &policy,
+        Some(&first),
+        &second_outcome,
+        &CancellationToken::new(),
+        Some((&second_grant, &second_patches)),
+    )
+    .unwrap();
+    let snapshot = gate.snapshot_bytes().unwrap();
+    drop(gate);
+    drop(durable);
+
+    let durable = KernelDurableState::open(durable_dir.path()).unwrap();
+    let gate =
+        MutationGate::restore(&snapshot, authority.clone(), Arc::new(FixedTime), 16).unwrap();
+    assert_eq!(
+        load_adaptive_learning_history(&durable, "history", 1).unwrap(),
+        Some(first.clone())
+    );
+    assert_eq!(
+        load_adaptive_learning_history(&durable, "history", 2).unwrap(),
+        Some(second.clone())
+    );
+    assert_eq!(
+        rollback_governed_adaptive_learning(
+            &second,
+            &second.resulting_graph_sha256,
+            &second.resulting_state_sha256,
+            &second_before_graph,
+            &profile,
+            &policy,
+            Some(&first),
+            &authority,
+            &gate,
+            &durable,
+        )
+        .unwrap(),
+        (
+            second_before_graph.definition().clone(),
+            first.resulting_state_sha256.clone()
+        )
+    );
 }
 
 #[test]

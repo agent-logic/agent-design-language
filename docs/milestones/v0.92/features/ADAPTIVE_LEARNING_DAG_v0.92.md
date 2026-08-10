@@ -130,17 +130,22 @@ WP-01 validated the prerequisite by checking:
 - WP-13A owns the opened adaptive-learning implementation issue;
 - no v0.92 birthday claim depends on unproved graph mutation.
 
-The issue-owned `adaptive_learning` integration target contains eight focused
+The issue-owned `adaptive_learning` integration target contains eleven focused
 tests using real Runtime v3 loop outcomes, cancellation tokens, signed mutation
 grants, `MutationGate`, `AdaptationStore`, and `KernelDurableState`. Accepted
-history can only be produced after `MutationGate::apply_and_migrate` returns
-verified mutation evidence; caller-supplied accepted dispositions have no
-authority. Rejected and cancelled paths retain governed lifelog/history records
-without invoking mutation. The versioned history binds recurrence, loop replay,
-state delta, graph proposal, policy, capability, mutation evidence, exact
-predecessor, and rollback authority. Rollback requires the exact durable history
-plus matching gate and signature evidence and cannot return caller-selected
-hashes.
+history requires the canonical adaptive-learning policy digest to match the
+signed grant, mutation evidence, and gate policy. The executor previews the
+signed patch set against an isolated gate snapshot and requires its result to
+equal the declared proposal. It then retains the full history under an
+append-only sequence domain, advances the durable head, and records the full
+commit intent before changing the live gate, so a durable failure cannot leave
+partial live mutation. Caller-supplied accepted dispositions have no authority.
+Rejected and cancelled paths retain governed history without invoking mutation.
+The versioned history binds recurrence, loop replay, state delta, graph proposal,
+policy, capability, mutation evidence, exact predecessor, and rollback authority.
+Every sequence remains reloadable after restart; rollback requires the exact
+sequence-addressed durable history plus matching gate and signature evidence and
+cannot return caller-selected hashes.
 Native macOS/Linux receipts remain CI integration proof and are not claimed by
 the local implementation result.
 
