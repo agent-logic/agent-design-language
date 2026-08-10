@@ -42,3 +42,5 @@
 {"sequence":42,"generation":22,"actor":"codex:issue-5878-final-integration","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":43,"generation":23,"actor":"codex:issue-5878-final-integration","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":44,"generation":24,"actor":"codex:issue-5878-final-integration","reason":"Expand the exact review scope to include typed issue and request metadata so the publication guard can prove automatic metadata-only advancement from the independently approved evidence head.","operation":"recover_review"}
+{"sequence":45,"generation":24,"actor":"codex:issue-5878-final-integration","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":46,"generation":25,"actor":"codex:issue-5878-final-integration","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

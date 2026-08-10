@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16] Distributed integration, adversarial, and native-platform proof",
     "slug": "v0-92-wp-04-16-integration-adversarial-native-proof",
     "version": "v0.92",
-    "generation": 24
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed/mod.rs\nadl-runtime/src/lib.rs\nadl-runtime/tests/distributed_guardian.rs\nadl/tools/validate_v092_distributed_guardian.sh\nadl/tools/validate_v092_distributed_native_receipts.rb\n.github/workflows/wp04-native-distributed.yml\n.csdlc/evidence/5878\n.csdlc/issues/5878\n.csdlc/prepared/issues/5878",
+      "review_revision": "git-blake3:f75e11a85404ab0c6339e8cd49c78b29b07e771a:4ed51d96e71484e9d21b78775e9a46192a5054ab0d34d1bf6a6a7411a4b58d68",
+      "reviewer": "codex-subagent:review_5877_exact",
       "review_prompts": [
         "Is the implementation confined to exclusive paths?",
         "Do exact tests prove the named behavior and negatives?",
@@ -23,8 +23,10 @@
         "Does rollback restore one authoritative owner without weakening security?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "This issue registers and proves the production distributed library surface only; unowned Guardian, API, and WSS route entrypoints remain unchanged and are not claimed by this delivery."
+      ],
+      "review_result": "pass"
     }
   }
 }
