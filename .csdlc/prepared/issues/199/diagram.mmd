@@ -1,0 +1,15 @@
+flowchart LR
+  T["Opaque #201 membership token with stable old and target Raft-id maps"] --> A["AuthorizedOld journal"]
+  C["Exact published MembershipState AuthorityMembership Raft history route and exclusion parity"] --> A
+  A --> E["Shared #202 pending exclusion for removal"]
+  A --> L["LearnerCaughtUp over authenticated replication-only route"]
+  L --> J["JointCommitted persisted per OpenRaft membership log entry"]
+  J --> F["FinalCommitted exact uniform target"]
+  F --> I["Durable publication intent"]
+  I --> R["Reconcile private MembershipState stable AuthorityMembership and route objects"]
+  R --> X["External checkpoint plus exact result cache"]
+  X --> V["Atomic published-view generation flip"]
+  V --> O["Pending-exclusion receipt for #200"]
+  E -. "ordinary voter authority denied; exact future recovery learner only" .-> D["Fail-closed exclusion"]
+  J -. "committed joint crash" .-> Q["Resume exact standard OpenRaft change to uniform"]
+  R -. "partial reconcile conflict rollback or ambiguity" .-> Z["No visible view; operator required"]

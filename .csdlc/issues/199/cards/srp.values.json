@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 199,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
+    "slug": "governed-voter-membership-transitions",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact membership coordinator and narrow PolisRuntime/MembershipState/AuthorityMembership integration, real secure OpenRaft transition tests, issue proof/evidence, typed issue truth, and absence of #200 or operational side effects.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller route, learner, removed voter, stale node, leader, or local history choose a voter, role, Raft id, or authority cut?",
+        "Does the coordinator use standard OpenRaft learner and membership APIs while proving exact committed joint and final configurations?",
+        "Is pending removal denied from every new authority surface without falsely claiming a #200 concrete fence mutation?",
+        "Can restart or leadership change reconcile every phase without duplicate side effects or incomplete parity publication?",
+        "Does governed rejoin ignore retained voting state until new authorization, certificate, catch-up, joint/final commitment, and parity complete?",
+        "Does proof bind the exact thirty-six cases, real secure nodes, protected-source drift, immutable evidence, strict Clippy, and merge topology?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

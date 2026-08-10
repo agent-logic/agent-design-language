@@ -1,0 +1,117 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 199,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
+    "slug": "governed-voter-membership-transitions",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "governed-membership-transition",
+          "proof_role": "Prove exact thirty-six-case denominator: add_learner_joint_final_publish, remove_voter_pending_exclusion, governed_rejoin_from_stale_state, exact_retry_cached_result, learner_snapshot_catchup, leader_change_resume, missing_201_token, wrong_operation_kind, old_cut_mismatch, route_cut_mismatch, wrong_domain, wrong_certificate_generation, wrong_control_key, expired_certificate, revoked_certificate, unauthorized_overlap, unstable_raft_id_mapping, learner_lag, learner_divergent_snapshot, missing_snapshot, joint_old_only, joint_new_only, joint_union_only, final_cut_mismatch, concurrent_transition, conflicting_retry, removed_voter_endorsement, removed_voter_route, stale_rejoin_self_promotion, crash_every_phase, coherent_rollback_rejected, corrupt_journal_rejected, checkpoint_object_collision, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected. The positive add case must use a real authenticated #202 fourth-node learner and prove same-batch joint history; leader_change_resume must start from a durably committed joint cut; unstable_raft_id_mapping must preserve every old id and reject collision; governed_rejoin_from_stale_state must prove separate NonVoting enrollment and promotion tokens; crash_every_phase must cover each concrete reconcile and the final visible-view flip.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 24000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_membership_transition",
+            "--no-tests=fail"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": "Deferred until #191, #201, and #202 merge and this issue creates adl-runtime/tests/distributed_membership_transition.rs plus adl-runtime/src/distributed/membership_coordinator.rs; fail closed on missing targets, zero tests, or any result not mapping exactly once to all thirty-six canonical names and required seam subassertions."
+        },
+        {
+          "lane": "governed-membership-transition-clippy",
+          "proof_role": "Reject warnings and API misuse across the exact bounded membership coordinator target.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 10000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_membership_transition",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source."
+        },
+        {
+          "lane": "governed-membership-transition-producer",
+          "proof_role": "Produce exact source, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker evidence.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 10000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/199/produce-proof-receipt.rb"
+          ],
+          "parallel_group": "199-proof",
+          "defer_reason": "Deferred until this issue creates exact producer .csdlc/prepared/issues/199/produce-proof-receipt.rb; fail closed while absent and on dirty protected source, wrong case count, missing/extra/duplicate name, nonpassing result, or nonzero command status."
+        },
+        {
+          "lane": "governed-membership-transition-receipt",
+          "proof_role": "Bind exact protected source, commands, thirty-six cases, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/199/validate-proof-receipt.rb"
+          ],
+          "parallel_group": "199-proof",
+          "defer_reason": "Deferred until this issue creates .csdlc/prepared/issues/199/validate-proof-receipt.rb and post-finalize immutable evidence; fail closed until both exist and bind exact reviewed source and all thirty-six cases."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing or invalid #201 token, authority-cut drift, learner lag/divergence, joint/final mismatch, stale or removed voter authority, unstable Raft ids, incomplete parity, checkpoint ambiguity, rollback, retry conflict, corruption, unsafe paths, zero-test proof, source drift, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/199/design.md",
+      "design_digest": "0c303de755408edf4f538a06a4558a8091c140c675ef5ada8c7fe6cded6f4742",
+      "diagram_ref": ".csdlc/prepared/issues/199/diagram.mmd",
+      "diagram_digest": "90891300ab609103f2234c1f5725937d5189cced49ee95ecf33c57971065c71f"
+    }
+  }
+}
