@@ -70,10 +70,10 @@ stderr_path = machine["stderr_path"]
 issue_evidence_file(stdout_path, machine["stdout_sha256"], "machine stdout")
 issue_evidence_file(stderr_path, machine["stderr_sha256"], "machine stderr")
 
-observed = File.readlines(stdout_path, chomp: true).filter_map do |line|
+observed = File.readlines(stdout_path, chomp: true).each_with_object([]) do |line, entries|
   next unless line.start_with?(MACHINE_MARKER)
   payload = JSON.parse(line.delete_prefix(MACHINE_MARKER))
-  {
+  entries << {
     "case" => payload.fetch("case"),
     "result" => payload.fetch("result"),
     "observed_line_sha256" => Digest::SHA256.hexdigest(line)
