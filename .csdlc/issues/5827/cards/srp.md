@@ -45,12 +45,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Republish the reviewed native evidence and converge the replacement standard and WP-10 native checks before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f65d8dcd3775878d4f3770b371aba38a26d8c61e:94be3497a44eb0f364b05f310be6a749bc7de0eed9723b3b2e9c9496375c4a6b")
 
-Reviewer: None
+Reviewer: Some("/root/review_5827_native_final")
 
-Result: pre_review
+Result: pass
