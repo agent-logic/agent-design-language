@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "72ac2dc87943a4f4f702b65abca70dde6dceec9065123c6b3c1ec16f243ece85",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "ac28a990490ae0a38c953c310d54c1c3429731c814bf6b129e4e459aaf0ab359",
+  "generation": 14,
+  "digest": "d247f4b78a0f494ec10ddde87098e209266dc5eff7f5e480c9b46d08b47981fb",
   "branch": "codex/143-v092-adr-authoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-143-v092-adrs",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "85c05c9b127541aece197da0ce36a2e799d61a74ee46a30761b1e03e1880dfeb",
+      "values_digest": "86c6600246ca35e2254b6f1ea221c63ab3cb96d4ec342fffb5cb4c0a2f8bc2f5",
       "rendered_digest": "ad6dea616684bb5807185342fe293f0a53209243b3e62171aaaf611376e60a6b",
       "ast_digest": "f34bfa35468a730acf038a4bc7f427d84d1303c4780747f5b30ef145d15dedde"
     },
     "stp": {
-      "values_digest": "50e31dd3fc4e707e9b362878ec35d896cbabf7967c2742d1d9bdcd342a5f1d32",
+      "values_digest": "fb97f0c96fbda99fb71a36a041f3c328fcb054a5f9343c806e5b43bf99c6fa8b",
       "rendered_digest": "d47a29683c881de78b3f97b649e0d081e78d854b3ef38d8e5aa8a8ee3adb0ae9",
       "ast_digest": "d59b440597105fdb6559ab1d8d25e5cab40995ff170f486561d15b6ea6f6a073"
     },
     "spp": {
-      "values_digest": "7331ef0be4ed4b1cb91fc70c261e93bf9460115496ce0587abc3989e3e2fcb27",
-      "rendered_digest": "6512fc58ab8529cac8b20e089f498e49e41865aec1dd0014c5d3012bc013c6ef",
-      "ast_digest": "90bae988f6c0c7831b09bf785ab23bf74a0c1bb4c329c28465ae25a26a7aa8df"
+      "values_digest": "be90d01ffdf144d5c225cc7cad16e6b84eeba02946f993c73e2ca1ca4fd5d707",
+      "rendered_digest": "5c91bb074696e3af208a7b2f123bb74256f79c958102c5d2e3180bfa013269d1",
+      "ast_digest": "f3dc367d99d5c5d0a1b0e228ef88991e6f4bfde5b62797decada4d83d33d169b"
     },
     "vpp": {
-      "values_digest": "68c80a2029ac7bc35d60097080261630b9ae25d5a12d205e05ce0142ee9ac5d9",
+      "values_digest": "9b1b1cd8c26c8afa65522e2391f0d64f04de06b267b0d848a92753c697a6236a",
       "rendered_digest": "ae898e5e72ba0298de4e36e016b737cb7aef0da49ef9e882a4ec4326d4d8903a",
       "ast_digest": "49e4e1d4959f79a42905dea5320ffba1c19c1c0d62d617909ddf04d3967dff0e"
     },
     "srp": {
-      "values_digest": "b3be6046ca5f39aa69ce2a94c7dbc76ba2589c2d8b04b23126dfeee92e507c4a",
+      "values_digest": "7122e97fa3812ba6048ece47833a78944682c7b2be3ae0757ea5d27dc88501cf",
       "rendered_digest": "dae0573ca5a13522cc035d9ab3924f2888e6ddb9e9442d9532cc626c1c315a2f",
       "ast_digest": "66b33c6dfa183c0b49b9e3f91104f34374d3b6564ea2567279a06149fde89427"
     },
     "sor": {
-      "values_digest": "b73c031872ff73000877ac6efbdcc2ef7e9f7cfee6d54beca629071ea5fb8e8d",
+      "values_digest": "dc18501c12fd3a845b9ac0c7ce65e72b880451183fec7938e7baf59648083863",
       "rendered_digest": "627ac3827410e0f847e38e2a058811c6681063f493d9ea99368ceac2543d8426",
       "ast_digest": "115431dfc90facc0921cae6510f01ea16c8e5a2589b8bdc6db0f506a864ffe95"
     }
@@ -176,6 +176,20 @@
       "actor": "codex:143-v092-adr-authoring",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "Record completed focused validation and exact-head independent review with no remaining findings.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:143-v092-adr-authoring",
+      "reason": "Begin publication of the reviewed documentation-only ADR candidate packet.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"in_progress\"}"
     }
   ]
 }
