@@ -9,7 +9,7 @@ use std::{cmp::Ordering, collections::BTreeMap, fmt, time::SystemTime};
 use serde::Deserialize;
 
 use super::{
-    capability_advertisement::VerifiedCapabilityAdvertisement,
+    capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
     certificates::{CertificatePurpose, DistributedCertificateStore},
     fencing::{FenceReceipt, FencingStore},
     lease::{AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA},
@@ -149,9 +149,48 @@ pub struct PlacementRequest {
 #[derive(Clone, Debug)]
 pub struct PlacementInputs<'a> {
     pub membership: &'a MembershipState,
-    pub capabilities: &'a [VerifiedCapabilityAdvertisement],
+    pub capabilities: &'a PlacementCapabilitySnapshot,
     pub weather: &'a PlacementWeatherSnapshot,
     pub fencing: &'a PlacementFencingSnapshot,
+}
+
+/// Opaque capability evidence produced only by signature and certificate verification.
+#[derive(Clone, Debug)]
+pub struct PlacementCapabilitySnapshot {
+    captured_at_unix_secs: u64,
+    rows: Vec<VerifiedCapabilityAdvertisement>,
+}
+
+impl PlacementCapabilitySnapshot {
+    pub fn capture(
+        verifier: &CapabilityAdvertisementVerifier,
+        signed_advertisements: &[Vec<u8>],
+        now_unix_secs: u64,
+    ) -> PlacementResult<Self> {
+        let rows = signed_advertisements
+            .iter()
+            .map(|bytes| {
+                verifier
+                    .decode_and_verify(bytes, now_unix_secs)
+                    .map_err(|_| PlacementError::InconsistentEvidence)
+            })
+            .collect::<PlacementResult<Vec<_>>>()?;
+        Ok(Self {
+            captured_at_unix_secs: now_unix_secs,
+            rows,
+        })
+    }
+
+    #[cfg(test)]
+    pub fn from_rows_for_test(
+        now_unix_secs: u64,
+        rows: &[VerifiedCapabilityAdvertisement],
+    ) -> Self {
+        Self {
+            captured_at_unix_secs: now_unix_secs,
+            rows: rows.to_vec(),
+        }
+    }
 }
 
 /// Opaque weather projected from the durable verified-advertisement store at service time.
@@ -255,6 +294,7 @@ impl PlacementFencingSnapshot {
                     lineage_id: lineage_id.to_owned(),
                     node_id: member.node_id.clone(),
                     guardian_id: member.guardian_id.clone(),
+                    epoch: receipt.epoch,
                     revoked: true,
                 })
             })
@@ -285,9 +325,38 @@ impl PlacementFencingSnapshot {
                 lineage_id: lineage_id.to_owned(),
                 node_id: node_id.to_owned(),
                 guardian_id: guardian_id.to_owned(),
+                epoch: 1,
                 revoked: true,
             }],
             BTreeMap::new(),
+        )
+    }
+
+    #[cfg(test)]
+    pub fn active_successor_for_test(
+        policy: &PlacementPolicy,
+        membership: &MembershipState,
+        node_id: &str,
+        guardian_id: &str,
+        receipt: FenceReceipt,
+    ) -> PlacementResult<Self> {
+        let lineage_id = std::str::from_utf8(&receipt.lineage_id)
+            .map_err(|_| PlacementError::InconsistentEvidence)?
+            .to_owned();
+        build_fencing_snapshot(
+            policy,
+            membership,
+            vec![PlacementLineageBinding {
+                lineage_id: lineage_id.clone(),
+                node_id: node_id.to_owned(),
+                guardian_id: guardian_id.to_owned(),
+                epoch: receipt
+                    .epoch
+                    .checked_add(1)
+                    .ok_or(PlacementError::InconsistentEvidence)?,
+                revoked: false,
+            }],
+            BTreeMap::from([(lineage_id, receipt)]),
         )
     }
 }
@@ -333,7 +402,9 @@ impl<'a, C: PlacementClock> PlacementService<'a, C> {
         inputs: PlacementInputs<'_>,
     ) -> PlacementResult<PlacementDecision> {
         let now_unix_secs = self.clock.now_unix_secs()?;
-        if inputs.weather.captured_at_unix_secs != now_unix_secs {
+        if inputs.capabilities.captured_at_unix_secs != now_unix_secs
+            || inputs.weather.captured_at_unix_secs != now_unix_secs
+        {
             return Err(PlacementError::InconsistentEvidence);
         }
         decide(
@@ -392,7 +463,7 @@ fn decide(
         return Err(PlacementError::StaleMembership);
     }
     if inputs.membership.members().count() > policy.max_inputs
-        || inputs.capabilities.len() > policy.max_inputs
+        || inputs.capabilities.rows.len() > policy.max_inputs
         || inputs.weather.rows.len() > policy.max_inputs
     {
         return Err(PlacementError::ResourceExhausted);
@@ -405,7 +476,7 @@ fn decide(
     }
 
     let members = index_members(inputs.membership)?;
-    let capabilities = index_capabilities(policy, inputs.capabilities, &members)?;
+    let capabilities = index_capabilities(policy, &inputs.capabilities.rows, &members)?;
     let weather = index_weather(&inputs.weather.rows, &members)?;
     let fenced = &inputs.fencing.fenced;
     let mut candidates = Vec::new();
@@ -582,6 +653,7 @@ struct PlacementLineageBinding {
     lineage_id: String,
     node_id: String,
     guardian_id: String,
+    epoch: u64,
     revoked: bool,
 }
 
@@ -596,6 +668,7 @@ impl TryFrom<LeaseState> for PlacementLineageBinding {
                 .map_err(|_| PlacementError::InconsistentEvidence)?,
             guardian_id: String::from_utf8(lease.holder_guardian_id)
                 .map_err(|_| PlacementError::InconsistentEvidence)?,
+            epoch: lease.epoch,
             revoked: lease.revoked,
         })
     }
@@ -620,6 +693,7 @@ fn build_fencing_snapshot(
         if !valid_text(&lineage.lineage_id)
             || !valid_text(&lineage.node_id)
             || !valid_text(&lineage.guardian_id)
+            || lineage.epoch == 0
             || seen_lineages
                 .insert(lineage.lineage_id.clone(), ())
                 .is_some()
@@ -654,6 +728,15 @@ fn build_fencing_snapshot(
             || (value.operation_class != OperationClass::Fence as u32
                 && value.operation_class != OperationClass::Revoke as u32)
         {
+            return Err(PlacementError::InconsistentEvidence);
+        }
+        if !lineage.revoked {
+            if value.epoch < lineage.epoch {
+                continue;
+            }
+            return Err(PlacementError::InconsistentEvidence);
+        }
+        if value.epoch != lineage.epoch {
             return Err(PlacementError::InconsistentEvidence);
         }
         result.insert(lineage.node_id.clone(), value.clone());

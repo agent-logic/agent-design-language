@@ -19,7 +19,12 @@ mod placement;
 #[path = "../src/distributed/resource_weather.rs"]
 mod resource_weather;
 
-use capability_advertisement::{CapabilityEvidence, VerifiedCapabilityAdvertisement};
+use std::sync::Arc;
+
+use capability_advertisement::{
+    CapabilityAdvertisementBody, CapabilityAdvertisementPolicy, CapabilityAdvertisementVerifier,
+    CapabilityEvidence, SignedCapabilityAdvertisement, VerifiedCapabilityAdvertisement,
+};
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
     CertificateValidity, DistributedCertificateStore,
@@ -35,8 +40,9 @@ use membership::{
     MembershipState,
 };
 use placement::{
-    CapabilityRequirement, PlacementClock, PlacementError, PlacementFencingSnapshot,
-    PlacementInputs, PlacementPolicy, PlacementRequest, PlacementService, PlacementWeatherSnapshot,
+    CapabilityRequirement, PlacementCapabilitySnapshot, PlacementClock, PlacementError,
+    PlacementFencingSnapshot, PlacementInputs, PlacementPolicy, PlacementRequest, PlacementService,
+    PlacementWeatherSnapshot,
 };
 use resource_weather::{
     PlacementWeather, ResourceWeatherPolicy, ResourceWeatherStore, WeatherAvailability,
@@ -56,7 +62,7 @@ impl PlacementClock for FixedClock {
 
 struct AdvertisementCertificates {
     _directory: tempfile::TempDir,
-    store: DistributedCertificateStore,
+    store: Arc<DistributedCertificateStore>,
 }
 
 impl AdvertisementCertificates {
@@ -72,7 +78,7 @@ impl AdvertisementCertificates {
             .unwrap()
             .with_bounds(3_600, 60, 60, 64, 64)
             .unwrap();
-        let store = DistributedCertificateStore::open(path, policy).unwrap();
+        let store = Arc::new(DistributedCertificateStore::open(path, policy).unwrap());
         for holder in holders
             .into_iter()
             .collect::<std::collections::BTreeSet<_>>()
@@ -275,11 +281,12 @@ fn decide_with(
             .map(|capability| capability.issuer_id.clone()),
     );
     let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
+    let capabilities = PlacementCapabilitySnapshot::from_rows_for_test(NOW, capabilities);
     PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
         &request(state),
         PlacementInputs {
             membership: state,
-            capabilities,
+            capabilities: &capabilities,
             weather: &weather,
             fencing: &fencing,
         },
@@ -300,11 +307,12 @@ fn decide_request(
             .map(|capability| capability.issuer_id.clone()),
     );
     let weather = PlacementWeatherSnapshot::from_rows_for_test(NOW, weather);
+    let capabilities = PlacementCapabilitySnapshot::from_rows_for_test(NOW, capabilities);
     PlacementService::new(policy, &certificates.store, FixedClock(NOW)).decide(
         request,
         PlacementInputs {
             membership: state,
-            capabilities,
+            capabilities: &capabilities,
             weather: &weather,
             fencing,
         },
@@ -334,6 +342,53 @@ fn deterministic_ranking_is_independent_of_input_order() {
     assert_eq!(left, right);
     assert_eq!(left.node_id, "node-3");
     assert_eq!(left.remaining_slots, 7);
+}
+
+#[test]
+fn signed_capability_bytes_are_verified_before_placement() {
+    let certificates = AdvertisementCertificates::new(["guardian-1".to_owned()]);
+    let policy = CapabilityAdvertisementPolicy::new(TRUST).unwrap();
+    let replay = certificates
+        ._directory
+        .path()
+        .canonicalize()
+        .unwrap()
+        .join("placement-capability-replay.redb");
+    let verifier =
+        CapabilityAdvertisementVerifier::open(certificates.store.clone(), policy.clone(), replay)
+            .unwrap();
+    let certificate = advertisement_certificate("guardian-1", 3);
+    let seed = "guardian-1"
+        .bytes()
+        .fold(17_u8, |acc, byte| acc.wrapping_add(byte));
+    let signer = SigningKey::from_bytes(&[seed; 32]);
+    let body = CapabilityAdvertisementBody::new(
+        TRUST,
+        "guardian-1",
+        3,
+        1,
+        NOW - 1,
+        NOW + 60,
+        [
+            CapabilityEvidence::new("cpu", 16),
+            CapabilityEvidence::new("memory", 64),
+        ],
+        &policy,
+    )
+    .unwrap();
+    let signed = SignedCapabilityAdvertisement::issue(body, certificate, &signer, &policy).unwrap();
+    let encoded = signed.encode(&policy).unwrap();
+    assert!(
+        PlacementCapabilitySnapshot::capture(&verifier, std::slice::from_ref(&encoded), NOW)
+            .is_ok()
+    );
+    let mut tampered = encoded;
+    let last = tampered.len() - 1;
+    tampered[last] ^= 1;
+    assert!(matches!(
+        PlacementCapabilitySnapshot::capture(&verifier, &[tampered], NOW),
+        Err(PlacementError::InconsistentEvidence)
+    ));
 }
 
 #[test]
@@ -424,6 +479,25 @@ fn fenced_candidate_is_excluded_from_selection() {
     )
     .unwrap();
     assert_eq!(result.node_id, "node-2");
+    let policy = PlacementPolicy::new(TRUST).unwrap();
+    let historical = PlacementFencingSnapshot::active_successor_for_test(
+        &policy,
+        &state,
+        "node-1",
+        "guardian-1",
+        fence("lineage-1", state.committed_log_index()),
+    )
+    .unwrap();
+    let successor = decide_request(
+        policy,
+        &state,
+        &request(&state),
+        &[capability("guardian-1", 3, 31, NOW + 60)],
+        &[weather("guardian-1", 3, 41, 100, 8, NOW + 60)],
+        &historical,
+    )
+    .unwrap();
+    assert_eq!(successor.node_id, "node-1");
     marker("fenced_node_excluded", "fenced");
 }
 
