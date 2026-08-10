@@ -19,12 +19,12 @@ Deliver only the WP-13 ACP schema, update semantics, fixtures, validator, privac
 - adl-runtime-kernel/src/cognitive_profile.rs
 - adl-runtime-kernel/src/lib.rs
 - adl-runtime-kernel/tests/cognitive_profile.rs
-- adl-runtime-kernel/tests/fixtures/cognitive_profile
+- Canonical cognitive-profile creation, update, internal-projection, public-projection, and negative fixture matrix
 - docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md
 - .csdlc/prepared/issues/5830/produce-native-receipt.rb
 - .csdlc/prepared/issues/5830/validate-native-receipts.rb
 - .csdlc/evidence/5830
-- Complete canonical creation/update/internal/public projection fixture matrix and fail-closed stale evidence, identity/continuity mismatch, privacy, unsupported-label, diagnosis, reputation, standing, rights, personhood, and consciousness proof
+- Fail-closed stale evidence, identity/continuity mismatch, privacy, unsupported-label, diagnosis, reputation, standing, rights, personhood, and consciousness proof
 - Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation
 - Independent exact-head review and rollback evidence
 

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d92e8e7b58695fd938ff38397f6cc6e3a2c3fda5ecb26fa32cb1d552e29f74f9",
   "phase": "initialized",
-  "generation": 53,
-  "digest": "fe641a54f9363b89eea2f5c938882491e7d70585b4308b3ee2f60a5b0643ba13",
+  "generation": 54,
+  "digest": "f55cca0c516362ff76c89d32ef535d17504e8702b23b8093dceac7bf586241ff",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d6cf7f70eca711f5c2597c15136ca99e43936a11797609ac39cf009ba461147e",
+      "values_digest": "5feead0e981ef0f02c7cb96c2bafc0f95f326090abad2484a46948a946289039",
       "rendered_digest": "f693dd3d3ed034e3ffbaff3348331e986f4f5cc9ae5fce166acecd4f23918b30",
       "ast_digest": "3fd878ebfe7fe0596cb55885b39a06ca0f8b84f87406ef8b718c3f501ba84fa1"
     },
     "stp": {
-      "values_digest": "e101eb6f136a6b2c1cc8eb2b874f966d667667f2df3d920a8a775641a26b13fb",
-      "rendered_digest": "d3b366f01c3b076e79e2b7a9783267cd23a15dc7dbefc0f7c614df8031751719",
-      "ast_digest": "d1793430dcc600eb720d0d62c38a91813d79d7b4420f3ecba1be7bd695ffb171"
+      "values_digest": "5d96144e30703fe1d776403e263531d342f11338a531a37914f2fa1d5ed65c74",
+      "rendered_digest": "ffd364b7848e7d905a8667552fec512fd0308d5799a51ebde3550599452561f8",
+      "ast_digest": "97ca023bc5a8eee270a73cb1fc424f252a6d72e6e675b7d0bf7a5545bffd71bf"
     },
     "spp": {
-      "values_digest": "e57d2e6f2e3805f8369fcc627b6c4d20c5d9942c946e497c49d1c4a1d69a1010",
+      "values_digest": "afd77f5cd91a62441551edf78622b24c2d814584fba4b3bbdecf522ee3196714",
       "rendered_digest": "767cfba0745c5e4251bdbcc998e03bf6bdc26e6debba673cac2dc07419f96d86",
       "ast_digest": "ca5085e68866962d44871a2c01a332320f900c49014d11e42ed54219f1852fc5"
     },
     "vpp": {
-      "values_digest": "38d311ca30d2bdc972d591154f79eb7e1a1bf30bd1a0e620793a02102649d1ff",
+      "values_digest": "4adcd2669dbbcc32d14b74b1b37919ea1f0f931ce3f37dd96071ce5aa82b4a97",
       "rendered_digest": "eca4db15b7a88809f1593d12ffd3060220619a844a5cb4ac61ce994ee6a87f69",
       "ast_digest": "c046d4503574bee67d1ee841cb70300f78c43f81259520fd9fe8b8d96317b7c2"
     },
     "srp": {
-      "values_digest": "d9a037bf16092f9951285338e0e2f438f7593ed93f2c270099e05ac5404a16ac",
+      "values_digest": "3ded196539dfd29a63d0bc4700f47d1ba21cd5218d7ae8cc2a290446696fd1bc",
       "rendered_digest": "5cf1d14625cc5c42441e85503a8ba2347ee72f5b8a6c55327ebb7b4d02773ec8",
       "ast_digest": "a0c0d5d841942e9187eedd87886ba119301e1a7842960f3b8e41ca367ba925ca"
     },
     "sor": {
-      "values_digest": "32d1356244eb18c7e1f12c6e61b9b10de0220e1faeaac148b0739c2194475d9a",
+      "values_digest": "f84c69a959fe455c1b217691dd11569c8c58f02798382e8259cbc04b76efd527",
       "rendered_digest": "8dbf031f6e2f727893acd7c4297a6e74d21ecc2bad913bb38629f4c172994b2e",
       "ast_digest": "80a35a095cda2e9920e7a586f841529fd4f683612c6d4f7f185bba3eddcdef26"
     }
@@ -602,6 +602,13 @@
       "actor": "codex:5830-cognitive-profile",
       "reason": "Normalize WP-13 deliverables to the exact issue-owned implementation, fixture, documentation, producer, validator, and retained-evidence paths required for execution readiness.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/cognitive_profile.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile\",\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".csdlc/evidence/5830\",\"Complete canonical creation/update/internal/public projection fixture matrix and fail-closed stale evidence, identity/continuity mismatch, privacy, unsupported-label, diagnosis, reputation, standing, rights, personhood, and consciousness proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 76,
+      "generation": 54,
+      "actor": "codex:5830-cognitive-profile",
+      "reason": "Keep the implementation-created test file as the exact deferred validator while expressing its not-yet-created fixture directory as a bounded semantic deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/cognitive_profile.rs\",\"Canonical cognitive-profile creation, update, internal-projection, public-projection, and negative fixture matrix\",\"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\",\".csdlc/prepared/issues/5830/produce-native-receipt.rb\",\".csdlc/prepared/issues/5830/validate-native-receipts.rb\",\".csdlc/evidence/5830\",\"Fail-closed stale evidence, identity/continuity mismatch, privacy, unsupported-label, diagnosis, reputation, standing, rights, personhood, and consciousness proof\",\"Digest-bound native macOS and Linux exact-revision receipts with independent semantic-equivalence validation\",\"Independent exact-head review and rollback evidence\"]}"
     }
   ]
 }
