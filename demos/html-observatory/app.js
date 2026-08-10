@@ -2218,6 +2218,28 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
+  const scheduleReconnect = (requestGeneration) => {
+    const delay = RUNTIME_V3_RECONNECT_DELAYS_MILLIS[
+      Math.min(reconnectAttempt, RUNTIME_V3_RECONNECT_DELAYS_MILLIS.length - 1)
+    ];
+    reconnectAttempt += 1;
+    const root = document.querySelector(".observatory");
+    if (root) {
+      const reconnectDecisionCount = Number(root.dataset.reconnectDecisionCount || "0");
+      root.dataset.lastReconnectDelayMillis = String(delay);
+      root.dataset.reconnectAttempt = String(reconnectAttempt);
+      root.dataset.reconnectDecisionCount = String(reconnectDecisionCount + 1);
+    }
+    setLiveConnectionState("reconnecting");
+    setText("statusbar-websocket", `reconnecting in ${delay}ms`);
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      if (!liveStoppedByOperator && isCurrentLiveGeneration(requestGeneration)) {
+        connectLive({ automatic: true });
+      }
+    }, delay);
+  };
+
   const connectLive = async ({ automatic = false } = {}) => {
     stopPolling();
     if (!automatic) reconnectAttempt = 0;
@@ -2295,7 +2317,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             setText("statusbar-websocket", "disconnected");
             renderLiveError(error, requestGeneration);
           },
-          (error) => {
+          async (error) => {
             if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
@@ -2307,26 +2329,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               }
               setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
-              renderLiveError(error, requestGeneration);
-              const delay = RUNTIME_V3_RECONNECT_DELAYS_MILLIS[
-                Math.min(reconnectAttempt, RUNTIME_V3_RECONNECT_DELAYS_MILLIS.length - 1)
-              ];
-              reconnectAttempt += 1;
-              const root = document.querySelector(".observatory");
-              if (root) {
-                const reconnectDecisionCount = Number(root.dataset.reconnectDecisionCount || "0");
-                root.dataset.lastReconnectDelayMillis = String(delay);
-                root.dataset.reconnectAttempt = String(reconnectAttempt);
-                root.dataset.reconnectDecisionCount = String(reconnectDecisionCount + 1);
-              }
-              setLiveConnectionState("reconnecting");
-              setText("statusbar-websocket", `reconnecting in ${delay}ms`);
-              reconnectTimer = setTimeout(() => {
-                reconnectTimer = null;
-                if (!liveStoppedByOperator && isCurrentLiveGeneration(requestGeneration)) {
-                  connectLive({ automatic: true });
-                }
-              }, delay);
+              await renderLiveError(error, requestGeneration);
+              scheduleReconnect(requestGeneration);
             }
           },
           (frame) => {
@@ -2342,7 +2346,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
           return;
         }
         setText("statusbar-websocket", "disconnected");
-        renderLiveError(error, requestGeneration);
+        await renderLiveError(error, requestGeneration);
+        scheduleReconnect(requestGeneration);
       }
       return;
     }
