@@ -56,7 +56,7 @@ use membership::{
 };
 use migration::{
     IsolatedRestoreAuthority, IsolatedRestoreRequest, MigrationCheckpoint,
-    MigrationCheckpointAuthority, MigrationError, MigrationPhase, MigrationPolicy,
+    MigrationCheckpointAuthority, MigrationClock, MigrationError, MigrationPhase, MigrationPolicy,
     MigrationRequest, MigrationResult, MigrationStore, QuiescenceRequest,
     SourceQuiescenceAuthority,
 };
@@ -134,6 +134,15 @@ impl MigrationCheckpointAuthority for MigrationAuthority {
         }
         *current = Some(next);
         Ok(())
+    }
+}
+
+#[derive(Debug)]
+struct TestClock(Mutex<u64>);
+
+impl MigrationClock for TestClock {
+    fn now_millis(&self) -> MigrationResult<u64> {
+        Ok(*self.0.lock().unwrap())
     }
 }
 
@@ -350,6 +359,7 @@ struct Fixture {
     directory: tempfile::TempDir,
     migration_root: PathBuf,
     migration_authority: Arc<MigrationAuthority>,
+    migration_clock: Arc<TestClock>,
     fencing: FencingStore,
     authority: AuthorityFixture,
     ledger: AuthorityLedger,
@@ -374,6 +384,7 @@ impl Fixture {
         fs::create_dir(&migration_root).unwrap();
         fs::create_dir(&fencing_root).unwrap();
         let migration_authority = Arc::new(MigrationAuthority::default());
+        let migration_clock = Arc::new(TestClock(Mutex::new(NOW * 1_000)));
         let fencing = FencingStore::create(
             &fencing_root,
             fencing_policy(),
@@ -489,6 +500,7 @@ impl Fixture {
             directory,
             migration_root,
             migration_authority,
+            migration_clock,
             fencing,
             authority,
             ledger,
@@ -510,6 +522,7 @@ impl Fixture {
             &self.migration_root,
             MigrationPolicy::new(DOMAIN).unwrap(),
             self.migration_authority.clone(),
+            self.migration_clock.clone(),
         )
         .unwrap()
     }
@@ -795,6 +808,7 @@ fn migration_orders_authority_and_survives_restart() {
         &fixture.migration_root,
         MigrationPolicy::new(DOMAIN).unwrap(),
         fixture.migration_authority.clone(),
+        fixture.migration_clock.clone(),
     )
     .unwrap();
 
@@ -1017,6 +1031,137 @@ fn migration_orders_authority_and_survives_restart() {
     assert_eq!(committed.phase, MigrationPhase::Committed);
     assert!(!committed.source_authoritative && committed.target_authoritative);
     assert_eq!(committed.history.len(), 8);
+
+    let newer_membership = fixture.authority.membership(15);
+    let newer_commit_body = fixture.authority.body(
+        15,
+        3,
+        OperationClass::Fence,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let newer_commit_certificate = fixture.authority.certificate(newer_commit_body);
+    fixture
+        .ledger
+        .apply(
+            &newer_commit_certificate,
+            &newer_membership,
+            AuthorityApplication {
+                now_unix_seconds: NOW as i64 + 4,
+                now_unix_nanos: 0,
+                now_elapsed_millis: 4_030,
+                clock_uncertainty_millis: 5,
+                activation_public_key: fixture
+                    .authority
+                    .target_activation
+                    .verifying_key()
+                    .to_bytes(),
+                activation_proof: &[],
+            },
+        )
+        .unwrap();
+    assert_eq!(
+        store.commit_owner(
+            b"migration-1",
+            &commit_certificate,
+            &membership,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            AuthorityApplication {
+                now_unix_seconds: NOW as i64 + 4,
+                now_unix_nanos: 0,
+                now_elapsed_millis: 4_040,
+                clock_uncertainty_millis: 5,
+                activation_public_key: fixture
+                    .authority
+                    .target_activation
+                    .verifying_key()
+                    .to_bytes(),
+                activation_proof: &commit_proof,
+            },
+        ),
+        Err(MigrationError::CommitRejected)
+    );
+    marker("stale_authority_retry", "rejected");
+}
+
+#[test]
+fn timeout_and_interrupted_commit_recovery_fail_closed() {
+    let fixture = Fixture::new();
+    let mut store = fixture.migration_store();
+    fixture.prepare(&mut store);
+    let checkpoint = store.checkpoint();
+    let state_path = fixture.migration_root.join("migration-state.json");
+    let backup_path = fixture.migration_root.join(".migration-state.backup");
+    let lock_path = fixture.migration_root.join(".migration-state.lock");
+    let state = fs::read(&state_path).unwrap();
+    fs::write(&backup_path, &state).unwrap();
+    fs::write(&state_path, b"interrupted-new-state").unwrap();
+    fs::write(
+        &lock_path,
+        serde_json::to_vec(&serde_json::json!({
+            "expected": checkpoint,
+            "next": {"generation": checkpoint.generation + 1, "state_sha256": vec![0_u8; 32]}
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    drop(store);
+    let store = MigrationStore::open(
+        &fixture.migration_root,
+        MigrationPolicy::new(DOMAIN).unwrap(),
+        fixture.migration_authority.clone(),
+        fixture.migration_clock.clone(),
+    )
+    .unwrap();
+    assert_eq!(store.checkpoint(), checkpoint);
+    assert!(!backup_path.exists());
+    drop(store);
+
+    let state = fs::read(&state_path).unwrap();
+    fs::write(&backup_path, b"old-state").unwrap();
+    fs::write(
+        &lock_path,
+        serde_json::to_vec(&serde_json::json!({
+            "expected": {"generation": checkpoint.generation - 1, "state_sha256": vec![0_u8; 32]},
+            "next": checkpoint
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    fs::write(&state_path, state).unwrap();
+    let mut store = MigrationStore::open(
+        &fixture.migration_root,
+        MigrationPolicy::new(DOMAIN).unwrap(),
+        fixture.migration_authority.clone(),
+        fixture.migration_clock.clone(),
+    )
+    .unwrap();
+    assert!(!backup_path.exists());
+    marker("crash_recovery", "rejected");
+
+    *fixture.migration_clock.0.lock().unwrap() = NOW * 1_000 + 60_000;
+    let membership = fixture.authority.membership(11);
+    assert_eq!(
+        store.quiesce(
+            b"migration-1",
+            &QuiescenceAuthority,
+            &fixture.fencing,
+            ActiveLeaseCheck {
+                membership: Some(&membership),
+                lease: fixture.source_lease(),
+                applied_log_index: 11,
+                now_unix_seconds: NOW as i64,
+                now_unix_millis: NOW * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &fixture.source_proof,
+            },
+        ),
+        Err(MigrationError::TimedOut)
+    );
+    marker("timeout_expired", "rejected");
 }
 
 #[test]
@@ -1117,6 +1262,7 @@ fn mismatched_replay_corrupt_restart_and_bounds_fail_closed() {
             &fixture.migration_root,
             MigrationPolicy::new(DOMAIN).unwrap(),
             fixture.migration_authority.clone(),
+            fixture.migration_clock.clone(),
         )
         .unwrap_err(),
         MigrationError::Rollback
@@ -1133,6 +1279,7 @@ fn mismatched_replay_corrupt_restart_and_bounds_fail_closed() {
             &fixture.migration_root,
             MigrationPolicy::new(DOMAIN).unwrap(),
             fixture.migration_authority.clone(),
+            fixture.migration_clock.clone(),
         )
         .unwrap_err(),
         MigrationError::StateCorrupt

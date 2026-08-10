@@ -2,11 +2,12 @@ use std::{
     collections::BTreeMap,
     fmt,
     fs::{self, File, OpenOptions},
-    io::Write,
+    io::{Seek, SeekFrom, Write},
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
 
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -23,6 +24,7 @@ use super::{
 pub const MIGRATION_STATE_SCHEMA: &str = "adl.distributed.migration_state.v1";
 const STATE_FILE: &str = "migration-state.json";
 const STATE_LOCK_FILE: &str = ".migration-state.lock";
+const STATE_BACKUP_FILE: &str = ".migration-state.backup";
 const MAX_ABSOLUTE_RECORDS: usize = 4096;
 const MAX_ABSOLUTE_HISTORY: usize = 32;
 const MAX_ABSOLUTE_IDENTITY_BYTES: usize = 256;
@@ -50,6 +52,7 @@ pub enum MigrationError {
     ActivationRejected,
     CommitRejected,
     PostFenceAbort,
+    TimedOut,
 }
 
 impl MigrationError {
@@ -76,6 +79,7 @@ impl MigrationError {
             Self::ActivationRejected => "activation_rejected",
             Self::CommitRejected => "commit_rejected",
             Self::PostFenceAbort => "post_fence_abort",
+            Self::TimedOut => "timed_out",
         }
     }
 }
@@ -186,6 +190,10 @@ pub struct MigrationRequest {
     pub timeout_millis: u64,
 }
 
+pub trait MigrationClock: fmt::Debug + Send + Sync {
+    fn now_millis(&self) -> MigrationResult<u64>;
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TransitionEvidence {
@@ -212,6 +220,8 @@ pub struct MigrationRecord {
     pub placement_capability_sequence: u64,
     pub placement_weather_sequence: u64,
     pub timeout_millis: u64,
+    pub started_at_millis: u64,
+    pub deadline_millis: u64,
     pub phase: MigrationPhase,
     pub source_authoritative: bool,
     pub target_authoritative: bool,
@@ -236,10 +246,17 @@ pub struct MigrationRecord {
     pub history: Vec<TransitionEvidence>,
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct MigrationCheckpoint {
     pub generation: u64,
     pub state_sha256: [u8; 32],
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct CommitJournal {
+    expected: MigrationCheckpoint,
+    next: MigrationCheckpoint,
 }
 
 pub trait MigrationCheckpointAuthority: fmt::Debug + Send + Sync {
@@ -260,6 +277,7 @@ pub struct QuiescenceRequest<'a> {
     pub source_guardian_id: &'a [u8],
     pub source_epoch: u64,
     pub source_log_index: u64,
+    pub remaining_timeout_millis: u64,
 }
 
 pub trait SourceQuiescenceAuthority: fmt::Debug + Send + Sync {
@@ -278,6 +296,7 @@ pub struct IsolatedRestoreRequest<'a> {
     pub content_sha256: [u8; 32],
     pub byte_length: u64,
     pub chunk_count: usize,
+    pub remaining_timeout_millis: u64,
 }
 
 pub trait IsolatedRestoreAuthority: fmt::Debug + Send + Sync {
@@ -307,6 +326,7 @@ pub struct MigrationStore {
     generation: u64,
     state_sha256: [u8; 32],
     checkpoint_authority: Arc<dyn MigrationCheckpointAuthority>,
+    clock: Arc<dyn MigrationClock>,
 }
 
 impl MigrationStore {
@@ -314,6 +334,7 @@ impl MigrationStore {
         root: impl AsRef<Path>,
         policy: MigrationPolicy,
         checkpoint_authority: Arc<dyn MigrationCheckpointAuthority>,
+        clock: Arc<dyn MigrationClock>,
     ) -> MigrationResult<Self> {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
@@ -327,6 +348,7 @@ impl MigrationStore {
             generation: 0,
             state_sha256: [0; 32],
             checkpoint_authority,
+            clock,
         };
         let checkpoint = store.persist_records(0, &store.records)?;
         store
@@ -340,9 +362,11 @@ impl MigrationStore {
         root: impl AsRef<Path>,
         policy: MigrationPolicy,
         checkpoint_authority: Arc<dyn MigrationCheckpointAuthority>,
+        clock: Arc<dyn MigrationClock>,
     ) -> MigrationResult<Self> {
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
+        recover_interrupted_commit(&root, checkpoint_authority.as_ref())?;
         let path = root.join(STATE_FILE);
         let metadata = fs::symlink_metadata(&path).map_err(|error| {
             if error.kind() == std::io::ErrorKind::NotFound {
@@ -386,6 +410,7 @@ impl MigrationStore {
             generation: envelope.body.generation,
             state_sha256,
             checkpoint_authority,
+            clock,
         })
     }
 
@@ -411,6 +436,10 @@ impl MigrationStore {
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         validate_request(&self.policy, &request)?;
+        let started_at_millis = self.clock.now_millis()?;
+        let deadline_millis = started_at_millis
+            .checked_add(request.timeout_millis)
+            .ok_or(MigrationError::ResourceExhausted)?;
         validate_source_request(&request, &source_check)?;
         fencing
             .authorize_active_lease(copy_active_check(&source_check))
@@ -433,6 +462,7 @@ impl MigrationStore {
         }
         let request_sha256 = request_digest(&request, &decision);
         if let Some(existing) = self.records.get(&request.migration_id) {
+            self.ensure_live(existing)?;
             validate_source_record(existing, &source_check)?;
             return if existing.request_sha256 == request_sha256 {
                 Ok(existing.clone())
@@ -450,6 +480,9 @@ impl MigrationStore {
             decision.node_id.as_bytes(),
             decision.guardian_id.as_bytes(),
         ]);
+        if self.clock.now_millis()? >= deadline_millis {
+            return Err(MigrationError::TimedOut);
+        }
         let record = MigrationRecord {
             migration_id: request.migration_id.clone(),
             request_sha256,
@@ -467,6 +500,8 @@ impl MigrationStore {
             placement_capability_sequence: decision.capability_sequence,
             placement_weather_sequence: decision.weather_sequence,
             timeout_millis: request.timeout_millis,
+            started_at_millis,
+            deadline_millis,
             phase: MigrationPhase::Prepared,
             source_authoritative: true,
             target_authoritative: false,
@@ -505,12 +540,13 @@ impl MigrationStore {
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
+        let remaining_timeout_millis = self.ensure_live(&current)?;
         validate_source_record(&current, &source_check)?;
         fencing
             .authorize_active_lease(copy_active_check(&source_check))
             .map_err(|_| MigrationError::SourceAuthorityRejected)?;
         let receipt = authority
-            .quiesce(quiescence_request(&current))
+            .quiesce(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
         if receipt.is_empty() || receipt.len() > self.policy.max_state_bytes / 4 {
             return Err(MigrationError::QuiescenceRejected);
@@ -520,6 +556,7 @@ impl MigrationStore {
             &current.request_sha256,
             &receipt,
         ]);
+        self.ensure_live(&current)?;
         self.advance(
             migration_id,
             MigrationPhase::Prepared,
@@ -540,6 +577,7 @@ impl MigrationStore {
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
+        self.ensure_live(&current)?;
         if current.phase != MigrationPhase::Quiesced
             && current.phase != MigrationPhase::Checkpointed
         {
@@ -551,6 +589,7 @@ impl MigrationStore {
             .map_err(|_| MigrationError::SnapshotRejected)?;
         validate_snapshot(&self.policy, &current, &verified.snapshot)?;
         let evidence = sha256(encoded_catalog);
+        self.ensure_live(&current)?;
         if current.phase == MigrationPhase::Checkpointed {
             return exact_retry(&current, MigrationPhase::Checkpointed, evidence);
         }
@@ -583,6 +622,7 @@ impl MigrationStore {
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
+        self.ensure_live(&current)?;
         if current.phase == MigrationPhase::Transferred {
             validate_source_record(&current, &source_check)?;
             fencing
@@ -636,6 +676,7 @@ impl MigrationStore {
             &verified.snapshot.content_sha256,
             &verified.transfer_id,
         ]);
+        self.ensure_live(&current)?;
         self.advance(
             migration_id,
             MigrationPhase::Checkpointed,
@@ -656,6 +697,7 @@ impl MigrationStore {
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
+        let remaining_timeout_millis = self.ensure_live(&current)?;
         if current.phase != MigrationPhase::Transferred
             && current.phase != MigrationPhase::Validated
         {
@@ -688,6 +730,7 @@ impl MigrationStore {
                 chunk_count: current
                     .snapshot_chunk_count
                     .ok_or(MigrationError::EvidenceMismatch)?,
+                remaining_timeout_millis,
             })
             .map_err(|_| MigrationError::RestoreRejected)?;
         if receipt.is_empty() || receipt.len() > self.policy.max_state_bytes / 4 {
@@ -703,6 +746,7 @@ impl MigrationStore {
                 .ok_or(MigrationError::EvidenceMismatch)?,
             &receipt,
         ]);
+        self.ensure_live(&current)?;
         if current.phase == MigrationPhase::Validated {
             return exact_retry(&current, MigrationPhase::Validated, digest);
         }
@@ -727,6 +771,7 @@ impl MigrationStore {
         application: AuthorityApplication<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
+        self.ensure_live(&current)?;
         if current.phase != MigrationPhase::Validated && current.phase != MigrationPhase::Fenced {
             return Err(MigrationError::InvalidTransition);
         }
@@ -757,10 +802,6 @@ impl MigrationStore {
             &body.epoch.to_be_bytes(),
             &body.committed_log_index.to_be_bytes(),
         ]);
-        if current.phase == MigrationPhase::Fenced {
-            return exact_retry(&current, MigrationPhase::Fenced, evidence);
-        }
-
         let existing_floor = fencing.floor(&current.lineage_id).cloned();
         let ledger_state = ledger.lease(&current.lineage_id).cloned();
         if existing_floor.is_none() {
@@ -812,6 +853,7 @@ impl MigrationStore {
         {
             return Err(MigrationError::FenceRejected);
         }
+        self.ensure_live(&current)?;
         self.advance(
             migration_id,
             MigrationPhase::Validated,
@@ -878,6 +920,7 @@ impl MigrationStore {
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
+        let remaining_timeout_millis = self.ensure_live(&current)?;
         if matches!(
             current.phase,
             MigrationPhase::Fenced | MigrationPhase::Activated | MigrationPhase::Committed
@@ -892,7 +935,7 @@ impl MigrationStore {
             .authorize_active_lease(copy_active_check(&source_check))
             .map_err(|_| MigrationError::SourceAuthorityRejected)?;
         authority
-            .resume(quiescence_request(&current))
+            .resume(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
         let evidence = sha256_many(&[b"abort", migration_id, &current.request_sha256]);
         self.advance_any_pre_fence(migration_id, evidence, |record| {
@@ -914,6 +957,7 @@ impl MigrationStore {
         operation: OperationClass,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
+        self.ensure_live(&current)?;
         let (expected_phase, target_phase, error) = match operation {
             OperationClass::Activate => (
                 MigrationPhase::Fenced,
@@ -951,9 +995,6 @@ impl MigrationStore {
             &body.committed_log_index.to_be_bytes(),
             &[operation as u8],
         ]);
-        if current.phase == target_phase {
-            return exact_retry(&current, target_phase, evidence);
-        }
         let already_applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
             !lease.revoked
                 && lease.epoch == body.epoch
@@ -998,6 +1039,7 @@ impl MigrationStore {
                 return Err(error);
             }
         }
+        self.ensure_live(&current)?;
         self.advance(
             migration_id,
             expected_phase,
@@ -1023,6 +1065,18 @@ impl MigrationStore {
         self.records
             .get(migration_id)
             .ok_or(MigrationError::NotFound)
+    }
+
+    fn ensure_live(&self, record: &MigrationRecord) -> MigrationResult<u64> {
+        let now = self.clock.now_millis()?;
+        if now < record.started_at_millis || now >= record.deadline_millis {
+            return Err(MigrationError::TimedOut);
+        }
+        record
+            .deadline_millis
+            .checked_sub(now)
+            .filter(|remaining| *remaining > 0)
+            .ok_or(MigrationError::TimedOut)
     }
 
     fn insert_new(&mut self, record: MigrationRecord) -> MigrationResult<()> {
@@ -1096,19 +1150,38 @@ impl MigrationStore {
             .generation
             .checked_add(1)
             .ok_or(MigrationError::ResourceExhausted)?;
-        let lock_path = self.acquire_lock()?;
+        let (bytes, checkpoint) = self.encode_records(generation, &prospective)?;
+        let expected = self.checkpoint();
+        let mut lock = self.acquire_lock(CommitJournal {
+            expected,
+            next: checkpoint,
+        })?;
         let result = self.verify_current_state().and_then(|_| {
-            let checkpoint = self.persist_records(generation, &prospective)?;
+            fs::rename(
+                self.root.join(STATE_FILE),
+                self.root.join(STATE_BACKUP_FILE),
+            )
+            .map_err(|_| MigrationError::DurabilityFailure)?;
+            write_atomic(&self.root, &bytes)?;
             self.checkpoint_authority
-                .compare_and_swap(Some(self.checkpoint()), checkpoint)?;
-            Ok(checkpoint)
+                .compare_and_swap(Some(expected), checkpoint)?;
+            fs::remove_file(self.root.join(STATE_BACKUP_FILE))
+                .map_err(|_| MigrationError::DurabilityFailure)?;
+            sync_directory(&self.root)
         });
-        let cleanup = fs::remove_file(lock_path).map_err(|_| MigrationError::DurabilityFailure);
-        let checkpoint = match (result, cleanup) {
-            (Ok(checkpoint), Ok(())) => checkpoint,
-            (Err(error), Ok(())) => return Err(error),
-            _ => return Err(MigrationError::DurabilityFailure),
-        };
+        if result.is_err() {
+            drop(lock);
+            recover_interrupted_commit(&self.root, self.checkpoint_authority.as_ref())?;
+            if self.checkpoint_authority.current()? != Some(checkpoint) {
+                return result;
+            }
+        } else {
+            lock.set_len(0)
+                .and_then(|_| lock.seek(SeekFrom::Start(0)).map(|_| ()))
+                .and_then(|_| lock.sync_all())
+                .map_err(|_| MigrationError::DurabilityFailure)?;
+            FileExt::unlock(&lock).map_err(|_| MigrationError::DurabilityFailure)?;
+        }
         self.records = prospective;
         self.generation = generation;
         self.state_sha256 = checkpoint.state_sha256;
@@ -1136,6 +1209,16 @@ impl MigrationStore {
         generation: u64,
         records: &BTreeMap<Vec<u8>, MigrationRecord>,
     ) -> MigrationResult<MigrationCheckpoint> {
+        let (bytes, checkpoint) = self.encode_records(generation, records)?;
+        write_atomic(&self.root, &bytes)?;
+        Ok(checkpoint)
+    }
+
+    fn encode_records(
+        &self,
+        generation: u64,
+        records: &BTreeMap<Vec<u8>, MigrationRecord>,
+    ) -> MigrationResult<(Vec<u8>, MigrationCheckpoint)> {
         if records.len() > self.policy.max_records
             || records
                 .values()
@@ -1157,21 +1240,31 @@ impl MigrationStore {
         if bytes.len() > self.policy.max_state_bytes {
             return Err(MigrationError::ResourceExhausted);
         }
-        write_atomic(&self.root, &bytes)?;
-        Ok(MigrationCheckpoint {
+        let checkpoint = MigrationCheckpoint {
             generation,
             state_sha256: sha256(&bytes),
-        })
+        };
+        Ok((bytes, checkpoint))
     }
 
-    fn acquire_lock(&self) -> MigrationResult<PathBuf> {
+    fn acquire_lock(&self, journal: CommitJournal) -> MigrationResult<File> {
         let lock_path = self.root.join(STATE_LOCK_FILE);
-        OpenOptions::new()
+        let mut lock = OpenOptions::new()
+            .read(true)
             .write(true)
-            .create_new(true)
+            .create(true)
+            .truncate(false)
             .open(&lock_path)
             .map_err(|_| MigrationError::DurabilityFailure)?;
-        Ok(lock_path)
+        lock.try_lock_exclusive()
+            .map_err(|_| MigrationError::DurabilityFailure)?;
+        let bytes = serde_jcs::to_vec(&journal).map_err(|_| MigrationError::StateCorrupt)?;
+        lock.set_len(0)
+            .and_then(|_| lock.seek(SeekFrom::Start(0)).map(|_| ()))
+            .and_then(|_| lock.write_all(&bytes))
+            .and_then(|_| lock.sync_all())
+            .map_err(|_| MigrationError::DurabilityFailure)?;
+        Ok(lock)
     }
 }
 
@@ -1289,7 +1382,10 @@ fn validate_snapshot(
     Ok(())
 }
 
-fn quiescence_request(record: &MigrationRecord) -> QuiescenceRequest<'_> {
+fn quiescence_request(
+    record: &MigrationRecord,
+    remaining_timeout_millis: u64,
+) -> QuiescenceRequest<'_> {
     QuiescenceRequest {
         migration_id: &record.migration_id,
         lineage_id: &record.lineage_id,
@@ -1297,6 +1393,7 @@ fn quiescence_request(record: &MigrationRecord) -> QuiescenceRequest<'_> {
         source_guardian_id: &record.source_guardian_id,
         source_epoch: record.source_epoch,
         source_log_index: record.source_log_index,
+        remaining_timeout_millis,
     }
 }
 
@@ -1381,6 +1478,11 @@ fn validate_record(policy: &MigrationPolicy, record: &MigrationRecord) -> Migrat
         || record.placement_log_index == 0
         || record.timeout_millis == 0
         || record.timeout_millis > policy.max_timeout_millis
+        || record.deadline_millis
+            != record
+                .started_at_millis
+                .checked_add(record.timeout_millis)
+                .unwrap_or(0)
         || record.source_certificate_sha256 == [0; 32]
         || record.history.is_empty()
         || record.history.len() > policy.max_history_per_record
@@ -1486,6 +1588,84 @@ fn validate_root(path: &Path) -> MigrationResult<PathBuf> {
         .map_err(|_| MigrationError::UnsafeStatePath)
 }
 
+fn checkpoint_matches(path: &Path, checkpoint: MigrationCheckpoint) -> bool {
+    fs::read(path)
+        .ok()
+        .filter(|bytes| sha256(bytes) == checkpoint.state_sha256)
+        .and_then(|bytes| serde_json::from_slice::<StateEnvelope>(&bytes).ok())
+        .is_some_and(|envelope| envelope.body.generation == checkpoint.generation)
+}
+
+fn recover_interrupted_commit(
+    root: &Path,
+    checkpoint_authority: &dyn MigrationCheckpointAuthority,
+) -> MigrationResult<()> {
+    let lock_path = root.join(STATE_LOCK_FILE);
+    if !lock_path.exists() {
+        if root.join(STATE_BACKUP_FILE).exists() {
+            return Err(MigrationError::DurabilityFailure);
+        }
+        return Ok(());
+    }
+    let mut lock = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(&lock_path)
+        .map_err(|_| MigrationError::DurabilityFailure)?;
+    lock.try_lock_exclusive()
+        .map_err(|_| MigrationError::DurabilityFailure)?;
+    let bytes = fs::read(&lock_path).map_err(|_| MigrationError::DurabilityFailure)?;
+    if bytes.is_empty() {
+        if root.join(STATE_BACKUP_FILE).exists() {
+            return Err(MigrationError::DurabilityFailure);
+        }
+        FileExt::unlock(&lock).map_err(|_| MigrationError::DurabilityFailure)?;
+        return Ok(());
+    }
+    let journal: CommitJournal =
+        serde_json::from_slice(&bytes).map_err(|_| MigrationError::DurabilityFailure)?;
+    let state_path = root.join(STATE_FILE);
+    let backup_path = root.join(STATE_BACKUP_FILE);
+    match checkpoint_authority.current()? {
+        Some(checkpoint) if checkpoint == journal.expected => {
+            if backup_path.exists() && checkpoint_matches(&backup_path, journal.expected) {
+                if state_path.exists() {
+                    fs::remove_file(&state_path).map_err(|_| MigrationError::DurabilityFailure)?;
+                }
+                fs::rename(&backup_path, &state_path)
+                    .map_err(|_| MigrationError::DurabilityFailure)?;
+            } else if !checkpoint_matches(&state_path, journal.expected) {
+                return Err(MigrationError::Rollback);
+            }
+        }
+        Some(checkpoint) if checkpoint == journal.next => {
+            if !checkpoint_matches(&state_path, journal.next) {
+                return Err(MigrationError::Rollback);
+            }
+            if backup_path.exists() {
+                fs::remove_file(&backup_path).map_err(|_| MigrationError::DurabilityFailure)?;
+            }
+        }
+        _ => return Err(MigrationError::Rollback),
+    }
+    if root.join(".migration-state.tmp").exists() {
+        fs::remove_file(root.join(".migration-state.tmp"))
+            .map_err(|_| MigrationError::DurabilityFailure)?;
+    }
+    sync_directory(root)?;
+    lock.set_len(0)
+        .and_then(|_| lock.seek(SeekFrom::Start(0)).map(|_| ()))
+        .and_then(|_| lock.sync_all())
+        .map_err(|_| MigrationError::DurabilityFailure)?;
+    FileExt::unlock(&lock).map_err(|_| MigrationError::DurabilityFailure)
+}
+
+fn sync_directory(root: &Path) -> MigrationResult<()> {
+    File::open(root)
+        .and_then(|directory| directory.sync_all())
+        .map_err(|_| MigrationError::DurabilityFailure)
+}
+
 fn write_atomic(root: &Path, bytes: &[u8]) -> MigrationResult<()> {
     let temporary = root.join(".migration-state.tmp");
     let final_path = root.join(STATE_FILE);
@@ -1498,9 +1678,7 @@ fn write_atomic(root: &Path, bytes: &[u8]) -> MigrationResult<()> {
         return Err(MigrationError::DurabilityFailure);
     }
     fs::rename(&temporary, &final_path).map_err(|_| MigrationError::DurabilityFailure)?;
-    File::open(root)
-        .and_then(|directory| directory.sync_all())
-        .map_err(|_| MigrationError::DurabilityFailure)
+    sync_directory(root)
 }
 
 fn valid_text(value: &str, max: usize) -> bool {
