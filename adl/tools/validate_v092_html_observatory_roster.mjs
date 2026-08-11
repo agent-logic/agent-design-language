@@ -252,6 +252,7 @@ try {
     await sleep(100);
   }
   assert(restartedFeed, "Guardian must restore Runtime with a new incarnation");
+  assert.equal(restartedFeed.runtime_instance_id, feed.runtime_instance_id, "Guardian restart must preserve stable Runtime instance identity");
   assert.equal(restartedFeed.agents.sample[0].source_revision, sourceRevision);
   assert.equal(restartedFeed.agents.sample[0].state, "ready");
   await page.locator("#statusbar-websocket").getByText("connected", { exact: true }).waitFor({ timeout: 12_000 });

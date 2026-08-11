@@ -12,8 +12,8 @@ mod observability;
 
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, generate_runtime_instance_id,
-    load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
+    build_production_operation_executors_with_recorder, load_control_tls,
+    load_or_create_runtime_instance_id, monitor_until_stop, serve_control_listener_until_ready,
     validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
     AgentPopulationFeed, CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy,
     ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
@@ -138,7 +138,13 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let instance_id = generate_runtime_instance_id();
+            let instance_id = match load_or_create_runtime_instance_id(&operation_state_identity) {
+                Ok(instance_id) => instance_id,
+                Err(error) => {
+                    eprintln!("runtime instance identity invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let recorder = RuntimeRecorder::new(init.kernel.recorder_capacity);
             let roster_trusted_time = RecorderTrustedTime::new(recorder.clone());
             let reasoning = match bootstrap_reasoning_services(recorder.clone()) {

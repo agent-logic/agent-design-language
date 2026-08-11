@@ -1,8 +1,10 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    fs::OpenOptions,
     future::Future,
     io::Write,
     net::SocketAddr,
+    path::Path,
     sync::Arc,
     sync::Mutex,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -272,6 +274,38 @@ impl ControlAuthority {
 
 pub fn generate_runtime_instance_id() -> String {
     uuid::Uuid::new_v4().simple().to_string()
+}
+
+pub fn load_or_create_runtime_instance_id(state_root: &Path) -> std::io::Result<String> {
+    let path = state_root.join("runtime-instance-id");
+    match OpenOptions::new().write(true).create_new(true).open(&path) {
+        Ok(mut file) => {
+            let instance_id = generate_runtime_instance_id();
+            file.write_all(instance_id.as_bytes())?;
+            file.write_all(b"\n")?;
+            file.sync_all()?;
+            Ok(instance_id)
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            let metadata = std::fs::symlink_metadata(&path)?;
+            if metadata.file_type().is_symlink() || !metadata.is_file() {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    "runtime instance identity must be a regular file",
+                ));
+            }
+            let instance_id = std::fs::read_to_string(path)?.trim().to_owned();
+            if instance_id.len() != 32 || !instance_id.bytes().all(|byte| byte.is_ascii_hexdigit())
+            {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    "runtime instance identity is invalid",
+                ));
+            }
+            Ok(instance_id)
+        }
+        Err(error) => Err(error),
+    }
 }
 
 pub fn verifying_key_from_hex(value: &str) -> Result<VerifyingKey, ControlError> {
