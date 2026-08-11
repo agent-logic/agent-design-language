@@ -2,7 +2,8 @@
 
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
-import { spawnSync } from "node:child_process";
+import { createPrivateKey, randomBytes, sign } from "node:crypto";
+import { readFileSync } from "node:fs";
 
 const require = createRequire(import.meta.url);
 let chromium;
@@ -15,15 +16,38 @@ try {
 const observatoryUrl = process.env.ADL_OBSERVATORY_URL;
 const runtimeApiBase = process.env.ADL_RUNTIME_API_BASE;
 const sourceRevision = process.env.ADL_SOURCE_REVISION;
-const processStatusBin = process.env.ADL_PROCESS_STATUS_BIN;
+const controlPrivateKeyPath = process.env.ADL_CONTROL_PRIVATE_KEY_PATH;
 const allowRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the Runtime v3 API base");
 assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact candidate");
-assert(processStatusBin, "ADL_PROCESS_STATUS_BIN must name the permission-safe ADL process helper");
+assert(controlPrivateKeyPath, "ADL_CONTROL_PRIVATE_KEY_PATH must name the external proof control key");
 assert(allowRestartProof, "ADL_ALLOW_RUNTIME_RESTART_PROOF=1 is required for the isolated Guardian restart proof");
 
 const sleep = (millis) => new Promise((resolve) => setTimeout(resolve, millis));
+const signedRestart = (feed) => {
+  const seed = Buffer.from(readFileSync(controlPrivateKeyPath, "utf8").trim(), "hex");
+  assert.equal(seed.length, 32, "control signing seed must be 32 bytes");
+  const privateKey = createPrivateKey({
+    key: Buffer.concat([Buffer.from("302e020100300506032b657004220420", "hex"), seed]),
+    format: "der",
+    type: "pkcs8"
+  });
+  const id = randomBytes(16).toString("hex");
+  const command = {
+    schema: "adl.runtime.control_command.v1",
+    runtime_instance_id: feed.runtime_instance_id,
+    command_id: `restart-${id}`,
+    correlation_id: id,
+    principal: "operator",
+    action: { action: "restart", expected_incarnation_id: feed.runtime_incarnation_id, grace_millis: 5_000 },
+    signing_algorithm: "ed25519",
+    signing_key_id: "operator-key",
+    signature: ""
+  };
+  command.signature = sign(null, Buffer.from(JSON.stringify(command)), privateKey).toString("hex");
+  return command;
+};
 const fetchFeed = async () => {
   const response = await fetch(new URL("/v1/observatory", runtime));
   assert.equal(response.status, 200, "Runtime Observatory feed must be available");
@@ -82,6 +106,7 @@ try {
   const pageErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.goto(proofUrl.href, { waitUntil: "networkidle" });
+  await page.locator('[data-dashboard-link="agents"]').first().click();
   const row = page.locator('[data-agent-id="shepherd"]');
   await row.waitFor({ state: "visible" });
   assert.equal(await page.locator("#agent-count").textContent(), "1 of 1 visible");
@@ -110,70 +135,78 @@ try {
   await row.waitFor({ state: "visible" });
   assert.equal(await page.locator('[data-agent-id="shepherd"]').count(), 1, "reconnect must not duplicate roster rows");
 
-  await page.route("**/v1/agents?page_size=50&page_token=proof-continuation", async (route) => {
+  const uiPage = await context.newPage();
+  let uiRevision = 20;
+  let uiState = "ready";
+  let uiLocation = "node-a";
+  await uiPage.route("**/v1/observatory", async (route) => {
+    const shaped = structuredClone(feed);
+    shaped.agents = {
+      ...shaped.agents,
+      revision: uiRevision,
+      total_count: 3,
+      rendered_sample_count: 1,
+      has_more: true,
+      next_page_token: "proof-continuation",
+      sample: [{ ...shaped.agents.sample[0], state: uiState, location: uiLocation }]
+    };
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(shaped) });
+  });
+  await uiPage.route("**/v1/agents?page_size=50&page_token=proof-continuation", async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({
         ...rosterPage,
-        revision: rosterPage.revision,
-        total_count: 2,
-        rendered_sample_count: 1,
+        revision: uiRevision,
+        total_count: 3,
+        rendered_sample_count: 2,
+        sample: [
+          { ...rosterPage.sample[0], id: "proof-agent-2", label: "Proof Agent Two", location: "node-b" },
+          rosterPage.sample[0]
+        ],
         has_more: false,
-        next_page_token: null,
-        sample: [{ ...rosterPage.sample[0], id: "proof-agent-2", label: "Proof Agent Two" }]
+        next_page_token: null
       })
     });
   });
-  const continuation = await page.evaluate(async (base) => {
-    return globalThis.AdlHtmlObservatory.fetchRuntimeV3AgentRosterPage(base, "proof-continuation");
-  }, runtime.origin);
-  assert.equal(continuation.sample[0].id, "proof-agent-2");
-  assert.equal(continuation.has_more, false);
-  await page.unroute("**/v1/agents?page_size=50&page_token=proof-continuation");
+  await uiPage.goto(proofUrl.href.replace("&live=1", ""), { waitUntil: "networkidle" });
+  await uiPage.locator('[data-dashboard-link="agents"]').first().click();
+  await uiPage.locator('[data-agent-id="shepherd"]').waitFor({ state: "visible" });
+  await uiPage.locator("#roster-load-more").click();
+  await uiPage.locator('[data-agent-id="proof-agent-2"]').waitFor({ state: "visible" });
+  assert.equal(await uiPage.locator('[data-agent-id="shepherd"]').count(), 1);
+  assert.equal(await uiPage.locator("#live-agent-list [data-agent-id]").count(), 2);
+  assert.equal(await uiPage.locator("#agent-count").textContent(), "2 of 3 visible");
+  assert.equal(await uiPage.locator("#roster-load-more").isHidden(), true);
+  await uiPage.locator('[data-agent-id="proof-agent-2"]').click();
+  await uiPage.locator("#roster-detail").getByText("Proof Agent Two").waitFor();
+  assert((await uiPage.locator("#live-agent-list [data-agent-id]").count()) <= 50);
 
-  const browserContract = await page.evaluate((sample) => {
-    const api = globalThis.AdlHtmlObservatory;
-    const states = ["ready", "degraded", "migrating", "unreachable"];
-    const rows = api.buildRuntimeAgentRows({
-      status: {
-        schema: "adl.runtime_v3.observatory_feed.v2",
-        agent_population: {
-          sample: states.map((state, index) => ({
-            ...sample,
-            id: `transition-agent-${index}`,
-            state,
-            location: index === 2 ? "node-b" : "node-a"
-          }))
-        }
-      }
-    });
-    const snapshot = (incarnation, revision) => ({
-      status: {
-        runtime_id: "stable-runtime",
-        runtime_incarnation_id: incarnation,
-        agent_population: { revision }
-      }
-    });
-    return {
-      states: rows.map((row) => row.state),
-      relocated: { id: rows[2].id, location: rows[2].location },
-      cursor: [
-        api.acceptRuntimeRosterSnapshot(snapshot("incarnation-a", 9)),
-        api.acceptRuntimeRosterSnapshot(snapshot("incarnation-a", 12)),
-        api.acceptRuntimeRosterSnapshot(snapshot("incarnation-a", 11)),
-        api.acceptRuntimeRosterSnapshot(snapshot("incarnation-b", 1))
-      ]
-    };
-  }, rosterPage.sample[0]);
-  assert.deepEqual(browserContract.states, ["ready", "degraded", "migrating", "unreachable"]);
-  assert.deepEqual(browserContract.relocated, { id: "transition-agent-2", location: "node-b" });
-  assert.deepEqual(browserContract.cursor, [true, true, false, true], "full snapshot gaps advance, stale revisions fence, and incarnation resets");
+  for (const transition of [
+    { revision: 21, state: "migrating", location: "node-b" },
+    { revision: 22, state: "degraded", location: "node-b" },
+    { revision: 23, state: "unreachable", location: "node-b" },
+    { revision: 25, state: "ready", location: "node-c" }
+  ]) {
+    uiRevision = transition.revision;
+    uiState = transition.state;
+    uiLocation = transition.location;
+    await uiPage.locator("#refresh-live").click();
+    await uiPage.locator('[data-agent-id="shepherd"]').getByText(new RegExp(transition.state, "i")).waitFor();
+  }
+  uiRevision = 24;
+  uiState = "degraded";
+  await uiPage.locator("#refresh-live").click();
+  assert.match(await uiPage.locator('[data-agent-id="shepherd"]').textContent(), /ready/i);
+  await uiPage.close();
 
-  const status = spawnSync(processStatusBin, ["process", "status", "--pid", String(feed.runtime_process_id), "--json"], { encoding: "utf8" });
-  assert.equal(status.status, 0, `permission-safe Runtime PID check failed: ${status.stderr}`);
-  assert.equal(JSON.parse(status.stdout).status, "live_pid");
-  process.kill(feed.runtime_process_id, "SIGKILL");
+  const restartResponse = await fetch(new URL("/v1/control", runtime), {
+    method: "POST",
+    headers: { "content-type": "application/json", origin: observatory.origin },
+    body: JSON.stringify(signedRestart(feed))
+  });
+  assert.equal(restartResponse.status, 200, `signed incarnation-bound restart failed: ${await restartResponse.text()}`);
 
   let restartedFeed = null;
   const restartDeadline = Date.now() + 15_000;
