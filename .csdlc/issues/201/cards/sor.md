@@ -291,11 +291,11 @@ Resolved PR #229's hosted coverage-impact failure without changing the authority
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
