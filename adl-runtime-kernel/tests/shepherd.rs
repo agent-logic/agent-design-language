@@ -621,16 +621,20 @@ async fn process_tree_memory_pressure_is_terminated_and_capacity_recovers() {
         &temp,
         "memory-pressure",
         &format!(
-            r#"import pathlib, time
+            r#"import pathlib, subprocess, sys, time
 marker = pathlib.Path("{}")
 if marker.exists():
     print("recovered")
 else:
     marker.touch()
-    chunks = []
-    for _ in range(256):
-        chunks.append(bytearray(1024 * 1024))
-        time.sleep(0.002)
+    children = [
+        subprocess.Popen([
+            sys.executable,
+            "-c",
+            "import time; allocation = bytearray(8 * 1024 * 1024); time.sleep(5)",
+        ])
+        for _ in range(4)
+    ]
     time.sleep(5)"#,
             marker.display()
         ),
