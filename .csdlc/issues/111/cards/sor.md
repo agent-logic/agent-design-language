@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed the authentication-generation and duplicate-waiter findings, then integrated the final policy-safe WP-18C.03 roster authority at exact product revision 17044db84.
+Closed the final P2 review finding with a scheduler-independent authentication-generation cleanup race regression.
 
 ## Artifacts
 
@@ -39,6 +39,7 @@ Closed the authentication-generation and duplicate-waiter findings, then integra
 - adl-runtime-kernel/tests/conversation_sessions.rs
 - demos/html-observatory/app.js
 - 17044db84
+- adl-runtime-kernel/tests/conversation_sessions.rs
 
 ## Execution
 
@@ -63,6 +64,9 @@ Closed the authentication-generation and duplicate-waiter findings, then integra
 - Made stale completion cleanup generation-aware so an old result cannot remove a newer attachment.
 - Integrated the final Runtime-authenticated roster cursor and exact detail contract; conversation eligibility now resolves the exact policy-visible recipient rather than reconstructing or bypassing paginated public state.
 - Added focused production-WSS regressions for same-token reauthentication, credential rotation back to old bytes, a 64-request duplicate flood, and a visible recipient beyond the first roster page.
+- Added an executor barrier that proves the old-generation operation has started but cannot complete until explicitly released.
+- Reauthenticated with the same credential and attached the same conversation turn under the newer generation before releasing the old completion.
+- Proved the old completion cannot remove the newer attachment and exactly one current-generation delivered result is emitted.
 
 ## Validation
 
@@ -256,6 +260,19 @@ Closed the authentication-generation and duplicate-waiter findings, then integra
     "purpose": "Prove generation-bound result authorization, bounded duplicate handling, exact policy-visible recipient resolution, and preservation of the integrated conversation and roster contracts.",
     "outcome": "passed",
     "evidence_ref": "git:17044db84; conversation_sessions 1/1, control 25/25, observatory 7/7, openapi_contract 6/6 PASS; conversation browser contract PASS; combined HTML Observatory contract PASS; strict lib+binary Clippy PASS; cargo fmt and diff hygiene PASS; exact conversation_sessions llvm-cov PASS with control.rs 42.94%, ingress.rs 76.66%, operations.rs 48.44%, telemetry.rs 65.06%. Long-running validation remains out of band under #226."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_sessions"
+    ],
+    "purpose": "Prove the newer authentication-generation attachment exists before the old completion is released and remains the only deliverable terminal result.",
+    "outcome": "passed",
+    "evidence_ref": "conversation_sessions 1/1 PASS with barrier-controlled stale cleanup race; cargo fmt check PASS; git diff --check PASS"
   }
 ]
 

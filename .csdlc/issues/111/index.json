@@ -5,81 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
-  "generation": 64,
-  "digest": "09513904016ba5aa034e1f6e47b54584572533e63b91de85169bcc6c2dbd1358",
+  "generation": 68,
+  "digest": "7e1cf739a8dbf9ecab8b8284995540b632698108871b578a5e9aa2d8bf053323",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": {
-    "reviewer": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
-    "assigned_by": "codex:wp18c01-fresh-review-remediation",
-    "revision": "git-blake3:7b0759e9b0fd632112a502419434b853fa82bdbb:a9e12465c8e7a123485fc70f469fb50ed78974498024927d8cee5fe4d8e9246e",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/conversation_sessions.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      ".csdlc/issues/111"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/conversation_sessions.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      ".csdlc/issues/111"
-    ],
-    "reviewed_revision": "git-blake3:7b0759e9b0fd632112a502419434b853fa82bdbb:a9e12465c8e7a123485fc70f469fb50ed78974498024927d8cee5fe4d8e9246e",
-    "findings": [
-      {
-        "id": "fresh-review-223-p1-auth-generation",
-        "severity": "p1",
-        "summary": "In-flight results were bound only to token bytes, allowing same-token reauthentication or rotate-away/rotate-back to revive an older authentication generation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "adl-runtime-kernel/src/control.rs:2359"
-      },
-      {
-        "id": "fresh-review-223-p2-unbounded-waiters",
-        "severity": "p2",
-        "summary": "Every exact in-flight duplicate spawned another waiter and terminal frame through an unbounded result channel.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "adl-runtime-kernel/src/control.rs:2497"
-      }
-    ],
-    "residual_risks": [
-      "Durable cross-restart conversation history remains owned by issue #114.",
-      "The review did not rerun the environment-dependent trusted-TLS browser proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -94,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2f544fdb334f25e4aa515694f396fdd216c581f93b67708679fd7f60702e94d4",
+      "values_digest": "2e6ea14e0539f9ba808321c9dff9b21be8ebd0b2a8fa8a0fb970f1a627488336",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "57cff4e842e1f955bbc38a56edd14a77f711070fe51acc022a28bc7f38855bcc",
+      "values_digest": "ea7997460017c4b290104ceb94e4146d799ff5d41e313f8202e09a43d6f06084",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "25f566c928d1af304fe32bb1ac729b341513864878a282fe6410db76fde8c651",
+      "values_digest": "c98eab53a73e111317a7b1bdc1d51862cc674cb9e2b28519e489ef55ca9154e6",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "18729d791f629cd88801dd32e607260fa562da8c6d2ae36ef6772d9508f9f396",
+      "values_digest": "fc87cc044195bf41a97905fb0d2bb39cd4626053d23668461fc067e29d7ecd09",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "220664701cf196803eb14dc5939a46ce97e76487d12df831da686c10e4d92b87",
-      "rendered_digest": "201f5c0edf4fbccc30cb682e264ac177f82b1b1d51addad0f8d6e6365d88be24",
-      "ast_digest": "48768d04ffd61b9f333507da04d2bad9bbdfb3cf78d358e2e5586e488428ccb4"
+      "values_digest": "993d87b6142fa205b975c61f9c93b7ebb175ca8b5d34fe1f3e50efdc6f7cb07f",
+      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
+      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
     },
     "sor": {
-      "values_digest": "1942f00c7828c4953f2ea306a722b10def362122a853cb532867fb261d6152d3",
-      "rendered_digest": "4947fa95af7210ea1e0ba6d4395d4e8ee80f5f1b246d9fc1dd32c5ceb9390993",
-      "ast_digest": "f6c735e8273b495515663c7c86d18b1760a88af681e00ebdc4f85a5dec3def61"
+      "values_digest": "b9a68024bb0dd5bda2af191b08710e91093ad79f1f11e78fa6798d5f5e35a16f",
+      "rendered_digest": "82b9c53f64349c5e2200450324ddf32cd46cf6a9847418fe3196b5a4c5632efd",
+      "ast_digest": "2aaff0208af0a7b3f6ab2cf5eed6405b304fdb46d96f3a939f6670e3ec5e2b9c"
     }
   },
   "transitions": [
@@ -679,6 +610,41 @@
       "actor": "codex:wp18c01-fresh-review-remediation",
       "reason": "Record focused exact-head validation and issue-owned coverage after final roster-stack integration.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused WP-18C.01 Runtime, WSS, browser, OpenAPI, lint, format, diff, and issue-owned coverage gates\"],\"purpose\":\"Prove generation-bound result authorization, bounded duplicate handling, exact policy-visible recipient resolution, and preservation of the integrated conversation and roster contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:17044db84; conversation_sessions 1/1, control 25/25, observatory 7/7, openapi_contract 6/6 PASS; conversation browser contract PASS; combined HTML Observatory contract PASS; strict lib+binary Clippy PASS; cargo fmt and diff hygiene PASS; exact conversation_sessions llvm-cov PASS with control.rs 42.94%, ingress.rs 76.66%, operations.rs 48.44%, telemetry.rs 65.06%. Long-running validation remains out of band under #226.\"}}"
+    },
+    {
+      "sequence": 72,
+      "generation": 64,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 65,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 74,
+      "generation": 66,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Remediate the final review proof gap with a deterministic barrier-controlled stale-completion cleanup regression.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 75,
+      "generation": 67,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record the deterministic remediation of the final stale-completion cleanup proof finding.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the final P2 review finding with a scheduler-independent authentication-generation cleanup race regression.\",\"changes\":[\"Added an executor barrier that proves the old-generation operation has started but cannot complete until explicitly released.\",\"Reauthenticated with the same credential and attached the same conversation turn under the newer generation before releasing the old completion.\",\"Proved the old completion cannot remove the newer attachment and exactly one current-generation delivered result is emitted.\"],\"artifacts\":[\"adl-runtime-kernel/tests/conversation_sessions.rs\"]}"
+    },
+    {
+      "sequence": 76,
+      "generation": 68,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record focused proof for the deterministic stale-completion cleanup race remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"purpose\":\"Prove the newer authentication-generation attachment exists before the old completion is released and remains the only deliverable terminal result.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1 PASS with barrier-controlled stale cleanup race; cargo fmt check PASS; git diff --check PASS\"}}"
     }
   ]
 }

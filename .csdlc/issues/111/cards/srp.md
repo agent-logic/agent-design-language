@@ -12,21 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/ingress.rs
-adl-runtime-kernel/src/operations.rs
-adl-runtime-kernel/tests/conversation_sessions.rs
-adl-runtime-kernel/tests/agent_roster.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/observatory.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-demos/html-observatory/tests/conversation_sessions.test.mjs
-.csdlc/issues/111
+
 
 ## Prompts
 
@@ -38,28 +24,7 @@ demos/html-observatory/tests/conversation_sessions.test.mjs
 
 ## Findings
 
-[
-  {
-    "id": "fresh-review-223-p1-auth-generation",
-    "severity": "p1",
-    "summary": "In-flight results were bound only to token bytes, allowing same-token reauthentication or rotate-away/rotate-back to revive an older authentication generation.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "adl-runtime-kernel/src/control.rs:2359"
-  },
-  {
-    "id": "fresh-review-223-p2-unbounded-waiters",
-    "severity": "p2",
-    "summary": "Every exact in-flight duplicate spawned another waiter and terminal frame through an unbounded result channel.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "adl-runtime-kernel/src/control.rs:2497"
-  }
-]
+[]
 
 ## Dispositions
 
@@ -67,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Durable cross-restart conversation history remains owned by issue #114.
-- The review did not rerun the environment-dependent trusted-TLS browser proof.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:7b0759e9b0fd632112a502419434b853fa82bdbb:a9e12465c8e7a123485fc70f469fb50ed78974498024927d8cee5fe4d8e9246e")
+Revision: None
 
-Reviewer: Some("subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c")
+Reviewer: None
 
-Result: changes_required
+Result: pre_review

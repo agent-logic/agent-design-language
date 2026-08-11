@@ -1,0 +1,19 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 66,
+  "expected_digest": "f43392d1417f6e063cbb2ecdc0e504884e82c16743b48f01c5cbac74f19c161a",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Record the deterministic remediation of the final stale-completion cleanup proof finding.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Closed the final P2 review finding with a scheduler-independent authentication-generation cleanup race regression.",
+    "changes": [
+      "Added an executor barrier that proves the old-generation operation has started but cannot complete until explicitly released.",
+      "Reauthenticated with the same credential and attached the same conversation turn under the newer generation before releasing the old completion.",
+      "Proved the old completion cannot remove the newer attachment and exactly one current-generation delivered result is emitted."
+    ],
+    "artifacts": ["adl-runtime-kernel/tests/conversation_sessions.rs"]
+  },
+  "fail_after_backup": false
+}

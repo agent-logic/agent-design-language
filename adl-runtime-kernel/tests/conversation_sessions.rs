@@ -19,6 +19,7 @@ use adl_runtime_kernel::{
 };
 use async_trait::async_trait;
 use futures::{SinkExt, StreamExt};
+use tokio::sync::{Notify, Semaphore};
 use tokio_rustls::rustls::ClientConfig;
 use tokio_tungstenite::{
     connect_async_tls_with_config,
@@ -37,6 +38,8 @@ struct FakeLifecycle;
 struct ConversationExecutor {
     dispatches: Arc<AtomicUsize>,
     completions: Arc<AtomicUsize>,
+    barrier_started: Arc<Notify>,
+    barrier_release: Arc<Semaphore>,
 }
 
 #[async_trait]
@@ -75,6 +78,13 @@ impl OperationExecutor for ConversationExecutor {
             tokio::time::sleep(Duration::from_millis(70)).await;
         } else if work["tasks"][0]["input"] == "delay revoke" {
             tokio::time::sleep(Duration::from_millis(25)).await;
+        } else if work["tasks"][0]["input"] == "barrier cleanup" {
+            self.barrier_started.notify_one();
+            self.barrier_release
+                .acquire()
+                .await
+                .expect("barrier release semaphore closed")
+                .forget();
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
         serde_json::to_vec(&serde_json::json!({
@@ -100,6 +110,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let recorder = RuntimeRecorder::new(32);
     let dispatches = Arc::new(AtomicUsize::new(0));
     let completions = Arc::new(AtomicUsize::new(0));
+    let barrier_started = Arc::new(Notify::new());
+    let barrier_release = Arc::new(Semaphore::new(0));
     let adapter = Arc::new(
         OperationalAdapter::new(
             AdapterKind::Agent,
@@ -114,6 +126,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             Arc::new(ConversationExecutor {
                 dispatches: dispatches.clone(),
                 completions: completions.clone(),
+                barrier_started: barrier_started.clone(),
+                barrier_release: barrier_release.clone(),
             }),
         )
         .unwrap(),
@@ -752,6 +766,62 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
     assert_eq!(completions.load(Ordering::SeqCst), 9);
+
+    let cleanup_race = serde_json::json!({
+        "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+        "conversation_id": "conversation-cleanup-race",
+        "turn_id": "turn-cleanup-race",
+        "recipient_id": "shepherd",
+        "correlation_id": "34343434343434343434343434343434",
+        "message": "barrier cleanup"
+    });
+    socket
+        .send(Message::Text(cleanup_race.to_string().into()))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
+        .await
+        .expect("old-generation execution did not reach the completion barrier");
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+                "bearer_token": ROTATED_TOKEN,
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let authenticated =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(authenticated["status"], "authenticated");
+    socket
+        .send(Message::Text(cleanup_race.to_string().into()))
+        .await
+        .unwrap();
+    let attached =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(attached["status"], "accepted", "{attached}");
+    assert_eq!(attached["error"], "conversation_in_flight", "{attached}");
+
+    barrier_release.add_permits(1);
+    let delivered = next_conversation_result_for_turn(&mut socket, "turn-cleanup-race").await;
+    assert_eq!(delivered["status"], "delivered", "{delivered}");
+    assert!(
+        tokio::time::timeout(
+            Duration::from_millis(80),
+            next_conversation_result_for_turn(&mut socket, "turn-cleanup-race")
+        )
+        .await
+        .is_err(),
+        "stale completion removed or duplicated the current-generation attachment"
+    );
+    assert_eq!(completions.load(Ordering::SeqCst), 10);
 
     socket
         .send(Message::Text(
