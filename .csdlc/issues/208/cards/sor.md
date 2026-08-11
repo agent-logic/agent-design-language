@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved the actionable #208 review findings on current origin/main ancestry. The repaired bridge now exposes only sealed role-specific Runtime capabilities, verifies signed #204 activation decisions in the kernel, durably reconciles five live source participants and every target crash phase, atomically persists channel/journal/certificate succession, applies bounded cancellable effects through descriptor-anchored roots, and emits assertion-bound behavioral receipts. Fresh producer evidence and distinct rereview remain pending; publication and merge remain untouched.
+Resolved the actionable #208 review findings on current origin/main ancestry. The repaired bridge exposes only sealed role-specific Runtime capabilities, verifies signed #204 activation decisions in the kernel, durably reconciles five live source participants and every target crash phase, atomically persists channel/journal/certificate succession, applies bounded cancellable effects through descriptor-anchored roots, and emits assertion-bound behavioral receipts. The fresh immutable v2 producer passed at source 65aa90ce14dc97c5232f68ea2dd7ea4f8ead47c4 with exact 56-case, 64-boundary, and 12-lifecycle parity; distinct rereview remains pending and publication/merge remain untouched.
 
 ## Artifacts
 
@@ -24,6 +24,7 @@ Resolved the actionable #208 review findings on current origin/main ancestry. Th
 - adl-runtime/tests/kernel_continuity_client.rs
 - .csdlc/prepared/issues/208/produce-proof-receipt.rb
 - .csdlc/prepared/issues/208/validate-proof-receipt.rb
+- .csdlc/evidence/208/v2/execution-proof.json
 
 ## Execution
 
@@ -39,34 +40,34 @@ Resolved the actionable #208 review findings on current origin/main ancestry. Th
   {
     "command": [
       "cargo",
-      "test",
+      "nextest",
+      "run",
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--test",
       "kernel_continuity_client",
-      "--",
-      "--test-threads=1"
+      "--no-tests=fail"
     ],
-    "purpose": "Prove the repaired Runtime capability and live TLS boundary before immutable evidence production.",
+    "purpose": "Prove the repaired Runtime capability, live TLS boundary, and exact denominator.",
     "outcome": "passed",
-    "evidence_ref": "local pre-producer run: 21 passed"
+    "evidence_ref": ".csdlc/evidence/208/v2/runtime-nextest.stdout.log: 21 passed"
   },
   {
     "command": [
       "cargo",
-      "test",
+      "nextest",
+      "run",
       "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
       "kernel_continuity_control",
-      "--",
-      "--test-threads=1"
+      "--no-tests=fail"
     ],
-    "purpose": "Prove durable source and target crash reconciliation before immutable evidence production.",
+    "purpose": "Prove durable source and target crash reconciliation and exact denominator.",
     "outcome": "passed",
-    "evidence_ref": "local pre-producer run: 35 passed"
+    "evidence_ref": ".csdlc/evidence/208/v2/kernel-nextest.stdout.log: 35 passed"
   },
   {
     "command": [
@@ -86,7 +87,7 @@ Resolved the actionable #208 review findings on current origin/main ancestry. Th
     ],
     "purpose": "Reject Runtime API and production wiring warnings.",
     "outcome": "passed",
-    "evidence_ref": "local pre-producer strict Clippy"
+    "evidence_ref": ".csdlc/evidence/208/v2/runtime-clippy.stderr.log"
   },
   {
     "command": [
@@ -106,7 +107,25 @@ Resolved the actionable #208 review findings on current origin/main ancestry. Th
     ],
     "purpose": "Reject kernel effect and persistence warnings.",
     "outcome": "passed",
-    "evidence_ref": "local pre-producer strict Clippy"
+    "evidence_ref": ".csdlc/evidence/208/v2/kernel-clippy.stderr.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
+    ],
+    "purpose": "Verify exact execution-base-to-source diff hygiene and ancestry.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v2/diff-hygiene.stdout.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
+    ],
+    "purpose": "Produce fresh canonical assertion-bound behavior evidence with exact 56/64/12 parity.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v2/execution-proof.json"
   }
 ]
 
