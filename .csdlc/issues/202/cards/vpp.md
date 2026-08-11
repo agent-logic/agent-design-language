@@ -204,7 +204,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
   },
   {
     "lane": "authorized-learner-transport-producer",
-    "proof_role": "Produce v8 exact-source evidence binding a fully clean worktree, exact current origin/main ancestry, all protected paths, 36 semantic versus 42 runner plus 13 public and 31 subassertions, three integration compiles, the exact route-rotation regression, the coverage-impact contract, and strict Clippy.",
+    "proof_role": "Produce v9 exact-source evidence binding a fully clean worktree, exact current origin/main ancestry, all protected paths, 36 semantic versus 42 runner plus 13 public and 31 subassertions, three integration compiles, the exact route-rotation regression, the coverage-impact contract, and strict Clippy.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -217,11 +217,11 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Fail closed on any dirty or untracked path outside v8 output, stale origin/main, API-boundary drift, count mismatch, or failed command."
+    "defer_reason": "Fail closed on any dirty or untracked path outside v9 output, stale origin/main, API-boundary drift, count mismatch, or failed command."
   },
   {
     "lane": "authorized-learner-transport-receipt",
-    "proof_role": "Validate immutable v8 exact-source evidence, protected-path parity, and exact current origin/main ancestry for fresh independent review.",
+    "proof_role": "Validate immutable v9 exact-source evidence, protected-path parity, and exact current origin/main ancestry for fresh independent review.",
     "acceptance_ids": [
       "AC-8"
     ],
