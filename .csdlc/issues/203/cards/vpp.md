@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
 [
   {
     "lane": "identity-lease-fencing-authority",
-    "proof_role": "Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility.",
+    "proof_role": "Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility. Compatibility compilation must explicitly include adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs and prove both use sealed authority-bound handles instead of raw Arc<DistributedCertificateStore>.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -51,11 +51,11 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "203-runtime",
-    "defer_reason": "Deferred until #202 is independently reviewed, merged, and ancestral and then #199 is independently reviewed, merged, and ancestral; after both merges #203 must resync to the resulting exact origin/main and pass typed csdlc-validate issue plus csdlc-doctor before bind. Fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer."
+    "defer_reason": "Deferred until #202 is independently reviewed, merged, and ancestral and then #199 is independently reviewed, merged, and ancestral; after both merges #203 must resync to the resulting exact origin/main and pass typed csdlc-validate issue plus csdlc-doctor before bind. Fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer. The lane is non-proving if either named consumer is absent from compilation."
   },
   {
     "lane": "identity-lease-fencing-clippy",
-    "proof_role": "Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path.",
+    "proof_role": "Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path. This explicitly includes adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -80,7 +80,7 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
   },
   {
     "lane": "identity-lease-fencing-producer",
-    "proof_role": "Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation.",
+    "proof_role": "Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation. The protected write-set and compile evidence must explicitly bind adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -97,7 +97,7 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
   },
   {
     "lane": "identity-lease-fencing-receipt",
-    "proof_role": "Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
+    "proof_role": "Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation. Validation must reject any receipt that omits adl-runtime/src/distributed/polis_runtime.rs or adl-runtime/tests/distributed_runtime_transport.rs from the protected compatibility set.",
     "acceptance_ids": [
       "AC-8"
     ],

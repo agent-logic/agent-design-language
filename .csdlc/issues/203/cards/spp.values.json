@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1a] Apply committed identity, lease, and fencing authority",
     "slug": "committed-identity-lease-fencing-authority",
     "version": "v0.92",
-    "generation": 16
+    "generation": 25
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 7,
+      "plan_revision": 9,
       "summary": "Keep #203 preparation-only while #202 remains under review and #199 remains prepared behind it. After #202 and then #199 are independently reviewed, merged, and ancestral, resync to the resulting exact origin/main, rerun typed validation and doctor, and only then bind #203 to close all enumerated raw store bypasses using the already merged #201 artifact interface and #200 barrier while preserving #208, #205, and #204 authority boundaries.",
       "steps": [
         {
@@ -29,7 +29,7 @@
         },
         {
           "id": "S2",
-          "action": "After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths without changing #208, #205, or #204 authority.",
+          "action": "After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths; explicitly migrate adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs off raw Arc<DistributedCertificateStore> ownership without changing #208, #205, or #204 authority.",
           "acceptance_ids": [
             "AC-5",
             "AC-6",
@@ -52,6 +52,7 @@
         "adl-runtime/src/distributed/lease.rs",
         "adl-runtime/src/distributed/fencing.rs",
         "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
         "adl-runtime/src/distributed/transport.rs",
         "adl-runtime/src/distributed/capability_advertisement.rs",
         "adl-runtime/src/distributed/placement.rs",
@@ -74,6 +75,7 @@
         "adl-runtime/tests/distributed_recovery.rs",
         "adl-runtime/tests/distributed_resource_weather.rs",
         "adl-runtime/tests/distributed_snapshot_catalog.rs",
+        "adl-runtime/tests/distributed_runtime_transport.rs",
         "adl-runtime/tests/distributed_transport.rs",
         ".csdlc/prepared/issues/203/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/203/validate-proof-receipt.rb",
@@ -114,9 +116,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/203/design.md",
-      "design_digest": "829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce",
+      "design_digest": "821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49",
       "diagram_ref": ".csdlc/prepared/issues/203/diagram.mmd",
-      "diagram_digest": "09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06"
+      "diagram_digest": "dc93d5b1073997215f11c82fa195a1207ac78d6aae8378a5f09dddd163389ebc"
     }
   }
 }

@@ -153,9 +153,13 @@ size-bounded through an opened handle, symlink-safe, and rollback checked.
 
 The raw-access closure is not allowed to rely on an undeclared downstream
 ripple. #203 owns the mechanical signature/handle migration of these exact
-normal-build consumers: `transport.rs`, `capability_advertisement.rs`,
-`placement.rs`, `projection.rs`, `resource_weather.rs`, `snapshot_catalog.rs`,
-`migration.rs`, and `recovery.rs`, all beneath `adl-runtime/src/distributed/`.
+normal-build consumers: `polis_runtime.rs`, `transport.rs`,
+`capability_advertisement.rs`, `placement.rs`, `projection.rs`,
+`resource_weather.rs`, `snapshot_catalog.rs`, `migration.rs`, and `recovery.rs`,
+all beneath `adl-runtime/src/distributed/`. In particular, the production Polis
+bootstrap in `polis_runtime.rs` must stop accepting or retaining a raw
+`Arc<DistributedCertificateStore>` and instead receive the authority-bound
+certificate handle supplied by the sealed registry.
 The migration and recovery edits replace raw certificate/ledger/fencing
 references with authority-bound handles only; #204 retains their workflow,
 failure-policy, orchestration, and execution semantics.
@@ -167,13 +171,18 @@ The exact integration-fixture migration surface is:
 `distributed_guardian.rs`, `distributed_lease.rs`,
 `distributed_migration.rs`, `distributed_placement.rs`,
 `distributed_projection.rs`, `distributed_recovery.rs`,
-`distributed_resource_weather.rs`, `distributed_snapshot_catalog.rs`, and
-`distributed_transport.rs` beneath `adl-runtime/tests/`, plus the new focused
-`distributed_identity_lease_authority.rs`. Store-specific low-level cases that
-must reach raw primitives move into `#[cfg(test)]` modules inside
+`distributed_resource_weather.rs`, `distributed_snapshot_catalog.rs`,
+`distributed_transport.rs`, and `distributed_runtime_transport.rs` beneath
+`adl-runtime/tests/`, plus the new focused
+`distributed_identity_lease_authority.rs`. The runtime-transport fixture must
+construct the same authority-bound certificate handle as production and may
+not preserve a raw `Arc<DistributedCertificateStore>` bootstrap shortcut.
+Store-specific low-level cases that must reach raw primitives move into
+`#[cfg(test)]` modules inside
 `certificates.rs`, `lease.rs`, or `fencing.rs`; the normal library and every
 integration-test crate use only authority-bound handles. A compile-time proof
-rejects raw constructors, grants, authorization, and mutation in a normal build.
+must compile both `polis_runtime.rs` and `distributed_runtime_transport.rs` and
+reject raw constructors, grants, authorization, and mutation in a normal build.
 
 ## Published receipt projection boundary
 

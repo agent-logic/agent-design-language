@@ -22,6 +22,7 @@ Exact existing-store adapter and gate integration, certificate/lease/fencing low
 - Do Fence/Revoke, Activate, and OwnerCommit preserve exact floor, ledger, safety, possession, and barrier ordering across every crash window?
 - Do retained handles, permits, receipts, retries, rollback, bounds, or unsafe paths ever expose partial authority?
 - Does the exact proof bind all forty-four cases without claiming #205/#204 or operational serving?
+- Do adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs both construct and retain only the sealed authority-bound certificate handle, with no raw Arc<DistributedCertificateStore> bootstrap or fixture bypass, and are both paths named in protected compile/receipt evidence?
 
 ## Findings
 

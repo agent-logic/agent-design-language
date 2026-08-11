@@ -14,6 +14,10 @@ flowchart TD
   V --> G["Live action-scoped read or mutation grant"]
   V --> Y["Opaque PublishedStoreAuthorityReceiptView for #205"]
   G --> B["Authority-bound store handle revalidates every use"]
+  B --> PR["Production Polis runtime bootstrap"]
+  B --> RT["Runtime transport integration fixture"]
+  PR -. "raw Arc store bootstrap attempt" .-> D
+  RT -. "raw Arc store shortcut attempt" .-> D
   N["Newer Pending generation"] -->|"invalidates prior grants"| B
   B -->|"current exact grant"| O["Authorized certificate, lease, or fencing result"]
   B -->|"stale, wrong action, partial, or unsafe"| D["Fail closed"]

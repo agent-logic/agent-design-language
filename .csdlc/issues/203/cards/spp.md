@@ -16,7 +16,7 @@ Keep #203 preparation-only while #202 remains under review and #199 remains prep
 
 ## Plan
 
-Revision 7
+Revision 9
 
 ## Steps
 
@@ -34,7 +34,7 @@ Revision 7
   },
   {
     "id": "S2",
-    "action": "After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths without changing #208, #205, or #204 authority.",
+    "action": "After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths; explicitly migrate adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs off raw Arc<DistributedCertificateStore> ownership without changing #208, #205, or #204 authority.",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
@@ -83,13 +83,13 @@ Revision 7
 
 .csdlc/prepared/issues/203/design.md
 
-Digest: 829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce
+Digest: 821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49
 
 ## Diagram
 
 .csdlc/prepared/issues/203/diagram.mmd
 
-Digest: 09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06
+Digest: dc93d5b1073997215f11c82fa195a1207ac78d6aae8378a5f09dddd163389ebc
 
 ## Stop Conditions
 

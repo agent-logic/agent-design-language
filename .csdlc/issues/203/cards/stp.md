@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state whose receipts/results exclude every node-local safety-anchor byte and digest, node-local checkpoint/audit-only conservative safety anchors, read-only PublishedStoreAuthorityReceiptView projection for #205, exact compatibility migration of all enumerated normal-build certificate/lease/fencing consumers and integration fixtures off raw access, and focused proof surfaces; migration/recovery workflow semantics remain #204.
+Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state whose receipts/results exclude every node-local safety-anchor byte and digest, node-local checkpoint/audit-only conservative safety anchors, read-only PublishedStoreAuthorityReceiptView projection for #205, exact compatibility migration of all enumerated normal-build certificate/lease/fencing consumers and integration fixtures off raw access, and focused proof surfaces; migration/recovery workflow semantics remain #204. The exact compatibility write set includes adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs so neither production bootstrap nor its integration fixture retains raw Arc<DistributedCertificateStore> ownership.
 
 ## Deliverables
 
@@ -21,6 +21,7 @@ Implement and publish only sealed existing-store adapters, store-bound live gran
 - adl-runtime/src/distributed/lease.rs
 - adl-runtime/src/distributed/fencing.rs
 - adl-runtime/src/distributed/mod.rs
+- adl-runtime/src/distributed/polis_runtime.rs
 - adl-runtime/src/distributed/transport.rs
 - adl-runtime/src/distributed/capability_advertisement.rs
 - adl-runtime/src/distributed/placement.rs
@@ -43,6 +44,7 @@ Implement and publish only sealed existing-store adapters, store-bound live gran
 - adl-runtime/tests/distributed_recovery.rs
 - adl-runtime/tests/distributed_resource_weather.rs
 - adl-runtime/tests/distributed_snapshot_catalog.rs
+- adl-runtime/tests/distributed_runtime_transport.rs
 - adl-runtime/tests/distributed_transport.rs
 - .csdlc/prepared/issues/203/produce-proof-receipt.rb
 - .csdlc/prepared/issues/203/validate-proof-receipt.rb
@@ -51,7 +53,7 @@ Implement and publish only sealed existing-store adapters, store-bound live gran
 
 ## Acceptance
 
-1. AC-1: Normal-build callers cannot open ungated stores, construct a raw grant, or mutate/authorize certificates, leases, or fencing without current #200 lineage/action/adapter/generation validation on every use.
+1. AC-1: Normal-build callers cannot open ungated stores, construct a raw grant, or mutate/authorize certificates, leases, or fencing without current #200 lineage/action/adapter/generation validation on every use. This includes migrating adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs from raw Arc<DistributedCertificateStore> bootstrap/fixture ownership to sealed authority-bound handles.
 2. AC-2: Each sealed plan consumes the exact private #201 artifact view, byte-compares its digest and operation binding, and verifies it through the existing store-native signature/quorum path without signing, endorsing, or reconstruction.
 3. AC-3: Canonical lease state and receipts bind only committed deterministic time; local monotonic safety anchors are separate and NotReady/Unsafe produces no concrete or barrier progress.
 4. AC-4: Certificate enroll/rotate/revoke/compromise and LeaseGrant/Renewal/Revoke/Fence/Activate/OwnerCommit execute only the fixed fail-safe order, with floor before ledger revocation and exact floor/safety/possession checks before activation.
