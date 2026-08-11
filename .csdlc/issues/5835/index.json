@@ -4,13 +4,42 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "214155e897000ad4b833bad3f333909588f03629f193b672e5967e62750e2c3f",
-  "phase": "implemented",
-  "generation": 56,
-  "digest": "8f0401332745f61d367c68ab6713ee3235fb61eb31e3278ab345aa005e28d265",
+  "phase": "reviewed",
+  "generation": 57,
+  "digest": "7f17859e9b76d1ffd5f24b5e0e467930499370db7adcfb69a368edfe955107cd",
   "branch": "codex/5835-wp17-continuity-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5835-wp17-continuity-migration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint5_5835/review_5835_remediation_exact_head",
+    "assigned_by": "/root/sprint5_5835",
+    "revision": "git-blake3:1d765ecfd61fcd7bccd50b37d0dc660a8ccf9f43:9680eda0b55c2b0565ad3798dda9dfa225f4bf9866492f2e534d953e83476cd6",
+    "scope": [
+      ".csdlc/issues/5835",
+      ".csdlc/prepared/issues/5835",
+      ".csdlc/evidence/5835",
+      "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/sprint5_5835/review_5835_remediation_exact_head",
+    "scope": [
+      ".csdlc/issues/5835",
+      ".csdlc/prepared/issues/5835",
+      ".csdlc/evidence/5835",
+      "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:1d765ecfd61fcd7bccd50b37d0dc660a8ccf9f43:9680eda0b55c2b0565ad3798dda9dfa225f4bf9866492f2e534d953e83476cd6",
+    "findings": [],
+    "residual_risks": [
+      "The legacy STP task-boundary phrase mentions v0.93 handoff inputs, but typed declared scope, deliverables, AC-3, SPP S3, prepared ownership, empty branch diff, and executable validation all make the handoff byte-identical and read-only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "02154fd3c69226665d3cd4b4b1cfc6ebd3f356463a31fd60cdbf3324b7bd3aca",
+      "values_digest": "f6f5081880e8786e72603a7d544be617f664d8c6a0399c9a8ce52b3c6554fed6",
       "rendered_digest": "9605354fcbd162d5fd125aeedad0de87bb8a9ed4b1f2f4061de7d493d49f8ffe",
       "ast_digest": "0032ff448cc12086e74c98c91407110d1501ef3ae301623d8a232660a93779e6"
     },
     "stp": {
-      "values_digest": "256420e26f1fea8444de57939497ff2c29ab139beee8464778c3ee091f233693",
+      "values_digest": "afe19024a7505f145b8ea99b771200848e22771c66f3da5077b16a2fef228fe2",
       "rendered_digest": "8f1d8dd23691d5e0fc549a75178bedf5e10b89fa6449cd98f72f83ad947f1014",
       "ast_digest": "06ee4c6d9d11dc2509af0b9a189f75937a4d8269432ae2eba89206f8f0249ad6"
     },
     "spp": {
-      "values_digest": "67432ab9c27aa7b1a4adc2f4d4cb77fe9d02df6457542d6b9c9c319be167c649",
+      "values_digest": "7da111a906b9003d7704fa18f7eca2f957bd2c3d207439b27ce917209e4d68a2",
       "rendered_digest": "12ca73c4da42cb6d42c9f8898fb1a59802e54bb5d3c84a333cdb2bd4999790ee",
       "ast_digest": "069dfb2086711713c133330ffd5de5bc0184c9cfa95604cee5ae49fab060ecd0"
     },
     "vpp": {
-      "values_digest": "7e83745c4c1f91af1c20822163e25a5c00e851cbe418fb7786668d25cf48a1e2",
+      "values_digest": "467144a9a3d089c993fa5140f1e7056cb2e1da3b17b61ed03f830b68f8feb91a",
       "rendered_digest": "dcf5fa300522d7f5456f6fff5261cd402539f9dd43696288df2604d0f82559ac",
       "ast_digest": "e3156e7f3ab4a49bca087fbb7c4d8fe09a1386c9e2b7c4610ec3ae10c37768a5"
     },
     "srp": {
-      "values_digest": "55b2b6c9ba9783f6dc31362600662ae738f92006869ade6cf35819fbe26fa7dd",
-      "rendered_digest": "c7ce82051113de54e05a607615bd5543914646f058ed0aaf19cec69fa0033e85",
-      "ast_digest": "99503b3f7dd25b2b165515334d86c98ba4f7b89b7fbf21150a974bbb83bfecdd"
+      "values_digest": "fe958eb603704a1a0dc579065421dfe8d191f4bd91574d84e47bea1fc360e20d",
+      "rendered_digest": "baf7b1186e13a3d8e8e484c55f14f24d3b8dd43cc8a8297f8ec8278f8df373e8",
+      "ast_digest": "0e39aeac8f201a4eecaa8f2c96d5c8e8f6cdce3c48fb9d8ebf94beffa5456af1"
     },
     "sor": {
-      "values_digest": "76158c0863be1e492b97a0134409404db6ee93dd10e7fe1e16ed11978f2905db",
+      "values_digest": "1e17efcbcd7ec769b18866f9d5a4d8962c8fc632944a7f0df3081d5cb72db737",
       "rendered_digest": "e1279e50e753f50102a148095ebaec7a8efc0f4ef24521b04efd6b2824a1bbdf",
       "ast_digest": "73e3957fd039a72d24df6accbc3551e3d656a7add48bd101bd86b0b7d411d488"
     }
@@ -97,6 +126,13 @@
       "to": "implemented",
       "actor": "/root/sprint5_5835",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/sprint5_5835",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -610,6 +646,20 @@
       "actor": "/root/sprint5_5835",
       "reason": "Make the reviewed read-only handoff boundary explicit in acceptance truth.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The transfer matrix covers every declared birthday artifact with portability, locality, governance, transport, lineage, and redaction dispositions.\",\"AC-2: Copied, conflicting, ambiguous, and raw-private-state cases fail closed or quarantine explicitly.\",\"AC-3: Only the owned feature/design notes may change; the v0.93 handoff remains byte-identical and read-only while WP-04 and v0.93 authority stay downstream.\",\"AC-4: Every cited path resolves and forbidden production/governance claims are absent.\",\"AC-5: Exact-head review has no unresolved actionable finding.\"]}"
+    },
+    {
+      "sequence": 74,
+      "generation": 56,
+      "actor": "/root/sprint5_5835",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 75,
+      "generation": 57,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
