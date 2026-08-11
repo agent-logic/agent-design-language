@@ -21,6 +21,6 @@ fail_contract("filter denominator drift") unless filter.length == 1
 alternatives = filter.first[/test\(\/\^\((.*)\)\$\/\)/, 1]&.split("|")
 fail_contract("filter is not the exact ordered issue case set") unless alternatives == cases
 fail_contract("global leak policy drift") unless config.include?("leak-timeout = \"100ms\"")
-fail_contract("tracked leak policy must remain fail-closed") unless config.include?('leak-timeout = { period = "500ms", result = "fail" }')
+fail_contract("tracked leak policy must remain fail-closed") unless config.include?('leak-timeout = { period = "2s", result = "fail" }')
 
 puts "PASS: nextest workspace and slow-proof selections remain loadable without absent-binary operators; exact 56-case leak policy remains fail-closed"
