@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "37478c3114075c81102ef73834952e49343ba37b2bdd9f4c63ae9b1fee61a47a",
+  "generation": 32,
+  "digest": "6d0a05d109c9d2c1a69656a73eaebcd2ddbe3c2b2615c14e9b6b90abf07cf71b",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
@@ -36,34 +36,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "038ccc683c57ee63854d78c5d571b80d663686edb78ded597ed126781d59e95f",
+      "values_digest": "4547fdae938e8a998c118cbcc5c869e3a61ff00af2dd9b89d8b9c854158d9d69",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "93e212d7d0943037ee0303b3c6ed514ccd4eb157f291578d81e98494f126a540",
+      "values_digest": "418568e11dcbabe503be9cfe529303b96f1f8b0c998bfa44e2d2a273e6f595ca",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "97e94c53b113ead0e413584b62e6770099cb76c77bc8e85a36fb70abadb8b54a",
+      "values_digest": "5ffd7cfe38d4ec6e4df6097209b13a87ac35ef05641e1aa91a17915d5d7737a7",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "9975f4fe49d7d8930974c34d2879b5461add03c19cf6a277b047c407f47e3b5a",
+      "values_digest": "c02a77eeefe4b9669dc2bf2edb343cc5b6339d87c2844f6cde79089ae7cab044",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "7b5b5204d77b2def0885da1898653f0e847d0dc5bf91ac2e79a33e03be0f08e4",
+      "values_digest": "ef80c5dec51c4be276aea77ea25f49c466423fb6d49d18da6cb91d1bf9bd6401",
       "rendered_digest": "0eeafc2ec52fc108a85d659a970295e8083c465c8e6e1d4569b5b355b82cc3a7",
       "ast_digest": "c3e80579cb5abc6c7da556066a1a54e25ac2cf32ac6f0fda170e12a30dce9678"
     },
     "sor": {
-      "values_digest": "4dc066e0b991cb5e654af1c7636d99773154205379c6ab48f87e57952da3f0e4",
-      "rendered_digest": "8dd6d35674d7072d751578d0f97fca496b2c7df201623cb5727854b225c324b3",
-      "ast_digest": "ee045f6e7aa547cc8b4b61f4364e31618375e91ffcb3dcaf295cf0791e90e9b0"
+      "values_digest": "2a023d91cb162572d81acae8c4e59e8d106035dc8ec6a05f06bcb22a5780315d",
+      "rendered_digest": "ac2be6997a3914a717129a896cfd8218f9a3c296b86ba53d3e5aafa4cf5a10e8",
+      "ast_digest": "de312c2e5730a2f092dd6efc0fd81dfc708802924e35638fe49916d58b103700"
     }
   },
   "transitions": [
@@ -306,6 +306,41 @@
       "actor": "operator",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:234-final-remediation",
+      "reason": "Supersede stale review-remediation entries and record the operator-approved final cost-control policy.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Final policy supersedes earlier head-SHA and single-heavy-runner entries: optional work is blocked before allocation, while every selected required heavy lane retains the configured 16-core runner.\",\"changes\":[\"Replaced ambiguous hyphen concatenation with a colon-delimited target repository, workflow, target base, source repository ID, and source branch concurrency identity.\",\"Removed the superseded one-heavy-runner selector and restored every selected required heavy job to vars.ADL_HEAVY_RUNNER.\",\"Made the workflow validator reject every unauthorized event and every non-light CI job that bypasses the configured heavy runner.\",\"Added negative fixtures for workflow_run fanout and heavy-runner bypass.\",\"Made unstable PR classification fail closed when no required checks are declared.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/validate_ci_workflow_policy.rb\",\"adl/tools/test_ci_runtime_contracts.sh\",\"csdlc-v2/src/github.rs\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:234-final-validation",
+      "reason": "Record current-head whole-workflow policy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"adl/tools/validate_ci_workflow_policy.rb\"],\"purpose\":\"Prove all 17 workflow triggers, unambiguous target/source concurrency, fail-closed event handling, heavy-runner routing, manual slow proof, and pre-allocation optional gating.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-head-2181870ee:workflow-policy:passed\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex:234-final-validation",
+      "reason": "Record current-head central CI contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove negative workflow_run and runner-bypass fixtures, required 16-core routing, conditional aggregation, manual-only slow proof and Codecov, and no post-merge duplicate validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-head-2181870ee:ci-runtime-contracts:passed\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex:234-final-validation",
+      "reason": "Record current-head required-check classifier proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove unstable PRs require at least one declared required check and every declared check, review, conflict, and exact-target gate remains fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-head-2181870ee:csdlc-v2-lib:68-passed\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 32,
+      "actor": "codex:234-final-validation",
+      "reason": "Replace the vacuous historical hygiene claim with the exact committed-range and syntax checks actually executed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"git diff --check origin/main...HEAD && bash -n adl/tools/ci_path_policy.sh adl/tools/test_ci_path_policy.sh adl/tools/test_ci_runtime_contracts.sh && ruby -c adl/tools/validate_ci_workflow_policy.rb && ruby -ryaml -e 'Dir[\\\".github/workflows/*.{yml,yaml}\\\"].each { |path| YAML.safe_load(File.read(path), permitted_classes: [], permitted_symbols: [], aliases: true) }'\"],\"purpose\":\"Prove committed-range whitespace hygiene, all touched shell syntax, validator Ruby syntax, and parsing of every workflow YAML file.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-head-2181870ee:committed-range-syntax-yaml:passed\"}}"
     }
   ]
 }

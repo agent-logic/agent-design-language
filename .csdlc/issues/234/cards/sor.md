@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Remediated the exact-head review findings by coalescing identical source heads across PR bases and enforcing one exclusive ADL heavy-runner allocation per ordinary PR while retaining all selected required jobs.
+Final policy supersedes earlier head-SHA and single-heavy-runner entries: optional work is blocked before allocation, while every selected required heavy lane retains the configured 16-core runner.
 
 ## Artifacts
 
@@ -69,6 +69,11 @@ Remediated the exact-head review findings by coalescing identical source heads a
 - adl/tools/ci_path_policy.sh
 - adl/tools/validate_ci_workflow_policy.rb
 - adl/tools/test_ci_runtime_contracts.sh
+- .github/workflows/ci.yaml
+- adl/tools/ci_path_policy.sh
+- adl/tools/validate_ci_workflow_policy.rb
+- adl/tools/test_ci_runtime_contracts.sh
+- csdlc-v2/src/github.rs
 
 ## Execution
 
@@ -89,6 +94,11 @@ Remediated the exact-head review findings by coalescing identical source heads a
 - Removed target base from ordinary PR concurrency identity while preserving repository, workflow, source repository, and source branch isolation.
 - Added one deterministic heavy_runner_job choice; only that selected required job may acquire ADL_HEAVY_RUNNER and all other required jobs use the standard runner.
 - Strengthened workflow-policy and runtime-contract validators to reject base-split concurrency and non-exclusive heavy-runner selectors.
+- Replaced ambiguous hyphen concatenation with a colon-delimited target repository, workflow, target base, source repository ID, and source branch concurrency identity.
+- Removed the superseded one-heavy-runner selector and restored every selected required heavy job to vars.ADL_HEAVY_RUNNER.
+- Made the workflow validator reject every unauthorized event and every non-light CI job that bypasses the configured heavy runner.
+- Added negative fixtures for workflow_run fanout and heavy-runner bypass.
+- Made unstable PR classification fail closed when no required checks are declared.
 
 ## Validation
 
@@ -193,6 +203,46 @@ Remediated the exact-head review findings by coalescing identical source heads a
     "purpose": "Prove shell and Ruby syntax, all workflow YAML parsing, and clean final patch whitespace.",
     "outcome": "passed",
     "evidence_ref": "local:issue-234-final-syntax-yaml-diff:passed"
+  },
+  {
+    "command": [
+      "ruby",
+      "adl/tools/validate_ci_workflow_policy.rb"
+    ],
+    "purpose": "Prove all 17 workflow triggers, unambiguous target/source concurrency, fail-closed event handling, heavy-runner routing, manual slow proof, and pre-allocation optional gating.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:workflow-policy:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove negative workflow_run and runner-bypass fixtures, required 16-core routing, conditional aggregation, manual-only slow proof and Codecov, and no post-merge duplicate validation.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:ci-runtime-contracts:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "Prove unstable PRs require at least one declared required check and every declared check, review, conflict, and exact-target gate remains fail closed.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:csdlc-v2-lib:68-passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "git diff --check origin/main...HEAD && bash -n adl/tools/ci_path_policy.sh adl/tools/test_ci_path_policy.sh adl/tools/test_ci_runtime_contracts.sh && ruby -c adl/tools/validate_ci_workflow_policy.rb && ruby -ryaml -e 'Dir[\".github/workflows/*.{yml,yaml}\"].each { |path| YAML.safe_load(File.read(path), permitted_classes: [], permitted_symbols: [], aliases: true) }'"
+    ],
+    "purpose": "Prove committed-range whitespace hygiene, all touched shell syntax, validator Ruby syntax, and parsing of every workflow YAML file.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:committed-range-syntax-yaml:passed"
   }
 ]
 
