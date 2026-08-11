@@ -15,6 +15,7 @@ use crate::distributed::{
 };
 
 const MARKER: &str = "ADL_ISSUE_200_CASE_V1 ";
+const ASSERTION_MARKER: &str = "ADL_ISSUE_200_ASSERTION_V1 ";
 
 struct TempDir;
 
@@ -208,6 +209,21 @@ fn marker(name: &str, result: &str) {
     println!("{MARKER}{name} {result}");
 }
 
+fn assertion(case: &str, name: &str) {
+    println!("{ASSERTION_MARKER}{case} {name}");
+}
+
+fn commit_test_view_mutation(
+    barrier: &mut AuthorityReconciliationBarrier,
+    lineage_id: &str,
+    mutate: impl FnOnce(&mut PublishedView),
+) {
+    let mut next = barrier.envelope.payload().clone();
+    next.revision = next.revision.checked_add(1).unwrap();
+    mutate(next.published.get_mut(lineage_id).unwrap());
+    barrier.envelope = barrier.store.commit(&barrier.envelope, next).unwrap();
+}
+
 fn crash_retry(point: &str, operation_id: &str, steps: usize) {
     let root = TempDir::new().unwrap();
     let checkpoint = Arc::new(MemoryCheckpoint::default());
@@ -275,6 +291,37 @@ fn authority_reconciliation_exact_retry_cached_result() {
     let second = barrier.reconcile(&operation_token).unwrap();
     assert_eq!(first, second);
     assert_eq!(executions("cache"), 3);
+    assertion("exact_retry_cached_result", "cached_result_no_reexecution");
+
+    let conflict_root = TempDir::new().unwrap();
+    let conflict_checkpoint = Arc::new(MemoryCheckpoint::default());
+    let conflict_artifact = artifact("lineage-cache-conflict", 1);
+    let conflict_token = token("cache-conflict", &conflict_artifact, 131);
+    let mut conflict_barrier = open(conflict_root.path(), conflict_checkpoint);
+    conflict_barrier.reconcile(&conflict_token).unwrap();
+    commit_test_view_mutation(&mut conflict_barrier, "lineage-cache-conflict", |view| {
+        view.operation_id = "conflicting-operation".to_owned()
+    });
+    assert_eq!(
+        conflict_barrier.reconcile(&conflict_token),
+        Err(AuthorityReconciliationError::StateRegression)
+    );
+    assertion("exact_retry_cached_result", "conflicting_view_rejected");
+
+    let corrupt_root = TempDir::new().unwrap();
+    let corrupt_checkpoint = Arc::new(MemoryCheckpoint::default());
+    let corrupt_artifact = artifact("lineage-cache-corrupt", 1);
+    let corrupt_token = token("cache-corrupt", &corrupt_artifact, 132);
+    let mut corrupt_barrier = open(corrupt_root.path(), corrupt_checkpoint);
+    corrupt_barrier.reconcile(&corrupt_token).unwrap();
+    commit_test_view_mutation(&mut corrupt_barrier, "lineage-cache-corrupt", |view| {
+        view.result_sha256[0] ^= 1
+    });
+    assert_eq!(
+        corrupt_barrier.reconcile(&corrupt_token),
+        Err(AuthorityReconciliationError::StateRegression)
+    );
+    assertion("exact_retry_cached_result", "corrupt_view_rejected");
     marker("exact_retry_cached_result", "passed");
 }
 
@@ -329,12 +376,14 @@ fn authority_reconciliation_published_permit_current() {
     barrier
         .validate_permit(&read, &AuthorityPermitAction::Read)
         .unwrap();
+    assertion("published_permit_current", "current_read_valid");
     barrier
         .validate_permit(
             &mutation,
             &AuthorityPermitAction::Mutation("activate-authority".to_owned()),
         )
         .unwrap();
+    assertion("published_permit_current", "current_mutation_valid");
     assert_eq!(
         barrier.validate_permit(
             &read,
@@ -342,15 +391,54 @@ fn authority_reconciliation_published_permit_current() {
         ),
         Err(AuthorityReconciliationError::PermitDenied)
     );
+    assertion("published_permit_current", "read_escalation_denied");
+    let mut wrong_lineage = mutation.clone();
+    wrong_lineage.lineage_id = "lineage-other".to_owned();
+    assert_eq!(
+        barrier.validate_permit(
+            &wrong_lineage,
+            &AuthorityPermitAction::Mutation("activate-authority".to_owned())
+        ),
+        Err(AuthorityReconciliationError::ReconciliationRequired)
+    );
+    assertion("published_permit_current", "wrong_lineage_denied");
+    assert_eq!(
+        barrier.validate_permit(
+            &mutation,
+            &AuthorityPermitAction::Mutation("wrong-action".to_owned())
+        ),
+        Err(AuthorityReconciliationError::PermitDenied)
+    );
+    assert_eq!(
+        barrier.mutation_permit("lineage-permit", "wrong-action"),
+        Err(AuthorityReconciliationError::PermitDenied)
+    );
+    assertion("published_permit_current", "wrong_mutation_action_denied");
     let second_artifact = artifact("lineage-permit", 1);
     let second_token = token("permit-two", &second_artifact, 17);
     configure("permit-two", |hook| {
         hook.fault_once = Some("after_journal".to_owned())
     });
     assert!(barrier.reconcile(&second_token).is_err());
-    assert!(barrier
-        .validate_permit(&read, &AuthorityPermitAction::Read)
-        .is_err());
+    assert_eq!(
+        barrier.validate_permit(&read, &AuthorityPermitAction::Read),
+        Err(AuthorityReconciliationError::PermitDenied)
+    );
+    assertion(
+        "published_permit_current",
+        "retained_read_denied_after_pending",
+    );
+    assert_eq!(
+        barrier.validate_permit(
+            &mutation,
+            &AuthorityPermitAction::Mutation("activate-authority".to_owned())
+        ),
+        Err(AuthorityReconciliationError::PermitDenied)
+    );
+    assertion(
+        "published_permit_current",
+        "retained_mutation_denied_after_pending",
+    );
     marker("published_permit_current", "passed");
 }
 
@@ -640,7 +728,26 @@ fn authority_reconciliation_crash_before_checkpoint() {
 
 #[test]
 fn authority_reconciliation_crash_after_checkpoint() {
-    crash_retry("after_checkpoint", "crash-after-checkpoint", 2);
+    for (point, operation, subassertion) in [
+        (
+            "after_checkpoint",
+            "crash-after-checkpoint",
+            "missing_marker_and_view_retry",
+        ),
+        (
+            "after_marker",
+            "crash-after-marker",
+            "committed_marker_missing_view_retry",
+        ),
+        (
+            "after_view",
+            "crash-after-view",
+            "published_view_exact_retry",
+        ),
+    ] {
+        crash_retry(point, operation, 2);
+        assertion("crash_after_checkpoint", subassertion);
+    }
     marker("crash_after_checkpoint", "reconciled");
 }
 

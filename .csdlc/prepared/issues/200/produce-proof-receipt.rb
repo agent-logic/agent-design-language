@@ -9,10 +9,11 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/200/v2/"
+PREFIX = ".csdlc/evidence/200/v3/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_200_CASE_V1 "
+ASSERTION_MARKER = "ADL_ISSUE_200_ASSERTION_V1 "
 PROTECTED = [
   "adl-runtime/src/distributed/mod.rs",
   "adl-runtime/src/distributed/authority_protocol.rs",
@@ -36,6 +37,21 @@ EXPECTED_CASES = %w[
 ].freeze
 PASSED = %w[happy_single_step happy_multi_step exact_retry_cached_result published_permit_current].freeze
 RECONCILED = %w[crash_after_journal crash_each_step crash_after_result crash_before_checkpoint crash_after_checkpoint].freeze
+EXPECTED_ASSERTIONS = [
+  %w[exact_retry_cached_result cached_result_no_reexecution],
+  %w[exact_retry_cached_result conflicting_view_rejected],
+  %w[exact_retry_cached_result corrupt_view_rejected],
+  %w[published_permit_current current_read_valid],
+  %w[published_permit_current current_mutation_valid],
+  %w[published_permit_current read_escalation_denied],
+  %w[published_permit_current wrong_lineage_denied],
+  %w[published_permit_current wrong_mutation_action_denied],
+  %w[published_permit_current retained_read_denied_after_pending],
+  %w[published_permit_current retained_mutation_denied_after_pending],
+  %w[crash_after_checkpoint missing_marker_and_view_retry],
+  %w[crash_after_checkpoint committed_marker_missing_view_retry],
+  %w[crash_after_checkpoint published_view_exact_retry]
+].freeze
 
 def fail_proof(message)
   abort("issue 200 producer: #{message}")
@@ -106,11 +122,20 @@ EXPECTED_CASES.each do |name|
   expected = PASSED.include?(name) ? "passed" : (RECONCILED.include?(name) ? "reconciled" : "rejected")
   fail_proof("wrong result for #{name}") unless observed_by_name.fetch(name).first == expected
 end
+observed_assertions = machine_text.lines.map do |line|
+  next unless line.include?(ASSERTION_MARKER)
+  case_name, assertion_name = line.split(ASSERTION_MARKER, 2).fetch(1).strip.split(" ", 2)
+  key = [case_name, assertion_name]
+  [key, Digest::SHA256.hexdigest("#{ASSERTION_MARKER}#{case_name} #{assertion_name}")]
+end.compact
+fail_proof("subassertion denominator mismatch") unless observed_assertions.length == EXPECTED_ASSERTIONS.length
+fail_proof("subassertion set mismatch") unless observed_assertions.map(&:first).sort == EXPECTED_ASSERTIONS.sort
+observed_assertions_by_key = observed_assertions.to_h
 
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue200.authority_reconciliation_proof.v1",
+  "schema" => "adl.issue200.authority_reconciliation_proof.v2",
   "issue" => 200,
   "source_revision" => source,
   "source_tree" => tree.strip,
@@ -121,6 +146,14 @@ proof = {
   "cases" => EXPECTED_CASES.map do |name|
     result, digest = observed_by_name.fetch(name)
     { "case" => name, "result" => result, "observed_line_sha256" => digest }
+  end,
+  "subassertion_summary" => { "selected" => EXPECTED_ASSERTIONS.length, "observed" => observed_assertions.length },
+  "subassertions" => EXPECTED_ASSERTIONS.map do |case_name, assertion_name|
+    {
+      "case" => case_name,
+      "assertion" => assertion_name,
+      "observed_line_sha256" => observed_assertions_by_key.fetch([case_name, assertion_name])
+    }
   end
 }
 File.binwrite(PROOF, JSON.generate(proof) + "\n")

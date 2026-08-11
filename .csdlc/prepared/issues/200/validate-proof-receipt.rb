@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/200/v2/"
+PREFIX = ".csdlc/evidence/200/v3/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = [
   "adl-runtime/src/distributed/mod.rs",
@@ -34,6 +34,22 @@ EXPECTED_CASES = %w[
 PASSED = %w[happy_single_step happy_multi_step exact_retry_cached_result published_permit_current].freeze
 RECONCILED = %w[crash_after_journal crash_each_step crash_after_result crash_before_checkpoint crash_after_checkpoint].freeze
 MARKER = "ADL_ISSUE_200_CASE_V1 "
+ASSERTION_MARKER = "ADL_ISSUE_200_ASSERTION_V1 "
+EXPECTED_ASSERTIONS = [
+  %w[exact_retry_cached_result cached_result_no_reexecution],
+  %w[exact_retry_cached_result conflicting_view_rejected],
+  %w[exact_retry_cached_result corrupt_view_rejected],
+  %w[published_permit_current current_read_valid],
+  %w[published_permit_current current_mutation_valid],
+  %w[published_permit_current read_escalation_denied],
+  %w[published_permit_current wrong_lineage_denied],
+  %w[published_permit_current wrong_mutation_action_denied],
+  %w[published_permit_current retained_read_denied_after_pending],
+  %w[published_permit_current retained_mutation_denied_after_pending],
+  %w[crash_after_checkpoint missing_marker_and_view_retry],
+  %w[crash_after_checkpoint committed_marker_missing_view_retry],
+  %w[crash_after_checkpoint published_view_exact_retry]
+].freeze
 
 def fail_receipt(message)
   abort("issue 200 receipt: #{message}")
@@ -61,7 +77,7 @@ rescue Errno::ENOENT
 end
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue200.authority_reconciliation_proof.v1" && proof["issue"] == 200
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue200.authority_reconciliation_proof.v2" && proof["issue"] == 200
 source = proof.fetch("source_revision")
 source_tree = proof.fetch("source_tree")
 fail_receipt("source malformed") unless source.match?(/\A[0-9a-f]{40}\z/) && source_tree.match?(/\A[0-9a-f]{40}\z/)
@@ -100,6 +116,26 @@ EXPECTED_CASES.each_with_index do |name, index|
   fail_receipt("case substitution: #{name}") unless cases.fetch(index) == { "case" => name, "result" => result, "observed_line_sha256" => digest }
   fail_receipt("observed substitution: #{name}") unless observed_by_name[name] == [result, digest]
 end
+observed_assertions = text.lines.map do |line|
+  next unless line.include?(ASSERTION_MARKER)
+  case_name, assertion_name = line.split(ASSERTION_MARKER, 2).fetch(1).strip.split(" ", 2)
+  key = [case_name, assertion_name]
+  [key, Digest::SHA256.hexdigest("#{ASSERTION_MARKER}#{case_name} #{assertion_name}")]
+end.compact
+fail_receipt("subassertion summary mismatch") unless proof["subassertion_summary"] == {
+  "selected" => EXPECTED_ASSERTIONS.length,
+  "observed" => EXPECTED_ASSERTIONS.length
+}
+subassertions = proof.fetch("subassertions")
+fail_receipt("subassertion order mismatch") unless subassertions.map { |entry| [entry["case"], entry["assertion"]] } == EXPECTED_ASSERTIONS
+fail_receipt("subassertion denominator mismatch") unless observed_assertions.length == EXPECTED_ASSERTIONS.length && observed_assertions.map(&:first).uniq.length == EXPECTED_ASSERTIONS.length
+observed_assertions_by_key = observed_assertions.to_h
+EXPECTED_ASSERTIONS.each_with_index do |(case_name, assertion_name), index|
+  digest = Digest::SHA256.hexdigest("#{ASSERTION_MARKER}#{case_name} #{assertion_name}")
+  expected = { "case" => case_name, "assertion" => assertion_name, "observed_line_sha256" => digest }
+  fail_receipt("subassertion substitution: #{case_name}/#{assertion_name}") unless subassertions.fetch(index) == expected
+  fail_receipt("observed subassertion substitution: #{case_name}/#{assertion_name}") unless observed_assertions_by_key[[case_name, assertion_name]] == digest
+end
 introductions = git("log", "--format=%H", "--diff-filter=A", "--", PROOF_RELATIVE).lines.map(&:strip).reject(&:empty?)
 fail_receipt("proof requires immutable introduction") if introductions.empty?
 introduction = introductions.first
@@ -118,4 +154,4 @@ end
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed after introduction") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
 fail_receipt("protected/proof worktree dirty") unless git("status", "--porcelain=v1", "--untracked-files=all", "--", *EXPECTED_PROTECTED, PREFIX).empty?
-puts "PASS: issue #200 merge-safe proof binds exact 36/36 cases and strict Clippy"
+puts "PASS: issue #200 merge-safe proof binds exact 36/36 cases, 13/13 subassertions, and strict Clippy"
