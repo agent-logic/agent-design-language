@@ -12,54 +12,40 @@ Status: ready
 
 ## Summary
 
-After #191 and #201 merge, bind and implement one token-authorized replication-only learner topology plus shared pending exclusion, prove it over real Quinn/OpenRaft with restart and fault coverage, independently review it, and publish a ready unmerged PR before releasing #199.
+Remain unbound while #200 is active or unmerged; after #200 merges, synchronize to its exact ancestry, revalidate, then bind and implement one replication-only learner topology plus shared pending exclusion by consuming coarse #201 Membership operations through a crate-private exact-artifact adapter, prove it over real Quinn/OpenRaft, independently review it, and publish a ready unmerged PR before releasing #199.
 
 ## Plan
 
-Revision 1
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "After #191 and #201 merge ancestrally, bind #202 and freeze exact learner token payload, role-bound session, RPC allowlist, pending exclusion, recovery exception, checkpoint, and publication contracts.",
+    "action": "Do not bind or edit #202 product source while #200 is active or unmerged; after #200 merges, synchronize to its exact ancestry, revalidate all issue truth, and freeze the crate-private adapter that requires coarse #201 AuthorityOperationKind::Membership plus exact sealed canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting or RemoveVoter discriminator.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-7"
+      "AC-1"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement only the learner topology/session, shared pending-exclusion authority, and narrow existing transport/authority-protocol/PolisRuntime integration.",
+    "action": "Implement only the learner topology/session, shared pending-exclusion authority, and narrow existing transport/authority-protocol/PolisRuntime integration through the validated crate-private adapter, without exposing a public accessor, generic conversion, or new #201 enum variant.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6",
       "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Prove real fourth-node replication, denied authority, exclusion, governed recovery, reconnect, rotation, exact retry, crash, rollback, corruption, capacity, and path safety.",
+    "action": "Prove the exact learner binding and RPC allowlist plus real fourth-node replication, denied authority, exclusion, governed recovery, reconnect, rotation, exact retry, crash, rollback, corruption, capacity, and path safety.",
     "acceptance_ids": [
-      "AC-1",
       "AC-2",
       "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7",
-      "AC-8"
+      "AC-6"
     ],
     "status": "pending"
   },
@@ -76,10 +62,12 @@ Revision 1
 ## Invariants
 
 - Adding a learner never changes voter membership, quorum, stable voter ids, or ordinary voter route authority
-- No caller, config, address, certificate alone, local state, or public constructor can create learner or exclusion authority
+- EnrollNonVoting and RemoveVoter are canonical issue-local discriminators inside exact retained artifacts for coarse #201 AuthorityOperationKind::Membership operations; they are never #201 enum variants or values of an operation_kind field
+- Only the crate-private #202 adapter consumes #201's sealed artifact accessor and it validates exact operation class, canonical domain, bytes, digest, and discriminator before decoding; no caller, config, address, certificate alone, local state, public accessor, or generic artifact conversion can create learner or exclusion authority
 - A learner can replicate only and cannot vote or invoke any authority/client/serving operation
-- Pending exclusion denies ordinary authority from its published generation onward and only an exact later token may grant replication-only recovery
+- Pending exclusion denies ordinary authority from its published generation onward and only an exact later validated Membership artifact may grant replication-only recovery
 - No admission or exclusion becomes visible before state, result, checkpoint, and published generation agree
+- #202 remains unbound and makes no product edit while #200 is active or unmerged, then synchronizes to exact merged #200 ancestry and revalidates before binding
 
 ## Risks
 
@@ -102,17 +90,19 @@ Revision 1
 
 .csdlc/prepared/issues/202/design.md
 
-Digest: 991190e1de38edbc733c1af6fba81152162d22008fd60dbdc60bfd23fdc17832
+Digest: a4f1eca81d053d4224f06c7892338ca22a3310220cd45c1c35bef5e7d4165f80
 
 ## Diagram
 
 .csdlc/prepared/issues/202/diagram.mmd
 
-Digest: d8ba7967bc5778344da929c16608c0460e8f6be5d3555e72aa32c5dd69fdcf94
+Digest: 56ffd80dc1e1299e1aa8106f6bd3cf7f3db4142871b58395c95668f5692fb453
 
 ## Stop Conditions
 
-- PR #197 or #201 is not externally reviewed, merged, and ancestral
+- PR #197 or PR #229 is not externally reviewed, merged, and ancestral
+- Issue #200 is active or unmerged, or #202 is not synchronized to the exact merged #200 ancestry before bind
+- Learner/exclusion admission would require EnrollNonVoting or RemoveVoter to be a #201 AuthorityOperationKind enum variant, an operation_kind field value, a public artifact accessor, or a generic caller-selected conversion instead of a crate-private exact-artifact adapter over coarse Membership authority
 - Learner admission would require caller-selected route authority or a parallel transport stack
 - Existing voter cut or quorum semantics would be weakened
 - The role-bound session cannot reject vote and all authority/client operations before dispatch

@@ -9,6 +9,13 @@ voter cut. Pending removal also needs one shared durable exclusion authority
 that both #201 operation authorization and transport session admission consult,
 while still permitting a separately governed replication-only rejoin path.
 
+Merged #201 exposes the coarse `AuthorityOperationKind::Membership` operation
+class plus the byte-identical retained artifact through a crate-private sealed
+accessor. `EnrollNonVoting` and `RemoveVoter` in this design are canonical
+issue-local discriminators inside those membership artifact bytes. They are not
+#201 enum variants, are not values of an `operation_kind` field, and never
+broaden the public #201 token API.
+
 ## Outcome
 
 Extend the existing QUIC/OpenRaft authority with a distinct, bounded learner
@@ -23,31 +30,40 @@ session admission consult its published snapshot. A future governed rejoin uses
 a different #201 enrollment token, current identity/certificate/boot, and one
 explicit recovery-learner admission without restoring old authority.
 
-The ordering is generation-pinned rather than circular. A `RemoveVoter`
-prepare/finalize binds the old published exclusion generation; #201 publishes
-and caches that exact finalized token before #202 may activate exclusion.
+The ordering is generation-pinned rather than circular. A membership artifact
+whose canonical issue-local discriminator is `RemoveVoter` binds the old
+published exclusion generation; #201 publishes and caches that exact finalized
+membership operation before #202 may activate exclusion.
 Retrieving the exact cached token after activation is cache-first and never
 reruns live signer eligibility. Any new prepare/finalize that observes a
 different exclusion generation fails and must be prepared again. Once exclusion
 is published, the excluded target cannot sign or use ordinary authority, but a
 quorum of the remaining nonexcluded voters may authorize a narrowly typed
-`EnrollNonVoting` recovery intent for the target's new identity and boot. That
-token creates the recovery learner admission; no admission is a prerequisite to
-authorizing the token.
+membership artifact whose canonical issue-local discriminator is
+`EnrollNonVoting` for the target's new identity and boot. That exact operation
+creates the recovery learner admission; no admission is a prerequisite to
+authorizing it.
 
 ## Authority construction
 
 - `VerifiedPolisRouteCut` remains the exact voter-only authority and retains its
   strict current voter/configuration parity.
-- A new private-field `VerifiedLearnerAdmission` is constructed only from a
-  `VerifiedAuthorityOperation` whose operation kind is `EnrollNonVoting`, whose
-  canonical payload digest matches the supplied learner identity, guardian,
-  stable Raft id, certificate generation, boot generation, address, old voter
-  cut digest, and bounded expiration/operation index, and whose exact result is
-  durably published.
+- A new crate-private #202 membership-artifact adapter accepts only a durably
+  published `VerifiedAuthorityOperation`, calls #201's sealed
+  `artifact_for_sealed_consumer` accessor, requires the coarse operation class
+  to be `AuthorityOperationKind::Membership`, and validates the exact retained
+  canonical bytes, artifact domain, and issue-local discriminator before
+  decoding any learner field. It exposes neither the accessor nor a generic
+  artifact conversion publicly.
+- A new private-field `VerifiedLearnerAdmission` is constructed only when that
+  adapter validates the canonical issue-local `EnrollNonVoting` discriminator
+  and its payload digest exactly matches the supplied learner identity,
+  guardian, stable Raft id, certificate generation, boot generation, address,
+  old voter cut digest, and bounded expiration/operation index, and the exact
+  #201 result is durably published.
 - Each logical learner-admission lineage has exactly one published current
   transport certificate generation. Rotation requires a distinct successor
-  #201 token whose payload binds the successor generation, the previous
+  #201 membership operation whose canonical `EnrollNonVoting` payload binds the successor generation, the previous
   admission namespace, the authority-approved overlap end, and the successor
   operation digest. The successor is journaled and staged privately while the
   old admission remains the sole published current admission. One atomic
@@ -99,10 +115,11 @@ For a learner target:
 
 `PendingMembershipExclusionAuthority` owns a symlink-safe, exclusive,
 size-bounded canonical journal, exact result cache, and external node-local
-checkpoint. Activation consumes only an exact #201 `RemoveVoter` token and
-binds domain, polis, target identity/guardian/stable Raft id, old voter cut,
-operation/log index, certificate and boot generations, reason code, and target
-membership digest.
+checkpoint. Activation consumes only a durably published #201 membership
+operation whose sealed exact artifact validates the canonical issue-local
+`RemoveVoter` discriminator. The decoded payload binds domain, polis, target
+identity/guardian/stable Raft id, old voter cut, operation/log index,
+certificate and boot generations, reason code, and target membership digest.
 
 Its opaque published snapshot is consulted by:
 
@@ -113,9 +130,11 @@ Its opaque published snapshot is consulted by:
 
 The snapshot distinguishes `ordinary_authority_denied` from one exact
 `recovery_learner_allowed` admission. Recovery requires a separate current
-#201 `EnrollNonVoting` token, new operation/replay namespace, current
-certificate and boot generation, and exact target catch-up boundary. It grants
-replication only. It never clears the pending exclusion or restores a vote.
+#201 membership operation whose sealed artifact validates the canonical
+issue-local `EnrollNonVoting` discriminator, a new operation/replay namespace,
+current certificate and boot generation, and exact target catch-up boundary.
+It grants replication only. It never clears the pending exclusion or restores
+a vote.
 An already-open ordinary connection is revalidated against the published
 exclusion generation before every request and is closed before dispatch once
 its target is excluded.
@@ -162,6 +181,17 @@ publication; it does not mutate voter membership.
 The learner transport owns no model, Guardian, API/WSS, or cloud behavior. It
 does not choose when the learner is caught up or promoted; #199 does.
 
+## Serial integration order
+
+#200 and #202 both own `authority_protocol.rs`, `polis_runtime.rs`, and
+`distributed/mod.rs`. #202 must not bind or edit product source while #200 is
+active or unmerged. After #200 merges, #202 must first synchronize to the exact
+merged #200 ancestry and revalidate this design and all six cards. Only then may
+#202 bind and implement its crate-private membership-artifact adapter and
+learner/exclusion transport. This serial gate prevents parallel ownership from
+silently selecting incompatible sealed-consumer or PolisRuntime integration
+shapes.
+
 ## Proof
 
 - A real four-node Quinn/OpenRaft test retains the exact three-voter cut, admits
@@ -189,7 +219,7 @@ does not choose when the learner is caught up or promoted; #199 does.
 
 ## Non-goals
 
-- Issuing #201 operation tokens or performing #199 learner catch-up decisions,
+- Issuing #201 operations or performing #199 learner catch-up decisions,
   joint/final membership changes, stable-id publication, or promotion.
 - Concrete certificate, lease, FencingStore, owner, Shepherd, Observatory,
   migration, or recovery store reconciliation (#200).

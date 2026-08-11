@@ -1,11 +1,14 @@
 flowchart LR
   V["Exact unchanged #191 voter route cut"] --> T["VerifiedPolisLearnerTopology"]
-  O["Opaque #201 EnrollNonVoting token bound to exclusion generation"] --> A["Private VerifiedLearnerAdmission for one certificate generation"]
+  M["Published coarse #201 Membership operation plus sealed exact artifact"] --> SA["Crate-private #202 adapter validates domain bytes and issue-local discriminator"]
+  SA --> O["Canonical EnrollNonVoting artifact bound to exclusion generation"]
+  O --> A["Private VerifiedLearnerAdmission for one certificate generation"]
   A --> T
   T --> H["Private EstablishedLearnerSession over signed mTLS polis handshake"]
   H --> R["Typed AppendEntries and InstallSnapshot surface only"]
   H -. "Vote generic send unknown kind client endorsement renewal Shepherd Observatory" .-> D["Reject before bytes or dispatch"]
-  X0["#201 RemoveVoter prepare and finalize bind old exclusion generation"] --> X1["#201 caches exact finalized token"]
+  M --> X0["Canonical RemoveVoter artifact binds old exclusion generation"]
+  X0 --> X1["#201 caches exact finalized membership operation"]
   X1 --> J["Pending exclusion journal"]
   J --> S["Private durable state and result cache"]
   S --> C["External node-local checkpoint plus local marker"]
@@ -17,4 +20,6 @@ flowchart LR
   RS --> RF["Atomic successor-generation published flip"]
   RF --> A
   RF --> RC["Close and reject retained old-generation sessions"]
+  B200["#200 active or unmerged"] -. "serial stop" .-> STOP["Do not bind or edit #202 product source"]
+  B200M["Exact merged #200 ancestry"] --> SYNC["Sync and revalidate #202 before bind"]
   J -. "crash rollback conflict deadline or ambiguity" .-> Z["No visible change; reconcile exact operation or fail closed"]

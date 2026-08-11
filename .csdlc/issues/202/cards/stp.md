@@ -29,20 +29,21 @@ Implement and publish only the authority-verified one-learner transport topology
 
 ## Acceptance
 
-1. AC-1: The exact #191 voter route cut remains unchanged and a private VerifiedPolisLearnerTopology adds at most one learner bound to an opaque durably published #201 EnrollNonVoting token and canonical payload.
+1. AC-1: The exact #191 voter route cut remains unchanged and a private VerifiedPolisLearnerTopology adds at most one learner only after a crate-private #202 adapter consumes a durably published #201 AuthorityOperationKind::Membership operation through the sealed artifact accessor and validates the exact canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting discriminator.
 2. AC-2: The learner handshake binds domain, polis, endpoints, stable Raft id, identity, certificate and boot generations, voter-cut digest, operation digest, role, address, sequence, message kind, payload digest, deadline, and protocol version.
 3. AC-3: A learner session permits only bounded canonical AppendEntries and InstallSnapshot RPCs; vote, client write, #201 endorsement/finalization, renewal, mutation, Shepherd, and Observatory operations reject before dispatch.
-4. AC-4: PendingMembershipExclusionAuthority activates only from an exact #201 RemoveVoter token and its published snapshot is consulted by #201 voter eligibility plus ordinary route/session admission and revalidation.
-5. AC-5: Pending exclusion denies ordinary voter authority but permits only a separately governed current EnrollNonVoting recovery token to create a fresh replication-only learner namespace; it never clears exclusion or restores a vote.
+4. AC-4: PendingMembershipExclusionAuthority activates only after the crate-private #202 adapter validates a durably published coarse #201 Membership operation's sealed exact artifact as the canonical issue-local RemoveVoter discriminator, and its published snapshot is consulted by #201 voter eligibility plus ordinary route/session admission and revalidation.
+5. AC-5: Pending exclusion denies ordinary voter authority but permits only a separately governed current coarse #201 Membership operation whose sealed exact artifact validates the canonical issue-local EnrollNonVoting discriminator to create a fresh replication-only learner namespace; it never clears exclusion or restores a vote.
 6. AC-6: Exact retries, connection replacement, certificate overlap and post-overlap denial, boot rotation, cancellation, expiry, capacity, replay, and crash windows reconcile without stale or duplicate admission.
 7. AC-7: Exclusive bounded canonical state, result cache, and node-local external checkpoint reject rollback, corruption, noncanonical bytes, symlink ancestors, replacement races, conflicting operations, and partial publication.
-8. AC-8: Exact focused real Quinn/OpenRaft tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens.
+8. AC-8: #202 remains unbound and makes no product edit while #200 is active or unmerged, synchronizes to exact merged #200 ancestry before binding, then passes focused real Quinn/OpenRaft tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review before a ready unmerged PR opens.
 
 ## Dependencies
 
-- Issue #191 / PR #197 externally reviewed and merged as an ancestor
-- Issue #201 quorum-committed authority protocol externally reviewed and merged as an ancestor
-- Current secure transport, certificate, MembershipState, AuthorityMembership, and PolisRuntime APIs
+- Issue #191 / PR #197 is externally reviewed and merged as ancestor 8bd475cf18eb77cc7402220f69282f64a4a1a1e5
+- Issue #201 / PR #229 is externally reviewed and merged as ancestor 3ffc4c402c57e167fb9943221c9dac24f96f8895
+- Issue #200 must finish and merge before #202 binds or edits product source; #202 must then synchronize to the exact merged #200 ancestry and revalidate because both issues own authority_protocol.rs, polis_runtime.rs, and distributed/mod.rs
+- Current secure transport, certificate, MembershipState, AuthorityMembership, coarse #201 Membership operation, sealed exact-artifact accessor, and PolisRuntime APIs
 - Issue #202 live GitHub contract
 - Issue #199 remains blocked until this issue merges
 

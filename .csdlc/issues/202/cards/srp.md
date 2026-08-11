@@ -16,6 +16,9 @@ Exact learner/exclusion source and narrow existing transport/authority-protocol/
 
 ## Prompts
 
+- Does #202 truthfully treat EnrollNonVoting and RemoveVoter only as canonical issue-local discriminators within exact artifacts for coarse #201 AuthorityOperationKind::Membership operations, never as #201 enum variants or operation_kind field values?
+- Does only a crate-private #202 adapter call the sealed #201 artifact accessor and validate exact operation class, canonical domain, retained bytes, digest, and discriminator before decoding, with no public accessor or generic conversion?
+- Is #202 still unbound with no product edit while #200 is active or unmerged, and does the plan require exact merged #200 synchronization and revalidation before binding the three overlapping source paths?
 - Can any caller, config, address, certificate, stale state, or public constructor add a learner or exclusion?
 - Does learner admission leave the exact voter cut and quorum unchanged while allowing only AppendEntries and InstallSnapshot?
 - Do #201 eligibility and ordinary sessions consult one durable exclusion authority, including retained connections and retries?
