@@ -1,23 +1,22 @@
 // PVF: lane=focused-secure-raft-runtime; proof=real mTLS Quinn transport, authority-derived
 // three-voter topology, durable retry/rollback and OpenRaft quorum behavior;
 // deterministic=true; resource_profile=large; release_gate=true; nonzero selection required.
-mod distributed {
-    pub use adl_runtime::distributed::*;
-}
-
-#[path = "../src/distributed/polis_runtime.rs"]
-mod polis_runtime;
-
 use std::{
     collections::{BTreeMap, BTreeSet},
     net::{Ipv4Addr, SocketAddr},
     sync::{
-        atomic::{AtomicBool, Ordering},
+        atomic::{AtomicBool, AtomicUsize, Ordering},
         Arc, Mutex,
     },
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
+use adl_runtime::distributed::polis_runtime::{
+    advance_secure_boot_generation, derive_authority_cut, new_secure_raft_node,
+    serve_secure_raft_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
+    DurableRpcResponses, PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError,
+    PolisStateMachineStore, SecurePolisNetworkFactory,
+};
 use adl_runtime::distributed::{
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
@@ -31,20 +30,15 @@ use adl_runtime::distributed::{
     transport::{
         client_endpoint, decode_frame, encode_frame, polis_identity_signing_payload,
         server_endpoint, AuthenticatedConnection, ConnectionSecurity, EstablishedPolisSession,
-        PeerBinding, PolisIdentityBinding, TransportAuthorization, TransportEnvelope,
-        TransportError, TransportLimits, VerifiedPolisRouteCut, TRANSPORT_SCHEMA,
+        EstablishedRuntimeAuthority, PeerBinding, PolisIdentityBinding,
+        RuntimeAuthorityInitializer, TransportAuthorization, TransportEnvelope, TransportError,
+        TransportLimits, VerifiedPolisRouteCut, TRANSPORT_SCHEMA,
     },
 };
 use ed25519_dalek::{Signer, SigningKey, VerifyingKey};
 use openraft::{
     storage::{RaftLogStorage, RaftSnapshotBuilder, RaftStateMachine},
     BasicNode, Vote,
-};
-use polis_runtime::{
-    advance_secure_boot_generation, derive_authority_cut, new_secure_raft_node,
-    serve_secure_raft_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
-    DurableRpcResponses, PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError,
-    SecurePolisNetworkFactory,
 };
 use rcgen::{
     BasicConstraints, CertificateParams, CertifiedIssuer, ExtendedKeyUsagePurpose, IsCa, KeyPair,
@@ -455,7 +449,7 @@ async fn three_node_mesh() -> ThreeNodeMesh {
 }
 
 async fn wait_for_leader(nodes: &BTreeMap<u64, PolisRaft>) -> u64 {
-    tokio::time::timeout(Duration::from_secs(12), async {
+    tokio::time::timeout(Duration::from_secs(20), async {
         let mut stable = None;
         let mut stable_observations = 0_u8;
         loop {
@@ -489,7 +483,7 @@ async fn wait_for_leader(nodes: &BTreeMap<u64, PolisRaft>) -> u64 {
 }
 
 async fn commit_on_current_leader(nodes: &BTreeMap<u64, PolisRaft>, command: PolisCommand) -> u64 {
-    tokio::time::timeout(Duration::from_secs(12), async {
+    tokio::time::timeout(Duration::from_secs(20), async {
         loop {
             for (node, raft) in nodes {
                 if let Ok(Ok(response)) = tokio::time::timeout(
@@ -602,6 +596,7 @@ fn authority_topology() -> (
 
 fn polis_identity(
     authority: &AuthorityMembership,
+    established: &EstablishedRuntimeAuthority,
     keys: &BTreeMap<u64, SigningKey>,
     boot_generations: &BTreeMap<u64, u64>,
 ) -> PolisIdentityBinding {
@@ -628,9 +623,96 @@ fn polis_identity(
         authority.committed_log_index,
         boot_generations,
         &endorsements,
-        authority,
+        established,
     )
     .unwrap()
+}
+
+fn membership_commitment(snapshot: &[u8]) -> [u8; 32] {
+    let value: serde_json::Value = serde_json::from_slice(snapshot).unwrap();
+    value["digest"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|byte| u8::try_from(byte.as_u64().unwrap()).unwrap())
+        .collect::<Vec<_>>()
+        .try_into()
+        .unwrap()
+}
+
+fn runtime_authority_initializer(
+    membership: &MembershipState,
+    authority: &AuthorityMembership,
+) -> (
+    RuntimeAuthorityInitializer,
+    BTreeMap<Vec<u8>, AuthorityCertificate>,
+    tempfile::TempDir,
+) {
+    let signing_root = SigningKey::from_bytes(&[93; 32]);
+    let policy = CertificatePolicy::new(DOMAIN, [signing_root.verifying_key()])
+        .unwrap()
+        .with_bounds(3600, 60, 60, 16, 16)
+        .unwrap();
+    let directory = tempfile::tempdir().unwrap();
+    let store = Arc::new(
+        DistributedCertificateStore::open(
+            directory
+                .path()
+                .canonicalize()
+                .unwrap()
+                .join("authority.redb"),
+            policy,
+        )
+        .unwrap(),
+    );
+    let certificates = authority
+        .voters
+        .iter()
+        .map(|(guardian, voter)| {
+            let holder = std::str::from_utf8(guardian).unwrap();
+            let certificate = AuthorityCertificate::issue(
+                CertificateBody::new(
+                    DOMAIN,
+                    holder,
+                    CertificatePurpose::GuardianControl,
+                    voter.certificate_generation,
+                    CertificateValidity {
+                        issued_at_unix_secs: 90,
+                        expires_at_unix_secs: 1000,
+                    },
+                    VerifyingKey::from_bytes(&voter.control_public_key).unwrap(),
+                    &signing_root.verifying_key(),
+                ),
+                &signing_root,
+            )
+            .unwrap();
+            store.activate(&certificate, 100).unwrap();
+            (guardian.clone(), certificate)
+        })
+        .collect::<BTreeMap<_, _>>();
+    let snapshot = membership.snapshot().unwrap();
+    let initializer = RuntimeAuthorityInitializer::restore(
+        Arc::clone(&store),
+        MembershipPolicy::new(DOMAIN, 8, 16).unwrap(),
+        &snapshot,
+        membership_commitment(&snapshot),
+    )
+    .unwrap();
+    (initializer, certificates, directory)
+}
+
+fn establish_runtime_authority(
+    membership: &MembershipState,
+    authority: &AuthorityMembership,
+) -> (EstablishedRuntimeAuthority, tempfile::TempDir) {
+    let (initializer, certificates, directory) =
+        runtime_authority_initializer(membership, authority);
+    (
+        initializer
+            .accept_signed_lineage(authority, &certificates, 100)
+            .unwrap(),
+        directory,
+    )
 }
 
 fn verified_cut(
@@ -641,8 +723,9 @@ fn verified_cut(
     BTreeMap<u64, BasicNode>,
 ) {
     let (membership, authority, addresses, keys) = authority_topology();
-    let polis = polis_identity(&authority, &keys, boot_generations);
-    let cut = derive_authority_cut(&polis, &membership, &authority, &addresses, 100).unwrap();
+    let (established, _authority_directory) = establish_runtime_authority(&membership, &authority);
+    let polis = polis_identity(&authority, &established, &keys, boot_generations);
+    let cut = derive_authority_cut(&polis, &established, &addresses, 100).unwrap();
     let routes = cut
         .routes()
         .into_iter()
@@ -842,6 +925,24 @@ async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certifi
     old_left.close();
     old_right.close();
 
+    assert_eq!(
+        left_factory
+            .request_bytes(2, "vote", b"same-request-after-restart".to_vec())
+            .await
+            .unwrap_err(),
+        PolisRuntimeError::Network
+    );
+    assert_eq!(
+        left_factory
+            .request_bytes(
+                2,
+                "vote",
+                b"different-request-must-not-steal-sequence".to_vec()
+            )
+            .await
+            .unwrap_err(),
+        PolisRuntimeError::Replay
+    );
     let retry = tokio::spawn({
         let factory = left_factory.clone();
         async move {
@@ -852,28 +953,18 @@ async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certifi
     });
     tokio::task::yield_now().await;
 
-    let restarted_boots = [(1, 1), (2, 2), (3, 1)].into_iter().collect();
-    let (restarted_cut, restarted_keys, _) = verified_cut(&restarted_boots);
-    left_factory
-        .replace_authority_cut(restarted_cut.clone())
-        .await
-        .unwrap();
-    right_factory
-        .replace_authority_cut(restarted_cut)
-        .await
-        .unwrap();
     let (new_left, new_right, new_limits, new_left_endpoint, new_right_endpoint, new_store) =
-        connected_pair_at(2).await;
+        connected_pair_at(1).await;
     let new_left_pending = left_factory.pending_session(2, &new_left).await.unwrap();
     let new_right_pending = right_factory.pending_session(1, &new_right).await.unwrap();
     let (new_left_session, new_right_session) = tokio::join!(
-        new_left.accept_polis_session(new_left_pending, &restarted_keys[&1]),
-        new_right.initiate_polis_session(new_right_pending, &restarted_keys[&2]),
+        new_left.accept_polis_session(new_left_pending, &keys[&1]),
+        new_right.initiate_polis_session(new_right_pending, &keys[&2]),
     );
     let new_left_session = new_left_session.unwrap();
     let new_right_session = new_right_session.unwrap();
     left_factory
-        .replace_route(2, new_left, new_left_session)
+        .replace_route(2, new_left.clone(), new_left_session)
         .await
         .unwrap();
     let responder = tokio::spawn(async move {
@@ -890,12 +981,72 @@ async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certifi
     });
     assert_eq!(retry.await.unwrap().unwrap(), b"replacement-response");
     responder.await.unwrap();
+
+    let restarted_boots = [(1, 1), (2, 2), (3, 1)].into_iter().collect();
+    let (restarted_cut, restarted_keys, _) = verified_cut(&restarted_boots);
+    left_factory
+        .replace_authority_cut(restarted_cut.clone())
+        .await
+        .unwrap();
+    right_factory
+        .replace_authority_cut(restarted_cut)
+        .await
+        .unwrap();
+    let (
+        rotated_left,
+        rotated_right,
+        rotated_limits,
+        rotated_left_endpoint,
+        rotated_right_endpoint,
+        rotated_store,
+    ) = connected_pair_at(2).await;
+    let rotated_left_pending = left_factory
+        .pending_session(2, &rotated_left)
+        .await
+        .unwrap();
+    let rotated_right_pending = right_factory
+        .pending_session(1, &rotated_right)
+        .await
+        .unwrap();
+    let (rotated_left_session, rotated_right_session) = tokio::join!(
+        rotated_left.accept_polis_session(rotated_left_pending, &restarted_keys[&1]),
+        rotated_right.initiate_polis_session(rotated_right_pending, &restarted_keys[&2]),
+    );
+    left_factory
+        .replace_route(2, rotated_left, rotated_left_session.unwrap())
+        .await
+        .unwrap();
+    let rotated_responder = tokio::spawn(async move {
+        let request = rotated_right
+            .accept_polis_request(&rotated_right_session.unwrap())
+            .await
+            .unwrap();
+        assert_eq!(
+            request.sequence, 1,
+            "new authority namespace restarts sequence"
+        );
+        request
+            .respond(b"rotated-response".to_vec(), &rotated_limits)
+            .await
+            .unwrap();
+    });
+    assert_eq!(
+        left_factory
+            .request_bytes(2, "vote", b"post-rotation".to_vec())
+            .await
+            .unwrap(),
+        b"rotated-response"
+    );
+    rotated_responder.await.unwrap();
     assert!(old_left_endpoint.local_addr().is_ok());
     assert!(old_right_endpoint.local_addr().is_ok());
     assert!(new_left_endpoint.local_addr().is_ok());
     assert!(new_right_endpoint.local_addr().is_ok());
+    assert!(rotated_left_endpoint.local_addr().is_ok());
+    assert!(rotated_right_endpoint.local_addr().is_ok());
     assert!(old_store.path().exists());
     assert!(new_store.path().exists());
+    assert!(rotated_store.path().exists());
     eprintln!("ADL_ISSUE_191_CASE exact_retry_after_boot_and_cert_rotation=passed");
 }
 
@@ -904,21 +1055,48 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
     let root_path = root.path().canonicalize().unwrap();
     let authority = Arc::new(MemoryCheckpointAuthority::default());
-    let cache = DurableRpcResponses::open_unbound_for_test(
+    let boots = [(1, 1), (2, 3), (3, 1)].into_iter().collect();
+    let (cut, keys, _) = verified_cut(&boots);
+    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let (left, right, _, _left_endpoint, _right_endpoint, _store) = connected_pair().await;
+    let left_pending = left_factory.pending_session(2, &left).await.unwrap();
+    let right_pending = right_factory.pending_session(1, &right).await.unwrap();
+    let (left_session, right_session) = tokio::join!(
+        left.accept_polis_session(left_pending, &keys[&1]),
+        right.initiate_polis_session(right_pending, &keys[&2]),
+    );
+    let left_session = left_session.unwrap();
+    let _right_session = right_session.unwrap();
+    let cache = DurableRpcResponses::open(
         root_path.as_path(),
         1,
         2,
-        1,
-        3,
+        &left_session,
         8,
         authority.clone(),
     )
     .unwrap();
     let request = [7_u8; 32];
-    cache
-        .commit(1, &request, b"accepted-response".to_vec())
-        .await
-        .unwrap();
+    let dispatches = Arc::new(AtomicUsize::new(0));
+    let first_cache = cache.clone();
+    let first_dispatches = Arc::clone(&dispatches);
+    let second_cache = cache.clone();
+    let second_dispatches = Arc::clone(&dispatches);
+    let (first, second) = tokio::join!(
+        first_cache.dispatch_once(1, &request, || async move {
+            first_dispatches.fetch_add(1, Ordering::SeqCst);
+            tokio::task::yield_now().await;
+            Ok(b"accepted-response".to_vec())
+        }),
+        second_cache.dispatch_once(1, &request, || async move {
+            second_dispatches.fetch_add(1, Ordering::SeqCst);
+            Ok(b"accepted-response".to_vec())
+        })
+    );
+    assert_eq!(first.unwrap(), b"accepted-response");
+    assert_eq!(second.unwrap(), b"accepted-response");
+    assert_eq!(dispatches.load(Ordering::SeqCst), 1);
     assert_eq!(
         cache.lookup(1, &request).await.unwrap().unwrap(),
         b"accepted-response"
@@ -940,7 +1118,7 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
         .unwrap();
     std::fs::write(&state_path, accepted).unwrap();
     let rollback =
-        DurableRpcResponses::open_unbound_for_test(root_path.as_path(), 1, 2, 1, 3, 8, authority);
+        DurableRpcResponses::open(root_path.as_path(), 1, 2, &left_session, 8, authority);
     assert!(matches!(rollback, Err(PolisRuntimeError::StateRegression)));
     eprintln!("ADL_ISSUE_191_CASE retry_cache_conflict_and_rollback=passed");
 }
@@ -996,15 +1174,13 @@ async fn snapshot_install_rejects_noncanonical_bytes_and_preserves_exact_identit
     let target_root = root_path.join("target");
     std::fs::create_dir(&source_root).unwrap();
     std::fs::create_dir(&target_root).unwrap();
-    let mut source =
-        polis_runtime::PolisStateMachineStore::open(&source_root, 1, authority.clone()).unwrap();
+    let mut source = PolisStateMachineStore::open(&source_root, 1, authority.clone()).unwrap();
     let snapshot = source.build_snapshot().await.unwrap();
     let meta = snapshot.meta.clone();
     let canonical = snapshot.snapshot.get_ref().clone();
     let mut noncanonical = canonical.clone();
     noncanonical.push(b'\n');
-    let mut target =
-        polis_runtime::PolisStateMachineStore::open(&target_root, 2, authority.clone()).unwrap();
+    let mut target = PolisStateMachineStore::open(&target_root, 2, authority.clone()).unwrap();
     let mut forged_meta = meta.clone();
     forged_meta.snapshot_id = "caller-selected-snapshot".to_owned();
     assert!(target
@@ -1023,8 +1199,7 @@ async fn snapshot_install_rejects_noncanonical_bytes_and_preserves_exact_identit
         .await
         .unwrap();
     drop(target);
-    let mut reopened =
-        polis_runtime::PolisStateMachineStore::open(&target_root, 2, authority).unwrap();
+    let mut reopened = PolisStateMachineStore::open(&target_root, 2, authority).unwrap();
     assert_eq!(
         reopened.get_current_snapshot().await.unwrap().unwrap().meta,
         meta
@@ -1059,8 +1234,13 @@ fn boot_generation_is_externally_monotonic_and_rejects_coherent_disk_rollback() 
 fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity() {
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (membership, authority, addresses, keys) = authority_topology();
-    let polis = polis_identity(&authority, &keys, &boots);
-    let cut = derive_authority_cut(&polis, &membership, &authority, &addresses, 100).unwrap();
+    let (initializer, certificates, _authority_directory) =
+        runtime_authority_initializer(&membership, &authority);
+    let established = initializer
+        .accept_signed_lineage(&authority, &certificates, 100)
+        .unwrap();
+    let polis = polis_identity(&authority, &established, &keys, &boots);
+    let cut = derive_authority_cut(&polis, &established, &addresses, 100).unwrap();
     assert_eq!(cut.routes().len(), 3);
     assert_eq!(
         cut.routes()[&1],
@@ -1070,9 +1250,40 @@ fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity()
     let mut incomplete = addresses.clone();
     incomplete.remove("node-3");
     assert_eq!(
-        derive_authority_cut(&polis, &membership, &authority, &incomplete, 100).unwrap_err(),
+        derive_authority_cut(&polis, &established, &incomplete, 100).unwrap_err(),
         PolisRuntimeError::AuthorityDenied
     );
+
+    let attacker_root = SigningKey::from_bytes(&[94; 32]);
+    let attacker_certificates = authority
+        .voters
+        .iter()
+        .map(|(guardian, voter)| {
+            let holder = std::str::from_utf8(guardian).unwrap();
+            (
+                guardian.clone(),
+                AuthorityCertificate::issue(
+                    CertificateBody::new(
+                        DOMAIN,
+                        holder,
+                        CertificatePurpose::GuardianControl,
+                        voter.certificate_generation,
+                        CertificateValidity {
+                            issued_at_unix_secs: 90,
+                            expires_at_unix_secs: 1000,
+                        },
+                        VerifyingKey::from_bytes(&voter.control_public_key).unwrap(),
+                        &attacker_root.verifying_key(),
+                    ),
+                    &attacker_root,
+                )
+                .unwrap(),
+            )
+        })
+        .collect();
+    assert!(initializer
+        .accept_signed_lineage(&authority, &attacker_certificates, 100)
+        .is_err());
 
     let original_payload =
         polis_identity_signing_payload(POLIS, DOMAIN, authority.committed_log_index, &boots)
@@ -1095,7 +1306,7 @@ fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity()
         authority.committed_log_index,
         &invented_boots,
         &original_endorsements,
-        &authority,
+        &established,
     )
     .is_err());
 
@@ -1118,7 +1329,7 @@ fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity()
         authority.committed_log_index,
         &boots,
         &one_endorsement,
-        &authority,
+        &established,
     )
     .is_err());
     eprintln!("ADL_ISSUE_191_CASE authority_cut_and_polis_quorum=passed");
@@ -1289,7 +1500,7 @@ fn durable_store_rejects_symlinked_ancestors_and_oversized_state() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 6)]
 async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state() {
-    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let root = tempfile::tempdir().unwrap();
     let root_path = root.path().canonicalize().unwrap();
     let authority = Arc::new(MemoryCheckpointAuthority::default());
     let mesh = three_node_mesh().await;

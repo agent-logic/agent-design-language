@@ -12,9 +12,12 @@ PREFIX = ".csdlc/evidence/191/"
 EXPECTED_PROTECTED = [
   "adl-runtime/Cargo.toml",
   "adl-runtime/Cargo.lock",
+  "adl-runtime/src/distributed/mod.rs",
   "adl-runtime/src/distributed/transport.rs",
   "adl-runtime/src/distributed/polis_runtime.rs",
   "adl-runtime/tests/distributed_runtime_transport.rs",
+  "adl-runtime/tests/distributed_transport.rs",
+  "adl-runtime/tests/distributed_discovery.rs",
   ".csdlc/prepared/issues/191/produce-proof-receipt.rb",
   ".csdlc/prepared/issues/191/validate-proof-receipt.rb"
 ].freeze
@@ -37,6 +40,7 @@ EXPECTED_CASES = %w[
 EXPECTED_ARGV = {
   "nextest" => ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "--no-tests=fail"],
   "clippy" => ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "--", "-D", "warnings"],
+  "workspace_compile" => ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--workspace", "--no-run"],
   "machine_cases" => ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "--", "--nocapture", "--test-threads=1"]
 }.freeze
 
@@ -67,7 +71,7 @@ def git_output(*arguments)
   stdout
 end
 
-proof_relative = ARGV.fetch(0, ".csdlc/evidence/191/v1/execution-proof.json")
+proof_relative = ARGV.fetch(0, ".csdlc/evidence/191/v2/execution-proof.json")
 proof_path = ordinary_file(proof_relative, PREFIX)
 proof = JSON.parse(File.binread(proof_path))
 fail_receipt("schema mismatch") unless proof["schema"] == "adl.issue191.secure_raft_proof.v1"
@@ -167,4 +171,4 @@ Dir.glob(ROOT.join(PREFIX, "**", "*")).select { |path| File.file?(path) }.each d
   fail_receipt("secret-like evidence: #{path}") if File.binread(path).match?(forbidden)
 end
 
-puts "PASS: issue 191 merge-safe proof binds 14/14 tests, strict Clippy, 14 machine cases, and current protected-source digests"
+puts "PASS: issue 191 merge-safe proof binds production registration, compatibility compile, 14/14 tests, strict Clippy, 14 machine cases, and current protected-source digests"

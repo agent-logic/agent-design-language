@@ -14,9 +14,12 @@ MARKER = "ADL_ISSUE_191_CASE "
 PROTECTED = [
   "adl-runtime/Cargo.toml",
   "adl-runtime/Cargo.lock",
+  "adl-runtime/src/distributed/mod.rs",
   "adl-runtime/src/distributed/transport.rs",
   "adl-runtime/src/distributed/polis_runtime.rs",
   "adl-runtime/tests/distributed_runtime_transport.rs",
+  "adl-runtime/tests/distributed_transport.rs",
+  "adl-runtime/tests/distributed_discovery.rs",
   ".csdlc/prepared/issues/191/produce-proof-receipt.rb",
   ".csdlc/prepared/issues/191/validate-proof-receipt.rb"
 ].freeze
@@ -107,7 +110,7 @@ end
 mode = ARGV.fetch(0, "produce")
 fail_proof("unsupported mode") unless mode == "produce"
 source = ARGV.fetch(1)
-output_relative = ARGV.fetch(2, ".csdlc/evidence/191/v1")
+output_relative = ARGV.fetch(2, ".csdlc/evidence/191/v2")
 fail_proof("source revision malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
 head, status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
 fail_proof("source must be exact current HEAD") unless status.success? && head.strip == source
@@ -140,6 +143,12 @@ clippy = run_command("clippy", [
 ], output)
 fail_proof("strict Clippy failed") unless clippy["exit_code"] == 0
 
+workspace_compile = run_command("workspace-compile", [
+  "cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml",
+  "--workspace", "--no-run"
+], output)
+fail_proof("full workspace compatibility compile failed") unless workspace_compile["exit_code"] == 0
+
 machine = run_command("machine-cases", [
   "cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml",
   "--test", "distributed_runtime_transport", "--", "--nocapture", "--test-threads=1"
@@ -161,7 +170,7 @@ proof = {
   "source_revision" => source,
   "source_tree" => source_tree.strip,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
-  "commands" => { "nextest" => nextest, "clippy" => clippy, "machine_cases" => machine },
+  "commands" => { "nextest" => nextest, "clippy" => clippy, "workspace_compile" => workspace_compile, "machine_cases" => machine },
   "test_summary" => { "selected" => 14, "passed" => 14, "skipped" => 0 },
   "cases" => observed.map { |name, result, digest| { "case" => name, "result" => result, "observed_line_sha256" => digest } }
 }

@@ -21,7 +21,7 @@ use tokio_util::sync::CancellationToken;
 use super::{
     certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
     lease::{AuthorityMembership, ControlCertificatePurpose},
-    membership::{MemberRole, MembershipState},
+    membership::{MemberRole, MembershipPolicy, MembershipState},
 };
 use adl_runtime_kernel::tls::{
     build_mutual_tls_client_config, build_mutual_tls_server_config, trust_roots_from_der,
@@ -224,6 +224,12 @@ impl PolisSessionBinding {
     pub fn local_node_id(&self) -> &str {
         &self.local_node_id
     }
+    pub fn local_certificate_generation(&self) -> u64 {
+        self.local_certificate_generation
+    }
+    pub fn local_boot_generation(&self) -> u64 {
+        self.local_boot_generation
+    }
     pub fn peer_node_id(&self) -> &str {
         &self.peer_node_id
     }
@@ -267,6 +273,187 @@ struct VerifiedRouteAuthority {
     boot_generation: u64,
 }
 
+/// Opaque authority accepted by the configured Runtime trust roots.
+///
+/// Route and polis verification consume this handle rather than accepting a
+/// caller-nominated `AuthorityMembership` at the authorization boundary.
+#[derive(Clone)]
+pub struct EstablishedRuntimeAuthority {
+    membership: MembershipState,
+    authority: AuthorityMembership,
+    certificate_store: Arc<DistributedCertificateStore>,
+    guardian_certificates: BTreeMap<Vec<u8>, String>,
+    authorization_deadline_unix_seconds: u64,
+}
+
+/// Production bootstrap owner for one configured Runtime authority lineage.
+///
+/// The membership is restored from canonical durable bytes against an
+/// externally retained commitment before any signed voter lineage can be
+/// accepted. The configured certificate store owns the immutable approved
+/// issuer roots for this Runtime instance.
+pub struct RuntimeAuthorityInitializer {
+    membership: MembershipState,
+    certificate_store: Arc<DistributedCertificateStore>,
+}
+
+impl RuntimeAuthorityInitializer {
+    pub fn restore(
+        certificate_store: Arc<DistributedCertificateStore>,
+        membership_policy: MembershipPolicy,
+        membership_snapshot: &[u8],
+        trusted_membership_commitment: [u8; 32],
+    ) -> TransportResult<Self> {
+        let membership = MembershipState::restore(
+            membership_policy,
+            membership_snapshot,
+            trusted_membership_commitment,
+        )
+        .map_err(|_| TransportError::InvalidSessionBinding)?;
+        Ok(Self {
+            membership,
+            certificate_store,
+        })
+    }
+
+    pub fn accept_signed_lineage(
+        &self,
+        authority: &AuthorityMembership,
+        guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,
+        now_unix_seconds: u64,
+    ) -> TransportResult<EstablishedRuntimeAuthority> {
+        EstablishedRuntimeAuthority::accept(
+            &self.membership,
+            authority,
+            Arc::clone(&self.certificate_store),
+            guardian_certificates,
+            now_unix_seconds,
+        )
+    }
+}
+
+impl EstablishedRuntimeAuthority {
+    fn accept(
+        membership: &MembershipState,
+        authority: &AuthorityMembership,
+        certificate_store: Arc<DistributedCertificateStore>,
+        guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,
+        now_unix_seconds: u64,
+    ) -> TransportResult<Self> {
+        if now_unix_seconds == 0
+            || authority.trust_domain_id.as_slice() != membership.trust_domain().as_bytes()
+            || authority.committed_log_index != membership.committed_log_index()
+            || authority.voters.len() != 3
+            || guardian_certificates.len() != authority.voters.len()
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let members = membership
+            .members()
+            .filter(|member| member.role == MemberRole::Voter)
+            .collect::<Vec<_>>();
+        let configured = authority
+            .raft_membership
+            .get_joint_config()
+            .iter()
+            .flatten()
+            .copied()
+            .collect::<BTreeSet<_>>();
+        if members.len() != 3 || configured.len() != 3 {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let mut authorization_deadline = u64::MAX;
+        let mut seen = BTreeSet::new();
+        for member in members {
+            let guardian = member.guardian_id.as_bytes().to_vec();
+            let voter = authority
+                .voters
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let raft_id = authority
+                .raft_ids
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let certificate = guardian_certificates
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let body = &certificate.body;
+            if !configured.contains(raft_id)
+                || voter.revoked
+                || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
+                || voter.control_public_key != member.guardian_control_public_key
+                || voter.certificate_generation != member.identity_generation
+                || body.trust_domain != membership.trust_domain()
+                || body.holder_id != member.guardian_id
+                || body.purpose != CertificatePurpose::GuardianControl
+                || body.generation != member.identity_generation
+                || body.subject_public_key != member.guardian_control_public_key
+            {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+            let verified = certificate_store
+                .authorize(
+                    &member.guardian_id,
+                    CertificatePurpose::GuardianControl,
+                    member.identity_generation,
+                    now_unix_seconds,
+                )
+                .map_err(|_| TransportError::InvalidSessionBinding)?;
+            if verified.certificate_id
+                != certificate
+                    .certificate_id()
+                    .map_err(|_| TransportError::InvalidSessionBinding)?
+            {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+            authorization_deadline =
+                authorization_deadline.min(verified.authorization_deadline_unix_secs);
+            seen.insert(guardian);
+        }
+        if seen != authority.voters.keys().cloned().collect() {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        Ok(Self {
+            membership: membership.clone(),
+            authority: authority.clone(),
+            certificate_store,
+            guardian_certificates: guardian_certificates
+                .iter()
+                .map(|(guardian, certificate)| {
+                    certificate
+                        .certificate_id()
+                        .map(|id| (guardian.clone(), id))
+                        .map_err(|_| TransportError::InvalidSessionBinding)
+                })
+                .collect::<TransportResult<_>>()?,
+            authorization_deadline_unix_seconds: authorization_deadline,
+        })
+    }
+
+    fn revalidate(&self, now_unix_seconds: u64) -> TransportResult<()> {
+        if now_unix_seconds == 0 || now_unix_seconds >= self.authorization_deadline_unix_seconds {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        for (guardian, voter) in &self.authority.voters {
+            let holder =
+                std::str::from_utf8(guardian).map_err(|_| TransportError::InvalidSessionBinding)?;
+            let verified = self
+                .certificate_store
+                .authorize(
+                    holder,
+                    CertificatePurpose::GuardianControl,
+                    voter.certificate_generation,
+                    now_unix_seconds,
+                )
+                .map_err(|_| TransportError::InvalidSessionBinding)?;
+            if self.guardian_certificates.get(guardian) != Some(&verified.certificate_id) {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+        }
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct PolisIdentityBinding {
     polis_id: String,
@@ -282,8 +469,9 @@ impl PolisIdentityBinding {
         committed_membership_index: u64,
         boot_generations: &BTreeMap<u64, u64>,
         endorsements: &BTreeMap<Vec<u8>, Vec<u8>>,
-        authority: &AuthorityMembership,
+        established: &EstablishedRuntimeAuthority,
     ) -> TransportResult<Self> {
+        let authority = &established.authority;
         let configured = authority
             .raft_membership
             .get_joint_config()
@@ -385,16 +573,23 @@ pub struct VerifiedPolisRouteCut {
 impl VerifiedPolisRouteCut {
     pub fn verify(
         polis: &PolisIdentityBinding,
-        membership: &MembershipState,
-        authority: &AuthorityMembership,
+        established: &EstablishedRuntimeAuthority,
         addresses: &BTreeMap<String, SocketAddr>,
         now_unix_seconds: i64,
     ) -> TransportResult<Self> {
+        let membership = &established.membership;
+        let authority = &established.authority;
+        established.revalidate(
+            u64::try_from(now_unix_seconds).map_err(|_| TransportError::InvalidSessionBinding)?,
+        )?;
         if polis.trust_domain != membership.trust_domain()
             || polis.committed_membership_index != membership.committed_log_index()
             || authority.trust_domain_id.as_slice() != membership.trust_domain().as_bytes()
             || authority.committed_log_index != membership.committed_log_index()
             || now_unix_seconds <= 0
+            || u64::try_from(now_unix_seconds)
+                .ok()
+                .is_none_or(|now| now >= established.authorization_deadline_unix_seconds)
         {
             return Err(TransportError::InvalidSessionBinding);
         }

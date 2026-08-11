@@ -8,6 +8,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     fmt::Debug,
     fs::{File, OpenOptions},
+    future::Future,
     io::{Cursor, Read, Write},
     ops::RangeBounds,
     path::{Path, PathBuf},
@@ -35,13 +36,10 @@ use sha2::{Digest, Sha256};
 use tokio::sync::{watch, RwLock};
 use tokio_util::sync::CancellationToken;
 
-use crate::distributed::{
-    lease::AuthorityMembership,
-    membership::MembershipState,
-    transport::{
-        AuthenticatedConnection, EstablishedPolisSession, IncomingPolisRequest,
-        PendingPolisSession, PolisIdentityBinding, TransportLimits, VerifiedPolisRouteCut,
-    },
+use crate::distributed::transport::{
+    AuthenticatedConnection, EstablishedPolisSession, EstablishedRuntimeAuthority,
+    IncomingPolisRequest, PendingPolisSession, PolisIdentityBinding, TransportLimits,
+    VerifiedPolisRouteCut,
 };
 
 const MAX_RPC_BYTES: usize = 16 * 1024 * 1024;
@@ -983,8 +981,21 @@ struct SecurePeerRoute {
     connection: Arc<RwLock<Arc<AuthenticatedConnection>>>,
     session: Arc<RwLock<EstablishedPolisSession>>,
     dispatch_lock: Arc<tokio::sync::Mutex<()>>,
-    next_sequence: Arc<AtomicU64>,
+    sequence: Arc<tokio::sync::Mutex<OutboundSequenceState>>,
     replacement: watch::Sender<u64>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct OutstandingRequest {
+    sequence: u64,
+    message_kind: &'static str,
+    payload_sha256: [u8; 32],
+}
+
+#[derive(Clone, Debug, Default)]
+struct OutboundSequenceState {
+    acknowledged: u64,
+    outstanding: Option<OutstandingRequest>,
 }
 
 impl SecurePolisNetworkFactory {
@@ -1039,7 +1050,7 @@ impl SecurePolisNetworkFactory {
                 connection: Arc::new(RwLock::new(connection)),
                 session: Arc::new(RwLock::new(session)),
                 dispatch_lock: Arc::new(tokio::sync::Mutex::new(())),
-                next_sequence: Arc::new(AtomicU64::new(0)),
+                sequence: Arc::new(tokio::sync::Mutex::new(OutboundSequenceState::default())),
                 replacement,
             },
         );
@@ -1067,8 +1078,28 @@ impl SecurePolisNetworkFactory {
             .get(&target)
             .cloned()
             .ok_or(PolisRuntimeError::InvalidConfiguration)?;
+        let previous_namespace = {
+            let previous = route.session.read().await;
+            (
+                previous.binding().local_certificate_generation(),
+                previous.binding().local_boot_generation(),
+                previous.binding().peer_certificate_generation(),
+                previous.binding().peer_boot_generation(),
+                previous.binding().committed_membership_index(),
+            )
+        };
+        let next_namespace = (
+            session.binding().local_certificate_generation(),
+            session.binding().local_boot_generation(),
+            session.binding().peer_certificate_generation(),
+            session.binding().peer_boot_generation(),
+            session.binding().committed_membership_index(),
+        );
         *route.connection.write().await = connection;
         *route.session.write().await = session;
+        if previous_namespace != next_namespace {
+            *route.sequence.lock().await = OutboundSequenceState::default();
+        }
         let next_generation = (*route.replacement.borrow())
             .checked_add(1)
             .ok_or(PolisRuntimeError::StateRegression)?;
@@ -1125,11 +1156,8 @@ impl SecurePolisNetworkFactory {
                 return Err(PolisRuntimeError::AuthorityDenied);
             }
         }
-        let sequence = route
-            .next_sequence
-            .fetch_add(1, Ordering::SeqCst)
-            .checked_add(1)
-            .ok_or(PolisRuntimeError::Replay)?;
+        let payload_sha256: [u8; 32] = Sha256::digest(&payload).into();
+        let sequence = reserve_outbound(&route, message_kind, payload_sha256).await?;
         let mut replacement = route.replacement.subscribe();
         let generation = *replacement.borrow();
         let connection = route.connection.read().await.clone();
@@ -1138,7 +1166,10 @@ impl SecurePolisNetworkFactory {
             .request_polis(&session, sequence, message_kind, payload.clone())
             .await
         {
-            Ok(response) => Ok(response),
+            Ok(response) => {
+                acknowledge_outbound(&route, sequence, message_kind, payload_sha256).await?;
+                Ok(response)
+            }
             Err(_) => {
                 tokio::time::timeout(std::time::Duration::from_secs(2), async {
                     while *replacement.borrow() == generation {
@@ -1153,10 +1184,20 @@ impl SecurePolisNetworkFactory {
                 .map_err(|_| PolisRuntimeError::Network)??;
                 let replacement_connection = route.connection.read().await.clone();
                 let replacement_session = route.session.read().await.clone();
-                replacement_connection
-                    .request_polis(&replacement_session, sequence, message_kind, payload)
+                let replacement_sequence =
+                    reserve_outbound(&route, message_kind, payload_sha256).await?;
+                let response = replacement_connection
+                    .request_polis(
+                        &replacement_session,
+                        replacement_sequence,
+                        message_kind,
+                        payload,
+                    )
                     .await
-                    .map_err(|_| PolisRuntimeError::Network)
+                    .map_err(|_| PolisRuntimeError::Network)?;
+                acknowledge_outbound(&route, replacement_sequence, message_kind, payload_sha256)
+                    .await?;
+                Ok(response)
             }
         }
     }
@@ -1196,6 +1237,60 @@ impl SecurePolisNetworkFactory {
         }
         Ok(local.min(peer))
     }
+}
+
+async fn reserve_outbound(
+    route: &SecurePeerRoute,
+    message_kind: &'static str,
+    payload_sha256: [u8; 32],
+) -> Result<u64, PolisRuntimeError> {
+    let mut state = route.sequence.lock().await;
+    if let Some(outstanding) = &state.outstanding {
+        if outstanding.message_kind != message_kind || outstanding.payload_sha256 != payload_sha256
+        {
+            return Err(PolisRuntimeError::Replay);
+        }
+        return Ok(outstanding.sequence);
+    }
+    let sequence = state
+        .acknowledged
+        .checked_add(1)
+        .ok_or(PolisRuntimeError::Replay)?;
+    state.outstanding = Some(OutstandingRequest {
+        sequence,
+        message_kind,
+        payload_sha256,
+    });
+    Ok(sequence)
+}
+
+async fn acknowledge_outbound(
+    route: &SecurePeerRoute,
+    sequence: u64,
+    message_kind: &'static str,
+    payload_sha256: [u8; 32],
+) -> Result<(), PolisRuntimeError> {
+    let mut state = route.sequence.lock().await;
+    if state.outstanding.as_ref()
+        != Some(&OutstandingRequest {
+            sequence,
+            message_kind,
+            payload_sha256,
+        })
+    {
+        return Err(PolisRuntimeError::StateRegression);
+    }
+    if sequence
+        != state
+            .acknowledged
+            .checked_add(1)
+            .ok_or(PolisRuntimeError::Replay)?
+    {
+        return Err(PolisRuntimeError::StateRegression);
+    }
+    state.acknowledged = sequence;
+    state.outstanding = None;
+    Ok(())
 }
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -1374,6 +1469,7 @@ struct CachedRpcResponse {
 pub struct DurableRpcResponses {
     durable: Arc<CheckpointedJson<ReplayResponseState>>,
     state: Arc<tokio::sync::Mutex<DurableEnvelope<ReplayResponseState>>>,
+    dispatch: Arc<tokio::sync::Mutex<()>>,
     local_node_id: String,
     peer_node_id: String,
     peer_certificate_generation: u64,
@@ -1401,30 +1497,6 @@ impl DurableRpcResponses {
             binding.peer_certificate_generation(),
             binding.peer_boot_generation(),
             binding.committed_membership_index(),
-            max_entries,
-            authority,
-        )
-    }
-
-    #[cfg(test)]
-    pub(crate) fn open_unbound_for_test(
-        root: &Path,
-        local: NodeId,
-        peer: NodeId,
-        peer_certificate_generation: u64,
-        peer_boot_generation: u64,
-        max_entries: usize,
-        authority: Arc<dyn ConsensusCheckpointAuthority>,
-    ) -> Result<Self, PolisRuntimeError> {
-        Self::open_inner(
-            root,
-            local,
-            peer,
-            format!("node-{local}"),
-            format!("node-{peer}"),
-            peer_certificate_generation,
-            peer_boot_generation,
-            1,
             max_entries,
             authority,
         )
@@ -1468,6 +1540,7 @@ impl DurableRpcResponses {
         Ok(Self {
             durable: Arc::new(durable),
             state: Arc::new(tokio::sync::Mutex::new(state)),
+            dispatch: Arc::new(tokio::sync::Mutex::new(())),
             local_node_id,
             peer_node_id,
             peer_certificate_generation,
@@ -1503,6 +1576,26 @@ impl DurableRpcResponses {
             return Err(PolisRuntimeError::Replay);
         }
         Ok(None)
+    }
+
+    pub async fn dispatch_once<F, Fut>(
+        &self,
+        sequence: u64,
+        request_sha256: &[u8; 32],
+        dispatch: F,
+    ) -> Result<Vec<u8>, PolisRuntimeError>
+    where
+        F: FnOnce() -> Fut,
+        Fut: Future<Output = Result<Vec<u8>, PolisRuntimeError>>,
+    {
+        let _dispatch = self.dispatch.lock().await;
+        if let Some(cached) = self.lookup(sequence, request_sha256).await? {
+            return Ok(cached);
+        }
+        let response = dispatch().await?;
+        self.commit(sequence, request_sha256, response.clone())
+            .await?;
+        Ok(response)
     }
 
     pub async fn commit(
@@ -1595,16 +1688,10 @@ pub async fn serve_secure_raft_connection(
             let _permit = permit;
             let request_sha256 = incoming.request_sha256;
             let result = async {
-                if let Some(cached) = responses.lookup(incoming.sequence, &request_sha256).await? {
-                    incoming
-                        .respond(cached, &limits)
-                        .await
-                        .map_err(|_| PolisRuntimeError::Network)?;
-                    return Ok::<(), PolisRuntimeError>(());
-                }
-                let response = dispatch_raft_rpc(&raft, &incoming).await?;
-                responses
-                    .commit(incoming.sequence, &request_sha256, response.clone())
+                let response = responses
+                    .dispatch_once(incoming.sequence, &request_sha256, || {
+                        dispatch_raft_rpc(&raft, &incoming)
+                    })
                     .await?;
                 incoming
                     .respond(response, &limits)
@@ -1665,12 +1752,11 @@ fn decode_bounded_json<T: DeserializeOwned + Serialize>(
 
 pub fn derive_authority_cut(
     polis: &PolisIdentityBinding,
-    membership: &MembershipState,
-    authority: &AuthorityMembership,
+    established: &EstablishedRuntimeAuthority,
     addresses: &BTreeMap<String, std::net::SocketAddr>,
     now_unix_seconds: i64,
 ) -> Result<VerifiedPolisRouteCut, PolisRuntimeError> {
-    VerifiedPolisRouteCut::verify(polis, membership, authority, addresses, now_unix_seconds)
+    VerifiedPolisRouteCut::verify(polis, established, addresses, now_unix_seconds)
         .map_err(|_| PolisRuntimeError::AuthorityDenied)
 }
 

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/191/diagram.mmd
 [
   {
     "lane": "focused-secure-raft-runtime",
-    "proof_role": "Run the exact three-voter encrypted transport, authority-derived topology, durable retry cache, external rollback checkpoint, fault and restart denominator through a bounded temporary path harness.",
+    "proof_role": "Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -38,7 +38,7 @@ Diagram: .csdlc/prepared/issues/191/diagram.mmd
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 900,
-    "budget_tokens": 20000,
+    "budget_tokens": 15000,
     "argv": [
       "cargo",
       "nextest",
@@ -51,18 +51,42 @@ Diagram: .csdlc/prepared/issues/191/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "serial-runtime",
-    "defer_reason": "Deferred only until this issue creates owned target adl-runtime/tests/distributed_runtime_transport.rs, which must compile the unregistered source through #[path = \"../src/distributed/polis_runtime.rs\"] for adl-runtime/src/distributed/polis_runtime.rs; fail closed until both exact owned deliverables exist and the target selects nonzero tests."
+    "defer_reason": null
+  },
+  {
+    "lane": "full-workspace-compatibility-compile",
+    "proof_role": "Compile every adl-runtime workspace target so production module registration and the transport/discovery compatibility harnesses cannot drift independently.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 10000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--workspace",
+      "--no-run"
+    ],
+    "parallel_group": "serial-runtime",
+    "defer_reason": null
   },
   {
     "lane": "strict-secure-raft-clippy",
-    "proof_role": "Reject warnings and API misuse in the same exact temporary-path implementation and test surface.",
+    "proof_role": "Reject warnings and API misuse through the normal registered crate surface and focused integration target.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 900,
-    "budget_tokens": 15000,
+    "budget_tokens": 10000,
     "argv": [
       "cargo",
       "clippy",
@@ -76,24 +100,24 @@ Diagram: .csdlc/prepared/issues/191/diagram.mmd
       "warnings"
     ],
     "parallel_group": "serial-runtime",
-    "defer_reason": "Deferred only until the same owned target and #[path = \"../src/distributed/polis_runtime.rs\"] source harness exist; fail closed on a missing target, missing source, warnings, or zero proving tests."
+    "defer_reason": null
   },
   {
     "lane": "exact-proof-and-review",
-    "proof_role": "Bind exact source, transport extension, nonzero tests, authority topology, retry, rollback, artifact, negative-case, strict Clippy, secret/path hygiene and independent review.",
+    "proof_role": "Bind the registered source, compatibility harnesses, nonzero tests, configured-root topology, retry/dispatch ordering, rollback, strict Clippy, workspace compile, secret/path hygiene, and independent exact-head review.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
     "budget_seconds": 300,
-    "budget_tokens": 10000,
+    "budget_tokens": 5000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/191/validate-proof-receipt.rb"
     ],
     "parallel_group": "serial-proof",
-    "defer_reason": "Deferred only until this issue creates owned validator .csdlc/prepared/issues/191/validate-proof-receipt.rb; fail closed until it exists and validates exact current source and nonzero proof."
+    "defer_reason": null
   }
 ]
 
@@ -110,6 +134,7 @@ Tokens: 50000
 ## Commands
 
 - `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-tests=fail`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --workspace --no-run`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport -- -D warnings`
 - `ruby .csdlc/prepared/issues/191/validate-proof-receipt.rb`
 

@@ -16,7 +16,7 @@ Design the encrypted transport and storage transaction, implement the bounded su
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -33,7 +33,7 @@ Revision 3
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -45,7 +45,7 @@ Revision 3
       "AC-4",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -59,7 +59,7 @@ Revision 3
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -67,7 +67,7 @@ Revision 3
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 

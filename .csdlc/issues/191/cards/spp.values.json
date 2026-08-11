@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
     "slug": "secure-durable-three-voter-openraft",
     "version": "v0.92",
-    "generation": 13
+    "generation": 21
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Design the encrypted transport and storage transaction, implement the bounded substrate, prove adversarial transport and crash recovery, obtain independent review, and publish one reviewed PR for #191.",
       "steps": [
         {
@@ -28,7 +28,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -40,7 +40,7 @@
             "AC-4",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -54,7 +54,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -62,17 +62,19 @@
           "acceptance_ids": [
             "AC-8"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [
         "adl-runtime/Cargo.toml",
         "adl-runtime/Cargo.lock",
+        "adl-runtime/src/distributed/mod.rs",
         "adl-runtime/src/distributed/transport.rs",
         "adl-runtime/src/distributed/polis_runtime.rs",
         "adl-runtime/tests/distributed_runtime_transport.rs",
         "adl-runtime/tests/distributed_transport.rs",
         "adl-runtime/tests/distributed_discovery.rs",
+        ".csdlc/prepared/issues/191/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/191/validate-proof-receipt.rb"
       ],
       "invariants": [
