@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 45
+    "generation": 56
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 13,
+      "plan_revision": 14,
       "summary": "Verify #5826, #5827, and #5834; reconcile landed schemas; author the transfer matrix and WP-04 boundary; validate links, redaction, copied-state rejection, and forbidden production claims; then obtain exact-head review.",
       "steps": [
         {
@@ -37,7 +37,7 @@
         },
         {
           "id": "S3",
-          "action": "Update only concrete v0.93 handoff inputs",
+          "action": "Verify the v0.93 handoff remains unchanged and consume it only as a read-only boundary input",
           "acceptance_ids": [
             "AC-3"
           ],
@@ -62,11 +62,11 @@
         },
         {
           "id": "S6",
-          "action": "Define and verify documentation rollback: restore owned continuity-transfer docs while retaining rejected matrices and leaving identity, transport, and governance evidence unchanged.",
+          "action": "Verify rollback by digest: restore the owned feature bytes to the exact base revision, remove the issue-added design, retain rejected evidence, and prove read-only and upstream authority bytes remain unchanged",
           "acceptance_ids": [
             "AC-1",
-            "AC-3",
             "AC-2",
+            "AC-3",
             "AC-4",
             "AC-5"
           ],

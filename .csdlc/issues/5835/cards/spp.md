@@ -16,7 +16,7 @@ Verify #5826, #5827, and #5834; reconcile landed schemas; author the transfer ma
 
 ## Plan
 
-Revision 13
+Revision 14
 
 ## Steps
 
@@ -42,7 +42,7 @@ Revision 13
   },
   {
     "id": "S3",
-    "action": "Update only concrete v0.93 handoff inputs",
+    "action": "Verify the v0.93 handoff remains unchanged and consume it only as a read-only boundary input",
     "acceptance_ids": [
       "AC-3"
     ],
@@ -67,11 +67,11 @@ Revision 13
   },
   {
     "id": "S6",
-    "action": "Define and verify documentation rollback: restore owned continuity-transfer docs while retaining rejected matrices and leaving identity, transport, and governance evidence unchanged.",
+    "action": "Verify rollback by digest: restore the owned feature bytes to the exact base revision, remove the issue-added design, retain rejected evidence, and prove read-only and upstream authority bytes remain unchanged",
     "acceptance_ids": [
       "AC-1",
-      "AC-3",
       "AC-2",
+      "AC-3",
       "AC-4",
       "AC-5"
     ],
