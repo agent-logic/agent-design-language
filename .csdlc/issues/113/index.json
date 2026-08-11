@@ -5,10 +5,36 @@
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
   "generation": 49,
-  "digest": "fd6bb5c6574256474126c5fc7bd63793962ad52b9ceb1be8e09f78760c5fd02c",
+  "digest": "c8d929e6d353214558e0aaabcbdf14eebae592692fd5762daacc77e5a7d05a80",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+    "assigned_by": "codex:wp18c03-execution",
+    "revision": "git-blake3:6b43cb17914a1c6ab53b45794a8025200bb916d2:5bf299687a2b79a9d4a1130177e41e49b4eda0e9f545f764cd78e1b464d9b5a9",
+    "scope": [
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3",
+      ".csdlc/issues/113"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +70,9 @@
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "b2121477683bc2e39d64a56e91ea232482a35e4528bce4e87ce683210d41dc99",
-      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
-      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
+      "values_digest": "bf7a267ecaf4fc57703b2db5c132539664e20cf9e9ba4dae673c69e2481255e1",
+      "rendered_digest": "cb622501bf64bd5480c0667b36bb0d8a3bdda178d6c1c1a0b84913eebef677a6",
+      "ast_digest": "d51c7322f9d41ea26f297f5ca31d10794c6dc89b5fa45d36514d51255ca3e989"
     },
     "sor": {
       "values_digest": "513557d10039f172dc4bc1e094c790ddc2079d69330c889f57441b52f8996586",
@@ -518,6 +544,13 @@
       "actor": "codex:wp18c03-execution",
       "reason": "Record instrumented coverage for the exact issue-owned roster, control, and OpenAPI targets before final review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"llvm-cov\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\",\"--test\",\"control\",\"--test\",\"openapi_contract\",\"--summary-only\"],\"purpose\":\"Measure the issue-owned Runtime roster and control surfaces under the exact proving tests without substituting unrelated workspace tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact head 6a1abef9aa44682dec2aa489d0300962f76bc155: 44/44 focused tests passed under instrumentation; agent_roster.rs line coverage 93.72%, control.rs line coverage 64.32%, ingress.rs 91.01%, telemetry.rs 88.89%. The broader authoritative lane passed 176/177 adl-runtime tests but was stopped after the unrelated distributed three-voter transport test exceeded eight minutes; full kernel instrumentation separately found an unrelated guardian_soak JSON parse failure, so neither broader run is claimed as a passing gate.\"}}"
+    },
+    {
+      "sequence": 57,
+      "generation": 49,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
