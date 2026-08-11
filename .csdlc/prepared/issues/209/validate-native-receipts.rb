@@ -14,14 +14,14 @@ ASSERTIONS = %w[
   binary_protobuf_dispatch_completed
   exact_production_binary_tls_ready
   observatory_read_token_rejected
-  replay_domain_capacity_fails_closed_without_eviction
+  production_wss_pressure_rolls_back_and_recovers
   replay_rejected
   signed_graceful_shutdown
   terminal_sequence_rejected_without_cross_domain_poisoning
   text_frame_rejected
   typed_ingress_error_rolls_back_sequence
 ].freeze
-SOURCE_PATHS = %w[adl-runtime-kernel/Cargo.toml adl-runtime-kernel/src/acip.rs adl-runtime-kernel/src/control.rs adl-runtime-kernel/src/lib.rs adl-runtime-kernel/tests/production_acip_wss.rs adl-runtime-kernel/tests/support/runtime_init.rs adl-runtime/Cargo.toml adl-runtime/src/runtime_api_auth.rs docs/api/runtime-v3/v1/openapi.json docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md].freeze
+SOURCE_PATHS = %w[adl-runtime-kernel/Cargo.toml adl-runtime-kernel/src/assembly.rs adl-runtime-kernel/src/acip.rs adl-runtime-kernel/src/bin/adl-runtime-kernel.rs adl-runtime-kernel/src/config.rs adl-runtime-kernel/src/control.rs adl-runtime-kernel/src/governed_operations.rs adl-runtime-kernel/src/lib.rs adl-runtime-kernel/tests/assembly.rs adl-runtime-kernel/tests/openapi_contract.rs adl-runtime-kernel/tests/production_acip_wss.rs adl-runtime-kernel/tests/support/runtime_init.rs adl-runtime/Cargo.toml adl-runtime/src/runtime_api_auth.rs docs/api/runtime-v3/v1/openapi.json docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md].freeze
 
 def fail!(message)
   warn(message)
@@ -46,6 +46,7 @@ end
 
 if ARGV == ["--self-test"]
   fail!("authority source omitted") unless SOURCE_PATHS.include?("adl-runtime/src/runtime_api_auth.rs")
+  fail!("pressure configuration omitted") unless SOURCE_PATHS.include?("adl-runtime-kernel/src/config.rs")
   fail!("workflow missing") unless File.read(WORKFLOW).include?("include-hidden-files: true")
   fail!("host path accepted") unless unsafe_log?("/Users/runner/work/repo/file", Pathname.new("/repo"))
   fail!("relative log rejected") if unsafe_log?("./adl-runtime-kernel/src/control.rs", Pathname.new("/repo"))
@@ -101,7 +102,9 @@ payloads.each do |payload|
   assertions = Array(semantic["assertions"])
   fail!("#{platform}: semantic assertion inventory mismatch") unless assertions.map { |entry| entry["name"] }.sort == ASSERTIONS.sort
   fail!("#{platform}: semantic assertion failure") unless assertions.all? { |entry| entry["result"] == "passed" }
+  projection = semantic.reject { |key, _value| key == "platform" }
+  fail!("#{platform}: semantic projection digest mismatch") unless payload["semantic_projection_sha256"] == Digest::SHA256.hexdigest(canonical_json(projection))
 end
 fail!("run mismatch") unless payloads.map { |item| item.dig("runner", "run_id") }.uniq.one?
-fail!("semantic mismatch") unless payloads.map { |item| item["semantic_output_sha256"] }.uniq.one?
+fail!("semantic mismatch") unless payloads.map { |item| item["semantic_projection_sha256"] }.uniq.one?
 puts JSON.generate(issue: ISSUE, status: "passed", reviewed_head: head, platforms: %w[linux macos])

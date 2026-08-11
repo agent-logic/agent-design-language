@@ -508,6 +508,8 @@ pub struct RuntimeKernelInitConfig {
     pub recorder_capacity: usize,
     pub control_history_capacity: usize,
     pub checkpoint_channel_capacity: usize,
+    #[serde(default = "default_canonical_ingress_capacity")]
+    pub canonical_ingress_capacity: usize,
     pub component_readiness_timeout_millis: u64,
     pub observability_poll_millis: u64,
     pub weather_stale_after_millis: u64,
@@ -531,6 +533,10 @@ impl RuntimeKernelInitConfig {
             (
                 "kernel.checkpoint_channel_capacity",
                 self.checkpoint_channel_capacity,
+            ),
+            (
+                "kernel.canonical_ingress_capacity",
+                self.canonical_ingress_capacity,
             ),
         ] {
             validate_bounded_capacity(field, value)?;
@@ -581,6 +587,10 @@ impl RuntimeKernelInitConfig {
         }
         Ok(())
     }
+}
+
+fn default_canonical_ingress_capacity() -> usize {
+    64
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

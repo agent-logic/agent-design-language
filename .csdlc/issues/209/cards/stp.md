@@ -27,10 +27,10 @@ Implement and merge only the blocking production ACIP dispatch, replay-isolation
 
 1. AC-1: A real admitted ACIP request dispatches one production Guardian/kernel operation and returns the declared typed success response.
 2. AC-2: Invalid dispatch and bounded queue pressure return typed errors without echo-only substitution, secret leakage, or unrelated replay-state mutation.
-3. AC-3: Replay sequencing is namespaced by authenticated principal plus explicit replay domain/session with documented reset or expiry semantics.
-4. AC-4: u64::MAX, stale, duplicate, reconnect, cross-principal, cross-session, eviction, and bounded-progression cases fail closed without denying unrelated valid traffic.
-5. AC-5: Public OpenAPI requires a non-null control signature exactly where runtime admission requires it.
-6. AC-6: Focused production integration, replay adversarial tests, contract parity, strict Clippy, formatting, and exact native proof pass.
+3. AC-3: Replay sequencing is namespaced by authenticated principal plus an unambiguous runtime/source replay domain with bounded progression and credential-rotation cleanup.
+4. AC-4: u64::MAX, stale, duplicate, concurrent rollback, delimiter collision, reconnect, cross-principal, cross-session, and capacity cases fail closed without denying unrelated valid traffic.
+5. AC-5: The canonical public kernel OpenAPI exactly describes bearer-authenticated binary dispatch and structured completion/rejection; the removed legacy schema is not public, while its retained admission regression separately requires a non-null control signature.
+6. AC-6: Focused production integration, replay adversarial tests, OpenAPI contract parity, legacy signed-admission proof, strict Clippy, formatting, and exact native proof pass.
 7. AC-7: Fresh independent exact-head review has no unresolved actionable findings before publication.
 8. AC-8: A qualified closing PR merges through typed finish and becomes ancestral before #5834 resumes.
 

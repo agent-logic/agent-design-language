@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
     "slug": "wp14-production-acip-authority-repair",
     "version": "v0.92",
-    "generation": 5
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -25,10 +25,10 @@
       "acceptance_criteria": [
         "AC-1: A real admitted ACIP request dispatches one production Guardian/kernel operation and returns the declared typed success response.",
         "AC-2: Invalid dispatch and bounded queue pressure return typed errors without echo-only substitution, secret leakage, or unrelated replay-state mutation.",
-        "AC-3: Replay sequencing is namespaced by authenticated principal plus explicit replay domain/session with documented reset or expiry semantics.",
-        "AC-4: u64::MAX, stale, duplicate, reconnect, cross-principal, cross-session, eviction, and bounded-progression cases fail closed without denying unrelated valid traffic.",
-        "AC-5: Public OpenAPI requires a non-null control signature exactly where runtime admission requires it.",
-        "AC-6: Focused production integration, replay adversarial tests, contract parity, strict Clippy, formatting, and exact native proof pass.",
+        "AC-3: Replay sequencing is namespaced by authenticated principal plus an unambiguous runtime/source replay domain with bounded progression and credential-rotation cleanup.",
+        "AC-4: u64::MAX, stale, duplicate, concurrent rollback, delimiter collision, reconnect, cross-principal, cross-session, and capacity cases fail closed without denying unrelated valid traffic.",
+        "AC-5: The canonical public kernel OpenAPI exactly describes bearer-authenticated binary dispatch and structured completion/rejection; the removed legacy schema is not public, while its retained admission regression separately requires a non-null control signature.",
+        "AC-6: Focused production integration, replay adversarial tests, OpenAPI contract parity, legacy signed-admission proof, strict Clippy, formatting, and exact native proof pass.",
         "AC-7: Fresh independent exact-head review has no unresolved actionable findings before publication.",
         "AC-8: A qualified closing PR merges through typed finish and becomes ancestral before #5834 resumes."
       ],

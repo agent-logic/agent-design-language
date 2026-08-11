@@ -7,9 +7,15 @@ on:
       - ".csdlc/prepared/issues/209/produce-native-receipt.rb"
       - ".csdlc/prepared/issues/209/validate-native-receipts.rb"
       - "adl-runtime-kernel/Cargo.toml"
+      - "adl-runtime-kernel/src/assembly.rs"
       - "adl-runtime-kernel/src/acip.rs"
+      - "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs"
+      - "adl-runtime-kernel/src/config.rs"
       - "adl-runtime-kernel/src/control.rs"
+      - "adl-runtime-kernel/src/governed_operations.rs"
       - "adl-runtime-kernel/src/lib.rs"
+      - "adl-runtime-kernel/tests/assembly.rs"
+      - "adl-runtime-kernel/tests/openapi_contract.rs"
       - "adl-runtime-kernel/tests/production_acip_wss.rs"
       - "adl-runtime-kernel/tests/support/runtime_init.rs"
       - "adl-runtime/Cargo.toml"
@@ -40,6 +46,8 @@ jobs:
         with:
           tool: nextest@0.9.140
           fallback: none
+      - name: Validate served OpenAPI contract
+        run: cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract
       - name: Produce exact-head receipt
         run: ruby .csdlc/prepared/issues/209/produce-native-receipt.rb --platform "${{ matrix.platform }}" --receipt ".csdlc/evidence/209/native-platform/${{ matrix.platform }}.json" --semantic-output ".csdlc/evidence/209/native-platform/${{ matrix.platform }}-semantic.json"
       - name: Upload exact receipt fragment

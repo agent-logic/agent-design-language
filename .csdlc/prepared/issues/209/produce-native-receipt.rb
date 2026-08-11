@@ -17,9 +17,15 @@ TESTS = %w[
 ].freeze
 SOURCE_PATHS = %w[
   adl-runtime-kernel/Cargo.toml
+  adl-runtime-kernel/src/assembly.rs
   adl-runtime-kernel/src/acip.rs
+  adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+  adl-runtime-kernel/src/config.rs
   adl-runtime-kernel/src/control.rs
+  adl-runtime-kernel/src/governed_operations.rs
   adl-runtime-kernel/src/lib.rs
+  adl-runtime-kernel/tests/assembly.rs
+  adl-runtime-kernel/tests/openapi_contract.rs
   adl-runtime-kernel/tests/production_acip_wss.rs
   adl-runtime-kernel/tests/support/runtime_init.rs
   adl-runtime/Cargo.toml
@@ -72,6 +78,7 @@ if options[:self_test]
   fail!("normalizer retained host root") if normalized.include?(root.to_s)
   fail!("normalizer damaged test name") unless JSON.parse(normalized).fetch("name") == TESTS.first
   fail!("authority source omitted") unless SOURCE_PATHS.include?("adl-runtime/src/runtime_api_auth.rs")
+  fail!("pressure configuration omitted") unless SOURCE_PATHS.include?("adl-runtime-kernel/src/config.rs")
   puts JSON.generate(status: "passed", check: "wp14-native-producer")
   exit 0
 end
@@ -114,6 +121,9 @@ rescue JSON::ParserError
 end
 fail!("missing passing suite") unless suites.last && suites.last["failed"].to_i.zero?
 fail!("semantic proof missing") unless semantic.file? && semantic.size.positive?
+semantic_document = JSON.parse(semantic.read)
+fail!("semantic platform mismatch") unless semantic_document["platform"] == platform
+semantic_projection = semantic_document.reject { |key, _value| key == "platform" }
 source_manifest.write(JSON.pretty_generate(manifest(root)) + "\n")
 producer_path = Pathname.new(__FILE__).realpath.relative_path_from(root).to_s
 payload = {
@@ -122,6 +132,7 @@ payload = {
   "test_argv" => argv, "tests_run" => suites.last["passed"].to_i, "passed_tests" => passed.sort,
   "command_output_path" => log.relative_path_from(root).to_s, "command_output_sha256" => Digest::SHA256.file(log).hexdigest,
   "semantic_output_path" => semantic.relative_path_from(root).to_s, "semantic_output_sha256" => Digest::SHA256.file(semantic).hexdigest,
+  "semantic_projection_sha256" => Digest::SHA256.hexdigest(canonical_json(semantic_projection)),
   "source_manifest_path" => source_manifest.relative_path_from(root).to_s, "source_manifest_sha256" => Digest::SHA256.file(source_manifest).hexdigest,
   "runner" => { "provider" => "github_actions", "repository" => ENV.fetch("GITHUB_REPOSITORY"), "workflow_ref" => ENV.fetch("GITHUB_WORKFLOW_REF"), "run_id" => ENV.fetch("GITHUB_RUN_ID"), "run_attempt" => ENV.fetch("GITHUB_RUN_ATTEMPT"), "job" => ENV.fetch("GITHUB_JOB"), "os" => os.strip, "architecture" => RbConfig::CONFIG.fetch("host_cpu") },
   "status" => "passed"

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "dfb0b0a8ad54d795fbd52c3137f9c45cbc756ca06b09af67c757667f873314b2",
+  "generation": 9,
+  "digest": "3819668a1e2dd4b7f3145ae20e4eed1175bee08d3331e68abe8bf6cbe6a671de",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
   "review_assignment": {
@@ -37,38 +37,38 @@
   "diagram_path": ".csdlc/prepared/issues/209/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-authorized:209-current-production-contract",
-      "revision": "5fa05f99d2efccc108907ad98c1405023903d802d9caf4d8a59dcc796fc746cc"
+      "reviewer": "operator-authorized:209-review-repair-scope",
+      "revision": "c7c0d740c2ada0040066a789f4966a9281a24998e794e7c715d54c9786f28c69"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "5107634c96af299c05bee914471b5d44b623116a854b4f3c5e82060e25998464",
+      "values_digest": "b9f6f682691feb5540a05695e8423a144a7dc185221f58f0bcff3e7c217db151",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "d81cb7b109bea76ecfe28b85951a89421d946689e818e1f7dc4abc1a6dacfe2c",
-      "rendered_digest": "79f56ef82fe12d87895c86ccae837ef4b17c501cc774f7bd466322f20d032199",
-      "ast_digest": "94e37cfee499fc89d83ef4edaf9aa309a14ee1913f16e6b666f71e96cb6681c9"
+      "values_digest": "a4730a81f34678f310752117c72417778aee5c154c28d9b425960187ce0af9b9",
+      "rendered_digest": "e951f98cdd50987c53b2a86e54705081136876bf7a37371391f5666fc8d69277",
+      "ast_digest": "1f3ffc61430a58bd141d682d1f46cee9cb750b4fc7484d1ffdd17668fbba9981"
     },
     "spp": {
-      "values_digest": "9e7705060098f00666f6ba4f5702a19a6f91b2c4377cb32f0d2c6757c9c40ddc",
-      "rendered_digest": "70c90afeea60096acaabdb4721d7130d728c7d45adddd814eb2dbad6734818f2",
-      "ast_digest": "c4374fab729dd5f0661f61a137fc6f2df3b26ce8a2bbbe859fe3f14b35152b31"
+      "values_digest": "d4abeab171c21790955969015b0b5f2216f09ed3ffb1a90f9b04838b229af553",
+      "rendered_digest": "763388a7040eccd667a3d6a586f3fc17d044387f4c8ff484d803aaa9a7f3bf0b",
+      "ast_digest": "bc2303b272682520add4ea18ff5976a128163bb66654984b6b6495e0e3b234a2"
     },
     "vpp": {
-      "values_digest": "0350bc0c731330b2b387ee340d6a691f47d6c009136de25122f3f589ba3728a1",
-      "rendered_digest": "17e64cb4854052c7f8f2bff185a71a5e0e9f8fde40dcae0f439564f70e43e719",
-      "ast_digest": "151d846e28b49f0ebcdbb3bbf15386246db6b4d85348b645fd0ad962b5235ccb"
+      "values_digest": "89defde8ac4586a9104b2b340687ecfe9f78b53c3700e269ef6f31513df3efea",
+      "rendered_digest": "1cf5d053c982cfa3dbb1576026b45f79b6f645d14b06baacfb117fd30e39a4f2",
+      "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "d051e5904ebac90005c4c1d81748e618260c69353ba773832a5cef9541106ae4",
+      "values_digest": "531cd4c1f7fb9bb071a883f0b832e45a4f53be4c74c5a93ea460bc3240124136",
       "rendered_digest": "16d0e5e4824a53f35dade85f2bca3472825d5be24b167cc529f5bb229b599ac9",
       "ast_digest": "58beed186efe5cafb03cd3bccfe5bb3b558df72decf6a72c2b5a2406457b9258"
     },
     "sor": {
-      "values_digest": "66deb80cccae12579ae1bb58728c204d4c1991366c64a96282eadb3a0c781073",
+      "values_digest": "42fc9eeb65b3a72dff26716a5eda9aac9d0560cf3d545b411db8332ced7803cb",
       "rendered_digest": "51ed1e8940f1e76f8160502aa9750dbe9f122d8b4a1bdddee1e6f39de2eea2d9",
       "ast_digest": "c80461a72e0df9be4af4d9a93632ed5a8f87e54f857e9d2575fcf59d3e76a4a7"
     }
@@ -152,6 +152,34 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "operator-authorized:209-review-repair-scope",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "/root/sprint4_5857",
+      "reason": "Truthfully distinguish the canonical bearer-authenticated kernel carrier from the retained non-public legacy signed-frame admission path after exact review.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A real admitted ACIP request dispatches one production Guardian/kernel operation and returns the declared typed success response.\",\"AC-2: Invalid dispatch and bounded queue pressure return typed errors without echo-only substitution, secret leakage, or unrelated replay-state mutation.\",\"AC-3: Replay sequencing is namespaced by authenticated principal plus an unambiguous runtime/source replay domain with bounded progression and credential-rotation cleanup.\",\"AC-4: u64::MAX, stale, duplicate, concurrent rollback, delimiter collision, reconnect, cross-principal, cross-session, and capacity cases fail closed without denying unrelated valid traffic.\",\"AC-5: The canonical public kernel OpenAPI exactly describes bearer-authenticated binary dispatch and structured completion/rejection; the removed legacy schema is not public, while its retained admission regression separately requires a non-null control signature.\",\"AC-6: Focused production integration, replay adversarial tests, OpenAPI contract parity, legacy signed-admission proof, strict Clippy, formatting, and exact native proof pass.\",\"AC-7: Fresh independent exact-head review has no unresolved actionable findings before publication.\",\"AC-8: A qualified closing PR merges through typed finish and becomes ancestral before #5834 resumes.\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "/root/sprint4_5857",
+      "reason": "Record the narrow production ingress configuration and exact contract proof surfaces required by independent review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime/src/runtime_api_auth.rs\",\"docs/api/runtime-v3/v1/openapi.json\",\"docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md\",\".csdlc/prepared/issues/209\",\".csdlc/evidence/209\",\".github/workflows/wp14-production-acip-repair.yml\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "/root/sprint4_5857",
+      "reason": "Align proof lanes with the reviewed production WSS pressure transaction, structured replay authority tests, current OpenAPI contract, and retained legacy signature boundary.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"production-acip-wss\",\"proof_role\":\"Prove real production binary dispatch, typed errors, WSS-observed saturation rollback and exact retry.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"--no-tests=fail\"],\"parallel_group\":\"209-core\",\"defer_reason\":null},{\"lane\":\"acip-replay-authority\",\"proof_role\":\"Prove collision-free typed domains, per-principal capacity, and pending/committed concurrent rollback semantics.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"control::acip_replay_tests\"],\"parallel_group\":\"209-core\",\"defer_reason\":null},{\"lane\":\"acip-contract-parity\",\"proof_role\":\"Prove the canonical served OpenAPI bearer/binary dispatch contract and separately retained legacy signed-frame admission boundary.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"209-contract\",\"defer_reason\":null},{\"lane\":\"legacy-signed-admission\",\"proof_role\":\"Prove the non-public retained admission path still rejects unsigned control and terminal replay poisoning.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay\",\"--lib\",\"--\",\"--exact\"],\"parallel_group\":\"209-contract\",\"defer_reason\":null},{\"lane\":\"production-acip-native\",\"proof_role\":\"Retain exact-head Linux/macOS receipts for production dispatch, replay isolation, WSS pressure/errors, path hygiene, platform-neutral semantic equivalence, and source provenance.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/209/validate-native-receipts.rb\",\".csdlc/evidence/209/native-platform/linux.json\",\".csdlc/evidence/209/native-platform/macos.json\"],\"parallel_group\":\"209-native\",\"defer_reason\":\"Runs after reviewed publication on native GitHub Actions Linux and macOS; merge remains blocked until retained proof and fresh post-native review pass.\"}]}"
     }
   ]
 }

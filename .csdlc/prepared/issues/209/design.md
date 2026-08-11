@@ -12,7 +12,14 @@ signed-frame admission contract match the behavior their runtimes enforce.
 
 - `adl-runtime-kernel/src/control.rs`
 - `adl-runtime-kernel/src/acip.rs`
+- `adl-runtime-kernel/src/assembly.rs`
+- `adl-runtime-kernel/src/bin/adl-runtime-kernel.rs`
+- `adl-runtime-kernel/src/config.rs`
+- `adl-runtime-kernel/src/governed_operations.rs`
 - `adl-runtime-kernel/tests/production_acip_wss.rs`
+- `adl-runtime-kernel/tests/assembly.rs`
+- `adl-runtime-kernel/tests/openapi_contract.rs`
+- `adl-runtime-kernel/tests/support/runtime_init.rs`
 - `adl-runtime/src/runtime_api_auth.rs`
 - `docs/api/runtime-v3/v1/openapi.json`
 - `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`
@@ -54,7 +61,8 @@ machine-local paths, or private payload content.
 - bounded pressure saturation/recovery proof
 - replay `u64::MAX`, cross-principal, cross-session, reconnect, duplicate,
   stale, and eviction adversarial cases
-- OpenAPI/runtime admission parity
+- canonical kernel OpenAPI/bearer-dispatch parity plus separately retained
+  legacy signed-frame admission proof; the removed legacy schema is non-public
 - strict Clippy, formatting, exact native Linux/macOS proof where required,
   and fresh independent exact-head review
 

@@ -25,16 +25,15 @@ Diagram: .csdlc/prepared/issues/209/diagram.mmd
 [
   {
     "lane": "production-acip-wss",
-    "proof_role": "Prove real adl-runtime-kernel binary dispatch, typed completion/rejection, bounded queue pressure, and public contract parity.",
+    "proof_role": "Prove real production binary dispatch, typed errors, WSS-observed saturation rollback and exact retry.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
-      "AC-5"
+      "AC-2"
     ],
     "deterministic": true,
     "resource_profile": "medium",
     "budget_seconds": 900,
-    "budget_tokens": 5000,
+    "budget_tokens": 1000,
     "argv": [
       "cargo",
       "nextest",
@@ -50,31 +49,75 @@ Diagram: .csdlc/prepared/issues/209/diagram.mmd
   },
   {
     "lane": "acip-replay-authority",
-    "proof_role": "Prove principal-and-domain replay isolation, bounded progression, reconnect, maximum value, duplicate, eviction, and unrelated-traffic recovery.",
+    "proof_role": "Prove collision-free typed domains, per-principal capacity, and pending/committed concurrent rollback semantics.",
     "acceptance_ids": [
       "AC-3",
       "AC-4"
     ],
     "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 900,
-    "budget_tokens": 3500,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
     "argv": [
       "cargo",
-      "nextest",
-      "run",
+      "test",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "production_acip_wss",
-      "--no-tests=fail"
+      "--lib",
+      "control::acip_replay_tests"
     ],
     "parallel_group": "209-core",
     "defer_reason": null
   },
   {
+    "lane": "acip-contract-parity",
+    "proof_role": "Prove the canonical served OpenAPI bearer/binary dispatch contract and separately retained legacy signed-frame admission boundary.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract"
+    ],
+    "parallel_group": "209-contract",
+    "defer_reason": null
+  },
+  {
+    "lane": "legacy-signed-admission",
+    "proof_role": "Prove the non-public retained admission path still rejects unsigned control and terminal replay poisoning.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay",
+      "--lib",
+      "--",
+      "--exact"
+    ],
+    "parallel_group": "209-contract",
+    "defer_reason": null
+  },
+  {
     "lane": "production-acip-native",
-    "proof_role": "Retain exact-head Linux/macOS receipts for production dispatch, replay isolation, pressure/errors, path hygiene, and semantic equivalence, then require fresh review and terminal green delivery.",
+    "proof_role": "Retain exact-head Linux/macOS receipts for production dispatch, replay isolation, WSS pressure/errors, path hygiene, platform-neutral semantic equivalence, and source provenance.",
     "acceptance_ids": [
       "AC-6",
       "AC-7",
@@ -83,7 +126,7 @@ Diagram: .csdlc/prepared/issues/209/diagram.mmd
     "deterministic": false,
     "resource_profile": "medium",
     "budget_seconds": 900,
-    "budget_tokens": 3000,
+    "budget_tokens": 1000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/209/validate-native-receipts.rb",
@@ -91,7 +134,7 @@ Diagram: .csdlc/prepared/issues/209/diagram.mmd
       ".csdlc/evidence/209/native-platform/macos.json"
     ],
     "parallel_group": "209-native",
-    "defer_reason": "Runs after publication on native GitHub Actions Linux and macOS; merge remains blocked until retained proof and fresh post-native review pass."
+    "defer_reason": "Runs after reviewed publication on native GitHub Actions Linux and macOS; merge remains blocked until retained proof and fresh post-native review pass."
   }
 ]
 
@@ -108,7 +151,9 @@ Tokens: 25000
 ## Commands
 
 - `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss --no-tests=fail`
-- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss --no-tests=fail`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib control::acip_replay_tests`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract`
+- `cargo test --manifest-path adl-runtime/Cargo.toml runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay --lib -- --exact`
 - `ruby .csdlc/prepared/issues/209/validate-native-receipts.rb .csdlc/evidence/209/native-platform/linux.json .csdlc/evidence/209/native-platform/macos.json`
 
 ## Failure Semantics

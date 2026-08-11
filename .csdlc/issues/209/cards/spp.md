@@ -16,7 +16,7 @@ Bind the production dispatch and replay authority contract, implement the narrow
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -94,7 +94,7 @@ Revision 2
 
 .csdlc/prepared/issues/209/design.md
 
-Digest: 5fa05f99d2efccc108907ad98c1405023903d802d9caf4d8a59dcc796fc746cc
+Digest: c7c0d740c2ada0040066a789f4966a9281a24998e794e7c715d54c9786f28c69
 
 ## Diagram
 

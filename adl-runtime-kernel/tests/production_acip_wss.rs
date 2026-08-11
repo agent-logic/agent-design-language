@@ -198,7 +198,12 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
     let address = probe.local_addr().unwrap();
     drop(probe);
     let (init, certificate_der) =
-        runtime_init::write_with_certificate_for_state(directory.path(), address, &root);
+        runtime_init::write_with_certificate_for_state_and_ingress_capacity(
+            directory.path(),
+            address,
+            &root,
+            1,
+        );
     let config = client_config(certificate_der);
     let lease = GuardianLease::start();
     let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
@@ -306,6 +311,67 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         "evidence": "a binary Protobuf ACIP envelope completed through canonical production ingress"
     }));
 
+    let mut pressure_sockets = Vec::new();
+    let mut pressure_frames = Vec::new();
+    for index in 0..4 {
+        let stream = tokio::net::TcpStream::connect(address).await.unwrap();
+        let (mut pressure_socket, _) = tokio_tungstenite::client_async_tls_with_config(
+            acip_request(address, ACIP_WRITE_TOKEN),
+            stream,
+            None,
+            Some(Connector::Rustls(config.clone())),
+        )
+        .await
+        .unwrap();
+        assert_eq!(
+            next_acip_json(&mut pressure_socket).await["event"],
+            "authenticated"
+        );
+        let frame = encode_acip_envelope(
+            &format!("production-acip-pressure-{index}"),
+            &format!("pressure-client-{index}"),
+            "runtime",
+            "agent_runtime",
+            &serde_json::json!({
+                "schema": "adl.runtime.local_agent_work.v1",
+                "tasks": [{"op": "sleep_millis", "millis": 250}]
+            }),
+            1,
+        )
+        .unwrap();
+        pressure_socket
+            .send(Message::Binary(frame.clone().into()))
+            .await
+            .unwrap();
+        pressure_sockets.push(pressure_socket);
+        pressure_frames.push(frame);
+    }
+    let mut rejected_pressure = None;
+    for (index, pressure_socket) in pressure_sockets.iter_mut().enumerate() {
+        let result = next_acip_json(pressure_socket).await;
+        if result["status"] == "rejected" {
+            assert_eq!(result["reason"], "canonical ingress is saturated");
+            assert_eq!(result["sequence_reserved"], false);
+            rejected_pressure = Some(index);
+        }
+    }
+    let rejected_pressure =
+        rejected_pressure.expect("production WSS never observed bounded pressure");
+    pressure_sockets[rejected_pressure]
+        .send(Message::Binary(
+            pressure_frames[rejected_pressure].clone().into(),
+        ))
+        .await
+        .unwrap();
+    let recovered = next_acip_json(&mut pressure_sockets[rejected_pressure]).await;
+    assert_eq!(recovered["status"], "completed", "{recovered}");
+    assertions.push(serde_json::json!({
+        "name": "production_wss_pressure_rolls_back_and_recovers",
+        "class": "negative_case",
+        "result": "passed",
+        "evidence": "the production WSS endpoint returned typed saturation, released its replay reservation, and completed an exact corrected retry"
+    }));
+
     socket.send(Message::Binary(frame.into())).await.unwrap();
     let replay = next_acip_json(&mut socket).await;
     assert_eq!(replay["status"], "rejected");
@@ -401,69 +467,6 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         "class": "negative_case",
         "result": "passed",
         "evidence": "unsupported work produced a structured rejection and corrected work reused the sequence successfully"
-    }));
-
-    for index in 0..61 {
-        let capacity_frame = encode_acip_envelope(
-            &format!("production-acip-domain-{index}"),
-            &format!("capacity-domain-{index}"),
-            "runtime",
-            "agent_runtime",
-            &serde_json::json!({
-                "schema": "adl.runtime.local_agent_work.v1",
-                "tasks": [{"op": "blake3", "input": format!("capacity-{index}")}]
-            }),
-            1,
-        )
-        .unwrap();
-        socket
-            .send(Message::Binary(capacity_frame.into()))
-            .await
-            .unwrap();
-        assert_eq!(next_acip_json(&mut socket).await["status"], "completed");
-    }
-    let capacity_refused = encode_acip_envelope(
-        "production-acip-domain-refused",
-        "capacity-domain-refused",
-        "runtime",
-        "agent_runtime",
-        &serde_json::json!({
-            "schema": "adl.runtime.local_agent_work.v1",
-            "tasks": [{"op": "blake3", "input": "capacity must fail closed"}]
-        }),
-        1,
-    )
-    .unwrap();
-    socket
-        .send(Message::Binary(capacity_refused.into()))
-        .await
-        .unwrap();
-    let capacity_rejection = next_acip_json(&mut socket).await;
-    assert_eq!(capacity_rejection["status"], "rejected");
-    assert_eq!(capacity_rejection["sequence_reserved"], false);
-
-    let retained_domain = encode_acip_envelope(
-        "production-acip-retained-domain",
-        "proof-client",
-        "runtime",
-        "agent_runtime",
-        &serde_json::json!({
-            "schema": "adl.runtime.local_agent_work.v1",
-            "tasks": [{"op": "blake3", "input": "existing replay domain remains authoritative"}]
-        }),
-        2,
-    )
-    .unwrap();
-    socket
-        .send(Message::Binary(retained_domain.into()))
-        .await
-        .unwrap();
-    assert_eq!(next_acip_json(&mut socket).await["status"], "completed");
-    assertions.push(serde_json::json!({
-        "name": "replay_domain_capacity_fails_closed_without_eviction",
-        "class": "negative_case",
-        "result": "passed",
-        "evidence": "a new domain was refused at capacity while an existing domain advanced without replay-state eviction"
     }));
 
     socket

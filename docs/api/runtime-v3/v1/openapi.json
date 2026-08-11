@@ -178,10 +178,11 @@
           ],
           "bidirectional": true,
           "canonicalEndpoint": true,
-          "serviceOwner": "adl-runtime-kernel"
-          ,"replayScope": "authenticated_principal_runtime_source"
-          ,"maximumSequenceAdvance": 1000000
-          ,"terminalSequenceAccepted": false
+          "serviceOwner": "adl-runtime-kernel",
+          "replayScope": "authenticated_principal_runtime_source",
+          "maximumSequenceAdvance": 1000000,
+          "terminalSequenceAccepted": false,
+          "pressureResult": "structured_rejection_without_sequence_reservation"
         }
       }
     },
