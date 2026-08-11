@@ -1,172 +1,1489 @@
-PASS test_warm_rust_dependency_cache
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-a/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-a/workspace","validation_proof":false}
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-collect-shard/workspace","validation_proof":false}
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-report-only/workspace","validation_proof":false}
-Imported coverage profraw profiles: 1
-Authoritative coverage mode: full_authoritative_default_features
-Features: default
-Authoritative coverage linker mode: default
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-isolated-workspace/workspace","validation_proof":false}
-Authoritative coverage mode: full_authoritative_default_features
-Features: default
-Authoritative coverage linker mode: default
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-isolated-adl-runtime/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-Authoritative coverage mode: full_authoritative_default_features
-Features: default
-Authoritative coverage linker mode: default
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-release-artifacts/workspace","validation_proof":false}
-workspace summary from current isolated profile
-Authoritative coverage mode: full_authoritative_default_features
-Features: default
-Authoritative coverage linker mode: default
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-prebuild-failure/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-prebuild-failure/workspace","validation_proof":false}
-Authoritative coverage compile failed for workspace: 66; partitions and report command suppressed
-coverage summary merge failed: workspace summary is missing: /var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/authoritative-coverage.8L9b1Y/scratch/coverage-output/run-prebuild-failure/coverage-summary.adl.json
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-combined-failure/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-combined-failure/workspace","validation_proof":false}
-Authoritative coverage profile cleanup failed for workspace: 55
-coverage summary merge failed: workspace summary is missing: /var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/authoritative-coverage.8L9b1Y/scratch/coverage-output/run-combined-failure/coverage-summary.adl.json
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-cleanup-failure/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-Authoritative coverage profile cleanup failed for adl-runtime: 55
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-cleanup-failure/workspace","validation_proof":false}
-Authoritative coverage profile cleanup failed for workspace: 55
-coverage summary merge failed: workspace summary is missing: /var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/authoritative-coverage.8L9b1Y/scratch/coverage-output/run-cleanup-failure/coverage-summary.adl.json
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-failing/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-failing/workspace","validation_proof":false}
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-runtime-only-failure/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-runtime-only-failure/workspace","validation_proof":false}
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-workspace-only-failure/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-workspace-only-failure/workspace","validation_proof":false}
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-distinct-failures/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-distinct-failures/workspace","validation_proof":false}
-Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Authoritative coverage mode: bounded_policy_surface_pr
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Features: default
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-concurrent-a/adl-runtime","validation_proof":false}
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-concurrent-b/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-concurrent-a/workspace","validation_proof":false}
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-concurrent-b/workspace","validation_proof":false}
-Authoritative coverage mode: full_authoritative_default_features
-Features: default
-Authoritative coverage linker mode: lld
-Authoritative coverage test threads: 2
-Authoritative coverage skip patterns: live_pr_fixture_
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-lld/adl-runtime","validation_proof":false}
-Authoritative coverage companion: adl-runtime
-{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing/adl/target","dest_target":"/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T//authoritative-coverage.8L9b1Y/scratch/target/llvm-cov-target/run-lld/workspace","validation_proof":false}
-PASS test_run_authoritative_coverage_lane
-ADL CI step log start: Coverage run and summary (json)
-started_at=2026-08-11T18:11:38Z
-command_argc=3
-command_redaction=metadata_only
-success-out
-success-err
-finished_at=2026-08-11T18:11:38Z
-exit_code=0
-elapsed_seconds=0
-ADL CI step log start: failing step
-started_at=2026-08-11T18:11:39Z
-command_argc=3
-command_redaction=metadata_only
-fail-out
-fail-err
-finished_at=2026-08-11T18:11:39Z
-exit_code=37
-elapsed_seconds=0
-ADL CI step log start: secret step
-started_at=2026-08-11T18:11:39Z
-command_argc=6
-command_redaction=metadata_only
-no-secret-output
-finished_at=2026-08-11T18:11:39Z
-exit_code=0
-elapsed_seconds=0
-PASS test_run_ci_step_with_log
-PASS test_setup_required_coverage_toolchain
-==> html_observatory_tooling_syntax: bash -n adl/tools/test_html_observatory.sh && if [[ -f adl/tools/validate_v092_html_observatory_roster.mjs ]]; then node --check adl/tools/validate_v092_html_observatory_roster.mjs; fi
-==> html_observatory_tooling_syntax: bash -n adl/tools/test_html_observatory.sh && if [[ -f adl/tools/validate_v092_html_observatory_roster.mjs ]]; then node --check adl/tools/validate_v092_html_observatory_roster.mjs; fi
-PASS csdlc_owner_lane active selector/scanner consistency
-==> docs_diff_check: git diff --check
-PASS test_select_validation_lanes
-==> docs_diff_check: git diff --check
-==> nessus_remote_validation: bash adl/tools/run_nessus_remote_validation.sh --command 'printf remote-manager-ok' --local-artifact-dir /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/tmp.jEQyJ4nuPS/remote-manager-artifacts-run
-PASS test_validation_manager
-PASS: ci_path_policy PR-fast/full-coverage contract
+{
+  "behavior_surfaces": [
+    {
+      "default_surface": "docs",
+      "determinism_posture": "deterministic",
+      "escalation_rule": "none",
+      "id": "diff_hygiene_docs_diff_check",
+      "lane_id": "docs_diff_check",
+      "matched_paths": [
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/manifest.json",
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-desktop.png",
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-live-proof.json",
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-mobile.png",
+        ".csdlc/issues/111/audit.jsonl",
+        ".csdlc/issues/111/cards/sip.md",
+        ".csdlc/issues/111/cards/sip.values.json",
+        ".csdlc/issues/111/cards/sor.md",
+        ".csdlc/issues/111/cards/sor.values.json",
+        ".csdlc/issues/111/cards/spp.md",
+        ".csdlc/issues/111/cards/spp.values.json",
+        ".csdlc/issues/111/cards/srp.md",
+        ".csdlc/issues/111/cards/srp.values.json",
+        ".csdlc/issues/111/cards/stp.md",
+        ".csdlc/issues/111/cards/stp.values.json",
+        ".csdlc/issues/111/cards/vpp.md",
+        ".csdlc/issues/111/cards/vpp.values.json",
+        ".csdlc/issues/111/index.json",
+        ".csdlc/issues/113/audit.jsonl",
+        ".csdlc/issues/113/cards/sip.md",
+        ".csdlc/issues/113/cards/sip.values.json",
+        ".csdlc/issues/113/cards/sor.md",
+        ".csdlc/issues/113/cards/sor.values.json",
+        ".csdlc/issues/113/cards/spp.md",
+        ".csdlc/issues/113/cards/spp.values.json",
+        ".csdlc/issues/113/cards/srp.md",
+        ".csdlc/issues/113/cards/srp.values.json",
+        ".csdlc/issues/113/cards/stp.md",
+        ".csdlc/issues/113/cards/stp.values.json",
+        ".csdlc/issues/113/cards/vpp.md",
+        ".csdlc/issues/113/cards/vpp.values.json",
+        ".csdlc/issues/113/index.json",
+        ".csdlc/locks/111.lock",
+        ".csdlc/locks/113.lock",
+        ".csdlc/prepared/issues/111/advance-review-remediation-implemented.json",
+        ".csdlc/prepared/issues/111/assign-exact-review.json",
+        ".csdlc/prepared/issues/111/assign-final-attachment-ordering-review.json",
+        ".csdlc/prepared/issues/111/assign-final-fresh-review.json",
+        ".csdlc/prepared/issues/111/assign-integrated-exact-review.json",
+        ".csdlc/prepared/issues/111/assign-integrated-remediation-review.json",
+        ".csdlc/prepared/issues/111/assign-stale-cleanup-remediation-review.json",
+        ".csdlc/prepared/issues/111/complete-plan-p1.json",
+        ".csdlc/prepared/issues/111/complete-plan-p2.json",
+        ".csdlc/prepared/issues/111/complete-plan-p3.json",
+        ".csdlc/prepared/issues/111/complete-plan-p4.json",
+        ".csdlc/prepared/issues/111/complete-plan-p5.json",
+        ".csdlc/prepared/issues/111/edit-final-review-authority.json",
+        ".csdlc/prepared/issues/111/publish-final-reviewed.json",
+        ".csdlc/prepared/issues/111/publish-stacked-reviewable.json",
+        ".csdlc/prepared/issues/111/record-attachment-ordering-remediation.json",
+        ".csdlc/prepared/issues/111/record-attachment-ordering-validation.json",
+        ".csdlc/prepared/issues/111/record-exact-review.json",
+        ".csdlc/prepared/issues/111/record-final-attachment-ordering-review.json",
+        ".csdlc/prepared/issues/111/record-final-fresh-review-finding.json",
+        ".csdlc/prepared/issues/111/record-final-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/111/record-final-fresh-review-validation.json",
+        ".csdlc/prepared/issues/111/record-fresh-review-findings.json",
+        ".csdlc/prepared/issues/111/record-fresh-review-remediation-validation.json",
+        ".csdlc/prepared/issues/111/record-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/111/record-integrated-remediation-review.json",
+        ".csdlc/prepared/issues/111/record-integrated-review-findings.json",
+        ".csdlc/prepared/issues/111/record-integrated-review-remediation-execution.json",
+        ".csdlc/prepared/issues/111/record-integrated-review-remediation-validation.json",
+        ".csdlc/prepared/issues/111/record-review-remediation-execution.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-card-validation.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-execution.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-observatory-validation.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-runtime-validation.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-static-validation.json",
+        ".csdlc/prepared/issues/111/record-stale-cleanup-ordering-finding.json",
+        ".csdlc/prepared/issues/111/record-stale-cleanup-race-remediation.json",
+        ".csdlc/prepared/issues/111/record-stale-cleanup-race-validation.json",
+        ".csdlc/prepared/issues/111/record-validation-browser.json",
+        ".csdlc/prepared/issues/111/record-validation-cards.json",
+        ".csdlc/prepared/issues/111/record-validation-clippy.json",
+        ".csdlc/prepared/issues/111/record-validation-conversation-integration.json",
+        ".csdlc/prepared/issues/111/record-validation-diff.json",
+        ".csdlc/prepared/issues/111/record-validation-observatory.json",
+        ".csdlc/prepared/issues/111/record-validation-openapi.json",
+        ".csdlc/prepared/issues/111/recover-after-final-fresh-review-finding.json",
+        ".csdlc/prepared/issues/111/recover-after-integrated-review-findings.json",
+        ".csdlc/prepared/issues/111/recover-after-roster-integration.json",
+        ".csdlc/prepared/issues/111/recover-after-stale-cleanup-ordering-finding.json",
+        ".csdlc/prepared/issues/111/replan-affected-areas.json",
+        ".csdlc/prepared/issues/111/replan-invariants.json",
+        ".csdlc/prepared/issues/111/replan-live-authority.json",
+        ".csdlc/prepared/issues/111/replan-review-remediation-acceptance.json",
+        ".csdlc/prepared/issues/111/replan-review-remediation-deliverables.json",
+        ".csdlc/prepared/issues/111/replan-risks.json",
+        ".csdlc/prepared/issues/111/replan-sip-authority.json",
+        ".csdlc/prepared/issues/111/replan-steps.json",
+        ".csdlc/prepared/issues/111/replan-stop-conditions.json",
+        ".csdlc/prepared/issues/111/replan-stp-boundary.json",
+        ".csdlc/prepared/issues/111/replan-stp-dependencies.json",
+        ".csdlc/prepared/issues/113/advance-implemented-final.json",
+        ".csdlc/prepared/issues/113/assign-atomic-publication-review.json",
+        ".csdlc/prepared/issues/113/assign-corrected-publication-review.json",
+        ".csdlc/prepared/issues/113/assign-final-exact-review.json",
+        ".csdlc/prepared/issues/113/assign-final-locke-review.json",
+        ".csdlc/prepared/issues/113/assign-fresh-remediation-review.json",
+        ".csdlc/prepared/issues/113/assign-post-locke-remediation-review.json",
+        ".csdlc/prepared/issues/113/assign-publication-intent-review.json",
+        ".csdlc/prepared/issues/113/bind-request.json",
+        ".csdlc/prepared/issues/113/bootstrap-request.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s1.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s2.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s3.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s4-final.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s5-handoff.json",
+        ".csdlc/prepared/issues/113/design.md",
+        ".csdlc/prepared/issues/113/diagram.mmd",
+        ".csdlc/prepared/issues/113/edit-01-owned-paths.json",
+        ".csdlc/prepared/issues/113/edit-02-deliverable-paths.json",
+        ".csdlc/prepared/issues/113/edit-03-validation-deferrals.json",
+        ".csdlc/prepared/issues/113/edit-04-dependency-alignment.json",
+        ".csdlc/prepared/issues/113/edit-05-advance-ready.json",
+        ".csdlc/prepared/issues/113/edit-06-ready-deliverables.json",
+        ".csdlc/prepared/issues/113/edit-07-ready-pvf-lanes.json",
+        ".csdlc/prepared/issues/113/edit-08-governed-html-lane.json",
+        ".csdlc/prepared/issues/113/edit-09-remediation-validation-lanes.json",
+        ".csdlc/prepared/issues/113/edit-10-remediation-affected-areas.json",
+        ".csdlc/prepared/issues/113/edit-11-restart-proof-scope.json",
+        ".csdlc/prepared/issues/113/publish-final-reviewed.json",
+        ".csdlc/prepared/issues/113/publish-reviewable.json",
+        ".csdlc/prepared/issues/113/reapprove-bound-design.json",
+        ".csdlc/prepared/issues/113/reapprove-design.json",
+        ".csdlc/prepared/issues/113/record-atomic-publication-review.json",
+        ".csdlc/prepared/issues/113/record-corrected-publication-review.json",
+        ".csdlc/prepared/issues/113/record-final-exact-review.json",
+        ".csdlc/prepared/issues/113/record-final-execution.json",
+        ".csdlc/prepared/issues/113/record-final-locke-pass.json",
+        ".csdlc/prepared/issues/113/record-focused-coverage-validation.json",
+        ".csdlc/prepared/issues/113/record-fresh-review-remediation-validation.json",
+        ".csdlc/prepared/issues/113/record-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/113/record-locke-remediation-validation.json",
+        ".csdlc/prepared/issues/113/record-locke-remediation.json",
+        ".csdlc/prepared/issues/113/record-locke-review-findings.json",
+        ".csdlc/prepared/issues/113/record-locke-second-remediation-validation.json",
+        ".csdlc/prepared/issues/113/record-locke-second-remediation.json",
+        ".csdlc/prepared/issues/113/record-locke-second-review-findings.json",
+        ".csdlc/prepared/issues/113/record-publication-intent-review-findings.json",
+        ".csdlc/prepared/issues/113/record-validation-agent-roster-final.json",
+        ".csdlc/prepared/issues/113/record-validation-browser-final.json",
+        ".csdlc/prepared/issues/113/record-validation-clippy-final.json",
+        ".csdlc/prepared/issues/113/record-validation-control-final.json",
+        ".csdlc/prepared/issues/113/record-validation-diff-final.json",
+        ".csdlc/prepared/issues/113/record-validation-fmt-final.json",
+        ".csdlc/prepared/issues/113/record-validation-observatory-static-final.json",
+        ".csdlc/prepared/issues/113/record-validation-openapi-final.json",
+        ".csdlc/prepared/issues/113/recover-after-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/113/recover-after-locke-findings.json",
+        ".csdlc/prepared/issues/113/recover-after-locke-second-findings.json",
+        ".csdlc/prepared/issues/113/recover-after-publication-intent-findings.json",
+        ".csdlc/prepared/issues/113/recover-for-atomic-publication.json",
+        ".csdlc/prepared/issues/113/recover-for-final-publication.json",
+        ".csdlc/prepared/issues/113/recover-publication-intent-review.json",
+        ".csdlc/prepared/issues/113/replan-bound-dependencies.json",
+        ".csdlc/prepared/issues/113/replan-bound-steps.json",
+        ".csdlc/prepared/issues/113/start-bound-step-s2.json",
+        ".csdlc/prepared/issues/113/start-bound-step-s4.json",
+        ".csdlc/publication/111.intent.json",
+        ".csdlc/publication/113.intent.json",
+        ".csdlc/requests/113-final-bind-readiness-vpp.json",
+        ".csdlc/requests/113-validator-deliverables-repair.json",
+        ".csdlc/requests/113-vpp-pvf-repair.json",
+        "design/issue-111.md",
+        "design/issue-111.mmd",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "docs/api/runtime-v3/v1/openapi.json"
+      ],
+      "owner": "docs",
+      "proof_role": "diff_hygiene",
+      "requirement_ids": [
+        "docs_diff_check"
+      ],
+      "resource_class": "tiny",
+      "risk_class": "low",
+      "source": "validation_lane_selector"
+    },
+    {
+      "default_surface": "tooling",
+      "determinism_posture": "deterministic",
+      "escalation_rule": "none",
+      "id": "tooling_contract_html_observatory_roster_javascript_syntax",
+      "lane_id": "html_observatory_roster_javascript_syntax",
+      "matched_paths": [
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "owner": "review",
+      "proof_role": "tooling_contract",
+      "requirement_ids": [
+        "html_observatory_roster_javascript_syntax"
+      ],
+      "resource_class": "tiny",
+      "risk_class": "medium",
+      "source": "validation_lane_selector"
+    },
+    {
+      "default_surface": "tooling",
+      "determinism_posture": "deterministic",
+      "escalation_rule": "none",
+      "id": "tooling_contract_html_observatory_tooling_syntax",
+      "lane_id": "html_observatory_tooling_syntax",
+      "matched_paths": [
+        "adl/tools/test_html_observatory.sh"
+      ],
+      "owner": "review",
+      "proof_role": "tooling_contract",
+      "requirement_ids": [
+        "html_observatory_tooling_syntax"
+      ],
+      "resource_class": "tiny",
+      "risk_class": "medium",
+      "source": "validation_lane_selector"
+    },
+    {
+      "default_surface": "tooling",
+      "determinism_posture": "deterministic",
+      "escalation_rule": "none",
+      "id": "demo_contract_html_observatory_v0917_runtime_surface",
+      "lane_id": "html_observatory_v0917_runtime_surface",
+      "matched_paths": [
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/styles.css",
+        "demos/html-observatory/tests/conversation_sessions.test.mjs"
+      ],
+      "owner": "review",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "html_observatory_v0917_runtime_surface"
+      ],
+      "resource_class": "small",
+      "risk_class": "medium",
+      "source": "validation_lane_selector"
+    },
+    {
+      "default_surface": "runtime",
+      "determinism_posture": "deterministic",
+      "escalation_rule": "delegate_or_escalate",
+      "id": "runtime_regression_runtime_kernel_contracts",
+      "lane_id": "runtime_kernel_contracts",
+      "matched_paths": [
+        "adl-runtime-kernel/build.rs",
+        "adl-runtime-kernel/src/agent_roster.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/src/live_continuity.rs",
+        "adl-runtime-kernel/src/operations.rs",
+        "adl-runtime-kernel/src/telemetry.rs",
+        "adl-runtime-kernel/tests/agent_roster.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        "adl-runtime-kernel/tests/conversation_sessions.rs",
+        "adl-runtime-kernel/tests/openapi_contract.rs"
+      ],
+      "owner": "runtime",
+      "proof_role": "runtime_regression",
+      "requirement_ids": [
+        "runtime_kernel_contracts"
+      ],
+      "resource_class": "medium",
+      "risk_class": "medium",
+      "source": "validation_lane_selector"
+    }
+  ],
+  "changed_paths": [
+    ".csdlc/evidence/113/roster-live-proof-2118c05b3/manifest.json",
+    ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-desktop.png",
+    ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-live-proof.json",
+    ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-mobile.png",
+    ".csdlc/issues/111/audit.jsonl",
+    ".csdlc/issues/111/cards/sip.md",
+    ".csdlc/issues/111/cards/sip.values.json",
+    ".csdlc/issues/111/cards/sor.md",
+    ".csdlc/issues/111/cards/sor.values.json",
+    ".csdlc/issues/111/cards/spp.md",
+    ".csdlc/issues/111/cards/spp.values.json",
+    ".csdlc/issues/111/cards/srp.md",
+    ".csdlc/issues/111/cards/srp.values.json",
+    ".csdlc/issues/111/cards/stp.md",
+    ".csdlc/issues/111/cards/stp.values.json",
+    ".csdlc/issues/111/cards/vpp.md",
+    ".csdlc/issues/111/cards/vpp.values.json",
+    ".csdlc/issues/111/index.json",
+    ".csdlc/issues/113/audit.jsonl",
+    ".csdlc/issues/113/cards/sip.md",
+    ".csdlc/issues/113/cards/sip.values.json",
+    ".csdlc/issues/113/cards/sor.md",
+    ".csdlc/issues/113/cards/sor.values.json",
+    ".csdlc/issues/113/cards/spp.md",
+    ".csdlc/issues/113/cards/spp.values.json",
+    ".csdlc/issues/113/cards/srp.md",
+    ".csdlc/issues/113/cards/srp.values.json",
+    ".csdlc/issues/113/cards/stp.md",
+    ".csdlc/issues/113/cards/stp.values.json",
+    ".csdlc/issues/113/cards/vpp.md",
+    ".csdlc/issues/113/cards/vpp.values.json",
+    ".csdlc/issues/113/index.json",
+    ".csdlc/locks/111.lock",
+    ".csdlc/locks/113.lock",
+    ".csdlc/prepared/issues/111/advance-review-remediation-implemented.json",
+    ".csdlc/prepared/issues/111/assign-exact-review.json",
+    ".csdlc/prepared/issues/111/assign-final-attachment-ordering-review.json",
+    ".csdlc/prepared/issues/111/assign-final-fresh-review.json",
+    ".csdlc/prepared/issues/111/assign-integrated-exact-review.json",
+    ".csdlc/prepared/issues/111/assign-integrated-remediation-review.json",
+    ".csdlc/prepared/issues/111/assign-stale-cleanup-remediation-review.json",
+    ".csdlc/prepared/issues/111/complete-plan-p1.json",
+    ".csdlc/prepared/issues/111/complete-plan-p2.json",
+    ".csdlc/prepared/issues/111/complete-plan-p3.json",
+    ".csdlc/prepared/issues/111/complete-plan-p4.json",
+    ".csdlc/prepared/issues/111/complete-plan-p5.json",
+    ".csdlc/prepared/issues/111/edit-final-review-authority.json",
+    ".csdlc/prepared/issues/111/publish-final-reviewed.json",
+    ".csdlc/prepared/issues/111/publish-stacked-reviewable.json",
+    ".csdlc/prepared/issues/111/record-attachment-ordering-remediation.json",
+    ".csdlc/prepared/issues/111/record-attachment-ordering-validation.json",
+    ".csdlc/prepared/issues/111/record-exact-review.json",
+    ".csdlc/prepared/issues/111/record-final-attachment-ordering-review.json",
+    ".csdlc/prepared/issues/111/record-final-fresh-review-finding.json",
+    ".csdlc/prepared/issues/111/record-final-fresh-review-remediation.json",
+    ".csdlc/prepared/issues/111/record-final-fresh-review-validation.json",
+    ".csdlc/prepared/issues/111/record-fresh-review-findings.json",
+    ".csdlc/prepared/issues/111/record-fresh-review-remediation-validation.json",
+    ".csdlc/prepared/issues/111/record-fresh-review-remediation.json",
+    ".csdlc/prepared/issues/111/record-integrated-remediation-review.json",
+    ".csdlc/prepared/issues/111/record-integrated-review-findings.json",
+    ".csdlc/prepared/issues/111/record-integrated-review-remediation-execution.json",
+    ".csdlc/prepared/issues/111/record-integrated-review-remediation-validation.json",
+    ".csdlc/prepared/issues/111/record-review-remediation-execution.json",
+    ".csdlc/prepared/issues/111/record-roster-integration-card-validation.json",
+    ".csdlc/prepared/issues/111/record-roster-integration-execution.json",
+    ".csdlc/prepared/issues/111/record-roster-integration-observatory-validation.json",
+    ".csdlc/prepared/issues/111/record-roster-integration-runtime-validation.json",
+    ".csdlc/prepared/issues/111/record-roster-integration-static-validation.json",
+    ".csdlc/prepared/issues/111/record-stale-cleanup-ordering-finding.json",
+    ".csdlc/prepared/issues/111/record-stale-cleanup-race-remediation.json",
+    ".csdlc/prepared/issues/111/record-stale-cleanup-race-validation.json",
+    ".csdlc/prepared/issues/111/record-validation-browser.json",
+    ".csdlc/prepared/issues/111/record-validation-cards.json",
+    ".csdlc/prepared/issues/111/record-validation-clippy.json",
+    ".csdlc/prepared/issues/111/record-validation-conversation-integration.json",
+    ".csdlc/prepared/issues/111/record-validation-diff.json",
+    ".csdlc/prepared/issues/111/record-validation-observatory.json",
+    ".csdlc/prepared/issues/111/record-validation-openapi.json",
+    ".csdlc/prepared/issues/111/recover-after-final-fresh-review-finding.json",
+    ".csdlc/prepared/issues/111/recover-after-integrated-review-findings.json",
+    ".csdlc/prepared/issues/111/recover-after-roster-integration.json",
+    ".csdlc/prepared/issues/111/recover-after-stale-cleanup-ordering-finding.json",
+    ".csdlc/prepared/issues/111/replan-affected-areas.json",
+    ".csdlc/prepared/issues/111/replan-invariants.json",
+    ".csdlc/prepared/issues/111/replan-live-authority.json",
+    ".csdlc/prepared/issues/111/replan-review-remediation-acceptance.json",
+    ".csdlc/prepared/issues/111/replan-review-remediation-deliverables.json",
+    ".csdlc/prepared/issues/111/replan-risks.json",
+    ".csdlc/prepared/issues/111/replan-sip-authority.json",
+    ".csdlc/prepared/issues/111/replan-steps.json",
+    ".csdlc/prepared/issues/111/replan-stop-conditions.json",
+    ".csdlc/prepared/issues/111/replan-stp-boundary.json",
+    ".csdlc/prepared/issues/111/replan-stp-dependencies.json",
+    ".csdlc/prepared/issues/113/advance-implemented-final.json",
+    ".csdlc/prepared/issues/113/assign-atomic-publication-review.json",
+    ".csdlc/prepared/issues/113/assign-corrected-publication-review.json",
+    ".csdlc/prepared/issues/113/assign-final-exact-review.json",
+    ".csdlc/prepared/issues/113/assign-final-locke-review.json",
+    ".csdlc/prepared/issues/113/assign-fresh-remediation-review.json",
+    ".csdlc/prepared/issues/113/assign-post-locke-remediation-review.json",
+    ".csdlc/prepared/issues/113/assign-publication-intent-review.json",
+    ".csdlc/prepared/issues/113/bind-request.json",
+    ".csdlc/prepared/issues/113/bootstrap-request.json",
+    ".csdlc/prepared/issues/113/complete-bound-step-s1.json",
+    ".csdlc/prepared/issues/113/complete-bound-step-s2.json",
+    ".csdlc/prepared/issues/113/complete-bound-step-s3.json",
+    ".csdlc/prepared/issues/113/complete-bound-step-s4-final.json",
+    ".csdlc/prepared/issues/113/complete-bound-step-s5-handoff.json",
+    ".csdlc/prepared/issues/113/design.md",
+    ".csdlc/prepared/issues/113/diagram.mmd",
+    ".csdlc/prepared/issues/113/edit-01-owned-paths.json",
+    ".csdlc/prepared/issues/113/edit-02-deliverable-paths.json",
+    ".csdlc/prepared/issues/113/edit-03-validation-deferrals.json",
+    ".csdlc/prepared/issues/113/edit-04-dependency-alignment.json",
+    ".csdlc/prepared/issues/113/edit-05-advance-ready.json",
+    ".csdlc/prepared/issues/113/edit-06-ready-deliverables.json",
+    ".csdlc/prepared/issues/113/edit-07-ready-pvf-lanes.json",
+    ".csdlc/prepared/issues/113/edit-08-governed-html-lane.json",
+    ".csdlc/prepared/issues/113/edit-09-remediation-validation-lanes.json",
+    ".csdlc/prepared/issues/113/edit-10-remediation-affected-areas.json",
+    ".csdlc/prepared/issues/113/edit-11-restart-proof-scope.json",
+    ".csdlc/prepared/issues/113/publish-final-reviewed.json",
+    ".csdlc/prepared/issues/113/publish-reviewable.json",
+    ".csdlc/prepared/issues/113/reapprove-bound-design.json",
+    ".csdlc/prepared/issues/113/reapprove-design.json",
+    ".csdlc/prepared/issues/113/record-atomic-publication-review.json",
+    ".csdlc/prepared/issues/113/record-corrected-publication-review.json",
+    ".csdlc/prepared/issues/113/record-final-exact-review.json",
+    ".csdlc/prepared/issues/113/record-final-execution.json",
+    ".csdlc/prepared/issues/113/record-final-locke-pass.json",
+    ".csdlc/prepared/issues/113/record-focused-coverage-validation.json",
+    ".csdlc/prepared/issues/113/record-fresh-review-remediation-validation.json",
+    ".csdlc/prepared/issues/113/record-fresh-review-remediation.json",
+    ".csdlc/prepared/issues/113/record-locke-remediation-validation.json",
+    ".csdlc/prepared/issues/113/record-locke-remediation.json",
+    ".csdlc/prepared/issues/113/record-locke-review-findings.json",
+    ".csdlc/prepared/issues/113/record-locke-second-remediation-validation.json",
+    ".csdlc/prepared/issues/113/record-locke-second-remediation.json",
+    ".csdlc/prepared/issues/113/record-locke-second-review-findings.json",
+    ".csdlc/prepared/issues/113/record-publication-intent-review-findings.json",
+    ".csdlc/prepared/issues/113/record-validation-agent-roster-final.json",
+    ".csdlc/prepared/issues/113/record-validation-browser-final.json",
+    ".csdlc/prepared/issues/113/record-validation-clippy-final.json",
+    ".csdlc/prepared/issues/113/record-validation-control-final.json",
+    ".csdlc/prepared/issues/113/record-validation-diff-final.json",
+    ".csdlc/prepared/issues/113/record-validation-fmt-final.json",
+    ".csdlc/prepared/issues/113/record-validation-observatory-static-final.json",
+    ".csdlc/prepared/issues/113/record-validation-openapi-final.json",
+    ".csdlc/prepared/issues/113/recover-after-fresh-review-remediation.json",
+    ".csdlc/prepared/issues/113/recover-after-locke-findings.json",
+    ".csdlc/prepared/issues/113/recover-after-locke-second-findings.json",
+    ".csdlc/prepared/issues/113/recover-after-publication-intent-findings.json",
+    ".csdlc/prepared/issues/113/recover-for-atomic-publication.json",
+    ".csdlc/prepared/issues/113/recover-for-final-publication.json",
+    ".csdlc/prepared/issues/113/recover-publication-intent-review.json",
+    ".csdlc/prepared/issues/113/replan-bound-dependencies.json",
+    ".csdlc/prepared/issues/113/replan-bound-steps.json",
+    ".csdlc/prepared/issues/113/start-bound-step-s2.json",
+    ".csdlc/prepared/issues/113/start-bound-step-s4.json",
+    ".csdlc/publication/111.intent.json",
+    ".csdlc/publication/113.intent.json",
+    ".csdlc/requests/113-final-bind-readiness-vpp.json",
+    ".csdlc/requests/113-validator-deliverables-repair.json",
+    ".csdlc/requests/113-vpp-pvf-repair.json",
+    "adl-runtime-kernel/build.rs",
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/src/live_continuity.rs",
+    "adl-runtime-kernel/src/operations.rs",
+    "adl-runtime-kernel/src/telemetry.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/conversation_sessions.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "adl/tools/test_html_observatory.sh",
+    "adl/tools/validate_v092_html_observatory_roster.mjs",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
+    "demos/html-observatory/tests/conversation_sessions.test.mjs",
+    "design/issue-111.md",
+    "design/issue-111.mmd",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "docs/api/runtime-v3/v1/openapi.json"
+  ],
+  "deferred": [],
+  "diagnostics": [],
+  "escalation": {
+    "reasons": [],
+    "required": false
+  },
+  "estimated_cost": {
+    "blocked_lane_count": 0,
+    "expected_test_scope": "focused_or_family",
+    "runtime_class": "normal",
+    "selected_lane_count": 5,
+    "token_review_cost": "medium"
+  },
+  "not_run": [
+    {
+      "reason": "not selected by validation profile",
+      "surface": "full_workspace_nextest"
+    },
+    {
+      "reason": "reserved for broad shared changes or release gates",
+      "surface": "cargo_clippy_all_targets"
+    },
+    {
+      "reason": "reserved for explicit proof-family selection",
+      "surface": "slow_proof"
+    },
+    {
+      "reason": "reserved for coverage or release policy selection",
+      "surface": "coverage_release_gate"
+    },
+    {
+      "feature": "slow-proof-runtime",
+      "reason": "reserved for explicit proof-family selection",
+      "surface": "slow_proof/runtime"
+    },
+    {
+      "feature": "slow-proof-private-state",
+      "reason": "reserved for explicit proof-family selection",
+      "surface": "slow_proof/private_state"
+    },
+    {
+      "feature": "slow-proof-observatory",
+      "reason": "reserved for explicit proof-family selection",
+      "surface": "slow_proof/observatory"
+    },
+    {
+      "feature": "slow-proof-security",
+      "reason": "reserved for explicit proof-family selection",
+      "surface": "slow_proof/security"
+    }
+  ],
+  "pr_publication_sufficient": true,
+  "run": [
+    {
+      "command": "git diff --check",
+      "lane_id": "docs_diff_check",
+      "matched_paths": [
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/manifest.json",
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-desktop.png",
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-live-proof.json",
+        ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-mobile.png",
+        ".csdlc/issues/111/audit.jsonl",
+        ".csdlc/issues/111/cards/sip.md",
+        ".csdlc/issues/111/cards/sip.values.json",
+        ".csdlc/issues/111/cards/sor.md",
+        ".csdlc/issues/111/cards/sor.values.json",
+        ".csdlc/issues/111/cards/spp.md",
+        ".csdlc/issues/111/cards/spp.values.json",
+        ".csdlc/issues/111/cards/srp.md",
+        ".csdlc/issues/111/cards/srp.values.json",
+        ".csdlc/issues/111/cards/stp.md",
+        ".csdlc/issues/111/cards/stp.values.json",
+        ".csdlc/issues/111/cards/vpp.md",
+        ".csdlc/issues/111/cards/vpp.values.json",
+        ".csdlc/issues/111/index.json",
+        ".csdlc/issues/113/audit.jsonl",
+        ".csdlc/issues/113/cards/sip.md",
+        ".csdlc/issues/113/cards/sip.values.json",
+        ".csdlc/issues/113/cards/sor.md",
+        ".csdlc/issues/113/cards/sor.values.json",
+        ".csdlc/issues/113/cards/spp.md",
+        ".csdlc/issues/113/cards/spp.values.json",
+        ".csdlc/issues/113/cards/srp.md",
+        ".csdlc/issues/113/cards/srp.values.json",
+        ".csdlc/issues/113/cards/stp.md",
+        ".csdlc/issues/113/cards/stp.values.json",
+        ".csdlc/issues/113/cards/vpp.md",
+        ".csdlc/issues/113/cards/vpp.values.json",
+        ".csdlc/issues/113/index.json",
+        ".csdlc/locks/111.lock",
+        ".csdlc/locks/113.lock",
+        ".csdlc/prepared/issues/111/advance-review-remediation-implemented.json",
+        ".csdlc/prepared/issues/111/assign-exact-review.json",
+        ".csdlc/prepared/issues/111/assign-final-attachment-ordering-review.json",
+        ".csdlc/prepared/issues/111/assign-final-fresh-review.json",
+        ".csdlc/prepared/issues/111/assign-integrated-exact-review.json",
+        ".csdlc/prepared/issues/111/assign-integrated-remediation-review.json",
+        ".csdlc/prepared/issues/111/assign-stale-cleanup-remediation-review.json",
+        ".csdlc/prepared/issues/111/complete-plan-p1.json",
+        ".csdlc/prepared/issues/111/complete-plan-p2.json",
+        ".csdlc/prepared/issues/111/complete-plan-p3.json",
+        ".csdlc/prepared/issues/111/complete-plan-p4.json",
+        ".csdlc/prepared/issues/111/complete-plan-p5.json",
+        ".csdlc/prepared/issues/111/edit-final-review-authority.json",
+        ".csdlc/prepared/issues/111/publish-final-reviewed.json",
+        ".csdlc/prepared/issues/111/publish-stacked-reviewable.json",
+        ".csdlc/prepared/issues/111/record-attachment-ordering-remediation.json",
+        ".csdlc/prepared/issues/111/record-attachment-ordering-validation.json",
+        ".csdlc/prepared/issues/111/record-exact-review.json",
+        ".csdlc/prepared/issues/111/record-final-attachment-ordering-review.json",
+        ".csdlc/prepared/issues/111/record-final-fresh-review-finding.json",
+        ".csdlc/prepared/issues/111/record-final-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/111/record-final-fresh-review-validation.json",
+        ".csdlc/prepared/issues/111/record-fresh-review-findings.json",
+        ".csdlc/prepared/issues/111/record-fresh-review-remediation-validation.json",
+        ".csdlc/prepared/issues/111/record-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/111/record-integrated-remediation-review.json",
+        ".csdlc/prepared/issues/111/record-integrated-review-findings.json",
+        ".csdlc/prepared/issues/111/record-integrated-review-remediation-execution.json",
+        ".csdlc/prepared/issues/111/record-integrated-review-remediation-validation.json",
+        ".csdlc/prepared/issues/111/record-review-remediation-execution.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-card-validation.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-execution.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-observatory-validation.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-runtime-validation.json",
+        ".csdlc/prepared/issues/111/record-roster-integration-static-validation.json",
+        ".csdlc/prepared/issues/111/record-stale-cleanup-ordering-finding.json",
+        ".csdlc/prepared/issues/111/record-stale-cleanup-race-remediation.json",
+        ".csdlc/prepared/issues/111/record-stale-cleanup-race-validation.json",
+        ".csdlc/prepared/issues/111/record-validation-browser.json",
+        ".csdlc/prepared/issues/111/record-validation-cards.json",
+        ".csdlc/prepared/issues/111/record-validation-clippy.json",
+        ".csdlc/prepared/issues/111/record-validation-conversation-integration.json",
+        ".csdlc/prepared/issues/111/record-validation-diff.json",
+        ".csdlc/prepared/issues/111/record-validation-observatory.json",
+        ".csdlc/prepared/issues/111/record-validation-openapi.json",
+        ".csdlc/prepared/issues/111/recover-after-final-fresh-review-finding.json",
+        ".csdlc/prepared/issues/111/recover-after-integrated-review-findings.json",
+        ".csdlc/prepared/issues/111/recover-after-roster-integration.json",
+        ".csdlc/prepared/issues/111/recover-after-stale-cleanup-ordering-finding.json",
+        ".csdlc/prepared/issues/111/replan-affected-areas.json",
+        ".csdlc/prepared/issues/111/replan-invariants.json",
+        ".csdlc/prepared/issues/111/replan-live-authority.json",
+        ".csdlc/prepared/issues/111/replan-review-remediation-acceptance.json",
+        ".csdlc/prepared/issues/111/replan-review-remediation-deliverables.json",
+        ".csdlc/prepared/issues/111/replan-risks.json",
+        ".csdlc/prepared/issues/111/replan-sip-authority.json",
+        ".csdlc/prepared/issues/111/replan-steps.json",
+        ".csdlc/prepared/issues/111/replan-stop-conditions.json",
+        ".csdlc/prepared/issues/111/replan-stp-boundary.json",
+        ".csdlc/prepared/issues/111/replan-stp-dependencies.json",
+        ".csdlc/prepared/issues/113/advance-implemented-final.json",
+        ".csdlc/prepared/issues/113/assign-atomic-publication-review.json",
+        ".csdlc/prepared/issues/113/assign-corrected-publication-review.json",
+        ".csdlc/prepared/issues/113/assign-final-exact-review.json",
+        ".csdlc/prepared/issues/113/assign-final-locke-review.json",
+        ".csdlc/prepared/issues/113/assign-fresh-remediation-review.json",
+        ".csdlc/prepared/issues/113/assign-post-locke-remediation-review.json",
+        ".csdlc/prepared/issues/113/assign-publication-intent-review.json",
+        ".csdlc/prepared/issues/113/bind-request.json",
+        ".csdlc/prepared/issues/113/bootstrap-request.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s1.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s2.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s3.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s4-final.json",
+        ".csdlc/prepared/issues/113/complete-bound-step-s5-handoff.json",
+        ".csdlc/prepared/issues/113/design.md",
+        ".csdlc/prepared/issues/113/diagram.mmd",
+        ".csdlc/prepared/issues/113/edit-01-owned-paths.json",
+        ".csdlc/prepared/issues/113/edit-02-deliverable-paths.json",
+        ".csdlc/prepared/issues/113/edit-03-validation-deferrals.json",
+        ".csdlc/prepared/issues/113/edit-04-dependency-alignment.json",
+        ".csdlc/prepared/issues/113/edit-05-advance-ready.json",
+        ".csdlc/prepared/issues/113/edit-06-ready-deliverables.json",
+        ".csdlc/prepared/issues/113/edit-07-ready-pvf-lanes.json",
+        ".csdlc/prepared/issues/113/edit-08-governed-html-lane.json",
+        ".csdlc/prepared/issues/113/edit-09-remediation-validation-lanes.json",
+        ".csdlc/prepared/issues/113/edit-10-remediation-affected-areas.json",
+        ".csdlc/prepared/issues/113/edit-11-restart-proof-scope.json",
+        ".csdlc/prepared/issues/113/publish-final-reviewed.json",
+        ".csdlc/prepared/issues/113/publish-reviewable.json",
+        ".csdlc/prepared/issues/113/reapprove-bound-design.json",
+        ".csdlc/prepared/issues/113/reapprove-design.json",
+        ".csdlc/prepared/issues/113/record-atomic-publication-review.json",
+        ".csdlc/prepared/issues/113/record-corrected-publication-review.json",
+        ".csdlc/prepared/issues/113/record-final-exact-review.json",
+        ".csdlc/prepared/issues/113/record-final-execution.json",
+        ".csdlc/prepared/issues/113/record-final-locke-pass.json",
+        ".csdlc/prepared/issues/113/record-focused-coverage-validation.json",
+        ".csdlc/prepared/issues/113/record-fresh-review-remediation-validation.json",
+        ".csdlc/prepared/issues/113/record-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/113/record-locke-remediation-validation.json",
+        ".csdlc/prepared/issues/113/record-locke-remediation.json",
+        ".csdlc/prepared/issues/113/record-locke-review-findings.json",
+        ".csdlc/prepared/issues/113/record-locke-second-remediation-validation.json",
+        ".csdlc/prepared/issues/113/record-locke-second-remediation.json",
+        ".csdlc/prepared/issues/113/record-locke-second-review-findings.json",
+        ".csdlc/prepared/issues/113/record-publication-intent-review-findings.json",
+        ".csdlc/prepared/issues/113/record-validation-agent-roster-final.json",
+        ".csdlc/prepared/issues/113/record-validation-browser-final.json",
+        ".csdlc/prepared/issues/113/record-validation-clippy-final.json",
+        ".csdlc/prepared/issues/113/record-validation-control-final.json",
+        ".csdlc/prepared/issues/113/record-validation-diff-final.json",
+        ".csdlc/prepared/issues/113/record-validation-fmt-final.json",
+        ".csdlc/prepared/issues/113/record-validation-observatory-static-final.json",
+        ".csdlc/prepared/issues/113/record-validation-openapi-final.json",
+        ".csdlc/prepared/issues/113/recover-after-fresh-review-remediation.json",
+        ".csdlc/prepared/issues/113/recover-after-locke-findings.json",
+        ".csdlc/prepared/issues/113/recover-after-locke-second-findings.json",
+        ".csdlc/prepared/issues/113/recover-after-publication-intent-findings.json",
+        ".csdlc/prepared/issues/113/recover-for-atomic-publication.json",
+        ".csdlc/prepared/issues/113/recover-for-final-publication.json",
+        ".csdlc/prepared/issues/113/recover-publication-intent-review.json",
+        ".csdlc/prepared/issues/113/replan-bound-dependencies.json",
+        ".csdlc/prepared/issues/113/replan-bound-steps.json",
+        ".csdlc/prepared/issues/113/start-bound-step-s2.json",
+        ".csdlc/prepared/issues/113/start-bound-step-s4.json",
+        ".csdlc/publication/111.intent.json",
+        ".csdlc/publication/113.intent.json",
+        ".csdlc/requests/113-final-bind-readiness-vpp.json",
+        ".csdlc/requests/113-validator-deliverables-repair.json",
+        ".csdlc/requests/113-vpp-pvf-repair.json",
+        "design/issue-111.md",
+        "design/issue-111.mmd",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "docs/api/runtime-v3/v1/openapi.json"
+      ],
+      "reason": "docs_only_surface_requires_diff_hygiene",
+      "vpp_record": {
+        "artifacts": [
+          "working_tree_diff_hygiene"
+        ],
+        "cache_equivalence_group": "git_diff_check",
+        "contract_version": "vpp.lane.v1",
+        "expected_runtime_class": "tiny",
+        "failure_semantics": "fail_closed",
+        "parallel_group": "docs_hygiene"
+      }
+    },
+    {
+      "command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+      "lane_id": "html_observatory_roster_javascript_syntax",
+      "matched_paths": [
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "reason": "html_observatory_roster_javascript_changes_require_direct_syntax_proof",
+      "vpp_record": null
+    },
+    {
+      "command": "bash -n adl/tools/test_html_observatory.sh",
+      "lane_id": "html_observatory_tooling_syntax",
+      "matched_paths": [
+        "adl/tools/test_html_observatory.sh"
+      ],
+      "reason": "html_observatory_shell_tooling_changes_require_direct_syntax_proof",
+      "vpp_record": null
+    },
+    {
+      "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "lane_id": "html_observatory_v0917_runtime_surface",
+      "matched_paths": [
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/styles.css",
+        "demos/html-observatory/tests/conversation_sessions.test.mjs"
+      ],
+      "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof",
+      "vpp_record": null
+    },
+    {
+      "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+      "lane_id": "runtime_kernel_contracts",
+      "matched_paths": [
+        "adl-runtime-kernel/build.rs",
+        "adl-runtime-kernel/src/agent_roster.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/src/live_continuity.rs",
+        "adl-runtime-kernel/src/operations.rs",
+        "adl-runtime-kernel/src/telemetry.rs",
+        "adl-runtime-kernel/tests/agent_roster.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        "adl-runtime-kernel/tests/conversation_sessions.rs",
+        "adl-runtime-kernel/tests/openapi_contract.rs"
+      ],
+      "reason": "independent_runtime_kernel_surface_requires_focused_crate_proof",
+      "vpp_record": {
+        "artifacts": [
+          "runtime_kernel_test_results"
+        ],
+        "cache_equivalence_group": "adl_runtime_kernel",
+        "contract_version": "vpp.lane.v1",
+        "expected_runtime_class": "normal",
+        "failure_semantics": "fail_closed",
+        "parallel_group": "runtime_kernel_focused_serial"
+      }
+    }
+  ],
+  "schema_version": "adl.validation_profile.v1",
+  "selected_profile": "selected_5_lane_profile",
+  "selector_aggregate_status": "selected",
+  "selector_plan": {
+    "aggregate_status": "selected",
+    "changed_paths": [
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3/manifest.json",
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-desktop.png",
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-live-proof.json",
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-mobile.png",
+      ".csdlc/issues/111/audit.jsonl",
+      ".csdlc/issues/111/cards/sip.md",
+      ".csdlc/issues/111/cards/sip.values.json",
+      ".csdlc/issues/111/cards/sor.md",
+      ".csdlc/issues/111/cards/sor.values.json",
+      ".csdlc/issues/111/cards/spp.md",
+      ".csdlc/issues/111/cards/spp.values.json",
+      ".csdlc/issues/111/cards/srp.md",
+      ".csdlc/issues/111/cards/srp.values.json",
+      ".csdlc/issues/111/cards/stp.md",
+      ".csdlc/issues/111/cards/stp.values.json",
+      ".csdlc/issues/111/cards/vpp.md",
+      ".csdlc/issues/111/cards/vpp.values.json",
+      ".csdlc/issues/111/index.json",
+      ".csdlc/issues/113/audit.jsonl",
+      ".csdlc/issues/113/cards/sip.md",
+      ".csdlc/issues/113/cards/sip.values.json",
+      ".csdlc/issues/113/cards/sor.md",
+      ".csdlc/issues/113/cards/sor.values.json",
+      ".csdlc/issues/113/cards/spp.md",
+      ".csdlc/issues/113/cards/spp.values.json",
+      ".csdlc/issues/113/cards/srp.md",
+      ".csdlc/issues/113/cards/srp.values.json",
+      ".csdlc/issues/113/cards/stp.md",
+      ".csdlc/issues/113/cards/stp.values.json",
+      ".csdlc/issues/113/cards/vpp.md",
+      ".csdlc/issues/113/cards/vpp.values.json",
+      ".csdlc/issues/113/index.json",
+      ".csdlc/locks/111.lock",
+      ".csdlc/locks/113.lock",
+      ".csdlc/prepared/issues/111/advance-review-remediation-implemented.json",
+      ".csdlc/prepared/issues/111/assign-exact-review.json",
+      ".csdlc/prepared/issues/111/assign-final-attachment-ordering-review.json",
+      ".csdlc/prepared/issues/111/assign-final-fresh-review.json",
+      ".csdlc/prepared/issues/111/assign-integrated-exact-review.json",
+      ".csdlc/prepared/issues/111/assign-integrated-remediation-review.json",
+      ".csdlc/prepared/issues/111/assign-stale-cleanup-remediation-review.json",
+      ".csdlc/prepared/issues/111/complete-plan-p1.json",
+      ".csdlc/prepared/issues/111/complete-plan-p2.json",
+      ".csdlc/prepared/issues/111/complete-plan-p3.json",
+      ".csdlc/prepared/issues/111/complete-plan-p4.json",
+      ".csdlc/prepared/issues/111/complete-plan-p5.json",
+      ".csdlc/prepared/issues/111/edit-final-review-authority.json",
+      ".csdlc/prepared/issues/111/publish-final-reviewed.json",
+      ".csdlc/prepared/issues/111/publish-stacked-reviewable.json",
+      ".csdlc/prepared/issues/111/record-attachment-ordering-remediation.json",
+      ".csdlc/prepared/issues/111/record-attachment-ordering-validation.json",
+      ".csdlc/prepared/issues/111/record-exact-review.json",
+      ".csdlc/prepared/issues/111/record-final-attachment-ordering-review.json",
+      ".csdlc/prepared/issues/111/record-final-fresh-review-finding.json",
+      ".csdlc/prepared/issues/111/record-final-fresh-review-remediation.json",
+      ".csdlc/prepared/issues/111/record-final-fresh-review-validation.json",
+      ".csdlc/prepared/issues/111/record-fresh-review-findings.json",
+      ".csdlc/prepared/issues/111/record-fresh-review-remediation-validation.json",
+      ".csdlc/prepared/issues/111/record-fresh-review-remediation.json",
+      ".csdlc/prepared/issues/111/record-integrated-remediation-review.json",
+      ".csdlc/prepared/issues/111/record-integrated-review-findings.json",
+      ".csdlc/prepared/issues/111/record-integrated-review-remediation-execution.json",
+      ".csdlc/prepared/issues/111/record-integrated-review-remediation-validation.json",
+      ".csdlc/prepared/issues/111/record-review-remediation-execution.json",
+      ".csdlc/prepared/issues/111/record-roster-integration-card-validation.json",
+      ".csdlc/prepared/issues/111/record-roster-integration-execution.json",
+      ".csdlc/prepared/issues/111/record-roster-integration-observatory-validation.json",
+      ".csdlc/prepared/issues/111/record-roster-integration-runtime-validation.json",
+      ".csdlc/prepared/issues/111/record-roster-integration-static-validation.json",
+      ".csdlc/prepared/issues/111/record-stale-cleanup-ordering-finding.json",
+      ".csdlc/prepared/issues/111/record-stale-cleanup-race-remediation.json",
+      ".csdlc/prepared/issues/111/record-stale-cleanup-race-validation.json",
+      ".csdlc/prepared/issues/111/record-validation-browser.json",
+      ".csdlc/prepared/issues/111/record-validation-cards.json",
+      ".csdlc/prepared/issues/111/record-validation-clippy.json",
+      ".csdlc/prepared/issues/111/record-validation-conversation-integration.json",
+      ".csdlc/prepared/issues/111/record-validation-diff.json",
+      ".csdlc/prepared/issues/111/record-validation-observatory.json",
+      ".csdlc/prepared/issues/111/record-validation-openapi.json",
+      ".csdlc/prepared/issues/111/recover-after-final-fresh-review-finding.json",
+      ".csdlc/prepared/issues/111/recover-after-integrated-review-findings.json",
+      ".csdlc/prepared/issues/111/recover-after-roster-integration.json",
+      ".csdlc/prepared/issues/111/recover-after-stale-cleanup-ordering-finding.json",
+      ".csdlc/prepared/issues/111/replan-affected-areas.json",
+      ".csdlc/prepared/issues/111/replan-invariants.json",
+      ".csdlc/prepared/issues/111/replan-live-authority.json",
+      ".csdlc/prepared/issues/111/replan-review-remediation-acceptance.json",
+      ".csdlc/prepared/issues/111/replan-review-remediation-deliverables.json",
+      ".csdlc/prepared/issues/111/replan-risks.json",
+      ".csdlc/prepared/issues/111/replan-sip-authority.json",
+      ".csdlc/prepared/issues/111/replan-steps.json",
+      ".csdlc/prepared/issues/111/replan-stop-conditions.json",
+      ".csdlc/prepared/issues/111/replan-stp-boundary.json",
+      ".csdlc/prepared/issues/111/replan-stp-dependencies.json",
+      ".csdlc/prepared/issues/113/advance-implemented-final.json",
+      ".csdlc/prepared/issues/113/assign-atomic-publication-review.json",
+      ".csdlc/prepared/issues/113/assign-corrected-publication-review.json",
+      ".csdlc/prepared/issues/113/assign-final-exact-review.json",
+      ".csdlc/prepared/issues/113/assign-final-locke-review.json",
+      ".csdlc/prepared/issues/113/assign-fresh-remediation-review.json",
+      ".csdlc/prepared/issues/113/assign-post-locke-remediation-review.json",
+      ".csdlc/prepared/issues/113/assign-publication-intent-review.json",
+      ".csdlc/prepared/issues/113/bind-request.json",
+      ".csdlc/prepared/issues/113/bootstrap-request.json",
+      ".csdlc/prepared/issues/113/complete-bound-step-s1.json",
+      ".csdlc/prepared/issues/113/complete-bound-step-s2.json",
+      ".csdlc/prepared/issues/113/complete-bound-step-s3.json",
+      ".csdlc/prepared/issues/113/complete-bound-step-s4-final.json",
+      ".csdlc/prepared/issues/113/complete-bound-step-s5-handoff.json",
+      ".csdlc/prepared/issues/113/design.md",
+      ".csdlc/prepared/issues/113/diagram.mmd",
+      ".csdlc/prepared/issues/113/edit-01-owned-paths.json",
+      ".csdlc/prepared/issues/113/edit-02-deliverable-paths.json",
+      ".csdlc/prepared/issues/113/edit-03-validation-deferrals.json",
+      ".csdlc/prepared/issues/113/edit-04-dependency-alignment.json",
+      ".csdlc/prepared/issues/113/edit-05-advance-ready.json",
+      ".csdlc/prepared/issues/113/edit-06-ready-deliverables.json",
+      ".csdlc/prepared/issues/113/edit-07-ready-pvf-lanes.json",
+      ".csdlc/prepared/issues/113/edit-08-governed-html-lane.json",
+      ".csdlc/prepared/issues/113/edit-09-remediation-validation-lanes.json",
+      ".csdlc/prepared/issues/113/edit-10-remediation-affected-areas.json",
+      ".csdlc/prepared/issues/113/edit-11-restart-proof-scope.json",
+      ".csdlc/prepared/issues/113/publish-final-reviewed.json",
+      ".csdlc/prepared/issues/113/publish-reviewable.json",
+      ".csdlc/prepared/issues/113/reapprove-bound-design.json",
+      ".csdlc/prepared/issues/113/reapprove-design.json",
+      ".csdlc/prepared/issues/113/record-atomic-publication-review.json",
+      ".csdlc/prepared/issues/113/record-corrected-publication-review.json",
+      ".csdlc/prepared/issues/113/record-final-exact-review.json",
+      ".csdlc/prepared/issues/113/record-final-execution.json",
+      ".csdlc/prepared/issues/113/record-final-locke-pass.json",
+      ".csdlc/prepared/issues/113/record-focused-coverage-validation.json",
+      ".csdlc/prepared/issues/113/record-fresh-review-remediation-validation.json",
+      ".csdlc/prepared/issues/113/record-fresh-review-remediation.json",
+      ".csdlc/prepared/issues/113/record-locke-remediation-validation.json",
+      ".csdlc/prepared/issues/113/record-locke-remediation.json",
+      ".csdlc/prepared/issues/113/record-locke-review-findings.json",
+      ".csdlc/prepared/issues/113/record-locke-second-remediation-validation.json",
+      ".csdlc/prepared/issues/113/record-locke-second-remediation.json",
+      ".csdlc/prepared/issues/113/record-locke-second-review-findings.json",
+      ".csdlc/prepared/issues/113/record-publication-intent-review-findings.json",
+      ".csdlc/prepared/issues/113/record-validation-agent-roster-final.json",
+      ".csdlc/prepared/issues/113/record-validation-browser-final.json",
+      ".csdlc/prepared/issues/113/record-validation-clippy-final.json",
+      ".csdlc/prepared/issues/113/record-validation-control-final.json",
+      ".csdlc/prepared/issues/113/record-validation-diff-final.json",
+      ".csdlc/prepared/issues/113/record-validation-fmt-final.json",
+      ".csdlc/prepared/issues/113/record-validation-observatory-static-final.json",
+      ".csdlc/prepared/issues/113/record-validation-openapi-final.json",
+      ".csdlc/prepared/issues/113/recover-after-fresh-review-remediation.json",
+      ".csdlc/prepared/issues/113/recover-after-locke-findings.json",
+      ".csdlc/prepared/issues/113/recover-after-locke-second-findings.json",
+      ".csdlc/prepared/issues/113/recover-after-publication-intent-findings.json",
+      ".csdlc/prepared/issues/113/recover-for-atomic-publication.json",
+      ".csdlc/prepared/issues/113/recover-for-final-publication.json",
+      ".csdlc/prepared/issues/113/recover-publication-intent-review.json",
+      ".csdlc/prepared/issues/113/replan-bound-dependencies.json",
+      ".csdlc/prepared/issues/113/replan-bound-steps.json",
+      ".csdlc/prepared/issues/113/start-bound-step-s2.json",
+      ".csdlc/prepared/issues/113/start-bound-step-s4.json",
+      ".csdlc/publication/111.intent.json",
+      ".csdlc/publication/113.intent.json",
+      ".csdlc/requests/113-final-bind-readiness-vpp.json",
+      ".csdlc/requests/113-validator-deliverables-repair.json",
+      ".csdlc/requests/113-vpp-pvf-repair.json",
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "design/issue-111.md",
+      "design/issue-111.mmd",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "docs/api/runtime-v3/v1/openapi.json"
+    ],
+    "lanes": {
+      "docs_diff_check": {
+        "command": "git diff --check",
+        "default_surface": "docs",
+        "determinism_posture": "deterministic",
+        "escalation_rule": "none",
+        "lane_class": "docs",
+        "manifest_rule": "lanes.docs_diff_check",
+        "matched_paths": [
+          ".csdlc/evidence/113/roster-live-proof-2118c05b3/manifest.json",
+          ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-desktop.png",
+          ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-live-proof.json",
+          ".csdlc/evidence/113/roster-live-proof-2118c05b3/roster-mobile.png",
+          ".csdlc/issues/111/audit.jsonl",
+          ".csdlc/issues/111/cards/sip.md",
+          ".csdlc/issues/111/cards/sip.values.json",
+          ".csdlc/issues/111/cards/sor.md",
+          ".csdlc/issues/111/cards/sor.values.json",
+          ".csdlc/issues/111/cards/spp.md",
+          ".csdlc/issues/111/cards/spp.values.json",
+          ".csdlc/issues/111/cards/srp.md",
+          ".csdlc/issues/111/cards/srp.values.json",
+          ".csdlc/issues/111/cards/stp.md",
+          ".csdlc/issues/111/cards/stp.values.json",
+          ".csdlc/issues/111/cards/vpp.md",
+          ".csdlc/issues/111/cards/vpp.values.json",
+          ".csdlc/issues/111/index.json",
+          ".csdlc/issues/113/audit.jsonl",
+          ".csdlc/issues/113/cards/sip.md",
+          ".csdlc/issues/113/cards/sip.values.json",
+          ".csdlc/issues/113/cards/sor.md",
+          ".csdlc/issues/113/cards/sor.values.json",
+          ".csdlc/issues/113/cards/spp.md",
+          ".csdlc/issues/113/cards/spp.values.json",
+          ".csdlc/issues/113/cards/srp.md",
+          ".csdlc/issues/113/cards/srp.values.json",
+          ".csdlc/issues/113/cards/stp.md",
+          ".csdlc/issues/113/cards/stp.values.json",
+          ".csdlc/issues/113/cards/vpp.md",
+          ".csdlc/issues/113/cards/vpp.values.json",
+          ".csdlc/issues/113/index.json",
+          ".csdlc/locks/111.lock",
+          ".csdlc/locks/113.lock",
+          ".csdlc/prepared/issues/111/advance-review-remediation-implemented.json",
+          ".csdlc/prepared/issues/111/assign-exact-review.json",
+          ".csdlc/prepared/issues/111/assign-final-attachment-ordering-review.json",
+          ".csdlc/prepared/issues/111/assign-final-fresh-review.json",
+          ".csdlc/prepared/issues/111/assign-integrated-exact-review.json",
+          ".csdlc/prepared/issues/111/assign-integrated-remediation-review.json",
+          ".csdlc/prepared/issues/111/assign-stale-cleanup-remediation-review.json",
+          ".csdlc/prepared/issues/111/complete-plan-p1.json",
+          ".csdlc/prepared/issues/111/complete-plan-p2.json",
+          ".csdlc/prepared/issues/111/complete-plan-p3.json",
+          ".csdlc/prepared/issues/111/complete-plan-p4.json",
+          ".csdlc/prepared/issues/111/complete-plan-p5.json",
+          ".csdlc/prepared/issues/111/edit-final-review-authority.json",
+          ".csdlc/prepared/issues/111/publish-final-reviewed.json",
+          ".csdlc/prepared/issues/111/publish-stacked-reviewable.json",
+          ".csdlc/prepared/issues/111/record-attachment-ordering-remediation.json",
+          ".csdlc/prepared/issues/111/record-attachment-ordering-validation.json",
+          ".csdlc/prepared/issues/111/record-exact-review.json",
+          ".csdlc/prepared/issues/111/record-final-attachment-ordering-review.json",
+          ".csdlc/prepared/issues/111/record-final-fresh-review-finding.json",
+          ".csdlc/prepared/issues/111/record-final-fresh-review-remediation.json",
+          ".csdlc/prepared/issues/111/record-final-fresh-review-validation.json",
+          ".csdlc/prepared/issues/111/record-fresh-review-findings.json",
+          ".csdlc/prepared/issues/111/record-fresh-review-remediation-validation.json",
+          ".csdlc/prepared/issues/111/record-fresh-review-remediation.json",
+          ".csdlc/prepared/issues/111/record-integrated-remediation-review.json",
+          ".csdlc/prepared/issues/111/record-integrated-review-findings.json",
+          ".csdlc/prepared/issues/111/record-integrated-review-remediation-execution.json",
+          ".csdlc/prepared/issues/111/record-integrated-review-remediation-validation.json",
+          ".csdlc/prepared/issues/111/record-review-remediation-execution.json",
+          ".csdlc/prepared/issues/111/record-roster-integration-card-validation.json",
+          ".csdlc/prepared/issues/111/record-roster-integration-execution.json",
+          ".csdlc/prepared/issues/111/record-roster-integration-observatory-validation.json",
+          ".csdlc/prepared/issues/111/record-roster-integration-runtime-validation.json",
+          ".csdlc/prepared/issues/111/record-roster-integration-static-validation.json",
+          ".csdlc/prepared/issues/111/record-stale-cleanup-ordering-finding.json",
+          ".csdlc/prepared/issues/111/record-stale-cleanup-race-remediation.json",
+          ".csdlc/prepared/issues/111/record-stale-cleanup-race-validation.json",
+          ".csdlc/prepared/issues/111/record-validation-browser.json",
+          ".csdlc/prepared/issues/111/record-validation-cards.json",
+          ".csdlc/prepared/issues/111/record-validation-clippy.json",
+          ".csdlc/prepared/issues/111/record-validation-conversation-integration.json",
+          ".csdlc/prepared/issues/111/record-validation-diff.json",
+          ".csdlc/prepared/issues/111/record-validation-observatory.json",
+          ".csdlc/prepared/issues/111/record-validation-openapi.json",
+          ".csdlc/prepared/issues/111/recover-after-final-fresh-review-finding.json",
+          ".csdlc/prepared/issues/111/recover-after-integrated-review-findings.json",
+          ".csdlc/prepared/issues/111/recover-after-roster-integration.json",
+          ".csdlc/prepared/issues/111/recover-after-stale-cleanup-ordering-finding.json",
+          ".csdlc/prepared/issues/111/replan-affected-areas.json",
+          ".csdlc/prepared/issues/111/replan-invariants.json",
+          ".csdlc/prepared/issues/111/replan-live-authority.json",
+          ".csdlc/prepared/issues/111/replan-review-remediation-acceptance.json",
+          ".csdlc/prepared/issues/111/replan-review-remediation-deliverables.json",
+          ".csdlc/prepared/issues/111/replan-risks.json",
+          ".csdlc/prepared/issues/111/replan-sip-authority.json",
+          ".csdlc/prepared/issues/111/replan-steps.json",
+          ".csdlc/prepared/issues/111/replan-stop-conditions.json",
+          ".csdlc/prepared/issues/111/replan-stp-boundary.json",
+          ".csdlc/prepared/issues/111/replan-stp-dependencies.json",
+          ".csdlc/prepared/issues/113/advance-implemented-final.json",
+          ".csdlc/prepared/issues/113/assign-atomic-publication-review.json",
+          ".csdlc/prepared/issues/113/assign-corrected-publication-review.json",
+          ".csdlc/prepared/issues/113/assign-final-exact-review.json",
+          ".csdlc/prepared/issues/113/assign-final-locke-review.json",
+          ".csdlc/prepared/issues/113/assign-fresh-remediation-review.json",
+          ".csdlc/prepared/issues/113/assign-post-locke-remediation-review.json",
+          ".csdlc/prepared/issues/113/assign-publication-intent-review.json",
+          ".csdlc/prepared/issues/113/bind-request.json",
+          ".csdlc/prepared/issues/113/bootstrap-request.json",
+          ".csdlc/prepared/issues/113/complete-bound-step-s1.json",
+          ".csdlc/prepared/issues/113/complete-bound-step-s2.json",
+          ".csdlc/prepared/issues/113/complete-bound-step-s3.json",
+          ".csdlc/prepared/issues/113/complete-bound-step-s4-final.json",
+          ".csdlc/prepared/issues/113/complete-bound-step-s5-handoff.json",
+          ".csdlc/prepared/issues/113/design.md",
+          ".csdlc/prepared/issues/113/diagram.mmd",
+          ".csdlc/prepared/issues/113/edit-01-owned-paths.json",
+          ".csdlc/prepared/issues/113/edit-02-deliverable-paths.json",
+          ".csdlc/prepared/issues/113/edit-03-validation-deferrals.json",
+          ".csdlc/prepared/issues/113/edit-04-dependency-alignment.json",
+          ".csdlc/prepared/issues/113/edit-05-advance-ready.json",
+          ".csdlc/prepared/issues/113/edit-06-ready-deliverables.json",
+          ".csdlc/prepared/issues/113/edit-07-ready-pvf-lanes.json",
+          ".csdlc/prepared/issues/113/edit-08-governed-html-lane.json",
+          ".csdlc/prepared/issues/113/edit-09-remediation-validation-lanes.json",
+          ".csdlc/prepared/issues/113/edit-10-remediation-affected-areas.json",
+          ".csdlc/prepared/issues/113/edit-11-restart-proof-scope.json",
+          ".csdlc/prepared/issues/113/publish-final-reviewed.json",
+          ".csdlc/prepared/issues/113/publish-reviewable.json",
+          ".csdlc/prepared/issues/113/reapprove-bound-design.json",
+          ".csdlc/prepared/issues/113/reapprove-design.json",
+          ".csdlc/prepared/issues/113/record-atomic-publication-review.json",
+          ".csdlc/prepared/issues/113/record-corrected-publication-review.json",
+          ".csdlc/prepared/issues/113/record-final-exact-review.json",
+          ".csdlc/prepared/issues/113/record-final-execution.json",
+          ".csdlc/prepared/issues/113/record-final-locke-pass.json",
+          ".csdlc/prepared/issues/113/record-focused-coverage-validation.json",
+          ".csdlc/prepared/issues/113/record-fresh-review-remediation-validation.json",
+          ".csdlc/prepared/issues/113/record-fresh-review-remediation.json",
+          ".csdlc/prepared/issues/113/record-locke-remediation-validation.json",
+          ".csdlc/prepared/issues/113/record-locke-remediation.json",
+          ".csdlc/prepared/issues/113/record-locke-review-findings.json",
+          ".csdlc/prepared/issues/113/record-locke-second-remediation-validation.json",
+          ".csdlc/prepared/issues/113/record-locke-second-remediation.json",
+          ".csdlc/prepared/issues/113/record-locke-second-review-findings.json",
+          ".csdlc/prepared/issues/113/record-publication-intent-review-findings.json",
+          ".csdlc/prepared/issues/113/record-validation-agent-roster-final.json",
+          ".csdlc/prepared/issues/113/record-validation-browser-final.json",
+          ".csdlc/prepared/issues/113/record-validation-clippy-final.json",
+          ".csdlc/prepared/issues/113/record-validation-control-final.json",
+          ".csdlc/prepared/issues/113/record-validation-diff-final.json",
+          ".csdlc/prepared/issues/113/record-validation-fmt-final.json",
+          ".csdlc/prepared/issues/113/record-validation-observatory-static-final.json",
+          ".csdlc/prepared/issues/113/record-validation-openapi-final.json",
+          ".csdlc/prepared/issues/113/recover-after-fresh-review-remediation.json",
+          ".csdlc/prepared/issues/113/recover-after-locke-findings.json",
+          ".csdlc/prepared/issues/113/recover-after-locke-second-findings.json",
+          ".csdlc/prepared/issues/113/recover-after-publication-intent-findings.json",
+          ".csdlc/prepared/issues/113/recover-for-atomic-publication.json",
+          ".csdlc/prepared/issues/113/recover-for-final-publication.json",
+          ".csdlc/prepared/issues/113/recover-publication-intent-review.json",
+          ".csdlc/prepared/issues/113/replan-bound-dependencies.json",
+          ".csdlc/prepared/issues/113/replan-bound-steps.json",
+          ".csdlc/prepared/issues/113/start-bound-step-s2.json",
+          ".csdlc/prepared/issues/113/start-bound-step-s4.json",
+          ".csdlc/publication/111.intent.json",
+          ".csdlc/publication/113.intent.json",
+          ".csdlc/requests/113-final-bind-readiness-vpp.json",
+          ".csdlc/requests/113-validator-deliverables-repair.json",
+          ".csdlc/requests/113-vpp-pvf-repair.json",
+          "design/issue-111.md",
+          "design/issue-111.mmd",
+          "docs/api/runtime-v3/v1/observatory.openapi.json",
+          "docs/api/runtime-v3/v1/openapi.json"
+        ],
+        "owner": "docs",
+        "path_selectors": [
+          "docs/**",
+          "design/*.mmd",
+          "*.md",
+          ".csdlc/**",
+          "adl/tools/test_opus_review_runbook.sh",
+          "adl/tools/validate_v0917_*_status.sh"
+        ],
+        "proof_role": "diff_hygiene",
+        "reason": "docs_only_surface_requires_diff_hygiene",
+        "requirement_ids": [
+          "docs_diff_check"
+        ],
+        "resource_class": "tiny",
+        "risk_class": "low",
+        "run_command": "git diff --check",
+        "status": "selected",
+        "vpp_record": {
+          "artifacts": [
+            "working_tree_diff_hygiene"
+          ],
+          "cache_equivalence_group": "git_diff_check",
+          "contract_version": "vpp.lane.v1",
+          "expected_runtime_class": "tiny",
+          "failure_semantics": "fail_closed",
+          "parallel_group": "docs_hygiene"
+        }
+      },
+      "html_observatory_roster_javascript_syntax": {
+        "command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+        "default_surface": "tooling",
+        "determinism_posture": "deterministic",
+        "escalation_rule": "none",
+        "lane_class": "cli_workflow",
+        "manifest_rule": "lanes.html_observatory_roster_javascript_syntax",
+        "matched_paths": [
+          "adl/tools/validate_v092_html_observatory_roster.mjs"
+        ],
+        "owner": "review",
+        "path_selectors": [
+          "adl/tools/validate_v092_html_observatory_roster.mjs"
+        ],
+        "proof_role": "tooling_contract",
+        "reason": "html_observatory_roster_javascript_changes_require_direct_syntax_proof",
+        "requirement_ids": [
+          "html_observatory_roster_javascript_syntax"
+        ],
+        "resource_class": "tiny",
+        "risk_class": "medium",
+        "run_command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+        "status": "selected"
+      },
+      "html_observatory_tooling_syntax": {
+        "command": "bash -n adl/tools/test_html_observatory.sh",
+        "default_surface": "tooling",
+        "determinism_posture": "deterministic",
+        "escalation_rule": "none",
+        "lane_class": "cli_workflow",
+        "manifest_rule": "lanes.html_observatory_tooling_syntax",
+        "matched_paths": [
+          "adl/tools/test_html_observatory.sh"
+        ],
+        "owner": "review",
+        "path_selectors": [
+          "adl/tools/test_html_observatory.sh"
+        ],
+        "proof_role": "tooling_contract",
+        "reason": "html_observatory_shell_tooling_changes_require_direct_syntax_proof",
+        "requirement_ids": [
+          "html_observatory_tooling_syntax"
+        ],
+        "resource_class": "tiny",
+        "risk_class": "medium",
+        "run_command": "bash -n adl/tools/test_html_observatory.sh",
+        "status": "selected"
+      },
+      "html_observatory_v0917_runtime_surface": {
+        "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "default_surface": "tooling",
+        "determinism_posture": "deterministic",
+        "escalation_rule": "none",
+        "lane_class": "cli_workflow",
+        "manifest_rule": "lanes.html_observatory_v0917_runtime_surface",
+        "matched_paths": [
+          "demos/html-observatory/app.js",
+          "demos/html-observatory/index.html",
+          "demos/html-observatory/styles.css",
+          "demos/html-observatory/tests/conversation_sessions.test.mjs"
+        ],
+        "owner": "review",
+        "path_selectors": [
+          "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+          "adl/tools/validate_v0917_html_observatory.py",
+          "adl/tools/validate_v092_browser_trusted_observatory.mjs",
+          "demos/html-observatory/**"
+        ],
+        "proof_role": "demo_contract",
+        "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof",
+        "requirement_ids": [
+          "html_observatory_v0917_runtime_surface"
+        ],
+        "resource_class": "small",
+        "risk_class": "medium",
+        "run_command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "status": "selected"
+      },
+      "runtime_kernel_contracts": {
+        "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+        "default_surface": "runtime",
+        "determinism_posture": "deterministic",
+        "escalation_rule": "delegate_or_escalate",
+        "lane_class": "fast_unit",
+        "manifest_rule": "lanes.runtime_kernel_contracts",
+        "matched_paths": [
+          "adl-runtime-kernel/build.rs",
+          "adl-runtime-kernel/src/agent_roster.rs",
+          "adl-runtime-kernel/src/assembly.rs",
+          "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+          "adl-runtime-kernel/src/control.rs",
+          "adl-runtime-kernel/src/ingress.rs",
+          "adl-runtime-kernel/src/lib.rs",
+          "adl-runtime-kernel/src/live_continuity.rs",
+          "adl-runtime-kernel/src/operations.rs",
+          "adl-runtime-kernel/src/telemetry.rs",
+          "adl-runtime-kernel/tests/agent_roster.rs",
+          "adl-runtime-kernel/tests/control.rs",
+          "adl-runtime-kernel/tests/conversation_sessions.rs",
+          "adl-runtime-kernel/tests/openapi_contract.rs"
+        ],
+        "owner": "runtime",
+        "path_selectors": [
+          "adl-runtime-kernel/**",
+          "infra/rustysd/**",
+          "infra/horust/**",
+          "infra/runtime-v3/**",
+          "infra/systemd/adl-runtime-kernel.service",
+          "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+          "adl/tools/validate_v0917_html_observatory.py"
+        ],
+        "proof_role": "runtime_regression",
+        "reason": "independent_runtime_kernel_surface_requires_focused_crate_proof",
+        "requirement_ids": [
+          "runtime_kernel_contracts"
+        ],
+        "resource_class": "medium",
+        "risk_class": "medium",
+        "run_command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+        "status": "selected",
+        "vpp_record": {
+          "artifacts": [
+            "runtime_kernel_test_results"
+          ],
+          "cache_equivalence_group": "adl_runtime_kernel",
+          "contract_version": "vpp.lane.v1",
+          "expected_runtime_class": "normal",
+          "failure_semantics": "fail_closed",
+          "parallel_group": "runtime_kernel_focused_serial"
+        }
+      }
+    },
+    "manifest_path": "adl/config/validation_lane_selector.v0.91.6.json",
+    "pr_publication_sufficient": true,
+    "schema_version": "adl.validation_lane_plan.v1"
+  },
+  "slow_proof_families": [
+    {
+      "command": "bash adl/tools/run_slow_proof_family.sh --family runtime --run",
+      "description": "Heavy runtime and governance proof materialization surfaces.",
+      "feature": "slow-proof-runtime",
+      "id": "runtime",
+      "proof_role": "slow_proof",
+      "sample_tests": [
+        "runtime_v2_memory_identity_architecture_contract_is_stable",
+        "runtime_v2_intelligence_metric_architecture_contract_is_stable",
+        "runtime_v2_governed_learning_substrate_contract_is_stable",
+        "runtime_v2_csm_governed_episode_writes_without_path_leakage",
+        "runtime_v2_theory_of_mind_foundation_write_to_root_materializes_fixture"
+      ],
+      "selection_mode": "manual_only"
+    },
+    {
+      "command": "bash adl/tools/run_slow_proof_family.sh --family private_state --run",
+      "description": "Private-state materialization, lineage, and sealed-state proof surfaces.",
+      "feature": "slow-proof-private-state",
+      "id": "private_state",
+      "proof_role": "slow_proof",
+      "sample_tests": [
+        "runtime_v2_private_state_lineage_write_to_root_materializes_fixtures",
+        "runtime_v2_private_state_observatory_materialization_proof_is_stable"
+      ],
+      "selection_mode": "manual_only"
+    },
+    {
+      "command": "bash adl/tools/run_slow_proof_family.sh --family observatory --run",
+      "description": "Observatory-facing visibility and reporting proof surfaces.",
+      "feature": "slow-proof-observatory",
+      "id": "observatory",
+      "proof_role": "slow_proof",
+      "sample_tests": [
+        "runtime_v2_observatory_flagship_review_surfaces_are_stable_and_serializable",
+        "runtime_v2_csm_observatory_writes_without_path_leakage"
+      ],
+      "selection_mode": "manual_only"
+    },
+    {
+      "command": "bash adl/tools/run_slow_proof_family.sh --family security --run",
+      "description": "Security, access control, boundary refusal, and hardening proof surfaces.",
+      "feature": "slow-proof-security",
+      "id": "security",
+      "proof_role": "slow_proof",
+      "sample_tests": [
+        "runtime_v2_security_boundary_proof_writes_without_path_leakage",
+        "runtime_v2_access_control_write_to_root_materializes_fixtures"
+      ],
+      "selection_mode": "manual_only"
+    }
+  ],
+  "status": "ready_to_run",
+  "validation_dag": {
+    "compression_note": "profile validates behavior surfaces rather than enumerating every test-bearing module",
+    "edges": [],
+    "nodes": [
+      {
+        "behavior_surface": "diff_hygiene_docs_diff_check",
+        "command": "git diff --check",
+        "depends_on": [],
+        "determinism_posture": "deterministic",
+        "id": "node_docs_diff_check",
+        "lane_id": "docs_diff_check",
+        "owner": "docs",
+        "proof_role": "diff_hygiene",
+        "resource_class": "tiny",
+        "status": "runnable"
+      },
+      {
+        "behavior_surface": "tooling_contract_html_observatory_roster_javascript_syntax",
+        "command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+        "depends_on": [],
+        "determinism_posture": "deterministic",
+        "id": "node_html_observatory_roster_javascript_syntax",
+        "lane_id": "html_observatory_roster_javascript_syntax",
+        "owner": "review",
+        "proof_role": "tooling_contract",
+        "resource_class": "tiny",
+        "status": "runnable"
+      },
+      {
+        "behavior_surface": "tooling_contract_html_observatory_tooling_syntax",
+        "command": "bash -n adl/tools/test_html_observatory.sh",
+        "depends_on": [],
+        "determinism_posture": "deterministic",
+        "id": "node_html_observatory_tooling_syntax",
+        "lane_id": "html_observatory_tooling_syntax",
+        "owner": "review",
+        "proof_role": "tooling_contract",
+        "resource_class": "tiny",
+        "status": "runnable"
+      },
+      {
+        "behavior_surface": "demo_contract_html_observatory_v0917_runtime_surface",
+        "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "depends_on": [],
+        "determinism_posture": "deterministic",
+        "id": "node_html_observatory_v0917_runtime_surface",
+        "lane_id": "html_observatory_v0917_runtime_surface",
+        "owner": "review",
+        "proof_role": "demo_contract",
+        "resource_class": "small",
+        "status": "runnable"
+      },
+      {
+        "behavior_surface": "runtime_regression_runtime_kernel_contracts",
+        "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+        "depends_on": [],
+        "determinism_posture": "deterministic",
+        "id": "node_runtime_kernel_contracts",
+        "lane_id": "runtime_kernel_contracts",
+        "owner": "runtime",
+        "proof_role": "runtime_regression",
+        "resource_class": "medium",
+        "status": "runnable"
+      }
+    ]
+  },
+  "validation_split": {
+    "fail_closed": {
+      "reason_count": 0,
+      "required": false
+    },
+    "fanout_policy": {
+      "missing_or_unmapped_proof": "fail_closed",
+      "mode": "explicit_family_selection",
+      "release_gate_note": "Fast-lane proof does not replace required slow-proof or release-gate evidence."
+    },
+    "fast_lane": {
+      "execution_model": "local_fast_lane",
+      "pr_publication_sufficient": true,
+      "runnable": true,
+      "selected_lanes": [
+        "docs_diff_check",
+        "html_observatory_roster_javascript_syntax",
+        "html_observatory_tooling_syntax",
+        "html_observatory_v0917_runtime_surface",
+        "runtime_kernel_contracts"
+      ],
+      "status": "ready_to_run"
+    },
+    "schema_version": "adl.validation_split.v1",
+    "slow_families": [
+      {
+        "command": "bash adl/tools/run_slow_proof_family.sh --family runtime --run",
+        "disposition": "reserved_for_explicit_family_selection",
+        "feature": "slow-proof-runtime",
+        "id": "runtime",
+        "owner": "slow_proof_family_runner",
+        "proof_role": "slow_proof"
+      },
+      {
+        "command": "bash adl/tools/run_slow_proof_family.sh --family private_state --run",
+        "disposition": "reserved_for_explicit_family_selection",
+        "feature": "slow-proof-private-state",
+        "id": "private_state",
+        "owner": "slow_proof_family_runner",
+        "proof_role": "slow_proof"
+      },
+      {
+        "command": "bash adl/tools/run_slow_proof_family.sh --family observatory --run",
+        "disposition": "reserved_for_explicit_family_selection",
+        "feature": "slow-proof-observatory",
+        "id": "observatory",
+        "owner": "slow_proof_family_runner",
+        "proof_role": "slow_proof"
+      },
+      {
+        "command": "bash adl/tools/run_slow_proof_family.sh --family security --run",
+        "disposition": "reserved_for_explicit_family_selection",
+        "feature": "slow-proof-security",
+        "id": "security",
+        "owner": "slow_proof_family_runner",
+        "proof_role": "slow_proof"
+      }
+    ]
+  }
+}
