@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
 
 [
   {
-    "lane": "committed-authority-protocol",
-    "proof_role": "Prove exact forty-seven-case denominator: current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, declared_finalize_time_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected, exact_store_artifact_bytes_retained, artifact_bytes_digest_substitution_rejected, sealed_continuity_transfer_projection, continuity_projection_consumer_confusion_rejected, continuity_projection_wrong_lineage_rejected, continuity_projection_wrong_source_checkpoint_handle_rejected, continuity_projection_wrong_bundle_handle_rejected.",
+    "lane": "committed-authority-contract-47",
+    "proof_role": "Prove the exact ordered 47-case authority protocol contract from the internal cfg(test) module with no production-selectable bypass feature.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -38,7 +38,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 1200,
-    "budget_tokens": 20000,
+    "budget_tokens": 15000,
     "argv": [
       "cargo",
       "nextest",
@@ -46,58 +46,89 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authority_protocol",
+      "--lib",
+      "-E",
+      "test(/^distributed::authority_protocol::contract_tests::/)",
       "--no-tests=fail"
     ],
     "parallel_group": "201-runtime",
-    "defer_reason": "Deferred until PR #197 is merged and this issue creates the focused target; fail closed on a missing target/source, zero tests, any result not mapping exactly once to all forty-seven canonical names, any artifact/projection byte, digest, operation, lineage, source, target, SourceCheckpointHandle, bundle-handle, signed catalog, bound, deadline, or cleanup-identity mismatch, any wrong-variant/wrong-consumer projection success, or any public/caller-substitutable view."
+    "defer_reason": null
   },
   {
-    "lane": "committed-authority-protocol-clippy",
-    "proof_role": "Reject warnings and API misuse across the bounded core protocol, private exact artifact view, and sealed #210 projection surface.",
+    "lane": "production-three-voter-openraft",
+    "proof_role": "Exercise production PrepareAuthority, FinalizeAuthority, actual applied log IDs, trusted route-cut custody, wrong self-consistent cut denial, pending response, and per-node publication reconciliation through a real three-voter OpenRaft cluster.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 10000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "committed-authority-production-clippy",
+    "proof_role": "Reject warnings and API misuse across the production library without compiling cfg(test)-only direct fault helpers.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 900,
-    "budget_tokens": 10000,
+    "budget_tokens": 8000,
     "argv": [
       "cargo",
       "clippy",
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authority_protocol",
+      "--lib",
       "--",
       "-D",
       "warnings"
     ],
     "parallel_group": "201-runtime",
-    "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source."
+    "defer_reason": null
   },
   {
-    "lane": "committed-authority-protocol-producer",
-    "proof_role": "Produce exact Git/source/command/stream/timing/protected-digest evidence and private artifact/projection parity for all forty-seven declared cases.",
+    "lane": "committed-authority-proof-producer",
+    "proof_role": "Produce one v6 packet binding the protected source, strict production Clippy, exact 47/47 contract, and real three-voter OpenRaft result.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1200,
+    "budget_seconds": 1800,
     "budget_tokens": 10000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/201/produce-proof-receipt.rb"
     ],
     "parallel_group": "201-proof",
-    "defer_reason": "Deferred until the exact producer exists; fail closed on dirty protected source, a case count other than forty-seven, missing/extra/duplicate/reordered names, artifact or projection lineage/handle binding mismatch, nonpassing result, or nonzero status."
+    "defer_reason": null
   },
   {
-    "lane": "committed-authority-protocol-receipt",
-    "proof_role": "Bind exact protected source, commands, the exact forty-seven-case name/result/marker denominator including retained artifact bytes and the sealed #210 projection with exact lineage and handle identities, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
+    "lane": "committed-authority-proof-validator",
+    "proof_role": "Validate the immutable v6 packet by ancestry when source objects exist or exact protected-tree equivalence in a depth-one or squash-like history when they do not.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -110,7 +141,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
       ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
     ],
     "parallel_group": "201-proof",
-    "defer_reason": "Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, all forty-seven names/results/markers, exact artifact/projection parity, wrong-lineage and wrong-handle denial, and consumer-confusion denial are bound."
+    "defer_reason": null
   }
 ]
 
@@ -126,8 +157,9 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_protocol --no-tests=fail`
-- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_protocol -- -D warnings`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib -E test(/^distributed::authority_protocol::contract_tests::/) --no-tests=fail`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids -- --exact --nocapture`
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 - `ruby .csdlc/prepared/issues/201/produce-proof-receipt.rb`
 - `ruby .csdlc/prepared/issues/201/validate-proof-receipt.rb`
 

@@ -10,13 +10,16 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-OUTPUT = ROOT.join(PREFIX, "v5")
+OUTPUT = ROOT.join(PREFIX, "v6")
 MARKER = "ADL_ISSUE_201_CASE_V1 "
 PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",
   "adl-runtime/src/distributed/mod.rs",
   "adl-runtime/src/distributed/authority_protocol.rs",
+  "adl-runtime/src/distributed/identity.rs",
   "adl-runtime/src/distributed/polis_runtime.rs",
+  "adl-runtime/src/distributed/transport.rs",
+  "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
   "adl-runtime/tests/distributed_authority_protocol.rs",
   ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
   ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
@@ -99,14 +102,14 @@ end
 FileUtils.mkdir_p(OUTPUT, mode: 0o700)
 
 commands = {}
-commands["nextest"] = run_command("nextest", %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_protocol --no-tests=fail])
+commands["nextest"] = run_command("nextest", ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "-E", "test(/^distributed::authority_protocol::contract_tests::/)", "--no-tests=fail"])
 fail_proof("focused nextest failed") unless commands["nextest"]["exit_code"] == 0
 nextest_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["nextest"]["#{stream}_path"])) }.join
-fail_proof("nextest denominator mismatch") unless nextest_text.match?(/47 tests run: 47 passed, 0 skipped/)
+fail_proof("nextest denominator mismatch") unless nextest_text.match?(/47 tests run: 47 passed, \d+ skipped/)
 
-commands["clippy"] = run_command("clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_protocol -- -D warnings])
+commands["clippy"] = run_command("clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings])
 fail_proof("strict Clippy failed") unless commands["clippy"]["exit_code"] == 0
-commands["machine_cases"] = run_command("machine-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_protocol -- --nocapture --test-threads=1])
+commands["machine_cases"] = run_command("machine-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::authority_protocol::contract_tests:: -- --nocapture --test-threads=1])
 fail_proof("machine cases failed") unless commands["machine_cases"]["exit_code"] == 0
 machine_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["machine_cases"]["#{stream}_path"])) }.join
 observed = machine_text.lines.each_with_object([]) do |line, rows|
@@ -117,6 +120,10 @@ end
 fail_proof("case denominator mismatch") unless observed.length == 47 && observed.map(&:first).sort == EXPECTED_CASES.sort
 observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }
 EXPECTED_CASES.each { |name| fail_proof("wrong result for #{name}") unless observed_by_name.fetch(name).first == EXPECTED_RESULTS.fetch(name, "rejected") }
+commands["openraft"] = run_command("openraft", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids -- --exact --nocapture])
+fail_proof("real three-voter OpenRaft proof failed") unless commands["openraft"]["exit_code"] == 0
+openraft_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["openraft"]["#{stream}_path"])) }.join
+fail_proof("real three-voter OpenRaft denominator mismatch") unless openraft_text.match?(/1 passed; 0 failed/) && openraft_text.include?("real_three_voter_authority_prepare_finalize_uses_applied_log_ids")
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {

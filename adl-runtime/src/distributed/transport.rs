@@ -586,6 +586,7 @@ pub struct VerifiedPolisRouteCut {
     committed_membership_index: u64,
     routes: BTreeMap<u64, SocketAddr>,
     authorities: BTreeMap<u64, VerifiedRouteAuthority>,
+    authority_membership: AuthorityMembership,
 }
 
 impl VerifiedPolisRouteCut {
@@ -680,6 +681,7 @@ impl VerifiedPolisRouteCut {
             committed_membership_index: membership.committed_log_index(),
             routes,
             authorities,
+            authority_membership: authority.clone(),
         })
     }
 
@@ -697,6 +699,22 @@ impl VerifiedPolisRouteCut {
     }
     pub fn committed_membership_index(&self) -> u64 {
         self.committed_membership_index
+    }
+
+    pub(crate) fn authority_membership(&self) -> &AuthorityMembership {
+        &self.authority_membership
+    }
+
+    pub(crate) fn authority_boot_generations(&self) -> BTreeMap<Vec<u8>, u64> {
+        self.authorities
+            .values()
+            .map(|authority| {
+                (
+                    authority.guardian_id.as_bytes().to_vec(),
+                    authority.boot_generation,
+                )
+            })
+            .collect()
     }
 
     pub fn pending_session(

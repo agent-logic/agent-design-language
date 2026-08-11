@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 30,
-  "digest": "3c9016752d72efbdd424211b9f91df70151a582dba97ec575b4056f04729d94e",
+  "generation": 34,
+  "digest": "0e8a5c4eba6985de62f1f9bc7c9a9612cd8fabf1b60245b1db1e1c8d974843a0",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e0520b2acd1bb52b2fc2e74abddcad43832a87db910a7ae9a0a620c75065fc30",
+      "values_digest": "519f2722c32721466832828ee642f55a6aac962ba0f88af9f9eac9c3073806fb",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "403ddff89ab052da661fc5c9e830b083a283660ae5136f33c2fb5d39da3f2b6c",
+      "values_digest": "07cd61a1ba3081ff2649446f1327a13ed71359ae3d768647fb06abf6ec4af2d5",
       "rendered_digest": "b9dc9472b5cb780e06096f27d1ea410affd2ef1dbe6879575b904767dd8e5a96",
       "ast_digest": "933b98acdd836328d3647ded0d86e0a2aed1320befac8f59ce373d1c34fb1041"
     },
     "spp": {
-      "values_digest": "95c2568157d6144d80e2cefe42909ef4ac4ff684c68df4bcfdc8b10a912412f7",
-      "rendered_digest": "10ce9a9edb4e76b3362c1d3de2096f809583c3a57f7d207325bb3258855f7052",
-      "ast_digest": "1a41a09ee89d37928caaab6d352f64c3b031eecffaa5aee6e48dfd17d2ade2c8"
+      "values_digest": "2b3e879bc825a660ecb6e5747ce2b2bab4712c625347cb8595fbef7d0abd0a15",
+      "rendered_digest": "84e65a6daeabd91eeebdde5f2320baa034a452fc4f74529c7c319c63c0b33475",
+      "ast_digest": "718e2392fb06eb47aead4569dedc401f13acd3be88395285c11f748347b54a5a"
     },
     "vpp": {
-      "values_digest": "1cde91ae797a5221283b41db1a2f0077b1d255347505f7360aaea32540f89c15",
-      "rendered_digest": "db671aa0607a480b4a925142fa568d4d22bdee057b9bd0c60ffdbc2d5364620b",
-      "ast_digest": "184c02956b7ba54244773345a62706068bdfb7cf226e9844c4c37d8b3ebb3f6e"
+      "values_digest": "fd0f0aed0e8e2fe8e432d3cb2f72ce03bfbd0c71fd270823201bb3e9f19a2cff",
+      "rendered_digest": "42a390c74604fc4273bf3e1a861ece961444f50988e9289f707715edbed60559",
+      "ast_digest": "7f269ed3178a7aaff27ca611b7373893e8262283ef10e798b55ffec597969f04"
     },
     "srp": {
-      "values_digest": "46aecbf4dcbb715044d4743c7c3b9ed47c6d1b086631241e0283312c72a5d2e8",
+      "values_digest": "545f26af0f287eedbbc1c3ae82ab36a107106a1caf31ed0203679ec646be34d7",
       "rendered_digest": "90fa315a353a116877a3fa27ade2db93422edf515657fe8ab849f228ea853511",
       "ast_digest": "4862f04ad392f0a53588c93e4670d28dba36f7ee0e30adb3bb78c000e911cf3d"
     },
     "sor": {
-      "values_digest": "7fe0e5bfe8a1ad01c09a99d418192113ee88ec754a2ff0487803b9e848bb4f24",
+      "values_digest": "a4aed994f52fa2a05cf40b9a7a2ea9f7a3d70975e7d8d53d05dcaeb2028c4846",
       "rendered_digest": "a95d870b019feda1f97e79c8ce198c0663ce49190d951448d2ef16f340aecb0d",
       "ast_digest": "90452ec83efcab9d988fc78514288edd6e4dcabf4d511318e51c951695d5ff4e"
     }
@@ -301,6 +301,34 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
       "reason": "Reconcile post-finalize self-audit repairs, the strict committed-log ordering boundary, current-main sync, and the single final immutable proof packet before exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the deterministic committed authority protocol with strict current and joint quorum, opaque voter endorsements, canonical committed time, monotonic prepare/finalize log ordering, durable node-local fresh-CAS publication, exact retry, sealed continuity binding, and fail-closed legacy commands.\",\"changes\":[\"Added canonical prepare, endorsement, finalization, artifact, membership, time, and strict current/joint quorum verification for committed authority operations.\",\"Added symlink-safe locked durable result and retry publication through independent node-local checkpoint objects with restart reconciliation, rollback denial, and cache-first exact retry.\",\"Bound distinct operations to strictly increasing committed prepare/finalize log indices while permitting multiple operations under one unchanged membership cut and rejecting reordered finalization.\",\"Added sealed continuity-transfer binding validation and retired legacy direct authority commands at replicated apply.\",\"Retained one final exact ordered 47-case proof packet with strict Clippy, merge-safe validation, protected-source drift denial, and clean diff hygiene.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authority_protocol.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v5/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--no-tests=fail\"],\"purpose\":\"Prove the exact nonzero 47-case authority protocol denominator including sequential same-membership operations and reordered-finalize denial.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free bounded protocol, persistence, projection, and test surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact source, command, stream, case-marker, immutable-introduction, protected-drift, and merge-topology bindings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Prove final branch diff hygiene after consolidating superseded proof packets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Record the exact production integration and proof paths required by the independent review resolution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/identity.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201\",\".csdlc/issues/201\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Reconcile the operative plan with the production OpenRaft and node-local publication barriers required by independent review.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Bind production PrepareAuthority and FinalizeAuthority commands to the actual OpenRaft applied log IDs and an already-approved current authority cut bootstrapped from the verified route cut; reject caller-selected authority, caller indices, legacy replay, relabeling, and stale custody.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Keep opaque signer custody runtime-local and non-serialized, cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare, finalize time, and actual finalize apply index, and deny every non-replicated route to a sealed artifact or projection.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Withhold authority publication while replicated finalize remains pending, then reconcile each voter's exact result, retry record, journal, and node-local fresh CAS before returning an opaque PublishedAuthorityResult; prove the fixed 47-case contract and a separate real three-voter production OpenRaft path including wrong self-consistent authority-cut denial.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Retain one immutable v6 proof, validate it in full-history and depth-one squash-like history, obtain fresh independent exact-head review, and stop before publication or merge.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 33,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Retain the STP-declared integration target as a fail-closed public command-shape regression while the exact 47-case contract remains internal cfg(test).",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/identity.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/tests/distributed_authority_protocol.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201\",\".csdlc/issues/201\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 34,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Bind the fixed 47-case unit contract, production OpenRaft path, strict Clippy, immutable receipt, and shallow-history validator regression as distinct proving lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"committed-authority-contract-47\",\"proof_role\":\"Prove the exact ordered 47-case authority protocol contract from the internal cfg(test) module with no production-selectable bypass feature.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":15000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"-E\",\"test(/^distributed::authority_protocol::contract_tests::/)\",\"--no-tests=fail\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":null},{\"lane\":\"production-three-voter-openraft\",\"proof_role\":\"Exercise production PrepareAuthority, FinalizeAuthority, actual applied log IDs, trusted route-cut custody, wrong self-consistent cut denial, pending response, and per-node publication reconciliation through a real three-voter OpenRaft cluster.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":null},{\"lane\":\"committed-authority-production-clippy\",\"proof_role\":\"Reject warnings and API misuse across the production library without compiling cfg(test)-only direct fault helpers.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":null},{\"lane\":\"committed-authority-proof-producer\",\"proof_role\":\"Produce one v6 packet binding the protected source, strict production Clippy, exact 47/47 contract, and real three-voter OpenRaft result.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":null},{\"lane\":\"committed-authority-proof-validator\",\"proof_role\":\"Validate the immutable v6 packet by ancestry when source objects exist or exact protected-tree equivalence in a depth-one or squash-like history when they do not.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":null}]}"
     }
   ]
 }

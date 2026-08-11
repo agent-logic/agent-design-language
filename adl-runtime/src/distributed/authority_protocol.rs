@@ -10,11 +10,12 @@ use std::{
     sync::Arc,
 };
 
-use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
+use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::{
+    identity::{GuardianControlSignerCustody, LocalNodeGuardianIdentity},
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipState},
     polis_runtime::{
@@ -24,7 +25,9 @@ use super::{
 };
 
 const INTENT_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-INTENT-V1\0";
+#[cfg(test)]
 const ENDORSEMENT_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-ENDORSEMENT-V1\0";
+const REPLICATED_ENDORSEMENT_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-REPLICATED-ENDORSEMENT-V1\0";
 const CONFIGURATION_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-CONFIGURATION-V1\0";
 const MAX_IDENTITY_BYTES: usize = 128;
 const MAX_ARTIFACT_BYTES: usize = 1024 * 1024;
@@ -460,8 +463,102 @@ impl PrepareAuthorityIntent {
         Ok(())
     }
 
+    pub(crate) fn validate_replicated_shape(&self) -> AuthorityProtocolResult<()> {
+        validate_identifier(&self.polis_id)?;
+        validate_identifier(&self.trust_domain)?;
+        validate_identifier(&self.operation_id)?;
+        self.prepare_time.validate()?;
+        self.inclusive_deadline.validate()?;
+        self.artifact.validate(self.operation_kind)?;
+        if self.membership_epoch == 0
+            || self.membership_log_index == 0
+            || self.prepare_log_index <= self.membership_log_index
+            || self.voter_set_generation == 0
+            || self.configuration_sha256 == [0; 32]
+            || self.expected_protocol_checkpoint_sha256 == [0; 32]
+            || self.payload_sha256 == [0; 32]
+            || self.payload_sha256 != self.artifact.sha256
+            || self.prepare_time.order_key() > self.inclusive_deadline.order_key()
+        {
+            return Err(AuthorityProtocolError::InvalidIntent);
+        }
+        Ok(())
+    }
+
     pub fn digest(&self) -> AuthorityProtocolResult<[u8; 32]> {
         canonical_domain_digest(INTENT_DOMAIN, self)
+    }
+
+    fn validate_against_authority(
+        &self,
+        authority: &AuthorityMembership,
+    ) -> AuthorityProtocolResult<()> {
+        self.validate_replicated_shape()?;
+        if self.trust_domain.as_bytes() != authority.trust_domain_id
+            || self.membership_log_index != authority.committed_log_index
+            || self.voter_set_generation != authority.voter_set_generation
+            || self.configuration_sha256 != configuration_digest(authority)?
+        {
+            return Err(AuthorityProtocolError::WrongMembership);
+        }
+        Ok(())
+    }
+}
+
+/// Caller-index-free proposal that becomes an authority intent only at
+/// deterministic OpenRaft state-machine apply.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AuthorityPrepareProposal {
+    intent_template: PrepareAuthorityIntent,
+}
+
+impl AuthorityPrepareProposal {
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        polis_id: impl Into<String>,
+        membership: &MembershipState,
+        authority: &AuthorityMembership,
+        operation_kind: AuthorityOperationKind,
+        expected_protocol_checkpoint_sha256: [u8; 32],
+        prepare_time: CanonicalAuthorityTime,
+        inclusive_deadline: CanonicalAuthorityTime,
+        operation_id: impl Into<String>,
+        artifact: CommittedAuthorityArtifact,
+    ) -> AuthorityProtocolResult<Self> {
+        let mut intent_template = PrepareAuthorityIntent::new(
+            polis_id,
+            membership,
+            authority,
+            operation_kind,
+            membership
+                .committed_log_index()
+                .checked_add(1)
+                .ok_or(AuthorityProtocolError::StateRegression)?,
+            expected_protocol_checkpoint_sha256,
+            prepare_time,
+            inclusive_deadline,
+            operation_id,
+            artifact,
+        )?;
+        intent_template.prepare_log_index = 0;
+        Ok(Self { intent_template })
+    }
+
+    pub(crate) fn commit_at(
+        &self,
+        committed_log_index: u64,
+        authority: &AuthorityMembership,
+    ) -> AuthorityProtocolResult<PrepareAuthorityIntent> {
+        if self.intent_template.prepare_log_index != 0
+            || committed_log_index <= self.intent_template.membership_log_index
+        {
+            return Err(AuthorityProtocolError::StateRegression);
+        }
+        let mut committed = self.intent_template.clone();
+        committed.prepare_log_index = committed_log_index;
+        committed.validate_against_authority(authority)?;
+        Ok(committed)
     }
 }
 
@@ -499,6 +596,40 @@ impl FinalizeAuthorityIntent {
     }
 }
 
+/// Finalization proposal signed after the prepare entry is committed. Its
+/// serialized bytes contain no caller-nominated Raft index; apply supplies the
+/// only final committed index.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AuthorityFinalizeProposal {
+    pub operation_id: String,
+    pub intent_sha256: [u8; 32],
+    pub finalization_time: CanonicalAuthorityTime,
+    pub endorsements: Vec<AuthorityIntentEndorsement>,
+}
+
+impl AuthorityFinalizeProposal {
+    pub fn new(
+        intent: &PrepareAuthorityIntent,
+        finalization_time: CanonicalAuthorityTime,
+        endorsements: Vec<AuthorityIntentEndorsement>,
+    ) -> AuthorityProtocolResult<Self> {
+        finalization_time.validate()?;
+        if finalization_time.order_key() < intent.prepare_time.order_key()
+            || finalization_time.order_key() > intent.inclusive_deadline.order_key()
+            || endorsements.is_empty()
+        {
+            return Err(AuthorityProtocolError::TimeOutsideIntent);
+        }
+        Ok(Self {
+            operation_id: intent.operation_id.clone(),
+            intent_sha256: intent.digest()?,
+            finalization_time,
+            endorsements,
+        })
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AuthorityIntentEndorsement {
@@ -509,29 +640,62 @@ pub struct AuthorityIntentEndorsement {
     signature: Vec<u8>,
 }
 
-pub struct VoterEndorsementAuthority {
+struct VoterEndorsementAuthority {
     node_id: String,
     guardian_id: Vec<u8>,
     certificate_generation: u64,
     boot_generation: u64,
     membership_log_index: u64,
-    signing_key: SigningKey,
+    custody: GuardianControlSignerCustody,
+}
+
+/// Produces one endorsement through the configured local Guardian identity
+/// without exposing or accepting raw signing-key material.
+#[allow(clippy::too_many_arguments)]
+pub fn endorse_committed_authority_prepare(
+    identity: &LocalNodeGuardianIdentity,
+    certificate_generation: u64,
+    boot_generation: u64,
+    membership_log_index: u64,
+    authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
+    intent: &PrepareAuthorityIntent,
+    finalization_time: &CanonicalAuthorityTime,
+    membership: &MembershipState,
+    authority: &AuthorityMembership,
+) -> AuthorityProtocolResult<AuthorityIntentEndorsement> {
+    VoterEndorsementAuthority::restore_configured(
+        identity.authority_signer_custody(),
+        certificate_generation,
+        boot_generation,
+        membership_log_index,
+        authoritative_boot_generations,
+        membership,
+        authority,
+    )?
+    .endorse_committed_prepare(
+        intent,
+        finalization_time,
+        membership,
+        authority,
+        authoritative_boot_generations,
+    )
 }
 
 impl VoterEndorsementAuthority {
     #[allow(clippy::too_many_arguments)]
-    pub fn restore_configured(
-        node_id: impl Into<String>,
-        guardian_id: Vec<u8>,
+    pub(crate) fn restore_configured(
+        custody: GuardianControlSignerCustody,
         certificate_generation: u64,
         boot_generation: u64,
         membership_log_index: u64,
-        signing_key: SigningKey,
+        authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
         membership: &MembershipState,
         authority: &AuthorityMembership,
     ) -> AuthorityProtocolResult<Self> {
         validate_membership_pair(membership, authority)?;
-        let node_id = node_id.into();
+        let public = custody.public_identity();
+        let node_id = public.node_id.clone();
+        let guardian_id = public.guardian_id.as_bytes().to_vec();
         validate_identifier(&node_id)?;
         let member = membership
             .member(&node_id)
@@ -544,9 +708,10 @@ impl VoterEndorsementAuthority {
             || boot_generation == 0
             || membership_log_index != authority.committed_log_index
             || voter.certificate_generation != certificate_generation
+            || authoritative_boot_generations.get(&guardian_id) != Some(&boot_generation)
             || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
             || voter.revoked
-            || voter.control_public_key != signing_key.verifying_key().to_bytes()
+            || voter.control_public_key != custody.verifying_key().to_bytes()
             || member.role != MemberRole::Voter
             || member.guardian_id.as_bytes() != guardian_id
         {
@@ -558,11 +723,12 @@ impl VoterEndorsementAuthority {
             certificate_generation,
             boot_generation,
             membership_log_index,
-            signing_key,
+            custody,
         })
     }
 
-    pub fn endorse(
+    #[cfg(test)]
+    pub(crate) fn endorse(
         &self,
         intent: &PrepareAuthorityIntent,
         finalize_log_index: u64,
@@ -587,21 +753,96 @@ impl VoterEndorsementAuthority {
             || voter.certificate_generation != self.certificate_generation
             || authority.committed_log_index != self.membership_log_index
             || finalization_time.unix_seconds < voter.not_before_unix_seconds
-            || finalization_time.unix_seconds > voter.not_after_unix_seconds
+            || finalization_time.unix_seconds >= voter.not_after_unix_seconds
             || membership
                 .member(&self.node_id)
                 .is_none_or(|member| member.guardian_id.as_bytes() != self.guardian_id)
         {
             return Err(AuthorityProtocolError::StaleVoter);
         }
-        let payload = endorsement_payload(intent.digest()?, finalize_log_index, finalization_time)?;
+        let payload = endorsement_payload(
+            &self.guardian_id,
+            self.certificate_generation,
+            self.boot_generation,
+            self.membership_log_index,
+            intent.digest()?,
+            intent.prepare_log_index,
+            finalize_log_index,
+            finalization_time,
+        )?;
         Ok(AuthorityIntentEndorsement {
             guardian_id: self.guardian_id.clone(),
             certificate_generation: self.certificate_generation,
             boot_generation: self.boot_generation,
             membership_log_index: self.membership_log_index,
-            signature: self.signing_key.sign(&payload).to_bytes().to_vec(),
+            signature: self.custody.sign(&payload).to_bytes().to_vec(),
         })
+    }
+
+    pub(crate) fn endorse_committed_prepare(
+        &self,
+        intent: &PrepareAuthorityIntent,
+        finalization_time: &CanonicalAuthorityTime,
+        membership: &MembershipState,
+        authority: &AuthorityMembership,
+        authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
+    ) -> AuthorityProtocolResult<AuthorityIntentEndorsement> {
+        intent.validate_against(membership, authority)?;
+        finalization_time.validate()?;
+        if finalization_time.order_key() < intent.prepare_time.order_key()
+            || finalization_time.order_key() > intent.inclusive_deadline.order_key()
+        {
+            return Err(AuthorityProtocolError::TimeOutsideIntent);
+        }
+        self.validate_current_custody(
+            finalization_time,
+            membership,
+            authority,
+            authoritative_boot_generations,
+        )?;
+        let payload = replicated_endorsement_payload(
+            &self.guardian_id,
+            self.certificate_generation,
+            self.boot_generation,
+            self.membership_log_index,
+            intent.digest()?,
+            intent.prepare_log_index,
+            finalization_time,
+        )?;
+        Ok(AuthorityIntentEndorsement {
+            guardian_id: self.guardian_id.clone(),
+            certificate_generation: self.certificate_generation,
+            boot_generation: self.boot_generation,
+            membership_log_index: self.membership_log_index,
+            signature: self.custody.sign(&payload).to_bytes().to_vec(),
+        })
+    }
+
+    fn validate_current_custody(
+        &self,
+        finalization_time: &CanonicalAuthorityTime,
+        membership: &MembershipState,
+        authority: &AuthorityMembership,
+        authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
+    ) -> AuthorityProtocolResult<()> {
+        let voter = authority
+            .voters
+            .get(&self.guardian_id)
+            .ok_or(AuthorityProtocolError::WrongVoter)?;
+        if voter.revoked
+            || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
+            || voter.certificate_generation != self.certificate_generation
+            || authoritative_boot_generations.get(&self.guardian_id) != Some(&self.boot_generation)
+            || authority.committed_log_index != self.membership_log_index
+            || finalization_time.unix_seconds < voter.not_before_unix_seconds
+            || finalization_time.unix_seconds >= voter.not_after_unix_seconds
+            || membership
+                .member(&self.node_id)
+                .is_none_or(|member| member.guardian_id.as_bytes() != self.guardian_id)
+        {
+            return Err(AuthorityProtocolError::StaleVoter);
+        }
+        Ok(())
     }
 }
 
@@ -613,6 +854,14 @@ pub struct VerifiedAuthorityOperation {
     finalization_time: CanonicalAuthorityTime,
     artifact: CommittedAuthorityArtifact,
     signer_guardian_ids: BTreeSet<Vec<u8>>,
+    source: AuthorityVerificationSource,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum AuthorityVerificationSource {
+    #[cfg(test)]
+    LegacyDirect,
+    ReplicatedApply,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -686,6 +935,7 @@ impl DurablePublishedAuthorityResult {
                 finalization_time: self.finalization_time.clone(),
                 artifact: self.artifact.clone(),
                 signer_guardian_ids: self.signer_guardian_ids.clone(),
+                source: AuthorityVerificationSource::ReplicatedApply,
             },
         }
     }
@@ -799,7 +1049,28 @@ impl DurableAuthorityProtocol {
             .map(DurablePublishedAuthorityResult::public_result)
     }
 
-    pub fn publish(
+    pub(crate) fn publish(
+        &mut self,
+        intent: &PrepareAuthorityIntent,
+        verified: VerifiedAuthorityOperation,
+    ) -> AuthorityProtocolResult<PublishedAuthorityResult> {
+        if verified.source != AuthorityVerificationSource::ReplicatedApply {
+            return Err(AuthorityProtocolError::InvalidIntent);
+        }
+        self.publish_verified(intent, verified)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn publish_test_only(
+        &mut self,
+        intent: &PrepareAuthorityIntent,
+        mut verified: VerifiedAuthorityOperation,
+    ) -> AuthorityProtocolResult<PublishedAuthorityResult> {
+        verified.source = AuthorityVerificationSource::ReplicatedApply;
+        self.publish_verified(intent, verified)
+    }
+
+    fn publish_verified(
         &mut self,
         intent: &PrepareAuthorityIntent,
         verified: VerifiedAuthorityOperation,
@@ -887,6 +1158,30 @@ fn validate_protocol_state(state: &AuthorityProtocolState) -> AuthorityProtocolR
 }
 
 impl VerifiedAuthorityOperation {
+    pub(crate) fn from_replicated_commit(
+        intent: &PrepareAuthorityIntent,
+        intent_sha256: [u8; 32],
+        committed_log_index: u64,
+        finalization_time: CanonicalAuthorityTime,
+        signer_guardian_ids: BTreeSet<Vec<u8>>,
+    ) -> AuthorityProtocolResult<Self> {
+        if intent.digest()? != intent_sha256
+            || committed_log_index <= intent.prepare_log_index
+            || signer_guardian_ids.is_empty()
+        {
+            return Err(AuthorityProtocolError::StateRegression);
+        }
+        Ok(Self {
+            operation_id: intent.operation_id.clone(),
+            intent_sha256,
+            committed_log_index,
+            finalization_time,
+            artifact: intent.artifact.clone(),
+            signer_guardian_ids,
+            source: AuthorityVerificationSource::ReplicatedApply,
+        })
+    }
+
     pub fn operation_id(&self) -> &str {
         &self.operation_id
     }
@@ -903,12 +1198,21 @@ impl VerifiedAuthorityOperation {
         self.committed_log_index
     }
 
+    pub(crate) fn signer_guardian_ids(&self) -> &BTreeSet<Vec<u8>> {
+        &self.signer_guardian_ids
+    }
+
     // The sealed downstream adapters land in their owning issues. Keep this
     // crate-private accessor non-public without weakening the issue-local
     // warning gate while those consumers remain absent.
     #[allow(dead_code)]
-    pub(crate) fn artifact_for_sealed_consumer(&self) -> &CommittedAuthorityArtifact {
-        &self.artifact
+    pub(crate) fn artifact_for_sealed_consumer(
+        &self,
+    ) -> AuthorityProtocolResult<&CommittedAuthorityArtifact> {
+        if self.source != AuthorityVerificationSource::ReplicatedApply {
+            return Err(AuthorityProtocolError::InvalidIntent);
+        }
+        Ok(&self.artifact)
     }
 
     #[allow(dead_code)]
@@ -916,7 +1220,9 @@ impl VerifiedAuthorityOperation {
         &'a self,
         expected: ContinuityProjectionExpectation<'_>,
     ) -> AuthorityProtocolResult<ContinuityTransferGrantProjection<'a>> {
-        if expected.consumer != ContinuityProjectionConsumer::TransferAdapter210 {
+        if self.source != AuthorityVerificationSource::ReplicatedApply
+            || expected.consumer != ContinuityProjectionConsumer::TransferAdapter210
+        {
             return Err(AuthorityProtocolError::WrongVoterPurpose);
         }
         validate_continuity_transfer_binding(
@@ -932,7 +1238,8 @@ impl VerifiedAuthorityOperation {
     }
 }
 
-pub fn verify_finalization(
+#[cfg(test)]
+pub(crate) fn verify_finalization(
     intent: &PrepareAuthorityIntent,
     finalize: &FinalizeAuthorityIntent,
     membership: &MembershipState,
@@ -949,11 +1256,6 @@ pub fn verify_finalization(
     {
         return Err(AuthorityProtocolError::InvalidIntent);
     }
-    let payload = endorsement_payload(
-        intent_sha256,
-        finalize.finalize_log_index,
-        &finalize.finalization_time,
-    )?;
     let mut signers = BTreeSet::new();
     for endorsement in &finalize.endorsements {
         if !signers.insert(endorsement.guardian_id.clone()) {
@@ -967,12 +1269,21 @@ pub fn verify_finalization(
             || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
             || endorsement.certificate_generation != voter.certificate_generation
             || endorsement.membership_log_index != authority.committed_log_index
-            || endorsement.boot_generation == 0
             || finalize.finalization_time.unix_seconds < voter.not_before_unix_seconds
-            || finalize.finalization_time.unix_seconds > voter.not_after_unix_seconds
+            || finalize.finalization_time.unix_seconds >= voter.not_after_unix_seconds
         {
             return Err(AuthorityProtocolError::StaleVoter);
         }
+        let payload = endorsement_payload(
+            &endorsement.guardian_id,
+            endorsement.certificate_generation,
+            endorsement.boot_generation,
+            endorsement.membership_log_index,
+            intent_sha256,
+            intent.prepare_log_index,
+            finalize.finalize_log_index,
+            &finalize.finalization_time,
+        )?;
         let verifying_key = VerifyingKey::from_bytes(&voter.control_public_key)
             .map_err(|_| AuthorityProtocolError::InvalidEndorsement)?;
         let signature = Signature::from_slice(&endorsement.signature)
@@ -991,6 +1302,76 @@ pub fn verify_finalization(
         finalization_time: finalize.finalization_time.clone(),
         artifact: intent.artifact.clone(),
         signer_guardian_ids: signers,
+        source: AuthorityVerificationSource::LegacyDirect,
+    })
+}
+
+pub(crate) fn verify_replicated_finalization(
+    intent: &PrepareAuthorityIntent,
+    finalize: &AuthorityFinalizeProposal,
+    committed_log_index: u64,
+    authority: &AuthorityMembership,
+    authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
+) -> AuthorityProtocolResult<VerifiedAuthorityOperation> {
+    intent.validate_against_authority(authority)?;
+    finalize.finalization_time.validate()?;
+    let intent_sha256 = intent.digest()?;
+    if committed_log_index <= intent.prepare_log_index
+        || finalize.operation_id != intent.operation_id
+        || finalize.intent_sha256 != intent_sha256
+        || finalize.finalization_time.order_key() < intent.prepare_time.order_key()
+        || finalize.finalization_time.order_key() > intent.inclusive_deadline.order_key()
+    {
+        return Err(AuthorityProtocolError::InvalidIntent);
+    }
+    let mut signers = BTreeSet::new();
+    for endorsement in &finalize.endorsements {
+        if !signers.insert(endorsement.guardian_id.clone()) {
+            return Err(AuthorityProtocolError::DuplicateVoter);
+        }
+        let voter = authority
+            .voters
+            .get(&endorsement.guardian_id)
+            .ok_or(AuthorityProtocolError::WrongVoter)?;
+        if voter.revoked
+            || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
+            || endorsement.certificate_generation != voter.certificate_generation
+            || authoritative_boot_generations.get(&endorsement.guardian_id)
+                != Some(&endorsement.boot_generation)
+            || endorsement.membership_log_index != authority.committed_log_index
+            || finalize.finalization_time.unix_seconds < voter.not_before_unix_seconds
+            || finalize.finalization_time.unix_seconds >= voter.not_after_unix_seconds
+        {
+            return Err(AuthorityProtocolError::StaleVoter);
+        }
+        let payload = replicated_endorsement_payload(
+            &endorsement.guardian_id,
+            endorsement.certificate_generation,
+            endorsement.boot_generation,
+            endorsement.membership_log_index,
+            intent_sha256,
+            intent.prepare_log_index,
+            &finalize.finalization_time,
+        )?;
+        let verifying_key = VerifyingKey::from_bytes(&voter.control_public_key)
+            .map_err(|_| AuthorityProtocolError::InvalidEndorsement)?;
+        let signature = Signature::from_slice(&endorsement.signature)
+            .map_err(|_| AuthorityProtocolError::InvalidEndorsement)?;
+        verifying_key
+            .verify(&payload, &signature)
+            .map_err(|_| AuthorityProtocolError::InvalidEndorsement)?;
+    }
+    if !has_joint_quorum(authority, &signers) {
+        return Err(AuthorityProtocolError::MissingQuorum);
+    }
+    Ok(VerifiedAuthorityOperation {
+        operation_id: intent.operation_id.clone(),
+        intent_sha256,
+        committed_log_index,
+        finalization_time: finalize.finalization_time.clone(),
+        artifact: intent.artifact.clone(),
+        signer_guardian_ids: signers,
+        source: AuthorityVerificationSource::ReplicatedApply,
     })
 }
 
@@ -1070,15 +1451,55 @@ fn has_joint_quorum(authority: &AuthorityMembership, signers: &BTreeSet<Vec<u8>>
         })
 }
 
+#[cfg(test)]
 fn endorsement_payload(
+    guardian_id: &[u8],
+    certificate_generation: u64,
+    boot_generation: u64,
+    membership_log_index: u64,
     intent_sha256: [u8; 32],
+    prepare_log_index: u64,
     finalize_log_index: u64,
     finalization_time: &CanonicalAuthorityTime,
 ) -> AuthorityProtocolResult<Vec<u8>> {
-    let body = serde_jcs::to_vec(&(intent_sha256, finalize_log_index, finalization_time))
-        .map_err(|_| AuthorityProtocolError::Serialization)?;
+    let body = serde_jcs::to_vec(&(
+        guardian_id,
+        certificate_generation,
+        boot_generation,
+        membership_log_index,
+        intent_sha256,
+        prepare_log_index,
+        finalize_log_index,
+        finalization_time,
+    ))
+    .map_err(|_| AuthorityProtocolError::Serialization)?;
     let mut payload = Vec::with_capacity(ENDORSEMENT_DOMAIN.len() + body.len());
     payload.extend_from_slice(ENDORSEMENT_DOMAIN);
+    payload.extend_from_slice(&body);
+    Ok(payload)
+}
+
+fn replicated_endorsement_payload(
+    guardian_id: &[u8],
+    certificate_generation: u64,
+    boot_generation: u64,
+    membership_log_index: u64,
+    intent_sha256: [u8; 32],
+    prepare_log_index: u64,
+    finalization_time: &CanonicalAuthorityTime,
+) -> AuthorityProtocolResult<Vec<u8>> {
+    let body = serde_jcs::to_vec(&(
+        guardian_id,
+        certificate_generation,
+        boot_generation,
+        membership_log_index,
+        intent_sha256,
+        prepare_log_index,
+        finalization_time,
+    ))
+    .map_err(|_| AuthorityProtocolError::Serialization)?;
+    let mut payload = Vec::with_capacity(REPLICATED_ENDORSEMENT_DOMAIN.len() + body.len());
+    payload.extend_from_slice(REPLICATED_ENDORSEMENT_DOMAIN);
     payload.extend_from_slice(&body);
     Ok(payload)
 }
@@ -1213,6 +1634,7 @@ mod tests {
             signer_guardian_ids: [b"guardian-a".to_vec(), b"guardian-b".to_vec()]
                 .into_iter()
                 .collect(),
+            source: AuthorityVerificationSource::ReplicatedApply,
         }
     }
 
@@ -1245,12 +1667,24 @@ mod tests {
 
     #[test]
     fn continuity_projection_consumer_confusion_rejected() {
-        let operation = operation();
+        let verified = operation();
         let mut expected = expectation(b"lineage-a", b"source-handle-a", b"bundle-handle-a");
         expected.consumer = ContinuityProjectionConsumer::Other;
         assert_eq!(
-            operation.continuity_projection(expected).err(),
+            verified.continuity_projection(expected).err(),
             Some(AuthorityProtocolError::WrongVoterPurpose)
+        );
+        let mut legacy = operation();
+        legacy.source = AuthorityVerificationSource::LegacyDirect;
+        assert_eq!(
+            legacy
+                .continuity_projection(expectation(
+                    b"lineage-a",
+                    b"source-handle-a",
+                    b"bundle-handle-a",
+                ))
+                .err(),
+            Some(AuthorityProtocolError::InvalidIntent)
         );
         marker(
             "continuity_projection_consumer_confusion_rejected",
@@ -1309,3 +1743,7 @@ mod tests {
         );
     }
 }
+
+#[cfg(test)]
+#[path = "authority_protocol_contract_tests.rs"]
+mod contract_tests;

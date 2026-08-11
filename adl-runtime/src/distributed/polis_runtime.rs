@@ -36,8 +36,13 @@ use sha2::{Digest, Sha256};
 use tokio::sync::{watch, RwLock};
 use tokio_util::sync::CancellationToken;
 
+use crate::distributed::authority_protocol::{
+    verify_replicated_finalization, AuthorityFinalizeProposal, AuthorityNodeIdentity,
+    AuthorityPrepareProposal, CanonicalAuthorityTime, DurableAuthorityProtocol,
+    PrepareAuthorityIntent, PublishedAuthorityResult, VerifiedAuthorityOperation,
+};
 use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
-use crate::distributed::lease::AuthorityMembership;
+use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
 use crate::distributed::transport::{
     AuthenticatedConnection, EstablishedPolisSession, EstablishedRuntimeAuthority,
@@ -107,6 +112,12 @@ pub enum PolisCommand {
     SnapshotBoundary {
         snapshot_sha256: String,
     },
+    PrepareAuthority {
+        proposal: Box<AuthorityPrepareProposal>,
+    },
+    FinalizeAuthority {
+        proposal: AuthorityFinalizeProposal,
+    },
     FenceVoter {
         voter_id: String,
         epoch: u64,
@@ -153,10 +164,149 @@ pub struct PolisApplicationState {
     pub observatory_owner: Option<String>,
     pub observatory_expires_unix_millis: Option<u64>,
     pub demoted_voters: BTreeMap<String, u64>,
+    #[serde(default)]
+    current_authority: Option<ReplicatedAuthorityCustody>,
+    prepared_authority: BTreeMap<String, ReplicatedPreparedAuthority>,
+    finalized_authority: BTreeMap<String, ReplicatedFinalizedAuthority>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ReplicatedPreparedAuthority {
+    intent: PrepareAuthorityIntent,
+    authority: ReplicatedAuthorityCustody,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ReplicatedAuthorityCustody {
+    trust_domain_id: Vec<u8>,
+    voter_set_generation: u64,
+    committed_log_index: u64,
+    configs: Vec<BTreeSet<Vec<u8>>>,
+    voters: Vec<VoterAuthority>,
+    boot_generations: Vec<(Vec<u8>, u64)>,
+}
+
+impl ReplicatedAuthorityCustody {
+    fn from_authority(
+        authority: &AuthorityMembership,
+        boot_generations: &BTreeMap<Vec<u8>, u64>,
+    ) -> Result<Self, PolisRuntimeError> {
+        let guardian_by_raft = authority
+            .raft_ids
+            .iter()
+            .map(|(guardian, raft_id)| (*raft_id, guardian.clone()))
+            .collect::<BTreeMap<_, _>>();
+        let configs = authority
+            .raft_membership
+            .get_joint_config()
+            .iter()
+            .map(|config| {
+                config
+                    .iter()
+                    .map(|raft_id| {
+                        guardian_by_raft
+                            .get(raft_id)
+                            .cloned()
+                            .ok_or(PolisRuntimeError::AuthorityDenied)
+                    })
+                    .collect::<Result<BTreeSet<_>, _>>()
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        let custody = Self {
+            trust_domain_id: authority.trust_domain_id.clone(),
+            voter_set_generation: authority.voter_set_generation,
+            committed_log_index: authority.committed_log_index,
+            configs,
+            voters: authority.voters.values().cloned().collect(),
+            boot_generations: boot_generations
+                .iter()
+                .map(|(guardian, generation)| (guardian.clone(), *generation))
+                .collect(),
+        };
+        let (roundtrip_authority, roundtrip_boots) = custody.to_authority()?;
+        if roundtrip_authority != *authority || roundtrip_boots != *boot_generations {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        Ok(custody)
+    }
+
+    fn to_authority(
+        &self,
+    ) -> Result<(AuthorityMembership, BTreeMap<Vec<u8>, u64>), PolisRuntimeError> {
+        let authority = AuthorityMembership::new(
+            self.trust_domain_id.clone(),
+            self.voter_set_generation,
+            self.committed_log_index,
+            self.configs.clone(),
+            self.voters.clone(),
+        )
+        .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        let boot_generations = self
+            .boot_generations
+            .iter()
+            .cloned()
+            .collect::<BTreeMap<_, _>>();
+        if boot_generations.len() != authority.voters.len()
+            || boot_generations.iter().any(|(guardian, generation)| {
+                *generation == 0 || !authority.voters.contains_key(guardian)
+            })
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        Ok((authority, boot_generations))
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ReplicatedFinalizedAuthority {
+    intent_sha256: [u8; 32],
+    committed_log_index: u64,
+    finalization_time: CanonicalAuthorityTime,
+    signer_guardian_ids: BTreeSet<Vec<u8>>,
 }
 
 impl PolisApplicationState {
-    fn apply(&mut self, index: u64, command: &PolisCommand) -> Result<bool, PolisRuntimeError> {
+    fn install_trusted_authority(
+        &mut self,
+        authority: AuthorityMembership,
+        boot_generations: BTreeMap<Vec<u8>, u64>,
+    ) -> Result<(), PolisRuntimeError> {
+        let authority = ReplicatedAuthorityCustody::from_authority(&authority, &boot_generations)?;
+        if let Some(current) = self.current_authority.as_ref() {
+            return if current == &authority {
+                Ok(())
+            } else {
+                Err(PolisRuntimeError::AuthorityDenied)
+            };
+        }
+        self.current_authority = Some(authority);
+        Ok(())
+    }
+
+    pub fn prepared_authority_intent(&self, operation_id: &str) -> Option<&PrepareAuthorityIntent> {
+        self.prepared_authority
+            .get(operation_id)
+            .map(|prepared| &prepared.intent)
+    }
+
+    #[cfg(test)]
+    fn finalized_authority_log_index(&self, operation_id: &str) -> Option<u64> {
+        self.finalized_authority
+            .get(operation_id)
+            .map(|finalized| finalized.committed_log_index)
+    }
+
+    /// Applies a command at the index assigned by the committed OpenRaft log.
+    /// Authority protocol indices in serialized command bytes are bindings,
+    /// never an alternate source of commit authority.
+    fn apply_committed(
+        &mut self,
+        index: u64,
+        command: &PolisCommand,
+    ) -> Result<bool, PolisRuntimeError> {
         if index <= self.committed_index {
             return Err(PolisRuntimeError::StateRegression);
         }
@@ -174,6 +324,65 @@ impl PolisApplicationState {
             PolisCommand::SnapshotBoundary { snapshot_sha256 } => {
                 validate_sha256(snapshot_sha256)?;
                 self.snapshot_sha256 = Some(snapshot_sha256.clone());
+            }
+            PolisCommand::PrepareAuthority { proposal } => {
+                let (authority, boot_generations) = self
+                    .current_authority
+                    .as_ref()
+                    .ok_or(PolisRuntimeError::AuthorityDenied)?
+                    .to_authority()?;
+                let intent = proposal
+                    .commit_at(index, &authority)
+                    .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+                if self.prepared_authority.contains_key(&intent.operation_id)
+                    || self.finalized_authority.contains_key(&intent.operation_id)
+                {
+                    return Err(PolisRuntimeError::Replay);
+                }
+                self.prepared_authority.insert(
+                    intent.operation_id.clone(),
+                    ReplicatedPreparedAuthority {
+                        intent,
+                        authority: ReplicatedAuthorityCustody::from_authority(
+                            &authority,
+                            &boot_generations,
+                        )?,
+                    },
+                );
+            }
+            PolisCommand::FinalizeAuthority { proposal } => {
+                let prepared = self
+                    .prepared_authority
+                    .get(&proposal.operation_id)
+                    .ok_or(PolisRuntimeError::AuthorityDenied)?;
+                if self
+                    .finalized_authority
+                    .contains_key(&proposal.operation_id)
+                {
+                    return Err(PolisRuntimeError::Replay);
+                }
+                let (authority, boot_generations) = prepared.authority.to_authority()?;
+                let verified = verify_replicated_finalization(
+                    &prepared.intent,
+                    proposal,
+                    index,
+                    &authority,
+                    &boot_generations,
+                )
+                .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+                self.finalized_authority.insert(
+                    proposal.operation_id.clone(),
+                    ReplicatedFinalizedAuthority {
+                        intent_sha256: verified.intent_sha256(),
+                        committed_log_index: verified.committed_log_index(),
+                        finalization_time: verified.finalization_time().clone(),
+                        signer_guardian_ids: verified.signer_guardian_ids().clone(),
+                    },
+                );
+                // A committed finalize is only deterministic replicated truth.
+                // No caller receives an authority token until node-local
+                // journal/CAS reconciliation publishes the exact result.
+                accepted = false;
             }
             PolisCommand::FenceVoter { .. }
             | PolisCommand::ActivateOwner { .. }
@@ -201,7 +410,10 @@ pub fn validate_authority_command_boundary(
     command: &PolisCommand,
 ) -> Result<(), PolisRuntimeError> {
     match command {
-        PolisCommand::GovernedMutation { .. } | PolisCommand::SnapshotBoundary { .. } => Ok(()),
+        PolisCommand::GovernedMutation { .. }
+        | PolisCommand::SnapshotBoundary { .. }
+        | PolisCommand::PrepareAuthority { .. }
+        | PolisCommand::FinalizeAuthority { .. } => Ok(()),
         PolisCommand::FenceVoter { .. }
         | PolisCommand::ActivateOwner { .. }
         | PolisCommand::ActivateShepherd { .. }
@@ -755,16 +967,57 @@ impl PolisStateMachineStore {
         node_id: NodeId,
         authority: Arc<dyn ConsensusCheckpointAuthority>,
     ) -> Result<Self, PolisRuntimeError> {
+        Self::open_internal(root, node_id, authority, None)
+    }
+
+    fn open_with_trusted_authority(
+        root: &Path,
+        node_id: NodeId,
+        authority: Arc<dyn ConsensusCheckpointAuthority>,
+        trusted_authority: AuthorityMembership,
+        trusted_boot_generations: BTreeMap<Vec<u8>, u64>,
+    ) -> Result<Self, PolisRuntimeError> {
+        Self::open_internal(
+            root,
+            node_id,
+            authority,
+            Some((trusted_authority, trusted_boot_generations)),
+        )
+    }
+
+    fn open_internal(
+        root: &Path,
+        node_id: NodeId,
+        authority: Arc<dyn ConsensusCheckpointAuthority>,
+        trusted_authority: Option<(AuthorityMembership, BTreeMap<Vec<u8>, u64>)>,
+    ) -> Result<Self, PolisRuntimeError> {
         if node_id == 0 {
             return Err(PolisRuntimeError::InvalidConfiguration);
+        }
+        let mut initial = PersistedStateMachineStorage::default();
+        if let Some((trusted_authority, trusted_boot_generations)) = trusted_authority.as_ref() {
+            initial.current.application.install_trusted_authority(
+                trusted_authority.clone(),
+                trusted_boot_generations.clone(),
+            )?;
+            initial.snapshot.state = initial.current.clone();
         }
         let (durable, inner) = CheckpointedJson::open(
             root,
             &format!("raft-state-node-{node_id}"),
             "raft-state.json",
-            PersistedStateMachineStorage::default(),
+            initial,
             authority,
         )?;
+        if let Some((trusted_authority, trusted_boot_generations)) = trusted_authority {
+            let expected = ReplicatedAuthorityCustody::from_authority(
+                &trusted_authority,
+                &trusted_boot_generations,
+            )?;
+            if inner.payload.current.application.current_authority.as_ref() != Some(&expected) {
+                return Err(PolisRuntimeError::AuthorityDenied);
+            }
+        }
         Ok(Self {
             durable: Arc::new(durable),
             inner: Arc::new(RwLock::new(inner)),
@@ -773,6 +1026,47 @@ impl PolisStateMachineStore {
 
     pub async fn application_state(&self) -> PolisApplicationState {
         self.inner.read().await.payload.current.application.clone()
+    }
+
+    pub async fn reconcile_authority_publication(
+        &self,
+        operation_id: &str,
+        authority_root: &Path,
+        identity: AuthorityNodeIdentity,
+        checkpoint_authority: Arc<dyn ConsensusCheckpointAuthority>,
+    ) -> Result<PublishedAuthorityResult, PolisRuntimeError> {
+        let (intent, finalized) = {
+            let state = self.inner.read().await;
+            let prepared = state
+                .payload
+                .current
+                .application
+                .prepared_authority
+                .get(operation_id)
+                .ok_or(PolisRuntimeError::AuthorityDenied)?;
+            let finalized = state
+                .payload
+                .current
+                .application
+                .finalized_authority
+                .get(operation_id)
+                .ok_or(PolisRuntimeError::AuthorityDenied)?;
+            (prepared.intent.clone(), finalized.clone())
+        };
+        let verified = VerifiedAuthorityOperation::from_replicated_commit(
+            &intent,
+            finalized.intent_sha256,
+            finalized.committed_log_index,
+            finalized.finalization_time,
+            finalized.signer_guardian_ids,
+        )
+        .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        let mut protocol =
+            DurableAuthorityProtocol::open(authority_root, identity, checkpoint_authority)
+                .map_err(|_| PolisRuntimeError::Storage)?;
+        protocol
+            .publish(&intent, verified)
+            .map_err(|_| PolisRuntimeError::Storage)
     }
 
     #[allow(clippy::result_large_err)]
@@ -855,7 +1149,7 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
                     let accepted = candidate
                         .current
                         .application
-                        .apply(entry.log_id.index, &command)
+                        .apply_committed(entry.log_id.index, &command)
                         .map_err(|error| {
                             StorageError::from_io_error(
                                 ErrorSubject::Apply(entry.log_id),
@@ -867,6 +1161,8 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
                         accepted,
                         if accepted {
                             "committed"
+                        } else if matches!(command, PolisCommand::FinalizeAuthority { .. }) {
+                            "authority_publication_pending"
                         } else {
                             "governed_rejection"
                         },
@@ -997,6 +1293,8 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
 pub struct SecurePolisNetworkFactory {
     local: NodeId,
     cut: Arc<RwLock<VerifiedPolisRouteCut>>,
+    trusted_authority: AuthorityMembership,
+    trusted_boot_generations: BTreeMap<Vec<u8>, u64>,
     connections: Arc<RwLock<BTreeMap<NodeId, SecurePeerRoute>>>,
 }
 
@@ -1032,9 +1330,19 @@ impl SecurePolisNetworkFactory {
         }
         Ok(Self {
             local,
+            trusted_authority: cut.authority_membership().clone(),
+            trusted_boot_generations: cut.authority_boot_generations(),
             cut: Arc::new(RwLock::new(cut)),
             connections: Arc::new(RwLock::new(BTreeMap::new())),
         })
+    }
+
+    fn trusted_authority(&self) -> &AuthorityMembership {
+        &self.trusted_authority
+    }
+
+    fn trusted_boot_generations(&self) -> &BTreeMap<Vec<u8>, u64> {
+        &self.trusted_boot_generations
     }
 
     pub async fn pending_session(
@@ -1364,7 +1672,13 @@ pub async fn new_secure_raft_node(
     }
     network.validate_ready().await?;
     let log_store = PolisLogStore::open(state_root, node_id, Arc::clone(&checkpoint_authority))?;
-    let state_machine = PolisStateMachineStore::open(state_root, node_id, checkpoint_authority)?;
+    let state_machine = PolisStateMachineStore::open_with_trusted_authority(
+        state_root,
+        node_id,
+        checkpoint_authority,
+        network.trusted_authority().clone(),
+        network.trusted_boot_generations().clone(),
+    )?;
     let configuration = Arc::new(
         openraft::Config {
             cluster_name: "adl-secure-polis".to_owned(),
@@ -1829,6 +2143,530 @@ pub fn derive_authority_cut(
 ) -> Result<VerifiedPolisRouteCut, PolisRuntimeError> {
     VerifiedPolisRouteCut::verify(polis, established, addresses, now_unix_seconds)
         .map_err(|_| PolisRuntimeError::AuthorityDenied)
+}
+
+#[cfg(test)]
+mod authority_consensus_tests {
+    use super::*;
+    use crate::distributed::{
+        authority_protocol::{
+            endorse_committed_authority_prepare, AuthorityFinalizeProposal, AuthorityOperationKind,
+            AuthorityPrepareProposal, CanonicalAuthorityTime, CommittedAuthorityArtifact,
+        },
+        identity::LocalNodeGuardianIdentity,
+        lease::{ControlCertificatePurpose, VoterAuthority},
+        membership::{
+            CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipState,
+        },
+    };
+    use std::sync::{
+        atomic::{AtomicBool, Ordering as AtomicOrdering},
+        Mutex, RwLock as StdRwLock,
+    };
+    use std::time::Duration;
+
+    #[derive(Default)]
+    struct MemoryAuthority {
+        values: Mutex<BTreeMap<String, ConsensusCheckpoint>>,
+        fail_after_cas: AtomicBool,
+    }
+
+    impl MemoryAuthority {
+        fn arm_after_cas(&self) {
+            self.fail_after_cas.store(true, AtomicOrdering::SeqCst);
+        }
+    }
+
+    impl ConsensusCheckpointAuthority for MemoryAuthority {
+        fn load(&self, object: &str) -> Result<Option<ConsensusCheckpoint>, PolisRuntimeError> {
+            Ok(self.values.lock().unwrap().get(object).cloned())
+        }
+
+        fn compare_and_swap(
+            &self,
+            expected: Option<&ConsensusCheckpoint>,
+            candidate: &ConsensusCheckpoint,
+        ) -> Result<(), PolisRuntimeError> {
+            let mut current = self.values.lock().unwrap();
+            if current.get(&candidate.object) != expected {
+                return Err(PolisRuntimeError::StateRegression);
+            }
+            current.insert(candidate.object.clone(), candidate.clone());
+            if self.fail_after_cas.swap(false, AtomicOrdering::SeqCst) {
+                return Err(PolisRuntimeError::Storage);
+            }
+            Ok(())
+        }
+    }
+
+    #[derive(Clone, Default)]
+    struct MemoryNetwork {
+        peers: Arc<StdRwLock<BTreeMap<NodeId, PolisRaft>>>,
+    }
+
+    struct MemoryConnection {
+        target: NodeId,
+        peers: Arc<StdRwLock<BTreeMap<NodeId, PolisRaft>>>,
+    }
+
+    impl RaftNetworkFactory<PolisTypeConfig> for MemoryNetwork {
+        type Network = MemoryConnection;
+
+        async fn new_client(&mut self, target: NodeId, _node: &BasicNode) -> Self::Network {
+            MemoryConnection {
+                target,
+                peers: Arc::clone(&self.peers),
+            }
+        }
+    }
+
+    impl MemoryConnection {
+        fn peer(&self) -> Result<PolisRaft, RPCError<NodeId, BasicNode, RaftError<NodeId>>> {
+            self.peers
+                .read()
+                .unwrap()
+                .get(&self.target)
+                .cloned()
+                .ok_or_else(|| RPCError::Network(NetworkError::new(&PolisRuntimeError::Network)))
+        }
+    }
+
+    impl RaftNetwork<PolisTypeConfig> for MemoryConnection {
+        async fn append_entries(
+            &mut self,
+            request: AppendEntriesRequest<PolisTypeConfig>,
+            _option: RPCOption,
+        ) -> Result<AppendEntriesResponse<NodeId>, RPCError<NodeId, BasicNode, RaftError<NodeId>>>
+        {
+            self.peer()?
+                .append_entries(request)
+                .await
+                .map_err(|error| RPCError::RemoteError(RemoteError::new(self.target, error)))
+        }
+
+        async fn install_snapshot(
+            &mut self,
+            request: InstallSnapshotRequest<PolisTypeConfig>,
+            _option: RPCOption,
+        ) -> Result<
+            InstallSnapshotResponse<NodeId>,
+            RPCError<NodeId, BasicNode, RaftError<NodeId, InstallSnapshotError>>,
+        > {
+            let peer = self
+                .peers
+                .read()
+                .unwrap()
+                .get(&self.target)
+                .cloned()
+                .ok_or_else(|| RPCError::Network(NetworkError::new(&PolisRuntimeError::Network)))?;
+            peer.install_snapshot(request)
+                .await
+                .map_err(|error| RPCError::RemoteError(RemoteError::new(self.target, error)))
+        }
+
+        async fn vote(
+            &mut self,
+            request: VoteRequest<NodeId>,
+            _option: RPCOption,
+        ) -> Result<VoteResponse<NodeId>, RPCError<NodeId, BasicNode, RaftError<NodeId>>> {
+            self.peer()?
+                .vote(request)
+                .await
+                .map_err(|error| RPCError::RemoteError(RemoteError::new(self.target, error)))
+        }
+    }
+
+    fn authority_fixture(
+        seed: u64,
+    ) -> (
+        MembershipState,
+        AuthorityMembership,
+        BTreeMap<Vec<u8>, u64>,
+        Vec<LocalNodeGuardianIdentity>,
+    ) {
+        let identities = (0..3)
+            .map(|_| LocalNodeGuardianIdentity::generate("polis.authority.test", seed).unwrap())
+            .collect::<Vec<_>>();
+        let mut membership =
+            MembershipState::new(MembershipPolicy::new("polis.authority.test", 8, 16).unwrap());
+        let mut index = 0_u64;
+        for identity in &identities {
+            let public = identity.public_identity();
+            index += 1;
+            membership
+                .apply(&CommittedMembershipEvent::new(
+                    "polis.authority.test",
+                    [index as u8; 32],
+                    index,
+                    index,
+                    MembershipOperation::Join {
+                        member: Member {
+                            node_id: public.node_id.clone(),
+                            guardian_id: public.guardian_id.clone(),
+                            identity_generation: public.identity_generation,
+                            guardian_control_public_key: public.guardian_control_public_key,
+                            role: MemberRole::NonVoting,
+                        },
+                    },
+                ))
+                .unwrap();
+        }
+        for identity in &identities {
+            index += 1;
+            membership
+                .apply(&CommittedMembershipEvent::new(
+                    "polis.authority.test",
+                    [index as u8; 32],
+                    index,
+                    index,
+                    MembershipOperation::Promote {
+                        node_id: identity.public_identity().node_id.clone(),
+                    },
+                ))
+                .unwrap();
+        }
+        let guardians = identities
+            .iter()
+            .map(|identity| identity.public_identity().guardian_id.as_bytes().to_vec())
+            .collect::<BTreeSet<_>>();
+        let voters = identities
+            .iter()
+            .map(|identity| VoterAuthority {
+                guardian_id: identity.public_identity().guardian_id.as_bytes().to_vec(),
+                trust_domain_id: b"polis.authority.test".to_vec(),
+                certificate_generation: seed,
+                purpose: ControlCertificatePurpose::AuthorityEndorsement,
+                not_before_unix_seconds: 1_799_999_900,
+                not_after_unix_seconds: 1_800_000_100,
+                revoked: false,
+                control_public_key: identity.public_identity().guardian_control_public_key,
+            })
+            .collect();
+        let authority = AuthorityMembership::new(
+            b"polis.authority.test".to_vec(),
+            seed,
+            membership.committed_log_index(),
+            vec![guardians],
+            voters,
+        )
+        .unwrap();
+        let boot_generations = authority
+            .voters
+            .keys()
+            .map(|guardian| (guardian.clone(), seed))
+            .collect::<BTreeMap<_, _>>();
+        (membership, authority, boot_generations, identities)
+    }
+
+    async fn write_on_leader(
+        nodes: &BTreeMap<NodeId, PolisRaft>,
+        command: PolisCommand,
+    ) -> (NodeId, openraft::raft::ClientWriteResponse<PolisTypeConfig>) {
+        tokio::time::timeout(Duration::from_secs(15), async {
+            loop {
+                for (node, raft) in nodes {
+                    if let Ok(response) = raft.client_write(command.clone()).await {
+                        return (*node, response);
+                    }
+                }
+                tokio::time::sleep(Duration::from_millis(25)).await;
+            }
+        })
+        .await
+        .expect("three-voter cluster elected a writable leader")
+    }
+
+    #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+    async fn real_three_voter_authority_prepare_finalize_uses_applied_log_ids() {
+        let root = tempfile::Builder::new()
+            .prefix("adl-authority-raft-")
+            .tempdir_in("/private/tmp")
+            .unwrap();
+        let checkpoint = Arc::new(MemoryAuthority::default());
+        let network = MemoryNetwork::default();
+        let (membership, authority, boot_generations, signers) = authority_fixture(7);
+        let configuration = Arc::new(
+            openraft::Config {
+                cluster_name: "adl-authority-protocol-test".to_owned(),
+                heartbeat_interval: 50,
+                election_timeout_min: 150,
+                election_timeout_max: 300,
+                ..Default::default()
+            }
+            .validate()
+            .unwrap(),
+        );
+        let mut nodes = BTreeMap::new();
+        let mut machines = BTreeMap::new();
+        for node in 1..=3 {
+            let node_root = root.path().join(format!("node-{node}"));
+            std::fs::create_dir(&node_root).unwrap();
+            let log = PolisLogStore::open(&node_root, node, checkpoint.clone()).unwrap();
+            let machine = PolisStateMachineStore::open_with_trusted_authority(
+                &node_root,
+                node,
+                checkpoint.clone(),
+                authority.clone(),
+                boot_generations.clone(),
+            )
+            .unwrap();
+            let raft = PolisRaft::new(
+                node,
+                Arc::clone(&configuration),
+                network.clone(),
+                log,
+                machine.clone(),
+            )
+            .await
+            .unwrap();
+            nodes.insert(node, raft);
+            machines.insert(node, machine);
+        }
+        *network.peers.write().unwrap() = nodes.clone();
+        nodes[&1]
+            .initialize(
+                (1..=3)
+                    .map(|node| (node, BasicNode::new(format!("memory://{node}"))))
+                    .collect::<BTreeMap<_, _>>(),
+            )
+            .await
+            .unwrap();
+
+        let mut publication_identities = BTreeMap::new();
+        let mut protocol_checkpoint = None;
+        for node in 1..=3 {
+            let guardian = authority
+                .raft_ids
+                .iter()
+                .find_map(|(guardian, raft_id)| (*raft_id == node).then_some(guardian))
+                .unwrap();
+            let guardian_id = String::from_utf8(guardian.clone()).unwrap();
+            let node_id = membership
+                .members()
+                .find(|member| member.guardian_id == guardian_id)
+                .unwrap()
+                .node_id
+                .clone();
+            let identity = AuthorityNodeIdentity {
+                trust_domain: "polis.authority.test".into(),
+                polis_id: "polis-a".into(),
+                node_id,
+                guardian_id,
+                boot_generation: 7,
+            };
+            let authority_root = root.path().join(format!("node-{node}/authority"));
+            std::fs::create_dir(&authority_root).unwrap();
+            let protocol = DurableAuthorityProtocol::open(
+                &authority_root,
+                identity.clone(),
+                checkpoint.clone(),
+            )
+            .unwrap();
+            let observed = protocol.checkpoint_sha256().unwrap();
+            assert!(protocol_checkpoint.is_none_or(|expected| expected == observed));
+            protocol_checkpoint = Some(observed);
+            publication_identities.insert(node, identity);
+        }
+
+        for sequence in 0..6 {
+            write_on_leader(
+                &nodes,
+                PolisCommand::GovernedMutation {
+                    mutation_id: format!("advance-{sequence}"),
+                    payload_sha256: format!("{sequence:02x}").repeat(32),
+                },
+            )
+            .await;
+        }
+        let prepare = AuthorityPrepareProposal::new(
+            "polis-a",
+            &membership,
+            &authority,
+            AuthorityOperationKind::Membership,
+            protocol_checkpoint.unwrap(),
+            CanonicalAuthorityTime {
+                unix_seconds: 1_800_000_000,
+                nanos: 0,
+                uncertainty_millis: 1,
+            },
+            CanonicalAuthorityTime {
+                unix_seconds: 1_800_000_050,
+                nanos: 0,
+                uncertainty_millis: 1,
+            },
+            "three-voter-authority",
+            CommittedAuthorityArtifact::new(
+                AuthorityOperationKind::Membership,
+                b"exact-authority-store-artifact".to_vec(),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        let (prepare_leader, prepare_response) = write_on_leader(
+            &nodes,
+            PolisCommand::PrepareAuthority {
+                proposal: Box::new(prepare),
+            },
+        )
+        .await;
+        let committed_intent = machines[&prepare_leader]
+            .application_state()
+            .await
+            .prepared_authority_intent("three-voter-authority")
+            .unwrap()
+            .clone();
+        assert_eq!(
+            committed_intent.prepare_log_index,
+            prepare_response.log_id.index
+        );
+        let finalization_time = CanonicalAuthorityTime {
+            unix_seconds: 1_800_000_010,
+            nanos: 0,
+            uncertainty_millis: 1,
+        };
+        let endorsements = signers[..2]
+            .iter()
+            .map(|identity| {
+                endorse_committed_authority_prepare(
+                    identity,
+                    authority.voter_set_generation,
+                    authority.voter_set_generation,
+                    membership.committed_log_index(),
+                    &boot_generations,
+                    &committed_intent,
+                    &finalization_time,
+                    &membership,
+                    &authority,
+                )
+                .unwrap()
+            })
+            .collect();
+        let finalize =
+            AuthorityFinalizeProposal::new(&committed_intent, finalization_time, endorsements)
+                .unwrap();
+        let (_, finalize_response) = write_on_leader(
+            &nodes,
+            PolisCommand::FinalizeAuthority { proposal: finalize },
+        )
+        .await;
+        assert!(!finalize_response.data.accepted);
+        assert_eq!(
+            finalize_response.data.reason_code,
+            "authority_publication_pending"
+        );
+        tokio::time::timeout(Duration::from_secs(5), async {
+            loop {
+                if machines.values().all(|machine| {
+                    machine.inner.try_read().is_ok_and(|state| {
+                        state
+                            .payload
+                            .current
+                            .application
+                            .finalized_authority_log_index("three-voter-authority")
+                            == Some(finalize_response.log_id.index)
+                    })
+                }) {
+                    break;
+                }
+                tokio::time::sleep(Duration::from_millis(25)).await;
+            }
+        })
+        .await
+        .expect("all three voters applied the exact finalize entry");
+
+        for node in 1..=3 {
+            let authority_root = root.path().join(format!("node-{node}/authority"));
+            checkpoint.arm_after_cas();
+            assert!(machines[&node]
+                .reconcile_authority_publication(
+                    "three-voter-authority",
+                    &authority_root,
+                    publication_identities[&node].clone(),
+                    checkpoint.clone(),
+                )
+                .await
+                .is_err());
+            let recovered = DurableAuthorityProtocol::open(
+                &authority_root,
+                publication_identities[&node].clone(),
+                checkpoint.clone(),
+            )
+            .unwrap();
+            assert_eq!(
+                recovered
+                    .published("three-voter-authority")
+                    .unwrap()
+                    .committed_log_index(),
+                finalize_response.log_id.index
+            );
+            drop(recovered);
+            let published = machines[&node]
+                .reconcile_authority_publication(
+                    "three-voter-authority",
+                    &authority_root,
+                    publication_identities[&node].clone(),
+                    checkpoint.clone(),
+                )
+                .await
+                .unwrap();
+            assert_eq!(
+                published.committed_log_index(),
+                finalize_response.log_id.index
+            );
+            drop(published);
+            let reopened = DurableAuthorityProtocol::open(
+                &authority_root,
+                publication_identities[&node].clone(),
+                checkpoint.clone(),
+            )
+            .unwrap();
+            assert_eq!(
+                reopened
+                    .published("three-voter-authority")
+                    .unwrap()
+                    .committed_log_index(),
+                finalize_response.log_id.index
+            );
+        }
+
+        let (attacker_membership, attacker_authority, _, _) = authority_fixture(8);
+        let attacker = AuthorityPrepareProposal::new(
+            "polis-a",
+            &attacker_membership,
+            &attacker_authority,
+            AuthorityOperationKind::Membership,
+            [8; 32],
+            CanonicalAuthorityTime {
+                unix_seconds: 1_800_000_000,
+                nanos: 0,
+                uncertainty_millis: 1,
+            },
+            CanonicalAuthorityTime {
+                unix_seconds: 1_800_000_050,
+                nanos: 0,
+                uncertainty_millis: 1,
+            },
+            "attacker-selected-authority",
+            CommittedAuthorityArtifact::new(
+                AuthorityOperationKind::Membership,
+                b"attacker-artifact".to_vec(),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        let rejected = tokio::time::timeout(
+            Duration::from_secs(3),
+            nodes[&prepare_leader].client_write(PolisCommand::PrepareAuthority {
+                proposal: Box::new(attacker),
+            }),
+        )
+        .await;
+        assert!(!matches!(rejected, Ok(Ok(response)) if response.data.accepted));
+
+        for raft in nodes.values() {
+            let _ = raft.shutdown().await;
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]

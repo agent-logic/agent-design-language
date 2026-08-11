@@ -16,14 +16,14 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 10
+Revision 13
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, private exact-artifact, sealed continuity-transfer lineage, SourceCheckpointHandle, bundle-handle, and legacy-log compatibility contracts.",
+    "action": "Bind production PrepareAuthority and FinalizeAuthority commands to the actual OpenRaft applied log IDs and an already-approved current authority cut bootstrapped from the verified route cut; reject caller-selected authority, caller indices, legacy replay, relabeling, and stale custody.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,7 +33,7 @@ Revision 10
   },
   {
     "id": "S2",
-    "action": "Implement only the core authority protocol, private exact-artifact views, and the sealed #210 continuity-transfer projection bound to exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; retire or fail-close legacy direct authority command application without executing downstream effects.",
+    "action": "Keep opaque signer custody runtime-local and non-serialized, cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare, finalize time, and actual finalize apply index, and deny every non-replicated route to a sealed artifact or projection.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -42,7 +42,7 @@ Revision 10
   },
   {
     "id": "S3",
-    "action": "Implement and prove the AC-4 and AC-5 per-voter fresh-CAS exact-once sequence: three independent node-local checkpoint authorities each record expected old and new checkpoints, perform only their own fresh compare-and-swap, reconcile only the exact same operation after any proved partial commit, and withhold token, projection, canonical-response, and Raft-apply publication until that voter's canonical result, retry record, and external checkpoint are durable and agree; cover every node-local crash boundary, retry/conflict, rollback, corruption, capacity, path-safety, legacy-command, artifact, projection, wrong-consumer, wrong-lineage, wrong-SourceCheckpointHandle, and wrong-bundle-handle outcome in the exact forty-seven-case proof.",
+    "action": "Withhold authority publication while replicated finalize remains pending, then reconcile each voter's exact result, retry record, journal, and node-local fresh CAS before returning an opaque PublishedAuthorityResult; prove the fixed 47-case contract and a separate real three-voter production OpenRaft path including wrong self-consistent authority-cut denial.",
     "acceptance_ids": [
       "AC-4",
       "AC-5"
@@ -51,7 +51,7 @@ Revision 10
   },
   {
     "id": "S4",
-    "action": "Resolve fresh exact-head review, publish a ready PR closing #201, shepherd hosted CI, and wait for operator review and merge authorization.",
+    "action": "Retain one immutable v6 proof, validate it in full-history and depth-one squash-like history, obtain fresh independent exact-head review, and stop before publication or merge.",
     "acceptance_ids": [
       "AC-8"
     ],
