@@ -1,0 +1,5 @@
+{"sequence":1,"generation":0,"actor":"codex:226-focused-validation-routing","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:226-focused-validation-routing","reason":"Replace descriptive areas with exact repository-owned implementation and proving paths before readiness.","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"adl/tools/test_ci_path_policy.sh\"]}"}
+{"sequence":3,"generation":2,"actor":"codex:226-focused-validation-routing","reason":"All six issue-specific cards and focused validation lanes pass typed readiness validation.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
+{"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":5,"generation":3,"actor":"codex:226-focused-runtime-validation-routing","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}

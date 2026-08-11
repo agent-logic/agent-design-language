@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SCRIPT="$ROOT/adl/tools/select_validation_lanes.sh"
+MANAGER="$ROOT/adl/tools/validation_manager.sh"
 TMP="$(mktemp -d)"
 UNTRACKED_FIXTURE="$ROOT/docs/architecture/__selector_untracked_fixture__.md"
 trap 'rm -rf "$TMP" "$UNTRACKED_FIXTURE"' EXIT
@@ -92,6 +93,80 @@ bash "$SCRIPT" --changed-files "$runtime_kernel" >"$TMP/runtime-kernel.out"
 assert_has "$TMP/runtime-kernel.out" "aggregate_status=selected"
 assert_has "$TMP/runtime-kernel.out" "runtime_kernel_contracts status=selected"
 assert_not_has "$TMP/runtime-kernel.out" "unmapped_change_surface"
+
+issue_111_113="$TMP/issue-111-113.txt"
+cat >"$issue_111_113" <<'EOF'
+M	.csdlc/evidence/113/roster-live-proof-2118c05b3/manifest.json
+M	.csdlc/issues/111/index.json
+M	.csdlc/issues/113/index.json
+M	.csdlc/prepared/issues/111/record-validation-browser.json
+M	.csdlc/prepared/issues/113/record-validation-browser-final.json
+M	adl-runtime-kernel/build.rs
+M	adl-runtime-kernel/src/agent_roster.rs
+M	adl-runtime-kernel/src/assembly.rs
+M	adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+M	adl-runtime-kernel/src/control.rs
+M	adl-runtime-kernel/src/ingress.rs
+M	adl-runtime-kernel/src/lib.rs
+M	adl-runtime-kernel/src/live_continuity.rs
+M	adl-runtime-kernel/src/operations.rs
+M	adl-runtime-kernel/src/telemetry.rs
+M	adl-runtime-kernel/tests/agent_roster.rs
+M	adl-runtime-kernel/tests/control.rs
+M	adl-runtime-kernel/tests/conversation_sessions.rs
+M	adl-runtime-kernel/tests/openapi_contract.rs
+M	adl/tools/test_html_observatory.sh
+M	adl/tools/validate_v092_html_observatory_roster.mjs
+M	demos/html-observatory/app.js
+M	demos/html-observatory/index.html
+M	demos/html-observatory/styles.css
+M	demos/html-observatory/tests/conversation_sessions.test.mjs
+M	design/issue-111.md
+M	design/issue-111.mmd
+M	docs/api/runtime-v3/v1/observatory.openapi.json
+M	docs/api/runtime-v3/v1/openapi.json
+EOF
+bash "$SCRIPT" --changed-files "$issue_111_113" >"$TMP/issue-111-113.out"
+assert_has "$TMP/issue-111-113.out" "aggregate_status=selected"
+assert_has "$TMP/issue-111-113.out" "html_observatory_v0917_runtime_surface status=selected"
+assert_has "$TMP/issue-111-113.out" "docs_diff_check status=selected"
+assert_has "$TMP/issue-111-113.out" "runtime_kernel_contracts status=selected"
+assert_not_has "$TMP/issue-111-113.out" "unmapped_change_surface"
+assert_not_has "$TMP/issue-111-113.out" "slow_proof"
+bash "$MANAGER" --changed-files "$issue_111_113" --json >"$TMP/issue-111-113.profile.json"
+python3 - <<'PY' "$TMP/issue-111-113.profile.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert all(
+    reason["lane_id"] != "unmapped_change_surface"
+    for reason in profile["escalation"]["reasons"]
+)
+assert all(item["lane_id"] != "slow_proof_review" for item in profile["run"])
+assert any(item["surface"] == "slow_proof" for item in profile["not_run"])
+PY
+
+unknown_tooling="$TMP/unknown-tooling.txt"
+printf 'A\tadl/tools/future_unclassified_route.sh\n' >"$unknown_tooling"
+bash "$MANAGER" --changed-files "$unknown_tooling" --json >"$TMP/unknown-tooling.json"
+python3 - <<'PY' "$TMP/unknown-tooling.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["status"] == "escalation_required"
+assert profile["pr_publication_sufficient"] is False
+assert profile["escalation"]["required"] is True
+assert any(
+    reason["lane_id"] == "unmapped_change_surface"
+    and reason["matched_paths"] == ["adl/tools/future_unclassified_route.sh"]
+    for reason in profile["escalation"]["reasons"]
+)
+PY
 
 focused_rust_with_space="$TMP/focused rust paths.txt"
 printf 'M\tadl/src/runtime_v2/contract_schema.rs\n' >"$focused_rust_with_space"

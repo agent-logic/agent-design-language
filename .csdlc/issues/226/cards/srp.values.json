@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 226,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
+    "slug": "focused-runtime-validation-routing",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact selector manifest and focused contract tests only",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are the new selectors narrowly bounded to existing proof ownership?",
+        "Does any unknown path become silently covered?",
+        "Can this change launch optional slow or coverage jobs?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

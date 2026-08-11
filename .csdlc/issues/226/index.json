@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 226,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "365b1d8f670929c8b4ae9e6670cde8c236a987da85741228870ced5eec6f1bc7",
+  "branch": "codex/226-focused-runtime-validation-routing",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/226/design.md",
+  "diagram_path": ".csdlc/prepared/issues/226/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:226-bounded-design-review",
+      "revision": "b53a4f2164b857afb5267dc031684d166b53ae735222244b23e9580703177f50"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ecf8a5065a0f221ecd25d16dd0c8afd7c5bbbcd93254ae2ea2a833ae07e3ebf0",
+      "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
+      "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
+    },
+    "stp": {
+      "values_digest": "5b5190812baf925b447036e6ab6643aad8e12c27e6f0cfbb02e36b8591395f3d",
+      "rendered_digest": "dc477e2f9030b68eb91a990bf415344d7afba7b165d3fe0a001b5131936b6f38",
+      "ast_digest": "6891721fccb0938653ab7a9200b79a3401756c15c07cb56ab6e6fae87a1994c1"
+    },
+    "spp": {
+      "values_digest": "72bcabeb6e6baac2708f0169034c433aa20dc3736ca6dc6716f68f88a98e54a2",
+      "rendered_digest": "d495923846fa9aef45a220aaeecb3cdd3b05eba9999bb124ba45a0876019d458",
+      "ast_digest": "8e6cdb077758ac8e938a8b992154f7de4a2f764e21f538a554d2c61f503c0497"
+    },
+    "vpp": {
+      "values_digest": "055b9242331a220ef0a0260782a124329fab155962c6cb0646fad7ca08f45dcc",
+      "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
+      "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
+    },
+    "srp": {
+      "values_digest": "e75cb8752a13e1b47a4367f3f6c5b0bc717da09c33c9ba6a6c94fd86757ea781",
+      "rendered_digest": "7d172eff463c20456c80abbbe2950f9fe3e570419c75fb1da7b25d89f981e393",
+      "ast_digest": "b806c9df2e8e9d7af82237c730798bbd87995644edfc0fa4dd16200cacde19d7"
+    },
+    "sor": {
+      "values_digest": "f6554ab26910459ce02670c38ceea4938a5fa808fe6cdb4cb6a37afb0a61c9d0",
+      "rendered_digest": "4696ffd7032b73fa2cf92b0ffe9e0d9cd7a9fa817612b5441bc4d22fc92767d3",
+      "ast_digest": "cc0b8d1f5f0021dcec593eb656c11a5cbb98919daf9dfc31e068a7c278bdcbda"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "All six issue-specific cards and focused validation lanes pass typed readiness validation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "Replace descriptive areas with exact repository-owned implementation and proving paths before readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"adl/tools/test_ci_path_policy.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "All six issue-specific cards and focused validation lanes pass typed readiness validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

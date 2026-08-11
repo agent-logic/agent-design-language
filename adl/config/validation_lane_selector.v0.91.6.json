@@ -520,13 +520,17 @@
       ],
       "path_selectors": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "adl/tools/test_html_observatory.sh",
         "adl/tools/validate_v0917_html_observatory.py",
+        "adl/tools/validate_v092_html_observatory_roster.mjs",
         "adl/tools/validate_v092_browser_trusted_observatory.mjs",
         "demos/html-observatory/**"
       ],
       "path_hints": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "adl/tools/test_html_observatory.sh",
         "adl/tools/validate_v0917_html_observatory.py",
+        "adl/tools/validate_v092_html_observatory_roster.mjs",
         "adl/tools/validate_v092_browser_trusted_observatory.mjs",
         "demos/html-observatory/"
       ],
@@ -1396,6 +1400,7 @@
       ],
       "path_selectors": [
         "docs/**",
+        "design/*.mmd",
         "*.md",
         ".csdlc/**",
         "adl/tools/test_opus_review_runbook.sh",
@@ -1403,6 +1408,7 @@
       ],
       "path_hints": [
         "docs/**",
+        "design/*.mmd",
         "*.md",
         ".csdlc/**",
         "adl/tools/validate_v0917_*_status.sh"
