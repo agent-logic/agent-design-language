@@ -140,11 +140,11 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
