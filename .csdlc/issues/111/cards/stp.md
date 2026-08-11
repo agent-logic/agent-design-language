@@ -36,9 +36,9 @@ Implement only the canonical one-operator-to-one-agent bounded conversation sess
 ## Dependencies
 
 - #83 must be terminal, independently validated, and ancestral before #111 execution binding
-- #110 is the umbrella and currently contains sequencing prose that must be reconciled with #122's deferred status
+- #110 is the umbrella and explicitly records #122 as deferred and non-gating for #111
 - #92 is closed and supplies the TLS baseline
-- #122 is open and deferred beyond v0.92; confirm through authorized issue ownership that it is not a #111 bind gate
+- #122 is open and deferred beyond v0.92; it owns future public exposure and is not a #111 execution gate
 
 ## Inputs
 

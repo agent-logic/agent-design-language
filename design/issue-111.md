@@ -1,6 +1,6 @@
 # Issue 111 design: canonical human-agent conversation sessions
 
-Status: preparation design complete; execution blocked on live dependency truth.
+Status: preparation design complete; execution blocked on #83.
 
 ## Boundary
 
@@ -23,15 +23,14 @@ mutation of #83 preparation truth.
    revision before execution binding. Its live worktree currently owns overlapping
    Runtime ingress/control and Observatory surfaces, so #111 must not speculate over
    or copy its unmerged implementation.
-3. #110 defines #111 as a foundational child after the first vertical slice. Its
-   current execution-order prose still places #122 before #111.
-4. #122 is open but now explicitly deferred beyond v0.92 and says it does not gate
-   local #83 work. That conflicts with #110's older sequencing sentence. Before #111
-   execution, the operator or issue owner must confirm that #122 is not a #111 bind
-   gate, or reconcile the umbrella graph through its own authorized issue workflow.
+3. #110 defines #111 as a foundational child after the first vertical slice and now
+   explicitly records #122 as a deferred related issue that does not gate #111
+   preparation, implementation, review, or publication.
+4. #122 is open and deferred beyond v0.92. It owns future public exposure only and
+   is not a #111 execution gate.
 
-Preparation may reach design-ready while these gates are open. Execution binding,
-product edits, review, and publication must stop.
+Preparation may reach design-ready while #83 is open. Execution binding, product
+edits, review, and publication must stop until #83 is terminal and ancestral.
 
 ## Canonical Contracts
 
@@ -177,9 +176,8 @@ a pass.
 
 ## Execution Handoff
 
-Do not bind from this preparation state until #83 is terminal and ancestral and the
-#110/#122 sequencing contradiction is resolved. At handoff, rerun live issue reads,
-rebase or recreate from the terminal dependency head, inspect overlapping #83 files,
-update SPP/VPP through `csdlc-edit` if paths or tests changed, run doctor, and only
-then invoke `csdlc-bind`. Product implementation starts after an issue-bound session
-goal is active in the bound worktree.
+Do not bind from this preparation state until #83 is terminal and ancestral. At
+handoff, rerun live issue reads, rebase or recreate from the terminal dependency
+head, inspect overlapping #83 files, update SPP/VPP through `csdlc-edit` if paths or
+tests changed, run doctor, and only then invoke `csdlc-bind`. Product implementation
+starts after an issue-bound session goal is active in the bound worktree.

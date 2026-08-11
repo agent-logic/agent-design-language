@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-After #83 is terminal and the #110/#122 graph is reconciled, rebase onto the exact dependency head, implement Runtime-owned contracts/session ordering and provider-neutral execution, integrate authenticated Observatory ingress/egress, run focused PVF lanes, and complete exact-head review before any publication.
+After #83 is terminal and ancestral, rebase onto its exact dependency head, implement Runtime-owned contracts/session ordering and provider-neutral execution, integrate authenticated Observatory ingress/egress, run focused PVF lanes, and complete exact-head review before any publication.
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
@@ -96,7 +96,6 @@ Revision 1
 - Cancellation, timeout, disconnect, and late provider completion can race unless terminal outcome commitment is atomic
 - In-memory restart semantics may be mistaken for durable continuity unless the unavailable boundary is explicit
 - A browser may accidentally render an ingress acknowledgement or result hash as conversational content
-- The #110/#122 sequencing contradiction can produce false dependency claims unless reconciled before binding
 
 ## Estimates
 
@@ -110,7 +109,7 @@ Revision 1
 
 design/issue-111.md
 
-Digest: a0a815e1eeefac1b9bd27627d84da7668f35b37c7eddbe65886237d46aa91617
+Digest: ef65c92031f674710e8f5a29dda5912677db37137bc21522b2bb297153d1bed4
 
 ## Diagram
 
@@ -121,7 +120,6 @@ Digest: 7a7b26563a9aa9e1466f66e846ffecca7c34ece7a60dc705a9f60c4d9e0f1410
 ## Stop Conditions
 
 - #83 is not terminal, independently validated, and ancestral to the candidate base
-- #110/#122 dependency sequencing remains ambiguous at execution bind time
 - Exact post-#83 affected paths differ materially from this SPP without a typed replan
 - Any implementation requires identity/policy semantics owned by #112, durable history owned by #114, or multi-agent routing owned by #115
 - A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership

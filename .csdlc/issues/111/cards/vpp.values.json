@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 1
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -128,7 +128,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed: no lane passes on skip, pending, timeout, missing target after execution begins, unavailable credentials, nondeterministic retry, or partial output. Stop implementation on any failed lane, stale #83 ancestry, authority widening, unbounded/provider-private projection, or unresolved actionable review finding.",
       "design_ref": "design/issue-111.md",
-      "design_digest": "a0a815e1eeefac1b9bd27627d84da7668f35b37c7eddbe65886237d46aa91617",
+      "design_digest": "ef65c92031f674710e8f5a29dda5912677db37137bc21522b2bb297153d1bed4",
       "diagram_ref": "design/issue-111.mmd",
       "diagram_digest": "7a7b26563a9aa9e1466f66e846ffecca7c34ece7a60dc705a9f60c4d9e0f1410"
     }

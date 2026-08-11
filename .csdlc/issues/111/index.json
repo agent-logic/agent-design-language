@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "initialized",
-  "generation": 1,
-  "digest": "915c88db59345ad9331638bf76facf14f8d6cf7a19a2596280413da5a822c915",
+  "generation": 6,
+  "digest": "1724ac2f7a23ec8e1789aa9798235edf7f6b71ee39ffa52de6bc8a1c9a2ff3bc",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,37 +19,37 @@
   "design_review": {
     "approved": {
       "reviewer": "codex-issue-111-preparation",
-      "revision": "a0a815e1eeefac1b9bd27627d84da7668f35b37c7eddbe65886237d46aa91617"
+      "revision": "ef65c92031f674710e8f5a29dda5912677db37137bc21522b2bb297153d1bed4"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "bec6513fd819d0ca7d6998b496b72e46e18173713043994b0f19f229dca5a238",
+      "values_digest": "81f499e57232a4626b162bbd5c7a93e33b68e8c7839f234f75818a53a7d71d1a",
       "rendered_digest": "fa2de1943892e8e8862e16f71d1b725f69dc2ecb844ac3c526bc1622fb017b87",
       "ast_digest": "81611ec895da59ac409b67a2c835ffa1b9c64e831005b5eab0bc965ec4aa1a17"
     },
     "stp": {
-      "values_digest": "f2ef6f5dcad79b2dd256064ecc7ee3c102e94d7c4a1270fc563c6acf8d97f841",
-      "rendered_digest": "029ca70e81eb8f71c8d1875280032191afc48db443dbeaa42805fc2d23524220",
-      "ast_digest": "5684c4bdf2ed0c72f2be38b67f359fd140250e1186b10b0fb38e972cb2115c6d"
+      "values_digest": "67c7033c16b4a8a664faa50c37fcf92baa2bc01d2875a22125cbd71a35311a8e",
+      "rendered_digest": "be380b56c5c5eff234d50f1ef694d2980f59507d33c63ba8c592df6709f37bf1",
+      "ast_digest": "2a56800e0ee03fbac394b3d3c2c11b0bc94cf4dd068ad8b4279ff58c2974f298"
     },
     "spp": {
-      "values_digest": "a5da2ee34be4dbf382f4c267e2feb24d8091d28deba5c83808deab502ed59233",
-      "rendered_digest": "012db655808aacf35104a5229cfec6897d235c6ad0a4186e158394d5d383db43",
-      "ast_digest": "8a0313add49a747944eddfec66d4347aa16733f03fec0aa2ac5d469a880c9c9c"
+      "values_digest": "bc13a788b8eb5c2e8a33b0a6b4e8d6e3c65993672cb16a12df11eb0ce65b4343",
+      "rendered_digest": "d2e137d09779b22477ea1fe1105a6111b6ed854b4ac67bfe647c73131ab1948a",
+      "ast_digest": "4dbc0eef35ba2aff247fa44059737a46417bb3b3007bb8c9bfd9a022c4ec78bc"
     },
     "vpp": {
-      "values_digest": "73dd188f857770e68c0fe81e9ce59e976f73966bf199854eba250b72c907a438",
+      "values_digest": "7c94601b4b7ebdeb5f906b4ac8fc46c17d9c81774b56f8837b37f4b3885a8d69",
       "rendered_digest": "f0af20892626e88c734eebf1ed61c2c2aae6be3207d90525589f50183034ea92",
       "ast_digest": "83e17a5735566bf32d034001bce79c3c2e07feadc45d1ecd82f303adeb362a57"
     },
     "srp": {
-      "values_digest": "3d19d88019eb6b4272f0735374fcfa4387c903597f83acee6b0bd76c1cad56a5",
+      "values_digest": "430473119979d3bf48aa18a3f3442cf0047e7df675892353486cc20790632452",
       "rendered_digest": "458cd2071b07b0980bc0887689b28427b218f23f58ef4b6ad7fe199336830fb1",
       "ast_digest": "d045ef6b125cb8a761dc40b036c5310f84c2206d4f8ec69a97166768b1b192e6"
     },
     "sor": {
-      "values_digest": "6b50f973058d65e07a55d5601d1183b1d8b3459e65887f798fb5cb501be72aea",
+      "values_digest": "5085421272a22d1fa9bd7f6b59f07a05a318f2a3493fcef85408254f2f00ae4d",
       "rendered_digest": "7e85772a1b45db70e43e5c774ccbd497398a8abcc4c36410055d3abbdbf7e98d",
       "ast_digest": "2b7c8a38e9f8222a78fea737458fba42a8b3696abaf3c65793811bd97261636d"
     }
@@ -69,6 +69,41 @@
       "actor": "codex-issue-111-preparation",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-issue-111-preparation",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex-issue-111-preparation",
+      "reason": "align dependencies with reconciled live #110 and deferred non-gating #122 truth",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#83 must be terminal, independently validated, and ancestral before #111 execution binding\",\"#110 is the umbrella and explicitly records #122 as deferred and non-gating for #111\",\"#92 is closed and supplies the TLS baseline\",\"#122 is open and deferred beyond v0.92; it owns future public exposure and is not a #111 execution gate\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex-issue-111-preparation",
+      "reason": "remove resolved #122 graph ambiguity from the execution plan",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"After #83 is terminal and ancestral, rebase onto its exact dependency head, implement Runtime-owned contracts/session ordering and provider-neutral execution, integrate authenticated Observatory ingress/egress, run focused PVF lanes, and complete exact-head review before any publication.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex-issue-111-preparation",
+      "reason": "remove resolved #122 graph ambiguity from current execution risks",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"#83 owns overlapping unmerged ingress/control/Observatory changes, so pre-terminal implementation would create stale or conflicting architecture\",\"Cancellation, timeout, disconnect, and late provider completion can race unless terminal outcome commitment is atomic\",\"In-memory restart semantics may be mistaken for durable continuity unless the unavailable boundary is explicit\",\"A browser may accidentally render an ingress acknowledgement or result hash as conversational content\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex-issue-111-preparation",
+      "reason": "leave #83 as the sole live serial bind gate after #110 reconciliation",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#83 is not terminal, independently validated, and ancestral to the candidate base\",\"Exact post-#83 affected paths differ materially from this SPP without a typed replan\",\"Any implementation requires identity/policy semantics owned by #112, durable history owned by #114, or multi-agent routing owned by #115\",\"A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership\",\"Any path would require product edits on root main or mutation of #83\"]}"
     }
   ]
 }
