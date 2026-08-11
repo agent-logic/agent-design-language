@@ -6,10 +6,35 @@
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
   "phase": "implemented",
   "generation": 14,
-  "digest": "5cbbbfe4a22db37004beb54cf6a2a607f7703dffb480436b27cdf0c0626d05e6",
+  "digest": "e8dc303d68c1ff30ebd00080f0b49765d728f5f147fc422eb93dc4831d1ba462",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_209_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:c3fa0a6e6f5bc9d678b7648fe038fb61e98a98dd:305907b765952ffe0afc5eca9269d4dec3cc226831bc73c3bac519fdd8b76ff3",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +70,9 @@
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "3011b70ef3d795e6f95428c23c53a02f24355a9fc7617079a90b50f001ac53ab",
-      "rendered_digest": "ce0e746ee279504a5a62dd63f853913c5fc594bcd05290dedec4c543cb420c71",
-      "ast_digest": "769084b712424270abe146c3a27e4efba8647fda8b7ac75d03f9bbadaa01542e"
+      "values_digest": "c3e308c27e363870afbdb303821f5548bdf24073469793bd608d11e6079132ee",
+      "rendered_digest": "1e8b5f79492b79970bd98b3b635bf7ada599df2fbe7df62fa065d654bc34a09a",
+      "ast_digest": "6040297f8d86acf531ae6f21bf53674b6f6e7eac4bb5d489066c32bccd30a4e6"
     },
     "sor": {
       "values_digest": "9700bab60326fdeb5ba458ef4643667f5f82e783973e5fad78e98ec389dbc128",
@@ -197,6 +222,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "Focused positive, adversarial, strict, contract, and exact native proof surfaces are implemented and locally validated; native execution remains correctly deferred until reviewed publication.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
