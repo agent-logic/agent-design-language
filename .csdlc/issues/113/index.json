@@ -3,9 +3,9 @@
   "issue": 113,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "09f6960d8b964ffe4a351138e4ff2ee4d7e402e18dbac59be8ee79ea1248230b",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "f28f9655ed51187be0b1be6d1382130dbf777df24241869b50cc8af2a4a3d53f",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": {
@@ -35,7 +35,39 @@
       ".csdlc/prepared/issues/113"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+    "scope": [
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/issues/113",
+      ".csdlc/prepared/issues/113"
+    ],
+    "reviewed_revision": "git-blake3:8794bb1bbcbf500f3522d6b70d77cb5900785f37:66056eca183cafbfd012926c5e8acf6bee8dc2ba86997dbbfd393aee7ccaa58d",
+    "findings": [],
+    "residual_risks": [
+      "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
+      "Durable conversation history and cross-restart chat restoration remain outside #113 and are owned by issue #114."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +82,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "00fb927a0b282724bfdf08a0361c278e35d822e109df20afdce29ed4d18b141e",
+      "values_digest": "3efa814cbaf797553a2707b777def3846dabafda5fb5920df053f140daedc332",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "83d385ce79da50b74ce991e3c018d84414e7bbc899b241302e615510e4215481",
+      "values_digest": "af5e793773e4a056fbb6c85b56014109037517c7ae8e87258d6100093c5a2f8f",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "760b421e31fd604308f51f48ada4eb41fa6e107d8242e6ad0849716b8f007bc0",
+      "values_digest": "8759c929336806fc9149abb98b5c3ba3f44dfb1b3836440537d545cd18a2c4d7",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "0ce1d90b12f65ca85205b33d3a01ef0a39e514275abd21ce22734953cc48ac53",
+      "values_digest": "16be712840248ff2c47a025ad6126a7b3cf473bc6ae6e0ed9b77ddd85b1e6c0c",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "6021052cc3e07fd9c15dcafce0c24f2992a31637c0d920892213135401b44872",
-      "rendered_digest": "c22e301cd26284da5aa833d9876c7d56b9794281869f4e58f7a403198850584c",
-      "ast_digest": "e5c80a227723238c2bc5f493c19747277c2226bedde2d45a91f47d230493f1cc"
+      "values_digest": "ca39c5836845ba48d83a63e622b9a68fc01f9098e1d7a833fbd50abdd0be4412",
+      "rendered_digest": "c61ce22630eaecae97e8b12abc1b73ebe961dd7465a69ce6b9f51736dadd2d35",
+      "ast_digest": "d799dafd827ec7fccf7c1918606591839e49c293aea4443b95454105de5cfeac"
     },
     "sor": {
-      "values_digest": "842f875e12e8e7a20ad9c41609138444de67d5d9d897682b53fc4eea122b02b2",
+      "values_digest": "97994a9aa05b0625c0910d9ffd3a1f85e1db36d0d6728ddaf724162621a8aefc",
       "rendered_digest": "77ccec66374c73f3a80c967564fe1e486fed567df922a2d85bdb65abd6030a99",
       "ast_digest": "c8a3ca20b935757b597a67319bb536018cd8872f92763da0674804432dce34c2"
     }
@@ -101,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:113-roster-presence-execution",
       "reason": "Bounded #113 implementation and exact-head validation are complete; enter implemented phase for separately assigned final review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -369,6 +408,13 @@
       "actor": "codex:113-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 36,
+      "actor": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

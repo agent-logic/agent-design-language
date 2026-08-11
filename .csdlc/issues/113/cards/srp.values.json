@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
     "slug": "wp18c03-live-polis-roster-presence",
     "version": "v0.92",
-    "generation": 35
+    "generation": 36
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/build.rs\nadl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/telemetry.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/openapi_contract.rs\ndocs/api/runtime-v3/v1/openapi.json\ndocs/api/runtime-v3/v1/observatory.openapi.json\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\nadl/tools/test_html_observatory.sh\nadl/tools/validate_v092_html_observatory_roster.mjs\n.csdlc/issues/113\n.csdlc/prepared/issues/113",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:8794bb1bbcbf500f3522d6b70d77cb5900785f37:66056eca183cafbfd012926c5e8acf6bee8dc2ba86997dbbfd393aee7ccaa58d",
+      "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
       "review_prompts": [
         "Can any unauthorized agent or private field reach serialized JSON, WSS, logs, browser state, or retained evidence?",
         "Can pagination, policy changes, reconnect, restart, event gaps, duplicate updates, or equal sort keys silently omit, duplicate, reorder, or falsely complete the roster?",
@@ -25,8 +25,11 @@
         "Does the implementation remain within #113 ownership after #83/#142 handoff and avoid every sibling WP-18C capability?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
+        "Durable conversation history and cross-restart chat restoration remain outside #113 and are owned by issue #114."
+      ],
+      "review_result": "pass"
     }
   }
 }
