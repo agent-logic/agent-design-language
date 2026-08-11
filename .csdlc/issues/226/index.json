@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
-  "phase": "implemented",
-  "generation": 32,
-  "digest": "3e8c95e6f2ad1d3e7f6d53f997d00154841888520d3699efb4022b5ae3746ae4",
+  "phase": "reviewed",
+  "generation": 33,
+  "digest": "2e3982a69a0a5374c7e4e4f5b07fbc08f6253435f8a16962c1ba3467c4d625ce",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
   "review_assignment": {
@@ -20,7 +20,22 @@
       ".csdlc/issues/226"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019ff1ee-4633-7cd3-99ac-99aa7a04dafa",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/issues/226"
+    ],
+    "reviewed_revision": "git-blake3:665bcf9869a516d5b169d2d1f7d3e338a4bb49a4:0b45115464920fbb3c4b7bf2b43a23cf02ac5c8a7c4b95b4ecd2c87c7221e5b8",
+    "findings": [],
+    "residual_risks": [
+      "Remaining workflow fanout, duplicate-run, long Runtime, Guardian-soak, and out-of-band proof isolation work is owned by #234 and is non-gating for WP-18C."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6916f02c70a4c5a7cf60cfca6de92d9a7d7da71d5dbe219d6e5270b8f2cdca49",
+      "values_digest": "8e1b3ab260922f2906f25d85314b6f4be5cbe2831ffdc70f058fdb960b4e5abb",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "c3546b01d3c4c109718c72d81de5cef2a6f826f317b24b814f91db1fc4b9ae58",
+      "values_digest": "6884739eccd941df9bafa58ec5e32177af507f3688c3dd906664e16be1eaf177",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "ec2dee25cd2ef944796fe78b69915bfd64c501bb2221cb5b2763cb4bfcb161ea",
+      "values_digest": "1fd62efc94aa3cae5e4c234c639163eb4c21ea066782916a3732e458b77b7247",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "3cc17aa793b518ac6132f6aae44c0aa8c606c2243f48b9d6f6b0420b320f74b0",
+      "values_digest": "7efe4bfe956e52140dc972655c992d55797eed4021e71baa683ac898dd721443",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "870f37ec1a4546fb0a32eba7f71457b9ff5f1ca1814e6f1fa8350904ea49bf9a",
-      "rendered_digest": "3bfe362daf997c1860596d94bd8e6d59402efb47d71f09c8dd9dca07b12e8e42",
-      "ast_digest": "af2fc40056610e31922a4f8edcb2990c48da2d670db5b3e80c53b71fe89d1a4b"
+      "values_digest": "1adf189460caf268a93c78c54bdc0bab6616410be6c8356132b04a0f465ad433",
+      "rendered_digest": "7138aa590886661c82619f71f89d4da75f2c3e71825e3e1e68560f26eaaac067",
+      "ast_digest": "50cab832b3377e42fb7944da83f74df68b2ca9fe0b8ec2ff8923334e2715102c"
     },
     "sor": {
-      "values_digest": "9a850b70c30b8df434aa9f78d4806402c9ea96d6813c5aeaa1281c7be355000f",
+      "values_digest": "1a4b6feae79c1fd4ecf455a63f965a83abb6dde9d22ec70cab3ad9f3592e5f69",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -163,6 +178,13 @@
       "to": "implemented",
       "actor": "codex:issue-226-terminal-routing",
       "reason": "Refresh exact-head review and closing publication truth after transferring the remaining systemic long-test and workflow-fanout scope to #234."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff1ee-4633-7cd3-99ac-99aa7a04dafa",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -543,6 +565,13 @@
       "actor": "codex:issue-226-terminal-routing",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 33,
+      "actor": "subagent:019ff1ee-4633-7cd3-99ac-99aa7a04dafa",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

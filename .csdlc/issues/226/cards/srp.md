@@ -33,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Remaining workflow fanout, duplicate-run, long Runtime, Guardian-soak, and out-of-band proof isolation work is owned by #234 and is non-gating for WP-18C.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:665bcf9869a516d5b169d2d1f7d3e338a4bb49a4:0b45115464920fbb3c4b7bf2b43a23cf02ac5c8a7c4b95b4ecd2c87c7221e5b8")
 
-Reviewer: None
+Reviewer: Some("subagent:019ff1ee-4633-7cd3-99ac-99aa7a04dafa")
 
-Result: pre_review
+Result: pass

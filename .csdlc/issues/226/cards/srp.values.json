@@ -7,23 +7,25 @@
     "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
     "slug": "focused-runtime-validation-routing",
     "version": "v0.92",
-    "generation": 32
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl/config/validation_lane_selector.v0.91.6.json\nadl/tools/test_select_validation_lanes.sh\nadl/tools/test_ci_path_policy.sh\n.csdlc/issues/226",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:665bcf9869a516d5b169d2d1f7d3e338a4bb49a4:0b45115464920fbb3c4b7bf2b43a23cf02ac5c8a7c4b95b4ecd2c87c7221e5b8",
+      "reviewer": "subagent:019ff1ee-4633-7cd3-99ac-99aa7a04dafa",
       "review_prompts": [
         "Are the new selectors narrowly bounded to existing proof ownership?",
         "Does any unknown path become silently covered?",
         "Can this change launch optional slow or coverage jobs?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Remaining workflow fanout, duplicate-run, long Runtime, Guardian-soak, and out-of-band proof isolation work is owned by #234 and is non-gating for WP-18C."
+      ],
+      "review_result": "pass"
     }
   }
 }
