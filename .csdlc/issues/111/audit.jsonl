@@ -86,3 +86,6 @@
 {"sequence":86,"generation":75,"actor":"codex:wp18c-stack-collapse","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":87,"generation":76,"actor":"subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":88,"generation":77,"actor":"codex:wp18c-stack-collapse","reason":"Remove the stale stacked publication intent before re-review; the replacement publication will target main, close #111 and #113, describe both reviewed slices, and mark PR #222 superseded for unmerged closure.","operation":"recover_review"}
+{"sequence":89,"generation":77,"actor":"codex:wp18c-stack-collapse","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":90,"generation":78,"actor":"subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":91,"generation":79,"actor":"codex:wp18c-stack-collapse","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

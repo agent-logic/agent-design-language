@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 111,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/111-wp18c01-conversation-session-preparation",
+  "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+  "body": "Closes #111\nCloses #113\n\n## Summary\n- add Runtime-owned bounded conversation sessions with recipient binding, deterministic turn ordering, idempotency, timeout, cancellation, and reconnect retrieval\n- bind asynchronous results to the exact authentication generation and credential digest\n- bound duplicate attachment handling and preserve newer attachments across stale completion races\n- include the independently reviewed policy-filtered Runtime roster and exact agent-detail dependency previously staged in PR #222\n\n## Validation\n- conversation session tests: 1/1 PASS\n- agent roster tests: 15/15 PASS\n- control tests: 25/25 PASS\n- Observatory WSS tests: 7/7 PASS\n- OpenAPI tests: 6/6 PASS\n- browser conversation and combined static Observatory contracts: PASS\n- strict library and binary Clippy, formatting, and diff hygiene: PASS\n- focused issue-owned LLVM coverage lane: PASS\n- long-running and environment-dependent proof remains out of band under #226\n\n## Review\n- independent exact-head review by subagent 019fefef-69e2-7f00-ae8f-7adbe14978e4: APPROVED with no findings\n- reviewed exact integrated head: 52c57880d6d43c3c037022d4dfb2cacd086f6c83\n- #113 roster product slice was independently approved before integration\n\n## Stack disposition\n- PR #222 is superseded by this integrated delivery and will be closed unmerged after the main-base retarget is observed\n- this PR carries the complete reviewed #113 and #111 product history without modifying either product slice after review\n\n## Boundaries\n- durable cross-restart conversation history remains owned by #114\n- broader multi-agent room and routing semantics remain owned by #115 and #116",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:52c57880d6d43c3c037022d4dfb2cacd086f6c83:3abdd5a05afd38946d3e310375846d035f55af37fdbdeaede6dc5a78254a5c3f",
+  "commit_sha": "52c57880d6d43c3c037022d4dfb2cacd086f6c83"
+}
