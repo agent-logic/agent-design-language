@@ -102,9 +102,10 @@ After WP-01 is terminal and execution is explicitly authorized:
 - Each lane has its own umbrella, sprint sequence, readiness gates, and review/remediation tail.
 - Lane C may depend on specific existing Runtime implementation issues being terminal, but not on Lane A or Lane B.
 - Final milestone review begins only after each lane publishes its own terminal evidence or an explicit approved deferral.
-- INT-01 through INT-06 preserve separate integrated review, release qualification,
-  next-milestone planning, next-milestone review, release ceremony, and terminal
-  closeout gates.
+- INT-01 through INT-09 preserve the standard sequence: demo convergence,
+  quality gate, docs and review alignment, internal review, external review,
+  remediation and final preflight, next-milestone planning, next-milestone
+  review, and release ceremony with lifecycle closeout.
 
 ## Release gates
 

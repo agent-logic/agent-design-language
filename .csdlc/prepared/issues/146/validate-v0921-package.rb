@@ -54,12 +54,12 @@ expected_ids =
   ((1..9).to_a + (12..16).to_a).map { |n| format("V3-%02d", n) } +
   %w[V3-D11 V3-10A V3-10B V3-11A V3-11B V3-R01] +
   (1..7).map { |n| format("DRT-%02d", n) } +
-  (1..6).map { |n| format("INT-%02d", n) }
+  (1..9).map { |n| format("INT-%02d", n) }
 
 packages = wave.fetch("work_packages")
 actual_ids = packages.map { |entry| entry.fetch("id") }
 abort("work-package inventory mismatch") unless actual_ids.sort == expected_ids.sort && actual_ids.uniq.size == actual_ids.size
-abort("required child count mismatch") unless spec_doc["required_child_count"] == 42
+abort("required child count mismatch") unless spec_doc["required_child_count"] == 45
 
 umbrella_ids = %w[CORP-U V3-U DRT-U INT-U]
 umbrellas = wave.fetch("umbrellas")
@@ -173,8 +173,11 @@ critical_dependencies = {
   "INT-02" => %w[INT-01],
   "INT-03" => %w[INT-02],
   "INT-04" => %w[INT-03],
-  "INT-05" => %w[INT-02 INT-04],
-  "INT-06" => %w[INT-05]
+  "INT-05" => %w[INT-04],
+  "INT-06" => %w[INT-05],
+  "INT-07" => %w[INT-06],
+  "INT-08" => %w[INT-07],
+  "INT-09" => %w[INT-08]
 }
 critical_dependencies.each do |id, expected|
   actual = by_id.fetch(id).fetch("depends_on")
@@ -197,14 +200,56 @@ expected_sequence = %w[
   milestone_planning
   wp01_issue_wave_opening
   parallel_lane_execution
-  integrated_review_and_remediation
-  release_qualification
+  demo_convergence
+  quality_gate
+  docs_and_review_alignment
+  internal_review
+  external_review
+  remediation_and_final_preflight
   next_milestone_planning
-  next_milestone_independent_review
-  operator_authorized_release_ceremony
-  terminal_milestone_closeout
+  next_milestone_review
+  release_ceremony_and_lifecycle_closeout
 ]
 abort("standard lifecycle sequence mismatch") unless wave["lifecycle_sequence"] == expected_sequence
+
+closeout_titles = {
+  "INT-01" => "Converge milestone demos",
+  "INT-02" => "Run the milestone quality gate",
+  "INT-03" => "Align documentation and review truth",
+  "INT-04" => "Conduct internal milestone review",
+  "INT-05" => "Conduct external milestone review",
+  "INT-06" => "Remediate findings and run final preflight",
+  "INT-07" => "Plan the next milestone",
+  "INT-08" => "Independently review the next-milestone plan",
+  "INT-09" => "Execute the release ceremony and close the milestone"
+}
+closeout_titles.each do |id, title|
+  abort("#{id} closeout role mismatch") unless by_id.fetch(id).fetch("title") == title
+  spec = spec_by_id.fetch(id)
+  abort("#{id} specification title mismatch") unless spec.fetch("title") == title
+  sources = spec.fetch("source_refs")
+  abort("#{id} missing standard closeout authority") unless sources.include?("docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md")
+end
+
+closeout_document_paths = %w[
+  WBS_v0.92.1.md
+  SPRINT_v0.92.1.md
+  DESIGN_v0.92.1.md
+  WP_EXECUTION_READINESS_v0.92.1.md
+  MILESTONE_CHECKLIST_v0.92.1.md
+  RELEASE_PLAN_v0.92.1.md
+  FEATURE_PROOF_COVERAGE_v0.92.1.md
+]
+closeout_ids = closeout_titles.keys
+closeout_document_paths.each do |relative|
+  text = File.read(File.join(milestone, relative))
+  cursor = 0
+  closeout_ids.each do |id|
+    position = text.index(id, cursor)
+    abort("#{relative} missing closeout step #{id}") unless position
+    cursor = position + id.length
+  end
+end
 
 decision_text = File.read(File.join(milestone, "DECISIONS_v0.92.1.md"))
 architecture_decisions = [
