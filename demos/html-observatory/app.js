@@ -801,11 +801,12 @@ async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
   return runtimeV3SnapshotFromFeed(feed, readiness);
 }
 
-async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken) {
+async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken, eventCursor = null, pageSize = 50) {
   const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
   const url = new URL(`${base}/v1/agents`);
-  url.searchParams.set("page_size", "50");
+  url.searchParams.set("page_size", String(pageSize));
   if (pageToken) url.searchParams.set("page_token", pageToken);
+  if (eventCursor) url.searchParams.set("event_cursor", eventCursor);
   const response = await fetch(url, { method: "GET" });
   if (!response.ok) throw new Error(`/v1/agents returned ${response.status}`);
   const page = await response.json();
@@ -813,6 +814,26 @@ async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken) {
     throw new Error("Runtime returned an unsupported roster page");
   }
   return page;
+}
+
+async function authenticateRuntimeRosterSuccessor(apiBase, snapshot) {
+  const population = snapshot?.status?.agent_population;
+  const revision = Number(population?.revision || 0);
+  if (
+    rosterUiState.runtimeInstanceId !== snapshot?.status?.runtime_id
+    || rosterUiState.runtimeIncarnationId !== snapshot?.status?.runtime_incarnation_id
+    || revision !== rosterUiState.revision + 1
+    || !rosterUiState.eventCursor
+  ) return;
+  const authenticated = await fetchRuntimeV3AgentRosterPage(
+    apiBase,
+    null,
+    rosterUiState.eventCursor,
+    100
+  );
+  if (authenticated.revision !== revision || authenticated.event_cursor !== population.event_cursor) {
+    throw new Error("Runtime roster cursor authentication mismatch");
+  }
 }
 
 async function fetchRuntimeV3AgentDetail(apiBase, agentId) {
@@ -1932,6 +1953,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       if (snapshot.runtimeSelection === "runtime_v3_explicit_opt_in") {
         runtimeV3Readiness = snapshot.ready || null;
+        await authenticateRuntimeRosterSuccessor(base, snapshot);
       }
       const endpointKeys = ["status", "health", "ready", "metrics", "events"];
       const successfulEndpoints = endpointKeys.filter((key) => snapshot[key]);
@@ -2011,7 +2033,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         let socket;
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
-          (snapshot) => {
+          async (snapshot) => {
             if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
@@ -2019,6 +2041,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const streamSnapshot = runtimeV3Readiness
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
+            try {
+              await authenticateRuntimeRosterSuccessor(base, streamSnapshot);
+            } catch (error) {
+              await renderLiveError(error, requestGeneration);
+              return;
+            }
             if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
             renderPanopticon(streamSnapshot, packet);
             if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
@@ -2280,6 +2308,7 @@ globalThis.AdlHtmlObservatory = {
   fetchRuntimeV3ObservatorySnapshot,
   fetchRuntimeV3AgentRosterPage,
   fetchRuntimeV3AgentDetail,
+  authenticateRuntimeRosterSuccessor,
   submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,

@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/agent_roster.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/agent_roster.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-adl/tools/test_html_observatory.sh
-.csdlc/evidence/113/roster-live-proof-2118c05b3
-.csdlc/issues/113
+
 
 ## Prompts
 

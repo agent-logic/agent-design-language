@@ -576,6 +576,49 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
 }
 
 #[test]
+fn detail_lookup_uses_exact_policy_visible_id_not_search_filter_semantics() {
+    let recorder = RuntimeRecorder::new(16);
+    let long_id = format!("agent-{}", "x".repeat(80));
+    let mut misleading =
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd().sample[0].clone();
+    misleading.id = "agent-a".to_owned();
+    misleading.label = "target-agent helper".to_owned();
+    let mut target = misleading.clone();
+    target.id = "target-agent".to_owned();
+    target.label = "Target".to_owned();
+    let mut long = target.clone();
+    long.id = long_id.clone();
+    long.label = "Long identity".to_owned();
+    for id in [&misleading.id, &target.id, &long.id] {
+        recorder.set_component_state(ComponentId::new(id), RunningState::Running);
+        assert!(recorder.record_agent_admission(
+            id,
+            1_000,
+            u64::MAX,
+            "0123456789abcdef0123456789abcdef01234567",
+        ));
+    }
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "runtime-instance",
+        recorder,
+        NoopLifecycle,
+        ControlAuthority::new(BTreeMap::new()),
+        8,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed {
+            sample: vec![misleading, target, long],
+            ..adl_runtime_kernel::AgentPopulationFeed::empty()
+        }
+        .with_public_policy(policy(&["agent-a", "target-agent", &long_id])),
+    );
+    assert_eq!(
+        service.agent_roster_detail("target-agent").unwrap().id,
+        "target-agent"
+    );
+    assert_eq!(service.agent_roster_detail(&long_id).unwrap().id, long_id);
+}
+
+#[test]
 fn production_public_projection_omits_configured_but_unauthorized_agents_and_redacts_fields() {
     let recorder = RuntimeRecorder::new(16);
     let now = std::time::SystemTime::now()

@@ -4,27 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
-  "generation": 53,
-  "digest": "21deec0837967e243690737d30fd254311e2a3e9a0d2e3fe02925009852350a6",
+  "generation": 57,
+  "digest": "d3b4c479f6135faff287c85357a3f623f8bb1ce9f61b76c07dcfb349bb3eccab",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": {
-    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
-    "assigned_by": "codex:wp18c03-execution",
-    "revision": "git-blake3:9457042079bd49fba8cf36f7d097f0fe77173ef9:170c820be235401b5e5c892c36b82a2e604d171a4eed1ee99a0ad7714d2e77ed",
-    "scope": [
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "adl/tools/test_html_observatory.sh",
-      ".csdlc/evidence/113/roster-live-proof-2118c05b3",
-      ".csdlc/issues/113"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -40,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2506ef8e013e3eec2f884f8b7a521f15445f9f2348ed88f33dd06a6a0db2127f",
+      "values_digest": "4dbb252e3b6ef18e8b037acdf5bb0f3e946958ede26780d857546a9831a3c653",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "64ffc6030390d22d130aa2f921b9c33ef5a768ded17430313c83ba23360b48fd",
+      "values_digest": "3954842186e33194d720264df3527d41bb493c1e397f4b044c4484c8f9766497",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "a46827b8929cfc915cd4bf7d60f94660349c7946ff3d44c19bd8c0921e0e3011",
+      "values_digest": "584f122f54ef2ee61ac3b21c9e699f330450e67b62376032eaca483bcbc39370",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "02976665831f526abb6c181fcc1215143e0611509ee3a35f3dc238353d5703a7",
+      "values_digest": "dd4e218c510384edd408c30b00e4232634c61b9d4f96a66ce97620f27b49e8f8",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "185fea9cc6bc4a14e921283b72a0e107d191ddfc8693821fd6c777d32f284e6b",
-      "rendered_digest": "839d052b16bb01435e59b7402cbceb8faa2d1bfe7491a3bb24e1c62a5c6696a8",
-      "ast_digest": "3aa86e8c5a6a7ede381a2d67038194bb3c362d61d31497b824a890840913005f"
+      "values_digest": "0cdb4b645d039b445c701105a790dc4901667a2fd05d8819d4874bae174b97a6",
+      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
+      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
     },
     "sor": {
-      "values_digest": "d1305e69fc27d8d2121af1b076674d32ea8fbeed1228a58acb75174b092824dc",
-      "rendered_digest": "cc6a5fa3fca78c2f00536c74fac9a156a9dd13e3ced8c3d15200e3a5c700242d",
-      "ast_digest": "5cbdd9d385ae7b89802502b212414be840c2645d9f5a1e86fa1d163875b13591"
+      "values_digest": "09fd0aecdf3594b99de6bd3f9426e1cbe5217e9ad958b730a8719f4a9d48352e",
+      "rendered_digest": "4268a62342b4a0f53b3b79dc8dc829cbe59c59eed7dd4e4a5f22a3579d0bec5d",
+      "ast_digest": "fcc156ebfe5a1153f9d57149e4668d6b434c78c7f783b789cd14c8b72a97108a"
     }
   },
   "transitions": [
@@ -576,6 +560,34 @@
       "actor": "codex:wp18c03-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 54,
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 55,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Recover review readiness to remediate the three concrete defects found in the second assigned review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 56,
+      "actor": "codex:wp18c03-locke-remediation",
+      "reason": "Record remediation and focused proof for every second-review finding.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the exact-ID detail, browser cursor authentication, and population-policy allocation defects.\",\"changes\":[\"Detail lookup now resolves the exact policy-visible ID directly, including 65-128 byte IDs and labels or roles that contain another agent ID.\",\"Every exact-successor browser update returns the prior cursor to Runtime and accepts the snapshot only when Runtime validates the cursor and returns the matching new cursor.\",\"Serialized page results no longer clone the Runtime-owned population visibility policy.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"demos/html-observatory/app.js\",\"adl/tools/test_html_observatory.sh\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 57,
+      "actor": "codex:wp18c03-locke-remediation",
+      "reason": "Record focused validation of every second-review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused issue-113 roster, control, OpenAPI, browser contract, strict Clippy, format, and diff gates\"],\"purpose\":\"Prove exact-ID detail lookup, Runtime-authenticated browser cursor exchange, and page-only policy allocation.\",\"outcome\":\"passed\",\"evidence_ref\":\"agent_roster 15/15; control 25/25; openapi_contract 6/6; HTML Observatory contract PASS including cursor return; strict library and binary Clippy PASS; cargo fmt PASS; git diff --check PASS.\"}}"
     }
   ]
 }

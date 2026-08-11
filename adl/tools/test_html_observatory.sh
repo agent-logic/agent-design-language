@@ -68,6 +68,7 @@ const observatoryFeed = {
     rendered_sample_count: 1,
     has_more: false,
     next_page_token: null,
+    event_cursor: "roster-cursor-7",
     population_complete: false,
     sample: [{
       id: "shepherd",
@@ -229,6 +230,9 @@ assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarn
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 4)), true, "a full authoritative snapshot closes a roster revision gap");
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 3)), false, "an older snapshot after a gap remains fenced");
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-b", "incarnation-c", 1)), true, "new Runtime instance resets cursor safely");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-v3-test", "runtime-incarnation-a", 6, "roster-cursor-6")), true);
+await api.authenticateRuntimeRosterSuccessor(config.api_base, snapshot);
+assert(calls.some((call) => call.url.includes("page_size=100&event_cursor=roster-cursor-6")), "browser returns the prior authenticated cursor to Runtime");
 
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");

@@ -1311,47 +1311,10 @@ impl AgentPopulationFeed {
         let Some(public_policy) = self.public_policy.as_ref() else {
             return Ok(Self::empty());
         };
-        let evidence = self.sample.iter().filter_map(|agent| {
-            if agent.provenance != "runtime_component_state" {
-                return Some(AgentRuntimeEvidence::from(agent));
-            }
-            let state = snapshot.components.get(&ComponentId::new(&agent.id))?;
-            let admission = snapshot.agent_admissions.get(&agent.id)?;
-            let (presence, health, availability, eligible) = match state {
-                RunningState::Running => (AgentPresence::Ready, "healthy", "available", true),
-                RunningState::Starting | RunningState::Ready => {
-                    (AgentPresence::Unknown, "starting", "unavailable", false)
-                }
-                RunningState::Restarting => {
-                    (AgentPresence::Migrating, "recovering", "unavailable", false)
-                }
-                RunningState::Degraded => {
-                    (AgentPresence::Degraded, "degraded", "unavailable", false)
-                }
-                RunningState::Stopping | RunningState::Stopped | RunningState::Failed => (
-                    AgentPresence::Unreachable,
-                    "unhealthy",
-                    "unavailable",
-                    false,
-                ),
-            };
-            Some(AgentRuntimeEvidence {
-                agent_id: agent.id.clone(),
-                display_name: agent.label.clone(),
-                public_role: agent.role.clone(),
-                presence,
-                health: health.to_owned(),
-                availability: availability.to_owned(),
-                activity: agent.activity.clone(),
-                capabilities: agent.capabilities.clone(),
-                location: agent.location.clone(),
-                communication_eligible: eligible,
-                observed_at_unix_millis: admission.observed_at_unix_millis,
-                freshness_deadline_unix_millis: admission.freshness_deadline_unix_millis,
-                source_revision: admission.source_revision.clone(),
-                provenance: agent.provenance.clone(),
-            })
-        });
+        let evidence = self
+            .sample
+            .iter()
+            .filter_map(|agent| project_agent_evidence(agent, snapshot));
         let page = AgentRoster::projection(
             snapshot.revision.max(self.revision).max(1),
             false,
@@ -1375,7 +1338,7 @@ impl AgentPopulationFeed {
             event_cursor: Some(page.event_cursor),
             population_complete: page.population_complete,
             sample: page.agents.into_iter().map(AgentSample::from).collect(),
-            public_policy: self.public_policy.clone(),
+            public_policy: None,
         })
     }
 
@@ -1386,34 +1349,67 @@ impl AgentPopulationFeed {
         token_key: [u8; 32],
         agent_id: &str,
     ) -> Result<AgentRosterEntry, crate::AgentRosterError> {
-        let projected = self.try_with_runtime_snapshot_query(
-            snapshot,
-            now_unix_millis,
-            token_key,
-            AgentRosterQuery {
-                page_size: 1,
-                page_token: None,
-                filter: Some(agent_id.to_owned()),
-            },
-            None,
-        )?;
-        let sample = projected
-            .sample
-            .into_iter()
-            .find(|agent| agent.id == agent_id)
-            .ok_or(crate::AgentRosterError::NotVisible)?;
         let policy = self
             .public_policy
             .as_ref()
             .ok_or(crate::AgentRosterError::NotVisible)?;
-        AgentRoster::new(
-            snapshot.revision.max(1),
-            false,
-            [AgentRuntimeEvidence::from(&sample)],
-            token_key,
-        )?
-        .detail(policy, agent_id, now_unix_millis)
+        if !policy.visible_agent_ids.contains(agent_id) {
+            return Err(crate::AgentRosterError::NotVisible);
+        }
+        let sample = self
+            .sample
+            .iter()
+            .find(|agent| agent.id == agent_id)
+            .ok_or(crate::AgentRosterError::NotVisible)?;
+        let evidence =
+            project_agent_evidence(sample, snapshot).ok_or(crate::AgentRosterError::NotVisible)?;
+        AgentRoster::new(snapshot.revision.max(1), false, [evidence], token_key)?.detail(
+            policy,
+            agent_id,
+            now_unix_millis,
+        )
     }
+}
+
+fn project_agent_evidence(
+    agent: &AgentSample,
+    snapshot: &RuntimeSnapshot,
+) -> Option<AgentRuntimeEvidence> {
+    if agent.provenance != "runtime_component_state" {
+        return Some(AgentRuntimeEvidence::from(agent));
+    }
+    let state = snapshot.components.get(&ComponentId::new(&agent.id))?;
+    let admission = snapshot.agent_admissions.get(&agent.id)?;
+    let (presence, health, availability, eligible) = match state {
+        RunningState::Running => (AgentPresence::Ready, "healthy", "available", true),
+        RunningState::Starting | RunningState::Ready => {
+            (AgentPresence::Unknown, "starting", "unavailable", false)
+        }
+        RunningState::Restarting => (AgentPresence::Migrating, "recovering", "unavailable", false),
+        RunningState::Degraded => (AgentPresence::Degraded, "degraded", "unavailable", false),
+        RunningState::Stopping | RunningState::Stopped | RunningState::Failed => (
+            AgentPresence::Unreachable,
+            "unhealthy",
+            "unavailable",
+            false,
+        ),
+    };
+    Some(AgentRuntimeEvidence {
+        agent_id: agent.id.clone(),
+        display_name: agent.label.clone(),
+        public_role: agent.role.clone(),
+        presence,
+        health: health.to_owned(),
+        availability: availability.to_owned(),
+        activity: agent.activity.clone(),
+        capabilities: agent.capabilities.clone(),
+        location: agent.location.clone(),
+        communication_eligible: eligible,
+        observed_at_unix_millis: admission.observed_at_unix_millis,
+        freshness_deadline_unix_millis: admission.freshness_deadline_unix_millis,
+        source_revision: admission.source_revision.clone(),
+        provenance: agent.provenance.clone(),
+    })
 }
 
 impl From<&AgentSample> for AgentRuntimeEvidence {

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed all three assigned final-review findings for the Runtime-owned local roster and Observatory projection.
+Closed the exact-ID detail, browser cursor authentication, and population-policy allocation defects.
 
 ## Artifacts
 
@@ -47,6 +47,10 @@ Closed all three assigned final-review findings for the Runtime-owned local rost
 - docs/api/runtime-v3/v1/observatory.openapi.json
 - demos/html-observatory/app.js
 - adl/tools/test_html_observatory.sh
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/agent_roster.rs
+- demos/html-observatory/app.js
+- adl/tools/test_html_observatory.sh
 
 ## Execution
 
@@ -65,6 +69,9 @@ Closed all three assigned final-review findings for the Runtime-owned local rost
 - Added MAC-protected event cursors bound to revision, policy, filter, and page size; exact successor updates pass while replay-at-current-revision, gaps, policy drift, and query drift fail closed for full resynchronization.
 - Removed per-request full-population cloning and BTree reconstruction; Runtime now scans the pre-sorted population once under the explicit 10000-entry ceiling and allocates only the requested page projection.
 - Made the production public Observatory policy redact capabilities and location before serialization and aligned proof claims to that behavior.
+- Detail lookup now resolves the exact policy-visible ID directly, including 65-128 byte IDs and labels or roles that contain another agent ID.
+- Every exact-successor browser update returns the prior cursor to Runtime and accepts the snapshot only when Runtime validates the cursor and returns the matching new cursor.
+- Serialized page results no longer clone the Runtime-owned population visibility policy.
 
 ## Validation
 
@@ -188,6 +195,14 @@ Closed all three assigned final-review findings for the Runtime-owned local rost
     "purpose": "Prove the policy-safe detail route, authenticated cursor semantics, page-allocation bound, population scan ceiling, and production redaction behavior.",
     "outcome": "passed",
     "evidence_ref": "agent_roster 14/14; control 25/25; openapi_contract 6/6; HTML Observatory contract PASS; strict library and binary Clippy PASS; cargo fmt PASS; git diff --check PASS. Long-running distributed and soak-style tests are explicitly out-of-band under #226 and are not claimed or coupled to this focused gate."
+  },
+  {
+    "command": [
+      "focused issue-113 roster, control, OpenAPI, browser contract, strict Clippy, format, and diff gates"
+    ],
+    "purpose": "Prove exact-ID detail lookup, Runtime-authenticated browser cursor exchange, and page-only policy allocation.",
+    "outcome": "passed",
+    "evidence_ref": "agent_roster 15/15; control 25/25; openapi_contract 6/6; HTML Observatory contract PASS including cursor return; strict library and binary Clippy PASS; cargo fmt PASS; git diff --check PASS."
   }
 ]
 
