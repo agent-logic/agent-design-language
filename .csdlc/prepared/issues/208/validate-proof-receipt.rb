@@ -70,7 +70,7 @@ expected_commands = %w[
   runtime_nextest runtime_nextest_repeat runtime_nextest_isolated runtime_nextest_isolated_repeat
 ]
 commands = proof.fetch("commands")
-fail_receipt("command denominator mismatch") unless commands.keys.sort == expected_commands
+fail_receipt("command denominator mismatch") unless commands.keys.sort == expected_commands.sort
 commands.each do |name, command|
   fail_receipt("#{name} failed") unless command.fetch("exit_code") == 0
   fail_receipt("#{name} time inverted") if Time.iso8601(command.fetch("finished_at")) < Time.iso8601(command.fetch("started_at"))
