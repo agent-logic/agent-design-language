@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
     "slug": "authenticated-governed-learner-transport",
     "version": "v0.92",
-    "generation": 36
+    "generation": 37
   },
   "status": "pre_phase",
   "content": {
@@ -161,6 +161,15 @@
             ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
           ],
           "purpose": "Produce immutable v6 exact-source evidence.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
+          ],
+          "purpose": "Validate immutable v6 exact-source evidence, protected-path parity, exact 36 semantic / 42 runner / 13 public / 29 assertion denominators, three integration compiles, strict Clippy, and current-main ancestry.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
         }

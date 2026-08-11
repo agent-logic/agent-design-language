@@ -167,6 +167,15 @@ Resolved the fresh authority-boundary findings on exact current-main ancestry. T
     "purpose": "Produce immutable v6 exact-source evidence.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
+    ],
+    "purpose": "Validate immutable v6 exact-source evidence, protected-path parity, exact 36 semantic / 42 runner / 13 public / 29 assertion denominators, three integration compiles, strict Clippy, and current-main ancestry.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
   }
 ]
 
