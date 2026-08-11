@@ -14,7 +14,7 @@ OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_202_CASE_V1 "
 ASSERTION_MARKER = "ADL_ISSUE_202_ASSERTION_V1 "
-MAIN_ANCESTOR = "507d9a1e3a74c2c9c6cce14259b095139aa3bdfa"
+MAIN_ANCESTOR = "2afa820c4aaa8528ef4cd252de4ee9078b8a882a"
 PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs
   adl-runtime/src/distributed/authority_protocol.rs
@@ -23,6 +23,7 @@ PROTECTED = %w[
   adl-runtime/src/distributed/polis_runtime.rs
   adl-runtime/src/distributed/transport.rs
   adl-runtime/tests/distributed_authorized_learner_transport.rs
+  adl-runtime/tests/distributed_runtime_transport.rs
   .csdlc/prepared/issues/202/produce-proof-receipt.rb
   .csdlc/prepared/issues/202/validate-proof-receipt.rb
 ].freeze
@@ -45,10 +46,15 @@ EXPECTED_ASSERTIONS = [
   %w[exact_retry_session exclusion_exact_retry_cached],
   %w[exact_retry_session admission_exact_retry_cached],
   %w[certificate_overlap_authorized successor_private_before_flip],
-  %w[certificate_overlap_authorized successor_restart_atomic_flip],
+  %w[certificate_overlap_authorized successor_atomic_flip],
+  %w[certificate_overlap_authorized retained_old_clones_atomically_revoked],
   %w[exclusion_ordinary_session_denied published_exclusion_denies_retained_identity],
-  %w[crash_before_exclusion_checkpoint failed_cas_recovers_old_view],
-  %w[crash_after_exclusion_checkpoint committed_view_survives_restart]
+  %w[exclusion_ordinary_session_denied production_endorsement_uses_durable_exclusion],
+  %w[crash_before_exclusion_checkpoint failed_admission_and_exclusion_cas_recover_old_view],
+  %w[crash_after_exclusion_checkpoint committed_admission_and_exclusion_survive_restart],
+  %w[wrong_boot_generation live_stale_voter_boot_rejected],
+  %w[wrong_address live_authorized_address_rejected],
+  %w[wrong_address live_wrong_direction_rejected]
 ].freeze
 
 def fail_proof(message)
@@ -91,7 +97,8 @@ FileUtils.mkdir_p(OUTPUT, mode: 0o700)
 commands = {}
 commands["private_cases"] = run_command("private-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib learner_transport::tests -- --nocapture --test-threads=1])
 commands["public_cases"] = run_command("public-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- --test-threads=1])
-commands["clippy"] = run_command("clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- -D warnings])
+commands["clippy_lib"] = run_command("clippy-lib", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings])
+commands["clippy_public"] = run_command("clippy-public", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- -D warnings])
 fail_proof("command failed") unless commands.values.all? { |command| command["exit_code"] == 0 }
 private_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["private_cases"]["#{stream}_path"])) }.join
 public_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["public_cases"]["#{stream}_path"])) }.join

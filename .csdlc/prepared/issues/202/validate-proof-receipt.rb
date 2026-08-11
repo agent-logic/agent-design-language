@@ -14,6 +14,7 @@ EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/learner_transport.rs adl-runtime/src/distributed/learner_transport/tests.rs
   adl-runtime/src/distributed/polis_runtime.rs adl-runtime/src/distributed/transport.rs
   adl-runtime/tests/distributed_authorized_learner_transport.rs
+  adl-runtime/tests/distributed_runtime_transport.rs
   .csdlc/prepared/issues/202/produce-proof-receipt.rb .csdlc/prepared/issues/202/validate-proof-receipt.rb
 ].freeze
 
@@ -42,7 +43,7 @@ protected.each do |entry|
 end
 fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "private_selected" => 36, "private_passed" => 36, "public_selected" => 13, "public_passed" => 13 }
 fail_receipt("case denominator mismatch") unless proof.fetch("cases").length == 36 && proof.fetch("cases").map { |entry| entry["case"] }.uniq.length == 36 && proof.fetch("cases").all? { |entry| entry["result"] == "passed" }
-fail_receipt("subassertion denominator mismatch") unless proof.fetch("subassertions").length == 10 && proof.fetch("subassertions").map { |entry| [entry["case"], entry["assertion"]] }.uniq.length == 10
+fail_receipt("subassertion denominator mismatch") unless proof.fetch("subassertions").length == 15 && proof.fetch("subassertions").map { |entry| [entry["case"], entry["assertion"]] }.uniq.length == 15
 proof.fetch("commands").each_value do |command|
   fail_receipt("command failed") unless command.fetch("exit_code") == 0
   %w[stdout stderr].each do |stream|
@@ -58,4 +59,4 @@ fail_receipt("source not ancestral") unless system("git", "merge-base", "--is-an
 fail_receipt("source tree mismatch") unless git("rev-parse", "#{source}^{tree}").strip == proof.fetch("source_tree")
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
-puts "PASS: issue #202 proof binds exact 36+13, ten subassertions, strict Clippy, and merged #200 ancestry"
+puts "PASS: issue #202 proof binds exact 36+13, fifteen subassertions, strict library/public Clippy, and current-main ancestry"
