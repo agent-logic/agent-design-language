@@ -4,13 +4,40 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "365b1d8f670929c8b4ae9e6670cde8c236a987da85741228870ced5eec6f1bc7",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "3e9460b247d634664beb0efcbd34aa2a179183063a886c4f7bb8bddd9a8cbbbc",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:c42bafa0abab4a2b6f10b5071ef86fae6083ab2d:da9fbf4f532d6a03e5b96ec984240d4803bc7050247e839d76bec8314d80acbb",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/issues/226",
+      ".csdlc/evidence/226"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/issues/226",
+      ".csdlc/evidence/226"
+    ],
+    "reviewed_revision": "git-blake3:c42bafa0abab4a2b6f10b5071ef86fae6083ab2d:da9fbf4f532d6a03e5b96ec984240d4803bc7050247e839d76bec8314d80acbb",
+    "findings": [],
+    "residual_risks": [
+      "Authoritative full coverage and slow proof remain explicitly out of band and were not run for this routing-only change."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ecf8a5065a0f221ecd25d16dd0c8afd7c5bbbcd93254ae2ea2a833ae07e3ebf0",
+      "values_digest": "b9e1a3f51391c2d4ac3bea82cf9251b4b4a53e0a49c6a807a9d2a620962aee7d",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "5b5190812baf925b447036e6ab6643aad8e12c27e6f0cfbb02e36b8591395f3d",
+      "values_digest": "c6775dca9b23b2e4fa4aa6aee62a12e774e2dfb1f05979ef75e1a7859f92e4b9",
       "rendered_digest": "dc477e2f9030b68eb91a990bf415344d7afba7b165d3fe0a001b5131936b6f38",
       "ast_digest": "6891721fccb0938653ab7a9200b79a3401756c15c07cb56ab6e6fae87a1994c1"
     },
     "spp": {
-      "values_digest": "72bcabeb6e6baac2708f0169034c433aa20dc3736ca6dc6716f68f88a98e54a2",
+      "values_digest": "90f5a367d0c25418f73594636ffe5da07230636f8376d55628d29d561b73ac8e",
       "rendered_digest": "d495923846fa9aef45a220aaeecb3cdd3b05eba9999bb124ba45a0876019d458",
       "ast_digest": "8e6cdb077758ac8e938a8b992154f7de4a2f764e21f538a554d2c61f503c0497"
     },
     "vpp": {
-      "values_digest": "055b9242331a220ef0a0260782a124329fab155962c6cb0646fad7ca08f45dcc",
+      "values_digest": "70568469b8790d16adab76e5cdbc918a5ded2e0e3bf90d2f54c4cefb75c35504",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "e75cb8752a13e1b47a4367f3f6c5b0bc717da09c33c9ba6a6c94fd86757ea781",
-      "rendered_digest": "7d172eff463c20456c80abbbe2950f9fe3e570419c75fb1da7b25d89f981e393",
-      "ast_digest": "b806c9df2e8e9d7af82237c730798bbd87995644edfc0fa4dd16200cacde19d7"
+      "values_digest": "2f0abfe8862fa3def3ed16d69da4d6925d7f02abe969326c408092200b623824",
+      "rendered_digest": "6e4195692dad564efa19dad1af5087f161b35201e244a3d3fb8d8108b67ec6c2",
+      "ast_digest": "f53d302da596b3315ec43ee5cc360738047e33642a56566cfd62325dd35be9ae"
     },
     "sor": {
-      "values_digest": "f6554ab26910459ce02670c38ceea4938a5fa808fe6cdb4cb6a37afb0a61c9d0",
+      "values_digest": "8a8717eba21440c5ea088289fa1b4ef06b56018ce957eba7f1a207b937e6c3cb",
       "rendered_digest": "4696ffd7032b73fa2cf92b0ffe9e0d9cd7a9fa817612b5441bc4d22fc92767d3",
       "ast_digest": "cc0b8d1f5f0021dcec593eb656c11a5cbb98919daf9dfc31e068a7c278bdcbda"
     }
@@ -76,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -113,6 +147,20 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
