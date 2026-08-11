@@ -282,6 +282,7 @@ pub struct VerifiedLearnerAdmission {
     operation_sha256: [u8; 32],
     operation_id: String,
     previous_operation_sha256: Option<[u8; 32]>,
+    target_membership_sha256: [u8; 32],
     committed_log_index: u64,
     deadline_unix_seconds: i64,
     overlap_end_unix_seconds: Option<i64>,
@@ -317,6 +318,7 @@ impl VerifiedLearnerAdmission {
             operation_sha256: verified.operation_sha256,
             operation_id: verified.operation_id,
             previous_operation_sha256: verified.payload.previous_operation_sha256,
+            target_membership_sha256: verified.payload.target_membership_sha256,
             committed_log_index: verified.committed_log_index,
             deadline_unix_seconds: verified.payload.deadline_unix_seconds,
             overlap_end_unix_seconds: verified.payload.authority_overlap_end_unix_seconds,
@@ -348,6 +350,7 @@ impl VerifiedLearnerAdmission {
             operation_sha256: verified.operation_sha256,
             operation_id: verified.operation_id,
             previous_operation_sha256: verified.payload.previous_operation_sha256,
+            target_membership_sha256: verified.payload.target_membership_sha256,
             committed_log_index: verified.committed_log_index,
             deadline_unix_seconds: verified.payload.deadline_unix_seconds,
             overlap_end_unix_seconds: verified.payload.authority_overlap_end_unix_seconds,
@@ -367,6 +370,14 @@ impl VerifiedLearnerAdmission {
 
     pub fn previous_operation_sha256(&self) -> Option<[u8; 32]> {
         self.previous_operation_sha256
+    }
+
+    pub(in crate::distributed::transport) fn target_membership_sha256(&self) -> [u8; 32] {
+        self.target_membership_sha256
+    }
+
+    pub(in crate::distributed::transport) fn is_live_at(&self, now_unix_seconds: i64) -> bool {
+        now_unix_seconds > 0 && now_unix_seconds < self.deadline_unix_seconds
     }
 
     pub(in crate::distributed::transport) fn matches_route_cut(
@@ -526,6 +537,7 @@ struct LearnerSessionBinding {
     voter_cut_sha256: [u8; 32],
     operation_sha256: [u8; 32],
     operation_id: String,
+    target_membership_sha256: [u8; 32],
     committed_log_index: u64,
     deadline_unix_seconds: i64,
     overlap_end_unix_seconds: Option<i64>,
@@ -545,6 +557,7 @@ impl LearnerSessionBinding {
             voter_cut_sha256,
             operation_sha256: admission.operation_sha256,
             operation_id: admission.operation_id.clone(),
+            target_membership_sha256: admission.target_membership_sha256,
             committed_log_index: admission.committed_log_index,
             deadline_unix_seconds: admission.deadline_unix_seconds,
             overlap_end_unix_seconds: admission.overlap_end_unix_seconds,
@@ -707,6 +720,7 @@ fn learner_binding_sha256(
         binding.voter_cut_sha256,
         binding.operation_sha256,
         &binding.operation_id,
+        binding.target_membership_sha256,
         binding.committed_log_index,
         binding.deadline_unix_seconds,
         binding.overlap_end_unix_seconds,
@@ -861,6 +875,7 @@ struct LearnerRpcBinding<'a> {
     voter_cut_sha256: [u8; 32],
     operation_sha256: [u8; 32],
     operation_id: &'a str,
+    target_membership_sha256: [u8; 32],
     committed_log_index: u64,
     role: &'a str,
     protocol_version: u32,
@@ -1017,6 +1032,7 @@ impl EstablishedLearnerSession {
             voter_cut_sha256: self.binding.voter_cut_sha256,
             operation_sha256: self.binding.operation_sha256,
             operation_id: &self.binding.operation_id,
+            target_membership_sha256: self.binding.target_membership_sha256,
             committed_log_index: self.binding.committed_log_index,
             role: self.binding.role,
             protocol_version: self.binding.protocol_version,
@@ -1492,6 +1508,7 @@ struct DurableAdmission {
     operation_sha256: [u8; 32],
     operation_id: String,
     previous_operation_sha256: Option<[u8; 32]>,
+    target_membership_sha256: [u8; 32],
     committed_log_index: u64,
     deadline_unix_seconds: i64,
     overlap_end_unix_seconds: Option<i64>,
@@ -1506,6 +1523,7 @@ impl From<&VerifiedLearnerAdmission> for DurableAdmission {
             operation_sha256: value.operation_sha256,
             operation_id: value.operation_id.clone(),
             previous_operation_sha256: value.previous_operation_sha256,
+            target_membership_sha256: value.target_membership_sha256,
             committed_log_index: value.committed_log_index,
             deadline_unix_seconds: value.deadline_unix_seconds,
             overlap_end_unix_seconds: value.overlap_end_unix_seconds,
@@ -1522,6 +1540,7 @@ impl From<DurableAdmission> for VerifiedLearnerAdmission {
             operation_sha256: value.operation_sha256,
             operation_id: value.operation_id,
             previous_operation_sha256: value.previous_operation_sha256,
+            target_membership_sha256: value.target_membership_sha256,
             committed_log_index: value.committed_log_index,
             deadline_unix_seconds: value.deadline_unix_seconds,
             overlap_end_unix_seconds: value.overlap_end_unix_seconds,
@@ -1777,6 +1796,7 @@ struct PublishedExclusion {
     operation_sha256: [u8; 32],
     operation_id: String,
     committed_log_index: u64,
+    deadline_unix_seconds: i64,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -1807,8 +1827,25 @@ impl PendingExclusionSnapshot {
             excluded.identity.stable_raft_id == admission.identity.stable_raft_id
                 && excluded.identity.node_id != admission.identity.node_id
                 && excluded.identity.guardian_id != admission.identity.guardian_id
+                && excluded.target_membership_sha256 == admission.target_membership_sha256()
                 && admission.committed_log_index > excluded.committed_log_index
         })
+    }
+
+    pub(in crate::distributed::transport) fn learner_admission_allowed(
+        &self,
+        admission: &VerifiedLearnerAdmission,
+    ) -> bool {
+        self.published.is_none() || self.recovery_learner_allowed(admission)
+    }
+
+    pub(in crate::distributed::transport) fn learner_route_allowed(
+        &self,
+        admission: &VerifiedLearnerAdmission,
+        stable_id_is_in_voter_cut: bool,
+    ) -> bool {
+        self.learner_admission_allowed(admission)
+            && (!stable_id_is_in_voter_cut || self.recovery_learner_allowed(admission))
     }
 }
 
@@ -1855,18 +1892,38 @@ impl PendingMembershipExclusionAuthority {
         result: &PublishedAuthorityResult,
         expected_identity: &LearnerIdentity,
         expected_voter_cut_sha256: [u8; 32],
+        expected_target_membership_sha256: [u8; 32],
+        now_unix_seconds: i64,
     ) -> Result<PendingExclusionSnapshot, LearnerTransportError> {
+        // Exact retries are served from the durable published view before the
+        // caller-provided result is decoded again. This preserves idempotent
+        // recovery after the original authorization deadline while still
+        // binding every caller-supplied target field to the cached result.
+        if let Some(current) = self.envelope.payload().published.as_ref() {
+            if current.operation_sha256 == result.result_sha256()
+                && current.operation_id == result.operation_id()
+            {
+                if &current.identity != expected_identity
+                    || current.voter_cut_sha256 != expected_voter_cut_sha256
+                    || current.target_membership_sha256 != expected_target_membership_sha256
+                {
+                    return Err(LearnerTransportError::InvalidBinding);
+                }
+                return Ok(self.snapshot());
+            }
+        }
         let verified = consume_published_membership(result, MembershipDiscriminator::RemoveVoter)?;
         if &verified.payload.identity != expected_identity
             || verified.payload.voter_cut_sha256 != expected_voter_cut_sha256
+            || verified.payload.target_membership_sha256 != expected_target_membership_sha256
         {
             return Err(LearnerTransportError::InvalidBinding);
         }
-        if let Some(current) = self.envelope.payload().published.as_ref() {
-            if current.operation_sha256 == verified.operation_sha256 {
-                return Ok(self.snapshot());
-            }
+        if self.envelope.payload().published.is_some() {
             return Err(LearnerTransportError::CapacityExceeded);
+        }
+        if now_unix_seconds <= 0 || now_unix_seconds >= verified.payload.deadline_unix_seconds {
+            return Err(LearnerTransportError::Expired);
         }
         if self.capacity == 0 {
             return Err(LearnerTransportError::CapacityExceeded);
@@ -1880,6 +1937,7 @@ impl PendingMembershipExclusionAuthority {
             operation_sha256: verified.operation_sha256,
             operation_id: verified.operation_id,
             committed_log_index: verified.committed_log_index,
+            deadline_unix_seconds: verified.payload.deadline_unix_seconds,
         });
         self.envelope = self.store.commit(&self.envelope, next)?;
         Ok(self.snapshot())
@@ -2004,6 +2062,12 @@ impl ProductionLearnerAuthority {
         lease
             .require_authority(&self.transport_authority)
             .map_err(|_| LearnerTransportError::AuthorityDenied)?;
+        if !self
+            .exclusion_snapshot()?
+            .learner_admission_allowed(admission)
+        {
+            return Err(LearnerTransportError::AuthorityDenied);
+        }
         let snapshot = self
             .admissions
             .lock()
@@ -2077,6 +2141,8 @@ impl ProductionLearnerAuthority {
         result: &PublishedAuthorityResult,
         expected_identity: &LearnerIdentity,
         expected_voter_cut_sha256: [u8; 32],
+        expected_target_membership_sha256: [u8; 32],
+        now_unix_seconds: i64,
     ) -> Result<PendingExclusionSnapshot, LearnerTransportError> {
         lease
             .require_authority(&self.transport_authority)
@@ -2084,7 +2150,13 @@ impl ProductionLearnerAuthority {
         self.exclusions
             .lock()
             .map_err(|_| LearnerTransportError::Storage)?
-            .activate(result, expected_identity, expected_voter_cut_sha256)
+            .activate(
+                result,
+                expected_identity,
+                expected_voter_cut_sha256,
+                expected_target_membership_sha256,
+                now_unix_seconds,
+            )
     }
 
     #[cfg(test)]
@@ -2140,12 +2212,20 @@ impl ProductionLearnerAuthority {
         result: &PublishedAuthorityResult,
         expected_identity: &LearnerIdentity,
         expected_voter_cut_sha256: [u8; 32],
+        expected_target_membership_sha256: [u8; 32],
+        now_unix_seconds: i64,
     ) -> Result<PendingExclusionSnapshot, LearnerTransportError> {
         let snapshot = self
             .exclusions
             .lock()
             .map_err(|_| LearnerTransportError::Storage)?
-            .activate(result, expected_identity, expected_voter_cut_sha256)?;
+            .activate(
+                result,
+                expected_identity,
+                expected_voter_cut_sha256,
+                expected_target_membership_sha256,
+                now_unix_seconds,
+            )?;
         self.transport_authority.set_exclusion_for_test(
             &expected_identity.node_id,
             &expected_identity.guardian_id,
@@ -2207,20 +2287,31 @@ impl ProductionLearnerAuthority {
         Ok(self
             .admission_snapshot()?
             .current()
-            .is_some_and(|current| current == admission))
+            .is_some_and(|current| current == admission)
+            && self
+                .exclusion_snapshot()?
+                .learner_admission_allowed(admission))
     }
 
     fn binding_is_current(
         &self,
         binding: &LearnerSessionBinding,
     ) -> Result<bool, LearnerTransportError> {
-        Ok(self.admission_snapshot()?.current().is_some_and(|current| {
-            current.operation_sha256 == binding.operation_sha256
-                && current.operation_id == binding.operation_id
-                && current.committed_log_index == binding.committed_log_index
-                && current.identity == binding.identity
-                && current.voter_cut_sha256 == binding.voter_cut_sha256
-        }))
+        let Some(current) = self.admission_snapshot()?.current().cloned() else {
+            return Ok(false);
+        };
+        if current.operation_sha256 != binding.operation_sha256
+            || current.operation_id != binding.operation_id
+            || current.target_membership_sha256 != binding.target_membership_sha256
+            || current.committed_log_index != binding.committed_log_index
+            || current.identity != binding.identity
+            || current.voter_cut_sha256 != binding.voter_cut_sha256
+        {
+            return Ok(false);
+        }
+        Ok(self
+            .exclusion_snapshot()?
+            .learner_admission_allowed(&current))
     }
 
     pub(in crate::distributed::transport) fn session_is_current(

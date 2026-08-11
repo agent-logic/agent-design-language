@@ -2140,6 +2140,165 @@ struct SecureLearnerRoute {
     sequence: Arc<AtomicU64>,
 }
 
+/// Learner-owned ingress bootstrap. Unlike `SecurePolisNetworkFactory`, this
+/// endpoint is rooted in the admitted learner identity rather than pretending
+/// that the learner is one of the three voters.
+pub struct SecureLearnerNetworkFactory {
+    cut: VerifiedPolisRouteCut,
+    admission: VerifiedLearnerAdmission,
+    custody: LearnerBootAttestationCustody,
+    learner_authority: ProductionLearnerAuthority,
+    transport_owner: tokio::sync::Mutex<TransportAuthorityOwner>,
+    authority_transition: tokio::sync::Mutex<()>,
+}
+
+impl SecureLearnerNetworkFactory {
+    #[allow(clippy::too_many_arguments)]
+    pub async fn bootstrap(
+        cut: VerifiedPolisRouteCut,
+        admission: VerifiedLearnerAdmission,
+        learner_authority: ProductionLearnerAuthority,
+        identity: &LocalNodeGuardianIdentity,
+        boot: SecureBootGenerationCustody,
+        now_unix_seconds: i64,
+    ) -> Result<Self, PolisRuntimeError> {
+        if cut.len() != 3
+            || !admission.is_live_at(now_unix_seconds)
+            || !admission_matches_cut(&admission, &cut)
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let custody =
+            LearnerBootAttestationCustody::establish(boot, identity, admission.identity())
+                .map_err(map_learner_error)?;
+        let transport_owner = learner_authority
+            .take_transport_owner()
+            .map_err(map_learner_error)?;
+        let cut_sha256 = learner_route_cut_digest(&cut).map_err(map_learner_error)?;
+        let exclusion = learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
+        if !exclusion.learner_route_allowed(
+            &admission,
+            cut.contains(admission.identity().stable_raft_id),
+        ) {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let current = learner_authority
+            .admission_snapshot()
+            .map_err(map_learner_error)?
+            .current()
+            .cloned();
+        if current
+            .as_ref()
+            .is_some_and(|value| !exclusion.learner_admission_allowed(value))
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        transport_owner
+            .bind_current_view(
+                cut_sha256,
+                current
+                    .as_ref()
+                    .map(VerifiedLearnerAdmission::operation_sha256),
+                exclusion.transport_identity(),
+                exclusion.generation(),
+            )
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        {
+            let mut lease = transport_owner.write_lease().await;
+            learner_authority
+                .governed_activate_admission(&mut lease, &admission)
+                .map_err(map_learner_error)?;
+        }
+        Ok(Self {
+            cut,
+            admission,
+            custody,
+            learner_authority,
+            transport_owner: tokio::sync::Mutex::new(transport_owner),
+            authority_transition: tokio::sync::Mutex::new(()),
+        })
+    }
+
+    pub async fn server_sessions(
+        &self,
+        connection: &AuthenticatedConnection,
+        now_unix_seconds: i64,
+    ) -> Result<(EstablishedLearnerSession, EstablishedLearnerSession), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        if !self.admission.is_live_at(now_unix_seconds)
+            || !admission_matches_cut(&self.admission, &self.cut)
+            || !self
+                .learner_authority
+                .admission_is_current(&self.admission)
+                .map_err(map_learner_error)?
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let voter = learner_voter_binding_for_connection(&self.cut, &self.admission, connection)?;
+        let mut inbound = EstablishedLearnerSession::new(
+            &self.admission,
+            self.admission.voter_cut_sha256(),
+            voter.clone(),
+            LearnerEndpointRole::Learner,
+            self.learner_authority.clone(),
+            now_unix_seconds,
+        )
+        .map_err(map_learner_error)?;
+        let mut outbound = EstablishedLearnerSession::new(
+            &self.admission,
+            self.admission.voter_cut_sha256(),
+            voter,
+            LearnerEndpointRole::Learner,
+            self.learner_authority.clone(),
+            now_unix_seconds,
+        )
+        .map_err(map_learner_error)?;
+        inbound
+            .validate_connection(connection)
+            .map_err(map_learner_error)?;
+        outbound
+            .validate_connection(connection)
+            .map_err(map_learner_error)?;
+        drop(_transition);
+        establish_learner_voter_sessions(connection, &mut inbound, &mut outbound, &self.custody)
+            .await
+            .map_err(map_learner_error)?;
+        let _transition = self.authority_transition.lock().await;
+        if !self
+            .learner_authority
+            .session_is_current(&inbound)
+            .map_err(map_learner_error)?
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
+        let (peer_key, peer_instance) = inbound
+            .peer_transport_instance()
+            .ok_or(PolisRuntimeError::AuthorityDenied)?;
+        self.learner_authority
+            .pin_peer_instance(&mut lease, peer_key, peer_instance)
+            .map_err(map_learner_error)?;
+        Ok((inbound, outbound))
+    }
+
+    /// Atomically expires this learner's locally owned admission. Existing
+    /// ingress sessions share the same authority handle, so the write lease
+    /// waits for an in-flight Raft effect and its response and then makes every
+    /// retained session fail before another governed stream can be accepted.
+    pub async fn expire_admission(&self, now_unix_seconds: i64) -> Result<(), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
+        self.learner_authority
+            .governed_expire_admission(&mut lease, now_unix_seconds)
+            .map(|_| ())
+            .map_err(map_learner_error)
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 struct OutstandingRequest {
     sequence: u64,
@@ -2169,14 +2328,23 @@ impl SecurePolisNetworkFactory {
             .authority_node_identity(local)
             .ok_or(PolisRuntimeError::AuthorityDenied)?;
         let trusted_cut_sha256 = learner_route_cut_digest(&cut).map_err(map_learner_error)?;
-        let current_learner_operation = learner_authority
-            .admission_snapshot()
-            .map_err(map_learner_error)?
-            .current()
-            .map(VerifiedLearnerAdmission::operation_sha256);
         let exclusion = learner_authority
             .exclusion_snapshot()
             .map_err(map_learner_error)?;
+        let admission = learner_authority
+            .admission_snapshot()
+            .map_err(map_learner_error)?
+            .current()
+            .cloned();
+        if admission
+            .as_ref()
+            .is_some_and(|current| !exclusion.learner_admission_allowed(current))
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let current_learner_operation = admission
+            .as_ref()
+            .map(VerifiedLearnerAdmission::operation_sha256);
         transport_owner
             .bind_current_view(
                 trusted_cut_sha256,
@@ -2465,9 +2633,13 @@ impl SecurePolisNetworkFactory {
     ) -> Result<(), PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         let cut = self.cut.read().await;
+        let exclusion = self
+            .learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
         if target == 0
             || target != admission.identity().stable_raft_id
-            || cut.contains(target)
+            || !exclusion.learner_route_allowed(admission, cut.contains(target))
             || !admission.matches_route_cut(&cut)
             || admission.voter_cut_sha256()
                 != learner_route_cut_digest(&cut).map_err(map_learner_error)?
@@ -2522,7 +2694,7 @@ impl SecurePolisNetworkFactory {
             .authority_node_identity(self.local)
             .ok_or(PolisRuntimeError::AuthorityDenied)?;
         if target != admission.identity().stable_raft_id
-            || cut.contains(target)
+            || !exclusion.learner_route_allowed(admission, cut.contains(target))
             || !admission.matches_route_cut(&cut)
             || !self
                 .learner_authority
@@ -2565,15 +2737,19 @@ impl SecurePolisNetworkFactory {
     ) -> Result<(EstablishedLearnerSession, EstablishedLearnerSession), PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         let cut = self.cut.read().await;
-        if cut.contains(admission.identity().stable_raft_id)
+        let exclusion = self
+            .learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
+        if !exclusion
+            .learner_route_allowed(admission, cut.contains(admission.identity().stable_raft_id))
             || !admission.matches_route_cut(&cut)
             || admission.voter_cut_sha256()
                 != learner_route_cut_digest(&cut).map_err(map_learner_error)?
         {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
-        let voter =
-            learner_voter_binding(&cut, self.local, connection.peer_certificate_generation())?;
+        let voter = learner_voter_binding_for_connection(&cut, admission, connection)?;
         let mut inbound = EstablishedLearnerSession::new(
             admission,
             admission.voter_cut_sha256(),
@@ -2686,9 +2862,12 @@ impl SecurePolisNetworkFactory {
     pub async fn activate_learner_admission(
         &self,
         admission: &VerifiedLearnerAdmission,
+        now_unix_seconds: i64,
     ) -> Result<(), PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
-        if !self.admission_matches_trusted_cut(admission).await {
+        if !admission.is_live_at(now_unix_seconds)
+            || !self.admission_matches_trusted_cut(admission).await
+        {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
         let owner = self.transport_owner.lock().await;
@@ -2777,6 +2956,8 @@ impl SecurePolisNetworkFactory {
         result: &PublishedAuthorityResult,
         expected_identity: &LearnerIdentity,
         expected_voter_cut_sha256: [u8; 32],
+        expected_target_membership_sha256: [u8; 32],
+        now_unix_seconds: i64,
     ) -> Result<(), PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         let routes = self
@@ -2786,9 +2967,20 @@ impl SecurePolisNetworkFactory {
             .values()
             .cloned()
             .collect::<Vec<_>>();
+        let learner_routes = self
+            .learner_connections
+            .read()
+            .await
+            .values()
+            .cloned()
+            .collect::<Vec<_>>();
         let mut dispatch_guards = Vec::with_capacity(routes.len());
         for route in &routes {
             dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
+        }
+        let mut learner_dispatch_guards = Vec::with_capacity(learner_routes.len());
+        for route in &learner_routes {
+            learner_dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
         }
         let transport_owner = self.transport_owner.lock().await;
         let mut exclusion = transport_owner.write_lease().await;
@@ -2823,6 +3015,8 @@ impl SecurePolisNetworkFactory {
                 result,
                 expected_identity,
                 expected_voter_cut_sha256,
+                expected_target_membership_sha256,
+                now_unix_seconds,
             )
             .map_err(map_learner_error)?;
         exclusion
@@ -2849,20 +3043,33 @@ impl SecurePolisNetworkFactory {
             }
         }
         drop(installed);
+        let mut denied_learners = Vec::new();
+        for (target, route) in self.learner_connections.read().await.iter() {
+            let session = route.outbound.lock().await;
+            if !self
+                .learner_authority
+                .session_is_current(&session)
+                .map_err(map_learner_error)?
+            {
+                denied_learners.push(*target);
+            }
+        }
+        let mut learners = self.learner_connections.write().await;
+        for target in denied_learners {
+            if let Some(route) = learners.remove(&target) {
+                route.connection.close();
+            }
+        }
+        drop(learners);
         drop(dispatch_guards);
+        drop(learner_dispatch_guards);
         Ok(())
     }
 
     async fn admission_matches_trusted_cut(&self, admission: &VerifiedLearnerAdmission) -> bool {
-        admission.identity().trust_domain == self.trusted_trust_domain
-            && admission.identity().polis_id == self.trusted_polis_id
+        let cut = self.cut.read().await;
+        admission_matches_cut(admission, &cut)
             && admission.voter_cut_sha256() == *self.trusted_cut_sha256.read().await
-            && admission.publication_identity_matches(
-                &self.trusted_polis_id,
-                &self.trusted_trust_domain,
-                &self.trusted_authority,
-                &self.trusted_node_identities,
-            )
     }
 
     pub async fn replace_route(
@@ -3197,6 +3404,61 @@ fn learner_voter_binding(
         boot_generation,
         control_public_key,
     })
+}
+
+fn learner_voter_binding_for_connection(
+    cut: &VerifiedPolisRouteCut,
+    admission: &VerifiedLearnerAdmission,
+    connection: &AuthenticatedConnection,
+) -> Result<LearnerVoterBinding, PolisRuntimeError> {
+    let routes = cut.routes();
+    let mut matches = routes.keys().filter_map(|raft_id| {
+        let voter =
+            learner_voter_binding(cut, *raft_id, connection.peer_certificate_generation()).ok()?;
+        connection
+            .matches_learner_route(
+                LearnerEndpointRole::Learner,
+                cut.trust_domain(),
+                &voter.node_id,
+                &voter.guardian_id,
+                voter.certificate_generation,
+                &admission.identity().node_id,
+                &admission.identity().guardian_id,
+                admission.identity().certificate_generation,
+                admission.identity().address,
+            )
+            .then_some(voter)
+    });
+    let voter = matches.next().ok_or(PolisRuntimeError::AuthorityDenied)?;
+    if matches.next().is_some() {
+        return Err(PolisRuntimeError::AuthorityDenied);
+    }
+    Ok(voter)
+}
+
+fn admission_matches_cut(
+    admission: &VerifiedLearnerAdmission,
+    cut: &VerifiedPolisRouteCut,
+) -> bool {
+    let node_identities = cut
+        .routes()
+        .keys()
+        .filter_map(|raft_id| {
+            cut.authority_node_identity(*raft_id)
+                .map(|(node_id, guardian_id, boot_generation)| {
+                    (guardian_id.into_bytes(), (node_id, boot_generation))
+                })
+        })
+        .collect::<BTreeMap<_, _>>();
+    admission.identity().trust_domain == cut.trust_domain()
+        && admission.identity().polis_id == cut.polis_id()
+        && admission.matches_route_cut(cut)
+        && admission.publication_identity_matches(
+            cut.polis_id(),
+            cut.trust_domain(),
+            cut.authority_membership(),
+            &node_identities,
+        )
 }
 
 fn ordinary_route_allowed(

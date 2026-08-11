@@ -25,8 +25,8 @@ use crate::distributed::{
     polis_runtime::{
         serve_authorized_learner_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
         PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError, PolisStateMachineStore,
-        PolisTypeConfig, SecureBootGenerationAuthority, SecurePolisNetworkConnection,
-        SecurePolisNetworkFactory,
+        PolisTypeConfig, SecureBootGenerationAuthority, SecureLearnerNetworkFactory,
+        SecurePolisNetworkConnection, SecurePolisNetworkFactory,
     },
     transport::{
         client_endpoint, server_endpoint, AuthenticatedConnection, ConnectionSecurity, PeerBinding,
@@ -376,12 +376,25 @@ async fn live_learner_pair(
     quinn::Endpoint,
     tempfile::TempDir,
 ) {
+    live_learner_pair_for(voter_node, &identity()).await
+}
+
+async fn live_learner_pair_for(
+    voter_node: u64,
+    learner_identity: &LearnerIdentity,
+) -> (
+    Arc<AuthenticatedConnection>,
+    Arc<AuthenticatedConnection>,
+    quinn::Endpoint,
+    quinn::Endpoint,
+    tempfile::TempDir,
+) {
     let issuer = certificate_authority();
     let root_certificate = issuer.der().clone();
     let voter_node_id = format!("node-{voter_node}");
     let voter_guardian_id = format!("guardian-{voter_node}");
     let voter = leaf(&issuer, &voter_node_id);
-    let learner = leaf(&issuer, "node-4");
+    let learner = leaf(&issuer, &learner_identity.node_id);
     let signing_root = SigningKey::from_bytes(&[91; 32]);
     let policy = CertificatePolicy::new("runtime-prod", [signing_root.verifying_key()])
         .unwrap()
@@ -398,8 +411,12 @@ async fn live_learner_pair(
         &voter_node_id,
         voter.subject_public_key,
     );
-    let learner_authorization =
-        transport_authorization(&store, &signing_root, "node-4", learner.subject_public_key);
+    let learner_authorization = transport_authorization(
+        &store,
+        &signing_root,
+        &learner_identity.node_id,
+        learner.subject_public_key,
+    );
     let voter_binding = PeerBinding::new(
         &voter.certificate,
         "runtime-prod",
@@ -412,8 +429,8 @@ async fn live_learner_pair(
     let learner_binding = PeerBinding::new(
         &learner.certificate,
         "runtime-prod",
-        "node-4",
-        "guardian-4",
+        learner_identity.node_id.clone(),
+        learner_identity.guardian_id.clone(),
         1,
         4,
     )
@@ -1039,39 +1056,81 @@ async fn real_four_node_learner_replication() {
         .await
         .unwrap();
 
-    let (voter_connection, learner_connection, voter_endpoint, learner_endpoint, _store) =
-        live_learner_pair(leader).await;
-    let learner_address = learner_endpoint.local_addr().unwrap();
-    let cut = live_voter_cut([3, 3, 3]);
-    let (admission, now) = live_admission(identity(), learner_address, &cut);
-    let authority = ProductionLearnerAuthority::open(
-        &raft_root.path().join("learner-authority"),
+    let learner_control_identity = LocalNodeGuardianIdentity::generate("runtime-prod", 4).unwrap();
+    let learner_public = learner_control_identity.public_identity();
+    let boot_authority = SecureBootGenerationAuthority::open(
+        &raft_root.path().join("learner-boot"),
+        4,
         Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
     )
     .unwrap();
-    authority.activate_admission(&admission).unwrap();
+    let learner_boot = boot_authority.advance().unwrap();
+    let mut learner_identity = LearnerIdentity {
+        trust_domain: learner_public.trust_domain.clone(),
+        polis_id: "polis-a".to_owned(),
+        node_id: learner_public.node_id.clone(),
+        guardian_id: learner_public.guardian_id.clone(),
+        guardian_control_public_key: learner_public.guardian_control_public_key,
+        stable_raft_id: 4,
+        certificate_generation: learner_public.identity_generation,
+        boot_generation: learner_boot.generation(),
+        address: "127.0.0.1:1".parse().unwrap(),
+    };
+    let (voter_connection, learner_connection, voter_endpoint, learner_endpoint, _store) =
+        live_learner_pair_for(leader, &learner_identity).await;
+    let learner_address = learner_endpoint.local_addr().unwrap();
+    learner_identity.address = learner_address;
+    let cut = live_voter_cut([3, 3, 3]);
+    let (admission, now) = live_admission(learner_identity, learner_address, &cut);
+    let voter_authority = ProductionLearnerAuthority::open(
+        &raft_root.path().join("voter-authority"),
+        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
     let factory =
-        SecurePolisNetworkFactory::from_authority_cut(leader, cut, authority.clone()).unwrap();
+        SecurePolisNetworkFactory::from_authority_cut(leader, cut.clone(), voter_authority.clone())
+            .unwrap();
+    factory
+        .activate_learner_admission(&admission, now)
+        .await
+        .unwrap();
+    let learner_authority = ProductionLearnerAuthority::open(
+        &raft_root.path().join("learner-owned-authority"),
+        Arc::new(MemoryCheckpoint::default()) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let learner_effect_authority = learner_authority.clone();
+    let learner_factory = Arc::new(
+        SecureLearnerNetworkFactory::bootstrap(
+            cut,
+            admission.clone(),
+            learner_authority,
+            &learner_control_identity,
+            learner_boot,
+            now,
+        )
+        .await
+        .unwrap(),
+    );
     let voter_signing_key = SigningKey::from_bytes(&[leader as u8; 32]);
-    let learner_signing_key = SigningKey::from_bytes(&[44; 32]);
     let (installed, server_sessions) = tokio::join!(
-        factory.install_learner_route(
-            4,
-            Arc::clone(&voter_connection),
-            &admission,
-            now,
-            &voter_signing_key,
+        tokio::time::timeout(
+            Duration::from_secs(10),
+            factory.install_learner_route(
+                4,
+                Arc::clone(&voter_connection),
+                &admission,
+                now,
+                &voter_signing_key,
+            ),
         ),
-        factory.learner_server_sessions(
-            &learner_connection,
-            &admission,
-            now,
-            admission.identity().boot_generation,
-            &learner_signing_key,
+        tokio::time::timeout(
+            Duration::from_secs(10),
+            learner_factory.server_sessions(&learner_connection, now),
         ),
     );
-    installed.unwrap();
-    let (inbound, outbound) = server_sessions.unwrap();
+    let (inbound, outbound) = server_sessions.unwrap().unwrap();
+    installed.unwrap().unwrap();
     learner_factories
         .write()
         .unwrap()
@@ -1085,29 +1144,57 @@ async fn real_four_node_learner_replication() {
         cancellation.child_token(),
     ));
 
-    nodes[&leader]
-        .add_learner(4, BasicNode::new("memory://authorized-learner-4"), true)
-        .await
-        .unwrap();
+    tokio::time::timeout(
+        Duration::from_secs(20),
+        nodes[&leader].add_learner(4, BasicNode::new("memory://authorized-learner-4"), true),
+    )
+    .await
+    .expect("add_learner timed out")
+    .unwrap();
     assert!(
         !learner_server.is_finished(),
         "learner server ended during catch-up"
     );
-    let hook = authority.install_dispatch_pause_for_test("learner_raft_effect");
+    let replicated = nodes[&leader]
+        .client_write(PolisCommand::GovernedMutation {
+            mutation_id: "authorized-learner-replicated".to_owned(),
+            payload_sha256: "44".repeat(32),
+        })
+        .await
+        .unwrap();
+    assert!(replicated.data.accepted);
+    for _ in 0..200 {
+        if machines[&4]
+            .application_state()
+            .await
+            .mutation_ids
+            .contains("authorized-learner-replicated")
+        {
+            break;
+        }
+        tokio::time::sleep(Duration::from_millis(20)).await;
+    }
+    assert!(machines[&4]
+        .application_state()
+        .await
+        .mutation_ids
+        .contains("authorized-learner-replicated"));
+    let hook = learner_effect_authority.install_dispatch_pause_for_test("learner_raft_effect");
     let effect_raft = nodes[&leader].clone();
     let effect = tokio::spawn(async move {
         effect_raft
             .client_write(PolisCommand::GovernedMutation {
-                mutation_id: "authorized-learner-replicated".to_owned(),
-                payload_sha256: "44".repeat(32),
+                mutation_id: "authorized-learner-fenced-effect".to_owned(),
+                payload_sha256: "45".repeat(32),
             })
             .await
     });
-    hook.reached.notified().await;
-    let expiry_factory = factory.clone();
+    tokio::time::timeout(Duration::from_secs(10), hook.reached.notified())
+        .await
+        .expect("real learner effect did not reach dispatch hook");
+    let expiry_factory = Arc::clone(&learner_factory);
     let expiry_at = admission.deadline_unix_seconds;
-    let expiry =
-        tokio::spawn(async move { expiry_factory.expire_learner_admission(expiry_at).await });
+    let expiry = tokio::spawn(async move { expiry_factory.expire_admission(expiry_at).await });
     for _ in 0..8 {
         tokio::task::yield_now().await;
     }
@@ -1196,24 +1283,69 @@ fn current_voter_cut_unchanged() {
     mark("current_voter_cut_unchanged");
 }
 
-#[test]
-fn excluded_node_recovery_learner() {
-    let (_dir, _checkpoint, mut authority) = exclusion();
-    let old = identity();
-    let snapshot = authority
-        .activate(&remove_token_with(old.clone(), "remove-4", 42), &old, CUT)
+#[tokio::test]
+async fn excluded_node_recovery_learner() {
+    let cut = live_voter_cut([3, 3, 3]);
+    let cut_sha256 = route_cut_digest(&cut).unwrap();
+    let old = exact_voter_target(&cut, 3);
+    let removal = live_removal(&cut, &old, exact_publisher(&cut, 1), "remove-3-recovery");
+    let authority_root = portable_tempdir();
+    let authority = ProductionLearnerAuthority::open(
+        authority_root.path(),
+        Arc::new(MemoryCheckpoint::default()) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), authority.clone()).unwrap();
+    factory
+        .activate_pending_exclusion(&removal, &old, cut_sha256, MEMBERSHIP, NOW)
+        .await
         .unwrap();
+    let snapshot = authority.exclusion_snapshot().unwrap();
     let mut recovered = old.clone();
-    recovered.node_id = "node-4-recovered".to_owned();
-    recovered.guardian_id = "guardian-4-recovered".to_owned();
+    recovered.node_id = "node-3-recovered".to_owned();
+    recovered.guardian_id = "guardian-3-recovered".to_owned();
+    recovered.guardian_control_public_key =
+        SigningKey::from_bytes(&[93; 32]).verifying_key().to_bytes();
     recovered.certificate_generation += 1;
     recovered.boot_generation += 1;
-    let token = enroll_token_with(recovered.clone(), "recover-4", 43, NOW + 100, None);
+    recovered.address = "127.0.0.1:46303".parse().unwrap();
+    let artifact = LearnerMembershipArtifact::enroll_non_voting(
+        recovered.clone(),
+        cut_sha256,
+        None,
+        MEMBERSHIP,
+        None,
+        NOW + 100,
+    )
+    .unwrap();
+    let token = test_published_reconciliation_token(
+        exact_publisher(&cut, 1),
+        "recover-3",
+        artifact,
+        43,
+        CanonicalAuthorityTime {
+            unix_seconds: NOW,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
     let admission =
-        VerifiedLearnerAdmission::from_published_membership_for_test(&token, &recovered, CUT, NOW)
-            .unwrap();
+        VerifiedLearnerAdmission::from_published_membership(&token, &recovered, &cut, NOW).unwrap();
     assert!(snapshot.recovery_learner_allowed(&admission));
     assert!(!snapshot.ordinary_authority_allowed(&old.node_id, &old.guardian_id));
+    factory
+        .activate_learner_admission(&admission, NOW)
+        .await
+        .unwrap();
+    assert!(authority.admission_is_current(&admission).unwrap());
+    let mut wrong_membership = admission.clone();
+    wrong_membership.target_membership_sha256 = [94; 32];
+    assert!(!authority.admission_is_current(&wrong_membership).unwrap());
+    assertion(
+        "excluded_node_recovery_learner",
+        "production_factory_enforces_recovery_identity_index_and_membership",
+    );
     mark("excluded_node_recovery_learner");
 }
 
@@ -1233,10 +1365,37 @@ fn exact_retry_session() {
     let (_dir, _checkpoint, mut authority) = exclusion();
     let target = identity();
     let token = remove_token_with(target.clone(), "remove-exact", 42);
-    let first = authority.activate(&token, &target, CUT).unwrap();
-    let second = authority.activate(&token, &target, CUT).unwrap();
+    assert_eq!(
+        authority.activate(&token, &target, CUT, [95; 32], NOW),
+        Err(LearnerTransportError::InvalidBinding)
+    );
+    let first = authority
+        .activate(&token, &target, CUT, MEMBERSHIP, NOW)
+        .unwrap();
+    let second = authority
+        .activate(&token, &target, CUT, MEMBERSHIP, NOW + 101)
+        .unwrap();
     assert_eq!(first, second);
+    assert_eq!(
+        authority.activate(&token, &target, CUT, [95; 32], NOW + 101),
+        Err(LearnerTransportError::InvalidBinding)
+    );
+    let expired_dir = portable_tempdir();
+    let expired_checkpoint = Arc::new(MemoryCheckpoint::default());
+    let mut expired = PendingMembershipExclusionAuthority::open(
+        expired_dir.path(),
+        expired_checkpoint as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    assert_eq!(
+        expired.activate(&token, &target, CUT, MEMBERSHIP, NOW + 101),
+        Err(LearnerTransportError::Expired)
+    );
     assertion("exact_retry_session", "exclusion_exact_retry_cached");
+    assertion(
+        "exact_retry_session",
+        "removal_deadline_and_target_membership_bound_cache_first",
+    );
     let admission_dir = portable_tempdir();
     let admission_checkpoint = Arc::new(MemoryCheckpoint::default());
     let mut admissions = LearnerAdmissionAuthority::open(
@@ -1673,7 +1832,7 @@ async fn production_factory_boot_custody_current_then_stale_denied() {
     learner.certificate_generation = public.identity_generation;
     learner.boot_generation = generation_one.generation();
     let cut = live_voter_cut([3, 3, 3]);
-    let (admission, _) = live_admission(learner, "127.0.0.1:4404".parse().unwrap(), &cut);
+    let (admission, now) = live_admission(learner, "127.0.0.1:4404".parse().unwrap(), &cut);
     let authority_dir = portable_tempdir();
     let authority = ProductionLearnerAuthority::open(
         authority_dir.path(),
@@ -1682,7 +1841,7 @@ async fn production_factory_boot_custody_current_then_stale_denied() {
     .unwrap();
     let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut, authority).unwrap();
     factory
-        .activate_learner_admission(&admission)
+        .activate_learner_admission(&admission, now)
         .await
         .unwrap();
     let attestation = factory
@@ -1808,6 +1967,8 @@ async fn exclusion_ordinary_session_denied() {
             &remove_token_with(target.clone(), "remove-ordinary", 42),
             &target,
             CUT,
+            MEMBERSHIP,
+            NOW,
         )
         .unwrap();
     assert!(!snapshot.ordinary_authority_allowed(&target.node_id, &target.guardian_id));
@@ -1992,7 +2153,7 @@ async fn exclusion_ordinary_session_denied() {
     let learner_removal = removal.clone();
     let activation = tokio::spawn(async move {
         activation_factory
-            .activate_pending_exclusion(&removal, &activation_identity, cut_sha256)
+            .activate_pending_exclusion(&removal, &activation_identity, cut_sha256, MEMBERSHIP, NOW)
             .await
     });
     for _ in 0..8 {
@@ -2013,7 +2174,7 @@ async fn exclusion_ordinary_session_denied() {
         .expect("exclusion activation joined")
         .expect("exclusion activated after in-flight dispatch");
     learner_factory
-        .activate_pending_exclusion(&learner_removal, &excluded, cut_sha256)
+        .activate_pending_exclusion(&learner_removal, &excluded, cut_sha256, MEMBERSHIP, NOW)
         .await
         .expect("peer exclusion view activated");
     assert!(
@@ -2090,7 +2251,13 @@ async fn exclusion_exact_publisher_and_target_required() {
         live_removal(&cut, &target, wrong_publisher, "wrong-publisher-node");
     assert_eq!(
         factory
-            .activate_pending_exclusion(&wrong_publisher_result, &target, cut_sha256)
+            .activate_pending_exclusion(
+                &wrong_publisher_result,
+                &target,
+                cut_sha256,
+                MEMBERSHIP,
+                NOW,
+            )
             .await,
         Err(PolisRuntimeError::AuthorityDenied)
     );
@@ -2106,7 +2273,13 @@ async fn exclusion_exact_publisher_and_target_required() {
     );
     assert_eq!(
         factory
-            .activate_pending_exclusion(&wrong_target_result, &wrong_target, cut_sha256)
+            .activate_pending_exclusion(
+                &wrong_target_result,
+                &wrong_target,
+                cut_sha256,
+                MEMBERSHIP,
+                NOW,
+            )
             .await,
         Err(PolisRuntimeError::AuthorityDenied)
     );
@@ -2143,7 +2316,7 @@ async fn exclusion_waits_for_inflight_dispatch_fence() {
     let in_flight = authority.dispatch_guard().await;
     let task = tokio::spawn(async move {
         factory
-            .activate_pending_exclusion(&removal, &target, cut_sha256)
+            .activate_pending_exclusion(&removal, &target, cut_sha256, MEMBERSHIP, NOW)
             .await
     });
     for _ in 0..8 {
@@ -2177,6 +2350,8 @@ fn exclusion_wrong_recovery_token() {
             &remove_token_with(target.clone(), "remove-wrong-recovery", 42),
             &target,
             CUT,
+            MEMBERSHIP,
+            NOW,
         )
         .unwrap();
     assert!(!snapshot.recovery_learner_allowed(&admission()));
@@ -2240,6 +2415,8 @@ fn capacity_n_plus_one_no_partial() {
             &remove_token_with(first.clone(), "remove-first", 42),
             &first,
             CUT,
+            MEMBERSHIP,
+            NOW,
         )
         .unwrap();
     let mut second = first.clone();
@@ -2250,7 +2427,9 @@ fn capacity_n_plus_one_no_partial() {
         authority.activate(
             &remove_token_with(second.clone(), "remove-second", 43),
             &second,
-            CUT
+            CUT,
+            MEMBERSHIP,
+            NOW
         ),
         Err(LearnerTransportError::CapacityExceeded)
     );
@@ -2283,7 +2462,9 @@ fn crash_before_exclusion_checkpoint() {
         authority.activate_exclusion(
             &remove_token_with(target.clone(), "remove-crash-before", 42),
             &target,
-            CUT
+            CUT,
+            MEMBERSHIP,
+            NOW
         ),
         Err(LearnerTransportError::Replay)
     );
@@ -2332,6 +2513,8 @@ fn crash_after_exclusion_checkpoint() {
                 &remove_token_with(target.clone(), "remove-crash-after", 42),
                 &target,
                 CUT,
+                MEMBERSHIP,
+                NOW,
             )
             .unwrap();
     }
