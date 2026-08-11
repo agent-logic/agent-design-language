@@ -40,7 +40,7 @@ is out of band and cannot gate Sprint 5.
 - Current typed phase: `implemented`, generation `20`, digest
   `bc0f0cfb56a5644dec890e6b1ed2780dd6b4397af96b8ad5cef642e0a60290f2`.
 - Current `origin/main`: `e172257b50ec9d6e07bbb0ab62a69a001ad1774f`.
-- Primary checkout `/Users/daniel/git/agent-design-language` is on `main` at
+- The primary checkout was on `main` at
   `1567469e395f9a6ea6c2e736366a8008f5ee1e06`, behind `origin/main`; do not
   write there or use it as current execution truth.
 

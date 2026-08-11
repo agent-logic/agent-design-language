@@ -2,7 +2,7 @@
 
 Status: Reference evaluation
 
-Source repository: `/Users/daniel/git/vocechat-server-rust`
+Source repository: `https://github.com/Privoce/vocechat-server-rust`
 
 Source revision: `96c0aa5d100cc1c9090c004dbeb662ba3a08a6cd`
 
