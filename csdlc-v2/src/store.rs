@@ -2052,6 +2052,10 @@ fn validate_prebind_operator_constraints_correction(
     if !sor.actual_changes.is_empty()
         || !sor.artifacts.is_empty()
         || !sor.actual_validation.is_empty()
+        || sor.integration_state != crate::cards::IntegrationState::NotStarted
+        || sor.publication_state != crate::cards::PublicationState::NotPublished
+        || sor.merge_state != crate::cards::MergeState::NotMerged
+        || sor.closeout_state != crate::cards::CloseoutState::NotStarted
     {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "e20709cd91cd02157655eeef7f1fbe2d3da5f373fa339a52c122ff6368c253e2",
+  "generation": 19,
+  "digest": "71bbef782b2ad9e67911ba00db8ecc11cb7c3907f5fcf4431006f8478b5a9678",
   "branch": "codex/225-bounded-card-review-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-225-bounded-card-review-repair",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b2153972773f2b9fee267120563e820a737b18e9e81e94225e978038718a9496",
+      "values_digest": "64de22db70934534e349a97b578bbecb8553c9a9474ccf7aede2381f3635c059",
       "rendered_digest": "9f38b68f225883c5296d0930f90a0bd45b5d3fdfbc79b9e2eb784c83f1be0027",
       "ast_digest": "80936f9bc8d37273b594570a048d63acc5befe735e1ed02d3e188eec4b50430f"
     },
     "stp": {
-      "values_digest": "78492c25a31b6263c9b20cfcb6c5e36274db50e19ceb98ec982b2cdd2048f9ed",
+      "values_digest": "ffe0d3ec39cec4c70c3872cc6914b8ddbc3041196d011bf85790d37f5ae62378",
       "rendered_digest": "4b480f8134f03a8df280641a44c7466ac2427aaacdcad4f4bb09a40f9dfd65dc",
       "ast_digest": "98229242cbbc08bd4320f8997bf7a53d4c41945051bf846790c8b8e750b4e697"
     },
     "spp": {
-      "values_digest": "04243b36bfc49d341bf8509d0ca1a484a4656aa762cc7a5a777004ad2c684b2e",
-      "rendered_digest": "7c234547e385ba822ab7b2d82863448bd1b1f38d3ef631ac80be18e37ca3cd1a",
-      "ast_digest": "9df3a2f2eee8e0f382d435a47d0f8c7713620fcd8519e2505ed13aab3f9bc002"
+      "values_digest": "3123867dbedf93a0c9dd7122e89ea9babf0327b949c266524d1cba8a541fe854",
+      "rendered_digest": "35ee9a237b301bdd5a61154cc5313d25d7c35fd98445b2e20cfecf8eb3eda368",
+      "ast_digest": "b272a23d3f6d38555343464d655c5b82fa630519fb9c4d8edb6b98c56c3f0f8e"
     },
     "vpp": {
-      "values_digest": "5260cb976378b7d64de07f6f660a511ef3f67fb20e81b956ea82323bd97e6f6f",
+      "values_digest": "8fa0a0d7ccb4137134893acb58e8b3450e7a2eb478ddd57481c43bd865858d78",
       "rendered_digest": "b11d0c53253aa8d670c14bdb6c2c21cad2f0a63147079d96a1e1d3b5888ca1b4",
       "ast_digest": "c6630cd1b261473cb656a38b6b5a47350843e9ee08ef5ada14e48a97043f2d12"
     },
     "srp": {
-      "values_digest": "2c9fa008d8d62e4a23eab15e71e5fbf6d86abe8c879b6b99de21d9578c838df1",
+      "values_digest": "f9b6af7f79f171745841cef4124e0bc0fa09e9a003e2089b690fd3fae8d5f02c",
       "rendered_digest": "cc2eaa4e9e9f1935e1846fbbed3634f3dec9f4d33edb2e23a63b87705eedcba7",
       "ast_digest": "94db6738b2be4771ce8b282bba064fb03464b2755a7dcfd6757054c8d3d6c388"
     },
     "sor": {
-      "values_digest": "e0a232cb0750093c60ac7a096130f5685dd9540e3bbef212e55d8cbe2f5f8619",
+      "values_digest": "3a0ad7ae80ced793045605f205af26d094aa225d46fde1996b68c035535e7ef3",
       "rendered_digest": "4aa8a2e7242000b0c9dce04c74d739d10f8586a4ad5a6331afc82de98724c7fe",
       "ast_digest": "a3b9314bf67563ad5832c1b7e3346d105b5289d619ada58a9f583f811232c304"
     }
@@ -196,6 +196,34 @@
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "The bounded implementation and all declared focused validation lanes are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The design review and binding contract are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Both bounded semantic operations are implemented through the canonical transaction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The complete Gate 2 and Gate 5 accepted and fail-closed regression sequences pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Focused validation is complete and independent exact-head re-review is in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }
