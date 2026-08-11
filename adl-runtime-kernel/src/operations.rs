@@ -324,6 +324,43 @@ impl OperationalFactory {
         &self.adapter
     }
 
+    /// Close the exact live factory admission gate and wait for every request
+    /// that already crossed it to leave the adapter.
+    pub async fn continuity_quiesce(&self) -> Result<Vec<u8>, OperationError> {
+        let mut accepting = self.accepting.write().await;
+        *accepting = false;
+        if !self
+            .adapter
+            .in_flight
+            .lock()
+            .map_err(|_| OperationError::Fatal("operation in-flight state poisoned".to_owned()))?
+            .is_empty()
+        {
+            return Err(OperationError::AdmissionClosed);
+        }
+        self.adapter.continuity_snapshot().await
+    }
+
+    pub(crate) async fn continuity_resume(&self) {
+        *self.accepting.write().await = true;
+    }
+
+    /// Reopen this exact live factory only while the caller's remaining
+    /// effect window is still live.  The selection owns the pending write
+    /// future, so cancellation or expiry drops it instead of allowing a
+    /// waiter to acquire the gate and commit later.
+    pub(crate) async fn continuity_resume_bounded(
+        &self,
+        remaining: Duration,
+        cancellation: &CancellationToken,
+    ) -> bool {
+        set_continuity_admission_open_bounded(&self.accepting, remaining, cancellation).await
+    }
+
+    pub fn is_governed(&self) -> bool {
+        self.adapter.policy.authority == AuthorityMode::Governed
+    }
+
     pub async fn submit(
         &self,
         request: OperationRequest,
@@ -357,6 +394,26 @@ impl OperationalFactory {
         result
             .await
             .map_err(|_| OperationError::Fatal("component stopped before reply".to_owned()))?
+    }
+}
+
+async fn set_continuity_admission_open_bounded(
+    accepting: &RwLock<bool>,
+    remaining: Duration,
+    cancellation: &CancellationToken,
+) -> bool {
+    tokio::select! {
+        biased;
+        _ = cancellation.cancelled() => false,
+        _ = tokio::time::sleep(remaining) => false,
+        mut gate = accepting.write() => {
+            if cancellation.is_cancelled() {
+                false
+            } else {
+                *gate = true;
+                true
+            }
+        }
     }
 }
 
@@ -443,6 +500,25 @@ impl ComponentFactory for OperationalFactory {
 }
 
 impl OperationalAdapter {
+    async fn continuity_snapshot(&self) -> Result<Vec<u8>, OperationError> {
+        let completed = self.completed.lock().await.len();
+        let consumed_permits = self.consumed_permits.lock().await.len();
+        let in_flight = self
+            .in_flight
+            .lock()
+            .map_err(|_| OperationError::Fatal("operation in-flight state poisoned".to_owned()))?
+            .len();
+        serde_jcs::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.operation_continuity.v1",
+            "adapter": self.kind.service_name(),
+            "authority": self.policy.authority,
+            "completed": completed,
+            "consumed_permits": consumed_permits,
+            "in_flight": in_flight,
+        }))
+        .map_err(|error| OperationError::Fatal(error.to_string()))
+    }
+
     pub fn new(
         kind: AdapterKind,
         policy: AdapterPolicy,
@@ -822,4 +898,53 @@ pub fn validate_operational_dependencies(
         return Err(OperationError::InvalidPolicy);
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod continuity_resume_tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn cancellation_while_waiting_never_reopens_after_release() {
+        let accepting = RwLock::new(false);
+        let held = accepting.read().await;
+        let cancellation = CancellationToken::new();
+        let trigger = cancellation.clone();
+        let cancel = tokio::spawn(async move {
+            tokio::task::yield_now().await;
+            trigger.cancel();
+        });
+
+        assert!(
+            !set_continuity_admission_open_bounded(
+                &accepting,
+                Duration::from_secs(5),
+                &cancellation,
+            )
+            .await
+        );
+        cancel.await.unwrap();
+        drop(held);
+        tokio::task::yield_now().await;
+        assert!(!*accepting.read().await);
+    }
+
+    #[tokio::test]
+    async fn expiry_while_waiting_never_reopens_after_release() {
+        let accepting = RwLock::new(false);
+        let held = accepting.read().await;
+        let cancellation = CancellationToken::new();
+
+        assert!(
+            !set_continuity_admission_open_bounded(
+                &accepting,
+                Duration::from_millis(1),
+                &cancellation,
+            )
+            .await
+        );
+        drop(held);
+        tokio::task::yield_now().await;
+        assert!(!*accepting.read().await);
+    }
 }

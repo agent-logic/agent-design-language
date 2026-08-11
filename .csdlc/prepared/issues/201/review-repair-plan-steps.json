@@ -1,0 +1,37 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 21,
+  "expected_digest": "e66f2a5a8576bae7e9aafdc85141ec3523208fa29347a827b978249cbe763ab7",
+  "actor": "codex:/root/resolve_201_208_findings",
+  "reason": "Resolve independent review with fresh-CAS plan steps for the sealed continuity-transfer lineage and exact source checkpoint and bundle handle boundary.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, private exact-artifact, sealed continuity-transfer lineage, SourceCheckpointHandle, bundle-handle, and legacy-log compatibility contracts.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement only the core authority protocol, private exact-artifact views, and the sealed #210 continuity-transfer projection bound to exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; retire or fail-close legacy direct authority command application without executing downstream effects.",
+        "acceptance_ids": ["AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Prove quorum endorsement, deterministic time boundaries, exact retry/conflict behavior, init and checkpoint crash windows, rollback, corruption, capacity, path safety, legacy-command rejection, opaque-token construction, byte-identical artifacts, sealed projection, and rejection of wrong consumer, lineage, SourceCheckpointHandle, and bundle-handle identities with exact forty-seven-case proof.",
+        "acceptance_ids": ["AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Resolve fresh exact-head review, publish a ready PR closing #201, shepherd hosted CI, and wait for operator review and merge authorization.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

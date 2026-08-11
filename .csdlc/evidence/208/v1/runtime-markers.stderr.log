@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+     Running tests/kernel_continuity_client.rs (adl-runtime/target/debug/deps/kernel_continuity_client-1da5bcb3eb4c2aaa)

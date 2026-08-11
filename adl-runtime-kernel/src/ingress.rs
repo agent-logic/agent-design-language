@@ -201,6 +201,13 @@ impl CanonicalIngress {
             .open = true;
     }
 
+    pub fn admission_is_open(&self) -> bool {
+        self.admission
+            .lock()
+            .expect("ingress admission mutex poisoned")
+            .open
+    }
+
     fn begin_admission(&self) -> Result<AdmissionLease, IngressError> {
         let mut admission = self
             .admission

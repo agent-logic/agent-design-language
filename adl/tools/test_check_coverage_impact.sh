@@ -266,6 +266,90 @@ if bash "$SCRIPT" --changed-files "$csm_runtime_cli_substantial_changed" --summa
 fi
 grep -F "adl/src/cli/csm_cmd.rs (no coverage row" "$csm_runtime_cli_substantial_out" >/dev/null
 
+authority_protocol_changed="$TMP/authority-protocol-changed.txt"
+cat >"$authority_protocol_changed" <<'EOF'
+A	adl-runtime/src/distributed/authority_protocol.rs	1727
+A	adl-runtime/src/distributed/authority_protocol_contract_tests.rs	1256
+M	adl-runtime/src/distributed/identity.rs	42
+M	adl-runtime/src/distributed/polis_runtime.rs	600
+M	adl-runtime/src/distributed/transport.rs	42
+EOF
+authority_protocol_filters="$TMP/authority-protocol-filters.txt"
+bash "$SCRIPT" --changed-files "$authority_protocol_changed" --print-risk-filters >"$authority_protocol_filters"
+grep -Fx "runtime_v3_authority_protocol" "$authority_protocol_filters" >/dev/null
+[ "$(wc -l <"$authority_protocol_filters" | tr -d ' ')" -eq 1 ]
+authority_protocol_expression="$(bash "$SCRIPT" --changed-files "$authority_protocol_changed" --print-risk-nextest-expression)"
+grep -Fx "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))" <<<"$authority_protocol_expression" >/dev/null
+
+authority_protocol_summary="$TMP/authority-protocol-summary.json"
+cat >"$authority_protocol_summary" <<'EOF'
+{
+  "data": [{
+    "files": [
+      {"filename":"adl-runtime/src/distributed/authority_protocol.rs","summary":{"lines":{"covered":850,"count":1000}}},
+      {"filename":"adl-runtime/src/distributed/identity.rs","summary":{"lines":{"covered":900,"count":1028}}},
+      {"filename":"adl-runtime/src/distributed/polis_runtime.rs","summary":{"lines":{"covered":850,"count":1000}}},
+      {"filename":"adl-runtime/src/distributed/transport.rs","summary":{"lines":{"covered":900,"count":1000}}}
+    ]
+  }]
+}
+EOF
+bash "$SCRIPT" --changed-files "$authority_protocol_changed" --summary "$authority_protocol_summary" >"$TMP/authority-protocol-pass.out"
+grep -F "Coverage-impact preflight passed" "$TMP/authority-protocol-pass.out" >/dev/null
+
+authority_contract_tests_only="$TMP/authority-contract-tests-only.txt"
+printf 'A\tadl-runtime/src/distributed/authority_protocol_contract_tests.rs\t1256\n' >"$authority_contract_tests_only"
+bash "$SCRIPT" --changed-files "$authority_contract_tests_only" --require-summary-for-risk >"$TMP/authority-contract-tests-only.out"
+grep -F "no changed production adl/src Rust files" "$TMP/authority-contract-tests-only.out" >/dev/null
+
+authority_identity_alone="$TMP/authority-identity-alone.txt"
+printf 'M\tadl-runtime/src/distributed/identity.rs\t42\n' >"$authority_identity_alone"
+authority_runtime_low_summary="$TMP/authority-runtime-low-summary.json"
+cat >"$authority_runtime_low_summary" <<'EOF'
+{"data":[{"files":[
+  {"filename":"adl-runtime/src/distributed/authority_protocol.rs","summary":{"lines":{"covered":850,"count":1000}}},
+  {"filename":"adl-runtime/src/distributed/identity.rs","summary":{"lines":{"covered":58,"count":1028}}},
+  {"filename":"adl-runtime/src/distributed/polis_runtime.rs","summary":{"lines":{"covered":850,"count":1000}}},
+  {"filename":"adl-runtime/src/distributed/transport.rs","summary":{"lines":{"covered":494,"count":1458}}}
+]}]}
+EOF
+if bash "$SCRIPT" --changed-files "$authority_identity_alone" --summary "$authority_runtime_low_summary" >"$TMP/authority-identity-alone.out" 2>&1; then
+  echo "expected standalone production identity change to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl-runtime/src/distributed/identity.rs (58/1028, 5.64% < 80%)" "$TMP/authority-identity-alone.out" >/dev/null
+grep -F "candidate filter: runtime_v3_authority_protocol" "$TMP/authority-identity-alone.out" >/dev/null
+
+authority_identity_combined="$TMP/authority-identity-combined.txt"
+cat >"$authority_identity_combined" <<'EOF'
+A	adl-runtime/src/distributed/authority_protocol.rs	1727
+M	adl-runtime/src/distributed/identity.rs	42
+EOF
+if bash "$SCRIPT" --changed-files "$authority_identity_combined" --summary "$authority_runtime_low_summary" >"$TMP/authority-identity-combined.out" 2>&1; then
+  echo "expected low-coverage production identity change to stay threshold-gated in a combined authority change" >&2
+  exit 1
+fi
+grep -F "adl-runtime/src/distributed/identity.rs (58/1028, 5.64% < 80%)" "$TMP/authority-identity-combined.out" >/dev/null
+
+authority_transport_alone="$TMP/authority-transport-alone.txt"
+printf 'M\tadl-runtime/src/distributed/transport.rs\t42\n' >"$authority_transport_alone"
+if bash "$SCRIPT" --changed-files "$authority_transport_alone" --summary "$authority_runtime_low_summary" >"$TMP/authority-transport-alone.out" 2>&1; then
+  echo "expected standalone production transport change to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "candidate filter: runtime_v3_distributed_transport" "$TMP/authority-transport-alone.out" >/dev/null
+
+authority_transport_combined="$TMP/authority-transport-combined.txt"
+cat >"$authority_transport_combined" <<'EOF'
+A	adl-runtime/src/distributed/authority_protocol.rs	1727
+M	adl-runtime/src/distributed/transport.rs	42
+EOF
+if bash "$SCRIPT" --changed-files "$authority_transport_combined" --summary "$authority_runtime_low_summary" >"$TMP/authority-transport-combined.out" 2>&1; then
+  echo "expected low-coverage production transport change to stay threshold-gated in a combined authority change" >&2
+  exit 1
+fi
+grep -F "candidate filter: runtime_v3_authority_protocol" "$TMP/authority-transport-combined.out" >/dev/null
+
 ADL_COVERAGE_CONTRACT_NESTED="${ADL_COVERAGE_CONTRACT_NESTED:-0}"
 if [ "$ADL_COVERAGE_CONTRACT_NESTED" != "1" ]; then
   ADL_COVERAGE_CONTRACT_NESTED=1 bash "$ROOT/adl/tools/test_run_authoritative_coverage_lane.sh"

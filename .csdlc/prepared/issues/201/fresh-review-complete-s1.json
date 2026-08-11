@@ -1,0 +1,9 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 38,
+  "expected_digest": "18e5df09cd406378228aa7269ded0d35980e57f31b5e1cc824e7a744c40781dd",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Production commands now derive authority from actual apply IDs and exact verified route custody.",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"}
+}
