@@ -6,10 +6,28 @@
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
   "generation": 80,
-  "digest": "fa5481afbcc150b3e841558b21ced0461adb54a41939db370b9ed00e37eed0a7",
+  "digest": "1e01640bc0b4cf5f38bcf71e2c7b52cdb02d56d6e0f1e4c917ecf83efea4a16e",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff1cf-1716-7183-979c-0ffb35f8b6e4",
+    "assigned_by": "codex:issue-111-conflict-reconciliation",
+    "revision": "git-blake3:0252b5d27ed352e37762d730ff0bccfceeee72d9:8a82475146b186d7ed08829fab77b49657d0afd93a9149a1732ea32e9b29df3e",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "54abcb7409d5ccc505318773e31a20c795382886ce4df7e55ad29df524907c96",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "bc7297204d2d6812cf1284af62300ef6b665184a6dc32e0bcdb838f58bac7245",
+      "rendered_digest": "0dae62290c1403ac8936e57bcbbf2a04e826d34bf0c2684bd67e9643d70cba0f",
+      "ast_digest": "7f94f493b788744b467b5425c2884096fc1b1ddaec980af6a1bc9e055c50df10"
     },
     "sor": {
       "values_digest": "0c0b21a07077a84fac24fee9710f61e682ea2a2849b6c7ae567722c8df6b3439",
@@ -799,6 +817,13 @@
       "actor": "codex:issue-111-conflict-reconciliation",
       "reason": "Record fresh independent exact-head review after reconciling current main into the issue branch.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 93,
+      "generation": 80,
+      "actor": "codex:issue-111-conflict-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
