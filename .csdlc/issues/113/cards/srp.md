@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/113
+.csdlc/prepared/issues/113/publish-reviewable.json
+.csdlc/prepared/issues/113/recover-publication-intent-review.json
 
 ## Prompts
 

@@ -5,10 +5,19 @@
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
   "generation": 37,
-  "digest": "340d123bad5df67ea2d0d0885945ddc49872afb65afe7edec1844c6ff2f03f5e",
+  "digest": "b6e8ab32916052455361c4db140c835fb39562eddb3ebef4672daf58112d11f7",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+    "assigned_by": "codex:wp18c03-execution",
+    "revision": "git-blake3:b98cbe71c0ea66a5af6f93a8a61ba01d0464d7fe:fdc68d562472c4a7eaa8f73b4d850f3f83ad45047103a546a7a3028a0bb700ae",
+    "scope": [
+      ".csdlc/issues/113",
+      ".csdlc/prepared/issues/113/publish-reviewable.json",
+      ".csdlc/prepared/issues/113/recover-publication-intent-review.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "cf50884edf7ae8fea7e03ada0ef9abfcefa254e1ca076a0cc17fb2506eca8436",
-      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
-      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
+      "values_digest": "3b6690a343e73a782fe439c54061ffb66ff391108815781dc664367887ef76dc",
+      "rendered_digest": "8b0bf17039a4e8b5a59ab45e5f7bb74bc735c29ee90f5d1dabdf493341262c51",
+      "ast_digest": "c74234c9be68153b2cf5f9b00f8516403c3db873e3a117ba3ad7e43d7691a53e"
     },
     "sor": {
       "values_digest": "36002e1865d62d2889dc3fd33e39bdcc5b8395efb0f931f824f6c96557693905",
@@ -371,6 +380,13 @@
       "actor": "codex:wp18c03-execution",
       "reason": "Refresh exact-head review after adding the typed publication intent; no product or retained validation evidence changed.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 37,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

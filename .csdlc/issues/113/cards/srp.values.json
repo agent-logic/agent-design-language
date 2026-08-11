@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/113\n.csdlc/prepared/issues/113/publish-reviewable.json\n.csdlc/prepared/issues/113/recover-publication-intent-review.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
